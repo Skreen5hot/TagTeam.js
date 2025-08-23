@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TagTeam.js (Client-Side)</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    textarea { width: 100%; height: 100px; }
+    button { margin-top: 10px; padding: 8px 16px; cursor: pointer; }
+    table { border-collapse: collapse; margin-top: 20px; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 6px; text-align: left; }
+    th { background: #f0f0f0; }
+  </style>
+  <!-- POS.js library -->
+<script src="./js/lexicon.js"></script>
+<script>
+window.LEXICON_TAG_MAP = {
+  "NN": ["NN"], "NNS": ["NNS"], "NNP": ["NNP"],
+  "JJ": ["JJ"], "JJR": ["JJR"], "JJS": ["JJS"],
+  "VB": ["VB"], "VBD": ["VBD"], "VBG": ["VBG"], "VBN": ["VBN"], "VBP": ["VBP"], "VBZ": ["VBZ"],
+  "RB": ["RB"], "RBR": ["RBR"], "RBS": ["RBS"],
+  "PRP": ["PRP"], "PRP$": ["PRP$"], "DT": ["DT"], "IN": ["IN"], "CC": ["CC"], "UH": ["UH"],
+  "CD": ["CD"], "EX": ["EX"], "FW": ["FW"], "LS": ["LS"], "MD": ["MD"], "POS": ["POS"],
+  "SYM": ["SYM"], "TO": ["TO"], "WDT": ["WDT"], "WP": ["WP"], "WP$": ["WP$"], "WRB": ["WRB"]
+};
+
+</script>
+<script src="./js/POSTagger.js"></script>
+</head>
+<body>
+  <h1>Client-Side POS Tagger</h1>
+  <p>Enter text below:</p>
+  <textarea id="inputText">The quick brown fox jumps over the lazy dog</textarea><br>
+  <button id="analyzeBtn">Analyze</button>
+
+  <table id="resultsTable" style="display:none;">
+    <thead>
+      <tr>
+        <th>Word</th>
+        <th>Part of Speech</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+<script>
+document.getElementById("analyzeBtn").addEventListener("click", () => {
+  const text = document.getElementById("inputText").value;
+
+  // Simple whitespace tokenizer
+  const words = text.split(/\s+/);
+  const tagger = new POSTagger();
+  const taggedWords = tagger.tag(words);
+
+  const tbody = document.querySelector("#resultsTable tbody");
+  tbody.innerHTML = "";
+
+  taggedWords.forEach(([word, tag]) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `<td>${word}</td><td>${tag}</td>`;
+    tbody.appendChild(row);
+  });
+
+  document.getElementById("resultsTable").style.display = "table";
+});
+</script>
+</body>
+</html>
