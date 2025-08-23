@@ -1,6 +1,7 @@
 # TagTeam.js
 
 Welcome to yet another Natural Language Processing project that no one asked for but everyone secretly needed.
+TagTeam.js in action https://skreen5hot.github.io/TagTeam.js/
 
 This repo is a **client-side NLP playground** designed for people who:
 
