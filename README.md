@@ -33,3 +33,5 @@ At its heart, this project uses **jsPOS**, a delightfully lightweight part-of-sp
 Because sometimes you just want a simple, offline, zero-setup POS tagger without needing to summon the computational power of a small nation.
 
 If you’re still reading this, congratulations — you now know more about this repo than most people know about their own health insurance plan.
+
+If you do not know how to use this just go to https://www.w3schools.com/js/default.asp
