@@ -1,19 +1,148 @@
 # Design Decisions: TagTeam.js → IEE Integration
 
 **Date:** January 9, 2026
-**Status:** Finalized for Week 1 Implementation
+**Last Updated:** January 10, 2026
+**Status:** Week 1 Complete, Week 2+ Planning
 
 ---
 
 ## Executive Summary
 
-This document records the 4 critical design decisions made for integrating TagTeam.js with the IEE system, as requested in the [Integration Requirements](tagTeam_Integration_Requirments.md).
+This document records the critical design decisions made for integrating TagTeam.js with the IEE system, as requested in the [Integration Requirements](../../iee-collaboration/from-iee/requirements/integration-requirements.md).
 
 Each decision prioritizes:
 1. **Determinism** - Same input always produces same output
 2. **Inspectability** - Results can be traced and explained
 3. **Performance** - <50ms processing time
 4. **Extensibility** - IEE can customize without code changes
+5. **Shareability** - Simple drop-in library (d3.js philosophy)
+
+---
+
+## Decision 0: Distribution Strategy (NEW - Jan 10, 2026)
+
+### Decision
+**Single-file bundle (d3.js/mermaid.js philosophy) - `tagteam.js`**
+
+### Philosophy
+
+TagTeam.js follows the design principles of d3.js and mermaid.js:
+
+**Core Principles:**
+1. **Zero dependencies** - No npm packages, no build tools required
+2. **Single file drop-in** - `<script src="tagteam.js"></script>` and go
+3. **Browser-native** - Works in any browser, no compilation
+4. **Simple API** - `TagTeam.parse(text)` returns semantic structure
+5. **Minimal but complete** - Everything needed, nothing extra
+6. **Shareable** - CodePen, JSFiddle, Observable, CDN-ready
+
+### Implementation Strategy
+
+```javascript
+// tagteam.js (4.2MB full bundle)
+// Single file containing:
+// - POSTagger logic (~4KB)
+// - Lexicon data (~4.2MB)
+// - SemanticRoleExtractor (~32KB)
+// - Unified API (~2KB)
+
+<script src="tagteam.js"></script>
+<script>
+  // Simple API
+  const result = TagTeam.parse("I should tell my doctor about the pain");
+
+  console.log(result.agent);      // { text: "I", entity: "self" }
+  console.log(result.action);     // { verb: "tell", modality: "should" }
+  console.log(result.frame);      // "Revealing_information"
+</script>
+```
+
+### Distribution Formats
+
+| File | Size | Contents | Use Case |
+|------|------|----------|----------|
+| `tagteam.js` | ~4.2MB | Full bundle (lexicon + logic) | Drop-in usage, demos, prototypes |
+| `tagteam.min.js` | ~2.0MB | Minified bundle | Production websites |
+| `tagteam.slim.js` | ~35KB | Logic only (future) | Advanced users with custom lexicons |
+
+### API Design (Unified Interface)
+
+```javascript
+// PRIMARY API
+TagTeam.parse(text, options?)
+// → Returns SemanticAction object
+
+// OPTIONS (optional)
+{
+  includeConfidence: true,      // Default: true
+  detectNegation: true,         // Default: true
+  resolveCompounds: true,       // Default: true (handles "best friend")
+  includeRawTokens: false       // Default: false (for debugging)
+}
+
+// BATCH PROCESSING
+TagTeam.parseMany(texts[])
+// → Returns array of SemanticAction objects
+
+// CONFIGURATION (for IEE integration)
+TagTeam.loadValueDefinitions(json)
+TagTeam.loadCompoundTerms(json)
+TagTeam.addSemanticFrame(frameDefinition)
+```
+
+### Sharability Benefits
+
+✅ **CodePen/JSFiddle** - Single `<script>` tag, instant demos
+✅ **NPM/CDN** - `npm install tagteam` or `<script src="cdn.jsdelivr.net/npm/tagteam">`
+✅ **Observable/Notebooks** - Works in computational notebooks
+✅ **No Build Step** - Vanilla JS, no webpack/rollup/babel
+✅ **GitHub Pages** - Deploy demos with zero configuration
+✅ **Educational** - Easy for students/researchers to experiment
+
+### Comparison to Similar Libraries
+
+| Library | Size | API Complexity | Build Required | Philosophy Match |
+|---------|------|----------------|----------------|------------------|
+| d3.js | 250KB | Simple | No | ✅ Perfect model |
+| mermaid.js | 800KB | Simple | No | ✅ Perfect model |
+| spaCy.js | 50MB | Complex | Yes | ❌ Too heavy |
+| compromise.js | 150KB | Medium | No | ⚠️ Close, but less focused |
+| **tagteam.js** | 4.2MB | Simple | No | ✅ Follows d3.js pattern |
+
+### Trade-offs Accepted
+
+✅ **Gains:**
+- Maximum shareability (works everywhere)
+- Zero configuration (no package.json, no build)
+- Simple mental model (one file, one API)
+- Easy to fork/modify (readable source)
+- CDN-friendly (can version and cache)
+
+⚠️ **Trade-offs:**
+- Larger file size (4.2MB) - acceptable for lexicon data
+- No tree-shaking - but deterministic parsing needs full lexicon
+- Monolithic - but simpler to reason about
+
+### Future: Slim Distribution
+
+For advanced users who want smaller bundles:
+
+```javascript
+// Future: Week 3+
+<script src="tagteam-lexicon.js"></script>  <!-- 4.2MB data -->
+<script src="tagteam.slim.js"></script>     <!-- 35KB logic -->
+<script>
+  // Same API, split loading
+  const result = TagTeam.parse(text);
+</script>
+```
+
+This allows:
+- Custom lexicons (domain-specific vocabularies)
+- Lazy loading (load lexicon only when needed)
+- Smaller bundles (if you provide your own dictionary)
+
+But **Week 1-2 focus**: Ship the full bundle for maximum simplicity.
 
 ---
 

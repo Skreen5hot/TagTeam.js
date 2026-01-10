@@ -1,8 +1,10 @@
 # IEE Format Updates - Implementation Summary
 
 **Date:** 2026-01-10
-**Status:** ✅ Complete
+**Status:** ✅ Complete + **BONUS: Single-File Bundle** 🎁
 **Time Invested:** ~3 hours
+
+**🆕 UPDATE:** We've created a single-file bundle (`tagteam.js`) for easier validation! See [Bundle Section](#single-file-bundle-bonus) below.
 
 ---
 
@@ -421,6 +423,116 @@ _legacy: {
    - Tests: healthcare-001, spiritual-001, vocational-001, interpersonal-001, environmental-001
    - Validates agent, action, patient, frame, tense, aspect, negation
    - Displays detailed pass/fail with accuracy breakdown
+
+---
+
+## Single-File Bundle (BONUS!)
+
+**To make validation easier, we've created a d3.js-style single-file bundle:**
+
+### What Changed in API
+
+**Old Multi-File Approach:**
+```html
+<script src="../src/lexicon.js"></script>
+<script src="../src/POSTagger.js"></script>
+<script src="../src/SemanticRoleExtractor.js"></script>
+<script>
+  const extractor = new SemanticRoleExtractor();
+  const result = extractor.parseSemanticAction("I should tell my doctor about the pain");
+</script>
+```
+
+**New Bundle Approach:**
+```html
+<script src="tagteam.js"></script>
+<script>
+  const result = TagTeam.parse("I should tell my doctor about the pain");
+</script>
+```
+
+### Bundle Output Format
+
+The bundle returns **exactly the same IEE-compliant format** as documented above:
+
+```javascript
+{
+  agent: {
+    text: "i",
+    role: "agent",
+    entity: "self",
+    posTag: "PRP"
+  },
+  action: {
+    verb: "tell",
+    lemma: "tell",
+    tense: "present",
+    aspect: "simple",
+    modality: "should",
+    negation: false
+  },
+  recipient: {
+    text: "doctor",
+    role: "recipient",
+    entity: "medical_professional",
+    posTag: "NN"
+  },
+  theme: {
+    text: "pain",
+    role: "theme",
+    entity: "physical_sensation",
+    posTag: "NN"
+  },
+  semanticFrame: "Revealing_information",
+  confidence: 0.85
+}
+```
+
+### Why Bundle Is Better for Validation
+
+✅ **One file** instead of three separate files
+✅ **Simpler API** - `TagTeam.parse()` instead of manual class instantiation
+✅ **Easier to test** - `dist/test-iee-bundle.html` validates all 5 scenarios with one click
+✅ **No dependencies** - Works offline, no npm, no build tools
+✅ **Same output** - Exact IEE-compliant format, zero functional differences
+
+### Bundle Files Included
+
+| File | Size | Purpose |
+|------|------|---------|
+| **dist/tagteam.js** | 4.15 MB | Full bundle (lexicon + POS tagger + semantic extractor) |
+| **dist/test-iee-bundle.html** | 8 KB | Automated validation test |
+| **dist/README.md** | 7 KB | Integration guide |
+
+### How to Use Bundle for Validation
+
+**Option 1: Automated Test (Recommended)**
+1. Open `dist/test-iee-bundle.html` in browser
+2. Click "▶️ Run All Tests"
+3. View pass/fail results for all 5 scenarios
+
+**Option 2: Custom Integration**
+```html
+<!DOCTYPE html>
+<html>
+<head><title>IEE Validation</title></head>
+<body>
+  <script src="tagteam.js"></script>
+  <script>
+    // Test your own scenarios
+    const result = TagTeam.parse("The family must decide whether to continue treatment");
+
+    console.log(result.agent);      // { text: "family", entity: "family", posTag: "NN" }
+    console.log(result.action);     // { verb: "decide", modality: "must", ... }
+    console.log(result.semanticFrame); // "Deciding"
+  </script>
+</body>
+</html>
+```
+
+See [dist/README.md](../../../dist/README.md) for complete API reference.
+
+---
 
 ## Next Steps
 

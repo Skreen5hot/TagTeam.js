@@ -4,6 +4,8 @@
 **Status:** Ready for Validation
 **IEE Delivery:** 7 days ahead of schedule (Jan 10 vs Jan 17)
 
+**🆕 BONUS:** Single-file bundle created for easy validation! See [Bundle Overview](#single-file-bundle-new) below.
+
 ---
 
 ## Summary
@@ -20,7 +22,79 @@ TagTeam Week 1 deliverable has been successfully integrated with all IEE artifac
 
 ---
 
+## Single-File Bundle (NEW!)
+
+**For easy validation, we've created a single-file distribution:**
+
+### What You Get
+
+| File | Size | Purpose |
+|------|------|---------|
+| **dist/tagteam.js** | 4.15 MB | Complete semantic parser in one file |
+| **dist/test-iee-bundle.html** | 8 KB | Automated validation test |
+| **dist/README.md** | 7 KB | Integration guide |
+
+### Why This Is Better for Validation
+
+**Old Approach (Multi-File):**
+```html
+<script src="../src/lexicon.js"></script>
+<script src="../src/POSTagger.js"></script>
+<script src="../src/SemanticRoleExtractor.js"></script>
+<script>
+  const extractor = new SemanticRoleExtractor();
+  const result = extractor.parseSemanticAction(text);
+</script>
+```
+
+**New Approach (Bundle):**
+```html
+<script src="tagteam.js"></script>
+<script>
+  const result = TagTeam.parse(text);
+</script>
+```
+
+### Quick Validation (2 Minutes)
+
+1. Navigate to `dist/` folder
+2. Open `test-iee-bundle.html` in browser
+3. Click "▶️ Run All Tests"
+4. Verify pass rate ≥75%
+5. ✅ Done!
+
+**Benefits:**
+- ✅ One file instead of three
+- ✅ Simple API (`TagTeam.parse()`)
+- ✅ Automated validation with one click
+- ✅ No build tools or dependencies needed
+- ✅ Works offline
+
+See [dist/README.md](../../../dist/README.md) for complete integration guide.
+
+---
+
 ## Files Modified/Created
+
+### Single-File Bundle (NEW)
+
+**dist/tagteam.js** (Created)
+- UMD wrapper for Node.js/AMD/browser compatibility
+- Includes lexicon + POS tagger + semantic extractor
+- Unified `TagTeam.parse()` API
+- All Week 1 features included
+
+**dist/test-iee-bundle.html** (Created)
+- Tests all 5 IEE Week 1 scenarios
+- One-click validation
+- Pass/fail display for each check
+- Summary with pass rate percentage
+
+**dist/README.md** (Created)
+- Quick start guide
+- API reference
+- Testing instructions
+- Troubleshooting
 
 ### Core Implementation
 

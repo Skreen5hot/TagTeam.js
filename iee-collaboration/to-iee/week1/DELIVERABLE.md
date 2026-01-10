@@ -2,36 +2,55 @@
 
 ## 📦 Deliverable Overview
 
-**Status:** ✅ Complete
-**Delivery Date:** January 9, 2026
+**Status:** ✅ Complete + **BONUS: Single-File Bundle** 🎁
+**Delivery Date:** January 10, 2026
 **Version:** 1.0.0
 
 This document describes the Week 1 implementation of semantic role extraction for TagTeam.js, as specified in the IEE Integration Requirements.
+
+**🆕 UPDATE (Jan 10):** We've created a **single-file bundle** (`tagteam.js`) for easier validation and integration! See "Quick Start" section below.
 
 ---
 
 ## 🎯 What Was Delivered
 
-### Core Functionality
+### Primary Deliverable: Single-File Bundle (NEW!)
 
-1. **`SemanticRoleExtractor` Class** ([SemanticRoleExtractor.js](js/SemanticRoleExtractor.js))
+1. **`dist/tagteam.js`** - Complete semantic parser in one file (4.15 MB)
+   - Zero dependencies, works anywhere JavaScript runs
+   - Simple API: `TagTeam.parse(text)` returns semantic structure
+   - Drop into any HTML page with one `<script>` tag
+   - **Inspired by d3.js and mermaid.js** - maximum shareability
+
+2. **`dist/test-iee-bundle.html`** - Automated validation against your 5 test scenarios
+   - Click one button to run all tests
+   - Shows pass/fail for each scenario
+   - Displays overall pass rate (target: ≥75%)
+
+3. **`dist/README.md`** - Complete integration guide
+   - Quick start (< 5 minutes)
+   - API reference
+   - Testing instructions
+   - Troubleshooting guide
+
+### Alternative: Source Files (for advanced users)
+
+4. **`src/SemanticRoleExtractor.js`** - Core parser class
    - Parses natural language into semantic action structures
    - Extracts WHO does WHAT to WHOM
    - Identifies semantic frames (action types)
    - Handles negation and modality
    - Provides confidence scores and ambiguity flags
 
-2. **Interactive Demo** ([semantic-demo.html](semantic-demo.html))
-   - Live semantic analysis interface
-   - Pre-loaded IEE test scenarios
-   - Visual confidence indicators
-   - JSON output display
+5. **Interactive Demos**
+   - `demos/semantic-demo.html` - Full-featured demo
+   - `demos/index.html` - Basic POS tagger demo
 
-3. **Documentation** (this file)
-   - API reference
-   - Design decisions
-   - Test results
-   - Integration guide
+6. **Documentation** (comprehensive)
+   - API reference (this file)
+   - Design decisions (`docs/architecture/design-decisions.md`)
+   - Test results (below)
+   - Integration guide (below)
 
 ---
 

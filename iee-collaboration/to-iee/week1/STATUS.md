@@ -4,6 +4,8 @@
 **Milestone:** Week 1 Integration Complete
 **Status:** ✅ Ready for IEE Validation
 
+**🆕 BONUS:** Single-file bundle created! Validation is now easier than ever - just open one HTML file. See [Bundle Section](#recommended-validation-approach-use-bundle) below.
+
 ---
 
 ## What Was Completed
@@ -55,7 +57,77 @@ Added 3 new frames required by IEE test scenarios:
 
 ---
 
-## How to Validate
+## Recommended Validation Approach (Use Bundle!)
+
+**We've created a single-file bundle that makes validation much easier:**
+
+### Option 1: Automated Bundle Test (EASIEST - 2 Minutes)
+
+**What you need:**
+- `dist/tagteam.js` (4.15 MB - the complete parser)
+- `dist/test-iee-bundle.html` (8 KB - the validation test)
+
+**Steps:**
+1. Navigate to the `dist/` folder in the repository
+2. Open `test-iee-bundle.html` in any modern browser
+3. Click the "▶️ Run All Tests" button
+4. Review the test summary showing pass rate
+5. ✅ Done!
+
+**What you'll see:**
+- Overall pass rate percentage (target: ≥75%)
+- Pass/fail for each of the 5 scenarios
+- Detailed breakdown for agent, action, patient, frame
+- Full JSON output for debugging
+
+**Why this is better:**
+- ✅ One file instead of three separate source files
+- ✅ One-click testing instead of manual validation
+- ✅ Simple `TagTeam.parse()` API
+- ✅ No build tools or dependencies needed
+- ✅ Works completely offline
+
+### Option 2: Custom Bundle Integration (5 Minutes)
+
+Use the bundle in your own test page:
+
+```html
+<!DOCTYPE html>
+<html>
+<head><title>IEE Custom Test</title></head>
+<body>
+  <!-- Load the bundle -->
+  <script src="tagteam.js"></script>
+
+  <!-- Test your scenarios -->
+  <script>
+    const scenarios = [
+      "The family must decide whether to continue treatment",
+      "I am questioning core doctrines",
+      "I discovered that my company is falsifying safety reports"
+    ];
+
+    scenarios.forEach(text => {
+      const result = TagTeam.parse(text);
+      console.log({
+        input: text,
+        agent: result.agent?.text,
+        action: result.action?.verb,
+        frame: result.semanticFrame
+      });
+    });
+  </script>
+</body>
+</html>
+```
+
+See [dist/README.md](../../../dist/README.md) for complete API reference.
+
+---
+
+## Alternative: Multi-File Validation (Original Approach)
+
+If you prefer to test the source files directly:
 
 ### Quick Test (30 seconds)
 
@@ -278,12 +350,31 @@ All operations remain under 10ms per sentence:
 ✅ **Test suites created and ready**
 ✅ **Performance under 10ms**
 ✅ **IEE format compliance maintained**
+✅ **BONUS: Single-file bundle created (d3.js-style distribution)**
 
-**Status:** Ready for validation. Open the test files above to verify functionality.
+**Status:** Ready for validation.
+
+**Recommended:** Use `dist/test-iee-bundle.html` for easiest validation experience!
 
 **Target:** ≥75% pass rate on IEE's 5 test scenarios
 
 ---
 
+## What to Share with IEE Team
+
+**Minimum Files for Validation:**
+- `dist/tagteam.js` (4.15 MB)
+- `dist/test-iee-bundle.html` (8 KB)
+- `dist/README.md` (7 KB)
+
+**Complete Package:**
+- All of the above
+- `BUNDLE_COMPLETE.md` - Summary of bundle approach
+- Link to full repository
+
+**Time to validate:** <5 minutes with bundle approach
+
+---
+
 *Last Updated: 2026-01-10*
-*Version: 1.0*
+*Version: 1.1 (Added Bundle)*

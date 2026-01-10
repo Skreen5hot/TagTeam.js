@@ -12,7 +12,10 @@
       "Bash(start tests/test-iee-corpus.html)",
       "Bash(start demos/semantic-demo.html)",
       "Bash(start tests/run-iee-validator.html)",
-      "Bash(start demos/index.html)"
+      "Bash(start demos/index.html)",
+      "Bash(node build.js:*)",
+      "Bash(start test.html)",
+      "Bash(start test-iee-bundle.html)"
     ]
   }
 }

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TagTeam.js Bundle Test</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1 { color: #2563eb; }
+    pre {
+      background: #f3f4f6;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+    .result {
+      margin: 20px 0;
+      padding: 15px;
+      border: 2px solid #10b981;
+      border-radius: 8px;
+      background: #f0fdf4;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover { background: #1d4ed8; }
+  </style>
+</head>
+<body>
+  <h1>🎯 TagTeam.js Bundle Test</h1>
+  <p>Testing single-file bundle with simple API</p>
+
+  <h2>Test 1: Simple Parse</h2>
+  <button onclick="test1()">Run Test 1</button>
+  <div id="test1-result"></div>
+
+  <h2>Test 2: Batch Parse</h2>
+  <button onclick="test2()">Run Test 2</button>
+  <div id="test2-result"></div>
+
+  <h2>Test 3: IEE Test Sentence</h2>
+  <button onclick="test3()">Run Test 3</button>
+  <div id="test3-result"></div>
+
+  <!-- Load the bundle -->
+  <script src="tagteam.js"></script>
+
+  <script>
+    function test1() {
+      const text = "I love my best friend";
+      const result = TagTeam.parse(text);
+
+      document.getElementById('test1-result').innerHTML = `
+        <div class="result">
+          <strong>Input:</strong> "${text}"<br><br>
+          <strong>Result:</strong>
+          <pre>${JSON.stringify(result, null, 2)}</pre>
+        </div>
+      `;
+    }
+
+    function test2() {
+      const texts = [
+        "I love my best friend",
+        "The doctor recommended treatment",
+        "We must decide about the coal plant"
+      ];
+      const results = TagTeam.parseMany(texts);
+
+      document.getElementById('test2-result').innerHTML = `
+        <div class="result">
+          <strong>Input:</strong> 3 sentences<br><br>
+          <strong>Results:</strong>
+          <pre>${JSON.stringify(results, null, 2)}</pre>
+        </div>
+      `;
+    }
+
+    function test3() {
+      const text = "I should tell my doctor about the pain";
+      const result = TagTeam.parse(text);
+
+      document.getElementById('test3-result').innerHTML = `
+        <div class="result">
+          <strong>Input:</strong> "${text}"<br><br>
+          <strong>Agent:</strong> ${result.agent ? result.agent.text : 'N/A'}<br>
+          <strong>Action:</strong> ${result.action ? result.action.verb : 'N/A'}<br>
+          <strong>Modality:</strong> ${result.action && result.action.modality ? result.action.modality : 'none'}<br>
+          <strong>Recipient:</strong> ${result.recipient ? result.recipient.text : 'N/A'}<br>
+          <strong>Theme:</strong> ${result.theme ? result.theme.text : 'N/A'}<br>
+          <strong>Frame:</strong> ${result.semanticFrame || 'N/A'}<br><br>
+          <strong>Full Result:</strong>
+          <pre>${JSON.stringify(result, null, 2)}</pre>
+        </div>
+      `;
+    }
+
+    // Auto-run test 1 on load
+    window.addEventListener('load', () => {
+      console.log('TagTeam.js loaded! Version:', TagTeam.version);
+      test1();
+    });
+  </script>
+</body>
+</html>
