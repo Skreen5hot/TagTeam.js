@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(start semantic-demo.html)",
+      "Bash(dir:*)",
+      "Bash(ls:*)",
+      "Bash(start test-iee-format.html)",
+      "Bash(start test-iee-corpus.html)",
+      "Bash(start run-iee-validator.html)",
+      "Bash(git mv:*)",
+      "Bash(start tests/test-iee-format.html)",
+      "Bash(start tests/test-iee-corpus.html)",
+      "Bash(start demos/semantic-demo.html)",
+      "Bash(start tests/run-iee-validator.html)",
+      "Bash(start demos/index.html)"
+    ]
+  }
+}

@@ -1,0 +1,488 @@
+{
+  "version": "1.0",
+  "deliveryDate": "2026-01-10",
+  "description": "Week 1 test corpus - 5 fully annotated scenarios for TagTeam semantic parser validation",
+  "scenarios": [
+    {
+      "id": "healthcare-001",
+      "domain": "healthcare",
+      "title": "End of Life Decision",
+      "description": "A 78-year-old patient with terminal cancer is on life support with no chance of recovery. The family must decide whether to continue treatment.",
+      "expectedParse": {
+        "agent": {
+          "text": "family",
+          "role": "agent",
+          "entity": "family",
+          "posTag": "NN"
+        },
+        "action": {
+          "verb": "decide",
+          "lemma": "decide",
+          "tense": "present",
+          "aspect": "simple",
+          "modality": "must",
+          "negation": false
+        },
+        "patient": {
+          "text": "treatment",
+          "role": "patient",
+          "entity": "treatment"
+        },
+        "semanticFrame": "Deciding",
+        "confidence": 0.85
+      },
+      "expectedContext": {
+        "physicalImpact": {
+          "intensity": 0.95,
+          "polarity": "negative",
+          "reasoning": "Terminal cancer, life support, no recovery - maximal physical severity"
+        },
+        "personsInvolved": {
+          "intensity": 0.90,
+          "polarity": "neutral",
+          "reasoning": "Patient and family directly involved in life-death decision"
+        },
+        "autonomyAtStake": {
+          "intensity": 0.85,
+          "polarity": "neutral",
+          "reasoning": "Decision about continuing treatment involves autonomy"
+        },
+        "uncertainty": {
+          "intensity": 0.40,
+          "polarity": "neutral",
+          "reasoning": "Medical facts are clear (terminal, no recovery), ethical choice has uncertainty"
+        }
+      },
+      "expectedValues": [
+        {
+          "value": "physical_wellbeing",
+          "expectedRelevance": true,
+          "expectedSalience": "high",
+          "reasoning": "Terminal cancer and life support directly engage physical wellbeing"
+        },
+        {
+          "value": "autonomy",
+          "expectedRelevance": true,
+          "expectedSalience": "high",
+          "reasoning": "Family deciding on behalf of patient - autonomy central"
+        },
+        {
+          "value": "dignity",
+          "expectedRelevance": true,
+          "expectedSalience": "medium",
+          "reasoning": "End of life care relates to human dignity"
+        },
+        {
+          "value": "care",
+          "expectedRelevance": true,
+          "expectedSalience": "medium",
+          "reasoning": "Family care for patient in vulnerable state"
+        }
+      ],
+      "compoundTerms": [
+        "life support",
+        "terminal cancer",
+        "end of life"
+      ],
+      "negationExamples": [
+        "no chance of recovery",
+        "no advance directive"
+      ]
+    },
+    {
+      "id": "spiritual-001",
+      "domain": "spiritual",
+      "title": "Leaving Faith Community",
+      "description": "After 30 years in a conservative religious community, I am questioning core doctrines and considering leaving. This would mean losing my entire social network.",
+      "expectedParse": {
+        "agent": {
+          "text": "I",
+          "role": "agent",
+          "entity": "self",
+          "posTag": "PRP"
+        },
+        "action": {
+          "verb": "question",
+          "lemma": "question",
+          "tense": "present",
+          "aspect": "progressive",
+          "negation": false
+        },
+        "patient": {
+          "text": "core doctrines",
+          "role": "patient",
+          "entity": "core_doctrines"
+        },
+        "semanticFrame": "Questioning",
+        "confidence": 0.82
+      },
+      "expectedContext": {
+        "physicalImpact": {
+          "intensity": 0.10,
+          "polarity": "neutral",
+          "reasoning": "No direct physical harm, primarily psychological/social"
+        },
+        "personsInvolved": {
+          "intensity": 0.85,
+          "polarity": "neutral",
+          "reasoning": "Self, family, entire community affected"
+        },
+        "autonomyAtStake": {
+          "intensity": 0.90,
+          "polarity": "neutral",
+          "reasoning": "Core decision about personal beliefs and community belonging"
+        },
+        "socialImpact": {
+          "intensity": 0.95,
+          "polarity": "negative",
+          "reasoning": "Losing entire social network is severe social impact"
+        },
+        "truthClaims": {
+          "intensity": 0.85,
+          "polarity": "neutral",
+          "reasoning": "Questioning religious doctrines involves truth claims"
+        }
+      },
+      "expectedValues": [
+        {
+          "value": "autonomy",
+          "expectedRelevance": true,
+          "expectedSalience": "high",
+          "reasoning": "Personal choice about beliefs and community"
+        },
+        {
+          "value": "spiritual_transcendence",
+          "expectedRelevance": true,
+          "expectedSalience": "high",
+          "reasoning": "Religious/spiritual content is central to scenario"
+        },
+        {
+          "value": "honesty",
+          "expectedRelevance": true,
+          "expectedSalience": "medium",
+          "reasoning": "Intellectual honesty vs staying in community"
+        },
+        {
+          "value": "relationships",
+          "expectedRelevance": true,
+          "expectedSalience": "high",
+          "reasoning": "Social network and family relationships at stake"
+        },
+        {
+          "value": "empirical_truth",
+          "expectedRelevance": true,
+          "expectedSalience": "medium",
+          "reasoning": "Questioning doctrines relates to truth-seeking"
+        }
+      ],
+      "compoundTerms": [
+        "faith community",
+        "religious community",
+        "core doctrines",
+        "social network"
+      ],
+      "negationExamples": []
+    },
+    {
+      "id": "vocational-001",
+      "domain": "vocational",
+      "title": "Whistleblowing Decision",
+      "description": "I discovered that my company is falsifying safety reports to avoid costly recalls. Reporting this would likely end my career but could prevent serious injuries.",
+      "expectedParse": {
+        "agent": {
+          "text": "I",
+          "role": "agent",
+          "entity": "self",
+          "posTag": "PRP"
+        },
+        "action": {
+          "verb": "discovered",
+          "lemma": "discover",
+          "tense": "past",
+          "aspect": "simple",
+          "negation": false
+        },
+        "patient": {
+          "text": "company is falsifying safety reports",
+          "role": "patient",
+          "entity": "falsification"
+        },
+        "semanticFrame": "Becoming_aware",
+        "confidence": 0.88
+      },
+      "expectedContext": {
+        "physicalImpact": {
+          "intensity": 0.80,
+          "polarity": "negative",
+          "reasoning": "False safety reports could cause serious injuries"
+        },
+        "personsInvolved": {
+          "intensity": 0.85,
+          "polarity": "neutral",
+          "reasoning": "Self, company, potential victims of unsafe products"
+        },
+        "autonomyAtStake": {
+          "intensity": 0.75,
+          "polarity": "neutral",
+          "reasoning": "Decision to report or stay silent"
+        },
+        "truthClaims": {
+          "intensity": 0.95,
+          "polarity": "neutral",
+          "reasoning": "Falsifying reports is direct truth violation"
+        },
+        "moralConflict": {
+          "intensity": 0.90,
+          "polarity": "neutral",
+          "reasoning": "Clear moral tension between loyalty and public safety"
+        }
+      },
+      "expectedValues": [
+        {
+          "value": "honesty",
+          "expectedRelevance": true,
+          "expectedSalience": "high",
+          "reasoning": "Falsifying reports is dishonesty, whistleblowing is honesty"
+        },
+        {
+          "value": "physical_wellbeing",
+          "expectedRelevance": true,
+          "expectedSalience": "high",
+          "reasoning": "Preventing serious injuries is physical wellbeing"
+        },
+        {
+          "value": "justice",
+          "expectedRelevance": true,
+          "expectedSalience": "high",
+          "reasoning": "Holding company accountable for wrongdoing"
+        },
+        {
+          "value": "empirical_truth",
+          "expectedRelevance": true,
+          "expectedSalience": "high",
+          "reasoning": "Accurate safety reporting vs falsification"
+        },
+        {
+          "value": "competence",
+          "expectedRelevance": true,
+          "expectedSalience": "medium",
+          "reasoning": "Professional responsibility and expertise"
+        }
+      ],
+      "compoundTerms": [
+        "safety reports",
+        "serious injuries",
+        "public safety"
+      ],
+      "negationExamples": []
+    },
+    {
+      "id": "interpersonal-001",
+      "domain": "interpersonal",
+      "title": "Friend's Infidelity",
+      "description": "My best friend is cheating on their spouse. The spouse is also my close friend and has asked me directly if I know anything. My friend begged me not to tell.",
+      "expectedParse": {
+        "agent": {
+          "text": "best friend",
+          "role": "agent",
+          "entity": "friend",
+          "posTag": "NN"
+        },
+        "action": {
+          "verb": "cheat",
+          "lemma": "cheat",
+          "tense": "present",
+          "aspect": "progressive",
+          "negation": false
+        },
+        "patient": {
+          "text": "spouse",
+          "role": "patient",
+          "entity": "spouse"
+        },
+        "semanticFrame": "Offenses",
+        "confidence": 0.80
+      },
+      "expectedContext": {
+        "physicalImpact": {
+          "intensity": 0.05,
+          "polarity": "neutral",
+          "reasoning": "No physical harm, primarily emotional/relational"
+        },
+        "personsInvolved": {
+          "intensity": 0.95,
+          "polarity": "neutral",
+          "reasoning": "Self caught between two close friends in marriage"
+        },
+        "autonomyAtStake": {
+          "intensity": 0.70,
+          "polarity": "neutral",
+          "reasoning": "Decision about disclosure, respecting friend's request"
+        },
+        "socialImpact": {
+          "intensity": 0.85,
+          "polarity": "negative",
+          "reasoning": "Relationships with both friends at risk"
+        },
+        "moralConflict": {
+          "intensity": 0.95,
+          "polarity": "neutral",
+          "reasoning": "Loyalty vs honesty, competing obligations to friends"
+        }
+      },
+      "expectedValues": [
+        {
+          "value": "honesty",
+          "expectedRelevance": true,
+          "expectedSalience": "high",
+          "reasoning": "Tension between honesty to spouse and keeping friend's secret"
+        },
+        {
+          "value": "relationships",
+          "expectedRelevance": true,
+          "expectedSalience": "high",
+          "reasoning": "Friendships and marriage relationships central"
+        },
+        {
+          "value": "care",
+          "expectedRelevance": true,
+          "expectedSalience": "medium",
+          "reasoning": "Caring for both friends in difficult situation"
+        },
+        {
+          "value": "respect",
+          "expectedRelevance": true,
+          "expectedSalience": "medium",
+          "reasoning": "Respecting autonomy of both friends"
+        }
+      ],
+      "compoundTerms": [
+        "best friend",
+        "close friend"
+      ],
+      "negationExamples": [
+        "begged me not to tell"
+      ]
+    },
+    {
+      "id": "environmental-001",
+      "domain": "environmental",
+      "title": "Climate Action vs Economic Impact",
+      "description": "Our town's largest employer, a coal plant, must close to meet climate goals. This will eliminate 2000 jobs in a community with no other major employers. We must decide whether to allow an extension.",
+      "expectedParse": {
+        "agent": {
+          "text": "We",
+          "role": "agent",
+          "entity": "community",
+          "posTag": "PRP"
+        },
+        "action": {
+          "verb": "decide",
+          "lemma": "decide",
+          "tense": "present",
+          "aspect": "simple",
+          "modality": "must",
+          "negation": false
+        },
+        "patient": {
+          "text": "extension",
+          "role": "patient",
+          "entity": "extension"
+        },
+        "semanticFrame": "Deciding",
+        "confidence": 0.83
+      },
+      "expectedContext": {
+        "physicalImpact": {
+          "intensity": 0.70,
+          "polarity": "negative",
+          "reasoning": "Coal plant affects air quality, climate change has physical impacts"
+        },
+        "personsInvolved": {
+          "intensity": 0.95,
+          "polarity": "neutral",
+          "reasoning": "2000 workers, entire community, future generations affected"
+        },
+        "resourceScarcity": {
+          "intensity": 0.90,
+          "polarity": "neutral",
+          "reasoning": "No other major employers creates economic scarcity"
+        },
+        "futureImpact": {
+          "intensity": 0.95,
+          "polarity": "neutral",
+          "reasoning": "Climate goals and long-term community viability at stake"
+        },
+        "moralConflict": {
+          "intensity": 0.95,
+          "polarity": "neutral",
+          "reasoning": "Present economic needs vs future environmental protection"
+        }
+      },
+      "expectedValues": [
+        {
+          "value": "physical_wellbeing",
+          "expectedRelevance": true,
+          "expectedSalience": "high",
+          "reasoning": "Environmental health and climate impact physical wellbeing"
+        },
+        {
+          "value": "material_security",
+          "expectedRelevance": true,
+          "expectedSalience": "high",
+          "reasoning": "2000 jobs represent material security for families"
+        },
+        {
+          "value": "justice",
+          "expectedRelevance": true,
+          "expectedSalience": "high",
+          "reasoning": "Fair distribution of climate action burdens"
+        },
+        {
+          "value": "care",
+          "expectedRelevance": true,
+          "expectedSalience": "medium",
+          "reasoning": "Caring for workers and future generations"
+        },
+        {
+          "value": "growth",
+          "expectedRelevance": true,
+          "expectedSalience": "medium",
+          "reasoning": "Economic transition and sustainable development"
+        }
+      ],
+      "compoundTerms": [
+        "coal plant",
+        "climate goals",
+        "major employers",
+        "climate change",
+        "climate action"
+      ],
+      "negationExamples": [
+        "no other major employers"
+      ]
+    }
+  ],
+  "notes": {
+    "coverage": "5 scenarios across 5 different domains (healthcare, spiritual, vocational, interpersonal, environmental)",
+    "annotationDetails": {
+      "expectedParse": "Complete semantic parse with agent-action-patient structure, POS tags, tense/aspect/modality, negation",
+      "expectedContext": "Intensity (0-1 scale) and polarity (positive/negative/neutral) for relevant context dimensions",
+      "expectedValues": "Relevant values with salience levels and reasoning for inclusion",
+      "compoundTerms": "Multi-word entities that must be treated as single semantic units",
+      "negationExamples": "Phrases containing negation for parser validation"
+    },
+    "usageInstructions": [
+      "Use expectedParse to validate TagTeam's semantic role labeling",
+      "Use expectedContext to validate context intensity analysis",
+      "Use expectedValues to validate value matching against value-definitions-core.json",
+      "Use compoundTerms to test multi-word entity recognition",
+      "Use negationExamples to test negation detection"
+    ],
+    "weeklyExpansion": {
+      "week1": "5 scenarios (this file)",
+      "week2": "20 scenarios total (+15 new)",
+      "week3": "50 scenarios total (+30 new)"
+    }
+  }
+}

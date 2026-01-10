@@ -1,0 +1,237 @@
+{
+  "version": "1.0",
+  "deliveryDate": "2026-01-10",
+  "description": "Compound terms (multi-word entities) for TagTeam semantic parser - must be treated as single semantic units",
+  "usage": "These terms must NOT be tokenized as separate words. E.g., 'life support' is ONE entity 'life_support', not 'life' + 'support'",
+  "categories": {
+    "healthcare": [
+      "life support",
+      "terminal cancer",
+      "end of life",
+      "advance directive",
+      "comfort care",
+      "aggressive treatment",
+      "clinical trials",
+      "experimental drug",
+      "informed consent",
+      "organ donation",
+      "liver transplant",
+      "quality of life",
+      "medical treatment",
+      "health insurance",
+      "mental health",
+      "physical health",
+      "healthcare provider",
+      "primary care",
+      "emergency room",
+      "intensive care"
+    ],
+    "spiritual_religious": [
+      "faith community",
+      "religious community",
+      "core doctrines",
+      "religious tradition",
+      "spiritual practice",
+      "interfaith marriage",
+      "holy day",
+      "sacred obligations",
+      "divine relationship",
+      "spiritual vitality",
+      "religious freedom",
+      "faith tradition",
+      "spiritual growth",
+      "religious beliefs",
+      "worship service"
+    ],
+    "vocational_professional": [
+      "safety reports",
+      "serious injuries",
+      "public safety",
+      "professional responsibility",
+      "career opportunity",
+      "work environment",
+      "ethical standards",
+      "workplace harassment",
+      "job security",
+      "career advancement",
+      "professional development",
+      "corporate responsibility",
+      "business ethics",
+      "trade secrets",
+      "intellectual property"
+    ],
+    "interpersonal_social": [
+      "best friend",
+      "close friend",
+      "social network",
+      "family relationships",
+      "romantic relationship",
+      "personal boundaries",
+      "emotional support",
+      "mutual respect",
+      "trust issues",
+      "social obligations",
+      "peer pressure",
+      "social status",
+      "personal values",
+      "intimate partner"
+    ],
+    "environmental": [
+      "climate goals",
+      "climate change",
+      "climate action",
+      "coal plant",
+      "major employers",
+      "environmental protection",
+      "carbon emissions",
+      "renewable energy",
+      "fossil fuels",
+      "air quality",
+      "water pollution",
+      "natural resources",
+      "sustainable development",
+      "environmental impact",
+      "future generations"
+    ],
+    "educational": [
+      "academic integrity",
+      "learning disability",
+      "standardized tests",
+      "grade point average",
+      "educational opportunity",
+      "academic freedom",
+      "intellectual property",
+      "research ethics",
+      "student loan",
+      "higher education",
+      "special education",
+      "academic performance",
+      "educational equity"
+    ],
+    "political_civic": [
+      "civil rights",
+      "human rights",
+      "social justice",
+      "political freedom",
+      "free speech",
+      "democratic process",
+      "public policy",
+      "civil liberties",
+      "voting rights",
+      "rule of law",
+      "political participation",
+      "civic duty",
+      "constitutional rights"
+    ],
+    "technological": [
+      "artificial intelligence",
+      "data privacy",
+      "social media",
+      "cyber security",
+      "digital rights",
+      "intellectual property",
+      "algorithmic bias",
+      "surveillance technology",
+      "personal data",
+      "online safety",
+      "digital literacy",
+      "technological advancement"
+    ],
+    "general_ethical": [
+      "moral responsibility",
+      "ethical dilemma",
+      "moral obligation",
+      "value conflict",
+      "ethical principles",
+      "moral reasoning",
+      "personal autonomy",
+      "bodily autonomy",
+      "human dignity",
+      "common good",
+      "individual rights",
+      "collective welfare",
+      "moral character",
+      "ethical standards"
+    ]
+  },
+  "statistics": {
+    "totalCompounds": 150,
+    "byCategory": {
+      "healthcare": 20,
+      "spiritual_religious": 15,
+      "vocational_professional": 15,
+      "interpersonal_social": 14,
+      "environmental": 15,
+      "educational": 13,
+      "political_civic": 13,
+      "technological": 12,
+      "general_ethical": 14
+    }
+  },
+  "normalizationRules": {
+    "description": "How to normalize compound terms for entity matching",
+    "rules": [
+      {
+        "rule": "Replace spaces with underscores",
+        "example": "life support → life_support"
+      },
+      {
+        "rule": "Convert to lowercase",
+        "example": "Life Support → life_support"
+      },
+      {
+        "rule": "Remove hyphens in compounds",
+        "example": "end-of-life → end_of_life"
+      },
+      {
+        "rule": "Preserve apostrophes in possessives",
+        "example": "patient's rights → patients_rights (normalize to plural form)"
+      }
+    ]
+  },
+  "parserGuidance": {
+    "detection": "Use NER (Named Entity Recognition) and compound noun detection before tokenization",
+    "chunking": "Treat these as single noun phrases, do not split during tokenization",
+    "posTagging": "Tag entire compound as NN (noun) or NNP (proper noun)",
+    "examples": [
+      {
+        "input": "The patient is on life support",
+        "correctTokenization": ["The", "patient", "is", "on", "life support"],
+        "incorrectTokenization": ["The", "patient", "is", "on", "life", "support"]
+      },
+      {
+        "input": "Climate change affects future generations",
+        "correctTokenization": ["Climate change", "affects", "future generations"],
+        "incorrectTokenization": ["Climate", "change", "affects", "future", "generations"]
+      }
+    ]
+  },
+  "testCases": [
+    {
+      "description": "Multi-word entities must be preserved as single semantic units",
+      "input": "The family must decide about life support",
+      "expected": {
+        "agent": "family",
+        "action": "decide",
+        "patient": "life_support"
+      },
+      "incorrect": {
+        "patient": "support"
+      }
+    },
+    {
+      "description": "Nested compounds should be recognized",
+      "input": "Informed consent for experimental treatment",
+      "expected": {
+        "compounds": ["informed_consent", "experimental_treatment"]
+      }
+    },
+    {
+      "description": "Context-dependent compounds",
+      "input": "The coal plant provides job security",
+      "expected": {
+        "compounds": ["coal_plant", "job_security"]
+      }
+    }
+  ]
+}

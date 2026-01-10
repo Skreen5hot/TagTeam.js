@@ -1,38 +1,129 @@
-# TagTeam.js
+# TagTeam.js - Deterministic Semantic Parser
 
-Welcome to yet another Natural Language Processing project that no one asked for but everyone secretly needed.
-TagTeam.js in action https://skreen5hot.github.io/TagTeam.js/
+**A client-side JavaScript library for extracting semantic roles from natural language text**
 
-This repo is a **client-side NLP playground** designed for people who:
-
-- Don’t want to deal with server-side dependencies,
-- Don’t want to sell their soul (or their data) to some cloud API, and
-- Just want to tag some words without accidentally spinning up a Kubernetes cluster.
-
-At its heart, this project uses **jsPOS**, a delightfully lightweight part-of-speech tagger that runs entirely in your browser. It’s basically the IKEA furniture of NLP tools: it comes flat-packed, it “mostly” works, and if something breaks, it’s probably your fault for putting the verbs where the nouns go.
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Status](https://img.shields.io/badge/status-Week%201%20Complete-success)](iee-collaboration/to-iee/week1/)
 
 ---
 
-### What it does
+## 🎯 Quick Start
 
-- Splits your text into words.
-- Assigns a **Part of Speech (POS) tag** to each word (noun, verb, adjective… you know, like your 6th grade English teacher tried to get you to remember).
-- Shows you the results in a neat little table so you can pretend you’re doing “serious AI work” while really just tagging the word dog for the hundredth time.
+### Try the Demo
+Open [demos/semantic-demo.html](demos/semantic-demo.html) in your browser to see TagTeam in action.
 
----
+### Run Tests
+Open [tests/test-iee-corpus.html](tests/test-iee-corpus.html) to validate against IEE's official test scenarios.
 
-### What it doesn’t do
-
-- Achieve state-of-the-art accuracy. (Sorry, no Transformer magic here.)
-- Make you rich, famous, or instantly good at English grammar.
-- Care about your feelings when it calls your writing “adjective soup.”
+### Browse Source
+Check [src/SemanticRoleExtractor.js](src/SemanticRoleExtractor.js) for the main parser implementation.
 
 ---
 
-### Why this exists
+## 📁 Repository Structure
 
-Because sometimes you just want a simple, offline, zero-setup POS tagger without needing to summon the computational power of a small nation.
+```
+TagTeam.js/
+├── src/                      # Core implementation
+├── tests/                    # Test suites
+├── demos/                    # Interactive demonstrations
+├── docs/                     # Documentation
+└── iee-collaboration/        # IEE team interface
+```
 
-If you’re still reading this, congratulations — you now know more about this repo than most people know about their own health insurance plan.
+**→** See full structure details in each folder's README
 
-If you do not know how to use this just go to https://www.w3schools.com/js/default.asp
+---
+
+## 🚀 Features (Week 1)
+
+✅ **Semantic Role Extraction** - Agent, Patient, Recipient, Theme extraction with 15 semantic frames
+
+✅ **Advanced Detection** - Negation, modality, tense, and aspect detection
+
+✅ **Multi-Word Entities** - 150 compound terms (life support, best friend, climate change, etc.)
+
+✅ **IEE Format Compliance** - Exact JSON structure matching IEE specifications
+
+✅ **Performance** - <10ms per sentence, zero dependencies, client-side only
+
+---
+
+## 📖 Navigation
+
+- **[Try Demos →](demos/)** - Interactive demonstrations
+- **[Run Tests →](tests/)** - Validation test suites
+- **[Read Docs →](docs/)** - Architecture, development, research
+- **[IEE Collaboration →](iee-collaboration/)** - IEE team interface
+- **[Source Code →](src/)** - Core implementation
+
+---
+
+## 🧪 Quick Validation
+
+```bash
+# Open in browser
+open tests/test-iee-corpus.html
+```
+
+**Expected:** ≥75% pass rate on IEE's 5 official scenarios
+
+---
+
+## 📊 Week 1 Status
+
+| Metric | Target | Status |
+|--------|--------|--------|
+| Integration | Complete | ✅ |
+| Test Suite | Ready | ✅ |
+| Performance | <50ms | ✅ ~7ms |
+| IEE Validation | Pending | ⏳ |
+
+**Full deliverables:** [iee-collaboration/to-iee/week1/](iee-collaboration/to-iee/week1/)
+
+---
+
+## 🗺️ Roadmap
+
+- **Week 1** ✅ - Semantic roles, 150 compound terms, IEE format compliance
+- **Week 2** ⏳ - Context analysis, value matching, 20 scenarios, 85% target
+- **Week 3** ⏳ - Conflict detection, salience scoring, 50 scenarios, 90% target
+
+---
+
+## 🛠️ Usage Example
+
+```javascript
+const extractor = new SemanticRoleExtractor();
+const result = extractor.parseSemanticAction("I should tell my doctor about the pain");
+
+console.log(result);
+// {
+//   agent: { text: "i", entity: "self", posTag: "PRP" },
+//   action: { verb: "tell", lemma: "tell", tense: "present", aspect: "simple",
+//             modality: "should", negation: false },
+//   recipient: { text: "doctor", entity: "medical_professional", posTag: "NN" },
+//   theme: { text: "pain", entity: "physical_sensation", posTag: "NN" },
+//   semanticFrame: "Revealing_information",
+//   confidence: 0.85
+// }
+```
+
+---
+
+## 🤝 IEE Collaboration
+
+Integrates with the **Integral Ethics Engine (IEE)** team.
+
+- **[From IEE →](iee-collaboration/from-iee/)** - Requirements, data, validators
+- **[To IEE →](iee-collaboration/to-iee/)** - Deliverables by week
+
+---
+
+## 📜 License
+
+MIT License - See [LICENSE](LICENSE)
+
+---
+
+**Version:** Week 1 (2026-01-10) | **Status:** ✅ Integration Complete, ⏳ Awaiting Validation

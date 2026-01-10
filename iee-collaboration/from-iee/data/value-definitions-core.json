@@ -1,0 +1,515 @@
+{
+  "version": "1.0",
+  "deliveryDate": "2026-01-10",
+  "description": "Core 20 values appearing in >80% of ethical scenarios across all 12 worldviews",
+  "usage": "Use semanticMarkers array for keyword/pattern matching. Use contextTriggers to boost relevance when specific context flags present.",
+  "values": [
+    {
+      "name": "physical_wellbeing",
+      "type": "terminal",
+      "worldviews": ["Materialism", "Sensationalism", "Phenomenalism"],
+      "cluster": "material_empirical",
+      "semanticMarkers": [
+        "health", "pain", "suffering", "harm", "injury", "disease",
+        "medical", "treatment", "physical", "bodily", "life support",
+        "terminal", "cancer", "dying", "death", "illness", "recovery",
+        "healing", "damage", "wound", "hurt", "ache", "agony",
+        "comfort", "wellbeing", "wellness", "fitness", "vitality"
+      ],
+      "contextTriggers": ["physicalImpact", "personsInvolved"],
+      "artifactTriggers": ["life", "health"],
+      "defaultSalience": "high",
+      "definition": "The state of bodily health, absence of pain and suffering, and physical functioning. Grounds in material reality of body.",
+      "examples": [
+        "A patient with terminal cancer experiences severe pain.",
+        "The treatment would cause significant physical harm.",
+        "Life support maintains minimal bodily functions."
+      ],
+      "negationPatterns": [
+        "not harmful", "without pain", "no suffering", "prevent harm"
+      ]
+    },
+    {
+      "name": "autonomy",
+      "type": "terminal",
+      "worldviews": ["Monadism", "Idealism", "Rationalism"],
+      "cluster": "process_individual",
+      "semanticMarkers": [
+        "decide", "choose", "freedom", "autonomy", "consent",
+        "force", "coerce", "liberty", "rights", "self-determination",
+        "independent", "voluntary", "will", "agency", "control",
+        "choice", "decision", "elect", "select", "opt",
+        "compel", "require", "mandate", "oblige", "impose"
+      ],
+      "contextTriggers": ["autonomyAtStake", "personsInvolved", "moralConflict"],
+      "artifactTriggers": ["rights", "freedom", "choice"],
+      "defaultSalience": "high",
+      "definition": "The capacity for self-governance and independent decision-making. Grounds in irreducible individuality of persons.",
+      "examples": [
+        "The patient has the right to refuse treatment.",
+        "Informed consent requires understanding and voluntariness.",
+        "Coercing someone violates their autonomy."
+      ],
+      "negationPatterns": [
+        "not forced", "without coercion", "free to refuse", "voluntary"
+      ]
+    },
+    {
+      "name": "dignity",
+      "type": "terminal",
+      "worldviews": ["Monadism", "Rationalism", "Spiritualism"],
+      "cluster": "universal",
+      "semanticMarkers": [
+        "dignity", "respect", "honor", "worth", "value",
+        "degrade", "humiliate", "demean", "disrespect", "violate",
+        "person", "human", "individual", "sacred", "inviolable",
+        "treat", "regard", "consider", "recognize", "acknowledge"
+      ],
+      "contextTriggers": ["personsInvolved", "moralConflict"],
+      "artifactTriggers": ["person", "humanity"],
+      "defaultSalience": "high",
+      "definition": "The inherent worth and inviolability of persons. Not reducible to utility or consequences.",
+      "examples": [
+        "Every person possesses inherent dignity.",
+        "Treating someone as mere means degrades their dignity.",
+        "Dignity requires respecting autonomy and worth."
+      ],
+      "negationPatterns": [
+        "not degrading", "without humiliation", "respects dignity"
+      ]
+    },
+    {
+      "name": "justice",
+      "type": "terminal",
+      "worldviews": ["Rationalism", "Idealism", "Realism"],
+      "cluster": "universal",
+      "semanticMarkers": [
+        "justice", "fair", "fairness", "equity", "equal",
+        "unfair", "unjust", "inequity", "discrimination", "bias",
+        "allocate", "distribute", "share", "divide", "apportion",
+        "right", "wrong", "deserve", "merit", "due"
+      ],
+      "contextTriggers": ["resourceScarcity", "moralConflict", "personsInvolved"],
+      "artifactTriggers": ["resources", "rights"],
+      "defaultSalience": "medium",
+      "definition": "Fair distribution of benefits and burdens. Treating similar cases similarly.",
+      "examples": [
+        "Resources should be allocated justly.",
+        "Discrimination violates principles of justice.",
+        "Justice requires treating equals equally."
+      ],
+      "negationPatterns": [
+        "not unfair", "without bias", "just allocation"
+      ]
+    },
+    {
+      "name": "care",
+      "type": "terminal",
+      "worldviews": ["Sensationalism", "Phenomenalism", "Psychism"],
+      "cluster": "universal",
+      "semanticMarkers": [
+        "care", "compassion", "empathy", "sympathy", "concern",
+        "suffering", "pain", "need", "vulnerable", "dependent",
+        "help", "support", "assist", "aid", "comfort",
+        "neglect", "abandon", "ignore", "disregard", "callous"
+      ],
+      "contextTriggers": ["personsInvolved", "physicalImpact", "vulnerability"],
+      "artifactTriggers": ["relationship", "dependence"],
+      "defaultSalience": "medium",
+      "definition": "Attentiveness to needs and suffering of others. Responsiveness to vulnerability.",
+      "examples": [
+        "Compassion requires responding to suffering.",
+        "Caregivers must attend to patient needs.",
+        "Neglecting vulnerable persons violates care ethics."
+      ],
+      "negationPatterns": [
+        "not neglectful", "without abandonment", "caring response"
+      ]
+    },
+    {
+      "name": "empirical_truth",
+      "type": "terminal",
+      "worldviews": ["Materialism", "Realism", "Rationalism"],
+      "cluster": "material_empirical",
+      "semanticMarkers": [
+        "evidence", "data", "research", "study", "proven",
+        "fact", "truth", "reality", "objective", "empirical",
+        "measure", "observe", "test", "verify", "validate",
+        "false", "disproven", "unsubstantiated", "claim", "belief"
+      ],
+      "contextTriggers": ["factsInvolved", "expertise", "truthClaims"],
+      "artifactTriggers": ["evidence", "data"],
+      "defaultSalience": "high",
+      "definition": "Knowledge grounded in observation and evidence. Correspondence to empirical reality.",
+      "examples": [
+        "Medical decisions should be based on evidence.",
+        "Claims require empirical validation.",
+        "Truth depends on observable facts."
+      ],
+      "negationPatterns": [
+        "not proven", "without evidence", "unsubstantiated claim"
+      ]
+    },
+    {
+      "name": "growth",
+      "type": "terminal",
+      "worldviews": ["Dynamism", "Idealism", "Psychism"],
+      "cluster": "process_individual",
+      "semanticMarkers": [
+        "grow", "develop", "transform", "evolve", "change",
+        "progress", "advance", "mature", "improve", "expand",
+        "stagnate", "regress", "decline", "deteriorate", "static",
+        "potential", "becoming", "process", "development", "cultivation"
+      ],
+      "contextTriggers": ["futureImpact", "personsInvolved"],
+      "artifactTriggers": ["potential", "development"],
+      "defaultSalience": "medium",
+      "definition": "Developmental transformation and actualization of potential. Process over static being.",
+      "examples": [
+        "Education fosters personal growth.",
+        "Stagnation prevents developmental potential.",
+        "Transformation requires embracing change."
+      ],
+      "negationPatterns": [
+        "not stagnant", "without regression", "enables growth"
+      ]
+    },
+    {
+      "name": "rational_order",
+      "type": "terminal",
+      "worldviews": ["Rationalism", "Mathematism", "Idealism"],
+      "cluster": "depth_ideal",
+      "semanticMarkers": [
+        "rational", "reason", "logic", "principle", "order",
+        "coherent", "consistent", "systematic", "organized", "structured",
+        "irrational", "illogical", "arbitrary", "chaotic", "contradictory",
+        "ought", "should", "must", "rule", "law"
+      ],
+      "contextTriggers": ["moralConflict", "expertise"],
+      "artifactTriggers": ["principle", "rule"],
+      "defaultSalience": "medium",
+      "definition": "Logical coherence and systematic organization. Universal principles governing action.",
+      "examples": [
+        "Moral rules must be rationally consistent.",
+        "Arbitrary decisions violate rational order.",
+        "Principles provide systematic guidance."
+      ],
+      "negationPatterns": [
+        "not arbitrary", "without contradiction", "rationally ordered"
+      ]
+    },
+    {
+      "name": "spiritual_transcendence",
+      "type": "terminal",
+      "worldviews": ["Spiritualism", "Pneumatism", "Psychism"],
+      "cluster": "depth_spiritual",
+      "semanticMarkers": [
+        "spirit", "spiritual", "sacred", "divine", "soul",
+        "religious", "faith", "meaning", "purpose", "transcendent",
+        "worship", "prayer", "ritual", "holy", "reverence",
+        "secular", "profane", "mundane", "material", "desacralized"
+      ],
+      "contextTriggers": ["truthClaims", "moralConflict"],
+      "artifactTriggers": ["sacred", "divine"],
+      "defaultSalience": "medium",
+      "definition": "Connection to transcendent spiritual reality. Sacred meaning beyond material existence.",
+      "examples": [
+        "Some find meaning through spiritual practice.",
+        "Sacred values transcend material concerns.",
+        "Religious traditions provide spiritual guidance."
+      ],
+      "negationPatterns": [
+        "not profane", "sacred not secular", "transcends material"
+      ]
+    },
+    {
+      "name": "experiential_richness",
+      "type": "terminal",
+      "worldviews": ["Sensationalism", "Phenomenalism", "Psychism"],
+      "cluster": "material_empirical",
+      "semanticMarkers": [
+        "experience", "quality", "vivid", "rich", "depth",
+        "pleasure", "aesthetic", "beauty", "sensory", "feeling",
+        "dull", "bland", "boring", "empty", "shallow",
+        "taste", "see", "hear", "touch", "sense"
+      ],
+      "contextTriggers": ["aesthetic", "sensory", "personsInvolved"],
+      "artifactTriggers": ["experience", "quality"],
+      "defaultSalience": "medium",
+      "definition": "Quality and vividness of immediate experience. Aesthetic and sensory depth.",
+      "examples": [
+        "Quality of life includes experiential richness.",
+        "Aesthetic beauty enriches experience.",
+        "Sensory deprivation diminishes life quality."
+      ],
+      "negationPatterns": [
+        "not dull", "without boredom", "rich experience"
+      ]
+    },
+    {
+      "name": "health",
+      "type": "constitutive",
+      "worldviews": ["Materialism", "Dynamism", "Realism"],
+      "cluster": "material_empirical",
+      "semanticMarkers": [
+        "health", "healthy", "wellness", "fit", "functional",
+        "sick", "ill", "disease", "disorder", "dysfunction",
+        "heal", "recover", "cure", "treat", "remedy",
+        "diagnosis", "symptom", "condition", "medical", "clinical"
+      ],
+      "contextTriggers": ["physicalImpact", "personsInvolved"],
+      "artifactTriggers": ["health", "body"],
+      "defaultSalience": "high",
+      "definition": "Proper bodily functioning and absence of disease. Constitutes physical wellbeing.",
+      "examples": [
+        "Health is essential for wellbeing.",
+        "Medical treatment aims to restore health.",
+        "Disease impairs functional capacity."
+      ],
+      "negationPatterns": [
+        "not sick", "without disease", "healthy state"
+      ]
+    },
+    {
+      "name": "consciousness",
+      "type": "constitutive",
+      "worldviews": ["Idealism", "Psychism", "Phenomenalism"],
+      "cluster": "depth_ideal",
+      "semanticMarkers": [
+        "conscious", "awareness", "awake", "alert", "sentient",
+        "unconscious", "unaware", "asleep", "comatose", "vegetative",
+        "perceive", "experience", "feel", "know", "realize",
+        "mind", "mental", "psychological", "cognitive", "thought"
+      ],
+      "contextTriggers": ["personsInvolved", "physicalImpact"],
+      "artifactTriggers": ["consciousness", "mind"],
+      "defaultSalience": "medium",
+      "definition": "Subjective awareness and mental presence. Basis for experience and agency.",
+      "examples": [
+        "Consciousness is prerequisite for autonomy.",
+        "Comatose patients lack conscious awareness.",
+        "Mental capacity grounds moral responsibility."
+      ],
+      "negationPatterns": [
+        "not unconscious", "aware not unaware", "conscious state"
+      ]
+    },
+    {
+      "name": "relationships",
+      "type": "constitutive",
+      "worldviews": ["Phenomenalism", "Monadism", "Psychism"],
+      "cluster": "universal",
+      "semanticMarkers": [
+        "relationship", "family", "friend", "community", "connection",
+        "isolated", "alone", "alienated", "disconnected", "estranged",
+        "love", "trust", "bond", "attach", "relate",
+        "parent", "child", "spouse", "partner", "sibling"
+      ],
+      "contextTriggers": ["personsInvolved", "socialImpact"],
+      "artifactTriggers": ["relationship", "community"],
+      "defaultSalience": "medium",
+      "definition": "Interpersonal bonds and social connections. Context for care and identity.",
+      "examples": [
+        "Family relationships provide care context.",
+        "Isolation harms psychological wellbeing.",
+        "Trust sustains communal bonds."
+      ],
+      "negationPatterns": [
+        "not isolated", "without alienation", "connected"
+      ]
+    },
+    {
+      "name": "knowledge",
+      "type": "constitutive",
+      "worldviews": ["Rationalism", "Realism", "Idealism"],
+      "cluster": "depth_ideal",
+      "semanticMarkers": [
+        "knowledge", "know", "understand", "comprehend", "grasp",
+        "ignorance", "ignorant", "unaware", "confused", "mistaken",
+        "learn", "teach", "educate", "inform", "instruct",
+        "information", "truth", "fact", "expertise", "wisdom"
+      ],
+      "contextTriggers": ["expertise", "factsInvolved", "truthClaims"],
+      "artifactTriggers": ["knowledge", "information"],
+      "defaultSalience": "medium",
+      "definition": "Understanding and justified true belief. Epistemic foundation for action.",
+      "examples": [
+        "Informed consent requires adequate knowledge.",
+        "Ignorance undermines responsible choice.",
+        "Expertise provides specialized knowledge."
+      ],
+      "negationPatterns": [
+        "not ignorant", "without misunderstanding", "informed"
+      ]
+    },
+    {
+      "name": "meaning",
+      "type": "constitutive",
+      "worldviews": ["Spiritualism", "Idealism", "Psychism"],
+      "cluster": "depth_spiritual",
+      "semanticMarkers": [
+        "meaning", "purpose", "significance", "value", "worth",
+        "meaningless", "pointless", "absurd", "futile", "empty",
+        "why", "reason", "goal", "end", "aim",
+        "meaningful", "important", "matters", "counts", "significance"
+      ],
+      "contextTriggers": ["moralConflict", "personsInvolved", "futureImpact"],
+      "artifactTriggers": ["purpose", "value"],
+      "defaultSalience": "medium",
+      "definition": "Sense of purpose and significance. Grounds motivation and value.",
+      "examples": [
+        "Suffering raises questions of meaning.",
+        "Purposeless existence feels empty.",
+        "Values provide life with meaning."
+      ],
+      "negationPatterns": [
+        "not meaningless", "without futility", "purposeful"
+      ]
+    },
+    {
+      "name": "honesty",
+      "type": "instrumental",
+      "worldviews": ["All worldviews"],
+      "cluster": "universal",
+      "semanticMarkers": [
+        "honest", "truth", "truthful", "candid", "sincere",
+        "lie", "deceive", "dishonest", "false", "mislead",
+        "tell", "inform", "disclose", "reveal", "communicate",
+        "withhold", "conceal", "hide", "omit", "suppress"
+      ],
+      "contextTriggers": ["truthClaims", "personsInvolved", "moralConflict"],
+      "artifactTriggers": ["information", "truth"],
+      "defaultSalience": "low",
+      "definition": "Truthfulness in communication. Instrumental means to trust and knowledge.",
+      "examples": [
+        "Honesty builds trust in relationships.",
+        "Deception undermines informed consent.",
+        "Truth-telling respects autonomy."
+      ],
+      "negationPatterns": [
+        "not deceptive", "without lies", "truthful"
+      ]
+    },
+    {
+      "name": "competence",
+      "type": "instrumental",
+      "worldviews": ["Realism", "Rationalism", "Materialism"],
+      "cluster": "universal",
+      "semanticMarkers": [
+        "competent", "skilled", "expert", "qualified", "capable",
+        "incompetent", "unskilled", "unqualified", "incapable", "amateur",
+        "training", "practice", "experience", "mastery", "proficiency",
+        "error", "mistake", "malpractice", "negligence", "failure"
+      ],
+      "contextTriggers": ["expertise", "physicalImpact", "uncertainty"],
+      "artifactTriggers": ["skill", "expertise"],
+      "defaultSalience": "low",
+      "definition": "Skill and expertise to achieve ends effectively. Instrumental to wellbeing.",
+      "examples": [
+        "Medical competence prevents harm.",
+        "Expertise grounds professional authority.",
+        "Negligence reflects lack of competence."
+      ],
+      "negationPatterns": [
+        "not incompetent", "without negligence", "skilled"
+      ]
+    },
+    {
+      "name": "compassion",
+      "type": "instrumental",
+      "worldviews": ["Psychism", "Pneumatism", "Phenomenalism"],
+      "cluster": "universal",
+      "semanticMarkers": [
+        "compassion", "empathy", "sympathy", "kindness", "mercy",
+        "cruel", "callous", "indifferent", "heartless", "cold",
+        "feel", "understand", "share", "identify", "connect",
+        "suffering", "pain", "distress", "anguish", "hardship"
+      ],
+      "contextTriggers": ["personsInvolved", "physicalImpact", "vulnerability"],
+      "artifactTriggers": ["suffering", "care"],
+      "defaultSalience": "low",
+      "definition": "Emotional attunement to suffering. Instrumental to care and support.",
+      "examples": [
+        "Compassion motivates caregiving.",
+        "Indifference to suffering shows callousness.",
+        "Empathy enables understanding needs."
+      ],
+      "negationPatterns": [
+        "not callous", "without cruelty", "compassionate"
+      ]
+    },
+    {
+      "name": "fairness",
+      "type": "instrumental",
+      "worldviews": ["Rationalism", "Idealism", "Realism"],
+      "cluster": "universal",
+      "semanticMarkers": [
+        "fair", "fairness", "impartial", "unbiased", "equitable",
+        "unfair", "biased", "partial", "prejudiced", "discriminatory",
+        "equal", "same", "similar", "equivalent", "parity",
+        "favor", "preference", "privilege", "disadvantage", "inequity"
+      ],
+      "contextTriggers": ["resourceScarcity", "moralConflict", "personsInvolved"],
+      "artifactTriggers": ["allocation", "distribution"],
+      "defaultSalience": "low",
+      "definition": "Impartial treatment without bias. Instrumental to justice.",
+      "examples": [
+        "Fairness requires treating similar cases similarly.",
+        "Bias violates impartiality.",
+        "Equitable distribution reflects fairness."
+      ],
+      "negationPatterns": [
+        "not biased", "without prejudice", "impartial"
+      ]
+    },
+    {
+      "name": "respect",
+      "type": "instrumental",
+      "worldviews": ["All worldviews"],
+      "cluster": "universal",
+      "semanticMarkers": [
+        "respect", "honor", "regard", "esteem", "value",
+        "disrespect", "dishonor", "disregard", "contempt", "scorn",
+        "recognize", "acknowledge", "appreciate", "consider", "treat",
+        "violate", "transgress", "infringe", "breach", "abuse"
+      ],
+      "contextTriggers": ["personsInvolved", "autonomyAtStake", "moralConflict"],
+      "artifactTriggers": ["dignity", "rights"],
+      "defaultSalience": "low",
+      "definition": "Recognition of worth and appropriate treatment. Instrumental to dignity and autonomy.",
+      "examples": [
+        "Respecting autonomy honors agency.",
+        "Disrespect violates dignity.",
+        "Recognition shows appropriate regard."
+      ],
+      "negationPatterns": [
+        "not disrespectful", "without contempt", "respectful"
+      ]
+    }
+  ],
+  "notes": {
+    "usage_instructions": [
+      "semanticMarkers: Use for keyword/lemma matching against parsed scenario text",
+      "contextTriggers: If scenario.context has these flags, boost value relevance",
+      "artifactTriggers: If scenario.artifacts include these types, boost value relevance",
+      "defaultSalience: Initial salience level (high/medium/low), adjust based on context intensity",
+      "negationPatterns: Common negation phrases - detect these to avoid false positives"
+    ],
+    "value_types": {
+      "terminal": "Ultimate intrinsic goods - ends in themselves",
+      "constitutive": "Essential components that constitute terminal values",
+      "instrumental": "Means to achieve terminal or constitutive values"
+    },
+    "clusters": {
+      "material_empirical": "Grounds in physical reality, empirical observation, sensory experience",
+      "process_individual": "Grounds in becoming, uniqueness, consciousness, rational agency",
+      "depth_spiritual": "Grounds in psychological depth, spiritual dimensions, transcendent meaning",
+      "universal": "Appears across multiple worldview clusters"
+    },
+    "expansion_timeline": {
+      "2026-01-10": "20 core values (this file)",
+      "2026-01-24": "50 total values (+30 domain-specific)",
+      "2026-01-31": "120 total values (+70 specialized)"
+    }
+  }
+}
