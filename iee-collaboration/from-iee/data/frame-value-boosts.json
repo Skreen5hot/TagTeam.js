@@ -1,0 +1,544 @@
+{
+  "version": "1.0",
+  "deliveryDate": "2026-01-11",
+  "description": "Frame-to-value and role-to-value boost mappings for salience calculation",
+  "usage": "Add frame/role boosts to base salience when calculating value relevance. Boosts range from 0.0 (no boost) to 0.3 (strong relevance).",
+  "frameValueBoosts": {
+    "Deciding": {
+      "description": "Decision-making frames strongly imply autonomy and responsibility",
+      "boosts": {
+        "Autonomy": 0.3,
+        "Freedom": 0.2,
+        "Responsibility": 0.2,
+        "Wisdom": 0.1,
+        "Prudence": 0.1
+      }
+    },
+    "Choosing": {
+      "description": "Explicit choice frames emphasize freedom and self-determination",
+      "boosts": {
+        "Autonomy": 0.3,
+        "Freedom": 0.3,
+        "Self-determination": 0.2
+      }
+    },
+    "Offenses": {
+      "description": "Violations and transgressions imply justice and harm",
+      "boosts": {
+        "Justice": 0.3,
+        "Non-maleficence": 0.2,
+        "Accountability": 0.2,
+        "Integrity": 0.2,
+        "Harm": 0.3
+      }
+    },
+    "Questioning": {
+      "description": "Interrogation of beliefs implies integrity and authenticity",
+      "boosts": {
+        "Integrity": 0.3,
+        "Authenticity": 0.3,
+        "Wisdom": 0.2,
+        "Humility": 0.2,
+        "Spiritual Growth": 0.2
+      }
+    },
+    "Becoming_aware": {
+      "description": "Discovery and realization imply honesty and courage",
+      "boosts": {
+        "Honesty": 0.3,
+        "Courage": 0.2,
+        "Accountability": 0.2,
+        "Integrity": 0.2,
+        "Transparency": 0.2
+      }
+    },
+    "Request": {
+      "description": "Asking and demanding involve relational dynamics",
+      "boosts": {
+        "Respect for Persons": 0.2,
+        "Autonomy": 0.1,
+        "Power Differential": 0.2,
+        "Communication": 0.1
+      }
+    },
+    "Claim_ownership": {
+      "description": "Claims of ownership or credit involve justice",
+      "boosts": {
+        "Justice": 0.3,
+        "Honesty": 0.2,
+        "Accountability": 0.2,
+        "Integrity": 0.2
+      }
+    },
+    "Undergo_change": {
+      "description": "Transformation and conversion involve identity and authenticity",
+      "boosts": {
+        "Authenticity": 0.3,
+        "Integrity": 0.2,
+        "Spiritual Growth": 0.3,
+        "Meaning": 0.2,
+        "Freedom": 0.1
+      }
+    },
+    "Awareness": {
+      "description": "States of knowing or suspecting involve epistemic values",
+      "boosts": {
+        "Honesty": 0.2,
+        "Courage": 0.2,
+        "Responsibility": 0.2,
+        "Wisdom": 0.1
+      }
+    },
+    "Cogitation": {
+      "description": "Thinking and considering involve deliberation",
+      "boosts": {
+        "Wisdom": 0.3,
+        "Prudence": 0.3,
+        "Humility": 0.2,
+        "Patience": 0.1
+      }
+    },
+    "Cause_change_of_position_on_a_scale": {
+      "description": "Increasing or decreasing something involves consequences",
+      "boosts": {
+        "Stewardship": 0.2,
+        "Responsibility": 0.2,
+        "Common Good": 0.1
+      }
+    }
+  },
+  "roleValueBoosts": {
+    "doctor": {
+      "description": "Medical professionals have strong obligations of care and competence",
+      "boosts": {
+        "Beneficence": 0.3,
+        "Non-maleficence": 0.3,
+        "Competence": 0.3,
+        "Expertise": 0.3,
+        "Accountability": 0.2,
+        "Compassion": 0.2,
+        "Fidelity": 0.2
+      }
+    },
+    "physician": {
+      "description": "Synonym for doctor",
+      "boosts": {
+        "Beneficence": 0.3,
+        "Non-maleficence": 0.3,
+        "Competence": 0.3,
+        "Expertise": 0.3
+      }
+    },
+    "surgeon": {
+      "description": "Surgical professionals with high stakes decisions",
+      "boosts": {
+        "Non-maleficence": 0.3,
+        "Competence": 0.3,
+        "Expertise": 0.3,
+        "Courage": 0.2,
+        "Accountability": 0.3
+      }
+    },
+    "nurse": {
+      "description": "Caregiving professionals",
+      "boosts": {
+        "Care": 0.3,
+        "Compassion": 0.3,
+        "Beneficence": 0.2,
+        "Fidelity": 0.2
+      }
+    },
+    "psychiatrist": {
+      "description": "Mental health professionals with autonomy tensions",
+      "boosts": {
+        "Beneficence": 0.3,
+        "Autonomy": 0.2,
+        "Non-maleficence": 0.3,
+        "Expertise": 0.3,
+        "Care": 0.2
+      }
+    },
+    "patient": {
+      "description": "Recipients of medical care with vulnerability",
+      "boosts": {
+        "Autonomy": 0.3,
+        "Human Dignity": 0.3,
+        "Care": 0.2,
+        "Vulnerability": 0.3,
+        "Rights": 0.2
+      }
+    },
+    "parent": {
+      "description": "Caregivers with responsibility for children",
+      "boosts": {
+        "Care": 0.3,
+        "Fidelity": 0.3,
+        "Responsibility": 0.3,
+        "Love": 0.3,
+        "Protection": 0.2,
+        "Beneficence": 0.2
+      }
+    },
+    "mother": {
+      "description": "Maternal caregiving role",
+      "boosts": {
+        "Care": 0.3,
+        "Love": 0.3,
+        "Fidelity": 0.3,
+        "Compassion": 0.2
+      }
+    },
+    "father": {
+      "description": "Paternal caregiving role",
+      "boosts": {
+        "Care": 0.3,
+        "Love": 0.3,
+        "Fidelity": 0.3,
+        "Responsibility": 0.2
+      }
+    },
+    "child": {
+      "description": "Young person with developmental needs",
+      "boosts": {
+        "Vulnerability": 0.3,
+        "Development": 0.3,
+        "Protection": 0.3,
+        "Care": 0.2,
+        "Rights": 0.2
+      }
+    },
+    "son": {
+      "description": "Male child in family context",
+      "boosts": {
+        "Fidelity": 0.2,
+        "Family": 0.2,
+        "Vulnerability": 0.2
+      }
+    },
+    "daughter": {
+      "description": "Female child in family context",
+      "boosts": {
+        "Fidelity": 0.2,
+        "Family": 0.2,
+        "Vulnerability": 0.2
+      }
+    },
+    "spouse": {
+      "description": "Marriage partner with strong relational bonds",
+      "boosts": {
+        "Fidelity": 0.3,
+        "Love": 0.3,
+        "Trust": 0.3,
+        "Commitment": 0.3,
+        "Intimacy": 0.3
+      }
+    },
+    "husband": {
+      "description": "Male spouse",
+      "boosts": {
+        "Fidelity": 0.3,
+        "Love": 0.3,
+        "Trust": 0.3
+      }
+    },
+    "wife": {
+      "description": "Female spouse",
+      "boosts": {
+        "Fidelity": 0.3,
+        "Love": 0.3,
+        "Trust": 0.3
+      }
+    },
+    "friend": {
+      "description": "Peer relationship with mutual regard",
+      "boosts": {
+        "Fidelity": 0.2,
+        "Honesty": 0.2,
+        "Trust": 0.2,
+        "Loyalty": 0.2,
+        "Care": 0.2
+      }
+    },
+    "best friend": {
+      "description": "Close peer relationship",
+      "boosts": {
+        "Fidelity": 0.3,
+        "Honesty": 0.3,
+        "Trust": 0.3,
+        "Loyalty": 0.3,
+        "Care": 0.2
+      }
+    },
+    "boss": {
+      "description": "Supervisor with power over employees",
+      "boosts": {
+        "Justice": 0.2,
+        "Accountability": 0.3,
+        "Power Differential": 0.3,
+        "Fairness": 0.2,
+        "Responsibility": 0.2
+      }
+    },
+    "supervisor": {
+      "description": "Manager with oversight role",
+      "boosts": {
+        "Accountability": 0.3,
+        "Justice": 0.2,
+        "Power Differential": 0.2,
+        "Responsibility": 0.2
+      }
+    },
+    "manager": {
+      "description": "Leadership role with team responsibility",
+      "boosts": {
+        "Accountability": 0.3,
+        "Leadership": 0.2,
+        "Justice": 0.2,
+        "Responsibility": 0.2
+      }
+    },
+    "employee": {
+      "description": "Worker in organizational hierarchy",
+      "boosts": {
+        "Justice": 0.2,
+        "Rights": 0.2,
+        "Dignity": 0.2,
+        "Fairness": 0.2
+      }
+    },
+    "CEO": {
+      "description": "Top executive with broad responsibility",
+      "boosts": {
+        "Accountability": 0.3,
+        "Stewardship": 0.3,
+        "Leadership": 0.3,
+        "Power Differential": 0.3,
+        "Common Good": 0.2
+      }
+    },
+    "teacher": {
+      "description": "Educator with student development responsibility",
+      "boosts": {
+        "Care": 0.2,
+        "Development": 0.3,
+        "Justice": 0.2,
+        "Expertise": 0.2,
+        "Power Differential": 0.2
+      }
+    },
+    "professor": {
+      "description": "Higher education instructor",
+      "boosts": {
+        "Expertise": 0.3,
+        "Wisdom": 0.2,
+        "Development": 0.2,
+        "Mentorship": 0.2
+      }
+    },
+    "student": {
+      "description": "Learner with development needs",
+      "boosts": {
+        "Development": 0.3,
+        "Learning": 0.3,
+        "Humility": 0.2,
+        "Power Differential": 0.2
+      }
+    },
+    "judge": {
+      "description": "Legal authority with decision power",
+      "boosts": {
+        "Justice": 0.3,
+        "Impartiality": 0.3,
+        "Wisdom": 0.3,
+        "Power Differential": 0.3,
+        "Accountability": 0.2
+      }
+    },
+    "lawyer": {
+      "description": "Legal advocate",
+      "boosts": {
+        "Justice": 0.3,
+        "Advocacy": 0.3,
+        "Integrity": 0.2,
+        "Competence": 0.2
+      }
+    },
+    "priest": {
+      "description": "Religious leader with spiritual authority",
+      "boosts": {
+        "Sacred/Holy": 0.3,
+        "Spiritual Growth": 0.3,
+        "Care": 0.2,
+        "Power Differential": 0.2,
+        "Trust": 0.3,
+        "Fidelity": 0.2
+      }
+    },
+    "pastor": {
+      "description": "Religious shepherd role",
+      "boosts": {
+        "Sacred/Holy": 0.3,
+        "Care": 0.3,
+        "Spiritual Growth": 0.3,
+        "Fidelity": 0.2
+      }
+    },
+    "rabbi": {
+      "description": "Jewish religious leader",
+      "boosts": {
+        "Sacred/Holy": 0.3,
+        "Wisdom": 0.3,
+        "Spiritual Growth": 0.3,
+        "Teaching": 0.2
+      }
+    },
+    "imam": {
+      "description": "Islamic religious leader",
+      "boosts": {
+        "Sacred/Holy": 0.3,
+        "Spiritual Growth": 0.3,
+        "Leadership": 0.2,
+        "Community": 0.2
+      }
+    },
+    "whistleblower": {
+      "description": "Person exposing wrongdoing",
+      "boosts": {
+        "Courage": 0.3,
+        "Integrity": 0.3,
+        "Honesty": 0.3,
+        "Justice": 0.3,
+        "Accountability": 0.3,
+        "Common Good": 0.2
+      }
+    },
+    "victim": {
+      "description": "Person harmed by wrongdoing",
+      "boosts": {
+        "Justice": 0.3,
+        "Harm": 0.3,
+        "Vulnerability": 0.3,
+        "Compassion": 0.2,
+        "Dignity": 0.2
+      }
+    },
+    "perpetrator": {
+      "description": "Person committing wrongdoing",
+      "boosts": {
+        "Accountability": 0.3,
+        "Justice": 0.3,
+        "Harm": 0.2,
+        "Responsibility": 0.2
+      }
+    },
+    "leader": {
+      "description": "Person in leadership position",
+      "boosts": {
+        "Responsibility": 0.3,
+        "Accountability": 0.3,
+        "Integrity": 0.2,
+        "Wisdom": 0.2,
+        "Power Differential": 0.2
+      }
+    },
+    "community": {
+      "description": "Collective group entity",
+      "boosts": {
+        "Common Good": 0.3,
+        "Solidarity": 0.3,
+        "Collective": 0.3,
+        "Inclusion": 0.2,
+        "Diversity": 0.2
+      }
+    },
+    "family": {
+      "description": "Kinship group",
+      "boosts": {
+        "Fidelity": 0.3,
+        "Love": 0.3,
+        "Care": 0.3,
+        "Solidarity": 0.2,
+        "Loyalty": 0.2
+      }
+    },
+    "company": {
+      "description": "Business organization",
+      "boosts": {
+        "Accountability": 0.2,
+        "Responsibility": 0.2,
+        "Stewardship": 0.2,
+        "Common Good": 0.1
+      }
+    },
+    "government": {
+      "description": "State authority",
+      "boosts": {
+        "Justice": 0.3,
+        "Common Good": 0.3,
+        "Accountability": 0.3,
+        "Power Differential": 0.3,
+        "Democracy": 0.2
+      }
+    }
+  },
+  "usageExamples": [
+    {
+      "scenario": "The doctor must decide whether to continue treatment",
+      "frame": "Deciding",
+      "agent": "doctor",
+      "calculation": {
+        "Autonomy": {
+          "baseFromKeyword": 0.5,
+          "frameBoost_Deciding": 0.3,
+          "roleBoost_doctor": 0.0,
+          "total": 0.8
+        },
+        "Beneficence": {
+          "baseFromKeyword": 0.5,
+          "frameBoost_Deciding": 0.0,
+          "roleBoost_doctor": 0.3,
+          "total": 0.8
+        },
+        "Non-maleficence": {
+          "baseFromKeyword": 0.4,
+          "frameBoost_Deciding": 0.0,
+          "roleBoost_doctor": 0.3,
+          "total": 0.7
+        }
+      }
+    },
+    {
+      "scenario": "I discovered that my company is falsifying safety reports",
+      "frame": "Becoming_aware",
+      "agent": "I",
+      "calculation": {
+        "Honesty": {
+          "baseFromKeyword": 0.6,
+          "frameBoost_Becoming_aware": 0.3,
+          "roleBoost_whistleblower": 0.3,
+          "total": 1.0
+        },
+        "Courage": {
+          "baseFromKeyword": 0.5,
+          "frameBoost_Becoming_aware": 0.2,
+          "roleBoost_whistleblower": 0.3,
+          "total": 1.0
+        },
+        "Accountability": {
+          "baseFromKeyword": 0.4,
+          "frameBoost_Becoming_aware": 0.2,
+          "roleBoost_whistleblower": 0.3,
+          "total": 0.9
+        }
+      }
+    }
+  ],
+  "implementationNotes": {
+    "roleDetection": "Roles can be detected from agent/patient entities. If agent='doctor', apply doctor boosts.",
+    "contextualRoles": "Some roles are implicit (e.g., 'I' in whistleblowing context becomes whistleblower). Use context clues.",
+    "multipleRoles": "If multiple roles apply (e.g., 'parent' and 'doctor'), apply maximum boost for each value.",
+    "clampingSalience": "Always clamp final salience to [0.0, 1.0] range after applying boosts.",
+    "unknownFrames": "If frame not in list, use keyword-based detection only (no frame boost).",
+    "unknownRoles": "If role not in list, use keyword-based detection only (no role boost)."
+  }
+}

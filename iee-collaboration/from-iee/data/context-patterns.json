@@ -1,0 +1,501 @@
+{
+  "version": "1.0",
+  "deliveryDate": "2026-01-11",
+  "description": "Keyword patterns and scoring heuristics for 12-dimension context intensity analysis",
+  "usage": "Match keywords to score context dimensions 0.0-1.0. Combine multiple signals for nuanced scoring.",
+  "dimensions": {
+    "temporal": {
+      "urgency": {
+        "description": "Time pressure for decision - 0.0 (no urgency) to 1.0 (immediate crisis)",
+        "keywords": {
+          "high": [
+            "emergency", "immediately", "urgent", "crisis", "now",
+            "deadline", "time running out", "critical", "imminent", "asap",
+            "right now", "this instant", "pressing", "time-sensitive", "hurry",
+            "within hours", "within minutes", "life or death", "no time"
+          ],
+          "medium": [
+            "soon", "quickly", "timely", "prompt", "expedite",
+            "within days", "this week", "short time", "limited time",
+            "time constraint", "schedule", "deadline approaching"
+          ],
+          "low": [
+            "eventually", "when convenient", "no rush", "take time",
+            "deliberate", "careful consideration", "ample time", "no deadline",
+            "flexible", "whenever", "at leisure"
+          ]
+        },
+        "scoringHeuristics": [
+          "If 'emergency' or 'life or death': score >= 0.9",
+          "If 'within hours/minutes': score >= 0.8",
+          "If 'urgent' or 'deadline': score >= 0.6",
+          "If 'soon' or 'quickly': score >= 0.4",
+          "If 'no rush' or 'ample time': score <= 0.2",
+          "Default (no temporal markers): score = 0.5"
+        ]
+      },
+      "duration": {
+        "description": "Timespan of impact - 0.0 (momentary) to 1.0 (permanent/lifelong)",
+        "keywords": {
+          "permanent": [
+            "forever", "permanent", "irreversible", "lifelong", "eternal",
+            "always", "never undo", "rest of life", "generations",
+            "final", "ultimate", "lasting", "enduring", "perpetual"
+          ],
+          "long_term": [
+            "years", "decades", "long-term", "extended", "sustained",
+            "chronic", "ongoing", "prolonged", "persistent", "enduring"
+          ],
+          "medium_term": [
+            "months", "seasons", "medium-term", "moderate duration",
+            "several weeks", "half year", "quarter", "semester"
+          ],
+          "short_term": [
+            "temporary", "brief", "short-term", "momentary", "fleeting",
+            "transient", "passing", "ephemeral", "short-lived", "quick"
+          ]
+        },
+        "scoringHeuristics": [
+          "If 'permanent' or 'forever' or 'lifelong': score >= 0.9",
+          "If 'years' or 'decades': score >= 0.7",
+          "If 'months': score >= 0.5",
+          "If 'weeks' or 'days': score >= 0.3",
+          "If 'temporary' or 'momentary': score <= 0.2",
+          "Default: score = 0.5"
+        ]
+      },
+      "reversibility": {
+        "description": "Ability to undo decision - 0.0 (fully reversible) to 1.0 (irreversible)",
+        "keywords": {
+          "irreversible": [
+            "irreversible", "cannot undo", "permanent", "final", "irrevocable",
+            "no going back", "once done", "point of no return", "definitive",
+            "death", "destroy", "terminal", "conclusive", "absolute"
+          ],
+          "difficult_to_reverse": [
+            "hard to undo", "difficult to reverse", "costly to reverse",
+            "significant to change", "major to undo", "surgery", "commitment"
+          ],
+          "moderately_reversible": [
+            "can change", "adjustable", "modifiable", "amendable",
+            "renegotiate", "revise", "alter", "update"
+          ],
+          "easily_reversible": [
+            "reversible", "can undo", "changeable", "temporary", "trial",
+            "test", "experiment", "provisional", "tentative", "cancel anytime"
+          ]
+        },
+        "scoringHeuristics": [
+          "If 'irreversible' or 'death' or 'no going back': score >= 0.9",
+          "If 'permanent' or 'final': score >= 0.7",
+          "If 'difficult to reverse': score >= 0.6",
+          "If 'can change' or 'modifiable': score <= 0.4",
+          "If 'reversible' or 'can undo': score <= 0.2",
+          "Default: score = 0.5"
+        ]
+      }
+    },
+    "relational": {
+      "intimacy": {
+        "description": "Closeness of relationship - 0.0 (stranger) to 1.0 (immediate family/self)",
+        "keywords": {
+          "immediate_family": [
+            "parent", "child", "spouse", "partner", "sibling",
+            "mother", "father", "son", "daughter", "husband", "wife",
+            "brother", "sister", "myself", "self", "own"
+          ],
+          "close": [
+            "best friend", "close friend", "loved one", "intimate",
+            "dear friend", "longtime friend", "closest", "soulmate"
+          ],
+          "moderate": [
+            "friend", "colleague", "coworker", "classmate", "teammate",
+            "relative", "cousin", "uncle", "aunt", "acquaintance"
+          ],
+          "distant": [
+            "neighbor", "casual acquaintance", "someone I know",
+            "distant relative", "work contact", "nodding acquaintance"
+          ],
+          "stranger": [
+            "stranger", "unknown person", "someone I don't know",
+            "anonymous", "general public", "random person"
+          ]
+        },
+        "scoringHeuristics": [
+          "If 'self' or 'myself' or 'own': score = 1.0",
+          "If immediate family (parent, child, spouse): score >= 0.9",
+          "If 'best friend' or 'loved one': score >= 0.8",
+          "If 'friend' or 'colleague': score >= 0.5",
+          "If 'acquaintance' or 'neighbor': score >= 0.3",
+          "If 'stranger': score <= 0.1",
+          "Default: score = 0.3"
+        ]
+      },
+      "powerDifferential": {
+        "description": "Imbalance in authority/vulnerability - 0.0 (equal) to 1.0 (extreme power imbalance)",
+        "keywords": {
+          "extreme_imbalance": [
+            "boss", "CEO", "doctor-patient", "parent-child", "judge",
+            "authority figure", "superior", "master", "dictator", "tyrant",
+            "vulnerable", "dependent", "helpless", "powerless", "infant"
+          ],
+          "significant_imbalance": [
+            "supervisor", "manager", "teacher", "professor", "officer",
+            "senior", "employer", "landlord", "creditor", "expert-novice",
+            "adult-child", "guard-prisoner", "caregiver-dependent"
+          ],
+          "moderate_imbalance": [
+            "senior colleague", "mentor", "advisor", "experienced-inexperienced",
+            "older-younger", "resident-attending", "junior-senior"
+          ],
+          "slight_imbalance": [
+            "peer with more experience", "teammate with seniority",
+            "colleague with advantage", "slight authority"
+          ],
+          "equal": [
+            "peer", "equal", "colleague", "friend", "partner",
+            "same level", "equivalent", "mutual", "balanced"
+          ]
+        },
+        "scoringHeuristics": [
+          "If boss-employee or doctor-patient or parent-young child: score >= 0.9",
+          "If supervisor-supervisee or teacher-student: score >= 0.7",
+          "If mentor-mentee or senior-junior: score >= 0.5",
+          "If peer relationship or equal: score <= 0.2",
+          "If 'vulnerable' or 'dependent' or 'helpless': score >= 0.8",
+          "Default: score = 0.3"
+        ]
+      },
+      "trust": {
+        "description": "Relational trust level - 0.0 (no trust) to 1.0 (complete trust)",
+        "keywords": {
+          "complete_trust": [
+            "complete trust", "absolute trust", "total trust", "implicit trust",
+            "never doubted", "always trusted", "faith in", "rely completely",
+            "trusted completely", "unwavering trust"
+          ],
+          "high_trust": [
+            "trust", "reliable", "dependable", "trustworthy", "confident in",
+            "believe in", "faith", "count on", "honest", "integrity"
+          ],
+          "moderate_trust": [
+            "generally trust", "usually reliable", "mostly dependable",
+            "some confidence", "cautious trust", "earned trust"
+          ],
+          "low_trust": [
+            "uncertain", "suspicious", "doubt", "question", "wary",
+            "cautious", "skeptical", "unreliable", "inconsistent"
+          ],
+          "no_trust": [
+            "no trust", "distrust", "mistrust", "betrayal", "betrayed",
+            "lied", "deceived", "cannot trust", "proven untrustworthy",
+            "broken trust", "violated trust"
+          ]
+        },
+        "scoringHeuristics": [
+          "If 'complete trust' or 'always trusted': score >= 0.9",
+          "If 'trust' or 'reliable' or 'dependable': score >= 0.7",
+          "If 'generally trust': score >= 0.5",
+          "If 'suspicious' or 'doubt': score <= 0.3",
+          "If 'betrayal' or 'no trust' or 'distrust': score <= 0.1",
+          "Default: score = 0.5"
+        ]
+      }
+    },
+    "consequential": {
+      "harmSeverity": {
+        "description": "Magnitude of potential negative impact - 0.0 (no harm) to 1.0 (catastrophic harm)",
+        "keywords": {
+          "catastrophic": [
+            "death", "die", "kill", "fatal", "catastrophic",
+            "destroy", "devastate", "ruin", "annihilate", "genocide",
+            "extinction", "irreparable", "total loss", "apocalyptic"
+          ],
+          "severe": [
+            "severe harm", "serious injury", "major damage", "trauma",
+            "crippling", "disabling", "life-threatening", "critical injury",
+            "permanent disability", "profound suffering", "torture"
+          ],
+          "moderate": [
+            "harm", "injury", "damage", "hurt", "pain",
+            "suffering", "wound", "impair", "diminish", "setback"
+          ],
+          "minor": [
+            "minor harm", "slight injury", "small damage", "inconvenience",
+            "discomfort", "temporary pain", "mild suffering", "bruise"
+          ],
+          "no_harm": [
+            "no harm", "harmless", "safe", "benign", "risk-free",
+            "without injury", "unharmed", "intact", "undamaged"
+          ]
+        },
+        "scoringHeuristics": [
+          "If 'death' or 'kill' or 'fatal': score >= 0.9",
+          "If 'severe' or 'life-threatening' or 'permanent disability': score >= 0.7",
+          "If 'harm' or 'injury' or 'suffering': score >= 0.5",
+          "If 'minor' or 'inconvenience': score >= 0.2",
+          "If 'no harm' or 'harmless': score = 0.0",
+          "Default: score = 0.4"
+        ]
+      },
+      "benefitMagnitude": {
+        "description": "Magnitude of potential positive impact - 0.0 (no benefit) to 1.0 (transformative benefit)",
+        "keywords": {
+          "transformative": [
+            "life-saving", "cure", "revolutionary", "transformative",
+            "miraculous", "breakthrough", "salvation", "redemption",
+            "total recovery", "complete healing", "save lives"
+          ],
+          "major": [
+            "major benefit", "significant improvement", "great help",
+            "substantial gain", "profound positive", "life-changing",
+            "dramatic improvement", "major advance"
+          ],
+          "moderate": [
+            "benefit", "help", "improve", "positive", "advantage",
+            "enhance", "better", "useful", "valuable", "good"
+          ],
+          "minor": [
+            "slight benefit", "small improvement", "minor help",
+            "marginal gain", "modest positive", "little advantage"
+          ],
+          "no_benefit": [
+            "no benefit", "useless", "worthless", "pointless",
+            "no improvement", "ineffective", "no help"
+          ]
+        },
+        "scoringHeuristics": [
+          "If 'life-saving' or 'cure' or 'transformative': score >= 0.9",
+          "If 'major benefit' or 'life-changing': score >= 0.7",
+          "If 'benefit' or 'help' or 'improve': score >= 0.5",
+          "If 'slight' or 'minor benefit': score >= 0.2",
+          "If 'no benefit' or 'useless': score = 0.0",
+          "Default: score = 0.5"
+        ]
+      },
+      "scope": {
+        "description": "Number of people affected - 0.0 (single person) to 1.0 (global/all humanity)",
+        "keywords": {
+          "global": [
+            "humanity", "everyone", "all people", "global", "worldwide",
+            "entire world", "species", "civilization", "mankind",
+            "universal", "planetary", "all humans"
+          ],
+          "national": [
+            "nation", "country", "national", "millions", "nationwide",
+            "entire country", "whole nation", "population", "society"
+          ],
+          "community": [
+            "community", "city", "town", "neighborhood", "region",
+            "thousands", "local area", "district", "county"
+          ],
+          "group": [
+            "group", "team", "family", "organization", "company",
+            "dozens", "hundreds", "colleagues", "members"
+          ],
+          "individual": [
+            "person", "individual", "me", "myself", "one person",
+            "single", "alone", "just me", "only me"
+          ]
+        },
+        "scoringHeuristics": [
+          "If 'humanity' or 'everyone' or 'global': score >= 0.9",
+          "If 'nation' or 'millions': score >= 0.7",
+          "If 'community' or 'thousands': score >= 0.5",
+          "If 'group' or 'family' or 'dozens': score >= 0.3",
+          "If 'individual' or 'one person' or 'me': score <= 0.1",
+          "Default: score = 0.2"
+        ]
+      }
+    },
+    "epistemic": {
+      "certainty": {
+        "description": "Confidence in facts/outcomes - 0.0 (highly uncertain) to 1.0 (certain)",
+        "keywords": {
+          "certain": [
+            "certain", "definitely", "absolutely", "sure", "guaranteed",
+            "proven", "confirmed", "established", "undoubtedly", "clearly",
+            "without doubt", "beyond question", "verified", "known"
+          ],
+          "probable": [
+            "likely", "probably", "very likely", "high confidence",
+            "strong evidence", "well-supported", "credible", "reliable"
+          ],
+          "possible": [
+            "possible", "might", "could", "perhaps", "maybe",
+            "uncertain", "unclear", "ambiguous", "debatable"
+          ],
+          "unlikely": [
+            "unlikely", "doubtful", "questionable", "dubious",
+            "unproven", "speculative", "conjecture", "guess"
+          ],
+          "unknown": [
+            "unknown", "no idea", "cannot tell", "impossible to know",
+            "total uncertainty", "complete unknown", "mystery"
+          ]
+        },
+        "scoringHeuristics": [
+          "If 'certain' or 'definitely' or 'proven': score >= 0.9",
+          "If 'likely' or 'probably': score >= 0.7",
+          "If 'possible' or 'might': score >= 0.5",
+          "If 'unlikely' or 'doubtful': score >= 0.3",
+          "If 'unknown' or 'no idea': score <= 0.1",
+          "Default: score = 0.5"
+        ]
+      },
+      "informationCompleteness": {
+        "description": "Availability of relevant information - 0.0 (critical info missing) to 1.0 (complete information)",
+        "keywords": {
+          "complete": [
+            "all information", "complete data", "full picture", "comprehensive",
+            "thorough understanding", "all facts", "complete knowledge",
+            "nothing missing", "fully informed", "total information"
+          ],
+          "mostly_complete": [
+            "most information", "adequate data", "sufficient knowledge",
+            "generally informed", "good understanding", "well-informed"
+          ],
+          "partial": [
+            "some information", "partial data", "incomplete picture",
+            "gaps in knowledge", "missing pieces", "unclear aspects",
+            "need more information", "incomplete understanding"
+          ],
+          "minimal": [
+            "little information", "minimal data", "sparse knowledge",
+            "very limited", "barely informed", "hardly know"
+          ],
+          "no_information": [
+            "no information", "no data", "completely uninformed",
+            "total ignorance", "know nothing", "missing all information",
+            "critical information missing", "blind decision"
+          ]
+        },
+        "scoringHeuristics": [
+          "If 'all information' or 'complete' or 'fully informed': score >= 0.9",
+          "If 'adequate' or 'sufficient': score >= 0.7",
+          "If 'incomplete' or 'gaps': score >= 0.5",
+          "If 'little information' or 'minimal': score >= 0.3",
+          "If 'no information' or 'critical missing': score <= 0.2",
+          "Default: score = 0.5"
+        ]
+      },
+      "expertise": {
+        "description": "Agent's competence in domain - 0.0 (no expertise) to 1.0 (expert)",
+        "keywords": {
+          "expert": [
+            "expert", "specialist", "professional", "board-certified",
+            "doctorate", "PhD", "master", "authority", "decades of experience",
+            "leading", "renowned", "highly qualified", "trained professional"
+          ],
+          "experienced": [
+            "experienced", "skilled", "competent", "qualified", "trained",
+            "proficient", "years of experience", "knowledgeable", "capable"
+          ],
+          "moderate": [
+            "some experience", "familiar with", "studied", "learned",
+            "basic training", "moderate knowledge", "adequate skill"
+          ],
+          "novice": [
+            "novice", "beginner", "inexperienced", "new to", "learning",
+            "amateur", "untrained", "limited experience", "student"
+          ],
+          "no_expertise": [
+            "no expertise", "unqualified", "no experience", "incompetent",
+            "never done before", "complete novice", "no training",
+            "out of depth", "don't know how"
+          ]
+        },
+        "scoringHeuristics": [
+          "If 'expert' or 'board-certified' or 'PhD': score >= 0.9",
+          "If 'professional' or 'experienced' or 'skilled': score >= 0.7",
+          "If 'some experience' or 'trained': score >= 0.5",
+          "If 'novice' or 'inexperienced': score >= 0.3",
+          "If 'no expertise' or 'unqualified': score <= 0.1",
+          "Default: score = 0.5"
+        ]
+      }
+    }
+  },
+  "scoringGuidelines": {
+    "keywordMatching": "Search for keywords in scenario text. Multiple matches increase confidence.",
+    "negation": "Handle negation (e.g., 'not urgent' should reduce urgency score, not increase it).",
+    "intensifiers": "Words like 'very', 'extremely', 'highly' should boost scores by 0.1-0.2.",
+    "hedges": "Words like 'somewhat', 'slightly', 'moderately' should reduce scores by 0.1-0.2.",
+    "contextualModifiers": [
+      "If scenario involves life/death: boost urgency +0.2, harm severity +0.3",
+      "If scenario involves children: boost power differential +0.2, intimacy (for parents) +0.2",
+      "If scenario involves professional role: boost expertise +0.2, accountability +0.2",
+      "If scenario involves institutional context: boost scope +0.2",
+      "If scenario mentions time constraints: boost urgency proportionally"
+    ],
+    "defaultScores": {
+      "urgency": 0.5,
+      "duration": 0.5,
+      "reversibility": 0.5,
+      "intimacy": 0.3,
+      "powerDifferential": 0.3,
+      "trust": 0.5,
+      "harmSeverity": 0.4,
+      "benefitMagnitude": 0.5,
+      "scope": 0.2,
+      "certainty": 0.5,
+      "informationCompleteness": 0.5,
+      "expertise": 0.5
+    },
+    "multipleSignals": "Combine multiple keyword matches. More matches = higher confidence in score.",
+    "confidenceThresholds": {
+      "high": "3+ keyword matches in same direction",
+      "medium": "2 keyword matches in same direction",
+      "low": "1 keyword match or conflicting signals",
+      "default": "No keyword matches found"
+    }
+  },
+  "exampleScenarios": [
+    {
+      "text": "The emergency room doctor must allocate the last ventilator immediately",
+      "expectedScores": {
+        "urgency": 1.0,
+        "duration": 1.0,
+        "reversibility": 1.0,
+        "intimacy": 0.2,
+        "powerDifferential": 0.9,
+        "trust": 0.8,
+        "harmSeverity": 1.0,
+        "benefitMagnitude": 1.0,
+        "scope": 0.2,
+        "certainty": 0.6,
+        "informationCompleteness": 0.7,
+        "expertise": 0.9
+      },
+      "rationale": {
+        "urgency": "Keywords: 'emergency', 'immediately' → 1.0",
+        "harmSeverity": "Implicit death if wrong choice → 1.0",
+        "powerDifferential": "Doctor has authority over patients → 0.9",
+        "expertise": "Medical doctor in their domain → 0.9"
+      }
+    },
+    {
+      "text": "I'm considering exaggerating my qualifications slightly on a job application",
+      "expectedScores": {
+        "urgency": 0.4,
+        "duration": 0.6,
+        "reversibility": 0.4,
+        "intimacy": 0.0,
+        "powerDifferential": 0.7,
+        "trust": 0.9,
+        "harmSeverity": 0.5,
+        "benefitMagnitude": 0.7,
+        "scope": 0.1,
+        "certainty": 0.8,
+        "informationCompleteness": 0.9,
+        "expertise": 0.7
+      },
+      "rationale": {
+        "intimacy": "Stranger (employer) → 0.0",
+        "scope": "Just me → 0.1",
+        "harmSeverity": "Could get fired later → 0.5",
+        "reversibility": "Hard to correct lie later → 0.4"
+      }
+    }
+  ]
+}

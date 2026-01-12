@@ -1,0 +1,1066 @@
+{
+  "version": "2.0",
+  "deliveryDate": "2026-01-11",
+  "description": "Comprehensive 50-value taxonomy for ethical reasoning across all domains and worldviews",
+  "usage": "Use semanticMarkers for keyword matching. Use polarityIndicators to detect whether value is being upheld (+1) or violated (-1).",
+  "changes": "Expanded from 20 to 50 values, added polarity indicators, refined keyword patterns",
+  "domains": [
+    "Dignity (10 values)",
+    "Care (10 values)",
+    "Virtue (10 values)",
+    "Community (10 values)",
+    "Transcendence (10 values)"
+  ],
+  "values": [
+    {
+      "id": 1,
+      "name": "Human Dignity",
+      "domain": "dignity",
+      "definition": "The inherent worth and inviolability of every person, independent of their characteristics, achievements, or utility to others.",
+      "semanticMarkers": [
+        "dignity", "inherent worth", "inviolable", "sacred", "human value",
+        "person", "humanity", "respect", "honor", "reverence",
+        "degrade", "demean", "humiliate", "objectify", "instrumentalize"
+      ],
+      "polarityIndicators": {
+        "upholding": ["respect dignity", "honor personhood", "recognize worth", "treat as end", "value inherent"],
+        "violating": ["degrade", "objectify", "use as means", "demean", "humiliate", "dehumanize"]
+      },
+      "relatedValues": ["Autonomy", "Equality", "Justice", "Sacred/Holy"],
+      "examples": [
+        "Every person deserves respect regardless of condition",
+        "Using someone solely as a means violates their dignity",
+        "Dignity persists even when autonomy is lost"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Autonomy",
+      "domain": "dignity",
+      "definition": "The capacity and right of persons to make free, informed decisions about their own lives without coercion.",
+      "semanticMarkers": [
+        "autonomy", "self-determination", "freedom", "liberty", "choice",
+        "decide", "choose", "consent", "voluntary", "independent",
+        "force", "coerce", "compel", "impose", "override"
+      ],
+      "polarityIndicators": {
+        "upholding": ["free choice", "informed consent", "voluntary decision", "self-directed", "respect wishes"],
+        "violating": ["force", "coerce", "override decision", "without consent", "against will", "compel"]
+      },
+      "relatedValues": ["Human Dignity", "Freedom", "Integrity", "Self-care"],
+      "examples": [
+        "Patient has right to refuse treatment",
+        "Informed consent requires understanding and voluntariness",
+        "Paternalism overrides individual autonomy"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Equality",
+      "domain": "dignity",
+      "definition": "The principle that all persons deserve equal moral consideration and should not be discriminated against based on arbitrary characteristics.",
+      "semanticMarkers": [
+        "equality", "equal", "fairness", "impartial", "unbiased",
+        "discrimination", "prejudice", "bias", "favoritism", "privilege",
+        "same", "alike", "equivalent", "uniform", "consistent"
+      ],
+      "polarityIndicators": {
+        "upholding": ["equal treatment", "no discrimination", "impartial", "fair to all", "same consideration"],
+        "violating": ["discriminate", "prejudice", "favor", "bias against", "unequal treatment", "privilege"]
+      },
+      "relatedValues": ["Justice", "Human Dignity", "Inclusion", "Diversity"],
+      "examples": [
+        "All patients deserve equal quality of care",
+        "Hiring based on race is discriminatory",
+        "Equal opportunity requires removing systemic barriers"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Justice",
+      "domain": "dignity",
+      "definition": "Fair distribution of benefits and burdens, due process, and treating similar cases similarly while recognizing relevant differences.",
+      "semanticMarkers": [
+        "justice", "fair", "fairness", "equity", "due process",
+        "unfair", "unjust", "inequitable", "arbitrary", "biased",
+        "allocate", "distribute", "deserve", "merit", "entitlement"
+      ],
+      "polarityIndicators": {
+        "upholding": ["fair distribution", "due process", "just allocation", "deserve", "equitable"],
+        "violating": ["unfair", "unjust", "arbitrary", "biased allocation", "deny due process"]
+      },
+      "relatedValues": ["Equality", "Accountability", "Transparency", "Common Good"],
+      "examples": [
+        "Resources should be allocated fairly",
+        "Punishment must fit the crime",
+        "Procedural justice requires transparent processes"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Freedom",
+      "domain": "dignity",
+      "definition": "Liberty from external constraint and the positive capacity to pursue one's chosen life path.",
+      "semanticMarkers": [
+        "freedom", "liberty", "free", "unconstrained", "liberation",
+        "restriction", "constraint", "limit", "bound", "confined",
+        "rights", "civil liberties", "expression", "movement", "speech"
+      ],
+      "polarityIndicators": {
+        "upholding": ["protect freedom", "liberty to", "free to choose", "unrestricted", "liberate"],
+        "violating": ["restrict", "constrain", "limit freedom", "confine", "oppress", "suppress"]
+      },
+      "relatedValues": ["Autonomy", "Human Dignity", "Justice", "Peace"],
+      "examples": [
+        "Freedom of speech protects unpopular views",
+        "Oppressive regimes violate basic freedoms",
+        "Freedom requires absence of coercion"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Rights",
+      "domain": "dignity",
+      "definition": "Justified claims that individuals have against others and society, including negative rights (freedoms) and positive rights (entitlements).",
+      "semanticMarkers": [
+        "rights", "entitled", "claim", "due", "owed",
+        "violate rights", "infringe", "deny", "deprive", "transgress",
+        "human rights", "civil rights", "legal rights", "moral rights"
+      ],
+      "polarityIndicators": {
+        "upholding": ["respect rights", "honor entitlement", "recognize claims", "protect rights"],
+        "violating": ["violate rights", "infringe", "deny entitlement", "deprive", "transgress"]
+      },
+      "relatedValues": ["Justice", "Freedom", "Autonomy", "Human Dignity"],
+      "examples": [
+        "Right to privacy protects personal information",
+        "Denying medical care violates right to health",
+        "Human rights transcend national borders"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Respect for Persons",
+      "domain": "dignity",
+      "definition": "Treating individuals as valuable in themselves, not merely as means to others' ends, honoring their perspectives and choices.",
+      "semanticMarkers": [
+        "respect", "regard", "esteem", "honor", "value",
+        "disrespect", "disregard", "dismiss", "ignore", "belittle",
+        "listen", "consider", "acknowledge", "recognize", "validate"
+      ],
+      "polarityIndicators": {
+        "upholding": ["show respect", "honor perspective", "value input", "listen to", "acknowledge"],
+        "violating": ["disrespect", "dismiss", "ignore", "belittle", "disregard", "devalue"]
+      },
+      "relatedValues": ["Human Dignity", "Autonomy", "Compassion", "Humility"],
+      "examples": [
+        "Respecting patient means honoring their values",
+        "Dismissing concerns shows disrespect",
+        "Respect requires active listening"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Privacy",
+      "domain": "dignity",
+      "definition": "The right to control access to information about oneself and to maintain boundaries around personal space and decisions.",
+      "semanticMarkers": [
+        "privacy", "confidential", "secret", "private", "personal",
+        "intrude", "violate privacy", "expose", "reveal", "disclose",
+        "boundary", "confidentiality", "intimate", "secrecy", "discretion"
+      ],
+      "polarityIndicators": {
+        "upholding": ["protect privacy", "maintain confidentiality", "respect boundaries", "keep secret"],
+        "violating": ["violate privacy", "breach confidentiality", "intrude", "expose", "disclose without consent"]
+      },
+      "relatedValues": ["Autonomy", "Human Dignity", "Trust", "Confidentiality"],
+      "examples": [
+        "Medical records must remain confidential",
+        "Surveillance violates privacy expectations",
+        "Privacy enables personal autonomy"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Consent",
+      "domain": "dignity",
+      "definition": "Voluntary, informed agreement to participate in an action or relationship, given without coercion or deception.",
+      "semanticMarkers": [
+        "consent", "agree", "permission", "authorize", "approve",
+        "without consent", "force", "coerce", "manipulate", "deceive",
+        "informed", "voluntary", "freely given", "understanding", "agreement"
+      ],
+      "polarityIndicators": {
+        "upholding": ["obtain consent", "seek permission", "informed agreement", "voluntary participation"],
+        "violating": ["without consent", "force", "coerce", "manipulate into", "deceive"]
+      },
+      "relatedValues": ["Autonomy", "Honesty", "Respect for Persons", "Non-maleficence"],
+      "examples": [
+        "Informed consent requires disclosure of risks",
+        "Sexual contact without consent is assault",
+        "Medical procedures require patient authorization"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Human Rights",
+      "domain": "dignity",
+      "definition": "Universal entitlements possessed by all persons by virtue of their humanity, including life, liberty, and security.",
+      "semanticMarkers": [
+        "human rights", "universal rights", "inalienable", "fundamental rights",
+        "violate human rights", "abuse", "atrocity", "crimes against humanity",
+        "UDHR", "civil liberties", "basic rights", "natural rights"
+      ],
+      "polarityIndicators": {
+        "upholding": ["protect human rights", "uphold rights", "defend liberties", "ensure rights"],
+        "violating": ["violate human rights", "abuse", "atrocity", "deny basic rights", "crimes against humanity"]
+      },
+      "relatedValues": ["Human Dignity", "Justice", "Freedom", "Equality"],
+      "examples": [
+        "Torture violates fundamental human rights",
+        "Right to asylum protects refugees",
+        "Human rights transcend cultural differences"
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Compassion",
+      "domain": "care",
+      "definition": "Deep awareness of and sympathy for the suffering of others, coupled with desire to alleviate that suffering.",
+      "semanticMarkers": [
+        "compassion", "empathy", "sympathy", "care", "concern",
+        "callous", "indifferent", "cold", "uncaring", "heartless",
+        "suffering", "pain", "distress", "anguish", "comfort"
+      ],
+      "polarityIndicators": {
+        "upholding": ["show compassion", "empathize", "care for", "relieve suffering", "comfort"],
+        "violating": ["callous", "indifferent to suffering", "uncaring", "heartless", "ignore pain"]
+      },
+      "relatedValues": ["Beneficence", "Non-maleficence", "Solidarity", "Love"],
+      "examples": [
+        "Compassion motivates end-of-life care",
+        "Indifference to suffering is morally problematic",
+        "Healthcare requires compassionate presence"
+      ]
+    },
+    {
+      "id": 12,
+      "name": "Fidelity",
+      "domain": "care",
+      "definition": "Faithfulness to commitments, promises, and relationships; loyalty and trustworthiness in ongoing bonds.",
+      "semanticMarkers": [
+        "fidelity", "faithful", "loyal", "commitment", "promise",
+        "betray", "unfaithful", "disloyal", "break promise", "abandon",
+        "trust", "reliability", "dependable", "devoted", "steadfast"
+      ],
+      "polarityIndicators": {
+        "upholding": ["keep promise", "remain faithful", "honor commitment", "stay loyal", "be reliable"],
+        "violating": ["betray", "break promise", "abandon", "disloyal", "unfaithful"]
+      },
+      "relatedValues": ["Honesty", "Integrity", "Trust", "Accountability"],
+      "examples": [
+        "Fidelity to patient requires continuity of care",
+        "Betraying confidence violates fidelity",
+        "Marriage vows create fidelity obligations"
+      ]
+    },
+    {
+      "id": 13,
+      "name": "Beneficence",
+      "domain": "care",
+      "definition": "The obligation to actively promote the well-being of others and to act for their benefit.",
+      "semanticMarkers": [
+        "beneficence", "benefit", "help", "promote welfare", "do good",
+        "harm", "neglect", "fail to help", "withhold benefit", "abandon",
+        "assist", "aid", "support", "improve", "enhance"
+      ],
+      "polarityIndicators": {
+        "upholding": ["promote welfare", "help", "benefit", "assist", "improve well-being"],
+        "violating": ["neglect", "fail to help", "withhold aid", "abandon", "refuse assistance"]
+      },
+      "relatedValues": ["Compassion", "Non-maleficence", "Solidarity", "Service"],
+      "examples": [
+        "Physicians have duty of beneficence to patients",
+        "Helping those in need expresses beneficence",
+        "Beneficence sometimes conflicts with autonomy"
+      ]
+    },
+    {
+      "id": 14,
+      "name": "Non-maleficence",
+      "domain": "care",
+      "definition": "The obligation to avoid causing harm; primum non nocere - first, do no harm.",
+      "semanticMarkers": [
+        "non-maleficence", "do no harm", "avoid harm", "prevent harm",
+        "harm", "injure", "hurt", "damage", "wound",
+        "safe", "safety", "risk", "danger", "hazard"
+      ],
+      "polarityIndicators": {
+        "upholding": ["avoid harm", "prevent injury", "ensure safety", "minimize risk", "do no harm"],
+        "violating": ["cause harm", "injure", "damage", "endanger", "reckless", "negligent"]
+      },
+      "relatedValues": ["Beneficence", "Compassion", "Prudence", "Competence"],
+      "examples": [
+        "Medical treatment must not cause net harm",
+        "Negligence violates non-maleficence",
+        "Sometimes avoiding harm means not intervening"
+      ]
+    },
+    {
+      "id": 15,
+      "name": "Care",
+      "domain": "care",
+      "definition": "Attentive responsiveness to the needs of particular others, especially those in dependent or vulnerable positions.",
+      "semanticMarkers": [
+        "care", "caring", "nurture", "attend to", "look after",
+        "neglect", "abandon", "ignore needs", "uncaring", "cold",
+        "relationship", "responsive", "attentive", "support", "tend"
+      ],
+      "polarityIndicators": {
+        "upholding": ["provide care", "nurture", "attend to needs", "responsive", "support"],
+        "violating": ["neglect", "abandon", "ignore needs", "uncaring", "inattentive"]
+      },
+      "relatedValues": ["Compassion", "Beneficence", "Solidarity", "Vulnerability"],
+      "examples": [
+        "Caring for elderly parents is ethical obligation",
+        "Neglect of dependents violates care ethics",
+        "Care requires attending to particular needs"
+      ]
+    },
+    {
+      "id": 16,
+      "name": "Love",
+      "domain": "care",
+      "definition": "Deep affection, attachment, and commitment to the good of another; agape as unconditional goodwill.",
+      "semanticMarkers": [
+        "love", "affection", "devotion", "cherish", "adore",
+        "hate", "indifference", "contempt", "disdain", "animosity",
+        "caring", "tenderness", "warmth", "attachment", "bond"
+      ],
+      "polarityIndicators": {
+        "upholding": ["show love", "cherish", "devoted to", "care deeply", "unconditional regard"],
+        "violating": ["hate", "contempt", "indifference", "cold", "disdain"]
+      },
+      "relatedValues": ["Compassion", "Fidelity", "Care", "Solidarity"],
+      "examples": [
+        "Parental love motivates sacrifice",
+        "Love your neighbor as yourself",
+        "Indifference is opposite of love"
+      ]
+    },
+    {
+      "id": 17,
+      "name": "Kindness",
+      "domain": "care",
+      "definition": "Gentle, considerate treatment of others; benevolence expressed in words and actions.",
+      "semanticMarkers": [
+        "kindness", "kind", "gentle", "considerate", "thoughtful",
+        "cruel", "harsh", "mean", "unkind", "brutal",
+        "tender", "caring", "benevolent", "gracious", "warmth"
+      ],
+      "polarityIndicators": {
+        "upholding": ["show kindness", "treat gently", "considerate", "thoughtful", "benevolent"],
+        "violating": ["cruel", "harsh", "mean", "unkind", "brutal", "callous"]
+      },
+      "relatedValues": ["Compassion", "Love", "Gentleness", "Respect for Persons"],
+      "examples": [
+        "Kindness to strangers builds community",
+        "Cruelty violates basic human kindness",
+        "Small acts of kindness matter morally"
+      ]
+    },
+    {
+      "id": 18,
+      "name": "Empathy",
+      "domain": "care",
+      "definition": "The capacity to understand and share the feelings of another; emotional resonance with others' experiences.",
+      "semanticMarkers": [
+        "empathy", "empathize", "understand feelings", "share experience",
+        "lack empathy", "cold", "unfeeling", "disconnected", "indifferent",
+        "perspective-taking", "emotional resonance", "identify with", "feel for"
+      ],
+      "polarityIndicators": {
+        "upholding": ["empathize", "understand feelings", "share experience", "emotional connection"],
+        "violating": ["lack empathy", "cold", "unfeeling", "cannot relate", "indifferent to feelings"]
+      },
+      "relatedValues": ["Compassion", "Respect for Persons", "Understanding", "Humility"],
+      "examples": [
+        "Empathy enables understanding patient suffering",
+        "Lack of empathy impairs moral judgment",
+        "Empathy bridges differences between people"
+      ]
+    },
+    {
+      "id": 19,
+      "name": "Forgiveness",
+      "domain": "care",
+      "definition": "Releasing resentment and claims for retaliation against wrongdoers; offering reconciliation despite offense.",
+      "semanticMarkers": [
+        "forgiveness", "forgive", "pardon", "absolve", "reconcile",
+        "resentment", "grudge", "revenge", "retaliate", "unforgiving",
+        "mercy", "grace", "let go", "move past", "reconciliation"
+      ],
+      "polarityIndicators": {
+        "upholding": ["forgive", "show mercy", "reconcile", "let go resentment", "pardon"],
+        "violating": ["hold grudge", "seek revenge", "unforgiving", "retaliate", "refuse reconciliation"]
+      },
+      "relatedValues": ["Compassion", "Mercy", "Peace", "Humility"],
+      "examples": [
+        "Forgiveness enables healing after betrayal",
+        "Holding grudges perpetuates conflict",
+        "Forgiveness doesn't require forgetting"
+      ]
+    },
+    {
+      "id": 20,
+      "name": "Mercy",
+      "domain": "care",
+      "definition": "Compassionate treatment of those who could justly be treated harshly; tempering justice with compassion.",
+      "semanticMarkers": [
+        "mercy", "merciful", "compassion", "leniency", "clemency",
+        "merciless", "harsh", "severe", "strict", "unforgiving",
+        "forgiveness", "pardon", "grace", "tempering justice", "compassionate"
+      ],
+      "polarityIndicators": {
+        "upholding": ["show mercy", "compassionate", "lenient", "clemency", "temper justice"],
+        "violating": ["merciless", "harsh", "severe", "show no compassion", "unforgiving"]
+      },
+      "relatedValues": ["Compassion", "Forgiveness", "Justice", "Grace"],
+      "examples": [
+        "Mercy tempers strict application of rules",
+        "Showing mercy to offenders enables redemption",
+        "Justice without mercy can be cruel"
+      ]
+    },
+    {
+      "id": 21,
+      "name": "Integrity",
+      "domain": "virtue",
+      "definition": "Consistency between one's values, words, and actions; wholeness and authenticity of character.",
+      "semanticMarkers": [
+        "integrity", "consistent", "authentic", "genuine", "whole",
+        "hypocrite", "inconsistent", "duplicitous", "two-faced", "dishonest",
+        "align", "coherent", "true to values", "walk the talk", "moral consistency"
+      ],
+      "polarityIndicators": {
+        "upholding": ["act with integrity", "consistent", "authentic", "true to values", "walk the talk"],
+        "violating": ["hypocritical", "inconsistent", "say one thing do another", "duplicitous", "fake"]
+      },
+      "relatedValues": ["Honesty", "Authenticity", "Courage", "Accountability"],
+      "examples": [
+        "Integrity requires aligning actions with values",
+        "Hypocrisy violates personal integrity",
+        "Leaders must demonstrate integrity"
+      ]
+    },
+    {
+      "id": 22,
+      "name": "Honesty",
+      "domain": "virtue",
+      "definition": "Truthfulness in speech and representation; refraining from deception, lying, or misleading others.",
+      "semanticMarkers": [
+        "honesty", "honest", "truthful", "truth", "candid",
+        "lie", "deceive", "mislead", "dishonest", "false",
+        "transparency", "forthright", "sincere", "accurate", "trustworthy"
+      ],
+      "polarityIndicators": {
+        "upholding": ["tell truth", "honest", "transparent", "forthright", "accurate"],
+        "violating": ["lie", "deceive", "mislead", "dishonest", "withhold truth", "fabricate"]
+      },
+      "relatedValues": ["Integrity", "Trust", "Transparency", "Authenticity"],
+      "examples": [
+        "Honesty builds trust in relationships",
+        "Deception undermines informed consent",
+        "Sometimes honesty conflicts with compassion"
+      ]
+    },
+    {
+      "id": 23,
+      "name": "Courage",
+      "domain": "virtue",
+      "definition": "Moral fortitude to act rightly despite fear, risk, or opposition; standing for principle under pressure.",
+      "semanticMarkers": [
+        "courage", "courageous", "brave", "bold", "fearless",
+        "cowardice", "fear", "timid", "avoid", "back down",
+        "stand up", "face", "confront", "risk", "moral fortitude"
+      ],
+      "polarityIndicators": {
+        "upholding": ["show courage", "stand up for", "confront", "face risk", "brave"],
+        "violating": ["cowardly", "back down", "avoid confrontation", "fear-driven", "give in to pressure"]
+      },
+      "relatedValues": ["Integrity", "Justice", "Strength", "Conviction"],
+      "examples": [
+        "Whistleblowing requires moral courage",
+        "Courage enables standing for unpopular truth",
+        "Fear of consequences doesn't excuse cowardice"
+      ]
+    },
+    {
+      "id": 24,
+      "name": "Humility",
+      "domain": "virtue",
+      "definition": "Accurate self-assessment; recognition of one's limitations, fallibility, and dependence on others.",
+      "semanticMarkers": [
+        "humility", "humble", "modest", "unassuming", "teachable",
+        "arrogance", "pride", "hubris", "conceited", "superiority",
+        "acknowledge limits", "fallible", "learn from", "open to", "recognize limits"
+      ],
+      "polarityIndicators": {
+        "upholding": ["show humility", "acknowledge limits", "teachable", "modest", "recognize fallibility"],
+        "violating": ["arrogant", "prideful", "hubris", "conceited", "refuse to admit error"]
+      },
+      "relatedValues": ["Wisdom", "Prudence", "Openness", "Respect for Persons"],
+      "examples": [
+        "Humility enables learning from mistakes",
+        "Arrogance leads to overconfidence",
+        "Recognizing limits is sign of wisdom"
+      ]
+    },
+    {
+      "id": 25,
+      "name": "Wisdom",
+      "domain": "virtue",
+      "definition": "Practical judgment about what contributes to living well; integrating knowledge, experience, and virtue.",
+      "semanticMarkers": [
+        "wisdom", "wise", "prudent", "judicious", "discerning",
+        "foolish", "unwise", "imprudent", "rash", "thoughtless",
+        "judgment", "experience", "practical reason", "insight", "understanding"
+      ],
+      "polarityIndicators": {
+        "upholding": ["show wisdom", "prudent judgment", "discerning", "thoughtful", "wise decision"],
+        "violating": ["foolish", "unwise", "imprudent", "rash", "poor judgment", "thoughtless"]
+      },
+      "relatedValues": ["Prudence", "Humility", "Understanding", "Practical Reason"],
+      "examples": [
+        "Wisdom integrates knowledge with virtue",
+        "Foolish decisions ignore consequences",
+        "Elders often possess practical wisdom"
+      ]
+    },
+    {
+      "id": 26,
+      "name": "Temperance",
+      "domain": "virtue",
+      "definition": "Moderation and self-restraint in desires and pleasures; avoiding excess and deficiency.",
+      "semanticMarkers": [
+        "temperance", "moderation", "self-control", "restraint", "balance",
+        "excess", "indulgence", "addiction", "uncontrolled", "extreme",
+        "moderate", "measured", "disciplined", "self-restraint", "balanced"
+      ],
+      "polarityIndicators": {
+        "upholding": ["practice moderation", "self-control", "restrained", "balanced", "disciplined"],
+        "violating": ["excess", "indulgent", "uncontrolled", "addicted", "extreme", "lack self-control"]
+      },
+      "relatedValues": ["Self-care", "Prudence", "Health", "Discipline"],
+      "examples": [
+        "Temperance avoids both excess and deficiency",
+        "Addiction represents loss of self-control",
+        "Moderation in all things promotes well-being"
+      ]
+    },
+    {
+      "id": 27,
+      "name": "Patience",
+      "domain": "virtue",
+      "definition": "Endurance under difficulty without complaint; bearing suffering or inconvenience with equanimity.",
+      "semanticMarkers": [
+        "patience", "patient", "endure", "persevere", "wait",
+        "impatience", "intolerant", "hasty", "rush", "irritable",
+        "tolerate", "bear", "long-suffering", "forbearance", "calm"
+      ],
+      "polarityIndicators": {
+        "upholding": ["show patience", "endure", "wait calmly", "persevere", "tolerant"],
+        "violating": ["impatient", "hasty", "rush", "irritable", "intolerant"]
+      },
+      "relatedValues": ["Temperance", "Hope", "Fortitude", "Peace"],
+      "examples": [
+        "Patience enables enduring hardship",
+        "Impatience leads to rash decisions",
+        "Long-suffering demonstrates moral character"
+      ]
+    },
+    {
+      "id": 28,
+      "name": "Generosity",
+      "domain": "virtue",
+      "definition": "Willingness to give freely of oneself, time, and resources; liberality in giving.",
+      "semanticMarkers": [
+        "generosity", "generous", "give", "share", "donate",
+        "stingy", "selfish", "greedy", "hoard", "withhold",
+        "charitable", "liberal", "munificent", "philanthropy", "altruistic"
+      ],
+      "polarityIndicators": {
+        "upholding": ["generous", "give freely", "share", "donate", "charitable"],
+        "violating": ["stingy", "selfish", "greedy", "hoard", "withhold", "refuse to share"]
+      },
+      "relatedValues": ["Solidarity", "Compassion", "Common Good", "Service"],
+      "examples": [
+        "Generosity builds community bonds",
+        "Hoarding wealth while others suffer is problematic",
+        "Giving freely demonstrates virtue"
+      ]
+    },
+    {
+      "id": 29,
+      "name": "Gratitude",
+      "domain": "virtue",
+      "definition": "Thankful recognition of benefits received; acknowledgment of gifts and grace.",
+      "semanticMarkers": [
+        "gratitude", "grateful", "thankful", "appreciate", "recognition",
+        "ungrateful", "entitled", "take for granted", "unappreciative",
+        "thanksgiving", "acknowledgment", "appreciation", "thanks", "blessed"
+      ],
+      "polarityIndicators": {
+        "upholding": ["express gratitude", "thankful", "appreciate", "acknowledge gifts", "grateful"],
+        "violating": ["ungrateful", "entitled", "take for granted", "unappreciative", "demand"]
+      },
+      "relatedValues": ["Humility", "Grace", "Joy", "Contentment"],
+      "examples": [
+        "Gratitude recognizes gifts received",
+        "Entitlement ignores dependence on others",
+        "Thankfulness cultivates contentment"
+      ]
+    },
+    {
+      "id": 30,
+      "name": "Authenticity",
+      "domain": "virtue",
+      "definition": "Being genuine and true to one's own personality, values, and spirit; rejecting false personas.",
+      "semanticMarkers": [
+        "authenticity", "authentic", "genuine", "real", "true self",
+        "fake", "false", "pretend", "mask", "persona",
+        "honest", "sincere", "transparent", "true to self", "real"
+      ],
+      "polarityIndicators": {
+        "upholding": ["authentic", "genuine", "true to self", "real", "honest about self"],
+        "violating": ["fake", "false", "pretend", "put on mask", "inauthentic", "dishonest about self"]
+      },
+      "relatedValues": ["Integrity", "Honesty", "Self-awareness", "Freedom"],
+      "examples": [
+        "Authenticity requires self-knowledge",
+        "Wearing false masks prevents genuine connection",
+        "Being true to oneself is moral imperative"
+      ]
+    },
+    {
+      "id": 31,
+      "name": "Solidarity",
+      "domain": "community",
+      "definition": "Unity of purpose and mutual support within a community; standing with others in their struggles.",
+      "semanticMarkers": [
+        "solidarity", "unity", "together", "collective", "mutual support",
+        "division", "fragmentation", "isolation", "abandon", "alone",
+        "stand with", "collective action", "common cause", "united", "community"
+      ],
+      "polarityIndicators": {
+        "upholding": ["show solidarity", "stand together", "united", "mutual support", "collective action"],
+        "violating": ["divided", "abandon", "isolated", "fragmented", "refuse to support"]
+      },
+      "relatedValues": ["Common Good", "Justice", "Compassion", "Community"],
+      "examples": [
+        "Labor unions express worker solidarity",
+        "Abandoning others violates solidarity",
+        "Standing with oppressed demonstrates solidarity"
+      ]
+    },
+    {
+      "id": 32,
+      "name": "Common Good",
+      "domain": "community",
+      "definition": "The welfare of the community as a whole; conditions enabling all members to flourish.",
+      "semanticMarkers": [
+        "common good", "public good", "collective welfare", "community benefit",
+        "self-interest", "private gain", "narrow interest", "faction",
+        "public interest", "general welfare", "social benefit", "commonwealth"
+      ],
+      "polarityIndicators": {
+        "upholding": ["promote common good", "public interest", "collective welfare", "community benefit"],
+        "violating": ["private gain over public", "narrow self-interest", "harm community", "faction"]
+      },
+      "relatedValues": ["Solidarity", "Justice", "Stewardship", "Service"],
+      "examples": [
+        "Public health promotes common good",
+        "Pollution harms common good for private profit",
+        "Democracy serves common good through participation"
+      ]
+    },
+    {
+      "id": 33,
+      "name": "Stewardship",
+      "domain": "community",
+      "definition": "Responsible care for resources, environment, and institutions entrusted to one's care for future generations.",
+      "semanticMarkers": [
+        "stewardship", "responsible care", "sustainability", "preservation",
+        "exploitation", "depletion", "waste", "short-term gain", "destruction",
+        "environment", "resources", "future generations", "conservation", "custodian"
+      ],
+      "polarityIndicators": {
+        "upholding": ["responsible stewardship", "sustainable", "conserve", "preserve for future", "careful use"],
+        "violating": ["exploit", "deplete", "waste", "short-term gain", "destroy", "unsustainable"]
+      },
+      "relatedValues": ["Common Good", "Sustainability", "Responsibility", "Future Generations"],
+      "examples": [
+        "Environmental stewardship protects ecosystems",
+        "Depleting resources harms future generations",
+        "Institutions require responsible stewardship"
+      ]
+    },
+    {
+      "id": 34,
+      "name": "Peace",
+      "domain": "community",
+      "definition": "Harmony and absence of violence in relationships and communities; active pursuit of reconciliation.",
+      "semanticMarkers": [
+        "peace", "harmony", "reconciliation", "non-violence", "concord",
+        "war", "violence", "conflict", "hostility", "aggression",
+        "peaceful", "resolve", "peacemaking", "tranquility", "cooperation"
+      ],
+      "polarityIndicators": {
+        "upholding": ["promote peace", "reconcile", "non-violent", "harmonious", "resolve conflict"],
+        "violating": ["violence", "war", "aggression", "escalate conflict", "hostile"]
+      },
+      "relatedValues": ["Justice", "Forgiveness", "Solidarity", "Compassion"],
+      "examples": [
+        "Peacemaking requires addressing root causes",
+        "Violence perpetuates cycles of harm",
+        "Peace is more than absence of war"
+      ]
+    },
+    {
+      "id": 35,
+      "name": "Inclusion",
+      "domain": "community",
+      "definition": "Active incorporation of diverse persons and perspectives; removing barriers to full participation.",
+      "semanticMarkers": [
+        "inclusion", "inclusive", "welcome", "embrace", "belong",
+        "exclusion", "exclude", "marginalize", "ostracize", "reject",
+        "diversity", "participation", "access", "belonging", "incorporate"
+      ],
+      "polarityIndicators": {
+        "upholding": ["include", "welcome", "embrace diversity", "ensure access", "create belonging"],
+        "violating": ["exclude", "marginalize", "ostracize", "reject", "deny access", "segregate"]
+      },
+      "relatedValues": ["Equality", "Justice", "Diversity", "Solidarity"],
+      "examples": [
+        "Inclusive communities welcome all members",
+        "Exclusion harms those marginalized",
+        "Accessibility enables full participation"
+      ]
+    },
+    {
+      "id": 36,
+      "name": "Diversity",
+      "domain": "community",
+      "definition": "Recognition and valuing of differences in perspectives, identities, and experiences within community.",
+      "semanticMarkers": [
+        "diversity", "diverse", "difference", "variety", "pluralism",
+        "homogeneity", "uniformity", "sameness", "monoculture", "conformity",
+        "multicultural", "heterogeneous", "varied", "multiple perspectives"
+      ],
+      "polarityIndicators": {
+        "upholding": ["value diversity", "embrace differences", "pluralistic", "multiple perspectives"],
+        "violating": ["enforce uniformity", "suppress differences", "monoculture", "forced conformity"]
+      },
+      "relatedValues": ["Inclusion", "Equality", "Respect for Persons", "Justice"],
+      "examples": [
+        "Diversity enriches community life",
+        "Forced conformity suppresses authentic expression",
+        "Multiple perspectives improve decision-making"
+      ]
+    },
+    {
+      "id": 37,
+      "name": "Transparency",
+      "domain": "community",
+      "definition": "Openness in processes, decisions, and information; accessibility of governance and operations.",
+      "semanticMarkers": [
+        "transparency", "transparent", "open", "accessible", "disclosure",
+        "secrecy", "hidden", "opaque", "concealed", "closed",
+        "accountability", "visible", "public", "disclosed", "clear"
+      ],
+      "polarityIndicators": {
+        "upholding": ["transparent process", "open", "disclose", "accessible information", "visible"],
+        "violating": ["secretive", "hidden", "opaque", "conceal", "closed process", "obscure"]
+      },
+      "relatedValues": ["Accountability", "Honesty", "Justice", "Democracy"],
+      "examples": [
+        "Transparent government enables accountability",
+        "Secrecy breeds corruption and distrust",
+        "Open processes build public confidence"
+      ]
+    },
+    {
+      "id": 38,
+      "name": "Accountability",
+      "domain": "community",
+      "definition": "Answerability for one's actions and decisions; obligation to explain, justify, and accept responsibility.",
+      "semanticMarkers": [
+        "accountability", "accountable", "responsible", "answerable", "liable",
+        "unaccountable", "irresponsible", "evade", "deny", "blame others",
+        "answer for", "take responsibility", "justify", "explain", "consequences"
+      ],
+      "polarityIndicators": {
+        "upholding": ["hold accountable", "take responsibility", "answer for", "accept consequences"],
+        "violating": ["evade accountability", "irresponsible", "blame others", "deny responsibility", "unaccountable"]
+      },
+      "relatedValues": ["Justice", "Integrity", "Transparency", "Responsibility"],
+      "examples": [
+        "Leaders must be accountable to constituents",
+        "Evading responsibility undermines trust",
+        "Accountability requires accepting consequences"
+      ]
+    },
+    {
+      "id": 39,
+      "name": "Service",
+      "domain": "community",
+      "definition": "Contributing to others' welfare through work, volunteerism, or civic participation; helping orientation.",
+      "semanticMarkers": [
+        "service", "serve", "help", "contribute", "volunteer",
+        "self-serving", "selfish", "refuse to help", "exploitation",
+        "civic duty", "public service", "assistance", "aid", "ministry"
+      ],
+      "polarityIndicators": {
+        "upholding": ["serve others", "contribute", "help", "volunteer", "civic engagement"],
+        "violating": ["self-serving", "refuse to help", "exploit for gain", "ignore needs"]
+      },
+      "relatedValues": ["Solidarity", "Beneficence", "Common Good", "Generosity"],
+      "examples": [
+        "Public service contributes to common good",
+        "Purely self-serving actions neglect community",
+        "Volunteering expresses civic virtue"
+      ]
+    },
+    {
+      "id": 40,
+      "name": "Democracy",
+      "domain": "community",
+      "definition": "Collective self-governance through participation, representation, and protection of minority rights.",
+      "semanticMarkers": [
+        "democracy", "democratic", "participation", "vote", "representation",
+        "autocracy", "tyranny", "oppression", "disenfranchise", "authoritarian",
+        "self-governance", "citizen", "elections", "voice", "deliberation"
+      ],
+      "polarityIndicators": {
+        "upholding": ["democratic process", "participation", "representation", "protect rights", "voice"],
+        "violating": ["autocratic", "suppress voice", "disenfranchise", "tyranny", "authoritarian"]
+      },
+      "relatedValues": ["Freedom", "Equality", "Justice", "Participation"],
+      "examples": [
+        "Democracy requires informed participation",
+        "Disenfranchisement undermines self-governance",
+        "Protecting minority rights is democratic imperative"
+      ]
+    },
+    {
+      "id": 41,
+      "name": "Meaning",
+      "domain": "transcendence",
+      "definition": "Sense of purpose and significance in life; orientation toward what matters ultimately.",
+      "semanticMarkers": [
+        "meaning", "purpose", "significance", "why", "mattering",
+        "meaningless", "purposeless", "absurd", "pointless", "empty",
+        "fulfillment", "calling", "vocation", "destiny", "legacy"
+      ],
+      "polarityIndicators": {
+        "upholding": ["find meaning", "purposeful", "significant", "fulfilling", "matters"],
+        "violating": ["meaningless", "purposeless", "empty", "pointless", "absurd"]
+      },
+      "relatedValues": ["Spiritual Growth", "Hope", "Transcendence", "Vocation"],
+      "examples": [
+        "Meaningful work provides purpose",
+        "Existential crisis involves loss of meaning",
+        "Legacy creates significance beyond lifespan"
+      ]
+    },
+    {
+      "id": 42,
+      "name": "Spiritual Growth",
+      "domain": "transcendence",
+      "definition": "Development of inner life, deepening connection to ultimate reality, and transformation of consciousness.",
+      "semanticMarkers": [
+        "spiritual growth", "transformation", "enlightenment", "awakening",
+        "stagnation", "spiritual death", "emptiness", "closed",
+        "prayer", "meditation", "contemplation", "journey", "path"
+      ],
+      "polarityIndicators": {
+        "upholding": ["spiritual growth", "transformation", "deepening", "awakening", "develop inner life"],
+        "violating": ["spiritual stagnation", "closed to growth", "reject transcendence", "materialistic"]
+      },
+      "relatedValues": ["Meaning", "Sacred/Holy", "Transcendence", "Wisdom"],
+      "examples": [
+        "Spiritual practices foster growth",
+        "Materialism alone leads to emptiness",
+        "Transformation requires openness"
+      ]
+    },
+    {
+      "id": 43,
+      "name": "Sacred/Holy",
+      "domain": "transcendence",
+      "definition": "That which is set apart as worthy of reverence; the numinous dimension of reality.",
+      "semanticMarkers": [
+        "sacred", "holy", "divine", "reverence", "worship",
+        "profane", "desecrate", "violate", "blasphemy", "sacrilege",
+        "sanctity", "consecrate", "venerate", "hallowed", "transcendent"
+      ],
+      "polarityIndicators": {
+        "upholding": ["honor sacred", "reverence", "consecrate", "respect holiness", "worship"],
+        "violating": ["profane", "desecrate", "violate sacred", "blasphemy", "sacrilege"]
+      },
+      "relatedValues": ["Spiritual Growth", "Transcendence", "Reverence", "Mystery"],
+      "examples": [
+        "Sacred spaces command reverence",
+        "Desecration violates holiness",
+        "Religious objects deserve respectful treatment"
+      ]
+    },
+    {
+      "id": 44,
+      "name": "Hope",
+      "domain": "transcendence",
+      "definition": "Confident expectation of future good; trust that present suffering is not final word.",
+      "semanticMarkers": [
+        "hope", "hopeful", "optimism", "trust", "expectation",
+        "despair", "hopeless", "pessimism", "futility", "give up",
+        "future", "possibility", "promise", "aspiration", "faith"
+      ],
+      "polarityIndicators": {
+        "upholding": ["maintain hope", "hopeful", "trust future", "see possibility", "aspire"],
+        "violating": ["despair", "hopeless", "give up", "no future", "futility"]
+      },
+      "relatedValues": ["Meaning", "Faith", "Resilience", "Patience"],
+      "examples": [
+        "Hope sustains through suffering",
+        "Despair sees no possibility",
+        "Hopeful outlook enables perseverance"
+      ]
+    },
+    {
+      "id": 45,
+      "name": "Faith",
+      "domain": "transcendence",
+      "definition": "Trust and commitment to ultimate reality or truth beyond empirical verification; fidelity to transcendent.",
+      "semanticMarkers": [
+        "faith", "believe", "trust", "commitment", "devotion",
+        "doubt", "skepticism", "faithless", "abandon faith", "apostasy",
+        "conviction", "religious", "spiritual", "creed", "belief"
+      ],
+      "polarityIndicators": {
+        "upholding": ["maintain faith", "trust", "devoted", "committed", "faithful"],
+        "violating": ["abandon faith", "faithless", "apostasy", "betray belief", "lose faith"]
+      },
+      "relatedValues": ["Hope", "Sacred/Holy", "Fidelity", "Trust"],
+      "examples": [
+        "Faith provides foundation for meaning",
+        "Losing faith creates existential crisis",
+        "Religious commitment requires faithfulness"
+      ]
+    },
+    {
+      "id": 46,
+      "name": "Transcendence",
+      "domain": "transcendence",
+      "definition": "Reality beyond material existence; experiences of going beyond ordinary limits and connecting with ultimate.",
+      "semanticMarkers": [
+        "transcendence", "transcendent", "beyond", "ultimate", "infinite",
+        "immanent only", "materialistic", "reductionist", "limited",
+        "mystical", "numinous", "sublime", "eternal", "absolute"
+      ],
+      "polarityIndicators": {
+        "upholding": ["transcendent reality", "beyond material", "ultimate concern", "infinite", "eternal"],
+        "violating": ["only material", "reductionist", "deny transcendent", "limited to immanent"]
+      },
+      "relatedValues": ["Sacred/Holy", "Spiritual Growth", "Mystery", "Reverence"],
+      "examples": [
+        "Mystical experiences point to transcendent",
+        "Materialism denies transcendent dimension",
+        "Art can evoke sense of sublime"
+      ]
+    },
+    {
+      "id": 47,
+      "name": "Mystery",
+      "domain": "transcendence",
+      "definition": "Recognition that ultimate reality exceeds human comprehension; comfort with unknowing.",
+      "semanticMarkers": [
+        "mystery", "mysterious", "unknowable", "ineffable", "wonder",
+        "certainty", "know all", "explain away", "reduce", "demystify",
+        "awe", "incomprehensible", "beyond understanding", "enigma"
+      ],
+      "polarityIndicators": {
+        "upholding": ["embrace mystery", "wonder", "acknowledge limits", "awe", "incomprehensible"],
+        "violating": ["claim certainty", "reduce mystery", "explain away", "demystify", "arrogant knowing"]
+      },
+      "relatedValues": ["Humility", "Transcendence", "Reverence", "Wonder"],
+      "examples": [
+        "Mystery evokes awe and wonder",
+        "Claiming complete understanding denies mystery",
+        "Some truths exceed rational comprehension"
+      ]
+    },
+    {
+      "id": 48,
+      "name": "Reverence",
+      "domain": "transcendence",
+      "definition": "Deep respect and awe toward what is sacred, sublime, or of ultimate worth.",
+      "semanticMarkers": [
+        "reverence", "revere", "awe", "veneration", "respect deeply",
+        "irreverence", "disrespect", "profane", "mock", "belittle",
+        "worship", "honor", "esteem", "adoration", "sacred regard"
+      ],
+      "polarityIndicators": {
+        "upholding": ["show reverence", "venerate", "deep respect", "awe", "honor sacred"],
+        "violating": ["irreverent", "mock", "profane", "disrespect sacred", "belittle"]
+      },
+      "relatedValues": ["Sacred/Holy", "Respect for Persons", "Mystery", "Humility"],
+      "examples": [
+        "Reverence for nature inspires conservation",
+        "Mocking sacred objects shows irreverence",
+        "Awe before mystery evokes reverence"
+      ]
+    },
+    {
+      "id": 49,
+      "name": "Grace",
+      "domain": "transcendence",
+      "definition": "Unmerited gift from divine or ultimate reality; being given what is not earned or deserved.",
+      "semanticMarkers": [
+        "grace", "gift", "unmerited", "unearned", "given freely",
+        "earned", "deserved", "merit", "work for", "payment",
+        "blessing", "favor", "divine gift", "gratuitous", "freely given"
+      ],
+      "polarityIndicators": {
+        "upholding": ["receive grace", "gift freely given", "unmerited favor", "blessing"],
+        "violating": ["earn everything", "merit-based only", "deny grace", "transactional"]
+      },
+      "relatedValues": ["Gratitude", "Mercy", "Forgiveness", "Faith"],
+      "examples": [
+        "Grace is gift not earned",
+        "Purely transactional view denies grace",
+        "Receiving grace evokes gratitude"
+      ]
+    },
+    {
+      "id": 50,
+      "name": "Self-care",
+      "domain": "virtue",
+      "definition": "Proper attention to one's own physical, emotional, and spiritual well-being; healthy self-regard.",
+      "semanticMarkers": [
+        "self-care", "self-compassion", "boundaries", "rest", "renewal",
+        "self-neglect", "burnout", "martyr", "exhaust", "deplete",
+        "health", "wellbeing", "balance", "sustain", "recharge"
+      ],
+      "polarityIndicators": {
+        "upholding": ["practice self-care", "maintain boundaries", "rest", "renew", "sustain wellbeing"],
+        "violating": ["self-neglect", "burnout", "martyr complex", "exhaust self", "deplete"]
+      },
+      "relatedValues": ["Temperance", "Prudence", "Health", "Sustainability"],
+      "examples": [
+        "Self-care enables sustained service",
+        "Burnout from neglecting own needs",
+        "Healthy boundaries are form of self-care"
+      ]
+    }
+  ]
+}

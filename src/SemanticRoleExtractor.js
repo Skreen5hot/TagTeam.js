@@ -248,6 +248,14 @@
     function SemanticRoleExtractor() {
         this.frames = SEMANTIC_FRAMES;
         this.posTagger = new POSTagger(); // Use existing TagTeam POS tagger
+
+        // Week 2a: Initialize ContextAnalyzer
+        // Load it dynamically if available, otherwise context analysis is skipped
+        if (typeof ContextAnalyzer !== 'undefined') {
+            this.contextAnalyzer = new ContextAnalyzer();
+        } else {
+            this.contextAnalyzer = null;
+        }
     }
 
     /**
@@ -277,8 +285,14 @@
         // Step 6: Detect ambiguity
         const ambiguity = this._detectAmbiguity(roles, frame, taggedWords);
 
+        // Week 2a: Analyze context intensity (12 dimensions)
+        let contextIntensity = null;
+        if (this.contextAnalyzer) {
+            contextIntensity = this.contextAnalyzer.analyzeContext(text, taggedWords, frame, roles);
+        }
+
         // Step 7: Build result object
-        return this._buildSemanticAction(roles, verbInfo, frame, negation, modality, confidence, ambiguity);
+        return this._buildSemanticAction(roles, verbInfo, frame, negation, modality, confidence, ambiguity, contextIntensity);
     };
 
     // ========================================
@@ -391,6 +405,19 @@
 
         for (let i = 0; i < taggedWords.length; i++) {
             const [word, tag] = taggedWords[i];
+            const nextToken = taggedWords[i + 1];
+
+            // WEEK 1 FIX: Skip auxiliary verbs in progressive constructions
+            // E.g., "I am questioning" should extract "questioning", not "am"
+            if (this._isAuxiliaryVerb(word) && nextToken && nextToken[1] === 'VBG') {
+                continue; // Skip auxiliary, next iteration will catch the VBG
+            }
+
+            // WEEK 1 FIX: Skip modal verbs, look for the main verb after them
+            // E.g., "The family must decide" should extract "decide", not "must"
+            if (tag === 'MD') {
+                continue; // Skip modals (must, should, can, will, etc.)
+            }
 
             if (verbTags.includes(tag)) {
                 const lemma = this._lemmatizeVerb(word, tag);
@@ -409,6 +436,15 @@
         }
 
         return { word: null, tag: null, position: -1, lemma: null, tense: 'present', aspect: 'simple' };
+    };
+
+    // ========================================
+    // HELPER: CHECK IF WORD IS AUXILIARY VERB
+    // ========================================
+
+    SemanticRoleExtractor.prototype._isAuxiliaryVerb = function(word) {
+        const auxiliaries = ['am', 'is', 'are', 'was', 'were', 'be', 'been', 'being'];
+        return auxiliaries.includes(word.toLowerCase());
     };
 
     // ========================================
@@ -466,17 +502,21 @@
         // Simple lemmatization rules
         verb = verb.toLowerCase();
 
-        // VBD (past tense) -> base form
-        if (tag === 'VBD') {
-            if (verb.endsWith('ed')) return verb.slice(0, -2);
-            // Irregular verbs (small set for now)
+        // VBD (past tense) and VBN (past participle) -> base form
+        if (tag === 'VBD' || tag === 'VBN') {
+            // Irregular verbs first
             const irregulars = {
                 'was': 'be', 'were': 'be', 'had': 'have', 'did': 'do',
                 'went': 'go', 'came': 'come', 'said': 'say', 'told': 'tell',
                 'left': 'leave', 'felt': 'feel', 'thought': 'think',
                 'made': 'make', 'took': 'take', 'gave': 'give'
             };
-            return irregulars[verb] || verb;
+            if (irregulars[verb]) return irregulars[verb];
+
+            // Regular verbs ending in -ed
+            if (verb.endsWith('ed')) return verb.slice(0, -2);
+
+            return verb;
         }
 
         // VBZ (3rd person singular) -> base form
@@ -556,11 +596,12 @@
             const frameDef = this.frames[frame.name];
 
             // Look for specific role types
-            if (frameDef.requiredRoles.includes('recipient')) {
+            if (frameDef.requiredRoles && frameDef.requiredRoles.includes('recipient')) {
                 roles.recipient = this._extractRecipient(taggedWords, verbPosition);
             }
 
-            if (frameDef.requiredRoles.includes('theme') || frameDef.optionalRoles.includes('theme')) {
+            if ((frameDef.requiredRoles && frameDef.requiredRoles.includes('theme')) ||
+                (frameDef.optionalRoles && frameDef.optionalRoles.includes('theme'))) {
                 roles.theme = this._extractTheme(taggedWords, verbPosition);
             }
         }
@@ -573,12 +614,30 @@
         for (let i = verbPosition - 1; i >= 0; i--) {
             const [word, tag] = taggedWords[i];
 
-            if (tag === 'PRP' || tag === 'NN' || tag === 'NNP' || tag === 'NNS') {
+            // WEEK 1 FIX: Skip determiners and modals, continue looking for noun/pronoun
+            // E.g., "The family must decide" should extract "family", skipping "must" and "The"
+            if (tag === 'DT' || tag === 'PDT' || tag === 'MD') {
+                continue;  // Skip determiners (the, a, an) and modals (must, should, can)
+            }
+
+            // WEEK 1 FIX: Include RB (adverb) tag for nouns that get mistagged
+            // E.g., "family" in "The family must decide" is sometimes tagged as RB instead of NN
+            // This is a POS tagger limitation - some nouns get misclassified
+            if (tag === 'PRP' || tag === 'NN' || tag === 'NNP' || tag === 'NNS' || tag === 'RB') {
+                // Double-check: if tagged as RB, make sure it's a known noun that gets mistagged
+                if (tag === 'RB') {
+                    const commonNounsMistagged = ['family', 'person', 'people', 'community', 'friend'];
+                    if (!commonNounsMistagged.includes(word.toLowerCase())) {
+                        // Actually an adverb, skip it
+                        continue;
+                    }
+                }
+
                 return {
                     text: word,
                     role: 'agent',
                     entity: this._categorizeEntity(word),
-                    posTag: tag,  // IEE requirement
+                    posTag: tag === 'RB' ? 'NN' : tag,  // Normalize RB → NN for output
                     position: i
                 };
             }
@@ -752,12 +811,12 @@
     // ========================================
 
     SemanticRoleExtractor.prototype._buildSemanticAction = function(
-        roles, verbInfo, frame, negation, modality, confidence, ambiguity
+        roles, verbInfo, frame, negation, modality, confidence, ambiguity, contextIntensity
     ) {
         // Map internal frame name to IEE expected format
         const ieeFrameName = FRAME_NAME_MAPPING[frame.name] || frame.name;
 
-        return {
+        const result = {
             // Core semantic structure (IEE format)
             agent: roles.agent || null,
             action: {
@@ -794,6 +853,13 @@
                 return `${agentStr} ${actionStr} ${objectStr} [${this.semanticFrame}]`;
             }
         };
+
+        // Week 2a: Add context intensity if available
+        if (contextIntensity) {
+            result.contextIntensity = contextIntensity;
+        }
+
+        return result;
     };
 
     // ========================================

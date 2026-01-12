@@ -24,14 +24,20 @@ if (!fs.existsSync(distDir)) {
 console.log('📖 Reading source files...');
 const lexiconPath = path.join(__dirname, 'src', 'lexicon.js');
 const posTaggerPath = path.join(__dirname, 'src', 'POSTagger.js');
+const patternMatcherPath = path.join(__dirname, 'src', 'PatternMatcher.js');
+const contextAnalyzerPath = path.join(__dirname, 'src', 'ContextAnalyzer.js');
 const semanticExtractorPath = path.join(__dirname, 'src', 'SemanticRoleExtractor.js');
 
 let lexicon = fs.readFileSync(lexiconPath, 'utf8');
 let posTagger = fs.readFileSync(posTaggerPath, 'utf8');
+let patternMatcher = fs.readFileSync(patternMatcherPath, 'utf8');
+let contextAnalyzer = fs.readFileSync(contextAnalyzerPath, 'utf8');
 let semanticExtractor = fs.readFileSync(semanticExtractorPath, 'utf8');
 
 console.log(`  ✓ lexicon.js (${(lexicon.length / 1024 / 1024).toFixed(2)} MB)`);
 console.log(`  ✓ POSTagger.js (${(posTagger.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ PatternMatcher.js (${(patternMatcher.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ ContextAnalyzer.js (${(contextAnalyzer.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ SemanticRoleExtractor.js (${(semanticExtractor.length / 1024).toFixed(2)} KB)`);
 
 // Strip IIFE wrappers from SemanticRoleExtractor if present
@@ -110,7 +116,19 @@ ${lexicon}
 ${posTagger}
 
   // ============================================================================
-  // SEMANTIC ROLE EXTRACTOR (~32KB)
+  // PATTERN MATCHER (Week 2a) (~8KB)
+  // ============================================================================
+
+${patternMatcher}
+
+  // ============================================================================
+  // CONTEXT ANALYZER (Week 2a) (~15KB)
+  // ============================================================================
+
+${contextAnalyzer}
+
+  // ============================================================================
+  // SEMANTIC ROLE EXTRACTOR (~32KB + Week 2a enhancements)
   // ============================================================================
 
 ${semanticExtractor}

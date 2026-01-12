@@ -1,0 +1,1506 @@
+{
+  "meta": {
+    "version": "2.0.0",
+    "created": "2026-01-11",
+    "description": "Week 2 test corpus - 20 annotated ethical dilemma scenarios",
+    "changes": "Expanded from 5 to 20 scenarios, added context intensity and value annotations"
+  },
+  "scenarios": [
+    {
+      "id": "healthcare-001",
+      "domain": "healthcare",
+      "complexity": "moderate",
+      "title": "End of Life Decision",
+      "scenario": "The family must decide whether to continue treatment for their unconscious father who has no advance directive.",
+      "testSentence": "The family must decide whether to continue treatment",
+      "expectedOutput": {
+        "agent": {
+          "text": "family",
+          "entity": "family",
+          "type": "collective"
+        },
+        "action": {
+          "verb": "decide",
+          "lemma": "decide",
+          "modality": "must",
+          "tense": "present"
+        },
+        "patient": {
+          "text": "treatment",
+          "entity": "treatment",
+          "type": "medical_intervention"
+        },
+        "semanticFrame": "Deciding",
+        "contextIntensity": {
+          "temporal": {
+            "urgency": 0.8,
+            "duration": 1.0,
+            "reversibility": 1.0
+          },
+          "relational": {
+            "intimacy": 1.0,
+            "powerDifferential": 0.3,
+            "trust": 0.7
+          },
+          "consequential": {
+            "harmSeverity": 1.0,
+            "benefitMagnitude": 0.4,
+            "scope": 0.1
+          },
+          "epistemic": {
+            "certainty": 0.4,
+            "informationCompleteness": 0.5,
+            "expertise": 0.3
+          }
+        },
+        "values": [
+          {
+            "name": "Autonomy",
+            "present": true,
+            "salience": 0.9,
+            "polarity": -1,
+            "evidence": "Patient unconscious, cannot express wishes"
+          },
+          {
+            "name": "Compassion",
+            "present": true,
+            "salience": 0.8,
+            "polarity": 1,
+            "evidence": "Family considering suffering vs prolonging life"
+          },
+          {
+            "name": "Fidelity",
+            "present": true,
+            "salience": 0.7,
+            "polarity": 0,
+            "evidence": "Family trying to honor father's likely wishes"
+          },
+          {
+            "name": "Non-maleficence",
+            "present": true,
+            "salience": 0.8,
+            "polarity": 0,
+            "evidence": "Avoiding harm, but unclear which choice causes more harm"
+          }
+        ]
+      }
+    },
+    {
+      "id": "healthcare-002",
+      "domain": "healthcare",
+      "complexity": "complex",
+      "title": "Triage in Resource Scarcity",
+      "scenario": "The emergency room doctor must allocate the last ventilator between a 70-year-old retired teacher and a 35-year-old parent of three.",
+      "testSentence": "The doctor must allocate the last ventilator between two critically ill patients",
+      "expectedOutput": {
+        "agent": {
+          "text": "doctor",
+          "entity": "doctor",
+          "type": "medical_professional"
+        },
+        "action": {
+          "verb": "allocate",
+          "lemma": "allocate",
+          "modality": "must",
+          "tense": "present"
+        },
+        "patient": {
+          "text": "ventilator",
+          "entity": "ventilator",
+          "type": "medical_resource"
+        },
+        "semanticFrame": "Deciding",
+        "contextIntensity": {
+          "temporal": {
+            "urgency": 1.0,
+            "duration": 1.0,
+            "reversibility": 1.0
+          },
+          "relational": {
+            "intimacy": 0.2,
+            "powerDifferential": 0.9,
+            "trust": 0.8
+          },
+          "consequential": {
+            "harmSeverity": 1.0,
+            "benefitMagnitude": 1.0,
+            "scope": 0.2
+          },
+          "epistemic": {
+            "certainty": 0.6,
+            "informationCompleteness": 0.7,
+            "expertise": 0.9
+          }
+        },
+        "values": [
+          {
+            "name": "Justice",
+            "present": true,
+            "salience": 1.0,
+            "polarity": 0,
+            "evidence": "Conflicting principles: age, dependents, future years"
+          },
+          {
+            "name": "Equality",
+            "present": true,
+            "salience": 0.9,
+            "polarity": -1,
+            "evidence": "Cannot treat both patients equally due to scarcity"
+          },
+          {
+            "name": "Beneficence",
+            "present": true,
+            "salience": 0.9,
+            "polarity": 0,
+            "evidence": "Trying to maximize good but forced to choose"
+          },
+          {
+            "name": "Human Dignity",
+            "present": true,
+            "salience": 1.0,
+            "polarity": 1,
+            "evidence": "Both patients have inherent worth regardless of age"
+          }
+        ]
+      }
+    },
+    {
+      "id": "healthcare-003",
+      "domain": "healthcare",
+      "complexity": "simple",
+      "title": "Medical Error Disclosure",
+      "scenario": "The surgeon realizes she made a minor error during surgery that likely won't cause harm, but could be discovered later.",
+      "testSentence": "The surgeon must decide whether to disclose the error to the patient",
+      "expectedOutput": {
+        "agent": {
+          "text": "surgeon",
+          "entity": "surgeon",
+          "type": "medical_professional"
+        },
+        "action": {
+          "verb": "decide",
+          "lemma": "decide",
+          "modality": "must",
+          "tense": "present"
+        },
+        "patient": {
+          "text": "error",
+          "entity": "error",
+          "type": "information"
+        },
+        "semanticFrame": "Deciding",
+        "contextIntensity": {
+          "temporal": {
+            "urgency": 0.6,
+            "duration": 0.7,
+            "reversibility": 0.3
+          },
+          "relational": {
+            "intimacy": 0.3,
+            "powerDifferential": 0.7,
+            "trust": 0.9
+          },
+          "consequential": {
+            "harmSeverity": 0.3,
+            "benefitMagnitude": 0.7,
+            "scope": 0.1
+          },
+          "epistemic": {
+            "certainty": 0.8,
+            "informationCompleteness": 0.9,
+            "expertise": 0.9
+          }
+        },
+        "values": [
+          {
+            "name": "Honesty",
+            "present": true,
+            "salience": 1.0,
+            "polarity": 0,
+            "evidence": "Truth-telling vs withholding information"
+          },
+          {
+            "name": "Integrity",
+            "present": true,
+            "salience": 0.9,
+            "polarity": 0,
+            "evidence": "Alignment between professional standards and actions"
+          },
+          {
+            "name": "Accountability",
+            "present": true,
+            "salience": 0.8,
+            "polarity": 0,
+            "evidence": "Taking responsibility for mistake"
+          },
+          {
+            "name": "Non-maleficence",
+            "present": true,
+            "salience": 0.7,
+            "polarity": 1,
+            "evidence": "Error unlikely to cause harm"
+          }
+        ]
+      }
+    },
+    {
+      "id": "healthcare-004",
+      "domain": "healthcare",
+      "complexity": "moderate",
+      "title": "Experimental Treatment",
+      "scenario": "Parents of a terminally ill child demand an experimental treatment that has shown no efficacy in clinical trials.",
+      "testSentence": "The parents are demanding an unproven treatment for their dying child",
+      "expectedOutput": {
+        "agent": {
+          "text": "parents",
+          "entity": "parents",
+          "type": "family"
+        },
+        "action": {
+          "verb": "demand",
+          "lemma": "demand",
+          "modality": null,
+          "tense": "present"
+        },
+        "patient": {
+          "text": "treatment",
+          "entity": "treatment",
+          "type": "medical_intervention"
+        },
+        "semanticFrame": "Request",
+        "contextIntensity": {
+          "temporal": {
+            "urgency": 0.9,
+            "duration": 1.0,
+            "reversibility": 1.0
+          },
+          "relational": {
+            "intimacy": 1.0,
+            "powerDifferential": 0.8,
+            "trust": 0.6
+          },
+          "consequential": {
+            "harmSeverity": 0.8,
+            "benefitMagnitude": 0.2,
+            "scope": 0.1
+          },
+          "epistemic": {
+            "certainty": 0.7,
+            "informationCompleteness": 0.8,
+            "expertise": 0.5
+          }
+        },
+        "values": [
+          {
+            "name": "Hope",
+            "present": true,
+            "salience": 1.0,
+            "polarity": 1,
+            "evidence": "Parents seeking any possibility of survival"
+          },
+          {
+            "name": "Autonomy",
+            "present": true,
+            "salience": 0.8,
+            "polarity": 1,
+            "evidence": "Parents exercising decision-making authority"
+          },
+          {
+            "name": "Non-maleficence",
+            "present": true,
+            "salience": 0.9,
+            "polarity": -1,
+            "evidence": "Unproven treatment may cause suffering without benefit"
+          }
+        ]
+      }
+    },
+    {
+      "id": "healthcare-005",
+      "domain": "healthcare",
+      "complexity": "moderate",
+      "title": "Psychiatric Hold",
+      "scenario": "The psychiatrist must decide whether to involuntarily commit a suicidal patient who is refusing treatment.",
+      "testSentence": "The psychiatrist must decide whether to commit the patient against their will",
+      "expectedOutput": {
+        "agent": {
+          "text": "psychiatrist",
+          "entity": "psychiatrist",
+          "type": "medical_professional"
+        },
+        "action": {
+          "verb": "decide",
+          "lemma": "decide",
+          "modality": "must",
+          "tense": "present"
+        },
+        "patient": {
+          "text": "patient",
+          "entity": "patient",
+          "type": "person"
+        },
+        "semanticFrame": "Deciding",
+        "contextIntensity": {
+          "temporal": {
+            "urgency": 0.9,
+            "duration": 0.5,
+            "reversibility": 0.6
+          },
+          "relational": {
+            "intimacy": 0.4,
+            "powerDifferential": 0.9,
+            "trust": 0.5
+          },
+          "consequential": {
+            "harmSeverity": 1.0,
+            "benefitMagnitude": 1.0,
+            "scope": 0.1
+          },
+          "epistemic": {
+            "certainty": 0.5,
+            "informationCompleteness": 0.6,
+            "expertise": 0.8
+          }
+        },
+        "values": [
+          {
+            "name": "Autonomy",
+            "present": true,
+            "salience": 1.0,
+            "polarity": -1,
+            "evidence": "Overriding patient's refusal of treatment"
+          },
+          {
+            "name": "Beneficence",
+            "present": true,
+            "salience": 1.0,
+            "polarity": 1,
+            "evidence": "Trying to prevent suicide, save life"
+          },
+          {
+            "name": "Human Dignity",
+            "present": true,
+            "salience": 0.8,
+            "polarity": 0,
+            "evidence": "Conflicting views on respecting personhood"
+          }
+        ]
+      }
+    },
+    {
+      "id": "spiritual-001",
+      "domain": "spiritual",
+      "complexity": "moderate",
+      "title": "Leaving Faith Community",
+      "scenario": "After years of devotion, I am questioning core doctrines of my religious tradition and considering leaving my faith community.",
+      "testSentence": "I am questioning core doctrines",
+      "expectedOutput": {
+        "agent": {
+          "text": "I",
+          "entity": "self",
+          "type": "person"
+        },
+        "action": {
+          "verb": "question",
+          "lemma": "question",
+          "modality": null,
+          "tense": "present_progressive"
+        },
+        "patient": {
+          "text": "doctrines",
+          "entity": "core_doctrines",
+          "type": "belief"
+        },
+        "semanticFrame": "Questioning",
+        "contextIntensity": {
+          "temporal": {
+            "urgency": 0.3,
+            "duration": 0.8,
+            "reversibility": 0.5
+          },
+          "relational": {
+            "intimacy": 0.9,
+            "powerDifferential": 0.4,
+            "trust": 0.4
+          },
+          "consequential": {
+            "harmSeverity": 0.6,
+            "benefitMagnitude": 0.7,
+            "scope": 0.2
+          },
+          "epistemic": {
+            "certainty": 0.3,
+            "informationCompleteness": 0.6,
+            "expertise": 0.6
+          }
+        },
+        "values": [
+          {
+            "name": "Integrity",
+            "present": true,
+            "salience": 1.0,
+            "polarity": 1,
+            "evidence": "Seeking alignment between beliefs and lived experience"
+          },
+          {
+            "name": "Spiritual Growth",
+            "present": true,
+            "salience": 0.9,
+            "polarity": 1,
+            "evidence": "Deepening understanding through questioning"
+          },
+          {
+            "name": "Fidelity",
+            "present": true,
+            "salience": 0.8,
+            "polarity": -1,
+            "evidence": "Potentially breaking commitment to faith community"
+          },
+          {
+            "name": "Authenticity",
+            "present": true,
+            "salience": 0.9,
+            "polarity": 1,
+            "evidence": "Being true to evolving beliefs"
+          }
+        ]
+      }
+    },
+    {
+      "id": "spiritual-002",
+      "domain": "spiritual",
+      "complexity": "complex",
+      "title": "Religious Conversion and Family",
+      "scenario": "I am converting to a different religion, which will cause deep pain to my devoutly religious parents who see this as betrayal and eternal damnation.",
+      "testSentence": "I am converting to a religion that my parents believe will damn my soul",
+      "expectedOutput": {
+        "agent": {
+          "text": "I",
+          "entity": "self",
+          "type": "person"
+        },
+        "action": {
+          "verb": "convert",
+          "lemma": "convert",
+          "modality": null,
+          "tense": "present_progressive"
+        },
+        "patient": {
+          "text": "religion",
+          "entity": "religion",
+          "type": "belief_system"
+        },
+        "semanticFrame": "Undergo_change",
+        "contextIntensity": {
+          "temporal": {
+            "urgency": 0.4,
+            "duration": 1.0,
+            "reversibility": 0.3
+          },
+          "relational": {
+            "intimacy": 1.0,
+            "powerDifferential": 0.3,
+            "trust": 0.5
+          },
+          "consequential": {
+            "harmSeverity": 0.8,
+            "benefitMagnitude": 0.9,
+            "scope": 0.1
+          },
+          "epistemic": {
+            "certainty": 0.7,
+            "informationCompleteness": 0.7,
+            "expertise": 0.6
+          }
+        },
+        "values": [
+          {
+            "name": "Authenticity",
+            "present": true,
+            "salience": 1.0,
+            "polarity": 1,
+            "evidence": "Following genuine spiritual calling"
+          },
+          {
+            "name": "Fidelity",
+            "present": true,
+            "salience": 0.9,
+            "polarity": -1,
+            "evidence": "Betraying family expectations and religious heritage"
+          },
+          {
+            "name": "Compassion",
+            "present": true,
+            "salience": 0.8,
+            "polarity": 0,
+            "evidence": "Aware of pain to parents, but following conscience"
+          },
+          {
+            "name": "Meaning",
+            "present": true,
+            "salience": 1.0,
+            "polarity": 1,
+            "evidence": "Seeking deeper spiritual truth and purpose"
+          }
+        ]
+      }
+    },
+    {
+      "id": "spiritual-003",
+      "domain": "spiritual",
+      "complexity": "simple",
+      "title": "Sabbath Conflict",
+      "scenario": "My employer scheduled me to work on my religious Sabbath, and refusing might cost me my job.",
+      "testSentence": "I must choose between honoring my Sabbath and keeping my job",
+      "expectedOutput": {
+        "agent": {
+          "text": "I",
+          "entity": "self",
+          "type": "person"
+        },
+        "action": {
+          "verb": "choose",
+          "lemma": "choose",
+          "modality": "must",
+          "tense": "present"
+        },
+        "patient": {
+          "text": "Sabbath",
+          "entity": "sabbath",
+          "type": "religious_practice"
+        },
+        "semanticFrame": "Choosing",
+        "contextIntensity": {
+          "temporal": {
+            "urgency": 0.7,
+            "duration": 0.6,
+            "reversibility": 0.5
+          },
+          "relational": {
+            "intimacy": 0.1,
+            "powerDifferential": 0.8,
+            "trust": 0.3
+          },
+          "consequential": {
+            "harmSeverity": 0.7,
+            "benefitMagnitude": 0.6,
+            "scope": 0.1
+          },
+          "epistemic": {
+            "certainty": 0.8,
+            "informationCompleteness": 0.9,
+            "expertise": 0.7
+          }
+        },
+        "values": [
+          {
+            "name": "Sacred/Holy",
+            "present": true,
+            "salience": 1.0,
+            "polarity": 0,
+            "evidence": "Sabbath observance as religious obligation"
+          },
+          {
+            "name": "Integrity",
+            "present": true,
+            "salience": 0.9,
+            "polarity": 0,
+            "evidence": "Living according to religious convictions"
+          },
+          {
+            "name": "Justice",
+            "present": true,
+            "salience": 0.7,
+            "polarity": -1,
+            "evidence": "Unfair to force choice between faith and livelihood"
+          }
+        ]
+      }
+    },
+    {
+      "id": "spiritual-004",
+      "domain": "spiritual",
+      "complexity": "moderate",
+      "title": "Clergy Sexual Abuse Cover-up",
+      "scenario": "I discovered that a beloved religious leader has been credibly accused of sexual misconduct, but church leadership is covering it up.",
+      "testSentence": "I discovered that church leadership is covering up abuse allegations",
+      "expectedOutput": {
+        "agent": {
+          "text": "I",
+          "entity": "self",
+          "type": "person"
+        },
+        "action": {
+          "verb": "discover",
+          "lemma": "discover",
+          "modality": null,
+          "tense": "past"
+        },
+        "patient": {
+          "text": "cover-up",
+          "entity": "cover_up",
+          "type": "action"
+        },
+        "semanticFrame": "Becoming_aware",
+        "contextIntensity": {
+          "temporal": {
+            "urgency": 0.8,
+            "duration": 0.9,
+            "reversibility": 0.8
+          },
+          "relational": {
+            "intimacy": 0.7,
+            "powerDifferential": 0.7,
+            "trust": 0.2
+          },
+          "consequential": {
+            "harmSeverity": 1.0,
+            "benefitMagnitude": 0.9,
+            "scope": 0.4
+          },
+          "epistemic": {
+            "certainty": 0.8,
+            "informationCompleteness": 0.7,
+            "expertise": 0.5
+          }
+        },
+        "values": [
+          {
+            "name": "Justice",
+            "present": true,
+            "salience": 1.0,
+            "polarity": -1,
+            "evidence": "Victims denied justice through institutional cover-up"
+          },
+          {
+            "name": "Integrity",
+            "present": true,
+            "salience": 1.0,
+            "polarity": 0,
+            "evidence": "Conflict between loyalty to institution and moral duty"
+          },
+          {
+            "name": "Courage",
+            "present": true,
+            "salience": 0.9,
+            "polarity": 0,
+            "evidence": "Speaking truth requires risking community rejection"
+          },
+          {
+            "name": "Accountability",
+            "present": true,
+            "salience": 1.0,
+            "polarity": -1,
+            "evidence": "Leader not being held responsible for misconduct"
+          }
+        ]
+      }
+    },
+    {
+      "id": "spiritual-005",
+      "domain": "spiritual",
+      "complexity": "moderate",
+      "title": "Prayer vs Medical Treatment",
+      "scenario": "My religious community believes in faith healing and opposes medical treatment, but my child has a treatable illness.",
+      "testSentence": "I must decide whether to follow my faith's rejection of medicine or seek treatment for my child",
+      "expectedOutput": {
+        "agent": {
+          "text": "I",
+          "entity": "self",
+          "type": "person"
+        },
+        "action": {
+          "verb": "decide",
+          "lemma": "decide",
+          "modality": "must",
+          "tense": "present"
+        },
+        "patient": {
+          "text": "treatment",
+          "entity": "treatment",
+          "type": "medical_intervention"
+        },
+        "semanticFrame": "Deciding",
+        "contextIntensity": {
+          "temporal": {
+            "urgency": 0.9,
+            "duration": 1.0,
+            "reversibility": 0.8
+          },
+          "relational": {
+            "intimacy": 1.0,
+            "powerDifferential": 1.0,
+            "trust": 0.6
+          },
+          "consequential": {
+            "harmSeverity": 1.0,
+            "benefitMagnitude": 1.0,
+            "scope": 0.1
+          },
+          "epistemic": {
+            "certainty": 0.7,
+            "informationCompleteness": 0.8,
+            "expertise": 0.4
+          }
+        },
+        "values": [
+          {
+            "name": "Sacred/Holy",
+            "present": true,
+            "salience": 0.9,
+            "polarity": 0,
+            "evidence": "Religious conviction about divine healing"
+          },
+          {
+            "name": "Beneficence",
+            "present": true,
+            "salience": 1.0,
+            "polarity": 1,
+            "evidence": "Seeking child's well-being"
+          },
+          {
+            "name": "Autonomy",
+            "present": true,
+            "salience": 0.6,
+            "polarity": -1,
+            "evidence": "Child unable to choose for themselves"
+          }
+        ]
+      }
+    },
+    {
+      "id": "vocational-001",
+      "domain": "vocational",
+      "complexity": "complex",
+      "title": "Whistleblowing Decision",
+      "scenario": "I discovered that my company is falsifying safety reports on a product that could harm consumers, but speaking up will likely cost me my career.",
+      "testSentence": "I discovered that my company is falsifying safety reports",
+      "expectedOutput": {
+        "agent": {
+          "text": "I",
+          "entity": "self",
+          "type": "person"
+        },
+        "action": {
+          "verb": "discover",
+          "lemma": "discover",
+          "modality": null,
+          "tense": "past"
+        },
+        "patient": {
+          "text": "company",
+          "entity": "company",
+          "type": "organization"
+        },
+        "semanticFrame": "Becoming_aware",
+        "contextIntensity": {
+          "temporal": {
+            "urgency": 0.8,
+            "duration": 0.8,
+            "reversibility": 0.6
+          },
+          "relational": {
+            "intimacy": 0.3,
+            "powerDifferential": 0.8,
+            "trust": 0.1
+          },
+          "consequential": {
+            "harmSeverity": 0.9,
+            "benefitMagnitude": 0.9,
+            "scope": 0.6
+          },
+          "epistemic": {
+            "certainty": 0.9,
+            "informationCompleteness": 0.8,
+            "expertise": 0.7
+          }
+        },
+        "values": [
+          {
+            "name": "Integrity",
+            "present": true,
+            "salience": 1.0,
+            "polarity": 0,
+            "evidence": "Conflict between personal ethics and organizational loyalty"
+          },
+          {
+            "name": "Courage",
+            "present": true,
+            "salience": 1.0,
+            "polarity": 0,
+            "evidence": "Speaking truth despite personal cost"
+          },
+          {
+            "name": "Common Good",
+            "present": true,
+            "salience": 0.9,
+            "polarity": 1,
+            "evidence": "Protecting public safety"
+          },
+          {
+            "name": "Fidelity",
+            "present": true,
+            "salience": 0.7,
+            "polarity": -1,
+            "evidence": "Breaking organizational loyalty"
+          }
+        ]
+      }
+    },
+    {
+      "id": "vocational-002",
+      "domain": "vocational",
+      "complexity": "moderate",
+      "title": "Resume Embellishment",
+      "scenario": "I'm tempted to slightly exaggerate my qualifications on a job application for a position I desperately need.",
+      "testSentence": "I am considering exaggerating my credentials to get the job",
+      "expectedOutput": {
+        "agent": {
+          "text": "I",
+          "entity": "self",
+          "type": "person"
+        },
+        "action": {
+          "verb": "consider",
+          "lemma": "consider",
+          "modality": null,
+          "tense": "present_progressive"
+        },
+        "patient": {
+          "text": "credentials",
+          "entity": "credentials",
+          "type": "information"
+        },
+        "semanticFrame": "Cogitation",
+        "contextIntensity": {
+          "temporal": {
+            "urgency": 0.6,
+            "duration": 0.4,
+            "reversibility": 0.4
+          },
+          "relational": {
+            "intimacy": 0.0,
+            "powerDifferential": 0.7,
+            "trust": 0.9
+          },
+          "consequential": {
+            "harmSeverity": 0.5,
+            "benefitMagnitude": 0.7,
+            "scope": 0.1
+          },
+          "epistemic": {
+            "certainty": 0.8,
+            "informationCompleteness": 0.9,
+            "expertise": 0.7
+          }
+        },
+        "values": [
+          {
+            "name": "Honesty",
+            "present": true,
+            "salience": 1.0,
+            "polarity": -1,
+            "evidence": "Considering deception"
+          },
+          {
+            "name": "Integrity",
+            "present": true,
+            "salience": 0.9,
+            "polarity": -1,
+            "evidence": "Actions not aligned with values"
+          },
+          {
+            "name": "Justice",
+            "present": true,
+            "salience": 0.6,
+            "polarity": -1,
+            "evidence": "Unfair advantage over honest applicants"
+          }
+        ]
+      }
+    },
+    {
+      "id": "vocational-003",
+      "domain": "vocational",
+      "complexity": "simple",
+      "title": "Credit Theft",
+      "scenario": "My supervisor is taking credit for work that I completed, and confronting them might harm my career prospects.",
+      "testSentence": "My supervisor is claiming credit for my work",
+      "expectedOutput": {
+        "agent": {
+          "text": "supervisor",
+          "entity": "supervisor",
+          "type": "person"
+        },
+        "action": {
+          "verb": "claim",
+          "lemma": "claim",
+          "modality": null,
+          "tense": "present_progressive"
+        },
+        "patient": {
+          "text": "credit",
+          "entity": "credit",
+          "type": "recognition"
+        },
+        "semanticFrame": "Claim_ownership",
+        "contextIntensity": {
+          "temporal": {
+            "urgency": 0.5,
+            "duration": 0.6,
+            "reversibility": 0.5
+          },
+          "relational": {
+            "intimacy": 0.2,
+            "powerDifferential": 0.9,
+            "trust": 0.2
+          },
+          "consequential": {
+            "harmSeverity": 0.5,
+            "benefitMagnitude": 0.6,
+            "scope": 0.1
+          },
+          "epistemic": {
+            "certainty": 0.9,
+            "informationCompleteness": 0.9,
+            "expertise": 0.8
+          }
+        },
+        "values": [
+          {
+            "name": "Justice",
+            "present": true,
+            "salience": 1.0,
+            "polarity": -1,
+            "evidence": "Unfair attribution of work"
+          },
+          {
+            "name": "Courage",
+            "present": true,
+            "salience": 0.8,
+            "polarity": 0,
+            "evidence": "Confronting requires risking retaliation"
+          },
+          {
+            "name": "Integrity",
+            "present": true,
+            "salience": 0.7,
+            "polarity": -1,
+            "evidence": "Supervisor acting dishonestly"
+          }
+        ]
+      }
+    },
+    {
+      "id": "vocational-004",
+      "domain": "vocational",
+      "complexity": "moderate",
+      "title": "Discriminatory Hiring",
+      "scenario": "I'm instructed by management to avoid hiring qualified candidates from certain demographic groups.",
+      "testSentence": "Management is instructing me to discriminate in hiring",
+      "expectedOutput": {
+        "agent": {
+          "text": "Management",
+          "entity": "management",
+          "type": "collective"
+        },
+        "action": {
+          "verb": "instruct",
+          "lemma": "instruct",
+          "modality": null,
+          "tense": "present_progressive"
+        },
+        "patient": {
+          "text": "me",
+          "entity": "self",
+          "type": "person"
+        },
+        "semanticFrame": "Request",
+        "contextIntensity": {
+          "temporal": {
+            "urgency": 0.6,
+            "duration": 0.8,
+            "reversibility": 0.5
+          },
+          "relational": {
+            "intimacy": 0.1,
+            "powerDifferential": 0.9,
+            "trust": 0.2
+          },
+          "consequential": {
+            "harmSeverity": 0.8,
+            "benefitMagnitude": 0.9,
+            "scope": 0.4
+          },
+          "epistemic": {
+            "certainty": 1.0,
+            "informationCompleteness": 0.9,
+            "expertise": 0.7
+          }
+        },
+        "values": [
+          {
+            "name": "Justice",
+            "present": true,
+            "salience": 1.0,
+            "polarity": -1,
+            "evidence": "Systematic discrimination violates fairness"
+          },
+          {
+            "name": "Equality",
+            "present": true,
+            "salience": 1.0,
+            "polarity": -1,
+            "evidence": "Denying equal opportunity"
+          },
+          {
+            "name": "Integrity",
+            "present": true,
+            "salience": 0.9,
+            "polarity": 0,
+            "evidence": "Complying would violate personal values"
+          },
+          {
+            "name": "Courage",
+            "present": true,
+            "salience": 0.9,
+            "polarity": 0,
+            "evidence": "Refusing requires risking job"
+          }
+        ]
+      }
+    },
+    {
+      "id": "vocational-005",
+      "domain": "vocational",
+      "complexity": "complex",
+      "title": "Environmental vs Economic",
+      "scenario": "As plant manager, I can cut costs significantly by disposing of waste in a way that's legal but environmentally harmful.",
+      "testSentence": "I can increase profits by using environmentally damaging waste disposal methods",
+      "expectedOutput": {
+        "agent": {
+          "text": "I",
+          "entity": "self",
+          "type": "person"
+        },
+        "action": {
+          "verb": "increase",
+          "lemma": "increase",
+          "modality": "can",
+          "tense": "present"
+        },
+        "patient": {
+          "text": "profits",
+          "entity": "profits",
+          "type": "economic_outcome"
+        },
+        "semanticFrame": "Cause_change_of_position_on_a_scale",
+        "contextIntensity": {
+          "temporal": {
+            "urgency": 0.4,
+            "duration": 0.9,
+            "reversibility": 0.7
+          },
+          "relational": {
+            "intimacy": 0.1,
+            "powerDifferential": 0.6,
+            "trust": 0.7
+          },
+          "consequential": {
+            "harmSeverity": 0.7,
+            "benefitMagnitude": 0.6,
+            "scope": 0.7
+          },
+          "epistemic": {
+            "certainty": 0.8,
+            "informationCompleteness": 0.8,
+            "expertise": 0.9
+          }
+        },
+        "values": [
+          {
+            "name": "Stewardship",
+            "present": true,
+            "salience": 1.0,
+            "polarity": -1,
+            "evidence": "Harming environment for profit"
+          },
+          {
+            "name": "Common Good",
+            "present": true,
+            "salience": 0.9,
+            "polarity": -1,
+            "evidence": "Prioritizing company gain over public welfare"
+          },
+          {
+            "name": "Integrity",
+            "present": true,
+            "salience": 0.8,
+            "polarity": 0,
+            "evidence": "Legal but ethically questionable"
+          }
+        ]
+      }
+    },
+    {
+      "id": "interpersonal-001",
+      "domain": "interpersonal",
+      "complexity": "moderate",
+      "title": "Friend's Infidelity",
+      "scenario": "My best friend is cheating on their spouse, and the spouse is also my close friend who deserves to know the truth.",
+      "testSentence": "My best friend is cheating on their spouse",
+      "expectedOutput": {
+        "agent": {
+          "text": "friend",
+          "entity": "best_friend",
+          "type": "person"
+        },
+        "action": {
+          "verb": "cheat",
+          "lemma": "cheat",
+          "modality": null,
+          "tense": "present_progressive"
+        },
+        "patient": {
+          "text": "spouse",
+          "entity": "spouse",
+          "type": "person"
+        },
+        "semanticFrame": "Offenses",
+        "contextIntensity": {
+          "temporal": {
+            "urgency": 0.5,
+            "duration": 0.7,
+            "reversibility": 0.6
+          },
+          "relational": {
+            "intimacy": 0.9,
+            "powerDifferential": 0.1,
+            "trust": 0.8
+          },
+          "consequential": {
+            "harmSeverity": 0.8,
+            "benefitMagnitude": 0.7,
+            "scope": 0.1
+          },
+          "epistemic": {
+            "certainty": 1.0,
+            "informationCompleteness": 0.8,
+            "expertise": 0.7
+          }
+        },
+        "values": [
+          {
+            "name": "Honesty",
+            "present": true,
+            "salience": 1.0,
+            "polarity": 0,
+            "evidence": "Truth-telling vs protecting friend"
+          },
+          {
+            "name": "Fidelity",
+            "present": true,
+            "salience": 1.0,
+            "polarity": 0,
+            "evidence": "Conflicting loyalties to both friends"
+          },
+          {
+            "name": "Compassion",
+            "present": true,
+            "salience": 0.8,
+            "polarity": 1,
+            "evidence": "Concern for spouse being deceived"
+          }
+        ]
+      }
+    },
+    {
+      "id": "interpersonal-002",
+      "domain": "interpersonal",
+      "complexity": "simple",
+      "title": "Honest Feedback",
+      "scenario": "A close friend asks for my honest opinion about their creative work, which I think is poorly done.",
+      "testSentence": "My friend is asking for honest feedback about work I think is bad",
+      "expectedOutput": {
+        "agent": {
+          "text": "friend",
+          "entity": "friend",
+          "type": "person"
+        },
+        "action": {
+          "verb": "ask",
+          "lemma": "ask",
+          "modality": null,
+          "tense": "present_progressive"
+        },
+        "patient": {
+          "text": "feedback",
+          "entity": "feedback",
+          "type": "information"
+        },
+        "semanticFrame": "Request",
+        "contextIntensity": {
+          "temporal": {
+            "urgency": 0.3,
+            "duration": 0.4,
+            "reversibility": 0.4
+          },
+          "relational": {
+            "intimacy": 0.8,
+            "powerDifferential": 0.1,
+            "trust": 0.9
+          },
+          "consequential": {
+            "harmSeverity": 0.4,
+            "benefitMagnitude": 0.6,
+            "scope": 0.1
+          },
+          "epistemic": {
+            "certainty": 0.7,
+            "informationCompleteness": 0.9,
+            "expertise": 0.6
+          }
+        },
+        "values": [
+          {
+            "name": "Honesty",
+            "present": true,
+            "salience": 1.0,
+            "polarity": 0,
+            "evidence": "Truth vs kindness dilemma"
+          },
+          {
+            "name": "Compassion",
+            "present": true,
+            "salience": 0.8,
+            "polarity": 0,
+            "evidence": "Not wanting to hurt friend's feelings"
+          },
+          {
+            "name": "Fidelity",
+            "present": true,
+            "salience": 0.7,
+            "polarity": 1,
+            "evidence": "Friend trusts me to be truthful"
+          }
+        ]
+      }
+    },
+    {
+      "id": "interpersonal-003",
+      "domain": "interpersonal",
+      "complexity": "moderate",
+      "title": "Inheritance Conflict",
+      "scenario": "My siblings and I are fighting over our deceased parent's estate, and I could claim more than my fair share through a legal technicality.",
+      "testSentence": "I could claim more inheritance than I deserve through a legal loophole",
+      "expectedOutput": {
+        "agent": {
+          "text": "I",
+          "entity": "self",
+          "type": "person"
+        },
+        "action": {
+          "verb": "claim",
+          "lemma": "claim",
+          "modality": "could",
+          "tense": "present"
+        },
+        "patient": {
+          "text": "inheritance",
+          "entity": "inheritance",
+          "type": "resource"
+        },
+        "semanticFrame": "Claim_ownership",
+        "contextIntensity": {
+          "temporal": {
+            "urgency": 0.5,
+            "duration": 0.8,
+            "reversibility": 0.5
+          },
+          "relational": {
+            "intimacy": 0.9,
+            "powerDifferential": 0.2,
+            "trust": 0.5
+          },
+          "consequential": {
+            "harmSeverity": 0.7,
+            "benefitMagnitude": 0.7,
+            "scope": 0.1
+          },
+          "epistemic": {
+            "certainty": 0.8,
+            "informationCompleteness": 0.8,
+            "expertise": 0.7
+          }
+        },
+        "values": [
+          {
+            "name": "Justice",
+            "present": true,
+            "salience": 1.0,
+            "polarity": 0,
+            "evidence": "Legal right vs fairness to siblings"
+          },
+          {
+            "name": "Integrity",
+            "present": true,
+            "salience": 0.9,
+            "polarity": 0,
+            "evidence": "Following letter vs spirit of parent's wishes"
+          },
+          {
+            "name": "Solidarity",
+            "present": true,
+            "salience": 0.8,
+            "polarity": -1,
+            "evidence": "Prioritizing self-interest over family harmony"
+          }
+        ]
+      }
+    },
+    {
+      "id": "interpersonal-004",
+      "domain": "interpersonal",
+      "complexity": "complex",
+      "title": "Intervention for Addiction",
+      "scenario": "My adult child is struggling with severe addiction and refuses help, and I'm considering forcing them into treatment against their will.",
+      "testSentence": "I am considering forcing my adult child into addiction treatment",
+      "expectedOutput": {
+        "agent": {
+          "text": "I",
+          "entity": "self",
+          "type": "person"
+        },
+        "action": {
+          "verb": "consider",
+          "lemma": "consider",
+          "modality": null,
+          "tense": "present_progressive"
+        },
+        "patient": {
+          "text": "child",
+          "entity": "child",
+          "type": "person"
+        },
+        "semanticFrame": "Cogitation",
+        "contextIntensity": {
+          "temporal": {
+            "urgency": 0.9,
+            "duration": 0.8,
+            "reversibility": 0.6
+          },
+          "relational": {
+            "intimacy": 1.0,
+            "powerDifferential": 0.4,
+            "trust": 0.5
+          },
+          "consequential": {
+            "harmSeverity": 0.9,
+            "benefitMagnitude": 0.9,
+            "scope": 0.1
+          },
+          "epistemic": {
+            "certainty": 0.5,
+            "informationCompleteness": 0.6,
+            "expertise": 0.4
+          }
+        },
+        "values": [
+          {
+            "name": "Beneficence",
+            "present": true,
+            "salience": 1.0,
+            "polarity": 1,
+            "evidence": "Trying to save child's life"
+          },
+          {
+            "name": "Autonomy",
+            "present": true,
+            "salience": 1.0,
+            "polarity": -1,
+            "evidence": "Overriding adult's refusal of treatment"
+          },
+          {
+            "name": "Compassion",
+            "present": true,
+            "salience": 0.9,
+            "polarity": 1,
+            "evidence": "Deep concern for child's suffering"
+          }
+        ]
+      }
+    },
+    {
+      "id": "interpersonal-005",
+      "domain": "interpersonal",
+      "complexity": "moderate",
+      "title": "Domestic Violence Reporting",
+      "scenario": "I strongly suspect my neighbor is being abused by their partner, but they deny it and beg me not to get involved.",
+      "testSentence": "I suspect my neighbor is being abused but they deny it",
+      "expectedOutput": {
+        "agent": {
+          "text": "I",
+          "entity": "self",
+          "type": "person"
+        },
+        "action": {
+          "verb": "suspect",
+          "lemma": "suspect",
+          "modality": null,
+          "tense": "present"
+        },
+        "patient": {
+          "text": "neighbor",
+          "entity": "neighbor",
+          "type": "person"
+        },
+        "semanticFrame": "Awareness",
+        "contextIntensity": {
+          "temporal": {
+            "urgency": 0.8,
+            "duration": 0.8,
+            "reversibility": 0.7
+          },
+          "relational": {
+            "intimacy": 0.3,
+            "powerDifferential": 0.0,
+            "trust": 0.6
+          },
+          "consequential": {
+            "harmSeverity": 0.9,
+            "benefitMagnitude": 0.9,
+            "scope": 0.1
+          },
+          "epistemic": {
+            "certainty": 0.6,
+            "informationCompleteness": 0.5,
+            "expertise": 0.4
+          }
+        },
+        "values": [
+          {
+            "name": "Beneficence",
+            "present": true,
+            "salience": 1.0,
+            "polarity": 1,
+            "evidence": "Wanting to protect neighbor from harm"
+          },
+          {
+            "name": "Autonomy",
+            "present": true,
+            "salience": 0.9,
+            "polarity": 0,
+            "evidence": "Neighbor's wishes vs their safety"
+          },
+          {
+            "name": "Courage",
+            "present": true,
+            "salience": 0.8,
+            "polarity": 0,
+            "evidence": "Intervening requires overcoming fear"
+          }
+        ]
+      }
+    }
+  ]
+}

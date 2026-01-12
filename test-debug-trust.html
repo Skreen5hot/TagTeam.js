@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Debug Trust Scoring</title>
+    <style>
+        body {
+            font-family: monospace;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .log {
+            background: white;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 3px solid #3498db;
+        }
+        .error {
+            border-left-color: #e74c3c;
+            background: #fee;
+        }
+    </style>
+</head>
+<body>
+    <h1>Trust Scoring Debug</h1>
+
+    <div id="output"></div>
+
+    <script src="dist/tagteam.js?v=4"></script>
+
+    <script>
+        const output = document.getElementById('output');
+
+        function log(msg, isError = false) {
+            const div = document.createElement('div');
+            div.className = isError ? 'log error' : 'log';
+            div.textContent = msg;
+            output.appendChild(div);
+            console.log(msg);
+        }
+
+        // Test sentence
+        const text = "I discovered that my company is falsifying safety reports";
+
+        log(`Testing sentence: "${text}"`);
+        log('');
+
+        // Parse with TagTeam
+        const result = TagTeam.parse(text);
+
+        log('=== RESULT ===');
+        log(JSON.stringify(result, null, 2));
+        log('');
+
+        if (result.contextIntensity) {
+            log('=== CONTEXT INTENSITY ===');
+            log(JSON.stringify(result.contextIntensity, null, 2));
+            log('');
+
+            if (result.contextIntensity.relational) {
+                const trust = result.contextIntensity.relational.trust;
+                log(`Trust Score: ${trust}`);
+                log(`Expected: 0.20`);
+                log(`Match: ${trust === 0.2 ? 'YES ✅' : 'NO ❌'}`);
+
+                if (trust !== 0.2) {
+                    log('', true);
+                    log('DEBUGGING TRUST MISMATCH:', true);
+                    log('- Check if "falsifying" keyword is in text: ' + text.includes('falsifying'), true);
+                    log('- Text lowercase: ' + text.toLowerCase(), true);
+                    log('- Bundle version loaded: v3', true);
+                }
+            }
+        } else {
+            log('ERROR: No contextIntensity in result!', true);
+        }
+
+        // Test PatternMatcher directly if available
+        log('');
+        log('=== TESTING PATTERN MATCHER DIRECTLY ===');
+
+        if (typeof PatternMatcher !== 'undefined') {
+            const pm = new PatternMatcher();
+            const keywords = ['falsifying', 'cheating', 'betrayal'];
+
+            keywords.forEach(kw => {
+                const found = pm.containsAny(text, [kw]);
+                log(`Contains "${kw}": ${found}`);
+            });
+        } else {
+            log('PatternMatcher not exposed globally', true);
+        }
+
+        // Test ContextAnalyzer directly if available
+        if (typeof ContextAnalyzer !== 'undefined') {
+            log('');
+            log('=== TESTING CONTEXT ANALYZER DIRECTLY ===');
+
+            const ca = new ContextAnalyzer();
+            const context = ca.analyzeContext(text, [], {}, {});
+
+            log('Direct ContextAnalyzer result:');
+            log(JSON.stringify(context, null, 2));
+        } else {
+            log('ContextAnalyzer not exposed globally', true);
+        }
+    </script>
+</body>
+</html>

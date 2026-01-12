@@ -15,7 +15,12 @@
       "Bash(start demos/index.html)",
       "Bash(node build.js:*)",
       "Bash(start test.html)",
-      "Bash(start test-iee-bundle.html)"
+      "Bash(start test-iee-bundle.html)",
+      "Bash(node -e:*)",
+      "Bash(start test-week2a-context.html)",
+      "Bash(start test-debug-trust.html)",
+      "Bash(node test-regex.js:*)",
+      "Bash(node test-trust-scoring.js:*)"
     ]
   }
 }
