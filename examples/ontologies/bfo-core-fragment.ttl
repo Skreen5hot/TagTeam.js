@@ -1,0 +1,162 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix bfo: <http://purl.obolibrary.org/obo/BFO_> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+# Basic Formal Ontology (BFO) Core Fragment
+# Simplified subset for TagTeam testing
+# Based on BFO 2.0 specification (ISO/IEC 21838-2)
+
+# Ontology metadata
+<http://purl.obolibrary.org/obo/bfo.owl> rdf:type owl:Ontology ;
+    dc:title "Basic Formal Ontology (BFO) - Core Fragment"@en ;
+    dc:description "Simplified BFO subset for TagTeam testing"@en ;
+    owl:versionInfo "2.0-fragment" .
+
+# ========================================
+# TOP-LEVEL CLASSES
+# ========================================
+
+# Entity (root of all classes)
+bfo:0000001 rdf:type owl:Class ;
+    rdfs:label "entity"@en ;
+    rdfs:comment "Anything that exists or has existed or will exist"@en .
+
+# Continuant (things that persist through time)
+bfo:0000002 rdf:type owl:Class ;
+    rdfs:label "continuant"@en ;
+    rdfs:comment "An entity that persists, endures, or continues to exist through time"@en ;
+    rdfs:subClassOf bfo:0000001 .
+
+# Occurrent (things that happen or occur)
+bfo:0000003 rdf:type owl:Class ;
+    rdfs:label "occurrent"@en ;
+    rdfs:comment "An entity that has temporal parts and happens, occurs, or unfolds"@en ;
+    rdfs:subClassOf bfo:0000001 .
+
+# ========================================
+# CONTINUANT SUBCLASSES
+# ========================================
+
+# Independent Continuant
+bfo:0000004 rdf:type owl:Class ;
+    rdfs:label "independent continuant"@en ;
+    rdfs:comment "A continuant that is a bearer of qualities and roles"@en ;
+    rdfs:subClassOf bfo:0000002 .
+
+# Specifically Dependent Continuant
+bfo:0000020 rdf:type owl:Class ;
+    rdfs:label "specifically dependent continuant"@en ;
+    rdfs:comment "A continuant that inheres in or is borne by other entities"@en ;
+    rdfs:subClassOf bfo:0000002 .
+
+# Quality
+bfo:0000019 rdf:type owl:Class ;
+    rdfs:label "quality"@en ;
+    rdfs:comment "A specifically dependent continuant that is exhibited by an entity"@en ;
+    rdfs:subClassOf bfo:0000020 .
+
+# Role
+bfo:0000023 rdf:type owl:Class ;
+    rdfs:label "role"@en ;
+    rdfs:comment "A realizable entity that exists because the bearer is in some special context"@en ;
+    rdfs:subClassOf bfo:0000017 .
+
+# Realizable Entity
+bfo:0000017 rdf:type owl:Class ;
+    rdfs:label "realizable entity"@en ;
+    rdfs:comment "A specifically dependent continuant that can be realized in processes"@en ;
+    rdfs:subClassOf bfo:0000020 .
+
+# Disposition
+bfo:0000016 rdf:type owl:Class ;
+    rdfs:label "disposition"@en ;
+    rdfs:comment "A realizable entity that tends to cause certain outcomes under certain conditions"@en ;
+    rdfs:subClassOf bfo:0000017 .
+
+# Function
+bfo:0000034 rdf:type owl:Class ;
+    rdfs:label "function"@en ;
+    rdfs:comment "A disposition that exists in virtue of the bearer's physical make-up"@en ;
+    rdfs:subClassOf bfo:0000016 .
+
+# ========================================
+# OCCURRENT SUBCLASSES
+# ========================================
+
+# Process
+bfo:0000015 rdf:type owl:Class ;
+    rdfs:label "process"@en ;
+    rdfs:comment "An occurrent that has temporal proper parts and unfolds itself in time"@en ;
+    rdfs:subClassOf bfo:0000003 .
+
+# Temporal Region
+bfo:0000008 rdf:type owl:Class ;
+    rdfs:label "temporal region"@en ;
+    rdfs:comment "An occurrent over which processes can unfold"@en ;
+    rdfs:subClassOf bfo:0000003 .
+
+# ========================================
+# OBJECT PROPERTIES (Relations)
+# ========================================
+
+# participates_in
+bfo:0000056 rdf:type owl:ObjectProperty ;
+    rdfs:label "participates in"@en ;
+    rdfs:comment "A relation between a continuant and a process in which it participates"@en ;
+    rdfs:domain bfo:0000002 ;
+    rdfs:range bfo:0000015 .
+
+# has_participant
+bfo:0000057 rdf:type owl:ObjectProperty ;
+    rdfs:label "has participant"@en ;
+    rdfs:comment "A relation between a process and a continuant participating in it"@en ;
+    rdfs:domain bfo:0000015 ;
+    rdfs:range bfo:0000002 ;
+    owl:inverseOf bfo:0000056 .
+
+# bearer_of
+bfo:0000053 rdf:type owl:ObjectProperty ;
+    rdfs:label "bearer of"@en ;
+    rdfs:comment "A relation between an independent continuant and a quality it bears"@en ;
+    rdfs:domain bfo:0000004 ;
+    rdfs:range bfo:0000019 .
+
+# inheres_in
+bfo:0000052 rdf:type owl:ObjectProperty ;
+    rdfs:label "inheres in"@en ;
+    rdfs:comment "A relation between a quality and its bearer"@en ;
+    rdfs:domain bfo:0000020 ;
+    rdfs:range bfo:0000004 ;
+    owl:inverseOf bfo:0000053 .
+
+# has_part
+bfo:0000051 rdf:type owl:ObjectProperty ;
+    rdfs:label "has part"@en ;
+    rdfs:comment "A relation between a whole and its parts"@en ;
+    rdfs:domain bfo:0000001 ;
+    rdfs:range bfo:0000001 .
+
+# part_of
+bfo:0000050 rdf:type owl:ObjectProperty ;
+    rdfs:label "part of"@en ;
+    rdfs:comment "A relation between a part and its whole"@en ;
+    rdfs:domain bfo:0000001 ;
+    rdfs:range bfo:0000001 ;
+    owl:inverseOf bfo:0000051 .
+
+# realizes
+bfo:0000055 rdf:type owl:ObjectProperty ;
+    rdfs:label "realizes"@en ;
+    rdfs:comment "A relation between a process and a realizable entity that it realizes"@en ;
+    rdfs:domain bfo:0000015 ;
+    rdfs:range bfo:0000017 .
+
+# realized_in
+bfo:0000054 rdf:type owl:ObjectProperty ;
+    rdfs:label "realized in"@en ;
+    rdfs:comment "A relation between a realizable entity and a process that realizes it"@en ;
+    rdfs:domain bfo:0000017 ;
+    rdfs:range bfo:0000015 ;
+    owl:inverseOf bfo:0000055 .

@@ -1,14 +1,22 @@
 {
   "name": "tagteam-js",
-  "version": "2.0.0",
+  "version": "3.0.0-alpha.1",
   "description": "Deterministic semantic parser with ethical value detection - BFO-compatible ontology system",
   "main": "dist/tagteam.js",
+  "bin": {
+    "tagteam-compile": "./bin/tagteam-ontology-compiler.js"
+  },
   "scripts": {
     "build": "node scripts/build.js",
     "test": "node tests/integration/test-full-corpus.js",
     "test:browser": "echo 'Open tests/browser/verify-bundle.html in your browser'",
     "test:integration": "node tests/integration/test-integration.js",
-    "metrics": "node scripts/calculate-metrics.js"
+    "test:ttl": "node tests/unit/ttl-parser.test.js",
+    "test:ttl-integration": "node tests/integration/ttl-parser-integration.test.js",
+    "test:cli-compiler": "node tests/integration/cli-compiler.test.js",
+    "test:real-ontologies": "node tests/integration/real-ontologies.test.js",
+    "metrics": "node scripts/calculate-metrics.js",
+    "compile-ontology": "node bin/tagteam-ontology-compiler.js"
   },
   "keywords": [
     "nlp",
@@ -35,6 +43,7 @@
     "node": ">=14.0.0"
   },
   "dependencies": {
-    "compromise": "^14.14.5"
+    "compromise": "^14.14.5",
+    "n3": "^1.17.1"
   }
 }

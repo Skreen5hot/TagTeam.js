@@ -1,0 +1,103 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix fan: <http://fandaws.com/ontology/> .
+
+# Fandaws Ameliorate Ontology (Mock for Testing)
+# Represents the "ameliorate" synonym hierarchy with 20 related terms
+
+fan:ontology rdf:type owl:Ontology ;
+    rdfs:label "Fandaws Ameliorate Hierarchy (Mock)"@en ;
+    rdfs:comment "Mock synonym hierarchy for testing semantic expansion"@en .
+
+# Root concept
+fan:ameliorate rdf:type owl:Class ;
+    rdfs:label "ameliorate"@en ;
+    rdfs:comment "Make something better, improve"@en .
+
+# Level 1 children
+fan:alleviate rdf:type owl:Class ;
+    rdfs:label "alleviate"@en ;
+    rdfs:subClassOf fan:ameliorate .
+
+fan:relieve rdf:type owl:Class ;
+    rdfs:label "relieve"@en ;
+    rdfs:subClassOf fan:ameliorate .
+
+fan:mitigate rdf:type owl:Class ;
+    rdfs:label "mitigate"@en ;
+    rdfs:subClassOf fan:ameliorate .
+
+fan:ease rdf:type owl:Class ;
+    rdfs:label "ease"@en ;
+    rdfs:subClassOf fan:ameliorate .
+
+fan:palliate rdf:type owl:Class ;
+    rdfs:label "palliate"@en ;
+    rdfs:subClassOf fan:ameliorate .
+
+# Level 2 children (under alleviate)
+fan:lessen rdf:type owl:Class ;
+    rdfs:label "lessen"@en ;
+    rdfs:subClassOf fan:alleviate .
+
+fan:reduce rdf:type owl:Class ;
+    rdfs:label "reduce"@en ;
+    rdfs:subClassOf fan:alleviate .
+
+fan:diminish rdf:type owl:Class ;
+    rdfs:label "diminish"@en ;
+    rdfs:subClassOf fan:alleviate .
+
+# Level 2 children (under relieve)
+fan:soothe rdf:type owl:Class ;
+    rdfs:label "soothe"@en ;
+    rdfs:subClassOf fan:relieve .
+
+fan:comfort rdf:type owl:Class ;
+    rdfs:label "comfort"@en ;
+    rdfs:subClassOf fan:relieve .
+
+fan:calm rdf:type owl:Class ;
+    rdfs:label "calm"@en ;
+    rdfs:subClassOf fan:relieve .
+
+# Level 2 children (under mitigate)
+fan:moderate rdf:type owl:Class ;
+    rdfs:label "moderate"@en ;
+    rdfs:subClassOf fan:mitigate .
+
+fan:temper rdf:type owl:Class ;
+    rdfs:label "temper"@en ;
+    rdfs:subClassOf fan:mitigate .
+
+fan:soften rdf:type owl:Class ;
+    rdfs:label "soften"@en ;
+    rdfs:subClassOf fan:mitigate .
+
+# Level 2 children (under ease)
+fan:facilitate rdf:type owl:Class ;
+    rdfs:label "facilitate"@en ;
+    rdfs:subClassOf fan:ease .
+
+fan:lighten rdf:type owl:Class ;
+    rdfs:label "lighten"@en ;
+    rdfs:subClassOf fan:ease .
+
+# Level 2 children (under palliate)
+fan:assuage rdf:type owl:Class ;
+    rdfs:label "assuage"@en ;
+    rdfs:subClassOf fan:palliate .
+
+fan:mollify rdf:type owl:Class ;
+    rdfs:label "mollify"@en ;
+    rdfs:subClassOf fan:palliate .
+
+# Level 3 children (deeper synonyms)
+fan:abate rdf:type owl:Class ;
+    rdfs:label "abate"@en ;
+    rdfs:subClassOf fan:lessen .
+
+fan:attenuate rdf:type owl:Class ;
+    rdfs:label "attenuate"@en ;
+    rdfs:subClassOf fan:reduce .

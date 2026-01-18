@@ -1,0 +1,96 @@
+{
+  "version": "3.0.0",
+  "source": "bfo-core-fragment.ttl",
+  "compiledAt": "2026-01-18T22:54:14.548Z",
+  "concepts": [
+    {
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000001",
+      "label": "entity",
+      "markers": [],
+      "comment": "Anything that exists or has existed or will exist"
+    },
+    {
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000002",
+      "label": "continuant",
+      "markers": [],
+      "comment": "An entity that persists, endures, or continues to exist through time",
+      "subClassOf": "http://purl.obolibrary.org/obo/BFO_0000001"
+    },
+    {
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000003",
+      "label": "occurrent",
+      "markers": [],
+      "comment": "An entity that has temporal parts and happens, occurs, or unfolds",
+      "subClassOf": "http://purl.obolibrary.org/obo/BFO_0000001"
+    },
+    {
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000004",
+      "label": "independent continuant",
+      "markers": [],
+      "comment": "A continuant that is a bearer of qualities and roles",
+      "subClassOf": "http://purl.obolibrary.org/obo/BFO_0000002"
+    },
+    {
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000020",
+      "label": "specifically dependent continuant",
+      "markers": [],
+      "comment": "A continuant that inheres in or is borne by other entities",
+      "subClassOf": "http://purl.obolibrary.org/obo/BFO_0000002"
+    },
+    {
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000019",
+      "label": "quality",
+      "markers": [],
+      "comment": "A specifically dependent continuant that is exhibited by an entity",
+      "subClassOf": "http://purl.obolibrary.org/obo/BFO_0000020"
+    },
+    {
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000023",
+      "label": "role",
+      "markers": [],
+      "comment": "A realizable entity that exists because the bearer is in some special context",
+      "subClassOf": "http://purl.obolibrary.org/obo/BFO_0000017"
+    },
+    {
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000017",
+      "label": "realizable entity",
+      "markers": [],
+      "comment": "A specifically dependent continuant that can be realized in processes",
+      "subClassOf": "http://purl.obolibrary.org/obo/BFO_0000020"
+    },
+    {
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000016",
+      "label": "disposition",
+      "markers": [],
+      "comment": "A realizable entity that tends to cause certain outcomes under certain conditions",
+      "subClassOf": "http://purl.obolibrary.org/obo/BFO_0000017"
+    },
+    {
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000034",
+      "label": "function",
+      "markers": [],
+      "comment": "A disposition that exists in virtue of the bearer's physical make-up",
+      "subClassOf": "http://purl.obolibrary.org/obo/BFO_0000016"
+    },
+    {
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000015",
+      "label": "process",
+      "markers": [],
+      "comment": "An occurrent that has temporal proper parts and unfolds itself in time",
+      "subClassOf": "http://purl.obolibrary.org/obo/BFO_0000003"
+    },
+    {
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000008",
+      "label": "temporal region",
+      "markers": [],
+      "comment": "An occurrent over which processes can unfold",
+      "subClassOf": "http://purl.obolibrary.org/obo/BFO_0000003"
+    }
+  ],
+  "metadata": {
+    "conceptCount": 12,
+    "totalMarkers": 0,
+    "expanded": false,
+    "expansionSource": null
+  }
+}

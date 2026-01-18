@@ -1,0 +1,91 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix bfo: <http://purl.obolibrary.org/obo/BFO_> .
+@prefix ethics: <http://tagteam.dev/ontology/ethics#> .
+@prefix tagteam: <http://tagteam.dev/ontology/core#> .
+
+# Ontology metadata
+ethics: rdf:type owl:Ontology ;
+    rdfs:label "IEE Ethical Values Ontology (Minimal)"@en ;
+    rdfs:comment "A minimal set of ethical values from the Institutional Ethics Evaluator (IEE) framework"@en ;
+    owl:versionInfo "1.0.0" .
+
+# Autonomy - Respecting individual self-determination
+ethics:Autonomy rdf:type owl:Class ;
+    rdfs:label "Autonomy"@en ;
+    rdfs:comment "The principle of respecting individual self-determination and decision-making capacity"@en ;
+    rdfs:subClassOf bfo:0000015 ;  # BFO process
+    tagteam:semanticMarker "informed consent" ;
+    tagteam:semanticMarker "patient autonomy" ;
+    tagteam:semanticMarker "self-determination" ;
+    tagteam:polarity 1.0 ;
+    tagteam:defaultSalience 0.8 .
+
+# Consent - Voluntary agreement to medical procedures
+ethics:Consent rdf:type owl:Class ;
+    rdfs:label "Consent"@en ;
+    rdfs:comment "Voluntary and informed agreement to medical procedures or research participation"@en ;
+    rdfs:subClassOf ethics:Autonomy ;
+    tagteam:semanticMarker "informed consent" ;
+    tagteam:semanticMarker "obtain consent" ;
+    tagteam:semanticMarker "patient consent" ;
+    tagteam:polarity 1.0 ;
+    tagteam:defaultSalience 0.8 .
+
+# Beneficence - Acting in patient's best interest
+ethics:Beneficence rdf:type owl:Class ;
+    rdfs:label "Beneficence"@en ;
+    rdfs:comment "The principle of acting in the patient's best interest and promoting welfare"@en ;
+    rdfs:subClassOf bfo:0000015 ;
+    tagteam:semanticMarker "patient welfare" ;
+    tagteam:semanticMarker "promote health" ;
+    tagteam:semanticMarker "benefit patient" ;
+    tagteam:polarity 1.0 ;
+    tagteam:defaultSalience 0.8 ;
+    tagteam:relatedProcess <http://fandaws.com/ontology/ameliorate> .
+
+# Compassion - Caring response to suffering
+ethics:Compassion rdf:type owl:Class ;
+    rdfs:label "Compassion"@en ;
+    rdfs:comment "A caring and empathetic response to patient suffering"@en ;
+    rdfs:subClassOf ethics:Beneficence ;
+    tagteam:semanticMarker "relieve suffering" ;
+    tagteam:semanticMarker "compassionate care" ;
+    tagteam:semanticMarker "empathy" ;
+    tagteam:polarity 1.0 ;
+    tagteam:defaultSalience 0.7 ;
+    tagteam:relatedProcess <http://fandaws.com/ontology/ameliorate> .
+
+# Nonmaleficence - Do no harm
+ethics:Nonmaleficence rdf:type owl:Class ;
+    rdfs:label "Nonmaleficence"@en ;
+    rdfs:comment "The principle of avoiding harm to patients"@en ;
+    rdfs:subClassOf bfo:0000015 ;
+    tagteam:semanticMarker "do no harm" ;
+    tagteam:semanticMarker "avoid harm" ;
+    tagteam:semanticMarker "minimize risk" ;
+    tagteam:polarity 1.0 ;
+    tagteam:defaultSalience 0.9 .
+
+# Justice - Fair distribution of benefits and burdens
+ethics:Justice rdf:type owl:Class ;
+    rdfs:label "Justice"@en ;
+    rdfs:comment "The principle of fair and equitable distribution of healthcare resources"@en ;
+    rdfs:subClassOf bfo:0000015 ;
+    tagteam:semanticMarker "fair treatment" ;
+    tagteam:semanticMarker "equitable distribution" ;
+    tagteam:semanticMarker "healthcare justice" ;
+    tagteam:polarity 1.0 ;
+    tagteam:defaultSalience 0.7 .
+
+# Privacy - Protection of personal information
+ethics:Privacy rdf:type owl:Class ;
+    rdfs:label "Privacy"@en ;
+    rdfs:comment "The protection of patient personal information and confidentiality"@en ;
+    rdfs:subClassOf ethics:Autonomy ;
+    tagteam:semanticMarker "patient privacy" ;
+    tagteam:semanticMarker "confidentiality" ;
+    tagteam:semanticMarker "protect information" ;
+    tagteam:polarity 1.0 ;
+    tagteam:defaultSalience 0.8 .
