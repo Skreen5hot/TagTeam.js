@@ -44,82 +44,310 @@ const result = TagTeam.parse(text);
 
 ## Architecture
 
-### Ontology Loader System
+### Cross-Platform Storage System
 
-**New Component: OntologyLoader.js**
+**Challenge:** How to persist parsed ontologies in both browser (IndexedDB) and Node.js (filesystem)?
+
+**Solution:** Storage Adapter Pattern with automatic environment detection
+
+#### Storage Abstraction Layer
 
 ```javascript
 /**
- * OntologyLoader - Loads and manages external ontologies
+ * StorageAdapter - Cross-platform storage abstraction
  *
- * Supports:
- * - RDF/TTL files (Turtle format)
- * - OWL files (Web Ontology Language)
- * - JSON-LD (Linked Data)
- * - Custom JSON (TagTeam format)
- * - Remote URLs (HTTP/HTTPS)
- * - Local files (file://)
+ * Automatically selects the best storage backend:
+ * - Browser: IndexedDB (persistent across page reloads)
+ * - Node.js: File System (.tagteam-cache/ directory)
+ * - Fallback: In-Memory Map (session only)
  */
-class OntologyLoader {
-  constructor() {
-    this.cache = new Map();
-    this.parser = new TTLParser();  // Lightweight Turtle parser
-    this.currentOntology = null;
-  }
-
-  /**
-   * Load ontology from various sources
-   */
-  async load(config) {
-    const { source, url, path, data } = config;
-
-    switch (source) {
-      case 'url':
-        return await this.loadFromURL(url);
-      case 'file':
-        return await this.loadFromFile(path);
-      case 'json':
-        return this.loadFromJSON(data);
-      case 'ttl':
-        return this.loadFromTTL(data);
-      default:
-        throw new Error(`Unknown source type: ${source}`);
+class StorageAdapter {
+    static create(options = {}) {
+        // Auto-detect environment
+        if (typeof window !== 'undefined' && window.indexedDB) {
+            return new IndexedDBAdapter(options);
+        } else if (typeof process !== 'undefined' && process.versions.node) {
+            return new FileSystemAdapter(options);
+        } else {
+            return new MemoryAdapter(options); // Fallback
+        }
     }
-  }
+}
+```
 
-  async loadFromURL(url) {
-    // Check cache
-    if (this.cache.has(url)) {
-      return this.cache.get(url);
+#### Browser Implementation: IndexedDB
+
+```javascript
+class IndexedDBAdapter {
+    constructor(options) {
+        this.dbName = options.dbName || 'TagTeamOntologies';
+        this.db = null;
     }
 
-    // Fetch ontology
-    const response = await fetch(url);
-    const contentType = response.headers.get('content-type');
-
-    let ontology;
-    if (contentType.includes('turtle') || url.endsWith('.ttl')) {
-      const ttl = await response.text();
-      ontology = this.parseTTL(ttl);
-    } else if (contentType.includes('json')) {
-      const json = await response.json();
-      ontology = this.parseJSON(json);
-    } else {
-      throw new Error(`Unsupported content type: ${contentType}`);
+    async init() {
+        return new Promise((resolve, reject) => {
+            const request = indexedDB.open(this.dbName, 1);
+            request.onerror = () => reject(request.error);
+            request.onsuccess = () => {
+                this.db = request.result;
+                resolve();
+            };
+            request.onupgradeneeded = (event) => {
+                const db = event.target.result;
+                if (!db.objectStoreNames.contains('ontologies')) {
+                    db.createObjectStore('ontologies', { keyPath: 'url' });
+                }
+            };
+        });
     }
 
-    // Cache and return
-    this.cache.set(url, ontology);
-    return ontology;
-  }
+    async get(key) {
+        const tx = this.db.transaction(['ontologies'], 'readonly');
+        const store = tx.objectStore('ontologies');
+        return new Promise((resolve, reject) => {
+            const request = store.get(key);
+            request.onsuccess = () => resolve(request.result?.data);
+            request.onerror = () => reject(request.error);
+        });
+    }
 
-  parseTTL(ttlString) {
-    // Parse Turtle format
-    const triples = this.parser.parse(ttlString);
+    async set(key, value, metadata = {}) {
+        const tx = this.db.transaction(['ontologies'], 'readwrite');
+        const store = tx.objectStore('ontologies');
+        return new Promise((resolve, reject) => {
+            const request = store.put({
+                url: key,
+                data: value,
+                timestamp: Date.now(),
+                ...metadata
+            });
+            request.onsuccess = () => resolve();
+            request.onerror = () => reject(request.error);
+        });
+    }
 
-    // Extract BFO-compatible value definitions
-    return this.extractValuesFromTriples(triples);
-  }
+    async delete(key) {
+        const tx = this.db.transaction(['ontologies'], 'readwrite');
+        return tx.objectStore('ontologies').delete(key);
+    }
+}
+```
+
+#### Node.js Implementation: File System
+
+```javascript
+class FileSystemAdapter {
+    constructor(options) {
+        const fs = require('fs');
+        const path = require('path');
+        this.fs = fs;
+        this.path = path;
+        this.cacheDir = options.cacheDir || path.join(process.cwd(), '.tagteam-cache');
+    }
+
+    async init() {
+        // Create cache directory if it doesn't exist
+        if (!this.fs.existsSync(this.cacheDir)) {
+            this.fs.mkdirSync(this.cacheDir, { recursive: true });
+        }
+    }
+
+    async get(key) {
+        const fileName = this._sanitizeKey(key);
+        const filePath = this.path.join(this.cacheDir, `${fileName}.json`);
+
+        if (!this.fs.existsSync(filePath)) {
+            return null;
+        }
+
+        const content = this.fs.readFileSync(filePath, 'utf8');
+        const cached = JSON.parse(content);
+
+        // Check TTL (time-to-live)
+        if (cached.ttl && Date.now() - cached.timestamp > cached.ttl) {
+            this.fs.unlinkSync(filePath); // Expired
+            return null;
+        }
+
+        return cached.data;
+    }
+
+    async set(key, value, metadata = {}) {
+        const fileName = this._sanitizeKey(key);
+        const filePath = this.path.join(this.cacheDir, `${fileName}.json`);
+
+        const cacheEntry = {
+            url: key,
+            data: value,
+            timestamp: Date.now(),
+            ...metadata
+        };
+
+        this.fs.writeFileSync(filePath, JSON.stringify(cacheEntry, null, 2), 'utf8');
+    }
+
+    async delete(key) {
+        const fileName = this._sanitizeKey(key);
+        const filePath = this.path.join(this.cacheDir, `${fileName}.json`);
+        if (this.fs.existsSync(filePath)) {
+            this.fs.unlinkSync(filePath);
+        }
+    }
+
+    _sanitizeKey(key) {
+        // Convert URL/path to safe filename
+        return key.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+    }
+}
+```
+
+#### Fallback: In-Memory Storage
+
+```javascript
+class MemoryAdapter {
+    constructor() {
+        this.cache = new Map();
+    }
+
+    async init() {
+        // No-op
+    }
+
+    async get(key) {
+        const entry = this.cache.get(key);
+        if (!entry) return null;
+
+        // Check TTL
+        if (entry.ttl && Date.now() - entry.timestamp > entry.ttl) {
+            this.cache.delete(key);
+            return null;
+        }
+
+        return entry.data;
+    }
+
+    async set(key, value, metadata = {}) {
+        this.cache.set(key, {
+            data: value,
+            timestamp: Date.now(),
+            ...metadata
+        });
+    }
+
+    async delete(key) {
+        this.cache.delete(key);
+    }
+}
+```
+
+### Ontology Manager with Three-Tier Caching
+
+**New Component: OntologyManager.js**
+
+```javascript
+/**
+ * OntologyManager - Unified ontology loading with cross-platform caching
+ *
+ * Three-tier cache architecture:
+ * 1. Memory cache (fastest, both environments)
+ * 2. Persistent storage (IndexedDB/FileSystem, survives restarts)
+ * 3. Network/disk fetch (slowest, original source)
+ */
+class OntologyManager {
+    constructor(options = {}) {
+        this.storage = StorageAdapter.create(options.storage);
+        this.memoryCache = new Map(); // Hot cache for both environments
+        this.baseValues = null;       // Built-in values from bundle
+        this.ttlParser = new TTLParser();
+    }
+
+    async init(baseValues) {
+        await this.storage.init();
+        this.baseValues = baseValues;
+    }
+
+    async loadOntology(source) {
+        const cacheKey = source.url || source.path;
+
+        // 1. Check hot memory cache first (fastest - ~0ms)
+        if (this.memoryCache.has(cacheKey)) {
+            console.log(`✅ Loaded from memory: ${cacheKey}`);
+            return this.memoryCache.get(cacheKey);
+        }
+
+        // 2. Check persistent storage (fast - ~5-10ms)
+        if (source.cache !== 'memory') {
+            const cached = await this.storage.get(cacheKey);
+            if (cached && !source.forceRefresh) {
+                console.log(`✅ Loaded from persistent cache: ${cacheKey}`);
+                this.memoryCache.set(cacheKey, cached);
+                return cached;
+            }
+        }
+
+        // 3. Fetch and parse from source (slow - ~50-500ms)
+        console.log(`📥 Fetching and parsing: ${cacheKey}`);
+        const ontology = await this.fetchAndParse(source);
+
+        // 4. Store in persistent cache (if requested)
+        if (source.cache === 'indexeddb' || source.cache === 'filesystem') {
+            await this.storage.set(cacheKey, ontology, {
+                ttl: source.ttl || 86400000 // Default 24 hours
+            });
+        }
+
+        // 5. Always cache in memory for this session
+        this.memoryCache.set(cacheKey, ontology);
+
+        return ontology;
+    }
+
+    async fetchAndParse(source) {
+        let content;
+
+        if (source.url) {
+            // Fetch from URL (works in both browser and Node.js)
+            const response = await fetch(source.url);
+            content = await response.text();
+        } else if (source.path) {
+            // Read from file (Node.js only)
+            if (typeof process !== 'undefined' && process.versions.node) {
+                const fs = require('fs');
+                content = fs.readFileSync(source.path, 'utf8');
+            } else {
+                throw new Error('File system access not available in browser');
+            }
+        } else if (source.data) {
+            // Inline data
+            content = source.data;
+        }
+
+        // Parse based on format
+        if (source.format === 'ttl') {
+            return this.parseTTL(content);
+        } else if (source.format === 'json') {
+            return JSON.parse(content);
+        }
+    }
+
+    parseTTL(ttlString) {
+        // Parse Turtle format
+        const triples = this.ttlParser.parse(ttlString);
+
+        // Extract BFO-compatible value definitions
+        return this.extractValuesFromTriples(triples);
+    }
+
+    getAllValues() {
+        // Merge base values + all loaded ontologies
+        const allValues = [...this.baseValues.values];
+
+        this.memoryCache.forEach(ontology => {
+            allValues.push(...ontology.values);
+        });
+
+        return allValues;
+    }
 
   extractValuesFromTriples(triples) {
     /**
@@ -238,33 +466,39 @@ class OntologyLoader {
 ```json
 {
   "version": "3.0",
+  "storage": {
+    "cacheDir": "./.tagteam-cache",
+    "dbName": "TagTeamOntologies"
+  },
   "ontology": {
-    "source": "url",
-    "url": "https://integralethics.org/ontologies/iee-values-v2.ttl",
-    "fallback": "./ontologies/default.json",
-    "cache": true,
-    "cacheExpiry": 86400000
-  },
-  "domains": {
-    "source": "file",
-    "path": "./ontologies/domains/"
-  },
-  "frameMappings": {
-    "source": "url",
-    "url": "https://integralethics.org/ontologies/frame-mappings.json"
-  },
-  "conflictPairs": {
-    "source": "file",
-    "path": "./ontologies/conflicts.ttl"
+    "sources": [
+      {
+        "url": "https://integralethics.org/ontologies/iee-values-v2.ttl",
+        "format": "ttl",
+        "cache": "indexeddb",
+        "ttl": 86400000
+      },
+      {
+        "path": "./ontologies/custom-values.ttl",
+        "format": "ttl",
+        "cache": "memory"
+      }
+    ],
+    "fallback": "./ontologies/default.json"
   },
   "options": {
     "autoDetectDomain": true,
-    "multiOntology": false,
+    "multiOntology": true,
     "strictBFO": false,
     "validateOntology": true
   }
 }
 ```
+
+**Cache Strategy Options:**
+- `"memory"` - Session only, lost on page refresh (fast, no persistence)
+- `"indexeddb"` - Browser persistent storage (auto-converts to "filesystem" in Node.js)
+- `"filesystem"` - Node.js only, creates `.tagteam-cache/` directory
 
 ### Alternative: Embedded in HTML
 
@@ -552,34 +786,285 @@ project/
 
 ---
 
+## Cross-Platform Usage Examples
+
+### Browser Usage
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="tagteam.js"></script>
+</head>
+<body>
+  <script>
+    (async () => {
+      // Load configuration
+      const config = await fetch('configuration.json').then(r => r.json());
+
+      // Initialize ontology manager (uses IndexedDB automatically)
+      const ontologyMgr = new OntologyManager(config);
+      await ontologyMgr.init(BUILTIN_VALUES);
+
+      // Load ontologies from config
+      for (const source of config.ontology.sources) {
+        await ontologyMgr.loadOntology(source);
+      }
+
+      // First load: Fetches from network, stores in IndexedDB
+      // Subsequent loads: Instant from IndexedDB
+
+      // Parse with custom ontology
+      const result = TagTeam.parse("The doctor must decide...");
+      console.log(result.ethicalProfile.detectedValues);
+    })();
+  </script>
+</body>
+</html>
+```
+
+**What happens:**
+1. Fetches configuration.json
+2. Creates OntologyManager with IndexedDBAdapter
+3. Loads ontology from URL (cached in IndexedDB)
+4. On page refresh: Loads instantly from IndexedDB (no network request)
+
+### Node.js Usage
+
+```javascript
+// Node.js script
+const fs = require('fs');
+const TagTeam = require('./dist/tagteam.js');
+
+(async () => {
+  // Load configuration
+  const config = JSON.parse(fs.readFileSync('configuration.json', 'utf8'));
+
+  // Initialize ontology manager (uses FileSystem automatically)
+  const ontologyMgr = new OntologyManager(config);
+  await ontologyMgr.init(BUILTIN_VALUES);
+
+  // Load ontologies from config
+  for (const source of config.ontology.sources) {
+    await ontologyMgr.loadOntology(source);
+  }
+
+  // First run: Fetches from URL/file, stores in .tagteam-cache/
+  // Subsequent runs: Instant from .tagteam-cache/
+
+  // Parse with custom ontology
+  const result = TagTeam.parse("The doctor must decide...");
+  console.log(result.ethicalProfile.detectedValues);
+})();
+```
+
+**What happens:**
+1. Reads configuration.json from filesystem
+2. Creates OntologyManager with FileSystemAdapter
+3. Loads ontology from URL (cached in .tagteam-cache/)
+4. On subsequent runs: Loads instantly from .tagteam-cache/ (no network request)
+
+**Cache directory structure:**
+```
+.tagteam-cache/
+├── https___integralethics_org_ontologies_iee_values_v2_ttl.json
+└── _ontologies_custom_values_ttl.json
+```
+
+### Unified API Example (Works in Both)
+
+```javascript
+// Same code works in browser and Node.js!
+const config = {
+  storage: {
+    cacheDir: './.tagteam-cache',  // Only used in Node.js
+    dbName: 'TagTeamOntologies'    // Only used in browser
+  },
+  ontology: {
+    sources: [
+      {
+        url: 'https://example.org/medical-ethics.ttl',
+        format: 'ttl',
+        cache: 'indexeddb',  // Auto-converts to 'filesystem' in Node.js
+        ttl: 86400000        // 24 hours
+      },
+      {
+        path: './ontologies/custom.ttl',
+        format: 'ttl',
+        cache: 'memory'  // No persistence in either environment
+      }
+    ]
+  }
+};
+
+const ontologyMgr = new OntologyManager(config);
+await ontologyMgr.init(BUILTIN_VALUES);
+
+for (const source of config.ontology.sources) {
+  await ontologyMgr.loadOntology(source);
+}
+
+// Now parse with merged ontology (built-in + custom)
+const result = TagTeam.parse(text);
+```
+
+### Cache Performance Comparison
+
+| Environment | First Load | Cached Load | Storage Location |
+|-------------|-----------|-------------|------------------|
+| **Browser** | 500ms (network) | 5ms (IndexedDB) | IndexedDB |
+| **Node.js** | 500ms (network) | 10ms (file read) | .tagteam-cache/*.json |
+| **Memory-only** | 500ms (network) | 0ms (Map) | RAM |
+
+### Offline-First Behavior
+
+```javascript
+// Load ontology with aggressive caching
+await ontologyMgr.loadOntology({
+  url: 'https://example.org/values.ttl',
+  cache: 'indexeddb',
+  ttl: 604800000,  // 7 days
+  fallback: './ontologies/offline-fallback.json'
+});
+
+// First load: Fetches from network, caches
+// Offline usage: Uses cached version for 7 days
+// After expiry: Falls back to local JSON
+```
+
+### Cache Management
+
+```javascript
+// Clear all cached ontologies
+await ontologyMgr.storage.clear();
+
+// Clear specific ontology
+await ontologyMgr.storage.delete('https://example.org/values.ttl');
+
+// Force refresh from network
+await ontologyMgr.loadOntology({
+  url: 'https://example.org/values.ttl',
+  forceRefresh: true
+});
+
+// Get cache statistics
+const stats = await ontologyMgr.getCacheStats();
+console.log(stats);
+// {
+//   totalEntries: 3,
+//   totalSize: '2.5 MB',
+//   oldestEntry: '2026-01-15T10:30:00Z',
+//   newestEntry: '2026-01-18T14:22:00Z'
+// }
+```
+
+---
+
+## Directory Structure for Cross-Platform Project
+
+```
+project/
+├── .tagteam-cache/              # Node.js cache (auto-created)
+│   ├── https___example_org_*.json
+│   └── _ontologies_*.json
+│
+├── ontologies/                   # Your ontology files
+│   ├── base/
+│   │   └── values.ttl
+│   ├── custom/
+│   │   └── my-values.ttl
+│   └── configuration.json       # Ontology config
+│
+├── src/                          # Your application
+│   └── index.js
+│
+├── dist/
+│   └── tagteam.js               # TagTeam bundle
+│
+├── node_modules/                 # Dependencies (Node.js only)
+│
+└── package.json
+```
+
+**Browser storage:**
+- Uses IndexedDB (inspectable in DevTools → Application → IndexedDB → TagTeamOntologies)
+- No files created on disk
+- Persists across page reloads
+- Cleared when user clears browser data
+
+**Node.js storage:**
+- Uses `.tagteam-cache/` directory (gitignored)
+- JSON files named after sanitized URLs
+- Persists across script runs
+- Can be manually deleted or managed
+
+---
+
 ## Implementation Plan
 
-### Phase 1: TTL Parser (Week 1)
+### Phase 1: Storage Adapters (Week 1)
+
+**Goal:** Cross-platform persistent caching infrastructure
+
+**Tasks:**
+- [ ] Implement StorageAdapter factory class
+- [ ] Implement IndexedDBAdapter (browser)
+- [ ] Implement FileSystemAdapter (Node.js)
+- [ ] Implement MemoryAdapter (fallback)
+- [ ] Environment auto-detection logic
+- [ ] TTL (time-to-live) expiration support
+- [ ] Cache statistics and management
+- [ ] Unit tests for each adapter
+
+**Deliverable:**
+- `src/storage/StorageAdapter.js` (factory)
+- `src/storage/IndexedDBAdapter.js` (browser)
+- `src/storage/FileSystemAdapter.js` (Node.js)
+- `src/storage/MemoryAdapter.js` (fallback)
+
+**File Structure:**
+```
+src/
+├── storage/
+│   ├── StorageAdapter.js       # Factory + interface
+│   ├── IndexedDBAdapter.js     # Browser implementation
+│   ├── FileSystemAdapter.js    # Node.js implementation
+│   └── MemoryAdapter.js        # Fallback
+```
+
+### Phase 2: TTL Parser (Week 1-2)
 
 **Goal:** Parse Turtle (TTL) format ontologies
 
 **Tasks:**
 - [ ] Research lightweight TTL parsers (N3.js, rdflib.js)
 - [ ] Implement or integrate TTL parser
+- [ ] Extract values from RDF triples
+- [ ] Support rdfs:label, skos:altLabel, skos:prefLabel
 - [ ] Test with sample BFO ontologies
 - [ ] Optimize for browser (bundle size concern)
 - [ ] Create parser tests
 
-**Deliverable:** TTLParser class that converts TTL → TagTeam format
+**Deliverable:**
+- `src/ontology/TTLParser.js` - Lightweight Turtle parser (~20-30 KB)
 
-### Phase 2: OntologyLoader (Week 1-2)
+### Phase 3: OntologyManager (Week 2)
 
-**Goal:** Load ontologies from various sources
+**Goal:** Unified ontology loading with three-tier caching
 
 **Tasks:**
-- [ ] Implement OntologyLoader class
+- [ ] Implement OntologyManager class
+- [ ] Three-tier caching (memory → persistent → network)
 - [ ] Support URL loading (fetch)
-- [ ] Support file loading (Node.js fs, browser File API)
+- [ ] Support file loading (Node.js fs)
 - [ ] Support JSON format (backward compatible)
-- [ ] Implement caching system
+- [ ] Integration with StorageAdapter
+- [ ] Automatic cache key generation
+- [ ] Force refresh option
 - [ ] Error handling and validation
 
-**Deliverable:** OntologyLoader.js component
+**Deliverable:**
+- `src/ontology/OntologyManager.js` - Main orchestrator
 
 ### Phase 3: BFO Mapping (Week 2)
 
