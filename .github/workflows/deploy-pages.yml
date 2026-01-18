@@ -43,7 +43,7 @@ jobs:
           cp dist/tagteam.js gh-pages/
 
           # Copy test files
-          cp test-week2a-context.html gh-pages/index.html
+          cp tests/browser/test-week2a-context.html gh-pages/index.html
 
           # Create demo page
           cat > gh-pages/demo.html << 'EOF'
