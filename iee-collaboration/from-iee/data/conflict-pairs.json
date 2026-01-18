@@ -1,0 +1,385 @@
+{
+  "version": "1.0",
+  "description": "Known ethical value conflicts and tensions for IEE deliberation engine",
+  "lastUpdated": "2026-01-18",
+  "conflicts": [
+    {
+      "id": "conflict-001",
+      "value1": "Autonomy",
+      "value2": "Beneficence",
+      "description": "Patient self-determination vs. medical paternalism",
+      "severity": 0.8,
+      "domain_crossing": true,
+      "domains": ["Dignity", "Care"],
+      "examples": [
+        "Patient refuses life-saving treatment",
+        "Doctor overrides patient wishes for their own good",
+        "Competent adult declines recommended intervention"
+      ],
+      "philosophical_tradition": "Kantian autonomy vs. consequentialist beneficence",
+      "resolution_strategies": [
+        "Respect autonomy unless patient lacks capacity",
+        "Ensure informed consent",
+        "Distinguish between beneficence and paternalism"
+      ]
+    },
+    {
+      "id": "conflict-002",
+      "value1": "Justice",
+      "value2": "Mercy",
+      "description": "Fairness and equal treatment vs. compassion and leniency",
+      "severity": 0.7,
+      "domain_crossing": true,
+      "domains": ["Dignity", "Care"],
+      "examples": [
+        "Strict punishment vs. second chances",
+        "Equal resource allocation vs. special consideration for suffering",
+        "Legal justice vs. restorative justice"
+      ],
+      "philosophical_tradition": "Retributive justice vs. care ethics",
+      "resolution_strategies": [
+        "Temper justice with mercy",
+        "Consider both desert and need",
+        "Restorative over purely punitive approaches"
+      ]
+    },
+    {
+      "id": "conflict-003",
+      "value1": "Sanctity of Life",
+      "value2": "Quality of Life",
+      "description": "Preserving life at all costs vs. concern for suffering and dignity",
+      "severity": 0.9,
+      "domain_crossing": false,
+      "domains": ["Care", "Care"],
+      "examples": [
+        "End-of-life care decisions",
+        "Prolonging life with severe suffering",
+        "Passive euthanasia debates"
+      ],
+      "philosophical_tradition": "Vitalism vs. quality-of-life ethics",
+      "resolution_strategies": [
+        "Distinguish ordinary vs. extraordinary means",
+        "Respect patient values and advance directives",
+        "Focus on palliative care"
+      ]
+    },
+    {
+      "id": "conflict-004",
+      "value1": "Loyalty",
+      "value2": "Honesty",
+      "description": "Allegiance to institution/person vs. truth-telling",
+      "severity": 0.75,
+      "domain_crossing": true,
+      "domains": ["Virtue", "Virtue"],
+      "examples": [
+        "Whistleblowing on employer misconduct",
+        "Reporting friend's wrongdoing",
+        "Loyalty to team vs. integrity"
+      ],
+      "philosophical_tradition": "Virtue ethics internal tensions",
+      "resolution_strategies": [
+        "True loyalty doesn't require complicity in wrongdoing",
+        "Internal reporting before external",
+        "Protect those who speak up"
+      ]
+    },
+    {
+      "id": "conflict-005",
+      "value1": "Individual Rights",
+      "value2": "Common Good",
+      "description": "Personal liberty vs. collective welfare",
+      "severity": 0.8,
+      "domain_crossing": true,
+      "domains": ["Dignity", "Community"],
+      "examples": [
+        "Public health mandates vs. personal freedom",
+        "Private property rights vs. eminent domain",
+        "Individual expression vs. community standards"
+      ],
+      "philosophical_tradition": "Liberalism vs. communitarianism",
+      "resolution_strategies": [
+        "Least restrictive means",
+        "Proportionality principle",
+        "Recognize interdependence"
+      ]
+    },
+    {
+      "id": "conflict-006",
+      "value1": "Liberty",
+      "value2": "Equality",
+      "description": "Freedom of action vs. equal distribution",
+      "severity": 0.7,
+      "domain_crossing": false,
+      "domains": ["Dignity", "Dignity"],
+      "examples": [
+        "Economic freedom vs. redistributive taxation",
+        "Meritocracy vs. equal opportunity",
+        "Free markets vs. economic justice"
+      ],
+      "philosophical_tradition": "Classical liberalism vs. egalitarianism",
+      "resolution_strategies": [
+        "Rawlsian difference principle",
+        "Equal opportunity over equal outcomes",
+        "Basic liberties take priority"
+      ]
+    },
+    {
+      "id": "conflict-007",
+      "value1": "Truthfulness",
+      "value2": "Compassion",
+      "description": "Honest disclosure vs. protecting from harm",
+      "severity": 0.6,
+      "domain_crossing": true,
+      "domains": ["Virtue", "Care"],
+      "examples": [
+        "Disclosing terminal diagnosis",
+        "Honest feedback vs. preserving self-esteem",
+        "Brutal honesty vs. white lies"
+      ],
+      "philosophical_tradition": "Deontological honesty vs. consequentialist compassion",
+      "resolution_strategies": [
+        "Honest but gentle disclosure",
+        "Right timing and setting",
+        "Distinguish withholding from lying"
+      ]
+    },
+    {
+      "id": "conflict-008",
+      "value1": "Confidentiality",
+      "value2": "Safety",
+      "description": "Keeping secrets vs. preventing harm",
+      "severity": 0.85,
+      "domain_crossing": true,
+      "domains": ["Dignity", "Care"],
+      "examples": [
+        "Therapist learning of danger to third party",
+        "Medical confidentiality vs. public health",
+        "Attorney-client privilege vs. preventing crime"
+      ],
+      "philosophical_tradition": "Professional ethics tensions",
+      "resolution_strategies": [
+        "Duty to warn in imminent danger",
+        "Narrow exceptions to confidentiality",
+        "Transparent policies about limits"
+      ]
+    },
+    {
+      "id": "conflict-009",
+      "value1": "Fidelity",
+      "value2": "Justice",
+      "description": "Loyalty to relationships vs. impartial fairness",
+      "severity": 0.65,
+      "domain_crossing": true,
+      "domains": ["Care", "Dignity"],
+      "examples": [
+        "Favoritism toward family members",
+        "Nepotism vs. meritocracy",
+        "Special obligations vs. universal principles"
+      ],
+      "philosophical_tradition": "Care ethics vs. justice ethics",
+      "resolution_strategies": [
+        "Separate personal and professional roles",
+        "Recognize special obligations within limits",
+        "Transparent about potential conflicts"
+      ]
+    },
+    {
+      "id": "conflict-010",
+      "value1": "Sustainability",
+      "value2": "Economic Growth",
+      "description": "Environmental preservation vs. development",
+      "severity": 0.8,
+      "domain_crossing": true,
+      "domains": ["Community", "Community"],
+      "examples": [
+        "Conservation vs. resource extraction",
+        "Climate action vs. economic costs",
+        "Intergenerational vs. present welfare"
+      ],
+      "philosophical_tradition": "Environmental ethics vs. economic development",
+      "resolution_strategies": [
+        "Sustainable development models",
+        "Long-term over short-term gains",
+        "Recognize ecological limits"
+      ]
+    },
+    {
+      "id": "conflict-011",
+      "value1": "Faith",
+      "value2": "Autonomy",
+      "description": "Religious authority vs. individual conscience",
+      "severity": 0.75,
+      "domain_crossing": true,
+      "domains": ["Transcendence", "Dignity"],
+      "examples": [
+        "Church doctrine vs. personal interpretation",
+        "Religious law vs. civil law",
+        "Submission to divine will vs. free will"
+      ],
+      "philosophical_tradition": "Theological ethics tensions",
+      "resolution_strategies": [
+        "Freedom of conscience",
+        "Religious liberty protections",
+        "Dialogue and discernment"
+      ]
+    },
+    {
+      "id": "conflict-012",
+      "value1": "Innovation",
+      "value2": "Tradition",
+      "description": "New methods vs. established practices",
+      "severity": 0.5,
+      "domain_crossing": true,
+      "domains": ["Virtue", "Community"],
+      "examples": [
+        "Experimental treatment vs. standard of care",
+        "Cultural preservation vs. modernization",
+        "Reform vs. conservation"
+      ],
+      "philosophical_tradition": "Progressive vs. conservative ethics",
+      "resolution_strategies": [
+        "Incremental change",
+        "Preserve core while adapting periphery",
+        "Evidence-based innovation"
+      ]
+    },
+    {
+      "id": "conflict-013",
+      "value1": "Efficiency",
+      "value2": "Dignity",
+      "description": "Optimization vs. respect for persons",
+      "severity": 0.7,
+      "domain_crossing": true,
+      "domains": ["Virtue", "Dignity"],
+      "examples": [
+        "Healthcare cost-cutting vs. patient care",
+        "Productivity metrics vs. human flourishing",
+        "Automation vs. meaningful work"
+      ],
+      "philosophical_tradition": "Utilitarian efficiency vs. Kantian dignity",
+      "resolution_strategies": [
+        "Persons as ends not means",
+        "Sustainable pace over burnout",
+        "Quality over mere quantity"
+      ]
+    },
+    {
+      "id": "conflict-014",
+      "value1": "Solidarity",
+      "value2": "Competition",
+      "description": "Cooperation vs. individual achievement",
+      "severity": 0.6,
+      "domain_crossing": true,
+      "domains": ["Community", "Virtue"],
+      "examples": [
+        "Collective bargaining vs. individual negotiation",
+        "Team success vs. personal recognition",
+        "Market competition vs. worker solidarity"
+      ],
+      "philosophical_tradition": "Socialist vs. capitalist ethics",
+      "resolution_strategies": [
+        "Balanced competition within solidarity",
+        "Cooperative competition",
+        "Fair play and mutual support"
+      ]
+    },
+    {
+      "id": "conflict-015",
+      "value1": "Transparency",
+      "value2": "Privacy",
+      "description": "Openness vs. personal boundaries",
+      "severity": 0.7,
+      "domain_crossing": false,
+      "domains": ["Community", "Dignity"],
+      "examples": [
+        "Government transparency vs. state secrets",
+        "Financial disclosure vs. personal privacy",
+        "Organizational openness vs. confidential information"
+      ],
+      "philosophical_tradition": "Democratic accountability vs. liberal privacy",
+      "resolution_strategies": [
+        "Public interest test",
+        "Privacy by default, transparency by exception",
+        "Proportional disclosure"
+      ]
+    },
+    {
+      "id": "conflict-016",
+      "value1": "Courage",
+      "value2": "Prudence",
+      "description": "Bold action vs. cautious wisdom",
+      "severity": 0.5,
+      "domain_crossing": false,
+      "domains": ["Virtue", "Virtue"],
+      "examples": [
+        "Taking risks vs. playing safe",
+        "Speaking truth to power vs. picking battles",
+        "Moral courage vs. practical wisdom"
+      ],
+      "philosophical_tradition": "Classical virtue ethics internal tensions",
+      "resolution_strategies": [
+        "Aristotelian mean between cowardice and recklessness",
+        "Context-sensitive judgment",
+        "Courage tempered by wisdom"
+      ]
+    },
+    {
+      "id": "conflict-017",
+      "value1": "Hope",
+      "value2": "Realism",
+      "description": "Optimism vs. accepting limits",
+      "severity": 0.4,
+      "domain_crossing": true,
+      "domains": ["Transcendence", "Virtue"],
+      "examples": [
+        "Hoping for cure vs. accepting terminal illness",
+        "Idealism vs. pragmatism",
+        "Faith in progress vs. tragic awareness"
+      ],
+      "philosophical_tradition": "Religious hope vs. existential realism",
+      "resolution_strategies": [
+        "Hope without denial",
+        "Tragic optimism",
+        "Serenity to accept what cannot be changed"
+      ]
+    },
+    {
+      "id": "conflict-018",
+      "value1": "Non-maleficence",
+      "value2": "Beneficence",
+      "description": "Do no harm vs. actively help",
+      "severity": 0.6,
+      "domain_crossing": false,
+      "domains": ["Care", "Care"],
+      "examples": [
+        "Risky intervention for potential benefit",
+        "Side effects vs. therapeutic effects",
+        "Aggressive treatment vs. comfort care"
+      ],
+      "philosophical_tradition": "Medical ethics principle tensions",
+      "resolution_strategies": [
+        "Primum non nocere (first do no harm)",
+        "Proportionality of risk to benefit",
+        "Informed consent about tradeoffs"
+      ]
+    }
+  ],
+  "usage_notes": {
+    "detection": "Check if both values in a conflict pair have scores >0.6",
+    "tension_calculation": "tension = min(score1, score2) * severity * conflict_factor",
+    "conflict_factor": "1.0 if polarities differ, 0.5 if same polarity, 0.0 if both neutral",
+    "display": "Show conflicts only if tension >0.4 to avoid noise"
+  },
+  "metadata": {
+    "total_conflicts": 18,
+    "coverage": {
+      "Dignity": 8,
+      "Care": 8,
+      "Virtue": 7,
+      "Community": 6,
+      "Transcendence": 3
+    },
+    "cross_domain": 13,
+    "within_domain": 5
+  }
+}
