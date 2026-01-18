@@ -256,6 +256,18 @@
         } else {
             this.contextAnalyzer = null;
         }
+
+        // Week 2b: Initialize Value Matching Components
+        // Load dynamically if available, otherwise ethical profiling is skipped
+        if (typeof ValueMatcher !== 'undefined' && typeof ValueScorer !== 'undefined' && typeof EthicalProfiler !== 'undefined') {
+            this.valueMatcher = new ValueMatcher(window.VALUE_DEFINITIONS);
+            this.valueScorer = new ValueScorer(window.FRAME_VALUE_BOOSTS);
+            this.ethicalProfiler = new EthicalProfiler(window.CONFLICT_PAIRS);
+        } else {
+            this.valueMatcher = null;
+            this.valueScorer = null;
+            this.ethicalProfiler = null;
+        }
     }
 
     /**
@@ -291,8 +303,30 @@
             contextIntensity = this.contextAnalyzer.analyzeContext(text, taggedWords, frame, roles);
         }
 
+        // Week 2b: Generate ethical profile (50 values, conflicts, domains)
+        let ethicalProfile = null;
+        if (this.valueMatcher && this.valueScorer && this.ethicalProfiler) {
+            // Step 1: Detect values with polarity
+            const detectedValues = this.valueMatcher.matchValues(text);
+
+            // Step 2: Calculate salience with frame/role boosts
+            const agentText = roles.agent ? roles.agent.text : null;
+            const patientText = roles.patient ? roles.patient.text : null;
+            const rolesList = [agentText, patientText].filter(r => r !== null);
+
+            const scoredValues = this.valueScorer.scoreValues(
+                detectedValues,
+                frame.name === 'decision_making' ? 'Deciding' : frame.name,
+                rolesList,
+                window.VALUE_DEFINITIONS.values
+            );
+
+            // Step 3: Generate complete profile
+            ethicalProfile = this.ethicalProfiler.generateProfile(scoredValues);
+        }
+
         // Step 7: Build result object
-        return this._buildSemanticAction(roles, verbInfo, frame, negation, modality, confidence, ambiguity, contextIntensity);
+        return this._buildSemanticAction(roles, verbInfo, frame, negation, modality, confidence, ambiguity, contextIntensity, ethicalProfile);
     };
 
     // ========================================
@@ -811,12 +845,15 @@
     // ========================================
 
     SemanticRoleExtractor.prototype._buildSemanticAction = function(
-        roles, verbInfo, frame, negation, modality, confidence, ambiguity, contextIntensity
+        roles, verbInfo, frame, negation, modality, confidence, ambiguity, contextIntensity, ethicalProfile
     ) {
         // Map internal frame name to IEE expected format
         const ieeFrameName = FRAME_NAME_MAPPING[frame.name] || frame.name;
 
         const result = {
+            // Version (Week 2b: 2.0)
+            version: ethicalProfile ? "2.0" : (contextIntensity ? "1.5" : "1.0"),
+
             // Core semantic structure (IEE format)
             agent: roles.agent || null,
             action: {
@@ -857,6 +894,11 @@
         // Week 2a: Add context intensity if available
         if (contextIntensity) {
             result.contextIntensity = contextIntensity;
+        }
+
+        // Week 2b: Add ethical profile if available
+        if (ethicalProfile) {
+            result.ethicalProfile = ethicalProfile;
         }
 
         return result;

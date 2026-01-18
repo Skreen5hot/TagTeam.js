@@ -26,19 +26,42 @@ const lexiconPath = path.join(__dirname, 'src', 'lexicon.js');
 const posTaggerPath = path.join(__dirname, 'src', 'POSTagger.js');
 const patternMatcherPath = path.join(__dirname, 'src', 'PatternMatcher.js');
 const contextAnalyzerPath = path.join(__dirname, 'src', 'ContextAnalyzer.js');
+const valueMatcherPath = path.join(__dirname, 'src', 'ValueMatcher.js');
+const valueScorerPath = path.join(__dirname, 'src', 'ValueScorer.js');
+const ethicalProfilerPath = path.join(__dirname, 'src', 'EthicalProfiler.js');
 const semanticExtractorPath = path.join(__dirname, 'src', 'SemanticRoleExtractor.js');
 
 let lexicon = fs.readFileSync(lexiconPath, 'utf8');
 let posTagger = fs.readFileSync(posTaggerPath, 'utf8');
 let patternMatcher = fs.readFileSync(patternMatcherPath, 'utf8');
 let contextAnalyzer = fs.readFileSync(contextAnalyzerPath, 'utf8');
+let valueMatcher = fs.readFileSync(valueMatcherPath, 'utf8');
+let valueScorer = fs.readFileSync(valueScorerPath, 'utf8');
+let ethicalProfiler = fs.readFileSync(ethicalProfilerPath, 'utf8');
 let semanticExtractor = fs.readFileSync(semanticExtractorPath, 'utf8');
 
 console.log(`  ✓ lexicon.js (${(lexicon.length / 1024 / 1024).toFixed(2)} MB)`);
 console.log(`  ✓ POSTagger.js (${(posTagger.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ PatternMatcher.js (${(patternMatcher.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ ContextAnalyzer.js (${(contextAnalyzer.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ ValueMatcher.js (${(valueMatcher.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ ValueScorer.js (${(valueScorer.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ EthicalProfiler.js (${(ethicalProfiler.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ SemanticRoleExtractor.js (${(semanticExtractor.length / 1024).toFixed(2)} KB)`);
+
+// Read data files for Week 2b
+console.log('\n📖 Reading Week 2b data files...');
+const valueDefinitionsPath = path.join(__dirname, 'iee-collaboration', 'from-iee', 'data', 'value-definitions-comprehensive.json');
+const frameValueBoostsPath = path.join(__dirname, 'iee-collaboration', 'from-iee', 'data', 'frame-value-boosts.json');
+const conflictPairsPath = path.join(__dirname, 'iee-collaboration', 'from-iee', 'data', 'conflict-pairs.json');
+
+const valueDefinitions = fs.readFileSync(valueDefinitionsPath, 'utf8');
+const frameValueBoosts = fs.readFileSync(frameValueBoostsPath, 'utf8');
+const conflictPairs = fs.readFileSync(conflictPairsPath, 'utf8');
+
+console.log(`  ✓ value-definitions-comprehensive.json (${(valueDefinitions.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ frame-value-boosts.json (${(frameValueBoosts.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ conflict-pairs.json (${(conflictPairs.length / 1024).toFixed(2)} KB)`);
 
 // Strip IIFE wrappers from SemanticRoleExtractor if present
 console.log('\n🔧 Processing source files...');
@@ -62,14 +85,18 @@ if (posTagger.includes('word = ret[i]')) {
 console.log('\n🔧 Building bundle...');
 
 const bundle = `/*!
- * TagTeam.js - Deterministic Semantic Parser
- * Version: 1.0.0
+ * TagTeam.js - Deterministic Semantic Parser with Ethical Value Detection
+ * Version: 2.0.0 (Week 2b Complete)
  * Date: ${new Date().toISOString().split('T')[0]}
  *
  * A client-side JavaScript library for extracting semantic roles from natural language text
+ * Week 1: Semantic role extraction
+ * Week 2a: Context intensity analysis (12 dimensions)
+ * Week 2b: Ethical value detection (50 values, conflict detection, domain analysis)
+ *
  * Inspired by d3.js and mermaid.js - single file, zero dependencies, simple API
  *
- * Copyright (c) 2025 Aaron Damiano
+ * Copyright (c) 2025-2026 Aaron Damiano
  * Licensed under MIT
  *
  * Repository: https://github.com/yourusername/TagTeam.js
@@ -128,7 +155,38 @@ ${patternMatcher}
 ${contextAnalyzer}
 
   // ============================================================================
-  // SEMANTIC ROLE EXTRACTOR (~32KB + Week 2a enhancements)
+  // WEEK 2B: ETHICAL VALUE DETECTION DATA (~70KB)
+  // ============================================================================
+
+  // Value definitions (50 values across 5 domains)
+  window.VALUE_DEFINITIONS = ${valueDefinitions};
+
+  // Frame and role boost mappings
+  window.FRAME_VALUE_BOOSTS = ${frameValueBoosts};
+
+  // Predefined conflict pairs (18 known ethical tensions)
+  window.CONFLICT_PAIRS = ${conflictPairs};
+
+  // ============================================================================
+  // VALUE MATCHER (Week 2b) (~6KB)
+  // ============================================================================
+
+${valueMatcher}
+
+  // ============================================================================
+  // VALUE SCORER (Week 2b) (~9KB)
+  // ============================================================================
+
+${valueScorer}
+
+  // ============================================================================
+  // ETHICAL PROFILER (Week 2b) (~12KB)
+  // ============================================================================
+
+${ethicalProfiler}
+
+  // ============================================================================
+  // SEMANTIC ROLE EXTRACTOR (~32KB + Week 2a/2b enhancements)
   // ============================================================================
 
 ${semanticExtractor}
@@ -234,7 +292,7 @@ ${semanticExtractor}
     /**
      * Version information
      */
-    version: '1.0.0',
+    version: '2.0.0',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
