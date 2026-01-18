@@ -1,7 +1,7 @@
 /*!
  * TagTeam.js - Deterministic Semantic Parser
  * Version: 1.0.0
- * Date: 2026-01-11
+ * Date: 2026-01-18
  *
  * A client-side JavaScript library for extracting semantic roles from natural language text
  * Inspired by d3.js and mermaid.js - single file, zero dependencies, simple API
