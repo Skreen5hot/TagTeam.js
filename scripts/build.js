@@ -25,6 +25,8 @@ console.log('📖 Reading source files...');
 const lexiconPath = path.join(__dirname, '..', 'src', 'core', 'lexicon.js');
 const posTaggerPath = path.join(__dirname, '..', 'src', 'core', 'POSTagger.js');
 const patternMatcherPath = path.join(__dirname, '..', 'src', 'core', 'PatternMatcher.js');
+const matchingStrategiesPath = path.join(__dirname, '..', 'src', 'core', 'MatchingStrategies.js');
+const compromisePath = path.join(__dirname, '..', 'node_modules', 'compromise', 'builds', 'compromise.js');
 const contextAnalyzerPath = path.join(__dirname, '..', 'src', 'analyzers', 'ContextAnalyzer.js');
 const valueMatcherPath = path.join(__dirname, '..', 'src', 'analyzers', 'ValueMatcher.js');
 const valueScorerPath = path.join(__dirname, '..', 'src', 'analyzers', 'ValueScorer.js');
@@ -34,6 +36,8 @@ const semanticExtractorPath = path.join(__dirname, '..', 'src', 'core', 'Semanti
 let lexicon = fs.readFileSync(lexiconPath, 'utf8');
 let posTagger = fs.readFileSync(posTaggerPath, 'utf8');
 let patternMatcher = fs.readFileSync(patternMatcherPath, 'utf8');
+let matchingStrategies = fs.readFileSync(matchingStrategiesPath, 'utf8');
+let compromise = fs.readFileSync(compromisePath, 'utf8');
 let contextAnalyzer = fs.readFileSync(contextAnalyzerPath, 'utf8');
 let valueMatcher = fs.readFileSync(valueMatcherPath, 'utf8');
 let valueScorer = fs.readFileSync(valueScorerPath, 'utf8');
@@ -42,6 +46,8 @@ let semanticExtractor = fs.readFileSync(semanticExtractorPath, 'utf8');
 
 console.log(`  ✓ lexicon.js (${(lexicon.length / 1024 / 1024).toFixed(2)} MB)`);
 console.log(`  ✓ POSTagger.js (${(posTagger.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ Compromise.js (NLP) (${(compromise.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ MatchingStrategies.js (${(matchingStrategies.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ PatternMatcher.js (${(patternMatcher.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ ContextAnalyzer.js (${(contextAnalyzer.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ ValueMatcher.js (${(valueMatcher.length / 1024).toFixed(2)} KB)`);
@@ -75,10 +81,77 @@ if (semanticExtractor.includes('(function(window)')) {
   console.log('  ✓ Stripped IIFE wrapper from SemanticRoleExtractor');
 }
 
+// Replace window references in SemanticRoleExtractor with _global
+if (semanticExtractor.includes('window.VALUE_DEFINITIONS')) {
+  semanticExtractor = semanticExtractor.replace(/window\./g, '_global.');
+  console.log('  ✓ Fixed window references in SemanticRoleExtractor');
+}
+
 // Fix POSTagger global variable leak (word = ret[i] should be var word = ret[i])
 if (posTagger.includes('word = ret[i]')) {
   posTagger = posTagger.replace(/(\s+)word = ret\[i\];/g, '$1var word = ret[i];');
   console.log('  ✓ Fixed global variable leak in POSTagger');
+}
+
+// Replace window references in lexicon with _global for cross-platform compatibility
+if (lexicon.includes('window.POSTAGGER_LEXICON')) {
+  lexicon = lexicon.replace(/window\.POSTAGGER_LEXICON/g, '_global.POSTAGGER_LEXICON');
+  console.log('  ✓ Fixed lexicon for cross-platform compatibility');
+}
+
+// Strip UMD wrapper from PatternMatcher (Week 3 enhancement)
+if (patternMatcher.includes('(function(root, factory)')) {
+  // Extract the factory function content
+  const factoryMatch = patternMatcher.match(/}\(typeof self[^}]+function\(nlp\)\s*\{([\s\S]+)\}\)\);/);
+  if (factoryMatch) {
+    patternMatcher = factoryMatch[1];
+    console.log('  ✓ Stripped UMD wrapper from PatternMatcher');
+  }
+}
+
+// Strip UMD wrapper from MatchingStrategies
+if (matchingStrategies.includes('(function(root, factory)')) {
+  const factoryMatch = matchingStrategies.match(/}\(typeof self[^}]+function\(\)\s*\{([\s\S]+)\}\)\);/);
+  if (factoryMatch) {
+    matchingStrategies = factoryMatch[1];
+    console.log('  ✓ Stripped UMD wrapper from MatchingStrategies');
+  }
+}
+
+// Strip UMD wrapper from ContextAnalyzer
+if (contextAnalyzer.includes('(function(root, factory)')) {
+  const factoryMatch = contextAnalyzer.match(/}\(typeof self[^}]+function\(PatternMatcher\)\s*\{([\s\S]+)\}\)\);/);
+  if (factoryMatch) {
+    contextAnalyzer = factoryMatch[1];
+    console.log('  ✓ Stripped UMD wrapper from ContextAnalyzer');
+  }
+}
+
+// Strip UMD wrapper from ValueMatcher
+if (valueMatcher.includes('(function(root, factory)')) {
+  const factoryMatch = valueMatcher.match(/}\(typeof self[^}]+function\(PatternMatcher\)\s*\{([\s\S]+)\}\)\);/);
+  if (factoryMatch) {
+    valueMatcher = factoryMatch[1];
+    console.log('  ✓ Stripped UMD wrapper from ValueMatcher');
+  }
+}
+
+// Strip UMD wrapper from ValueScorer
+if (valueScorer.includes('(function(root, factory)')) {
+  const factoryMatch = valueScorer.match(/}\(typeof self[^}]+function\(\)\s*\{([\s\S]+)\}\)\);/);
+  if (factoryMatch) {
+    valueScorer = factoryMatch[1];
+    console.log('  ✓ Stripped UMD wrapper from ValueScorer');
+  }
+}
+
+// Strip UMD wrapper from EthicalProfiler
+if (ethicalProfiler.includes('(function(root, factory)')) {
+  const factoryMatch = ethicalProfiler.match(/}\(typeof self[^}]+function\(\)\s*\{([\s\S]+)\}\)\);/);
+  if (factoryMatch) {
+    ethicalProfiler = factoryMatch[1];
+    console.log('  ✓ Stripped UMD wrapper from EthicalProfiler');
+  }
 }
 
 // Build the bundle
@@ -86,15 +159,17 @@ console.log('\n🔧 Building bundle...');
 
 const bundle = `/*!
  * TagTeam.js - Deterministic Semantic Parser with Ethical Value Detection
- * Version: 2.0.0 (Week 2b Complete)
+ * Version: 3.0.0-alpha (Week 3 - Pattern Matching Enhancement)
  * Date: ${new Date().toISOString().split('T')[0]}
  *
  * A client-side JavaScript library for extracting semantic roles from natural language text
  * Week 1: Semantic role extraction
  * Week 2a: Context intensity analysis (12 dimensions)
  * Week 2b: Ethical value detection (50 values, conflict detection, domain analysis)
+ * Week 3: Enhanced pattern matching with NLP (fixes IEE polarity bug)
  *
- * Inspired by d3.js and mermaid.js - single file, zero dependencies, simple API
+ * Inspired by d3.js and mermaid.js - single file, simple API
+ * Dependency: Compromise.js (~345KB) for lemmatization and NLP features
  *
  * Copyright (c) 2025-2026 Aaron Damiano
  * Licensed under MIT
@@ -119,6 +194,9 @@ const bundle = `/*!
 })(typeof window !== 'undefined' ? window : this, function() {
   'use strict';
 
+  // Setup global reference (works in both browser and Node.js)
+  const _global = typeof window !== 'undefined' ? window : global;
+
   // ============================================================================
   // LEXICON DATA (~4.2MB)
   // ============================================================================
@@ -126,7 +204,7 @@ const bundle = `/*!
 ${lexicon}
 
   // Define LEXICON_TAG_MAP (required by POSTagger)
-  window.LEXICON_TAG_MAP = {
+  _global.LEXICON_TAG_MAP = {
     "NN": ["NN"], "NNS": ["NNS"], "NNP": ["NNP"],
     "JJ": ["JJ"], "JJR": ["JJR"], "JJS": ["JJS"],
     "VB": ["VB"], "VBD": ["VBD"], "VBG": ["VBG"], "VBN": ["VBN"], "VBP": ["VBP"], "VBZ": ["VBZ"],
@@ -143,47 +221,89 @@ ${lexicon}
 ${posTagger}
 
   // ============================================================================
-  // PATTERN MATCHER (Week 2a) (~8KB)
+  // COMPROMISE.JS - NLP LIBRARY (Week 3) (~345KB)
   // ============================================================================
 
+${compromise}
+
+  // Make nlp available to PatternMatcher
+  const nlp = typeof _global.nlp !== 'undefined' ? _global.nlp : (typeof module !== 'undefined' && require ? require('compromise') : null);
+
+  // ============================================================================
+  // MATCHING STRATEGIES (Week 3) (~2KB)
+  // ============================================================================
+
+  const MatchingStrategies = (function() {
+${matchingStrategies}
+    return MatchingStrategies;
+  })();
+
+  // ============================================================================
+  // PATTERN MATCHER (Week 2a + Week 3 Enhancement) (~12KB)
+  // ============================================================================
+
+  const PatternMatcher = (function(nlp) {
 ${patternMatcher}
+    return PatternMatcher;
+  })(nlp);
 
   // ============================================================================
   // CONTEXT ANALYZER (Week 2a) (~15KB)
   // ============================================================================
 
+  const ContextAnalyzer = (function(PatternMatcher) {
 ${contextAnalyzer}
+    return ContextAnalyzer;
+  })(PatternMatcher);
 
   // ============================================================================
   // WEEK 2B: ETHICAL VALUE DETECTION DATA (~70KB)
   // ============================================================================
 
   // Value definitions (50 values across 5 domains)
-  window.VALUE_DEFINITIONS = ${valueDefinitions};
+  _global.VALUE_DEFINITIONS = ${valueDefinitions};
 
   // Frame and role boost mappings
-  window.FRAME_VALUE_BOOSTS = ${frameValueBoosts};
+  _global.FRAME_VALUE_BOOSTS = ${frameValueBoosts};
 
   // Predefined conflict pairs (18 known ethical tensions)
-  window.CONFLICT_PAIRS = ${conflictPairs};
+  _global.CONFLICT_PAIRS = ${conflictPairs};
 
   // ============================================================================
   // VALUE MATCHER (Week 2b) (~6KB)
   // ============================================================================
 
+  const ValueMatcher = (function(PatternMatcher) {
 ${valueMatcher}
+    return ValueMatcher;
+  })(PatternMatcher);
+
+  // Make ValueMatcher available globally for SemanticRoleExtractor
+  _global.ValueMatcher = ValueMatcher;
 
   // ============================================================================
   // VALUE SCORER (Week 2b) (~9KB)
   // ============================================================================
 
+  const ValueScorer = (function() {
 ${valueScorer}
+    return ValueScorer;
+  })();
+
+  // Make ValueScorer available globally for SemanticRoleExtractor
+  _global.ValueScorer = ValueScorer;
 
   // ============================================================================
   // ETHICAL PROFILER (Week 2b) (~12KB)
   // ============================================================================
 
+  const EthicalProfiler = (function() {
 ${ethicalProfiler}
+    return EthicalProfiler;
+  })();
+
+  // Make EthicalProfiler available globally for SemanticRoleExtractor
+  _global.EthicalProfiler = EthicalProfiler;
 
   // ============================================================================
   // SEMANTIC ROLE EXTRACTOR (~32KB + Week 2a/2b enhancements)

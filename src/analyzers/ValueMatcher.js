@@ -100,10 +100,18 @@
 
         // Step 2: Determine polarity using polarityIndicators
         if (valueDef.polarityIndicators) {
+            // Week 3 Enhancement: Use BALANCED strategy for flexible matching
+            var matchOptions = {
+                lemmatize: true,
+                caseSensitive: false,
+                partialMatch: true,
+                threshold: 0.8
+            };
+
             // Check upholding patterns
             var upholdingPatterns = valueDef.polarityIndicators.upholding || [];
             upholdingPatterns.forEach(function(pattern) {
-                if (this.patternMatcher.containsAny(text, [pattern])) {
+                if (this.patternMatcher.containsAny(text, [pattern], matchOptions)) {
                     upholdingCount++;
                 }
             }.bind(this));
@@ -111,7 +119,7 @@
             // Check violating patterns
             var violatingPatterns = valueDef.polarityIndicators.violating || [];
             violatingPatterns.forEach(function(pattern) {
-                if (this.patternMatcher.containsAny(text, [pattern])) {
+                if (this.patternMatcher.containsAny(text, [pattern], matchOptions)) {
                     violatingCount++;
                 }
             }.bind(this));

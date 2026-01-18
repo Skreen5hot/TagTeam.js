@@ -33,5 +33,8 @@
   "homepage": "https://github.com/yourusername/TagTeam.js#readme",
   "engines": {
     "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "compromise": "^14.14.5"
   }
 }
