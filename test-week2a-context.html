@@ -84,7 +84,13 @@
     <div id="summary" class="summary"></div>
 
     <!-- Use the bundled version with cache busting -->
-    <script src="dist/tagteam.js?v=5"></script>
+    <!-- Auto-detects path: dist/ for local, ./ for GitHub Pages -->
+    <script>
+        const scriptPath = window.location.hostname === 'localhost' || window.location.hostname === ''
+            ? 'dist/tagteam.js?v=5'
+            : 'tagteam.js?v=5';
+        document.write('<script src="' + scriptPath + '"><\/script>');
+    </script>
 
     <script>
         // First 5 scenarios from IEE test corpus
