@@ -29,8 +29,11 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Install dependencies
+        run: npm install
+
       - name: Build TagTeam.js bundle
-        run: node build.js
+        run: npm run build
 
       - name: Create GitHub Pages site
         run: |
