@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Week 2a - Context Intensity Validation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        .test-case {
+            background: white;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-case.pass {
+            border-left-color: #27ae60;
+        }
+        .test-case.fail {
+            border-left-color: #e74c3c;
+        }
+        .test-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        .sentence {
+            background: #ecf0f1;
+            padding: 8px;
+            margin: 8px 0;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .dimension {
+            margin: 5px 0;
+            padding-left: 20px;
+            font-size: 0.9em;
+        }
+        .pass { color: #27ae60; font-weight: bold; }
+        .fail { color: #e74c3c; font-weight: bold; }
+        .warning { color: #f39c12; font-weight: bold; }
+        .summary {
+            background: #34495e;
+            color: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .summary h2 {
+            margin-top: 0;
+        }
+        .summary .pass-rate {
+            font-size: 2em;
+            font-weight: bold;
+        }
+        .context-scores {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .context-group {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .context-group h4 {
+            margin: 0 0 8px 0;
+            color: #495057;
+        }
+    </style>
+</head>
+<body>
+    <h1>Week 2a - Context Intensity Validation</h1>
+    <p>Testing 12-dimension context analysis on first 5 IEE scenarios</p>
+
+    <div id="results"></div>
+    <div id="summary" class="summary"></div>
+
+    <!-- Use the bundled version with cache busting -->
+    <!-- Auto-detects path: dist/ for local, ./ for GitHub Pages -->
+    <script>
+        const scriptPath = window.location.hostname === 'localhost' || window.location.hostname === ''
+            ? 'dist/tagteam.js?v=5'
+            : 'tagteam.js?v=5';
+        document.write('<script src="' + scriptPath + '"><\/script>');
+    </script>
+
+    <script>
+        // First 5 scenarios from IEE test corpus
+        const tests = [
+            {
+                id: 'healthcare-001',
+                domain: 'healthcare',
+                title: 'End of Life Decision',
+                sentence: 'The family must decide whether to continue treatment',
+                expectedContext: {
+                    temporal: { urgency: 0.8, duration: 1.0, reversibility: 1.0 },
+                    relational: { intimacy: 1.0, powerDifferential: 0.3, trust: 0.7 },
+                    consequential: { harmSeverity: 1.0, benefitMagnitude: 0.4, scope: 0.1 },
+                    epistemic: { certainty: 0.4, informationCompleteness: 0.5, expertise: 0.3 }
+                }
+            },
+            {
+                id: 'healthcare-002',
+                domain: 'healthcare',
+                title: 'Triage in Resource Scarcity',
+                sentence: 'The doctor must allocate the last ventilator between two critically ill patients',
+                expectedContext: {
+                    temporal: { urgency: 1.0, duration: 1.0, reversibility: 1.0 },
+                    relational: { intimacy: 0.2, powerDifferential: 0.9, trust: 0.8 },
+                    consequential: { harmSeverity: 1.0, benefitMagnitude: 1.0, scope: 0.2 },
+                    epistemic: { certainty: 0.6, informationCompleteness: 0.7, expertise: 0.9 }
+                }
+            },
+            {
+                id: 'spiritual-001',
+                domain: 'spiritual',
+                title: 'Faith Crisis',
+                sentence: 'I am questioning core doctrines',
+                expectedContext: {
+                    temporal: { urgency: 0.3, duration: 0.7, reversibility: 0.4 },
+                    relational: { intimacy: 1.0, powerDifferential: 0.2, trust: 0.6 },
+                    consequential: { harmSeverity: 0.4, benefitMagnitude: 0.6, scope: 0.1 },
+                    epistemic: { certainty: 0.3, informationCompleteness: 0.4, expertise: 0.4 }
+                }
+            },
+            {
+                id: 'vocational-001',
+                domain: 'vocational',
+                title: 'Whistleblowing Safety Violation',
+                sentence: 'I discovered that my company is falsifying safety reports',
+                expectedContext: {
+                    temporal: { urgency: 0.7, duration: 0.6, reversibility: 0.5 },
+                    relational: { intimacy: 0.2, powerDifferential: 0.8, trust: 0.2 },
+                    consequential: { harmSeverity: 0.8, benefitMagnitude: 0.7, scope: 0.5 },
+                    epistemic: { certainty: 0.8, informationCompleteness: 0.6, expertise: 0.5 }
+                }
+            },
+            {
+                id: 'interpersonal-001',
+                domain: 'interpersonal',
+                title: 'Friend Infidelity Discovery',
+                sentence: 'My best friend is cheating on their spouse',
+                expectedContext: {
+                    temporal: { urgency: 0.4, duration: 0.5, reversibility: 0.6 },
+                    relational: { intimacy: 0.8, powerDifferential: 0.1, trust: 0.7 },
+                    consequential: { harmSeverity: 0.6, benefitMagnitude: 0.3, scope: 0.2 },
+                    epistemic: { certainty: 0.7, informationCompleteness: 0.5, expertise: 0.3 }
+                }
+            }
+        ];
+
+        const tolerance = 0.2; // ±0.2 tolerance as specified by IEE
+        let totalDimensions = 0;
+        let accurateDimensions = 0;
+
+        const resultsDiv = document.getElementById('results');
+
+        tests.forEach(test => {
+            const result = TagTeam.parse(test.sentence);
+
+            let testHtml = `
+                <div class="test-case">
+                    <div class="test-title">${test.id}: ${test.title}</div>
+                    <div class="sentence">"${test.sentence}"</div>
+            `;
+
+            let allPass = true;
+
+            if (result.contextIntensity) {
+                testHtml += '<div class="context-scores">';
+
+                // Check each category
+                for (const category of ['temporal', 'relational', 'consequential', 'epistemic']) {
+                    testHtml += `<div class="context-group"><h4>${category.charAt(0).toUpperCase() + category.slice(1)}</h4>`;
+
+                    const expected = test.expectedContext[category];
+                    const actual = result.contextIntensity[category];
+
+                    for (const dimension in expected) {
+                        totalDimensions++;
+                        const expectedScore = expected[dimension];
+                        const actualScore = actual ? actual[dimension] : 0.5;
+                        const diff = Math.abs(expectedScore - actualScore);
+                        const withinTolerance = diff <= tolerance;
+
+                        if (withinTolerance) accurateDimensions++;
+                        else allPass = false;
+
+                        const status = withinTolerance ? 'pass' : 'fail';
+
+                        testHtml += `
+                            <div class="dimension ${status}">
+                                ${withinTolerance ? '✅' : '❌'} ${dimension}: ${actualScore.toFixed(2)}
+                                (expected: ${expectedScore.toFixed(2)}, diff: ${diff.toFixed(2)})
+                            </div>
+                        `;
+                    }
+
+                    testHtml += '</div>';
+                }
+
+                testHtml += '</div>';
+            } else {
+                testHtml += '<div class="fail">❌ No contextIntensity field found in result!</div>';
+                allPass = false;
+                totalDimensions += 12; // All 12 dimensions failed
+            }
+
+            testHtml += `</div>`;
+
+            const testDiv = document.createElement('div');
+            testDiv.innerHTML = testHtml;
+            testDiv.firstElementChild.classList.add(allPass ? 'pass' : 'fail');
+            resultsDiv.appendChild(testDiv.firstElementChild);
+        });
+
+        const accuracy = totalDimensions > 0 ? ((accurateDimensions / totalDimensions) * 100).toFixed(1) : 0;
+        const summaryDiv = document.getElementById('summary');
+
+        summaryDiv.innerHTML = `
+            <h2>Test Summary</h2>
+            <div class="pass-rate">${accuracy}%</div>
+            <div>Accuracy (${accurateDimensions}/${totalDimensions} dimensions within ±${tolerance})</div>
+            <div style="margin-top: 10px;">
+                ${accuracy >= 80 ? '✅ EXCELLENT! Meets Week 2a target (80%)' :
+                  accuracy >= 70 ? '⚠️  GOOD - Close to target' :
+                  '❌ NEEDS IMPROVEMENT - Below target (80%)'}
+            </div>
+            <div style="margin-top: 20px;">
+                <strong>Target:</strong> 80% of dimensions within ±0.2 of expected<br>
+                <strong>Status:</strong> ${tests.length} scenarios tested, 12 dimensions each = ${totalDimensions} total checks
+            </div>
+        `;
+
+        console.log('Week 2a Context Analysis Results:');
+        console.log(`Accuracy: ${accuracy}% (${accurateDimensions}/${totalDimensions})`);
+        console.log(`Target: 80%`);
+        console.log(`Status: ${accuracy >= 80 ? 'PASS' : 'NEEDS IMPROVEMENT'}`);
+    </script>
+</body>
+</html>

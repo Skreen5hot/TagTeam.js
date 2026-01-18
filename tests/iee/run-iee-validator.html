@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IEE Validator - Full Validation Report</title>
+  <style>
+    body { font-family: monospace; padding: 20px; background: #1e1e1e; color: #d4d4d4; }
+    h1 { color: #4ec9b0; }
+    h2 { color: #9cdcfe; margin-top: 30px; }
+    .summary { padding: 20px; background: #252526; margin: 20px 0; border-left: 4px solid #4ec9b0; }
+    .error { color: #f48771; }
+    .success { color: #4ec9b0; }
+    .warning { color: #ce9178; }
+    pre { background: #1e1e1e; padding: 15px; overflow-x: auto; font-size: 12px; line-height: 1.5; }
+    table { border-collapse: collapse; width: 100%; margin: 15px 0; }
+    th, td { border: 1px solid #3e3e42; padding: 10px; text-align: left; }
+    th { background: #2d2d30; color: #9cdcfe; font-weight: bold; }
+    .pass-row { background: #1e3a1e; }
+    .fail-row { background: #3a1e1e; }
+    .scenario-detail { margin: 20px 0; padding: 15px; background: #252526; border-left: 4px solid #007acc; }
+  </style>
+
+  <script src="../../src/core/lexicon.js"></script>
+  <script>
+    window.LEXICON_TAG_MAP = {
+      "NN": ["NN"], "NNS": ["NNS"], "NNP": ["NNP"],
+      "JJ": ["JJ"], "JJR": ["JJR"], "JJS": ["JJS"],
+      "VB": ["VB"], "VBD": ["VBD"], "VBG": ["VBG"], "VBN": ["VBN"], "VBP": ["VBP"], "VBZ": ["VBZ"],
+      "RB": ["RB"], "RBR": ["RBR"], "RBS": ["RBS"],
+      "PRP": ["PRP"], "PRP$": ["PRP$"], "DT": ["DT"], "IN": ["IN"], "CC": ["CC"], "UH": ["UH"],
+      "CD": ["CD"], "EX": ["EX"], "FW": ["FW"], "LS": ["LS"], "MD": ["MD"], "POS": ["POS"],
+      "SYM": ["SYM"], "TO": ["TO"], "WDT": ["WDT"], "WP": ["WP"], "WP$": ["WP$"], "WRB": ["WRB"]
+    };
+  </script>
+  <script src="../../src/core/POSTagger.js"></script>
+  <script src="../../src/core/SemanticRoleExtractor.js"></script>
+  <script src="./validators/tagteam-validator-browser.js"></script>
+  <script>
+
+    // Load test corpus
+    fetch('../iee-collaboration/from-iee/data/test-corpus-week1.json')
+      .then(response => response.json())
+      .then(corpus => {
+        const extractor = new SemanticRoleExtractor();
+
+        // Create parser function for validator
+        function tagteamParser(description) {
+          // The validator expects the full description, but we need to extract
+          // the key sentence to parse. For now, we'll parse the description as-is.
+          // In production, we'd use sentence extraction.
+          return extractor.parseSemanticAction(description);
+        }
+
+        // Run full validation using the browser-compatible validator
+        const results = window.TagTeamValidator.runFullValidation(corpus.scenarios, tagteamParser);
+
+        // Generate text report
+        const textReport = window.TagTeamValidator.generateReport(results);
+
+        // Display results
+        displayResults(results, textReport, corpus.scenarios);
+      })
+      .catch(error => {
+        document.body.innerHTML = `<div class="error"><h1>Error Loading Test Corpus</h1><p>${error.message}</p></div>`;
+      });
+
+    function displayResults(results, textReport, scenarios) {
+      const output = document.getElementById('output');
+
+      // Overall Summary
+      const passRate = parseFloat(results.passRate);
+      const summaryClass = passRate >= 75 ? 'success' : 'error';
+
+      const summaryHTML = `
+        <div class="summary">
+          <h1>📊 IEE Validator - Full Validation Report</h1>
+          <p><strong>Total Scenarios:</strong> ${results.totalScenarios}</p>
+          <p><strong>Passed:</strong> <span class="${results.passed > 0 ? 'success' : 'error'}">${results.passed}</span></p>
+          <p><strong>Failed:</strong> <span class="${results.failed > 0 ? 'error' : 'success'}">${results.failed}</span></p>
+          <p><strong>Pass Rate:</strong> <span class="${summaryClass}">${results.passRate}</span>
+             ${passRate >= 75 ? ' ✅ MEETS WEEK 1 TARGET (≥75%)' : ' ❌ BELOW TARGET (need ≥75%)'}</p>
+        </div>
+
+        <h2>Aggregate Accuracy Scores</h2>
+        <table>
+          <tr>
+            <th>Metric</th>
+            <th>Score</th>
+            <th>Target</th>
+            <th>Status</th>
+          </tr>
+          <tr class="${parseFloat(results.aggregateScores.agentAccuracy) >= 75 ? 'pass-row' : 'fail-row'}">
+            <td>Agent Extraction</td>
+            <td>${results.aggregateScores.agentAccuracy}</td>
+            <td>≥75%</td>
+            <td>${parseFloat(results.aggregateScores.agentAccuracy) >= 75 ? '✅' : '❌'}</td>
+          </tr>
+          <tr class="${parseFloat(results.aggregateScores.actionAccuracy) >= 75 ? 'pass-row' : 'fail-row'}">
+            <td>Action Extraction</td>
+            <td>${results.aggregateScores.actionAccuracy}</td>
+            <td>≥75%</td>
+            <td>${parseFloat(results.aggregateScores.actionAccuracy) >= 75 ? '✅' : '❌'}</td>
+          </tr>
+          <tr class="${parseFloat(results.aggregateScores.patientAccuracy) >= 50 ? 'pass-row' : 'fail-row'}">
+            <td>Patient Extraction</td>
+            <td>${results.aggregateScores.patientAccuracy}</td>
+            <td>≥50%</td>
+            <td>${parseFloat(results.aggregateScores.patientAccuracy) >= 50 ? '✅' : '❌'}</td>
+          </tr>
+          <tr class="${parseFloat(results.aggregateScores.negationAccuracy) >= 95 ? 'pass-row' : 'fail-row'}">
+            <td>Negation Detection</td>
+            <td>${results.aggregateScores.negationAccuracy}</td>
+            <td>≥95% (CRITICAL)</td>
+            <td>${parseFloat(results.aggregateScores.negationAccuracy) >= 95 ? '✅' : '❌'}</td>
+          </tr>
+          <tr class="${parseFloat(results.aggregateScores.overallAccuracy) >= 75 ? 'pass-row' : 'fail-row'}">
+            <td>Overall Parse Accuracy</td>
+            <td>${results.aggregateScores.overallAccuracy}</td>
+            <td>≥75%</td>
+            <td>${parseFloat(results.aggregateScores.overallAccuracy) >= 75 ? '✅' : '❌'}</td>
+          </tr>
+        </table>
+
+        <h2>Per-Scenario Results</h2>
+      `;
+
+      output.innerHTML = summaryHTML;
+
+      // Per-scenario details
+      results.details.forEach((detail, index) => {
+        const scenario = scenarios[index];
+        const statusIcon = detail.overallPassed ? '✅ PASS' : '❌ FAIL';
+        const statusClass = detail.overallPassed ? 'success' : 'error';
+
+        let detailHTML = `
+          <div class="scenario-detail">
+            <h3><span class="${statusClass}">${statusIcon}</span> ${detail.scenarioId}: ${detail.title}</h3>
+            <p><strong>Domain:</strong> ${scenario.domain}</p>
+        `;
+
+        if (detail.parseValidation) {
+          const pv = detail.parseValidation;
+
+          detailHTML += `
+            <p><strong>Parse Score:</strong> ${(pv.scores.overall * 100).toFixed(0)}%</p>
+            <table>
+              <tr>
+                <th>Component</th>
+                <th>Score</th>
+                <th>Status</th>
+              </tr>
+              <tr><td>Agent Match</td><td>${(pv.scores.agentMatch * 100).toFixed(0)}%</td><td>${pv.scores.agentMatch === 1 ? '✅' : '❌'}</td></tr>
+              <tr><td>Action Match</td><td>${(pv.scores.actionMatch * 100).toFixed(0)}%</td><td>${pv.scores.actionMatch === 1 ? '✅' : '❌'}</td></tr>
+              <tr><td>Patient Match</td><td>${(pv.scores.patientMatch * 100).toFixed(0)}%</td><td>${pv.scores.patientMatch === 1 ? '✅' : '❌'}</td></tr>
+              <tr><td>Negation Match</td><td>${(pv.scores.negationMatch * 100).toFixed(0)}%</td><td>${pv.scores.negationMatch === 1 ? '✅' : '❌'}</td></tr>
+            </table>
+          `;
+
+          if (pv.errors.length > 0) {
+            detailHTML += `<h4 class="error">Errors (${pv.errors.length}):</h4><ul>`;
+            pv.errors.forEach(err => {
+              detailHTML += `<li class="error">${err.message}`;
+              if (err.expected && err.actual) {
+                detailHTML += ` (expected: "${err.expected}", actual: "${err.actual}")`;
+              }
+              detailHTML += `</li>`;
+            });
+            detailHTML += `</ul>`;
+          }
+
+          if (pv.warnings.length > 0) {
+            detailHTML += `<h4 class="warning">Warnings (${pv.warnings.length}):</h4><ul>`;
+            pv.warnings.forEach(warn => {
+              detailHTML += `<li class="warning">${warn.message}`;
+              if (warn.expected && warn.actual) {
+                detailHTML += ` (expected: "${warn.expected}", actual: "${warn.actual}")`;
+              }
+              detailHTML += `</li>`;
+            });
+            detailHTML += `</ul>`;
+          }
+        }
+
+        if (detail.error) {
+          detailHTML += `<p class="error"><strong>Exception:</strong> ${detail.error}</p>`;
+        }
+
+        detailHTML += `</div>`;
+        output.innerHTML += detailHTML;
+      });
+
+      // Text report
+      output.innerHTML += `
+        <h2>Full Text Report</h2>
+        <pre>${textReport}</pre>
+      `;
+    }
+  </script>
+</head>
+<body>
+  <div id="output">
+    <p>Loading test corpus and running validation...</p>
+  </div>
+</body>
+</html>

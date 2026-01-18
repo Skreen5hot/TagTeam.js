@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Verify TagTeam.js Bundle - Week 2a</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .pass {
+            border-left: 4px solid #27ae60;
+        }
+        .fail {
+            border-left: 4px solid #e74c3c;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 0;
+        }
+        pre {
+            background: #f8f8f8;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .badge.pass {
+            background: #27ae60;
+            color: white;
+        }
+        .badge.fail {
+            background: #e74c3c;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>TagTeam.js Bundle Verification</h1>
+    <p><strong>Purpose:</strong> Verify that dist/tagteam.js contains all Week 2a features</p>
+    <p><strong>Date:</strong> January 12, 2026</p>
+
+    <div id="results"></div>
+
+    <script src="../../dist/tagteam.js"></script>
+    <script>
+        const results = document.getElementById('results');
+
+        function test(name, testFn) {
+            try {
+                const result = testFn();
+                if (result.pass) {
+                    results.innerHTML += `
+                        <div class="test pass">
+                            <h2>${name} <span class="badge pass">PASS</span></h2>
+                            <p>${result.message}</p>
+                            ${result.details ? '<pre>' + result.details + '</pre>' : ''}
+                        </div>
+                    `;
+                } else {
+                    results.innerHTML += `
+                        <div class="test fail">
+                            <h2>${name} <span class="badge fail">FAIL</span></h2>
+                            <p>${result.message}</p>
+                            ${result.details ? '<pre>' + result.details + '</pre>' : ''}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                results.innerHTML += `
+                    <div class="test fail">
+                        <h2>${name} <span class="badge fail">ERROR</span></h2>
+                        <p>Test threw an error: ${error.message}</p>
+                        <pre>${error.stack}</pre>
+                    </div>
+                `;
+            }
+        }
+
+        // Test 1: TagTeam global exists
+        test('TagTeam Global Exists', () => {
+            if (typeof TagTeam !== 'undefined' && typeof TagTeam.parse === 'function') {
+                return {
+                    pass: true,
+                    message: 'TagTeam global is defined and has parse() method',
+                    details: 'typeof TagTeam: ' + typeof TagTeam + '\ntypeof TagTeam.parse: ' + typeof TagTeam.parse
+                };
+            }
+            return {
+                pass: false,
+                message: 'TagTeam global not found or missing parse() method'
+            };
+        });
+
+        // Test 2: Basic parsing works
+        test('Basic Parsing Works', () => {
+            const result = TagTeam.parse("I love coding");
+            if (result && result.action && result.action.verb === 'love') {
+                return {
+                    pass: true,
+                    message: 'Basic parsing returns expected structure',
+                    details: JSON.stringify(result, null, 2)
+                };
+            }
+            return {
+                pass: false,
+                message: 'Basic parsing failed or returned unexpected result',
+                details: JSON.stringify(result, null, 2)
+            };
+        });
+
+        // Test 3: Week 2a - contextIntensity exists
+        test('Week 2a: contextIntensity Field Exists', () => {
+            const result = TagTeam.parse("The doctor must allocate the last ventilator");
+            if (result.contextIntensity) {
+                return {
+                    pass: true,
+                    message: 'contextIntensity field is present in parse result',
+                    details: JSON.stringify(result.contextIntensity, null, 2)
+                };
+            }
+            return {
+                pass: false,
+                message: 'contextIntensity field is missing - Week 2a not integrated',
+                details: 'Available fields: ' + Object.keys(result).join(', ')
+            };
+        });
+
+        // Test 4: Week 2a - All 12 dimensions present
+        test('Week 2a: All 12 Dimensions Present', () => {
+            const result = TagTeam.parse("Emergency situation");
+            const ctx = result.contextIntensity;
+
+            const expectedDimensions = {
+                temporal: ['urgency', 'duration', 'reversibility'],
+                relational: ['intimacy', 'powerDifferential', 'trust'],
+                consequential: ['harmSeverity', 'benefitMagnitude', 'scope'],
+                epistemic: ['certainty', 'informationCompleteness', 'expertise']
+            };
+
+            const missing = [];
+            for (const category in expectedDimensions) {
+                if (!ctx[category]) {
+                    missing.push(category + ' (entire category missing)');
+                } else {
+                    for (const dim of expectedDimensions[category]) {
+                        if (typeof ctx[category][dim] !== 'number') {
+                            missing.push(category + '.' + dim);
+                        }
+                    }
+                }
+            }
+
+            if (missing.length === 0) {
+                return {
+                    pass: true,
+                    message: 'All 12 dimensions are present and have numeric scores',
+                    details: JSON.stringify(ctx, null, 2)
+                };
+            }
+            return {
+                pass: false,
+                message: 'Missing dimensions: ' + missing.join(', '),
+                details: JSON.stringify(ctx, null, 2)
+            };
+        });
+
+        // Test 5: Week 2a - Trust scoring bug fix
+        test('Week 2a: Trust Scoring Bug Fix', () => {
+            const result = TagTeam.parse("I discovered that my company is falsifying safety reports");
+            const trust = result.contextIntensity.relational.trust;
+
+            if (trust === 0.2) {
+                return {
+                    pass: true,
+                    message: 'Trust score is correct (0.2) - bug fix verified',
+                    details: 'Text: "I discovered that my company is falsifying safety reports"\nTrust: ' + trust + ' (expected: 0.2)\n\nThe PatternMatcher bug where defaults override low scores has been fixed.'
+                };
+            }
+            return {
+                pass: false,
+                message: 'Trust score is incorrect: ' + trust + ' (expected: 0.2)',
+                details: 'This indicates the PatternMatcher bug fix may not be in the bundle.\nThe bug: default scores (0.5) were overriding matched scores (0.2) when using Math.max()'
+            };
+        });
+
+        // Test 6: Week 2a - Urgency scoring
+        test('Week 2a: Urgency Scoring', () => {
+            const result = TagTeam.parse("The doctor must allocate the last ventilator between two critically ill patients");
+            const urgency = result.contextIntensity.temporal.urgency;
+
+            if (urgency >= 0.9) {
+                return {
+                    pass: true,
+                    message: 'Urgency score is correct (≥0.9 for extreme urgency)',
+                    details: 'Text: "The doctor must allocate the last ventilator..."\nUrgency: ' + urgency + ' (expected: 1.0)'
+                };
+            }
+            return {
+                pass: false,
+                message: 'Urgency score too low: ' + urgency + ' (expected: ≥0.9)',
+                details: 'Keywords like "last ventilator" and "critically ill" should trigger extreme urgency'
+            };
+        });
+
+        // Test 7: Week 2a - Default scores
+        test('Week 2a: Default Score Fallback', () => {
+            const result = TagTeam.parse("Something happened");
+            const ctx = result.contextIntensity;
+
+            // For generic text, should get defaults:
+            // Temporal/Epistemic: 0.5, Relational: 0.3-0.5, Consequential: 0.2-0.3
+            const checks = [
+                ctx.temporal.urgency >= 0.4 && ctx.temporal.urgency <= 0.6,
+                ctx.relational.intimacy >= 0.2 && ctx.relational.intimacy <= 0.5,
+                ctx.epistemic.certainty >= 0.4 && ctx.epistemic.certainty <= 0.6
+            ];
+
+            if (checks.every(c => c)) {
+                return {
+                    pass: true,
+                    message: 'Default scores are reasonable for generic text',
+                    details: JSON.stringify(ctx, null, 2)
+                };
+            }
+            return {
+                pass: false,
+                message: 'Default scores seem off for generic text',
+                details: JSON.stringify(ctx, null, 2)
+            };
+        });
+
+        // Summary
+        setTimeout(() => {
+            const tests = document.querySelectorAll('.test');
+            const passed = document.querySelectorAll('.test.pass').length;
+            const total = tests.length;
+
+            results.innerHTML += `
+                <div class="test ${passed === total ? 'pass' : 'fail'}">
+                    <h2>Summary</h2>
+                    <p><strong>${passed}/${total} tests passed</strong></p>
+                    ${passed === total
+                        ? '<p>✅ Bundle is verified and ready for delivery to IEE team</p>'
+                        : '<p>❌ Bundle has issues - please rebuild with <code>node build.js</code></p>'}
+                </div>
+            `;
+        }, 100);
+    </script>
+</body>
+</html>

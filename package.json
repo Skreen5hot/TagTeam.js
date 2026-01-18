@@ -1,0 +1,37 @@
+{
+  "name": "tagteam-js",
+  "version": "2.0.0",
+  "description": "Deterministic semantic parser with ethical value detection - BFO-compatible ontology system",
+  "main": "dist/tagteam.js",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "test": "node tests/integration/test-full-corpus.js",
+    "test:browser": "echo 'Open tests/browser/verify-bundle.html in your browser'",
+    "test:integration": "node tests/integration/test-integration.js",
+    "metrics": "node scripts/calculate-metrics.js"
+  },
+  "keywords": [
+    "nlp",
+    "ethics",
+    "semantic-parsing",
+    "values",
+    "bfo",
+    "ontology",
+    "philosophy",
+    "moral-reasoning",
+    "deliberation"
+  ],
+  "author": "Aaron Damiano",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/TagTeam.js"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/TagTeam.js/issues"
+  },
+  "homepage": "https://github.com/yourusername/TagTeam.js#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

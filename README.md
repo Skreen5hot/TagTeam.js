@@ -1,22 +1,56 @@
-# TagTeam.js - Deterministic Semantic Parser
+# TagTeam.js - Deterministic Semantic Parser with Ethical Value Detection
 
-**A client-side JavaScript library for extracting semantic roles from natural language text**
+**A client-side JavaScript library for extracting semantic roles and detecting ethical values in natural language text**
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/status-Week%201%20Complete-success)](iee-collaboration/to-iee/week1/)
+[![Version](https://img.shields.io/badge/version-2.0.0-success)](package.json)
+[![Status](https://img.shields.io/badge/status-Week%202b%20Complete-success)](deliverables/week2b/)
 
 ---
 
 ## 🎯 Quick Start
 
-### Try the Demo
-Open [demos/semantic-demo.html](demos/semantic-demo.html) in your browser to see TagTeam in action.
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/TagTeam.js.git
+cd TagTeam.js
+
+# Install dependencies (optional, for development)
+npm install
+
+# Build the bundle
+npm run build
+```
+
+### Use the Bundle
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="dist/tagteam.js"></script>
+</head>
+<body>
+  <script>
+    const result = TagTeam.parse("The family must decide whether to continue treatment");
+    console.log(result.semanticFrame);  // "Deciding"
+    console.log(result.ethicalProfile.detectedValues);  // Values like Autonomy, Life
+  </script>
+</body>
+</html>
+```
 
 ### Run Tests
-Open [tests/test-iee-corpus.html](tests/test-iee-corpus.html) to validate against IEE's official test scenarios.
 
-### Browse Source
-Check [src/SemanticRoleExtractor.js](src/SemanticRoleExtractor.js) for the main parser implementation.
+```bash
+# Run full corpus validation (20 scenarios)
+npm test
+
+# Build the bundle
+npm run build
+```
 
 ---
 
@@ -24,89 +58,198 @@ Check [src/SemanticRoleExtractor.js](src/SemanticRoleExtractor.js) for the main 
 
 ```
 TagTeam.js/
-├── src/                      # Core implementation
-├── tests/                    # Test suites
-├── demos/                    # Interactive demonstrations
-├── docs/                     # Documentation
-└── iee-collaboration/        # IEE team interface
+├── src/                          # Source code
+│   ├── core/                     # Core parsing components
+│   │   ├── lexicon.js           # 4.1MB POS lexicon
+│   │   ├── POSTagger.js         # Part-of-speech tagger
+│   │   ├── PatternMatcher.js    # Keyword pattern matching
+│   │   └── SemanticRoleExtractor.js  # Main semantic parser
+│   └── analyzers/               # Week 2 analyzers
+│       ├── ContextAnalyzer.js   # 12-dimension context intensity
+│       ├── ValueMatcher.js      # Ethical value detection
+│       ├── ValueScorer.js       # Value salience scoring
+│       └── EthicalProfiler.js   # Ethical profile builder
+│
+├── tests/                        # Test suites
+│   ├── integration/             # Node.js integration tests
+│   ├── browser/                 # HTML browser tests
+│   ├── iee/                     # IEE validation tests
+│   └── validators/              # Validation utilities
+│
+├── dist/                         # Built bundle (4.3MB)
+│   ├── tagteam.js              # UMD bundle (browser + Node.js)
+│   └── test.html               # Simple test page
+│
+├── planning/                     # Planning documents
+│   ├── week1/                   # Week 1 planning
+│   ├── week2/                   # Week 2a planning
+│   ├── week2b/                  # Week 2b planning
+│   └── week3/                   # Week 3 roadmap
+│
+├── deliverables/                 # Milestone deliverables
+│   ├── week1/                   # Week 1 deliverable
+│   └── week2/                   # Week 2 deliverables
+│
+├── scripts/                      # Build scripts
+│   ├── build.js                 # Bundle builder
+│   └── calculate-metrics.js     # Metrics calculator
+│
+├── ontologies/                   # Future: Custom ontologies (Week 3+)
+├── archive/                      # Deprecated/old files
+└── iee-collaboration/           # IEE team interface
+    ├── from-iee/                # Requirements, data
+    └── to-iee/                  # Deliverables
 ```
 
-**→** See full structure details in each folder's README
+**→** See [README files in each directory](.) for detailed documentation
 
 ---
 
-## 🚀 Features (Week 1)
+## 🚀 Features
 
-✅ **Semantic Role Extraction** - Agent, Patient, Recipient, Theme extraction with 15 semantic frames
+### Week 1: Semantic Role Extraction ✅
+- **Agent, Patient, Recipient, Theme** extraction
+- **15 semantic frames** (Deciding, Revealing_information, Questioning, etc.)
+- **Advanced detection**: Negation, modality, tense, aspect
+- **150 compound terms** (life support, best friend, climate change, etc.)
+- **IEE format compliance**
+- **Performance**: <10ms per sentence, zero dependencies
 
-✅ **Advanced Detection** - Negation, modality, tense, and aspect detection
+### Week 2a: Context Intensity Analysis ✅
+- **12 dimensions** across 4 categories:
+  - **Temporal**: urgency, duration, reversibility
+  - **Relational**: intimacy, power differential, trust
+  - **Consequential**: harm severity, benefit magnitude, scope
+  - **Epistemic**: certainty, information completeness, expertise
+- **100% accuracy** on test scenarios
 
-✅ **Multi-Word Entities** - 150 compound terms (life support, best friend, climate change, etc.)
-
-✅ **IEE Format Compliance** - Exact JSON structure matching IEE specifications
-
-✅ **Performance** - <10ms per sentence, zero dependencies, client-side only
+### Week 2b: Ethical Value Detection ✅
+- **50 values** across 5 ethical domains (Dignity, Community, Stewardship, Truth, Growth)
+- **Polarity detection**: +1 (upheld), -1 (violated), 0 (conflicted)
+- **Salience scoring** with context awareness
+- **Conflict detection**: 18 predefined ethical tensions
+- **Domain analysis**: Multi-domain scenario detection
+- **75% coverage, 100% precision** on 20-scenario corpus
 
 ---
 
-## 📖 Navigation
+## 📊 Current Status (v2.0.0)
 
-- **[Try Demos →](demos/)** - Interactive demonstrations
-- **[Run Tests →](tests/)** - Validation test suites
-- **[Read Docs →](docs/)** - Architecture, development, research
-- **[IEE Collaboration →](iee-collaboration/)** - IEE team interface
-- **[Source Code →](src/)** - Core implementation
+| Milestone | Status | Accuracy | Performance |
+|-----------|--------|----------|-------------|
+| **Week 1** | ✅ Complete | 84.2% | <10ms |
+| **Week 2a** | ✅ Complete | 100% | <40ms |
+| **Week 2b** | ✅ Complete | 75% coverage, 100% precision | <50ms |
+| **Week 3** | 📋 Planned | TBD | TBD |
+
+**Latest:** Week 2b completed 18 days ahead of schedule (Jan 18, 2026)
+
+**IEE Grade:** A+ (Production Ready)
 
 ---
 
-## 🧪 Quick Validation
+## 🧪 Testing
 
+### Browser Tests
 ```bash
 # Open in browser
-open tests/test-iee-corpus.html
+open tests/browser/verify-bundle.html
+open tests/iee/run-iee-validator.html
 ```
 
-**Expected:** ≥75% pass rate on IEE's 5 official scenarios
+### Integration Tests
+```bash
+# Full 20-scenario validation
+npm test
+
+# Week 2b component tests
+node tests/integration/test-week2b.js
+
+# Debug value detection
+node tests/integration/test-debug.js
+```
+
+### Expected Results
+- **Week 1 (IEE)**: 84.2% accuracy ✅
+- **Week 2a**: 100% accuracy (60/60 dimensions) ✅
+- **Week 2b**: 75% scenario coverage (15/20), 100% precision ✅
 
 ---
 
-## 📊 Week 1 Status
+## 📖 Documentation
 
-| Metric | Target | Status |
-|--------|--------|--------|
-| Integration | Complete | ✅ |
-| Test Suite | Ready | ✅ |
-| Performance | <50ms | ✅ ~7ms |
-| IEE Validation | Pending | ⏳ |
+### For Users
+- **[Quick Start Guide](docs/guides/)** - Get started in 5 minutes
+- **[API Reference](docs/api/)** - Complete API documentation
+- **[Examples](tests/browser/)** - Live browser examples
 
-**Full deliverables:** [iee-collaboration/to-iee/week1/](iee-collaboration/to-iee/week1/)
+### For Developers
+- **[Architecture](docs/architecture/)** - System design and components
+- **[Planning Documents](planning/)** - Week-by-week planning
+- **[Test Documentation](tests/README.md)** - Test structure and coverage
+
+### For IEE Team
+- **[Deliverables](deliverables/)** - Milestone deliverables
+- **[IEE Collaboration](iee-collaboration/)** - Requirements and submissions
 
 ---
 
 ## 🗺️ Roadmap
 
-- **Week 1** ✅ - Semantic roles, 150 compound terms, IEE format compliance
-- **Week 2** ⏳ - Context analysis, value matching, 20 scenarios, 85% target
-- **Week 3** ⏳ - Conflict detection, salience scoring, 50 scenarios, 90% target
+### Completed ✅
+- **Week 1** - Semantic roles, 150 compound terms, IEE format compliance
+- **Week 2a** - Context intensity analysis (12 dimensions, 100% accuracy)
+- **Week 2b** - Ethical value detection (50 values, conflict detection, domain analysis)
+
+### Planned (Week 3+)
+See [planning/week3/WEEK3_ROADMAP.md](planning/week3/WEEK3_ROADMAP.md) for detailed options:
+
+- **Option A**: Semantic Intelligence (ML-light embeddings for implicit values)
+- **Option B**: Multi-Sentence Context (analyze full scenarios)
+- **Option C**: Domain Specialization (medical/legal/business lexicons)
+- **Option D**: Active Learning (learn from usage patterns)
+- **Option E**: Production Tooling (debugging, visualization)
+
+**Bonus**: BFO-compatible ontology system - [planning/week3/ONTOLOGY_INTEGRATION_PLAN.md](planning/week3/ONTOLOGY_INTEGRATION_PLAN.md)
 
 ---
 
-## 🛠️ Usage Example
+## 🛠️ API Usage
 
+### Parse Text
 ```javascript
-const extractor = new SemanticRoleExtractor();
-const result = extractor.parseSemanticAction("I should tell my doctor about the pain");
+const result = TagTeam.parse("I discovered that my company is falsifying safety reports");
 
-console.log(result);
-// {
-//   agent: { text: "i", entity: "self", posTag: "PRP" },
-//   action: { verb: "tell", lemma: "tell", tense: "present", aspect: "simple",
-//             modality: "should", negation: false },
-//   recipient: { text: "doctor", entity: "medical_professional", posTag: "NN" },
-//   theme: { text: "pain", entity: "physical_sensation", posTag: "NN" },
-//   semanticFrame: "Revealing_information",
-//   confidence: 0.85
-// }
+// Semantic roles
+console.log(result.agent);        // { text: "I", entity: "self" }
+console.log(result.action);       // { verb: "discovered", tense: "past" }
+console.log(result.semanticFrame); // "Becoming_aware"
+
+// Context intensity (Week 2a)
+console.log(result.contextIntensity.relational.trust);  // 0.2 (low trust)
+console.log(result.contextIntensity.temporal.urgency);  // 0.6 (moderate)
+
+// Ethical values (Week 2b)
+console.log(result.ethicalProfile.detectedValues);
+// [
+//   { name: "Honesty", polarity: -1, salience: 0.85, domain: "Truth" },
+//   { name: "Accountability", polarity: -1, salience: 0.75, domain: "Truth" },
+//   { name: "Safety", polarity: -1, salience: 0.70, domain: "Dignity" }
+// ]
+
+console.log(result.ethicalProfile.conflicts);
+// [{ value1: "Loyalty", value2: "Honesty", intensity: 0.65 }]
+```
+
+### Batch Processing
+```javascript
+const texts = [
+  "The family must decide whether to continue treatment",
+  "I am questioning core doctrines",
+  "My best friend is cheating on their spouse"
+];
+
+const results = TagTeam.parseMany(texts);
 ```
 
 ---
@@ -117,6 +260,27 @@ Integrates with the **Integral Ethics Engine (IEE)** team.
 
 - **[From IEE →](iee-collaboration/from-iee/)** - Requirements, data, validators
 - **[To IEE →](iee-collaboration/to-iee/)** - Deliverables by week
+- **[Deliverables →](deliverables/)** - Formal milestone deliverables
+
+---
+
+## 🏗️ Development
+
+### Build
+```bash
+npm run build          # Creates dist/tagteam.js bundle
+```
+
+### Test
+```bash
+npm test               # Runs full corpus validation
+npm run test:browser   # Instructions for browser tests
+```
+
+### Calculate Metrics
+```bash
+npm run metrics        # Generates WEEK2B_METRICS.json
+```
 
 ---
 
@@ -126,4 +290,11 @@ MIT License - See [LICENSE](LICENSE)
 
 ---
 
-**Version:** Week 1 (2026-01-10) | **Status:** ✅ Integration Complete, ⏳ Awaiting Validation
+## 🙏 Acknowledgments
+
+- **IEE Team** - Requirements, test data, validation framework
+- **d3.js & mermaid.js** - Inspiration for single-file bundle approach
+
+---
+
+**Version:** 2.0.0 (Week 2b Complete) | **Date:** 2026-01-18 | **Status:** ✅ Production Ready

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>IEE Format Validation Test</title>
+  <style>
+    body { font-family: monospace; padding: 20px; background: #1e1e1e; color: #d4d4d4; }
+    h1 { color: #4ec9b0; }
+    .test { margin: 20px 0; padding: 15px; background: #252526; border-left: 4px solid #007acc; }
+    .pass { border-left-color: #4ec9b0; }
+    .fail { border-left-color: #f48771; }
+    pre { background: #1e1e1e; padding: 10px; overflow-x: auto; }
+    .label { color: #9cdcfe; font-weight: bold; }
+  </style>
+
+  <script src="../../src/core/lexicon.js"></script>
+  <script>
+    window.LEXICON_TAG_MAP = {
+      "NN": ["NN"], "NNS": ["NNS"], "NNP": ["NNP"],
+      "JJ": ["JJ"], "JJR": ["JJR"], "JJS": ["JJS"],
+      "VB": ["VB"], "VBD": ["VBD"], "VBG": ["VBG"], "VBN": ["VBN"], "VBP": ["VBP"], "VBZ": ["VBZ"],
+      "RB": ["RB"], "RBR": ["RBR"], "RBS": ["RBS"],
+      "PRP": ["PRP"], "PRP$": ["PRP$"], "DT": ["DT"], "IN": ["IN"], "CC": ["CC"], "UH": ["UH"],
+      "CD": ["CD"], "EX": ["EX"], "FW": ["FW"], "LS": ["LS"], "MD": ["MD"], "POS": ["POS"],
+      "SYM": ["SYM"], "TO": ["TO"], "WDT": ["WDT"], "WP": ["WP"], "WP$": ["WP$"], "WRB": ["WRB"]
+    };
+  </script>
+  <script src="../../src/core/POSTagger.js"></script>
+  <script src="../../src/core/SemanticRoleExtractor.js"></script>
+</head>
+<body>
+  <h1>IEE Format Validation Test</h1>
+  <p>Testing all 4 scenarios with IEE-compliant format...</p>
+
+  <div id="results"></div>
+
+  <script>
+    const extractor = new SemanticRoleExtractor();
+
+    const scenarios = [
+      {
+        id: 1,
+        text: "I should tell my doctor about the pain",
+        expected: {
+          agent: "i",
+          verb: "tell",
+          recipient: "doctor",
+          theme: "pain",
+          frame: "revealing_information",
+          negation: false,
+          tense: "present"
+        }
+      },
+      {
+        id: 2,
+        text: "I might leave my community",
+        expected: {
+          agent: "i",
+          verb: "leave",
+          patient: "community",
+          frame: "abandoning_relationship",
+          negation: false,
+          tense: "present"
+        }
+      },
+      {
+        id: 3,
+        text: "They should allocate resources to our people",
+        expected: {
+          agent: "they",
+          verb: "allocate",
+          patient: "resources",
+          frame: "resource_allocation",
+          negation: false
+        }
+      },
+      {
+        id: 4,
+        text: "I will not remove life support",
+        expected: {
+          agent: "i",
+          verb: "remove",
+          patient: "life_support",  // Should be compound noun
+          frame: "medical_treatment",
+          negation: true,
+          tense: "future"
+        }
+      }
+    ];
+
+    let totalPass = 0;
+    let totalFail = 0;
+
+    scenarios.forEach(scenario => {
+      const result = extractor.parseSemanticAction(scenario.text);
+
+      // Validate IEE format requirements
+      const checks = [
+        { name: 'Has agent.posTag', pass: result.agent && result.agent.posTag },
+        { name: 'Has action.verb', pass: result.action && result.action.verb },
+        { name: 'Has action.lemma', pass: result.action && result.action.lemma },
+        { name: 'Has action.tense', pass: result.action && result.action.tense },
+        { name: 'Has action.aspect', pass: result.action && result.action.aspect },
+        { name: 'Has action.negation (boolean)', pass: typeof result.action.negation === 'boolean' },
+        { name: 'Has top-level semanticFrame', pass: result.semanticFrame },
+        { name: 'Has confidence', pass: typeof result.confidence === 'number' },
+        { name: 'Agent matches', pass: result.agent && result.agent.text === scenario.expected.agent },
+        { name: 'Verb matches', pass: result.action.verb === scenario.expected.verb },
+        { name: 'Frame matches', pass: result.semanticFrame === scenario.expected.frame },
+        { name: 'Negation matches', pass: result.action.negation === scenario.expected.negation }
+      ];
+
+      if (scenario.expected.patient) {
+        checks.push({ name: 'Patient matches', pass: result.patient && result.patient.text === scenario.expected.patient });
+      }
+      if (scenario.expected.recipient) {
+        checks.push({ name: 'Recipient matches', pass: result.recipient && result.recipient.text === scenario.expected.recipient });
+      }
+      if (scenario.expected.theme) {
+        checks.push({ name: 'Theme matches', pass: result.theme && result.theme.text === scenario.expected.theme });
+      }
+      if (scenario.expected.tense) {
+        checks.push({ name: 'Tense matches', pass: result.action.tense === scenario.expected.tense });
+      }
+
+      const passed = checks.filter(c => c.pass).length;
+      const total = checks.length;
+      const passRate = (passed / total * 100).toFixed(0);
+      const testPass = passed === total;
+
+      if (testPass) totalPass++;
+      else totalFail++;
+
+      const html = `
+        <div class="test ${testPass ? 'pass' : 'fail'}">
+          <h2>Scenario ${scenario.id}: ${testPass ? '✅ PASS' : '❌ FAIL'} (${passRate}%)</h2>
+          <p><span class="label">Input:</span> "${scenario.text}"</p>
+
+          <h3>Format Validation:</h3>
+          <ul>
+            ${checks.map(c => `<li>${c.pass ? '✅' : '❌'} ${c.name}</li>`).join('')}
+          </ul>
+
+          <h3>Parsed Output:</h3>
+          <pre>${JSON.stringify(result, null, 2)}</pre>
+        </div>
+      `;
+
+      document.getElementById('results').innerHTML += html;
+    });
+
+    // Summary
+    document.getElementById('results').innerHTML += `
+      <div class="test ${totalPass === 4 ? 'pass' : 'fail'}">
+        <h2>Overall Results: ${totalPass}/4 scenarios passed</h2>
+        <p>Pass rate: ${(totalPass / 4 * 100).toFixed(0)}%</p>
+        <p>${totalPass === 4 ? '✅ Ready for IEE validation!' : '⚠️ Some issues need fixing'}</p>
+      </div>
+    `;
+  </script>
+</body>
+</html>
