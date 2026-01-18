@@ -1,0 +1,120 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix bfo: <http://purl.obolibrary.org/obo/BFO_> .
+@prefix ethics: <http://tagteam.js/ontology/ethics#> .
+
+# Medical Ethics Ontology
+# BFO-compatible value definitions for healthcare and medical contexts
+# Based on principles from biomedical ethics (Beauchamp & Childress)
+
+<http://tagteam.js/ontology/medical-ethics>
+    a owl:Ontology ;
+    rdfs:label "Medical Ethics Ontology" ;
+    rdfs:comment "Ethical values specific to healthcare, medical practice, and patient care" ;
+    owl:versionInfo "1.0.0" ;
+    rdfs:seeAlso <http://purl.obolibrary.org/obo/omrse.owl> .
+
+# Core Bioethics Principles
+
+<http://tagteam.js/values/medical/Autonomy>
+    a bfo:0000023 ;
+    rdfs:label "Autonomy" ;
+    skos:altLabel "Self-Determination" ;
+    skos:altLabel "Patient Choice" ;
+    rdfs:comment "The right of patients to make informed decisions about their own medical care" ;
+    ethics:domain "Dignity" ;
+    ethics:upholdingTerms "patient choice, informed consent, respect wishes, allow decision, self-determination, patient autonomy" ;
+    ethics:violatingTerms "force treatment, override wishes, coerce, paternalism, decide for patient" .
+
+<http://tagteam.js/values/medical/Beneficence>
+    a bfo:0000023 ;
+    rdfs:label "Beneficence" ;
+    skos:altLabel "Doing Good" ;
+    skos:altLabel "Patient Welfare" ;
+    rdfs:comment "The obligation to act for the benefit of patients and promote their well-being" ;
+    ethics:domain "Dignity" ;
+    ethics:upholdingTerms "promote health, benefit patient, improve wellbeing, heal, cure, help recovery" ;
+    ethics:violatingTerms "harm patient, worsen condition, deny beneficial treatment" .
+
+<http://tagteam.js/values/medical/NonMaleficence>
+    a bfo:0000023 ;
+    rdfs:label "Non-Maleficence" ;
+    skos:altLabel "Do No Harm" ;
+    skos:altLabel "Primum Non Nocere" ;
+    rdfs:comment "The obligation to avoid causing harm to patients" ;
+    ethics:domain "Dignity" ;
+    ethics:upholdingTerms "avoid harm, minimize risk, prevent injury, safe practice, careful treatment" ;
+    ethics:violatingTerms "cause harm, unnecessary risk, injure, dangerous practice, medical error" .
+
+<http://tagteam.js/values/medical/Justice>
+    a bfo:0000023 ;
+    rdfs:label "Justice" ;
+    skos:altLabel "Fair Distribution" ;
+    skos:altLabel "Healthcare Equity" ;
+    rdfs:comment "Fair and equitable distribution of healthcare resources and treatment" ;
+    ethics:domain "Community" ;
+    ethics:upholdingTerms "equal access, fair distribution, equitable care, allocate fairly, healthcare for all" ;
+    ethics:violatingTerms "discriminate, unequal access, deny care, resource hoarding, preferential treatment" .
+
+# Additional Medical Values
+
+<http://tagteam.js/values/medical/Confidentiality>
+    a bfo:0000023 ;
+    rdfs:label "Confidentiality" ;
+    skos:altLabel "Privacy" ;
+    skos:altLabel "Medical Privacy" ;
+    rdfs:comment "Protecting patient information and maintaining medical privacy" ;
+    ethics:domain "Truth" ;
+    ethics:upholdingTerms "protect privacy, keep confidential, secure records, respect privacy, maintain confidentiality" ;
+    ethics:violatingTerms "breach confidentiality, expose records, violate privacy, share information, disclose without consent" .
+
+<http://tagteam.js/values/medical/Competence>
+    a bfo:0000023 ;
+    rdfs:label "Competence" ;
+    skos:altLabel "Professional Excellence" ;
+    skos:altLabel "Medical Expertise" ;
+    rdfs:comment "Maintaining adequate knowledge, skills, and judgment in medical practice" ;
+    ethics:domain "Growth" ;
+    ethics:upholdingTerms "maintain competence, continue education, practice skillfully, stay current, expert care" ;
+    ethics:violatingTerms "practice incompetently, outdated knowledge, lack skill, negligent practice" .
+
+<http://tagteam.js/values/medical/Fidelity>
+    a bfo:0000023 ;
+    rdfs:label "Fidelity" ;
+    skos:altLabel "Faithfulness" ;
+    skos:altLabel "Professional Loyalty" ;
+    rdfs:comment "Maintaining trust and faithfulness in the physician-patient relationship" ;
+    ethics:domain "Community" ;
+    ethics:upholdingTerms "keep promises, be faithful, maintain trust, honor commitments, reliable care" ;
+    ethics:violatingTerms "break promises, betray trust, abandon patient, unreliable" .
+
+<http://tagteam.js/values/medical/InformedConsent>
+    a bfo:0000023 ;
+    rdfs:label "Informed Consent" ;
+    skos:altLabel "Patient Information" ;
+    skos:altLabel "Disclosure" ;
+    rdfs:comment "Providing adequate information for patients to make informed decisions" ;
+    ethics:domain "Truth" ;
+    ethics:upholdingTerms "inform patient, explain risks, disclose options, provide information, ensure understanding" ;
+    ethics:violatingTerms "withhold information, mislead, inadequate disclosure, hide risks" .
+
+<http://tagteam.js/values/medical/DoubleEffect>
+    a bfo:0000023 ;
+    rdfs:label "Double Effect" ;
+    skos:altLabel "Proportionality" ;
+    rdfs:comment "Accepting harmful side effects when pursuing beneficial treatment goals" ;
+    ethics:domain "Dignity" ;
+    ethics:upholdingTerms "proportionate treatment, balance harm and benefit, justified side effects" ;
+    ethics:violatingTerms "disproportionate harm, excessive side effects, unjustified risk" .
+
+<http://tagteam.js/values/medical/Sanctity>
+    a bfo:0000023 ;
+    rdfs:label "Sanctity of Life" ;
+    skos:altLabel "Value of Life" ;
+    skos:altLabel "Life Preservation" ;
+    rdfs:comment "The intrinsic value and protection of human life" ;
+    ethics:domain "Dignity" ;
+    ethics:upholdingTerms "preserve life, protect life, save life, life-sustaining treatment, value life" ;
+    ethics:violatingTerms "end life, terminate life, euthanasia, assisted death" .

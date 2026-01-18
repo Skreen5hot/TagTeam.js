@@ -1,0 +1,141 @@
+{
+  "_comment": "TagTeam.js Ontology Configuration Template",
+  "_description": "This template shows how to configure custom ontologies for TagTeam.js",
+  "_version": "1.0.0",
+
+  "ontologies": [
+    {
+      "_comment": "Example 1: Load from local file",
+      "name": "my-custom-values",
+      "source": {
+        "type": "file",
+        "path": "./ontologies/examples/minimal-example.ttl"
+      },
+      "cache": "memory",
+      "enabled": true
+    },
+
+    {
+      "_comment": "Example 2: Load from remote URL with persistent caching",
+      "name": "obo-mental-health",
+      "source": {
+        "type": "url",
+        "url": "http://purl.obolibrary.org/obo/mfoem.owl"
+      },
+      "cache": "indexeddb",
+      "ttl": 86400000,
+      "_ttl_comment": "Cache for 24 hours (in milliseconds)",
+      "enabled": false,
+      "_enabled_comment": "Set to true to load this ontology"
+    },
+
+    {
+      "_comment": "Example 3: Load medical ethics ontology",
+      "name": "medical-ethics",
+      "source": {
+        "type": "file",
+        "path": "./ontologies/examples/medical-ethics-example.ttl"
+      },
+      "cache": "filesystem",
+      "_cache_comment": "Use 'filesystem' for Node.js, 'indexeddb' for browser, 'memory' for session-only",
+      "enabled": true,
+      "metadata": {
+        "domain": "healthcare",
+        "version": "1.0.0",
+        "description": "Biomedical ethics values for clinical scenarios"
+      }
+    },
+
+    {
+      "_comment": "Example 4: Load business ethics ontology",
+      "name": "business-ethics",
+      "source": {
+        "type": "file",
+        "path": "./ontologies/examples/business-ethics-example.ttl"
+      },
+      "cache": "memory",
+      "enabled": true
+    },
+
+    {
+      "_comment": "Example 5: Load from OBO Foundry with version pinning",
+      "name": "obo-bioethics",
+      "source": {
+        "type": "url",
+        "url": "http://purl.obolibrary.org/obo/omrse/2024-01-01/omrse.owl",
+        "_url_comment": "Pin to specific version for reproducibility"
+      },
+      "cache": "indexeddb",
+      "ttl": 604800000,
+      "_ttl_comment": "Cache for 7 days (large ontology)",
+      "enabled": false,
+      "forceRefresh": false,
+      "_forceRefresh_comment": "Set to true to bypass cache and re-download"
+    }
+  ],
+
+  "settings": {
+    "_comment": "Global settings for ontology management",
+
+    "mergeStrategy": "append",
+    "_mergeStrategy_comment": "How to handle overlapping values: 'append' (keep all), 'replace' (last wins), 'merge' (combine terms)",
+
+    "conflictResolution": "warn",
+    "_conflictResolution_comment": "'warn' logs conflicts, 'error' throws error, 'silent' ignores",
+
+    "labelPriority": ["rdfs:label", "skos:prefLabel", "skos:altLabel"],
+    "_labelPriority_comment": "Order of preference for extracting value names",
+
+    "minimumSalience": 0.3,
+    "_minimumSalience_comment": "Filter out values below this salience threshold (0.0-1.0)",
+
+    "maxCacheSize": 52428800,
+    "_maxCacheSize_comment": "Maximum cache size in bytes (50 MB default)"
+  },
+
+  "domains": {
+    "_comment": "Map custom domains to TagTeam's 5 core domains",
+    "_core_domains": ["Dignity", "Community", "Stewardship", "Truth", "Growth"],
+
+    "healthcare": "Dignity",
+    "medical": "Dignity",
+    "clinical": "Dignity",
+    "environmental": "Stewardship",
+    "sustainability": "Stewardship",
+    "corporate": "Community",
+    "business": "Community",
+    "scientific": "Truth",
+    "research": "Truth",
+    "educational": "Growth",
+    "professional": "Growth"
+  },
+
+  "_usage_instructions": [
+    "1. Copy this file to your project root as 'tagteam-config.json'",
+    "2. Edit the 'ontologies' array to specify your ontology sources",
+    "3. Set 'enabled: true' for ontologies you want to load",
+    "4. Choose appropriate cache strategy for your environment",
+    "5. Configure settings as needed for your use case",
+    "6. Load config with: TagTeam.loadConfig('./tagteam-config.json')"
+  ],
+
+  "_examples": {
+    "local_file": {
+      "type": "file",
+      "path": "./ontologies/my-values.ttl",
+      "cache": "memory"
+    },
+    "remote_url": {
+      "type": "url",
+      "url": "https://example.org/ontology.ttl",
+      "cache": "indexeddb",
+      "ttl": 86400000
+    },
+    "obo_ontology": {
+      "type": "url",
+      "url": "http://purl.obolibrary.org/obo/ONTOLOGY_ID.owl",
+      "cache": "filesystem",
+      "ttl": 604800000
+    }
+  }
+}

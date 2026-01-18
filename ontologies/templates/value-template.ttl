@@ -1,0 +1,90 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix bfo: <http://purl.obolibrary.org/obo/BFO_> .
+@prefix ethics: <http://tagteam.js/ontology/ethics#> .
+
+# VALUE TEMPLATE
+# Copy this template to create your own custom ethical values for TagTeam.js
+# Follow the pattern below and replace ALL_CAPS placeholders with your content
+
+# Step 1: Define your ontology metadata
+<http://YOUR_DOMAIN/ontology/YOUR_ONTOLOGY_NAME>
+    a owl:Ontology ;
+    rdfs:label "YOUR_ONTOLOGY_TITLE" ;
+    rdfs:comment "DESCRIPTION_OF_YOUR_ONTOLOGY" ;
+    owl:versionInfo "1.0.0" .
+
+# Step 2: Define individual values (copy this block for each value)
+<http://YOUR_DOMAIN/values/YOUR_VALUE_NAME>
+    # Required: BFO class (use bfo:0000023 for Role - values are roles)
+    a bfo:0000023 ;
+
+    # Required: Primary label (used for value name in TagTeam)
+    rdfs:label "YOUR_VALUE_NAME" ;
+
+    # Optional: Alternative labels (synonyms for detection)
+    skos:altLabel "SYNONYM_1" ;
+    skos:altLabel "SYNONYM_2" ;
+    skos:altLabel "SYNONYM_3" ;
+
+    # Optional: Human-readable description
+    rdfs:comment "CLEAR_DESCRIPTION_OF_WHAT_THIS_VALUE_MEANS" ;
+
+    # Required: Ethical domain (one of: Dignity, Community, Stewardship, Truth, Growth)
+    ethics:domain "DOMAIN_NAME" ;
+
+    # Required: Terms/phrases that indicate this value is being UPHELD
+    # Use comma-separated phrases that appear in text
+    ethics:upholdingTerms "phrase 1, phrase 2, phrase 3, action verbs, positive keywords" ;
+
+    # Required: Terms/phrases that indicate this value is being VIOLATED
+    # Use comma-separated phrases that appear in text
+    ethics:violatingTerms "phrase 1, phrase 2, phrase 3, negative actions, harmful keywords" .
+
+# EXAMPLE: A complete value definition
+<http://example.org/values/Transparency>
+    a bfo:0000023 ;
+    rdfs:label "Transparency" ;
+    skos:altLabel "Openness" ;
+    skos:altLabel "Disclosure" ;
+    skos:altLabel "Clarity" ;
+    rdfs:comment "Open and honest communication of information without concealment" ;
+    ethics:domain "Truth" ;
+    ethics:upholdingTerms "disclose, reveal, share openly, be transparent, communicate clearly, make public" ;
+    ethics:violatingTerms "hide, conceal, obscure, withhold, keep secret, cover up" .
+
+# TIPS FOR CREATING EFFECTIVE VALUES:
+#
+# 1. Choose clear, specific labels
+#    - Good: "Informed Consent", "Environmental Stewardship"
+#    - Avoid: "Goodness", "Ethics", "Morality" (too vague)
+#
+# 2. Provide multiple alternative labels (skos:altLabel)
+#    - Helps detection when people use different terminology
+#    - Include formal and informal terms
+#
+# 3. Select the right domain:
+#    - Dignity: Individual rights, autonomy, bodily integrity, life, health
+#    - Community: Relationships, fairness, justice, social bonds, equality
+#    - Stewardship: Resources, environment, future generations, sustainability
+#    - Truth: Honesty, transparency, knowledge, disclosure, accuracy
+#    - Growth: Development, learning, potential, flourishing, improvement
+#
+# 4. Write actionable upholding/violating terms
+#    - Use verb phrases and actions, not just nouns
+#    - Think about how people actually talk about this value
+#    - Include both formal and colloquial language
+#    - Good: "tell the truth, be honest, confess, come clean"
+#    - Avoid: "truth, honesty" (too generic)
+#
+# 5. Be specific to your domain
+#    - Medical: "informed consent", "patient autonomy", "do no harm"
+#    - Business: "fiduciary duty", "fair competition", "stakeholder value"
+#    - Environmental: "carbon footprint", "habitat preservation", "clean energy"
+#
+# 6. Test your values
+#    - Try them with real text from your domain
+#    - Adjust upholding/violating terms based on what you find
+#    - Add more alternative labels if values aren't being detected

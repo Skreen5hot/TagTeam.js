@@ -1,0 +1,71 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix bfo: <http://purl.obolibrary.org/obo/BFO_> .
+@prefix ethics: <http://tagteam.js/ontology/ethics#> .
+
+# Minimal Example Ontology
+# A simple demonstration of BFO-compatible ethical value definitions
+# This shows the basic structure needed for TagTeam.js integration
+
+<http://tagteam.js/ontology/minimal>
+    a owl:Ontology ;
+    rdfs:label "Minimal Ethics Example" ;
+    rdfs:comment "A minimal example showing BFO-compatible value definitions for TagTeam.js" ;
+    owl:versionInfo "1.0.0" .
+
+# Value 1: Honesty
+<http://tagteam.js/values/Honesty>
+    a bfo:0000023 ;  # BFO: Role (ethical values are roles that can be realized)
+    rdfs:label "Honesty" ;
+    skos:altLabel "Truthfulness" ;
+    skos:altLabel "Sincerity" ;
+    rdfs:comment "The quality of being truthful and transparent in communication and action" ;
+    ethics:domain "Truth" ;
+    ethics:upholdingTerms "tell the truth, be honest, reveal, disclose, confess, admit" ;
+    ethics:violatingTerms "lie, deceive, hide, conceal, falsify, mislead" .
+
+# Value 2: Compassion
+<http://tagteam.js/values/Compassion>
+    a bfo:0000023 ;
+    rdfs:label "Compassion" ;
+    skos:altLabel "Empathy" ;
+    skos:altLabel "Kindness" ;
+    rdfs:comment "Sympathetic concern for the suffering of others with desire to help" ;
+    ethics:domain "Dignity" ;
+    ethics:upholdingTerms "care for, help, support, comfort, show mercy, be kind to" ;
+    ethics:violatingTerms "ignore suffering, be cruel, neglect, abandon, harm" .
+
+# Value 3: Fairness
+<http://tagteam.js/values/Fairness>
+    a bfo:0000023 ;
+    rdfs:label "Fairness" ;
+    skos:altLabel "Justice" ;
+    skos:altLabel "Equity" ;
+    rdfs:comment "Impartial and just treatment without favoritism or discrimination" ;
+    ethics:domain "Community" ;
+    ethics:upholdingTerms "treat fairly, give equal opportunity, be impartial, distribute evenly" ;
+    ethics:violatingTerms "discriminate, show favoritism, be biased, treat unfairly" .
+
+# Value 4: Responsibility
+<http://tagteam.js/values/Responsibility>
+    a bfo:0000023 ;
+    rdfs:label "Responsibility" ;
+    skos:altLabel "Accountability" ;
+    skos:altLabel "Duty" ;
+    rdfs:comment "The obligation to act reliably and be answerable for one's actions" ;
+    ethics:domain "Truth" ;
+    ethics:upholdingTerms "take responsibility, be accountable, fulfill duty, own up to" ;
+    ethics:violatingTerms "shirk responsibility, avoid duty, deny accountability, blame others" .
+
+# Value 5: Respect
+<http://tagteam.js/values/Respect>
+    a bfo:0000023 ;
+    rdfs:label "Respect" ;
+    skos:altLabel "Dignity" ;
+    skos:altLabel "Honor" ;
+    rdfs:comment "Recognition and appreciation of the worth and rights of individuals" ;
+    ethics:domain "Dignity" ;
+    ethics:upholdingTerms "show respect, honor, value, acknowledge rights, treat with dignity" ;
+    ethics:violatingTerms "disrespect, dishonor, degrade, violate rights, demean" .

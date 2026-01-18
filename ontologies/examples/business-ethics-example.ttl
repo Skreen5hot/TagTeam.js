@@ -1,0 +1,133 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix bfo: <http://purl.obolibrary.org/obo/BFO_> .
+@prefix ethics: <http://tagteam.js/ontology/ethics#> .
+
+# Business Ethics Ontology
+# BFO-compatible value definitions for business, corporate, and professional contexts
+
+<http://tagteam.js/ontology/business-ethics>
+    a owl:Ontology ;
+    rdfs:label "Business Ethics Ontology" ;
+    rdfs:comment "Ethical values for business practice, corporate governance, and professional conduct" ;
+    owl:versionInfo "1.0.0" .
+
+# Corporate Governance Values
+
+<http://tagteam.js/values/business/Transparency>
+    a bfo:0000023 ;
+    rdfs:label "Transparency" ;
+    skos:altLabel "Openness" ;
+    skos:altLabel "Disclosure" ;
+    rdfs:comment "Open and honest communication about business practices, finances, and decisions" ;
+    ethics:domain "Truth" ;
+    ethics:upholdingTerms "disclose information, be transparent, open communication, report honestly, share data" ;
+    ethics:violatingTerms "hide information, obscure facts, secret dealings, cover up, withhold disclosure" .
+
+<http://tagteam.js/values/business/Accountability>
+    a bfo:0000023 ;
+    rdfs:label "Accountability" ;
+    skos:altLabel "Responsibility" ;
+    skos:altLabel "Answerability" ;
+    rdfs:comment "Taking responsibility for decisions, actions, and their consequences" ;
+    ethics:domain "Truth" ;
+    ethics:upholdingTerms "take responsibility, be accountable, answer for actions, own mistakes, accept consequences" ;
+    ethics:violatingTerms "avoid responsibility, blame others, deny accountability, shirk duty" .
+
+<http://tagteam.js/values/business/Integrity>
+    a bfo:0000023 ;
+    rdfs:label "Integrity" ;
+    skos:altLabel "Honesty" ;
+    skos:altLabel "Uprightness" ;
+    rdfs:comment "Adherence to moral and ethical principles in business conduct" ;
+    ethics:domain "Truth" ;
+    ethics:upholdingTerms "act with integrity, honest dealing, ethical conduct, moral behavior, principled action" ;
+    ethics:violatingTerms "corrupt practices, dishonest dealing, unethical conduct, compromise principles" .
+
+# Stakeholder Values
+
+<http://tagteam.js/values/business/Fiduciary>
+    a bfo:0000023 ;
+    rdfs:label "Fiduciary Duty" ;
+    skos:altLabel "Trustee Responsibility" ;
+    skos:altLabel "Stewardship" ;
+    rdfs:comment "The legal and ethical obligation to act in the best interests of stakeholders" ;
+    ethics:domain "Stewardship" ;
+    ethics:upholdingTerms "fiduciary duty, act in best interest, protect stakeholders, prudent management" ;
+    ethics:violatingTerms "breach fiduciary duty, self-dealing, conflict of interest, neglect stakeholders" .
+
+<http://tagteam.js/values/business/FairCompensation>
+    a bfo:0000023 ;
+    rdfs:label "Fair Compensation" ;
+    skos:altLabel "Just Wages" ;
+    skos:altLabel "Equitable Pay" ;
+    rdfs:comment "Providing fair and equitable compensation for work performed" ;
+    ethics:domain "Community" ;
+    ethics:upholdingTerms "fair wages, equitable compensation, living wage, just pay, reward fairly" ;
+    ethics:violatingTerms "underpay, wage theft, inequitable compensation, exploitation" .
+
+<http://tagteam.js/values/business/WorkplaceSafety>
+    a bfo:0000023 ;
+    rdfs:label "Workplace Safety" ;
+    skos:altLabel "Employee Safety" ;
+    skos:altLabel "Occupational Health" ;
+    rdfs:comment "Ensuring safe working conditions and protecting employee health" ;
+    ethics:domain "Dignity" ;
+    ethics:upholdingTerms "ensure safety, safe workplace, protect workers, prevent injury, health standards" ;
+    ethics:violatingTerms "unsafe conditions, endanger workers, ignore hazards, risk employee health" .
+
+# Market and Competition Values
+
+<http://tagteam.js/values/business/FairCompetition>
+    a bfo:0000023 ;
+    rdfs:label "Fair Competition" ;
+    skos:altLabel "Free Market" ;
+    skos:altLabel "Antitrust" ;
+    rdfs:comment "Competing fairly without deception, coercion, or market manipulation" ;
+    ethics:domain "Community" ;
+    ethics:upholdingTerms "compete fairly, honest competition, free market, competitive practices" ;
+    ethics:violatingTerms "unfair competition, market manipulation, monopoly, price fixing, anticompetitive" .
+
+<http://tagteam.js/values/business/ConsumerProtection>
+    a bfo:0000023 ;
+    rdfs:label "Consumer Protection" ;
+    skos:altLabel "Customer Safety" ;
+    skos:altLabel "Product Safety" ;
+    rdfs:comment "Ensuring product safety and protecting consumer interests" ;
+    ethics:domain "Dignity" ;
+    ethics:upholdingTerms "protect consumers, safe products, quality standards, honest advertising, customer rights" ;
+    ethics:violatingTerms "endanger consumers, defective products, false advertising, consumer fraud" .
+
+# Environmental and Social Values
+
+<http://tagteam.js/values/business/Environmental>
+    a bfo:0000023 ;
+    rdfs:label "Environmental Responsibility" ;
+    skos:altLabel "Sustainability" ;
+    skos:altLabel "Ecological Stewardship" ;
+    rdfs:comment "Minimizing environmental harm and promoting sustainable practices" ;
+    ethics:domain "Stewardship" ;
+    ethics:upholdingTerms "protect environment, sustainable practices, reduce pollution, conserve resources" ;
+    ethics:violatingTerms "pollute, environmental damage, waste resources, harm ecosystem" .
+
+<http://tagteam.js/values/business/SocialResponsibility>
+    a bfo:0000023 ;
+    rdfs:label "Social Responsibility" ;
+    skos:altLabel "Corporate Citizenship" ;
+    skos:altLabel "Community Engagement" ;
+    rdfs:comment "Contributing positively to society and community well-being" ;
+    ethics:domain "Community" ;
+    ethics:upholdingTerms "benefit community, social contribution, community support, civic engagement" ;
+    ethics:violatingTerms "harm community, social damage, exploit community, neglect social impact" .
+
+<http://tagteam.js/values/business/DataPrivacy>
+    a bfo:0000023 ;
+    rdfs:label "Data Privacy" ;
+    skos:altLabel "Information Security" ;
+    skos:altLabel "Privacy Protection" ;
+    rdfs:comment "Protecting customer and employee data and respecting privacy rights" ;
+    ethics:domain "Truth" ;
+    ethics:upholdingTerms "protect data, secure information, respect privacy, safeguard personal data" ;
+    ethics:violatingTerms "data breach, violate privacy, misuse data, expose information, sell data" .
