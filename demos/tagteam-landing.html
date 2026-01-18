@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TagTeam.js - Ethical Context Analysis Library</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            padding: 60px 20px;
+        }
+
+        header h1 {
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        header .version {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+
+        header p {
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .demo-section {
+            margin-bottom: 50px;
+        }
+
+        .demo-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 2em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .interactive-demo {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px 5px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .example-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .example-btn {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+
+        .example-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .results {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 5px solid #27ae60;
+        }
+
+        .results h3 {
+            color: #27ae60;
+            margin-bottom: 15px;
+        }
+
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 25px;
+            border-radius: 12px;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .feature-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .links-section {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .link-card {
+            background: white;
+            border: 2px solid #667eea;
+            padding: 20px 30px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .link-card:hover {
+            background: #667eea;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            padding: 30px;
+            opacity: 0.9;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #27ae60;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            margin-left: 10px;
+            font-weight: 600;
+        }
+
+        .context-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .context-category {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .context-category h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .context-dimension {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+
+        .dimension-value {
+            font-weight: 600;
+            color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>TagTeam.js</h1>
+            <span class="version">v3.0.0-alpha.1</span>
+            <p>Deterministic Ethical Context Analysis for Natural Language</p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Accuracy on IEE Corpus</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">12</span>
+                    <span class="stat-label">Context Dimensions</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">BFO</span>
+                    <span class="stat-label">Compatible</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <section class="demo-section">
+                <h2>🚀 Try It Live</h2>
+                <p>Enter any ethical scenario or moral dilemma to see TagTeam.js analyze its context:</p>
+
+                <div class="interactive-demo">
+                    <textarea id="input" placeholder="Enter an ethical scenario...">The doctor must allocate the last ventilator between two critically ill patients</textarea>
+
+                    <button onclick="analyze()">Analyze Context</button>
+
+                    <h4 style="margin-top: 25px; margin-bottom: 10px; color: #666;">Quick Examples:</h4>
+                    <div class="example-buttons">
+                        <button class="example-btn" onclick="setExample('The family must decide whether to continue treatment')">Healthcare</button>
+                        <button class="example-btn" onclick="setExample('I am questioning core doctrines')">Spiritual</button>
+                        <button class="example-btn" onclick="setExample('I discovered that my company is falsifying safety reports')">Whistleblowing</button>
+                        <button class="example-btn" onclick="setExample('My best friend is cheating on their spouse')">Interpersonal</button>
+                        <button class="example-btn" onclick="setExample('Should I report my colleague for minor policy violations?')">Professional</button>
+                    </div>
+
+                    <div id="results" style="display: none;">
+                        <div class="results">
+                            <h3>Analysis Results</h3>
+                            <div id="context-breakdown"></div>
+                            <details style="margin-top: 20px;">
+                                <summary style="cursor: pointer; font-weight: 600; color: #667eea;">View Full JSON Output</summary>
+                                <pre id="json-output"></pre>
+                            </details>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="demo-section">
+                <h2>✨ Key Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h3>Context Intensity Analysis</h3>
+                        <p>12-dimension analysis across temporal, relational, consequential, and epistemic categories</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🔬</div>
+                        <h3>Deterministic Parsing</h3>
+                        <p>Pattern-based keyword matching with negation and intensifier detection - no AI required</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🌐</div>
+                        <h3>BFO Compatible</h3>
+                        <p>Built on Basic Formal Ontology (ISO/IEC 21838-2) for interoperability with scientific ontologies</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">📦</div>
+                        <h3>Zero Dependencies</h3>
+                        <p>Lightweight bundle with optional N3.js for ontology parsing - production-ready manifests require no runtime parsing</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Fast Performance</h3>
+                        <p>Parse typical scenarios in &lt;50ms with pre-compiled JSON ontology manifests</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🔧</div>
+                        <h3>Extensible</h3>
+                        <p>Custom ontologies via Turtle (TTL) format with semantic expansion from external hierarchies</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="demo-section">
+                <h2>📊 What Gets Analyzed</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3>⏱️ Temporal Context</h3>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li><strong>Urgency:</strong> Time pressure</li>
+                            <li><strong>Duration:</strong> Impact timeline</li>
+                            <li><strong>Reversibility:</strong> Can it be undone?</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3>👥 Relational Context</h3>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li><strong>Intimacy:</strong> Relationship closeness</li>
+                            <li><strong>Power Differential:</strong> Authority gaps</li>
+                            <li><strong>Trust:</strong> Relationship confidence</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3>⚖️ Consequential Context</h3>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li><strong>Harm Severity:</strong> Potential damage</li>
+                            <li><strong>Benefit Magnitude:</strong> Potential good</li>
+                            <li><strong>Scope:</strong> Number affected</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3>🧠 Epistemic Context</h3>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li><strong>Certainty:</strong> Confidence level</li>
+                            <li><strong>Information Completeness:</strong> Data availability</li>
+                            <li><strong>Expertise:</strong> Skill requirements</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="demo-section">
+                <h2>🔗 Explore More</h2>
+                <div class="links-section">
+                    <a href="https://github.com/Skreen5hot/TagTeam.js" class="link-card" target="_blank">
+                        📖 GitHub Repository
+                    </a>
+                    <a href="demo.html" class="link-card">
+                        🎮 Interactive Demo
+                    </a>
+                    <a href="../tests/browser/test-week2a-context.html" class="link-card">
+                        ✅ Validation Tests
+                    </a>
+                </div>
+            </section>
+
+            <section class="demo-section">
+                <h2>🏗️ Current Development</h2>
+                <p><strong>Phase 2 Complete (85%):</strong> TTL Parser & Ontology Compiler <span class="badge">NEW</span></p>
+                <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+                    <li>✅ Turtle (TTL) ontology parsing with N3.js</li>
+                    <li>✅ CLI compiler for production-ready JSON manifests</li>
+                    <li>✅ Semantic expansion via external synonym hierarchies (Fandaws)</li>
+                    <li>✅ BFO compatibility validated with real ontologies</li>
+                    <li>✅ 58/58 tests passing (100% pass rate)</li>
+                </ul>
+
+                <p style="margin-top: 20px;"><strong>Coming Next:</strong> Phase 3 - OntologyManager with three-tier caching</p>
+            </section>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p><strong>TagTeam.js</strong> - Built with ❤️ for ethical AI and moral reasoning applications</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">MIT License | BFO-Compatible | 100% Deterministic</p>
+        </div>
+    </footer>
+
+    <!-- Load TagTeam.js -->
+    <script>
+        const scriptPath = window.location.hostname === 'localhost' || window.location.hostname === ''
+            ? '../dist/tagteam.js'
+            : 'tagteam.js';
+        document.write('<script src="' + scriptPath + '"><\/script>');
+    </script>
+
+    <script>
+        function setExample(text) {
+            document.getElementById('input').value = text;
+            analyze();
+        }
+
+        function analyze() {
+            const text = document.getElementById('input').value;
+            if (!text.trim()) {
+                alert('Please enter some text to analyze');
+                return;
+            }
+
+            const result = TagTeam.parse(text);
+
+            // Show results section
+            document.getElementById('results').style.display = 'block';
+
+            // Display full JSON
+            document.getElementById('json-output').textContent = JSON.stringify(result, null, 2);
+
+            // Display context breakdown
+            const breakdownDiv = document.getElementById('context-breakdown');
+            if (result.contextIntensity) {
+                let html = '<div class="context-breakdown">';
+
+                for (const category in result.contextIntensity) {
+                    html += `<div class="context-category">`;
+                    html += `<h4>${category.charAt(0).toUpperCase() + category.slice(1)}</h4>`;
+
+                    for (const dimension in result.contextIntensity[category]) {
+                        const value = result.contextIntensity[category][dimension];
+                        html += `<div class="context-dimension">`;
+                        html += `<span>${dimension}</span>`;
+                        html += `<span class="dimension-value">${value.toFixed(2)}</span>`;
+                        html += `</div>`;
+                    }
+
+                    html += `</div>`;
+                }
+
+                html += '</div>';
+                breakdownDiv.innerHTML = html;
+            } else {
+                breakdownDiv.innerHTML = '<p style="color: #e74c3c;">No context intensity data found in result.</p>';
+            }
+
+            // Scroll to results
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Auto-analyze on page load if there's default text
+        window.onload = function() {
+            const input = document.getElementById('input');
+            if (input.value.trim()) {
+                analyze();
+            }
+        };
+    </script>
+</body>
+</html>

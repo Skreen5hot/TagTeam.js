@@ -42,8 +42,11 @@ jobs:
           # Copy bundle
           cp dist/tagteam.js gh-pages/
 
-          # Copy test files
-          cp tests/browser/test-week2a-context.html gh-pages/index.html
+          # Copy landing page as index
+          cp demos/tagteam-landing.html gh-pages/index.html
+
+          # Copy validation tests
+          cp tests/browser/test-week2a-context.html gh-pages/validation.html
 
           # Create demo page
           cat > gh-pages/demo.html << 'EOF'
