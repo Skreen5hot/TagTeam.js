@@ -587,8 +587,24 @@ class EntityExtractor {
       return null;
     }
 
-    // Priority 4: Nominalization suffixes - PRIMARY detection mechanism
-    // This is the domain-neutral linguistic pattern approach
+    // Priority 4: Domain-specific words from config loader (Phase 2)
+    // Config loader takes precedence over suffix detection to allow domain-specific
+    // type specialization (e.g., "surgery" → cco:ActOfSurgery instead of bfo:BFO_0000015)
+    if (this.configLoader && this.configLoader.isConfigLoaded()) {
+      const configType = this.configLoader.getProcessRootWord(lastWord);
+      if (configType) {
+        return { isProcess: true, type: configType };
+      }
+
+      // Also check the full phrase for multi-word matches
+      const fullPhraseType = this.configLoader.getProcessRootWord(lowerNoun);
+      if (fullPhraseType) {
+        return { isProcess: true, type: fullPhraseType };
+      }
+    }
+
+    // Priority 5: Nominalization suffixes - domain-neutral detection mechanism
+    // This is the linguistic pattern approach when no config specialization matches
     for (const suffix of PROCESS_SUFFIXES) {
       const cleanSuffix = suffix.replace('-', '');
       if (lastWord.endsWith(cleanSuffix) && lastWord.length > cleanSuffix.length + 2) {
@@ -597,12 +613,14 @@ class EntityExtractor {
       }
     }
 
-    // Priority 5: Domain-specific words (DEPRECATED - TD-001)
-    // TODO: Move to DomainConfigLoader in Phase 2
-    for (const [rootWord, type] of Object.entries(DOMAIN_PROCESS_WORDS)) {
-      const regex = new RegExp(`\\b${rootWord}\\b`, 'i');
-      if (regex.test(lowerNoun)) {
-        return { isProcess: true, type };
+    // Priority 6: Deprecated domain process words (fallback when no config)
+    // TD-001: These will be removed after Phase 2 migration is complete
+    if (!this.configLoader || !this.configLoader.isConfigLoaded()) {
+      for (const [rootWord, type] of Object.entries(DOMAIN_PROCESS_WORDS)) {
+        const regex = new RegExp(`\\b${rootWord}\\b`, 'i');
+        if (regex.test(lowerNoun)) {
+          return { isProcess: true, type };
+        }
       }
     }
 
@@ -914,6 +932,42 @@ class EntityExtractor {
    */
   getTier2Factory() {
     return this.tier2Factory;
+  }
+
+  /**
+   * Set the domain config loader for type specialization
+   *
+   * Phase 2: When a config loader is set, domain-specific process words
+   * are loaded from the config instead of using the deprecated
+   * DOMAIN_PROCESS_WORDS constant.
+   *
+   * @param {Object|null} configLoader - DomainConfigLoader instance or null to clear
+   */
+  setConfigLoader(configLoader) {
+    this.configLoader = configLoader;
+  }
+
+  /**
+   * Get domain-specific type from config loader
+   *
+   * @param {string} term - The term to look up
+   * @param {string} bfoType - The BFO base type
+   * @returns {string|null} Specialized type or null
+   * @private
+   */
+  _getConfigSpecializedType(term, bfoType) {
+    if (!this.configLoader || !this.configLoader.isConfigLoaded()) {
+      return null;
+    }
+
+    // First check process root words (domain-specific terms like "care", "surgery")
+    const processType = this.configLoader.getProcessRootWord(term);
+    if (processType) {
+      return processType;
+    }
+
+    // Then check type specializations for the BFO type
+    return this.configLoader.getTypeSpecialization(bfoType, term);
   }
 }
 

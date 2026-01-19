@@ -29,6 +29,7 @@ const ScarcityAssertionFactory = require('./ScarcityAssertionFactory');
 const DirectiveExtractor = require('./DirectiveExtractor');
 const ObjectAggregateFactory = require('./ObjectAggregateFactory');
 const QualityFactory = require('./QualityFactory');
+const DomainConfigLoader = require('./DomainConfigLoader');
 
 // Week 2 modules
 const AssertionEventBuilder = require('./AssertionEventBuilder');
@@ -75,6 +76,69 @@ class SemanticGraphBuilder {
     this.informationStaircaseBuilder = new InformationStaircaseBuilder({
       version: '4.0.0-phase4-week2'
     });
+
+    // Phase 2: Domain configuration loader for type specialization
+    this.configLoader = new DomainConfigLoader();
+  }
+
+  /**
+   * Load a domain configuration file
+   *
+   * @param {string} configPath - Path to the JSON config file
+   * @returns {boolean} True if loaded successfully
+   *
+   * @example
+   * builder.loadDomainConfig('config/medical.json');
+   */
+  loadDomainConfig(configPath) {
+    const result = this.configLoader.loadConfig(configPath);
+
+    // Pass config loader to extractors
+    this.entityExtractor.setConfigLoader(this.configLoader);
+    this.actExtractor.setConfigLoader(this.configLoader);
+
+    return result;
+  }
+
+  /**
+   * Load a domain configuration from an object
+   *
+   * @param {Object} config - Configuration object
+   * @returns {boolean} True if loaded successfully
+   */
+  loadDomainConfigObject(config) {
+    const result = this.configLoader.loadConfigObject(config);
+
+    // Pass config loader to extractors
+    this.entityExtractor.setConfigLoader(this.configLoader);
+    this.actExtractor.setConfigLoader(this.configLoader);
+
+    return result;
+  }
+
+  /**
+   * Clear all domain configurations (return to BFO-only mode)
+   */
+  clearDomainConfigs() {
+    this.configLoader.clearConfigs();
+    this.entityExtractor.setConfigLoader(null);
+    this.actExtractor.setConfigLoader(null);
+  }
+
+  /**
+   * Check if any domain config is loaded
+   * @returns {boolean} True if config loaded
+   */
+  isDomainConfigLoaded() {
+    return this.configLoader.isConfigLoaded();
+  }
+
+  /**
+   * Get list of loaded domain names
+   * @returns {Array<string>} Domain names
+   */
+  getLoadedDomains() {
+    return this.configLoader.getLoadedDomains();
   }
 
   /**

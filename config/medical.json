@@ -1,0 +1,151 @@
+{
+  "domain": "medical",
+  "version": "1.0.0",
+  "description": "Medical domain configuration for TagTeam parser. Specializes BFO types to CCO medical types.",
+
+  "typeSpecializations": {
+    "bfo:BFO_0000015": {
+      "care": "cco:ActOfCare",
+      "treatment": "cco:ActOfMedicalTreatment",
+      "therapy": "cco:ActOfMedicalTreatment",
+      "surgery": "cco:ActOfSurgery",
+      "procedure": "cco:ActOfMedicalProcedure",
+      "examination": "cco:ActOfExamination",
+      "diagnosis": "cco:ActOfDiagnosis",
+      "rehabilitation": "cco:ActOfRehabilitation",
+      "resuscitation": "cco:ActOfResuscitation",
+      "intervention": "cco:ActOfIntervention",
+      "consultation": "cco:ActOfHealthcareConsultation",
+      "screening": "cco:ActOfScreening",
+      "immunization": "cco:ActOfImmunization",
+      "vaccination": "cco:ActOfImmunization",
+      "triage": "cco:ActOfTriage",
+      "nursing": "cco:ActOfNursingCare",
+      "monitoring": "cco:ActOfPatientMonitoring",
+      "assessment": "cco:ActOfClinicalAssessment"
+    },
+    "cco:Artifact": {
+      "medication": "cco:DrugProduct",
+      "medicine": "cco:DrugProduct",
+      "drug": "cco:DrugProduct",
+      "pharmaceutical": "cco:DrugProduct",
+      "ventilator": "cco:MedicalDevice",
+      "defibrillator": "cco:MedicalDevice",
+      "stethoscope": "cco:MedicalDevice",
+      "syringe": "cco:MedicalDevice",
+      "scalpel": "cco:MedicalDevice",
+      "prosthesis": "cco:MedicalDevice",
+      "implant": "cco:MedicalImplant",
+      "pacemaker": "cco:MedicalImplant",
+      "catheter": "cco:MedicalDevice",
+      "bandage": "cco:MedicalSupply",
+      "dressing": "cco:MedicalSupply",
+      "suture": "cco:MedicalSupply",
+      "organ": "cco:BodyPart",
+      "heart": "cco:BodyPart",
+      "kidney": "cco:BodyPart",
+      "liver": "cco:BodyPart",
+      "lung": "cco:BodyPart"
+    },
+    "cco:Person": {
+      "patient": "cco:Patient",
+      "doctor": "cco:Physician",
+      "physician": "cco:Physician",
+      "nurse": "cco:Nurse",
+      "surgeon": "cco:Surgeon",
+      "specialist": "cco:MedicalSpecialist",
+      "therapist": "cco:Therapist",
+      "pharmacist": "cco:Pharmacist",
+      "paramedic": "cco:Paramedic",
+      "caregiver": "cco:Caregiver",
+      "clinician": "cco:Clinician"
+    },
+    "cco:Organization": {
+      "hospital": "cco:Hospital",
+      "clinic": "cco:Clinic",
+      "ward": "cco:HospitalWard",
+      "department": "cco:HospitalDepartment",
+      "icu": "cco:IntensiveCareUnit",
+      "emergency room": "cco:EmergencyRoom",
+      "pharmacy": "cco:Pharmacy",
+      "laboratory": "cco:MedicalLaboratory"
+    }
+  },
+
+  "processRootWords": {
+    "care": "cco:ActOfCare",
+    "treatment": "cco:ActOfMedicalTreatment",
+    "therapy": "cco:ActOfMedicalTreatment",
+    "surgery": "cco:ActOfSurgery",
+    "procedure": "cco:ActOfMedicalProcedure",
+    "examination": "cco:ActOfExamination",
+    "diagnosis": "cco:ActOfDiagnosis",
+    "rehabilitation": "cco:ActOfRehabilitation",
+    "resuscitation": "cco:ActOfResuscitation",
+    "intervention": "cco:ActOfIntervention",
+    "consultation": "cco:ActOfHealthcareConsultation",
+    "screening": "cco:ActOfScreening",
+    "immunization": "cco:ActOfImmunization",
+    "vaccination": "cco:ActOfImmunization",
+    "triage": "cco:ActOfTriage",
+    "nursing": "cco:ActOfNursingCare",
+    "monitoring": "cco:ActOfPatientMonitoring",
+    "assessment": "cco:ActOfClinicalAssessment"
+  },
+
+  "verbOverrides": {
+    "provide": {
+      "objectIsOccurrent": "cco:ActOfHealthcareProvision",
+      "objectIsContinuant": "cco:ActOfTransferOfPossession",
+      "objectIsGDC": "cco:ActOfCommunication",
+      "default": "cco:IntentionalAct"
+    },
+    "administer": {
+      "objectIsOccurrent": "cco:ActOfMedicalTreatment",
+      "objectIsContinuant": "cco:ActOfDrugAdministration",
+      "default": "cco:ActOfDrugAdministration"
+    },
+    "prescribe": {
+      "objectIsOccurrent": "cco:ActOfPrescribing",
+      "objectIsContinuant": "cco:ActOfPrescribing",
+      "default": "cco:ActOfPrescribing"
+    },
+    "diagnose": {
+      "default": "cco:ActOfDiagnosis"
+    },
+    "treat": {
+      "objectIsOccurrent": "cco:ActOfMedicalTreatment",
+      "objectIsContinuant": "cco:ActOfMedicalTreatment",
+      "default": "cco:ActOfMedicalTreatment"
+    },
+    "examine": {
+      "default": "cco:ActOfExamination"
+    },
+    "operate": {
+      "default": "cco:ActOfSurgery"
+    },
+    "allocate": {
+      "objectIsOccurrent": "cco:ActOfResourceAllocation",
+      "objectIsContinuant": "cco:ActOfResourceAllocation",
+      "default": "cco:ActOfResourceAllocation"
+    },
+    "triage": {
+      "default": "cco:ActOfTriage"
+    },
+    "monitor": {
+      "default": "cco:ActOfPatientMonitoring"
+    },
+    "assess": {
+      "default": "cco:ActOfClinicalAssessment"
+    },
+    "refer": {
+      "default": "cco:ActOfPatientReferral"
+    },
+    "discharge": {
+      "default": "cco:ActOfPatientDischarge"
+    },
+    "admit": {
+      "default": "cco:ActOfPatientAdmission"
+    }
+  }
+}

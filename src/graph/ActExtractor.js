@@ -578,6 +578,19 @@ class ActExtractor {
   setEntities(entities) {
     this.entities = entities;
   }
+
+  /**
+   * Set the domain config loader for verb overrides
+   *
+   * Phase 2: When a config loader is set, verb sense can be overridden
+   * based on the ontological category of the direct object (selectional
+   * restrictions to be implemented in Phase 3).
+   *
+   * @param {Object|null} configLoader - DomainConfigLoader instance or null to clear
+   */
+  setConfigLoader(configLoader) {
+    this.configLoader = configLoader;
+  }
 }
 
 module.exports = ActExtractor;
