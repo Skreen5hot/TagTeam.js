@@ -53,7 +53,7 @@ const ENTITY_TYPE_MAPPINGS = {
   'mother': 'cco:Person',
   'father': 'cco:Person',
 
-  // Medical Equipment/Artifacts
+  // Medical Equipment/Artifacts (physical objects)
   'ventilator': 'cco:Artifact',
   'medication': 'cco:Artifact',
   'drug': 'cco:Artifact',
@@ -65,6 +65,155 @@ const ENTITY_TYPE_MAPPINGS = {
 
   // Default
   '_default': 'bfo:BFO_0000040' // Material Entity
+};
+
+/**
+ * Domain-neutral ontological vocabulary
+ *
+ * These are universally applicable terms that map to BFO/CCO types without
+ * requiring domain-specific configuration. They represent the core vocabulary
+ * that TagTeam recognizes in any domain.
+ *
+ * Based on ONTOLOGICAL_ISSUES_2026_01_19.md v3.1 analysis.
+ */
+const ONTOLOGICAL_VOCABULARY = {
+  // Occurrents (processes/events)
+  'process': 'bfo:BFO_0000015',
+  'event': 'bfo:BFO_0000015',
+  'activity': 'bfo:BFO_0000015',
+  'action': 'bfo:BFO_0000015',
+  'service': 'bfo:BFO_0000015',      // Generic service (domain config specializes)
+  'assistance': 'bfo:BFO_0000015',
+  'intervention': 'bfo:BFO_0000015',
+
+  // Independent Continuants (objects)
+  'person': 'cco:Person',
+  'people': 'cco:Person',
+  'human': 'cco:Person',
+  'individual': 'cco:Person',
+  'thing': 'bfo:BFO_0000040',
+  'object': 'bfo:BFO_0000040',
+  'item': 'bfo:BFO_0000040',
+  'artifact': 'cco:Artifact',
+  'device': 'cco:Artifact',
+  'tool': 'cco:Artifact',
+  'machine': 'cco:Artifact',
+
+  // Generically Dependent Continuants (information entities)
+  'document': 'bfo:BFO_0000031',
+  'information': 'bfo:BFO_0000031',
+  'data': 'bfo:BFO_0000031',
+  'plan': 'bfo:BFO_0000031',
+  'record': 'bfo:BFO_0000031',
+  'report': 'bfo:BFO_0000031'
+};
+
+/**
+ * Domain-specific process root words - DEPRECATED, will move to config in Phase 2
+ *
+ * TECHNICAL DEBT (TD-001): These medical-specific terms should be loaded from
+ * config/medical.json instead of being hardcoded in core. Until Phase 2 is
+ * complete, they remain here for backward compatibility.
+ *
+ * After Phase 2: This constant will be removed and replaced by DomainConfigLoader.
+ */
+const DOMAIN_PROCESS_WORDS = {
+  // Medical services - TO BE MOVED TO config/medical.json
+  'care': 'cco:ActOfCare',
+  'treatment': 'cco:ActOfMedicalTreatment',
+  'therapy': 'cco:ActOfMedicalTreatment',
+  'surgery': 'cco:ActOfSurgery',
+  'procedure': 'cco:ActOfMedicalProcedure',
+  'examination': 'cco:ActOfExamination',
+  'diagnosis': 'cco:ActOfDiagnosis',
+  'consultation': 'cco:ActOfCommunication',
+  'counseling': 'cco:ActOfCommunication',
+  'rehabilitation': 'cco:ActOfRehabilitation',
+  'resuscitation': 'cco:ActOfResuscitation'
+};
+
+/**
+ * Nominalization suffixes that often indicate processes/events
+ * Words ending in these are candidates for process detection
+ */
+const PROCESS_SUFFIXES = ['-tion', '-ment', '-ing', '-sis', '-ance', '-ence', '-ure', '-ery'];
+
+/**
+ * Physical/concrete object indicators - terms that suggest a material entity
+ * When these are present, prefer Artifact classification
+ */
+const PHYSICAL_OBJECT_INDICATORS = [
+  'machine', 'device', 'unit', 'bed', 'monitor', 'pump', 'tube', 'needle',
+  'pill', 'tablet', 'bottle', 'bag', 'mask', 'gown', 'glove'
+];
+
+/**
+ * Result noun exceptions - nominalizations ending in process suffixes that
+ * ALWAYS denote products/entities rather than processes.
+ *
+ * These are NOT ambiguous - they are ALWAYS result nouns regardless of context.
+ * "The medication" and "some medication" both refer to the drug, not a process.
+ *
+ * Based on ONTOLOGICAL_ISSUES_2026_01_19.md v3.1 analysis:
+ * - ~30-40% of -tion words are result nouns, not process nouns
+ * - These should be classified as Independent Continuants (IC) or GDC
+ */
+const UNAMBIGUOUS_RESULT_NOUNS = {
+  // Physical products (IC - Artifact) - always the product, never the process
+  'medication': 'cco:Artifact',
+  'publication': 'cco:Artifact',
+  'invention': 'cco:Artifact',
+  'decoration': 'cco:Artifact',
+  'illustration': 'cco:Artifact',
+
+  // Documents (GDC) - always the document, never the process
+  'documentation': 'bfo:BFO_0000031',
+  'registration': 'bfo:BFO_0000031',
+  'certification': 'bfo:BFO_0000031',
+  'specification': 'bfo:BFO_0000031',
+  'notification': 'bfo:BFO_0000031',
+  'recommendation': 'bfo:BFO_0000031',
+  'regulation': 'bfo:BFO_0000031',     // The rule document
+  'legislation': 'bfo:BFO_0000031',
+
+  // Locations (IC) - always the place, never the process
+  'location': 'bfo:BFO_0000040',
+  'station': 'bfo:BFO_0000040',
+  'position': 'bfo:BFO_0000040'        // Spatial position
+};
+
+/**
+ * Ambiguous nominalizations - can be either process OR entity depending on context.
+ * These need determiner-sensitive disambiguation:
+ * - "the organization" → entity (the company)
+ * - "organization of files" → process (the act of organizing)
+ *
+ * Default to entity type shown, but process reading possible with "of X" complement
+ * or indefinite/bare noun in certain contexts.
+ */
+const AMBIGUOUS_NOMINALIZATIONS = {
+  // Can be organization (entity) or organizing (process)
+  'organization': 'cco:Organization',
+  'foundation': 'cco:Organization',
+  'administration': 'cco:Organization',
+  'association': 'cco:Organization',
+  'corporation': 'cco:Organization',
+  'institution': 'cco:Organization',
+
+  // Can be the building (entity) or the act of building (process)
+  'construction': 'cco:Artifact',
+  'creation': 'cco:Artifact',
+  'production': 'cco:Artifact',
+  'installation': 'cco:Artifact'
+};
+
+/**
+ * Combined result noun exceptions for backward compatibility
+ * Used by _checkForProcessType to override suffix detection
+ */
+const RESULT_NOUN_EXCEPTIONS = {
+  ...UNAMBIGUOUS_RESULT_NOUNS,
+  ...AMBIGUOUS_NOMINALIZATIONS
 };
 
 /**
@@ -156,7 +305,11 @@ class EntityExtractor {
       const quantityInfo = this._detectQuantity(nounText, text, offset, nounData);
 
       // Determine entity type (use root noun for better matching)
-      const entityType = this._determineEntityType(rootNoun);
+      // Pass context for determiner-sensitive disambiguation of ambiguous nominalizations
+      const entityType = this._determineEntityType(rootNoun, {
+        fullText: text,
+        definitenessInfo: definitenessInfo
+      });
 
       // Determine referential status
       const referentialStatus = this._determineReferentialStatus(
@@ -355,14 +508,253 @@ class EntityExtractor {
   }
 
   /**
-   * Determine entity type for denotesType property
+   * Extract head noun from a noun phrase
+   *
+   * In English, the head noun is typically the rightmost noun in a compound.
+   * e.g., "medication administration" → "administration" (head)
+   *       "patient care plan" → "plan" (head)
+   *
+   * @param {string} nounPhrase - The noun phrase
+   * @returns {string} The head noun
+   * @private
+   */
+  _extractHeadNoun(nounPhrase) {
+    const words = nounPhrase.toLowerCase().trim().split(/\s+/);
+    return words[words.length - 1];
+  }
+
+  /**
+   * Check if noun phrase refers to a process/service rather than a physical object
+   *
+   * Domain-Neutral Detection Order (ONTOLOGICAL_ISSUES_2026_01_19.md v3.1):
+   * 0. Compound noun analysis → head noun determines type
+   * 1. Physical object indicators → Artifact (override everything)
+   * 2. Ontological vocabulary → BFO types (domain-neutral)
+   * 3. Result noun exceptions → IC/GDC (override suffixes)
+   * 4. Nominalization suffixes → BFO:Process (linguistic patterns - PRIMARY)
+   * 5. Domain-specific words → CCO types (DEPRECATED - Phase 2 moves to config)
+   *
+   * Pattern Precedence (from critique):
+   * 1. Verb selectional restrictions (Phase 3)
+   * 2. Compound noun as unit - head noun determines type
+   * 3. Head noun morphology - suffixes on head noun
+   * 4. Modifier constraints - "physical documentation" override (TODO)
+   * 5. Suffix heuristics
+   * 6. Ontological vocabulary match
+   * 7. Default
+   *
    * @param {string} nounText - The noun text
+   * @param {Object} [context] - Additional context for disambiguation
+   * @param {string} [context.determiner] - Determiner if available
+   * @returns {Object|null} Type info { isProcess, type } or null if not a process
+   */
+  _checkForProcessType(nounText, context = {}) {
+    const lowerNoun = nounText.toLowerCase().trim();
+    const words = lowerNoun.split(/\s+/);
+    const lastWord = this._extractHeadNoun(lowerNoun); // Head noun determines type
+
+    // Priority 1: Physical object indicators override everything
+    for (const indicator of PHYSICAL_OBJECT_INDICATORS) {
+      if (lowerNoun.includes(indicator)) {
+        return null; // Not a process, let it fall through to artifact
+      }
+    }
+
+    // Priority 2: Check ontological vocabulary (domain-neutral)
+    // Handle both singular and common plural forms (service/services, activity/activities)
+    for (const [term, type] of Object.entries(ONTOLOGICAL_VOCABULARY)) {
+      // Match term or term+s or term with y→ies plural
+      const pluralS = term + 's';
+      const pluralIes = term.endsWith('y') ? term.slice(0, -1) + 'ies' : null;
+
+      const matchesTerm = lastWord === term ||
+                          lastWord === pluralS ||
+                          (pluralIes && lastWord === pluralIes);
+
+      if (matchesTerm) {
+        // Check if it's an occurrent type
+        if (type === 'bfo:BFO_0000015') {
+          return { isProcess: true, type };
+        }
+        // Not a process (person, artifact, GDC) - return null to use other classification
+        return null;
+      }
+    }
+
+    // Priority 3: Check result noun exceptions (these override suffix detection)
+    if (RESULT_NOUN_EXCEPTIONS[lastWord]) {
+      // It's a result noun (product/entity), not a process
+      return null;
+    }
+
+    // Priority 4: Nominalization suffixes - PRIMARY detection mechanism
+    // This is the domain-neutral linguistic pattern approach
+    for (const suffix of PROCESS_SUFFIXES) {
+      const cleanSuffix = suffix.replace('-', '');
+      if (lastWord.endsWith(cleanSuffix) && lastWord.length > cleanSuffix.length + 2) {
+        // Has process suffix and not in exception list → Process
+        return { isProcess: true, type: 'bfo:BFO_0000015' }; // BFO:Process
+      }
+    }
+
+    // Priority 5: Domain-specific words (DEPRECATED - TD-001)
+    // TODO: Move to DomainConfigLoader in Phase 2
+    for (const [rootWord, type] of Object.entries(DOMAIN_PROCESS_WORDS)) {
+      const regex = new RegExp(`\\b${rootWord}\\b`, 'i');
+      if (regex.test(lowerNoun)) {
+        return { isProcess: true, type };
+      }
+    }
+
+    return null;
+  }
+
+  /**
+   * Check if a word is a known result noun or physical entity
+   * These are nominalizations that denote products/entities rather than processes.
+   *
+   * @param {string} word - Word to check
+   * @returns {boolean} True if known result noun or physical entity
+   */
+  _isKnownPhysicalEntity(word) {
+    // Use the RESULT_NOUN_EXCEPTIONS constant for comprehensive coverage
+    return RESULT_NOUN_EXCEPTIONS.hasOwnProperty(word.toLowerCase());
+  }
+
+  /**
+   * Analyze noun phrase context for determiner-sensitive disambiguation
+   *
+   * Based on ONTOLOGICAL_ISSUES_2026_01_19.md v3.1:
+   * - Definite determiner ("the X") → favors entity (IC) reading
+   * - Indefinite determiner ("some X") → favors process (Occurrent) reading
+   * - "X of Y" complement pattern → favors process reading
+   * - Bare noun (no determiner) → favors process reading
+   *
+   * @param {string} nounText - The noun phrase text
+   * @param {string} fullText - The full sentence for context
+   * @param {Object} definitenessInfo - Definiteness info from _detectDefiniteness
+   * @returns {Object} Context hints for disambiguation
+   */
+  _analyzeNounPhraseContext(nounText, fullText, definitenessInfo) {
+    const result = {
+      favorsEntity: false,
+      favorsProcess: false,
+      reason: null
+    };
+
+    const lowerFull = fullText.toLowerCase();
+    const lowerNoun = nounText.toLowerCase();
+
+    // Check for "X of Y" complement pattern (strongly favors process reading)
+    // e.g., "the organization of files" = process, not entity
+    const nounIndex = lowerFull.indexOf(lowerNoun);
+    if (nounIndex !== -1) {
+      const afterNoun = lowerFull.substring(nounIndex + lowerNoun.length).trim();
+      if (afterNoun.startsWith('of ')) {
+        result.favorsProcess = true;
+        result.reason = 'of-complement';
+        return result;
+      }
+    }
+
+    // Check determiner
+    if (definitenessInfo.definiteness === 'definite') {
+      // "the administration" → entity reading (the organization)
+      result.favorsEntity = true;
+      result.reason = 'definite-determiner';
+    } else if (definitenessInfo.determiner === null) {
+      // Bare noun → process reading
+      result.favorsProcess = true;
+      result.reason = 'bare-noun';
+    } else {
+      // Indefinite → process reading
+      result.favorsProcess = true;
+      result.reason = 'indefinite-determiner';
+    }
+
+    return result;
+  }
+
+  /**
+   * Determine entity type for denotesType property
+   *
+   * BFO/CCO compliance: Distinguishes between:
+   * - Continuants (objects): cco:Person, cco:Artifact
+   * - Occurrents (processes): cco:ActOfCare, cco:ActOfMedicalTreatment, etc.
+   *
+   * Uses determiner-sensitive disambiguation for ambiguous nominalizations.
+   *
+   * @param {string} nounText - The noun text
+   * @param {Object} [context] - Additional context
+   * @param {string} [context.fullText] - Full sentence for context analysis
+   * @param {Object} [context.definitenessInfo] - Definiteness info
    * @returns {string} Entity type IRI
    */
-  _determineEntityType(nounText) {
+  _determineEntityType(nounText, context = {}) {
     const lowerNoun = nounText.toLowerCase().trim();
+    const words = lowerNoun.split(/\s+/);
+    const lastWord = words[words.length - 1];
 
-    // Check for known entity types
+    // Priority 0: Compound noun analysis
+    // If the noun phrase has multiple words, check if compound context favors process
+    // e.g., "medication administration" → process (administering medication)
+    //       "file organization" → process (organizing files)
+    if (words.length > 1 && AMBIGUOUS_NOMINALIZATIONS[lastWord]) {
+      // Check if any modifier word is a known entity type (suggests process reading)
+      // "medication administration" - medication is artifact, so this is about administering it
+      const modifiers = words.slice(0, -1);
+      for (const modifier of modifiers) {
+        // If modifier is a known entity/artifact, compound likely denotes process
+        if (UNAMBIGUOUS_RESULT_NOUNS[modifier] ||
+            ENTITY_TYPE_MAPPINGS[modifier] ||
+            ['patient', 'file', 'data', 'drug', 'medication', 'document'].includes(modifier)) {
+          return 'bfo:BFO_0000015'; // Process reading for compound
+        }
+      }
+    }
+
+    // Priority 1: Unambiguous result nouns - ALWAYS return the product type
+    // "medication" is always the drug, "documentation" is always the document
+    if (UNAMBIGUOUS_RESULT_NOUNS[lastWord]) {
+      return UNAMBIGUOUS_RESULT_NOUNS[lastWord];
+    }
+
+    // Priority 2: Ambiguous nominalizations - use determiner-sensitive defaults
+    // "organization" can be the company (entity) or organizing (process)
+    if (AMBIGUOUS_NOMINALIZATIONS[lastWord] && context.definitenessInfo && context.fullText) {
+      const nounContext = this._analyzeNounPhraseContext(
+        nounText,
+        context.fullText,
+        context.definitenessInfo
+      );
+
+      if (nounContext.favorsProcess && nounContext.reason === 'of-complement') {
+        // "organization of files" → process reading
+        return 'bfo:BFO_0000015';
+      }
+
+      if (nounContext.favorsEntity) {
+        // "the administration" → entity reading
+        return AMBIGUOUS_NOMINALIZATIONS[lastWord];
+      }
+
+      // Bare/indefinite with ambiguous noun → default to entity (more common usage)
+      // Note: v3.1 spec says default to process, but entity is safer for most cases
+      return AMBIGUOUS_NOMINALIZATIONS[lastWord];
+    }
+
+    // Handle ambiguous nominalizations without context (fallback to entity reading)
+    if (AMBIGUOUS_NOMINALIZATIONS[lastWord]) {
+      return AMBIGUOUS_NOMINALIZATIONS[lastWord];
+    }
+
+    // Standard process detection (domain-neutral)
+    const processCheck = this._checkForProcessType(lowerNoun, context);
+    if (processCheck) {
+      return processCheck.type;
+    }
+
+    // Check for known entity types (continuants)
     for (const [keyword, type] of Object.entries(ENTITY_TYPE_MAPPINGS)) {
       if (keyword === '_default') continue;
       if (lowerNoun.includes(keyword)) {

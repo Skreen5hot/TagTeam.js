@@ -29,6 +29,26 @@ const TIER2_TYPE_MAPPINGS = {
 };
 
 /**
+ * Process type mappings - these create Process nodes instead of Artifacts
+ * Processes are occurrents (things that happen) not continuants (things that exist)
+ */
+const PROCESS_TYPE_MAPPINGS = {
+  'cco:ActOfCare': 'cco:ActOfCare',
+  'cco:ActOfMedicalTreatment': 'cco:ActOfMedicalTreatment',
+  'cco:ActOfSurgery': 'cco:ActOfSurgery',
+  'cco:ActOfMedicalProcedure': 'cco:ActOfMedicalProcedure',
+  'cco:ActOfExamination': 'cco:ActOfExamination',
+  'cco:ActOfDiagnosis': 'cco:ActOfDiagnosis',
+  'cco:ActOfService': 'cco:ActOfService',
+  'cco:ActOfAssistance': 'cco:ActOfAssistance',
+  'cco:ActOfIntervention': 'cco:ActOfIntervention',
+  'cco:ActOfCommunication': 'cco:ActOfCommunication',
+  'cco:ActOfRehabilitation': 'cco:ActOfRehabilitation',
+  'cco:ActOfResuscitation': 'cco:ActOfResuscitation',
+  'bfo:BFO_0000015': 'bfo:BFO_0000015' // Generic BFO Process
+};
+
+/**
  * Keywords that suggest person type
  */
 const PERSON_KEYWORDS = [
@@ -137,14 +157,36 @@ class RealWorldEntityFactory {
   }
 
   /**
+   * Check if a denotesType is a process type (occurrent rather than continuant)
+   * @param {string} denotesType - The denotesType value
+   * @returns {boolean} True if it's a process type
+   * @private
+   */
+  _isProcessType(denotesType) {
+    return PROCESS_TYPE_MAPPINGS.hasOwnProperty(denotesType);
+  }
+
+  /**
    * Determine the Tier 2 type for a referent
+   *
+   * BFO/CCO compliance: Distinguishes between:
+   * - Continuants (objects that persist): cco:Person, cco:Artifact, cco:Organization
+   * - Occurrents (processes that happen): cco:ActOfCare, cco:ActOfMedicalTreatment, etc.
+   *
    * @param {Object} referent - DiscourseReferent node
    * @returns {string|null} Tier 2 type IRI or null
    * @private
    */
   _determineTier2Type(referent) {
-    // First check denotesType if present (legacy support)
+    // First check denotesType if present
     const denotesType = referent['tagteam:denotesType'];
+
+    // Check if it's a process type (pass through as-is)
+    if (denotesType && this._isProcessType(denotesType)) {
+      return PROCESS_TYPE_MAPPINGS[denotesType];
+    }
+
+    // Check continuant type mappings
     if (denotesType && TIER2_TYPE_MAPPINGS[denotesType]) {
       return TIER2_TYPE_MAPPINGS[denotesType];
     }
