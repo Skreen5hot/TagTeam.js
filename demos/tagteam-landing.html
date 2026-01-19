@@ -287,13 +287,102 @@
             font-weight: 600;
             color: #27ae60;
         }
+
+        /* Phase 4 JSON-LD Styles */
+        .phase4-section {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 20px 0;
+        }
+
+        .phase4-section h3 {
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .phase4-section p {
+            color: rgba(255,255,255,0.9);
+        }
+
+        .phase4-btn {
+            background: white;
+            color: #7c3aed;
+            border: none;
+            padding: 12px 24px;
+            font-size: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px 5px 10px 0;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .phase4-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .phase4-results {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 5px solid #8b5cf6;
+        }
+
+        .phase4-results h3 {
+            color: #7c3aed;
+            margin-bottom: 15px;
+        }
+
+        .graph-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .summary-stat {
+            background: #f5f3ff;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .summary-stat .number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #7c3aed;
+        }
+
+        .summary-stat .label {
+            font-size: 0.85em;
+            color: #6b7280;
+        }
+
+        .entity-list, .act-list, .role-list {
+            margin: 15px 0;
+        }
+
+        .entity-item, .act-item, .role-item {
+            background: #f5f3ff;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin: 8px 0;
+            border-left: 3px solid #8b5cf6;
+        }
+
+        .badge-phase4 {
+            background: #8b5cf6;
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="container">
             <h1>TagTeam.js</h1>
-            <span class="version">v3.0.0-alpha.1</span>
+            <span class="version">v3.0.0-alpha.2</span>
             <p>Deterministic Ethical Context Analysis for Natural Language</p>
             <div class="hero-stats">
                 <div class="stat">
@@ -341,6 +430,32 @@
                                 <pre id="json-output"></pre>
                             </details>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="demo-section">
+                <h2>🧠 Phase 4: JSON-LD Semantic Graph <span class="badge badge-phase4">NEW</span></h2>
+                <p>Build BFO/CCO-compliant knowledge graphs from natural language. Extract entities, intentional acts, and semantic roles.</p>
+
+                <div class="phase4-section">
+                    <h3>Try the JSON-LD Graph Builder</h3>
+                    <p>Enter text below to generate a semantic knowledge graph:</p>
+                    <br>
+                    <textarea id="phase4-input" placeholder="Enter text to build a semantic graph..." style="min-height: 80px;">The doctor must allocate the last ventilator between two critically ill patients</textarea>
+                    <br>
+                    <button class="phase4-btn" onclick="buildGraph()">Build JSON-LD Graph</button>
+                    <button class="phase4-btn" onclick="showGraphSummary()">Show Summary</button>
+                </div>
+
+                <div id="phase4-results" style="display: none;">
+                    <div class="phase4-results">
+                        <h3>Graph Analysis</h3>
+                        <div id="graph-summary"></div>
+                        <details style="margin-top: 20px;">
+                            <summary style="cursor: pointer; font-weight: 600; color: #7c3aed;">View Full JSON-LD Output</summary>
+                            <pre id="jsonld-output"></pre>
+                        </details>
                     </div>
                 </div>
             </section>
@@ -444,16 +559,16 @@
 
             <section class="demo-section">
                 <h2>🏗️ Current Development</h2>
-                <p><strong>Phase 2 Complete (85%):</strong> TTL Parser & Ontology Compiler <span class="badge">NEW</span></p>
+                <p><strong>Phase 4 Week 1 Complete:</strong> JSON-LD Semantic Graph <span class="badge badge-phase4">NEW</span></p>
                 <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
-                    <li>✅ Turtle (TTL) ontology parsing with N3.js</li>
-                    <li>✅ CLI compiler for production-ready JSON manifests</li>
-                    <li>✅ Semantic expansion via external synonym hierarchies (Fandaws)</li>
-                    <li>✅ BFO compatibility validated with real ontologies</li>
-                    <li>✅ 58/58 tests passing (100% pass rate)</li>
+                    <li>✅ Phase 1.1: Semantic Graph Builder + JSON-LD Serializer</li>
+                    <li>✅ Phase 1.2: Entity Extraction → Discourse Referents</li>
+                    <li>✅ Phase 1.3: Act Extraction (Verbs → CCO Types)</li>
+                    <li>✅ Phase 1.4: Role Detection (BFO Roles)</li>
+                    <li>✅ 116/116 unit tests passing (100% pass rate)</li>
                 </ul>
 
-                <p style="margin-top: 20px;"><strong>Coming Next:</strong> Phase 3 - OntologyManager with three-tier caching</p>
+                <p style="margin-top: 20px;"><strong>Coming Next:</strong> Phase 4 Week 2 - Propositional Content & Temporal Indexing</p>
             </section>
         </div>
     </div>
@@ -531,6 +646,96 @@
                 analyze();
             }
         };
+
+        // Phase 4: JSON-LD Graph Functions
+        function buildGraph() {
+            const text = document.getElementById('phase4-input').value;
+            if (!text.trim()) {
+                alert('Please enter some text to build a graph');
+                return;
+            }
+
+            const jsonld = TagTeam.toJSONLD(text, { pretty: true });
+
+            document.getElementById('phase4-results').style.display = 'block';
+            document.getElementById('jsonld-output').textContent = jsonld;
+            document.getElementById('graph-summary').innerHTML = '<p>JSON-LD graph generated. Click "Show Summary" for details.</p>';
+
+            document.getElementById('phase4-results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showGraphSummary() {
+            const text = document.getElementById('phase4-input').value;
+            if (!text.trim()) {
+                alert('Please enter some text to analyze');
+                return;
+            }
+
+            const graph = TagTeam.buildGraph(text);
+            const jsonld = TagTeam.toJSONLD(text, { pretty: true });
+
+            const referents = graph['@graph'].filter(n =>
+                n['@type'] && n['@type'].includes('tagteam:DiscourseReferent'));
+            const acts = graph['@graph'].filter(n =>
+                n['@type'] && n['@type'].some(t => t.includes('IntentionalAct') || t.includes('ActOf')));
+            const roles = graph['@graph'].filter(n =>
+                n['@type'] && n['@type'].includes('bfo:BFO_0000023'));
+
+            let html = `
+                <div class="graph-summary">
+                    <div class="summary-stat">
+                        <div class="number">${graph['@graph'].length}</div>
+                        <div class="label">Total Nodes</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="number">${referents.length}</div>
+                        <div class="label">Entities</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="number">${acts.length}</div>
+                        <div class="label">Acts</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="number">${roles.length}</div>
+                        <div class="label">Roles</div>
+                    </div>
+                </div>
+            `;
+
+            if (referents.length > 0) {
+                html += '<h4 style="color: #7c3aed; margin-top: 20px;">Discourse Referents (Entities)</h4><div class="entity-list">';
+                referents.forEach(r => {
+                    let extras = '';
+                    if (r['tagteam:is_scarce']) extras += ' <strong style="color: #dc2626;">⚠️ SCARCE</strong>';
+                    html += `<div class="entity-item"><strong>${r['rdfs:label']}</strong> → ${r['tagteam:denotesType']}${extras}</div>`;
+                });
+                html += '</div>';
+            }
+
+            if (acts.length > 0) {
+                html += '<h4 style="color: #7c3aed; margin-top: 20px;">Intentional Acts</h4><div class="act-list">';
+                acts.forEach(a => {
+                    const actType = a['@type'].find(t => t.includes('cco:')) || 'IntentionalAct';
+                    let modality = a['tagteam:modality'] ? ` <em>[${a['tagteam:modality']}]</em>` : '';
+                    html += `<div class="act-item"><strong>${a['tagteam:verb']}</strong> (${actType})${modality}</div>`;
+                });
+                html += '</div>';
+            }
+
+            if (roles.length > 0) {
+                html += '<h4 style="color: #7c3aed; margin-top: 20px;">BFO Roles</h4><div class="role-list">';
+                roles.forEach(r => {
+                    html += `<div class="role-item">${r['rdfs:label']}</div>`;
+                });
+                html += '</div>';
+            }
+
+            document.getElementById('phase4-results').style.display = 'block';
+            document.getElementById('graph-summary').innerHTML = html;
+            document.getElementById('jsonld-output').textContent = jsonld;
+
+            document.getElementById('phase4-results').scrollIntoView({ behavior: 'smooth' });
+        }
     </script>
 </body>
 </html>
