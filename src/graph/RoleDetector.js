@@ -4,13 +4,14 @@
  * Detects BFO roles from acts and links them to entities.
  * Roles link entities (bearers) to acts (realizations).
  *
- * Phase 4 Two-Tier Architecture v2.3:
+ * Phase 4 Two-Tier Architecture v2.4:
  * - PatientRole ONLY inheres in cco:Person (not artifacts)
  * - Artifacts use AffectedEntityRole or no role
  * - Roles only realize in Actual acts (not Prescribed/Planned)
+ * - PatientRole assigned to ObjectAggregate members (v2.4)
  *
  * @module graph/RoleDetector
- * @version 4.0.0-phase4-v2.3
+ * @version 4.0.0-phase4-v2.4
  */
 
 const crypto = require('crypto');
@@ -158,6 +159,7 @@ class RoleDetector {
 
       // Detect participant roles (from has_participant)
       // These are persons who participate but are not the primary agent/patient
+      // v2.4: Also process members of ObjectAggregates
       if (act['bfo:has_participant'] && Array.isArray(act['bfo:has_participant'])) {
         act['bfo:has_participant'].forEach(participantIRI => {
           // Skip if already covered as agent or affected
@@ -168,19 +170,43 @@ class RoleDetector {
 
           const bearer = entityIndex.get(participantIRI);
           if (bearer) {
-            // Determine appropriate role type based on entity type
-            const roleType = this._isPersonEntity(bearer) ? 'patient' : 'participant';
+            // Check if this is an ObjectAggregate - if so, process its members
+            if (this._isObjectAggregate(bearer)) {
+              // v2.4: Assign PatientRole to each member of the aggregate
+              const memberIRIs = bearer['bfo:has_member'] || [];
+              const members = Array.isArray(memberIRIs) ? memberIRIs : [memberIRIs];
 
-            const role = this._createRole({
-              roleType,
-              bearerIRI: participantIRI,
-              bearer,
-              actIRI: act['@id'],
-              act,
-              canRealize
-            });
-            roles.push(role);
-            this._addBearerLink(bearer, role['@id']);
+              members.forEach(memberIRI => {
+                const member = entityIndex.get(memberIRI);
+                if (member && this._isPersonEntity(member)) {
+                  const role = this._createRole({
+                    roleType: 'patient',
+                    bearerIRI: memberIRI,
+                    bearer: member,
+                    actIRI: act['@id'],
+                    act,
+                    canRealize
+                  });
+                  roles.push(role);
+                  this._addBearerLink(member, role['@id']);
+                }
+              });
+            } else {
+              // Non-aggregate participant
+              // Determine appropriate role type based on entity type
+              const roleType = this._isPersonEntity(bearer) ? 'patient' : 'participant';
+
+              const role = this._createRole({
+                roleType,
+                bearerIRI: participantIRI,
+                bearer,
+                actIRI: act['@id'],
+                act,
+                canRealize
+              });
+              roles.push(role);
+              this._addBearerLink(bearer, role['@id']);
+            }
           }
         });
       }
@@ -214,6 +240,16 @@ class RoleDetector {
       type.includes('cco:Organization') ||
       type.includes('cco:GroupOfPersons')
     );
+  }
+
+  /**
+   * Check if an entity is an ObjectAggregate (v2.4)
+   * @param {Object} entity - Entity node
+   * @returns {boolean} True if ObjectAggregate
+   */
+  _isObjectAggregate(entity) {
+    const types = entity['@type'] || [];
+    return types.some(type => type.includes('BFO_0000027'));
   }
 
   /**

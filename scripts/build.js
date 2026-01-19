@@ -46,6 +46,9 @@ const scarcityAssertionFactoryPath = path.join(__dirname, '..', 'src', 'graph', 
 const directiveExtractorPath = path.join(__dirname, '..', 'src', 'graph', 'DirectiveExtractor.js');
 const objectAggregateFactoryPath = path.join(__dirname, '..', 'src', 'graph', 'ObjectAggregateFactory.js');
 
+// v2.4: Quality factory for entity qualifiers
+const qualityFactoryPath = path.join(__dirname, '..', 'src', 'graph', 'QualityFactory.js');
+
 let lexicon = fs.readFileSync(lexiconPath, 'utf8');
 let posTagger = fs.readFileSync(posTaggerPath, 'utf8');
 let patternMatcher = fs.readFileSync(patternMatcherPath, 'utf8');
@@ -82,6 +85,9 @@ let scarcityAssertionFactory = fs.readFileSync(scarcityAssertionFactoryPath, 'ut
 let directiveExtractor = fs.readFileSync(directiveExtractorPath, 'utf8');
 let objectAggregateFactory = fs.readFileSync(objectAggregateFactoryPath, 'utf8');
 
+// v2.4 factories
+let qualityFactory = fs.readFileSync(qualityFactoryPath, 'utf8');
+
 console.log(`  ✓ RealWorldEntityFactory.js (${(realWorldEntityFactory.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ EntityExtractor.js (${(entityExtractor.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ ActExtractor.js (${(actExtractor.length / 1024).toFixed(2)} KB)`);
@@ -91,6 +97,7 @@ console.log(`  ✓ JSONLDSerializer.js (${(jsonldSerializer.length / 1024).toFix
 console.log(`  ✓ ScarcityAssertionFactory.js (${(scarcityAssertionFactory.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ DirectiveExtractor.js (${(directiveExtractor.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ ObjectAggregateFactory.js (${(objectAggregateFactory.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ QualityFactory.js (${(qualityFactory.length / 1024).toFixed(2)} KB)`);
 
 // Read data files for Week 2b
 console.log('\n📖 Reading Week 2b data files...');
@@ -233,12 +240,15 @@ console.log('  ✓ Converted DirectiveExtractor to browser format');
 objectAggregateFactory = stripCommonJS(objectAggregateFactory, 'ObjectAggregateFactory');
 console.log('  ✓ Converted ObjectAggregateFactory to browser format');
 
+qualityFactory = stripCommonJS(qualityFactory, 'QualityFactory');
+console.log('  ✓ Converted QualityFactory to browser format');
+
 // Build the bundle
 console.log('\n🔧 Building bundle...');
 
 const bundle = `/*!
  * TagTeam.js - Two-Tier Semantic Graph Architecture for Ethical Context Analysis
- * Version: 4.0.0-phase4 (Two-Tier Architecture v2.3)
+ * Version: 4.0.0-phase4 (Two-Tier Architecture v2.4)
  * Date: ${new Date().toISOString().split('T')[0]}
  *
  * A client-side JavaScript library for extracting semantic roles from natural language text
@@ -256,6 +266,9 @@ const bundle = `/*!
  *   - ScarcityAssertion ICE for scarcity information
  *   - ObjectAggregate for plural persons with individual members
  *   - Role realization only in Actual acts (would_be_realized_in for Prescribed)
+ *   v2.4 Enhancements:
+ *   - PatientRole on ObjectAggregate members
+ *   - BFO Quality nodes for qualifiers (critically ill, etc.)
  *
  * Inspired by d3.js and mermaid.js - single file, simple API
  * Dependency: Compromise.js (~345KB) for lemmatization and NLP features
@@ -494,6 +507,13 @@ ${directiveExtractor}
 ${objectAggregateFactory}
 
   // ============================================================================
+  // QUALITY FACTORY (Phase 4 - v2.4)
+  // Creates BFO Quality nodes for entity qualifiers
+  // ============================================================================
+
+${qualityFactory}
+
+  // ============================================================================
   // SEMANTIC GRAPH BUILDER (Phase 4 - Week 1)
   // ============================================================================
 
@@ -656,7 +676,10 @@ ${semanticGraphBuilder}
     // v2.3: New factories for BFO/CCO compliance
     ScarcityAssertionFactory: ScarcityAssertionFactory,
     DirectiveExtractor: DirectiveExtractor,
-    ObjectAggregateFactory: ObjectAggregateFactory
+    ObjectAggregateFactory: ObjectAggregateFactory,
+
+    // v2.4: Quality factory
+    QualityFactory: QualityFactory
   };
 
   // Return the unified API

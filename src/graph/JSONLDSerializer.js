@@ -10,7 +10,7 @@
  * - Role realization properties
  *
  * @module graph/JSONLDSerializer
- * @version 4.0.0-phase4-v2.3
+ * @version 4.0.0-phase4-v2.4
  */
 
 /**
@@ -161,6 +161,14 @@ class JSONLDSerializer {
       // ===== Object Aggregate Properties (v2.3) =====
       member_count: { '@id': 'tagteam:member_count', '@type': 'xsd:integer' },
       member_index: { '@id': 'tagteam:member_index', '@type': 'xsd:integer' },
+
+      // ===== Quality Properties (v2.4) =====
+      DiseaseQuality: 'cco:DiseaseQuality',
+      InjuryQuality: 'cco:InjuryQuality',
+      AgeQuality: 'cco:AgeQuality',
+      qualifierText: 'tagteam:qualifierText',
+      severity: 'tagteam:severity',
+      ageCategory: 'tagteam:ageCategory',
 
       // ===== Discourse Referent Properties =====
       sourceText: 'tagteam:sourceText',

@@ -4,15 +4,17 @@
  * Main orchestrator for building JSON-LD semantic graphs.
  * Transforms TagTeam parsing results into SHML+GIT-compliant knowledge graphs.
  *
- * Phase 4 Two-Tier Architecture v2.3:
+ * Phase 4 Two-Tier Architecture v2.4:
  * - ScarcityAssertion ICE (not on Tier 2 entities)
  * - DirectiveContent ICE (modal markers)
  * - ObjectAggregate for plural persons
  * - PatientRole only on cco:Person
  * - Roles realize only in Actual acts
+ * - Quality nodes for qualifiers (v2.4)
+ * - PatientRole on aggregate members (v2.4)
  *
  * @module graph/SemanticGraphBuilder
- * @version 4.0.0-phase4-v2.3
+ * @version 4.0.0-phase4-v2.4
  */
 
 const crypto = require('crypto');
@@ -22,6 +24,7 @@ const RoleDetector = require('./RoleDetector');
 const ScarcityAssertionFactory = require('./ScarcityAssertionFactory');
 const DirectiveExtractor = require('./DirectiveExtractor');
 const ObjectAggregateFactory = require('./ObjectAggregateFactory');
+const QualityFactory = require('./QualityFactory');
 
 /**
  * Main class for building semantic graphs in JSON-LD format
@@ -53,6 +56,9 @@ class SemanticGraphBuilder {
     this.scarcityFactory = new ScarcityAssertionFactory({ graphBuilder: this });
     this.directiveExtractor = new DirectiveExtractor({ graphBuilder: this });
     this.aggregateFactory = new ObjectAggregateFactory({ graphBuilder: this });
+
+    // v2.4: Quality factory for entity qualifiers
+    this.qualityFactory = new QualityFactory({ graphBuilder: this });
   }
 
   /**
@@ -150,12 +156,23 @@ class SemanticGraphBuilder {
         this.addNodes(scarcityResult.scarcityAssertions);
       }
 
+      // v2.4: Create Quality nodes for entity qualifiers (e.g., "critically ill")
+      if (buildOptions.extractQualities !== false) {
+        const qualityResult = this.qualityFactory.createFromEntities(tier2Entities);
+        tier2Entities = qualityResult.updatedEntities;
+        this.addNodes(qualityResult.qualities);
+      }
+
       // Add all entities (Tier 1 + Tier 2)
       this.addNodes(tier1Referents);
       this.addNodes(tier2Entities);
 
       // Update extractedEntities for downstream use
-      extractedEntities = [...tier1Referents, ...tier2Entities];
+      // v2.4: Include aggregates so RoleDetector can find members
+      const allAggregates = this.nodes.filter(n =>
+        n['@type']?.some(t => t.includes('BFO_0000027'))
+      );
+      extractedEntities = [...tier1Referents, ...tier2Entities, ...allAggregates];
     }
 
     // Phase 1.3: Extract acts as IntentionalAct nodes
@@ -188,7 +205,7 @@ class SemanticGraphBuilder {
         buildTimestamp: this.buildTimestamp,
         inputLength: text.length,
         nodeCount: this.nodes.length,
-        version: '4.0.0-phase4-v2.3'
+        version: '4.0.0-phase4-v2.4'
       }
     };
   }
