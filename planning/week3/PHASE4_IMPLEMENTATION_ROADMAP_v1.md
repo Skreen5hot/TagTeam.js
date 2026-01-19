@@ -5,66 +5,6 @@
 **Duration**: 3 weeks (15 working days)
 **Start Date**: TBD
 **Status**: PLANNING
-**Version**: 2.0 (Revised 2026-01-18)
-
----
-
-## Revision Summary (v2.0)
-
-**Changes from v1.0 based on expert critique**:
-
-1. **ADDED Phase 1.4: Role Detection** (Day 5 afternoon) - CRITICAL GAP
-   - Roles link discourse referents to acts
-   - Required for SHACL Role Pattern compliance
-   - 120 LOC + 15 unit tests
-
-2. **FIXED AC-1.2.4 Contradiction**
-   - Clarified: Continuants (entities) are `DiscourseReferent` (NOT BFO entities)
-   - Occurrents (acts) ARE `cco:IntentionalAct` (CCO-typed)
-   - Distinguished entity extraction from act extraction
-
-3. **REQUIRED IBE Linking** (Phase 2.3)
-   - Removed "if needed" qualifier - ICE → IBE linking is REQUIRED for SHACL
-   - Added AC-2.3.2b to test both `based_on` and `is_concretized_by` relationships
-   - Information Staircase is mandatory for semantic honesty
-
-4. **ADJUSTED Day 5 Timeline**
-   - Split Act Extraction across Days 4-5 (instead of all Day 5)
-   - Day 4 afternoon: Act extraction + verb-to-CCO mapping
-   - Day 5 morning: Act linking + modality
-   - Day 5 afternoon: Role Detection (new)
-
-5. **ADDED AC-2.2.5: Supersession Testing**
-   - Tests that @context supports `supersedes` and `validatedBy` properties
-   - Foundation for Phase 5 HumanValidation workflow
-   - Ensures GIT-Minimal is not just "aspirational"
-
-6. **ADDED AC-3.2.5: Cross-Chunk Reference Validation**
-   - Tests that same entity in multiple chunks is properly linked
-   - Strategy: SHA-256 deterministic IRI generation OR explicit co-reference links
-   - Prevents graph fragmentation in long documents
-
-7. **SPECIFIED Technical Details**
-   - IRI hashing: SHA-256 of (text + span_offset + type), truncated to 8 hex chars
-   - Default context: `tagteam:Default_Context` (not `inst:Default_Context`)
-   - All instances include `owl:NamedIndividual` in type arrays
-
-8. **RELAXED Performance Target**
-   - Changed from <200ms to <300ms for typical scenario
-   - Rationale: Compromise NLP (50-100ms) + graph construction + SHA-256 hashing
-   - Added benchmark milestone after Week 2 to verify feasibility
-
-9. **INCREASED Test Coverage**
-   - Unit tests: 50 → 178 (15-30 per module based on complexity)
-   - Total test cases: 123 → 270
-   - Added RoleDetector module to deliverables (9 modules total)
-
-10. **CLARIFIED SHACL Patterns Availability**
-    - Noted that `SHACL_PATTERNS_REFERENCE.md` already exists (expert-certified)
-    - Phase 3.1 is implementation, not design
-    - 8 patterns ready for integration
-
-**Impact**: Timeline remains 3 weeks (15 days), but Day 5 rebalanced. LOC increased from 1000 to 1170. Test coverage significantly improved.
 
 ---
 
@@ -152,8 +92,7 @@ assert(parsed['@context'].inst === "http://tagteam.fandaws.org/instance/");
 **AC-1.1.2: Namespace Strategy**
 - Production instances use `inst:` prefix (not `ex:`)
 - Example: `inst:Doctor_Referent_a8f3b2`, not `ex:Doctor_Referent_0`
-- IRI generation uses **SHA-256 hashing** of (text + span_offset + type), truncated to 8 hex chars
-- Same text + position + type → same IRI across runs (reproducibility)
+- IRI generation uses deterministic hashing (same text → same IRI across runs)
 
 **AC-1.1.3: Context Completeness**
 ```javascript
@@ -223,24 +162,14 @@ assert(ventilator['tagteam:is_scarce'] === true);
 assert(ventilator['tagteam:quantity'] === 1);
 ```
 
-**AC-1.2.4: Continuants vs Occurrents Type Distinction**
+**AC-1.2.4: NOT BFO Entities**
 ```javascript
-// CRITICAL: Continuants (entities) are DiscourseReferent, NOT BFO entity types
-// Occurrents (acts) ARE CCO-typed
-const referents = graph['@graph'].filter(n => n['@type'].includes('DiscourseReferent'));
+// CRITICAL: Entities are DiscourseReferent, NOT cco:Person or cco:Artifact
 referents.forEach(r => {
   assert(r['@type'].includes('tagteam:DiscourseReferent'),
-    "Referents must be DiscourseReferent");
-  assert(!r['@type'].includes('cco:Person') && !r['@type'].includes('cco:Artifact'),
-    "Referents don't claim BFO entity status - only point to types via denotesType");
-  assert(r['@type'].includes('owl:NamedIndividual'), "Include owl:NamedIndividual for instances");
-});
-
-// Acts (occurrents) ARE properly CCO-typed
-const acts = graph['@graph'].filter(n => n['@type'].includes('cco:IntentionalAct'));
-acts.forEach(a => {
-  assert(a['@type'].includes('cco:IntentionalAct'), "Acts ARE CCO-typed");
-  assert(a['@type'].includes('owl:NamedIndividual'), "Include owl:NamedIndividual consistently");
+    "Must be DiscourseReferent");
+  assert(!r['@type'].includes('cco:Person'),
+    "Should NOT be typed as BFO entity");
 });
 ```
 
@@ -252,22 +181,18 @@ acts.forEach(a => {
 
 ---
 
-### Phase 1.3: Act Extraction (Days 4-5)
+### Phase 1.3: Act Extraction (Day 5)
 
 **Goal**: Extract intentional acts from verb phrases and link to discourse referents.
 
 #### Tasks
 
-**Day 4 Afternoon: Act Extractor Module**
+**Day 5: Act Extractor Module**
 - [ ] Create `src/graph/ActExtractor.js`
 - [ ] Extract verb phrases using Compromise
 - [ ] Map verbs to CCO act types (allocate → cco:ActOfAllocation)
-- [ ] Build verb-to-CCO lookup table from ontology manifests
-
-**Day 5 Morning: Act Linking & Modality**
 - [ ] Link acts to discourse referents (has_agent, has_participant, affects)
 - [ ] Detect deontic modality (must → obligation, should → recommendation)
-- [ ] Add temporal extent metadata to acts
 
 #### Acceptance Criteria
 
@@ -295,91 +220,8 @@ assert(allocAct['cco:affects'].includes('Referent'), "Affects is discourse refer
 ```
 
 #### Deliverables
-- [ ] `ActExtractor.js` (150 lines)
-- [ ] Verb-to-CCO lookup table (JSON or TTL)
-- [ ] Unit test: `test-act-extraction.js` (100 lines)
-
----
-
-### Phase 1.4: Role Detection (Day 5 Afternoon)
-
-**Goal**: Detect BFO roles and link them to discourse referents and acts.
-
-**Expert Note**: This phase was MISSING from original roadmap. Roles link discourse referents to acts—without them, the graph is structurally incomplete per SHACL Role Pattern.
-
-#### Tasks
-
-**Day 5 Afternoon: Role Detection Module**
-- [ ] Create `src/graph/RoleDetector.js`
-- [ ] Detect agent roles (subject of intentional act → `bfo:BFO_0000023` Role)
-- [ ] Detect patient roles (object/recipient of act → Role)
-- [ ] Link roles to discourse referents via `bfo:inheres_in` (role bearer)
-- [ ] Link roles to acts via `bfo:realized_in` (role realization)
-- [ ] Handle dormant roles (bearer without realization - valid per BFO)
-
-#### Acceptance Criteria
-
-**AC-1.4.1: Role Creation**
-```javascript
-// GIVEN
-const text = "The doctor must allocate the ventilator";
-
-// WHEN
-const graph = SemanticGraphBuilder.build(text);
-const roles = graph['@graph'].filter(n => n['@type'].includes('bfo:BFO_0000023'));
-
-// THEN
-assert(roles.length >= 1, "Extracted at least agent role");
-const agentRole = roles.find(r => r['rdfs:label']?.includes('agent'));
-assert(agentRole, "Agent role exists");
-```
-
-**AC-1.4.2: Role Bearer Link (SHACL VIOLATION if missing)**
-```javascript
-// CRITICAL: Every Role MUST have a bearer (BFO principle: Bearer Necessity)
-roles.forEach(role => {
-  assert(role['bfo:inheres_in'], "Role has bearer");
-  const bearer = graph['@graph'].find(n => n['@id'] === role['bfo:inheres_in']);
-  assert(bearer['@type'].includes('DiscourseReferent'), "Bearer is discourse referent");
-});
-```
-
-**AC-1.4.3: Role Realization Link (WARNING if missing - dormant roles valid)**
-```javascript
-// Roles SHOULD be realized, but dormant roles are ontologically valid
-const realizedRoles = roles.filter(r => r['bfo:realized_in']);
-const dormantRoles = roles.filter(r => !r['bfo:realized_in']);
-
-console.log(`Realized roles: ${realizedRoles.length}, Dormant roles: ${dormantRoles.length}`);
-
-// Realized roles should link to acts
-realizedRoles.forEach(role => {
-  const act = graph['@graph'].find(n => n['@id'] === role['bfo:realized_in']);
-  assert(act['@type'].includes('cco:IntentionalAct'), "Realization is an act");
-});
-```
-
-**AC-1.4.4: Inverse Relations Consistency**
-```javascript
-// Verify inverse consistency (if A inheres_in B, then B is_bearer_of A)
-roles.forEach(role => {
-  const bearerIRI = role['bfo:inheres_in'];
-  const bearer = graph['@graph'].find(n => n['@id'] === bearerIRI);
-
-  // Inverse should exist (or can be inferred by reasoner)
-  if (bearer['bfo:is_bearer_of']) {
-    assert(Array.isArray(bearer['bfo:is_bearer_of'])
-      ? bearer['bfo:is_bearer_of'].includes(role['@id'])
-      : bearer['bfo:is_bearer_of'] === role['@id'],
-      "Inverse relation consistent");
-  }
-});
-```
-
-#### Deliverables
-- [ ] `RoleDetector.js` (120 lines)
-- [ ] Unit test: `test-role-detection.js` (90 lines)
-- [ ] SHACL Role Pattern test fixtures (3 cases: valid, missing bearer, dormant role)
+- [ ] `ActExtractor.js` (100 lines)
+- [ ] Unit test: `test-act-extraction.js` (80 lines)
 
 ---
 
@@ -413,12 +255,10 @@ await jsonldLib.expand(jsonld); // Should not throw
 #### Week 1 Acceptance Criteria
 
 **✓ AC-W1.1**: Valid JSON-LD output (passes jsonld.expand() without errors)
-**✓ AC-W1.2**: All entities are DiscourseReferent (NOT BFO entities), acts ARE CCO-typed
+**✓ AC-W1.2**: All entities are DiscourseReferent (NOT BFO entities)
 **✓ AC-W1.3**: Acts link to discourse referents (not undefined IRIs)
-**✓ AC-W1.4**: Roles created with bearers (SHACL Role Pattern foundation)
-**✓ AC-W1.5**: Text span preservation for all referents
-**✓ AC-W1.6**: IRI generation uses `inst:` namespace with SHA-256 hashing consistently
-**✓ AC-W1.7**: All instance data includes `owl:NamedIndividual` in type arrays
+**✓ AC-W1.4**: Text span preservation for all referents
+**✓ AC-W1.5**: IRI generation uses `inst:` namespace consistently
 
 ---
 
@@ -584,32 +424,12 @@ allAssertions.forEach(assertion => {
 // GIVEN: No context specified
 const defaultGraph = TagTeam.parse(text, { format: 'jsonld' });
 
-// THEN: Uses tagteam:Default_Context (pre-defined vocabulary item, not inst:)
+// THEN: Uses Default_Context
 const parsed = JSON.parse(defaultGraph);
 const assertions = parsed['@graph'].filter(n => n['@type'].includes('AssertionEvent'));
 assertions.forEach(a => {
-  assert(a['tagteam:validInContext'] === 'tagteam:Default_Context',
-    "Uses tagteam: namespace for well-known default context");
+  assert(a['tagteam:validInContext'].includes('Default_Context'));
 });
-```
-
-**AC-2.2.5: Supersession Chain Foundation (GIT-Minimal)**
-```javascript
-// CRITICAL: Supersession must be testable for validation workflow foundation
-// Verify @context supports supersedes/validatedBy properties
-const context = parsed['@context'];
-assert(context.supersedes, "@context defines supersedes");
-assert(context.supersedes['@type'] === '@id', "supersedes is object property");
-assert(context.validatedBy, "@context defines validatedBy");
-assert(context.validatedBy['@type'] === '@id', "validatedBy is object property");
-
-// Verify nodes CAN have supersedes property (even if not populated yet)
-// This establishes foundation for Phase 5 HumanValidation workflow
-const exampleAssertion = assertions[0];
-// Should be allowed (even if undefined for AutomatedDetection in Phase 4)
-assert(exampleAssertion['tagteam:supersedes'] === undefined ||
-       typeof exampleAssertion['tagteam:supersedes'] === 'string',
-  "Supersedes property is valid IRI or undefined");
 ```
 
 #### Deliverables
@@ -624,16 +444,13 @@ assert(exampleAssertion['tagteam:supersedes'] === undefined ||
 
 **Goal**: Complete the information architecture with IBE nodes and concretization relationships.
 
-**Critical Note**: ICE → IBE linking is REQUIRED (not "if needed"). The Information Staircase from SHML paper requires this for semantic honesty.
-
 #### Tasks
 
 **Day 10: IBE Node Generation**
 - [ ] Generate `cco:InformationBearingEntity` node for input text
 - [ ] Add `cco:has_text_value` with full input text
-- [ ] **REQUIRED**: Link assertion events to IBE via `tagteam:based_on` (provenance)
-- [ ] **REQUIRED**: Link ICE to IBE via `cco:is_concretized_by` (information staircase)
-- [ ] Ensure both relationships exist for SHACL compliance
+- [ ] Link IBE to assertion events via `tagteam:based_on`
+- [ ] Link ICE to IBE via `cco:is_concretized_by` (if needed for SHACL)
 - [ ] Add parser agent node (`cco:ArtificialAgent`)
 
 #### Acceptance Criteria
@@ -649,35 +466,13 @@ assert(ibe['cco:has_text_value'] === text, "IBE contains full input text");
 assert(ibe['tagteam:received_at'], "Has timestamp");
 ```
 
-**AC-2.3.2: Assertion Events Link to IBE (REQUIRED)**
+**AC-2.3.2: Assertion Events Link to IBE**
 ```javascript
 const assertions = graph['@graph'].filter(n =>
   n['@type'].includes('AssertionEvent'));
 assertions.forEach(a => {
-  assert(a['tagteam:based_on'], "Assertion has based_on link");
   assert(a['tagteam:based_on'] === ibe['@id'], "All assertions based on IBE");
 });
-```
-
-**AC-2.3.2b: ICE → IBE Concretization Link (REQUIRED for SHACL)**
-```javascript
-const iceNodes = graph['@graph'].filter(n =>
-  n['@type'].includes('cco:InformationContentEntity'));
-
-iceNodes.forEach(ice => {
-  assert(ice['cco:is_concretized_by'], "ICE has concretization link");
-  assert(ice['cco:is_concretized_by'] === ibe['@id'], "ICE concretized by IBE");
-});
-
-// Verify IBE also has inverse (optional but recommended)
-if (ibe['cco:concretizes']) {
-  const concretizedICEs = Array.isArray(ibe['cco:concretizes'])
-    ? ibe['cco:concretizes']
-    : [ibe['cco:concretizes']];
-  iceNodes.forEach(ice => {
-    assert(concretizedICEs.includes(ice['@id']), "IBE inverse link consistent");
-  });
-}
 ```
 
 **AC-2.3.3: Parser Agent Node**
@@ -763,13 +558,10 @@ Validate graphs against expert-certified SHACL patterns, handle complexity budge
 
 **Goal**: Integrate the expert-approved shaclValidator.js from Fandaws and validate outputs.
 
-**Note**: SHACL patterns are ALREADY AVAILABLE at [planning/week3/SHACL_PATTERNS_REFERENCE.md](planning/week3/SHACL_PATTERNS_REFERENCE.md) (expert-certified 2026-01-09, 2026-01-13). This is an implementation task, not a design task.
-
 #### Tasks
 
 **Day 11: Validator Adaptation**
-- [ ] Review `src/validation/shaclValidator.js` (Fandaws reference implementation)
-- [ ] Review `planning/week3/SHACL_PATTERNS_REFERENCE.md` (expert-certified patterns)
+- [ ] Review `src/validation/shaclValidator.js` (Fandaws reference)
 - [ ] Create `src/ontology/SHMLValidator.js` wrapper
 - [ ] Adapt validator for TagTeam's JSON-LD structure
 - [ ] Implement validation reporting (violations, warnings, info)
@@ -969,46 +761,6 @@ chunked.chunks.forEach((chunk, idx) => {
   assert(metadata['tagteam:total_chunks'] === chunked.chunks.length);
   assert(metadata['tagteam:chunk_text_range'], "Has text range");
 });
-```
-
-**AC-3.2.5: Cross-Chunk Entity Reference Linking**
-```javascript
-// CRITICAL: If the same entity appears in multiple chunks, they need to be linked
-// This was MISSING from original roadmap
-
-// GIVEN: Long text where "the doctor" appears in multiple chunks
-const multiChunkText = "The doctor arrived. ".repeat(200); // Spans 2+ chunks
-
-// WHEN
-const chunked = TagTeam.parse(multiChunkText, { format: 'jsonld' });
-
-// THEN: Verify entity IRI consistency across chunks
-const allDoctorRefs = [];
-chunked.chunks.forEach(chunkJSON => {
-  const graph = JSON.parse(chunkJSON);
-  const doctorRefs = graph['@graph'].filter(n =>
-    n['@type'].includes('DiscourseReferent') &&
-    n['rdfs:label']?.includes('doctor'));
-  allDoctorRefs.push(...doctorRefs);
-});
-
-// Same entity text + type should generate same IRI (SHA-256 determinism)
-// OR chunks should explicitly link co-referent entities
-if (allDoctorRefs.length > 1) {
-  const uniqueIRIs = new Set(allDoctorRefs.map(r => r['@id']));
-
-  // Strategy 1: Same IRI (preferred - enables graph merging)
-  const usingSameIRI = uniqueIRIs.size === 1;
-
-  // Strategy 2: Explicit co-reference links
-  const usingCorefLinks = allDoctorRefs.some(r =>
-    r['tagteam:same_as'] || r['owl:sameAs']);
-
-  assert(usingSameIRI || usingCorefLinks,
-    "Cross-chunk entities either share IRI or have explicit co-reference links");
-
-  console.log(`Cross-chunk strategy: ${usingSameIRI ? 'Same IRI' : 'Co-reference links'}`);
-}
 ```
 
 #### Deliverables
@@ -1294,12 +1046,9 @@ console.log("✅ Production release criteria met");
 ### Non-Functional Requirements
 
 **NFR-1: Performance**
-- [ ] Parse time < 300ms for typical scenario (< 500 chars) - relaxed from 200ms
-  - **Note**: Compromise NLP alone: 50-100ms, plus graph construction, IRI hashing (SHA-256), confidence calculation, assertion wrapping
-  - If significantly faster after Week 2 benchmarking, can tighten to 250ms
+- [ ] Parse time < 200ms for typical scenario (< 500 chars)
 - [ ] JSON-LD output < 50 KB for typical scenario
 - [ ] SHACL validation time < 100ms
-- [ ] **Benchmark after Week 2** to verify performance targets are realistic
 
 **NFR-2: Backwards Compatibility**
 - [ ] Legacy format still supported: `{ format: 'legacy' }`
@@ -1393,20 +1142,17 @@ console.log("✅ Production release criteria met");
 ## Deliverables Summary
 
 ### Code Artifacts
-| Module | Lines of Code | Unit Tests | Status |
-|--------|---------------|------------|--------|
-| `SemanticGraphBuilder.js` | 150 | 20 | Week 1 |
-| `JSONLDSerializer.js` | 50 | 15 | Week 1 |
-| `EntityExtractor.js` | 150 | 20 | Week 1 |
-| `ActExtractor.js` | 150 | 18 | Week 1 |
-| `RoleDetector.js` | 120 | 15 | Week 1 |
-| `AssertionEventBuilder.js` | 200 | 25 | Week 2 |
-| `ContextManager.js` | 80 | 15 | Week 2 |
-| `SHMLValidator.js` | 150 | 30 | Week 3 |
-| `ComplexityBudget.js` | 120 | 20 | Week 3 |
-| **TOTAL** | **1170 LOC** | **178 unit tests** (~15-30 per module) | |
-
-**Note**: Original estimate of 50 unit tests was too low. Revised to 135+ unit tests for proper coverage (15-30 per module based on complexity).
+| Module | Lines of Code | Tests | Status |
+|--------|---------------|-------|--------|
+| `SemanticGraphBuilder.js` | 150 | 50 | Week 1 |
+| `JSONLDSerializer.js` | 50 | 20 | Week 1 |
+| `EntityExtractor.js` | 150 | 100 | Week 1 |
+| `ActExtractor.js` | 100 | 80 | Week 1 |
+| `AssertionEventBuilder.js` | 200 | 150 | Week 2 |
+| `ContextManager.js` | 80 | 100 | Week 2 |
+| `SHMLValidator.js` | 150 | 200 | Week 3 |
+| `ComplexityBudget.js` | 120 | 100 | Week 3 |
+| **TOTAL** | **1000 LOC** | **800 test LOC** | |
 
 ### Documentation Artifacts
 | Document | Pages | Status |
@@ -1422,14 +1168,11 @@ console.log("✅ Production release criteria met");
 ### Test Artifacts
 | Test Suite | Scenarios | Status |
 |------------|-----------|--------|
-| Unit Tests (9 modules) | 178 | Weeks 1-3 |
+| Unit Tests (8 modules) | 50 | Weeks 1-3 |
 | Integration Tests (corpus) | 60 | Week 3 |
 | Performance Tests | 5 | Week 3 |
-| SHACL Validation Tests | 8 patterns × 3 cases = 24 | Week 3 |
-| Week Milestones | 3 | Weeks 1-3 |
-| **TOTAL** | **270 test cases** | |
-
-**Revision Note**: Increased from 123 to 270 test cases to ensure proper coverage. Unit tests increased from 50 to 178 (15-30 per module).
+| SHACL Validation Tests | 8 patterns × 3 cases | Week 3 |
+| **TOTAL** | **123 test cases** | |
 
 ---
 
@@ -1650,16 +1393,11 @@ console.log("✅ Production release criteria met");
 
 ---
 
-**Document Status**: Ready for Review (Revised)
-**Version**: 2.0
+**Document Status**: Ready for Review
+**Version**: 1.0
 **Last Updated**: January 18, 2026
-**Previous Version**: 1.0 (backed up to PHASE4_IMPLEMENTATION_ROADMAP_v1.md)
 **Owner**: TagTeam Development Team
 **Approver**: Aaron (Project Owner)
-
-**Revision History**:
-- v1.0 (2026-01-18): Initial roadmap
-- v2.0 (2026-01-18): Addressed comprehensive critique - added Role Detection, fixed contradictions, specified technical details, increased test coverage
 
 ---
 
