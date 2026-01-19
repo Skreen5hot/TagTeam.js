@@ -65,17 +65,25 @@ This specification defines a **fundamental architectural shift** for TagTeam 3.0
 
 Every TagTeam detection is an **assertion event** produced by a parsing process, not an ontological fact about reality.
 
-### 1.2 Three-Layer Architecture (Revised)
+### 1.2 Three-Layer Architecture: Pragmatic Compromise
 
-**IMPORTANT**: JSON-LD is the **native format**. There is no separate LPG implementation.
+**Architectural Position**: While SHML theory prescribes LPG for native process modeling, TagTeam implements the middle layer **directly in JSON-LD**, treating assertion events as first-class nodes rather than edge annotations.
+
+**Rationale**:
+- TagTeam is a **parser that outputs semantic graphs**, not a graph database
+- JSON-LD with proper typing can express process semantics adequately
+- Assertion events as nodes (not edge properties) preserves SHML semantics
+- Tooling compatibility and serialization simplicity
+
+**Trade-off**: This trades some structural elegance (LPG's native edge properties) for practical benefits (JSON-LD ecosystem, RDF interoperability, no runtime DB dependency).
 
 | Layer | Substrate | Role | TagTeam Implementation |
 |-------|-----------|------|----------------------|
 | **Reality** | BFO/CCO ontologies | Defines what exists | Conceptual grounding only |
-| **Middle (SHML)** | JSON-LD @graph | Models semantic processes | Assertion events, discourse referents |
-| **Logic** | JSON-LD @graph | Public API output | Same as middle layer (no projection) |
+| **Middle (SHML)** | JSON-LD @graph | Models semantic processes | Assertion events as nodes |
+| **Logic** | JSON-LD @graph | Public API output | Same structure (no projection) |
 
-**Key Change**: The SHML "middle layer" is a **logical layer within JSON-LD**, not a separate data structure.
+**Note**: If future requirements demand true LPG features (e.g., path queries, graph algorithms), the JSON-LD output can be ingested into Neo4j/memgraph as a migration path.
 
 ### 1.3 Assertions as Occurrents
 
@@ -148,44 +156,61 @@ Output: JSON-LD Graph
 ```json
 {
   "@context": {
-    "cco": "http://www.ontologyrepository.com/CommonCoreOntologies/",
     "bfo": "http://purl.obolibrary.org/obo/",
+    "cco": "http://www.ontologyrepository.com/CommonCoreOntologies/",
     "tagteam": "http://tagteam.fandaws.org/ontology/",
-    "ex": "http://example.org/tagteam/",
+    "inst": "http://tagteam.fandaws.org/instance/",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "owl": "http://www.w3.org/2002/07/owl#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
 
-    // BFO/CCO Relations
-    "is_bearer_of": { "@id": "bfo:BFO_0000053", "@type": "@id" },
-    "bearer_of": { "@id": "bfo:BFO_0000053", "@type": "@id" },
-    "inheres_in": { "@id": "bfo:BFO_0000052", "@type": "@id" },
-    "realizes": { "@id": "bfo:BFO_0000055", "@type": "@id" },
-    "realized_in": { "@id": "bfo:BFO_0000054", "@type": "@id" },
-    "has_agent": { "@id": "cco:has_agent", "@type": "@id" },
-    "has_participant": { "@id": "bfo:BFO_0000057", "@type": "@id" },
-    "participates_in": { "@id": "bfo:BFO_0000056", "@type": "@id" },
-    "affects": { "@id": "cco:affects", "@type": "@id" },
-    "prescribes": { "@id": "cco:prescribes", "@type": "@id" },
+    // TagTeam Classes
+    "DiscourseReferent": {
+      "@id": "tagteam:DiscourseReferent",
+      "rdfs:subClassOf": "cco:InformationContentEntity"
+    },
+    "ValueAssertionEvent": "tagteam:ValueAssertionEvent",
+    "ContextAssessmentEvent": "tagteam:ContextAssessmentEvent",
+    "DocumentParseResult": "tagteam:DocumentParseResult",
+    "CrossChunkReference": "tagteam:CrossChunkReference",
 
-    // SHML/TagTeam Specific
+    // DiscourseReferent Properties
+    "denotesType": { "@id": "tagteam:denotesType", "@type": "@id" },
+    "referentialStatus": { "@id": "tagteam:referentialStatus", "@type": "@id" },
+    "discourseRole": "tagteam:discourseRole",
+    "definiteness": "tagteam:definiteness",
+
+    // Confidence Properties (Three-way decomposition)
+    "extractionConfidence": { "@id": "tagteam:extractionConfidence", "@type": "xsd:decimal" },
+    "classificationConfidence": { "@id": "tagteam:classificationConfidence", "@type": "xsd:decimal" },
+    "relevanceConfidence": { "@id": "tagteam:relevanceConfidence", "@type": "xsd:decimal" },
+    "aggregateConfidence": { "@id": "tagteam:aggregateConfidence", "@type": "xsd:decimal" },
+    "aggregationMethod": "tagteam:aggregationMethod",
+
+    // BFO Relations (Note: Use realized_in only, not realizes)
+    "inheres_in": { "@id": "bfo:BFO_0000052", "@type": "@id" },
+    "realized_in": { "@id": "bfo:BFO_0000054", "@type": "@id" },
+    "has_participant": { "@id": "bfo:BFO_0000057", "@type": "@id" },
+
+    // CCO Relations
+    "has_agent": { "@id": "cco:has_agent", "@type": "@id" },
+    "affects": { "@id": "cco:affects", "@type": "@id" },
+
+    // TagTeam Assertion Properties
     "asserts": { "@id": "tagteam:asserts", "@type": "@id" },
     "based_on": { "@id": "tagteam:based_on", "@type": "@id" },
-    "confidence": { "@id": "tagteam:confidence", "@type": "xsd:decimal" },
     "detected_by": { "@id": "tagteam:detected_by", "@type": "@id" },
-    "temporal_extent": { "@id": "tagteam:temporal_extent", "@type": "xsd:dateTime" },
-
-    // DiscourseReferent (NEW)
-    "DiscourseReferent": { "@id": "tagteam:DiscourseReferent" },
-    "presumed_type": { "@id": "tagteam:presumed_type", "@type": "@id" },
-    "extracted_from_span": { "@id": "tagteam:extracted_from_span" },
-    "span_offset": { "@id": "tagteam:span_offset" },
-    "refers_to": { "@id": "tagteam:refers_to", "@type": "@id" }
+    "extracted_from_span": "tagteam:extracted_from_span",
+    "span_offset": "tagteam:span_offset"
   }
 }
 
-**Note**: `ex:` namespace (`http://example.org/tagteam/`) is used for discourse referent instances, NOT actual BFO entities.
+**Namespace Strategy**:
+- `inst:` - Production instance IRIs (http://tagteam.fandaws.org/instance/)
+- `ex:` - Examples in this specification only (http://example.org/)
+
+**Note**: All examples in this specification use `ex:` for readability. Production deployments MUST use `inst:` namespace with session-scoped identifiers.
 ```
 
 ### 3.2 @graph Node Types
@@ -199,10 +224,13 @@ Output: JSON-LD Graph
 {
   "@id": "ex:Doctor_Referent_a8f3b2",
   "@type": ["tagteam:DiscourseReferent"],
-  "rdfs:label": "doctor (discourse referent)",
+  "rdfs:label": "the doctor",
+  "tagteam:denotesType": "cco:Person",
+  "tagteam:discourseRole": "agent",
   "tagteam:extracted_from_span": "The doctor",
   "tagteam:span_offset": [0, 10],
-  "tagteam:presumed_type": "cco:Agent"
+  "tagteam:definiteness": "definite",
+  "tagteam:referentialStatus": "presupposed"
 }
 ```
 
@@ -211,16 +239,27 @@ Output: JSON-LD Graph
 {
   "@id": "ex:Ventilator_Referent_c4d9e1",
   "@type": ["tagteam:DiscourseReferent"],
-  "rdfs:label": "ventilator (discourse referent)",
+  "rdfs:label": "last ventilator",
+  "tagteam:denotesType": "cco:Artifact",
+  "tagteam:discourseRole": "instrument",
   "tagteam:extracted_from_span": "last ventilator",
   "tagteam:span_offset": [35, 50],
-  "tagteam:presumed_type": "cco:Artifact",
+  "tagteam:definiteness": "definite",
+  "tagteam:referentialStatus": "presupposed",
   "tagteam:is_scarce": true,
   "tagteam:quantity": 1
 }
 ```
 
 **Key Principle**: TagTeam extracts discourse referents from text, not actual BFO entities. We don't know if "the doctor" is Dr. Smith or a hypothetical agent.
+
+**referentialStatus Values:**
+| Value | Meaning | Example |
+|-------|---------|---------|
+| `presupposed` | Text assumes referent exists (definite article) | "The doctor" |
+| `introduced` | Text introduces referent (indefinite article) | "A doctor" |
+| `anaphoric` | Refers back to previously introduced referent | "She" (pronoun) |
+| `hypothetical` | Thought experiment (may not exist) | "If there were a doctor" |
 
 #### 3.2.2 Roles (BFO Realizables)
 
@@ -259,15 +298,27 @@ Output: JSON-LD Graph
   "@id": "ex:Autonomy_Assertion_0",
   "@type": ["owl:NamedIndividual", "tagteam:ValueAssertionEvent"],
   "rdfs:label": "autonomy value assertion",
-  "asserts": "ex:Autonomy_ICE",
-  "detected_by": "ex:TagTeam_Parser_v3",
-  "based_on": "ex:Input_Text_IBE",
-  "confidence": 0.85,
-  "temporal_extent": "2026-01-18T10:30:00Z",
+  "tagteam:asserts": "ex:Autonomy_ICE",
+  "tagteam:detected_by": "ex:TagTeam_Parser_v3",
+  "tagteam:based_on": "ex:Input_Text_IBE",
+
+  "tagteam:extractionConfidence": 0.95,
+  "tagteam:classificationConfidence": 0.85,
+  "tagteam:relevanceConfidence": 0.70,
+  "tagteam:aggregateConfidence": 0.83,
+  "tagteam:aggregationMethod": "geometric_mean",
+
+  "tagteam:temporal_extent": "2026-01-18T10:30:00Z",
   "tagteam:detection_method": "keyword_pattern_matching",
   "tagteam:matched_markers": ["autonomy", "decide"]
 }
 ```
+
+**Confidence Breakdown:**
+- **extractionConfidence** (0.95): High confidence that "autonomy" and "decide" were correctly identified as keywords
+- **classificationConfidence** (0.85): High confidence that these map to IEE:Autonomy (not political autonomy)
+- **relevanceConfidence** (0.70): Moderate confidence that autonomy is genuinely at stake (not just mentioned in passing)
+- **aggregateConfidence** (0.83): Geometric mean = (0.95 × 0.85 × 0.70)^(1/3)
 
 **Context Intensity Assertion:**
 ```json
