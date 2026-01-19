@@ -54,6 +54,9 @@ const assertionEventBuilderPath = path.join(__dirname, '..', 'src', 'graph', 'As
 const contextManagerPath = path.join(__dirname, '..', 'src', 'graph', 'ContextManager.js');
 const informationStaircaseBuilderPath = path.join(__dirname, '..', 'src', 'graph', 'InformationStaircaseBuilder.js');
 
+// Phase 2: Domain configuration loader
+const domainConfigLoaderPath = path.join(__dirname, '..', 'src', 'graph', 'DomainConfigLoader.js');
+
 // Week 3: SHACL validation and complexity budget
 const shmlValidatorPath = path.join(__dirname, '..', 'src', 'graph', 'SHMLValidator.js');
 const complexityBudgetPath = path.join(__dirname, '..', 'src', 'graph', 'ComplexityBudget.js');
@@ -102,6 +105,9 @@ let assertionEventBuilder = fs.readFileSync(assertionEventBuilderPath, 'utf8');
 let contextManager = fs.readFileSync(contextManagerPath, 'utf8');
 let informationStaircaseBuilder = fs.readFileSync(informationStaircaseBuilderPath, 'utf8');
 
+// Phase 2: Domain config loader
+let domainConfigLoader = fs.readFileSync(domainConfigLoaderPath, 'utf8');
+
 // Week 3 modules
 let shmlValidator = fs.readFileSync(shmlValidatorPath, 'utf8');
 let complexityBudget = fs.readFileSync(complexityBudgetPath, 'utf8');
@@ -119,6 +125,7 @@ console.log(`  ✓ QualityFactory.js (${(qualityFactory.length / 1024).toFixed(2
 console.log(`  ✓ AssertionEventBuilder.js (${(assertionEventBuilder.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ ContextManager.js (${(contextManager.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ InformationStaircaseBuilder.js (${(informationStaircaseBuilder.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ DomainConfigLoader.js (${(domainConfigLoader.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ SHMLValidator.js (${(shmlValidator.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ ComplexityBudget.js (${(complexityBudget.length / 1024).toFixed(2)} KB)`);
 
@@ -282,6 +289,10 @@ console.log('  ✓ Converted SHMLValidator to browser format');
 
 complexityBudget = stripCommonJS(complexityBudget, 'ComplexityBudget');
 console.log('  ✓ Converted ComplexityBudget to browser format');
+
+// Phase 2: Domain config loader
+domainConfigLoader = stripCommonJS(domainConfigLoader, 'DomainConfigLoader');
+console.log('  ✓ Converted DomainConfigLoader to browser format');
 
 // Build the bundle
 console.log('\n🔧 Building bundle...');
@@ -600,6 +611,13 @@ ${shmlValidator}
 ${complexityBudget}
 
   // ============================================================================
+  // DOMAIN CONFIG LOADER (Phase 2 - Domain-Neutral Implementation)
+  // Loads domain-specific type mappings for BFO → CCO specialization
+  // ============================================================================
+
+${domainConfigLoader}
+
+  // ============================================================================
   // SEMANTIC GRAPH BUILDER (Phase 4 - Week 1 + Week 2)
   // ============================================================================
 
@@ -774,7 +792,10 @@ ${semanticGraphBuilder}
 
     // Week 3: SHACL validation and complexity budget
     SHMLValidator: SHMLValidator,
-    ComplexityBudget: ComplexityBudget
+    ComplexityBudget: ComplexityBudget,
+
+    // Phase 2: Domain configuration
+    DomainConfigLoader: DomainConfigLoader
   };
 
   // Return the unified API
