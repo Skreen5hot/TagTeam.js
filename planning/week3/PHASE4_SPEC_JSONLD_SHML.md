@@ -65,13 +65,17 @@ This specification defines a **fundamental architectural shift** for TagTeam 3.0
 
 Every TagTeam detection is an **assertion event** produced by a parsing process, not an ontological fact about reality.
 
-### 1.2 Three-Layer Architecture
+### 1.2 Three-Layer Architecture (Revised)
+
+**IMPORTANT**: JSON-LD is the **native format**. There is no separate LPG implementation.
 
 | Layer | Substrate | Role | TagTeam Implementation |
 |-------|-----------|------|----------------------|
-| **Reality** | BFO/CCO ontologies | Defines what exists | Entity/role extraction from text |
-| **Middle (SHML)** | Labeled Property Graph | Models semantic processes | Assertion events, parser provenance |
-| **Logic** | JSON-LD (@graph) | Materialized projections | Public API output |
+| **Reality** | BFO/CCO ontologies | Defines what exists | Conceptual grounding only |
+| **Middle (SHML)** | JSON-LD @graph | Models semantic processes | Assertion events, discourse referents |
+| **Logic** | JSON-LD @graph | Public API output | Same as middle layer (no projection) |
+
+**Key Change**: The SHML "middle layer" is a **logical layer within JSON-LD**, not a separate data structure.
 
 ### 1.3 Assertions as Occurrents
 
@@ -93,21 +97,22 @@ Following BFO:
 ```
 src/
 ├── graph/
-│   ├── SemanticGraphBuilder.js      # Main orchestrator
-│   ├── EntityExtractor.js            # Extract agents/patients/artifacts
+│   ├── SemanticGraphBuilder.js      # Main orchestrator (builds JSON-LD directly)
+│   ├── EntityExtractor.js            # Extract discourse referents
 │   ├── ActExtractor.js               # Extract intentional acts
 │   ├── RoleDetector.js               # Detect BFO roles being realized
 │   ├── AssertionEventBuilder.js     # Model parser outputs as events
-│   └── JSONLDSerializer.js          # Serialize to JSON-LD
+│   ├── ComplexityBudget.js          # Enforce node/referent limits
+│   └── JSONLDSerializer.js          # Final serialization
 │
 ├── ontology/
 │   ├── CCOMapper.js                  # Map to CCO classes
 │   ├── BFORelations.js               # BFO relation extraction
-│   └── SHMLValidator.js              # SHACL validation
+│   └── SHMLValidator.js              # SHACL validation (uses shaclValidator.js)
 │
-└── middle-layer/
-    ├── ProcessModel.js               # LPG representation
-    └── ProjectionEngine.js           # Generate logic layer views
+└── utils/
+    ├── IRIGenerator.js               # Generate IRIs with namespaces
+    └── TextChunker.js                # Chunk long texts
 ```
 
 ### 2.2 Data Flow
@@ -146,10 +151,11 @@ Output: JSON-LD Graph
     "cco": "http://www.ontologyrepository.com/CommonCoreOntologies/",
     "bfo": "http://purl.obolibrary.org/obo/",
     "tagteam": "http://tagteam.fandaws.org/ontology/",
+    "ex": "http://example.org/tagteam/",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "owl": "http://www.w3.org/2002/07/owl#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "ex": "http://example.org/",
 
     // BFO/CCO Relations
     "is_bearer_of": { "@id": "bfo:BFO_0000053", "@type": "@id" },
@@ -168,47 +174,67 @@ Output: JSON-LD Graph
     "based_on": { "@id": "tagteam:based_on", "@type": "@id" },
     "confidence": { "@id": "tagteam:confidence", "@type": "xsd:decimal" },
     "detected_by": { "@id": "tagteam:detected_by", "@type": "@id" },
-    "temporal_extent": { "@id": "tagteam:temporal_extent", "@type": "xsd:dateTime" }
+    "temporal_extent": { "@id": "tagteam:temporal_extent", "@type": "xsd:dateTime" },
+
+    // DiscourseReferent (NEW)
+    "DiscourseReferent": { "@id": "tagteam:DiscourseReferent" },
+    "presumed_type": { "@id": "tagteam:presumed_type", "@type": "@id" },
+    "extracted_from_span": { "@id": "tagteam:extracted_from_span" },
+    "span_offset": { "@id": "tagteam:span_offset" },
+    "refers_to": { "@id": "tagteam:refers_to", "@type": "@id" }
   }
 }
+
+**Note**: `ex:` namespace (`http://example.org/tagteam/`) is used for discourse referent instances, NOT actual BFO entities.
 ```
 
 ### 3.2 @graph Node Types
 
-#### 3.2.1 Entities (Reality Layer)
+#### 3.2.1 DiscourseReferents (Extracted from Text)
 
-**Agents:**
+**CRITICAL CHANGE**: All text-extracted entities are `tagteam:DiscourseReferent`, NOT BFO entities.
+
+**Agent Referent:**
 ```json
 {
-  "@id": "ex:Doctor_0",
-  "@type": ["owl:NamedIndividual", "cco:Agent"],
-  "rdfs:label": "doctor",
+  "@id": "ex:Doctor_Referent_a8f3b2",
+  "@type": ["tagteam:DiscourseReferent"],
+  "rdfs:label": "doctor (discourse referent)",
   "tagteam:extracted_from_span": "The doctor",
-  "tagteam:span_offset": [0, 10]
+  "tagteam:span_offset": [0, 10],
+  "tagteam:presumed_type": "cco:Agent"
 }
 ```
 
-**Artifacts:**
+**Artifact Referent:**
 ```json
 {
-  "@id": "ex:Ventilator_0",
-  "@type": ["owl:NamedIndividual", "cco:Artifact"],
-  "rdfs:label": "ventilator",
-  "tagteam:is_scarce_resource": true
+  "@id": "ex:Ventilator_Referent_c4d9e1",
+  "@type": ["tagteam:DiscourseReferent"],
+  "rdfs:label": "ventilator (discourse referent)",
+  "tagteam:extracted_from_span": "last ventilator",
+  "tagteam:span_offset": [35, 50],
+  "tagteam:presumed_type": "cco:Artifact",
+  "tagteam:is_scarce": true,
+  "tagteam:quantity": 1
 }
 ```
+
+**Key Principle**: TagTeam extracts discourse referents from text, not actual BFO entities. We don't know if "the doctor" is Dr. Smith or a hypothetical agent.
 
 #### 3.2.2 Roles (BFO Realizables)
 
 ```json
 {
-  "@id": "ex:AgentRole_0",
+  "@id": "ex:AgentRole_b7e4f2",
   "@type": ["owl:NamedIndividual", "bfo:BFO_0000023"],
   "rdfs:label": "agent role",
-  "inheres_in": "ex:Doctor_0",
-  "realized_in": "ex:Allocation_Act_0"
+  "bfo:inheres_in": "ex:Doctor_Referent_a8f3b2",
+  "bfo:realized_in": "ex:Allocation_Act_0"
 }
 ```
+
+**Note**: Roles link to discourse referents (what was mentioned in text), not hypothetical BFO entities.
 
 #### 3.2.3 Acts (Occurrents)
 
@@ -643,23 +669,44 @@ TagTeam.extractContextScores(graph)
 
 ---
 
-## 10. Open Questions for User
+## 10. Architectural Decisions (RESOLVED)
 
-1. **SHACL Shapes**: Please provide the SHACL constraints you mentioned for CCO validation
+**See**: [PHASE4_ANSWERS.md](./PHASE4_ANSWERS.md) for detailed explanations.
 
-2. **CCO Version**: Which version of CCO should we target? (Latest is ~2023)
+### ✓ 1. LPG vs JSON-LD Native Format
+**Decision**: JSON-LD is the native format. No separate LPG implementation.
 
-3. **Namespace Strategy**:
-   - Should we mint IRIs under `tagteam.fandaws.org`?
-   - Or use example.org for instances?
+### ✓ 2. DiscourseReferent Type
+**Decision**: Use `tagteam:DiscourseReferent` for all text-extracted entities.
+- Distinguishes discourse (what was mentioned) from reality (what exists)
+- All entities link to discourse referents, not BFO entities
 
-4. **Complexity Control**:
-   - Maximum nodes per graph? (prevent explosion on long texts)
-   - Should we batch/chunk long documents?
+### ✓ 3. Confidence Scores Precision
+**Decision**: Confidence measures **parser certainty**, not truth.
+- Range: [0.0, 1.0]
+- Breakdown: marker_strength, context_support, ambiguity_penalty
 
-5. **Belief Scopes**:
-   - Phase 4 or Phase 5 feature?
-   - Do we need multi-perspective reasoning immediately?
+### ✓ 4. Fix `realizes` Relation Direction
+**Decision**: Use `bfo:realized_in` from Role → Process only (no redundant inverse).
+
+### ✓ 5. Complexity Budget & Chunking
+**Decision**: Hard limits enforced:
+- Max 200 nodes per graph
+- Max 30 discourse referents
+- Max 50 assertion events
+- Max 2000 characters input
+- Chunking strategy for longer texts
+
+### ✓ 6. Namespace Strategy
+**Decision**: Hybrid approach
+- `http://tagteam.fandaws.org/ontology/` for TagTeam classes
+- `http://example.org/tagteam/` for discourse referent instances
+- CCO/BFO namespaces as standard
+
+### Remaining Open Questions
+
+1. **CCO Version**: Which version to target? (Latest is ~2023)
+2. **Belief Scopes**: Phase 4 or Phase 5 feature?
 
 ---
 
