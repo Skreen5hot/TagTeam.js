@@ -165,6 +165,12 @@ const UNAMBIGUOUS_RESULT_NOUNS = {
   'invention': 'cco:Artifact',
   'decoration': 'cco:Artifact',
   'illustration': 'cco:Artifact',
+  'equipment': 'cco:Artifact',       // Physical tools/devices
+  'instrument': 'cco:Artifact',      // Medical/scientific instrument
+  'garment': 'cco:Artifact',         // Clothing item
+  'pavement': 'cco:Artifact',        // Physical surface
+  'monument': 'cco:Artifact',        // Physical structure
+  'compartment': 'cco:Artifact',     // Physical container/section
 
   // Documents (GDC) - always the document, never the process
   'documentation': 'bfo:BFO_0000031',

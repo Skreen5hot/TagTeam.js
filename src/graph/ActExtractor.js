@@ -9,6 +9,11 @@
  * - All acts have actualityStatus (Prescribed, Actual, Negated, etc.)
  * - Supports negation detection for Negated status
  *
+ * Phase 3: Selectional Restrictions
+ * - Verb sense disambiguation based on direct object ontological type
+ * - "provide care" → ActOfService, "provide medication" → ActOfTransferOfPossession
+ * - Config loader can override restrictions for domain-specific behavior
+ *
  * @module graph/ActExtractor
  * @version 4.0.0-phase4
  */
@@ -114,6 +119,131 @@ const MODALITY_TO_STATUS = {
 };
 
 /**
+ * Selectional Restrictions - Phase 3
+ *
+ * Maps verb + direct object ontological category to specialized act types.
+ * This allows verb sense disambiguation based on what type of thing is being
+ * acted upon.
+ *
+ * Ontological categories:
+ * - objectIsOccurrent: Direct object is a process/event (care, treatment, service)
+ * - objectIsContinuant: Direct object is a physical thing (medication, equipment)
+ * - objectIsGDC: Direct object is information content (advice, data, instructions)
+ * - objectIsPerson: Direct object is a person
+ * - default: Fallback when category cannot be determined
+ *
+ * Based on ONTOLOGICAL_ISSUES_2026_01_19.md v3.1 analysis.
+ */
+const SELECTIONAL_RESTRICTIONS = {
+  'provide': {
+    objectIsOccurrent: 'cco:ActOfService',
+    objectIsContinuant: 'cco:ActOfTransferOfPossession',
+    objectIsGDC: 'cco:ActOfCommunication',
+    objectIsPerson: 'cco:ActOfAssistance',
+    default: 'cco:IntentionalAct'
+  },
+  'give': {
+    objectIsOccurrent: 'cco:ActOfCommunication', // "give a presentation"
+    objectIsContinuant: 'cco:ActOfTransferOfPossession',
+    objectIsGDC: 'cco:ActOfCommunication', // "give advice"
+    objectIsPerson: 'cco:ActOfTransferOfPossession', // "give the patient to..."
+    default: 'cco:ActOfTransferOfPossession'
+  },
+  'offer': {
+    objectIsOccurrent: 'cco:ActOfService',
+    objectIsContinuant: 'cco:ActOfTransferOfPossession',
+    objectIsGDC: 'cco:ActOfCommunication',
+    default: 'cco:ActOfService'
+  },
+  'deliver': {
+    objectIsOccurrent: 'cco:ActOfService', // "deliver care"
+    objectIsContinuant: 'cco:ActOfTransferOfPossession', // "deliver medication"
+    objectIsGDC: 'cco:ActOfCommunication', // "deliver a message"
+    default: 'cco:ActOfTransferOfPossession'
+  },
+  'administer': {
+    objectIsOccurrent: 'cco:ActOfAdministration', // "administer treatment"
+    objectIsContinuant: 'cco:ActOfDrugAdministration', // "administer medication"
+    objectIsGDC: 'cco:ActOfAdministration',
+    default: 'cco:ActOfAdministration'
+  },
+  'allocate': {
+    objectIsOccurrent: 'cco:ActOfAllocation',
+    objectIsContinuant: 'cco:ActOfAllocation',
+    objectIsPerson: 'cco:ActOfAssignment', // "allocate staff"
+    default: 'cco:ActOfAllocation'
+  },
+  'assign': {
+    objectIsOccurrent: 'cco:ActOfAssignment',
+    objectIsContinuant: 'cco:ActOfAssignment',
+    objectIsPerson: 'cco:ActOfAssignment',
+    default: 'cco:ActOfAssignment'
+  },
+  'send': {
+    objectIsOccurrent: 'cco:ActOfCommunication',
+    objectIsContinuant: 'cco:ActOfTransferOfPossession',
+    objectIsGDC: 'cco:ActOfCommunication', // "send information"
+    objectIsPerson: 'cco:ActOfDirecting', // "send the patient"
+    default: 'cco:ActOfCommunication'
+  },
+  'receive': {
+    objectIsOccurrent: 'cco:ActOfReceiving',
+    objectIsContinuant: 'cco:ActOfReceiving',
+    objectIsGDC: 'cco:ActOfReceiving',
+    default: 'cco:ActOfReceiving'
+  },
+  'transfer': {
+    objectIsOccurrent: 'cco:ActOfTransfer',
+    objectIsContinuant: 'cco:ActOfTransferOfPossession',
+    objectIsPerson: 'cco:ActOfPatientTransfer',
+    default: 'cco:ActOfTransfer'
+  }
+};
+
+/**
+ * BFO type categories for selectional restriction matching
+ * Maps denotesType values to ontological categories
+ */
+const TYPE_TO_CATEGORY = {
+  // Occurrents (processes)
+  'bfo:BFO_0000015': 'occurrent',
+  'cco:ActOfCare': 'occurrent',
+  'cco:ActOfMedicalTreatment': 'occurrent',
+  'cco:ActOfSurgery': 'occurrent',
+  'cco:ActOfMedicalProcedure': 'occurrent',
+  'cco:ActOfExamination': 'occurrent',
+  'cco:ActOfDiagnosis': 'occurrent',
+  'cco:ActOfService': 'occurrent',
+  'cco:ActOfAssistance': 'occurrent',
+  'cco:ActOfIntervention': 'occurrent',
+  'cco:ActOfCommunication': 'occurrent',
+  'cco:ActOfRehabilitation': 'occurrent',
+  'cco:ActOfResuscitation': 'occurrent',
+
+  // Independent Continuants (physical things)
+  'bfo:BFO_0000040': 'continuant',
+  'cco:Artifact': 'continuant',
+  'cco:BodyPart': 'continuant',
+  'cco:DrugProduct': 'continuant',
+  'cco:MedicalDevice': 'continuant',
+
+  // Persons
+  'cco:Person': 'person',
+  'cco:GroupOfPersons': 'person',
+  'cco:Patient': 'person',
+  'cco:Physician': 'person',
+  'cco:Nurse': 'person',
+
+  // Organizations (treated as continuant for selectional purposes)
+  'cco:Organization': 'continuant',
+  'cco:Hospital': 'continuant',
+
+  // Generically Dependent Continuants (information)
+  'bfo:BFO_0000031': 'gdc',
+  'cco:InformationContentEntity': 'gdc'
+};
+
+/**
  * ActExtractor class - extracts acts and creates IntentionalAct nodes
  *
  * Two-Tier Architecture (v2.2):
@@ -176,8 +306,11 @@ class ActExtractor {
       // Get span offset
       const offset = this._getSpanOffset(text, verbText, index);
 
-      // Determine CCO act type
-      const actType = this._determineActType(infinitive);
+      // Phase 3: Get direct object type for selectional restrictions
+      const directObjectType = this._getDirectObjectType(offset, entities);
+
+      // Determine CCO act type (with selectional restrictions if object type available)
+      const actType = this._determineActType(infinitive, { directObjectType });
 
       // Detect modality
       const modality = this._detectModality(verbData);
@@ -222,11 +355,28 @@ class ActExtractor {
 
   /**
    * Determine CCO act type from verb infinitive
+   *
+   * Phase 3: Now supports selectional restrictions - if direct object type
+   * is provided, uses it to disambiguate verb sense.
+   *
    * @param {string} infinitive - Verb infinitive form
+   * @param {Object} [context] - Optional context for selectional restrictions
+   * @param {string} [context.directObjectType] - BFO/CCO type of direct object
    * @returns {string} CCO act type IRI
    */
-  _determineActType(infinitive) {
+  _determineActType(infinitive, context = {}) {
     const lowerInf = infinitive.toLowerCase().trim();
+
+    // Phase 3: Apply selectional restrictions if direct object type available
+    if (context.directObjectType) {
+      const restrictedType = this._applySelectionalRestrictions(
+        lowerInf,
+        context.directObjectType
+      );
+      if (restrictedType) {
+        return restrictedType;
+      }
+    }
 
     // Check for known mappings
     if (VERB_TO_CCO_MAPPINGS[lowerInf]) {
@@ -234,6 +384,142 @@ class ActExtractor {
     }
 
     return VERB_TO_CCO_MAPPINGS['_default'];
+  }
+
+  /**
+   * Apply selectional restrictions based on verb and direct object type
+   *
+   * Phase 3: Verb sense disambiguation based on what type of thing is
+   * being acted upon.
+   *
+   * @param {string} verb - Verb infinitive (lowercase)
+   * @param {string} objectType - BFO/CCO type of direct object
+   * @returns {string|null} Specialized act type or null if no restriction applies
+   * @private
+   */
+  _applySelectionalRestrictions(verb, objectType) {
+    // First check config loader for domain-specific overrides
+    if (this.configLoader && this.configLoader.isConfigLoaded()) {
+      const category = this._getOntologicalCategory(objectType);
+      const configOverride = this.configLoader.getVerbOverride(verb, category);
+      if (configOverride) {
+        return configOverride;
+      }
+    }
+
+    // Check core selectional restrictions
+    const restrictions = SELECTIONAL_RESTRICTIONS[verb];
+    if (!restrictions) {
+      return null; // No restrictions for this verb
+    }
+
+    // Determine ontological category of direct object
+    const category = this._getOntologicalCategory(objectType);
+
+    // Map category to restriction key
+    const categoryToKey = {
+      'occurrent': 'objectIsOccurrent',
+      'continuant': 'objectIsContinuant',
+      'gdc': 'objectIsGDC',
+      'person': 'objectIsPerson'
+    };
+
+    const restrictionKey = categoryToKey[category];
+    if (restrictionKey && restrictions[restrictionKey]) {
+      return restrictions[restrictionKey];
+    }
+
+    // TD-007: Return default if available, otherwise null
+    if (restrictions.default) {
+      return restrictions.default;
+    }
+
+    return null;
+  }
+
+  /**
+   * Get ontological category from a BFO/CCO type
+   *
+   * @param {string} type - BFO/CCO type IRI
+   * @returns {string} Category: 'occurrent', 'continuant', 'gdc', 'person', or 'unknown'
+   * @private
+   */
+  _getOntologicalCategory(type) {
+    // Check direct mapping
+    if (TYPE_TO_CATEGORY[type]) {
+      return TYPE_TO_CATEGORY[type];
+    }
+
+    // Heuristic fallbacks based on type name patterns
+    const lowerType = type.toLowerCase();
+
+    // Occurrents (processes/acts)
+    if (lowerType.includes('act') || lowerType.includes('process') ||
+        lowerType.includes('event') || lowerType.includes('bfo_0000015')) {
+      return 'occurrent';
+    }
+
+    // Persons
+    if (lowerType.includes('person') || lowerType.includes('patient') ||
+        lowerType.includes('physician') || lowerType.includes('nurse') ||
+        lowerType.includes('agent')) {
+      return 'person';
+    }
+
+    // GDC (information entities)
+    if (lowerType.includes('information') || lowerType.includes('document') ||
+        lowerType.includes('bfo_0000031')) {
+      return 'gdc';
+    }
+
+    // Default to continuant (physical things)
+    return 'continuant';
+  }
+
+  /**
+   * Get the direct object type from entities near the verb
+   *
+   * Phase 3: Finds the entity immediately after the verb and returns
+   * its denotesType for selectional restriction matching.
+   *
+   * @param {number} verbOffset - Character offset of verb in text
+   * @param {Array} entities - Available entities (Tier 1 referents)
+   * @returns {string|null} Direct object's denotesType or null
+   * @private
+   */
+  _getDirectObjectType(verbOffset, entities) {
+    if (!entities || entities.length === 0) {
+      return null;
+    }
+
+    // Filter to only Tier 1 DiscourseReferents
+    const referents = entities.filter(e =>
+      e['@type'] && e['@type'].includes('tagteam:DiscourseReferent')
+    );
+
+    if (referents.length === 0) {
+      return null;
+    }
+
+    // Find entities after the verb
+    const entitiesAfter = referents.filter(entity => {
+      const entityStart = this._getEntityStart(entity);
+      return entityStart > verbOffset;
+    });
+
+    if (entitiesAfter.length === 0) {
+      return null;
+    }
+
+    // Get the closest entity after the verb (likely direct object)
+    const directObject = entitiesAfter.reduce((closest, entity) => {
+      const entityStart = this._getEntityStart(entity);
+      const closestStart = this._getEntityStart(closest);
+      return entityStart < closestStart ? entity : closest;
+    });
+
+    // Return its denotesType
+    return directObject['tagteam:denotesType'] || null;
   }
 
   /**
