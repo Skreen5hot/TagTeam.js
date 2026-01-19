@@ -1,0 +1,743 @@
+{
+  "timestamp": "2026-01-19T16:32:20.059Z",
+  "version": "4.0.0-phase4-week3",
+  "summary": {
+    "total": 21,
+    "validJSON": 21,
+    "validJSONLD": 21,
+    "shaclCompliant": 21,
+    "complianceRate": "100%",
+    "avgComplianceScore": "70%",
+    "avgNodeCount": 14,
+    "avgParseTime": "104ms",
+    "totalViolations": 0,
+    "totalWarnings": 86
+  },
+  "acceptanceCriteria": [
+    {
+      "id": "AC-W3.1",
+      "description": "All scenarios produce valid JSON-LD",
+      "target": 100,
+      "actual": 100,
+      "pass": true
+    },
+    {
+      "id": "AC-W3.2",
+      "description": "SHACL compliance rate >= 90%",
+      "target": 90,
+      "actual": 100,
+      "pass": true
+    },
+    {
+      "id": "AC-W3.3",
+      "description": "Average compliance score >= 80%",
+      "target": 80,
+      "actual": 70,
+      "pass": false
+    },
+    {
+      "id": "AC-W3.5",
+      "description": "Parse time < 300ms",
+      "target": 300,
+      "actual": 104,
+      "pass": true
+    },
+    {
+      "id": "AC-W3.6",
+      "description": "Average nodes < 200",
+      "target": 200,
+      "actual": 14,
+      "pass": true
+    }
+  ],
+  "violationsByPattern": {},
+  "warningsByPattern": {
+    "InformationStaircase": 16,
+    "SocioPrimalPattern": 35,
+    "VocabularyValidation": 18,
+    "RolePattern": 17
+  },
+  "scenarios": [
+    {
+      "id": "healthcare-001",
+      "domain": "healthcare",
+      "title": "End of Life Decision",
+      "text": "The family must decide whether to continue treatment",
+      "validJSON": true,
+      "validJSONLD": true,
+      "shaclCompliant": true,
+      "complianceScore": 77,
+      "violations": [],
+      "warnings": [
+        {
+          "pattern": "InformationStaircase",
+          "message": "ICE node inst:Directive_Must_c51b8ccd96b9 has no is_concretized_by link to IBE"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Decide_IntentionalAct_0adf7a0f3f95 has no temporal grounding"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown class: cco:ActOfDecision"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown class: tagteam:DeonticContent"
+        }
+      ],
+      "nodeCount": 11,
+      "parseTime": 1418,
+      "error": null
+    },
+    {
+      "id": "healthcare-002",
+      "domain": "healthcare",
+      "title": "Triage in Resource Scarcity",
+      "text": "The doctor must allocate the last ventilator between two critically ill patients",
+      "validJSON": true,
+      "validJSONLD": true,
+      "shaclCompliant": true,
+      "complianceScore": 59,
+      "violations": [],
+      "warnings": [
+        {
+          "pattern": "InformationStaircase",
+          "message": "ICE node inst:ScarcityAssertion_The_Last_Ventilator_7f34eaca1ccf has no is_concretized_by link to IBE"
+        },
+        {
+          "pattern": "InformationStaircase",
+          "message": "ICE node inst:ScarcityAssertion_Two_Critically_Ill_5d67a7679624 has no is_concretized_by link to IBE"
+        },
+        {
+          "pattern": "InformationStaircase",
+          "message": "ICE node inst:Directive_Must_afa1f8b820a1 has no is_concretized_by link to IBE"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Allocate_IntentionalAct_c52f373d7e76 has no temporal grounding"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: tagteam:is_scarce"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: tagteam:scarcity_marker"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: tagteam:is_scarce"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: tagteam:scarcity_marker"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown class: cco:ActOfAllocation"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown class: tagteam:DeonticContent"
+        }
+      ],
+      "nodeCount": 22,
+      "parseTime": 70,
+      "error": null
+    },
+    {
+      "id": "healthcare-003",
+      "domain": "healthcare",
+      "title": "Medical Error Disclosure",
+      "text": "The surgeon must decide whether to disclose the error to the patient",
+      "validJSON": true,
+      "validJSONLD": true,
+      "shaclCompliant": true,
+      "complianceScore": 78,
+      "violations": [],
+      "warnings": [
+        {
+          "pattern": "InformationStaircase",
+          "message": "ICE node inst:Directive_Must_56d60e0e8873 has no is_concretized_by link to IBE"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Decide_IntentionalAct_b56cb7b42697 has no temporal grounding"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown class: cco:ActOfDecision"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown class: tagteam:DeonticContent"
+        }
+      ],
+      "nodeCount": 18,
+      "parseTime": 44,
+      "error": null
+    },
+    {
+      "id": "healthcare-004",
+      "domain": "healthcare",
+      "title": "Experimental Treatment",
+      "text": "The parents are demanding an unproven treatment for their dying child",
+      "validJSON": true,
+      "validJSONLD": true,
+      "shaclCompliant": true,
+      "complianceScore": 59,
+      "violations": [],
+      "warnings": [
+        {
+          "pattern": "InformationStaircase",
+          "message": "IBE node inst:Input_Text_IBE_a7095e8dea3c does not concretize any ICE"
+        },
+        {
+          "pattern": "RolePattern",
+          "message": "Role inst:Agent_Role_2415c323 is not realized by any process"
+        },
+        {
+          "pattern": "RolePattern",
+          "message": "Role inst:Patient_Role_15848609 is not realized by any process"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Demand_IntentionalAct_1f95be46b935 has no temporal grounding"
+        }
+      ],
+      "nodeCount": 11,
+      "parseTime": 42,
+      "error": null
+    },
+    {
+      "id": "healthcare-005",
+      "domain": "healthcare",
+      "title": "Psychiatric Hold",
+      "text": "The psychiatrist must decide whether to commit the patient against their will",
+      "validJSON": true,
+      "validJSONLD": true,
+      "shaclCompliant": true,
+      "complianceScore": 76,
+      "violations": [],
+      "warnings": [
+        {
+          "pattern": "InformationStaircase",
+          "message": "ICE node inst:Directive_Must_b4a0f92fa80c has no is_concretized_by link to IBE"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Decide_IntentionalAct_e971dc3fdb8f has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Will_IntentionalAct_b0d82b4ace59 has no temporal grounding"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown class: cco:ActOfDecision"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown class: tagteam:DeonticContent"
+        }
+      ],
+      "nodeCount": 18,
+      "parseTime": 39,
+      "error": null
+    },
+    {
+      "id": "spiritual-001",
+      "domain": "spiritual",
+      "title": "Leaving Faith Community",
+      "text": "I am questioning core doctrines",
+      "validJSON": true,
+      "validJSONLD": true,
+      "shaclCompliant": true,
+      "complianceScore": 63,
+      "violations": [],
+      "warnings": [
+        {
+          "pattern": "InformationStaircase",
+          "message": "IBE node inst:Input_Text_IBE_36883b204536 does not concretize any ICE"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Question_IntentionalAct_6f5a0e702974 has no temporal grounding"
+        }
+      ],
+      "nodeCount": 8,
+      "parseTime": 43,
+      "error": null
+    },
+    {
+      "id": "spiritual-002",
+      "domain": "spiritual",
+      "title": "Religious Conversion and Family",
+      "text": "I am converting to a religion that my parents believe will damn my soul",
+      "validJSON": true,
+      "validJSONLD": true,
+      "shaclCompliant": true,
+      "complianceScore": 68,
+      "violations": [],
+      "warnings": [
+        {
+          "pattern": "InformationStaircase",
+          "message": "ICE node inst:Directive_Will_73168183aa1f has no is_concretized_by link to IBE"
+        },
+        {
+          "pattern": "RolePattern",
+          "message": "Role inst:Patient_Role_f637d8f3 is not realized by any process"
+        },
+        {
+          "pattern": "RolePattern",
+          "message": "Role inst:Participant_Role_52184ced is not realized by any process"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Convert_IntentionalAct_97be98b3bc6e has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Damn_IntentionalAct_27e6b269c1b0 has no temporal grounding"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown class: tagteam:DeonticContent"
+        }
+      ],
+      "nodeCount": 18,
+      "parseTime": 35,
+      "error": null
+    },
+    {
+      "id": "spiritual-003",
+      "domain": "spiritual",
+      "title": "Sabbath Conflict",
+      "text": "I must choose between honoring my Sabbath and keeping my job",
+      "validJSON": true,
+      "validJSONLD": true,
+      "shaclCompliant": true,
+      "complianceScore": 67,
+      "violations": [],
+      "warnings": [
+        {
+          "pattern": "InformationStaircase",
+          "message": "ICE node inst:Directive_Must_b54179f270a8 has no is_concretized_by link to IBE"
+        },
+        {
+          "pattern": "RolePattern",
+          "message": "Role inst:Participant_Role_315409a7 is not realized by any process"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Choose_IntentionalAct_c6584e5533b2 has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Honor_IntentionalAct_8d984573dc89 has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Keep_IntentionalAct_83218f12c877 has no temporal grounding"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown class: cco:ActOfDecision"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown class: tagteam:DeonticContent"
+        }
+      ],
+      "nodeCount": 16,
+      "parseTime": 32,
+      "error": null
+    },
+    {
+      "id": "spiritual-004",
+      "domain": "spiritual",
+      "title": "Clergy Sexual Abuse Cover-up",
+      "text": "I discovered that church leadership is covering up abuse allegations",
+      "validJSON": true,
+      "validJSONLD": true,
+      "shaclCompliant": true,
+      "complianceScore": 77,
+      "violations": [],
+      "warnings": [
+        {
+          "pattern": "RolePattern",
+          "message": "Role inst:Participant_Role_ada2fb03 is not realized by any process"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Discover_IntentionalAct_dfc78d09b6e3 has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Cover_IntentionalAct_8ef647878795 has no temporal grounding"
+        }
+      ],
+      "nodeCount": 13,
+      "parseTime": 41,
+      "error": null
+    },
+    {
+      "id": "spiritual-005",
+      "domain": "spiritual",
+      "title": "Prayer vs Medical Treatment",
+      "text": "I must decide whether to follow my faith's rejection of medicine or seek treatment for my child",
+      "validJSON": true,
+      "validJSONLD": true,
+      "shaclCompliant": true,
+      "complianceScore": 71,
+      "violations": [],
+      "warnings": [
+        {
+          "pattern": "InformationStaircase",
+          "message": "ICE node inst:Directive_Must_02f83029aa61 has no is_concretized_by link to IBE"
+        },
+        {
+          "pattern": "RolePattern",
+          "message": "Role inst:Patient_Role_d66e2502 is not realized by any process"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Decide_IntentionalAct_cd8633b98ca8 has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Seek_IntentionalAct_a14c95d2c102 has no temporal grounding"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown class: cco:ActOfDecision"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown class: tagteam:DeonticContent"
+        }
+      ],
+      "nodeCount": 19,
+      "parseTime": 41,
+      "error": null
+    },
+    {
+      "id": "vocational-001",
+      "domain": "vocational",
+      "title": "Whistleblowing Decision",
+      "text": "I discovered that my company is falsifying safety reports",
+      "validJSON": true,
+      "validJSONLD": true,
+      "shaclCompliant": true,
+      "complianceScore": 75,
+      "violations": [],
+      "warnings": [
+        {
+          "pattern": "RolePattern",
+          "message": "Role inst:Participant_Role_53676dab is not realized by any process"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Discover_IntentionalAct_dfc78d09b6e3 has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Falsify_IntentionalAct_ac4490177bb2 has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Report_IntentionalAct_10357e84645e has no temporal grounding"
+        }
+      ],
+      "nodeCount": 14,
+      "parseTime": 56,
+      "error": null
+    },
+    {
+      "id": "vocational-002",
+      "domain": "vocational",
+      "title": "Resume Embellishment",
+      "text": "I am considering exaggerating my credentials to get the job",
+      "validJSON": true,
+      "validJSONLD": true,
+      "shaclCompliant": true,
+      "complianceScore": 77,
+      "violations": [],
+      "warnings": [
+        {
+          "pattern": "RolePattern",
+          "message": "Role inst:Participant_Role_3de6710a is not realized by any process"
+        },
+        {
+          "pattern": "RolePattern",
+          "message": "Role inst:Participant_Role_20a408fa is not realized by any process"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Consider_IntentionalAct_e9644cb5b279 has no temporal grounding"
+        }
+      ],
+      "nodeCount": 14,
+      "parseTime": 31,
+      "error": null
+    },
+    {
+      "id": "vocational-003",
+      "domain": "vocational",
+      "title": "Credit Theft",
+      "text": "My supervisor is claiming credit for my work",
+      "validJSON": true,
+      "validJSONLD": true,
+      "shaclCompliant": true,
+      "complianceScore": 61,
+      "violations": [],
+      "warnings": [
+        {
+          "pattern": "InformationStaircase",
+          "message": "IBE node inst:Input_Text_IBE_2bfcea729bee does not concretize any ICE"
+        },
+        {
+          "pattern": "RolePattern",
+          "message": "Role inst:Participant_Role_6511ca3b is not realized by any process"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Claim_IntentionalAct_3c2d1c4c707f has no temporal grounding"
+        }
+      ],
+      "nodeCount": 11,
+      "parseTime": 20,
+      "error": null
+    },
+    {
+      "id": "vocational-004",
+      "domain": "vocational",
+      "title": "Discriminatory Hiring",
+      "text": "Management is instructing me to discriminate in hiring",
+      "validJSON": true,
+      "validJSONLD": true,
+      "shaclCompliant": true,
+      "complianceScore": 61,
+      "violations": [],
+      "warnings": [
+        {
+          "pattern": "InformationStaircase",
+          "message": "IBE node inst:Input_Text_IBE_e596070fee5d does not concretize any ICE"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Instruct_IntentionalAct_c2b8ef889e1c has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Hire_IntentionalAct_aa99f99fb605 has no temporal grounding"
+        }
+      ],
+      "nodeCount": 8,
+      "parseTime": 26,
+      "error": null
+    },
+    {
+      "id": "vocational-005",
+      "domain": "vocational",
+      "title": "Environmental vs Economic",
+      "text": "I can increase profits by using environmentally damaging waste disposal methods",
+      "validJSON": true,
+      "validJSONLD": true,
+      "shaclCompliant": true,
+      "complianceScore": 77,
+      "violations": [],
+      "warnings": [
+        {
+          "pattern": "InformationStaircase",
+          "message": "ICE node inst:Directive_Can_1cc6706d9297 has no is_concretized_by link to IBE"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Increase_IntentionalAct_c186b79996bf has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Damage_IntentionalAct_42720e32b2a3 has no temporal grounding"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown class: tagteam:DeonticContent"
+        }
+      ],
+      "nodeCount": 14,
+      "parseTime": 30,
+      "error": null
+    },
+    {
+      "id": "interpersonal-001",
+      "domain": "interpersonal",
+      "title": "Friend's Infidelity",
+      "text": "My best friend is cheating on their spouse",
+      "validJSON": true,
+      "validJSONLD": true,
+      "shaclCompliant": true,
+      "complianceScore": 63,
+      "violations": [],
+      "warnings": [
+        {
+          "pattern": "InformationStaircase",
+          "message": "IBE node inst:Input_Text_IBE_c2efcf40f8ba does not concretize any ICE"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Cheat_IntentionalAct_13cff7ff913a has no temporal grounding"
+        }
+      ],
+      "nodeCount": 8,
+      "parseTime": 53,
+      "error": null
+    },
+    {
+      "id": "interpersonal-002",
+      "domain": "interpersonal",
+      "title": "Honest Feedback",
+      "text": "My friend is asking for honest feedback about work I think is bad",
+      "validJSON": true,
+      "validJSONLD": true,
+      "shaclCompliant": true,
+      "complianceScore": 77,
+      "violations": [],
+      "warnings": [
+        {
+          "pattern": "RolePattern",
+          "message": "Role inst:Participant_Role_888e178a is not realized by any process"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Ask_IntentionalAct_ee8864856b5e has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Think_IntentionalAct_58ae74d82f42 has no temporal grounding"
+        }
+      ],
+      "nodeCount": 17,
+      "parseTime": 33,
+      "error": null
+    },
+    {
+      "id": "interpersonal-003",
+      "domain": "interpersonal",
+      "title": "Inheritance Conflict",
+      "text": "I could claim more inheritance than I deserve through a legal loophole",
+      "validJSON": true,
+      "validJSONLD": true,
+      "shaclCompliant": true,
+      "complianceScore": 77,
+      "violations": [],
+      "warnings": [
+        {
+          "pattern": "RolePattern",
+          "message": "Role inst:Participant_Role_4a4a1d97 is not realized by any process"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Inheritance_IntentionalAct_b5790c8dd98f has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Deserve_IntentionalAct_e53dac67ff16 has no temporal grounding"
+        }
+      ],
+      "nodeCount": 14,
+      "parseTime": 24,
+      "error": null
+    },
+    {
+      "id": "interpersonal-004",
+      "domain": "interpersonal",
+      "title": "Intervention for Addiction",
+      "text": "I am considering forcing my adult child into addiction treatment",
+      "validJSON": true,
+      "validJSONLD": true,
+      "shaclCompliant": true,
+      "complianceScore": 79,
+      "violations": [],
+      "warnings": [
+        {
+          "pattern": "RolePattern",
+          "message": "Role inst:Patient_Role_0790d125 is not realized by any process"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Consider_IntentionalAct_e9644cb5b279 has no temporal grounding"
+        }
+      ],
+      "nodeCount": 14,
+      "parseTime": 24,
+      "error": null
+    },
+    {
+      "id": "interpersonal-005",
+      "domain": "interpersonal",
+      "title": "Domestic Violence Reporting",
+      "text": "I suspect my neighbor is being abused but they deny it",
+      "validJSON": true,
+      "validJSONLD": true,
+      "shaclCompliant": true,
+      "complianceScore": 71,
+      "violations": [],
+      "warnings": [
+        {
+          "pattern": "RolePattern",
+          "message": "Role inst:Participant_Role_e3ad1425 is not realized by any process"
+        },
+        {
+          "pattern": "RolePattern",
+          "message": "Role inst:Participant_Role_52a4bb08 is not realized by any process"
+        },
+        {
+          "pattern": "RolePattern",
+          "message": "Role inst:Participant_Role_ccaa5d72 is not realized by any process"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Suspect_IntentionalAct_bcc0d144e9ea has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Abuse_IntentionalAct_0d51af076284 has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Deny_IntentionalAct_297614b97b95 has no temporal grounding"
+        }
+      ],
+      "nodeCount": 20,
+      "parseTime": 32,
+      "error": null
+    },
+    {
+      "id": "environmental-001",
+      "domain": "environmental",
+      "title": "Climate Action vs Economic Impact",
+      "text": "Our town's largest employer, a coal plant, must close to meet climate goals.",
+      "validJSON": true,
+      "validJSONLD": true,
+      "shaclCompliant": true,
+      "complianceScore": 63,
+      "violations": [],
+      "warnings": [
+        {
+          "pattern": "InformationStaircase",
+          "message": "IBE node inst:Input_Text_IBE_3fcb9d670703 does not concretize any ICE"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Must_Close_IntentionalAct_dfebb78ec62d has no temporal grounding"
+        }
+      ],
+      "nodeCount": 10,
+      "parseTime": 52,
+      "error": null
+    }
+  ],
+  "allPass": false
+}
