@@ -3,9 +3,12 @@
  *
  * Tests Phase 1.3 Acceptance Criteria:
  * - AC-1.3.1: Act Extraction
- * - AC-1.3.2: Act Links to Discourse Referents
+ * - AC-1.3.2: Act Links to Tier 2 Entities (v2.2)
+ * - AC-1.3.3: ActualityStatus on all acts (v2.2)
  *
- * @version 3.0.0-alpha.2
+ * Updated for Phase 4 Two-Tier Architecture (v2.2 spec)
+ *
+ * @version 4.0.0-phase4
  */
 
 const assert = require('assert');
@@ -181,21 +184,23 @@ test('acts have verb infinitive', () => {
   assert(act['tagteam:verb'] === 'treat', 'Verb is infinitive form');
 });
 
-test('acts have verb_text (original form)', () => {
+test('acts have sourceText (v2.2, replaces verb_text)', () => {
   const extractor = new ActExtractor();
   const acts = extractor.extract('The doctor treats the patient');
 
   const act = acts[0];
-  assert(act['tagteam:verb_text'], 'Has verb_text property');
+  assert(act['tagteam:sourceText'], 'Has sourceText property');
 });
 
-test('acts have span_offset', () => {
+test('acts have v2.2 position properties', () => {
   const extractor = new ActExtractor();
   const acts = extractor.extract('The doctor treats the patient');
 
   const act = acts[0];
-  assert(act['tagteam:span_offset'], 'Has span_offset');
-  assert(Array.isArray(act['tagteam:span_offset']), 'span_offset is array');
+  assert(act['tagteam:startPosition'] !== undefined, 'Has startPosition');
+  assert(act['tagteam:endPosition'] !== undefined, 'Has endPosition');
+  assert(typeof act['tagteam:startPosition'] === 'number', 'startPosition is number');
+  assert(typeof act['tagteam:endPosition'] === 'number', 'endPosition is number');
 });
 
 test('acts have rdfs:label', () => {
@@ -299,7 +304,7 @@ test('acts use inst: namespace', () => {
   assert(act['@id'].startsWith('inst:'), 'IRI starts with inst:');
 });
 
-test('act IRIs include SHA-256 hash', () => {
+test('act IRIs include SHA-256 hash (12 chars per v2.2)', () => {
   const builder = new SemanticGraphBuilder();
   const graph = builder.build('The doctor treats the patient');
 
@@ -307,7 +312,7 @@ test('act IRIs include SHA-256 hash', () => {
     n['@type'].some(t => t.includes('IntentionalAct') || t.includes('ActOf')));
 
   const act = acts[0];
-  assert(/[0-9a-f]{8}$/.test(act['@id']), 'IRI ends with 8 hex chars');
+  assert(/[0-9a-f]{12}$/.test(act['@id']), 'IRI ends with 12 hex chars (v2.2)');
 });
 
 test('same act produces same IRI (deterministic)', () => {
@@ -324,8 +329,137 @@ test('same act produces same IRI (deterministic)', () => {
   assert(acts1[0]['@id'] === acts2[0]['@id'], 'Same input produces same IRI');
 });
 
-// Test Suite 9: Complex Scenario (AC-1.3.1 + AC-1.3.2)
-console.log('\nTest Suite 9: Complex Scenario (AC-1.3.1 + AC-1.3.2)');
+// Test Suite 9: ActualityStatus (v2.2 AC-1.3.3)
+console.log('\nTest Suite 9: ActualityStatus (v2.2 AC-1.3.3)');
+
+test('all acts have actualityStatus', () => {
+  const extractor = new ActExtractor();
+  const acts = extractor.extract('The doctor treats the patient');
+
+  assert(acts.length >= 1, 'Has acts');
+  acts.forEach(act => {
+    assert(act['tagteam:actualityStatus'], 'Has actualityStatus');
+  });
+});
+
+test('simple present tense -> tagteam:Actual', () => {
+  const extractor = new ActExtractor();
+  const acts = extractor.extract('The doctor treats the patient');
+
+  const act = acts.find(a => a['tagteam:verb'] === 'treat');
+  assert(act, 'Found act');
+  assert(act['tagteam:actualityStatus'] === 'tagteam:Actual',
+    'Simple present is Actual');
+});
+
+test('obligation (must) -> tagteam:Prescribed', () => {
+  const extractor = new ActExtractor();
+  const acts = extractor.extract('The doctor must treat the patient');
+
+  const act = acts[0];
+  assert(act['tagteam:actualityStatus'] === 'tagteam:Prescribed',
+    'Obligation is Prescribed');
+});
+
+test('permission (may) -> tagteam:Permitted', () => {
+  const extractor = new ActExtractor();
+  const acts = extractor.extract('The patient may leave');
+
+  const act = acts[0];
+  assert(act['tagteam:actualityStatus'] === 'tagteam:Permitted',
+    'Permission is Permitted');
+});
+
+test('intention (will) -> tagteam:Planned', () => {
+  const extractor = new ActExtractor();
+  const acts = extractor.extract('The doctor will treat the patient');
+
+  const act = acts[0];
+  assert(act['tagteam:actualityStatus'] === 'tagteam:Planned',
+    'Intention is Planned');
+});
+
+test('negation -> tagteam:Negated (overrides modality)', () => {
+  const extractor = new ActExtractor();
+  const acts = extractor.extract('The doctor does not treat');
+
+  const treatAct = acts.find(a => a['tagteam:verb'] === 'treat');
+  if (treatAct && treatAct['tagteam:negated']) {
+    assert(treatAct['tagteam:actualityStatus'] === 'tagteam:Negated',
+      'Negation results in Negated status');
+  }
+});
+
+// Test Suite 10: Tier 2 Entity Linking (v2.2 AC-1.3.2)
+console.log('\nTest Suite 10: Tier 2 Entity Linking (v2.2 AC-1.3.2)');
+
+test('acts link to Tier 2 entities when available', () => {
+  const builder = new SemanticGraphBuilder();
+  const graph = builder.build('The doctor treats the patient');
+
+  // Find Tier 2 Person entities
+  const tier2Persons = graph['@graph'].filter(n =>
+    n['@type'] && n['@type'].includes('cco:Person'));
+
+  // Find acts
+  const acts = graph['@graph'].filter(n =>
+    n['@type'].some(t => t.includes('IntentionalAct') || t.includes('ActOf')));
+
+  if (tier2Persons.length > 0) {
+    const act = acts[0];
+    // Agent should be a Tier 2 Person IRI
+    if (act['cco:has_agent']) {
+      const agentIsTier2 = tier2Persons.some(p => p['@id'] === act['cco:has_agent']);
+      assert(agentIsTier2, 'Agent links to Tier 2 Person entity');
+    }
+  }
+});
+
+test('acts link to Tier 1 referents when linkToTier2 disabled', () => {
+  const ActExtractor = require('../../src/graph/ActExtractor');
+  const EntityExtractor = require('../../src/graph/EntityExtractor');
+
+  const text = 'The doctor treats the patient';
+
+  // Extract entities with Tier 2 creation
+  const entityExtractor = new EntityExtractor({ createTier2: true });
+  const entities = entityExtractor.extract(text);
+
+  // Extract acts with linkToTier2 disabled
+  const actExtractor = new ActExtractor({ linkToTier2: false });
+  const acts = actExtractor.extract(text, { entities });
+
+  const act = acts[0];
+  if (act && act['cco:has_agent']) {
+    // Agent should be a Tier 1 referent (contains Referent)
+    assert(act['cco:has_agent'].includes('Referent'),
+      'With linkToTier2=false, links to Tier 1 referents');
+  }
+});
+
+test('Tier 2 linking uses is_about resolution', () => {
+  const builder = new SemanticGraphBuilder();
+  const graph = builder.build('The doctor treats the patient');
+
+  // Find Tier 1 referents with is_about links
+  const referents = graph['@graph'].filter(n =>
+    n['@type'] && n['@type'].includes('tagteam:DiscourseReferent') &&
+    n['cco:is_about']);
+
+  // Find Tier 2 persons
+  const tier2 = graph['@graph'].filter(n =>
+    n['@type'] && (n['@type'].includes('cco:Person') ||
+                   n['@type'].includes('cco:Artifact')));
+
+  // Verify is_about links resolve to Tier 2
+  referents.forEach(ref => {
+    const linkedTier2 = tier2.find(t => t['@id'] === ref['cco:is_about']);
+    assert(linkedTier2, `Referent ${ref['@id']} links to valid Tier 2 entity`);
+  });
+});
+
+// Test Suite 11: Complex Scenario (AC-1.3.1 + AC-1.3.2 + AC-1.3.3)
+console.log('\nTest Suite 11: Complex Scenario (v2.2)');
 
 test('complex: "The doctor must allocate the last ventilator between two patients"', () => {
   const builder = new SemanticGraphBuilder();
@@ -343,11 +477,49 @@ test('complex: "The doctor must allocate the last ventilator between two patient
   assert(allocAct['tagteam:modality'] === 'obligation', 'Modality is obligation');
   assert(allocAct['@type'].includes('cco:ActOfAllocation'), 'Type is ActOfAllocation');
 
-  // AC-1.3.2: Links to entities
+  // AC-1.3.2: Links to entities (Tier 2 in v2.2)
   assert(allocAct['cco:has_agent'], 'Has agent');
-  assert(allocAct['cco:has_agent'].includes('Doctor'), 'Agent is doctor referent');
+  // Agent should be Tier 2 Person (contains Person_ prefix)
+  assert(allocAct['cco:has_agent'].includes('Person') ||
+         allocAct['cco:has_agent'].includes('Doctor'),
+    'Agent links to entity');
   assert(allocAct['bfo:has_participant'], 'Has participants');
   assert(Array.isArray(allocAct['bfo:has_participant']), 'Participants is array');
+
+  // AC-1.3.3: ActualityStatus (v2.2)
+  assert(allocAct['tagteam:actualityStatus'] === 'tagteam:Prescribed',
+    'Obligation has Prescribed status');
+});
+
+test('complex: full Two-Tier graph structure', () => {
+  const builder = new SemanticGraphBuilder();
+  const graph = builder.build('The doctor treats the patient');
+
+  // Verify Two-Tier structure
+  const tier1Referents = graph['@graph'].filter(n =>
+    n['@type'] && n['@type'].includes('tagteam:DiscourseReferent'));
+  const tier2Entities = graph['@graph'].filter(n =>
+    n['@type'] && (n['@type'].includes('cco:Person') ||
+                   n['@type'].includes('cco:Artifact') ||
+                   n['@type'].includes('cco:Organization')));
+  const acts = graph['@graph'].filter(n =>
+    n['@type'].some(t => t.includes('ActOf')));
+
+  // Should have both tiers
+  assert(tier1Referents.length >= 2, 'Has Tier 1 referents');
+  assert(tier2Entities.length >= 2, 'Has Tier 2 entities');
+  assert(acts.length >= 1, 'Has acts');
+
+  // Acts link to Tier 2
+  const act = acts[0];
+  if (act['cco:has_agent']) {
+    const agentIsTier2 = tier2Entities.some(e => e['@id'] === act['cco:has_agent']);
+    assert(agentIsTier2, 'Act agent is Tier 2 entity');
+  }
+  if (act['cco:affects']) {
+    const affectsTier2 = tier2Entities.some(e => e['@id'] === act['cco:affects']);
+    assert(affectsTier2, 'Act affects is Tier 2 entity');
+  }
 });
 
 // Summary

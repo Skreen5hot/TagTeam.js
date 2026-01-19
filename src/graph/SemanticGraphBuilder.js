@@ -3,9 +3,10 @@
  *
  * Main orchestrator for building JSON-LD semantic graphs.
  * Transforms TagTeam parsing results into SHML+GIT-compliant knowledge graphs.
+ * Updated for Phase 4 Two-Tier Architecture (v2.2 spec).
  *
  * @module graph/SemanticGraphBuilder
- * @version 3.0.0-alpha.2
+ * @version 4.0.0-phase4
  */
 
 const crypto = require('crypto');
@@ -155,15 +156,16 @@ class SemanticGraphBuilder {
    * Generate a deterministic IRI for an instance
    *
    * Uses SHA-256 hash of (text + span_offset + type) for reproducibility.
+   * v2.2 spec: 12 hex chars for collision resistance.
    *
    * @param {string} text - Text content (e.g., "the doctor")
    * @param {string} type - Entity type (e.g., "DiscourseReferent", "Act")
    * @param {number} [offset=0] - Text span offset for uniqueness
-   * @returns {string} IRI in format "inst:Type_hash8chars"
+   * @returns {string} IRI in format "inst:Type_hash12chars"
    *
    * @example
    * generateIRI("the doctor", "DiscourseReferent", 0)
-   * // Returns: "inst:Doctor_Referent_a8f3b2e4"
+   * // Returns: "inst:Doctor_Referent_a8f3b2e4c5d6"
    */
   generateIRI(text, type, offset = 0) {
     // Create hash input: text + offset + type
@@ -175,8 +177,8 @@ class SemanticGraphBuilder {
       .update(hashInput)
       .digest('hex');
 
-    // Take first 8 characters
-    const hashSuffix = hash.substring(0, 8);
+    // Take first 12 characters (v2.2 spec: increased from 8 for collision resistance)
+    const hashSuffix = hash.substring(0, 12);
 
     // Clean text for IRI (remove spaces, special chars)
     const cleanText = text

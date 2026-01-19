@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Phase 4 Test</title>
+</head>
+<body>
+    <h1>Phase 4 Browser Test</h1>
+    <div id="output"></div>
+
+    <script src="../dist/tagteam.js"></script>
+    <script>
+        const output = document.getElementById('output');
+
+        function log(msg) {
+            output.innerHTML += '<p>' + msg + '</p>';
+            console.log(msg);
+        }
+
+        try {
+            log('TagTeam version: ' + TagTeam.version);
+            log('Has buildGraph: ' + (typeof TagTeam.buildGraph));
+            log('Has EntityExtractor: ' + (typeof TagTeam.EntityExtractor));
+
+            // Check if nlp (Compromise) is available
+            log('window.nlp available: ' + (typeof window.nlp));
+
+            // Try building a graph
+            const result = TagTeam.buildGraph('The doctor must allocate the ventilator');
+            log('Graph built successfully!');
+            log('Node count: ' + result['@graph'].length);
+
+            // Check for Tier 2 entities
+            const tier2 = result['@graph'].filter(n =>
+                n['@type'] && (n['@type'].includes('cco:Person') || n['@type'].includes('cco:Artifact'))
+            );
+            log('Tier 2 entities: ' + tier2.length);
+
+            // Check for is_about links
+            const hasIsAbout = result['@graph'].some(n => n['cco:is_about']);
+            log('Has cco:is_about links: ' + hasIsAbout);
+
+            // Show full JSON
+            log('<pre>' + JSON.stringify(result, null, 2) + '</pre>');
+
+        } catch (e) {
+            log('ERROR: ' + e.message);
+            log('<pre>' + e.stack + '</pre>');
+        }
+    </script>
+</body>
+</html>

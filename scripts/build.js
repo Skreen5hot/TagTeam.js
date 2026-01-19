@@ -33,7 +33,8 @@ const valueScorerPath = path.join(__dirname, '..', 'src', 'analyzers', 'ValueSco
 const ethicalProfilerPath = path.join(__dirname, '..', 'src', 'analyzers', 'EthicalProfiler.js');
 const semanticExtractorPath = path.join(__dirname, '..', 'src', 'core', 'SemanticRoleExtractor.js');
 
-// Phase 4: Graph modules
+// Phase 4: Graph modules (Two-Tier Architecture v2.2)
+const realWorldEntityFactoryPath = path.join(__dirname, '..', 'src', 'graph', 'RealWorldEntityFactory.js');
 const entityExtractorPath = path.join(__dirname, '..', 'src', 'graph', 'EntityExtractor.js');
 const actExtractorPath = path.join(__dirname, '..', 'src', 'graph', 'ActExtractor.js');
 const roleDetectorPath = path.join(__dirname, '..', 'src', 'graph', 'RoleDetector.js');
@@ -62,14 +63,16 @@ console.log(`  ✓ ValueScorer.js (${(valueScorer.length / 1024).toFixed(2)} KB)
 console.log(`  ✓ EthicalProfiler.js (${(ethicalProfiler.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ SemanticRoleExtractor.js (${(semanticExtractor.length / 1024).toFixed(2)} KB)`);
 
-// Read Phase 4 graph modules
-console.log('\n📖 Reading Phase 4 graph modules...');
+// Read Phase 4 graph modules (Two-Tier Architecture v2.2)
+console.log('\n📖 Reading Phase 4 graph modules (Two-Tier v2.2)...');
+let realWorldEntityFactory = fs.readFileSync(realWorldEntityFactoryPath, 'utf8');
 let entityExtractor = fs.readFileSync(entityExtractorPath, 'utf8');
 let actExtractor = fs.readFileSync(actExtractorPath, 'utf8');
 let roleDetector = fs.readFileSync(roleDetectorPath, 'utf8');
 let semanticGraphBuilder = fs.readFileSync(semanticGraphBuilderPath, 'utf8');
 let jsonldSerializer = fs.readFileSync(jsonldSerializerPath, 'utf8');
 
+console.log(`  ✓ RealWorldEntityFactory.js (${(realWorldEntityFactory.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ EntityExtractor.js (${(entityExtractor.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ ActExtractor.js (${(actExtractor.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ RoleDetector.js (${(roleDetector.length / 1024).toFixed(2)} KB)`);
@@ -176,7 +179,7 @@ if (ethicalProfiler.includes('(function(root, factory)')) {
 }
 
 // Process Phase 4 graph modules - convert CommonJS to browser-compatible
-console.log('\n🔧 Processing Phase 4 graph modules...');
+console.log('\n🔧 Processing Phase 4 graph modules (Two-Tier v2.2)...');
 
 // Helper function to strip CommonJS require/exports from a module
 function stripCommonJS(code, className) {
@@ -188,6 +191,9 @@ function stripCommonJS(code, className) {
   code = code.replace(/'use strict';\s*\n?/g, '');
   return code;
 }
+
+realWorldEntityFactory = stripCommonJS(realWorldEntityFactory, 'RealWorldEntityFactory');
+console.log('  ✓ Converted RealWorldEntityFactory to browser format');
 
 entityExtractor = stripCommonJS(entityExtractor, 'EntityExtractor');
 console.log('  ✓ Converted EntityExtractor to browser format');
@@ -208,8 +214,8 @@ console.log('  ✓ Converted JSONLDSerializer to browser format');
 console.log('\n🔧 Building bundle...');
 
 const bundle = `/*!
- * TagTeam.js - Deterministic Semantic Parser with Ethical Value Detection
- * Version: 3.0.0-alpha.2 (Phase 4 - JSON-LD Semantic Graph)
+ * TagTeam.js - Two-Tier Semantic Graph Architecture for Ethical Context Analysis
+ * Version: 4.0.0-phase4 (Two-Tier Architecture v2.2)
  * Date: ${new Date().toISOString().split('T')[0]}
  *
  * A client-side JavaScript library for extracting semantic roles from natural language text
@@ -217,7 +223,11 @@ const bundle = `/*!
  * Week 2a: Context intensity analysis (12 dimensions)
  * Week 2b: Ethical value detection (50 values, conflict detection, domain analysis)
  * Week 3: Enhanced pattern matching with NLP (fixes IEE polarity bug)
- * Phase 4: JSON-LD semantic graph output with BFO/CCO ontology support
+ * Phase 4: Two-Tier JSON-LD semantic graph with BFO/CCO ontology support
+ *   - Tier 1 (ICE): DiscourseReferent - parsing layer
+ *   - Tier 2 (IC): Person/Artifact - real-world entities
+ *   - ActualityStatus on all acts (Prescribed, Actual, Negated, etc.)
+ *   - Cross-tier linking via cco:is_about
  *
  * Inspired by d3.js and mermaid.js - single file, simple API
  * Dependency: Compromise.js (~345KB) for lemmatization and NLP features
@@ -363,7 +373,7 @@ ${ethicalProfiler}
 ${semanticExtractor}
 
   // ============================================================================
-  // PHASE 4: JSON-LD SEMANTIC GRAPH MODULES
+  // PHASE 4: TWO-TIER JSON-LD SEMANTIC GRAPH MODULES (v2.2)
   // ============================================================================
 
   // Browser-compatible SHA-256 implementation for IRI generation
@@ -403,7 +413,15 @@ ${semanticExtractor}
   };
 
   // ============================================================================
-  // ENTITY EXTRACTOR (Phase 4 - Week 1)
+  // REAL WORLD ENTITY FACTORY (Phase 4 - Two-Tier v2.2)
+  // Creates Tier 2 entities (cco:Person, cco:Artifact) from Tier 1 referents
+  // ============================================================================
+
+${realWorldEntityFactory}
+
+  // ============================================================================
+  // ENTITY EXTRACTOR (Phase 4 - Two-Tier v2.2)
+  // Creates Tier 1 DiscourseReferents and Tier 2 entities
   // ============================================================================
 
 ${entityExtractor}
@@ -572,15 +590,16 @@ ${semanticGraphBuilder}
     /**
      * Version information
      */
-    version: '3.0.0-alpha.2',
+    version: '4.0.0-phase4',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
     POSTagger: POSTagger,
 
-    // Phase 4: Graph building classes
+    // Phase 4: Two-Tier Graph building classes (v2.2)
     SemanticGraphBuilder: SemanticGraphBuilder,
     JSONLDSerializer: JSONLDSerializer,
+    RealWorldEntityFactory: RealWorldEntityFactory,
     EntityExtractor: EntityExtractor,
     ActExtractor: ActExtractor,
     RoleDetector: RoleDetector

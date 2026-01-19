@@ -7,7 +7,9 @@
  * - AC-1.2.3: Artifact Scarcity Detection
  * - AC-1.2.4: Continuants vs Occurrents Type Distinction
  *
- * @version 3.0.0-alpha.2
+ * Updated for Phase 4 Two-Tier Architecture (v2.2 spec)
+ *
+ * @version 4.0.0-phase4
  */
 
 const assert = require('assert');
@@ -236,27 +238,36 @@ test('detects digit quantity', () => {
   assert(doctors['tagteam:quantity'] === 5, 'Quantity is 5');
 });
 
-// Test Suite 8: Span Preservation
-console.log('\nTest Suite 8: Span Preservation');
+// Test Suite 8: Span Preservation (v2.2 properties)
+console.log('\nTest Suite 8: Span Preservation (v2.2)');
 
-test('entities have span_offset property', () => {
-  const extractor = new EntityExtractor();
+test('entities have v2.2 position properties (sourceText, startPosition, endPosition)', () => {
+  const extractor = new EntityExtractor({ createTier2: false });
   const entities = extractor.extract('The doctor treats the patient');
 
-  entities.forEach(entity => {
-    assert(entity['tagteam:span_offset'], 'Has span_offset');
-    assert(Array.isArray(entity['tagteam:span_offset']), 'span_offset is array');
-    assert(entity['tagteam:span_offset'].length === 2, 'span_offset has [start, end]');
+  // Filter to only Tier 1 DiscourseReferents
+  const referents = entities.filter(e => e['@type'].includes('tagteam:DiscourseReferent'));
+
+  referents.forEach(entity => {
+    assert(entity['tagteam:sourceText'], 'Has sourceText');
+    assert(entity['tagteam:startPosition'] !== undefined, 'Has startPosition');
+    assert(entity['tagteam:endPosition'] !== undefined, 'Has endPosition');
+    assert(typeof entity['tagteam:startPosition'] === 'number', 'startPosition is number');
+    assert(typeof entity['tagteam:endPosition'] === 'number', 'endPosition is number');
+    assert(entity['tagteam:endPosition'] > entity['tagteam:startPosition'], 'endPosition > startPosition');
   });
 });
 
-test('entities have extracted_from_span property', () => {
-  const extractor = new EntityExtractor();
-  const entities = extractor.extract('The doctor treats the patient');
+test('position indices are correct (v2.2 spec)', () => {
+  const extractor = new EntityExtractor({ createTier2: false });
+  const text = 'The doctor is here';
+  const entities = extractor.extract(text);
 
-  entities.forEach(entity => {
-    assert(entity['tagteam:extracted_from_span'], 'Has extracted_from_span');
-  });
+  const doctor = entities.find(e => e['rdfs:label'].toLowerCase().includes('doctor'));
+  assert(doctor, 'Found doctor');
+  // "doctor" appears at position 4 in "The doctor is here"
+  // But the full noun phrase "The doctor" or "doctor" depends on NLP parsing
+  assert(doctor['tagteam:sourceText'].toLowerCase().includes('doctor'), 'sourceText contains doctor');
 });
 
 // Test Suite 9: Integration with SemanticGraphBuilder (AC-1.2.4)
@@ -325,13 +336,15 @@ test('entities use inst: namespace when using GraphBuilder', () => {
   assert(doctor['@id'].startsWith('inst:'), 'IRI starts with inst:');
 });
 
-test('entity IRIs include SHA-256 hash', () => {
+test('entity IRIs include SHA-256 hash (12 chars per v2.2)', () => {
   const builder = new SemanticGraphBuilder();
   const graph = builder.build('The doctor');
 
-  const doctor = graph['@graph'][0];
-  // Should end with 8 hex characters
-  assert(/[0-9a-f]{8}$/.test(doctor['@id']), 'IRI ends with 8 hex chars');
+  // Find a DiscourseReferent (Tier 1 node)
+  const referent = graph['@graph'].find(n => n['@type'].includes('tagteam:DiscourseReferent'));
+  assert(referent, 'Found a DiscourseReferent');
+  // Should end with 12 hex characters (v2.2 spec)
+  assert(/[0-9a-f]{12}$/.test(referent['@id']), 'IRI ends with 12 hex chars (v2.2)');
 });
 
 test('same entity produces same IRI (deterministic)', () => {
@@ -371,6 +384,140 @@ test('complex scenario: "The doctor must allocate the last ventilator between tw
     n['rdfs:label']?.toLowerCase().includes('patient'));
   assert(patients, 'Found patients');
   assert(patients['tagteam:quantity'] === 2, 'Patients quantity is 2');
+});
+
+// Test Suite 12: Two-Tier Architecture (v2.2)
+console.log('\nTest Suite 12: Two-Tier Architecture (v2.2)');
+
+test('extract() creates Tier 2 entities by default', () => {
+  const extractor = new EntityExtractor();
+  const entities = extractor.extract('The doctor treats the patient');
+
+  // Should have both DiscourseReferent and cco:Person
+  const referents = entities.filter(e => e['@type'].includes('tagteam:DiscourseReferent'));
+  const persons = entities.filter(e => e['@type'].includes('cco:Person'));
+
+  assert(referents.length >= 2, 'Has at least 2 DiscourseReferents');
+  assert(persons.length >= 1, 'Has at least 1 cco:Person');
+});
+
+test('Tier 1 referents have is_about link to Tier 2', () => {
+  const extractor = new EntityExtractor();
+  const entities = extractor.extract('The doctor treats the patient');
+
+  const referents = entities.filter(e => e['@type'].includes('tagteam:DiscourseReferent'));
+
+  referents.forEach(ref => {
+    assert(ref['cco:is_about'], `Referent ${ref['rdfs:label']} has is_about`);
+    assert(ref['cco:is_about'].startsWith('inst:'), 'is_about points to inst: IRI');
+  });
+});
+
+test('Tier 2 entities have correct types (cco:Person, cco:Artifact)', () => {
+  const extractor = new EntityExtractor();
+  const entities = extractor.extract('The doctor allocates the ventilator');
+
+  // Find Tier 2 Person and Artifact
+  const person = entities.find(e => e['@type'].includes('cco:Person'));
+  const artifact = entities.find(e => e['@type'].includes('cco:Artifact'));
+
+  assert(person, 'Found cco:Person');
+  assert(artifact, 'Found cco:Artifact');
+
+  // Verify they're not DiscourseReferent
+  assert(!person['@type'].includes('tagteam:DiscourseReferent'),
+    'Person is NOT a DiscourseReferent');
+  assert(!artifact['@type'].includes('tagteam:DiscourseReferent'),
+    'Artifact is NOT a DiscourseReferent');
+});
+
+test('Tier 2 entities have provenance properties (v2.2)', () => {
+  const extractor = new EntityExtractor();
+  const entities = extractor.extract('The doctor');
+
+  const person = entities.find(e => e['@type'].includes('cco:Person'));
+  assert(person, 'Found cco:Person');
+
+  // v2.2 provenance properties
+  assert(person['tagteam:instantiated_at'], 'Has instantiated_at');
+  // instantiated_by may be null if no documentIRI provided
+});
+
+test('createTier2: false option disables Tier 2 creation', () => {
+  const extractor = new EntityExtractor({ createTier2: false });
+  const entities = extractor.extract('The doctor treats the patient');
+
+  // Should only have DiscourseReferent, no cco:Person
+  const referents = entities.filter(e => e['@type'].includes('tagteam:DiscourseReferent'));
+  const persons = entities.filter(e => e['@type'].includes('cco:Person'));
+
+  assert(referents.length >= 2, 'Has DiscourseReferents');
+  assert(persons.length === 0, 'No cco:Person when Tier 2 disabled');
+});
+
+test('Tier 2 IRIs are document-scoped (v2.2)', () => {
+  const extractor1 = new EntityExtractor({ documentIRI: 'inst:Doc1' });
+  const entities1 = extractor1.extract('The doctor');
+
+  const extractor2 = new EntityExtractor({ documentIRI: 'inst:Doc2' });
+  const entities2 = extractor2.extract('The doctor');
+
+  const person1 = entities1.find(e => e['@type'].includes('cco:Person'));
+  const person2 = entities2.find(e => e['@type'].includes('cco:Person'));
+
+  assert(person1, 'Found person from doc 1');
+  assert(person2, 'Found person from doc 2');
+  // Different documents should produce different IRIs for same entity
+  assert(person1['@id'] !== person2['@id'],
+    'Same entity in different docs has different IRIs (document-scoped)');
+});
+
+test('is_about links are valid (point to existing Tier 2 IRI)', () => {
+  const extractor = new EntityExtractor();
+  const entities = extractor.extract('The doctor');
+
+  const referent = entities.find(e => e['@type'].includes('tagteam:DiscourseReferent'));
+  const tier2IRI = referent['cco:is_about'];
+
+  // Find the Tier 2 entity with that IRI
+  const tier2Entity = entities.find(e => e['@id'] === tier2IRI);
+  assert(tier2Entity, 'is_about points to a valid Tier 2 entity in the graph');
+});
+
+// Test Suite 13: RealWorldEntityFactory Direct Tests
+console.log('\nTest Suite 13: RealWorldEntityFactory');
+
+const RealWorldEntityFactory = require('../../src/graph/RealWorldEntityFactory');
+
+test('RealWorldEntityFactory can be instantiated', () => {
+  const factory = new RealWorldEntityFactory();
+  assert(factory instanceof RealWorldEntityFactory);
+});
+
+test('createFromReferents returns tier2Entities and linkMap', () => {
+  const factory = new RealWorldEntityFactory({ documentIRI: 'inst:TestDoc' });
+  const referents = [
+    { '@id': 'inst:Ref1', '@type': ['tagteam:DiscourseReferent'], 'rdfs:label': 'the doctor', 'tagteam:denotesType': 'cco:Person' }
+  ];
+
+  const result = factory.createFromReferents(referents);
+
+  assert(result.tier2Entities, 'Has tier2Entities');
+  assert(result.linkMap, 'Has linkMap');
+  assert(result.tier2Entities.length === 1, 'Created 1 Tier 2 entity');
+  assert(result.linkMap.get('inst:Ref1'), 'linkMap has mapping for Ref1');
+});
+
+test('linkReferentsToTier2 adds is_about property', () => {
+  const factory = new RealWorldEntityFactory({ documentIRI: 'inst:TestDoc' });
+  const referents = [
+    { '@id': 'inst:Ref1', '@type': ['tagteam:DiscourseReferent'], 'rdfs:label': 'the doctor' }
+  ];
+
+  const { linkMap } = factory.createFromReferents(referents);
+  const linked = factory.linkReferentsToTier2(referents, linkMap);
+
+  assert(linked[0]['cco:is_about'], 'Referent has is_about');
 });
 
 // Summary

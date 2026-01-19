@@ -6,7 +6,9 @@
  * - AC-1.1.2: Namespace Strategy
  * - AC-1.1.3: Context Completeness
  *
- * @version 3.0.0-alpha.2
+ * Updated for Phase 4 Two-Tier Architecture (v2.2 spec)
+ *
+ * @version 4.0.0-phase4
  */
 
 const assert = require('assert');
@@ -146,13 +148,13 @@ test('generateIRI() creates deterministic IRIs', () => {
   assert(iri1 === iri2, 'Same input should produce same IRI');
 });
 
-test('generateIRI() uses SHA-256 hash (8 hex chars)', () => {
+test('generateIRI() uses SHA-256 hash (12 hex chars per v2.2 spec)', () => {
   const builder = new SemanticGraphBuilder();
   const iri = builder.generateIRI('the doctor', 'DiscourseReferent', 0);
 
-  // Should match pattern: inst:The_Doctor_DiscourseReferent_<8 hex chars>
+  // Should match pattern: inst:The_Doctor_DiscourseReferent_<12 hex chars>
   assert(iri.startsWith('inst:'), 'Uses inst: prefix');
-  assert(/[0-9a-f]{8}$/.test(iri), 'Ends with 8 hex characters');
+  assert(/[0-9a-f]{12}$/.test(iri), 'Ends with 12 hex characters (v2.2 spec)');
 });
 
 test('generateIRI() includes text + offset + type in hash', () => {
@@ -315,14 +317,16 @@ test('@context includes DiscourseReferent class (AC-1.1.3)', () => {
     '@context defines DiscourseReferent');
 });
 
-test('@context includes denotesType with @id type (AC-1.1.3)', () => {
+test('@context includes is_about (cross-tier relation per v2.2 spec)', () => {
   const serializer = new JSONLDSerializer();
   const graph = { '@graph': [] };
   const parsed = JSON.parse(serializer.serialize(graph));
 
   const context = parsed['@context'];
-  assert(context.denotesType['@type'] === '@id',
-    'denotesType is @id type');
+  assert(context.is_about['@id'] === 'cco:is_about',
+    'is_about maps to cco:is_about');
+  assert(context.is_about['@type'] === '@id',
+    'is_about is @id type');
 });
 
 test('@context includes extractionConfidence with xsd:decimal type (AC-1.1.3)', () => {
@@ -377,7 +381,147 @@ test('@context includes CCO relations', () => {
   const context = parsed['@context'];
   assert(context.has_agent['@type'] === '@id');
   assert(context.affects['@type'] === '@id');
-  assert(context.is_concretized_by['@type'] === '@id');
+});
+
+// Test Suite 7: Two-Tier Architecture v2.2 Properties
+console.log('\nTest Suite 7: Two-Tier Architecture v2.2 Properties');
+
+test('@context includes Tier 1 classes (v2.2)', () => {
+  const serializer = new JSONLDSerializer();
+  const graph = { '@graph': [] };
+  const parsed = JSON.parse(serializer.serialize(graph));
+
+  const context = parsed['@context'];
+  assert(context.DiscourseReferent === 'tagteam:DiscourseReferent');
+  assert(context.VerbPhrase === 'tagteam:VerbPhrase');
+  assert(context.DirectiveContent === 'tagteam:DirectiveContent');
+  assert(context.ScarcityAssertion === 'tagteam:ScarcityAssertion');
+  assert(context.ValueDetectionRecord === 'tagteam:ValueDetectionRecord');
+  assert(context.ContextAssessmentRecord === 'tagteam:ContextAssessmentRecord');
+});
+
+test('@context includes Actuality Status Named Individuals (v2.2)', () => {
+  const serializer = new JSONLDSerializer();
+  const graph = { '@graph': [] };
+  const parsed = JSON.parse(serializer.serialize(graph));
+
+  const context = parsed['@context'];
+  assert(context.ActualityStatus === 'tagteam:ActualityStatus');
+  assert(context.Actual === 'tagteam:Actual');
+  assert(context.Prescribed === 'tagteam:Prescribed');
+  assert(context.Permitted === 'tagteam:Permitted');
+  assert(context.Prohibited === 'tagteam:Prohibited');
+  assert(context.Hypothetical === 'tagteam:Hypothetical');
+  assert(context.Planned === 'tagteam:Planned');
+  assert(context.Negated === 'tagteam:Negated');
+});
+
+test('@context includes cross-tier relations (v2.2)', () => {
+  const serializer = new JSONLDSerializer();
+  const graph = { '@graph': [] };
+  const parsed = JSON.parse(serializer.serialize(graph));
+
+  const context = parsed['@context'];
+  assert(context.is_about['@id'] === 'cco:is_about');
+  assert(context.prescribes['@id'] === 'cco:prescribes');
+  assert(context.prescribed_by['@id'] === 'cco:prescribed_by');
+});
+
+test('@context includes Tier 1 relations (v2.2)', () => {
+  const serializer = new JSONLDSerializer();
+  const graph = { '@graph': [] };
+  const parsed = JSON.parse(serializer.serialize(graph));
+
+  const context = parsed['@context'];
+  assert(context.has_component['@id'] === 'tagteam:has_component');
+  assert(context.extracted_from['@id'] === 'tagteam:extracted_from');
+  assert(context.corefersWith['@id'] === 'tagteam:corefersWith');
+});
+
+test('@context includes provenance properties (v2.2)', () => {
+  const serializer = new JSONLDSerializer();
+  const graph = { '@graph': [] };
+  const parsed = JSON.parse(serializer.serialize(graph));
+
+  const context = parsed['@context'];
+  assert(context.instantiated_at['@id'] === 'tagteam:instantiated_at');
+  assert(context.instantiated_at['@type'] === 'xsd:dateTime');
+  assert(context.instantiated_by['@id'] === 'tagteam:instantiated_by');
+  assert(context.negationMarker === 'tagteam:negationMarker');
+});
+
+test('@context includes actualityStatus property (v2.2)', () => {
+  const serializer = new JSONLDSerializer();
+  const graph = { '@graph': [] };
+  const parsed = JSON.parse(serializer.serialize(graph));
+
+  const context = parsed['@context'];
+  assert(context.actualityStatus['@id'] === 'tagteam:actualityStatus');
+  assert(context.actualityStatus['@type'] === '@id');
+});
+
+test('@context includes scarcity properties (v2.2)', () => {
+  const serializer = new JSONLDSerializer();
+  const graph = { '@graph': [] };
+  const parsed = JSON.parse(serializer.serialize(graph));
+
+  const context = parsed['@context'];
+  assert(context.scarceResource['@id'] === 'tagteam:scarceResource');
+  assert(context.competingParties['@id'] === 'tagteam:competingParties');
+  assert(context.competingParties['@container'] === '@set', 'competingParties has @container: @set');
+  assert(context.supplyCount['@type'] === 'xsd:integer');
+  assert(context.demandCount['@type'] === 'xsd:integer');
+  assert(context.scarcityRatio['@type'] === 'xsd:decimal');
+});
+
+test('@context includes deontic properties (v2.2)', () => {
+  const serializer = new JSONLDSerializer();
+  const graph = { '@graph': [] };
+  const parsed = JSON.parse(serializer.serialize(graph));
+
+  const context = parsed['@context'];
+  assert(context.modalType === 'tagteam:modalType');
+  assert(context.modalMarker === 'tagteam:modalMarker');
+  assert(context.modalStrength['@type'] === 'xsd:decimal');
+});
+
+test('@context includes VerbPhrase properties (v2.2)', () => {
+  const serializer = new JSONLDSerializer();
+  const graph = { '@graph': [] };
+  const parsed = JSON.parse(serializer.serialize(graph));
+
+  const context = parsed['@context'];
+  assert(context.verb === 'tagteam:verb');
+  assert(context.lemma === 'tagteam:lemma');
+  assert(context.tense === 'tagteam:tense');
+  assert(context.hasModalMarker === 'tagteam:hasModalMarker');
+});
+
+test('@context includes IBE properties (v2.2)', () => {
+  const serializer = new JSONLDSerializer();
+  const graph = { '@graph': [] };
+  const parsed = JSON.parse(serializer.serialize(graph));
+
+  const context = parsed['@context'];
+  assert(context.has_text_value === 'cco:has_text_value');
+  assert(context.char_count['@type'] === 'xsd:integer');
+  assert(context.received_at['@type'] === 'xsd:dateTime');
+  assert(context.temporal_extent['@type'] === 'xsd:dateTime');
+});
+
+test('@context includes DiscourseReferent properties (v2.2)', () => {
+  const serializer = new JSONLDSerializer();
+  const graph = { '@graph': [] };
+  const parsed = JSON.parse(serializer.serialize(graph));
+
+  const context = parsed['@context'];
+  assert(context.sourceText === 'tagteam:sourceText');
+  assert(context.startPosition['@type'] === 'xsd:integer');
+  assert(context.endPosition['@type'] === 'xsd:integer');
+  assert(context.definiteness === 'tagteam:definiteness');
+  assert(context.quantity['@type'] === 'xsd:integer');
+  assert(context.quantityIndicator === 'tagteam:quantityIndicator');
+  assert(context.qualifiers === 'tagteam:qualifiers');
 });
 
 // Summary

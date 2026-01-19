@@ -4,13 +4,17 @@
  * Extracts entities from text using Compromise NLP and creates
  * tagteam:DiscourseReferent nodes for the semantic graph.
  *
- * Phase 1.2: Entity Extraction → Discourse Referents
+ * Phase 4 Two-Tier Architecture (v2.2 spec):
+ * - Creates Tier 1 DiscourseReferent nodes
+ * - Integrates with RealWorldEntityFactory for Tier 2 entities
+ * - Links Tier 1 → Tier 2 via cco:is_about
  *
  * @module graph/EntityExtractor
- * @version 3.0.0-alpha.2
+ * @version 4.0.0-phase4
  */
 
 const nlp = require('compromise');
+const RealWorldEntityFactory = require('./RealWorldEntityFactory');
 
 /**
  * Scarcity markers that indicate limited resources
@@ -65,32 +69,60 @@ const ENTITY_TYPE_MAPPINGS = {
 
 /**
  * EntityExtractor class - extracts entities and creates DiscourseReferent nodes
+ *
+ * Two-Tier Architecture:
+ * - Creates Tier 1 DiscourseReferent nodes from text
+ * - Optionally creates Tier 2 Person/Artifact entities via RealWorldEntityFactory
+ * - Links Tier 1 → Tier 2 via cco:is_about
  */
 class EntityExtractor {
   /**
    * Create a new EntityExtractor
    * @param {Object} options - Configuration options
    * @param {Object} [options.graphBuilder] - SemanticGraphBuilder instance for IRI generation
+   * @param {boolean} [options.createTier2=true] - Whether to create Tier 2 entities
+   * @param {string} [options.documentIRI] - Document IRI for Tier 2 scoping
    */
   constructor(options = {}) {
-    this.options = options;
+    this.options = {
+      createTier2: true,
+      ...options
+    };
     this.graphBuilder = options.graphBuilder || null;
+
+    // Initialize RealWorldEntityFactory for Tier 2 creation
+    this.tier2Factory = new RealWorldEntityFactory({
+      graphBuilder: this.graphBuilder,
+      documentIRI: options.documentIRI
+    });
   }
 
   /**
    * Extract entities from text and return DiscourseReferent nodes
    *
+   * Two-Tier Architecture (v2.2):
+   * - Creates Tier 1 DiscourseReferent nodes
+   * - Creates Tier 2 Person/Artifact entities (if createTier2 enabled)
+   * - Links Tier 1 → Tier 2 via cco:is_about
+   *
    * @param {string} text - Input text to analyze
    * @param {Object} [options] - Extraction options
-   * @returns {Array<Object>} Array of DiscourseReferent nodes
+   * @param {boolean} [options.createTier2] - Override Tier 2 creation setting
+   * @param {string} [options.documentIRI] - Document IRI for Tier 2 scoping
+   * @returns {Array<Object>} Array of nodes (Tier 1 referents + Tier 2 entities)
    *
    * @example
    * const extractor = new EntityExtractor();
    * const entities = extractor.extract("The doctor treats the patient");
-   * // Returns array of DiscourseReferent nodes
+   * // Returns array of DiscourseReferent nodes + cco:Person nodes
    */
   extract(text, options = {}) {
-    const entities = [];
+    const tier1Entities = [];
+
+    // Update Tier 2 factory document IRI if provided
+    if (options.documentIRI) {
+      this.tier2Factory.setDocumentIRI(options.documentIRI);
+    }
 
     // Parse with Compromise NLP
     const doc = nlp(text);
@@ -146,10 +178,28 @@ class EntityExtractor {
         quantity: quantityInfo
       });
 
-      entities.push(referent);
+      tier1Entities.push(referent);
     });
 
-    return entities;
+    // Create Tier 2 entities and link via is_about (Two-Tier Architecture)
+    const shouldCreateTier2 = options.createTier2 !== undefined
+      ? options.createTier2
+      : this.options.createTier2;
+
+    if (shouldCreateTier2 && tier1Entities.length > 0) {
+      const { tier2Entities, linkMap } = this.tier2Factory.createFromReferents(
+        tier1Entities,
+        { documentIRI: options.documentIRI }
+      );
+
+      // Add is_about links to Tier 1 referents
+      const linkedReferents = this.tier2Factory.linkReferentsToTier2(tier1Entities, linkMap);
+
+      // Return both Tier 1 (with is_about) and Tier 2 entities
+      return [...linkedReferents, ...tier2Entities];
+    }
+
+    return tier1Entities;
   }
 
   /**
@@ -388,7 +438,12 @@ class EntityExtractor {
   }
 
   /**
-   * Create a DiscourseReferent node
+   * Create a DiscourseReferent node (Tier 1)
+   *
+   * v2.2 spec properties:
+   * - sourceText, startPosition, endPosition (instead of extracted_from_span, span_offset)
+   * - denotesType kept for backward compatibility (deprecated; use is_about to Tier 2)
+   *
    * @param {Object} entityInfo - Entity information
    * @returns {Object} DiscourseReferent node
    */
@@ -407,16 +462,27 @@ class EntityExtractor {
       iri = `inst:${cleanText}_Referent_${entityInfo.offset}`;
     }
 
-    // Build node
+    // Calculate end position
+    const endPosition = entityInfo.offset + entityInfo.text.length;
+
+    // Build node with v2.2 properties
     const node = {
       '@id': iri,
       '@type': ['tagteam:DiscourseReferent', 'owl:NamedIndividual'],
       'rdfs:label': entityInfo.text,
-      'tagteam:denotesType': entityInfo.entityType,
+
+      // v2.2 position properties
+      'tagteam:sourceText': entityInfo.text,
+      'tagteam:startPosition': entityInfo.offset,
+      'tagteam:endPosition': endPosition,
+
+      // Discourse properties
       'tagteam:definiteness': entityInfo.definiteness,
       'tagteam:referentialStatus': entityInfo.referentialStatus,
-      'tagteam:extracted_from_span': entityInfo.text,
-      'tagteam:span_offset': [entityInfo.offset, entityInfo.offset + entityInfo.text.length]
+
+      // Legacy compatibility: denotesType (deprecated in v2.2, use is_about instead)
+      // Kept for backward compatibility with existing tests
+      'tagteam:denotesType': entityInfo.entityType
     };
 
     // Add scarcity if detected
@@ -439,6 +505,23 @@ class EntityExtractor {
    */
   setGraphBuilder(graphBuilder) {
     this.graphBuilder = graphBuilder;
+    this.tier2Factory.setGraphBuilder(graphBuilder);
+  }
+
+  /**
+   * Set the document IRI for Tier 2 entity scoping
+   * @param {string} documentIRI - Document/IBE IRI
+   */
+  setDocumentIRI(documentIRI) {
+    this.tier2Factory.setDocumentIRI(documentIRI);
+  }
+
+  /**
+   * Get the Tier 2 factory for direct access
+   * @returns {RealWorldEntityFactory} The factory instance
+   */
+  getTier2Factory() {
+    return this.tier2Factory;
   }
 }
 

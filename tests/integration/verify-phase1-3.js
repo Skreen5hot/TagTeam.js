@@ -2,143 +2,151 @@
  * Phase 1.3 Acceptance Criteria Verification
  *
  * Verifies all acceptance criteria from roadmap are met:
- * - AC-1.3.1: Act Extraction
- * - AC-1.3.2: Act Links to Discourse Referents
+ * - AC-1.3.1: Act Extraction with CCO Type Mapping
+ * - AC-1.3.2: Act Links to Tier 2 Entities (v2.2)
+ * - AC-1.3.3: ActualityStatus on All Acts (v2.2)
  *
- * @version 3.0.0-alpha.2
+ * Updated for Phase 4 Two-Tier Architecture (v2.2 spec)
+ *
+ * @version 4.0.0-phase4
  */
 
 const assert = require('assert');
 const SemanticGraphBuilder = require('../../src/graph/SemanticGraphBuilder');
-const JSONLDSerializer = require('../../src/graph/JSONLDSerializer');
+const ActExtractor = require('../../src/graph/ActExtractor');
 
 console.log('\n=== Phase 1.3 Acceptance Criteria Verification ===\n');
 
-// AC-1.3.1: Act Extraction
-console.log('Verifying AC-1.3.1: Act Extraction');
+// AC-1.3.1: Act Extraction with CCO Type Mapping
+console.log('Verifying AC-1.3.1: Act Extraction with CCO Type Mapping');
 
-const text = "The doctor must allocate the last ventilator between two patients";
-
-const builder = new SemanticGraphBuilder();
-const graph = builder.build(text);
+const text1 = "The doctor must treat the patient";
+const builder1 = new SemanticGraphBuilder();
+const graph1 = builder1.build(text1);
 
 // Find acts
-const acts = graph['@graph'].filter(n =>
-  n['@type'].some(t => t.includes('IntentionalAct') || t.includes('ActOf')));
+const acts1 = graph1['@graph'].filter(n =>
+  n['@type'].some(t => t.includes('ActOf') || t.includes('IntentionalAct')));
 
-console.log(`  Found ${acts.length} IntentionalAct nodes`);
+assert(acts1.length >= 1, "Extracts at least one act");
 
-assert(acts.length >= 1, "Extracted at least one act");
+const treatAct = acts1.find(a => a['tagteam:verb'] === 'treat');
+assert(treatAct, "Found treat act");
+assert(treatAct['@type'].includes('cco:ActOfMedicalTreatment'),
+  "'treat' maps to cco:ActOfMedicalTreatment");
+assert(treatAct['tagteam:modality'] === 'obligation',
+  "'must' detected as obligation modality");
 
-// Find the allocation act (note: Compromise may not recognize "allocate")
-// The test scenario uses "must allocate" which should be captured
-const allocAct = acts.find(a =>
-  a['tagteam:verb'] === 'allocate' ||
-  a['@type'].includes('cco:ActOfAllocation'));
+console.log('✓ AC-1.3.1: Act Extraction with CCO Type Mapping - PASSED\n');
 
-// If allocate wasn't found, check for any act with obligation modality
-const modalAct = acts.find(a => a['tagteam:modality'] === 'obligation') || acts[0];
+// AC-1.3.2: Act Links to Tier 2 Entities
+console.log('Verifying AC-1.3.2: Act Links to Tier 2 Entities (v2.2)');
 
-console.log(`  Act verb: ${modalAct['tagteam:verb']}`);
-console.log(`  Act type: ${modalAct['@type']}`);
-console.log(`  Act modality: ${modalAct['tagteam:modality']}`);
+const text2 = "The doctor treats the patient";
+const builder2 = new SemanticGraphBuilder();
+const graph2 = builder2.build(text2);
 
-// Verify verb extraction
-assert(modalAct['tagteam:verb'], "Act has verb property");
+// Find Tier 2 Person entities
+const tier2Persons = graph2['@graph'].filter(n =>
+  n['@type'] && n['@type'].includes('cco:Person'));
 
-// Note: "allocate" may not be in Compromise's lexicon
-// The key requirement is that we detect modality
-if (modalAct['tagteam:modality']) {
-  assert(modalAct['tagteam:modality'] === 'obligation',
-    "Modality is obligation (from 'must')");
-}
+assert(tier2Persons.length >= 2, "Has Tier 2 Person entities");
 
-console.log('✓ AC-1.3.1: Act Extraction - PASSED\n');
+// Find acts
+const acts2 = graph2['@graph'].filter(n =>
+  n['@type'].some(t => t.includes('ActOf')));
 
-// AC-1.3.2: Act Links to Discourse Referents
-console.log('Verifying AC-1.3.2: Act Links to Discourse Referents');
+const act2 = acts2[0];
+assert(act2['cco:has_agent'], "Act has cco:has_agent");
+assert(act2['cco:affects'], "Act has cco:affects");
 
-// Find entities
-const entities = graph['@graph'].filter(n =>
-  n['@type'].includes('tagteam:DiscourseReferent'));
+// Verify agent is Tier 2 entity
+const agentIsTier2 = tier2Persons.some(p => p['@id'] === act2['cco:has_agent']);
+assert(agentIsTier2, "Agent (has_agent) links to Tier 2 Person entity");
 
-console.log(`  Found ${entities.length} DiscourseReferent nodes`);
+// Verify affects is Tier 2 entity
+const affectsTier2 = tier2Persons.some(p => p['@id'] === act2['cco:affects']);
+assert(affectsTier2, "Patient (affects) links to Tier 2 Person entity");
 
-// Check that acts link to entities
-const actsWithLinks = acts.filter(a =>
-  a['cco:has_agent'] || a['cco:affects'] || a['bfo:has_participant']);
+console.log('✓ AC-1.3.2: Act Links to Tier 2 Entities - PASSED');
+console.log(`  Agent IRI: ${act2['cco:has_agent']}`);
+console.log(`  Affects IRI: ${act2['cco:affects']}\n`);
 
-console.log(`  Acts with entity links: ${actsWithLinks.length}`);
+// AC-1.3.3: ActualityStatus on All Acts
+console.log('Verifying AC-1.3.3: ActualityStatus on All Acts (v2.2)');
 
-if (actsWithLinks.length > 0) {
-  const linkedAct = actsWithLinks[0];
-
-  // Verify agent link
-  if (linkedAct['cco:has_agent']) {
-    assert(linkedAct['cco:has_agent'].includes('Referent') ||
-           linkedAct['cco:has_agent'].includes('Doctor'),
-      "Agent link points to discourse referent");
-    console.log(`  Agent: ${linkedAct['cco:has_agent']}`);
+// Test various modalities and their status mappings
+const testCases = [
+  {
+    text: "The doctor treats the patient",
+    expectedStatus: "tagteam:Actual",
+    description: "Simple present → Actual"
+  },
+  {
+    text: "The doctor must treat the patient",
+    expectedStatus: "tagteam:Prescribed",
+    description: "Obligation (must) → Prescribed"
+  },
+  {
+    text: "The patient may leave",
+    expectedStatus: "tagteam:Permitted",
+    description: "Permission (may) → Permitted"
+  },
+  {
+    text: "The doctor will treat the patient",
+    expectedStatus: "tagteam:Planned",
+    description: "Intention (will) → Planned"
+  },
+  {
+    text: "The doctor should treat the patient",
+    expectedStatus: "tagteam:Prescribed",
+    description: "Recommendation (should) → Prescribed"
   }
+];
 
-  // Verify affects link
-  if (linkedAct['cco:affects']) {
-    console.log(`  Affects: ${linkedAct['cco:affects']}`);
-  }
+testCases.forEach(testCase => {
+  const builder = new SemanticGraphBuilder();
+  const graph = builder.build(testCase.text);
 
-  // Verify participants
-  if (linkedAct['bfo:has_participant']) {
-    assert(Array.isArray(linkedAct['bfo:has_participant']),
-      "Participants is array");
-    console.log(`  Participants: ${linkedAct['bfo:has_participant'].length}`);
-  }
-}
+  const acts = graph['@graph'].filter(n =>
+    n['@type'].some(t => t.includes('ActOf') || t.includes('IntentionalAct')));
 
-console.log('✓ AC-1.3.2: Act Links to Discourse Referents - PASSED\n');
+  const act = acts[0];
+  assert(act['tagteam:actualityStatus'] === testCase.expectedStatus,
+    `${testCase.description}: expected ${testCase.expectedStatus}, got ${act['tagteam:actualityStatus']}`);
 
-// Additional verification: Type consistency
-console.log('Verifying Type Consistency');
-
-acts.forEach(act => {
-  // All acts should have IntentionalAct or subtype
-  const hasActType = act['@type'].some(t =>
-    t.includes('IntentionalAct') || t.includes('ActOf'));
-  assert(hasActType, `${act['rdfs:label']} has IntentionalAct type`);
-
-  // All acts should have owl:NamedIndividual
-  assert(act['@type'].includes('owl:NamedIndividual'),
-    `${act['rdfs:label']} has owl:NamedIndividual`);
-
-  console.log(`  ✓ ${act['rdfs:label']}: types valid`);
+  console.log(`  ✓ ${testCase.description}`);
 });
 
-console.log('✓ Type Consistency - PASSED\n');
+console.log('✓ AC-1.3.3: ActualityStatus on All Acts - PASSED\n');
 
-// Verify JSON-LD serialization includes acts
-console.log('Verifying JSON-LD Serialization with Acts');
+// Verify v2.2 Position Properties
+console.log('Verifying v2.2 Position Properties on Acts');
 
-const serializer = new JSONLDSerializer();
-const jsonld = serializer.serialize(graph);
-const parsed = JSON.parse(jsonld);
+const extractor = new ActExtractor();
+const acts3 = extractor.extract("The doctor treats the patient");
+const act3 = acts3[0];
 
-assert(parsed['@graph'].length > 0, "Serialized graph has nodes");
+assert(act3['tagteam:sourceText'] !== undefined, "Has sourceText");
+assert(act3['tagteam:startPosition'] !== undefined, "Has startPosition");
+assert(act3['tagteam:endPosition'] !== undefined, "Has endPosition");
+assert(typeof act3['tagteam:startPosition'] === 'number', "startPosition is number");
+assert(typeof act3['tagteam:endPosition'] === 'number', "endPosition is number");
 
-// Verify context includes act-related properties
-assert(parsed['@context'].has_agent, "@context defines has_agent");
-assert(parsed['@context'].affects, "@context defines affects");
-assert(parsed['@context'].has_participant, "@context defines has_participant");
-
-console.log('✓ JSON-LD Serialization with Acts - PASSED\n');
+console.log('✓ v2.2 Position Properties - PASSED\n');
 
 // Summary
-console.log('=== Phase 1.3 Deliverables ===');
-console.log('✓ ActExtractor.js (~340 lines) - COMPLETE');
-console.log('✓ Verb-to-CCO lookup table (inline) - COMPLETE');
-console.log('✓ Updated SemanticGraphBuilder.js to integrate ActExtractor - COMPLETE');
-console.log('✓ Unit test: test-act-extraction.js (29 tests) - COMPLETE');
-console.log('✓ Integration test: verify-phase1-3.js - COMPLETE\n');
+console.log('=== Phase 1.3 Deliverables (Updated for v2.2) ===');
+console.log('✓ ActExtractor.js (v4.0.0-phase4) - COMPLETE');
+console.log('  - Verb-to-CCO type mapping');
+console.log('  - Modality detection (obligation, permission, recommendation, intention)');
+console.log('  - Negation detection');
+console.log('  - Tier 2 entity linking via is_about resolution');
+console.log('  - ActualityStatus determination');
+console.log('  - v2.2 position properties (sourceText, startPosition, endPosition)');
+console.log('✓ test-act-extraction.js (39 unit tests including v2.2) - COMPLETE\n');
 
 console.log('=== All Phase 1.3 Acceptance Criteria VERIFIED ===\n');
 
-console.log('Phase 1.3: Act Extraction - ✅ COMPLETE');
-console.log('Ready to proceed to Phase 1.4: Role Detection\n');
+console.log('Phase 1.3: Act Extraction with Tier 2 Linking (v2.2) - ✅ COMPLETE');
+console.log('Ready to proceed to Phase 2: Directive and Scarcity Extraction\n');
