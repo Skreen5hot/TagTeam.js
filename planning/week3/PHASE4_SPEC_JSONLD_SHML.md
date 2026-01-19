@@ -166,10 +166,7 @@ Output: JSON-LD Graph
     "xsd": "http://www.w3.org/2001/XMLSchema#",
 
     // TagTeam Classes
-    "DiscourseReferent": {
-      "@id": "tagteam:DiscourseReferent",
-      "rdfs:subClassOf": "cco:InformationContentEntity"
-    },
+    "DiscourseReferent": "tagteam:DiscourseReferent",
     "ValueAssertionEvent": "tagteam:ValueAssertionEvent",
     "ContextAssessmentEvent": "tagteam:ContextAssessmentEvent",
     "DocumentParseResult": "tagteam:DocumentParseResult",
@@ -202,7 +199,12 @@ Output: JSON-LD Graph
     "based_on": { "@id": "tagteam:based_on", "@type": "@id" },
     "detected_by": { "@id": "tagteam:detected_by", "@type": "@id" },
     "extracted_from_span": "tagteam:extracted_from_span",
-    "span_offset": "tagteam:span_offset"
+    "span_offset": "tagteam:span_offset",
+
+    // Additional Properties
+    "temporal_extent": { "@id": "tagteam:temporal_extent", "@type": "xsd:dateTime" },
+    "detection_method": "tagteam:detection_method",
+    "matched_markers": "tagteam:matched_markers"
   }
 }
 
@@ -367,22 +369,27 @@ Output: JSON-LD Graph
 
 ### 4.1 Entity Extraction
 
+**CRITICAL**: All extracted entities are `tagteam:DiscourseReferent` nodes, NOT BFO entities.
+
 **Agents (Compromise NLP):**
 - Extract `#Person`, `#Occupation`, proper nouns
-- Map to `cco:Agent`
+- Create `tagteam:DiscourseReferent` with `denotesType: cco:Person`
+- Set `referentialStatus` based on definiteness ("the doctor" → `presupposed`, "a doctor" → `introduced`)
 - Preserve text span for traceability
 
 **Patients:**
 - Extract objects of verbs (receive action)
-- Map to `cco:Agent` (patients are still agents ontologically)
+- Create `tagteam:DiscourseReferent` with `denotesType: cco:Person`
+- Set `discourseRole: "patient"`
 
 **Artifacts:**
 - Extract `#Thing`, medical equipment, resources
-- Map to `cco:Artifact`
+- Create `tagteam:DiscourseReferent` with `denotesType: cco:Artifact`
+- Mark scarcity/quantity if indicated
 
 **Numeric Entities:**
-- "two patients" → extract cardinality
-- "last ventilator" → mark scarcity
+- "two patients" → extract cardinality, create multiple referents
+- "last ventilator" → mark scarcity in referent properties
 
 ### 4.2 Act Extraction
 
@@ -419,19 +426,29 @@ Output: JSON-LD Graph
 // OLD (Week 2a)
 return { values: ["Autonomy"], polarity: 1 };
 
-// NEW (Phase 4)
-return {
-  "@id": "ex:Autonomy_Assertion_0",
-  "@type": "tagteam:ValueAssertionEvent",
-  "asserts": {
+// NEW (Phase 4) - Returns nodes to be added to @graph
+return [
+  // The assertion event
+  {
+    "@id": "ex:Autonomy_Assertion_0",
+    "@type": "tagteam:ValueAssertionEvent",
+    "asserts": "ex:Autonomy_ICE",  // Reference to ICE (not inline)
+    "detected_by": "ex:TagTeam_Parser_v3",
+    "tagteam:matched_markers": ["decide", "autonomy"],
+    "tagteam:extractionConfidence": 0.90,
+    "tagteam:classificationConfidence": 0.85,
+    "tagteam:relevanceConfidence": 0.80,
+    "tagteam:aggregateConfidence": 0.85,
+    "tagteam:aggregationMethod": "geometric_mean"
+  },
+  // The ICE (separate node)
+  {
     "@id": "ex:Autonomy_ICE",
     "@type": "cco:InformationContentEntity",
-    "tagteam:value_label": "Autonomy"
-  },
-  "detected_by": "ex:TagTeam_Parser_v3",
-  "tagteam:matched_markers": ["decide", "autonomy"],
-  "confidence": 0.85
-};
+    "rdfs:label": "Autonomy (ethical value)",
+    "tagteam:polarity": 1
+  }
+];
 ```
 
 ### 4.5 Context Intensity → Assessment Events
@@ -500,30 +517,54 @@ Return validated graph
 {
   "@context": { /* as specified above */ },
   "@graph": [
-    // === REALITY LAYER: ENTITIES ===
+    // === DISCOURSE LAYER: EXTRACTED REFERENTS ===
     {
-      "@id": "ex:Doctor_0",
-      "@type": ["cco:Agent"],
-      "rdfs:label": "doctor"
+      "@id": "ex:Doctor_Referent_0",
+      "@type": ["tagteam:DiscourseReferent"],
+      "rdfs:label": "the doctor",
+      "tagteam:denotesType": "cco:Person",
+      "tagteam:referentialStatus": "presupposed",
+      "tagteam:definiteness": "definite",
+      "tagteam:discourseRole": "agent",
+      "tagteam:extracted_from_span": "The doctor",
+      "tagteam:span_offset": [0, 10]
     },
     {
-      "@id": "ex:Patient_A",
-      "@type": ["cco:Agent"],
+      "@id": "ex:Patient_Referent_A",
+      "@type": ["tagteam:DiscourseReferent"],
       "rdfs:label": "patient (critically ill)",
-      "tagteam:is_critically_ill": true
+      "tagteam:denotesType": "cco:Person",
+      "tagteam:referentialStatus": "presupposed",
+      "tagteam:definiteness": "indefinite",
+      "tagteam:discourseRole": "patient",
+      "tagteam:is_critically_ill": true,
+      "tagteam:extracted_from_span": "two critically ill patients",
+      "tagteam:span_offset": [57, 84]
     },
     {
-      "@id": "ex:Patient_B",
-      "@type": ["cco:Agent"],
+      "@id": "ex:Patient_Referent_B",
+      "@type": ["tagteam:DiscourseReferent"],
       "rdfs:label": "patient (critically ill)",
-      "tagteam:is_critically_ill": true
+      "tagteam:denotesType": "cco:Person",
+      "tagteam:referentialStatus": "presupposed",
+      "tagteam:definiteness": "indefinite",
+      "tagteam:discourseRole": "patient",
+      "tagteam:is_critically_ill": true,
+      "tagteam:extracted_from_span": "two critically ill patients",
+      "tagteam:span_offset": [57, 84]
     },
     {
-      "@id": "ex:Ventilator_0",
-      "@type": ["cco:Artifact"],
-      "rdfs:label": "ventilator",
+      "@id": "ex:Ventilator_Referent_0",
+      "@type": ["tagteam:DiscourseReferent"],
+      "rdfs:label": "last ventilator",
+      "tagteam:denotesType": "cco:Artifact",
+      "tagteam:referentialStatus": "presupposed",
+      "tagteam:definiteness": "definite",
+      "tagteam:discourseRole": "instrument",
       "tagteam:is_scarce": true,
-      "tagteam:quantity": 1
+      "tagteam:quantity": 1,
+      "tagteam:extracted_from_span": "last ventilator",
+      "tagteam:span_offset": [28, 43]
     },
 
     // === REALITY LAYER: ROLES ===
@@ -531,19 +572,19 @@ Return validated graph
       "@id": "ex:AgentRole_0",
       "@type": ["bfo:BFO_0000023"],
       "rdfs:label": "agent role",
-      "inheres_in": "ex:Doctor_0",
+      "inheres_in": "ex:Doctor_Referent_0",
       "realized_in": "ex:Allocation_Act_0"
     },
     {
       "@id": "ex:PatientRole_A",
       "@type": ["cco:PatientRole"],
-      "inheres_in": "ex:Patient_A",
+      "inheres_in": "ex:Patient_Referent_A",
       "realized_in": "ex:Allocation_Act_0"
     },
     {
       "@id": "ex:PatientRole_B",
       "@type": ["cco:PatientRole"],
-      "inheres_in": "ex:Patient_B",
+      "inheres_in": "ex:Patient_Referent_B",
       "realized_in": "ex:Allocation_Act_0"
     },
 
@@ -552,10 +593,9 @@ Return validated graph
       "@id": "ex:Allocation_Act_0",
       "@type": ["cco:IntentionalAct"],
       "rdfs:label": "allocation act",
-      "has_agent": "ex:Doctor_0",
-      "has_participant": ["ex:Patient_A", "ex:Patient_B"],
-      "affects": "ex:Ventilator_0",
-      "realizes": ["ex:AgentRole_0", "ex:PatientRole_A", "ex:PatientRole_B"],
+      "has_agent": "ex:Doctor_Referent_0",
+      "has_participant": ["ex:Patient_Referent_A", "ex:Patient_Referent_B"],
+      "affects": "ex:Ventilator_Referent_0",
       "tagteam:verb": "allocate",
       "tagteam:modality": "obligation"
     },
@@ -568,17 +608,27 @@ Return validated graph
       "asserts": "ex:Justice_ICE",
       "detected_by": "ex:TagTeam_Parser_v3.0.0",
       "based_on": "ex:Input_Text_IBE",
-      "confidence": 0.9,
+      "tagteam:extractionConfidence": 0.95,
+      "tagteam:classificationConfidence": 0.90,
+      "tagteam:relevanceConfidence": 0.95,
+      "tagteam:aggregateConfidence": 0.93,
+      "tagteam:aggregationMethod": "geometric_mean",
       "temporal_extent": "2026-01-18T10:30:00Z",
-      "tagteam:matched_markers": ["allocate", "between", "two"]
+      "detection_method": "keyword_pattern_matching",
+      "matched_markers": ["allocate", "between", "two"]
     },
     {
       "@id": "ex:Autonomy_Assertion_0",
       "@type": ["tagteam:ValueAssertionEvent"],
       "asserts": "ex:Autonomy_ICE",
       "detected_by": "ex:TagTeam_Parser_v3.0.0",
-      "confidence": 0.75,
-      "tagteam:matched_markers": ["patients", "decide"]
+      "based_on": "ex:Input_Text_IBE",
+      "tagteam:extractionConfidence": 0.85,
+      "tagteam:classificationConfidence": 0.70,
+      "tagteam:relevanceConfidence": 0.70,
+      "tagteam:aggregateConfidence": 0.75,
+      "tagteam:aggregationMethod": "geometric_mean",
+      "matched_markers": ["patients", "decide"]
     },
     {
       "@id": "ex:Urgency_Assessment_0",
@@ -586,7 +636,11 @@ Return validated graph
       "asserts": "ex:Urgency_ICE",
       "tagteam:dimension": "temporal.urgency",
       "tagteam:score": 1.0,
-      "confidence": 0.95,
+      "tagteam:extractionConfidence": 0.98,
+      "tagteam:classificationConfidence": 0.95,
+      "tagteam:relevanceConfidence": 0.92,
+      "tagteam:aggregateConfidence": 0.95,
+      "tagteam:aggregationMethod": "geometric_mean",
       "based_on": ["ex:Modal_Must", "ex:Critical_Illness", "ex:Scarce_Resource"]
     },
 
@@ -750,9 +804,10 @@ TagTeam.extractContextScores(graph)
 
 ### ✓ 6. Namespace Strategy
 **Decision**: Hybrid approach
-- `http://tagteam.fandaws.org/ontology/` for TagTeam classes
-- `http://example.org/tagteam/` for discourse referent instances
-- CCO/BFO namespaces as standard
+- `tagteam:` = `http://tagteam.fandaws.org/ontology/` for TagTeam vocabulary (classes and properties)
+- `inst:` = `http://tagteam.fandaws.org/instance/` for production instance IRIs (discourse referents, assertion events, etc.)
+- `ex:` = `http://example.org/` for examples in documentation ONLY (never in production)
+- CCO/BFO namespaces as standard (`cco:`, `bfo:`)
 
 ### Remaining Open Questions
 
