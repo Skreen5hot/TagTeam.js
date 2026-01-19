@@ -33,6 +33,13 @@ const valueScorerPath = path.join(__dirname, '..', 'src', 'analyzers', 'ValueSco
 const ethicalProfilerPath = path.join(__dirname, '..', 'src', 'analyzers', 'EthicalProfiler.js');
 const semanticExtractorPath = path.join(__dirname, '..', 'src', 'core', 'SemanticRoleExtractor.js');
 
+// Phase 4: Graph modules
+const entityExtractorPath = path.join(__dirname, '..', 'src', 'graph', 'EntityExtractor.js');
+const actExtractorPath = path.join(__dirname, '..', 'src', 'graph', 'ActExtractor.js');
+const roleDetectorPath = path.join(__dirname, '..', 'src', 'graph', 'RoleDetector.js');
+const semanticGraphBuilderPath = path.join(__dirname, '..', 'src', 'graph', 'SemanticGraphBuilder.js');
+const jsonldSerializerPath = path.join(__dirname, '..', 'src', 'graph', 'JSONLDSerializer.js');
+
 let lexicon = fs.readFileSync(lexiconPath, 'utf8');
 let posTagger = fs.readFileSync(posTaggerPath, 'utf8');
 let patternMatcher = fs.readFileSync(patternMatcherPath, 'utf8');
@@ -54,6 +61,20 @@ console.log(`  ✓ ValueMatcher.js (${(valueMatcher.length / 1024).toFixed(2)} K
 console.log(`  ✓ ValueScorer.js (${(valueScorer.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ EthicalProfiler.js (${(ethicalProfiler.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ SemanticRoleExtractor.js (${(semanticExtractor.length / 1024).toFixed(2)} KB)`);
+
+// Read Phase 4 graph modules
+console.log('\n📖 Reading Phase 4 graph modules...');
+let entityExtractor = fs.readFileSync(entityExtractorPath, 'utf8');
+let actExtractor = fs.readFileSync(actExtractorPath, 'utf8');
+let roleDetector = fs.readFileSync(roleDetectorPath, 'utf8');
+let semanticGraphBuilder = fs.readFileSync(semanticGraphBuilderPath, 'utf8');
+let jsonldSerializer = fs.readFileSync(jsonldSerializerPath, 'utf8');
+
+console.log(`  ✓ EntityExtractor.js (${(entityExtractor.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ ActExtractor.js (${(actExtractor.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ RoleDetector.js (${(roleDetector.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ SemanticGraphBuilder.js (${(semanticGraphBuilder.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ JSONLDSerializer.js (${(jsonldSerializer.length / 1024).toFixed(2)} KB)`);
 
 // Read data files for Week 2b
 console.log('\n📖 Reading Week 2b data files...');
@@ -154,12 +175,41 @@ if (ethicalProfiler.includes('(function(root, factory)')) {
   }
 }
 
+// Process Phase 4 graph modules - convert CommonJS to browser-compatible
+console.log('\n🔧 Processing Phase 4 graph modules...');
+
+// Helper function to strip CommonJS require/exports from a module
+function stripCommonJS(code, className) {
+  // Remove require statements
+  code = code.replace(/const\s+\w+\s*=\s*require\([^)]+\);\s*\n?/g, '');
+  // Remove module.exports
+  code = code.replace(/module\.exports\s*=\s*\w+;\s*\n?/g, '');
+  // Remove 'use strict' if it appears standalone
+  code = code.replace(/'use strict';\s*\n?/g, '');
+  return code;
+}
+
+entityExtractor = stripCommonJS(entityExtractor, 'EntityExtractor');
+console.log('  ✓ Converted EntityExtractor to browser format');
+
+actExtractor = stripCommonJS(actExtractor, 'ActExtractor');
+console.log('  ✓ Converted ActExtractor to browser format');
+
+roleDetector = stripCommonJS(roleDetector, 'RoleDetector');
+console.log('  ✓ Converted RoleDetector to browser format');
+
+semanticGraphBuilder = stripCommonJS(semanticGraphBuilder, 'SemanticGraphBuilder');
+console.log('  ✓ Converted SemanticGraphBuilder to browser format');
+
+jsonldSerializer = stripCommonJS(jsonldSerializer, 'JSONLDSerializer');
+console.log('  ✓ Converted JSONLDSerializer to browser format');
+
 // Build the bundle
 console.log('\n🔧 Building bundle...');
 
 const bundle = `/*!
  * TagTeam.js - Deterministic Semantic Parser with Ethical Value Detection
- * Version: 3.0.0-alpha (Week 3 - Pattern Matching Enhancement)
+ * Version: 3.0.0-alpha.2 (Phase 4 - JSON-LD Semantic Graph)
  * Date: ${new Date().toISOString().split('T')[0]}
  *
  * A client-side JavaScript library for extracting semantic roles from natural language text
@@ -167,6 +217,7 @@ const bundle = `/*!
  * Week 2a: Context intensity analysis (12 dimensions)
  * Week 2b: Ethical value detection (50 values, conflict detection, domain analysis)
  * Week 3: Enhanced pattern matching with NLP (fixes IEE polarity bug)
+ * Phase 4: JSON-LD semantic graph output with BFO/CCO ontology support
  *
  * Inspired by d3.js and mermaid.js - single file, simple API
  * Dependency: Compromise.js (~345KB) for lemmatization and NLP features
@@ -312,6 +363,76 @@ ${ethicalProfiler}
 ${semanticExtractor}
 
   // ============================================================================
+  // PHASE 4: JSON-LD SEMANTIC GRAPH MODULES
+  // ============================================================================
+
+  // Browser-compatible SHA-256 implementation for IRI generation
+  const crypto = {
+    createHash: function(algorithm) {
+      if (algorithm !== 'sha256') {
+        throw new Error('Only sha256 is supported in browser');
+      }
+      return {
+        _data: '',
+        update: function(data) {
+          this._data += data;
+          return this;
+        },
+        digest: function(encoding) {
+          // Simple deterministic hash for browser
+          // Uses djb2 algorithm - fast and produces good distribution
+          let hash = 5381;
+          const str = this._data;
+          for (let i = 0; i < str.length; i++) {
+            hash = ((hash << 5) + hash) + str.charCodeAt(i);
+            hash = hash & 0xffffffff; // Convert to 32bit unsigned
+          }
+          // Convert to hex and create 64-char string for consistency with SHA-256
+          const hex1 = (hash >>> 0).toString(16).padStart(8, '0');
+          // Create second hash for more entropy
+          let hash2 = 0;
+          for (let i = 0; i < str.length; i++) {
+            hash2 = str.charCodeAt(i) + ((hash2 << 6) + (hash2 << 16) - hash2);
+            hash2 = hash2 & 0xffffffff;
+          }
+          const hex2 = (hash2 >>> 0).toString(16).padStart(8, '0');
+          return (hex1 + hex2).repeat(4).substring(0, 64);
+        }
+      };
+    }
+  };
+
+  // ============================================================================
+  // ENTITY EXTRACTOR (Phase 4 - Week 1)
+  // ============================================================================
+
+${entityExtractor}
+
+  // ============================================================================
+  // ACT EXTRACTOR (Phase 4 - Week 1)
+  // ============================================================================
+
+${actExtractor}
+
+  // ============================================================================
+  // ROLE DETECTOR (Phase 4 - Week 1)
+  // ============================================================================
+
+${roleDetector}
+
+  // ============================================================================
+  // JSON-LD SERIALIZER (Phase 4 - Week 1)
+  // ============================================================================
+
+${jsonldSerializer}
+
+  // ============================================================================
+  // SEMANTIC GRAPH BUILDER (Phase 4 - Week 1)
+  // ============================================================================
+
+${semanticGraphBuilder}
+
+  // ============================================================================
   // UNIFIED API
   // ============================================================================
 
@@ -410,13 +531,59 @@ ${semanticExtractor}
     },
 
     /**
+     * Build a JSON-LD semantic graph from text (Phase 4)
+     *
+     * @param {string} text - The text to analyze
+     * @param {Object} options - Optional configuration
+     * @param {string} options.context - Interpretation context (e.g., 'MedicalEthics')
+     * @param {boolean} options.extractEntities - Extract entities (default: true)
+     * @param {boolean} options.extractActs - Extract acts (default: true)
+     * @param {boolean} options.detectRoles - Detect roles (default: true)
+     * @returns {Object} Graph object with @graph array
+     *
+     * @example
+     * const graph = TagTeam.buildGraph("The doctor must allocate the ventilator");
+     * console.log(graph['@graph']); // Array of nodes
+     */
+    buildGraph: function(text, options) {
+      const builder = new SemanticGraphBuilder(options);
+      return builder.build(text, options);
+    },
+
+    /**
+     * Build and serialize a JSON-LD semantic graph (Phase 4)
+     *
+     * @param {string} text - The text to analyze
+     * @param {Object} options - Optional configuration
+     * @param {boolean} options.pretty - Pretty-print JSON (default: false)
+     * @returns {string} JSON-LD string
+     *
+     * @example
+     * const jsonld = TagTeam.toJSONLD("The doctor must allocate the ventilator");
+     * console.log(jsonld); // Valid JSON-LD string
+     */
+    toJSONLD: function(text, options) {
+      options = options || {};
+      const graph = this.buildGraph(text, options);
+      const serializer = new JSONLDSerializer({ pretty: options.pretty });
+      return serializer.serialize(graph);
+    },
+
+    /**
      * Version information
      */
-    version: '2.0.0',
+    version: '3.0.0-alpha.2',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
-    POSTagger: POSTagger
+    POSTagger: POSTagger,
+
+    // Phase 4: Graph building classes
+    SemanticGraphBuilder: SemanticGraphBuilder,
+    JSONLDSerializer: JSONLDSerializer,
+    EntityExtractor: EntityExtractor,
+    ActExtractor: ActExtractor,
+    RoleDetector: RoleDetector
   };
 
   // Return the unified API
@@ -441,17 +608,20 @@ const testHtml = `<!DOCTYPE html>
   <style>
     body {
       font-family: system-ui, -apple-system, sans-serif;
-      max-width: 800px;
+      max-width: 900px;
       margin: 40px auto;
       padding: 20px;
       line-height: 1.6;
     }
     h1 { color: #2563eb; }
+    h2 { color: #1e40af; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px; }
     pre {
       background: #f3f4f6;
       padding: 15px;
       border-radius: 8px;
       overflow-x: auto;
+      font-size: 12px;
+      max-height: 400px;
     }
     .result {
       margin: 20px 0;
@@ -459,6 +629,10 @@ const testHtml = `<!DOCTYPE html>
       border: 2px solid #10b981;
       border-radius: 8px;
       background: #f0fdf4;
+    }
+    .result-phase4 {
+      border-color: #8b5cf6;
+      background: #f5f3ff;
     }
     button {
       background: #2563eb;
@@ -468,30 +642,149 @@ const testHtml = `<!DOCTYPE html>
       border-radius: 6px;
       cursor: pointer;
       font-size: 16px;
+      margin-right: 10px;
     }
     button:hover { background: #1d4ed8; }
+    button.phase4 { background: #7c3aed; }
+    button.phase4:hover { background: #6d28d9; }
+    .section { margin-bottom: 40px; }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-left: 8px;
+    }
+    .badge-new { background: #dcfce7; color: #166534; }
+    .badge-legacy { background: #e5e7eb; color: #374151; }
+    .summary-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 10px 0;
+    }
+    .summary-box h4 { margin: 0 0 10px 0; color: #1e40af; }
+    .summary-item { margin: 5px 0; }
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+      resize: vertical;
+    }
   </style>
 </head>
 <body>
-  <h1>🎯 TagTeam.js Bundle Test</h1>
-  <p>Testing single-file bundle with simple API</p>
+  <h1>🎯 TagTeam.js v3.0.0-alpha.2</h1>
+  <p>Semantic Parser with JSON-LD Graph Output</p>
 
-  <h2>Test 1: Simple Parse</h2>
-  <button onclick="test1()">Run Test 1</button>
-  <div id="test1-result"></div>
+  <div class="section">
+    <h2>Phase 4: JSON-LD Semantic Graph <span class="badge badge-new">NEW</span></h2>
+    <p>Build BFO/CCO-compliant knowledge graphs from natural language</p>
 
-  <h2>Test 2: Batch Parse</h2>
-  <button onclick="test2()">Run Test 2</button>
-  <div id="test2-result"></div>
+    <label for="phase4-input"><strong>Input Text:</strong></label>
+    <textarea id="phase4-input" rows="2">The doctor must allocate the last ventilator between two critically ill patients</textarea>
+    <br><br>
+    <button class="phase4" onclick="testPhase4()">Build JSON-LD Graph</button>
+    <button class="phase4" onclick="testPhase4Summary()">Show Summary</button>
+    <div id="phase4-result"></div>
+  </div>
 
-  <h2>Test 3: IEE Test Sentence</h2>
-  <button onclick="test3()">Run Test 3</button>
-  <div id="test3-result"></div>
+  <hr>
+
+  <div class="section">
+    <h2>Legacy API <span class="badge badge-legacy">CLASSIC</span></h2>
+    <p>Original semantic role extraction</p>
+
+    <h3>Test 1: Simple Parse</h3>
+    <button onclick="test1()">Run Test 1</button>
+    <div id="test1-result"></div>
+
+    <h3>Test 2: Batch Parse</h3>
+    <button onclick="test2()">Run Test 2</button>
+    <div id="test2-result"></div>
+
+    <h3>Test 3: IEE Test Sentence</h3>
+    <button onclick="test3()">Run Test 3</button>
+    <div id="test3-result"></div>
+  </div>
 
   <!-- Load the bundle -->
   <script src="tagteam.js"></script>
 
   <script>
+    // Phase 4: JSON-LD Graph Demo
+    function testPhase4() {
+      const text = document.getElementById('phase4-input').value;
+      const jsonld = TagTeam.toJSONLD(text, { pretty: true });
+
+      document.getElementById('phase4-result').innerHTML = \`
+        <div class="result result-phase4">
+          <strong>JSON-LD Output:</strong>
+          <pre>\${jsonld}</pre>
+        </div>
+      \`;
+    }
+
+    function testPhase4Summary() {
+      const text = document.getElementById('phase4-input').value;
+      const graph = TagTeam.buildGraph(text);
+
+      const referents = graph['@graph'].filter(n =>
+        n['@type'] && n['@type'].includes('tagteam:DiscourseReferent'));
+      const acts = graph['@graph'].filter(n =>
+        n['@type'] && n['@type'].some(t => t.includes('IntentionalAct') || t.includes('ActOf')));
+      const roles = graph['@graph'].filter(n =>
+        n['@type'] && n['@type'].includes('bfo:BFO_0000023'));
+
+      let summaryHtml = \`
+        <div class="result result-phase4">
+          <div class="summary-box">
+            <h4>📊 Graph Summary</h4>
+            <div class="summary-item"><strong>Total Nodes:</strong> \${graph['@graph'].length}</div>
+            <div class="summary-item"><strong>Discourse Referents:</strong> \${referents.length}</div>
+            <div class="summary-item"><strong>Intentional Acts:</strong> \${acts.length}</div>
+            <div class="summary-item"><strong>BFO Roles:</strong> \${roles.length}</div>
+          </div>
+      \`;
+
+      if (referents.length > 0) {
+        summaryHtml += \`<h4>👤 Discourse Referents (Entities)</h4><ul>\`;
+        referents.forEach(r => {
+          summaryHtml += \`<li><strong>\${r['rdfs:label']}</strong> → \${r['tagteam:denotesType']}\`;
+          if (r['tagteam:is_scarce']) summaryHtml += \` ⚠️ SCARCE\`;
+          summaryHtml += \`</li>\`;
+        });
+        summaryHtml += \`</ul>\`;
+      }
+
+      if (acts.length > 0) {
+        summaryHtml += \`<h4>⚡ Intentional Acts</h4><ul>\`;
+        acts.forEach(a => {
+          const actType = a['@type'].find(t => t.includes('cco:')) || 'IntentionalAct';
+          summaryHtml += \`<li><strong>\${a['tagteam:verb']}</strong> (\${actType})\`;
+          if (a['tagteam:modality']) summaryHtml += \` [modality: \${a['tagteam:modality']}]\`;
+          summaryHtml += \`</li>\`;
+        });
+        summaryHtml += \`</ul>\`;
+      }
+
+      if (roles.length > 0) {
+        summaryHtml += \`<h4>🎭 BFO Roles</h4><ul>\`;
+        roles.forEach(r => {
+          summaryHtml += \`<li>\${r['rdfs:label']}</li>\`;
+        });
+        summaryHtml += \`</ul>\`;
+      }
+
+      summaryHtml += \`</div>\`;
+      document.getElementById('phase4-result').innerHTML = summaryHtml;
+    }
+
+    // Legacy tests
     function test1() {
       const text = "I love my best friend";
       const result = TagTeam.parse(text);
@@ -541,10 +834,10 @@ const testHtml = `<!DOCTYPE html>
       \`;
     }
 
-    // Auto-run test 1 on load
+    // Auto-run Phase 4 demo on load
     window.addEventListener('load', () => {
       console.log('TagTeam.js loaded! Version:', TagTeam.version);
-      test1();
+      testPhase4Summary();
     });
   </script>
 </body>
