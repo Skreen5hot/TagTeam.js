@@ -2,10 +2,15 @@
  * JSONLDSerializer.js
  *
  * Serializes semantic graphs to JSON-LD format with proper @context.
- * Updated for Phase 4 Two-Tier Architecture (v2.2 spec).
+ *
+ * Phase 4 Two-Tier Architecture v2.3:
+ * - ScarcityAssertion ICE type
+ * - DeonticContent / DirectiveInformationContentEntity
+ * - ObjectAggregate (bfo:BFO_0000027)
+ * - Role realization properties
  *
  * @module graph/JSONLDSerializer
- * @version 4.0.0-phase4
+ * @version 4.0.0-phase4-v2.3
  */
 
 /**
@@ -104,8 +109,14 @@ class JSONLDSerializer {
 
       // ===== Tier 2 Relations (BFO) =====
       inheres_in: { '@id': 'bfo:BFO_0000052', '@type': '@id' },
+      is_bearer_of: { '@id': 'bfo:BFO_0000053', '@type': '@id' },
       realized_in: { '@id': 'bfo:BFO_0000054', '@type': '@id' },
+      realizes: { '@id': 'bfo:BFO_0000055', '@type': '@id' },
       has_participant: { '@id': 'bfo:BFO_0000057', '@type': '@id' },
+      has_member: { '@id': 'bfo:BFO_0000051', '@type': '@id' },
+
+      // v2.3: Role realization (for Prescribed acts where role is not yet realized)
+      would_be_realized_in: { '@id': 'tagteam:would_be_realized_in', '@type': '@id' },
 
       // ===== Tier 2 Relations (CCO) =====
       has_agent: { '@id': 'cco:has_agent', '@type': '@id' },
@@ -137,13 +148,19 @@ class JSONLDSerializer {
       modalMarker: 'tagteam:modalMarker',
       modalStrength: { '@id': 'tagteam:modalStrength', '@type': 'xsd:decimal' },
 
-      // ===== Scarcity Properties =====
+      // ===== Scarcity Properties (v2.3: ScarcityAssertion ICE) =====
       scarceResource: { '@id': 'tagteam:scarceResource', '@type': '@id' },
       competingParties: { '@id': 'tagteam:competingParties', '@type': '@id', '@container': '@set' },
       supplyCount: { '@id': 'tagteam:supplyCount', '@type': 'xsd:integer' },
       demandCount: { '@id': 'tagteam:demandCount', '@type': 'xsd:integer' },
       scarcityRatio: { '@id': 'tagteam:scarcityRatio', '@type': 'xsd:decimal' },
+      scarcityMarker: 'tagteam:scarcityMarker',
       evidenceText: 'tagteam:evidenceText',
+      detected_at: { '@id': 'tagteam:detected_at', '@type': 'xsd:dateTime' },
+
+      // ===== Object Aggregate Properties (v2.3) =====
+      member_count: { '@id': 'tagteam:member_count', '@type': 'xsd:integer' },
+      member_index: { '@id': 'tagteam:member_index', '@type': 'xsd:integer' },
 
       // ===== Discourse Referent Properties =====
       sourceText: 'tagteam:sourceText',

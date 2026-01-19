@@ -3,16 +3,25 @@
  *
  * Main orchestrator for building JSON-LD semantic graphs.
  * Transforms TagTeam parsing results into SHML+GIT-compliant knowledge graphs.
- * Updated for Phase 4 Two-Tier Architecture (v2.2 spec).
+ *
+ * Phase 4 Two-Tier Architecture v2.3:
+ * - ScarcityAssertion ICE (not on Tier 2 entities)
+ * - DirectiveContent ICE (modal markers)
+ * - ObjectAggregate for plural persons
+ * - PatientRole only on cco:Person
+ * - Roles realize only in Actual acts
  *
  * @module graph/SemanticGraphBuilder
- * @version 4.0.0-phase4
+ * @version 4.0.0-phase4-v2.3
  */
 
 const crypto = require('crypto');
 const EntityExtractor = require('./EntityExtractor');
 const ActExtractor = require('./ActExtractor');
 const RoleDetector = require('./RoleDetector');
+const ScarcityAssertionFactory = require('./ScarcityAssertionFactory');
+const DirectiveExtractor = require('./DirectiveExtractor');
+const ObjectAggregateFactory = require('./ObjectAggregateFactory');
 
 /**
  * Main class for building semantic graphs in JSON-LD format
@@ -35,14 +44,27 @@ class SemanticGraphBuilder {
     this.nodes = [];
     this.nodeIndex = new Map(); // IRI -> node for deduplication
 
-    // Initialize extractors
+    // Initialize extractors and factories
     this.entityExtractor = new EntityExtractor({ graphBuilder: this });
     this.actExtractor = new ActExtractor({ graphBuilder: this });
     this.roleDetector = new RoleDetector({ graphBuilder: this });
+
+    // v2.3: New factories for proper ontological separation
+    this.scarcityFactory = new ScarcityAssertionFactory({ graphBuilder: this });
+    this.directiveExtractor = new DirectiveExtractor({ graphBuilder: this });
+    this.aggregateFactory = new ObjectAggregateFactory({ graphBuilder: this });
   }
 
   /**
    * Build a complete semantic graph from input text
+   *
+   * v2.3 Pipeline:
+   * 1. Extract entities (Tier 1 + Tier 2)
+   * 2. Process plurals into ObjectAggregates
+   * 3. Create ScarcityAssertions (ICE layer)
+   * 4. Extract acts
+   * 5. Create DirectiveContent (ICE layer)
+   * 6. Detect roles (respecting entity types and actuality)
    *
    * @param {string} text - Input text to analyze
    * @param {Object} [options] - Build options
@@ -52,7 +74,7 @@ class SemanticGraphBuilder {
    * @example
    * const builder = new SemanticGraphBuilder();
    * const graph = builder.build("The doctor treats the patient");
-   * // Returns: { nodes: [...] }
+   * // Returns: { '@graph': [...] }
    */
   build(text, options = {}) {
     // Reset state for new build
@@ -70,11 +92,70 @@ class SemanticGraphBuilder {
     this.buildTimestamp = new Date().toISOString();
     this.buildContext = buildOptions.context;
 
-    // Phase 1.2: Extract entities as DiscourseReferent nodes
+    // Phase 1.2: Extract entities as DiscourseReferent + Tier 2 nodes
     let extractedEntities = [];
+    let tier1Referents = [];
+    let tier2Entities = [];
+    let linkMap = new Map();
+
     if (buildOptions.extractEntities !== false) {
       extractedEntities = this.entityExtractor.extract(text, buildOptions);
-      this.addNodes(extractedEntities);
+
+      // Separate Tier 1 and Tier 2 entities
+      tier1Referents = extractedEntities.filter(e =>
+        e['@type']?.includes('tagteam:DiscourseReferent')
+      );
+      tier2Entities = extractedEntities.filter(e =>
+        e['@type']?.some(t => t.includes('cco:Person') || t.includes('cco:Artifact') || t.includes('cco:Organization'))
+      );
+
+      // Build link map from Tier 1 to Tier 2
+      tier1Referents.forEach(ref => {
+        if (ref['cco:is_about']) {
+          linkMap.set(ref['@id'], ref['cco:is_about']);
+        }
+      });
+
+      // v2.3: Process plural persons into ObjectAggregates
+      if (buildOptions.createAggregates !== false) {
+        const aggregateResult = this.aggregateFactory.processEntities(
+          tier2Entities,
+          tier1Referents,
+          linkMap
+        );
+        tier2Entities = aggregateResult.expandedEntities;
+        linkMap = aggregateResult.updatedLinkMap;
+
+        // Add aggregates
+        if (aggregateResult.aggregates.length > 0) {
+          this.addNodes(aggregateResult.aggregates);
+        }
+
+        // Update referent is_about links to point to aggregates
+        tier1Referents.forEach(ref => {
+          if (linkMap.has(ref['@id'])) {
+            ref['cco:is_about'] = linkMap.get(ref['@id']);
+          }
+        });
+      }
+
+      // v2.3: Create ScarcityAssertions (ICE layer)
+      if (buildOptions.extractScarcity !== false) {
+        const scarcityResult = this.scarcityFactory.createFromEntities(
+          tier1Referents,
+          tier2Entities,
+          linkMap
+        );
+        tier2Entities = scarcityResult.cleanedTier2;
+        this.addNodes(scarcityResult.scarcityAssertions);
+      }
+
+      // Add all entities (Tier 1 + Tier 2)
+      this.addNodes(tier1Referents);
+      this.addNodes(tier2Entities);
+
+      // Update extractedEntities for downstream use
+      extractedEntities = [...tier1Referents, ...tier2Entities];
     }
 
     // Phase 1.3: Extract acts as IntentionalAct nodes
@@ -85,23 +166,29 @@ class SemanticGraphBuilder {
         entities: extractedEntities
       });
       this.addNodes(extractedActs);
+
+      // v2.3: Create DirectiveContent for modal markers
+      if (buildOptions.extractDirectives !== false) {
+        const directives = this.directiveExtractor.extract(extractedActs, text);
+        this.addNodes(directives);
+      }
     }
 
     // Phase 1.4: Detect roles from acts and entities
+    // v2.3: Respects entity types (no PatientRole on artifacts)
+    //       and actuality (no realization in Prescribed acts)
     if (buildOptions.detectRoles !== false && extractedActs.length > 0) {
       const roles = this.roleDetector.detect(extractedActs, extractedEntities, buildOptions);
       this.addNodes(roles);
     }
-
-    // Future phases will add:
-    // - Phase 2.1: Assertion events (ValueAssertionEvent, ContextAssessmentEvent)
 
     return {
       '@graph': this.nodes,
       _metadata: {
         buildTimestamp: this.buildTimestamp,
         inputLength: text.length,
-        nodeCount: this.nodes.length
+        nodeCount: this.nodes.length,
+        version: '4.0.0-phase4-v2.3'
       }
     };
   }

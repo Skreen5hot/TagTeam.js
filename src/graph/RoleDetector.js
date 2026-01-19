@@ -1,13 +1,16 @@
 /**
  * RoleDetector.js
  *
- * Detects BFO roles from acts and links them to discourse referents.
- * Roles link discourse referents (bearers) to acts (realizations).
+ * Detects BFO roles from acts and links them to entities.
+ * Roles link entities (bearers) to acts (realizations).
  *
- * Phase 1.4: Role Detection
+ * Phase 4 Two-Tier Architecture v2.3:
+ * - PatientRole ONLY inheres in cco:Person (not artifacts)
+ * - Artifacts use AffectedEntityRole or no role
+ * - Roles only realize in Actual acts (not Prescribed/Planned)
  *
  * @module graph/RoleDetector
- * @version 3.0.0-alpha.2
+ * @version 4.0.0-phase4-v2.3
  */
 
 const crypto = require('crypto');
@@ -15,28 +18,50 @@ const crypto = require('crypto');
 /**
  * Role type mappings based on relationship to act
  * Maps role positions to CCO/BFO role types
+ *
+ * IMPORTANT: PatientRole is ONLY for cco:Person entities (BFO/CCO constraint)
+ * Artifacts do not bear PatientRole - they are affected but not patients
  */
 const ROLE_TYPE_MAPPINGS = {
-  // Agent roles (subject performing the act)
+  // Agent roles (subject performing the act) - ONLY for Persons
   'agent': 'cco:AgentRole',
   'performer': 'cco:AgentRole',
   'actor': 'cco:AgentRole',
 
-  // Patient roles (object receiving/affected by act)
+  // Patient roles (ONLY for Persons receiving care/treatment)
   'patient': 'cco:PatientRole',
   'recipient': 'cco:PatientRole',
-  'affected': 'cco:PatientRole',
 
-  // Instrument roles
+  // Instrument roles (for artifacts used in acts)
   'instrument': 'cco:InstrumentRole',
   'tool': 'cco:InstrumentRole',
 
   // Beneficiary roles
   'beneficiary': 'cco:BeneficiaryRole',
 
+  // Participant (generic role for other participants)
+  'participant': 'bfo:BFO_0000023',
+
   // Default
   '_default': 'bfo:BFO_0000023' // Generic BFO Role
 };
+
+/**
+ * Entity types that CAN bear PatientRole (BFO/CCO constraint)
+ * PatientRole is a specific medical/care role that only inheres in persons
+ */
+const PATIENT_ROLE_ELIGIBLE_TYPES = [
+  'cco:Person',
+  'cco:GroupOfPersons'
+];
+
+/**
+ * ActualityStatus values where roles can be realized
+ * Roles are only realized in actual occurrences, not prescriptions
+ */
+const REALIZABLE_STATUSES = [
+  'tagteam:Actual'
+];
 
 /**
  * RoleDetector class - detects roles and links them to acts and bearers
@@ -55,8 +80,12 @@ class RoleDetector {
   /**
    * Detect roles from acts and entities
    *
+   * v2.3 changes:
+   * - PatientRole ONLY for cco:Person entities (not artifacts)
+   * - Roles only realize in Actual acts (not Prescribed/Planned)
+   *
    * @param {Array} acts - Array of IntentionalAct nodes from ActExtractor
-   * @param {Array} entities - Array of DiscourseReferent nodes from EntityExtractor
+   * @param {Array} entities - Array of entity nodes (Tier 1 + Tier 2)
    * @param {Object} [options] - Detection options
    * @returns {Array<Object>} Array of Role nodes
    */
@@ -75,64 +104,63 @@ class RoleDetector {
 
     // Process each act to find roles
     acts.forEach(act => {
+      // Check if roles can be realized in this act (only Actual acts)
+      const actualityStatus = act['tagteam:actualityStatus'];
+      const canRealize = REALIZABLE_STATUSES.includes(actualityStatus);
+
       // Detect agent role (from has_agent)
       if (act['cco:has_agent']) {
         const agentIRI = act['cco:has_agent'];
         const bearer = entityIndex.get(agentIRI);
 
-        if (bearer) {
+        // AgentRole only for Person entities
+        if (bearer && this._canBearAgentRole(bearer)) {
           const role = this._createRole({
             roleType: 'agent',
             bearerIRI: agentIRI,
             bearer,
             actIRI: act['@id'],
-            act
+            act,
+            canRealize
           });
           roles.push(role);
-
-          // Add inverse relation to bearer
-          if (!bearer['bfo:is_bearer_of']) {
-            bearer['bfo:is_bearer_of'] = [];
-          }
-          if (Array.isArray(bearer['bfo:is_bearer_of'])) {
-            bearer['bfo:is_bearer_of'].push(role['@id']);
-          } else {
-            bearer['bfo:is_bearer_of'] = [bearer['bfo:is_bearer_of'], role['@id']];
-          }
+          this._addBearerLink(bearer, role['@id']);
         }
       }
 
-      // Detect patient role (from affects)
+      // Detect patient/affected role (from affects)
       if (act['cco:affects']) {
-        const patientIRI = act['cco:affects'];
-        const bearer = entityIndex.get(patientIRI);
+        const affectedIRI = act['cco:affects'];
+        const bearer = entityIndex.get(affectedIRI);
 
         if (bearer) {
-          const role = this._createRole({
-            roleType: 'patient',
-            bearerIRI: patientIRI,
-            bearer,
-            actIRI: act['@id'],
-            act
-          });
-          roles.push(role);
+          // CRITICAL: PatientRole ONLY for Person entities (BFO/CCO constraint)
+          // Artifacts are affected but do NOT bear PatientRole
+          const isPerson = this._isPersonEntity(bearer);
 
-          // Add inverse relation to bearer
-          if (!bearer['bfo:is_bearer_of']) {
-            bearer['bfo:is_bearer_of'] = [];
+          if (isPerson) {
+            // Create PatientRole for persons
+            const role = this._createRole({
+              roleType: 'patient',
+              bearerIRI: affectedIRI,
+              bearer,
+              actIRI: act['@id'],
+              act,
+              canRealize
+            });
+            roles.push(role);
+            this._addBearerLink(bearer, role['@id']);
           }
-          if (Array.isArray(bearer['bfo:is_bearer_of'])) {
-            bearer['bfo:is_bearer_of'].push(role['@id']);
-          } else {
-            bearer['bfo:is_bearer_of'] = [bearer['bfo:is_bearer_of'], role['@id']];
-          }
+          // NOTE: Artifacts do NOT get PatientRole - they are simply affected
+          // The cco:affects relation on the act is sufficient
         }
       }
 
-      // Detect participant roles (from has_participant, excluding agent/patient)
+      // Detect participant roles (from has_participant)
+      // These are persons who participate but are not the primary agent/patient
       if (act['bfo:has_participant'] && Array.isArray(act['bfo:has_participant'])) {
         act['bfo:has_participant'].forEach(participantIRI => {
-          // Skip if already covered as agent or patient
+          // Skip if already covered as agent or affected
           if (participantIRI === act['cco:has_agent'] ||
               participantIRI === act['cco:affects']) {
             return;
@@ -140,24 +168,19 @@ class RoleDetector {
 
           const bearer = entityIndex.get(participantIRI);
           if (bearer) {
+            // Determine appropriate role type based on entity type
+            const roleType = this._isPersonEntity(bearer) ? 'patient' : 'participant';
+
             const role = this._createRole({
-              roleType: 'participant',
+              roleType,
               bearerIRI: participantIRI,
               bearer,
               actIRI: act['@id'],
-              act
+              act,
+              canRealize
             });
             roles.push(role);
-
-            // Add inverse relation to bearer
-            if (!bearer['bfo:is_bearer_of']) {
-              bearer['bfo:is_bearer_of'] = [];
-            }
-            if (Array.isArray(bearer['bfo:is_bearer_of'])) {
-              bearer['bfo:is_bearer_of'].push(role['@id']);
-            } else {
-              bearer['bfo:is_bearer_of'] = [bearer['bfo:is_bearer_of'], role['@id']];
-            }
+            this._addBearerLink(bearer, role['@id']);
           }
         });
       }
@@ -167,12 +190,59 @@ class RoleDetector {
   }
 
   /**
+   * Check if an entity is a Person type (can bear PatientRole)
+   * @param {Object} entity - Entity node
+   * @returns {boolean} True if entity is a Person
+   */
+  _isPersonEntity(entity) {
+    const types = entity['@type'] || [];
+    return types.some(type =>
+      PATIENT_ROLE_ELIGIBLE_TYPES.some(eligible => type.includes(eligible))
+    );
+  }
+
+  /**
+   * Check if an entity can bear AgentRole
+   * @param {Object} entity - Entity node
+   * @returns {boolean} True if entity can be an agent
+   */
+  _canBearAgentRole(entity) {
+    // AgentRole is primarily for persons, but could extend to organizations
+    const types = entity['@type'] || [];
+    return types.some(type =>
+      type.includes('cco:Person') ||
+      type.includes('cco:Organization') ||
+      type.includes('cco:GroupOfPersons')
+    );
+  }
+
+  /**
+   * Add bearer link to entity
+   * @param {Object} bearer - Bearer entity
+   * @param {string} roleIRI - Role IRI
+   */
+  _addBearerLink(bearer, roleIRI) {
+    if (!bearer['bfo:is_bearer_of']) {
+      bearer['bfo:is_bearer_of'] = [];
+    }
+    if (Array.isArray(bearer['bfo:is_bearer_of'])) {
+      bearer['bfo:is_bearer_of'].push(roleIRI);
+    } else {
+      bearer['bfo:is_bearer_of'] = [bearer['bfo:is_bearer_of'], roleIRI];
+    }
+  }
+
+  /**
    * Create a Role node
+   *
+   * v2.3: Roles only have bfo:realized_in for Actual acts
+   * For Prescribed/Planned acts, role exists but is not yet realized
+   *
    * @param {Object} roleInfo - Role information
    * @returns {Object} Role node
    */
   _createRole(roleInfo) {
-    const { roleType, bearerIRI, bearer, actIRI, act } = roleInfo;
+    const { roleType, bearerIRI, bearer, actIRI, act, canRealize } = roleInfo;
 
     // Generate IRI
     const iri = this._generateRoleIRI(roleType, bearerIRI, actIRI);
@@ -188,11 +258,17 @@ class RoleDetector {
       'tagteam:roleType': roleType,
 
       // CRITICAL: Bearer link (SHACL VIOLATION if missing)
-      'bfo:inheres_in': bearerIRI,
-
-      // Realization link (links role to act)
-      'bfo:realized_in': actIRI
+      'bfo:inheres_in': bearerIRI
     };
+
+    // IMPORTANT: Realization link ONLY for Actual acts (v2.3 fix)
+    // Prescribed/Planned acts: role exists (inheres_in) but is not realized
+    if (canRealize) {
+      role['bfo:realized_in'] = actIRI;
+    } else {
+      // For non-actual acts, indicate which act would realize the role
+      role['tagteam:would_be_realized_in'] = actIRI;
+    }
 
     return role;
   }

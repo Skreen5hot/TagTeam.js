@@ -365,25 +365,33 @@ test('complex scenario: "The doctor must allocate the last ventilator between tw
   const builder = new SemanticGraphBuilder();
   const graph = builder.build('The doctor must allocate the last ventilator between two patients');
 
-  // Check doctor
-  const doctor = graph['@graph'].find(n =>
-    n['rdfs:label']?.toLowerCase().includes('doctor'));
-  assert(doctor, 'Found doctor');
-  assert(doctor['tagteam:denotesType'] === 'cco:Person', 'Doctor denotesType');
-  assert(doctor['tagteam:definiteness'] === 'definite', 'Doctor is definite');
+  // Check doctor (Tier 1 referent)
+  const doctorReferent = graph['@graph'].find(n =>
+    n['rdfs:label']?.toLowerCase().includes('doctor') &&
+    n['@type']?.includes('tagteam:DiscourseReferent'));
+  assert(doctorReferent, 'Found doctor referent');
+  assert(doctorReferent['tagteam:denotesType'] === 'cco:Person', 'Doctor denotesType');
+  assert(doctorReferent['tagteam:definiteness'] === 'definite', 'Doctor is definite');
 
-  // Check ventilator with scarcity
-  const ventilator = graph['@graph'].find(n =>
-    n['rdfs:label']?.toLowerCase().includes('ventilator'));
-  assert(ventilator, 'Found ventilator');
-  assert(ventilator['tagteam:is_scarce'] === true, 'Ventilator is scarce');
-  assert(ventilator['tagteam:quantity'] === 1, 'Ventilator quantity is 1');
+  // Check ventilator with scarcity (v2.3: scarcity on Tier 1 referent)
+  const ventilatorReferent = graph['@graph'].find(n =>
+    n['rdfs:label']?.toLowerCase().includes('ventilator') &&
+    n['@type']?.includes('tagteam:DiscourseReferent'));
+  assert(ventilatorReferent, 'Found ventilator referent');
+  assert(ventilatorReferent['tagteam:is_scarce'] === true, 'Ventilator referent is scarce');
+  assert(ventilatorReferent['tagteam:quantity'] === 1, 'Ventilator quantity is 1');
 
-  // Check patients
-  const patients = graph['@graph'].find(n =>
-    n['rdfs:label']?.toLowerCase().includes('patient'));
-  assert(patients, 'Found patients');
-  assert(patients['tagteam:quantity'] === 2, 'Patients quantity is 2');
+  // v2.3: ScarcityAssertion ICE should exist
+  const scarcityAssertion = graph['@graph'].find(n =>
+    n['@type']?.includes('tagteam:ScarcityAssertion'));
+  assert(scarcityAssertion, 'ScarcityAssertion ICE exists');
+
+  // Check patients (v2.3: may be aggregated)
+  const patientReferent = graph['@graph'].find(n =>
+    n['rdfs:label']?.toLowerCase().includes('patient') &&
+    n['@type']?.includes('tagteam:DiscourseReferent'));
+  assert(patientReferent, 'Found patient referent');
+  assert(patientReferent['tagteam:quantity'] === 2, 'Patients quantity is 2');
 });
 
 // Test Suite 12: Two-Tier Architecture (v2.2)
