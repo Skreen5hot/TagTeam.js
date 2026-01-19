@@ -49,6 +49,15 @@ const objectAggregateFactoryPath = path.join(__dirname, '..', 'src', 'graph', 'O
 // v2.4: Quality factory for entity qualifiers
 const qualityFactoryPath = path.join(__dirname, '..', 'src', 'graph', 'QualityFactory.js');
 
+// Week 2: Assertion events and GIT-Minimal integration
+const assertionEventBuilderPath = path.join(__dirname, '..', 'src', 'graph', 'AssertionEventBuilder.js');
+const contextManagerPath = path.join(__dirname, '..', 'src', 'graph', 'ContextManager.js');
+const informationStaircaseBuilderPath = path.join(__dirname, '..', 'src', 'graph', 'InformationStaircaseBuilder.js');
+
+// Week 3: SHACL validation and complexity budget
+const shmlValidatorPath = path.join(__dirname, '..', 'src', 'graph', 'SHMLValidator.js');
+const complexityBudgetPath = path.join(__dirname, '..', 'src', 'graph', 'ComplexityBudget.js');
+
 let lexicon = fs.readFileSync(lexiconPath, 'utf8');
 let posTagger = fs.readFileSync(posTaggerPath, 'utf8');
 let patternMatcher = fs.readFileSync(patternMatcherPath, 'utf8');
@@ -88,6 +97,15 @@ let objectAggregateFactory = fs.readFileSync(objectAggregateFactoryPath, 'utf8')
 // v2.4 factories
 let qualityFactory = fs.readFileSync(qualityFactoryPath, 'utf8');
 
+// Week 2 modules
+let assertionEventBuilder = fs.readFileSync(assertionEventBuilderPath, 'utf8');
+let contextManager = fs.readFileSync(contextManagerPath, 'utf8');
+let informationStaircaseBuilder = fs.readFileSync(informationStaircaseBuilderPath, 'utf8');
+
+// Week 3 modules
+let shmlValidator = fs.readFileSync(shmlValidatorPath, 'utf8');
+let complexityBudget = fs.readFileSync(complexityBudgetPath, 'utf8');
+
 console.log(`  ✓ RealWorldEntityFactory.js (${(realWorldEntityFactory.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ EntityExtractor.js (${(entityExtractor.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ ActExtractor.js (${(actExtractor.length / 1024).toFixed(2)} KB)`);
@@ -98,6 +116,11 @@ console.log(`  ✓ ScarcityAssertionFactory.js (${(scarcityAssertionFactory.leng
 console.log(`  ✓ DirectiveExtractor.js (${(directiveExtractor.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ ObjectAggregateFactory.js (${(objectAggregateFactory.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ QualityFactory.js (${(qualityFactory.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ AssertionEventBuilder.js (${(assertionEventBuilder.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ ContextManager.js (${(contextManager.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ InformationStaircaseBuilder.js (${(informationStaircaseBuilder.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ SHMLValidator.js (${(shmlValidator.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ ComplexityBudget.js (${(complexityBudget.length / 1024).toFixed(2)} KB)`);
 
 // Read data files for Week 2b
 console.log('\n📖 Reading Week 2b data files...');
@@ -243,12 +266,29 @@ console.log('  ✓ Converted ObjectAggregateFactory to browser format');
 qualityFactory = stripCommonJS(qualityFactory, 'QualityFactory');
 console.log('  ✓ Converted QualityFactory to browser format');
 
+// Week 2 modules
+assertionEventBuilder = stripCommonJS(assertionEventBuilder, 'AssertionEventBuilder');
+console.log('  ✓ Converted AssertionEventBuilder to browser format');
+
+contextManager = stripCommonJS(contextManager, 'ContextManager');
+console.log('  ✓ Converted ContextManager to browser format');
+
+informationStaircaseBuilder = stripCommonJS(informationStaircaseBuilder, 'InformationStaircaseBuilder');
+console.log('  ✓ Converted InformationStaircaseBuilder to browser format');
+
+// Week 3 modules
+shmlValidator = stripCommonJS(shmlValidator, 'SHMLValidator');
+console.log('  ✓ Converted SHMLValidator to browser format');
+
+complexityBudget = stripCommonJS(complexityBudget, 'ComplexityBudget');
+console.log('  ✓ Converted ComplexityBudget to browser format');
+
 // Build the bundle
 console.log('\n🔧 Building bundle...');
 
 const bundle = `/*!
  * TagTeam.js - Two-Tier Semantic Graph Architecture for Ethical Context Analysis
- * Version: 4.0.0-phase4 (Two-Tier Architecture v2.4)
+ * Version: 4.0.0-phase4-week3 (Two-Tier Architecture v2.4 + SHACL Validation)
  * Date: ${new Date().toISOString().split('T')[0]}
  *
  * A client-side JavaScript library for extracting semantic roles from natural language text
@@ -269,6 +309,17 @@ const bundle = `/*!
  *   v2.4 Enhancements:
  *   - PatientRole on ObjectAggregate members
  *   - BFO Quality nodes for qualifiers (critically ill, etc.)
+ *   Week 2 (GIT-Minimal Integration):
+ *   - ValueAssertionEvent with three-way confidence
+ *   - ContextAssessmentEvent for 12 dimensions
+ *   - Information Staircase (IBE → ICE → Assertions)
+ *   - InterpretationContext for assertion scoping
+ *   - Parser agent provenance
+ *   Week 3 (SHACL Validation + Production Readiness):
+ *   - SHMLValidator for 8 SHACL patterns
+ *   - ComplexityBudget for graph limits (200 nodes, 30 referents, 50 assertions)
+ *   - Vocabulary validation and domain/range checking
+ *   - Compliance scoring (0-100%)
  *
  * Inspired by d3.js and mermaid.js - single file, simple API
  * Dependency: Compromise.js (~345KB) for lemmatization and NLP features
@@ -514,7 +565,42 @@ ${objectAggregateFactory}
 ${qualityFactory}
 
   // ============================================================================
-  // SEMANTIC GRAPH BUILDER (Phase 4 - Week 1)
+  // ASSERTION EVENT BUILDER (Phase 4 - Week 2)
+  // Creates ValueAssertionEvent and ContextAssessmentEvent nodes
+  // ============================================================================
+
+${assertionEventBuilder}
+
+  // ============================================================================
+  // CONTEXT MANAGER (Phase 4 - Week 2)
+  // Manages InterpretationContext nodes for GIT-Minimal compliance
+  // ============================================================================
+
+${contextManager}
+
+  // ============================================================================
+  // INFORMATION STAIRCASE BUILDER (Phase 4 - Week 2)
+  // Creates IBE node and parser agent for provenance
+  // ============================================================================
+
+${informationStaircaseBuilder}
+
+  // ============================================================================
+  // SHML VALIDATOR (Phase 4 - Week 3)
+  // Validates graphs against SHACL patterns for BFO/CCO compliance
+  // ============================================================================
+
+${shmlValidator}
+
+  // ============================================================================
+  // COMPLEXITY BUDGET (Phase 4 - Week 3)
+  // Enforces complexity limits on graph construction
+  // ============================================================================
+
+${complexityBudget}
+
+  // ============================================================================
+  // SEMANTIC GRAPH BUILDER (Phase 4 - Week 1 + Week 2)
   // ============================================================================
 
 ${semanticGraphBuilder}
@@ -679,7 +765,16 @@ ${semanticGraphBuilder}
     ObjectAggregateFactory: ObjectAggregateFactory,
 
     // v2.4: Quality factory
-    QualityFactory: QualityFactory
+    QualityFactory: QualityFactory,
+
+    // Week 2: Assertion events and GIT-Minimal
+    AssertionEventBuilder: AssertionEventBuilder,
+    ContextManager: ContextManager,
+    InformationStaircaseBuilder: InformationStaircaseBuilder,
+
+    // Week 3: SHACL validation and complexity budget
+    SHMLValidator: SHMLValidator,
+    ComplexityBudget: ComplexityBudget
   };
 
   // Return the unified API

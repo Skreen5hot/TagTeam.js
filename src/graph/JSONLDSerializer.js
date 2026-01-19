@@ -3,14 +3,17 @@
  *
  * Serializes semantic graphs to JSON-LD format with proper @context.
  *
- * Phase 4 Two-Tier Architecture v2.3:
+ * Phase 4 Two-Tier Architecture v2.4 + Week 2:
  * - ScarcityAssertion ICE type
  * - DeonticContent / DirectiveInformationContentEntity
  * - ObjectAggregate (bfo:BFO_0000027)
  * - Role realization properties
+ * - ValueAssertionEvent, ContextAssessmentEvent (Week 2)
+ * - EthicalValueICE, ContextDimensionICE (Week 2)
+ * - IBE/ICE concretization linkage (Week 2)
  *
  * @module graph/JSONLDSerializer
- * @version 4.0.0-phase4-v2.4
+ * @version 4.0.0-phase4-week2
  */
 
 /**
@@ -81,6 +84,17 @@ class JSONLDSerializer {
       ContextAssessmentRecord: 'tagteam:ContextAssessmentRecord',
       InterpretationContext: 'tagteam:InterpretationContext',
 
+      // ===== Week 2: Assertion Event Classes =====
+      ValueAssertionEvent: 'tagteam:ValueAssertionEvent',
+      ContextAssessmentEvent: 'tagteam:ContextAssessmentEvent',
+      EthicalValueICE: 'tagteam:EthicalValueICE',
+      ContextDimensionICE: 'tagteam:ContextDimensionICE',
+
+      // ===== Week 2: Information Staircase Classes =====
+      InformationBearingEntity: 'cco:InformationBearingEntity',
+      InformationContentEntity: 'cco:InformationContentEntity',
+      ArtificialAgent: 'cco:ArtificialAgent',
+
       // ===== GIT-Minimal Classes =====
       AutomatedDetection: 'tagteam:AutomatedDetection',
       HumanValidation: 'tagteam:HumanValidation',
@@ -101,6 +115,10 @@ class JSONLDSerializer {
       is_about: { '@id': 'cco:is_about', '@type': '@id' },
       prescribes: { '@id': 'cco:prescribes', '@type': '@id' },
       prescribed_by: { '@id': 'cco:prescribed_by', '@type': '@id' },
+
+      // ===== Week 2: ICE Concretization (Information Staircase) =====
+      is_concretized_by: { '@id': 'cco:is_concretized_by', '@type': '@id' },
+      concretizes: { '@id': 'cco:concretizes', '@type': '@id' },
 
       // ===== Tier 1 Relations =====
       has_component: { '@id': 'tagteam:has_component', '@type': '@id' },
@@ -188,8 +206,21 @@ class JSONLDSerializer {
       // ===== IBE Properties =====
       has_text_value: 'cco:has_text_value',
       char_count: { '@id': 'tagteam:char_count', '@type': 'xsd:integer' },
+      word_count: { '@id': 'tagteam:word_count', '@type': 'xsd:integer' },
       received_at: { '@id': 'tagteam:received_at', '@type': 'xsd:dateTime' },
       temporal_extent: { '@id': 'tagteam:temporal_extent', '@type': 'xsd:dateTime' },
+
+      // ===== Week 2: Parser Agent Properties =====
+      version: 'tagteam:version',
+      algorithm: 'tagteam:algorithm',
+      capabilities: 'tagteam:capabilities',
+
+      // ===== Week 2: Value/Context Assertion Properties =====
+      valueName: 'tagteam:valueName',
+      valueCategory: 'tagteam:valueCategory',
+      evidence: 'tagteam:evidence',
+      sourceSpan: 'tagteam:sourceSpan',
+      category: 'tagteam:category',
 
       // ===== Value Detection Properties =====
       asserts: { '@id': 'tagteam:asserts', '@type': '@id' },

@@ -4,7 +4,7 @@
  * Main orchestrator for building JSON-LD semantic graphs.
  * Transforms TagTeam parsing results into SHML+GIT-compliant knowledge graphs.
  *
- * Phase 4 Two-Tier Architecture v2.4:
+ * Phase 4 Two-Tier Architecture v2.4 + Week 2:
  * - ScarcityAssertion ICE (not on Tier 2 entities)
  * - DirectiveContent ICE (modal markers)
  * - ObjectAggregate for plural persons
@@ -12,9 +12,13 @@
  * - Roles realize only in Actual acts
  * - Quality nodes for qualifiers (v2.4)
  * - PatientRole on aggregate members (v2.4)
+ * - ValueAssertionEvent with three-way confidence (Week 2)
+ * - ContextAssessmentEvent for 12 dimensions (Week 2)
+ * - IBE/ICE Information Staircase (Week 2)
+ * - GIT-Minimal provenance (Week 2)
  *
  * @module graph/SemanticGraphBuilder
- * @version 4.0.0-phase4-v2.4
+ * @version 4.0.0-phase4-week2
  */
 
 const crypto = require('crypto');
@@ -25,6 +29,11 @@ const ScarcityAssertionFactory = require('./ScarcityAssertionFactory');
 const DirectiveExtractor = require('./DirectiveExtractor');
 const ObjectAggregateFactory = require('./ObjectAggregateFactory');
 const QualityFactory = require('./QualityFactory');
+
+// Week 2 modules
+const AssertionEventBuilder = require('./AssertionEventBuilder');
+const ContextManager = require('./ContextManager');
+const InformationStaircaseBuilder = require('./InformationStaircaseBuilder');
 
 /**
  * Main class for building semantic graphs in JSON-LD format
@@ -59,6 +68,13 @@ class SemanticGraphBuilder {
 
     // v2.4: Quality factory for entity qualifiers
     this.qualityFactory = new QualityFactory({ graphBuilder: this });
+
+    // Week 2: Assertion events and GIT-Minimal integration
+    this.assertionEventBuilder = new AssertionEventBuilder({ graphBuilder: this });
+    this.contextManager = new ContextManager({ graphBuilder: this });
+    this.informationStaircaseBuilder = new InformationStaircaseBuilder({
+      version: '4.0.0-phase4-week2'
+    });
   }
 
   /**
@@ -199,13 +215,64 @@ class SemanticGraphBuilder {
       this.addNodes(roles);
     }
 
+    // ================================================================
+    // Week 2: Assertion Events + GIT-Minimal Integration
+    // ================================================================
+
+    // Phase 2.1: Create IBE and parser agent (foundation for provenance)
+    const ibeNode = this.informationStaircaseBuilder.createInputIBE(text, this.buildTimestamp);
+    const parserAgentNode = this.informationStaircaseBuilder.createParserAgent();
+    this.addNode(ibeNode);
+    this.addNode(parserAgentNode);
+
+    // Phase 2.2: Get/create interpretation context
+    const contextName = buildOptions.context || 'Default';
+    const contextIRI = this.contextManager.getContextIRI(contextName);
+    if (contextName !== 'Default') {
+      const contextNode = this.contextManager.getOrCreateContext(contextName);
+      if (contextNode) {
+        this.addNode(contextNode);
+      }
+    }
+
+    // Phase 2.3: Create value assertion events (if values provided)
+    if (buildOptions.extractValues !== false && buildOptions.scoredValues) {
+      const valueResult = this.assertionEventBuilder.createValueAssertions(
+        buildOptions.scoredValues,
+        {
+          contextIRI,
+          ibeIRI: ibeNode['@id'],
+          parserAgentIRI: parserAgentNode['@id']
+        }
+      );
+      this.addNodes(valueResult.assertionEvents);
+      this.addNodes(valueResult.iceNodes);
+    }
+
+    // Phase 2.4: Create context assessment events (if context intensity provided)
+    if (buildOptions.extractContext !== false && buildOptions.contextIntensity) {
+      const contextResult = this.assertionEventBuilder.createContextAssessments(
+        buildOptions.contextIntensity,
+        {
+          contextIRI,
+          ibeIRI: ibeNode['@id'],
+          parserAgentIRI: parserAgentNode['@id']
+        }
+      );
+      this.addNodes(contextResult.assessmentEvents);
+      this.addNodes(contextResult.iceNodes);
+    }
+
     return {
       '@graph': this.nodes,
       _metadata: {
         buildTimestamp: this.buildTimestamp,
         inputLength: text.length,
         nodeCount: this.nodes.length,
-        version: '4.0.0-phase4-v2.4'
+        version: '4.0.0-phase4-week2',
+        contextIRI,
+        ibeIRI: ibeNode['@id'],
+        parserAgentIRI: parserAgentNode['@id']
       }
     };
   }
