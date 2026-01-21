@@ -125,7 +125,8 @@ class QualityFactory {
       '@id': iri,
       '@type': [mapping.type, 'bfo:BFO_0000019', 'owl:NamedIndividual'],
       'rdfs:label': `${mapping.label} of ${bearer['rdfs:label']}`,
-      'bfo:inheres_in': bearer['@id'],
+      // Use object notation with @id for JSON-LD compliance
+      'bfo:inheres_in': { '@id': bearer['@id'] },
       'tagteam:qualifierText': qualifier,
       'tagteam:instantiated_at': new Date().toISOString()
     };
@@ -156,7 +157,8 @@ class QualityFactory {
       '@id': iri,
       '@type': ['bfo:BFO_0000019', 'owl:NamedIndividual'],
       'rdfs:label': `${qualifier} quality of ${bearer['rdfs:label']}`,
-      'bfo:inheres_in': bearer['@id'],
+      // Use object notation with @id for JSON-LD compliance
+      'bfo:inheres_in': { '@id': bearer['@id'] },
       'tagteam:qualifierText': qualifier,
       'tagteam:instantiated_at': new Date().toISOString()
     };

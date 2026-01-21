@@ -147,7 +147,8 @@ class ObjectAggregateFactory {
       '@id': this._generateAggregateIRI(originalEntity['@id']),
       '@type': ['bfo:BFO_0000027', 'owl:NamedIndividual'], // Object Aggregate
       'rdfs:label': `Aggregate of ${label}`,
-      'bfo:has_member': members.map(m => m['@id']),
+      // Use object notation with @id for JSON-LD compliance
+      'bfo:has_member': members.map(m => ({ '@id': m['@id'] })),
       'tagteam:member_count': members.length,
       'tagteam:instantiated_at': new Date().toISOString()
     };

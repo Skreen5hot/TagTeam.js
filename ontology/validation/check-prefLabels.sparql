@@ -1,0 +1,26 @@
+# SPARQL Query: Check for entities missing skos:prefLabel
+# BFO-2020 requires exactly one skos:prefLabel per language
+# This query finds entities with zero prefLabels in English
+
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX : <http://tagteam.fandaws.org/ontology/>
+
+SELECT ?entity ?label ?type WHERE {
+  {
+    ?entity a owl:Class .
+    BIND("Class" AS ?type)
+  } UNION {
+    ?entity a owl:ObjectProperty .
+    BIND("ObjectProperty" AS ?type)
+  } UNION {
+    ?entity a owl:DatatypeProperty .
+    BIND("DatatypeProperty" AS ?type)
+  }
+
+  FILTER(STRSTARTS(STR(?entity), STR(:)))
+  OPTIONAL { ?entity rdfs:label ?label }
+  FILTER NOT EXISTS { ?entity skos:prefLabel ?prefLabel }
+}
+ORDER BY ?type ?entity

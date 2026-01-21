@@ -17,6 +17,29 @@
 const crypto = require('crypto');
 
 /**
+ * Extract IRI from a relation value (handles both string and object notation)
+ * @param {string|Object} value - Relation value (IRI string or {`@id`: IRI})
+ * @returns {string|null} The IRI string, or null if invalid
+ */
+function extractIRI(value) {
+  if (!value) return null;
+  if (typeof value === 'string') return value;
+  if (typeof value === 'object' && value['@id']) return value['@id'];
+  return null;
+}
+
+/**
+ * Extract IRIs from an array of relation values
+ * @param {Array} values - Array of relation values
+ * @returns {Array<string>} Array of IRI strings
+ */
+function extractIRIs(values) {
+  if (!values) return [];
+  if (!Array.isArray(values)) return [extractIRI(values)].filter(Boolean);
+  return values.map(extractIRI).filter(Boolean);
+}
+
+/**
  * Role type mappings based on relationship to act
  * Maps role positions to CCO/BFO role types
  *
@@ -110,8 +133,8 @@ class RoleDetector {
       const canRealize = REALIZABLE_STATUSES.includes(actualityStatus);
 
       // Detect agent role (from has_agent)
-      if (act['cco:has_agent']) {
-        const agentIRI = act['cco:has_agent'];
+      const agentIRI = extractIRI(act['cco:has_agent']);
+      if (agentIRI) {
         const bearer = entityIndex.get(agentIRI);
 
         // AgentRole only for Person entities
@@ -130,8 +153,8 @@ class RoleDetector {
       }
 
       // Detect patient/affected role (from affects)
-      if (act['cco:affects']) {
-        const affectedIRI = act['cco:affects'];
+      const affectedIRI = extractIRI(act['cco:affects']);
+      if (affectedIRI) {
         const bearer = entityIndex.get(affectedIRI);
 
         if (bearer) {
@@ -160,11 +183,11 @@ class RoleDetector {
       // Detect participant roles (from has_participant)
       // These are persons who participate but are not the primary agent/patient
       // v2.4: Also process members of ObjectAggregates
-      if (act['bfo:has_participant'] && Array.isArray(act['bfo:has_participant'])) {
-        act['bfo:has_participant'].forEach(participantIRI => {
+      const participantIRIs = extractIRIs(act['bfo:has_participant']);
+      if (participantIRIs.length > 0) {
+        participantIRIs.forEach(participantIRI => {
           // Skip if already covered as agent or affected
-          if (participantIRI === act['cco:has_agent'] ||
-              participantIRI === act['cco:affects']) {
+          if (participantIRI === agentIRI || participantIRI === affectedIRI) {
             return;
           }
 
@@ -173,8 +196,7 @@ class RoleDetector {
             // Check if this is an ObjectAggregate - if so, process its members
             if (this._isObjectAggregate(bearer)) {
               // v2.4: Assign PatientRole to each member of the aggregate
-              const memberIRIs = bearer['bfo:has_member'] || [];
-              const members = Array.isArray(memberIRIs) ? memberIRIs : [memberIRIs];
+              const members = extractIRIs(bearer['bfo:has_member']);
 
               members.forEach(memberIRI => {
                 const member = entityIndex.get(memberIRI);
@@ -294,16 +316,18 @@ class RoleDetector {
       'tagteam:roleType': roleType,
 
       // CRITICAL: Bearer link (SHACL VIOLATION if missing)
-      'bfo:inheres_in': bearerIRI
+      // Use object notation with @id for JSON-LD compliance
+      'bfo:inheres_in': { '@id': bearerIRI }
     };
 
     // IMPORTANT: Realization link ONLY for Actual acts (v2.3 fix)
     // Prescribed/Planned acts: role exists (inheres_in) but is not realized
+    // Use object notation with @id for JSON-LD compliance
     if (canRealize) {
-      role['bfo:realized_in'] = actIRI;
+      role['bfo:realized_in'] = { '@id': actIRI };
     } else {
       // For non-actual acts, indicate which act would realize the role
-      role['tagteam:would_be_realized_in'] = actIRI;
+      role['tagteam:would_be_realized_in'] = { '@id': actIRI };
     }
 
     return role;

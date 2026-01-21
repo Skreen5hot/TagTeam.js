@@ -834,16 +834,17 @@ class ActExtractor {
     }
 
     // Add links to entities (Tier 2 if linkToTier2 enabled)
+    // Use object notation with @id for JSON-LD compliance
     if (actInfo.links.agent) {
-      node['cco:has_agent'] = actInfo.links.agent;
+      node['cco:has_agent'] = { '@id': actInfo.links.agent };
     }
 
     if (actInfo.links.patient) {
-      node['cco:affects'] = actInfo.links.patient;
+      node['cco:affects'] = { '@id': actInfo.links.patient };
     }
 
     if (actInfo.links.participants && actInfo.links.participants.length > 0) {
-      node['bfo:has_participant'] = actInfo.links.participants;
+      node['bfo:has_participant'] = actInfo.links.participants.map(p => ({ '@id': p }));
     }
 
     return node;

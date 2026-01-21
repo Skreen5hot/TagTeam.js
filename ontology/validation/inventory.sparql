@@ -1,0 +1,29 @@
+# SPARQL Query: Inventory of all TagTeam entities
+# Lists all classes, properties, and individuals with their labels
+
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX : <http://tagteam.fandaws.org/ontology/>
+
+SELECT ?entity ?type ?label ?definition WHERE {
+  {
+    ?entity a owl:Class .
+    FILTER NOT EXISTS { ?entity a owl:NamedIndividual }
+    BIND("Class" AS ?type)
+  } UNION {
+    ?entity a owl:ObjectProperty .
+    BIND("ObjectProperty" AS ?type)
+  } UNION {
+    ?entity a owl:DatatypeProperty .
+    BIND("DatatypeProperty" AS ?type)
+  } UNION {
+    ?entity a owl:NamedIndividual .
+    BIND("NamedIndividual" AS ?type)
+  }
+
+  FILTER(STRSTARTS(STR(?entity), STR(:)))
+  OPTIONAL { ?entity rdfs:label ?label }
+  OPTIONAL { ?entity skos:definition ?definition }
+}
+ORDER BY ?type ?label

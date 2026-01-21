@@ -1,0 +1,14 @@
+# SPARQL Query: Check for duplicate rdfs:label values
+# Each entity should have a unique label to avoid confusion
+
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX : <http://tagteam.fandaws.org/ontology/>
+
+SELECT ?label (COUNT(?entity) AS ?count) (GROUP_CONCAT(?entity; separator=", ") AS ?entities) WHERE {
+  ?entity rdfs:label ?label .
+  FILTER(STRSTARTS(STR(?entity), STR(:)))
+}
+GROUP BY ?label
+HAVING (COUNT(?entity) > 1)
+ORDER BY DESC(?count)

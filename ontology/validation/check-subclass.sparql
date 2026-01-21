@@ -1,0 +1,16 @@
+# SPARQL Query: Check for classes without superclass
+# All classes except top-level BFO classes should have rdfs:subClassOf
+# (Note: Named individuals are excluded)
+
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX bfo: <http://purl.obolibrary.org/obo/>
+PREFIX : <http://tagteam.fandaws.org/ontology/>
+
+SELECT ?class ?label WHERE {
+  ?class a owl:Class .
+  FILTER(STRSTARTS(STR(?class), STR(:)))
+  OPTIONAL { ?class rdfs:label ?label }
+  FILTER NOT EXISTS { ?class rdfs:subClassOf ?superclass }
+}
+ORDER BY ?class

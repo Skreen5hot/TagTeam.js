@@ -24,6 +24,18 @@
  */
 
 /**
+ * Extract IRI from a relation value (handles both string and object notation)
+ * @param {string|Object} value - Relation value (IRI string or {`@id`: IRI})
+ * @returns {string|null} The IRI string, or null if invalid
+ */
+function extractIRI(value) {
+  if (!value) return null;
+  if (typeof value === 'string') return value;
+  if (typeof value === 'object' && value['@id']) return value['@id'];
+  return null;
+}
+
+/**
  * Known CCO/BFO class names for vocabulary validation
  */
 const KNOWN_CLASSES = new Set([
@@ -64,7 +76,7 @@ const KNOWN_CLASSES = new Set([
 
   // TagTeam Classes
   'tagteam:DiscourseReferent', 'tagteam:VerbPhrase',
-  'tagteam:DirectiveContent', 'tagteam:ScarcityAssertion',
+  'tagteam:DeonticContent', 'tagteam:DirectiveContent', 'tagteam:ScarcityAssertion',
   'tagteam:ValueDetectionRecord', 'tagteam:ContextAssessmentRecord',
   'tagteam:InterpretationContext',
   'tagteam:ValueAssertionEvent', 'tagteam:ContextAssessmentEvent',
@@ -84,6 +96,8 @@ const KNOWN_PREDICATES = new Set([
   'bfo:BFO_0000054', // realized_in
   'bfo:BFO_0000055', // realizes
   'bfo:BFO_0000057', // has_participant
+  'bfo:inheres_in', 'bfo:is_bearer_of', 'bfo:realized_in', 'bfo:realizes',
+  'bfo:has_participant', 'bfo:has_member',
 
   // CCO Relations
   'cco:is_about', 'cco:prescribes', 'cco:prescribed_by',
@@ -93,32 +107,45 @@ const KNOWN_PREDICATES = new Set([
   'cco:occurs_during', 'cco:has_start_time', 'cco:has_end_time',
   'cco:has_measurement_value', 'cco:uses_measurement_unit', 'cco:is_measured_by',
   'cco:is_part_of', 'cco:is_attribute_of', 'cco:is_made_of', 'cco:is_site_of',
+  'cco:is_bearer_of', 'cco:realized_in',
 
   // RDF/RDFS/OWL
   'rdf:type', 'rdfs:label', 'rdfs:comment', 'rdfs:subClassOf',
 
-  // TagTeam Properties
+  // TagTeam Properties - Core
   'tagteam:has_component', 'tagteam:extracted_from', 'tagteam:corefersWith',
   'tagteam:would_be_realized_in', 'tagteam:assertionType', 'tagteam:validInContext',
   'tagteam:actualityStatus', 'tagteam:validatedBy', 'tagteam:validationTimestamp',
   'tagteam:supersedes', 'tagteam:framework', 'tagteam:instantiated_at',
   'tagteam:instantiated_by', 'tagteam:negationMarker',
+  // TagTeam Properties - Confidence
   'tagteam:extractionConfidence', 'tagteam:classificationConfidence',
   'tagteam:relevanceConfidence', 'tagteam:aggregateConfidence', 'tagteam:aggregationMethod',
+  // TagTeam Properties - Modal
   'tagteam:modalType', 'tagteam:modalMarker', 'tagteam:modalStrength',
+  // TagTeam Properties - Scarcity
   'tagteam:scarceResource', 'tagteam:competingParties', 'tagteam:supplyCount',
   'tagteam:demandCount', 'tagteam:scarcityRatio', 'tagteam:scarcityMarker',
+  // TagTeam Properties - Entity/Quality
   'tagteam:evidenceText', 'tagteam:detected_at', 'tagteam:member_count',
   'tagteam:member_index', 'tagteam:qualifierText', 'tagteam:severity', 'tagteam:ageCategory',
   'tagteam:sourceText', 'tagteam:startPosition', 'tagteam:endPosition',
   'tagteam:definiteness', 'tagteam:quantity', 'tagteam:quantityIndicator', 'tagteam:qualifiers',
+  'tagteam:referentialStatus', 'tagteam:denotesType', 'tagteam:roleType',
+  'tagteam:extracted_from_span', 'tagteam:span_offset',
+  // TagTeam Properties - Act
   'tagteam:verb', 'tagteam:lemma', 'tagteam:tense', 'tagteam:hasModalMarker',
+  'tagteam:modality', 'tagteam:aspect',
+  // TagTeam Properties - IBE
   'tagteam:char_count', 'tagteam:word_count', 'tagteam:received_at', 'tagteam:temporal_extent',
   'tagteam:version', 'tagteam:algorithm', 'tagteam:capabilities',
+  // TagTeam Properties - Value/Context
   'tagteam:valueName', 'tagteam:valueCategory', 'tagteam:evidence', 'tagteam:sourceSpan',
   'tagteam:category', 'tagteam:asserts', 'tagteam:detected_by', 'tagteam:based_on',
   'tagteam:polarity', 'tagteam:salience', 'tagteam:matched_markers',
-  'tagteam:detection_method', 'tagteam:dimension', 'tagteam:score'
+  'tagteam:detection_method', 'tagteam:dimension', 'tagteam:score',
+  // TagTeam Properties - Directive
+  'tagteam:prescribes'
 ]);
 
 /**
@@ -323,10 +350,10 @@ class SHMLValidator {
       total++;
       // Check if any ICE links to this IBE
       const hasConcretization = iceNodes.some(ice =>
-        ice['cco:is_concretized_by'] === ibe['@id']
+        extractIRI(ice['cco:is_concretized_by']) === ibe['@id']
       );
 
-      if (hasConcretization || ibe['cco:concretizes']) {
+      if (hasConcretization || extractIRI(ibe['cco:concretizes'])) {
         passed++;
       } else {
         this._addIssue(
@@ -366,10 +393,10 @@ class SHMLValidator {
       this._hasType(n, 'PatientRole')
     );
 
-    // Build reverse map: role ID -> bearer
+    // Build reverse map: role ID -> bearer (from is_bearer_of on entities)
     const roleBearers = new Map();
     for (const node of nodes) {
-      const bearerOf = node['cco:is_bearer_of'] || node['bfo:BFO_0000053'];
+      const bearerOf = node['cco:is_bearer_of'] || node['bfo:is_bearer_of'] || node['bfo:BFO_0000053'];
       if (bearerOf) {
         const roles = Array.isArray(bearerOf) ? bearerOf : [bearerOf];
         for (const roleId of roles) {
@@ -380,27 +407,36 @@ class SHMLValidator {
 
     for (const role of roleNodes) {
       // Rule 1: Role MUST have bearer (VIOLATION)
+      // Check: (1) reverse link via is_bearer_of, OR (2) direct link via inheres_in
       total++;
-      if (roleBearers.has(role['@id'])) {
+      const hasReverseLink = roleBearers.has(role['@id']);
+      const inheresIn = extractIRI(role['bfo:inheres_in']) || extractIRI(role['bfo:BFO_0000052']);
+      const hasDirectLink = inheresIn && nodeMap.has(inheresIn);
+
+      if (hasReverseLink || hasDirectLink) {
         passed++;
+        // Track the bearer for later type checking
+        if (hasDirectLink && !roleBearers.has(role['@id'])) {
+          roleBearers.set(role['@id'], inheresIn);
+        }
       } else {
         this._addIssue(
           'VIOLATION',
           'RolePattern',
           `Role ${role['@id']} has no bearer - ontologically impossible`,
           role['@id'],
-          'Add an entity with cco:is_bearer_of linking to this role'
+          'Add bfo:inheres_in on role or bfo:is_bearer_of on bearer entity'
         );
       }
 
       // Rule 3: Role SHOULD be realized (WARNING)
       total++;
-      const isRealized = role['cco:realized_in'] || role['bfo:BFO_0000054'] ||
-        role['tagteam:would_be_realized_in'];
+      const isRealized = extractIRI(role['cco:realized_in']) || extractIRI(role['bfo:BFO_0000054']) ||
+        extractIRI(role['tagteam:would_be_realized_in']);
 
       // Also check if any process realizes this role
       const processRealizes = nodes.some(n =>
-        (n['cco:realizes'] === role['@id'] || n['bfo:BFO_0000055'] === role['@id'])
+        (extractIRI(n['cco:realizes']) === role['@id'] || extractIRI(n['bfo:BFO_0000055']) === role['@id'])
       );
 
       if (isRealized || processRealizes) {
@@ -589,10 +625,10 @@ class SHMLValidator {
       // Rule 1: Must be linked to a Quality (VIOLATION)
       total++;
       const qualityLinks = nodes.some(n =>
-        n['cco:is_measured_by'] === measurement['@id']
+        extractIRI(n['cco:is_measured_by']) === measurement['@id']
       );
 
-      if (qualityLinks || measurement['cco:measures']) {
+      if (qualityLinks || extractIRI(measurement['cco:measures'])) {
         passed++;
       } else {
         this._addIssue(
@@ -677,13 +713,13 @@ class SHMLValidator {
 
       // Rule 2: Act should have participant (WARNING)
       total++;
-      const hasParticipant = act['cco:has_participant'] ||
-        act['bfo:BFO_0000057'] ||
-        act['cco:has_agent'];
+      const hasParticipant = extractIRI(act['cco:has_participant']) ||
+        extractIRI(act['bfo:BFO_0000057']) ||
+        extractIRI(act['cco:has_agent']);
 
       // Also check if any agent participates in this act
       const agentParticipates = nodes.some(n =>
-        n['cco:participates_in'] === act['@id']
+        extractIRI(n['cco:participates_in']) === act['@id']
       );
 
       if (hasParticipant || agentParticipates) {
@@ -720,10 +756,10 @@ class SHMLValidator {
 
     for (const node of nodes) {
       // is_concretized_by: ICE → IBE
-      if (node['cco:is_concretized_by']) {
+      const concretizedBy = extractIRI(node['cco:is_concretized_by']);
+      if (concretizedBy) {
         total++;
-        const targetId = node['cco:is_concretized_by'];
-        const target = nodeMap.get(targetId);
+        const target = nodeMap.get(concretizedBy);
 
         if (target && this._hasType(target, 'InformationBearingEntity')) {
           passed++;
@@ -731,7 +767,7 @@ class SHMLValidator {
           this._addIssue(
             'WARNING',
             'DomainRangeValidation',
-            `is_concretized_by target ${targetId} is not an IBE`,
+            `is_concretized_by target ${concretizedBy} is not an IBE`,
             node['@id'],
             'Target of is_concretized_by should be cco:InformationBearingEntity'
           );
@@ -739,9 +775,11 @@ class SHMLValidator {
       }
 
       // is_bearer_of: IndependentContinuant → Role
-      if (node['cco:is_bearer_of'] || node['bfo:BFO_0000053']) {
-        const roles = node['cco:is_bearer_of'] || node['bfo:BFO_0000053'];
-        const roleIds = Array.isArray(roles) ? roles : [roles];
+      const bearerOfRaw = node['cco:is_bearer_of'] || node['bfo:BFO_0000053'];
+      if (bearerOfRaw) {
+        const roleIds = Array.isArray(bearerOfRaw)
+          ? bearerOfRaw.map(r => extractIRI(r)).filter(Boolean)
+          : [extractIRI(bearerOfRaw)].filter(Boolean);
 
         for (const roleId of roleIds) {
           total++;
@@ -762,10 +800,10 @@ class SHMLValidator {
       }
 
       // is_part_of: Continuant → Continuant (NOT Process)
-      if (node['cco:is_part_of']) {
+      const partOf = extractIRI(node['cco:is_part_of']);
+      if (partOf) {
         total++;
-        const targetId = node['cco:is_part_of'];
-        const target = nodeMap.get(targetId);
+        const target = nodeMap.get(partOf);
 
         if (target) {
           const targetIsProcess = this._hasType(target, 'Process') ||
@@ -776,7 +814,7 @@ class SHMLValidator {
             this._addIssue(
               'VIOLATION',
               'DomainRangeValidation',
-              `is_part_of links Continuant ${node['@id']} to Process ${targetId}`,
+              `is_part_of links Continuant ${node['@id']} to Process ${partOf}`,
               node['@id'],
               'Continuants can participate_in Processes but never be part_of them'
             );
@@ -789,10 +827,10 @@ class SHMLValidator {
       }
 
       // asserts: Event → ICE
-      if (node['tagteam:asserts']) {
+      const asserts = extractIRI(node['tagteam:asserts']);
+      if (asserts) {
         total++;
-        const targetId = node['tagteam:asserts'];
-        const target = nodeMap.get(targetId);
+        const target = nodeMap.get(asserts);
 
         if (target && (
           this._hasType(target, 'InformationContentEntity') ||
@@ -804,10 +842,132 @@ class SHMLValidator {
           this._addIssue(
             'WARNING',
             'DomainRangeValidation',
-            `asserts target ${targetId} is not an ICE`,
+            `asserts target ${asserts} is not an ICE`,
             node['@id'],
             'Target of asserts should be an InformationContentEntity'
           );
+        }
+      }
+
+      // CCO Expert Checklist Rule: has_agent - Domain: bfo:Process, Range: cco:Agent
+      const hasAgent = extractIRI(node['cco:has_agent']);
+      if (hasAgent) {
+        total++;
+        const nodeIsProcess = this._hasType(node, 'Process') ||
+          this._hasType(node, 'Act') ||
+          this._hasType(node, 'IntentionalAct') ||
+          this._hasType(node, 'BFO_0000015');
+        const target = nodeMap.get(hasAgent);
+        const targetIsAgent = target && (
+          this._hasType(target, 'Agent') ||
+          this._hasType(target, 'Person') ||
+          this._hasType(target, 'ArtificialAgent') ||
+          this._hasType(target, 'Organization')
+        );
+
+        if (nodeIsProcess && targetIsAgent) {
+          passed++;
+        } else {
+          if (!nodeIsProcess) {
+            this._addIssue(
+              'VIOLATION',
+              'DomainRangeValidation',
+              `has_agent used on non-Process node ${node['@id']}`,
+              node['@id'],
+              'has_agent domain must be bfo:Process (CCO Expert Checklist)'
+            );
+          }
+          if (!targetIsAgent && target) {
+            this._addIssue(
+              'VIOLATION',
+              'DomainRangeValidation',
+              `has_agent target ${hasAgent} is not an Agent`,
+              node['@id'],
+              'has_agent range must be cco:Agent (CCO Expert Checklist)'
+            );
+          }
+        }
+      }
+
+      // CCO Expert Checklist Rule: prescribes - Domain: DirectiveContent, Range: bfo:Process
+      const prescribes = extractIRI(node['cco:prescribes']) || extractIRI(node['tagteam:prescribes']);
+      if (prescribes) {
+        total++;
+        const nodeIsDirective = this._hasType(node, 'DirectiveContent') ||
+          this._hasType(node, 'DeonticContent') ||
+          this._hasType(node, 'DirectiveInformationContentEntity');
+        const target = nodeMap.get(prescribes);
+        const targetIsProcess = target && (
+          this._hasType(target, 'Process') ||
+          this._hasType(target, 'Act') ||
+          this._hasType(target, 'IntentionalAct') ||
+          this._hasType(target, 'BFO_0000015')
+        );
+
+        if (nodeIsDirective && targetIsProcess) {
+          passed++;
+        } else {
+          if (!nodeIsDirective) {
+            this._addIssue(
+              'WARNING',
+              'DomainRangeValidation',
+              `prescribes used on non-DirectiveContent node ${node['@id']}`,
+              node['@id'],
+              'prescribes domain should be tagteam:DirectiveContent (CCO Expert Checklist)'
+            );
+          }
+          if (!targetIsProcess && target) {
+            this._addIssue(
+              'WARNING',
+              'DomainRangeValidation',
+              `prescribes target ${prescribes} is not a Process`,
+              node['@id'],
+              'prescribes range should be bfo:Process (CCO Expert Checklist)'
+            );
+          }
+        }
+      }
+
+      // CCO Expert Checklist Rule: inheres_in - Domain: Role/Quality, Range: IndependentContinuant
+      const inheresIn = extractIRI(node['bfo:inheres_in']) || extractIRI(node['bfo:BFO_0000052']);
+      if (inheresIn) {
+        total++;
+        const nodeIsRoleOrQuality = this._hasType(node, 'Role') ||
+          this._hasType(node, 'BFO_0000023') ||
+          this._hasType(node, 'Quality') ||
+          this._hasType(node, 'BFO_0000019');
+        const target = nodeMap.get(inheresIn);
+        const targetIsIC = target && (
+          this._hasType(target, 'IndependentContinuant') ||
+          this._hasType(target, 'BFO_0000004') ||
+          this._hasType(target, 'Person') ||
+          this._hasType(target, 'Agent') ||
+          this._hasType(target, 'Artifact') ||
+          this._hasType(target, 'MaterialEntity') ||
+          this._hasType(target, 'BFO_0000040')
+        );
+
+        if (nodeIsRoleOrQuality && targetIsIC) {
+          passed++;
+        } else {
+          if (!nodeIsRoleOrQuality) {
+            this._addIssue(
+              'VIOLATION',
+              'DomainRangeValidation',
+              `inheres_in used on non-Role/Quality node ${node['@id']}`,
+              node['@id'],
+              'inheres_in domain must be bfo:Role or bfo:Quality (CCO Expert Checklist)'
+            );
+          }
+          if (!targetIsIC && target) {
+            this._addIssue(
+              'VIOLATION',
+              'DomainRangeValidation',
+              `inheres_in target ${inheresIn} is not an IndependentContinuant`,
+              node['@id'],
+              'inheres_in range must be bfo:IndependentContinuant (CCO Expert Checklist)'
+            );
+          }
         }
       }
     }

@@ -1,0 +1,24 @@
+# SPARQL Query: Check for entities missing rdfs:label
+# Based on BFO-2020 quality control patterns
+# Entities (classes and properties) should have exactly one rdfs:label per language
+
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX : <http://tagteam.fandaws.org/ontology/>
+
+SELECT ?entity ?type WHERE {
+  {
+    ?entity a owl:Class .
+    BIND("Class" AS ?type)
+  } UNION {
+    ?entity a owl:ObjectProperty .
+    BIND("ObjectProperty" AS ?type)
+  } UNION {
+    ?entity a owl:DatatypeProperty .
+    BIND("DatatypeProperty" AS ?type)
+  }
+
+  FILTER(STRSTARTS(STR(?entity), STR(:)))
+  FILTER NOT EXISTS { ?entity rdfs:label ?label }
+}
+ORDER BY ?type ?entity

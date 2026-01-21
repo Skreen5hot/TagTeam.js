@@ -1,0 +1,29 @@
+# SPARQL Query: Check for properties missing domain or range
+# Well-defined properties should have both rdfs:domain and rdfs:range
+
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX : <http://tagteam.fandaws.org/ontology/>
+
+SELECT ?property ?label ?type ?issue WHERE {
+  {
+    ?property a owl:ObjectProperty .
+    BIND("ObjectProperty" AS ?type)
+    FILTER NOT EXISTS { ?property rdfs:domain ?domain }
+    BIND("missing domain" AS ?issue)
+  } UNION {
+    ?property a owl:ObjectProperty .
+    BIND("ObjectProperty" AS ?type)
+    FILTER NOT EXISTS { ?property rdfs:range ?range }
+    BIND("missing range" AS ?issue)
+  } UNION {
+    ?property a owl:DatatypeProperty .
+    BIND("DatatypeProperty" AS ?type)
+    FILTER NOT EXISTS { ?property rdfs:range ?range }
+    BIND("missing range" AS ?issue)
+  }
+
+  FILTER(STRSTARTS(STR(?property), STR(:)))
+  OPTIONAL { ?property rdfs:label ?label }
+}
+ORDER BY ?type ?property ?issue

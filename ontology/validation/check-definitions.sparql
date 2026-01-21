@@ -1,0 +1,25 @@
+# SPARQL Query: Check for entities missing skos:definition
+# OBO Foundry and BFO best practices require definitions for all classes and properties
+
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX : <http://tagteam.fandaws.org/ontology/>
+
+SELECT ?entity ?label ?type WHERE {
+  {
+    ?entity a owl:Class .
+    BIND("Class" AS ?type)
+  } UNION {
+    ?entity a owl:ObjectProperty .
+    BIND("ObjectProperty" AS ?type)
+  } UNION {
+    ?entity a owl:DatatypeProperty .
+    BIND("DatatypeProperty" AS ?type)
+  }
+
+  FILTER(STRSTARTS(STR(?entity), STR(:)))
+  OPTIONAL { ?entity rdfs:label ?label }
+  FILTER NOT EXISTS { ?entity skos:definition ?def }
+}
+ORDER BY ?type ?entity
