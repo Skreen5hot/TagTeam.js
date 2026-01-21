@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TagTeam.js - Why This Matters</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    .slide {
+      display: none;
+      min-height: 100vh;
+      padding: 40px;
+      animation: fadeIn 0.5s ease;
+    }
+    .slide.active { display: flex; flex-direction: column; justify-content: center; align-items: center; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 50px;
+      max-width: 900px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    h1 { color: #333; font-size: 2.5em; margin-bottom: 10px; }
+    h2 { color: #667eea; font-size: 1.8em; margin-bottom: 20px; }
+    p { color: #555; font-size: 1.3em; line-height: 1.6; }
+    .highlight { background: #fff3cd; padding: 3px 8px; border-radius: 4px; }
+    .good { background: #d4edda; padding: 3px 8px; border-radius: 4px; color: #155724; }
+    .bad { background: #f8d7da; padding: 3px 8px; border-radius: 4px; color: #721c24; }
+
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin: 30px 0;
+    }
+    .comparison-box {
+      padding: 25px;
+      border-radius: 12px;
+      border: 2px solid #ddd;
+    }
+    .comparison-box.problem { background: #fff5f5; border-color: #f8d7da; }
+    .comparison-box.solution { background: #f0fff4; border-color: #d4edda; }
+    .comparison-box h3 { margin-top: 0; font-size: 1.3em; }
+    .comparison-box.problem h3 { color: #c53030; }
+    .comparison-box.solution h3 { color: #276749; }
+
+    .example-input {
+      background: #f7fafc;
+      border-left: 4px solid #667eea;
+      padding: 20px;
+      margin: 20px 0;
+      font-size: 1.4em;
+      font-style: italic;
+      color: #2d3748;
+    }
+
+    .output-box {
+      background: #1a202c;
+      color: #68d391;
+      padding: 25px;
+      border-radius: 10px;
+      font-family: monospace;
+      font-size: 1.1em;
+      margin: 20px 0;
+      line-height: 1.8;
+    }
+    .output-label { color: #a0aec0; }
+    .output-value { color: #68d391; font-weight: bold; }
+    .output-warning { color: #f6ad55; }
+
+    .nav {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      display: flex;
+      gap: 10px;
+    }
+    .nav button {
+      padding: 15px 30px;
+      font-size: 1.1em;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .nav button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+    .nav .prev { background: #e2e8f0; color: #4a5568; }
+    .nav .next { background: #667eea; color: white; }
+
+    .slide-counter {
+      position: fixed;
+      bottom: 40px;
+      left: 40px;
+      color: white;
+      font-size: 1.2em;
+      opacity: 0.8;
+    }
+
+    .value-list {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+    }
+    .value-list li {
+      padding: 15px 20px;
+      margin: 10px 0;
+      background: #f7fafc;
+      border-radius: 8px;
+      font-size: 1.2em;
+      display: flex;
+      align-items: center;
+    }
+    .value-list li::before {
+      content: "✓";
+      color: #48bb78;
+      font-weight: bold;
+      font-size: 1.5em;
+      margin-right: 15px;
+    }
+
+    .big-number {
+      font-size: 4em;
+      font-weight: bold;
+      color: #667eea;
+      margin: 10px 0;
+    }
+
+    .interactive-demo {
+      margin: 30px 0;
+    }
+    .interactive-demo textarea {
+      width: 100%;
+      padding: 20px;
+      font-size: 1.2em;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      resize: none;
+      font-family: inherit;
+    }
+    .interactive-demo button {
+      margin-top: 15px;
+      padding: 15px 40px;
+      font-size: 1.2em;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .interactive-demo button:hover { background: #5a67d8; }
+
+    #demo-output {
+      margin-top: 20px;
+      padding: 25px;
+      background: #f7fafc;
+      border-radius: 10px;
+      display: none;
+    }
+    #demo-output.show { display: block; }
+
+    .dilemma-box {
+      background: #fef3c7;
+      border: 2px solid #f59e0b;
+      border-radius: 12px;
+      padding: 25px;
+      margin: 20px 0;
+    }
+    .dilemma-box h4 { margin-top: 0; color: #92400e; }
+
+    .ambiguity-reveal {
+      background: #e0e7ff;
+      border: 2px solid #667eea;
+      border-radius: 12px;
+      padding: 25px;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- SLIDE 1: Title -->
+<div class="slide active" id="slide1">
+  <div class="card" style="text-align: center;">
+    <h1>TagTeam.js</h1>
+    <h2>Teaching Computers to Read Between the Lines</h2>
+    <p style="margin-top: 40px; font-size: 1.5em; color: #667eea;">
+      A 5-minute demo for stakeholders
+    </p>
+    <p style="margin-top: 60px; font-size: 1em; color: #999;">
+      Press <strong>Next</strong> to begin, or use arrow keys
+    </p>
+  </div>
+</div>
+
+<!-- SLIDE 2: The Problem -->
+<div class="slide" id="slide2">
+  <div class="card">
+    <h2>The Problem We're Solving</h2>
+    <p>When humans read text, we understand <span class="highlight">more than just the words</span>.</p>
+
+    <div class="example-input">
+      "The doctor should prioritize the younger patient."
+    </div>
+
+    <p>A human immediately understands:</p>
+    <ul class="value-list">
+      <li><strong>WHO</strong> is involved (a doctor, two patients)</li>
+      <li><strong>WHAT</strong> action is being discussed (prioritizing)</li>
+      <li><strong>WHETHER</strong> it's required or optional ("should" = obligation?)</li>
+      <li><strong>WHAT VALUES</strong> are at stake (fairness? efficiency?)</li>
+    </ul>
+
+    <p style="margin-top: 30px;">Computers? <span class="bad">They just see a string of characters.</span></p>
+  </div>
+</div>
+
+<!-- SLIDE 3: Why It Matters -->
+<div class="slide" id="slide3">
+  <div class="card">
+    <h2>Why This Matters for Ethics</h2>
+
+    <div class="dilemma-box">
+      <h4>Consider This Real Scenario:</h4>
+      <p style="margin: 0; font-size: 1.2em;">
+        "The hospital <strong>should</strong> allocate the last ventilator to the patient most likely to survive."
+      </p>
+    </div>
+
+    <p>Does <strong>"should"</strong> mean:</p>
+
+    <div class="comparison">
+      <div class="comparison-box problem">
+        <h3>Reading A: Obligation</h3>
+        <p>"The hospital is <em>required</em> to do this"</p>
+        <p style="font-size: 0.9em; color: #666;">→ Legally or ethically binding</p>
+      </div>
+      <div class="comparison-box problem">
+        <h3>Reading B: Expectation</h3>
+        <p>"We <em>expect</em> the hospital will do this"</p>
+        <p style="font-size: 0.9em; color: #666;">→ Just a prediction, not a rule</p>
+      </div>
+    </div>
+
+    <p style="margin-top: 20px; font-weight: bold; color: #c53030;">
+      Current AI systems pick one reading and pretend the ambiguity doesn't exist.
+    </p>
+  </div>
+</div>
+
+<!-- SLIDE 4: Our Solution -->
+<div class="slide" id="slide4">
+  <div class="card">
+    <h2>What TagTeam Does Differently</h2>
+
+    <p>TagTeam <span class="good">preserves the ambiguity</span> instead of hiding it.</p>
+
+    <div class="example-input">
+      "The doctor should prioritize the younger patient."
+    </div>
+
+    <div class="output-box">
+      <span class="output-label">Entity Detected:</span> <span class="output-value">"doctor"</span> → Medical Professional<br>
+      <span class="output-label">Entity Detected:</span> <span class="output-value">"younger patient"</span> → Patient<br>
+      <span class="output-label">Action:</span> <span class="output-value">"prioritize"</span> → Act of Prioritization<br>
+      <span class="output-label">Modal:</span> <span class="output-value">"should"</span><br>
+      <br>
+      <span class="output-warning">⚠ AMBIGUITY DETECTED:</span><br>
+      &nbsp;&nbsp;• Reading 1: <span class="output-value">Obligation</span> (70% likely)<br>
+      &nbsp;&nbsp;• Reading 2: <span class="output-value">Expectation</span> (30% likely)<br>
+      <br>
+      <span class="output-label">Values at stake:</span> <span class="output-value">Fairness, Efficiency</span>
+    </div>
+
+    <p style="margin-top: 20px;">
+      <span class="good">We flag the uncertainty</span> so humans can make informed decisions.
+    </p>
+  </div>
+</div>
+
+<!-- SLIDE 5: The Value Proposition -->
+<div class="slide" id="slide5">
+  <div class="card">
+    <h2>What This Enables</h2>
+
+    <div class="comparison">
+      <div class="comparison-box problem">
+        <h3>Without TagTeam</h3>
+        <ul style="padding-left: 20px; color: #666;">
+          <li>AI makes hidden assumptions</li>
+          <li>Ethical nuance is lost</li>
+          <li>Humans can't audit AI reasoning</li>
+          <li>Errors are invisible</li>
+        </ul>
+      </div>
+      <div class="comparison-box solution">
+        <h3>With TagTeam</h3>
+        <ul style="padding-left: 20px; color: #276749;">
+          <li>Ambiguity is surfaced</li>
+          <li>Humans stay in control</li>
+          <li>Reasoning is auditable</li>
+          <li>Uncertainty is quantified</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ambiguity-reveal">
+      <p style="margin: 0; font-size: 1.2em; text-align: center;">
+        <strong>Our philosophy:</strong><br>
+        "Better to output structured uncertainty than false precision."
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6: Live Demo -->
+<div class="slide" id="slide6">
+  <div class="card">
+    <h2>Try It Yourself</h2>
+
+    <div class="interactive-demo">
+      <textarea id="demo-input" rows="3" placeholder="Enter a sentence about an ethical dilemma...">The nurse must decide whether to inform the family about the diagnosis.</textarea>
+      <br>
+      <button onclick="runDemo()">Analyze This Sentence</button>
+    </div>
+
+    <div id="demo-output"></div>
+  </div>
+</div>
+
+<!-- SLIDE 7: Current Status -->
+<div class="slide" id="slide7">
+  <div class="card" style="text-align: center;">
+    <h2>Where We Are Today</h2>
+
+    <div style="display: flex; justify-content: space-around; margin: 40px 0;">
+      <div>
+        <div class="big-number">290+</div>
+        <p>Tests Passing</p>
+      </div>
+      <div>
+        <div class="big-number">50</div>
+        <p>Ethical Values Detected</p>
+      </div>
+      <div>
+        <div class="big-number">100%</div>
+        <p>Browser Compatible</p>
+      </div>
+    </div>
+
+    <p style="margin-top: 30px;">
+      Phase 4 Complete: Full semantic parsing with ontology-grounded output
+    </p>
+    <p>
+      Next: Ambiguity preservation (the "multiple readings" feature)
+    </p>
+  </div>
+</div>
+
+<!-- SLIDE 8: Closing -->
+<div class="slide" id="slide8">
+  <div class="card" style="text-align: center;">
+    <h2>Questions?</h2>
+
+    <p style="font-size: 1.3em; margin: 40px 0;">
+      TagTeam helps humans understand what text <em>actually says</em><br>
+      and what it <em>leaves uncertain</em>.
+    </p>
+
+    <div style="background: #f7fafc; padding: 30px; border-radius: 12px; margin-top: 40px;">
+      <p style="margin: 0; color: #667eea; font-weight: bold;">Key Takeaway:</p>
+      <p style="margin: 10px 0 0 0; font-size: 1.2em;">
+        We're building infrastructure that makes AI-assisted ethical analysis <strong>transparent and trustworthy</strong>.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="nav">
+  <button class="prev" onclick="prevSlide()">Previous</button>
+  <button class="next" onclick="nextSlide()">Next</button>
+</div>
+
+<div class="slide-counter">
+  <span id="current-slide">1</span> / <span id="total-slides">8</span>
+</div>
+
+<script src="../dist/tagteam.js"></script>
+<script>
+  let currentSlide = 1;
+  const totalSlides = 8;
+
+  document.getElementById('total-slides').textContent = totalSlides;
+
+  function showSlide(n) {
+    // Wrap around
+    if (n > totalSlides) n = 1;
+    if (n < 1) n = totalSlides;
+    currentSlide = n;
+
+    // Hide all slides
+    document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+
+    // Show current slide
+    document.getElementById('slide' + n).classList.add('active');
+    document.getElementById('current-slide').textContent = n;
+  }
+
+  function nextSlide() { showSlide(currentSlide + 1); }
+  function prevSlide() { showSlide(currentSlide - 1); }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+    if (e.key === 'ArrowLeft') prevSlide();
+  });
+
+  // Demo function
+  function runDemo() {
+    const input = document.getElementById('demo-input').value;
+    const output = document.getElementById('demo-output');
+
+    if (!input.trim()) {
+      alert('Please enter a sentence to analyze');
+      return;
+    }
+
+    try {
+      // Use TagTeam.buildGraph for rich Phase 4 output
+      const graph = TagTeam.buildGraph(input);
+      const nodes = graph['@graph'] || [];
+
+      let html = '<h3>Analysis Results:</h3>';
+
+      // Extract entities (DiscourseReferents)
+      const entities = nodes.filter(n =>
+        n['@type'] && n['@type'].includes('tagteam:DiscourseReferent')
+      );
+
+      // Extract acts (IntentionalAct or ActOf...)
+      const acts = nodes.filter(n =>
+        n['@type'] && n['@type'].some(t =>
+          t.includes('IntentionalAct') || t.includes('ActOf') || t.includes('cco:')
+        )
+      );
+
+      // Extract roles
+      const roles = nodes.filter(n =>
+        n['@type'] && n['@type'].includes('bfo:BFO_0000023')
+      );
+
+      // Show entities found
+      if (entities.length > 0) {
+        html += '<p><strong>People & Things Identified:</strong></p>';
+        html += '<div style="display: grid; gap: 10px; margin: 15px 0;">';
+        entities.forEach(e => {
+          const label = e['rdfs:label'] || 'Unknown';
+          const type = e['tagteam:denotesType'] || 'Entity';
+          // Make type human-readable
+          const friendlyType = type.replace('cco:', '').replace('bfo:', '').replace(/([A-Z])/g, ' $1').trim();
+          html += '<div style="background: #e8f5e9; padding: 12px; border-radius: 8px; border-left: 4px solid #4caf50;">';
+          html += '<strong>' + label + '</strong>';
+          html += '<span style="color: #666; margin-left: 10px;">(' + friendlyType + ')</span>';
+          if (e['tagteam:is_scarce']) {
+            html += '<span style="background: #ff9800; color: white; padding: 2px 8px; border-radius: 4px; margin-left: 10px; font-size: 0.85em;">SCARCE RESOURCE</span>';
+          }
+          html += '</div>';
+        });
+        html += '</div>';
+      }
+
+      // Show actions
+      if (acts.length > 0) {
+        html += '<p><strong>Actions Detected:</strong></p>';
+        html += '<div style="display: grid; gap: 10px; margin: 15px 0;">';
+        acts.forEach(a => {
+          const label = a['rdfs:label'] || a['tagteam:verb'] || 'Action';
+          const type = a['@type'].find(t => t.includes('cco:')) || a['@type'][0];
+          const friendlyType = type.replace('cco:', '').replace(/([A-Z])/g, ' $1').trim();
+          const modality = a['tagteam:modality'];
+
+          html += '<div style="background: #e3f2fd; padding: 12px; border-radius: 8px; border-left: 4px solid #2196f3;">';
+          html += '<strong>' + label + '</strong>';
+          html += '<span style="color: #666; margin-left: 10px;">(' + friendlyType + ')</span>';
+
+          if (modality) {
+            html += '<div style="margin-top: 8px;">';
+            html += '<span style="background: #9c27b0; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.85em;">MODAL: "' + modality + '"</span>';
+            html += '</div>';
+          }
+          html += '</div>';
+        });
+        html += '</div>';
+      }
+
+      // Show who does what to whom (roles)
+      if (roles.length > 0) {
+        html += '<p><strong>Who Does What to Whom:</strong></p>';
+        html += '<div style="background: #fff3e0; padding: 15px; border-radius: 8px; margin: 15px 0;">';
+        roles.forEach(r => {
+          const label = r['rdfs:label'] || 'Role';
+          const bearer = r['bfo:inheres_in'] || '';
+          const realizedIn = r['bfo:realized_in'] || '';
+          // Extract just the meaningful part of IRI
+          const bearerName = bearer.split('_').pop() || bearer;
+          html += '<div style="margin: 5px 0;">';
+          html += '<span style="color: #e65100; font-weight: bold;">' + label + '</span>';
+          html += '</div>';
+        });
+        html += '</div>';
+      }
+
+      // Detect modal words for future ambiguity feature preview
+      const modalWords = ['should', 'must', 'may', 'might', 'could', 'ought'];
+      const foundModals = modalWords.filter(m => input.toLowerCase().includes(m));
+
+      if (foundModals.length > 0) {
+        html += '<div class="dilemma-box">';
+        html += '<h4>Modal Word Detected: "' + foundModals[0] + '"</h4>';
+        html += '<p style="margin-bottom: 10px;">This word often has multiple meanings:</p>';
+        html += '<ul style="margin: 0; padding-left: 20px;">';
+        if (foundModals[0] === 'must') {
+          html += '<li><strong>Obligation:</strong> "is required to"</li>';
+          html += '<li><strong>Inference:</strong> "it must be the case that"</li>';
+        } else if (foundModals[0] === 'should') {
+          html += '<li><strong>Obligation:</strong> "ought to"</li>';
+          html += '<li><strong>Expectation:</strong> "is expected to"</li>';
+        } else {
+          html += '<li><strong>Permission:</strong> "is allowed to"</li>';
+          html += '<li><strong>Possibility:</strong> "it is possible that"</li>';
+        }
+        html += '</ul>';
+        html += '<p style="margin-top: 10px; font-style: italic; color: #92400e;">Future: TagTeam will preserve both interpretations!</p>';
+        html += '</div>';
+      }
+
+      // Summary stats
+      html += '<div style="background: #f5f5f5; padding: 15px; border-radius: 8px; margin-top: 20px;">';
+      html += '<strong>Summary:</strong> Found ' + entities.length + ' entities, ' + acts.length + ' actions, ' + roles.length + ' relationships';
+      html += '</div>';
+
+      output.innerHTML = html;
+      output.classList.add('show');
+
+    } catch (e) {
+      output.innerHTML = '<p style="color: #c53030;">Error: ' + e.message + '</p><p>Make sure the TagTeam bundle is loaded.</p>';
+      output.classList.add('show');
+      console.error(e);
+    }
+  }
+</script>
+</body>
+</html>
