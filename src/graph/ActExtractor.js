@@ -624,7 +624,10 @@ class ActExtractor {
     // Find all referents with is_about links
     entities.forEach(entity => {
       if (entity['cco:is_about']) {
-        linkMap.set(entity['@id'], entity['cco:is_about']);
+        // Handle both object notation { '@id': iri } and plain string
+        const isAbout = entity['cco:is_about'];
+        const iri = typeof isAbout === 'object' ? isAbout['@id'] : isAbout;
+        linkMap.set(entity['@id'], iri);
       }
     });
 

@@ -116,7 +116,7 @@ class ScarcityAssertionFactory {
 
     // Link to the Tier 2 resource this is about
     if (resourceIRI) {
-      assertion['cco:is_about'] = resourceIRI;
+      assertion['cco:is_about'] = { '@id': resourceIRI };
     }
 
     // Link to the source referent

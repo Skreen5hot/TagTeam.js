@@ -198,7 +198,10 @@ class SemanticGraphBuilder {
       // Build link map from Tier 1 to Tier 2
       tier1Referents.forEach(ref => {
         if (ref['cco:is_about']) {
-          linkMap.set(ref['@id'], ref['cco:is_about']);
+          // Handle both object notation { '@id': iri } and plain string
+          const isAbout = ref['cco:is_about'];
+          const iri = typeof isAbout === 'object' ? isAbout['@id'] : isAbout;
+          linkMap.set(ref['@id'], iri);
         }
       });
 
@@ -220,7 +223,7 @@ class SemanticGraphBuilder {
         // Update referent is_about links to point to aggregates
         tier1Referents.forEach(ref => {
           if (linkMap.has(ref['@id'])) {
-            ref['cco:is_about'] = linkMap.get(ref['@id']);
+            ref['cco:is_about'] = { '@id': linkMap.get(ref['@id']) };
           }
         });
       }

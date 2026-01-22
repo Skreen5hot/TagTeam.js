@@ -1,8 +1,8 @@
 # TagTeam Consolidated Roadmap
 
-**Version:** 5.1.0-vision
-**Last Updated:** 2026-01-19
-**Status:** Phase 4 Complete, Ideal NLP Roadmap Defined
+**Version:** 5.2.0-tests
+**Last Updated:** 2026-01-22
+**Status:** Phase 4 Complete, Comprehensive Test Framework, Phase 8.5 Defined
 
 ---
 
@@ -504,6 +504,116 @@ If Phase 5 improvements insufficient, evaluate Wink NLP:
 
 ---
 
+## Phase 8.5: Linguistic Feature Gaps (Test-Driven)
+
+**Goal:** Address specific parsing gaps identified by comprehensive test suite
+
+**Status:** Not started
+**Priority:** High (blocks 86% → 95%+ test pass rate)
+**Effort:** Low-Medium
+
+These enhancements are derived from failing P0 tests and represent concrete, bounded improvements.
+
+### 8.5.1 Definiteness Tracking Enhancement
+
+**Status:** Not started
+**Priority:** High
+**Effort:** Low
+**Failing Tests:** 6 tests across declarative.test.js, definite-np.test.js
+
+Current `tagteam:definiteness` only works for simple "the X" patterns. Extend to handle:
+
+| Pattern | Example | Expected Definiteness |
+|---------|---------|----------------------|
+| "the last X" | "the last ventilator" | definite |
+| "the only X" | "the only option" | definite |
+| "the critically ill X" | "the critically ill patient" | definite |
+| Proper names | "Dr. Smith" | definite (inherent) |
+
+**Deliverables:**
+- Modify `src/graph/EntityExtractor.js` - extend definiteness detection
+- Handle adjective/modifier sequences before head noun
+- Proper name detection (capitalized NPs without determiner)
+
+**Test File:** `tests/linguistic/referents/definiteness/definite-np.test.js`
+
+### 8.5.2 Extended Modal Detection
+
+**Status:** Not started
+**Priority:** High
+**Effort:** Low
+**Failing Tests:** 2 tests in deontic-obligation.test.js
+
+Current modal detection misses some obligation markers:
+
+| Modal | Current Status | Fix Required |
+|-------|---------------|--------------|
+| "must" | ✅ Working | - |
+| "shall" | ❌ Maps to Actual | Add to obligation modals |
+| "have to" | ❌ Not detected | Multi-word modal detection |
+| "need to" | ✅ Working | - |
+
+**Deliverables:**
+- Modify `src/graph/ActExtractor.js` - add "shall" to DEONTIC_MODALS
+- Modify `src/graph/DirectiveExtractor.js` - ensure multi-word modal patterns match
+
+**Test File:** `tests/linguistic/verbphrase/modality/deontic-obligation.test.js`
+
+### 8.5.3 Domain Vocabulary Expansion
+
+**Status:** Not started
+**Priority:** Medium
+**Effort:** Low
+**Failing Tests:** 2 tests in person.test.js
+
+Add missing terms to medical domain config:
+
+| Term | Expected Mapping | Current Status |
+|------|-----------------|----------------|
+| "surgeon" | cco:Person | ❌ Falls back to bfo:MaterialEntity |
+| "committee" | cco:GroupOfPersons | ❌ Not recognized |
+| "board" | cco:GroupOfPersons | ❌ Not recognized |
+
+**Deliverables:**
+- Update `config/medical.json` - add surgeon, committee, board
+- Add group entity patterns to EntityExtractor
+
+**Test File:** `tests/ontology/cco-mapping/agents/person.test.js`
+
+### 8.5.4 Scarcity Marker Detection
+
+**Status:** Not started
+**Priority:** Medium
+**Effort:** Low
+**Failing Tests:** 2 tests in definite-np.test.js
+
+Detect scarcity/uniqueness markers that affect resource allocation analysis:
+
+| Marker | Example | Scarcity Property |
+|--------|---------|-------------------|
+| "the last" | "the last ventilator" | `tagteam:scarcityMarker: "last"` |
+| "the only" | "the only option" | `tagteam:scarcityMarker: "only"` |
+| "the remaining" | "the remaining supplies" | `tagteam:scarcityMarker: "remaining"` |
+
+**Deliverables:**
+- Modify `src/graph/EntityExtractor.js` - detect scarcity modifiers
+- Add `tagteam:scarcityMarker` to entity nodes
+- Update JSONLDSerializer @context
+
+**Test File:** `tests/linguistic/referents/definiteness/definite-np.test.js`
+
+### Test Coverage Impact
+
+| Enhancement | Tests Fixed | New Pass Rate |
+|-------------|-------------|---------------|
+| 8.5.1 Definiteness | 6 | 92% |
+| 8.5.2 Modal Detection | 2 | 94% |
+| 8.5.3 Vocabulary | 2 | 96% |
+| 8.5.4 Scarcity Markers | 2 | 97% |
+| **Combined** | **12** | **97%+** |
+
+---
+
 ## Phase 9: Validation Layer
 
 **Goal:** Robust internal and external validation
@@ -700,6 +810,10 @@ node tests/unit/test-lattice-properties.js  # Property-based tests
 | **7.2** Certainty Markers | Medium | Low | 7.1 | - |
 | **7.3** Temporal Grounding | Medium | Medium | 6.3 | - |
 | **8.x** Disambiguation | Low | Medium | 6.3 | - |
+| **8.5.1** Definiteness Tracking | High | Low | None | 8.5.4 |
+| **8.5.2** Extended Modals | High | Low | None | - |
+| **8.5.3** Vocabulary Expansion | Medium | Low | None | - |
+| **8.5.4** Scarcity Markers | Medium | Low | 8.5.1 | - |
 | **9.x** Validation | Low | Low | 6.3 | - |
 | **10** Human Validation | Medium | Medium | 6.3 | - |
 | **11** Domain Support | Low | Low | None | - |
@@ -708,25 +822,34 @@ node tests/unit/test-lattice-properties.js  # Property-based tests
 
 ## Recommended Implementation Sequence
 
+### Immediate (Test-Driven Fixes)
+
+**Phase 8.5** can be done independently and immediately improves test pass rate from 86% to 97%+:
+
+1. **Phase 8.5.1:** Definiteness tracking enhancement (Low effort, High impact)
+2. **Phase 8.5.2:** Extended modal detection (Low effort, High impact)
+3. **Phase 8.5.3:** Domain vocabulary expansion (Low effort, Medium impact)
+4. **Phase 8.5.4:** Scarcity marker detection (Low effort, Medium impact)
+
 ### Near-Term (Next 2-4 weeks)
 
-1. **Phase 5.0:** Evaluate NLP libraries (Wink, Natural) - FIRST
-2. **Phase 5.1:** Revive POSTaggerGraph.js
-3. **Phase 5.2:** Reduce Compromise dependency
-4. **Phase 5.3:** Ambiguity detection infrastructure
+5. **Phase 5.0:** Evaluate NLP libraries (Wink, Natural) - FIRST
+6. **Phase 5.1:** Revive POSTaggerGraph.js
+7. **Phase 5.2:** Reduce Compromise dependency
+8. **Phase 5.3:** Ambiguity detection infrastructure
 
 ### Medium-Term (1-2 months)
 
-5. **Phase 6.1:** Interpretation lattice data structure
-6. **Phase 6.2:** Ambiguity pruning pipeline
-7. **Phase 6.3:** SemanticGraphBuilder integration (opt-in API)
-8. Create golden test corpus for lattice validation
+9. **Phase 6.1:** Interpretation lattice data structure
+10. **Phase 6.2:** Ambiguity pruning pipeline
+11. **Phase 6.3:** SemanticGraphBuilder integration (opt-in API)
+12. Create golden test corpus for lattice validation
 
 ### Longer-Term (2-3 months)
 
-9. **Phase 7.1:** Source attribution detection
-10. **Phase 7.2-7.3:** Certainty markers, temporal grounding
-11. **Phase 8.x:** Enhanced disambiguation
+13. **Phase 7.1:** Source attribution detection
+14. **Phase 7.2-7.3:** Certainty markers, temporal grounding
+15. **Phase 8.x:** Enhanced disambiguation
 
 ### As Needed
 
@@ -759,6 +882,7 @@ node tests/unit/test-lattice-properties.js  # Property-based tests
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| 5.2.0-tests | 2026-01-22 | Phase 8.5 test-driven enhancements, comprehensive test framework |
 | 5.1.0-vision | 2026-01-19 | Addressed critique: scope clarity, bundle budgets, test strategy, Phase 7/10 detail |
 | 5.0.0-vision | 2026-01-19 | Ideal NLP roadmap, opt-in lattice API design |
 | 4.0.0-phase4 | 2026-01-19 | Domain-Neutral Parser, Selectional Restrictions |

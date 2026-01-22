@@ -193,8 +193,8 @@ class AssertionEventBuilder {
       '@id': iri,
       '@type': ['tagteam:EthicalValueICE', 'cco:InformationContentEntity', 'owl:NamedIndividual'],
       'rdfs:label': `${valueName} Value Content`,
-      'cco:is_about': `tagteam:${valueName}`,
-      'cco:is_concretized_by': context.ibeIRI,
+      'cco:is_about': { '@id': `tagteam:${valueName}` },
+      'cco:is_concretized_by': { '@id': context.ibeIRI },
       'tagteam:valueName': valueName,
       'tagteam:valueCategory': scoredValue.category || 'ethical',
       'tagteam:instantiated_at': new Date().toISOString()
