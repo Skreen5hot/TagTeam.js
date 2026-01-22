@@ -292,6 +292,36 @@ class SemanticGraphBuilder {
     this.addNode(ibeNode);
     this.addNode(parserAgentNode);
 
+    // Phase 2.1b: Link all ICE nodes to IBE via cco:is_concretized_by
+    // ICE types: DiscourseReferent, VerbPhrase, DirectiveContent, ScarcityAssertion, DeonticContent
+    const iceTypes = [
+      'tagteam:DiscourseReferent',
+      'tagteam:VerbPhrase',
+      'tagteam:DirectiveContent',
+      'tagteam:DeonticContent',
+      'tagteam:ScarcityAssertion'
+    ];
+    this.nodes.forEach(node => {
+      const types = node['@type'] || [];
+      const isICE = iceTypes.some(iceType => types.includes(iceType));
+      if (isICE && !node['cco:is_concretized_by']) {
+        node['cco:is_concretized_by'] = { '@id': ibeNode['@id'] };
+      }
+    });
+
+    // Phase 2.1c: Create parsing act that produced the interpretation
+    const parsingActIRI = `inst:ParsingAct_${this._hashText(text).substring(0, 8)}`;
+    const parsingAct = {
+      '@id': parsingActIRI,
+      '@type': ['cco:ActOfArtificialProcessing', 'owl:NamedIndividual'],
+      'rdfs:label': 'Semantic parsing act',
+      'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
+      'cco:has_input': { '@id': ibeNode['@id'] },
+      'cco:has_agent': { '@id': parserAgentNode['@id'] },
+      'tagteam:instantiated_at': this.buildTimestamp
+    };
+    this.addNode(parsingAct);
+
     // Phase 2.2: Get/create interpretation context
     const contextName = buildOptions.context || 'Default';
     const contextIRI = this.contextManager.getContextIRI(contextName);
@@ -468,6 +498,20 @@ class SemanticGraphBuilder {
       timestamp: this.buildTimestamp,
       inputLength: this.inputText?.length || 0
     };
+  }
+
+  /**
+   * Generate a hash for text (used for IRI generation)
+   * @param {string} text - Text to hash
+   * @returns {string} SHA-256 hash (12 chars)
+   * @private
+   */
+  _hashText(text) {
+    return crypto
+      .createHash('sha256')
+      .update(text)
+      .digest('hex')
+      .substring(0, 12);
   }
 }
 

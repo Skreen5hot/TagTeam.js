@@ -94,6 +94,7 @@ class JSONLDSerializer {
       InformationBearingEntity: 'cco:InformationBearingEntity',
       InformationContentEntity: 'cco:InformationContentEntity',
       ArtificialAgent: 'cco:ArtificialAgent',
+      ActOfArtificialProcessing: 'cco:ActOfArtificialProcessing',
 
       // ===== GIT-Minimal Classes =====
       AutomatedDetection: 'tagteam:AutomatedDetection',
@@ -138,6 +139,8 @@ class JSONLDSerializer {
 
       // ===== Tier 2 Relations (CCO) =====
       has_agent: { '@id': 'cco:has_agent', '@type': '@id' },
+      has_input: { '@id': 'cco:has_input', '@type': '@id' },
+      has_output: { '@id': 'cco:has_output', '@type': '@id' },
       affects: { '@id': 'cco:affects', '@type': '@id' },
 
       // ===== GIT-Minimal Properties =====
