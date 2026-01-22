@@ -85,7 +85,7 @@ class DirectiveExtractor {
           directives.push(directive);
 
           // Link act back to directive
-          act['tagteam:prescribed_by'] = directive['@id'];
+          act['tagteam:prescribed_by'] = { '@id': directive['@id'] };
         }
       }
     });
@@ -146,7 +146,7 @@ class DirectiveExtractor {
       'tagteam:modalStrength': modalStrength,
 
       // Link to the act this directive prescribes
-      'cco:prescribes': actIRI
+      'cco:prescribes': { '@id': actIRI }
     };
 
     if (sourceText) {

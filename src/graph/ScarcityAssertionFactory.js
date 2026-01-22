@@ -121,7 +121,7 @@ class ScarcityAssertionFactory {
 
     // Link to the source referent
     if (referentIRI) {
-      assertion['tagteam:extracted_from'] = referentIRI;
+      assertion['tagteam:extracted_from'] = { '@id': referentIRI };
     }
 
     // Add timestamp

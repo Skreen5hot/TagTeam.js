@@ -283,10 +283,11 @@ class RoleDetector {
     if (!bearer['bfo:is_bearer_of']) {
       bearer['bfo:is_bearer_of'] = [];
     }
+    const roleRef = { '@id': roleIRI };
     if (Array.isArray(bearer['bfo:is_bearer_of'])) {
-      bearer['bfo:is_bearer_of'].push(roleIRI);
+      bearer['bfo:is_bearer_of'].push(roleRef);
     } else {
-      bearer['bfo:is_bearer_of'] = [bearer['bfo:is_bearer_of'], roleIRI];
+      bearer['bfo:is_bearer_of'] = [bearer['bfo:is_bearer_of'], roleRef];
     }
   }
 

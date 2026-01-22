@@ -222,13 +222,13 @@ class AssertionEventBuilder {
       'rdfs:label': `${valueName} Value Assertion`,
 
       // Core assertion links
-      'tagteam:asserts': iceIRI,
-      'tagteam:detected_by': context.parserAgentIRI,
-      'tagteam:based_on': context.ibeIRI,
+      'tagteam:asserts': { '@id': iceIRI },
+      'tagteam:detected_by': { '@id': context.parserAgentIRI },
+      'tagteam:based_on': { '@id': context.ibeIRI },
 
       // GIT-Minimal required properties
-      'tagteam:assertionType': 'tagteam:AutomatedDetection',
-      'tagteam:validInContext': context.contextIRI,
+      'tagteam:assertionType': { '@id': 'tagteam:AutomatedDetection' },
+      'tagteam:validInContext': { '@id': context.contextIRI },
 
       // Three-way confidence decomposition
       'tagteam:extractionConfidence': confidence.extraction,
@@ -299,13 +299,13 @@ class AssertionEventBuilder {
       'rdfs:label': `${meta.label} Context Assessment`,
 
       // Core assertion links
-      'tagteam:asserts': iceIRI,
-      'tagteam:detected_by': context.parserAgentIRI,
-      'tagteam:based_on': context.ibeIRI,
+      'tagteam:asserts': { '@id': iceIRI },
+      'tagteam:detected_by': { '@id': context.parserAgentIRI },
+      'tagteam:based_on': { '@id': context.ibeIRI },
 
       // GIT-Minimal required properties
-      'tagteam:assertionType': 'tagteam:AutomatedDetection',
-      'tagteam:validInContext': context.contextIRI,
+      'tagteam:assertionType': { '@id': 'tagteam:AutomatedDetection' },
+      'tagteam:validInContext': { '@id': context.contextIRI },
 
       // Dimension-specific properties
       'tagteam:dimension': dimension,
