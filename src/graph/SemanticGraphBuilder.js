@@ -244,6 +244,12 @@ class SemanticGraphBuilder {
         const qualityResult = this.qualityFactory.createFromEntities(tier2Entities);
         tier2Entities = qualityResult.updatedEntities;
         this.addNodes(qualityResult.qualities);
+
+        // v4.0.2: Link DiscourseReferents to their described Qualities via describes_quality
+        // This connects the linguistic artifact ("critically ill") to the physical state (Quality)
+        if (qualityResult.qualities.length > 0) {
+          this._linkReferentsToQualities(tier1Referents, tier2Entities, qualityResult.qualities, linkMap);
+        }
       }
 
       // Add all entities (Tier 1 + Tier 2)
@@ -310,6 +316,7 @@ class SemanticGraphBuilder {
     });
 
     // Phase 2.1c: Create parsing act that produced the interpretation
+    // Note: has_output will be added at the end after all ICE nodes are created
     const parsingActIRI = `inst:ParsingAct_${this._hashText(text).substring(0, 8)}`;
     const parsingAct = {
       '@id': parsingActIRI,
@@ -358,6 +365,19 @@ class SemanticGraphBuilder {
       );
       this.addNodes(contextResult.assessmentEvents);
       this.addNodes(contextResult.iceNodes);
+    }
+
+    // Phase 2.5: Close the provenance loop - add has_output to ParsingAct
+    // v4.0.2: All ICE nodes are outputs of the parsing act
+    const outputICEs = this.nodes.filter(node => {
+      const types = node['@type'] || [];
+      return iceTypes.some(iceType => types.includes(iceType));
+    });
+    if (outputICEs.length > 0) {
+      const parsingActNode = this.nodeIndex.get(parsingActIRI);
+      if (parsingActNode) {
+        parsingActNode['cco:has_output'] = outputICEs.map(ice => ({ '@id': ice['@id'] }));
+      }
     }
 
     return {
@@ -512,6 +532,74 @@ class SemanticGraphBuilder {
       .update(text)
       .digest('hex')
       .substring(0, 12);
+  }
+
+  /**
+   * Link DiscourseReferents to their described Quality nodes
+   *
+   * v4.0.2: Implements CCO Expert Fix 1 - connects linguistic artifacts
+   * (DiscourseReferent with qualifier text like "critically ill") to the
+   * physical states (Quality nodes) they describe.
+   *
+   * @param {Array} referents - Tier 1 DiscourseReferent nodes
+   * @param {Array} entities - Tier 2 entity nodes (may include aggregate members)
+   * @param {Array} qualities - Quality nodes created by QualityFactory
+   * @param {Map} linkMap - Map from referent IRI to Tier 2 entity IRI
+   * @private
+   */
+  _linkReferentsToQualities(referents, entities, qualities, linkMap) {
+    // Build a map from entity IRI to its qualities (via bfo:inheres_in)
+    const entityToQualities = new Map();
+    qualities.forEach(quality => {
+      const inheresIn = quality['bfo:inheres_in'];
+      const bearerIRI = typeof inheresIn === 'object' ? inheresIn['@id'] : inheresIn;
+      if (bearerIRI) {
+        if (!entityToQualities.has(bearerIRI)) {
+          entityToQualities.set(bearerIRI, []);
+        }
+        entityToQualities.get(bearerIRI).push(quality['@id']);
+      }
+    });
+
+    // Build a map from aggregate IRI to member IRIs
+    const aggregateToMembers = new Map();
+    entities.forEach(entity => {
+      const types = entity['@type'] || [];
+      if (types.some(t => t.includes('BFO_0000027'))) { // Object Aggregate
+        const members = entity['bfo:has_member'] || [];
+        const memberIRIs = members.map(m => typeof m === 'object' ? m['@id'] : m);
+        aggregateToMembers.set(entity['@id'], memberIRIs);
+      }
+    });
+
+    // For each referent, find its related qualities
+    referents.forEach(referent => {
+      const describedQualities = [];
+
+      // Get the Tier 2 entity this referent is about
+      const isAbout = referent['cco:is_about'];
+      const tier2IRI = typeof isAbout === 'object' ? isAbout['@id'] : isAbout;
+
+      if (tier2IRI) {
+        // Check if it's an aggregate - if so, collect qualities from members
+        if (aggregateToMembers.has(tier2IRI)) {
+          const memberIRIs = aggregateToMembers.get(tier2IRI);
+          memberIRIs.forEach(memberIRI => {
+            const memberQualities = entityToQualities.get(memberIRI) || [];
+            describedQualities.push(...memberQualities);
+          });
+        } else {
+          // Direct entity - get its qualities
+          const directQualities = entityToQualities.get(tier2IRI) || [];
+          describedQualities.push(...directQualities);
+        }
+      }
+
+      // Add describes_quality if we found any
+      if (describedQualities.length > 0) {
+        referent['tagteam:describes_quality'] = describedQualities.map(qIRI => ({ '@id': qIRI }));
+      }
+    });
   }
 }
 

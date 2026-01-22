@@ -125,6 +125,7 @@ class JSONLDSerializer {
       has_component: { '@id': 'tagteam:has_component', '@type': '@id' },
       extracted_from: { '@id': 'tagteam:extracted_from', '@type': '@id' },
       corefersWith: { '@id': 'tagteam:corefersWith', '@type': '@id' },
+      describes_quality: { '@id': 'tagteam:describes_quality', '@type': '@id' },
 
       // ===== Tier 2 Relations (BFO) =====
       inheres_in: { '@id': 'bfo:BFO_0000052', '@type': '@id' },
