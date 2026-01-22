@@ -247,8 +247,13 @@ class SemanticGraphBuilder {
 
         // v4.0.2: Link DiscourseReferents to their described Qualities via describes_quality
         // This connects the linguistic artifact ("critically ill") to the physical state (Quality)
+        // Include aggregates (already in this.nodes) so we can find members for aggregate referents
         if (qualityResult.qualities.length > 0) {
-          this._linkReferentsToQualities(tier1Referents, tier2Entities, qualityResult.qualities, linkMap);
+          const aggregates = this.nodes.filter(n =>
+            n['@type']?.some(t => t.includes('BFO_0000027'))
+          );
+          const allEntities = [...tier2Entities, ...aggregates];
+          this._linkReferentsToQualities(tier1Referents, allEntities, qualityResult.qualities, linkMap);
         }
       }
 
