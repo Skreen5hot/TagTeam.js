@@ -24,19 +24,19 @@
 # - BFO 2020 (ISO 21838-2:2020)
 # - Common Core Ontologies (CCO)
 #
-# Version: 4.0.0
+# Version: 4.0.1
 # =============================================================================
 
 <http://tagteam.fandaws.org/ontology/>
     a owl:Ontology ;
-    owl:versionIRI <http://tagteam.fandaws.org/ontology/4.0.0/> ;
-    owl:versionInfo "4.0.0"^^xsd:string ;
+    owl:versionIRI <http://tagteam.fandaws.org/ontology/4.0.1/> ;
+    owl:versionInfo "4.0.1"^^xsd:string ;
     dc:title "TagTeam Ontology"@en ;
     dc:description "An extension ontology for BFO and CCO providing vocabulary for natural language parsing, assertion events, deontic modality, and ethical value detection."@en ;
     dc:creator "TagTeam Development Team"@en ;
     dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
     dcterms:created "2024-01-01"^^xsd:date ;
-    dcterms:modified "2026-01-21"^^xsd:date ;
+    dcterms:modified "2026-01-22"^^xsd:date ;
     rdfs:comment "TagTeam extends BFO and CCO to support semantic graph construction from natural language text, with particular focus on ethical discourse analysis."@en ;
     owl:imports <http://purl.obolibrary.org/obo/bfo/2020/bfo.owl> .
 
@@ -344,7 +344,17 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     skos:definition "Relates a directive content entity to the act it prescribes."@en ;
     rdfs:subPropertyOf cco:prescribes ;
     rdfs:domain :DirectiveContent ;
-    rdfs:range bfo:BFO_0000015 .
+    rdfs:range bfo:BFO_0000015 ;
+    owl:inverseOf :prescribed_by .
+
+:prescribed_by
+    a owl:ObjectProperty ;
+    rdfs:label "prescribed by"@en ;
+    skos:prefLabel "prescribed by"@en ;
+    skos:definition "Relates an act (process) to the directive content entity that prescribes it. Inverse of prescribes."@en ;
+    rdfs:domain bfo:BFO_0000015 ;
+    rdfs:range :DirectiveContent ;
+    owl:inverseOf :prescribes .
 
 
 # =============================================================================
