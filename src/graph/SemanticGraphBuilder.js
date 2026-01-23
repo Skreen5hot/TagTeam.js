@@ -40,6 +40,14 @@ const DomainConfigLoader = require('./DomainConfigLoader');
 const ContextManager = require('./ContextManager');
 const InformationStaircaseBuilder = require('./InformationStaircaseBuilder');
 
+// Phase 5.3: Ambiguity detection (optional)
+let AmbiguityDetector = null;
+try {
+  AmbiguityDetector = require('./AmbiguityDetector');
+} catch (e) {
+  // AmbiguityDetector not available - detection disabled
+}
+
 // OPTIONAL: AssertionEventBuilder - only load if available (for backwards compatibility)
 // In v5.0.0+, this is provided by tagteam-iee-values package via options.assertionBuilder
 let AssertionEventBuilder = null;
@@ -106,6 +114,13 @@ class SemanticGraphBuilder {
 
     // Phase 2: Domain configuration loader for type specialization
     this.configLoader = new DomainConfigLoader();
+
+    // Phase 5.3: Ambiguity detection (optional)
+    if (AmbiguityDetector) {
+      this.ambiguityDetector = new AmbiguityDetector();
+    } else {
+      this.ambiguityDetector = null;
+    }
   }
 
   /**
@@ -414,7 +429,31 @@ class SemanticGraphBuilder {
       }
     }
 
-    return {
+    // ================================================================
+    // Phase 5.3: Ambiguity Detection (Optional)
+    // ================================================================
+    let ambiguityReport = null;
+    if (buildOptions.detectAmbiguity && this.ambiguityDetector) {
+      // Collect roles from nodes
+      const roleNodes = this.nodes.filter(n =>
+        n['@type']?.some(t => t.includes('Role'))
+      );
+      const roles = roleNodes.map(r => ({
+        act: r['bfo:is_realized_by']?.['@id'] || r['bfo:role_of']?.['@id'],
+        entity: r['bfo:inheres_in']?.['@id'],
+        type: r['@type']?.some(t => t.includes('AgentRole')) ? 'agent' : 'patient'
+      }));
+
+      // Run ambiguity detection
+      ambiguityReport = this.ambiguityDetector.detect(
+        text,
+        tier2Entities,
+        extractedActs,
+        roles
+      );
+    }
+
+    const result = {
       '@graph': this.nodes,
       _metadata: {
         buildTimestamp: this.buildTimestamp,
@@ -427,6 +466,13 @@ class SemanticGraphBuilder {
         hasValueAssertions: !!(this.assertionEventBuilder && buildOptions.scoredValues)
       }
     };
+
+    // Add ambiguity report if detection was enabled
+    if (ambiguityReport) {
+      result._ambiguityReport = ambiguityReport;
+    }
+
+    return result;
   }
 
   /**

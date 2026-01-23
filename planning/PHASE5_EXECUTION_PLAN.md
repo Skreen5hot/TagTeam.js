@@ -1,9 +1,17 @@
 # Phase 5: NLP Foundation Upgrade - Execution Plan
 
-**Version:** 1.0.0
+**Version:** 1.1.0
 **Created:** 2026-01-23
-**Status:** Planning Complete
+**Updated:** 2026-01-23
+**Status:** Planning Complete (Critique Review Integrated)
 **Goal:** Remove Compromise bottleneck, enable ambiguity detection
+
+## Change Log
+
+| Version | Date | Changes |
+|---------|------|---------|
+| 1.1.0 | 2026-01-23 | Integrated critique review: added selectional constraint tests, modal force disambiguation tests, nominalization tests, scope/negation tests, lemmatization edge-case tests, confidence scoring in AmbiguityReport |
+| 1.0.0 | 2026-01-23 | Initial execution plan |
 
 ---
 
@@ -135,6 +143,10 @@ const CONTRACTIONS = {
 - [ ] AC-5.1.4: No regression in existing POS tagging accuracy
 - [ ] AC-5.1.5: Bundle size increase < 20KB
 - [ ] AC-5.1.6: All 290+ existing tests still pass
+- [ ] AC-5.1.7: Lemmatizer handles POS-dependent forms ("saw" VBD→"see", NN→"saw")
+- [ ] AC-5.1.8: Lemmatizer handles irregular verbs (went→go, was→be, etc.)
+- [ ] AC-5.1.9: Lemmatizer handles irregular noun plurals (children→child, criteria→criterion)
+- [ ] AC-5.1.10: Lemmatizer handles consonant doubling/e-deletion rules correctly
 
 ### Test Plan
 
@@ -501,6 +513,7 @@ Create infrastructure to detect (not yet preserve) ambiguous cases for future Ph
 | **Deontic/Epistemic** | Modal + context | "should" | `{ type: "modal_force", readings: ["obligation", "expectation"] }` |
 | **Scope** | Quantifier + negation | "not all" | `{ type: "scope", readings: ["wide", "narrow"] }` |
 | **PP Attachment** | PP following NP VP | "with the scalpel" | `{ type: "pp_attachment", readings: ["instrument", "attribute"] }` |
+| **Selectional Violation** | Subject/Object category mismatch | "The rock hired" | `{ type: "selectional_violation", signal: "inanimate_agent" }` |
 
 ### AmbiguityDetector Specification
 
@@ -533,15 +546,57 @@ class AmbiguityDetector {
     ambiguities.push(...this._detectVerbSenseAmbiguity(acts));
 
     // 3. Check modals for deontic/epistemic ambiguity
-    ambiguities.push(...this._detectModalAmbiguity(acts));
+    ambiguities.push(...this._detectModalAmbiguity(acts, entities));
 
-    // 4. Check for scope ambiguity
-    ambiguities.push(...this._detectScopeAmbiguity(text, entities));
+    // 4. Check for scope ambiguity (quantifiers + negation)
+    ambiguities.push(...this._detectScopeAmbiguity(text, entities, acts));
 
     // 5. Check for PP attachment ambiguity
     ambiguities.push(...this._detectPPAttachment(text, entities, acts));
 
+    // 6. Check for selectional constraint violations
+    ambiguities.push(...this._detectSelectionalViolations(entities, acts, roles));
+
     return new AmbiguityReport(ambiguities);
+  }
+
+  // Detect violations of selectional constraints (categorical restrictions)
+  _detectSelectionalViolations(entities, acts, roles) {
+    return acts
+      .map(act => this._checkActSelectionalConstraints(act, entities, roles))
+      .filter(v => v !== null);
+  }
+
+  _checkActSelectionalConstraints(act, entities, roles) {
+    const agent = this._findAgentFor(act, roles);
+    const patient = this._findPatientFor(act, roles);
+
+    // Check: inanimate cannot be agent of Intentional Act
+    if (agent && this._isInanimate(agent) && this._isIntentionalAct(act)) {
+      return {
+        type: 'selectional_violation',
+        signal: 'inanimate_agent',
+        subject: agent.label,
+        verb: act.verb,
+        nodeId: act['@id'],
+        confidence: 'high',
+        ontologyConstraint: 'bfo:Agent requires bfo:MaterialEntity with cco:has_function'
+      };
+    }
+
+    // Check: abstract cannot perform physical acts
+    if (agent && this._isAbstract(agent) && this._isPhysicalAct(act)) {
+      return {
+        type: 'selectional_violation',
+        signal: 'abstract_physical_actor',
+        subject: agent.label,
+        verb: act.verb,
+        nodeId: act['@id'],
+        confidence: 'high'
+      };
+    }
+
+    return null;
   }
 
   _detectNounAmbiguity(entities) {
@@ -592,6 +647,27 @@ class AmbiguityReport {
     this.statistics = this._computeStatistics();
   }
 
+  // Get confidence level for an ambiguity
+  // Based on selectional preference strength and contextual signals
+  getConfidence(ambiguity) {
+    // High confidence: strong selectional constraints or clear context
+    // Low confidence: weak preferences or missing context
+    return ambiguity.confidence || this._computeConfidence(ambiguity);
+  }
+
+  _computeConfidence(ambiguity) {
+    const { type, signals = [] } = ambiguity;
+
+    // Selectional violations are high confidence (categorical mismatch)
+    if (type === 'selectional_violation') return 'high';
+
+    // Strong contextual signals increase confidence
+    if (signals.length >= 2) return 'high';
+
+    // Single signal or preference-based = lower confidence
+    return signals.length === 1 ? 'medium' : 'low';
+  }
+
   // Filter by ambiguity type
   getByType(type) {
     return this.ambiguities.filter(a => a.type === type);
@@ -624,7 +700,8 @@ class AmbiguityReport {
         'tagteam:affectsNode': { '@id': a.nodeId },
         'tagteam:possibleReadings': a.readings,
         'tagteam:defaultReading': a.defaultReading,
-        'tagteam:detectionSignals': a.signals
+        'tagteam:detectionSignals': a.signals,
+        'tagteam:confidence': this.getConfidence(a)
       }))
     };
   }
@@ -653,6 +730,11 @@ class AmbiguityReport {
 - [ ] AC-5.3.5: AmbiguityReport serializes to valid JSON-LD
 - [ ] AC-5.3.6: SemanticGraphBuilder optionally includes ambiguity metadata
 - [ ] AC-5.3.7: Performance: < 10ms additional processing time
+- [ ] AC-5.3.8: Detects selectional constraint violations (inanimate agent with intentional act)
+- [ ] AC-5.3.9: AmbiguityReport includes confidence scoring (high/medium/low)
+- [ ] AC-5.3.10: Modal force disambiguation considers aspect and subject type signals
+- [ ] AC-5.3.11: Nominalization detection uses context signals (of-complement, duration predicate)
+- [ ] AC-5.3.12: Scope detection handles multiple quantifiers and modal-negation interactions
 
 ### Test Plan
 
@@ -759,6 +841,534 @@ describe('Ambiguity Integration', () => {
 
     expect(result._ambiguityReport).toBeUndefined();
     expect(result['@graph']).toBeDefined();
+  });
+});
+```
+
+### Extended Test Coverage (Per Critique Review)
+
+The following test categories address gaps identified in the Phase 5 critique review.
+
+#### A. Selectional Constraint Tests
+
+Selectional constraints enforce categorical restrictions on Subject-Verb-Object relations based on BFO/CCO ontology types. When violated, these indicate either metaphorical usage, errors, or require special handling.
+
+```javascript
+// tests/unit/selectional-constraint.test.js
+
+describe('Selectional Constraint Detection', () => {
+  describe('categorical violations (restrictions)', () => {
+    it('flags inanimate subject with intentional act', () => {
+      // "The rock hired an administrator" - rocks cannot perform Intentional Acts
+      const graph = buildGraph("The rock hired an administrator");
+      const report = detector.detect(graph);
+
+      const violation = report.getByType('selectional_violation')[0];
+
+      expect(violation).toBeDefined();
+      expect(violation.signal).toBe('inanimate_agent');
+      expect(violation.subject).toBe('rock');
+      expect(violation.verb).toBe('hired');
+      expect(violation.confidence).toBe('high'); // categorical = high confidence
+      expect(violation.ontologyConstraint).toBe('bfo:Agent requires bfo:MaterialEntity with cco:has_function');
+    });
+
+    it('flags abstract subject with physical act', () => {
+      // "Justice lifted the box" - abstract entities cannot perform physical acts
+      const graph = buildGraph("Justice lifted the box");
+      const report = detector.detect(graph);
+
+      const violation = report.getByType('selectional_violation')[0];
+      expect(violation.signal).toBe('abstract_physical_actor');
+      expect(violation.confidence).toBe('high');
+    });
+
+    it('flags animate object with creation verb expecting artifact', () => {
+      // "She built a doctor" - 'build' expects Artifact, not Person
+      const graph = buildGraph("She built a doctor");
+      const report = detector.detect(graph);
+
+      const violation = report.getByType('selectional_violation')[0];
+      expect(violation.signal).toBe('animate_artifact_object');
+    });
+  });
+
+  describe('selectional preferences (soft constraints)', () => {
+    it('allows but notes unusual agent-verb combinations', () => {
+      // "The committee decided" - valid but 'committee' is collective
+      const graph = buildGraph("The committee decided quickly");
+      const report = detector.detect(graph);
+
+      // Should NOT be a violation, but may note collective agent
+      const violations = report.getByType('selectional_violation');
+      expect(violations.length).toBe(0);
+
+      const preferences = report.getByType('selectional_preference');
+      expect(preferences[0]?.signal).toBe('collective_agent');
+      expect(preferences[0]?.confidence).toBe('low');
+    });
+
+    it('handles metonymy gracefully', () => {
+      // "The White House announced" - metonymy (place for institution)
+      const graph = buildGraph("The White House announced the policy");
+      const report = detector.detect(graph);
+
+      // Should flag as potential metonymy, not hard violation
+      const metonymy = report.getByType('potential_metonymy');
+      expect(metonymy[0]?.signal).toBe('location_as_agent');
+      expect(metonymy[0]?.suggestedReading).toBe('institution');
+    });
+  });
+
+  describe('BFO/CCO ontology alignment', () => {
+    it('validates agent against cco:Agent requirements', () => {
+      const graph = buildGraph("The surgeon performed the operation");
+      const report = detector.detect(graph);
+
+      // Valid: surgeon (Person) can be Agent of IntentionalAct
+      expect(report.getByType('selectional_violation')).toHaveLength(0);
+    });
+
+    it('validates patient/theme against act type', () => {
+      const graph = buildGraph("The doctor treated the disease");
+      const report = detector.detect(graph);
+
+      // Valid: disease (Disorder) can be object of treating
+      expect(report.getByType('selectional_violation')).toHaveLength(0);
+    });
+  });
+});
+```
+
+#### B. Modal Force Disambiguation Tests
+
+Modal verbs exhibit systematic ambiguity between deontic (obligation/permission) and epistemic (inference/possibility) readings. Context determines which reading applies.
+
+```javascript
+// tests/unit/modal-force-disambiguation.test.js
+
+describe('Modal Force Disambiguation', () => {
+  describe('"should" deontic vs epistemic', () => {
+    it('detects deontic reading with agent-oriented context', () => {
+      // "The doctor should inform the patient" - obligation
+      const graph = buildGraph("The doctor should inform the patient");
+      const report = detector.detect(graph);
+
+      const modal = report.getByType('modal_force')[0];
+      expect(modal.modal).toBe('should');
+      expect(modal.readings).toContain('obligation');
+      expect(modal.readings).toContain('expectation');
+      expect(modal.defaultReading).toBe('obligation'); // agent + intentional act
+      expect(modal.signals).toContain('agent_subject');
+      expect(modal.signals).toContain('intentional_act');
+    });
+
+    it('detects epistemic reading with non-agent subject', () => {
+      // "The patient should be in the room" - expectation/inference
+      const graph = buildGraph("The patient should be in the room");
+      const report = detector.detect(graph);
+
+      const modal = report.getByType('modal_force')[0];
+      expect(modal.defaultReading).toBe('expectation');
+      expect(modal.signals).toContain('stative_verb');
+      expect(modal.signals).toContain('locative_predicate');
+    });
+
+    it('detects epistemic reading with perfect aspect', () => {
+      // "The results should have arrived" - inference about past
+      const graph = buildGraph("The results should have arrived");
+      const report = detector.detect(graph);
+
+      const modal = report.getByType('modal_force')[0];
+      expect(modal.defaultReading).toBe('expectation');
+      expect(modal.signals).toContain('perfect_aspect');
+    });
+  });
+
+  describe('"must" deontic vs epistemic', () => {
+    it('detects deontic "must" with imperative context', () => {
+      // "You must submit the form" - obligation
+      const graph = buildGraph("You must submit the form");
+      const report = detector.detect(graph);
+
+      const modal = report.getByType('modal_force')[0];
+      expect(modal.defaultReading).toBe('obligation');
+      expect(modal.signals).toContain('second_person_subject');
+    });
+
+    it('detects epistemic "must" with evidential context', () => {
+      // "The patient must have left" - inference
+      const graph = buildGraph("The patient must have left already");
+      const report = detector.detect(graph);
+
+      const modal = report.getByType('modal_force')[0];
+      expect(modal.defaultReading).toBe('inference');
+      expect(modal.signals).toContain('perfect_aspect');
+      expect(modal.signals).toContain('temporal_adverb');
+    });
+  });
+
+  describe('"may/might" permission vs possibility', () => {
+    it('detects permission with agent subject and request context', () => {
+      // "You may leave early" - permission
+      const graph = buildGraph("You may leave early");
+      const report = detector.detect(graph);
+
+      const modal = report.getByType('modal_force')[0];
+      expect(modal.readings).toContain('permission');
+      expect(modal.readings).toContain('possibility');
+      expect(modal.defaultReading).toBe('permission');
+    });
+
+    it('detects possibility with inanimate subject', () => {
+      // "The treatment may cause side effects" - possibility
+      const graph = buildGraph("The treatment may cause side effects");
+      const report = detector.detect(graph);
+
+      const modal = report.getByType('modal_force')[0];
+      expect(modal.defaultReading).toBe('possibility');
+      expect(modal.signals).toContain('inanimate_subject');
+    });
+  });
+});
+```
+
+#### C. Nominalization (Process vs Continuant) Tests
+
+Nominalizations (-tion, -ment, -ing, etc.) are systematically ambiguous between process readings (bfo:Process) and continuant readings (bfo:Continuant - typically organization/artifact).
+
+```javascript
+// tests/unit/nominalization-ambiguity.test.js
+
+describe('Nominalization Ambiguity Detection', () => {
+  describe('-tion nominalizations', () => {
+    it('flags "organization" as ambiguous with context signals', () => {
+      // "The organization was difficult" - ambiguous
+      const graph = buildGraph("The organization was difficult");
+      const report = detector.detect(graph);
+
+      const nominal = report.getByType('noun_category')[0];
+      expect(nominal.span).toContain('organization');
+      expect(nominal.readings).toContain('process');    // act of organizing
+      expect(nominal.readings).toContain('continuant'); // the entity
+      expect(nominal.signals).toContain('predicate_adjective');
+      expect(nominal.defaultReading).toBe('process'); // "difficult" suggests process
+    });
+
+    it('resolves "organization" to continuant with agent context', () => {
+      // "The organization hired staff" - entity reading
+      const graph = buildGraph("The organization hired staff");
+      const report = detector.detect(graph);
+
+      const nominal = report.getByType('noun_category')[0];
+      expect(nominal.defaultReading).toBe('continuant');
+      expect(nominal.signals).toContain('subject_of_intentional_act');
+      expect(nominal.confidence).toBe('high');
+    });
+
+    it('resolves "organization" to process with temporal context', () => {
+      // "The organization of files took hours" - process reading
+      const graph = buildGraph("The organization of files took hours");
+      const report = detector.detect(graph);
+
+      const nominal = report.getByType('noun_category')[0];
+      expect(nominal.defaultReading).toBe('process');
+      expect(nominal.signals).toContain('of_complement');
+      expect(nominal.signals).toContain('duration_predicate');
+    });
+
+    it('flags "administration" with dual readings', () => {
+      const graph = buildGraph("The administration changed policy");
+      const report = detector.detect(graph);
+
+      const nominal = report.getByType('noun_category')[0];
+      expect(nominal.readings).toEqual(['process', 'continuant']);
+      expect(nominal.defaultReading).toBe('continuant'); // subject of 'changed'
+    });
+  });
+
+  describe('-ment nominalizations', () => {
+    it('flags "treatment" as ambiguous', () => {
+      const graph = buildGraph("The treatment was effective");
+      const report = detector.detect(graph);
+
+      const nominal = report.getByType('noun_category')[0];
+      expect(nominal.readings).toContain('process');    // act of treating
+      expect(nominal.readings).toContain('continuant'); // the therapy/plan
+    });
+
+    it('resolves "treatment" to process with duration', () => {
+      const graph = buildGraph("The treatment lasted three months");
+      const report = detector.detect(graph);
+
+      const nominal = report.getByType('noun_category')[0];
+      expect(nominal.defaultReading).toBe('process');
+      expect(nominal.signals).toContain('duration_verb');
+    });
+  });
+
+  describe('-ing nominalizations', () => {
+    it('flags "building" as ambiguous', () => {
+      // "The building collapsed" vs "The building of trust takes time"
+      const graph = buildGraph("The building was impressive");
+      const report = detector.detect(graph);
+
+      const nominal = report.getByType('noun_category')[0];
+      expect(nominal.readings).toContain('process');    // act of building
+      expect(nominal.readings).toContain('continuant'); // the structure
+    });
+
+    it('uses determiner type to disambiguate', () => {
+      // "This building" = continuant, "The building of..." = process
+      const graph1 = buildGraph("This building is tall");
+      const graph2 = buildGraph("The building of relationships requires patience");
+
+      const report1 = detector.detect(graph1);
+      const report2 = detector.detect(graph2);
+
+      expect(report1.getByType('noun_category')[0]?.defaultReading).toBe('continuant');
+      expect(report2.getByType('noun_category')[0]?.defaultReading).toBe('process');
+    });
+  });
+});
+```
+
+#### D. Scope & Negation Intersection Tests
+
+Quantifier-negation interactions create scope ambiguities where operator precedence affects meaning.
+
+```javascript
+// tests/unit/scope-negation.test.js
+
+describe('Scope & Negation Ambiguity', () => {
+  describe('universal quantifier + negation', () => {
+    it('flags "All doctors did not attend" as scope ambiguous', () => {
+      // Wide scope: ¬∀x (not all attended - some did)
+      // Narrow scope: ∀x¬ (all didn't attend - none did)
+      const graph = buildGraph("All doctors did not attend the meeting");
+      const report = detector.detect(graph);
+
+      const scope = report.getByType('scope')[0];
+      expect(scope).toBeDefined();
+      expect(scope.quantifier).toBe('all');
+      expect(scope.negation).toBe('not');
+      expect(scope.readings).toContain('wide');   // ¬∀x (negation scopes over all)
+      expect(scope.readings).toContain('narrow'); // ∀x¬ (all scopes over negation)
+      expect(scope.formalizations).toEqual({
+        wide: '¬∀x.Attend(x)',
+        narrow: '∀x.¬Attend(x)'
+      });
+    });
+
+    it('detects surface scope preference from word order', () => {
+      // "Not all doctors attended" - clearly wide scope (¬∀x)
+      const graph = buildGraph("Not all doctors attended the meeting");
+      const report = detector.detect(graph);
+
+      const scope = report.getByType('scope')[0];
+      expect(scope.defaultReading).toBe('wide');
+      expect(scope.confidence).toBe('high'); // clear word order
+    });
+
+    it('handles "every" + negation', () => {
+      const graph = buildGraph("Every patient was not examined");
+      const report = detector.detect(graph);
+
+      const scope = report.getByType('scope')[0];
+      expect(scope.quantifier).toBe('every');
+      expect(scope.readings).toContain('wide');
+      expect(scope.readings).toContain('narrow');
+    });
+  });
+
+  describe('existential quantifier + negation', () => {
+    it('flags "Some doctors did not attend" appropriately', () => {
+      // "Some" + negation is less ambiguous
+      const graph = buildGraph("Some doctors did not attend");
+      const report = detector.detect(graph);
+
+      // Should either be unambiguous or flag with clear default
+      const scope = report.getByType('scope');
+      if (scope.length > 0) {
+        expect(scope[0].defaultReading).toBe('narrow'); // ∃x¬
+        expect(scope[0].confidence).toBe('high');
+      }
+    });
+  });
+
+  describe('negation + modal interactions', () => {
+    it('detects scope ambiguity in "must not"', () => {
+      // "You must not leave" - obligation not to (¬ scopes under must)
+      const graph = buildGraph("You must not leave early");
+      const report = detector.detect(graph);
+
+      const modal = report.getByType('modal_force')[0];
+      expect(modal.negationScope).toBe('under_modal'); // must(¬leave)
+    });
+
+    it('detects scope ambiguity in "may not"', () => {
+      // "You may not leave" - ambiguous: permission denied vs possibility denied
+      const graph = buildGraph("You may not leave");
+      const report = detector.detect(graph);
+
+      const scope = report.getByType('scope')[0];
+      expect(scope.readings).toContain('permission_denied'); // ¬permitted
+      expect(scope.readings).toContain('possibility_denied'); // ¬possible
+    });
+  });
+
+  describe('multiple quantifiers', () => {
+    it('flags "Every doctor saw some patient" as scope ambiguous', () => {
+      const graph = buildGraph("Every doctor saw some patient");
+      const report = detector.detect(graph);
+
+      const scope = report.getByType('scope')[0];
+      expect(scope.readings).toContain('subject_wide'); // ∀x∃y
+      expect(scope.readings).toContain('object_wide');  // ∃y∀x
+    });
+  });
+});
+```
+
+#### E. Lemmatization Edge-Case Tests
+
+Context-dependent lemmatization where the same surface form has different base forms depending on POS.
+
+```javascript
+// tests/unit/lemmatizer-edge-cases.test.js
+
+describe('Lemmatizer Edge Cases', () => {
+  describe('POS-dependent lemmatization', () => {
+    it('lemmatizes "files" correctly based on POS context', () => {
+      // "files" as noun (NNS) → "file"
+      // "files" as verb (VBZ) → "file"
+      // Same lemma but different semantic treatment
+
+      const nounContext = lemmatize('files', 'NNS');
+      const verbContext = lemmatize('files', 'VBZ');
+
+      expect(nounContext.lemma).toBe('file');
+      expect(nounContext.category).toBe('noun');
+
+      expect(verbContext.lemma).toBe('file');
+      expect(verbContext.category).toBe('verb');
+    });
+
+    it('handles "saw" with verb vs noun POS', () => {
+      // "saw" as verb (VBD) → "see"
+      // "saw" as noun (NN) → "saw" (tool)
+
+      const verbContext = lemmatize('saw', 'VBD');
+      const nounContext = lemmatize('saw', 'NN');
+
+      expect(verbContext.lemma).toBe('see');
+      expect(nounContext.lemma).toBe('saw');
+    });
+
+    it('handles "left" with verb vs adjective vs noun', () => {
+      // "left" as verb (VBD) → "leave"
+      // "left" as adjective (JJ) → "left"
+      // "left" as noun (NN) → "left"
+
+      expect(lemmatize('left', 'VBD').lemma).toBe('leave');
+      expect(lemmatize('left', 'JJ').lemma).toBe('left');
+      expect(lemmatize('left', 'NN').lemma).toBe('left');
+    });
+  });
+
+  describe('irregular verb lemmatization', () => {
+    it('handles common irregular past tenses', () => {
+      expect(lemmatize('went', 'VBD').lemma).toBe('go');
+      expect(lemmatize('was', 'VBD').lemma).toBe('be');
+      expect(lemmatize('were', 'VBD').lemma).toBe('be');
+      expect(lemmatize('had', 'VBD').lemma).toBe('have');
+      expect(lemmatize('made', 'VBD').lemma).toBe('make');
+      expect(lemmatize('said', 'VBD').lemma).toBe('say');
+      expect(lemmatize('thought', 'VBD').lemma).toBe('think');
+      expect(lemmatize('knew', 'VBD').lemma).toBe('know');
+    });
+
+    it('handles irregular past participles', () => {
+      expect(lemmatize('gone', 'VBN').lemma).toBe('go');
+      expect(lemmatize('been', 'VBN').lemma).toBe('be');
+      expect(lemmatize('done', 'VBN').lemma).toBe('do');
+      expect(lemmatize('seen', 'VBN').lemma).toBe('see');
+      expect(lemmatize('written', 'VBN').lemma).toBe('write');
+      expect(lemmatize('taken', 'VBN').lemma).toBe('take');
+    });
+
+    it('handles irregular 3rd person singular', () => {
+      expect(lemmatize('is', 'VBZ').lemma).toBe('be');
+      expect(lemmatize('has', 'VBZ').lemma).toBe('have');
+      expect(lemmatize('does', 'VBZ').lemma).toBe('do');
+      expect(lemmatize('goes', 'VBZ').lemma).toBe('go');
+    });
+  });
+
+  describe('doubling/deletion rules', () => {
+    it('handles consonant doubling correctly', () => {
+      // "running" → "run" (not "runn")
+      // "stopped" → "stop" (not "stopp")
+      expect(lemmatize('running', 'VBG').lemma).toBe('run');
+      expect(lemmatize('stopped', 'VBD').lemma).toBe('stop');
+      expect(lemmatize('sitting', 'VBG').lemma).toBe('sit');
+      expect(lemmatize('planned', 'VBD').lemma).toBe('plan');
+    });
+
+    it('handles e-deletion correctly', () => {
+      // "making" → "make" (not "mak")
+      // "taking" → "take"
+      expect(lemmatize('making', 'VBG').lemma).toBe('make');
+      expect(lemmatize('taking', 'VBG').lemma).toBe('take');
+      expect(lemmatize('giving', 'VBG').lemma).toBe('give');
+    });
+
+    it('handles y-to-i replacement', () => {
+      // "tried" → "try" (not "tri")
+      // "applied" → "apply"
+      expect(lemmatize('tried', 'VBD').lemma).toBe('try');
+      expect(lemmatize('applied', 'VBD').lemma).toBe('apply');
+      expect(lemmatize('carries', 'VBZ').lemma).toBe('carry');
+    });
+  });
+
+  describe('noun pluralization edge cases', () => {
+    it('handles irregular plurals', () => {
+      expect(lemmatize('children', 'NNS').lemma).toBe('child');
+      expect(lemmatize('people', 'NNS').lemma).toBe('person');
+      expect(lemmatize('mice', 'NNS').lemma).toBe('mouse');
+      expect(lemmatize('teeth', 'NNS').lemma).toBe('tooth');
+      expect(lemmatize('feet', 'NNS').lemma).toBe('foot');
+      expect(lemmatize('men', 'NNS').lemma).toBe('man');
+      expect(lemmatize('women', 'NNS').lemma).toBe('woman');
+    });
+
+    it('handles Latin/Greek plurals', () => {
+      expect(lemmatize('criteria', 'NNS').lemma).toBe('criterion');
+      expect(lemmatize('phenomena', 'NNS').lemma).toBe('phenomenon');
+      expect(lemmatize('analyses', 'NNS').lemma).toBe('analysis');
+      expect(lemmatize('diagnoses', 'NNS').lemma).toBe('diagnosis');
+    });
+
+    it('handles -ies plurals', () => {
+      expect(lemmatize('policies', 'NNS').lemma).toBe('policy');
+      expect(lemmatize('families', 'NNS').lemma).toBe('family');
+      expect(lemmatize('categories', 'NNS').lemma).toBe('category');
+    });
+  });
+
+  describe('medical/technical vocabulary', () => {
+    it('handles medical plurals correctly', () => {
+      expect(lemmatize('diagnoses', 'NNS').lemma).toBe('diagnosis');
+      expect(lemmatize('prognoses', 'NNS').lemma).toBe('prognosis');
+      expect(lemmatize('metastases', 'NNS').lemma).toBe('metastasis');
+    });
+
+    it('handles medical verb forms', () => {
+      expect(lemmatize('diagnosed', 'VBD').lemma).toBe('diagnose');
+      expect(lemmatize('treating', 'VBG').lemma).toBe('treat');
+      expect(lemmatize('administered', 'VBD').lemma).toBe('administer');
+    });
   });
 });
 ```
@@ -877,10 +1487,15 @@ docs/research/
 tests/unit/
 ├── contraction-expander.test.js    # 5.1
 ├── lemmatizer.test.js              # 5.1
+├── lemmatizer-edge-cases.test.js   # 5.1 (irregular verbs, POS-dependent)
 ├── verb-phrase-extractor.test.js   # 5.2
 ├── noun-phrase-extractor.test.js   # 5.2
 ├── ambiguity-detector.test.js      # 5.3
-└── ambiguity-report.test.js        # 5.3
+├── ambiguity-report.test.js        # 5.3
+├── selectional-constraint.test.js  # 5.3 (inanimate agent, etc.)
+├── modal-force-disambiguation.test.js  # 5.3 (deontic vs epistemic)
+├── nominalization-ambiguity.test.js    # 5.3 (process vs continuant)
+└── scope-negation.test.js          # 5.3 (quantifier + negation)
 
 tests/integration/
 ├── compromise-replacement.test.js  # 5.2
