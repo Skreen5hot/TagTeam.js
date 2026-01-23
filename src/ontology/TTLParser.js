@@ -163,15 +163,12 @@
         try {
             if (typeof window !== 'undefined') {
                 // Browser environment - load from CDN
-                console.log('TTLParser: Loading N3.js from CDN...');
                 this._n3Cache = await import('https://cdn.jsdelivr.net/npm/n3@1.17.1/+esm');
             } else {
                 // Node.js environment - require from node_modules
-                console.log('TTLParser: Loading N3.js from node_modules...');
                 this._n3Cache = require('n3');
             }
 
-            console.log('TTLParser: N3.js loaded successfully');
             return this._n3Cache;
 
         } catch (error) {

@@ -9,11 +9,10 @@
     "./data": "./data/index.js"
   },
   "scripts": {
-    "test": "node tests/run-tests.js",
-    "build": "node scripts/build.js"
+    "test": "node tests/test-iee-graph-builder.js"
   },
   "peerDependencies": {
-    "tagteam-core": "^5.0.0"
+    "tagteam-core": "^3.0.0"
   },
   "keywords": [
     "ethics",

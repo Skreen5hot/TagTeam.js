@@ -263,18 +263,11 @@ export const shaclValidator = {
      */
     validatePatterns({ diagramId, rdfGraph }) {
       try {
-        console.log(`[shaclValidator] Validating CCO patterns for diagram ${diagramId}...`);
-
         const result = shaclValidator.helpers.checkPatterns(rdfGraph);
 
         shaclValidator.state.violations = result.violations;
         shaclValidator.state.complianceScore = result.complianceScore;
         shaclValidator.state.validationResults.set(diagramId, result);
-
-        console.log(`[shaclValidator] Pattern validation complete:`);
-        console.log(`  - Total patterns checked: ${result.totalChecks}`);
-        console.log(`  - Violations: ${result.violations.length}`);
-        console.log(`  - Compliance score: ${result.complianceScore}%`);
 
         notify('patternsValidated', { diagramId, result });
       } catch (error) {
