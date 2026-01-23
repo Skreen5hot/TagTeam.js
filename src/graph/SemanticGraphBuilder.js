@@ -12,13 +12,18 @@
  * - Roles realize only in Actual acts
  * - Quality nodes for qualifiers (v2.4)
  * - PatientRole on aggregate members (v2.4)
- * - ValueAssertionEvent with three-way confidence (Week 2)
- * - ContextAssessmentEvent for 12 dimensions (Week 2)
+ * - ValueAssertionEvent with three-way confidence (Week 2) [OPTIONAL]
+ * - ContextAssessmentEvent for 12 dimensions (Week 2) [OPTIONAL]
  * - IBE/ICE Information Staircase (Week 2)
  * - GIT-Minimal provenance (Week 2)
  *
+ * v5.0.0 Package Separation:
+ * - AssertionEventBuilder is now OPTIONAL (for tagteam-iee-values package)
+ * - Core package works without value/context assertions
+ * - Extension point: options.assertionBuilder for external injection
+ *
  * @module graph/SemanticGraphBuilder
- * @version 4.0.0-phase4-week2
+ * @version 5.0.0
  */
 
 const crypto = require('crypto');
@@ -31,10 +36,19 @@ const ObjectAggregateFactory = require('./ObjectAggregateFactory');
 const QualityFactory = require('./QualityFactory');
 const DomainConfigLoader = require('./DomainConfigLoader');
 
-// Week 2 modules
-const AssertionEventBuilder = require('./AssertionEventBuilder');
+// Core infrastructure modules
 const ContextManager = require('./ContextManager');
 const InformationStaircaseBuilder = require('./InformationStaircaseBuilder');
+
+// OPTIONAL: AssertionEventBuilder - only load if available (for backwards compatibility)
+// In v5.0.0+, this is provided by tagteam-iee-values package via options.assertionBuilder
+let AssertionEventBuilder = null;
+try {
+  AssertionEventBuilder = require('./AssertionEventBuilder');
+} catch (e) {
+  // AssertionEventBuilder not available - values package not installed
+  // This is expected in core-only installations
+}
 
 /**
  * Main class for building semantic graphs in JSON-LD format
@@ -70,11 +84,24 @@ class SemanticGraphBuilder {
     // v2.4: Quality factory for entity qualifiers
     this.qualityFactory = new QualityFactory({ graphBuilder: this });
 
-    // Week 2: Assertion events and GIT-Minimal integration
-    this.assertionEventBuilder = new AssertionEventBuilder({ graphBuilder: this });
+    // v5.0.0: AssertionEventBuilder is OPTIONAL
+    // Can be injected via options.assertionBuilder (for tagteam-iee-values)
+    // or use built-in if available (for backwards compatibility)
+    if (options.assertionBuilder) {
+      // External assertion builder injected (from tagteam-iee-values)
+      this.assertionEventBuilder = options.assertionBuilder;
+    } else if (AssertionEventBuilder) {
+      // Built-in AssertionEventBuilder available (backwards compatibility)
+      this.assertionEventBuilder = new AssertionEventBuilder({ graphBuilder: this });
+    } else {
+      // No assertion builder - core-only mode
+      this.assertionEventBuilder = null;
+    }
+
+    // Core infrastructure
     this.contextManager = new ContextManager({ graphBuilder: this });
     this.informationStaircaseBuilder = new InformationStaircaseBuilder({
-      version: '4.0.0-phase4-week2'
+      version: '5.0.0'
     });
 
     // Phase 2: Domain configuration loader for type specialization
@@ -344,8 +371,9 @@ class SemanticGraphBuilder {
       }
     }
 
-    // Phase 2.3: Create value assertion events (if values provided)
-    if (buildOptions.extractValues !== false && buildOptions.scoredValues) {
+    // Phase 2.3: Create value assertion events (if values provided AND builder available)
+    // v5.0.0: This is optional - only runs if assertionEventBuilder is available
+    if (this.assertionEventBuilder && buildOptions.extractValues !== false && buildOptions.scoredValues) {
       const valueResult = this.assertionEventBuilder.createValueAssertions(
         buildOptions.scoredValues,
         {
@@ -358,8 +386,9 @@ class SemanticGraphBuilder {
       this.addNodes(valueResult.iceNodes);
     }
 
-    // Phase 2.4: Create context assessment events (if context intensity provided)
-    if (buildOptions.extractContext !== false && buildOptions.contextIntensity) {
+    // Phase 2.4: Create context assessment events (if context intensity provided AND builder available)
+    // v5.0.0: This is optional - only runs if assertionEventBuilder is available
+    if (this.assertionEventBuilder && buildOptions.extractContext !== false && buildOptions.contextIntensity) {
       const contextResult = this.assertionEventBuilder.createContextAssessments(
         buildOptions.contextIntensity,
         {
@@ -391,10 +420,11 @@ class SemanticGraphBuilder {
         buildTimestamp: this.buildTimestamp,
         inputLength: text.length,
         nodeCount: this.nodes.length,
-        version: '4.0.0-phase4-week2',
+        version: '5.0.0',
         contextIRI,
         ibeIRI: ibeNode['@id'],
-        parserAgentIRI: parserAgentNode['@id']
+        parserAgentIRI: parserAgentNode['@id'],
+        hasValueAssertions: !!(this.assertionEventBuilder && buildOptions.scoredValues)
       }
     };
   }

@@ -1,17 +1,17 @@
 {
-  "timestamp": "2026-01-19T16:32:20.059Z",
+  "timestamp": "2026-01-23T08:37:43.356Z",
   "version": "4.0.0-phase4-week3",
   "summary": {
     "total": 21,
     "validJSON": 21,
     "validJSONLD": 21,
-    "shaclCompliant": 21,
-    "complianceRate": "100%",
-    "avgComplianceScore": "70%",
-    "avgNodeCount": 14,
-    "avgParseTime": "104ms",
-    "totalViolations": 0,
-    "totalWarnings": 86
+    "shaclCompliant": 8,
+    "complianceRate": "38%",
+    "avgComplianceScore": "57%",
+    "avgNodeCount": 15,
+    "avgParseTime": "85ms",
+    "totalViolations": 16,
+    "totalWarnings": 153
   },
   "acceptanceCriteria": [
     {
@@ -25,36 +25,38 @@
       "id": "AC-W3.2",
       "description": "SHACL compliance rate >= 90%",
       "target": 90,
-      "actual": 100,
-      "pass": true
+      "actual": 38,
+      "pass": false
     },
     {
       "id": "AC-W3.3",
       "description": "Average compliance score >= 80%",
       "target": 80,
-      "actual": 70,
+      "actual": 57,
       "pass": false
     },
     {
       "id": "AC-W3.5",
       "description": "Parse time < 300ms",
       "target": 300,
-      "actual": 104,
+      "actual": 85,
       "pass": true
     },
     {
       "id": "AC-W3.6",
       "description": "Average nodes < 200",
       "target": 200,
-      "actual": 14,
+      "actual": 15,
       "pass": true
     }
   ],
-  "violationsByPattern": {},
+  "violationsByPattern": {
+    "DomainRangeValidation": 16
+  },
   "warningsByPattern": {
-    "InformationStaircase": 16,
-    "SocioPrimalPattern": 35,
-    "VocabularyValidation": 18,
+    "SocioPrimalPattern": 56,
+    "VocabularyValidation": 74,
+    "InformationStaircase": 6,
     "RolePattern": 17
   },
   "scenarios": [
@@ -70,12 +72,12 @@
       "violations": [],
       "warnings": [
         {
-          "pattern": "InformationStaircase",
-          "message": "ICE node inst:Directive_Must_c51b8ccd96b9 has no is_concretized_by link to IBE"
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:Decide_IntentionalAct_0adf7a0f3f95 has no temporal grounding"
         },
         {
           "pattern": "SocioPrimalPattern",
-          "message": "Act inst:Decide_IntentionalAct_0adf7a0f3f95 has no temporal grounding"
+          "message": "Act inst:ParsingAct_1296db35 has no temporal grounding"
         },
         {
           "pattern": "VocabularyValidation",
@@ -83,11 +85,19 @@
         },
         {
           "pattern": "VocabularyValidation",
-          "message": "Unknown class: tagteam:DeonticContent"
+          "message": "Unknown class: cco:ActOfArtificialProcessing"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_input"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_output"
         }
       ],
-      "nodeCount": 11,
-      "parseTime": 1418,
+      "nodeCount": 12,
+      "parseTime": 1127,
       "error": null
     },
     {
@@ -98,26 +108,26 @@
       "validJSON": true,
       "validJSONLD": true,
       "shaclCompliant": true,
-      "complianceScore": 59,
+      "complianceScore": 67,
       "violations": [],
       "warnings": [
-        {
-          "pattern": "InformationStaircase",
-          "message": "ICE node inst:ScarcityAssertion_The_Last_Ventilator_7f34eaca1ccf has no is_concretized_by link to IBE"
-        },
-        {
-          "pattern": "InformationStaircase",
-          "message": "ICE node inst:ScarcityAssertion_Two_Critically_Ill_5d67a7679624 has no is_concretized_by link to IBE"
-        },
-        {
-          "pattern": "InformationStaircase",
-          "message": "ICE node inst:Directive_Must_afa1f8b820a1 has no is_concretized_by link to IBE"
-        },
         {
           "pattern": "SocioPrimalPattern",
           "message": "Act inst:Allocate_IntentionalAct_c52f373d7e76 has no temporal grounding"
         },
         {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:ParsingAct_eb046ee6 has no temporal grounding"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: tagteam:is_scarce"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: tagteam:scarcity_marker"
+        },
+        {
           "pattern": "VocabularyValidation",
           "message": "Unknown predicate: tagteam:is_scarce"
         },
@@ -127,11 +137,7 @@
         },
         {
           "pattern": "VocabularyValidation",
-          "message": "Unknown predicate: tagteam:is_scarce"
-        },
-        {
-          "pattern": "VocabularyValidation",
-          "message": "Unknown predicate: tagteam:scarcity_marker"
+          "message": "Unknown predicate: tagteam:describes_quality"
         },
         {
           "pattern": "VocabularyValidation",
@@ -139,11 +145,19 @@
         },
         {
           "pattern": "VocabularyValidation",
-          "message": "Unknown class: tagteam:DeonticContent"
+          "message": "Unknown class: cco:ActOfArtificialProcessing"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_input"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_output"
         }
       ],
-      "nodeCount": 22,
-      "parseTime": 70,
+      "nodeCount": 23,
+      "parseTime": 72,
       "error": null
     },
     {
@@ -153,17 +167,22 @@
       "text": "The surgeon must decide whether to disclose the error to the patient",
       "validJSON": true,
       "validJSONLD": true,
-      "shaclCompliant": true,
-      "complianceScore": 78,
-      "violations": [],
-      "warnings": [
+      "shaclCompliant": false,
+      "complianceScore": 66,
+      "violations": [
         {
-          "pattern": "InformationStaircase",
-          "message": "ICE node inst:Directive_Must_56d60e0e8873 has no is_concretized_by link to IBE"
-        },
+          "pattern": "DomainRangeValidation",
+          "message": "has_agent target inst:Artifact_Surgeon_99a8d0ffd6bd is not an Agent"
+        }
+      ],
+      "warnings": [
         {
           "pattern": "SocioPrimalPattern",
           "message": "Act inst:Decide_IntentionalAct_b56cb7b42697 has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:ParsingAct_c26c4dfa has no temporal grounding"
         },
         {
           "pattern": "VocabularyValidation",
@@ -171,11 +190,19 @@
         },
         {
           "pattern": "VocabularyValidation",
-          "message": "Unknown class: tagteam:DeonticContent"
+          "message": "Unknown class: cco:ActOfArtificialProcessing"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_input"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_output"
         }
       ],
-      "nodeCount": 18,
-      "parseTime": 44,
+      "nodeCount": 19,
+      "parseTime": 41,
       "error": null
     },
     {
@@ -186,7 +213,7 @@
       "validJSON": true,
       "validJSONLD": true,
       "shaclCompliant": true,
-      "complianceScore": 59,
+      "complianceScore": 58,
       "violations": [],
       "warnings": [
         {
@@ -204,10 +231,26 @@
         {
           "pattern": "SocioPrimalPattern",
           "message": "Act inst:Demand_IntentionalAct_1f95be46b935 has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:ParsingAct_a7095e8d has no temporal grounding"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown class: cco:ActOfArtificialProcessing"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_input"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_output"
         }
       ],
-      "nodeCount": 11,
-      "parseTime": 42,
+      "nodeCount": 12,
+      "parseTime": 33,
       "error": null
     },
     {
@@ -217,14 +260,19 @@
       "text": "The psychiatrist must decide whether to commit the patient against their will",
       "validJSON": true,
       "validJSONLD": true,
-      "shaclCompliant": true,
-      "complianceScore": 76,
-      "violations": [],
-      "warnings": [
+      "shaclCompliant": false,
+      "complianceScore": 53,
+      "violations": [
         {
-          "pattern": "InformationStaircase",
-          "message": "ICE node inst:Directive_Must_b4a0f92fa80c has no is_concretized_by link to IBE"
+          "pattern": "DomainRangeValidation",
+          "message": "has_agent target inst:Artifact_Psychiatrist_82fd7c198084 is not an Agent"
         },
+        {
+          "pattern": "DomainRangeValidation",
+          "message": "has_agent target inst:Artifact_Their_0864e83d2bab is not an Agent"
+        }
+      ],
+      "warnings": [
         {
           "pattern": "SocioPrimalPattern",
           "message": "Act inst:Decide_IntentionalAct_e971dc3fdb8f has no temporal grounding"
@@ -234,16 +282,28 @@
           "message": "Act inst:Will_IntentionalAct_b0d82b4ace59 has no temporal grounding"
         },
         {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:ParsingAct_af4f8ca1 has no temporal grounding"
+        },
+        {
           "pattern": "VocabularyValidation",
           "message": "Unknown class: cco:ActOfDecision"
         },
         {
           "pattern": "VocabularyValidation",
-          "message": "Unknown class: tagteam:DeonticContent"
+          "message": "Unknown class: cco:ActOfArtificialProcessing"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_input"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_output"
         }
       ],
-      "nodeCount": 18,
-      "parseTime": 39,
+      "nodeCount": 19,
+      "parseTime": 33,
       "error": null
     },
     {
@@ -253,9 +313,14 @@
       "text": "I am questioning core doctrines",
       "validJSON": true,
       "validJSONLD": true,
-      "shaclCompliant": true,
-      "complianceScore": 63,
-      "violations": [],
+      "shaclCompliant": false,
+      "complianceScore": 46,
+      "violations": [
+        {
+          "pattern": "DomainRangeValidation",
+          "message": "has_agent target inst:Artifact_I_a0f3534b47e4 is not an Agent"
+        }
+      ],
       "warnings": [
         {
           "pattern": "InformationStaircase",
@@ -264,10 +329,26 @@
         {
           "pattern": "SocioPrimalPattern",
           "message": "Act inst:Question_IntentionalAct_6f5a0e702974 has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:ParsingAct_36883b20 has no temporal grounding"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown class: cco:ActOfArtificialProcessing"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_input"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_output"
         }
       ],
-      "nodeCount": 8,
-      "parseTime": 43,
+      "nodeCount": 9,
+      "parseTime": 27,
       "error": null
     },
     {
@@ -278,13 +359,9 @@
       "validJSON": true,
       "validJSONLD": true,
       "shaclCompliant": true,
-      "complianceScore": 68,
+      "complianceScore": 69,
       "violations": [],
       "warnings": [
-        {
-          "pattern": "InformationStaircase",
-          "message": "ICE node inst:Directive_Will_73168183aa1f has no is_concretized_by link to IBE"
-        },
         {
           "pattern": "RolePattern",
           "message": "Role inst:Patient_Role_f637d8f3 is not realized by any process"
@@ -302,12 +379,24 @@
           "message": "Act inst:Damn_IntentionalAct_27e6b269c1b0 has no temporal grounding"
         },
         {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:ParsingAct_75897c91 has no temporal grounding"
+        },
+        {
           "pattern": "VocabularyValidation",
-          "message": "Unknown class: tagteam:DeonticContent"
+          "message": "Unknown class: cco:ActOfArtificialProcessing"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_input"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_output"
         }
       ],
-      "nodeCount": 18,
-      "parseTime": 35,
+      "nodeCount": 19,
+      "parseTime": 31,
       "error": null
     },
     {
@@ -317,14 +406,15 @@
       "text": "I must choose between honoring my Sabbath and keeping my job",
       "validJSON": true,
       "validJSONLD": true,
-      "shaclCompliant": true,
-      "complianceScore": 67,
-      "violations": [],
-      "warnings": [
+      "shaclCompliant": false,
+      "complianceScore": 54,
+      "violations": [
         {
-          "pattern": "InformationStaircase",
-          "message": "ICE node inst:Directive_Must_b54179f270a8 has no is_concretized_by link to IBE"
-        },
+          "pattern": "DomainRangeValidation",
+          "message": "has_agent target inst:Artifact_My_Sabbath_4f3bbe70f158 is not an Agent"
+        }
+      ],
+      "warnings": [
         {
           "pattern": "RolePattern",
           "message": "Role inst:Participant_Role_315409a7 is not realized by any process"
@@ -342,16 +432,28 @@
           "message": "Act inst:Keep_IntentionalAct_83218f12c877 has no temporal grounding"
         },
         {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:ParsingAct_4d54bb8f has no temporal grounding"
+        },
+        {
           "pattern": "VocabularyValidation",
           "message": "Unknown class: cco:ActOfDecision"
         },
         {
           "pattern": "VocabularyValidation",
-          "message": "Unknown class: tagteam:DeonticContent"
+          "message": "Unknown class: cco:ActOfArtificialProcessing"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_input"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_output"
         }
       ],
-      "nodeCount": 16,
-      "parseTime": 32,
+      "nodeCount": 17,
+      "parseTime": 33,
       "error": null
     },
     {
@@ -361,9 +463,14 @@
       "text": "I discovered that church leadership is covering up abuse allegations",
       "validJSON": true,
       "validJSONLD": true,
-      "shaclCompliant": true,
-      "complianceScore": 77,
-      "violations": [],
+      "shaclCompliant": false,
+      "complianceScore": 56,
+      "violations": [
+        {
+          "pattern": "DomainRangeValidation",
+          "message": "has_agent target inst:Artifact_Church_Leadership_896021fce51b is not an Agent"
+        }
+      ],
       "warnings": [
         {
           "pattern": "RolePattern",
@@ -376,10 +483,26 @@
         {
           "pattern": "SocioPrimalPattern",
           "message": "Act inst:Cover_IntentionalAct_8ef647878795 has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:ParsingAct_88bd2ee5 has no temporal grounding"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown class: cco:ActOfArtificialProcessing"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_input"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_output"
         }
       ],
-      "nodeCount": 13,
-      "parseTime": 41,
+      "nodeCount": 14,
+      "parseTime": 32,
       "error": null
     },
     {
@@ -390,13 +513,9 @@
       "validJSON": true,
       "validJSONLD": true,
       "shaclCompliant": true,
-      "complianceScore": 71,
+      "complianceScore": 69,
       "violations": [],
       "warnings": [
-        {
-          "pattern": "InformationStaircase",
-          "message": "ICE node inst:Directive_Must_02f83029aa61 has no is_concretized_by link to IBE"
-        },
         {
           "pattern": "RolePattern",
           "message": "Role inst:Patient_Role_d66e2502 is not realized by any process"
@@ -410,16 +529,28 @@
           "message": "Act inst:Seek_IntentionalAct_a14c95d2c102 has no temporal grounding"
         },
         {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:ParsingAct_69340059 has no temporal grounding"
+        },
+        {
           "pattern": "VocabularyValidation",
           "message": "Unknown class: cco:ActOfDecision"
         },
         {
           "pattern": "VocabularyValidation",
-          "message": "Unknown class: tagteam:DeonticContent"
+          "message": "Unknown class: cco:ActOfArtificialProcessing"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_input"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_output"
         }
       ],
-      "nodeCount": 19,
-      "parseTime": 41,
+      "nodeCount": 20,
+      "parseTime": 37,
       "error": null
     },
     {
@@ -429,9 +560,18 @@
       "text": "I discovered that my company is falsifying safety reports",
       "validJSON": true,
       "validJSONLD": true,
-      "shaclCompliant": true,
-      "complianceScore": 75,
-      "violations": [],
+      "shaclCompliant": false,
+      "complianceScore": 42,
+      "violations": [
+        {
+          "pattern": "DomainRangeValidation",
+          "message": "has_agent target inst:Artifact_My_Company_56912b083caa is not an Agent"
+        },
+        {
+          "pattern": "DomainRangeValidation",
+          "message": "has_agent target inst:Artifact_Safety_f04591063dc0 is not an Agent"
+        }
+      ],
       "warnings": [
         {
           "pattern": "RolePattern",
@@ -448,10 +588,26 @@
         {
           "pattern": "SocioPrimalPattern",
           "message": "Act inst:Report_IntentionalAct_10357e84645e has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:ParsingAct_58f66ea7 has no temporal grounding"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown class: cco:ActOfArtificialProcessing"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_input"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_output"
         }
       ],
-      "nodeCount": 14,
-      "parseTime": 56,
+      "nodeCount": 15,
+      "parseTime": 45,
       "error": null
     },
     {
@@ -462,7 +618,7 @@
       "validJSON": true,
       "validJSONLD": true,
       "shaclCompliant": true,
-      "complianceScore": 77,
+      "complianceScore": 68,
       "violations": [],
       "warnings": [
         {
@@ -476,10 +632,26 @@
         {
           "pattern": "SocioPrimalPattern",
           "message": "Act inst:Consider_IntentionalAct_e9644cb5b279 has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:ParsingAct_a85ebdca has no temporal grounding"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown class: cco:ActOfArtificialProcessing"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_input"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_output"
         }
       ],
-      "nodeCount": 14,
-      "parseTime": 31,
+      "nodeCount": 15,
+      "parseTime": 23,
       "error": null
     },
     {
@@ -489,9 +661,14 @@
       "text": "My supervisor is claiming credit for my work",
       "validJSON": true,
       "validJSONLD": true,
-      "shaclCompliant": true,
-      "complianceScore": 61,
-      "violations": [],
+      "shaclCompliant": false,
+      "complianceScore": 47,
+      "violations": [
+        {
+          "pattern": "DomainRangeValidation",
+          "message": "has_agent target inst:Artifact_My_Supervisor_84f7f0434e85 is not an Agent"
+        }
+      ],
       "warnings": [
         {
           "pattern": "InformationStaircase",
@@ -504,10 +681,26 @@
         {
           "pattern": "SocioPrimalPattern",
           "message": "Act inst:Claim_IntentionalAct_3c2d1c4c707f has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:ParsingAct_2bfcea72 has no temporal grounding"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown class: cco:ActOfArtificialProcessing"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_input"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_output"
         }
       ],
-      "nodeCount": 11,
-      "parseTime": 20,
+      "nodeCount": 12,
+      "parseTime": 21,
       "error": null
     },
     {
@@ -517,9 +710,14 @@
       "text": "Management is instructing me to discriminate in hiring",
       "validJSON": true,
       "validJSONLD": true,
-      "shaclCompliant": true,
-      "complianceScore": 61,
-      "violations": [],
+      "shaclCompliant": false,
+      "complianceScore": 40,
+      "violations": [
+        {
+          "pattern": "DomainRangeValidation",
+          "message": "has_agent target inst:Artifact_Me_aee371414948 is not an Agent"
+        }
+      ],
       "warnings": [
         {
           "pattern": "InformationStaircase",
@@ -532,10 +730,26 @@
         {
           "pattern": "SocioPrimalPattern",
           "message": "Act inst:Hire_IntentionalAct_aa99f99fb605 has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:ParsingAct_e596070f has no temporal grounding"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown class: cco:ActOfArtificialProcessing"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_input"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_output"
         }
       ],
-      "nodeCount": 8,
-      "parseTime": 26,
+      "nodeCount": 9,
+      "parseTime": 25,
       "error": null
     },
     {
@@ -545,14 +759,15 @@
       "text": "I can increase profits by using environmentally damaging waste disposal methods",
       "validJSON": true,
       "validJSONLD": true,
-      "shaclCompliant": true,
-      "complianceScore": 77,
-      "violations": [],
-      "warnings": [
+      "shaclCompliant": false,
+      "complianceScore": 64,
+      "violations": [
         {
-          "pattern": "InformationStaircase",
-          "message": "ICE node inst:Directive_Can_1cc6706d9297 has no is_concretized_by link to IBE"
-        },
+          "pattern": "DomainRangeValidation",
+          "message": "has_agent target inst:Artifact_Profits_cfd56a3977d0 is not an Agent"
+        }
+      ],
+      "warnings": [
         {
           "pattern": "SocioPrimalPattern",
           "message": "Act inst:Increase_IntentionalAct_c186b79996bf has no temporal grounding"
@@ -562,12 +777,24 @@
           "message": "Act inst:Damage_IntentionalAct_42720e32b2a3 has no temporal grounding"
         },
         {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:ParsingAct_c67cd716 has no temporal grounding"
+        },
+        {
           "pattern": "VocabularyValidation",
-          "message": "Unknown class: tagteam:DeonticContent"
+          "message": "Unknown class: cco:ActOfArtificialProcessing"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_input"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_output"
         }
       ],
-      "nodeCount": 14,
-      "parseTime": 30,
+      "nodeCount": 15,
+      "parseTime": 26,
       "error": null
     },
     {
@@ -577,9 +804,14 @@
       "text": "My best friend is cheating on their spouse",
       "validJSON": true,
       "validJSONLD": true,
-      "shaclCompliant": true,
-      "complianceScore": 63,
-      "violations": [],
+      "shaclCompliant": false,
+      "complianceScore": 46,
+      "violations": [
+        {
+          "pattern": "DomainRangeValidation",
+          "message": "has_agent target inst:Artifact_My_Best_Friend_ee7946015c9c is not an Agent"
+        }
+      ],
       "warnings": [
         {
           "pattern": "InformationStaircase",
@@ -588,10 +820,26 @@
         {
           "pattern": "SocioPrimalPattern",
           "message": "Act inst:Cheat_IntentionalAct_13cff7ff913a has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:ParsingAct_c2efcf40 has no temporal grounding"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown class: cco:ActOfArtificialProcessing"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_input"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_output"
         }
       ],
-      "nodeCount": 8,
-      "parseTime": 53,
+      "nodeCount": 9,
+      "parseTime": 42,
       "error": null
     },
     {
@@ -601,9 +849,14 @@
       "text": "My friend is asking for honest feedback about work I think is bad",
       "validJSON": true,
       "validJSONLD": true,
-      "shaclCompliant": true,
-      "complianceScore": 77,
-      "violations": [],
+      "shaclCompliant": false,
+      "complianceScore": 57,
+      "violations": [
+        {
+          "pattern": "DomainRangeValidation",
+          "message": "has_agent target inst:Artifact_My_Friend_9c979736c5e7 is not an Agent"
+        }
+      ],
       "warnings": [
         {
           "pattern": "RolePattern",
@@ -616,10 +869,26 @@
         {
           "pattern": "SocioPrimalPattern",
           "message": "Act inst:Think_IntentionalAct_58ae74d82f42 has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:ParsingAct_61aa02d0 has no temporal grounding"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown class: cco:ActOfArtificialProcessing"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_input"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_output"
         }
       ],
-      "nodeCount": 17,
-      "parseTime": 33,
+      "nodeCount": 18,
+      "parseTime": 29,
       "error": null
     },
     {
@@ -630,7 +899,7 @@
       "validJSON": true,
       "validJSONLD": true,
       "shaclCompliant": true,
-      "complianceScore": 77,
+      "complianceScore": 67,
       "violations": [],
       "warnings": [
         {
@@ -644,10 +913,26 @@
         {
           "pattern": "SocioPrimalPattern",
           "message": "Act inst:Deserve_IntentionalAct_e53dac67ff16 has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:ParsingAct_60a2faa0 has no temporal grounding"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown class: cco:ActOfArtificialProcessing"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_input"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_output"
         }
       ],
-      "nodeCount": 14,
-      "parseTime": 24,
+      "nodeCount": 15,
+      "parseTime": 21,
       "error": null
     },
     {
@@ -658,7 +943,7 @@
       "validJSON": true,
       "validJSONLD": true,
       "shaclCompliant": true,
-      "complianceScore": 79,
+      "complianceScore": 71,
       "violations": [],
       "warnings": [
         {
@@ -668,10 +953,26 @@
         {
           "pattern": "SocioPrimalPattern",
           "message": "Act inst:Consider_IntentionalAct_e9644cb5b279 has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:ParsingAct_0cfff51b has no temporal grounding"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown class: cco:ActOfArtificialProcessing"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_input"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_output"
         }
       ],
-      "nodeCount": 14,
-      "parseTime": 24,
+      "nodeCount": 15,
+      "parseTime": 25,
       "error": null
     },
     {
@@ -681,9 +982,18 @@
       "text": "I suspect my neighbor is being abused but they deny it",
       "validJSON": true,
       "validJSONLD": true,
-      "shaclCompliant": true,
-      "complianceScore": 71,
-      "violations": [],
+      "shaclCompliant": false,
+      "complianceScore": 41,
+      "violations": [
+        {
+          "pattern": "DomainRangeValidation",
+          "message": "has_agent target inst:Artifact_My_Neighbor_c6557c1b953c is not an Agent"
+        },
+        {
+          "pattern": "DomainRangeValidation",
+          "message": "has_agent target inst:Artifact_They_a96f2f54bf45 is not an Agent"
+        }
+      ],
       "warnings": [
         {
           "pattern": "RolePattern",
@@ -708,10 +1018,26 @@
         {
           "pattern": "SocioPrimalPattern",
           "message": "Act inst:Deny_IntentionalAct_297614b97b95 has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:ParsingAct_98924cd7 has no temporal grounding"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown class: cco:ActOfArtificialProcessing"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_input"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_output"
         }
       ],
-      "nodeCount": 20,
-      "parseTime": 32,
+      "nodeCount": 21,
+      "parseTime": 26,
       "error": null
     },
     {
@@ -721,9 +1047,14 @@
       "text": "Our town's largest employer, a coal plant, must close to meet climate goals.",
       "validJSON": true,
       "validJSONLD": true,
-      "shaclCompliant": true,
-      "complianceScore": 63,
-      "violations": [],
+      "shaclCompliant": false,
+      "complianceScore": 47,
+      "violations": [
+        {
+          "pattern": "DomainRangeValidation",
+          "message": "has_agent target inst:Artifact_Coal_Plant_af057215d9a4 is not an Agent"
+        }
+      ],
       "warnings": [
         {
           "pattern": "InformationStaircase",
@@ -732,10 +1063,26 @@
         {
           "pattern": "SocioPrimalPattern",
           "message": "Act inst:Must_Close_IntentionalAct_dfebb78ec62d has no temporal grounding"
+        },
+        {
+          "pattern": "SocioPrimalPattern",
+          "message": "Act inst:ParsingAct_3fcb9d67 has no temporal grounding"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown class: cco:ActOfArtificialProcessing"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_input"
+        },
+        {
+          "pattern": "VocabularyValidation",
+          "message": "Unknown predicate: cco:has_output"
         }
       ],
-      "nodeCount": 10,
-      "parseTime": 52,
+      "nodeCount": 11,
+      "parseTime": 34,
       "error": null
     }
   ],

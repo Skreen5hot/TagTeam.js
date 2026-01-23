@@ -2,15 +2,35 @@
 
 A BFO/CCO-aligned ontology extension for natural language parsing, semantic graph construction, and ethical discourse analysis.
 
+## Ontology Files
+
+| File | Purpose | Size |
+|------|---------|------|
+| **tagteam.ttl** | Combined ontology (backwards compatible) | ~1000 lines |
+| **tagteam-core.ttl** | Core parsing vocabulary only | ~600 lines |
+| **tagteam-values.ttl** | Value detection vocabulary (imports core) | ~400 lines |
+
+### When to Use Which
+
+- **tagteam.ttl** - Use for backwards compatibility or when you need everything
+- **tagteam-core.ttl** - Use when you only need semantic parsing (no value detection)
+- **tagteam-values.ttl** - Use with core when you need value detection
+
 ## Overview
 
-The TagTeam ontology (`tagteam.ttl`) provides vocabulary for:
+The TagTeam ontology provides vocabulary for:
 
+### Core (tagteam-core.ttl)
 - **Tier 1 Parsing Layer**: Discourse referents, verb phrases, and linguistic structures
-- **Assertion Events**: Value and context assertions with confidence tracking
 - **Deontic Modality**: Obligations, permissions, prohibitions
 - **Scarcity Detection**: Resource scarcity assertions
+- **Actuality Status**: Actual, prescribed, permitted, prohibited, hypothetical
+
+### Values (tagteam-values.ttl)
+- **Assertion Events**: Value and context assertions with confidence tracking
 - **GIT-Minimal Compliance**: Assertion types, interpretation contexts, provenance
+- **Ethical Values**: Value ICE, context dimension ICE
+- **Confidence Decomposition**: Extraction, classification, relevance scores
 
 ## Alignment
 
@@ -22,6 +42,9 @@ The TagTeam ontology (`tagteam.ttl`) provides vocabulary for:
 ```
 Prefix: tagteam
 IRI: http://tagteam.fandaws.org/ontology/
+
+Core: http://tagteam.fandaws.org/ontology/core/
+Values: http://tagteam.fandaws.org/ontology/values/
 ```
 
 ## Key Classes
@@ -162,6 +185,12 @@ The ontology has been reviewed by a CCO/BFO expert and received a **5.0/5.0** ra
 | Modality | `prescribes` | Domain: `DirectiveContent`, Range: `bfo:Process` |
 
 ## Version History
+
+- **1.0.0** (tagteam-core.ttl, tagteam-values.ttl) - Package separation
+  - Split ontology into core parsing and values detection
+  - tagteam-core.ttl: Domain-neutral parsing vocabulary
+  - tagteam-values.ttl: IEE value detection vocabulary (imports core)
+  - tagteam.ttl retained for backwards compatibility
 
 - **4.0.1** - CCO Expert Review improvements
   - Documented `would_be_realized_in` usage constraints

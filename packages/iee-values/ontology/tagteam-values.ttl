@@ -1,0 +1,359 @@
+@prefix : <http://tagteam.fandaws.org/ontology/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix bfo: <http://purl.obolibrary.org/obo/> .
+@prefix cco: <http://www.ontologyrepository.com/CommonCoreOntologies/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+# =============================================================================
+# TagTeam Values Ontology
+# =============================================================================
+#
+# Extension vocabulary for ethical value detection and context assessment.
+# Provides vocabulary for:
+# - Value assertion events (GIT-Minimal compliance)
+# - Context assessment events
+# - Ethical value and context dimension entities
+# - Confidence decomposition and provenance tracking
+#
+# This ontology IMPORTS tagteam-core.ttl and adds IEE-specific vocabulary.
+#
+# Alignment:
+# - BFO 2020 (ISO 21838-2:2020)
+# - Common Core Ontologies (CCO)
+# - GIT (Graph Information Tracking)
+#
+# Version: 1.0.0 (split from tagteam.ttl v4.0.1)
+# =============================================================================
+
+<http://tagteam.fandaws.org/ontology/values/>
+    a owl:Ontology ;
+    owl:versionIRI <http://tagteam.fandaws.org/ontology/values/1.0.0/> ;
+    owl:versionInfo "1.0.0"^^xsd:string ;
+    dc:title "TagTeam Values Ontology"@en ;
+    dc:description "Extension vocabulary for ethical value detection and context assessment with GIT-Minimal compliance."@en ;
+    dc:creator "TagTeam Development Team"@en ;
+    dc:contributor "IEE Team"@en ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    dcterms:created "2026-01-23"^^xsd:date ;
+    rdfs:comment "Split from tagteam.ttl v4.0.1. Requires tagteam-core.ttl."@en ;
+    owl:imports <http://tagteam.fandaws.org/ontology/core/> .
+
+
+# =============================================================================
+# CLASSES - Value and Context Assessment (Week 2: GIT-Minimal Compliance)
+# =============================================================================
+
+:ValueAssertionEvent
+    a owl:Class ;
+    rdfs:subClassOf bfo:BFO_0000015 ;  # process
+    rdfs:label "Value Assertion Event"@en ;
+    skos:prefLabel "Value Assertion Event"@en ;
+    skos:definition "A process in which an agent (human or artificial) asserts that an ethical value is present in or relevant to a given text. Includes confidence decomposition and provenance tracking."@en ;
+    rdfs:comment "ValueAssertionEvents are processes because they occur at a specific time and have temporal extent. They assert EthicalValueICE nodes."@en .
+
+:ContextAssessmentEvent
+    a owl:Class ;
+    rdfs:subClassOf bfo:BFO_0000015 ;  # process
+    rdfs:label "Context Assessment Event"@en ;
+    skos:prefLabel "Context Assessment Event"@en ;
+    skos:definition "A process in which an agent assesses a context dimension (e.g., temporal urgency, stakeholder vulnerability) and assigns a score."@en .
+
+:EthicalValueICE
+    a owl:Class ;
+    rdfs:subClassOf cco:InformationContentEntity ;
+    rdfs:label "Ethical Value ICE"@en ;
+    skos:prefLabel "Ethical Value Information Content Entity"@en ;
+    skos:definition "An information content entity representing an ethical value (e.g., autonomy, beneficence, justice) that is the subject of a ValueAssertionEvent."@en .
+
+:ContextDimensionICE
+    a owl:Class ;
+    rdfs:subClassOf cco:InformationContentEntity ;
+    rdfs:label "Context Dimension ICE"@en ;
+    skos:prefLabel "Context Dimension Information Content Entity"@en ;
+    skos:definition "An information content entity representing a context dimension assessment (e.g., temporal.urgency, stakeholder.vulnerability)."@en .
+
+
+# =============================================================================
+# CLASSES - Assertion Types (GIT-Minimal)
+# =============================================================================
+
+:AssertionType
+    a owl:Class ;
+    rdfs:subClassOf cco:InformationContentEntity ;
+    rdfs:label "Assertion Type"@en ;
+    skos:prefLabel "Assertion Type"@en ;
+    skos:definition "A class whose instances categorize the provenance and validation status of assertions."@en .
+
+:AutomatedDetection
+    a owl:NamedIndividual, :AssertionType ;
+    rdfs:label "Automated Detection"@en ;
+    skos:prefLabel "Automated Detection"@en ;
+    skos:definition "An assertion type indicating the assertion was made by an automated parser without human validation."@en .
+
+:HumanValidation
+    a owl:NamedIndividual, :AssertionType ;
+    rdfs:label "Human Validation"@en ;
+    skos:prefLabel "Human Validation"@en ;
+    skos:definition "An assertion type indicating the assertion has been validated by a human reviewer."@en .
+
+:HumanRejection
+    a owl:NamedIndividual, :AssertionType ;
+    rdfs:label "Human Rejection"@en ;
+    skos:prefLabel "Human Rejection"@en ;
+    skos:definition "An assertion type indicating the assertion has been rejected by a human reviewer as incorrect."@en .
+
+:HumanCorrection
+    a owl:NamedIndividual, :AssertionType ;
+    rdfs:label "Human Correction"@en ;
+    skos:prefLabel "Human Correction"@en ;
+    skos:definition "An assertion type indicating the assertion has been corrected by a human reviewer, superseding a previous assertion."@en .
+
+
+# =============================================================================
+# CLASSES - Deprecated (for backwards compatibility)
+# =============================================================================
+
+:ValueDetectionRecord
+    a owl:Class ;
+    rdfs:subClassOf cco:InformationContentEntity ;
+    rdfs:label "Value Detection Record"@en ;
+    skos:prefLabel "Value Detection Record"@en ;
+    skos:definition "A record of an ethical value detected in text through pattern matching or semantic analysis."@en ;
+    owl:deprecated "true"^^xsd:boolean ;
+    rdfs:comment "Deprecated: Use ValueAssertionEvent instead for GIT-Minimal compliance."@en .
+
+:ContextAssessmentRecord
+    a owl:Class ;
+    rdfs:subClassOf cco:InformationContentEntity ;
+    rdfs:label "Context Assessment Record"@en ;
+    skos:prefLabel "Context Assessment Record"@en ;
+    skos:definition "A record of context dimension scores assessed from text analysis."@en ;
+    owl:deprecated "true"^^xsd:boolean ;
+    rdfs:comment "Deprecated: Use ContextAssessmentEvent instead for GIT-Minimal compliance."@en .
+
+
+# =============================================================================
+# OBJECT PROPERTIES - Assertion Event Relations (GIT-Minimal)
+# =============================================================================
+
+:asserts
+    a owl:ObjectProperty ;
+    rdfs:label "asserts"@en ;
+    skos:prefLabel "asserts"@en ;
+    skos:definition "Relates an assertion event to the information content entity being asserted."@en ;
+    rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
+    rdfs:range cco:InformationContentEntity .
+
+:detected_by
+    a owl:ObjectProperty ;
+    rdfs:label "detected by"@en ;
+    skos:prefLabel "detected by"@en ;
+    skos:definition "Relates an assertion event to the agent (human or artificial) that made the detection."@en ;
+    rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
+    rdfs:range cco:Agent .
+
+:based_on
+    a owl:ObjectProperty ;
+    rdfs:label "based on"@en ;
+    skos:prefLabel "based on"@en ;
+    skos:definition "Relates an assertion event to the information bearing entity (input text) on which the assertion is based."@en ;
+    rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
+    rdfs:range cco:InformationBearingEntity .
+
+:assertionType
+    a owl:ObjectProperty ;
+    rdfs:label "assertion type"@en ;
+    skos:prefLabel "assertion type"@en ;
+    skos:definition "Relates an assertion event to its type (automated detection, human validation, etc.)."@en ;
+    rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
+    rdfs:range :AssertionType .
+
+:validInContext
+    a owl:ObjectProperty ;
+    rdfs:label "valid in context"@en ;
+    skos:prefLabel "valid in context"@en ;
+    skos:definition "Relates an assertion to the interpretation context under which it is valid."@en ;
+    rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
+    rdfs:range :InterpretationContext .
+
+:validatedBy
+    a owl:ObjectProperty ;
+    rdfs:label "validated by"@en ;
+    skos:prefLabel "validated by"@en ;
+    skos:definition "Relates an assertion event to the human agent who validated it."@en ;
+    rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
+    rdfs:range cco:Person .
+
+:supersedes
+    a owl:ObjectProperty ;
+    rdfs:label "supersedes"@en ;
+    skos:prefLabel "supersedes"@en ;
+    skos:definition "Relates a corrected assertion to the previous assertion it supersedes."@en ;
+    rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
+    rdfs:range [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] .
+
+
+# =============================================================================
+# DATATYPE PROPERTIES - Confidence Metrics (Three-Way Decomposition)
+# =============================================================================
+
+:extractionConfidence
+    a owl:DatatypeProperty ;
+    rdfs:label "extraction confidence"@en ;
+    skos:prefLabel "extraction confidence"@en ;
+    skos:definition "The confidence score [0.0-1.0] for the extraction step of an assertion."@en ;
+    rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
+    rdfs:range xsd:decimal .
+
+:classificationConfidence
+    a owl:DatatypeProperty ;
+    rdfs:label "classification confidence"@en ;
+    skos:prefLabel "classification confidence"@en ;
+    skos:definition "The confidence score [0.0-1.0] for the classification step of an assertion."@en ;
+    rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
+    rdfs:range xsd:decimal .
+
+:relevanceConfidence
+    a owl:DatatypeProperty ;
+    rdfs:label "relevance confidence"@en ;
+    skos:prefLabel "relevance confidence"@en ;
+    skos:definition "The confidence score [0.0-1.0] for the relevance of an assertion to the current context."@en ;
+    rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
+    rdfs:range xsd:decimal .
+
+:aggregateConfidence
+    a owl:DatatypeProperty ;
+    rdfs:label "aggregate confidence"@en ;
+    skos:prefLabel "aggregate confidence"@en ;
+    skos:definition "The aggregated confidence score [0.0-1.0] combining extraction, classification, and relevance."@en ;
+    rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
+    rdfs:range xsd:decimal .
+
+:aggregationMethod
+    a owl:DatatypeProperty ;
+    rdfs:label "aggregation method"@en ;
+    skos:prefLabel "aggregation method"@en ;
+    skos:definition "The method used to compute the aggregate confidence (e.g., 'geometric_mean', 'direct_score')."@en ;
+    rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
+    rdfs:range xsd:string .
+
+
+# =============================================================================
+# DATATYPE PROPERTIES - Validation Timestamps
+# =============================================================================
+
+:validationTimestamp
+    a owl:DatatypeProperty ;
+    rdfs:label "validation timestamp"@en ;
+    skos:prefLabel "validation timestamp"@en ;
+    skos:definition "The timestamp when an assertion was validated by a human reviewer."@en ;
+    rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
+    rdfs:range xsd:dateTime .
+
+
+# =============================================================================
+# DATATYPE PROPERTIES - Value/Context Assessment Attributes
+# =============================================================================
+
+:valueName
+    a owl:DatatypeProperty ;
+    rdfs:label "value name"@en ;
+    skos:prefLabel "value name"@en ;
+    skos:definition "The name of the ethical value detected (e.g., 'autonomy', 'beneficence', 'justice')."@en ;
+    rdfs:domain :EthicalValueICE ;
+    rdfs:range xsd:string .
+
+:valueCategory
+    a owl:DatatypeProperty ;
+    rdfs:label "value category"@en ;
+    skos:prefLabel "value category"@en ;
+    skos:definition "The category of the ethical value (e.g., 'ethical', 'legal', 'social')."@en ;
+    rdfs:domain :EthicalValueICE ;
+    rdfs:range xsd:string .
+
+:dimension
+    a owl:DatatypeProperty ;
+    rdfs:label "dimension"@en ;
+    skos:prefLabel "dimension"@en ;
+    skos:definition "The context dimension being assessed (e.g., 'temporal.urgency', 'stakeholder.vulnerability')."@en ;
+    rdfs:domain :ContextDimensionICE ;
+    rdfs:range xsd:string .
+
+:category
+    a owl:DatatypeProperty ;
+    rdfs:label "category"@en ;
+    skos:prefLabel "category"@en ;
+    skos:definition "A category classification for context dimensions."@en ;
+    rdfs:range xsd:string .
+
+:score
+    a owl:DatatypeProperty ;
+    rdfs:label "score"@en ;
+    skos:prefLabel "score"@en ;
+    skos:definition "A numeric score [0.0-1.0] for a context dimension assessment."@en ;
+    rdfs:range xsd:decimal .
+
+:polarity
+    a owl:DatatypeProperty ;
+    rdfs:label "polarity"@en ;
+    skos:prefLabel "polarity"@en ;
+    skos:definition "The polarity of a value detection: positive (1), negative (-1), or neutral (0)."@en ;
+    rdfs:range xsd:integer .
+
+:salience
+    a owl:DatatypeProperty ;
+    rdfs:label "salience"@en ;
+    skos:prefLabel "salience"@en ;
+    skos:definition "The salience or prominence [0.0-1.0] of a detected value in the text."@en ;
+    rdfs:range xsd:decimal .
+
+
+# =============================================================================
+# DATATYPE PROPERTIES - Evidence and Detection
+# =============================================================================
+
+:evidence
+    a owl:DatatypeProperty ;
+    rdfs:label "evidence"@en ;
+    skos:prefLabel "evidence"@en ;
+    skos:definition "The textual evidence supporting an assertion."@en ;
+    rdfs:range xsd:string .
+
+:evidenceText
+    a owl:DatatypeProperty ;
+    rdfs:label "evidence text"@en ;
+    skos:prefLabel "evidence text"@en ;
+    owl:equivalentProperty :evidence ;
+    skos:definition "Alternative property name for evidence."@en ;
+    rdfs:range xsd:string .
+
+:sourceSpan
+    a owl:DatatypeProperty ;
+    rdfs:label "source span"@en ;
+    skos:prefLabel "source span"@en ;
+    skos:definition "The text span from which evidence was extracted."@en ;
+    rdfs:range xsd:string .
+
+:matched_markers
+    a owl:DatatypeProperty ;
+    rdfs:label "matched markers"@en ;
+    skos:prefLabel "matched markers"@en ;
+    skos:definition "The linguistic markers that were matched in value/context detection."@en ;
+    rdfs:range xsd:string .
+
+:detection_method
+    a owl:DatatypeProperty ;
+    rdfs:label "detection method"@en ;
+    skos:prefLabel "detection method"@en ;
+    skos:definition "The method used for detection (e.g., 'pattern_matching', 'ml_classification')."@en ;
+    rdfs:range xsd:string .
+
+
+# =============================================================================
+# END OF VALUES ONTOLOGY
+# =============================================================================

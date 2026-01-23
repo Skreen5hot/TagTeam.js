@@ -1,261 +1,294 @@
-# TagTeam.js Bundle - Week 1 Deliverable
+# TagTeam.js Distribution Bundles
 
-**Single-file semantic parser for easy integration and validation**
+**Browser-ready bundles for semantic parsing and ethical value detection**
 
 ---
 
-## 🎯 Quick Start (For IEE Team)
+## Bundle Options
 
-### Option 1: Test in Browser (Easiest)
+| Bundle | Size | Purpose |
+|--------|------|---------|
+| **tagteam-core.js** | 4.71 MB | Core semantic parsing only |
+| **tagteam-values.js** | 138 KB | IEE value detection add-on |
+| **tagteam.js** | 4.84 MB | Combined (backwards compatible) |
 
-1. **Open** `test-iee-bundle.html` in your browser
-2. **Click** "▶️ Run All Tests"
-3. **Verify** pass rate ≥75%
+---
 
-That's it! The bundle contains everything needed.
+## Quick Start
 
-### Option 2: Use in Your Project
+### Option 1: Core Only (No Value Detection)
+
+Use this if you only need semantic parsing without ethical value analysis.
 
 ```html
-<!DOCTYPE html>
-<html>
-<head>
-  <title>My Test</title>
-</head>
-<body>
-  <!-- 1. Load the bundle -->
-  <script src="tagteam.js"></script>
+<script src="tagteam-core.js"></script>
+<script>
+  // Simple parsing API
+  const result = TagTeam.parse("The doctor treats the patient");
+  console.log(result.agent);        // { text: "doctor", ... }
+  console.log(result.action);       // { verb: "treats", ... }
+  console.log(result.semanticFrame); // "Medical_treatment"
 
-  <!-- 2. Use the simple API -->
-  <script>
-    const result = TagTeam.parse("I should tell my doctor about the pain");
+  // Full JSON-LD graph
+  const graph = TagTeam.buildGraph("The family must decide about treatment");
+  console.log(graph['@graph']);     // Array of BFO/CCO-compliant nodes
+</script>
+```
 
-    console.log(result.agent);      // { text: "i", entity: "self" }
-    console.log(result.action);     // { verb: "tell", modality: "should" }
-    console.log(result.recipient);  // { text: "doctor", ... }
-    console.log(result.theme);      // { text: "pain", ... }
-    console.log(result.semanticFrame); // "Revealing_information"
-  </script>
-</body>
-</html>
+### Option 2: Core + Values (Recommended for IEE)
+
+Use this for full ethical value detection and context analysis.
+
+```html
+<script src="tagteam-core.js"></script>
+<script src="tagteam-values.js"></script>
+<script>
+  // Create builder with value detection
+  const builder = new TagTeamValues.IEEGraphBuilder();
+
+  // Build graph with values
+  const graph = builder.build("The doctor must allocate the last ventilator", {
+    context: "MedicalEthics"
+  });
+
+  // Access value analysis
+  const values = graph._valueAnalysis;
+  console.log(values.scoredValues);  // [{ value: "Beneficence", ... }]
+  console.log(values.conflicts);     // [{ value1: "...", value2: "..." }]
+
+  // Or analyze values separately
+  const analysis = builder.analyzeValues("We should protect the vulnerable");
+  console.log(analysis.scoredValues);
+  console.log(analysis.contextIntensity);
+</script>
+```
+
+### Option 3: Combined Bundle (Legacy)
+
+For backwards compatibility with existing code.
+
+```html
+<script src="tagteam.js"></script>
+<script>
+  // All functionality available
+  const result = TagTeam.parse("text");
+  const graph = TagTeam.buildGraph("text");
+
+  // Value classes also available
+  const analyzer = new TagTeam.ContextAnalyzer();
+  const matcher = new TagTeam.ValueMatcher();
+</script>
 ```
 
 ---
 
-## 📦 What's Included
+## API Reference
 
-| File | Size | Purpose |
-|------|------|---------|
-| **tagteam.js** | 4.15 MB | Full bundle (everything you need) |
-| **test.html** | 3 KB | Basic functionality test |
-| **test-iee-bundle.html** | 8 KB | IEE test corpus validation |
-| **README.md** | This file | Documentation |
+### Core API (tagteam-core.js)
 
----
+#### TagTeam.parse(text, options?)
 
-## 🚀 API Reference
+Parse a sentence and extract semantic roles.
 
-### TagTeam.parse(text, options?)
-
-Parse a single sentence and extract semantic roles.
-
-**Parameters:**
-- `text` (string) - The sentence to parse
-- `options` (object, optional) - Configuration options
-
-**Returns:** Semantic action object
-
-**Example:**
 ```javascript
-const result = TagTeam.parse("The family must decide whether to continue treatment");
+const result = TagTeam.parse("I should tell my doctor about the pain");
 
-// Result structure:
+// Returns:
 {
-  agent: { text: "family", entity: "family", posTag: "NN" },
+  agent: { text: "i", entity: "self", posTag: "PRP" },
   action: {
-    verb: "decide",
-    lemma: "decide",
+    verb: "tell",
+    lemma: "tell",
+    modality: "should",
     tense: "present",
-    aspect: "simple",
-    modality: "must",
-    negation: false,
-    verbOriginal: "decide",
-    frame: "Deciding",
-    frameDescription: "..."
+    frame: "Revealing_information"
   },
-  patient: { text: "treatment", entity: "treatment", posTag: "NN" },
-  semanticFrame: "Deciding",
+  recipient: { text: "doctor", entity: "doctor", posTag: "NN" },
+  theme: { text: "pain", entity: "pain", posTag: "NN" },
+  semanticFrame: "Revealing_information",
   confidence: 0.85
 }
 ```
 
-### TagTeam.parseMany(texts[])
+#### TagTeam.buildGraph(text, options?)
 
-Parse multiple sentences in batch.
+Build a BFO/CCO-compliant JSON-LD semantic graph.
 
-**Example:**
 ```javascript
-const results = TagTeam.parseMany([
-  "I love my best friend",
-  "The doctor recommended treatment",
-  "We must decide about the coal plant"
-]);
+const graph = TagTeam.buildGraph("The nurse prioritizes the patient", {
+  context: "MedicalEthics",
+  namespace: "inst"
+});
 
-// Returns array of results
-console.log(results[0].agent);  // First sentence agent
-console.log(results[1].action); // Second sentence action
+// Returns JSON-LD with @graph array containing:
+// - InformationBearingEntity (IBE) for the text
+// - DiscourseReferent nodes for entities
+// - Person/Artifact nodes (Tier 2)
+// - Act nodes for actions
+// - Role nodes (AgentRole, PatientRole)
+// - Quality nodes for modifiers
 ```
 
-### TagTeam.version
+#### TagTeam.toJSONLD(text, options?)
 
-Version string (currently "1.0.0")
+Serialize graph to formatted JSON-LD string.
 
----
-
-## ✅ Week 1 Features
-
-- **Semantic Role Extraction** - Agent, Patient, Recipient, Theme
-- **15 Semantic Frames** - Revealing_information, Deciding, Questioning, etc.
-- **150 Compound Terms** - Handles "life support", "best friend", etc.
-- **Negation Detection** - Identifies "not", "no", "never"
-- **Modality Detection** - Captures "should", "must", "can", "might"
-- **Tense & Aspect** - Past/present/future, simple/progressive/perfect
-- **IEE Format Compliance** - Exact JSON structure as specified
-- **Performance** - <10ms per sentence
-- **Zero Dependencies** - Pure JavaScript, works everywhere
-
----
-
-## 🧪 Testing
-
-### Test Files Included
-
-1. **test.html** - Basic bundle functionality
-   - Tests simple parsing
-   - Tests batch parsing
-   - Tests IEE test sentence
-
-2. **test-iee-bundle.html** - Full IEE corpus validation
-   - Tests all 5 Week 1 scenarios
-   - Validates agent/action/patient extraction
-   - Checks semantic frame classification
-   - Displays pass/fail for each check
-
-### Expected Results
-
-**Target:** ≥75% pass rate on IEE test corpus
-
-**Typical Results:**
-- Agent extraction: ~80-90% accuracy
-- Action extraction: ~85-95% accuracy
-- Semantic frame: ~75-85% accuracy
-- Modality detection: ~90%+ accuracy
-
----
-
-## 🔄 Differences from Multi-File Version
-
-### Old Way (Multi-File)
-```html
-<script src="../src/lexicon.js"></script>
-<script src="../src/POSTagger.js"></script>
-<script src="../src/SemanticRoleExtractor.js"></script>
-<script>
-  const extractor = new SemanticRoleExtractor();
-  const result = extractor.parseSemanticAction(text);
-</script>
+```javascript
+const jsonld = TagTeam.toJSONLD("text", { pretty: true });
+console.log(jsonld); // Formatted JSON-LD string
 ```
 
-### New Way (Bundle)
+### Values API (tagteam-values.js)
+
+#### TagTeamValues.IEEGraphBuilder
+
+```javascript
+const builder = new TagTeamValues.IEEGraphBuilder({
+  valueDefinitions: customDefs,  // Optional
+  frameBoosts: customBoosts,     // Optional
+  conflictPairs: customPairs     // Optional
+});
+
+// Build graph with values
+const graph = builder.build(text, { context: "MedicalEthics" });
+
+// Analyze values only (no graph building)
+const analysis = builder.analyzeValues(text);
+```
+
+#### TagTeamValues.VALUE_DEFINITIONS
+
+Access the built-in value definitions:
+
+```javascript
+const defs = TagTeamValues.VALUE_DEFINITIONS;
+console.log(defs.values); // Array of value definitions
+```
+
+---
+
+## Exposed Classes
+
+### Core Bundle
+
+| Class | Purpose |
+|-------|---------|
+| `SemanticRoleExtractor` | Parse text to semantic roles |
+| `SemanticGraphBuilder` | Build JSON-LD graphs |
+| `PatternMatcher` | NLP pattern matching |
+| `POSTagger` | Part-of-speech tagging |
+| `EntityExtractor` | Extract entities from text |
+| `ActExtractor` | Extract actions/verbs |
+| `RoleDetector` | Detect semantic roles |
+| `JSONLDSerializer` | Serialize to JSON-LD |
+| `RealWorldEntityFactory` | Create Tier 2 entities |
+| `ScarcityAssertionFactory` | Create scarcity assertions |
+| `DirectiveExtractor` | Extract modal directives |
+| `ObjectAggregateFactory` | Create plural aggregates |
+| `QualityFactory` | Create quality nodes |
+| `ContextManager` | Manage interpretation contexts |
+| `InformationStaircaseBuilder` | Build IBE/ICE staircase |
+
+### Values Bundle
+
+| Class | Purpose |
+|-------|---------|
+| `IEEGraphBuilder` | Integrated graph + values |
+| `ContextAnalyzer` | 12-dimension context analysis |
+| `ValueMatcher` | Match text to values |
+| `ValueScorer` | Score and rank values |
+| `EthicalProfiler` | Generate ethical profiles |
+| `AssertionEventBuilder` | Create value assertion nodes |
+
+---
+
+## Migration Guide
+
+### From Combined to Separated Bundles
+
+**Before (combined):**
 ```html
 <script src="tagteam.js"></script>
 <script>
-  const result = TagTeam.parse(text);
+  const graph = TagTeam.buildGraph("text");
 </script>
 ```
 
-**Benefits:**
-- ✅ Single file (easier to deploy)
-- ✅ Simple API (easier to use)
-- ✅ Same functionality (no features lost)
-- ✅ Backward compatible (classes still available for advanced use)
+**After (separated, core only):**
+```html
+<script src="tagteam-core.js"></script>
+<script>
+  const graph = TagTeam.buildGraph("text");
+  // Same API, smaller bundle
+</script>
+```
+
+**After (separated, with values):**
+```html
+<script src="tagteam-core.js"></script>
+<script src="tagteam-values.js"></script>
+<script>
+  // Use IEEGraphBuilder for value detection
+  const builder = new TagTeamValues.IEEGraphBuilder();
+  const graph = builder.build("text", { context: "MedicalEthics" });
+</script>
+```
 
 ---
 
-## 📊 Validation Checklist
+## Bundle Sizes
 
-Use this checklist to validate the bundle:
+| Bundle | Uncompressed | Gzipped (est.) |
+|--------|--------------|----------------|
+| tagteam-core.js | 4.71 MB | ~1.2 MB |
+| tagteam-values.js | 138 KB | ~35 KB |
+| tagteam.js | 4.84 MB | ~1.2 MB |
 
-- [ ] **Load Test** - `test.html` opens without errors
-- [ ] **Basic Parsing** - Test 1 button works, shows results
-- [ ] **Batch Parsing** - Test 2 button works, shows 3 results
-- [ ] **IEE Sentence** - Test 3 button shows all roles correctly
-- [ ] **IEE Corpus** - `test-iee-bundle.html` shows ≥75% pass rate
-- [ ] **Console Clean** - No JavaScript errors in browser console
-- [ ] **Performance** - Page loads in <2 seconds
-- [ ] **API Available** - `TagTeam.parse()` works in console
+The combined bundle is ~130 KB larger than core due to value definitions and analyzers.
 
 ---
 
-## 🐛 Troubleshooting
+## Browser Compatibility
 
-### Bundle won't load
-- **Check:** File size should be ~4.15 MB
-- **Check:** Browser console for error messages
-- **Try:** Different browser (Chrome, Firefox, Edge)
+- Chrome 60+
+- Firefox 55+
+- Safari 11+
+- Edge 79+
 
-### Tests fail
-- **Check:** Browser supports ES6 (2015+)
-- **Check:** File paths are correct (same directory)
-- **Check:** No ad blockers interfering
-
-### Unexpected results
-- **Check:** Input text format (plain string, no special characters)
-- **Check:** Expected vs actual in test output
-- **Note:** Week 1 target is 75%, not 100%
+Requires ES6 support (arrow functions, classes, template literals).
 
 ---
 
-## 📞 Support
+## Node.js Usage
 
-**Questions?** Check the main repository:
-- Documentation: `../docs/`
-- Source code: `../src/`
-- Tests: `../tests/`
+All bundles work in Node.js:
 
-**Issues?** Include:
-- Browser and version
-- Input text that failed
-- Expected vs actual output
-- Browser console errors (if any)
+```javascript
+// Core only
+const TagTeam = require('./dist/tagteam-core.js');
 
----
+// With values (load core first)
+const TagTeam = require('./dist/tagteam-core.js');
+global.TagTeam = TagTeam;
+const TagTeamValues = require('./dist/tagteam-values.js');
 
-## 🗺️ Roadmap
-
-### Week 1 ✅ (Current)
-- Semantic role extraction
-- 150 compound terms
-- IEE format compliance
-
-### Week 2 (Next)
-- Value matching engine
-- Context intensity analysis
-- 20 test scenarios
-
-### Week 3 (Future)
-- Conflict detection
-- Salience scoring
-- 50 test scenarios
+// Combined
+const TagTeam = require('./dist/tagteam.js');
+```
 
 ---
 
-## 📜 License
+## Test Files
 
-MIT License - See ../LICENSE
+- **test.html** - Basic bundle functionality test
+- **test-iee-bundle.html** - Full IEE corpus validation
 
 ---
 
-**Version:** 1.0.0
-**Date:** 2026-01-10
-**Status:** Week 1 Complete, Ready for IEE Validation
+## Version
+
+- **tagteam-core.js** - v5.0.0-core
+- **tagteam-values.js** - v1.0.0
+- **tagteam.js** - v5.0.0
+
+Date: 2026-01-23

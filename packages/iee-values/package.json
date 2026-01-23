@@ -1,0 +1,32 @@
+{
+  "name": "tagteam-iee-values",
+  "version": "1.0.0",
+  "description": "IEE ethical value detection for TagTeam semantic graphs",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./analyzers": "./src/analyzers/index.js",
+    "./data": "./data/index.js"
+  },
+  "scripts": {
+    "test": "node tests/run-tests.js",
+    "build": "node scripts/build.js"
+  },
+  "peerDependencies": {
+    "tagteam-core": "^5.0.0"
+  },
+  "keywords": [
+    "ethics",
+    "values",
+    "iee",
+    "moral-reasoning",
+    "tagteam",
+    "nlp"
+  ],
+  "author": "IEE Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TagTeam-IEE-Values/tagteam-iee-values"
+  }
+}

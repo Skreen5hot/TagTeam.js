@@ -10,8 +10,13 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 
 # =============================================================================
-# TagTeam Ontology
+# TagTeam Ontology (Combined)
 # =============================================================================
+#
+# COMBINED ONTOLOGY - includes both core parsing and value detection vocabulary.
+# For modular usage, see:
+# - tagteam-core.ttl   - Core parsing vocabulary only
+# - tagteam-values.ttl - Value detection vocabulary (imports core)
 #
 # An extension ontology for BFO and CCO that provides vocabulary for:
 # - Natural language parsing artifacts (Tier 1: DiscourseReferent, VerbPhrase)
@@ -24,7 +29,7 @@
 # - BFO 2020 (ISO 21838-2:2020)
 # - Common Core Ontologies (CCO)
 #
-# Version: 4.0.1
+# Version: 4.0.1 (combined), see also core v1.0.0 and values v1.0.0
 # =============================================================================
 
 <http://tagteam.fandaws.org/ontology/>

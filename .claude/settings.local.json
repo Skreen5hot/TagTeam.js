@@ -22,7 +22,9 @@
       "Bash(node test-regex.js:*)",
       "Bash(node test-trust-scoring.js:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(git fetch:*)",
+      "Read(//c/**)"
     ]
   }
 }
