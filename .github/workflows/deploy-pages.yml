@@ -357,9 +357,9 @@ jobs:
                       const text = document.getElementById('input').value;
                       if (!text.trim()) { alert('Enter text'); return; }
 
-                      const result = TagTeam.buildGraph(text);
+                      const result = TagTeam.buildGraph(text, { detectAmbiguity: true });
                       document.getElementById('output').textContent =
-                          '// Core parsing result\n' + JSON.stringify(result, null, 2);
+                          '// Core parsing result (with ambiguity detection)\n' + JSON.stringify(result, null, 2);
                       document.getElementById('results').style.display = 'block';
                   }
 
@@ -373,9 +373,9 @@ jobs:
                       }
 
                       const builder = new TagTeamValues.IEEGraphBuilder();
-                      const result = builder.build(text, { context: 'MedicalEthics' });
+                      const result = builder.build(text, { context: 'MedicalEthics', detectAmbiguity: true });
                       document.getElementById('output').textContent =
-                          '// Core + Values result\n' + JSON.stringify(result, null, 2);
+                          '// Core + Values result (with ambiguity detection)\n' + JSON.stringify(result, null, 2);
                       document.getElementById('results').style.display = 'block';
                   }
               </script>

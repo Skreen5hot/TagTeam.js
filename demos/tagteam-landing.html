@@ -699,11 +699,11 @@
                 return;
             }
 
-            const jsonld = TagTeam.toJSONLD(text, { pretty: true });
+            const jsonld = TagTeam.toJSONLD(text, { pretty: true, detectAmbiguity: true });
 
             document.getElementById('phase4-results').style.display = 'block';
             document.getElementById('jsonld-output').textContent = jsonld;
-            document.getElementById('graph-summary').innerHTML = '<p>JSON-LD graph generated. Click "Show Summary" for details.</p>';
+            document.getElementById('graph-summary').innerHTML = '<p>JSON-LD graph generated with ambiguity detection. Click "Show Summary" for details.</p>';
 
             document.getElementById('phase4-results').scrollIntoView({ behavior: 'smooth' });
         }
@@ -715,8 +715,8 @@
                 return;
             }
 
-            const graph = TagTeam.buildGraph(text);
-            const jsonld = TagTeam.toJSONLD(text, { pretty: true });
+            const graph = TagTeam.buildGraph(text, { detectAmbiguity: true });
+            const jsonld = TagTeam.toJSONLD(text, { pretty: true, detectAmbiguity: true });
 
             // Two-Tier Architecture: Tier 1 (DiscourseReferent) and Tier 2 (Person/Artifact)
             const tier1Referents = graph['@graph'].filter(n =>
@@ -792,6 +792,45 @@
                     html += `<div class="role-item">${r['rdfs:label']}</div>`;
                 });
                 html += '</div>';
+            }
+
+            // Phase 5: Ambiguity Detection Results
+            if (graph._ambiguityReport && graph._ambiguityReport.ambiguities && graph._ambiguityReport.ambiguities.length > 0) {
+                html += '<h4 style="color: #f59e0b; margin-top: 20px;">🔍 Detected Ambiguities (Phase 5)</h4>';
+                html += '<div style="background: #fffbeb; padding: 15px; border-radius: 8px; border-left: 4px solid #f59e0b;">';
+
+                graph._ambiguityReport.ambiguities.forEach(amb => {
+                    const typeLabel = amb.type.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                    const confidence = amb.confidence || 'medium';
+                    const confidenceColor = confidence === 'high' ? '#dc2626' : confidence === 'medium' ? '#f59e0b' : '#6b7280';
+
+                    html += `<div style="margin: 10px 0; padding: 10px; background: white; border-radius: 6px;">`;
+                    html += `<strong style="color: #b45309;">${typeLabel}</strong>`;
+                    html += ` <span style="background: ${confidenceColor}; color: white; padding: 2px 6px; border-radius: 3px; font-size: 0.75em;">${confidence.toUpperCase()}</span>`;
+
+                    if (amb.span) {
+                        html += `<br><em style="color: #6b7280;">Span: "${amb.span}"</em>`;
+                    }
+                    if (amb.modal) {
+                        html += `<br><span style="color: #7c3aed;">Modal: <strong>${amb.modal}</strong></span>`;
+                    }
+                    if (amb.readings && amb.readings.length > 0) {
+                        html += `<br><span style="color: #059669;">Possible readings: ${amb.readings.join(' | ')}</span>`;
+                    }
+                    if (amb.defaultReading) {
+                        html += `<br><span style="color: #2563eb;">Default: <strong>${amb.defaultReading}</strong></span>`;
+                    }
+                    if (amb.signals && amb.signals.length > 0) {
+                        html += `<br><span style="color: #6b7280; font-size: 0.85em;">Signals: ${amb.signals.join(', ')}</span>`;
+                    }
+
+                    html += `</div>`;
+                });
+
+                html += '</div>';
+            } else {
+                html += '<h4 style="color: #10b981; margin-top: 20px;">✅ No Ambiguities Detected</h4>';
+                html += '<p style="color: #6b7280;">The input text has no detected linguistic ambiguities.</p>';
             }
 
             document.getElementById('phase4-results').style.display = 'block';
