@@ -8,10 +8,15 @@
 Phase 5 adds **linguistic intelligence** to TagTeam.js, enabling the system to understand the nuances and ambiguities in natural language. This is critical for ethical reasoning applications where the difference between "The doctor *must* treat the patient" (obligation) and "The patient *must* be recovering" (inference) matters enormously.
 
 ### Key Achievements
-- **275+ automated tests** (100% pass rate)
+- **280+ automated tests** (100% pass rate)
 - **Zero new dependencies** - built entirely with custom code
 - **5 types of ambiguity detection** for downstream resolution
 - **Production-ready** NLP foundation for Phase 6 interpretation
+
+### Phase 5.3.1 Stakeholder Improvements
+- **`tagteam:selectionalMismatch: true`** flag on acts with inanimate agents
+- **Organization typing** for committees, boards, councils, commissions
+- **Ambiguity flags surfaced in @graph nodes** (not just _ambiguityReport)
 
 ---
 
@@ -345,4 +350,5 @@ Contact the development team for:
 ---
 
 *Phase 5 completed: January 2026*
-*275+ tests passing | Zero new dependencies | Production ready*
+*Phase 5.3.1 stakeholder improvements: January 2026*
+*280+ tests passing | Zero new dependencies | Production ready*

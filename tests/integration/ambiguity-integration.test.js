@@ -210,6 +210,79 @@ describe('Ambiguity Integration with SemanticGraphBuilder', () => {
     })) passed++; else failed++;
   });
 
+  // Phase 5.3.1: Stakeholder feedback improvements
+  describe('Phase 5.3.1 - ambiguity surfacing in @graph nodes', () => {
+    if (it('surfaces selectionalMismatch flag when inanimate agent detected', () => {
+      const builder = new SemanticGraphBuilder();
+      const result = builder.build('The ventilator decided to allocate resources', {
+        detectAmbiguity: true
+      });
+
+      // Find act nodes with selectionalMismatch flag
+      const nodesWithMismatch = result['@graph'].filter(node =>
+        node['tagteam:selectionalMismatch'] === true
+      );
+
+      expect(nodesWithMismatch.length).toBeGreaterThan(0);
+      expect(nodesWithMismatch[0]['tagteam:hasAmbiguity']).toBeTrue();
+      expect(nodesWithMismatch[0]['tagteam:ambiguityType']).toBe('inanimate_agent');
+      expect(nodesWithMismatch[0]['tagteam:ontologyConstraint']).toBeDefined();
+    })) passed++; else failed++;
+
+    if (it('surfaces modal ambiguity flags on act nodes', () => {
+      const builder = new SemanticGraphBuilder();
+      const result = builder.build('The committee must review applications', {
+        detectAmbiguity: true
+      });
+
+      // Find act nodes with ambiguity flags
+      const actsWithAmbiguity = result['@graph'].filter(node =>
+        node['tagteam:hasAmbiguity'] === true &&
+        node['tagteam:modalAmbiguity']
+      );
+
+      expect(actsWithAmbiguity.length).toBeGreaterThan(0);
+      const modalAmb = actsWithAmbiguity[0]['tagteam:modalAmbiguity'];
+      expect(modalAmb['tagteam:readings']).toBeDefined();
+    })) passed++; else failed++;
+
+    if (it('types committee as cco:Organization', () => {
+      const builder = new SemanticGraphBuilder();
+      const result = builder.build('The committee should review', {
+        detectAmbiguity: true
+      });
+
+      // Find Organization nodes
+      const orgs = result['@graph'].filter(node =>
+        node['@type']?.includes('cco:Organization')
+      );
+
+      // There should be an Organization for "committee"
+      const committeeOrg = orgs.find(o =>
+        (o['rdfs:label'] || '').toLowerCase().includes('committee')
+      );
+      expect(committeeOrg).toBeDefined();
+    })) passed++; else failed++;
+
+    if (it('types administration as cco:Organization', () => {
+      const builder = new SemanticGraphBuilder();
+      const result = builder.build('The administration announced policy', {
+        detectAmbiguity: true
+      });
+
+      // Find Organization nodes
+      const orgs = result['@graph'].filter(node =>
+        node['@type']?.includes('cco:Organization')
+      );
+
+      // There should be an Organization for "administration"
+      const adminOrg = orgs.find(o =>
+        (o['rdfs:label'] || '').toLowerCase().includes('administration')
+      );
+      expect(adminOrg).toBeDefined();
+    })) passed++; else failed++;
+  });
+
 });
 
 // Summary

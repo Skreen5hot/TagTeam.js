@@ -343,7 +343,7 @@
 
     <div style="display: flex; justify-content: space-around; margin: 40px 0;">
       <div>
-        <div class="big-number">290+</div>
+        <div class="big-number">475+</div>
         <p>Tests Passing</p>
       </div>
       <div>
@@ -357,10 +357,10 @@
     </div>
 
     <p style="margin-top: 30px;">
-      Phase 4 Complete: Full semantic parsing with ontology-grounded output
+      <span class="good">Phase 6 Complete:</span> Interpretation Lattice with ambiguity preservation
     </p>
     <p>
-      Next: Ambiguity preservation (the "multiple readings" feature)
+      Modal ambiguity, scope ambiguity, and metonymy are now preserved as alternative readings!
     </p>
   </div>
 </div>
@@ -393,7 +393,7 @@
   <span id="current-slide">1</span> / <span id="total-slides">8</span>
 </div>
 
-<script src="../dist/tagteam.js"></script>
+<script src="tagteam.js"></script>
 <script>
   let currentSlide = 1;
   const totalSlides = 8;
@@ -518,11 +518,60 @@
         html += '</div>';
       }
 
-      // Detect modal words for future ambiguity feature preview
+      // Phase 6: Use Interpretation Lattice if available
       const modalWords = ['should', 'must', 'may', 'might', 'could', 'ought'];
       const foundModals = modalWords.filter(m => input.toLowerCase().includes(m));
 
-      if (foundModals.length > 0) {
+      // Try to get lattice (Phase 6 feature)
+      let lattice = null;
+      try {
+        const graphWithLattice = TagTeam.buildGraph(input, { preserveAmbiguity: true });
+        lattice = graphWithLattice._interpretationLattice;
+      } catch (e) {
+        // Lattice not available
+      }
+
+      if (lattice && lattice.hasSignificantAmbiguity && lattice.hasSignificantAmbiguity()) {
+        // Phase 6 active - show real lattice data
+        html += '<div class="ambiguity-reveal">';
+        html += '<h4 style="margin-top: 0; color: #4c51bf;">Interpretation Lattice (Phase 6)</h4>';
+        html += '<p>Multiple readings preserved:</p>';
+
+        const alternatives = lattice.getAlternatives ? lattice.getAlternatives() : [];
+        const preserved = lattice.getAmbiguitiesPreserved ? lattice.getAmbiguitiesPreserved() : [];
+
+        if (preserved.length > 0) {
+          html += '<ul style="margin: 10px 0; padding-left: 20px;">';
+          preserved.forEach(amb => {
+            const type = amb.type || 'unknown';
+            const readings = amb.readings || [];
+            html += '<li><strong>' + type + ':</strong> ';
+            html += readings.map((r, i) => {
+              const isDefault = r === amb.defaultReading;
+              return (isDefault ? '<span class="good">' : '<span>') + r + (isDefault ? ' (default)' : '') + '</span>';
+            }).join(' vs ');
+            html += '</li>';
+          });
+          html += '</ul>';
+        }
+
+        if (alternatives.length > 0) {
+          html += '<p><strong>Alternative interpretations:</strong></p>';
+          html += '<div style="display: grid; gap: 8px; margin: 10px 0;">';
+          alternatives.forEach(alt => {
+            const plausibility = alt.plausibility ? (alt.plausibility * 100).toFixed(0) : '?';
+            html += '<div style="background: #edf2f7; padding: 10px; border-radius: 6px; border-left: 3px solid #667eea;">';
+            html += '<span style="font-weight: bold;">' + (alt.reading || 'alternative') + '</span>';
+            html += '<span style="color: #666; margin-left: 10px;">(' + plausibility + '% plausibility)</span>';
+            html += '</div>';
+          });
+          html += '</div>';
+        }
+
+        html += '<p style="margin-top: 15px; font-style: italic; color: #4c51bf;">Both interpretations are preserved for human review!</p>';
+        html += '</div>';
+      } else if (foundModals.length > 0) {
+        // Fallback: Show modal detection info
         html += '<div class="dilemma-box">';
         html += '<h4>Modal Word Detected: "' + foundModals[0] + '"</h4>';
         html += '<p style="margin-bottom: 10px;">This word often has multiple meanings:</p>';
@@ -538,7 +587,7 @@
           html += '<li><strong>Possibility:</strong> "it is possible that"</li>';
         }
         html += '</ul>';
-        html += '<p style="margin-top: 10px; font-style: italic; color: #92400e;">Future: TagTeam will preserve both interpretations!</p>';
+        html += '<p style="margin-top: 10px; font-style: italic; color: #92400e;">TagTeam preserves both interpretations in the lattice!</p>';
         html += '</div>';
       }
 

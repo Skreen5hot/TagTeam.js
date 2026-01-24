@@ -1,8 +1,8 @@
 # TagTeam Consolidated Roadmap
 
-**Version:** 5.2.0-tests
-**Last Updated:** 2026-01-22
-**Status:** Phase 4 Complete, Comprehensive Test Framework, Phase 8.5 Defined
+**Version:** 5.3.1-phase5
+**Last Updated:** 2026-01-23
+**Status:** Phase 5 Complete, Ambiguity Detection, 280+ Tests, Ready for Phase 6
 
 ---
 
@@ -101,6 +101,33 @@ config/
 
 **Test Coverage:** 290+ tests passing
 
+### Phase 5: NLP Foundation Upgrade (DONE)
+
+**Certification:** Complete (2026-01-23)
+
+| Deliverable | Status |
+|-------------|--------|
+| **5.0** NLP Library Evaluation | ✅ Custom implementation chosen |
+| **5.1** Core NLP (Lemmatizer, ContractionExpander) | ✅ 149 tests |
+| **5.2** Phrase Extractors (VP, NP) | ✅ 59 tests |
+| **5.3** Ambiguity Detection | ✅ 71 tests |
+| **5.3.1** Stakeholder Improvements | ✅ selectionalMismatch, Organization typing |
+
+**Key Files Created:**
+```
+src/core/
+├── ContractionExpander.js     # "don't" → "do not"
+├── Lemmatizer.js              # "walked" → "walk"
+├── VerbPhraseExtractor.js     # Modal force, negation, tense
+└── NounPhraseExtractor.js     # Determiners, compounds, quantifiers
+
+src/graph/
+├── AmbiguityDetector.js       # 5 ambiguity types
+└── AmbiguityReport.js         # JSON-LD output
+```
+
+**Test Coverage:** 280+ tests passing (Phase 5 specific: 279 tests)
+
 **Acronyms:**
 - **IEE**: Institute for Ethical Engineering - collaboration partner for ethical value definitions
 - **BFO**: Basic Formal Ontology - top-level ontology framework
@@ -171,204 +198,319 @@ const result = builder.build(text, { preserveAmbiguity: true });
 
 ---
 
-## Phase 5: NLP Foundation Upgrade
+## Phase 5: NLP Foundation Upgrade ✅ COMPLETE
 
 **Goal:** Remove Compromise bottleneck, enable ambiguity detection
 
-**Bundle Size Budget:** +200KB max (target: 5.0MB total)
+**Status:** ✅ Complete (2026-01-23)
+**Test Coverage:** 280+ tests passing (100% pass rate)
+**Bundle Size:** +50KB (well under +200KB budget)
 
-**Why This First:** Compromise NLP limitations block all downstream improvements:
-- Can't reliably identify Agent vs Patient (no dependency parsing)
-- Verb/noun ambiguity causes incorrect extractions
-- Can't detect PP attachment for complex ethical scenarios
+### Key Decision: Custom Implementation Over External Libraries
 
-### 5.0 Evaluate Alternative NLP Libraries (FIRST)
+After evaluation, we chose **custom implementation** over external NLP libraries because:
 
-**Status:** Not started
-**Priority:** Critical (do this before 5.1-5.3)
-**Effort:** Low
+1. **Zero new dependencies** - No supply chain risk
+2. **Full control** - Tailored for ethical reasoning domain
+3. **Archive code** - Robust implementations already existed
+4. **Bundle size** - Custom code smaller than Wink NLP (+600KB) or nlp.js (+800KB)
+5. **IEE corpus tested** - 100% accuracy on test scenarios
 
-Before building custom tokenizers, evaluate whether existing libraries solve our problems:
+### 5.0 NLP Library Evaluation ✅ COMPLETE
 
-| Library | Bundle Size | Key Features | Verdict Criteria |
-|---------|-------------|--------------|------------------|
-| **Wink NLP** | +600KB | Better tokenization, NER, sentiment | Reduces Compromise dependency? |
-| **Natural** | +400KB | Tokenizers, stemmers, classifiers | Lighter alternative? |
-| **nlp.js** | +800KB | Multiple language support | Overkill for English-only? |
+**Decision:** Build custom modules using archived code rather than adding external dependencies.
 
-**Decision Criteria:**
-- Does it provide dependency-like information?
-- Does it run in browser without modification?
-- Is bundle size acceptable for browser-first?
+**Rationale documented in:** Phase 5 Demo Presentation (`demos/Phase5_Demo_Presentation.md`)
 
-**Deliverable:** Decision document in `docs/research/nlp-library-evaluation.md`
+### 5.1 Core NLP Modules ✅ COMPLETE
 
-### 5.1 Revive POSTaggerGraph.js
+Created from archived POSTaggerGraph.js code:
 
-**Status:** Not started
-**Priority:** High
-**Effort:** Low (code exists in archive)
+| Module | Purpose | Test Count |
+|--------|---------|------------|
+| `src/core/ContractionExpander.js` | "don't" → "do not" with POS tags | 49 tests |
+| `src/core/Lemmatizer.js` | "walked" → "walk", "children" → "child" | 100 tests |
 
-Integrate archived features into current pipeline:
-- Lemmatizer for better verb normalization
-- Contraction expansion ("don't" → "do not")
-- Quote state tracking
+### 5.2 Phrase Extractors ✅ COMPLETE
 
-**Files to modify:**
-- `src/core/POSTagger.js` - integrate Lemmatizer
-- `src/graph/ActExtractor.js` - use lemmatized verbs
+Custom extractors reduce Compromise dependency:
 
-### 5.2 Reduce Compromise Dependency
+| Module | Purpose | Test Count |
+|--------|---------|------------|
+| `src/core/VerbPhraseExtractor.js` | Modals, negation, tense, voice | 27 tests |
+| `src/core/NounPhraseExtractor.js` | Determiners, modifiers, compounds | 32 tests |
 
-**Status:** Not started
-**Priority:** High
-**Effort:** Medium
+**Key Features:**
+- Modal force classification (deontic vs epistemic signals)
+- Negation detection including "never" look-back
+- Quantifier detection (universal, existential, negative)
+- Nominalization detection for process/continuant ambiguity
 
-Current Compromise usage:
-- ActExtractor: verb phrase extraction
-- EntityExtractor: noun phrase extraction
+### 5.3 Ambiguity Detection Layer ✅ COMPLETE
 
-Target state:
-- Compromise: sentence boundary detection only
-- Custom tokenizer: everything else
+| Module | Purpose | Test Count |
+|--------|---------|------------|
+| `src/graph/AmbiguityDetector.js` | Identifies 5+ ambiguity types | 31 tests |
+| `src/graph/AmbiguityReport.js` | Structured output with JSON-LD | 26 tests |
+| Integration tests | End-to-end with SemanticGraphBuilder | 14 tests |
 
-**Deliverables:**
-- `src/core/Tokenizer.js` - new tokenizer using lexicon
-- `src/core/NounPhraseExtractor.js` - custom NP extraction
-- `src/core/VerbPhraseExtractor.js` - custom VP extraction
+**Ambiguity Types Detected:**
 
-### 5.3 Ambiguity Detection Layer
+| Type | Detection Signal | Example |
+|------|------------------|---------|
+| `noun_category` | Nominalization suffix + context | "organization" (process vs entity) |
+| `modal_force` | Modal + subject/verb analysis | "should" (obligation vs expectation) |
+| `scope` | Quantifier + negation position | "not all" (wide vs narrow scope) |
+| `selectional_violation` | Inanimate agent + intentional verb | "The rock decided" |
+| `potential_metonymy` | Location as agent | "The White House announced" |
 
-**Status:** Not started
-**Priority:** High
-**Effort:** Medium
+### 5.3.1 Stakeholder Improvements ✅ COMPLETE
 
-Create infrastructure to detect (not yet preserve) ambiguous cases:
+Based on stakeholder review (2026-01-23):
 
-| Ambiguity Type | Detection Signal | Example |
-|----------------|------------------|---------|
-| Noun Process/Continuant | Suffix + context | "organization" |
-| Verb Sense | Multiple selectional matches | "run" |
-| Deontic/Epistemic | Modal + context | "should" |
-| Scope | Quantifiers + negation | "not all" |
+1. **`tagteam:selectionalMismatch: true`** - Flag on acts with inanimate agents
+2. **Organization typing** - committee, board, council, commission, panel, team → `cco:Organization`
+3. **Ambiguity surfacing** - Flags added directly to `@graph` nodes, not just `_ambiguityReport`
 
-**Deliverables:**
-- `src/graph/AmbiguityDetector.js` - identifies ambiguous spans
-- `src/graph/AmbiguityReport.js` - structured ambiguity metadata
+### Phase 5 Lessons Learned
+
+**What Worked Well:**
+- Incremental development with continuous testing
+- Custom code + archived implementations = zero dependencies
+- `detectAmbiguity: true` opt-in flag preserves backwards compatibility
+- Surfacing ambiguity in both `_ambiguityReport` AND `@graph` nodes serves different consumers
+
+**What Could Be Improved:**
+- Entity label handling inconsistency (`label` vs `rdfs:label`) caused bug in integration
+- Need consistent interface between test data and production graph structure
+
+**Key Insight for Phase 6:**
+The ambiguity detection foundation is solid, but **resolution** is the hard problem. Phase 5 flags ambiguity; Phase 6 must decide *when* to preserve multiple readings vs pick a default.
 
 ---
 
 ## Phase 6: Interpretation Lattice
 
-**Goal:** Preserve significant ambiguities in structured output
+**Goal:** Transform detected ambiguities (Phase 5) into preserved, structured readings
 
 **Bundle Size Budget:** +100KB max (target: 5.1MB total)
 
-### 6.1 Lattice Data Structure
+**Prerequisites:** Phase 5 complete (AmbiguityDetector, AmbiguityReport)
+
+### Phase 5 → Phase 6 Connection
+
+Phase 5 **detects** ambiguities and flags them. Phase 6 **resolves** when to preserve multiple readings:
+
+```
+Phase 5 Output:                      Phase 6 Output:
+┌────────────────────────┐           ┌────────────────────────────────────┐
+│ _ambiguityReport: {    │           │ interpretationLattice: {           │
+│   ambiguities: [       │    →      │   defaultReading: { graph... },    │
+│     { type: "modal",   │           │   alternativeReadings: [           │
+│       readings: [...], │           │     { id: "epistemic",             │
+│       confidence: ... }│           │       plausibility: 0.3,           │
+│   ]                    │           │       graph: {...} }               │
+│ }                      │           │   ]                                │
+└────────────────────────┘           └────────────────────────────────────┘
+```
+
+### 6.0 Selectional Preference Lookup Table (FIRST)
+
+**Status:** Not started
+**Priority:** Critical (stakeholder requested)
+**Effort:** Low
+
+Before building the full lattice, create the selectional preference system that Phase 5 exposed as missing:
+
+| Verb Class | Subject Requirement | Object Requirement |
+|------------|--------------------|--------------------|
+| `intentional_mental` (decide, believe, intend) | `animate` OR `organization` | - |
+| `intentional_physical` (lift, throw, carry) | `animate` | `material_entity` |
+| `communication` (announce, report, claim) | `animate` OR `organization` | `proposition` |
+| `transfer` (give, allocate, assign) | `animate` OR `organization` | `continuant` |
+
+**Deliverables:**
+- `src/graph/SelectionalPreferences.js` - lookup table with verb→requirement mappings
+- Extend `AmbiguityDetector._isIntentionalAct()` to use centralized preferences
+- Add `cco:Organization` as valid agent for intentional acts (committees can "decide")
+
+**Why First:** This fixes the "inanimate agent" false positives (ventilator ≠ rock) and provides foundation for plausibility scoring.
+
+### 6.1 Ambiguity Resolution Strategy
 
 **Status:** Not started
 **Priority:** High
 **Effort:** Medium
 
-Based on idealNLP_v1.1.md specification:
+**Key Insight from Phase 5:** Not all ambiguities need multiple readings preserved. Define resolution strategy:
+
+| Ambiguity Type | Resolution Strategy |
+|----------------|---------------------|
+| `selectional_violation` | Flag but DON'T create alternative (anomalous input) |
+| `modal_force` | Preserve 2 readings if confidence < 0.8 |
+| `noun_category` | Use context signals; preserve if "of" complement present |
+| `scope` | Preserve 2 readings (semantic difference significant) |
+| `potential_metonymy` | Flag with suggested reading; don't fork graph |
+
+**Deliverables:**
+- `src/graph/AmbiguityResolver.js` - decides which ambiguities to preserve
+- Configuration: `{ preserveThreshold: 0.7, maxReadingsPerNode: 3 }`
+
+### 6.2 Lattice Data Structure (Simplified)
+
+**Status:** Not started
+**Priority:** High
+**Effort:** Medium
+
+Based on Phase 5 learnings, simplify from original spec. Focus on **practical utility**:
 
 ```javascript
 class InterpretationLattice {
-  constructor() {
-    this.nodes = [];        // InterpretationNode[]
-    this.relations = [];    // subsumes, mutually_exclusive
-    this.rootNode = null;   // Minimal commitment reading
-    this.defaultReading = null;  // Highest plausibility
+  constructor(defaultGraph, ambiguities) {
+    this.defaultReading = defaultGraph;     // The "best guess" graph
+    this.ambiguities = ambiguities;         // Phase 5 AmbiguityReport
+    this.alternativeReadings = [];          // Only for preserved ambiguities
+    this.resolutionLog = [];                // Audit trail
   }
 
-  // Operations
-  getMinimalCommitment()      // Returns root node (risk-averse)
-  getDefaultReading()         // Returns highest-plausibility leaf
-  getReadingsAtLevel(n)       // Returns all nodes at depth n
-  filterByPlausibility(threshold)  // Filter by confidence
-  collapseToOntology()        // Only ontologically-distinct readings
+  // Primary API
+  getDefaultReading()           // Returns defaultReading (most consumers use this)
+  getAlternatives()             // Returns array of alternative interpretations
+  getAmbiguitiesPreserved()     // Returns which ambiguities have multiple readings
+
+  // Analysis API
+  hasSignificantAmbiguity()     // True if any unresolved ambiguity
+  getResolutionReasoning()      // Why each ambiguity was resolved/preserved
+
+  // Serialization
+  toJSONLD()                    // Full lattice as JSON-LD
+  toSimplifiedGraph()           // Default reading only (backwards compatible)
 }
 ```
 
+**Key Simplification:** Don't build full lattice graph with subsumption relations upfront. Build alternative readings on-demand for specific ambiguity types.
+
 **Deliverables:**
 - `src/graph/InterpretationLattice.js`
-- `src/graph/InterpretationNode.js`
 
-### 6.2 Ambiguity Pruning Pipeline
+### 6.3 Alternative Graph Generation
 
 **Status:** Not started
 **Priority:** Medium
 **Effort:** Medium
 
-Four-stage pruning (from idealNLP v1.1):
+For preserved ambiguities, generate alternative graph fragments:
 
-```
-All Possible Readings
-        │
-        ▼
-┌─────────────────────────────────────┐
-│ STAGE 1: Implausibility Filter      │
-│ Remove selectional violations       │
-│ Threshold: plausibility < 0.1       │
-└─────────────────────────────────────┘
-        │
-        ▼
-┌─────────────────────────────────────┐
-│ STAGE 2: Ontological Equivalence    │
-│ Merge identical BFO categorizations │
-└─────────────────────────────────────┘
-        │
-        ▼
-┌─────────────────────────────────────┐
-│ STAGE 3: Significance Filter        │
-│ Keep only readings that matter:     │
-│ Different truth conditions          │
-│ Different obligations               │
-└─────────────────────────────────────┘
-        │
-        ▼
-┌─────────────────────────────────────┐
-│ STAGE 4: Cardinality Cap            │
-│ Keep top N by plausibility          │
-│ Flag if truncated                   │
-└─────────────────────────────────────┘
-        │
-        ▼
-Preserved Significant Readings (typically 1-3)
+```javascript
+// Modal force ambiguity → two act interpretations
+{
+  defaultReading: {
+    "@id": "inst:Act_123",
+    "tagteam:actualityStatus": "tagteam:Prescribed",  // Deontic: obligation
+    "tagteam:modality": "obligation"
+  },
+  alternativeReadings: [{
+    "@id": "inst:Act_123_alt1",
+    "tagteam:actualityStatus": "tagteam:Hypothetical", // Epistemic: expectation
+    "tagteam:modality": "expectation",
+    "tagteam:plausibility": 0.3,
+    "tagteam:derivedFrom": { "@id": "inst:Act_123" }
+  }]
+}
 ```
 
 **Deliverables:**
-- `src/graph/AmbiguityPruner.js`
-- Configuration for pruning thresholds
+- `src/graph/AlternativeGraphBuilder.js` - creates variant nodes for ambiguities
+- Ensure IRIs are unique but traceable (`_alt1`, `_alt2` suffixes)
 
-### 6.3 SemanticGraphBuilder Integration
+### 6.4 SemanticGraphBuilder Integration
 
 **Status:** Not started
 **Priority:** High
-**Effort:** Medium
+**Effort:** Low (infrastructure from Phase 5 exists)
 
-Modify `build()` to support opt-in lattice:
+Extend `build()` with opt-in lattice (builds on `detectAmbiguity: true`):
 
 ```javascript
 build(text, options = {}) {
-  // ... existing pipeline ...
+  // Phase 5: Detect ambiguities
+  if (options.detectAmbiguity || options.preserveAmbiguity) {
+    ambiguityReport = this.ambiguityDetector.detect(...);
+  }
 
+  // Phase 6: Resolve and optionally preserve
   if (options.preserveAmbiguity) {
-    const ambiguities = this.ambiguityDetector.detect(text, entities, acts);
-    const lattice = this.latticeBuilder.build(ambiguities);
-    const prunedLattice = this.pruner.prune(lattice, options.pruningConfig);
+    const resolutions = this.ambiguityResolver.resolve(ambiguityReport, options);
+    const lattice = new InterpretationLattice(graph, resolutions);
+
+    // Build alternative readings for preserved ambiguities
+    for (const preserved of resolutions.preserved) {
+      const altGraph = this.alternativeBuilder.build(graph, preserved);
+      lattice.addAlternative(altGraph);
+    }
 
     return {
-      defaultReading: this._buildGraph(),  // Current behavior
-      lattice: prunedLattice,
-      _epistemics: this._buildEpistemics(),
-      _validation: this._buildValidation()
+      '@graph': lattice.getDefaultReading()['@graph'],
+      _ambiguityReport: ambiguityReport,        // Phase 5 output (kept)
+      _interpretationLattice: lattice,          // Phase 6 output (new)
+      _metadata: { ... }
     };
   }
 
-  return this._buildGraph();  // Backwards compatible
+  // Backwards compatible
+  return { '@graph': this.nodes, ... };
 }
 ```
+
+**API Options:**
+```javascript
+builder.build(text, {
+  detectAmbiguity: true,        // Phase 5: flag ambiguities
+  preserveAmbiguity: true,      // Phase 6: create alternative readings
+  preserveThreshold: 0.7,       // Only preserve if confidence < threshold
+  maxAlternatives: 3            // Cap on alternative readings
+});
+```
+
+### Phase 6 Test Strategy
+
+**Golden Corpus:** `tests/golden/interpretation-lattice.json`
+
+```json
+{
+  "corpus": [
+    {
+      "id": "modal-001",
+      "input": "The doctor should prioritize the younger patient",
+      "expectedDefaultModality": "obligation",
+      "expectedAlternatives": ["expectation"],
+      "expectedPreserved": true
+    },
+    {
+      "id": "scope-001",
+      "input": "Not all patients received treatment",
+      "expectedDefaultScope": "wide",
+      "expectedAlternatives": ["narrow"],
+      "expectedPreserved": true
+    },
+    {
+      "id": "selectional-001",
+      "input": "The rock decided to move",
+      "expectedFlag": "selectional_violation",
+      "expectedPreserved": false,
+      "reason": "Anomalous input, not genuine ambiguity"
+    }
+  ]
+}
+```
+
+### Phase 6 Lessons from Phase 5
+
+1. **Test-first development** works well - write tests before implementation
+2. **Opt-in flags** preserve backwards compatibility (`detectAmbiguity`, `preserveAmbiguity`)
+3. **Surface data in multiple places** - both `_ambiguityReport` AND `@graph` nodes
+4. **Handle both test and production data formats** - `entity.label` vs `entity['rdfs:label']`
+5. **Incremental stakeholder feedback** catches issues early
 
 ---
 
@@ -779,77 +921,75 @@ node tests/unit/test-lattice-properties.js  # Property-based tests
 
 ## Bundle Size Trajectory
 
-| Phase | Component | Size Delta | Cumulative |
-|-------|-----------|------------|------------|
-| Phase 4 (current) | Core + Graph | - | 4.8 MB |
-| Phase 5 | NLP upgrades | +200 KB | 5.0 MB |
-| Phase 6 | Lattice | +100 KB | 5.1 MB |
-| Phase 7 | Epistemic | +50 KB | 5.15 MB |
-| Phase 8-9 | Disambiguation + Validation | +50 KB | 5.2 MB |
-| **Target Max** | - | - | **6.0 MB** |
+| Phase | Component | Size Delta | Cumulative | Status |
+|-------|-----------|------------|------------|--------|
+| Phase 4 | Core + Graph | - | 4.8 MB | ✅ Complete |
+| Phase 5 | NLP upgrades | +50 KB | 4.85 MB | ✅ Complete (under budget!) |
+| Phase 6 | Lattice | +100 KB | 4.95 MB | Planned |
+| Phase 7 | Epistemic | +50 KB | 5.0 MB | Planned |
+| Phase 8-9 | Disambiguation + Validation | +50 KB | 5.05 MB | Planned |
+| **Target Max** | - | - | **6.0 MB** | - |
+
+**Phase 5 Size Success:** Stayed well under +200KB budget by using custom implementations instead of external libraries.
 
 **Size Management Strategies:**
 - Tree-shaking unused code paths
 - Lazy loading of domain configs
-- Optional Wink NLP as separate import
+- Custom implementations over external libraries (proven in Phase 5)
 
 ---
 
 ## Implementation Priority Matrix
 
-| Phase | Priority | Effort | Dependencies | Enables |
-|-------|----------|--------|--------------|---------|
-| **5.0** NLP Library Eval | Critical | Low | None | 5.1, 5.2, 5.3 |
-| **5.1** POSTaggerGraph | High | Low | 5.0 | 5.2, 5.3 |
-| **5.2** Reduce Compromise | High | Medium | 5.0, 5.1 | 5.3, 6.x |
-| **5.3** Ambiguity Detection | High | Medium | 5.2 | 6.x |
-| **6.1** Lattice Data Structure | High | Medium | 5.3 | 6.2, 6.3 |
-| **6.2** Pruning Pipeline | Medium | Medium | 6.1 | 6.3 |
-| **6.3** Builder Integration | High | Medium | 6.1, 6.2 | 7.x |
-| **7.1** Source Attribution | High | Medium | 6.3 | 7.2 |
-| **7.2** Certainty Markers | Medium | Low | 7.1 | - |
-| **7.3** Temporal Grounding | Medium | Medium | 6.3 | - |
-| **8.x** Disambiguation | Low | Medium | 6.3 | - |
-| **8.5.1** Definiteness Tracking | High | Low | None | 8.5.4 |
-| **8.5.2** Extended Modals | High | Low | None | - |
-| **8.5.3** Vocabulary Expansion | Medium | Low | None | - |
-| **8.5.4** Scarcity Markers | Medium | Low | 8.5.1 | - |
-| **9.x** Validation | Low | Low | 6.3 | - |
-| **10** Human Validation | Medium | Medium | 6.3 | - |
-| **11** Domain Support | Low | Low | None | - |
+| Phase | Priority | Effort | Dependencies | Enables | Status |
+|-------|----------|--------|--------------|---------|--------|
+| **5.0** NLP Library Eval | Critical | Low | None | 5.1, 5.2, 5.3 | ✅ Complete |
+| **5.1** Core NLP Modules | High | Low | 5.0 | 5.2, 5.3 | ✅ Complete |
+| **5.2** Phrase Extractors | High | Medium | 5.0, 5.1 | 5.3, 6.x | ✅ Complete |
+| **5.3** Ambiguity Detection | High | Medium | 5.2 | 6.x | ✅ Complete |
+| **6.0** Selectional Preferences | Critical | Low | 5.3 | 6.1, 6.2 | **Next** |
+| **6.1** Ambiguity Resolver | High | Medium | 6.0 | 6.2, 6.3 | Planned |
+| **6.2** Lattice Data Structure | High | Medium | 6.1 | 6.3, 6.4 | Planned |
+| **6.3** Alternative Graph Builder | Medium | Medium | 6.2 | 6.4 | Planned |
+| **6.4** Builder Integration | High | Low | 6.2, 6.3 | 7.x | Planned |
+| **7.1** Source Attribution | High | Medium | 6.4 | 7.2 | Planned |
+| **7.2** Certainty Markers | Medium | Low | 7.1 | - | Planned |
+| **7.3** Temporal Grounding | Medium | Medium | 6.4 | - | Planned |
+| **8.x** Disambiguation | Low | Medium | 6.4 | - | Planned |
+| **9.x** Validation | Low | Low | 6.4 | - | Planned |
+| **10** Human Validation | Medium | Medium | 6.4 | - | Planned |
+| **11** Domain Support | Low | Low | None | - | Planned |
 
 ---
 
 ## Recommended Implementation Sequence
 
-### Immediate (Test-Driven Fixes)
+### ✅ Complete
 
-**Phase 8.5** can be done independently and immediately improves test pass rate from 86% to 97%+:
+1. **Phase 5.0:** NLP Library evaluation → Custom implementation chosen
+2. **Phase 5.1:** Core NLP (Lemmatizer, ContractionExpander) → 149 tests
+3. **Phase 5.2:** Phrase extractors (VP, NP) → 59 tests
+4. **Phase 5.3:** Ambiguity detection → 71 tests
+5. **Phase 5.3.1:** Stakeholder improvements → selectionalMismatch, Organization typing
 
-1. **Phase 8.5.1:** Definiteness tracking enhancement (Low effort, High impact)
-2. **Phase 8.5.2:** Extended modal detection (Low effort, High impact)
-3. **Phase 8.5.3:** Domain vocabulary expansion (Low effort, Medium impact)
-4. **Phase 8.5.4:** Scarcity marker detection (Low effort, Medium impact)
+### Immediate (Phase 6)
 
-### Near-Term (Next 2-4 weeks)
+6. **Phase 6.0:** Selectional Preferences lookup table (Critical - fixes false positives)
+7. **Phase 6.1:** Ambiguity Resolver (decides preserve vs resolve)
+8. **Phase 6.2:** InterpretationLattice data structure
+9. **Phase 6.3:** Alternative graph generation
+10. **Phase 6.4:** SemanticGraphBuilder integration (opt-in API)
+11. Create golden test corpus for lattice validation
 
-5. **Phase 5.0:** Evaluate NLP libraries (Wink, Natural) - FIRST
-6. **Phase 5.1:** Revive POSTaggerGraph.js
-7. **Phase 5.2:** Reduce Compromise dependency
-8. **Phase 5.3:** Ambiguity detection infrastructure
+### Medium-Term (Phase 7)
 
-### Medium-Term (1-2 months)
+12. **Phase 7.1:** Source attribution detection
+13. **Phase 7.2-7.3:** Certainty markers, temporal grounding
 
-9. **Phase 6.1:** Interpretation lattice data structure
-10. **Phase 6.2:** Ambiguity pruning pipeline
-11. **Phase 6.3:** SemanticGraphBuilder integration (opt-in API)
-12. Create golden test corpus for lattice validation
+### Longer-Term
 
-### Longer-Term (2-3 months)
-
-13. **Phase 7.1:** Source attribution detection
-14. **Phase 7.2-7.3:** Certainty markers, temporal grounding
-15. **Phase 8.x:** Enhanced disambiguation
+14. **Phase 8.x:** Enhanced disambiguation
+15. **Phase 9.x:** Extended validation
 
 ### As Needed
 
@@ -869,7 +1009,12 @@ node tests/unit/test-lattice-properties.js  # Property-based tests
 | SHACL Validation | Phase 4 | ✅ Complete |
 | GIT-Minimal Provenance | Phase 4 | ✅ Complete |
 | Confidence Decomposition | Phase 4 | ✅ Complete |
-| **Ambiguity Preservation** | Phase 6 | Planned |
+| **Ambiguity Detection** | Phase 5 | ✅ Complete |
+| **Modal Force Classification** | Phase 5 | ✅ Complete |
+| **Selectional Violation Detection** | Phase 5 | ✅ Complete |
+| **Scope Ambiguity Detection** | Phase 5 | ✅ Complete |
+| **Metonymy Detection** | Phase 5 | ✅ Complete |
+| **Ambiguity Resolution** | Phase 6 | Planned |
 | **Interpretation Lattice** | Phase 6 | Planned |
 | **Source Attribution** | Phase 7 | Planned |
 | **Epistemic Status** | Phase 7 | Planned |
@@ -882,6 +1027,7 @@ node tests/unit/test-lattice-properties.js  # Property-based tests
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| 5.3.1-phase5 | 2026-01-23 | Phase 5 complete: 280+ tests, ambiguity detection, stakeholder improvements |
 | 5.2.0-tests | 2026-01-22 | Phase 8.5 test-driven enhancements, comprehensive test framework |
 | 5.1.0-vision | 2026-01-19 | Addressed critique: scope clarity, bundle budgets, test strategy, Phase 7/10 detail |
 | 5.0.0-vision | 2026-01-19 | Ideal NLP roadmap, opt-in lattice API design |
@@ -895,16 +1041,20 @@ node tests/unit/test-lattice-properties.js  # Property-based tests
 ## Current Bundle
 
 ```
-dist/tagteam.js  (~4.8 MB single bundle)
+dist/tagteam.js  (~4.85 MB single bundle)
 
 ┌─────────────────────────────────────────────────────────────┐
-│                    tagteam.js (4.8 MB)                      │
+│                    tagteam.js (4.85 MB)                     │
 ├─────────────────────────────────────────────────────────────┤
 │  Core                                                       │
 │  ├── lexicon.js (4.1 MB POS lexicon)                       │
 │  ├── POSTagger.js                                          │
 │  ├── PatternMatcher.js                                     │
-│  └── SemanticRoleExtractor.js                              │
+│  ├── SemanticRoleExtractor.js                              │
+│  ├── ContractionExpander.js (Phase 5)                      │
+│  ├── Lemmatizer.js (Phase 5)                               │
+│  ├── VerbPhraseExtractor.js (Phase 5)                      │
+│  └── NounPhraseExtractor.js (Phase 5)                      │
 ├─────────────────────────────────────────────────────────────┤
 │  Analyzers                                                  │
 │  ├── ContextAnalyzer.js (12 dimensions)                    │
@@ -912,10 +1062,12 @@ dist/tagteam.js  (~4.8 MB single bundle)
 │  ├── ValueScorer.js                                        │
 │  └── EthicalProfiler.js                                    │
 ├─────────────────────────────────────────────────────────────┤
-│  Graph (Phase 4)                                            │
+│  Graph (Phase 4 + 5)                                        │
 │  ├── SemanticGraphBuilder.js                               │
 │  ├── JSONLDSerializer.js                                   │
 │  ├── SHMLValidator.js                                      │
+│  ├── AmbiguityDetector.js (Phase 5)                        │
+│  └── AmbiguityReport.js (Phase 5)                          │
 │  └── [12 other modules]                                    │
 ├─────────────────────────────────────────────────────────────┤
 │  Data                                                       │

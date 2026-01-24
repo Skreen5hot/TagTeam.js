@@ -22,8 +22,14 @@
  * - Core package works without value/context assertions
  * - Extension point: options.assertionBuilder for external injection
  *
+ * v6.0.0 Interpretation Lattice:
+ * - InterpretationLattice for multi-reading ambiguity preservation
+ * - AmbiguityResolver for resolution strategy (preserved vs resolved)
+ * - AlternativeGraphBuilder for modal/scope/metonymy alternatives
+ * - options.preserveAmbiguity enables lattice generation
+ *
  * @module graph/SemanticGraphBuilder
- * @version 5.0.0
+ * @version 6.0.0
  */
 
 const crypto = require('crypto');
@@ -46,6 +52,18 @@ try {
   AmbiguityDetector = require('./AmbiguityDetector');
 } catch (e) {
   // AmbiguityDetector not available - detection disabled
+}
+
+// Phase 6: Interpretation Lattice (optional)
+let AmbiguityResolver = null;
+let InterpretationLattice = null;
+let AlternativeGraphBuilder = null;
+try {
+  AmbiguityResolver = require('./AmbiguityResolver');
+  InterpretationLattice = require('./InterpretationLattice');
+  AlternativeGraphBuilder = require('./AlternativeGraphBuilder');
+} catch (e) {
+  // Phase 6 modules not available - lattice disabled
 }
 
 // OPTIONAL: AssertionEventBuilder - only load if available (for backwards compatibility)
@@ -109,7 +127,7 @@ class SemanticGraphBuilder {
     // Core infrastructure
     this.contextManager = new ContextManager({ graphBuilder: this });
     this.informationStaircaseBuilder = new InformationStaircaseBuilder({
-      version: '5.0.0'
+      version: '6.0.0'
     });
 
     // Phase 2: Domain configuration loader for type specialization
@@ -120,6 +138,15 @@ class SemanticGraphBuilder {
       this.ambiguityDetector = new AmbiguityDetector();
     } else {
       this.ambiguityDetector = null;
+    }
+
+    // Phase 6: Interpretation Lattice (optional)
+    if (AmbiguityResolver && InterpretationLattice && AlternativeGraphBuilder) {
+      this.ambiguityResolver = new AmbiguityResolver();
+      this.alternativeBuilder = new AlternativeGraphBuilder();
+    } else {
+      this.ambiguityResolver = null;
+      this.alternativeBuilder = null;
     }
   }
 
@@ -431,9 +458,10 @@ class SemanticGraphBuilder {
 
     // ================================================================
     // Phase 5.3: Ambiguity Detection (Optional)
+    // Phase 6: Also trigger if preserveAmbiguity is true
     // ================================================================
     let ambiguityReport = null;
-    if (buildOptions.detectAmbiguity && this.ambiguityDetector) {
+    if ((buildOptions.detectAmbiguity || buildOptions.preserveAmbiguity) && this.ambiguityDetector) {
       // Collect roles from nodes
       const roleNodes = this.nodes.filter(n =>
         n['@type']?.some(t => t.includes('Role'))
@@ -451,6 +479,42 @@ class SemanticGraphBuilder {
         extractedActs,
         roles
       );
+
+      // Phase 5.3.1: Surface ambiguity flags directly in @graph nodes
+      // This makes ambiguity information visible in the graph without needing _ambiguityReport
+      if (ambiguityReport && ambiguityReport.ambiguities) {
+        this._surfaceAmbiguityFlags(ambiguityReport.ambiguities, extractedActs, tier2Entities);
+      }
+    }
+
+    // ================================================================
+    // Phase 6: Interpretation Lattice (Optional)
+    // ================================================================
+    let interpretationLattice = null;
+    if (buildOptions.preserveAmbiguity && ambiguityReport && this.ambiguityResolver) {
+      // 6.1: Resolve which ambiguities to preserve vs resolve
+      const resolutions = this.ambiguityResolver.resolve(ambiguityReport, {
+        preserveThreshold: buildOptions.preserveThreshold || 0.7,
+        maxReadingsPerNode: buildOptions.maxAlternatives || 3,
+        useSelectionalEvidence: buildOptions.useSelectionalEvidence !== false
+      });
+
+      // 6.2: Create lattice structure with default reading
+      interpretationLattice = new InterpretationLattice(
+        { '@graph': this.nodes },
+        resolutions
+      );
+
+      // 6.3: Build alternative readings for preserved ambiguities
+      for (const preserved of resolutions.preserved) {
+        const alternatives = this.alternativeBuilder.build(
+          { '@graph': this.nodes },
+          preserved
+        );
+        for (const alt of alternatives) {
+          interpretationLattice.addAlternative(alt);
+        }
+      }
     }
 
     const result = {
@@ -459,17 +523,23 @@ class SemanticGraphBuilder {
         buildTimestamp: this.buildTimestamp,
         inputLength: text.length,
         nodeCount: this.nodes.length,
-        version: '5.0.0',
+        version: '6.0.0',
         contextIRI,
         ibeIRI: ibeNode['@id'],
         parserAgentIRI: parserAgentNode['@id'],
-        hasValueAssertions: !!(this.assertionEventBuilder && buildOptions.scoredValues)
+        hasValueAssertions: !!(this.assertionEventBuilder && buildOptions.scoredValues),
+        hasInterpretationLattice: !!interpretationLattice
       }
     };
 
     // Add ambiguity report if detection was enabled
     if (ambiguityReport) {
       result._ambiguityReport = ambiguityReport;
+    }
+
+    // Add interpretation lattice if preservation was enabled
+    if (interpretationLattice) {
+      result._interpretationLattice = interpretationLattice;
     }
 
     return result;
@@ -613,6 +683,89 @@ class SemanticGraphBuilder {
       .update(text)
       .digest('hex')
       .substring(0, 12);
+  }
+
+  /**
+   * Surface ambiguity flags directly on @graph nodes
+   *
+   * Phase 5.3.1: Adds tagteam:hasAmbiguity and related flags to nodes
+   * so ambiguity information is visible in the graph without needing _ambiguityReport.
+   *
+   * Stakeholder requirement: Add tagteam:selectionalMismatch: true when
+   * inanimate object is assigned as Agent.
+   *
+   * @param {Array} ambiguities - Array of detected ambiguities from AmbiguityReport
+   * @param {Array} acts - Extracted act nodes
+   * @param {Array} entities - Tier 2 entity nodes
+   * @private
+   */
+  _surfaceAmbiguityFlags(ambiguities, acts, entities) {
+    for (const amb of ambiguities) {
+      // Find the target node by nodeId
+      let targetNode = null;
+      if (amb.nodeId) {
+        targetNode = this.nodeIndex.get(amb.nodeId);
+      }
+
+      // Handle selectional violations - add flag to the act node
+      if (amb.type === 'selectional_violation') {
+        if (targetNode) {
+          targetNode['tagteam:hasAmbiguity'] = true;
+          targetNode['tagteam:selectionalMismatch'] = true;
+          targetNode['tagteam:ambiguityType'] = amb.signal; // e.g., 'inanimate_agent'
+          if (amb.ontologyConstraint) {
+            targetNode['tagteam:ontologyConstraint'] = amb.ontologyConstraint;
+          }
+        }
+      }
+
+      // Handle modal force ambiguity - add flag to act node
+      if (amb.type === 'modal_force') {
+        if (targetNode) {
+          targetNode['tagteam:hasAmbiguity'] = true;
+          targetNode['tagteam:modalAmbiguity'] = {
+            'tagteam:readings': amb.readings,
+            'tagteam:defaultReading': amb.defaultReading,
+            'tagteam:confidence': amb.confidence || 'medium'
+          };
+        }
+      }
+
+      // Handle noun category ambiguity - add flag to entity node
+      if (amb.type === 'noun_category') {
+        if (targetNode) {
+          targetNode['tagteam:hasAmbiguity'] = true;
+          targetNode['tagteam:categoryAmbiguity'] = {
+            'tagteam:readings': amb.readings,
+            'tagteam:defaultReading': amb.defaultReading,
+            'tagteam:confidence': amb.confidence || 'medium',
+            'tagteam:nominalizationSuffix': amb.nominalizationSuffix
+          };
+        }
+      }
+
+      // Handle scope ambiguity - add to relevant act or create marker
+      if (amb.type === 'scope') {
+        if (targetNode) {
+          targetNode['tagteam:hasAmbiguity'] = true;
+          targetNode['tagteam:scopeAmbiguity'] = {
+            'tagteam:readings': amb.readings,
+            'tagteam:defaultReading': amb.defaultReading,
+            'tagteam:formalizations': amb.formalizations
+          };
+        }
+      }
+
+      // Handle potential metonymy - add flag to entity node
+      if (amb.type === 'potential_metonymy') {
+        if (targetNode) {
+          targetNode['tagteam:hasAmbiguity'] = true;
+          targetNode['tagteam:potentialMetonymy'] = true;
+          targetNode['tagteam:metonymySignal'] = amb.signal;
+          targetNode['tagteam:suggestedReading'] = amb.suggestedReading;
+        }
+      }
+    }
   }
 
   /**

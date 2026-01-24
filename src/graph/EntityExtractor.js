@@ -196,6 +196,9 @@ const UNAMBIGUOUS_RESULT_NOUNS = {
  *
  * Default to entity type shown, but process reading possible with "of X" complement
  * or indefinite/bare noun in certain contexts.
+ *
+ * Phase 5.3.1: Added committee, board, council for proper Organization typing
+ * per stakeholder feedback (these are agent-capable social entities).
  */
 const AMBIGUOUS_NOMINALIZATIONS = {
   // Can be organization (entity) or organizing (process)
@@ -205,6 +208,15 @@ const AMBIGUOUS_NOMINALIZATIONS = {
   'association': 'cco:Organization',
   'corporation': 'cco:Organization',
   'institution': 'cco:Organization',
+
+  // Phase 5.3.1: Collective decision-making bodies (always Organizations when agents)
+  // These are social entities that can perform intentional acts
+  'committee': 'cco:Organization',
+  'board': 'cco:Organization',
+  'council': 'cco:Organization',
+  'commission': 'cco:Organization',
+  'panel': 'cco:Organization',
+  'team': 'cco:Organization',
 
   // Can be the building (entity) or the act of building (process)
   'construction': 'cco:Artifact',

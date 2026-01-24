@@ -1,8 +1,12 @@
 /**
- * AmbiguityDetector - Phase 5.3
+ * AmbiguityDetector - Phase 5.3 (Phase 6.0 Updated)
  *
  * Identifies potentially ambiguous spans in parsed output.
  * Does NOT resolve ambiguity - only flags it for Phase 6 lattice.
+ *
+ * Phase 6.0 Update: Now uses SelectionalPreferences for centralized
+ * verb→argument validation, properly handling organizations as valid
+ * agents for mental/communication acts.
  *
  * Ambiguity Types:
  * - noun_category: Nominalizations ambiguous between process/continuant
@@ -19,9 +23,13 @@
  */
 
 const AmbiguityReport = require('./AmbiguityReport.js');
+const SelectionalPreferences = require('./SelectionalPreferences.js');
 
 class AmbiguityDetector {
   constructor(config = {}) {
+    // Phase 6.0: Use centralized SelectionalPreferences for verb/entity validation
+    this.selectionalPreferences = new SelectionalPreferences(config.selectionalConfig);
+
     // Nominalization suffixes for process/continuant ambiguity
     this.nominalizationSuffixes = [
       { suffix: 'tion', label: '-tion' },
@@ -51,50 +59,15 @@ class AmbiguityDetector {
     this.negativeQuantifiers = ['no', 'none', 'neither'];
 
     // Stative verbs (more likely epistemic modal reading)
+    // Note: Also available via selectionalPreferences.getVerbClass() === 'stative'
     this.stativeVerbs = new Set([
       'be', 'have', 'know', 'believe', 'think', 'want', 'need',
       'like', 'love', 'hate', 'prefer', 'understand', 'seem',
       'appear', 'belong', 'contain', 'consist', 'exist', 'own'
     ]);
 
-    // Intentional act verbs (require animate/agent subject)
-    this.intentionalVerbs = new Set([
-      'decide', 'choose', 'hire', 'fire', 'allocate', 'assign',
-      'tell', 'inform', 'ask', 'request', 'promise', 'threaten',
-      'plan', 'intend', 'hope', 'wish', 'believe', 'think',
-      'judge', 'evaluate', 'assess', 'consider', 'examine'
-    ]);
-
-    // Physical act verbs
-    this.physicalVerbs = new Set([
-      'lift', 'push', 'pull', 'carry', 'throw', 'catch',
-      'hit', 'kick', 'run', 'walk', 'jump', 'climb',
-      'cut', 'break', 'build', 'create', 'make', 'destroy'
-    ]);
-
-    // Animate noun indicators
-    this.animateNouns = new Set([
-      'doctor', 'patient', 'nurse', 'surgeon', 'person', 'man', 'woman',
-      'child', 'administrator', 'staff', 'team', 'family', 'friend',
-      'colleague', 'manager', 'director', 'committee', 'board',
-      'organization', 'company', 'government', 'hospital', 'agency'
-    ]);
-
-    // Inanimate/object nouns
-    this.inanimateNouns = new Set([
-      'rock', 'stone', 'table', 'chair', 'desk', 'computer', 'machine',
-      'device', 'tool', 'equipment', 'ventilator', 'resource', 'file',
-      'document', 'report', 'data', 'information', 'result', 'outcome'
-    ]);
-
-    // Abstract nouns
-    this.abstractNouns = new Set([
-      'justice', 'truth', 'beauty', 'freedom', 'democracy', 'equality',
-      'fairness', 'honesty', 'loyalty', 'courage', 'wisdom', 'knowledge',
-      'idea', 'concept', 'theory', 'principle', 'policy', 'law'
-    ]);
-
     // Metonymy patterns (location for institution)
+    // These are also in SelectionalPreferences.entityCategories.organization
     this.metonymyPatterns = new Set([
       'house', 'street', 'hill', 'place', 'office', 'court', 'bench'
     ]);
@@ -235,6 +208,7 @@ class AmbiguityDetector {
 
   /**
    * Check selectional constraints for a single act
+   * Phase 6.0: Now uses SelectionalPreferences for proper validation
    * @private
    */
   _checkActSelectionalConstraints(act, entities, roles) {
@@ -242,28 +216,25 @@ class AmbiguityDetector {
     const patient = this._findPatientFor(act, entities, roles);
     const verb = this._getVerbLemma(act);
 
-    // Check: inanimate cannot be agent of Intentional Act
-    if (agent && this._isInanimate(agent) && this._isIntentionalAct(act)) {
+    if (!agent) return null;
+
+    const agentNoun = this._getNounWord(agent);
+    if (!agentNoun) return null;
+
+    // Phase 6.0: Use SelectionalPreferences for validation
+    const violation = this.selectionalPreferences.getViolation(verb, agentNoun);
+
+    if (violation) {
       return {
         type: 'selectional_violation',
-        signal: 'inanimate_agent',
+        signal: violation.signal,
         subject: this._getEntityLabel(agent),
         verb: verb,
+        verbClass: violation.verbClass,
+        agentCategory: violation.agentCategory,
         nodeId: act['@id'],
         confidence: 'high',
-        ontologyConstraint: 'bfo:Agent requires bfo:MaterialEntity with cco:has_function'
-      };
-    }
-
-    // Check: abstract cannot perform physical acts
-    if (agent && this._isAbstract(agent) && this._isPhysicalAct(act)) {
-      return {
-        type: 'selectional_violation',
-        signal: 'abstract_physical_actor',
-        subject: this._getEntityLabel(agent),
-        verb: verb,
-        nodeId: act['@id'],
-        confidence: 'high'
+        ontologyConstraint: violation.ontologyConstraint
       };
     }
 
@@ -482,13 +453,15 @@ class AmbiguityDetector {
   /**
    * Get the main noun word from an entity
    * For phrases like "organization of files", returns "organization" (before "of")
+   * Handles both test data (entity.label) and SemanticGraphBuilder output (rdfs:label)
    * @private
    */
   _getNounWord(entity) {
     if (entity.head) return entity.head;
 
     // For label/sourceText, handle "X of Y" patterns
-    const text = entity.label || entity.sourceText;
+    // Support both test format (label) and graph format (rdfs:label)
+    const text = entity.label || entity['rdfs:label'] || entity.sourceText;
     if (!text) return null;
 
     // If contains " of ", take the word before "of"
@@ -504,10 +477,11 @@ class AmbiguityDetector {
 
   /**
    * Get entity label for display
+   * Handles both test data (entity.label) and SemanticGraphBuilder output (rdfs:label)
    * @private
    */
   _getEntityLabel(entity) {
-    return entity.label || entity.sourceText || entity.head || 'unknown';
+    return entity.label || entity['rdfs:label'] || entity.sourceText || entity.head || 'unknown';
   }
 
   /**
@@ -634,102 +608,84 @@ class AmbiguityDetector {
 
   /**
    * Check if entity is inanimate
+   * Phase 6.0: Now uses SelectionalPreferences
    * @private
    */
   _isInanimate(entity) {
     const noun = this._getNounWord(entity);
     if (!noun) return false;
 
-    const lower = noun.toLowerCase();
-
-    // Check explicit inanimate list
-    if (this.inanimateNouns.has(lower)) return true;
-
-    // Not in animate list and not abstract = assume inanimate
-    return !this.animateNouns.has(lower) && !this.abstractNouns.has(lower);
+    return this.selectionalPreferences.isInanimate(noun);
   }
 
   /**
-   * Check if entity is animate
+   * Check if entity is animate (person, not organization)
+   * Phase 6.0: Now uses SelectionalPreferences
    * @private
    */
   _isAnimate(entity) {
     const noun = this._getNounWord(entity);
     if (!noun) return false;
 
-    return this.animateNouns.has(noun.toLowerCase());
+    return this.selectionalPreferences.isAnimate(noun);
+  }
+
+  /**
+   * Check if entity is an organization
+   * Phase 6.0: New method using SelectionalPreferences
+   * @private
+   */
+  _isOrganization(entity) {
+    const noun = this._getNounWord(entity);
+    if (!noun) return false;
+
+    return this.selectionalPreferences.isOrganization(noun);
   }
 
   /**
    * Check if entity is abstract
+   * Phase 6.0: Now uses SelectionalPreferences
    * @private
    */
   _isAbstract(entity) {
     const noun = this._getNounWord(entity);
     if (!noun) return false;
 
-    return this.abstractNouns.has(noun.toLowerCase());
+    return this.selectionalPreferences.isAbstract(noun);
   }
 
   /**
-   * Check if act is intentional
+   * Check if act is intentional (mental, communication, transfer, etc.)
+   * Phase 6.0: Now uses SelectionalPreferences verb classes
    * @private
    */
   _isIntentionalAct(act) {
-    const verb = this._getVerbLemma(act).toLowerCase();
-    // Check base form
-    if (this.intentionalVerbs.has(verb)) return true;
-    // Check if it's an inflected form (simple suffix removal)
-    const base = this._getBaseVerb(verb);
-    return this.intentionalVerbs.has(base);
+    const verb = this._getVerbLemma(act);
+    const verbClass = this.selectionalPreferences.getVerbClass(verb);
+
+    // Intentional acts include mental, communication, transfer, employment, governance
+    const intentionalClasses = [
+      'intentional_mental',
+      'communication',
+      'transfer',
+      'employment',
+      'governance',
+      'creation'
+    ];
+
+    return intentionalClasses.includes(verbClass);
   }
 
   /**
    * Check if act is physical
+   * Phase 6.0: Now uses SelectionalPreferences verb classes
    * @private
    */
   _isPhysicalAct(act) {
-    const verb = this._getVerbLemma(act).toLowerCase();
-    // Check base form
-    if (this.physicalVerbs.has(verb)) return true;
-    // Check if it's an inflected form
-    const base = this._getBaseVerb(verb);
-    return this.physicalVerbs.has(base);
-  }
+    const verb = this._getVerbLemma(act);
+    const verbClass = this.selectionalPreferences.getVerbClass(verb);
 
-  /**
-   * Get approximate base form of a verb (simple version without full Lemmatizer)
-   * @private
-   */
-  _getBaseVerb(verb) {
-    const v = verb.toLowerCase();
-    // Handle -ed endings
-    if (v.endsWith('ied')) return v.slice(0, -3) + 'y'; // tried -> try
-    if (v.endsWith('ed')) {
-      // Double consonant: stopped -> stop
-      if (v.length > 4 && v[v.length - 3] === v[v.length - 4]) {
-        return v.slice(0, -3);
-      }
-      // Check for silent-e verbs: hired -> hire
-      const withoutEd = v.slice(0, -2);
-      const withE = withoutEd + 'e';
-      return withE; // Prefer silent-e restoration
-    }
-    // Handle -ing endings
-    if (v.endsWith('ing')) {
-      const withoutIng = v.slice(0, -3);
-      // Check for doubled consonant: running -> run
-      if (withoutIng.length > 2 && withoutIng[withoutIng.length - 1] === withoutIng[withoutIng.length - 2]) {
-        return withoutIng.slice(0, -1);
-      }
-      // Assume silent-e: making -> make
-      return withoutIng + 'e';
-    }
-    // Handle -s endings
-    if (v.endsWith('ies')) return v.slice(0, -3) + 'y';
-    if (v.endsWith('es')) return v.slice(0, -2);
-    if (v.endsWith('s') && v.length > 3) return v.slice(0, -1);
-    return v;
+    return verbClass === 'intentional_physical' || verbClass === 'perception';
   }
 
   /**
