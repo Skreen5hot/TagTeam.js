@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TagTeam.js - Phase 6: Interpretation Lattice Demo</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      min-height: 100vh;
+      color: #e8e8e8;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin: 0;
+      background: linear-gradient(90deg, #00d9ff, #00ff88);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      color: #888;
+      font-size: 1.2em;
+      margin-top: 10px;
+    }
+
+    .version-badge {
+      display: inline-block;
+      background: linear-gradient(90deg, #00d9ff, #00ff88);
+      color: #1a1a2e;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.9em;
+      margin-top: 15px;
+    }
+
+    .demo-section {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 30px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(10px);
+    }
+
+    .demo-section h2 {
+      color: #00d9ff;
+      margin-top: 0;
+      font-size: 1.5em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .demo-section h2 .icon {
+      font-size: 1.3em;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 15px;
+      font-size: 1.1em;
+      border: 2px solid rgba(0,217,255,0.3);
+      border-radius: 10px;
+      background: rgba(0,0,0,0.3);
+      color: #fff;
+      font-family: inherit;
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: #00d9ff;
+      box-shadow: 0 0 20px rgba(0,217,255,0.2);
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 12px 24px;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, #00d9ff, #00ff88);
+      color: #1a1a2e;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(0,217,255,0.4);
+    }
+
+    .btn-example {
+      background: rgba(255,255,255,0.1);
+      color: #00d9ff;
+      border: 1px solid rgba(0,217,255,0.3);
+    }
+
+    .btn-example:hover {
+      background: rgba(0,217,255,0.2);
+    }
+
+    .results {
+      margin-top: 25px;
+      display: none;
+    }
+
+    .results.show {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .lattice-card {
+      background: rgba(0,0,0,0.3);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-left: 4px solid #00d9ff;
+    }
+
+    .lattice-card h3 {
+      margin: 0 0 15px 0;
+      color: #00ff88;
+      font-size: 1.1em;
+    }
+
+    .default-reading {
+      background: linear-gradient(90deg, rgba(0,255,136,0.1), rgba(0,255,136,0.05));
+      border: 1px solid rgba(0,255,136,0.3);
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+
+    .default-reading .label {
+      color: #00ff88;
+      font-weight: bold;
+      font-size: 0.85em;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .alternative-reading {
+      background: rgba(255,165,0,0.1);
+      border: 1px solid rgba(255,165,0,0.3);
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 10px;
+    }
+
+    .alternative-reading .label {
+      color: #ffa500;
+      font-weight: bold;
+      font-size: 0.85em;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .plausibility-bar {
+      height: 8px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 4px;
+      margin-top: 10px;
+      overflow: hidden;
+    }
+
+    .plausibility-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+
+    .plausibility-fill.default {
+      background: linear-gradient(90deg, #00ff88, #00d9ff);
+    }
+
+    .plausibility-fill.alternative {
+      background: linear-gradient(90deg, #ffa500, #ff6b6b);
+    }
+
+    .ambiguity-type {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      font-weight: bold;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+
+    .ambiguity-type.modal { background: #9b59b6; }
+    .ambiguity-type.scope { background: #3498db; }
+    .ambiguity-type.noun { background: #e67e22; }
+    .ambiguity-type.metonymy { background: #1abc9c; }
+
+    .resolution-audit {
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 15px;
+      font-family: monospace;
+      font-size: 0.9em;
+    }
+
+    .resolution-audit .reason {
+      color: #00d9ff;
+    }
+
+    .resolution-audit .confidence {
+      color: #00ff88;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .feature-card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .feature-card h4 {
+      color: #00d9ff;
+      margin: 0 0 10px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .feature-card p {
+      color: #aaa;
+      margin: 0;
+      font-size: 0.95em;
+      line-height: 1.5;
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat .number {
+      font-size: 2.5em;
+      font-weight: bold;
+      background: linear-gradient(90deg, #00d9ff, #00ff88);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat .label {
+      color: #888;
+      font-size: 0.9em;
+    }
+
+    .code-block {
+      background: #0d1117;
+      border-radius: 8px;
+      padding: 15px;
+      font-family: 'Consolas', monospace;
+      font-size: 0.9em;
+      overflow-x: auto;
+      border: 1px solid #30363d;
+    }
+
+    .code-block .keyword { color: #ff7b72; }
+    .code-block .string { color: #a5d6ff; }
+    .code-block .property { color: #79c0ff; }
+    .code-block .comment { color: #8b949e; }
+
+    .warning-box {
+      background: rgba(255,165,0,0.1);
+      border: 1px solid rgba(255,165,0,0.3);
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .warning-box .icon {
+      font-size: 1.5em;
+    }
+
+    .preserved-badge {
+      display: inline-block;
+      background: linear-gradient(90deg, #00d9ff, #00ff88);
+      color: #1a1a2e;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.8em;
+      font-weight: bold;
+    }
+
+    .flagged-badge {
+      display: inline-block;
+      background: #ff6b6b;
+      color: white;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.8em;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #666;
+      font-size: 0.9em;
+    }
+
+    footer a {
+      color: #00d9ff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>Interpretation Lattice</h1>
+    <p class="subtitle">Preserving Ambiguity Instead of Hiding It</p>
+    <span class="version-badge">Phase 6 - TagTeam.js v6.0.0</span>
+  </header>
+
+  <div class="stats-row">
+    <div class="stat">
+      <div class="number">185</div>
+      <div class="label">New Tests</div>
+    </div>
+    <div class="stat">
+      <div class="number">4</div>
+      <div class="label">New Modules</div>
+    </div>
+    <div class="stat">
+      <div class="number">100%</div>
+      <div class="label">Backwards Compatible</div>
+    </div>
+  </div>
+
+  <!-- Feature Overview -->
+  <div class="demo-section">
+    <h2><span class="icon">&#x1F3AF;</span> What's New in Phase 6</h2>
+    <p style="color: #aaa; margin-bottom: 20px;">
+      Phase 6 transforms ambiguity <strong>detection</strong> into ambiguity <strong>preservation</strong>.
+      Instead of forcing a single interpretation, we now preserve multiple readings with plausibility scores.
+    </p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h4>&#x1F4CA; Interpretation Lattice</h4>
+        <p>Data structure holding default reading plus alternative interpretations with full audit trail.</p>
+      </div>
+      <div class="feature-card">
+        <h4>&#x2696;&#xFE0F; Hierarchy of Evidence</h4>
+        <p>Selectional matching, adverbial intensifiers, and structural signals weighted by priority.</p>
+      </div>
+      <div class="feature-card">
+        <h4>&#x1F3B2; Plausibility Scores</h4>
+        <p>Default reading gets 70%, alternatives split remaining 30%. Intensifiers can shift weights.</p>
+      </div>
+      <div class="feature-card">
+        <h4>&#x1F3DB;&#xFE0F; Metonymic Bridge</h4>
+        <p>"The White House announced" - location re-typed as organization while preserving source.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Demo -->
+  <div class="demo-section">
+    <h2><span class="icon">&#x1F9EA;</span> Try It Yourself</h2>
+
+    <textarea id="input" placeholder="Enter a sentence with potential ambiguity...">The hospital should allocate the ventilator to the younger patient.</textarea>
+
+    <div class="btn-row">
+      <button class="btn-primary" onclick="analyze()">Analyze with Lattice</button>
+      <button class="btn-example" onclick="loadExample('modal')">Modal Ambiguity</button>
+      <button class="btn-example" onclick="loadExample('scope')">Scope Ambiguity</button>
+      <button class="btn-example" onclick="loadExample('metonymy')">Metonymy</button>
+      <button class="btn-example" onclick="loadExample('violation')">Selectional Violation</button>
+    </div>
+
+    <div id="results" class="results"></div>
+  </div>
+
+  <!-- How It Works -->
+  <div class="demo-section">
+    <h2><span class="icon">&#x1F527;</span> How It Works</h2>
+
+    <div class="code-block">
+      <span class="comment">// Enable the Interpretation Lattice</span><br>
+      <span class="keyword">const</span> result = TagTeam.buildGraph(text, {<br>
+      &nbsp;&nbsp;<span class="property">preserveAmbiguity</span>: <span class="keyword">true</span>,<br>
+      &nbsp;&nbsp;<span class="property">preserveThreshold</span>: <span class="string">0.7</span>,<br>
+      &nbsp;&nbsp;<span class="property">maxAlternatives</span>: <span class="string">3</span><br>
+      });<br><br>
+      <span class="comment">// Access the lattice</span><br>
+      <span class="keyword">const</span> lattice = result._interpretationLattice;<br>
+      lattice.getDefaultReading();  <span class="comment">// The primary interpretation</span><br>
+      lattice.getAlternatives();    <span class="comment">// Array of alternative readings</span><br>
+      lattice.hasSignificantAmbiguity(); <span class="comment">// true if preserved ambiguities exist</span><br>
+      lattice.getResolutionReasoning(); <span class="comment">// Full audit trail</span>
+    </div>
+  </div>
+
+  <!-- Resolution Strategy -->
+  <div class="demo-section">
+    <h2><span class="icon">&#x1F4CB;</span> Resolution Strategy</h2>
+    <p style="color: #aaa; margin-bottom: 20px;">
+      Not all ambiguities need multiple readings. Here's how we decide:
+    </p>
+
+    <table style="width: 100%; border-collapse: collapse; color: #e8e8e8;">
+      <thead>
+        <tr style="border-bottom: 2px solid rgba(0,217,255,0.3);">
+          <th style="text-align: left; padding: 12px; color: #00d9ff;">Ambiguity Type</th>
+          <th style="text-align: left; padding: 12px; color: #00d9ff;">Action</th>
+          <th style="text-align: left; padding: 12px; color: #00d9ff;">Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+          <td style="padding: 12px;"><span class="ambiguity-type modal">modal_force</span></td>
+          <td style="padding: 12px;"><span class="preserved-badge">PRESERVE</span> if confidence &lt; 0.7</td>
+          <td style="padding: 12px; color: #888;">Deontic vs epistemic has real semantic difference</td>
+        </tr>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+          <td style="padding: 12px;"><span class="ambiguity-type scope">scope</span></td>
+          <td style="padding: 12px;"><span class="preserved-badge">ALWAYS PRESERVE</span></td>
+          <td style="padding: 12px; color: #888;">"Not all" vs "All not" changes meaning entirely</td>
+        </tr>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+          <td style="padding: 12px;"><span class="ambiguity-type noun">noun_category</span></td>
+          <td style="padding: 12px;">Resolve if selectional match</td>
+          <td style="padding: 12px; color: #888;">Verb requirements disambiguate process vs entity</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px;"><span class="ambiguity-type metonymy">metonymy</span></td>
+          <td style="padding: 12px;"><span class="flagged-badge">FLAG + SUGGEST</span></td>
+          <td style="padding: 12px; color: #888;">Offer re-typed alternative node</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    TagTeam.js Phase 6 - <a href="https://github.com/Skreen5hot/TagTeam.js">GitHub Repository</a>
+  </footer>
+</div>
+
+<script src="tagteam.js"></script>
+<script>
+  const EXAMPLES = {
+    modal: {
+      text: "The doctor should prioritize the younger patient.",
+      description: "Modal 'should' is ambiguous between obligation (ought to) and expectation (will likely)."
+    },
+    scope: {
+      text: "Not all patients must receive treatment.",
+      description: "Quantifier-negation scope: 'Not all must' vs 'All must not' have different meanings."
+    },
+    metonymy: {
+      text: "The White House announced new healthcare policies.",
+      description: "Metonymy: 'The White House' refers to the administration (organization), not the building."
+    },
+    violation: {
+      text: "The rock decided to roll down the hill.",
+      description: "Selectional violation: 'rock' cannot be agent of 'decide' (requires animate/organization)."
+    }
+  };
+
+  function loadExample(type) {
+    const example = EXAMPLES[type];
+    document.getElementById('input').value = example.text;
+    analyze();
+  }
+
+  function analyze() {
+    const input = document.getElementById('input').value.trim();
+    const resultsDiv = document.getElementById('results');
+
+    if (!input) {
+      alert('Please enter a sentence to analyze.');
+      return;
+    }
+
+    try {
+      // Build graph with lattice preservation
+      const result = TagTeam.buildGraph(input, {
+        preserveAmbiguity: true,
+        detectAmbiguity: true
+      });
+
+      const lattice = result._interpretationLattice;
+      const report = result._ambiguityReport;
+
+      let html = '';
+
+      // Show if lattice is active
+      if (lattice) {
+        html += '<div class="lattice-card">';
+        html += '<h3>&#x2705; Interpretation Lattice Active</h3>';
+
+        // Metadata
+        const meta = lattice.metadata || {};
+        html += '<div style="display: flex; gap: 20px; margin-bottom: 15px; flex-wrap: wrap;">';
+        html += '<div><strong style="color: #00d9ff;">' + (meta.ambiguityCount || 0) + '</strong> <span style="color: #888;">ambiguities detected</span></div>';
+        html += '<div><strong style="color: #00ff88;">' + (meta.preservedCount || 0) + '</strong> <span style="color: #888;">preserved for review</span></div>';
+        html += '</div>';
+
+        // Default Reading
+        html += '<div class="default-reading">';
+        html += '<div class="label">Default Reading (70% plausibility)</div>';
+        html += '<p style="margin: 10px 0 0 0;">The system\'s primary interpretation based on available evidence.</p>';
+        html += '<div class="plausibility-bar"><div class="plausibility-fill default" style="width: 70%;"></div></div>';
+        html += '</div>';
+
+        // Preserved Ambiguities
+        const preserved = lattice.getAmbiguitiesPreserved ? lattice.getAmbiguitiesPreserved() : [];
+        if (preserved.length > 0) {
+          html += '<h3 style="color: #ffa500; margin-top: 20px;">&#x26A0;&#xFE0F; Preserved Ambiguities</h3>';
+
+          preserved.forEach(amb => {
+            html += '<div class="alternative-reading">';
+            html += '<span class="ambiguity-type ' + getTypeClass(amb.type) + '">' + amb.type + '</span>';
+
+            if (amb.readings && amb.readings.length > 0) {
+              html += '<div style="margin-top: 10px;">';
+              html += '<strong>Possible readings:</strong> ';
+              html += amb.readings.map(r => {
+                const isDefault = r === amb.defaultReading;
+                return '<span style="' + (isDefault ? 'color: #00ff88; font-weight: bold;' : 'color: #ffa500;') + '">'
+                  + r + (isDefault ? ' (default)' : '') + '</span>';
+              }).join(' | ');
+              html += '</div>';
+            }
+
+            if (amb.span) {
+              html += '<div style="margin-top: 8px; color: #888;">Span: "' + amb.span + '"</div>';
+            }
+
+            html += '</div>';
+          });
+        }
+
+        // Alternatives
+        const alternatives = lattice.getAlternatives ? lattice.getAlternatives() : [];
+        if (alternatives.length > 0) {
+          html += '<h3 style="color: #00d9ff; margin-top: 20px;">&#x1F500; Generated Alternatives</h3>';
+
+          alternatives.forEach(alt => {
+            const plausibility = alt.plausibility ? (alt.plausibility * 100).toFixed(0) : 30;
+            html += '<div class="alternative-reading">';
+            html += '<div class="label">Alternative: ' + (alt.reading || 'unknown') + '</div>';
+            html += '<p style="margin: 10px 0 0 0;">Plausibility: ' + plausibility + '%</p>';
+            html += '<div class="plausibility-bar"><div class="plausibility-fill alternative" style="width: ' + plausibility + '%;"></div></div>';
+
+            if (alt.derivedFrom) {
+              html += '<div style="margin-top: 8px; color: #888; font-size: 0.9em;">Derived from: ' + alt.derivedFrom + '</div>';
+            }
+            if (alt.actualityStatus) {
+              html += '<div style="margin-top: 4px; color: #888; font-size: 0.9em;">Actuality: ' + alt.actualityStatus + '</div>';
+            }
+            html += '</div>';
+          });
+        }
+
+        // Resolution Reasoning (Audit Trail)
+        const reasoning = lattice.getResolutionReasoning ? lattice.getResolutionReasoning() : null;
+        if (reasoning) {
+          html += '<h3 style="color: #888; margin-top: 20px;">&#x1F4DD; Resolution Audit Trail</h3>';
+          html += '<div class="resolution-audit">';
+
+          if (reasoning.preserved && reasoning.preserved.length > 0) {
+            html += '<div style="margin-bottom: 10px;"><strong>Preserved:</strong></div>';
+            reasoning.preserved.forEach(p => {
+              html += '<div style="margin-left: 15px; margin-bottom: 5px;">';
+              html += '&#x2022; ' + p.type + ' at ' + (p.nodeId || 'unknown') + ' - ';
+              html += '<span class="reason">' + p.reason + '</span>';
+              if (p.confidence) html += ' (<span class="confidence">' + (p.confidence * 100).toFixed(0) + '% confidence</span>)';
+              html += '</div>';
+            });
+          }
+
+          if (reasoning.resolved && reasoning.resolved.length > 0) {
+            html += '<div style="margin-bottom: 10px; margin-top: 10px;"><strong>Resolved:</strong></div>';
+            reasoning.resolved.forEach(r => {
+              html += '<div style="margin-left: 15px; margin-bottom: 5px;">';
+              html += '&#x2022; ' + r.type + ' - <span class="reason">' + r.reason + '</span>';
+              if (r.defaultReading) html += ' (default: ' + r.defaultReading + ')';
+              html += '</div>';
+            });
+          }
+
+          if (reasoning.flagged && reasoning.flagged.length > 0) {
+            html += '<div style="margin-bottom: 10px; margin-top: 10px;"><strong>Flagged (violations):</strong></div>';
+            reasoning.flagged.forEach(f => {
+              html += '<div style="margin-left: 15px; margin-bottom: 5px; color: #ff6b6b;">';
+              html += '&#x2022; ' + f.type + ' - <span class="reason">' + f.reason + '</span>';
+              html += '</div>';
+            });
+          }
+
+          html += '</div>';
+        }
+
+        html += '</div>';
+
+      } else {
+        html += '<div class="warning-box">';
+        html += '<span class="icon">&#x26A0;&#xFE0F;</span>';
+        html += '<div>Interpretation Lattice not available. The sentence may not contain detectable ambiguity, or the lattice modules may not be loaded in the bundle.</div>';
+        html += '</div>';
+      }
+
+      // Show raw ambiguity report if available
+      if (report && report.ambiguities && report.ambiguities.length > 0) {
+        html += '<div class="lattice-card" style="border-left-color: #888;">';
+        html += '<h3>&#x1F50D; Raw Ambiguity Report (Phase 5)</h3>';
+        html += '<div style="font-family: monospace; font-size: 0.85em; color: #aaa; max-height: 200px; overflow-y: auto;">';
+        html += JSON.stringify(report.ambiguities, null, 2).replace(/\n/g, '<br>').replace(/ /g, '&nbsp;');
+        html += '</div>';
+        html += '</div>';
+      }
+
+      resultsDiv.innerHTML = html;
+      resultsDiv.classList.add('show');
+
+    } catch (e) {
+      resultsDiv.innerHTML = '<div class="warning-box"><span class="icon">&#x274C;</span><div>Error: ' + e.message + '<br><br>Make sure the TagTeam bundle is loaded correctly.</div></div>';
+      resultsDiv.classList.add('show');
+      console.error(e);
+    }
+  }
+
+  function getTypeClass(type) {
+    if (type.includes('modal')) return 'modal';
+    if (type.includes('scope')) return 'scope';
+    if (type.includes('noun')) return 'noun';
+    if (type.includes('metonymy')) return 'metonymy';
+    return '';
+  }
+
+  // Auto-analyze on page load
+  window.addEventListener('load', () => {
+    setTimeout(analyze, 500);
+  });
+</script>
+
+</body>
+</html>

@@ -382,11 +382,11 @@
     <header>
         <div class="container">
             <h1>TagTeam.js</h1>
-            <span class="version">v5.0.0-phase5</span>
-            <p>Two-Tier Semantic Graph Architecture with NLP Foundation &amp; Ambiguity Detection</p>
+            <span class="version">v6.0.0</span>
+            <p>Two-Tier Semantic Graph Architecture with Interpretation Lattice</p>
             <div class="hero-stats">
                 <div class="stat">
-                    <span class="stat-number">275+</span>
+                    <span class="stat-number">475+</span>
                     <span class="stat-label">Tests Passing</span>
                 </div>
                 <div class="stat">
@@ -566,11 +566,11 @@
                     <a href="https://github.com/Skreen5hot/TagTeam.js" class="link-card" target="_blank">
                         📖 GitHub Repository
                     </a>
-                    <a href="demo.html" class="link-card">
-                        🎮 Interactive Demo
+                    <a href="phase6-lattice-demo.html" class="link-card" style="background: linear-gradient(90deg, #00d9ff, #00ff88); color: #1a1a2e; border: none;">
+                        🧠 Phase 6: Interpretation Lattice
                     </a>
-                    <a href="separated-demo.html" class="link-card">
-                        📦 Modular Bundles Demo
+                    <a href="stakeholder-demo.html" class="link-card">
+                        🎯 Stakeholder Demo
                     </a>
                     <a href="../tests/browser/test-week2a-context.html" class="link-card">
                         ✅ Validation Tests
@@ -580,39 +580,49 @@
 
             <section class="demo-section">
                 <h2>🏗️ Current Development</h2>
-                <p><strong>Phase 5 NLP Foundation Upgrade:</strong> <span class="badge" style="background: #10b981;">COMPLETE</span></p>
+                <p><strong>Phase 6 Interpretation Lattice:</strong> <span class="badge" style="background: #10b981;">COMPLETE</span></p>
                 <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
-                    <li>✅ Phase 5.0: NLP Library Evaluation - Custom solution chosen</li>
-                    <li>✅ Phase 5.1: ContractionExpander (46+ contractions) &amp; Lemmatizer (100+ irregulars)</li>
-                    <li>✅ Phase 5.2: VerbPhraseExtractor &amp; NounPhraseExtractor</li>
-                    <li>✅ Phase 5.3: AmbiguityDetector &amp; AmbiguityReport with JSON-LD serialization</li>
-                    <li>✅ <strong>275+ unit tests passing</strong> (100% pass rate)</li>
+                    <li>✅ Phase 6.0: SelectionalPreferences - 8 verb classes, 6 entity categories</li>
+                    <li>✅ Phase 6.1: AmbiguityResolver - Hierarchy of evidence for resolution</li>
+                    <li>✅ Phase 6.2: InterpretationLattice - Default + alternative readings</li>
+                    <li>✅ Phase 6.3: AlternativeGraphBuilder - Modal strength, metonymic bridge</li>
+                    <li>✅ Phase 6.4: SemanticGraphBuilder integration with <code>preserveAmbiguity</code> option</li>
+                    <li>✅ <strong>475+ unit tests passing</strong> (100% pass rate)</li>
                 </ul>
 
-                <div style="margin-top: 20px; padding: 15px; background: #ecfdf5; border-radius: 8px; border-left: 4px solid #10b981;">
-                    <h4 style="color: #059669; margin-bottom: 10px;">Phase 5 Ambiguity Detection Highlights</h4>
+                <div style="margin-top: 20px; padding: 15px; background: #e0f2fe; border-radius: 8px; border-left: 4px solid #0ea5e9;">
+                    <h4 style="color: #0284c7; margin-bottom: 10px;">Phase 6 Interpretation Lattice Highlights</h4>
                     <ul style="margin-left: 20px; line-height: 1.6;">
-                        <li><strong>Noun Category:</strong> Process vs continuant for nominalizations (-tion, -ment, -ing)</li>
-                        <li><strong>Modal Force:</strong> Deontic vs epistemic disambiguation (should, must, may)</li>
-                        <li><strong>Scope Ambiguity:</strong> Quantifier + negation scope (all...not, not all)</li>
-                        <li><strong>Selectional Violations:</strong> Inanimate agents, abstract physical actors</li>
-                        <li><strong>Metonymy Detection:</strong> Location-as-institution patterns</li>
-                        <li><strong>Confidence Scoring:</strong> High/medium/low based on signals</li>
+                        <li><strong>Hierarchy of Evidence:</strong> Selectional match (0.99) → Intensifiers → Structural signals</li>
+                        <li><strong>Plausibility Scores:</strong> Default 70%, alternatives split 30%</li>
+                        <li><strong>Modal Strength Scale:</strong> Adverbial intensifiers modulate readings</li>
+                        <li><strong>Metonymic Bridge:</strong> Location re-typed as cco:Organization</li>
+                        <li><strong>Audit Trail:</strong> Full resolution reasoning via getResolutionReasoning()</li>
+                        <li><strong>Backwards Compatible:</strong> toSimplifiedGraph() returns default only</li>
+                    </ul>
+                </div>
+
+                <div style="margin-top: 20px; padding: 15px; background: #ecfdf5; border-radius: 8px; border-left: 4px solid #10b981;">
+                    <h4 style="color: #059669; margin-bottom: 10px;">Phase 5 Ambiguity Detection</h4>
+                    <ul style="margin-left: 20px; line-height: 1.6;">
+                        <li><strong>Noun Category:</strong> Process vs continuant for nominalizations</li>
+                        <li><strong>Modal Force:</strong> Deontic vs epistemic disambiguation</li>
+                        <li><strong>Scope Ambiguity:</strong> Quantifier + negation scope</li>
+                        <li><strong>Selectional Violations:</strong> Inanimate agents flagged</li>
                     </ul>
                 </div>
 
                 <div style="margin-top: 20px; padding: 15px; background: #f5f3ff; border-radius: 8px; border-left: 4px solid #8b5cf6;">
                     <h4 style="color: #7c3aed; margin-bottom: 10px;">Phase 4 Two-Tier Architecture</h4>
                     <ul style="margin-left: 20px; line-height: 1.6;">
-                        <li><strong>Tier 1 (ICE Layer):</strong> DiscourseReferent with sourceText, startPosition, endPosition</li>
-                        <li><strong>Tier 2 (IC Layer):</strong> cco:Person, cco:Artifact, cco:Organization with provenance</li>
-                        <li><strong>Cross-tier:</strong> <code>cco:is_about</code> links referents to real-world entities</li>
-                        <li><strong>Acts:</strong> Link to Tier 2 via <code>cco:has_agent</code>/<code>cco:affects</code></li>
-                        <li><strong>ActualityStatus:</strong> Prescribed, Actual, Permitted, Prohibited, Planned, Negated</li>
+                        <li><strong>Tier 1 (ICE Layer):</strong> DiscourseReferent with sourceText, positions</li>
+                        <li><strong>Tier 2 (IC Layer):</strong> cco:Person, cco:Artifact, cco:Organization</li>
+                        <li><strong>Cross-tier:</strong> <code>cco:is_about</code> links referents to entities</li>
+                        <li><strong>ActualityStatus:</strong> Prescribed, Actual, Permitted, Negated</li>
                     </ul>
                 </div>
 
-                <p style="margin-top: 20px;"><strong>Coming Next:</strong> Phase 6 - InterpretationLattice for ambiguity resolution</p>
+                <p style="margin-top: 20px;"><strong>Coming Next:</strong> Phase 7 - Golden Corpus &amp; Documentation</p>
             </section>
         </div>
     </div>
