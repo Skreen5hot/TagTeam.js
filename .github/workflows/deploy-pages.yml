@@ -47,6 +47,11 @@ jobs:
           # Copy landing page as index
           cp demos/tagteam-landing.html gh-pages/index.html
 
+          # Copy Phase 6 demos
+          cp demos/phase6-lattice-demo.html gh-pages/phase6-lattice-demo.html
+          cp demos/stakeholder-demo.html gh-pages/stakeholder-demo.html
+          cp demos/semantic-demo.html gh-pages/semantic-demo.html
+
           # Copy validation tests
           cp tests/browser/test-week2a-context.html gh-pages/validation.html
 
