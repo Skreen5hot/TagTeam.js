@@ -498,6 +498,13 @@
 
 <script src="tagteam.js"></script>
 <script>
+  // Debug: Check if Phase 6 modules are available
+  console.log('TagTeam version:', TagTeam.version);
+  console.log('Has AmbiguityDetector:', typeof TagTeam.AmbiguityDetector !== 'undefined');
+  console.log('Has AmbiguityResolver:', typeof TagTeam.AmbiguityResolver !== 'undefined');
+  console.log('Has InterpretationLattice:', typeof TagTeam.InterpretationLattice !== 'undefined');
+  console.log('Has AlternativeGraphBuilder:', typeof TagTeam.AlternativeGraphBuilder !== 'undefined');
+
   const EXAMPLES = {
     modal: {
       text: "The doctor should prioritize the younger patient.",
@@ -543,6 +550,20 @@
       const report = result._ambiguityReport;
 
       let html = '';
+
+      // Debug info
+      html += '<div style="background: #1a1a2e; border: 1px solid #333; border-radius: 8px; padding: 15px; margin-bottom: 20px; font-family: monospace; font-size: 0.85em;">';
+      html += '<div style="color: #00d9ff; margin-bottom: 10px;"><strong>Debug Info:</strong></div>';
+      html += '<div>TagTeam version: ' + TagTeam.version + '</div>';
+      html += '<div>AmbiguityDetector available: ' + (typeof TagTeam.AmbiguityDetector !== 'undefined') + '</div>';
+      html += '<div>AmbiguityResolver available: ' + (typeof TagTeam.AmbiguityResolver !== 'undefined') + '</div>';
+      html += '<div>InterpretationLattice available: ' + (typeof TagTeam.InterpretationLattice !== 'undefined') + '</div>';
+      html += '<div>Result has _interpretationLattice: ' + (lattice ? 'YES' : 'NO') + '</div>';
+      html += '<div>Result has _ambiguityReport: ' + (report ? 'YES' : 'NO') + '</div>';
+      if (report && report.ambiguities) {
+        html += '<div>Ambiguities detected: ' + report.ambiguities.length + '</div>';
+      }
+      html += '</div>';
 
       // Show if lattice is active
       if (lattice) {
