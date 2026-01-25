@@ -199,21 +199,14 @@
     }
   </style>
 
-  <!-- Load dependencies -->
-  <script src="../src/lexicon.js"></script>
+  <!-- Load TagTeam.js bundle -->
   <script>
-    window.LEXICON_TAG_MAP = {
-      "NN": ["NN"], "NNS": ["NNS"], "NNP": ["NNP"],
-      "JJ": ["JJ"], "JJR": ["JJR"], "JJS": ["JJS"],
-      "VB": ["VB"], "VBD": ["VBD"], "VBG": ["VBG"], "VBN": ["VBN"], "VBP": ["VBP"], "VBZ": ["VBZ"],
-      "RB": ["RB"], "RBR": ["RBR"], "RBS": ["RBS"],
-      "PRP": ["PRP"], "PRP$": ["PRP$"], "DT": ["DT"], "IN": ["IN"], "CC": ["CC"], "UH": ["UH"],
-      "CD": ["CD"], "EX": ["EX"], "FW": ["FW"], "LS": ["LS"], "MD": ["MD"], "POS": ["POS"],
-      "SYM": ["SYM"], "TO": ["TO"], "WDT": ["WDT"], "WP": ["WP"], "WP$": ["WP$"], "WRB": ["WRB"]
-    };
+    // Dynamic script loading for both local dev and GitHub Pages
+    const scriptPath = window.location.hostname === 'localhost' || window.location.hostname === ''
+      ? '../dist/tagteam.js'
+      : 'tagteam.js';
+    document.write('<script src="' + scriptPath + '"><\/script>');
   </script>
-  <script src="../src/POSTagger.js"></script>
-  <script src="../src/SemanticRoleExtractor.js"></script>
 </head>
 <body>
   <h1>🎯 TagTeam.js - Semantic Role Extraction (Week 1 Demo)</h1>
@@ -242,7 +235,8 @@
   </div>
 
   <script>
-    const extractor = new SemanticRoleExtractor();
+    // Use TagTeam.SemanticRoleExtractor from the bundle
+    const extractor = new TagTeam.SemanticRoleExtractor();
 
     // Test scenarios from IEE requirements
     const TEST_SCENARIOS = {

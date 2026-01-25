@@ -61,6 +61,16 @@ const domainConfigLoaderPath = path.join(__dirname, '..', 'src', 'graph', 'Domai
 const shmlValidatorPath = path.join(__dirname, '..', 'src', 'graph', 'SHMLValidator.js');
 const complexityBudgetPath = path.join(__dirname, '..', 'src', 'graph', 'ComplexityBudget.js');
 
+// Phase 5: Ambiguity detection
+const ambiguityReportPath = path.join(__dirname, '..', 'src', 'graph', 'AmbiguityReport.js');
+const ambiguityDetectorPath = path.join(__dirname, '..', 'src', 'graph', 'AmbiguityDetector.js');
+
+// Phase 6: Interpretation Lattice modules
+const selectionalPreferencesPath = path.join(__dirname, '..', 'src', 'graph', 'SelectionalPreferences.js');
+const ambiguityResolverPath = path.join(__dirname, '..', 'src', 'graph', 'AmbiguityResolver.js');
+const interpretationLatticePath = path.join(__dirname, '..', 'src', 'graph', 'InterpretationLattice.js');
+const alternativeGraphBuilderPath = path.join(__dirname, '..', 'src', 'graph', 'AlternativeGraphBuilder.js');
+
 let lexicon = fs.readFileSync(lexiconPath, 'utf8');
 let posTagger = fs.readFileSync(posTaggerPath, 'utf8');
 let patternMatcher = fs.readFileSync(patternMatcherPath, 'utf8');
@@ -112,6 +122,16 @@ let domainConfigLoader = fs.readFileSync(domainConfigLoaderPath, 'utf8');
 let shmlValidator = fs.readFileSync(shmlValidatorPath, 'utf8');
 let complexityBudget = fs.readFileSync(complexityBudgetPath, 'utf8');
 
+// Phase 5: Ambiguity detection
+let ambiguityReport = fs.readFileSync(ambiguityReportPath, 'utf8');
+let ambiguityDetector = fs.readFileSync(ambiguityDetectorPath, 'utf8');
+
+// Phase 6: Interpretation Lattice
+let selectionalPreferences = fs.readFileSync(selectionalPreferencesPath, 'utf8');
+let ambiguityResolver = fs.readFileSync(ambiguityResolverPath, 'utf8');
+let interpretationLattice = fs.readFileSync(interpretationLatticePath, 'utf8');
+let alternativeGraphBuilder = fs.readFileSync(alternativeGraphBuilderPath, 'utf8');
+
 console.log(`  ✓ RealWorldEntityFactory.js (${(realWorldEntityFactory.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ EntityExtractor.js (${(entityExtractor.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ ActExtractor.js (${(actExtractor.length / 1024).toFixed(2)} KB)`);
@@ -128,6 +148,12 @@ console.log(`  ✓ InformationStaircaseBuilder.js (${(informationStaircaseBuilde
 console.log(`  ✓ DomainConfigLoader.js (${(domainConfigLoader.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ SHMLValidator.js (${(shmlValidator.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ ComplexityBudget.js (${(complexityBudget.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ AmbiguityReport.js (${(ambiguityReport.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ AmbiguityDetector.js (${(ambiguityDetector.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ SelectionalPreferences.js (${(selectionalPreferences.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ AmbiguityResolver.js (${(ambiguityResolver.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ InterpretationLattice.js (${(interpretationLattice.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ AlternativeGraphBuilder.js (${(alternativeGraphBuilder.length / 1024).toFixed(2)} KB)`);
 
 // Read data files for Week 2b
 console.log('\n📖 Reading Week 2b data files...');
@@ -294,43 +320,57 @@ console.log('  ✓ Converted ComplexityBudget to browser format');
 domainConfigLoader = stripCommonJS(domainConfigLoader, 'DomainConfigLoader');
 console.log('  ✓ Converted DomainConfigLoader to browser format');
 
+// Phase 5: Ambiguity detection
+ambiguityReport = stripCommonJS(ambiguityReport, 'AmbiguityReport');
+console.log('  ✓ Converted AmbiguityReport to browser format');
+
+ambiguityDetector = stripCommonJS(ambiguityDetector, 'AmbiguityDetector');
+console.log('  ✓ Converted AmbiguityDetector to browser format');
+
+// Phase 6: Interpretation Lattice
+selectionalPreferences = stripCommonJS(selectionalPreferences, 'SelectionalPreferences');
+console.log('  ✓ Converted SelectionalPreferences to browser format');
+
+ambiguityResolver = stripCommonJS(ambiguityResolver, 'AmbiguityResolver');
+console.log('  ✓ Converted AmbiguityResolver to browser format');
+
+interpretationLattice = stripCommonJS(interpretationLattice, 'InterpretationLattice');
+console.log('  ✓ Converted InterpretationLattice to browser format');
+
+alternativeGraphBuilder = stripCommonJS(alternativeGraphBuilder, 'AlternativeGraphBuilder');
+console.log('  ✓ Converted AlternativeGraphBuilder to browser format');
+
 // Build the bundle
 console.log('\n🔧 Building bundle...');
 
 const bundle = `/*!
  * TagTeam.js - Two-Tier Semantic Graph Architecture for Ethical Context Analysis
- * Version: 4.0.0-phase4-week3 (Two-Tier Architecture v2.4 + SHACL Validation)
+ * Version: 6.0.0 (Phase 6: Interpretation Lattice)
  * Date: ${new Date().toISOString().split('T')[0]}
  *
  * A client-side JavaScript library for extracting semantic roles from natural language text
- * Week 1: Semantic role extraction
- * Week 2a: Context intensity analysis (12 dimensions)
- * Week 2b: Ethical value detection (50 values, conflict detection, domain analysis)
- * Week 3: Enhanced pattern matching with NLP (fixes IEE polarity bug)
- * Phase 4: Two-Tier JSON-LD semantic graph with BFO/CCO ontology support
+ *
+ * Phase 6: Interpretation Lattice (NEW)
+ *   - AmbiguityDetector: Detects modal, scope, noun category, selectional ambiguities
+ *   - SelectionalPreferences: 8 verb classes, 6 entity categories
+ *   - AmbiguityResolver: Hierarchy of evidence for resolution decisions
+ *   - InterpretationLattice: Default reading + alternative interpretations
+ *   - AlternativeGraphBuilder: Modal strength scale, metonymic bridge
+ *   - options.preserveAmbiguity enables lattice generation
+ *
+ * Phase 4-5: Two-Tier JSON-LD semantic graph with BFO/CCO ontology support
  *   - Tier 1 (ICE): DiscourseReferent - parsing layer
  *   - Tier 2 (IC): Person/Artifact - real-world entities
  *   - ActualityStatus on all acts (Prescribed, Actual, Negated, etc.)
  *   - Cross-tier linking via cco:is_about
- *   v2.3 Ontological Fixes:
- *   - PatientRole only for cco:Person (not artifacts)
- *   - ScarcityAssertion ICE for scarcity information
- *   - ObjectAggregate for plural persons with individual members
- *   - Role realization only in Actual acts (would_be_realized_in for Prescribed)
- *   v2.4 Enhancements:
- *   - PatientRole on ObjectAggregate members
- *   - BFO Quality nodes for qualifiers (critically ill, etc.)
- *   Week 2 (GIT-Minimal Integration):
- *   - ValueAssertionEvent with three-way confidence
- *   - ContextAssessmentEvent for 12 dimensions
- *   - Information Staircase (IBE → ICE → Assertions)
- *   - InterpretationContext for assertion scoping
- *   - Parser agent provenance
- *   Week 3 (SHACL Validation + Production Readiness):
- *   - SHMLValidator for 8 SHACL patterns
- *   - ComplexityBudget for graph limits (200 nodes, 30 referents, 50 assertions)
- *   - Vocabulary validation and domain/range checking
- *   - Compliance scoring (0-100%)
+ *   - Ambiguity detection and flagging
+ *
+ * Earlier Phases:
+ *   - Week 1: Semantic role extraction
+ *   - Week 2a: Context intensity analysis (12 dimensions)
+ *   - Week 2b: Ethical value detection (50 values, conflict detection)
+ *   - Week 3: Enhanced pattern matching with NLP
+ *   - SHACL validation and complexity budget
  *
  * Inspired by d3.js and mermaid.js - single file, simple API
  * Dependency: Compromise.js (~345KB) for lemmatization and NLP features
@@ -338,7 +378,7 @@ const bundle = `/*!
  * Copyright (c) 2025-2026 Aaron Damiano
  * Licensed under MIT
  *
- * Repository: https://github.com/yourusername/TagTeam.js
+ * Repository: https://github.com/Skreen5hot/TagTeam.js
  */
 
 (function(global, factory) {
@@ -618,7 +658,49 @@ ${complexityBudget}
 ${domainConfigLoader}
 
   // ============================================================================
-  // SEMANTIC GRAPH BUILDER (Phase 4 - Week 1 + Week 2)
+  // PHASE 5: AMBIGUITY REPORT
+  // Data structure for ambiguity detection results
+  // ============================================================================
+
+${ambiguityReport}
+
+  // ============================================================================
+  // PHASE 5: AMBIGUITY DETECTOR
+  // Detects modal, scope, noun category, and selectional ambiguities
+  // ============================================================================
+
+${ambiguityDetector}
+
+  // ============================================================================
+  // PHASE 6: SELECTIONAL PREFERENCES
+  // Defines verb classes and entity categories for selectional constraints
+  // ============================================================================
+
+${selectionalPreferences}
+
+  // ============================================================================
+  // PHASE 6: AMBIGUITY RESOLVER
+  // Decides which ambiguities to preserve vs resolve based on evidence hierarchy
+  // ============================================================================
+
+${ambiguityResolver}
+
+  // ============================================================================
+  // PHASE 6: INTERPRETATION LATTICE
+  // Data structure for multi-reading ambiguity preservation
+  // ============================================================================
+
+${interpretationLattice}
+
+  // ============================================================================
+  // PHASE 6: ALTERNATIVE GRAPH BUILDER
+  // Generates alternative graph nodes for modal/scope/metonymy
+  // ============================================================================
+
+${alternativeGraphBuilder}
+
+  // ============================================================================
+  // SEMANTIC GRAPH BUILDER (Phase 4 - Week 1 + Week 2 + Phase 6)
   // ============================================================================
 
 ${semanticGraphBuilder}
@@ -763,7 +845,7 @@ ${semanticGraphBuilder}
     /**
      * Version information
      */
-    version: '4.0.0-phase4',
+    version: '6.0.0',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
@@ -795,7 +877,17 @@ ${semanticGraphBuilder}
     ComplexityBudget: ComplexityBudget,
 
     // Phase 2: Domain configuration
-    DomainConfigLoader: DomainConfigLoader
+    DomainConfigLoader: DomainConfigLoader,
+
+    // Phase 5: Ambiguity detection
+    AmbiguityReport: AmbiguityReport,
+    AmbiguityDetector: AmbiguityDetector,
+
+    // Phase 6: Interpretation Lattice
+    SelectionalPreferences: SelectionalPreferences,
+    AmbiguityResolver: AmbiguityResolver,
+    InterpretationLattice: InterpretationLattice,
+    AlternativeGraphBuilder: AlternativeGraphBuilder
   };
 
   // Return the unified API

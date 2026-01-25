@@ -234,7 +234,7 @@
     // PRONOUN RESOLUTION (SIMPLE)
     // ========================================
 
-    const ENTITY_CATEGORIES = {
+    const PRONOUN_CATEGORIES = {
         self: ['i', 'me', 'my', 'mine', 'myself'],
         other_singular: ['he', 'she', 'him', 'her', 'his', 'hers'],
         other_plural: ['they', 'them', 'their', 'theirs', 'themselves'],
@@ -748,7 +748,7 @@
     SemanticRoleExtractor.prototype._categorizeEntity = function(word) {
         word = word.toLowerCase();
 
-        for (const [category, pronouns] of Object.entries(ENTITY_CATEGORIES)) {
+        for (const [category, pronouns] of Object.entries(PRONOUN_CATEGORIES)) {
             if (pronouns.includes(word)) {
                 return category;
             }

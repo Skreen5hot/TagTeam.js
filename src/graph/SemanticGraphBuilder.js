@@ -47,34 +47,28 @@ const ContextManager = require('./ContextManager');
 const InformationStaircaseBuilder = require('./InformationStaircaseBuilder');
 
 // Phase 5.3: Ambiguity detection (optional)
-let AmbiguityDetector = null;
-try {
-  AmbiguityDetector = require('./AmbiguityDetector');
-} catch (e) {
-  // AmbiguityDetector not available - detection disabled
-}
+// In browser bundle, class is defined globally; in Node.js, use require
+const _AmbiguityDetector = (typeof AmbiguityDetector !== 'undefined') ? AmbiguityDetector : (() => {
+  try { return require('./AmbiguityDetector'); } catch (e) { return null; }
+})();
 
 // Phase 6: Interpretation Lattice (optional)
-let AmbiguityResolver = null;
-let InterpretationLattice = null;
-let AlternativeGraphBuilder = null;
-try {
-  AmbiguityResolver = require('./AmbiguityResolver');
-  InterpretationLattice = require('./InterpretationLattice');
-  AlternativeGraphBuilder = require('./AlternativeGraphBuilder');
-} catch (e) {
-  // Phase 6 modules not available - lattice disabled
-}
+// In browser bundle, classes are defined globally; in Node.js, use require
+const _AmbiguityResolver = (typeof AmbiguityResolver !== 'undefined') ? AmbiguityResolver : (() => {
+  try { return require('./AmbiguityResolver'); } catch (e) { return null; }
+})();
+const _InterpretationLattice = (typeof InterpretationLattice !== 'undefined') ? InterpretationLattice : (() => {
+  try { return require('./InterpretationLattice'); } catch (e) { return null; }
+})();
+const _AlternativeGraphBuilder = (typeof AlternativeGraphBuilder !== 'undefined') ? AlternativeGraphBuilder : (() => {
+  try { return require('./AlternativeGraphBuilder'); } catch (e) { return null; }
+})();
 
 // OPTIONAL: AssertionEventBuilder - only load if available (for backwards compatibility)
 // In v5.0.0+, this is provided by tagteam-iee-values package via options.assertionBuilder
-let AssertionEventBuilder = null;
-try {
-  AssertionEventBuilder = require('./AssertionEventBuilder');
-} catch (e) {
-  // AssertionEventBuilder not available - values package not installed
-  // This is expected in core-only installations
-}
+const _AssertionEventBuilder = (typeof AssertionEventBuilder !== 'undefined') ? AssertionEventBuilder : (() => {
+  try { return require('./AssertionEventBuilder'); } catch (e) { return null; }
+})();
 
 /**
  * Main class for building semantic graphs in JSON-LD format
@@ -116,9 +110,9 @@ class SemanticGraphBuilder {
     if (options.assertionBuilder) {
       // External assertion builder injected (from tagteam-iee-values)
       this.assertionEventBuilder = options.assertionBuilder;
-    } else if (AssertionEventBuilder) {
+    } else if (_AssertionEventBuilder) {
       // Built-in AssertionEventBuilder available (backwards compatibility)
-      this.assertionEventBuilder = new AssertionEventBuilder({ graphBuilder: this });
+      this.assertionEventBuilder = new _AssertionEventBuilder({ graphBuilder: this });
     } else {
       // No assertion builder - core-only mode
       this.assertionEventBuilder = null;
@@ -134,16 +128,16 @@ class SemanticGraphBuilder {
     this.configLoader = new DomainConfigLoader();
 
     // Phase 5.3: Ambiguity detection (optional)
-    if (AmbiguityDetector) {
-      this.ambiguityDetector = new AmbiguityDetector();
+    if (_AmbiguityDetector) {
+      this.ambiguityDetector = new _AmbiguityDetector();
     } else {
       this.ambiguityDetector = null;
     }
 
     // Phase 6: Interpretation Lattice (optional)
-    if (AmbiguityResolver && InterpretationLattice && AlternativeGraphBuilder) {
-      this.ambiguityResolver = new AmbiguityResolver();
-      this.alternativeBuilder = new AlternativeGraphBuilder();
+    if (_AmbiguityResolver && _InterpretationLattice && _AlternativeGraphBuilder) {
+      this.ambiguityResolver = new _AmbiguityResolver();
+      this.alternativeBuilder = new _AlternativeGraphBuilder();
     } else {
       this.ambiguityResolver = null;
       this.alternativeBuilder = null;
@@ -500,7 +494,7 @@ class SemanticGraphBuilder {
       });
 
       // 6.2: Create lattice structure with default reading
-      interpretationLattice = new InterpretationLattice(
+      interpretationLattice = new _InterpretationLattice(
         { '@graph': this.nodes },
         resolutions
       );

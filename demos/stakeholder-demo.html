@@ -507,10 +507,14 @@
         html += '<div style="background: #fff3e0; padding: 15px; border-radius: 8px; margin: 15px 0;">';
         roles.forEach(r => {
           const label = r['rdfs:label'] || 'Role';
-          const bearer = r['bfo:inheres_in'] || '';
+          // Handle both string IRIs and object references like {"@id": "..."}
+          let bearer = r['bfo:inheres_in'] || '';
+          if (typeof bearer === 'object' && bearer['@id']) {
+            bearer = bearer['@id'];
+          }
           const realizedIn = r['bfo:realized_in'] || '';
           // Extract just the meaningful part of IRI
-          const bearerName = bearer.split('_').pop() || bearer;
+          const bearerName = typeof bearer === 'string' ? (bearer.split('_').pop() || bearer) : '';
           html += '<div style="margin: 5px 0;">';
           html += '<span style="color: #e65100; font-weight: bold;">' + label + '</span>';
           html += '</div>';
