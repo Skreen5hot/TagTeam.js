@@ -33,7 +33,9 @@ jobs:
         run: npm install
 
       - name: Build TagTeam.js bundles (core, values, combined)
-        run: node scripts/build-separated.js
+        run: |
+          node scripts/build-separated.js
+          node scripts/build.js
 
       - name: Create GitHub Pages site
         run: |
