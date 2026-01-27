@@ -85,6 +85,47 @@ const INFERENCE_VERBS = new Set([
 ]);
 
 /**
+ * Control verbs — verbs that take infinitive complements.
+ * "He needs to drop" → "need" is control verb, "drop" is the semantic act.
+ * The control verb contributes modality; the infinitive is the actual IntentionalAct.
+ */
+const CONTROL_VERBS = new Set([
+  'need', 'want', 'try', 'attempt', 'decide', 'plan', 'intend',
+  'aim', 'seek', 'refuse', 'fail', 'agree', 'promise', 'offer',
+  'choose', 'manage', 'expect', 'hope', 'wish', 'prefer',
+  'demand', 'require'
+]);
+
+/**
+ * Modality contributed by control verbs.
+ * null = no deontic modality (e.g., "try", "attempt" — aspectual only)
+ */
+const CONTROL_VERB_MODALITY = {
+  'need': 'obligation',
+  'require': 'obligation',
+  'demand': 'obligation',
+  'promise': 'obligation',
+  'want': 'intention',
+  'intend': 'intention',
+  'plan': 'intention',
+  'decide': 'intention',
+  'choose': 'intention',
+  'aim': 'intention',
+  'seek': 'intention',
+  'hope': 'intention',
+  'wish': 'intention',
+  'expect': 'intention',
+  'agree': 'intention',
+  'prefer': 'recommendation',
+  'offer': 'permission',
+  'refuse': 'prohibition',
+  'try': null,
+  'attempt': null,
+  'fail': null,
+  'manage': null
+};
+
+/**
  * Deontic modality mappings
  * Maps modal auxiliaries to modality types
  *
@@ -423,23 +464,47 @@ class ActExtractor {
     // Extract verbs
     const verbs = doc.verbs();
 
+    // Pass 1: Collect verb entries, identifying control verbs and infinitive complements
+    const verbEntries = [];
     verbs.forEach((verb, index) => {
       const verbText = verb.text();
       const verbJson = verb.json()[0] || {};
       const verbData = verbJson.verb || {};
 
-      // Skip auxiliary-only verbs (is, are, was, were, be)
-      if (this._isAuxiliaryOnly(verbData)) {
-        return;
-      }
+      if (this._isAuxiliaryOnly(verbData)) return;
 
-      // Skip infinitive markers (to + verb patterns already captured)
-      if (verbData.grammar?.isInfinitive && !verbData.auxiliary) {
-        return;
-      }
-
-      // Get infinitive form
       const infinitive = verbData.infinitive || verbData.root || verbText;
+      const isInfinitive = !!(verbData.grammar?.isInfinitive && !verbData.auxiliary);
+      const isControlVerb = CONTROL_VERBS.has(infinitive.toLowerCase());
+
+      verbEntries.push({ verbText, verbData, infinitive, isInfinitive, isControlVerb, index });
+    });
+
+    // Pass 2: Pair control verbs with their infinitive complements
+    const consumedIndices = new Set();
+    for (let i = 0; i < verbEntries.length; i++) {
+      const entry = verbEntries[i];
+      if (entry.isControlVerb && i + 1 < verbEntries.length && verbEntries[i + 1].isInfinitive) {
+        // Control verb + infinitive pair found
+        // Mark control verb as consumed — the infinitive becomes the primary act
+        consumedIndices.add(i);
+        // Tag the infinitive with the control verb's modality
+        verbEntries[i + 1]._controlVerb = entry.infinitive.toLowerCase();
+        verbEntries[i + 1]._controlModality = CONTROL_VERB_MODALITY[entry.infinitive.toLowerCase()] || null;
+        // Inherit the control verb's sourceText span for combined sourceText
+        verbEntries[i + 1]._controlVerbText = entry.verbText;
+      }
+    }
+
+    verbEntries.forEach((entry, i) => {
+      // Skip consumed control verbs (absorbed into infinitive complement)
+      if (consumedIndices.has(i)) return;
+
+      // Skip standalone infinitives not preceded by a control verb
+      if (entry.isInfinitive && !entry._controlVerb) return;
+
+      const { verbText, verbData, index } = entry;
+      const infinitive = entry.infinitive;
 
       // Get span offset
       const offset = this._getSpanOffset(text, verbText, index);
@@ -452,8 +517,26 @@ class ActExtractor {
 
       // Phase 6.4: Enhanced modality detection with lexical markers
       const modalityResult = this._detectModalityEnhanced(verbData, text);
-      const modality = modalityResult.modality;
-      const deonticType = modalityResult.deonticType;
+      let modality = modalityResult.modality;
+      let deonticType = modalityResult.deonticType;
+
+      // Control verb complement: inherit modality from the control verb
+      let controlVerb = null;
+      if (entry._controlVerb) {
+        controlVerb = entry._controlVerb;
+        if (entry._controlModality && !modality) {
+          modality = entry._controlModality;
+          // Map modality to deontic type
+          const MODALITY_TO_DEONTIC = {
+            'obligation': 'tagteam:Obligation',
+            'permission': 'tagteam:Permission',
+            'prohibition': 'tagteam:Prohibition',
+            'recommendation': 'tagteam:Recommendation',
+            'intention': 'tagteam:Intention'
+          };
+          deonticType = MODALITY_TO_DEONTIC[modality] || null;
+        }
+      }
 
       // Detect negation
       const negation = verbData.negative || false;
@@ -462,7 +545,13 @@ class ActExtractor {
       const tense = this._extractTense(verbData);
 
       // Link to entities (agent, patient, affected)
-      const links = this._linkToEntities(text, verbText, offset, entities);
+      // For infinitive complements, use the control verb's position for entity linking
+      // since the agent ("He") is syntactically tied to the control verb
+      const linkText = entry._controlVerbText || verbText;
+      const linkOffset = entry._controlVerbText
+        ? this._getSpanOffset(text, entry._controlVerbText, 0)
+        : offset;
+      const links = this._linkToEntities(text, linkText, linkOffset, entities);
 
       // Phase 7.0 Story 3: Inanimate agent re-typing
       // If an inference verb has an inanimate subject, create ICE instead of IntentionalAct
@@ -486,9 +575,17 @@ class ActExtractor {
         return; // Skip IntentionalAct creation for this verb
       }
 
+      // Build sourceText: include control verb span if present
+      const sourceText = entry._controlVerbText
+        ? `${entry._controlVerbText} to ${verbText}`
+        : verbText;
+
+      // Actuality: infinitive complements of control verbs are Prescribed (not yet realized)
+      const actualityOverride = controlVerb ? 'tagteam:Prescribed' : null;
+
       // Create IntentionalAct node (Phase 6.4: includes deonticType)
       const act = this._createIntentionalAct({
-        text: verbText,
+        text: sourceText,
         infinitive,
         offset,
         actType,
@@ -496,7 +593,9 @@ class ActExtractor {
         deonticType,
         negation,
         tense,
-        links
+        links,
+        controlVerb,
+        actualityOverride
       });
 
       acts.push(act);
@@ -1140,11 +1239,16 @@ class ActExtractor {
     }
 
     // Determine actuality status (v2.2)
-    const actualityStatus = this._determineActualityStatus(
+    let actualityStatus = this._determineActualityStatus(
       actInfo.modality,
       actInfo.negation,
       actInfo.tense
     );
+
+    // Control verb override: infinitive complements are Prescribed (not yet realized)
+    if (actInfo.actualityOverride) {
+      actualityStatus = actInfo.actualityOverride;
+    }
 
     // Build node with v2.2 position properties
     const node = {
@@ -1157,6 +1261,11 @@ class ActExtractor {
       'tagteam:endPosition': actInfo.offset + actInfo.text.length,
       'tagteam:actualityStatus': actualityStatus
     };
+
+    // Add control verb reference if this is an infinitive complement
+    if (actInfo.controlVerb) {
+      node['tagteam:controlVerb'] = actInfo.controlVerb;
+    }
 
     // Add modality if present
     if (actInfo.modality) {
