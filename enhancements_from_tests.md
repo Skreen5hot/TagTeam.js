@@ -14,3 +14,14 @@ Capabilities identified during comprehensive testing that require new functional
 **Complexity:** Medium — requires cross-referencing verb type with object type in EntityExtractor or ActExtractor.
 
 ---
+
+## ENH-002: Question ICE Node (Interrogative Semantics)
+
+**Source:** Test 1.1.0 `linguistic.clause-types.interrogative`
+**Input:** "Did the committee approve the budget?"
+**Issue:** Questions should generate an Information Content Entity (e.g., `cco:Question` or `tagteam:Inquiry`) that represents the question itself, with `cco:is_about` linking to the hypothetical act. Currently only the act's actuality status is set to `tagteam:Interrogative` — there is no dedicated question node.
+**Proposed Fix:** When interrogative mood is detected, create a `tagteam:Inquiry` ICE node with `cco:is_about` pointing to the act. The Tier 1 DiscourseReferent for the sentence could link to this inquiry.
+**Priority:** Low-Medium
+**Complexity:** Medium — requires new node type and wiring in SemanticGraphBuilder.
+
+---

@@ -480,6 +480,22 @@ class ActExtractor {
       verbEntries.push({ verbText, verbData, infinitive, isInfinitive, isControlVerb, index });
     });
 
+    // Detect interrogative mood (question mark at end of text)
+    const isInterrogative = text.trim().endsWith('?');
+
+    // Do-support filtering: "Did he approve?" → "did" is auxiliary, not a separate act
+    // If a do-form verb coexists with other non-do verbs, remove the do-form
+    const hasDoForm = verbEntries.some(e => this._isDoForm(e.infinitive));
+    const hasNonDoVerb = verbEntries.some(e => !this._isDoForm(e.infinitive));
+    if (hasDoForm && hasNonDoVerb) {
+      // Remove do-support entries (they carry tense but not semantic content)
+      for (let i = verbEntries.length - 1; i >= 0; i--) {
+        if (this._isDoForm(verbEntries[i].infinitive)) {
+          verbEntries.splice(i, 1);
+        }
+      }
+    }
+
     // Pass 2: Pair control verbs with their infinitive complements
     const consumedIndices = new Set();
     for (let i = 0; i < verbEntries.length; i++) {
@@ -580,8 +596,15 @@ class ActExtractor {
         ? `${entry._controlVerbText} to ${verbText}`
         : verbText;
 
-      // Actuality: infinitive complements of control verbs are Prescribed (not yet realized)
-      const actualityOverride = controlVerb ? 'tagteam:Prescribed' : null;
+      // Actuality overrides:
+      // - Interrogative sentences: the act is queried, not asserted
+      // - Infinitive complements of control verbs: not yet realized
+      let actualityOverride = null;
+      if (isInterrogative) {
+        actualityOverride = 'tagteam:Interrogative';
+      } else if (controlVerb) {
+        actualityOverride = 'tagteam:Prescribed';
+      }
 
       // Create IntentionalAct node (Phase 6.4: includes deonticType)
       const act = this._createIntentionalAct({
@@ -613,6 +636,18 @@ class ActExtractor {
     const auxOnlyVerbs = ['be', 'is', 'are', 'was', 'were', 'been', 'being', 'have', 'has', 'had'];
     const root = (verbData.infinitive || verbData.root || '').toLowerCase();
     return auxOnlyVerbs.includes(root) && !verbData.auxiliary;
+  }
+
+  /**
+   * Check if a verb is do-support (auxiliary "do/did/does" in questions/negation)
+   * Do-support is auxiliary when another main verb exists in the sentence.
+   * "Did he approve?" → "did" is auxiliary, "approve" is main verb.
+   * "He did the dishes" → "did" is main verb (no other verb).
+   * @param {string} root - Verb root/infinitive
+   * @returns {boolean} True if this is a do-form
+   */
+  _isDoForm(root) {
+    return ['do', 'did', 'does'].includes(root.toLowerCase());
   }
 
   /**
