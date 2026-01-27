@@ -382,11 +382,11 @@
     <header>
         <div class="container">
             <h1>TagTeam.js</h1>
-            <span class="version">v6.0.0</span>
-            <p>Two-Tier Semantic Graph Architecture with Interpretation Lattice</p>
+            <span class="version">v6.5.4</span>
+            <p>Two-Tier Semantic Graph Architecture with Ontology Loading</p>
             <div class="hero-stats">
                 <div class="stat">
-                    <span class="stat-number">475+</span>
+                    <span class="stat-number">740+</span>
                     <span class="stat-label">Tests Passing</span>
                 </div>
                 <div class="stat">
@@ -566,6 +566,9 @@
                     <a href="https://github.com/Skreen5hot/TagTeam.js" class="link-card" target="_blank">
                         📖 GitHub Repository
                     </a>
+                    <a href="phase65-ontology-demo.html" class="link-card" style="background: linear-gradient(90deg, #f7971e, #ffd200); color: #1a1a2e; border: none;">
+                        🌐 Phase 6.5: Ontology Loading
+                    </a>
                     <a href="phase6-lattice-demo.html" class="link-card" style="background: linear-gradient(90deg, #00d9ff, #00ff88); color: #1a1a2e; border: none;">
                         🧠 Phase 6: Interpretation Lattice
                     </a>
@@ -586,14 +589,13 @@
 
             <section class="demo-section">
                 <h2>🏗️ Current Development</h2>
-                <p><strong>Phase 6 Interpretation Lattice:</strong> <span class="badge" style="background: #10b981;">COMPLETE</span></p>
+                <p><strong>Phase 6.5 Ontology Loading:</strong> <span class="badge" style="background: #10b981;">COMPLETE</span></p>
                 <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
-                    <li>✅ Phase 6.0: SelectionalPreferences - 8 verb classes, 6 entity categories</li>
-                    <li>✅ Phase 6.1: AmbiguityResolver - Hierarchy of evidence for resolution</li>
-                    <li>✅ Phase 6.2: InterpretationLattice - Default + alternative readings</li>
-                    <li>✅ Phase 6.3: AlternativeGraphBuilder - Modal strength, metonymic bridge</li>
-                    <li>✅ Phase 6.4: SemanticGraphBuilder integration with <code>preserveAmbiguity</code> option</li>
-                    <li>✅ <strong>475+ unit tests passing</strong> (100% pass rate)</li>
+                    <li>✅ Phase 6.5.1: TurtleParser - Lightweight TTL/Turtle parser (80 tests)</li>
+                    <li>✅ Phase 6.5.2: OntologyManager - Unified JSON + TTL loading with caching (80 tests)</li>
+                    <li>✅ Phase 6.5.3: ValueNetAdapter - ValueNet &#x2192; ValueMatcher conversion (50 tests)</li>
+                    <li>✅ Phase 6.5.4: BridgeOntologyLoader - IEE bridge ontology support (54 tests)</li>
+                    <li>✅ <strong>740+ unit tests passing</strong> (100% pass rate)</li>
                 </ul>
 
                 <div style="margin-top: 20px; padding: 15px; background: #e0f2fe; border-radius: 8px; border-left: 4px solid #0ea5e9;">
@@ -628,7 +630,18 @@
                     </ul>
                 </div>
 
-                <p style="margin-top: 20px;"><strong>Coming Next:</strong> Phase 7 - Golden Corpus &amp; Documentation</p>
+                <div style="margin-top: 20px; padding: 15px; background: #fef3c7; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                    <h4 style="color: #b45309; margin-bottom: 10px;">Phase 6.5 Ontology Loading Highlights</h4>
+                    <ul style="margin-left: 20px; line-height: 1.6;">
+                        <li><strong>TurtleParser:</strong> Lightweight TTL parser for ValueNet ontologies</li>
+                        <li><strong>OntologyManager:</strong> Unified JSON + TTL loading with caching and merge</li>
+                        <li><strong>ValueNetAdapter:</strong> keywords &#x2192; semanticMarkers, upholdingTerms &#x2192; polarityIndicators</li>
+                        <li><strong>BridgeOntologyLoader:</strong> owl:sameAs, ethics:relatedTo, ethics:mapsToWorldview</li>
+                        <li><strong>Full Pipeline:</strong> TagTeam &#x2192; ValueNet &#x2192; IEE worldview mapping chains</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 20px;"><strong>Coming Next:</strong> Phase 7 - Epistemic Layer</p>
             </section>
         </div>
     </div>

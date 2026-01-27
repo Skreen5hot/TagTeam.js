@@ -1,0 +1,188 @@
+{
+  "version": "1.0",
+  "description": "Golden test cases for selectional preference validation",
+  "created": "2026-01-26",
+  "cases": [
+    {
+      "id": "golden-001",
+      "sentence": "The doctor decided to operate",
+      "verb": "decide",
+      "subject": { "label": "doctor", "type": "cco:Person" },
+      "expectedSubjectValid": true,
+      "expectedConfidence": 0.95,
+      "tags": ["intentional_mental", "animate_subject", "medical"]
+    },
+    {
+      "id": "golden-002",
+      "sentence": "The rock decided to move",
+      "verb": "decide",
+      "subject": { "label": "rock" },
+      "expectedSubjectValid": false,
+      "expectedConfidence": 0.9,
+      "expectedViolationType": "selectional_violation",
+      "tags": ["intentional_mental", "inanimate_subject", "anomalous"]
+    },
+    {
+      "id": "golden-003",
+      "sentence": "The committee decided to proceed",
+      "verb": "decide",
+      "subject": { "label": "committee", "type": "cco:Organization" },
+      "expectedSubjectValid": true,
+      "expectedConfidence": 0.9,
+      "tags": ["intentional_mental", "organization_subject"]
+    },
+    {
+      "id": "golden-004",
+      "sentence": "The hospital announced the policy",
+      "verb": "announce",
+      "subject": { "label": "hospital" },
+      "expectedSubjectValid": true,
+      "expectedConfidence": 0.9,
+      "tags": ["communication", "organization_subject", "metonymy"]
+    },
+    {
+      "id": "golden-005",
+      "sentence": "The storm caused significant damage",
+      "verb": "cause",
+      "subject": { "label": "storm" },
+      "expectedSubjectValid": true,
+      "expectedConfidence": 0.8,
+      "tags": ["causation", "inanimate_subject", "natural_force"]
+    },
+    {
+      "id": "golden-006",
+      "sentence": "The ventilator decided to stop",
+      "verb": "decide",
+      "subject": { "label": "ventilator", "type": "bfo:MaterialEntity" },
+      "expectedSubjectValid": false,
+      "expectedConfidence": 0.9,
+      "expectedViolationType": "selectional_violation",
+      "tags": ["intentional_mental", "inanimate_subject", "medical_equipment"]
+    },
+    {
+      "id": "golden-007",
+      "sentence": "The table announced the results",
+      "verb": "announce",
+      "subject": { "label": "table" },
+      "expectedSubjectValid": false,
+      "expectedConfidence": 0.9,
+      "expectedViolationType": "selectional_violation",
+      "tags": ["communication", "inanimate_subject", "anomalous"]
+    },
+    {
+      "id": "golden-008",
+      "sentence": "The family believes in recovery",
+      "verb": "believe",
+      "subject": { "label": "family" },
+      "expectedSubjectValid": true,
+      "expectedConfidence": 0.9,
+      "tags": ["intentional_mental", "collective_subject"]
+    },
+    {
+      "id": "golden-009",
+      "sentence": "The board allocated the resources",
+      "verb": "allocate",
+      "subject": { "label": "board" },
+      "object": { "label": "resources" },
+      "expectedSubjectValid": true,
+      "expectedObjectValid": true,
+      "tags": ["transfer", "organization_subject", "resource_allocation"]
+    },
+    {
+      "id": "golden-010",
+      "sentence": "The White House announced sanctions",
+      "verb": "announce",
+      "subject": { "label": "The White House" },
+      "expectedSubjectValid": true,
+      "expectedConfidence": 0.8,
+      "tags": ["communication", "metonymy", "government"]
+    },
+    {
+      "id": "golden-011",
+      "sentence": "The surgeon lifted the scalpel",
+      "verb": "lift",
+      "subject": { "label": "surgeon" },
+      "object": { "label": "scalpel" },
+      "expectedSubjectValid": true,
+      "expectedObjectValid": true,
+      "tags": ["intentional_physical", "animate_subject", "medical"]
+    },
+    {
+      "id": "golden-012",
+      "sentence": "The committee lifted the ban",
+      "verb": "lift",
+      "subject": { "label": "committee" },
+      "expectedSubjectValid": false,
+      "expectedConfidence": 0.85,
+      "tags": ["intentional_physical", "organization_subject", "metaphorical"]
+    },
+    {
+      "id": "golden-013",
+      "sentence": "The nurse reported the incident",
+      "verb": "report",
+      "subject": { "label": "nurse" },
+      "object": { "label": "incident" },
+      "expectedSubjectValid": true,
+      "tags": ["communication", "animate_subject", "medical"]
+    },
+    {
+      "id": "golden-014",
+      "sentence": "The policy decided the outcome",
+      "verb": "decide",
+      "subject": { "label": "policy" },
+      "expectedSubjectValid": false,
+      "expectedConfidence": 0.85,
+      "tags": ["intentional_mental", "abstract_subject", "anomalous"]
+    },
+    {
+      "id": "golden-015",
+      "sentence": "The patient preferred the treatment",
+      "verb": "prefer",
+      "subject": { "label": "patient" },
+      "object": { "label": "treatment" },
+      "expectedSubjectValid": true,
+      "tags": ["intentional_mental", "animate_subject", "medical"]
+    },
+    {
+      "id": "golden-016",
+      "sentence": "The ethics committee evaluated the case",
+      "verb": "evaluate",
+      "subject": { "label": "ethics committee" },
+      "expectedSubjectValid": true,
+      "tags": ["intentional_mental", "organization_subject", "medical_ethics"]
+    },
+    {
+      "id": "golden-017",
+      "sentence": "The medication caused side effects",
+      "verb": "cause",
+      "subject": { "label": "medication" },
+      "expectedSubjectValid": true,
+      "tags": ["causation", "inanimate_subject", "medical"]
+    },
+    {
+      "id": "golden-018",
+      "sentence": "The court ordered the treatment",
+      "verb": "order",
+      "subject": { "label": "court" },
+      "expectedSubjectValid": true,
+      "tags": ["communication", "organization_subject", "legal"]
+    },
+    {
+      "id": "golden-019",
+      "sentence": "The algorithm decided the allocation",
+      "verb": "decide",
+      "subject": { "label": "algorithm" },
+      "expectedSubjectValid": false,
+      "expectedConfidence": 0.85,
+      "tags": ["intentional_mental", "inanimate_subject", "technology"]
+    },
+    {
+      "id": "golden-020",
+      "sentence": "The patient's family requested a second opinion",
+      "verb": "request",
+      "subject": { "label": "family" },
+      "expectedSubjectValid": true,
+      "tags": ["communication", "collective_subject", "medical"]
+    }
+  ]
+}

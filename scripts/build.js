@@ -71,6 +71,12 @@ const ambiguityResolverPath = path.join(__dirname, '..', 'src', 'graph', 'Ambigu
 const interpretationLatticePath = path.join(__dirname, '..', 'src', 'graph', 'InterpretationLattice.js');
 const alternativeGraphBuilderPath = path.join(__dirname, '..', 'src', 'graph', 'AlternativeGraphBuilder.js');
 
+// Phase 6.5: Ontology loading modules
+const turtleParserPath = path.join(__dirname, '..', 'src', 'ontology', 'TurtleParser.js');
+const ontologyManagerPath = path.join(__dirname, '..', 'src', 'ontology', 'OntologyManager.js');
+const valueNetAdapterPath = path.join(__dirname, '..', 'src', 'ontology', 'ValueNetAdapter.js');
+const bridgeOntologyLoaderPath = path.join(__dirname, '..', 'src', 'ontology', 'BridgeOntologyLoader.js');
+
 let lexicon = fs.readFileSync(lexiconPath, 'utf8');
 let posTagger = fs.readFileSync(posTaggerPath, 'utf8');
 let patternMatcher = fs.readFileSync(patternMatcherPath, 'utf8');
@@ -132,6 +138,12 @@ let ambiguityResolver = fs.readFileSync(ambiguityResolverPath, 'utf8');
 let interpretationLattice = fs.readFileSync(interpretationLatticePath, 'utf8');
 let alternativeGraphBuilder = fs.readFileSync(alternativeGraphBuilderPath, 'utf8');
 
+// Phase 6.5: Ontology loading
+let turtleParser = fs.readFileSync(turtleParserPath, 'utf8');
+let ontologyManager = fs.readFileSync(ontologyManagerPath, 'utf8');
+let valueNetAdapter = fs.readFileSync(valueNetAdapterPath, 'utf8');
+let bridgeOntologyLoader = fs.readFileSync(bridgeOntologyLoaderPath, 'utf8');
+
 console.log(`  ✓ RealWorldEntityFactory.js (${(realWorldEntityFactory.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ EntityExtractor.js (${(entityExtractor.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ ActExtractor.js (${(actExtractor.length / 1024).toFixed(2)} KB)`);
@@ -154,6 +166,10 @@ console.log(`  ✓ SelectionalPreferences.js (${(selectionalPreferences.length /
 console.log(`  ✓ AmbiguityResolver.js (${(ambiguityResolver.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ InterpretationLattice.js (${(interpretationLattice.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ AlternativeGraphBuilder.js (${(alternativeGraphBuilder.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ TurtleParser.js (${(turtleParser.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ OntologyManager.js (${(ontologyManager.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ ValueNetAdapter.js (${(valueNetAdapter.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ BridgeOntologyLoader.js (${(bridgeOntologyLoader.length / 1024).toFixed(2)} KB)`);
 
 // Read data files for Week 2b
 console.log('\n📖 Reading Week 2b data files...');
@@ -259,10 +275,15 @@ console.log('\n🔧 Processing Phase 4 graph modules (Two-Tier v2.2)...');
 
 // Helper function to strip CommonJS require/exports from a module
 function stripCommonJS(code, className) {
-  // Remove require statements
+  // Remove require statements (including try/catch wrapped requires)
   code = code.replace(/const\s+\w+\s*=\s*require\([^)]+\);\s*\n?/g, '');
+  code = code.replace(/let\s+\w+\s*;\s*\ntry\s*\{\s*\n\s*\w+\s*=\s*require\([^)]+\);\s*\n\}\s*catch\s*\([^)]*\)\s*\{[^}]*\}\s*\n?/g, '');
   // Remove module.exports
   code = code.replace(/module\.exports\s*=\s*\w+;\s*\n?/g, '');
+  // Remove if (typeof module ...) module.exports blocks
+  code = code.replace(/if\s*\(typeof\s+module\s*!==\s*'undefined'\s*&&\s*module\.exports\)\s*\{\s*\n?\s*module\.exports\s*=\s*\w+;\s*\n?\s*\}\s*\n?/g, '');
+  // Remove if (typeof window ...) window.X blocks
+  code = code.replace(/if\s*\(typeof\s+window\s*!==\s*'undefined'\)\s*\{\s*\n?\s*window\.\w+\s*=\s*\w+;\s*\n?\s*\}\s*\n?/g, '');
   // Remove 'use strict' if it appears standalone
   code = code.replace(/'use strict';\s*\n?/g, '');
   return code;
@@ -340,23 +361,42 @@ console.log('  ✓ Converted InterpretationLattice to browser format');
 alternativeGraphBuilder = stripCommonJS(alternativeGraphBuilder, 'AlternativeGraphBuilder');
 console.log('  ✓ Converted AlternativeGraphBuilder to browser format');
 
+// Phase 6.5: Ontology loading
+turtleParser = stripCommonJS(turtleParser, 'TurtleParser');
+console.log('  ✓ Converted TurtleParser to browser format');
+
+ontologyManager = stripCommonJS(ontologyManager, 'OntologyManager');
+console.log('  ✓ Converted OntologyManager to browser format');
+
+valueNetAdapter = stripCommonJS(valueNetAdapter, 'ValueNetAdapter');
+console.log('  ✓ Converted ValueNetAdapter to browser format');
+
+bridgeOntologyLoader = stripCommonJS(bridgeOntologyLoader, 'BridgeOntologyLoader');
+console.log('  ✓ Converted BridgeOntologyLoader to browser format');
+
 // Build the bundle
 console.log('\n🔧 Building bundle...');
 
 const bundle = `/*!
  * TagTeam.js - Two-Tier Semantic Graph Architecture for Ethical Context Analysis
- * Version: 6.0.0 (Phase 6: Interpretation Lattice)
+ * Version: 6.5.4 (Phase 6.5: Ontology Loading + IEE Bridge)
  * Date: ${new Date().toISOString().split('T')[0]}
  *
  * A client-side JavaScript library for extracting semantic roles from natural language text
  *
- * Phase 6: Interpretation Lattice (NEW)
+ * Phase 6: Interpretation Lattice
  *   - AmbiguityDetector: Detects modal, scope, noun category, selectional ambiguities
  *   - SelectionalPreferences: 8 verb classes, 6 entity categories
  *   - AmbiguityResolver: Hierarchy of evidence for resolution decisions
  *   - InterpretationLattice: Default reading + alternative interpretations
  *   - AlternativeGraphBuilder: Modal strength scale, metonymic bridge
  *   - options.preserveAmbiguity enables lattice generation
+ *
+ * Phase 6.5: Ontology Loading (NEW)
+ *   - TurtleParser: Lightweight TTL/Turtle parser for ValueNet ontologies
+ *   - OntologyManager: Unified JSON + TTL loading with caching
+ *   - ValueNetAdapter: ValueNet → ValueMatcher format conversion
+ *   - BridgeOntologyLoader: IEE bridge ontology (owl:sameAs, worldview mapping)
  *
  * Phase 4-5: Two-Tier JSON-LD semantic graph with BFO/CCO ontology support
  *   - Tier 1 (ICE): DiscourseReferent - parsing layer
@@ -700,6 +740,19 @@ ${interpretationLattice}
 ${alternativeGraphBuilder}
 
   // ============================================================================
+  // PHASE 6.5: ONTOLOGY LOADING MODULES
+  // TTL parsing, unified loading, ValueNet adapter, bridge ontology
+  // ============================================================================
+
+${turtleParser}
+
+${ontologyManager}
+
+${valueNetAdapter}
+
+${bridgeOntologyLoader}
+
+  // ============================================================================
   // SEMANTIC GRAPH BUILDER (Phase 4 - Week 1 + Week 2 + Phase 6)
   // ============================================================================
 
@@ -845,7 +898,7 @@ ${semanticGraphBuilder}
     /**
      * Version information
      */
-    version: '6.0.0',
+    version: '6.5.4',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
@@ -887,7 +940,13 @@ ${semanticGraphBuilder}
     SelectionalPreferences: SelectionalPreferences,
     AmbiguityResolver: AmbiguityResolver,
     InterpretationLattice: InterpretationLattice,
-    AlternativeGraphBuilder: AlternativeGraphBuilder
+    AlternativeGraphBuilder: AlternativeGraphBuilder,
+
+    // Phase 6.5: Ontology loading
+    TurtleParser: TurtleParser,
+    OntologyManager: OntologyManager,
+    ValueNetAdapter: ValueNetAdapter,
+    BridgeOntologyLoader: BridgeOntologyLoader
   };
 
   // Return the unified API

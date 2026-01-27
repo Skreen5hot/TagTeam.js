@@ -111,6 +111,10 @@ class JSONLDSerializer {
       Hypothetical: 'tagteam:Hypothetical',
       Planned: 'tagteam:Planned',
       Negated: 'tagteam:Negated',
+      // Phase 6.4: Hohfeldian deontic statuses
+      Entitled: 'tagteam:Entitled',      // Claim/Right holder status
+      Empowered: 'tagteam:Empowered',    // Authority/Power status
+      Protected: 'tagteam:Protected',    // Immunity/Protection status
 
       // ===== Cross-Tier Relations =====
       is_about: { '@id': 'cco:is_about', '@type': '@id' },

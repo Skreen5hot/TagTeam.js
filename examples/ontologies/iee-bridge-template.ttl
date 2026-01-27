@@ -1,0 +1,91 @@
+## IEE-TagTeam Bridge Ontology Template
+##
+## This bridge ontology maps between three ontology layers:
+## 1. TagTeam values (50 built-in ethical values)
+## 2. ValueNet dispositions (BFO-based value ontology)
+## 3. IEE worldview categories (Schwartz-based worldview framework)
+##
+## Usage:
+##   const loader = new BridgeOntologyLoader({ ontologyManager });
+##   loader.loadFromString(bridgeTTL);
+##   const chain = loader.getMappingChain('tagteam:Autonomy');
+##   // { tagteamValue: 'tagteam:Autonomy',
+##   //   valuenetDisposition: 'vn:AutonomyDisposition',
+##   //   ieeWorldview: 'iee:SelfDirectionWorldview' }
+
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix tagteam: <https://tagteam.js/ontology/values#> .
+@prefix vn: <https://fandaws.com/ontology/bfo/valuenet#> .
+@prefix iee: <https://iee.org/ontology/worldview#> .
+@prefix ethics: <https://ethics.org/ontology#> .
+
+# =============================================================================
+# Layer 1: TagTeam ↔ ValueNet Equivalences (owl:sameAs)
+# =============================================================================
+# These are strict identity mappings — the values are considered the same concept.
+
+tagteam:Autonomy owl:sameAs vn:AutonomyDisposition .
+tagteam:Security owl:sameAs vn:SecurityDisposition .
+tagteam:Beneficence owl:sameAs vn:BeneficenceDisposition .
+tagteam:Justice owl:sameAs vn:JusticeDisposition .
+tagteam:Privacy owl:sameAs vn:PrivacyDisposition .
+tagteam:NonMaleficence owl:sameAs vn:NonMaleficenceDisposition .
+tagteam:Dignity owl:sameAs vn:DignityDisposition .
+tagteam:Transparency owl:sameAs vn:TransparencyDisposition .
+tagteam:Accountability owl:sameAs vn:AccountabilityDisposition .
+tagteam:Compassion owl:sameAs vn:CompassionDisposition .
+
+# =============================================================================
+# Layer 2: ValueNet → IEE Worldview Mappings (ethics:mapsToWorldview)
+# =============================================================================
+# These map ValueNet dispositions to Schwartz-based worldview categories.
+
+vn:AutonomyDisposition ethics:mapsToWorldview iee:SelfDirectionWorldview .
+vn:SecurityDisposition ethics:mapsToWorldview iee:SecurityWorldview .
+vn:BeneficenceDisposition ethics:mapsToWorldview iee:BenevolenceWorldview .
+vn:JusticeDisposition ethics:mapsToWorldview iee:UniversalismWorldview .
+vn:PrivacyDisposition ethics:mapsToWorldview iee:SelfDirectionWorldview .
+vn:NonMaleficenceDisposition ethics:mapsToWorldview iee:BenevolenceWorldview .
+vn:DignityDisposition ethics:mapsToWorldview iee:UniversalismWorldview .
+vn:TransparencyDisposition ethics:mapsToWorldview iee:UniversalismWorldview .
+vn:AccountabilityDisposition ethics:mapsToWorldview iee:ConformityWorldview .
+vn:CompassionDisposition ethics:mapsToWorldview iee:BenevolenceWorldview .
+
+# =============================================================================
+# Layer 3: Related Value Connections (ethics:relatedTo)
+# =============================================================================
+# These are weaker associations — values that are related but not identical.
+
+tagteam:Safety ethics:relatedTo vn:SecurityDisposition .
+tagteam:Freedom ethics:relatedTo vn:AutonomyDisposition .
+tagteam:Fairness ethics:relatedTo vn:JusticeDisposition .
+tagteam:Care ethics:relatedTo vn:BeneficenceDisposition .
+tagteam:Trust ethics:relatedTo vn:TransparencyDisposition .
+tagteam:Honesty ethics:relatedTo vn:TransparencyDisposition .
+tagteam:Respect ethics:relatedTo vn:DignityDisposition .
+
+# =============================================================================
+# Layer 4: Subsumption (ethics:subsumedBy)
+# =============================================================================
+# These indicate category membership — a disposition belongs to a broader class.
+
+vn:SecurityDisposition ethics:subsumedBy vn:SafetyCategory .
+vn:AutonomyDisposition ethics:subsumedBy vn:FreedomCategory .
+vn:BeneficenceDisposition ethics:subsumedBy vn:CareCategory .
+vn:JusticeDisposition ethics:subsumedBy vn:FairnessCategory .
+
+# =============================================================================
+# Labels
+# =============================================================================
+
+tagteam:Autonomy rdfs:label "Autonomy" .
+tagteam:Security rdfs:label "Security" .
+tagteam:Beneficence rdfs:label "Beneficence" .
+tagteam:Justice rdfs:label "Justice" .
+tagteam:Privacy rdfs:label "Privacy" .
+iee:SelfDirectionWorldview rdfs:label "Self-Direction" .
+iee:SecurityWorldview rdfs:label "Security" .
+iee:BenevolenceWorldview rdfs:label "Benevolence" .
+iee:UniversalismWorldview rdfs:label "Universalism" .
+iee:ConformityWorldview rdfs:label "Conformity" .

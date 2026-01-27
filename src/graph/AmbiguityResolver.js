@@ -1,8 +1,10 @@
 /**
- * AmbiguityResolver - Phase 6.1
+ * @file src/graph/AmbiguityResolver.js
+ * @description Phase 6.1 - Ambiguity Resolution
  *
- * Decides which detected ambiguities to preserve as multiple readings
- * vs resolve to a single default interpretation.
+ * The AmbiguityResolver takes ambiguities detected by Phase 5's AmbiguityDetector
+ * and decides which ones should be preserved as multiple readings vs. resolved
+ * to a single default reading.
  *
  * Resolution Strategy:
  * - selectional_violation: Never preserve (flag only, anomalous input)
@@ -11,393 +13,365 @@
  * - scope: Always preserve (significant semantic difference)
  * - potential_metonymy: Flag only, suggest re-typed alternative
  *
- * Hierarchy of Evidence (Priority Order):
- * 1. Selectional Match (verb requirements match only one reading) → 0.99
- * 2. Adverbial Intensifiers (strongly, possibly, certainly)
- * 3. Structural Signals (of-complement, agent position, perfect aspect)
- * 4. Base Heuristics (frequency-based defaults)
- *
  * @example
  * const resolver = new AmbiguityResolver({ preserveThreshold: 0.7 });
- * const resolutions = resolver.resolve(ambiguityReport);
- * // Returns: { preserved: [], resolved: [], flaggedOnly: [] }
+ * const result = resolver.resolve(ambiguityReport);
+ * // Returns: { preserved: [], resolved: [], flagged: [], stats: {...} }
  */
 
-const SelectionalPreferences = require('./SelectionalPreferences.js');
+/**
+ * Default resolution rules for each ambiguity type
+ */
+const DEFAULT_RULES = {
+  selectional_violation: {
+    action: 'flag',
+    reason: 'Anomalous input - flag but do not fork',
+    flag: 'selectionalMismatch'
+  },
 
+  potential_metonymy: {
+    action: 'flag',
+    reason: 'Metonymic usage - annotate but do not fork',
+    flag: 'potentialMetonymy'
+  },
+
+  modal_force: {
+    action: 'threshold',
+    threshold: 0.8,
+    preserveReason: 'Modal ambiguity below confidence threshold',
+    resolveReason: 'Modal ambiguity resolved with high confidence',
+    contextRules: [
+      { signal: 'perfect_aspect', resolve: 'epistemic', confidence: 0.85 },
+      { signal: 'agent_subject', resolve: 'deontic', confidence: 0.75 },
+      { signal: 'stative_verb', resolve: 'epistemic', confidence: 0.7 }
+    ]
+  },
+
+  noun_category: {
+    action: 'context',
+    contextRules: [
+      { signal: 'subject_of_intentional_act', resolve: 'continuant' },
+      { signal: 'duration_predicate', resolve: 'process' },
+      { signal: 'predicate_adjective', resolve: 'process' },
+      { signal: 'of_complement', preserve: true }
+    ],
+    default: { preserve: true, reason: 'No strong context signal' }
+  },
+
+  scope: {
+    action: 'preserve',
+    reason: 'Scope ambiguity is semantically significant',
+    contextRules: [
+      { pattern: 'not_all', defaultReading: 'wide' },
+      { pattern: 'multiple_quantifiers', defaultReading: 'subject_wide' }
+    ]
+  },
+
+  verb_sense: {
+    action: 'threshold',
+    threshold: 0.6,
+    preserveReason: 'Verb sense ambiguous',
+    resolveReason: 'Verb sense resolved with context'
+  }
+};
+
+/**
+ * Default configuration for the resolver
+ */
+const DEFAULT_CONFIG = {
+  preserveThreshold: 0.7,
+  maxReadingsPerNode: 3,
+  maxTotalAlternatives: 10
+};
+
+/**
+ * AmbiguityResolver - Decides how to handle detected ambiguities
+ */
 class AmbiguityResolver {
+  /**
+   * Create an AmbiguityResolver
+   * @param {Object} config - Configuration options
+   * @param {number} config.preserveThreshold - Confidence threshold for preservation (default: 0.7)
+   * @param {number} config.maxReadingsPerNode - Max alternative readings per node (default: 3)
+   * @param {number} config.maxTotalAlternatives - Max total alternatives in output (default: 10)
+   * @param {Object} config.rules - Custom resolution rules
+   */
   constructor(config = {}) {
     this.config = {
-      preserveThreshold: config.preserveThreshold || 0.7,
-      maxReadingsPerNode: config.maxReadingsPerNode || 3,
-      alwaysPreserveScope: config.alwaysPreserveScope !== false,
-      useSelectionalEvidence: config.useSelectionalEvidence !== false,
-      ...config
+      ...DEFAULT_CONFIG,
+      ...(config || {})
     };
 
-    // Selectional preferences for hierarchy of evidence
-    this.selectionalPreferences = config.selectionalPreferences ||
-      new SelectionalPreferences();
-
-    // Adverbial intensifiers that modify modal confidence
-    this.deonticIntensifiers = new Set([
-      'strongly', 'definitely', 'absolutely', 'certainly', 'clearly',
-      'undoubtedly', 'unquestionably', 'necessarily', 'imperatively'
-    ]);
-
-    this.epistemicIntensifiers = new Set([
-      'possibly', 'perhaps', 'maybe', 'probably', 'likely',
-      'presumably', 'apparently', 'seemingly', 'conceivably'
-    ]);
-
-    // Confidence adjustments for intensifiers
-    this.intensifierBoost = 0.15;
+    // Deep copy default rules and merge with custom rules
+    this.rules = JSON.parse(JSON.stringify(DEFAULT_RULES));
+    if (config && config.rules) {
+      Object.assign(this.rules, config.rules);
+    }
   }
 
   /**
-   * Resolve ambiguities from Phase 5 AmbiguityReport
-   * @param {AmbiguityReport} ambiguityReport - Phase 5 ambiguity report
-   * @param {Object} options - Resolution options
-   * @returns {Object} { preserved: [], resolved: [], flaggedOnly: [] }
+   * Resolve ambiguities from an AmbiguityReport
+   * @param {Object} report - AmbiguityReport from AmbiguityDetector
+   * @param {Object} context - Additional context (graph, entities, acts)
+   * @returns {Object} ResolutionResult with preserved, resolved, flagged arrays
    */
-  resolve(ambiguityReport, options = {}) {
+  resolve(report, context = {}) {
     const result = {
-      preserved: [],    // Will generate alternative readings
-      resolved: [],     // Resolved to default, no alternatives
-      flaggedOnly: []   // Selectional violations - flag but don't fork
+      preserved: [],
+      resolved: [],
+      flagged: [],
+      stats: {
+        total: 0,
+        preserved: 0,
+        resolved: 0,
+        flagged: 0
+      }
     };
 
-    if (!ambiguityReport || !ambiguityReport.ambiguities) {
-      return result;
-    }
+    // Get ambiguities from report
+    const ambiguities = report.getAmbiguities ? report.getAmbiguities() : (report.ambiguities || []);
 
-    const threshold = options.preserveThreshold || this.config.preserveThreshold;
-    const maxReadings = options.maxReadingsPerNode || this.config.maxReadingsPerNode;
+    for (const ambiguity of ambiguities) {
+      // Skip null/undefined entries
+      if (!ambiguity) continue;
 
-    for (const ambiguity of ambiguityReport.ambiguities) {
-      const decision = this._decideResolution(ambiguity, { threshold, maxReadings });
+      result.stats.total++;
 
-      // Add resolution metadata to ambiguity
-      const resolved = {
-        ...ambiguity,
-        resolution: decision
-      };
+      const decision = this.shouldPreserve(ambiguity, context);
 
-      result[decision.category].push(resolved);
+      if (decision.flag) {
+        // Flagged ambiguity (anomaly, metonymy)
+        result.flagged.push({
+          ambiguity,
+          flag: decision.flag,
+          reason: decision.reason
+        });
+        result.stats.flagged++;
+      } else if (decision.preserve) {
+        // Check if we've hit the cap
+        if (result.preserved.length < this.config.maxTotalAlternatives) {
+          result.preserved.push({
+            ambiguity,
+            readings: decision.readings || ambiguity.readings,
+            defaultReading: decision.defaultReading,
+            reason: decision.reason
+          });
+          result.stats.preserved++;
+        }
+      } else {
+        // Resolved to single reading
+        result.resolved.push({
+          ambiguity,
+          selectedReading: decision.selectedReading,
+          reason: decision.reason
+        });
+        result.stats.resolved++;
+      }
     }
 
     return result;
   }
 
   /**
-   * Decide how to handle a single ambiguity
-   * @private
+   * Check if a specific ambiguity should be preserved
+   * @param {Object} ambiguity - Single ambiguity from report
+   * @param {Object} context - Additional context
+   * @returns {Object} Decision with preserve, reason, defaultReading, flag, selectedReading
    */
-  _decideResolution(ambiguity, options) {
-    const { threshold } = options;
+  shouldPreserve(ambiguity, context = {}) {
+    const type = ambiguity.type;
+    const rule = this.rules[type];
 
-    // 1. Selectional violations are NEVER preserved - they're anomalies
-    if (ambiguity.type === 'selectional_violation') {
+    // Unknown type - preserve by default
+    if (!rule) {
       return {
-        category: 'flaggedOnly',
-        reason: 'anomalous_input',
-        preserveAlternatives: false,
-        explanation: 'Selectional constraint violation indicates malformed input or figurative language'
+        preserve: true,
+        reason: 'Unknown ambiguity type - preserving by default',
+        readings: this._capReadings(ambiguity.readings)
       };
     }
 
-    // 2. Scope ambiguity ALWAYS preserved (semantic difference is significant)
-    if (ambiguity.type === 'scope' && this.config.alwaysPreserveScope) {
-      return {
-        category: 'preserved',
-        reason: 'significant_semantic_difference',
-        preserveAlternatives: true,
-        explanation: 'Scope ambiguity represents mathematically distinct truth conditions'
-      };
-    }
+    // Handle based on rule action
+    switch (rule.action) {
+      case 'flag':
+        return this._handleFlag(ambiguity, rule);
 
-    // 3. Modal force - check hierarchy of evidence
-    if (ambiguity.type === 'modal_force') {
-      return this._resolveModalForce(ambiguity, threshold);
-    }
+      case 'preserve':
+        return this._handlePreserve(ambiguity, rule);
 
-    // 4. Noun category - check selectional match and of-complement
-    if (ambiguity.type === 'noun_category') {
-      return this._resolveNounCategory(ambiguity, threshold);
-    }
+      case 'threshold':
+        return this._handleThreshold(ambiguity, rule, context);
 
-    // 5. Potential metonymy - flag only, suggest re-typed alternative
-    if (ambiguity.type === 'potential_metonymy') {
-      return {
-        category: 'flaggedOnly',
-        reason: 'metonymy_suggested',
-        preserveAlternatives: false,
-        suggestRetyping: true,
-        suggestedType: 'cco:Organization',
-        explanation: 'Location used as agent suggests institutional metonymy'
-      };
-    }
+      case 'context':
+        return this._handleContext(ambiguity, rule, context);
 
-    // Default: use confidence-based resolution
-    const confidence = this._computeBaseConfidence(ambiguity);
-    if (confidence >= threshold) {
-      return {
-        category: 'resolved',
-        reason: 'high_confidence',
-        confidence,
-        preserveAlternatives: false
-      };
+      default:
+        return {
+          preserve: true,
+          reason: 'Unknown rule action - preserving by default',
+          readings: this._capReadings(ambiguity.readings)
+        };
     }
+  }
 
+  /**
+   * Get resolution rule for ambiguity type
+   * @param {string} type - Ambiguity type
+   * @returns {Object|undefined} Resolution rule
+   */
+  getRule(type) {
+    return this.rules[type];
+  }
+
+  /**
+   * Add or override a resolution rule
+   * @param {string} type - Ambiguity type
+   * @param {Object} rule - Resolution rule
+   */
+  setRule(type, rule) {
+    this.rules[type] = rule;
+  }
+
+  // ============================================
+  // Private methods
+  // ============================================
+
+  /**
+   * Handle flag action (always flag, never preserve)
+   */
+  _handleFlag(ambiguity, rule) {
     return {
-      category: 'preserved',
-      reason: 'low_confidence',
-      confidence,
-      preserveAlternatives: true
+      preserve: false,
+      flag: rule.flag,
+      reason: rule.reason
     };
   }
 
   /**
-   * Resolve modal force ambiguity using hierarchy of evidence
-   * @private
+   * Handle preserve action (always preserve)
    */
-  _resolveModalForce(ambiguity, threshold) {
-    let confidence = this._computeBaseConfidence(ambiguity);
-    let deonticBoost = 0;
-    let epistemicBoost = 0;
-
-    // Check for adverbial intensifiers in signals or source text
+  _handlePreserve(ambiguity, rule) {
     const signals = ambiguity.signals || [];
-    const sourceText = (ambiguity.span || '').toLowerCase();
+    let defaultReading = null;
 
-    // Check signals for intensifier evidence
-    if (signals.includes('agent_subject')) deonticBoost += 0.1;
-    if (signals.includes('intentional_act')) deonticBoost += 0.1;
-    if (signals.includes('second_person_subject')) deonticBoost += 0.15;
-    if (signals.includes('perfect_aspect')) epistemicBoost += 0.2;
-    if (signals.includes('stative_verb')) epistemicBoost += 0.1;
-
-    // Check for explicit adverbial intensifiers
-    for (const intensifier of this.deonticIntensifiers) {
-      if (sourceText.includes(intensifier)) {
-        deonticBoost += this.intensifierBoost;
-        break;
+    // Check for context rules that set default reading
+    if (rule.contextRules) {
+      for (const ctxRule of rule.contextRules) {
+        if (ctxRule.pattern && signals.includes(ctxRule.pattern)) {
+          defaultReading = ctxRule.defaultReading;
+          break;
+        }
       }
     }
 
-    for (const intensifier of this.epistemicIntensifiers) {
-      if (sourceText.includes(intensifier)) {
-        epistemicBoost += this.intensifierBoost;
-        break;
+    return {
+      preserve: true,
+      reason: rule.reason,
+      readings: this._capReadings(ambiguity.readings),
+      defaultReading
+    };
+  }
+
+  /**
+   * Handle threshold action (preserve if below threshold)
+   */
+  _handleThreshold(ambiguity, rule, context) {
+    const signals = ambiguity.signals || [];
+    const confidence = ambiguity.confidence ?? 0.5; // Default to 0.5 if missing
+    // Use global config threshold - it takes precedence over rule-specific threshold
+    const threshold = this.config.preserveThreshold;
+
+    // First check context rules - they can override threshold behavior
+    if (rule.contextRules && signals.length > 0) {
+      for (const ctxRule of rule.contextRules) {
+        if (signals.includes(ctxRule.signal)) {
+          return {
+            preserve: false,
+            selectedReading: ctxRule.resolve,
+            reason: `Context signal '${ctxRule.signal}' indicates ${ctxRule.resolve}`
+          };
+        }
       }
     }
 
-    // Determine which reading is favored
-    const netBoost = deonticBoost - epistemicBoost;
-    const adjustedConfidence = Math.min(0.99, confidence + Math.abs(netBoost));
-
-    // If strong signal in either direction, resolve
-    if (Math.abs(netBoost) >= 0.2) {
-      const favoredReading = netBoost > 0 ? 'deontic' : 'epistemic';
-      return {
-        category: 'resolved',
-        reason: 'strong_evidence',
-        confidence: adjustedConfidence,
-        favoredReading,
-        deonticBoost,
-        epistemicBoost,
-        preserveAlternatives: false,
-        explanation: `Strong ${favoredReading} signals (boost: ${netBoost.toFixed(2)})`
-      };
-    }
-
-    // Check base confidence
-    if (adjustedConfidence >= threshold) {
-      return {
-        category: 'resolved',
-        reason: 'high_confidence',
-        confidence: adjustedConfidence,
-        deonticBoost,
-        epistemicBoost,
-        preserveAlternatives: false
-      };
-    }
-
-    // Preserve as genuinely ambiguous
-    return {
-      category: 'preserved',
-      reason: 'balanced_evidence',
-      confidence: adjustedConfidence,
-      deonticBoost,
-      epistemicBoost,
-      preserveAlternatives: true,
-      explanation: 'Signals are balanced; both readings plausible'
-    };
-  }
-
-  /**
-   * Resolve noun category ambiguity using selectional evidence
-   * @private
-   */
-  _resolveNounCategory(ambiguity, threshold) {
-    const signals = ambiguity.signals || [];
-    let entityConfidence = 0.5;
-    let processConfidence = 0.5;
-
-    // Hierarchy Level 1: Selectional Match (highest priority)
-    if (this.config.useSelectionalEvidence && signals.includes('subject_of_intentional_act')) {
-      // If noun is agent of intentional verb, it must be an entity
-      // Check if verb requires organization/animate agent
-      entityConfidence = 0.99;
-      return {
-        category: 'resolved',
-        reason: 'selectional_match',
-        confidence: entityConfidence,
-        defaultReading: 'continuant',
-        preserveAlternatives: false,
-        explanation: 'Verb selectional requirements match only entity reading'
-      };
-    }
-
-    // Hierarchy Level 3: Structural Signals
-    // "of" complement suggests process reading but preserves ambiguity
-    // (e.g., "the organization of files" - could be process or entity)
-    const hasOfComplement = signals.includes('of_complement');
-
-    if (hasOfComplement) {
-      processConfidence += 0.15; // Smaller boost, preserve ambiguity
-    }
-
-    if (signals.includes('duration_predicate')) {
-      processConfidence += 0.3; // Strong signal for process
-    }
-
-    if (signals.includes('predicate_adjective')) {
-      processConfidence += 0.1;
-    }
-
-    // Determine confidence
-    const confidence = Math.max(entityConfidence, processConfidence);
-    const defaultReading = processConfidence > entityConfidence ? 'process' : 'continuant';
-
-    // "of" complement always preserves ambiguity unless there's overwhelming evidence
-    if (hasOfComplement && confidence < 0.9) {
-      return {
-        category: 'preserved',
-        reason: 'of_complement_present',
-        confidence,
-        defaultReading,
-        preserveAlternatives: true,
-        explanation: '"of" complement suggests process reading but context unclear'
-      };
-    }
-
+    // Apply threshold check
     if (confidence >= threshold) {
+      // High confidence - resolve
       return {
-        category: 'resolved',
-        reason: 'structural_evidence',
-        confidence,
-        defaultReading,
-        preserveAlternatives: false
+        preserve: false,
+        selectedReading: ambiguity.readings ? ambiguity.readings[0] : null,
+        reason: `Resolved with high confidence (${confidence} >= ${threshold})`
+      };
+    } else {
+      // Low confidence - preserve
+      return {
+        preserve: true,
+        reason: `Confidence ${confidence} below threshold ${threshold}`,
+        readings: this._capReadings(ambiguity.readings)
       };
     }
+  }
 
-    // Fallback: preserve if confidence is low
-    if (confidence < threshold && processConfidence > 0.5) {
-      return {
-        category: 'preserved',
-        reason: 'weak_process_signal',
-        confidence,
-        defaultReading,
-        preserveAlternatives: true,
-        explanation: '"of" complement suggests process reading but context unclear'
-      };
+  /**
+   * Handle context action (decision based on signals)
+   */
+  _handleContext(ambiguity, rule, context) {
+    const signals = ambiguity.signals || [];
+
+    // Check context rules in order (first match wins)
+    if (rule.contextRules) {
+      for (const ctxRule of rule.contextRules) {
+        if (signals.includes(ctxRule.signal)) {
+          if (ctxRule.preserve) {
+            return {
+              preserve: true,
+              reason: `Context signal '${ctxRule.signal}' indicates preservation`,
+              readings: this._capReadings(ambiguity.readings)
+            };
+          } else {
+            return {
+              preserve: false,
+              selectedReading: ctxRule.resolve,
+              reason: `Context signal '${ctxRule.signal}' resolves to ${ctxRule.resolve}`
+            };
+          }
+        }
+      }
     }
 
+    // No matching signal - use default
+    if (rule.default) {
+      if (rule.default.preserve) {
+        return {
+          preserve: true,
+          reason: rule.default.reason || 'Default: preserve',
+          readings: this._capReadings(ambiguity.readings)
+        };
+      } else {
+        return {
+          preserve: false,
+          selectedReading: rule.default.resolve,
+          reason: rule.default.reason || 'Default: resolve'
+        };
+      }
+    }
+
+    // Ultimate fallback - preserve
     return {
-      category: 'resolved',
-      reason: 'default_heuristic',
-      confidence: 0.6,
-      defaultReading: 'continuant',
-      preserveAlternatives: false,
-      explanation: 'No strong signals; defaulting to entity reading'
+      preserve: true,
+      reason: 'No matching context rule - preserving by default',
+      readings: this._capReadings(ambiguity.readings)
     };
   }
 
   /**
-   * Compute base confidence from ambiguity signals
-   * @private
+   * Cap readings to maxReadingsPerNode
    */
-  _computeBaseConfidence(ambiguity) {
-    // Map confidence strings to numeric values
-    const confidenceMap = {
-      'high': 0.85,
-      'medium': 0.6,
-      'low': 0.4
-    };
-
-    if (typeof ambiguity.confidence === 'number') {
-      return ambiguity.confidence;
+  _capReadings(readings) {
+    if (!readings || !Array.isArray(readings)) {
+      return readings;
     }
-
-    return confidenceMap[ambiguity.confidence] || 0.5;
-  }
-
-  /**
-   * Get resolution statistics
-   * @param {Object} resolutions - Output from resolve()
-   * @returns {Object} Statistics about the resolutions
-   */
-  getStatistics(resolutions) {
-    return {
-      total: resolutions.preserved.length +
-             resolutions.resolved.length +
-             resolutions.flaggedOnly.length,
-      preserved: resolutions.preserved.length,
-      resolved: resolutions.resolved.length,
-      flaggedOnly: resolutions.flaggedOnly.length,
-      byType: this._countByType(resolutions),
-      byReason: this._countByReason(resolutions)
-    };
-  }
-
-  /**
-   * Count resolutions by ambiguity type
-   * @private
-   */
-  _countByType(resolutions) {
-    const counts = {};
-    const all = [
-      ...resolutions.preserved,
-      ...resolutions.resolved,
-      ...resolutions.flaggedOnly
-    ];
-
-    for (const r of all) {
-      counts[r.type] = (counts[r.type] || 0) + 1;
-    }
-
-    return counts;
-  }
-
-  /**
-   * Count resolutions by reason
-   * @private
-   */
-  _countByReason(resolutions) {
-    const counts = {};
-    const all = [
-      ...resolutions.preserved,
-      ...resolutions.resolved,
-      ...resolutions.flaggedOnly
-    ];
-
-    for (const r of all) {
-      const reason = r.resolution?.reason || 'unknown';
-      counts[reason] = (counts[reason] || 0) + 1;
-    }
-
-    return counts;
+    return readings.slice(0, this.config.maxReadingsPerNode);
   }
 }
 

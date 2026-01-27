@@ -25,10 +25,11 @@ const VERB_CLASSES = {
       'determine', 'conclude', 'assume', 'suspect', 'doubt',
       'prefer', 'want', 'need', 'desire', 'expect', 'anticipate',
       'know', 'understand', 'realize', 'recognize', 'remember',
-      'forget', 'learn', 'discover', 'notice', 'perceive'
+      'forget', 'learn', 'discover', 'notice', 'perceive', 'fear'
     ]),
-    subjectRequirement: ['animate', 'organization'],
-    objectRequirement: null,
+    subjectRequirement: ['animate', 'organization', 'collective'],
+    subjectForbidden: ['inanimate', 'abstract'],
+    objectRequirement: null,  // Mental verbs have loose object constraints
     ontologyType: 'cco:MentalAct'
   },
 
@@ -36,13 +37,16 @@ const VERB_CLASSES = {
   intentional_physical: {
     verbs: new Set([
       'lift', 'throw', 'carry', 'push', 'pull', 'hit', 'kick',
-      'run', 'walk', 'jump', 'climb', 'cut', 'break', 'touch',
+      'jump', 'climb', 'cut', 'break', 'touch',
       'grasp', 'hold', 'grab', 'drop', 'catch', 'shake',
       'bend', 'stretch', 'squeeze', 'tear', 'rip', 'fold',
-      'eat', 'drink', 'breathe', 'sleep', 'swim', 'fly'
+      'eat', 'drink', 'swim', 'fly'
+      // Note: 'walk', 'run', 'breathe', 'sleep' are motion/state verbs, not in this class
     ]),
     subjectRequirement: ['animate'],
-    objectRequirement: ['material_entity'],
+    subjectForbidden: ['inanimate', 'abstract', 'organization'],
+    objectRequirement: ['material_entity', 'inanimate'],  // Physical objects
+    objectForbidden: ['abstract'],
     ontologyType: 'cco:PhysicalAct'
   },
 
@@ -54,10 +58,11 @@ const VERB_CLASSES = {
       'suggest', 'recommend', 'propose', 'order', 'command',
       'forbid', 'permit', 'authorize', 'deny', 'confirm', 'reject',
       'say', 'speak', 'write', 'publish', 'broadcast', 'notify',
-      'respond', 'reply', 'answer', 'explain', 'describe'
+      'respond', 'reply', 'answer', 'explain', 'describe', 'assert'
     ]),
-    subjectRequirement: ['animate', 'organization'],
-    objectRequirement: ['proposition', 'animate'],
+    subjectRequirement: ['animate', 'organization', 'collective'],
+    subjectForbidden: ['inanimate'],
+    objectRequirement: null,  // Can announce anything
     ontologyType: 'cco:CommunicativeAct'
   },
 
@@ -69,8 +74,9 @@ const VERB_CLASSES = {
       'return', 'transfer', 'convey', 'supply', 'furnish',
       'award', 'bestow', 'contribute', 'share', 'pass'
     ]),
-    subjectRequirement: ['animate', 'organization'],
-    objectRequirement: ['continuant'],
+    subjectRequirement: ['animate', 'organization', 'collective'],
+    subjectForbidden: ['inanimate', 'abstract'],
+    objectRequirement: null,  // Can transfer many things - be permissive
     ontologyType: 'cco:TransferAct'
   },
 
@@ -124,6 +130,19 @@ const VERB_CLASSES = {
     ontologyType: 'cco:PerceptionAct'
   },
 
+  // Causation (any subject can cause - even inanimate)
+  causation: {
+    verbs: new Set([
+      'cause', 'create', 'produce', 'generate', 'make',
+      'trigger', 'induce', 'bring', 'result', 'lead',
+      'provoke', 'spark', 'initiate', 'start', 'begin'
+    ]),
+    subjectRequirement: null,  // Any subject allowed (storms can cause)
+    subjectForbidden: [],
+    objectRequirement: null,
+    ontologyType: 'bfo:Process'
+  },
+
   // Stative/relational (broad subject requirements)
   stative: {
     verbs: new Set([
@@ -133,6 +152,7 @@ const VERB_CLASSES = {
       'cost', 'weigh', 'measure', 'equal', 'represent'
     ]),
     subjectRequirement: null, // Any subject allowed
+    subjectForbidden: [],
     objectRequirement: null,
     ontologyType: 'bfo:RelationalQuality'
   }
@@ -150,7 +170,8 @@ const ENTITY_CATEGORIES = {
     'student', 'teacher', 'professor', 'researcher', 'scientist',
     'customer', 'client', 'user', 'consumer', 'citizen', 'resident',
     'he', 'she', 'they', 'i', 'we', 'you', 'one',
-    'someone', 'anyone', 'everyone', 'nobody', 'somebody', 'whoever'
+    'someone', 'anyone', 'everyone', 'nobody', 'somebody', 'whoever',
+    'family'  // family can also be collective but is primarily animate
   ]),
 
   // Organizations (can perform mental, communication, transfer acts)
@@ -167,7 +188,14 @@ const ENTITY_CATEGORIES = {
     'house', 'office', 'bench', 'bar', 'chair'
   ]),
 
-  // Material entities (physical objects)
+  // Collective (groups that can act as one, subset of animate)
+  collective: new Set([
+    'family', 'group', 'team', 'staff', 'crew', 'public',
+    'committee', 'board', 'council', 'panel', 'jury',
+    'audience', 'crowd', 'population', 'community', 'society'
+  ]),
+
+  // Material entities (physical objects that can be transferred, moved, etc.)
   material_entity: new Set([
     'ventilator', 'medication', 'equipment', 'device', 'machine',
     'tool', 'instrument', 'apparatus', 'appliance', 'mechanism',
@@ -176,8 +204,12 @@ const ENTITY_CATEGORIES = {
     'table', 'chair', 'desk', 'bed', 'door', 'window',
     'computer', 'phone', 'screen', 'keyboard', 'monitor',
     'file', 'document', 'report', 'form', 'record', 'paper',
-    'resource', 'material', 'substance', 'item', 'object', 'thing',
-    'food', 'water', 'medicine', 'drug', 'treatment'
+    'resource', 'resources', 'material', 'substance', 'item', 'object', 'thing',
+    'food', 'water', 'medicine', 'drug', 'treatment',
+    'box', 'package', 'container', 'bag', 'case',
+    'organ', 'tissue', 'blood', 'sample', 'specimen',
+    'money', 'funds', 'payment', 'gift', 'donation',
+    'care', 'service', 'support', 'aid', 'assistance'  // Abstract but transferable
   ]),
 
   // Inanimate (cannot be agents of intentional acts)
@@ -188,7 +220,9 @@ const ENTITY_CATEGORIES = {
     'metal', 'plastic', 'glass', 'wood', 'concrete', 'brick',
     'data', 'information', 'result', 'outcome', 'statistic',
     'number', 'figure', 'percentage', 'ratio', 'rate',
-    'weather', 'climate', 'temperature', 'pressure', 'humidity'
+    'weather', 'climate', 'temperature', 'pressure', 'humidity',
+    'ventilator', 'machine', 'equipment', 'device', 'apparatus',
+    'table', 'chair', 'desk', 'furniture'
   ]),
 
   // Abstract entities (concepts, qualities)
@@ -327,7 +361,7 @@ class SelectionalPreferences {
   }
 
   /**
-   * Get the category of an entity based on its noun/type
+   * Get the category of an entity based on its noun/type (returns single category)
    * @param {string} entityType - The entity type or noun
    * @returns {string} The category: 'animate', 'organization', 'inanimate', 'abstract', etc.
    */
@@ -361,6 +395,262 @@ class SelectionalPreferences {
 
     // Default to inanimate for unknown
     return 'inanimate';
+  }
+
+  /**
+   * Get all matching categories for an entity (returns array)
+   * @param {Object|string} entity - Entity object with type/label or string
+   * @returns {string[]} Array of matching category names
+   */
+  getEntityCategories(entity) {
+    if (!entity) return ['unknown'];
+    if (typeof entity === 'string') {
+      const cat = this.getEntityCategory(entity);
+      return cat === 'unknown' ? ['unknown'] : [cat];
+    }
+
+    const categories = new Set();
+    const label = this._extractLabel(entity);
+    const type = this._extractType(entity);
+
+    // Check type first (more reliable)
+    if (type) {
+      if (type.includes('Person') || type.includes('Organism')) {
+        categories.add('animate');
+      }
+      if (type.includes('Organization') || type.includes('GroupOfPersons')) {
+        categories.add('organization');
+        categories.add('collective');
+      }
+      if (type.includes('Quality') || type.includes('GenericallyDependentContinuant')) {
+        categories.add('abstract');
+      }
+      if (type.includes('MaterialEntity')) {
+        // MaterialEntity is a broad type - check label for more specificity
+        const labelCat = label ? this.getEntityCategory(label) : null;
+        if (labelCat === 'animate' || labelCat === 'organization') {
+          categories.add(labelCat);
+        } else {
+          categories.add('material_entity');
+          // Also add inanimate if the label is in the inanimate list
+          if (label && this.entityCategories.inanimate.has(label.toLowerCase())) {
+            categories.add('inanimate');
+          }
+        }
+      }
+    }
+
+    // Check label
+    if (label) {
+      const lowerLabel = label.toLowerCase();
+
+      // Handle multi-word labels like "The White House"
+      const words = lowerLabel.split(/\s+/);
+      const lastWord = words[words.length - 1];
+
+      // Check for metonymic patterns (government institutions referred to by location)
+      if (this._isMetonymicOrganization(label)) {
+        categories.add('organization');
+      }
+
+      // Check each category
+      for (const [catName, catSet] of Object.entries(this.entityCategories)) {
+        if (catSet.has(lowerLabel) || catSet.has(lastWord)) {
+          categories.add(catName);
+        }
+      }
+
+      // Apply heuristics if nothing found
+      if (categories.size === 0) {
+        const heuristicCat = this.getEntityCategory(label);
+        if (heuristicCat !== 'unknown') {
+          categories.add(heuristicCat);
+        }
+      }
+    }
+
+    // Default to unknown if nothing found
+    if (categories.size === 0) {
+      return ['unknown'];
+    }
+
+    return Array.from(categories);
+  }
+
+  /**
+   * Check if subject is valid for verb with confidence score
+   * @param {string} verb - The verb lemma
+   * @param {Object|string} entity - Entity object or string
+   * @returns {Object} { valid: boolean, confidence: number, reason: string }
+   */
+  checkSubject(verb, entity) {
+    // Handle edge cases
+    if (!verb || verb === '') {
+      return { valid: true, confidence: 0, reason: 'Empty verb - no validation possible' };
+    }
+    if (entity === null || entity === undefined) {
+      return { valid: true, confidence: 0, reason: 'Null entity - no validation possible' };
+    }
+    if (typeof entity === 'object' && Object.keys(entity).length === 0) {
+      return { valid: true, confidence: 0.5, reason: 'Empty entity - defaulting to permissive' };
+    }
+
+    const verbClass = this.getVerbClass(verb);
+    const entityCategories = this.getEntityCategories(entity);
+
+    // Unknown verb - be permissive
+    if (!verbClass) {
+      return {
+        valid: true,
+        confidence: 0.5,
+        reason: `Unknown verb '${verb}' - no selectional constraints defined`
+      };
+    }
+
+    const classData = this.verbClasses[verbClass];
+    const requirement = classData.subjectRequirement;
+    const forbidden = classData.subjectForbidden || [];
+
+    // No requirement means any subject is valid
+    if (!requirement) {
+      return {
+        valid: true,
+        confidence: 0.8,
+        reason: `Verb class '${verbClass}' allows any subject`
+      };
+    }
+
+    // Check if any entity category is forbidden
+    for (const cat of entityCategories) {
+      if (forbidden.includes(cat)) {
+        return {
+          valid: false,
+          confidence: 0.9,
+          reason: `Category '${cat}' is forbidden for '${verbClass}' verbs`
+        };
+      }
+    }
+
+    // Check if any entity category matches requirement
+    const hasMatch = entityCategories.some(cat => requirement.includes(cat));
+
+    if (hasMatch) {
+      // Higher confidence for type-based matches vs label heuristics
+      const hasTypeMatch = this._extractType(entity) !== null;
+      return {
+        valid: true,
+        confidence: hasTypeMatch ? 0.95 : 0.9,
+        reason: `Entity matches required categories: ${requirement.join(', ')}`
+      };
+    }
+
+    // No match - check if it's a clear violation or just unknown
+    if (entityCategories.includes('unknown')) {
+      return {
+        valid: true,
+        confidence: 0.5,
+        reason: 'Unknown entity category - defaulting to permissive'
+      };
+    }
+
+    return {
+      valid: false,
+      confidence: 0.85,
+      reason: `Entity categories [${entityCategories.join(', ')}] don't match required [${requirement.join(', ')}]`
+    };
+  }
+
+  /**
+   * Check if object is valid for verb with confidence score
+   * @param {string} verb - The verb lemma
+   * @param {Object|string} entity - Entity object or string
+   * @returns {Object} { valid: boolean, confidence: number, reason: string }
+   */
+  checkObject(verb, entity) {
+    // Handle edge cases
+    if (!verb || verb === '') {
+      return { valid: true, confidence: 0, reason: 'Empty verb - no validation possible' };
+    }
+    if (!entity) {
+      return { valid: true, confidence: 0.5, reason: 'No object provided' };
+    }
+
+    const verbClass = this.getVerbClass(verb);
+    const entityCategories = this.getEntityCategories(entity);
+
+    // Unknown verb - be permissive
+    if (!verbClass) {
+      return {
+        valid: true,
+        confidence: 0.5,
+        reason: `Unknown verb '${verb}' - no selectional constraints defined`
+      };
+    }
+
+    const classData = this.verbClasses[verbClass];
+    const requirement = classData.objectRequirement;
+
+    // No requirement means any object is valid
+    if (!requirement) {
+      return {
+        valid: true,
+        confidence: 0.7,
+        reason: `Verb class '${verbClass}' allows any object`
+      };
+    }
+
+    // Check if any entity category matches requirement
+    const hasMatch = entityCategories.some(cat => requirement.includes(cat));
+
+    if (hasMatch) {
+      return {
+        valid: true,
+        confidence: 0.9,
+        reason: `Object matches required categories: ${requirement.join(', ')}`
+      };
+    }
+
+    // Check for abstract entity with physical verb
+    if (entityCategories.includes('abstract')) {
+      const physicalClasses = ['intentional_physical'];
+      if (physicalClasses.includes(verbClass)) {
+        return {
+          valid: false,
+          confidence: 0.85,
+          reason: `Abstract entities cannot be objects of physical actions`
+        };
+      }
+    }
+
+    // No match - but be more permissive for objects than subjects
+    if (entityCategories.includes('unknown')) {
+      return {
+        valid: true,
+        confidence: 0.5,
+        reason: 'Unknown entity category - defaulting to permissive'
+      };
+    }
+
+    return {
+      valid: false,
+      confidence: 0.8,
+      reason: `Object categories [${entityCategories.join(', ')}] don't match required [${requirement.join(', ')}]`
+    };
+  }
+
+  /**
+   * Add an entity keyword to a category
+   * @param {string} category - The category name
+   * @param {string} keyword - The keyword to add
+   * @returns {boolean} True if added successfully
+   */
+  addEntityKeyword(category, keyword) {
+    if (!this.entityCategories[category]) {
+      // Create new category if it doesn't exist
+      this.entityCategories[category] = new Set();
+    }
+    this.entityCategories[category].add(keyword.toLowerCase());
+    return true;
   }
 
   /**
@@ -518,6 +808,44 @@ class SelectionalPreferences {
   }
 
   // ============ Private Helpers ============
+
+  /**
+   * Extract label from entity object
+   * @private
+   */
+  _extractLabel(entity) {
+    if (!entity) return null;
+    if (typeof entity === 'string') return entity;
+    return entity.label || entity['rdfs:label'] || entity.name || null;
+  }
+
+  /**
+   * Extract type from entity object
+   * @private
+   */
+  _extractType(entity) {
+    if (!entity) return null;
+    if (typeof entity === 'string') return null;
+    return entity.type || entity['@type'] || entity.denotesType || null;
+  }
+
+  /**
+   * Check if a label represents a metonymic organization reference
+   * @private
+   */
+  _isMetonymicOrganization(label) {
+    if (!label) return false;
+    const lowerLabel = label.toLowerCase();
+
+    // Known metonymic references
+    const metonymicPatterns = [
+      'white house', 'kremlin', 'pentagon', 'downing street',
+      'capitol', 'wall street', 'city hall', 'state department',
+      'foreign office', 'ministry', 'palace'
+    ];
+
+    return metonymicPatterns.some(p => lowerLabel.includes(p));
+  }
 
   /**
    * Get approximate base form of a verb

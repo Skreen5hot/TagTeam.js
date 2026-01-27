@@ -77,27 +77,37 @@ const VERB_TO_CCO_MAPPINGS = {
 /**
  * Deontic modality mappings
  * Maps modal auxiliaries to modality types
+ *
+ * Phase 6.4: Extended deontic vocabulary based on BFO-based deontic ontology
+ * and Hohfeldian fundamental legal concepts.
  */
 const MODALITY_MAPPINGS = {
-  // Obligation
+  // Obligation (duty to act)
   'must': 'obligation',
+  'shall': 'obligation',           // Added - legal/formal
   'have to': 'obligation',
   'need to': 'obligation',
   'required': 'obligation',
+  'obligated': 'obligation',       // Added
 
-  // Permission
+  // Permission (liberty to act)
   'may': 'permission',
   'can': 'permission',
   'allowed': 'permission',
+  'permitted': 'permission',       // Added
+  'free to': 'permission',         // Added
 
-  // Prohibition
+  // Prohibition (duty not to act)
   'must not': 'prohibition',
+  'shall not': 'prohibition',      // Added - legal/formal
   'cannot': 'prohibition',
   'may not': 'prohibition',
+  'not allowed': 'prohibition',    // Added
 
-  // Recommendation
+  // Recommendation (soft obligation)
   'should': 'recommendation',
   'ought': 'recommendation',
+  'advisable': 'recommendation',   // Added
 
   // Intention
   'will': 'intention',
@@ -106,16 +116,124 @@ const MODALITY_MAPPINGS = {
 };
 
 /**
+ * Extended lexical deontic markers
+ * Maps lexical patterns to modality types (beyond modal auxiliaries)
+ *
+ * Phase 6.4: Hohfeldian deontic concepts
+ */
+const LEXICAL_DEONTIC_MARKERS = {
+  // Claim/Right (Hohfeldian claim - correlative of duty)
+  claim: {
+    patterns: [
+      /\b(is|are)\s+entitled\s+to\b/i,
+      /\b(has|have)\s+(the\s+)?right\s+to\b/i,
+      /\bhas\s+the\s+right\b/i,
+      /\bdeserves?\s+\w+/i,
+      /\b(is|are)\s+owed\b/i,
+      /\bdue\s+to\b/i,
+      /\bentitled\s+to\b/i
+    ],
+    singleWords: ['entitled', 'deserves', 'deserve', 'owed']
+  },
+
+  // Power/Authority (Hohfeldian power - ability to change normative relations)
+  power: {
+    patterns: [
+      /\b(is|are)\s+authorized\s+to\b/i,
+      /\b(is|are)\s+empowered\s+to\b/i,
+      /\bempowers?\s+\w+/i,
+      /\bdelegates?\s+\w+/i,
+      /\bgrants?\s+\w+/i,
+      /\bconfers?\s+\w+/i,
+      /\bauthorize[sd]?\s+to\b/i
+    ],
+    singleWords: ['authorize', 'authorizes', 'authorized', 'empower', 'empowers', 'empowered',
+                  'delegate', 'delegates', 'delegated', 'grant', 'grants', 'granted',
+                  'confer', 'confers', 'conferred']
+  },
+
+  // Immunity (Hohfeldian immunity - protection from power)
+  immunity: {
+    patterns: [
+      /\b(is|are)\s+exempt\s+from\b/i,
+      /\b(is|are)\s+immune\s+(from|to)\b/i,
+      /\b(is|are)\s+protected\s+from\b/i,
+      /\bexempt\s+from\b/i,
+      /\bprotected\s+from\b/i,
+      /\bimmune\s+(from|to)\b/i
+    ],
+    singleWords: ['exempt', 'exempted', 'immune']
+  },
+
+  // Enhanced prohibition detection
+  prohibition: {
+    patterns: [
+      /\b(is|are)\s+forbidden\s+(to|from)\b/i,
+      /\b(is|are)\s+prohibited\s+from\b/i,
+      /\b(is|are)\s+not\s+allowed\s+to\b/i,
+      /\b(is|are)\s+banned\s+from\b/i,
+      /\bforbidden\s+(to|from)\b/i,
+      /\bprohibited\s+from\b/i
+    ],
+    singleWords: ['forbidden', 'prohibited', 'banned']
+  },
+
+  // Enhanced permission detection
+  permission: {
+    patterns: [
+      /\b(is|are)\s+allowed\s+to\b/i,
+      /\b(is|are)\s+permitted\s+to\b/i
+    ],
+    singleWords: []
+  },
+
+  // Enhanced obligation detection
+  obligation: {
+    patterns: [
+      /\b(is|are)\s+required\s+to\b/i,
+      /\b(is|are)\s+obligated\s+to\b/i
+    ],
+    singleWords: ['required', 'obligated']
+  }
+};
+
+/**
  * Modality to ActualityStatus mapping
  * Maps deontic modality to appropriate actuality status
+ *
+ * Phase 6.4: Extended with Hohfeldian-based status values
  */
 const MODALITY_TO_STATUS = {
+  // Existing
   'obligation': 'tagteam:Prescribed',
   'permission': 'tagteam:Permitted',
   'prohibition': 'tagteam:Prohibited',
   'recommendation': 'tagteam:Prescribed', // Recommendations are a softer form of prescription
   'intention': 'tagteam:Planned',
-  'hypothetical': 'tagteam:Hypothetical'
+  'hypothetical': 'tagteam:Hypothetical',
+
+  // Phase 6.4: New Hohfeldian-based statuses
+  'claim': 'tagteam:Entitled',            // Right-holder status
+  'power': 'tagteam:Empowered',           // Authority status
+  'immunity': 'tagteam:Protected'         // Protection status
+};
+
+/**
+ * Modality to Deontic Type mapping
+ * Maps modality to Hohfeldian deontic classification
+ *
+ * Phase 6.4: For advanced normative relation analysis
+ */
+const MODALITY_TO_DEONTIC_TYPE = {
+  'obligation': 'duty',
+  'permission': 'privilege',
+  'prohibition': 'duty',        // duty NOT to act
+  'recommendation': 'soft_duty',
+  'claim': 'claim',
+  'power': 'power',
+  'immunity': 'immunity',
+  'intention': null,
+  'hypothetical': null
 };
 
 /**
@@ -270,6 +388,9 @@ class ActExtractor {
   /**
    * Extract acts from text and return IntentionalAct nodes
    *
+   * Phase 6.4: Enhanced to detect sentence-level deontic patterns
+   * that Compromise NLP may miss.
+   *
    * @param {string} text - Input text to analyze
    * @param {Object} [options] - Extraction options
    * @param {Array} [options.entities] - Entities for linking
@@ -278,6 +399,13 @@ class ActExtractor {
   extract(text, options = {}) {
     const acts = [];
     const entities = options.entities || this.entities;
+
+    // Phase 6.4: First detect sentence-level deontic patterns
+    // These may not be captured by Compromise NLP verb extraction
+    const sentenceDeontic = this._detectSentenceLevelDeontic(text, entities);
+    if (sentenceDeontic) {
+      acts.push(sentenceDeontic);
+    }
 
     // Parse with Compromise NLP
     const doc = nlp(text);
@@ -312,8 +440,10 @@ class ActExtractor {
       // Determine CCO act type (with selectional restrictions if object type available)
       const actType = this._determineActType(infinitive, { directObjectType });
 
-      // Detect modality
-      const modality = this._detectModality(verbData);
+      // Phase 6.4: Enhanced modality detection with lexical markers
+      const modalityResult = this._detectModalityEnhanced(verbData, text);
+      const modality = modalityResult.modality;
+      const deonticType = modalityResult.deonticType;
 
       // Detect negation
       const negation = verbData.negative || false;
@@ -324,13 +454,14 @@ class ActExtractor {
       // Link to entities (agent, patient, affected)
       const links = this._linkToEntities(text, verbText, offset, entities);
 
-      // Create IntentionalAct node
+      // Create IntentionalAct node (Phase 6.4: includes deonticType)
       const act = this._createIntentionalAct({
         text: verbText,
         infinitive,
         offset,
         actType,
         modality,
+        deonticType,
         negation,
         tense,
         links
@@ -523,30 +654,171 @@ class ActExtractor {
   }
 
   /**
-   * Detect deontic modality from verb data
+   * Detect deontic modality from verb data and text
+   *
+   * Phase 6.4: Enhanced to detect both auxiliary-based modals
+   * and lexical deontic markers.
+   *
    * @param {Object} verbData - Compromise verb data
-   * @returns {string|null} Modality type or null
+   * @param {string} [text] - Full text for lexical marker detection
+   * @returns {Object} Detection result { modality, markers, confidence, deonticType }
    */
-  _detectModality(verbData) {
+  _detectModality(verbData, text = '') {
+    const result = {
+      modality: null,
+      markers: [],
+      confidence: 0,
+      deonticType: null
+    };
+
     const auxiliary = (verbData.auxiliary || '').toLowerCase().trim();
 
-    if (!auxiliary) {
-      return null;
-    }
-
-    // Check for known modality mappings
-    if (MODALITY_MAPPINGS[auxiliary]) {
-      return MODALITY_MAPPINGS[auxiliary];
-    }
-
-    // Check for compound modals (e.g., "have to")
-    for (const [modal, modality] of Object.entries(MODALITY_MAPPINGS)) {
-      if (auxiliary.includes(modal)) {
-        return modality;
+    // 1. Check auxiliary-based modality (highest confidence)
+    if (auxiliary) {
+      // Check for known modality mappings
+      if (MODALITY_MAPPINGS[auxiliary]) {
+        result.modality = MODALITY_MAPPINGS[auxiliary];
+        result.markers.push({ type: 'auxiliary', text: auxiliary });
+        result.confidence = 0.9;
+      } else {
+        // Check for compound modals (e.g., "have to")
+        for (const [modal, modality] of Object.entries(MODALITY_MAPPINGS)) {
+          if (auxiliary.includes(modal)) {
+            result.modality = modality;
+            result.markers.push({ type: 'auxiliary', text: modal });
+            result.confidence = 0.85;
+            break;
+          }
+        }
       }
     }
 
-    return null;
+    // 2. Check lexical deontic markers if text provided
+    if (text) {
+      const lexicalResult = this._detectLexicalDeonticMarkers(text);
+      // Use lexical result if no auxiliary detected or lexical has higher confidence
+      if (lexicalResult.modality && (!result.modality || lexicalResult.confidence > result.confidence)) {
+        result.modality = lexicalResult.modality;
+        result.markers = result.markers.concat(lexicalResult.markers);
+        result.confidence = Math.max(result.confidence, lexicalResult.confidence);
+      }
+    }
+
+    // 3. Add deontic type classification
+    if (result.modality && MODALITY_TO_DEONTIC_TYPE[result.modality]) {
+      result.deonticType = MODALITY_TO_DEONTIC_TYPE[result.modality];
+    }
+
+    // Return just the modality for backward compatibility
+    // The enhanced info is available via _detectModalityEnhanced
+    return result.modality;
+  }
+
+  /**
+   * Detect deontic modality with full result object
+   *
+   * Phase 6.4: Returns complete detection result including markers and confidence.
+   *
+   * @param {Object} verbData - Compromise verb data
+   * @param {string} [text] - Full text for lexical marker detection
+   * @returns {Object} { modality, markers, confidence, deonticType }
+   */
+  _detectModalityEnhanced(verbData, text = '') {
+    const result = {
+      modality: null,
+      markers: [],
+      confidence: 0,
+      deonticType: null
+    };
+
+    const auxiliary = (verbData.auxiliary || '').toLowerCase().trim();
+
+    // 1. Check auxiliary-based modality
+    if (auxiliary) {
+      if (MODALITY_MAPPINGS[auxiliary]) {
+        result.modality = MODALITY_MAPPINGS[auxiliary];
+        result.markers.push({ type: 'auxiliary', text: auxiliary });
+        result.confidence = 0.9;
+      } else {
+        for (const [modal, modality] of Object.entries(MODALITY_MAPPINGS)) {
+          if (auxiliary.includes(modal)) {
+            result.modality = modality;
+            result.markers.push({ type: 'auxiliary', text: modal });
+            result.confidence = 0.85;
+            break;
+          }
+        }
+      }
+    }
+
+    // 2. Check lexical deontic markers
+    if (text) {
+      const lexicalResult = this._detectLexicalDeonticMarkers(text);
+      if (lexicalResult.modality && (!result.modality || lexicalResult.confidence > result.confidence)) {
+        result.modality = lexicalResult.modality;
+        result.markers = result.markers.concat(lexicalResult.markers);
+        result.confidence = Math.max(result.confidence, lexicalResult.confidence);
+      }
+    }
+
+    // 3. Add deontic type
+    if (result.modality && MODALITY_TO_DEONTIC_TYPE[result.modality]) {
+      result.deonticType = MODALITY_TO_DEONTIC_TYPE[result.modality];
+    }
+
+    return result;
+  }
+
+  /**
+   * Detect lexical deontic markers in text
+   *
+   * Phase 6.4: Detects deontic markers like "entitled", "authorized", "forbidden"
+   * that are not auxiliary modals but carry deontic meaning.
+   *
+   * @param {string} text - Text to analyze
+   * @returns {Object} { modality, markers, confidence }
+   * @private
+   */
+  _detectLexicalDeonticMarkers(text) {
+    const result = {
+      modality: null,
+      markers: [],
+      confidence: 0
+    };
+
+    if (!text) return result;
+
+    const lowerText = text.toLowerCase();
+
+    // Check each modality's lexical patterns
+    for (const [modality, config] of Object.entries(LEXICAL_DEONTIC_MARKERS)) {
+      // Check multi-word patterns first (higher specificity)
+      for (const pattern of config.patterns || []) {
+        const match = text.match(pattern);
+        if (match) {
+          result.modality = modality;
+          result.markers.push({ type: 'lexical_pattern', text: match[0] });
+          result.confidence = 0.85;
+          return result; // Return on first match
+        }
+      }
+
+      // Check single words
+      for (const word of config.singleWords || []) {
+        if (lowerText.includes(word)) {
+          // Verify it's a word boundary match
+          const wordPattern = new RegExp(`\\b${word}\\b`, 'i');
+          if (wordPattern.test(text)) {
+            result.modality = modality;
+            result.markers.push({ type: 'lexical_word', text: word });
+            result.confidence = 0.75;
+            return result; // Return on first match
+          }
+        }
+      }
+    }
+
+    return result;
   }
 
   /**
@@ -823,6 +1095,11 @@ class ActExtractor {
       node['tagteam:modality'] = actInfo.modality;
     }
 
+    // Phase 6.4: Add deontic type for Hohfeldian classification
+    if (actInfo.deonticType) {
+      node['tagteam:deonticType'] = actInfo.deonticType;
+    }
+
     // Add negation if present (kept for backward compatibility)
     if (actInfo.negation) {
       node['tagteam:negated'] = true;
@@ -880,6 +1157,83 @@ class ActExtractor {
    */
   setConfigLoader(configLoader) {
     this.configLoader = configLoader;
+  }
+
+  /**
+   * Detect sentence-level deontic patterns
+   *
+   * Phase 6.4: Some deontic patterns aren't captured by verb extraction because:
+   * - The main verb is missed (e.g., "shall disclose" only extracts "shall")
+   * - The verb is ambiguous with noun (e.g., "delegates", "grants")
+   * - The pattern uses adjectives (e.g., "is exempt from", "is entitled to")
+   *
+   * This method detects these patterns and creates appropriate act nodes.
+   *
+   * @param {string} text - Input text
+   * @param {Array} entities - Available entities
+   * @returns {Object|null} IntentionalAct node or null
+   * @private
+   */
+  _detectSentenceLevelDeontic(text, entities) {
+    if (!text) return null;
+
+    // Define sentence-level patterns with their deontic type and verb extraction
+    const patterns = [
+      // Prohibition patterns
+      { pattern: /\bshall\s+not\s+(\w+)/i, modality: 'prohibition', verbGroup: 1 },
+      { pattern: /\bmust\s+not\s+(\w+)/i, modality: 'prohibition', verbGroup: 1 },
+
+      // Claim/Right patterns
+      { pattern: /\b(has|have)\s+the\s+right\s+to\s+(\w+)/i, modality: 'claim', verbGroup: 2 },
+      { pattern: /\b(has|have)\s+a\s+right\s+to\s+(\w+)/i, modality: 'claim', verbGroup: 2 },
+      { pattern: /\b(is|are)\s+entitled\s+to\s+(\w+)/i, modality: 'claim', verbGroup: 2 },
+
+      // Power patterns - verb-based
+      { pattern: /\bdelegates?\s+(authority|power|responsibility)/i, modality: 'power', verb: 'delegate' },
+      { pattern: /\bgrants?\s+(permission|authority|access)/i, modality: 'power', verb: 'grant' },
+      { pattern: /\bconfers?\s+(the\s+)?(right|authority|power)/i, modality: 'power', verb: 'confer' },
+      { pattern: /\b(is|are)\s+authorized\s+to\s+(\w+)/i, modality: 'power', verbGroup: 2 },
+      { pattern: /\b(is|are)\s+empowered\s+to\s+(\w+)/i, modality: 'power', verbGroup: 2 },
+      { pattern: /\bempowers?\s+(\w+)/i, modality: 'power', verb: 'empower' },
+
+      // Immunity patterns
+      { pattern: /\b(is|are)\s+exempt\s+from/i, modality: 'immunity', verb: 'exempt' },
+      { pattern: /\b(is|are)\s+protected\s+from/i, modality: 'immunity', verb: 'protect' },
+      { pattern: /\b(is|are)\s+immune\s+(from|to)/i, modality: 'immunity', verb: 'immunize' },
+
+      // Enhanced prohibition
+      { pattern: /\b(is|are)\s+forbidden\s+(to|from)/i, modality: 'prohibition', verb: 'forbid' },
+      { pattern: /\b(is|are)\s+prohibited\s+from/i, modality: 'prohibition', verb: 'prohibit' }
+    ];
+
+    for (const p of patterns) {
+      const match = text.match(p.pattern);
+      if (match) {
+        // Extract the verb
+        let verb = p.verb;
+        if (p.verbGroup && match[p.verbGroup]) {
+          verb = match[p.verbGroup];
+        }
+
+        // Get offset
+        const offset = match.index || 0;
+
+        // Create act node
+        return this._createIntentionalAct({
+          text: match[0],
+          infinitive: verb || match[0],
+          offset,
+          actType: 'cco:IntentionalAct',
+          modality: p.modality,
+          deonticType: MODALITY_TO_DEONTIC_TYPE[p.modality] || null,
+          negation: false,
+          tense: { tense: 'present', form: 'simple', aspect: 'simple' },
+          links: this._linkToEntities(text, match[0], offset, entities)
+        });
+      }
+    }
+
+    return null;
   }
 }
 

@@ -1,5 +1,6 @@
 /**
- * InterpretationLattice - Phase 6.2
+ * @file src/graph/InterpretationLattice.js
+ * @description Phase 6.2 - Interpretation Lattice
  *
  * Holds a default interpretation plus alternative readings for
  * preserved ambiguities. Provides audit trail for resolution decisions.
@@ -14,7 +15,7 @@
  * - resolutionLog: Audit trail explaining why each ambiguity was preserved/resolved
  *
  * @example
- * const lattice = new InterpretationLattice(defaultGraph, resolutions);
+ * const lattice = new InterpretationLattice(defaultGraph, resolutionResult);
  * lattice.addAlternative(epistemicReading);
  * console.log(lattice.hasSignificantAmbiguity()); // true
  * console.log(lattice.toJSONLD()); // Serialized with @type
@@ -24,73 +25,76 @@ class InterpretationLattice {
   /**
    * Create a new InterpretationLattice
    * @param {Object} defaultGraph - The default/primary interpretation graph
-   * @param {Object} resolutions - Resolution decisions from AmbiguityResolver
+   * @param {Object} resolutionResult - Resolution result from AmbiguityResolver.resolve()
+   * @param {Object} options - Configuration options
    */
-  constructor(defaultGraph, resolutions) {
+  constructor(defaultGraph = null, resolutionResult = null, options = {}) {
     this.defaultReading = defaultGraph;
-    this.resolutions = resolutions || { preserved: [], resolved: [], flaggedOnly: [] };
-    this.alternativeReadings = [];
-
-    // Compute metadata
-    this.metadata = {
-      createdAt: new Date().toISOString(),
-      ambiguityCount: this._countAmbiguities(),
-      preservedCount: this.resolutions.preserved.length,
-      resolvedCount: this.resolutions.resolved.length,
-      flaggedCount: this.resolutions.flaggedOnly.length
+    this.resolutionResult = resolutionResult || {
+      preserved: [],
+      resolved: [],
+      flagged: [],
+      stats: { total: 0, preserved: 0, resolved: 0, flagged: 0 }
     };
+    this.alternativeReadings = [];
+    this.resolutionLog = [];
+    this.options = options;
+
+    // Track alternative IDs to prevent duplicates
+    this._alternativeIds = new Set();
   }
 
   // ==================== Primary API ====================
 
   /**
    * Get the default (highest plausibility) reading
-   * @returns {Object} The default graph
+   * @returns {Object|null} The default graph
    */
   getDefaultReading() {
     return this.defaultReading;
   }
 
   /**
-   * Get all alternative readings
+   * Get all alternative readings, optionally filtered by ambiguity type
+   * @param {string} type - Optional ambiguity type to filter by
    * @returns {Array} Array of alternative reading objects
    */
-  getAlternatives() {
-    return this.alternativeReadings;
+  getAlternatives(type = null) {
+    if (type === null) {
+      return this.alternativeReadings;
+    }
+    return this.alternativeReadings.filter(
+      alt => alt.sourceAmbiguity && alt.sourceAmbiguity.type === type
+    );
   }
 
   /**
    * Add an alternative reading to the lattice
-   * @param {Object} altReading - Alternative reading object with plausibility, derivedFrom, etc.
+   * @param {Object} altReading - Alternative reading object with id, plausibility, derivedFrom, etc.
    */
   addAlternative(altReading) {
+    // Ignore null/undefined
+    if (!altReading) return;
+
+    // Check for duplicate IDs
+    if (altReading.id && this._alternativeIds.has(altReading.id)) {
+      return; // Reject duplicate
+    }
+
     this.alternativeReadings.push(altReading);
-    // Update metadata
-    this.metadata.alternativeCount = this.alternativeReadings.length;
+
+    // Track ID to prevent duplicates
+    if (altReading.id) {
+      this._alternativeIds.add(altReading.id);
+    }
   }
 
   /**
    * Get ambiguities that were preserved (have alternatives)
-   * @returns {Array} Preserved ambiguities with resolution metadata
+   * @returns {Array} Preserved ambiguities from ResolutionResult
    */
   getAmbiguitiesPreserved() {
-    return this.resolutions.preserved;
-  }
-
-  /**
-   * Get ambiguities that were resolved to default
-   * @returns {Array} Resolved ambiguities with resolution metadata
-   */
-  getAmbiguitiesResolved() {
-    return this.resolutions.resolved;
-  }
-
-  /**
-   * Get ambiguities that were flagged only (anomalies)
-   * @returns {Array} Flagged-only ambiguities
-   */
-  getAmbiguitiesFlagged() {
-    return this.resolutions.flaggedOnly;
+    return this.resolutionResult.preserved || [];
   }
 
   // ==================== Analysis API ====================
@@ -100,7 +104,8 @@ class InterpretationLattice {
    * @returns {boolean} True if any ambiguities were preserved
    */
   hasSignificantAmbiguity() {
-    return this.resolutions.preserved.length > 0;
+    const preserved = this.resolutionResult.preserved || [];
+    return preserved.length > 0;
   }
 
   /**
@@ -108,7 +113,29 @@ class InterpretationLattice {
    * @returns {boolean} True if any anomalies were flagged
    */
   hasAnomalies() {
-    return this.resolutions.flaggedOnly.length > 0;
+    const flagged = this.resolutionResult.flagged || [];
+    return flagged.length > 0;
+  }
+
+  /**
+   * Get summary statistics
+   * @returns {Object} Statistics about ambiguities and alternatives
+   */
+  getStatistics() {
+    const stats = this.resolutionResult.stats || {
+      total: 0,
+      preserved: 0,
+      resolved: 0,
+      flagged: 0
+    };
+
+    return {
+      totalAmbiguities: stats.total,
+      preserved: stats.preserved,
+      resolved: stats.resolved,
+      flagged: stats.flagged,
+      alternativeCount: this.alternativeReadings.length
+    };
   }
 
   /**
@@ -120,36 +147,26 @@ class InterpretationLattice {
   }
 
   /**
-   * Get structured audit trail of resolution reasoning
-   * @returns {Object} Resolution reasoning by category
+   * Log a resolution decision
+   * @param {Object} entry - Log entry with ambiguity, decision, reason
+   */
+  logResolution(entry) {
+    if (!entry) return;
+
+    // Add timestamp if missing
+    if (!entry.timestamp) {
+      entry.timestamp = new Date().toISOString();
+    }
+
+    this.resolutionLog.push(entry);
+  }
+
+  /**
+   * Get resolution reasoning log
+   * @returns {Array} Array of resolution log entries
    */
   getResolutionReasoning() {
-    return {
-      preserved: this.resolutions.preserved.map(a => ({
-        type: a.type,
-        nodeId: a.nodeId,
-        span: a.span,
-        reason: a.resolution?.reason,
-        confidence: a.resolution?.confidence,
-        explanation: a.resolution?.explanation
-      })),
-      resolved: this.resolutions.resolved.map(a => ({
-        type: a.type,
-        nodeId: a.nodeId,
-        span: a.span,
-        reason: a.resolution?.reason,
-        defaultReading: a.defaultReading,
-        confidence: a.resolution?.confidence
-      })),
-      flagged: this.resolutions.flaggedOnly.map(a => ({
-        type: a.type,
-        nodeId: a.nodeId,
-        span: a.span,
-        reason: a.resolution?.reason,
-        signal: a.signal,
-        suggestedType: a.resolution?.suggestedType
-      }))
-    };
+    return this.resolutionLog;
   }
 
   /**
@@ -169,7 +186,9 @@ class InterpretationLattice {
     if (this.alternativeReadings.length === 0) return null;
 
     return this.alternativeReadings.reduce((best, current) => {
-      return (current.plausibility > best.plausibility) ? current : best;
+      const currentPlaus = current.plausibility || 0;
+      const bestPlaus = best.plausibility || 0;
+      return (currentPlaus > bestPlaus) ? current : best;
     });
   }
 
@@ -181,19 +200,28 @@ class InterpretationLattice {
    */
   toJSONLD() {
     return {
+      '@context': {
+        'tagteam': 'http://purl.org/tagteam#',
+        'bfo': 'http://purl.obolibrary.org/obo/BFO_',
+        'cco': 'http://www.ontologyrepository.com/CommonCoreOntologies/'
+      },
       '@type': 'tagteam:InterpretationLattice',
       'tagteam:defaultReading': this.defaultReading,
       'tagteam:alternativeReadings': this.alternativeReadings.map(alt => ({
         '@type': 'tagteam:AlternativeReading',
+        '@id': alt.id,
+        'tagteam:sourceAmbiguity': alt.sourceAmbiguity ? alt.sourceAmbiguity.type : null,
+        'tagteam:reading': alt.reading,
         'tagteam:plausibility': alt.plausibility,
         'tagteam:derivedFrom': alt.derivedFrom ? { '@id': alt.derivedFrom } : null,
-        'tagteam:ambiguityType': alt.ambiguityType,
-        'tagteam:reading': alt.reading,
-        'tagteam:node': alt.node,
-        '@graph': alt.graph
+        'tagteam:graphFragment': alt.graph
       })),
-      'tagteam:resolutionLog': this.getResolutionReasoning(),
-      'tagteam:metadata': this.metadata
+      '_statistics': this.getStatistics(),
+      '_resolutionLog': this.resolutionLog,
+      '_metadata': {
+        version: this.options.version || '6.2.0',
+        generatedAt: new Date().toISOString()
+      }
     };
   }
 
@@ -210,12 +238,13 @@ class InterpretationLattice {
    * @returns {string} Human-readable summary
    */
   toString() {
+    const stats = this.getStatistics();
     const parts = [
       `InterpretationLattice:`,
       `  Interpretations: ${this.getInterpretationCount()}`,
-      `  Preserved: ${this.resolutions.preserved.length}`,
-      `  Resolved: ${this.resolutions.resolved.length}`,
-      `  Flagged: ${this.resolutions.flaggedOnly.length}`
+      `  Preserved: ${stats.preserved}`,
+      `  Resolved: ${stats.resolved}`,
+      `  Flagged: ${stats.flagged}`
     ];
 
     if (this.hasSignificantAmbiguity()) {
@@ -227,20 +256,6 @@ class InterpretationLattice {
     }
 
     return parts.join('\n');
-  }
-
-  // ==================== Private Methods ====================
-
-  /**
-   * Count total ambiguities from resolutions
-   * @private
-   */
-  _countAmbiguities() {
-    return (
-      this.resolutions.preserved.length +
-      this.resolutions.resolved.length +
-      this.resolutions.flaggedOnly.length
-    );
   }
 }
 

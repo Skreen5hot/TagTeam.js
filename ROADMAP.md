@@ -1,8 +1,8 @@
 # TagTeam Consolidated Roadmap
 
-**Version:** 5.3.1-phase5
-**Last Updated:** 2026-01-23
-**Status:** Phase 5 Complete, Ambiguity Detection, 280+ Tests, Ready for Phase 6
+**Version:** 6.5.4.0
+**Last Updated:** 2026-01-26
+**Status:** Phase 6.5.4 Complete (IEE Bridge Ontology), Phase 7 Next (Epistemic Layer)
 
 ---
 
@@ -314,11 +314,12 @@ Phase 5 Output:                      Phase 6 Output:
 └────────────────────────┘           └────────────────────────────────────┘
 ```
 
-### 6.0 Selectional Preference Lookup Table (FIRST)
+### 6.0 Selectional Preference Lookup Table ✅ COMPLETE
 
-**Status:** Not started
+**Status:** ✅ Complete (2026-01-26)
 **Priority:** Critical (stakeholder requested)
 **Effort:** Low
+**Tests:** 60 passing
 
 Before building the full lattice, create the selectional preference system that Phase 5 exposed as missing:
 
@@ -336,11 +337,12 @@ Before building the full lattice, create the selectional preference system that 
 
 **Why First:** This fixes the "inanimate agent" false positives (ventilator ≠ rock) and provides foundation for plausibility scoring.
 
-### 6.1 Ambiguity Resolution Strategy
+### 6.1 Ambiguity Resolution Strategy ✅ COMPLETE
 
-**Status:** Not started
+**Status:** ✅ Complete (2026-01-26)
 **Priority:** High
 **Effort:** Medium
+**Tests:** 46 passing
 
 **Key Insight from Phase 5:** Not all ambiguities need multiple readings preserved. Define resolution strategy:
 
@@ -356,11 +358,12 @@ Before building the full lattice, create the selectional preference system that 
 - `src/graph/AmbiguityResolver.js` - decides which ambiguities to preserve
 - Configuration: `{ preserveThreshold: 0.7, maxReadingsPerNode: 3 }`
 
-### 6.2 Lattice Data Structure (Simplified)
+### 6.2 Lattice Data Structure (Simplified) ✅ COMPLETE
 
-**Status:** Not started
+**Status:** ✅ Complete (2026-01-26)
 **Priority:** High
 **Effort:** Medium
+**Tests:** 55 passing
 
 Based on Phase 5 learnings, simplify from original spec. Focus on **practical utility**:
 
@@ -393,11 +396,12 @@ class InterpretationLattice {
 **Deliverables:**
 - `src/graph/InterpretationLattice.js`
 
-### 6.3 Alternative Graph Generation
+### 6.3 Alternative Graph Generation ✅ COMPLETE
 
-**Status:** Not started
+**Status:** ✅ Complete (2026-01-26)
 **Priority:** Medium
 **Effort:** Medium
+**Tests:** 75 passing
 
 For preserved ambiguities, generate alternative graph fragments:
 
@@ -423,11 +427,33 @@ For preserved ambiguities, generate alternative graph fragments:
 - `src/graph/AlternativeGraphBuilder.js` - creates variant nodes for ambiguities
 - Ensure IRIs are unique but traceable (`_alt1`, `_alt2` suffixes)
 
-### 6.4 SemanticGraphBuilder Integration
+### 6.4 SemanticGraphBuilder Integration + Deontic Enhancement ✅ COMPLETE
 
-**Status:** Not started
+**Status:** ✅ Complete (2026-01-26)
 **Priority:** High
-**Effort:** Low (infrastructure from Phase 5 exists)
+**Effort:** Medium (builder integration + deontic vocabulary extension)
+**Tests:** 72 passing
+
+**Two Main Goals:**
+1. **Builder Integration:** Wire up Phase 6 components (AmbiguityResolver, InterpretationLattice, AlternativeGraphBuilder) into SemanticGraphBuilder
+2. **Deontic Enhancement:** Extend deontic vocabulary based on BFO-based deontic ontology research
+
+**Deontic Coverage (Current vs Extended):**
+
+| Deontic Concept | Modality | ActualityStatus | Status |
+|-----------------|----------|-----------------|--------|
+| Obligation | `obligation` | `tagteam:Prescribed` | ✅ Exists |
+| Permission | `permission` | `tagteam:Permitted` | ✅ Exists |
+| Prohibition | `prohibition` | `tagteam:Prohibited` | ✅ Exists |
+| Claim/Right | `claim` | `tagteam:Entitled` | **New** |
+| Power/Authority | `power` | `tagteam:Empowered` | **New** |
+| Immunity | `immunity` | `tagteam:Protected` | **New** |
+
+**Extended Deontic Markers:**
+- Claim: "entitled", "has right", "deserves", "owed"
+- Power: "authorized", "empowered", "delegates", "grants", "confers"
+- Immunity: "exempt", "immune", "protected"
+- Enhanced prohibition: "forbidden", "prohibited", "shall not", "not allowed"
 
 Extend `build()` with opt-in lattice (builds on `detectAmbiguity: true`):
 
@@ -468,9 +494,72 @@ builder.build(text, {
   detectAmbiguity: true,        // Phase 5: flag ambiguities
   preserveAmbiguity: true,      // Phase 6: create alternative readings
   preserveThreshold: 0.7,       // Only preserve if confidence < threshold
-  maxAlternatives: 3            // Cap on alternative readings
+  maxAlternatives: 3,           // Cap on alternative readings
+  deonticVocabulary: 'extended' // 'basic' | 'extended' | 'hohfeldian'
 });
 ```
+
+**Test Coverage:** 72 tests across 8 categories
+- Builder integration: 20 tests
+- Deontic detection (basic + extended): 20 tests
+- ActualityStatus mapping: 10 tests
+- Graph output: 8 tests
+- Edge cases: 8 tests
+- Lattice integration: 6 tests
+
+**Detailed Plan:** `planning/phase6/PHASE_6.4_IMPLEMENTATION_PLAN.md`
+
+### 6.4.5 Ontology Validation ✅ COMPLETE
+
+**Status:** ✅ Complete (2026-01-26)
+**Priority:** High
+**Effort:** Medium
+**Tests:** 80 passing
+
+Validate ontology files (JSON configs and TTL) before loading to prevent misclassifications and runtime errors.
+
+**Two-Mode Operation:**
+
+```javascript
+// Option B: Validate on Load (Non-Blocking) - Default
+const result = await TagTeam.loadOntology('./custom.json');
+if (result._validation.hasWarnings()) {
+  console.log(result._validation.warnings);
+}
+
+// Option C: Explicit Validation (Blocking Available)
+const report = TagTeam.validateOntology('./custom.json');
+if (report.hasErrors()) {
+  console.log(report.errors);
+  return; // Don't load
+}
+```
+
+**Validation Layers:**
+
+| Layer | Checks | Examples |
+|-------|--------|----------|
+| Structural | JSON syntax, required fields, types | Missing `domain`, invalid JSON |
+| Semantic | IRI format, BFO/CCO types, hierarchy | Unknown prefix, Occurrent as Continuant |
+| Compatibility | Conflicts with loaded ontologies | Term → different type, namespace collision |
+| TagTeam-Specific | Verb overrides, type specs structure | Missing `default` key, invalid value def |
+
+**Test Coverage:** 80 tests across 9 categories
+- Basic validation: 10 tests
+- Structural validation: 10 tests
+- IRI validation: 10 tests
+- BFO hierarchy validation: 10 tests
+- Compatibility validation: 10 tests
+- Verb override validation: 8 tests
+- ValidationReport API: 8 tests
+- Integration: 6 tests
+- Edge cases: 8 tests
+
+**Deliverables:**
+- `src/graph/OntologyValidator.js` - validation engine ✅
+- `src/graph/ValidationReport.js` - structured report ✅
+- `src/data/bfo-cco-registry.js` - known types registry ✅
+- Integration with DomainConfigLoader ✅
 
 ### Phase 6 Test Strategy
 
@@ -511,6 +600,297 @@ builder.build(text, {
 3. **Surface data in multiple places** - both `_ambiguityReport` AND `@graph` nodes
 4. **Handle both test and production data formats** - `entity.label` vs `entity['rdfs:label']`
 5. **Incremental stakeholder feedback** catches issues early
+
+---
+
+## Phase 6.5: TTL Ontology Loading (IEE ValueNet Integration)
+
+**Goal:** Enable loading of TTL/Turtle ontology files for value detection and type specialization
+
+**Bundle Size Budget:** +75KB max (target: 5.025MB total)
+
+**Priority:** High (IEE Integration Requirement)
+
+**Motivation:** IEE's ValueNet ontology contains 100+ values based on Schwartz values and moral foundations, stored in TTL format. Current `DomainConfigLoader` only supports JSON configs. This phase enables direct ValueNet integration, potentially eliminating the need for `valueMapper.js` in IEE.
+
+### Current Gap
+
+```
+Current (JSON only):
+┌─────────────────┐     ┌─────────────────┐
+│ DomainConfig    │ ←── │ medical.json    │  ✅ Works
+│ Loader (JSON)   │     │ legal.json      │  ✅ Works
+└─────────────────┘     │ value-net.ttl   │  ❌ Not supported
+                        └─────────────────┘
+
+Proposed (JSON + TTL):
+┌─────────────────┐     ┌─────────────────┐
+│ OntologyManager │ ←── │ medical.json    │  ✅ Works
+│ (JSON + TTL)    │     │ valuenet.ttl    │  ✅ NEW
+└─────────────────┘     │ iee-bridge.ttl  │  ✅ NEW
+                        └─────────────────┘
+```
+
+### 6.5.1 Lightweight TTL Parser ✅ COMPLETE
+
+**Status:** ✅ Complete (2026-01-26)
+**Priority:** Critical
+**Effort:** Medium
+**Tests:** 80 passing
+
+Created minimal Turtle parser for ontology loading (NOT full RDF library):
+
+**Supported Constructs:**
+| Construct | Example | Purpose |
+|-----------|---------|---------|
+| Prefixes | `@prefix vn: <...>` | Namespace resolution |
+| Class declarations | `vn:Autonomy a bfo:Quality` | Value type mapping |
+| Labels | `rdfs:label "Autonomy"` | Display names |
+| Keywords | `ethics:keywords "choice, freedom"` | Pattern matching |
+| Relationships | `ethics:ConflictsWith`, `owl:sameAs` | Value relationships |
+
+**NOT Supported (out of scope):**
+- Full OWL reasoning
+- SPARQL queries
+- Blank node complex structures
+- RDF/XML format
+
+**Deliverables:**
+- `src/ontology/TurtleParser.js` - lightweight TTL parser ✅
+- Support for `@prefix`, `a` (rdf:type), basic triples ✅
+- Extract: classes, labels, keywords, relationships ✅
+- ParseResult class with helper methods ✅
+- toValueDefinition() for TagTeam format conversion ✅
+- Error detection for malformed TTL ✅
+
+**Test Coverage:** 80 tests across 9 categories
+- Basic Parsing: 10 tests
+- Prefix Parsing: 10 tests
+- Triple Parsing: 10 tests
+- Literal Parsing: 10 tests
+- ValueNet Structure Extraction: 10 tests
+- Relationship Extraction: 8 tests
+- Error Handling: 8 tests
+- IRI Resolution: 6 tests
+- Integration & Performance: 8 tests
+
+### 6.5.2 OntologyManager Class ✅ COMPLETE
+
+**Status:** ✅ Complete (2026-01-26)
+**Priority:** High
+**Effort:** Medium
+**Tests:** 80 passing
+
+Unified ontology loading with caching:
+
+```javascript
+class OntologyManager {
+  constructor(options = {}) {
+    this.memoryCache = new Map();     // Hot cache
+    this.loadedOntologies = [];       // Track sources
+  }
+
+  // Load from file path or URL
+  async loadOntology(source) {
+    // source: { path: './valuenet.ttl', format: 'turtle', namespace: 'vn' }
+    // OR: { path: './medical.json', format: 'json', namespace: 'medical' }
+  }
+
+  // Load multiple ontologies with merge
+  async loadOntologies(sources, options = { merge: true }) { }
+
+  // Query loaded ontologies
+  getValueDefinition(valueName) { }
+  getTypeSpecialization(bfoType, term) { }
+  getConflicts(valueName) { }
+  getLoadedOntologies() { }
+}
+```
+
+**Deliverables:**
+- `src/ontology/OntologyManager.js` - unified loader ✅
+- Format detection (JSON vs TTL by extension) ✅
+- Merge strategy for overlapping definitions (last wins with warning) ✅
+- Memory caching for performance ✅
+- Query methods (getValueDefinition, findByKeyword, getConflicts) ✅
+- Serialization (toJSON/fromJSON) for state persistence ✅
+
+**Test Coverage:** 80 tests across 9 categories
+- Constructor and Initialization: 8 tests
+- Format Detection: 8 tests
+- Loading TTL Ontologies: 10 tests
+- Loading JSON Configs: 10 tests
+- Memory Caching: 8 tests
+- Merge Strategy: 8 tests
+- Query Methods: 10 tests
+- Clear and Reset: 6 tests
+- Integration & Performance: 12 tests
+
+### 6.5.3 ValueNet Integration ✅ COMPLETE
+
+**Status:** ✅ Complete (2026-01-26)
+**Priority:** High
+**Effort:** Low
+**Tests:** 50 passing
+
+Map ValueNet TTL structure to TagTeam value detection:
+
+**ValueNet TTL Structure:**
+```turtle
+@prefix vn: <https://fandaws.com/ontology/bfo/valuenet#> .
+@prefix bfo: <http://purl.obolibrary.org/obo/BFO_> .
+
+vn:SecurityDisposition a bfo:0000016 ;  # bfo:Disposition
+    rdfs:label "Security" ;
+    vn:keywords "safety, stability, protection" ;
+    vn:upholdingTerms "protect, secure, safeguard" ;
+    vn:violatingTerms "endanger, threaten, risk" .
+```
+
+**TagTeam Mapping:**
+```javascript
+// OntologyManager extracts:
+{
+  name: "SecurityDisposition",
+  iri: "https://fandaws.com/ontology/bfo/valuenet#SecurityDisposition",
+  bfoClass: "bfo:Disposition",
+  keywords: ["safety", "stability", "protection"],
+  upholdingTerms: ["protect", "secure", "safeguard"],
+  violatingTerms: ["endanger", "threaten", "risk"]
+}
+```
+
+**Deliverables:**
+- `src/ontology/ValueNetAdapter.js` - ValueNet → ValueMatcher format adapter ✅
+- Integration with existing `ValueMatcher.js` via `createValueMatcher()` ✅
+- Format conversion (keywords → semanticMarkers, upholdingTerms/violatingTerms → polarityIndicators) ✅
+- Conflict relationship extraction ✅
+- Static `convert()` method for standalone use ✅
+
+**Test Coverage:** 50 tests across 6 categories
+- Constructor and Initialization: 6 tests
+- Single Value Conversion: 10 tests
+- Bulk Conversion: 8 tests
+- ValueMatcher Integration: 10 tests
+- Conflict Extraction: 8 tests
+- Edge Cases and Static Methods: 8 tests
+
+### 6.5.4 IEE Bridge Ontology Support ✅ COMPLETE
+
+**Status:** ✅ Complete (2026-01-26)
+**Priority:** Medium
+**Effort:** Low
+**Tests:** 54 passing
+
+Support loading IEE's proposed bridge ontology that maps:
+- TagTeam 50 values → ValueNet dispositions (owl:sameAs)
+- ValueNet dispositions → IEE worldview values (ethics:mapsToWorldview)
+- Related value associations (ethics:relatedTo)
+- Category subsumption (ethics:subsumedBy)
+
+```javascript
+// Example usage
+const loader = new BridgeOntologyLoader({ ontologyManager });
+loader.loadFromString(bridgeTTL);
+
+// Get full mapping chain: TagTeam → ValueNet → IEE
+const chain = loader.getMappingChain('tagteam:Autonomy');
+// { tagteamValue: 'tagteam:Autonomy',
+//   valuenetDisposition: 'vn:AutonomyDisposition',
+//   ieeWorldview: 'iee:SelfDirectionWorldview' }
+
+// Resolve TagTeam value to full ValueNet definition
+const resolved = loader.resolveValue('tagteam:Security');
+// { keywords: ['safety', 'stability', 'protection'], ... }
+```
+
+**Deliverables:**
+- `src/ontology/BridgeOntologyLoader.js` - bridge ontology loader ✅
+- `owl:sameAs` equivalence handling (with symmetry) ✅
+- `ethics:relatedTo` association handling ✅
+- `ethics:mapsToWorldview` worldview mapping ✅
+- `ethics:subsumedBy` subsumption handling ✅
+- Custom predicate support ✅
+- Batch operations and lookup tables ✅
+- `examples/ontologies/iee-bridge-template.ttl` - example template ✅
+
+**Test Coverage:** 54 tests across 11 categories
+- Constructor and Initialization: 6 tests
+- Loading Bridge Ontologies: 9 tests
+- Equivalence Queries: 7 tests
+- Related Value Queries: 5 tests
+- Worldview Mapping: 5 tests
+- Full Pipeline Integration: 4 tests
+- Batch Operations: 4 tests
+- Custom Predicates: 3 tests
+- Error Handling: 4 tests
+- Clear and Reset: 3 tests
+- Statistics and Metadata: 4 tests
+
+### Phase 6.5 API Design
+
+```javascript
+// NEW: Ontology loading API
+TagTeam.loadOntology({
+  source: 'file',           // 'file' | 'url' | 'object'
+  path: './valuenet.ttl',   // File path or URL
+  format: 'turtle',         // 'turtle' | 'json' (auto-detect if omitted)
+  namespace: 'vn',          // Optional namespace prefix
+  merge: true               // Merge with existing (default: true)
+});
+
+// Batch loading
+TagTeam.loadOntologies([
+  { path: './valuenet-core.ttl' },
+  { path: './valuenet-schwartz.ttl' },
+  { path: './config/medical.json' }
+]);
+
+// Query loaded ontologies
+TagTeam.getLoadedOntologies();
+// [{ namespace: 'vn', format: 'turtle', valueCount: 100 }, ...]
+
+// Clear and reload
+TagTeam.clearOntologies();
+```
+
+### Phase 6.5 Test Strategy
+
+**Test Corpus:** `tests/ontology/ttl-loading.test.js`
+
+| Test Category | Count | Description |
+|---------------|-------|-------------|
+| TTL parsing | 20 | Prefix, triples, labels, keywords |
+| JSON fallback | 10 | Existing config files still work |
+| Merge behavior | 10 | Multiple ontologies, conflict handling |
+| ValueNet integration | 15 | IEE value detection with loaded ontology |
+| Performance | 5 | Cache hits, load times |
+
+**Success Criteria:**
+- Load ValueNet TTL in < 500ms
+- Cached load < 10ms
+- Detect 95%+ of ValueNet values in IEE test corpus
+- Zero regression on existing JSON config tests
+
+### Phase 6.5 Files
+
+```
+src/ontology/
+├── TurtleParser.js         # Lightweight TTL parser ✅
+├── OntologyManager.js      # Unified loader with caching ✅
+├── ValueNetAdapter.js      # ValueNet → TagTeam mapping ✅
+└── BridgeOntologyLoader.js # IEE bridge ontology loader ✅
+
+tests/unit/phase6/
+├── turtle-parser.test.js          # Parser tests (80 tests) ✅
+├── ontology-manager.test.js       # Loader tests (80 tests) ✅
+├── valuenet-adapter.test.js       # Adapter tests (50 tests) ✅
+└── bridge-ontology-loader.test.js # Bridge tests (54 tests) ✅
+
+examples/ontologies/
+├── valuenet-example.ttl    # Example ValueNet fragment
+└── iee-bridge-template.ttl # Bridge ontology template ✅
+```
 
 ---
 
@@ -926,8 +1306,9 @@ node tests/unit/test-lattice-properties.js  # Property-based tests
 | Phase 4 | Core + Graph | - | 4.8 MB | ✅ Complete |
 | Phase 5 | NLP upgrades | +50 KB | 4.85 MB | ✅ Complete (under budget!) |
 | Phase 6 | Lattice | +100 KB | 4.95 MB | Planned |
-| Phase 7 | Epistemic | +50 KB | 5.0 MB | Planned |
-| Phase 8-9 | Disambiguation + Validation | +50 KB | 5.05 MB | Planned |
+| Phase 6.5 | TTL/Ontology Loading | +75 KB | 5.025 MB | Planned |
+| Phase 7 | Epistemic | +50 KB | 5.075 MB | Planned |
+| Phase 8-9 | Disambiguation + Validation | +50 KB | 5.125 MB | Planned |
 | **Target Max** | - | - | **6.0 MB** | - |
 
 **Phase 5 Size Success:** Stayed well under +200KB budget by using custom implementations instead of external libraries.
@@ -947,11 +1328,15 @@ node tests/unit/test-lattice-properties.js  # Property-based tests
 | **5.1** Core NLP Modules | High | Low | 5.0 | 5.2, 5.3 | ✅ Complete |
 | **5.2** Phrase Extractors | High | Medium | 5.0, 5.1 | 5.3, 6.x | ✅ Complete |
 | **5.3** Ambiguity Detection | High | Medium | 5.2 | 6.x | ✅ Complete |
-| **6.0** Selectional Preferences | Critical | Low | 5.3 | 6.1, 6.2 | **Next** |
-| **6.1** Ambiguity Resolver | High | Medium | 6.0 | 6.2, 6.3 | Planned |
-| **6.2** Lattice Data Structure | High | Medium | 6.1 | 6.3, 6.4 | Planned |
-| **6.3** Alternative Graph Builder | Medium | Medium | 6.2 | 6.4 | Planned |
-| **6.4** Builder Integration | High | Low | 6.2, 6.3 | 7.x | Planned |
+| **6.0** Selectional Preferences | Critical | Low | 5.3 | 6.1, 6.2 | ✅ Complete |
+| **6.1** Ambiguity Resolver | High | Medium | 6.0 | 6.2, 6.3 | ✅ Complete |
+| **6.2** Lattice Data Structure | High | Medium | 6.1 | 6.3, 6.4 | ✅ Complete |
+| **6.3** Alternative Graph Builder | Medium | Medium | 6.2 | 6.4 | ✅ Complete |
+| **6.4** Builder Integration + Deontic | High | Medium | 6.2, 6.3 | 6.4.5 | ✅ Complete |
+| **6.4.5** OntologyValidator | High | Medium | 6.4 | 6.5 | ✅ Complete |
+| **6.5.1** TTL Parser | High | Medium | 6.4.5 | 6.5.2 | ✅ Complete |
+| **6.5.2** OntologyManager | High | Medium | 6.5.1 | 6.5.3 | ✅ Complete |
+| **6.5.3** ValueNet Integration | High | Low | 6.5.2 | IEE | ✅ Complete |
 | **7.1** Source Attribution | High | Medium | 6.4 | 7.2 | Planned |
 | **7.2** Certainty Markers | Medium | Low | 7.1 | - | Planned |
 | **7.3** Temporal Grounding | Medium | Medium | 6.4 | - | Planned |
@@ -974,17 +1359,29 @@ node tests/unit/test-lattice-properties.js  # Property-based tests
 
 ### Immediate (Phase 6)
 
-6. **Phase 6.0:** Selectional Preferences lookup table (Critical - fixes false positives)
-7. **Phase 6.1:** Ambiguity Resolver (decides preserve vs resolve)
-8. **Phase 6.2:** InterpretationLattice data structure
-9. **Phase 6.3:** Alternative graph generation
-10. **Phase 6.4:** SemanticGraphBuilder integration (opt-in API)
-11. Create golden test corpus for lattice validation
+6. **Phase 6.0:** Selectional Preferences lookup table ✅ Complete (60 tests)
+7. **Phase 6.1:** Ambiguity Resolver ✅ Complete (46 tests)
+8. **Phase 6.2:** InterpretationLattice ✅ Complete (55 tests)
+9. **Phase 6.3:** Alternative graph generation ✅ Complete (75 tests)
+10. **Phase 6.4:** SemanticGraphBuilder integration + Deontic enhancement (opt-in API, claim/power/immunity) ✅ Complete (72 tests)
+11. **Phase 6.4.5:** OntologyValidator (validate before load) ✅ Complete (80 tests)
+12. **Phase 6.5.1:** TTL Parser (lightweight Turtle parser) ✅ Complete (80 tests)
+13. **Phase 6.5.2:** OntologyManager (unified JSON + TTL loading) ✅ Complete (80 tests)
+14. **Phase 6.5.3:** ValueNet Integration (IEE value detection) ✅ Complete (50 tests)
+15. **Phase 6.5.4:** IEE bridge ontology support ✅ Complete (54 tests)
+16. Create golden test corpus for lattice validation ← **Next**
+
+### Near-Term (Phase 6.5 - IEE ValueNet Integration) ✅ COMPLETE
+
+13. **Phase 6.5.1:** Lightweight TTL Parser ✅ Complete (80 tests)
+14. **Phase 6.5.2:** OntologyManager ✅ Complete (80 tests)
+15. **Phase 6.5.3:** ValueNet integration (IEE value detection) ✅ Complete (50 tests)
+16. **Phase 6.5.4:** IEE bridge ontology support ✅ Complete (54 tests)
 
 ### Medium-Term (Phase 7)
 
-12. **Phase 7.1:** Source attribution detection
-13. **Phase 7.2-7.3:** Certainty markers, temporal grounding
+16. **Phase 7.1:** Source attribution detection
+17. **Phase 7.2-7.3:** Certainty markers, temporal grounding
 
 ### Longer-Term
 
@@ -1014,8 +1411,12 @@ node tests/unit/test-lattice-properties.js  # Property-based tests
 | **Selectional Violation Detection** | Phase 5 | ✅ Complete |
 | **Scope Ambiguity Detection** | Phase 5 | ✅ Complete |
 | **Metonymy Detection** | Phase 5 | ✅ Complete |
-| **Ambiguity Resolution** | Phase 6 | Planned |
-| **Interpretation Lattice** | Phase 6 | Planned |
+| **Ambiguity Resolution** | Phase 6 | ✅ Complete |
+| **Interpretation Lattice** | Phase 6 | ✅ Complete |
+| **Alternative Graph Generation** | Phase 6 | ✅ Complete |
+| **Ontology Validation** | Phase 6.4.5 | ✅ Complete |
+| **TTL Ontology Loading** | Phase 6.5.1 | ✅ Complete |
+| **ValueNet Integration** | Phase 6.5.3 | ✅ Complete |
 | **Source Attribution** | Phase 7 | Planned |
 | **Epistemic Status** | Phase 7 | Planned |
 | **Temporal Grounding** | Phase 7 | Planned |
@@ -1027,6 +1428,17 @@ node tests/unit/test-lattice-properties.js  # Property-based tests
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| 6.5.4.0 | 2026-01-26 | Phase 6.5.4 complete: BridgeOntologyLoader with 54 tests, owl:sameAs/relatedTo/worldview mapping, IEE bridge template |
+| 6.5.3.0 | 2026-01-26 | Phase 6.5.3 complete: ValueNetAdapter with 50 tests, OntologyManager→ValueMatcher bridge, polarity conversion |
+| 6.5.2.0 | 2026-01-26 | Phase 6.5.2 complete: OntologyManager with 80 tests, unified JSON+TTL loading, caching, merge strategy |
+| 6.5.1.0 | 2026-01-26 | Phase 6.5.1 complete: TurtleParser with 80 tests, prefix/triple parsing, ValueNet extraction |
+| 6.4.5.0 | 2026-01-26 | Phase 6.4.5 complete: OntologyValidator with 80 tests, BFO/CCO registry, ValidationReport |
+| 6.4.0-deontic | 2026-01-26 | Phase 6.4 complete: Deontic enhancement (claim, power, immunity), sentence-level detection, 72 tests |
+| 6.3.0-alternatives | 2026-01-26 | Phase 6.3 complete: AlternativeGraphBuilder with 75 tests, modal/scope/noun alternatives |
+| 6.2.0-lattice | 2026-01-26 | Phase 6.2 complete: InterpretationLattice with 55 tests, alternatives, serialization |
+| 6.1.0-resolver | 2026-01-26 | Phase 6.1 complete: AmbiguityResolver with 46 tests, resolution rules, threshold config |
+| 6.0.0-selectional | 2026-01-26 | Phase 6.0 complete: SelectionalPreferences with 60 tests, verb taxonomy, entity categories |
+| 5.3.2-roadmap | 2026-01-25 | Added Phase 6.5: TTL Ontology Loading for IEE ValueNet integration |
 | 5.3.1-phase5 | 2026-01-23 | Phase 5 complete: 280+ tests, ambiguity detection, stakeholder improvements |
 | 5.2.0-tests | 2026-01-22 | Phase 8.5 test-driven enhancements, comprehensive test framework |
 | 5.1.0-vision | 2026-01-19 | Addressed critique: scope clarity, bundle budgets, test strategy, Phase 7/10 detail |
