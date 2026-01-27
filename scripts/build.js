@@ -77,6 +77,10 @@ const ontologyManagerPath = path.join(__dirname, '..', 'src', 'ontology', 'Ontol
 const valueNetAdapterPath = path.join(__dirname, '..', 'src', 'ontology', 'ValueNetAdapter.js');
 const bridgeOntologyLoaderPath = path.join(__dirname, '..', 'src', 'ontology', 'BridgeOntologyLoader.js');
 
+// Phase 6.6: General-purpose ontology text tagger
+const propertyMapperPath = path.join(__dirname, '..', 'src', 'ontology', 'PropertyMapper.js');
+const ontologyTextTaggerPath = path.join(__dirname, '..', 'src', 'ontology', 'OntologyTextTagger.js');
+
 let lexicon = fs.readFileSync(lexiconPath, 'utf8');
 let posTagger = fs.readFileSync(posTaggerPath, 'utf8');
 let patternMatcher = fs.readFileSync(patternMatcherPath, 'utf8');
@@ -144,6 +148,10 @@ let ontologyManager = fs.readFileSync(ontologyManagerPath, 'utf8');
 let valueNetAdapter = fs.readFileSync(valueNetAdapterPath, 'utf8');
 let bridgeOntologyLoader = fs.readFileSync(bridgeOntologyLoaderPath, 'utf8');
 
+// Phase 6.6: General-purpose tagger
+let propertyMapper = fs.readFileSync(propertyMapperPath, 'utf8');
+let ontologyTextTagger = fs.readFileSync(ontologyTextTaggerPath, 'utf8');
+
 console.log(`  ✓ RealWorldEntityFactory.js (${(realWorldEntityFactory.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ EntityExtractor.js (${(entityExtractor.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ ActExtractor.js (${(actExtractor.length / 1024).toFixed(2)} KB)`);
@@ -170,6 +178,8 @@ console.log(`  ✓ TurtleParser.js (${(turtleParser.length / 1024).toFixed(2)} K
 console.log(`  ✓ OntologyManager.js (${(ontologyManager.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ ValueNetAdapter.js (${(valueNetAdapter.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ BridgeOntologyLoader.js (${(bridgeOntologyLoader.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ PropertyMapper.js (${(propertyMapper.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ OntologyTextTagger.js (${(ontologyTextTagger.length / 1024).toFixed(2)} KB)`);
 
 // Read data files for Week 2b
 console.log('\n📖 Reading Week 2b data files...');
@@ -374,12 +384,19 @@ console.log('  ✓ Converted ValueNetAdapter to browser format');
 bridgeOntologyLoader = stripCommonJS(bridgeOntologyLoader, 'BridgeOntologyLoader');
 console.log('  ✓ Converted BridgeOntologyLoader to browser format');
 
+// Phase 6.6: General-purpose tagger
+propertyMapper = stripCommonJS(propertyMapper, 'PropertyMapper');
+console.log('  ✓ Converted PropertyMapper to browser format');
+
+ontologyTextTagger = stripCommonJS(ontologyTextTagger, 'OntologyTextTagger');
+console.log('  ✓ Converted OntologyTextTagger to browser format');
+
 // Build the bundle
 console.log('\n🔧 Building bundle...');
 
 const bundle = `/*!
  * TagTeam.js - Two-Tier Semantic Graph Architecture for Ethical Context Analysis
- * Version: 6.5.4 (Phase 6.5: Ontology Loading + IEE Bridge)
+ * Version: 6.6 (Phase 6.6: OntologyTextTagger)
  * Date: ${new Date().toISOString().split('T')[0]}
  *
  * A client-side JavaScript library for extracting semantic roles from natural language text
@@ -397,6 +414,10 @@ const bundle = `/*!
  *   - OntologyManager: Unified JSON + TTL loading with caching
  *   - ValueNetAdapter: ValueNet → ValueMatcher format conversion
  *   - BridgeOntologyLoader: IEE bridge ontology (owl:sameAs, worldview mapping)
+ *
+ * Phase 6.6: General-Purpose Ontology Text Tagger
+ *   - PropertyMapper: Configurable property-to-TagDefinition mapping
+ *   - OntologyTextTagger: Load any TTL, map properties, tag text
  *
  * Phase 4-5: Two-Tier JSON-LD semantic graph with BFO/CCO ontology support
  *   - Tier 1 (ICE): DiscourseReferent - parsing layer
@@ -753,6 +774,14 @@ ${valueNetAdapter}
 ${bridgeOntologyLoader}
 
   // ============================================================================
+  // PHASE 6.6: GENERAL-PURPOSE ONTOLOGY TEXT TAGGER
+  // ============================================================================
+
+${propertyMapper}
+
+${ontologyTextTagger}
+
+  // ============================================================================
   // SEMANTIC GRAPH BUILDER (Phase 4 - Week 1 + Week 2 + Phase 6)
   // ============================================================================
 
@@ -946,7 +975,11 @@ ${semanticGraphBuilder}
     TurtleParser: TurtleParser,
     OntologyManager: OntologyManager,
     ValueNetAdapter: ValueNetAdapter,
-    BridgeOntologyLoader: BridgeOntologyLoader
+    BridgeOntologyLoader: BridgeOntologyLoader,
+
+    // Phase 6.6: General-purpose tagger
+    PropertyMapper: PropertyMapper,
+    OntologyTextTagger: OntologyTextTagger
   };
 
   // Return the unified API

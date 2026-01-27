@@ -1,0 +1,54 @@
+## Legal Domain Ontology Example
+## For use with OntologyTextTagger (Phase 6.6)
+##
+## Usage:
+##   const tagger = OntologyTextTagger.fromTTL(ttl, {
+##     propertyMap: {
+##       keywords: 'legal:searchTerms',
+##       typeFilter: 'legal:LegalConcept',
+##       upholding: 'legal:positiveResolution',
+##       violating: 'legal:negativeOutcome',
+##       category: 'legal:category',
+##       extraProperties: ['legal:jurisdiction']
+##     },
+##     domain: 'legal'
+##   });
+
+@prefix legal: <https://example.org/legal#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+legal:ContractBreach a legal:LegalConcept ;
+    rdfs:label "Breach of Contract" ;
+    rdfs:comment "Failure to perform contractual obligations" ;
+    legal:searchTerms "breach, violated agreement, failed to perform, non-performance, broken contract" ;
+    legal:positiveResolution "cure, remedy, settlement, mediation, renegotiation" ;
+    legal:negativeOutcome "damages, penalty, termination, liability, injunction" ;
+    legal:jurisdiction "common-law" ;
+    legal:category legal:ContractLaw .
+
+legal:Negligence a legal:LegalConcept ;
+    rdfs:label "Negligence" ;
+    rdfs:comment "Failure to exercise reasonable care" ;
+    legal:searchTerms "negligence, duty of care, reasonable person, careless, failure to act" ;
+    legal:positiveResolution "settlement, compensation, corrective action" ;
+    legal:negativeOutcome "damages, injury, harm, wrongful death" ;
+    legal:jurisdiction "common-law" ;
+    legal:category legal:TortLaw .
+
+legal:IntellectualPropertyInfringement a legal:LegalConcept ;
+    rdfs:label "IP Infringement" ;
+    rdfs:comment "Unauthorized use of intellectual property" ;
+    legal:searchTerms "infringement, copyright, trademark, patent violation, unauthorized use" ;
+    legal:positiveResolution "licensing, settlement, consent agreement" ;
+    legal:negativeOutcome "injunction, statutory damages, disgorgement" ;
+    legal:jurisdiction "federal" ;
+    legal:category legal:IPLaw .
+
+legal:EmploymentDiscrimination a legal:LegalConcept ;
+    rdfs:label "Employment Discrimination" ;
+    rdfs:comment "Unlawful discrimination in employment" ;
+    legal:searchTerms "discrimination, harassment, hostile workplace, wrongful termination, retaliation" ;
+    legal:positiveResolution "reinstatement, policy change, training, back pay" ;
+    legal:negativeOutcome "compensatory damages, punitive damages, consent decree" ;
+    legal:jurisdiction "federal" ;
+    legal:category legal:EmploymentLaw .

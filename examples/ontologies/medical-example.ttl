@@ -1,0 +1,55 @@
+## Medical Domain Ontology Example
+## For use with OntologyTextTagger (Phase 6.6)
+##
+## Usage:
+##   const tagger = OntologyTextTagger.fromTTL(ttl, {
+##     propertyMap: {
+##       keywords: 'med:indicators',
+##       category: 'med:category',
+##       extraProperties: ['med:icdCode', 'med:riskFactors']
+##     },
+##     domain: 'medical'
+##   });
+
+@prefix med: <https://example.org/medical#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix bfo: <http://purl.obolibrary.org/obo/BFO_> .
+
+med:CardiovascularDisease a bfo:0000016 ;
+    rdfs:label "Cardiovascular Disease" ;
+    rdfs:comment "Diseases affecting the heart and blood vessels" ;
+    med:indicators "chest pain, shortness of breath, heart attack, stroke, hypertension, palpitations" ;
+    med:icdCode "I00-I99" ;
+    med:riskFactors "smoking, obesity, diabetes, high cholesterol, sedentary lifestyle" ;
+    med:category med:ChronicDisease .
+
+med:RespiratoryInfection a bfo:0000016 ;
+    rdfs:label "Respiratory Infection" ;
+    rdfs:comment "Infections of the respiratory tract" ;
+    med:indicators "cough, fever, congestion, pneumonia, bronchitis, sore throat" ;
+    med:icdCode "J00-J99" ;
+    med:riskFactors "weakened immune system, smoking, crowded conditions" ;
+    med:category med:AcuteDisease .
+
+med:Diabetes a bfo:0000016 ;
+    rdfs:label "Diabetes" ;
+    rdfs:comment "Metabolic disorder affecting blood sugar regulation" ;
+    med:indicators "blood sugar, insulin, glucose, thirst, fatigue, frequent urination" ;
+    med:icdCode "E08-E13" ;
+    med:riskFactors "obesity, sedentary, genetics, age" ;
+    med:category med:ChronicDisease .
+
+med:MentalHealthDisorder a bfo:0000016 ;
+    rdfs:label "Mental Health Disorder" ;
+    rdfs:comment "Disorders affecting mental well-being" ;
+    med:indicators "anxiety, depression, insomnia, mood changes, panic, stress" ;
+    med:icdCode "F00-F99" ;
+    med:riskFactors "trauma, genetics, substance abuse, isolation" ;
+    med:category med:ChronicDisease .
+
+med:Allergies a bfo:0000016 ;
+    rdfs:label "Allergies" ;
+    rdfs:comment "Immune system hypersensitivity reactions" ;
+    med:indicators "rash, itching, swelling, hives, sneezing, anaphylaxis" ;
+    med:icdCode "T78" ;
+    med:category med:AcuteDisease .

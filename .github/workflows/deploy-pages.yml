@@ -52,6 +52,7 @@ jobs:
           # Copy Phase 6 demos
           cp demos/phase6-lattice-demo.html gh-pages/phase6-lattice-demo.html
           cp demos/phase65-ontology-demo.html gh-pages/phase65-ontology-demo.html
+          cp demos/phase66-custom-tagger-demo.html gh-pages/phase66-custom-tagger-demo.html
           cp demos/stakeholder-demo.html gh-pages/stakeholder-demo.html
           cp demos/semantic-demo.html gh-pages/semantic-demo.html
 

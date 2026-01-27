@@ -1,8 +1,8 @@
 # TagTeam Consolidated Roadmap
 
-**Version:** 6.5.4.0
-**Last Updated:** 2026-01-26
-**Status:** Phase 6.5.4 Complete (IEE Bridge Ontology), Phase 7 Next (Epistemic Layer)
+**Version:** 6.6.0
+**Last Updated:** 2026-01-27
+**Status:** Phase 6.6 Complete (OntologyTextTagger), Phase 7 Next (Epistemic Layer)
 
 ---
 
@@ -894,6 +894,335 @@ examples/ontologies/
 
 ---
 
+## Phase 6.6: OntologyTextTagger — General-Purpose Ontology-Driven Text Tagging
+
+**Goal:** Enable any team to load their own ontology (TTL or JSON) and tag text with their custom classes, without requiring ValueNet-specific property conventions.
+
+**Status:** ✅ Complete (2026-01-27)
+**Priority:** High
+**Effort:** Medium
+**Tests:** 64 passing
+**Depends On:** Phase 6.5 (TurtleParser, OntologyManager)
+
+### Problem Statement
+
+Phase 6.5 delivers a pipeline that is hardcoded to the ValueNet property schema:
+
+```
+TTL → TurtleParser → OntologyManager → ValueNetAdapter → ValueMatcher
+                                         ↑ hardcoded:
+                                         vn:keywords → semanticMarkers
+                                         vn:upholdingTerms → polarity.upholding
+                                         vn:violatingTerms → polarity.violating
+                                         rdf:type = bfo:0000016 (Disposition)
+```
+
+A new team with a different ontology (e.g., medical, legal, environmental) cannot use this pipeline unless they restructure their ontology to match ValueNet conventions. We need a configurable adapter that maps arbitrary ontology properties to TagTeam's text-matching engine.
+
+### Design: Property Mapping Schema
+
+The core idea is a **mapping configuration** that tells the tagger which ontology properties serve which roles in text detection:
+
+```javascript
+const tagger = new OntologyTextTagger({
+  // Required: OntologyManager with loaded TTL/JSON
+  ontologyManager: manager,
+
+  // Property mapping — tells the tagger what to look for
+  propertyMap: {
+    // Which property holds the matching keywords/terms
+    // (equivalent to ValueNet's vn:keywords)
+    keywords: 'myns:searchTerms',
+
+    // Which property holds the human-readable label
+    // Default: 'rdfs:label'
+    label: 'rdfs:label',
+
+    // Which rdf:type(s) to consider as taggable classes
+    // Default: all typed subjects
+    // Can be a string or array of strings
+    typeFilter: 'myns:TaggableEntity',
+
+    // Optional: polarity indicators (for value-like ontologies)
+    upholding: 'myns:positiveIndicators',
+    violating: 'myns:negativeIndicators',
+
+    // Optional: category/classification property
+    // Allows grouping tagged instances under broader categories
+    category: 'myns:belongsToCategory',
+
+    // Optional: description for context
+    description: 'rdfs:comment',
+
+    // Optional: additional properties to extract and attach to results
+    // These are passed through as metadata on each match
+    extraProperties: ['myns:severity', 'myns:source', 'myns:exampleUsage']
+  },
+
+  // Optional: matching configuration
+  matchOptions: {
+    caseSensitive: false,         // default: false
+    wordBoundary: true,           // default: true (use \b regex)
+    partialMatch: false,          // default: false
+    lemmatize: true,              // default: true (use PatternMatcher)
+    minKeywordMatches: 1,         // default: 1 (min keywords to count as match)
+    confidenceThreshold: 0.0      // default: 0.0 (return all matches)
+  },
+
+  // Optional: domain label for output
+  domain: 'environmental-law'
+});
+```
+
+### API Surface
+
+```javascript
+// === Construction ===
+
+// From OntologyManager (TTL already loaded)
+const tagger = new OntologyTextTagger({ ontologyManager, propertyMap });
+
+// From raw TTL string (convenience — creates internal OntologyManager)
+const tagger = OntologyTextTagger.fromTTL(ttlString, { propertyMap });
+
+// From JSON config (for teams not using TTL)
+const tagger = OntologyTextTagger.fromJSON(jsonConfig, { propertyMap });
+
+
+// === Tagging ===
+
+// Tag text — returns array of matches
+const tags = tagger.tagText('The factory discharged effluent into the river.');
+// [
+//   {
+//     class: 'env:WaterPollution',
+//     label: 'Water Pollution',
+//     category: 'env:EnvironmentalHarm',
+//     confidence: 0.85,
+//     evidence: ['discharged', 'effluent', 'river'],
+//     keywordCount: 3,
+//     polarity: -1,                    // only if polarity properties mapped
+//     domain: 'environmental-law',
+//     iri: 'https://env.org/ontology#WaterPollution',
+//     metadata: {                      // from extraProperties
+//       severity: 'high',
+//       source: 'EPA Clean Water Act'
+//     }
+//   }
+// ]
+
+// Tag with specific class filter
+const tags = tagger.tagText(text, { classes: ['env:WaterPollution', 'env:AirPollution'] });
+
+// Tag and group by category
+const grouped = tagger.tagTextGrouped(text);
+// {
+//   'env:EnvironmentalHarm': [ ...matches ],
+//   'env:RegulatoryViolation': [ ...matches ]
+// }
+
+
+// === Introspection ===
+
+// List all taggable classes from the loaded ontology
+const classes = tagger.getTaggableClasses();
+// [
+//   { id: 'env:WaterPollution', label: 'Water Pollution', category: 'env:EnvironmentalHarm',
+//     keywordCount: 5, hasPolarity: false },
+//   ...
+// ]
+
+// Get the compiled tag definition for a single class
+const def = tagger.getTagDefinition('env:WaterPollution');
+
+// Get summary statistics
+const stats = tagger.getStats();
+// { classCount: 12, totalKeywords: 87, withPolarity: 4, categories: 3 }
+
+// Validate the property map against the loaded ontology
+// (check that mapped properties actually exist in the data)
+const validation = tagger.validatePropertyMap();
+// {
+//   valid: true,
+//   warnings: ['myns:severity found on 3/12 classes only'],
+//   errors: [],
+//   coverage: { keywords: 12/12, category: 8/12, severity: 3/12 }
+// }
+
+
+// === Export / Integration ===
+
+// Export as ValueMatcher-compatible format (backwards compatibility)
+const vmFormat = tagger.toValueMatcherFormat();
+// { values: [...], version: '6.6', source: 'environmental-law' }
+
+// Create a ValueMatcher directly (for teams that need the existing pipeline)
+const matcher = tagger.createValueMatcher();
+
+// Export tag definitions as JSON (for sharing/caching)
+const json = tagger.exportDefinitions();
+```
+
+### Example: Medical Ontology
+
+```turtle
+@prefix med: <https://example.org/medical#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix bfo: <http://purl.obolibrary.org/obo/BFO_> .
+
+med:CardiovascularDisease a bfo:0000016 ;
+    rdfs:label "Cardiovascular Disease" ;
+    med:indicators "chest pain, shortness of breath, heart attack, stroke, hypertension" ;
+    med:icdCode "I00-I99" ;
+    med:riskFactors "smoking, obesity, diabetes, high cholesterol" ;
+    med:category med:ChronicDisease .
+
+med:RespiratoryInfection a bfo:0000016 ;
+    rdfs:label "Respiratory Infection" ;
+    med:indicators "cough, fever, congestion, pneumonia, bronchitis" ;
+    med:icdCode "J00-J99" ;
+    med:category med:AcuteDisease .
+```
+
+```javascript
+const tagger = OntologyTextTagger.fromTTL(medicalTTL, {
+  propertyMap: {
+    keywords: 'med:indicators',
+    category: 'med:category',
+    extraProperties: ['med:icdCode', 'med:riskFactors']
+  },
+  domain: 'medical'
+});
+
+const tags = tagger.tagText('Patient presents with chest pain and shortness of breath.');
+// [{ class: 'med:CardiovascularDisease', label: 'Cardiovascular Disease',
+//    evidence: ['chest pain', 'shortness of breath'], keywordCount: 2,
+//    metadata: { icdCode: 'I00-I99', riskFactors: 'smoking, obesity, ...' } }]
+```
+
+### Example: Legal Ontology
+
+```turtle
+@prefix legal: <https://example.org/legal#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+legal:ContractBreach a legal:LegalConcept ;
+    rdfs:label "Breach of Contract" ;
+    legal:searchTerms "breach, violated agreement, failed to perform, non-performance" ;
+    legal:positiveResolution "cure, remedy, settlement, mediation" ;
+    legal:negativeOutcome "damages, penalty, termination, liability" ;
+    legal:jurisdiction "common-law" ;
+    legal:category legal:ContractLaw .
+```
+
+```javascript
+const tagger = OntologyTextTagger.fromTTL(legalTTL, {
+  propertyMap: {
+    keywords: 'legal:searchTerms',
+    typeFilter: 'legal:LegalConcept',
+    upholding: 'legal:positiveResolution',
+    violating: 'legal:negativeOutcome',
+    category: 'legal:category',
+    extraProperties: ['legal:jurisdiction']
+  },
+  domain: 'legal'
+});
+```
+
+### Internal Architecture
+
+```
+                    ┌─────────────────────────┐
+                    │   OntologyTextTagger     │
+                    │                          │
+  TTL/JSON ────────►│  propertyMap config      │
+                    │         │                │
+                    │         ▼                │
+                    │  ┌──────────────┐        │
+                    │  │ PropertyMapper│        │  Reads ontology triples,
+                    │  │ (new class)  │        │  applies propertyMap to
+                    │  └──────┬───────┘        │  extract tag definitions
+                    │         │                │
+                    │         ▼                │
+                    │  ┌──────────────┐        │
+                    │  │ TagDefinition │        │  Normalized internal format:
+                    │  │[] (array)    │        │  { id, label, keywords[],
+                    │  └──────┬───────┘        │    polarity?, category?, meta }
+                    │         │                │
+                    │         ▼                │
+  text ────────────►│  ┌──────────────┐        │
+                    │  │  TextMatcher  │        │  Reuses ValueMatcher's
+                    │  │  (internal)   │        │  matching algorithm
+                    │  └──────┬───────┘        │
+                    │         │                │
+                    │         ▼                │
+                    │    TagResult[]           │
+                    └─────────────────────────┘
+```
+
+**Key design decisions:**
+
+1. **PropertyMapper** — New internal class that reads triples from OntologyManager/TurtleParser using the configured property map. This is the generalization of what ValueNetAdapter does with hardcoded properties.
+
+2. **TagDefinition** — Internal normalized format. Structurally identical to ValueMatcher's input format but with added `category` and `metadata` fields. This means we can delegate to the existing matching algorithm.
+
+3. **TextMatcher** — Wraps or reuses ValueMatcher's regex + PatternMatcher approach. No need to rewrite the matching engine; we just need to feed it differently-shaped definitions.
+
+4. **Backwards compatibility** — `toValueMatcherFormat()` and `createValueMatcher()` ensure teams can drop OntologyTextTagger into existing ValueMatcher-based pipelines.
+
+### Deliverables
+
+| File | Description |
+|------|-------------|
+| `src/ontology/OntologyTextTagger.js` | Main class with property mapping, tagging, introspection ✅ |
+| `src/ontology/PropertyMapper.js` | Internal: maps ontology triples to TagDefinitions via config ✅ |
+| `tests/unit/phase6/ontology-text-tagger.test.js` | Test suite (64 tests) ✅ |
+| `examples/ontologies/medical-example.ttl` | Example: medical domain ontology ✅ |
+| `examples/ontologies/legal-example.ttl` | Example: legal domain ontology ✅ |
+| `demos/phase66-custom-tagger-demo.html` | Interactive demo: paste TTL, configure mapping, tag text |
+
+### Test Coverage: 64 tests across 9 categories
+
+| Category | Count | Description |
+|----------|-------|-------------|
+| Constructor & Config | 8 | Valid/invalid propertyMap, defaults, convenience factories |
+| Property Mapping | 10 | Keyword extraction, label fallback, type filtering, extra properties |
+| Text Tagging | 12 | Single class, multiple classes, evidence, confidence, polarity |
+| Category Grouping | 6 | tagTextGrouped, category extraction, uncategorized handling |
+| Match Options | 8 | Case sensitivity, word boundary, partial match, min keywords |
+| Introspection | 6 | getTaggableClasses, getStats, validatePropertyMap |
+| Export & Compat | 5 | toValueMatcherFormat, createValueMatcher, exportDefinitions |
+| Edge Cases | 4 | Empty ontology, missing properties, no data, cross-domain |
+| PropertyMapper | 5 | Constructor, extraction, validation, coverage reporting |
+
+### Success Criteria
+
+- Any TTL ontology with keyword-bearing properties can drive text tagging without code changes
+- Property map validation catches misconfigurations before runtime
+- Existing ValueNet pipeline continues to work unchanged (zero regression)
+- Demo page allows paste-your-own-TTL with live property mapping configuration
+- Performance: tagging 1000 words against 50 classes < 100ms
+
+### Phase 6.6 Files
+
+```
+src/ontology/
+├── OntologyTextTagger.js   # Main general-purpose tagger ✅
+└── PropertyMapper.js       # Property map → TagDefinition converter ✅
+
+tests/unit/phase6/
+└── ontology-text-tagger.test.js  # 64 tests ✅
+
+examples/ontologies/
+├── medical-example.ttl     # Medical domain example ✅
+└── legal-example.ttl       # Legal domain example ✅
+
+demos/
+└── phase66-custom-tagger-demo.html  # Interactive demo (planned)
+```
+
+---
+
 ## Phase 7: Epistemic Layer
 
 **Goal:** Support epistemic status analysis for ethical reasoning
@@ -1337,6 +1666,7 @@ node tests/unit/test-lattice-properties.js  # Property-based tests
 | **6.5.1** TTL Parser | High | Medium | 6.4.5 | 6.5.2 | ✅ Complete |
 | **6.5.2** OntologyManager | High | Medium | 6.5.1 | 6.5.3 | ✅ Complete |
 | **6.5.3** ValueNet Integration | High | Low | 6.5.2 | IEE | ✅ Complete |
+| **6.6** OntologyTextTagger | High | Medium | 6.5 | 7.x, Demo | ✅ Complete |
 | **7.1** Source Attribution | High | Medium | 6.4 | 7.2 | Planned |
 | **7.2** Certainty Markers | Medium | Low | 7.1 | - | Planned |
 | **7.3** Temporal Grounding | Medium | Medium | 6.4 | - | Planned |
@@ -1369,7 +1699,8 @@ node tests/unit/test-lattice-properties.js  # Property-based tests
 13. **Phase 6.5.2:** OntologyManager (unified JSON + TTL loading) ✅ Complete (80 tests)
 14. **Phase 6.5.3:** ValueNet Integration (IEE value detection) ✅ Complete (50 tests)
 15. **Phase 6.5.4:** IEE bridge ontology support ✅ Complete (54 tests)
-16. Create golden test corpus for lattice validation ← **Next**
+16. **Phase 6.6:** OntologyTextTagger (general-purpose text tagging) ✅ Complete (64 tests)
+17. Create golden test corpus for lattice validation ← **Next**
 
 ### Near-Term (Phase 6.5 - IEE ValueNet Integration) ✅ COMPLETE
 
@@ -1428,6 +1759,7 @@ node tests/unit/test-lattice-properties.js  # Property-based tests
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| 6.6.0 | 2026-01-27 | Phase 6.6 complete: OntologyTextTagger with 64 tests, configurable property mapping, medical/legal examples |
 | 6.5.4.0 | 2026-01-26 | Phase 6.5.4 complete: BridgeOntologyLoader with 54 tests, owl:sameAs/relatedTo/worldview mapping, IEE bridge template |
 | 6.5.3.0 | 2026-01-26 | Phase 6.5.3 complete: ValueNetAdapter with 50 tests, OntologyManager→ValueMatcher bridge, polarity conversion |
 | 6.5.2.0 | 2026-01-26 | Phase 6.5.2 complete: OntologyManager with 80 tests, unified JSON+TTL loading, caching, merge strategy |
