@@ -126,6 +126,21 @@ const CONTROL_VERB_MODALITY = {
 };
 
 /**
+ * Ergative/unaccusative verbs — verbs where the subject is the patient/theme,
+ * not the agent. "The server rebooted" = server undergoes rebooting (patient).
+ * With inanimate subjects, these verbs indicate a process happening TO the subject.
+ * With animate subjects, agent reading may still be valid ("He rebooted the server").
+ */
+const ERGATIVE_VERBS = new Set([
+  'reboot', 'restart', 'crash', 'break', 'fail', 'collapse', 'freeze',
+  'stall', 'malfunction', 'overheat', 'explode', 'implode', 'melt',
+  'dissolve', 'evaporate', 'corrode', 'deteriorate', 'degrade',
+  'sink', 'capsize', 'derail', 'rupture', 'fracture', 'shatter',
+  'start', 'stop', 'open', 'close', 'change', 'move', 'grow',
+  'shrink', 'expand', 'increase', 'decrease', 'improve', 'worsen'
+]);
+
+/**
  * Deontic modality mappings
  * Maps modal auxiliaries to modality types
  *
@@ -593,6 +608,18 @@ class ActExtractor {
         });
         acts.push(inferenceNode);
         return; // Skip IntentionalAct creation for this verb
+      }
+
+      // Ergative verb check: "The server rebooted" → server is patient, not agent
+      // When an ergative verb has an inanimate subject and no object, demote agent to participant
+      if (ERGATIVE_VERBS.has(infinitive.toLowerCase()) && links.agentEntity &&
+          this._isInanimateAgent(links.agentEntity) && !links.patient) {
+        // Demote: agent becomes participant, no agent
+        if (!links.participants) links.participants = [];
+        links.participants.push(links.agent);
+        links.patient = links.agent; // The subject undergoes the process
+        links.agent = null;
+        links.agentEntity = null;
       }
 
       // Build sourceText: include control verb span if present

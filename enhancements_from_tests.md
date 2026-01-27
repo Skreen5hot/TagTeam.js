@@ -73,3 +73,27 @@ Capabilities identified during comprehensive testing that require new functional
 **Complexity:** High — requires clause boundary detection, conditional marker parsing, actuality propagation per clause, and new ConditionalContent node type.
 
 ---
+
+## ENH-007: Compound Sentence Clause Boundary Detection
+
+**Source:** Test 1.1.6 `linguistic.sentence-complexity.compound`
+**Input:** "The server rebooted and the application restarted."
+**Issue:** Compound sentences join independent clauses with coordinating conjunctions ("and", "but", "or"). Currently entity-verb linking spans across clause boundaries, causing misattribution (e.g., "application" treated as object of "rebooted" when it's actually the subject of "restarted"). Each clause should be parsed independently for agent/patient linking.
+**Proposed Fix:**
+1. Detect clause boundaries at coordinating conjunctions ("and", "but", "or", "nor", "yet", "so") when preceded by a complete SVO clause.
+2. Split entity-verb linking scope to within-clause only.
+3. Optionally generate a `cco:ProcessAggregate` or sequential relationship (`tagteam:precedes`, `tagteam:simultaneous_with`) for temporally linked clauses.
+**Priority:** High
+**Complexity:** High — requires clause boundary detection, NLP sentence segmentation, and scoping entity-verb linking per clause.
+
+---
+
+## ENH-008: Ergative/Unaccusative Verb Agent Demotion (Transitive Context)
+
+**Source:** Test 1.1.6 `linguistic.sentence-complexity.compound`
+**Input:** "The server rebooted and the application restarted."
+**Issue:** When an ergative verb (reboot, restart, crash) has an inanimate subject AND an apparent direct object (due to cross-clause misattribution), the inanimate subject is still assigned as agent. The current ergative fix only works for intransitive uses (`!links.patient`). Full ergative handling requires clause boundary detection (ENH-007) to distinguish "The server rebooted the app" (transitive, server=agent) from "The server rebooted [and] the app restarted" (intransitive, server=patient).
+**Priority:** Medium (depends on ENH-007)
+**Complexity:** Medium — already partially implemented; full fix requires clause boundaries.
+
+---

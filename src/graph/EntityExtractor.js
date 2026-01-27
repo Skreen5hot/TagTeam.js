@@ -464,6 +464,9 @@ const AMBIGUOUS_NOMINALIZATIONS = {
   'panel': 'cco:Organization',
   'team': 'cco:Organization',
 
+  // Can be software (entity) or applying (process)
+  'application': 'cco:Artifact',
+
   // Can be the building (entity) or the act of building (process)
   'construction': 'cco:Artifact',
   'creation': 'cco:Artifact',
