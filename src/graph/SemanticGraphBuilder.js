@@ -257,7 +257,7 @@ class SemanticGraphBuilder {
       tier2Entities = extractedEntities.filter(e =>
         e['@type']?.some(t =>
           t.includes('cco:Person') || t.includes('cco:Artifact') || t.includes('cco:Organization') ||
-          t === 'bfo:BFO_0000038' || t === 'bfo:BFO_0000008' || t === 'bfo:BFO_0000019'
+          t === 'bfo:BFO_0000038' || t === 'bfo:BFO_0000008' || t === 'bfo:BFO_0000019' || t === 'bfo:BFO_0000016'
         )
       );
 
@@ -514,6 +514,13 @@ class SemanticGraphBuilder {
       }
     }
 
+    // ================================================================
+    // Phase 7.1: Temporal Linking
+    // Link temporal regions to nearby processes/entities via
+    // cco:occupies_temporal_region (proximity-based, best-effort)
+    // ================================================================
+    this._linkTemporalRegions(text);
+
     const result = {
       '@graph': this.nodes,
       _metadata: {
@@ -680,6 +687,84 @@ class SemanticGraphBuilder {
       .update(text)
       .digest('hex')
       .substring(0, 12);
+  }
+
+  /**
+   * Phase 7.1: Link temporal regions to nearby non-temporal entities.
+   * Uses proximity in the source text to determine which entities a temporal
+   * expression qualifies, via cco:occupies_temporal_region.
+   * @param {string} sourceText - Original input text
+   * @private
+   */
+  _linkTemporalRegions(sourceText) {
+    const TEMPORAL_TYPES = ['bfo:BFO_0000038', 'bfo:BFO_0000008'];
+
+    // Tier 2 nodes don't have position info; Tier 1 DiscourseReferents do.
+    // Strategy: use Tier 1 positions, then link the corresponding Tier 2 entities.
+    const tier1Nodes = this.nodes.filter(n =>
+      n['@type'] && n['@type'].includes('tagteam:DiscourseReferent')
+    );
+
+    // Build Tier 1 → Tier 2 IRI map
+    const tier1ToTier2 = new Map();
+    for (const t1 of tier1Nodes) {
+      const about = t1['cco:is_about'];
+      if (about) {
+        tier1ToTier2.set(t1['@id'], typeof about === 'object' ? about['@id'] : about);
+      }
+    }
+
+    // Build node lookup by IRI
+    const nodeIndex = new Map();
+    for (const n of this.nodes) {
+      if (n['@id']) nodeIndex.set(n['@id'], n);
+    }
+
+    // Classify Tier 1 nodes as temporal or entity
+    const temporalTier1 = [];
+    const entityTier1 = [];
+    for (const t1 of tier1Nodes) {
+      const tier2IRI = tier1ToTier2.get(t1['@id']);
+      const tier2 = tier2IRI ? nodeIndex.get(tier2IRI) : null;
+      if (!tier2 || !tier2['@type']) continue;
+
+      if (tier2['@type'].some(t => TEMPORAL_TYPES.includes(t))) {
+        temporalTier1.push(t1);
+      } else if (tier2['@type'].includes('owl:NamedIndividual') &&
+                 !tier2['@type'].includes('cco:Person')) {
+        // Link qualities, dispositions, artifacts — not persons
+        entityTier1.push(t1);
+      }
+    }
+
+    if (temporalTier1.length === 0 || entityTier1.length === 0) return;
+
+    // For each temporal Tier 1, find same-sentence entity Tier 1 nodes
+    for (const tempT1 of temporalTier1) {
+      const tStart = tempT1['tagteam:startPosition'];
+      if (tStart == null) continue;
+
+      const tempTier2IRI = tier1ToTier2.get(tempT1['@id']);
+
+      // Find sentence boundaries around the temporal expression
+      const sentenceStart = sourceText.lastIndexOf('.', tStart);
+      const sentenceEnd = sourceText.indexOf('.', tStart);
+      const clauseStart = sentenceStart >= 0 ? sentenceStart : 0;
+      const clauseEnd = sentenceEnd >= 0 ? sentenceEnd : sourceText.length;
+
+      for (const entT1 of entityTier1) {
+        const eStart = entT1['tagteam:startPosition'];
+        if (eStart == null) continue;
+
+        if (eStart >= clauseStart && eStart <= clauseEnd) {
+          const entTier2IRI = tier1ToTier2.get(entT1['@id']);
+          const entTier2 = entTier2IRI ? nodeIndex.get(entTier2IRI) : null;
+          if (entTier2) {
+            entTier2['cco:occupies_temporal_region'] = { '@id': tempTier2IRI };
+          }
+        }
+      }
+    }
   }
 
   /**

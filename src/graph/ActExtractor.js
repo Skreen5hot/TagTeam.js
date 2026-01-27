@@ -975,7 +975,7 @@ class ActExtractor {
     const linkMap = this.options.linkToTier2 ? this._buildTier2LinkMap(entities) : new Map();
 
     // Temporal regions and qualities cannot be agents, patients, or primary participants
-    const NON_AGENT_TYPES = ['bfo:BFO_0000038', 'bfo:BFO_0000008', 'bfo:BFO_0000019'];
+    const NON_AGENT_TYPES = ['bfo:BFO_0000038', 'bfo:BFO_0000008', 'bfo:BFO_0000019', 'bfo:BFO_0000016'];
     const isNonAgentEntity = (entity) => {
       const dt = entity['tagteam:denotesType'];
       return dt && NON_AGENT_TYPES.includes(dt);

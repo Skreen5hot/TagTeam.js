@@ -92,9 +92,20 @@ const SYMPTOM_SINGLE_WORDS = new Set([
   // Other
   'bleeding', 'inflammation', 'infection', 'edema', 'insomnia',
   'anxiety', 'depression', 'stress', 'confusion', 'delirium',
-  // Disease names (qualities of a person, not artifacts)
+]);
+
+/**
+ * Disease terms — these are Dispositions (bfo:BFO_0000016) per OGMS/BFO,
+ * NOT Qualities. Diseases are predispositions to undergo pathological processes.
+ */
+const DISEASE_TERMS = new Set([
   'diabetes', 'asthma', 'pneumonia', 'bronchitis', 'anemia',
-  'arthritis', 'epilepsy', 'cancer', 'stroke'
+  'arthritis', 'epilepsy', 'cancer', 'stroke',
+  'hypertension', 'infection', 'disease', 'disorder', 'syndrome',
+  'condition', 'illness', 'malaria', 'tuberculosis', 'hepatitis',
+  'meningitis', 'influenza', 'measles', 'mumps', 'cholera',
+  'leukemia', 'lymphoma', 'dementia', 'alzheimer', 'parkinson',
+  'cirrhosis', 'fibrosis', 'sepsis', 'gangrene'
 ]);
 
 /**
@@ -819,7 +830,21 @@ class EntityExtractor {
    * @returns {string|null} 'bfo:BFO_0000019' (Quality) or null
    */
   _checkForSymptomType(fullNounLower, rootNounLower) {
-    // Rule 1: Multi-word phrase match
+    // Rule 0: Disease terms → Disposition (bfo:BFO_0000016), NOT Quality
+    // Per OGMS/BFO, diseases are dispositions to undergo pathological processes
+    if (DISEASE_TERMS.has(rootNounLower)) {
+      return 'bfo:BFO_0000016'; // Disposition
+    }
+    // Check head word of multi-word root for diseases
+    const rootWordsForDisease = rootNounLower.split(/\s+/);
+    if (rootWordsForDisease.length > 1) {
+      const headForDisease = rootWordsForDisease[rootWordsForDisease.length - 1];
+      if (DISEASE_TERMS.has(headForDisease)) {
+        return 'bfo:BFO_0000016';
+      }
+    }
+
+    // Rule 1: Multi-word phrase match (symptoms only)
     for (const phrase of SYMPTOM_PHRASES) {
       if (fullNounLower.includes(phrase)) {
         return 'bfo:BFO_0000019'; // Quality
@@ -832,8 +857,6 @@ class EntityExtractor {
     }
 
     // Rule 3: Strip adjective modifiers and re-check root
-    // "persistent cough" → root is "cough" (already handled above via Compromise root)
-    // But handle cases where root includes modifier: split and check last word
     const rootWords = rootNounLower.split(/\s+/);
     if (rootWords.length > 1) {
       const headWord = rootWords[rootWords.length - 1];
@@ -851,7 +874,9 @@ class EntityExtractor {
         // Strip leading adjective modifiers
         const words = trimmed.split(/\s+/);
         const head = words[words.length - 1];
-        // Check single word
+        // Check disease terms first
+        if (DISEASE_TERMS.has(head)) return true;
+        // Check single word symptoms
         if (SYMPTOM_SINGLE_WORDS.has(head)) return true;
         // Check multi-word
         for (const phrase of SYMPTOM_PHRASES) {
@@ -860,7 +885,12 @@ class EntityExtractor {
         return false;
       });
       if (allAreSymptoms) {
-        return 'bfo:BFO_0000019';
+        // If any conjunct is a disease, the whole phrase is a disposition
+        const anyDisease = conjuncts.some(c => {
+          const head = c.trim().split(/\s+/).pop();
+          return DISEASE_TERMS.has(head);
+        });
+        return anyDisease ? 'bfo:BFO_0000016' : 'bfo:BFO_0000019';
       }
     }
 
@@ -1030,8 +1060,18 @@ class EntityExtractor {
    */
   _determineReferentialStatus(definitenessInfo, nounText, fullText, index) {
     const lowerText = fullText.toLowerCase();
+    const lowerNoun = nounText.toLowerCase().trim();
 
-    // Hypothetical markers
+    // Modal adjectives on the noun itself → hypothetical
+    // "possible diabetes", "suspected infection", "likely pneumonia"
+    const modalAdjectives = ['possible', 'likely', 'probable', 'suspected', 'potential',
+      'presumed', 'apparent', 'alleged', 'uncertain', 'questionable'];
+    const firstWord = lowerNoun.split(/\s+/)[0];
+    if (modalAdjectives.includes(firstWord)) {
+      return 'hypothetical';
+    }
+
+    // Hypothetical markers in surrounding context
     const hypotheticalMarkers = ['if', 'would', 'could', 'might', 'suppose', 'assuming', 'hypothetically'];
     for (const marker of hypotheticalMarkers) {
       if (lowerText.includes(marker)) {

@@ -114,10 +114,8 @@ class RoleDetector {
    * @returns {Array<Object>} Array of Role nodes
    */
   detect(acts, entities, options = {}) {
-    const roles = [];
-
     if (!acts || !entities || acts.length === 0 || entities.length === 0) {
-      return roles;
+      return [];
     }
 
     // Build entity lookup by IRI
@@ -126,9 +124,25 @@ class RoleDetector {
       entityIndex.set(entity['@id'], entity);
     });
 
+    // Phase 7.1: Consolidate roles per (roleType, bearerIRI).
+    // BFO roles are continuants — one role per bearer, realized across multiple acts.
+    // Key: "roleType|bearerIRI", Value: { roleInfo, actEntries: [{actIRI, canRealize}] }
+    const roleAccumulator = new Map();
+
+    const accumulateRole = (roleType, bearerIRI, bearer, actIRI, act, canRealize) => {
+      const key = `${roleType}|${bearerIRI}`;
+      if (roleAccumulator.has(key)) {
+        roleAccumulator.get(key).actEntries.push({ actIRI, canRealize });
+      } else {
+        roleAccumulator.set(key, {
+          roleType, bearerIRI, bearer,
+          actEntries: [{ actIRI, canRealize }]
+        });
+      }
+    };
+
     // Process each act to find roles
     acts.forEach(act => {
-      // Check if roles can be realized in this act (only Actual acts)
       const actualityStatus = act['tagteam:actualityStatus'];
       const canRealize = REALIZABLE_STATUSES.includes(actualityStatus);
 
@@ -136,19 +150,8 @@ class RoleDetector {
       const agentIRI = extractIRI(act['cco:has_agent']);
       if (agentIRI) {
         const bearer = entityIndex.get(agentIRI);
-
-        // AgentRole only for Person entities
         if (bearer && this._canBearAgentRole(bearer)) {
-          const role = this._createRole({
-            roleType: 'agent',
-            bearerIRI: agentIRI,
-            bearer,
-            actIRI: act['@id'],
-            act,
-            canRealize
-          });
-          roles.push(role);
-          this._addBearerLink(bearer, role['@id']);
+          accumulateRole('agent', agentIRI, bearer, act['@id'], act, canRealize);
         }
       }
 
@@ -156,83 +159,43 @@ class RoleDetector {
       const affectedIRI = extractIRI(act['cco:affects']);
       if (affectedIRI) {
         const bearer = entityIndex.get(affectedIRI);
-
-        if (bearer) {
-          // CRITICAL: PatientRole ONLY for Person entities (BFO/CCO constraint)
-          // Artifacts are affected but do NOT bear PatientRole
-          const isPerson = this._isPersonEntity(bearer);
-
-          if (isPerson) {
-            // Create PatientRole for persons
-            const role = this._createRole({
-              roleType: 'patient',
-              bearerIRI: affectedIRI,
-              bearer,
-              actIRI: act['@id'],
-              act,
-              canRealize
-            });
-            roles.push(role);
-            this._addBearerLink(bearer, role['@id']);
-          }
-          // NOTE: Artifacts do NOT get PatientRole - they are simply affected
-          // The cco:affects relation on the act is sufficient
+        if (bearer && this._isPersonEntity(bearer)) {
+          accumulateRole('patient', affectedIRI, bearer, act['@id'], act, canRealize);
         }
       }
 
       // Detect participant roles (from has_participant)
-      // These are persons who participate but are not the primary agent/patient
-      // v2.4: Also process members of ObjectAggregates
       const participantIRIs = extractIRIs(act['bfo:has_participant']);
       if (participantIRIs.length > 0) {
         participantIRIs.forEach(participantIRI => {
-          // Skip if already covered as agent or affected
-          if (participantIRI === agentIRI || participantIRI === affectedIRI) {
-            return;
-          }
+          if (participantIRI === agentIRI || participantIRI === affectedIRI) return;
 
           const bearer = entityIndex.get(participantIRI);
           if (bearer) {
-            // Check if this is an ObjectAggregate - if so, process its members
             if (this._isObjectAggregate(bearer)) {
-              // v2.4: Assign PatientRole to each member of the aggregate
               const members = extractIRIs(bearer['bfo:has_member']);
-
               members.forEach(memberIRI => {
                 const member = entityIndex.get(memberIRI);
                 if (member && this._isPersonEntity(member)) {
-                  const role = this._createRole({
-                    roleType: 'patient',
-                    bearerIRI: memberIRI,
-                    bearer: member,
-                    actIRI: act['@id'],
-                    act,
-                    canRealize
-                  });
-                  roles.push(role);
-                  this._addBearerLink(member, role['@id']);
+                  accumulateRole('patient', memberIRI, member, act['@id'], act, canRealize);
                 }
               });
             } else {
-              // Non-aggregate participant
-              // Determine appropriate role type based on entity type
               const roleType = this._isPersonEntity(bearer) ? 'patient' : 'participant';
-
-              const role = this._createRole({
-                roleType,
-                bearerIRI: participantIRI,
-                bearer,
-                actIRI: act['@id'],
-                act,
-                canRealize
-              });
-              roles.push(role);
-              this._addBearerLink(bearer, role['@id']);
+              accumulateRole(roleType, participantIRI, bearer, act['@id'], act, canRealize);
             }
           }
         });
       }
     });
+
+    // Build consolidated role nodes
+    const roles = [];
+    for (const [, entry] of roleAccumulator) {
+      const role = this._createConsolidatedRole(entry);
+      roles.push(role);
+      this._addBearerLink(entry.bearer, role['@id']);
+    }
 
     return roles;
   }
@@ -283,11 +246,15 @@ class RoleDetector {
     if (!bearer['bfo:is_bearer_of']) {
       bearer['bfo:is_bearer_of'] = [];
     }
-    const roleRef = { '@id': roleIRI };
-    if (Array.isArray(bearer['bfo:is_bearer_of'])) {
-      bearer['bfo:is_bearer_of'].push(roleRef);
-    } else {
-      bearer['bfo:is_bearer_of'] = [bearer['bfo:is_bearer_of'], roleRef];
+    if (!Array.isArray(bearer['bfo:is_bearer_of'])) {
+      bearer['bfo:is_bearer_of'] = [bearer['bfo:is_bearer_of']];
+    }
+    // Deduplicate: don't add the same role IRI twice
+    const existing = bearer['bfo:is_bearer_of'].some(ref =>
+      (typeof ref === 'object' ? ref['@id'] : ref) === roleIRI
+    );
+    if (!existing) {
+      bearer['bfo:is_bearer_of'].push({ '@id': roleIRI });
     }
   }
 
@@ -300,35 +267,38 @@ class RoleDetector {
    * @param {Object} roleInfo - Role information
    * @returns {Object} Role node
    */
-  _createRole(roleInfo) {
-    const { roleType, bearerIRI, bearer, actIRI, act, canRealize } = roleInfo;
+  /**
+   * Create a consolidated role node from accumulated act entries.
+   * One role per (roleType, bearerIRI), with realized_in as array when multiple acts.
+   */
+  _createConsolidatedRole(entry) {
+    const { roleType, bearerIRI, bearer, actEntries } = entry;
 
-    // Generate IRI
-    const iri = this._generateRoleIRI(roleType, bearerIRI, actIRI);
-
-    // Determine specific role type
+    const iri = this._generateRoleIRI(roleType, bearerIRI);
     const specificType = ROLE_TYPE_MAPPINGS[roleType] || ROLE_TYPE_MAPPINGS['_default'];
 
-    // Build role node
     const role = {
       '@id': iri,
       '@type': [specificType, 'bfo:BFO_0000023', 'owl:NamedIndividual'],
-      'rdfs:label': this._generateRoleLabel(roleType, bearer, act),
+      'rdfs:label': this._generateRoleLabel(roleType, bearer),
       'tagteam:roleType': roleType,
-
-      // CRITICAL: Bearer link (SHACL VIOLATION if missing)
-      // Use object notation with @id for JSON-LD compliance
       'bfo:inheres_in': { '@id': bearerIRI }
     };
 
-    // IMPORTANT: Realization link ONLY for Actual acts (v2.3 fix)
-    // Prescribed/Planned acts: role exists (inheres_in) but is not realized
-    // Use object notation with @id for JSON-LD compliance
-    if (canRealize) {
-      role['bfo:realized_in'] = { '@id': actIRI };
-    } else {
-      // For non-actual acts, indicate which act would realize the role
-      role['tagteam:would_be_realized_in'] = { '@id': actIRI };
+    // Separate actual vs non-actual acts
+    const realizedActs = actEntries.filter(e => e.canRealize).map(e => ({ '@id': e.actIRI }));
+    const wouldRealizeActs = actEntries.filter(e => !e.canRealize).map(e => ({ '@id': e.actIRI }));
+
+    if (realizedActs.length === 1) {
+      role['bfo:realized_in'] = realizedActs[0];
+    } else if (realizedActs.length > 1) {
+      role['bfo:realized_in'] = realizedActs;
+    }
+
+    if (wouldRealizeActs.length === 1) {
+      role['tagteam:would_be_realized_in'] = wouldRealizeActs[0];
+    } else if (wouldRealizeActs.length > 1) {
+      role['tagteam:would_be_realized_in'] = wouldRealizeActs;
     }
 
     return role;
@@ -341,9 +311,9 @@ class RoleDetector {
    * @param {string} actIRI - Act IRI
    * @returns {string} Role IRI
    */
-  _generateRoleIRI(roleType, bearerIRI, actIRI) {
-    // Create hash input for deterministic IRI
-    const hashInput = `${roleType}|${bearerIRI}|${actIRI}`;
+  _generateRoleIRI(roleType, bearerIRI) {
+    // Phase 7.1: Hash only roleType|bearerIRI — one role per bearer
+    const hashInput = `${roleType}|${bearerIRI}`;
 
     // Generate SHA-256 hash
     const hash = crypto
@@ -366,10 +336,9 @@ class RoleDetector {
    * @param {Object} act - Act node
    * @returns {string} Role label
    */
-  _generateRoleLabel(roleType, bearer, act) {
+  _generateRoleLabel(roleType, bearer) {
     const bearerLabel = bearer['rdfs:label'] || 'entity';
-    const actVerb = act['tagteam:verb'] || 'act';
-    return `${roleType} role of ${bearerLabel} in ${actVerb}`;
+    return `${roleType} role of ${bearerLabel}`;
   }
 
   /**

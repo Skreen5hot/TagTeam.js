@@ -32,7 +32,10 @@ const TIER2_TYPE_MAPPINGS = {
   'bfo:BFO_0000008': 'bfo:BFO_0000008', // Temporal Region (relative expressions)
 
   // Qualities (Phase 7.0 — symptoms, not artifacts)
-  'bfo:BFO_0000019': 'bfo:BFO_0000019'  // Quality (symptoms, physiological states)
+  'bfo:BFO_0000019': 'bfo:BFO_0000019',  // Quality (symptoms, physiological states)
+
+  // Dispositions (Phase 7.1 — diseases per OGMS/BFO)
+  'bfo:BFO_0000016': 'bfo:BFO_0000016'   // Disposition (diseases)
 };
 
 /**
@@ -304,11 +307,22 @@ class RealWorldEntityFactory {
     // Remove determiners and clean up
     const determiners = ['the', 'a', 'an', 'this', 'that', 'these', 'those'];
 
+    // Modal adjectives — epistemic status belongs to the ICE, not the entity
+    const modalAdjectives = [
+      'possible', 'likely', 'probable', 'suspected', 'potential',
+      'presumed', 'apparent', 'alleged', 'uncertain', 'questionable'
+    ];
+
     let normalized = label.toLowerCase().trim();
 
     // Remove leading determiner
     const words = normalized.split(/\s+/);
     if (words.length > 1 && determiners.includes(words[0])) {
+      words.shift();
+    }
+
+    // Remove leading modal adjectives (e.g., "possible diabetes" → "diabetes")
+    while (words.length > 1 && modalAdjectives.includes(words[0])) {
       words.shift();
     }
 
