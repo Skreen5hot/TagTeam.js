@@ -35,7 +35,12 @@ const TIER2_TYPE_MAPPINGS = {
   'bfo:BFO_0000019': 'bfo:BFO_0000019',  // Quality (symptoms, physiological states)
 
   // Dispositions (Phase 7.1 — diseases per OGMS/BFO)
-  'bfo:BFO_0000016': 'bfo:BFO_0000016'   // Disposition (diseases)
+  'bfo:BFO_0000016': 'bfo:BFO_0000016',  // Disposition (diseases)
+
+  // Pronoun-derived types (Phase 7.1 — IEE pronoun mapping)
+  'bfo:BFO_0000004': 'bfo:BFO_0000004',  // Independent Continuant (for "it")
+  'bfo:BFO_0000027': 'bfo:BFO_0000027',  // Object Aggregate (for plural "they")
+  'bfo:BFO_0000001': 'bfo:BFO_0000001'   // Entity (for demonstratives "this/that")
 };
 
 /**

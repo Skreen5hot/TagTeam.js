@@ -257,7 +257,8 @@ class SemanticGraphBuilder {
       tier2Entities = extractedEntities.filter(e =>
         e['@type']?.some(t =>
           t.includes('cco:Person') || t.includes('cco:Artifact') || t.includes('cco:Organization') ||
-          t === 'bfo:BFO_0000038' || t === 'bfo:BFO_0000008' || t === 'bfo:BFO_0000019' || t === 'bfo:BFO_0000016'
+          t === 'bfo:BFO_0000038' || t === 'bfo:BFO_0000008' || t === 'bfo:BFO_0000019' || t === 'bfo:BFO_0000016' ||
+          t === 'bfo:BFO_0000004' || t === 'bfo:BFO_0000027' || t === 'bfo:BFO_0000001'
         )
       );
 

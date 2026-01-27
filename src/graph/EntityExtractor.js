@@ -164,6 +164,62 @@ const ENTITY_TYPE_MAPPINGS = {
 };
 
 /**
+ * Pronoun → BFO/CCO type mappings (IEE realist specification)
+ *
+ * Pronouns carry selectional presuppositions about their antecedent's ontological category:
+ * - he/she/him/her/his → cco:Person (gendered personal pronouns presuppose person)
+ * - I/me/my/we/us/our → cco:Person (1st person always human)
+ * - you/your → cco:Person (2nd person always human)
+ * - they/them/their → bfo:BFO_0000027 (Object Aggregate) when plural,
+ *                      cco:Person when singular (context-dependent; default plural)
+ * - it/its → bfo:BFO_0000004 (Independent Continuant — could be anything non-person)
+ * - this/that/these/those → bfo:BFO_0000001 (Entity — maximally general demonstrative)
+ */
+const PRONOUN_TYPE_MAPPINGS = {
+  // Gendered personal → Person
+  'he': 'cco:Person',
+  'she': 'cco:Person',
+  'him': 'cco:Person',
+  'her': 'cco:Person',
+  'his': 'cco:Person',
+  'himself': 'cco:Person',
+  'herself': 'cco:Person',
+
+  // 1st person → Person
+  'i': 'cco:Person',
+  'me': 'cco:Person',
+  'my': 'cco:Person',
+  'myself': 'cco:Person',
+  'we': 'cco:Person',
+  'us': 'cco:Person',
+  'our': 'cco:Person',
+  'ourselves': 'cco:Person',
+
+  // 2nd person → Person
+  'you': 'cco:Person',
+  'your': 'cco:Person',
+  'yourself': 'cco:Person',
+  'yourselves': 'cco:Person',
+
+  // 3rd person plural → Object Aggregate (group)
+  'they': 'bfo:BFO_0000027',
+  'them': 'bfo:BFO_0000027',
+  'their': 'bfo:BFO_0000027',
+  'themselves': 'bfo:BFO_0000027',
+
+  // 3rd person neuter → Independent Continuant (non-person)
+  'it': 'bfo:BFO_0000004',
+  'its': 'bfo:BFO_0000004',
+  'itself': 'bfo:BFO_0000004',
+
+  // Demonstratives → Entity (maximally general)
+  'this': 'bfo:BFO_0000001',
+  'that': 'bfo:BFO_0000001',
+  'these': 'bfo:BFO_0000001',
+  'those': 'bfo:BFO_0000001'
+};
+
+/**
  * Domain-neutral ontological vocabulary
  *
  * These are universally applicable terms that map to BFO/CCO types without
@@ -970,6 +1026,12 @@ class EntityExtractor {
     const lowerNoun = nounText.toLowerCase().trim();
     const words = lowerNoun.split(/\s+/);
     const lastWord = words[words.length - 1];
+
+    // Priority -1: Pronoun type mapping (IEE realist specification)
+    // Pronouns carry selectional presuppositions about ontological category
+    if (words.length === 1 && PRONOUN_TYPE_MAPPINGS[lowerNoun]) {
+      return PRONOUN_TYPE_MAPPINGS[lowerNoun];
+    }
 
     // Priority 0: Compound noun analysis
     // If the noun phrase has multiple words, check if compound context favors process
