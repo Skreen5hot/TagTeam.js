@@ -902,6 +902,19 @@ ex:Concept a ex:MyType ;
           }
         }
 
+        // JSON-LD graph
+        var jsonld = buildJsonLd(text, tags, grouped, domain, tagger);
+        html += '<div class="result-card">';
+        html += '<h3>JSON-LD Graph</h3>';
+        html += '<pre style="background:#1e1e2e;color:#cdd6f4;padding:16px;border-radius:8px;overflow-x:auto;font-size:0.85em;max-height:500px;border-left:4px solid #a855f7;">';
+        html += escapeHtml(JSON.stringify(jsonld, null, 2));
+        html += '</pre>';
+        html += '<button onclick="copyJsonLd()" style="margin-top:8px;background:#a855f7;color:white;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:0.85em;">Copy JSON-LD</button>';
+        html += '</div>';
+
+        // Store for copy button
+        window._lastJsonLd = JSON.stringify(jsonld, null, 2);
+
         resultsContent.innerHTML = html;
         resultsArea.classList.add('show');
         resultsArea.scrollIntoView({ behavior: 'smooth' });
@@ -910,6 +923,62 @@ ex:Concept a ex:MyType ;
         resultsContent.innerHTML = '<div class="result-card" style="border-left-color:#ef4444;"><h3 style="color:#fca5a5;">Error</h3><p>' + e.message + '</p></div>';
         resultsArea.classList.add('show');
         console.error(e);
+      }
+    }
+
+    function buildJsonLd(text, tags, grouped, domain, tagger) {
+      var graph = {
+        '@context': {
+          'tagteam': 'https://tagteam.js.org/ontology#',
+          'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
+          'xsd': 'http://www.w3.org/2001/XMLSchema#',
+          'tagteam:confidence': { '@type': 'xsd:float' },
+          'tagteam:evidence': { '@container': '@set' },
+          'tagteam:hasTag': { '@type': '@id' }
+        },
+        '@type': 'tagteam:TaggingResult',
+        'tagteam:sourceText': text,
+        'tagteam:domain': domain,
+        'tagteam:tagCount': tags.length,
+        'tagteam:hasTag': []
+      };
+
+      for (var i = 0; i < tags.length; i++) {
+        var tag = tags[i];
+        var nodeType = ['tagteam:Tag'];
+        if (tag.iri) nodeType.push(tag.iri);
+        var node = {
+          '@id': tag.iri || ('_:tag' + i),
+          '@type': nodeType,
+          'rdfs:label': tag.label,
+          'tagteam:confidence': tag.confidence,
+          'tagteam:keywordCount': tag.keywordCount,
+          'tagteam:evidence': tag.evidence
+        };
+        if (tag.category) node['tagteam:category'] = tag.category;
+        if (tag.polarity === 1) node['tagteam:polarity'] = 'upholding';
+        else if (tag.polarity === -1) node['tagteam:polarity'] = 'violating';
+        if (tag.metadata) {
+          var metaKeys = Object.keys(tag.metadata);
+          for (var m = 0; m < metaKeys.length; m++) {
+            node['tagteam:meta_' + metaKeys[m].replace(/[^a-zA-Z0-9]/g, '_')] = tag.metadata[metaKeys[m]];
+          }
+        }
+        graph['tagteam:hasTag'].push(node);
+      }
+
+      return graph;
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function copyJsonLd() {
+      if (window._lastJsonLd) {
+        navigator.clipboard.writeText(window._lastJsonLd).then(function() {
+          alert('JSON-LD copied to clipboard!');
+        });
       }
     }
 
