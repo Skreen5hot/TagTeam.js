@@ -57,7 +57,9 @@ const RELATIVE_TEMPORAL_TERMS = [
   'yesterday', 'today', 'tomorrow',
   'recently', 'previously', 'currently',
   'now', 'then', 'earlier', 'later',
-  'overnight', 'midday', 'midnight'
+  'overnight', 'midday', 'midnight',
+  // Days of the week
+  'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'
 ];
 
 /**

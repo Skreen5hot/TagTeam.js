@@ -483,6 +483,10 @@ class ActExtractor {
     // Detect interrogative mood (question mark at end of text)
     const isInterrogative = text.trim().endsWith('?');
 
+    // Detect imperative mood: sentence starts with a base-form verb and has no explicit subject
+    // e.g., "Submit the report by Friday." — verb-initial, no pronoun/noun subject before verb
+    const isImperative = this._isImperativeSentence(text, doc);
+
     // Do-support filtering: "Did he approve?" → "did" is auxiliary, not a separate act
     // If a do-form verb coexists with other non-do verbs, remove the do-form
     const hasDoForm = verbEntries.some(e => this._isDoForm(e.infinitive));
@@ -598,10 +602,13 @@ class ActExtractor {
 
       // Actuality overrides:
       // - Interrogative sentences: the act is queried, not asserted
+      // - Imperative sentences: the act is commanded, not yet realized
       // - Infinitive complements of control verbs: not yet realized
       let actualityOverride = null;
       if (isInterrogative) {
         actualityOverride = 'tagteam:Interrogative';
+      } else if (isImperative) {
+        actualityOverride = 'tagteam:Prescribed';
       } else if (controlVerb) {
         actualityOverride = 'tagteam:Prescribed';
       }
@@ -648,6 +655,57 @@ class ActExtractor {
    */
   _isDoForm(root) {
     return ['do', 'did', 'does'].includes(root.toLowerCase());
+  }
+
+  /**
+   * Detect imperative mood: sentence starts with a base-form verb, no explicit subject.
+   * "Submit the report by Friday." → imperative (verb-initial, no subject)
+   * "He submits the report." → NOT imperative (has subject "He")
+   * @param {string} text - Full sentence text
+   * @param {Object} doc - Compromise NLP document
+   * @returns {boolean} True if sentence is imperative
+   */
+  _isImperativeSentence(text, doc) {
+    const trimmed = text.trim();
+    // Questions are not imperatives
+    if (trimmed.endsWith('?')) return false;
+
+    // Get the first word of the sentence
+    const firstWord = trimmed.split(/\s+/)[0].replace(/[^a-zA-Z]/g, '').toLowerCase();
+    if (!firstWord) return false;
+
+    // Check if first word is a verb (base form) by looking at Compromise's analysis
+    // Also check: no subject pronoun or noun before the first verb
+    const nouns = doc.nouns().out('array');
+    const firstNounText = nouns.length > 0 ? nouns[0].toLowerCase().trim() : '';
+
+    // If the sentence starts with a noun/pronoun before the verb, it's not imperative
+    // Simple heuristic: if the first word is a known subject pronoun or the first noun
+    // appears at position 0, it has a subject
+    const subjectPronouns = ['i', 'you', 'he', 'she', 'it', 'we', 'they',
+                             'who', 'what', 'which', 'that', 'this', 'these', 'those'];
+    if (subjectPronouns.includes(firstWord)) return false;
+
+    // Check if first word appears to be a noun (starts with capital in non-initial position doesn't help here)
+    // Instead: check if the first token is tagged as a verb by Compromise
+    const terms = doc.json()[0]?.terms || [];
+    if (terms.length === 0) return false;
+
+    const firstTerm = terms[0];
+    const firstTags = firstTerm?.tags || [];
+    // Compromise tags can be array of strings or object with boolean values
+    const tagList = Array.isArray(firstTags) ? firstTags : Object.keys(firstTags);
+
+    // Compromise tags: check if first word is tagged as Verb
+    const isFirstWordVerb = tagList.some(t => t === 'Verb' || t === 'Infinitive' || t === 'Imperative');
+
+    if (!isFirstWordVerb) return false;
+
+    // Additional: the first word should NOT be tagged as a Noun (e.g., "Report" could be noun or verb)
+    // If it's ONLY a verb tag (not also noun), it's more likely imperative
+    // But if it has both Verb and Noun tags, check if a determiner follows (not imperative)
+    // For now, trust that verb-initial + no subject pronoun = imperative
+    return true;
   }
 
   /**
