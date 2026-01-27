@@ -945,31 +945,33 @@ ex:Concept a ex:MyType ;
         var nodeTypes = node['@type'];
         if (!nodeTypes || !Array.isArray(nodeTypes)) continue;
 
-        // Only enrich Tier 2 entity nodes (Artifact, Person, Organization — not DiscourseReferent, Role, Act, IBE, Agent)
-        var isTier2Entity = false;
-        for (var ti = 0; ti < nodeTypes.length; ti++) {
-          var t = nodeTypes[ti];
-          if (t === 'cco:Artifact' || t === 'cco:Person' || t === 'cco:Organization' ||
-              t.indexOf('owl:NamedIndividual') >= 0) continue;
-          // Skip non-entity types
-          if (t === 'tagteam:DiscourseReferent' || t === 'bfo:BFO_0000023' ||
-              t === 'cco:AgentRole' || t === 'cco:IntentionalAct' ||
-              t === 'cco:ActOfCommunication' || t === 'cco:InformationBearingEntity' ||
-              t === 'cco:ArtificialAgent' || t === 'cco:ActOfArtificialProcessing') {
-            isTier2Entity = false;
-            break;
-          }
-        }
-        // Positive check: must have one of the Tier 2 base types
-        // Phase 7.0: also include Quality (BFO_0000019) and Temporal Region types
-        for (var ti2 = 0; ti2 < nodeTypes.length; ti2++) {
-          if (nodeTypes[ti2] === 'cco:Artifact' || nodeTypes[ti2] === 'cco:Person' ||
-              nodeTypes[ti2] === 'cco:Organization' ||
-              nodeTypes[ti2] === 'bfo:BFO_0000019' ||
-              nodeTypes[ti2] === 'bfo:BFO_0000038' ||
-              nodeTypes[ti2] === 'bfo:BFO_0000008') {
-            isTier2Entity = true;
-            break;
+        // Enrich Tier 2 entity nodes using blacklist approach:
+        // Any node with owl:NamedIndividual that is NOT an infrastructure type
+        var isTier2Entity = nodeTypes.indexOf('owl:NamedIndividual') >= 0;
+        if (isTier2Entity) {
+          for (var ti = 0; ti < nodeTypes.length; ti++) {
+            var t = nodeTypes[ti];
+            // Blacklist: infrastructure/non-entity types
+            if (t === 'tagteam:DiscourseReferent' ||
+                t === 'cco:AgentRole' || t === 'cco:PatientRole' ||
+                t === 'cco:InstrumentRole' || t === 'cco:BeneficiaryRole' ||
+                t === 'bfo:BFO_0000023' ||
+                t === 'cco:IntentionalAct' ||
+                t === 'cco:InformationBearingEntity' ||
+                t === 'cco:ArtificialAgent' ||
+                t === 'cco:InformationContentEntity' ||
+                t === 'cco:ActOfArtificialProcessing' ||
+                t === 'tagteam:DirectiveContent' ||
+                t === 'tagteam:Inference' || t === 'tagteam:ClinicalFinding' ||
+                t === 'tagteam:ScarcityAssertion' ||
+                t === 'tagteam:InterpretationContext' ||
+                t === 'tagteam:ValueAssertionEvent' ||
+                t === 'tagteam:ContextAssessmentEvent' ||
+                t === 'tagteam:AlternativeNode' ||
+                t.indexOf('cco:ActOf') === 0) {  // catch all ActOf* subtypes
+              isTier2Entity = false;
+              break;
+            }
           }
         }
 
