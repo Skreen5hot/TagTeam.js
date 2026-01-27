@@ -255,7 +255,10 @@ class SemanticGraphBuilder {
         e['@type']?.includes('tagteam:DiscourseReferent')
       );
       tier2Entities = extractedEntities.filter(e =>
-        e['@type']?.some(t => t.includes('cco:Person') || t.includes('cco:Artifact') || t.includes('cco:Organization'))
+        e['@type']?.some(t =>
+          t.includes('cco:Person') || t.includes('cco:Artifact') || t.includes('cco:Organization') ||
+          t === 'bfo:BFO_0000038' || t === 'bfo:BFO_0000008' || t === 'bfo:BFO_0000019'
+        )
       );
 
       // Build link map from Tier 1 to Tier 2

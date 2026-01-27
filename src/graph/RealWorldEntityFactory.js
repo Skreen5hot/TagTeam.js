@@ -25,7 +25,14 @@ const TIER2_TYPE_MAPPINGS = {
   'cco:Artifact': 'cco:Artifact',
   'cco:BodyPart': 'cco:Artifact', // Organs treated as artifacts in allocation context
   'cco:Organization': 'cco:Organization',
-  'bfo:BFO_0000040': 'cco:Artifact' // Material entity defaults to artifact
+  'bfo:BFO_0000040': 'cco:Artifact', // Material entity defaults to artifact
+
+  // Temporal Regions (Phase 7.0 — not artifacts)
+  'bfo:BFO_0000038': 'bfo:BFO_0000038', // One-Dimensional Temporal Region (durations)
+  'bfo:BFO_0000008': 'bfo:BFO_0000008', // Temporal Region (relative expressions)
+
+  // Qualities (Phase 7.0 — symptoms, not artifacts)
+  'bfo:BFO_0000019': 'bfo:BFO_0000019'  // Quality (symptoms, physiological states)
 };
 
 /**

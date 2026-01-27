@@ -75,6 +75,16 @@ const VERB_TO_CCO_MAPPINGS = {
 };
 
 /**
+ * Verbs that, when used with an inanimate subject, indicate an inference
+ * or clinical finding rather than an intentional act.
+ * "Blood sugar levels suggest diabetes" → InformationContentEntity, not IntentionalAct
+ */
+const INFERENCE_VERBS = new Set([
+  'suggest', 'indicate', 'show', 'reveal', 'demonstrate',
+  'imply', 'point', 'confirm', 'support', 'correlate'
+]);
+
+/**
  * Deontic modality mappings
  * Maps modal auxiliaries to modality types
  *
@@ -453,6 +463,28 @@ class ActExtractor {
 
       // Link to entities (agent, patient, affected)
       const links = this._linkToEntities(text, verbText, offset, entities);
+
+      // Phase 7.0 Story 3: Inanimate agent re-typing
+      // If an inference verb has an inanimate subject, create ICE instead of IntentionalAct
+      // Use subjectEntity (includes qualities/temporals) not agentEntity (excludes them)
+      const subjectEntity = links.subjectEntity || links.agentEntity;
+      if (INFERENCE_VERBS.has(infinitive.toLowerCase()) &&
+          subjectEntity && this._isInanimateAgent(subjectEntity)) {
+        // Use subject as the "about" source even if filtered from agent
+        const inferenceLinks = {
+          ...links,
+          agent: links.subjectIRI || links.agent,
+          agentEntity: subjectEntity
+        };
+        const inferenceNode = this._createInferenceNode({
+          text: verbText,
+          infinitive,
+          offset,
+          links: inferenceLinks
+        });
+        acts.push(inferenceNode);
+        return; // Skip IntentionalAct creation for this verb
+      }
 
       // Create IntentionalAct node (Phase 6.4: includes deonticType)
       const act = this._createIntentionalAct({
@@ -942,16 +974,28 @@ class ActExtractor {
     // Build link map from Tier 1 to Tier 2 (if linkToTier2 enabled)
     const linkMap = this.options.linkToTier2 ? this._buildTier2LinkMap(entities) : new Map();
 
-    // Find entities before and after verb
+    // Temporal regions and qualities cannot be agents, patients, or primary participants
+    const NON_AGENT_TYPES = ['bfo:BFO_0000038', 'bfo:BFO_0000008', 'bfo:BFO_0000019'];
+    const isNonAgentEntity = (entity) => {
+      const dt = entity['tagteam:denotesType'];
+      return dt && NON_AGENT_TYPES.includes(dt);
+    };
+
+    // Find entities before and after verb (excluding temporal/quality entities from agent/patient)
     const entitiesBefore = [];
     const entitiesAfter = [];
+    // Also track ALL entities (including non-agent types) for inference detection
+    const allEntitiesBefore = [];
+    const allEntitiesAfter = [];
 
     referents.forEach(entity => {
       const entityOffset = this._getEntityStart(entity);
       if (entityOffset < verbOffset) {
-        entitiesBefore.push(entity);
+        allEntitiesBefore.push(entity);
+        if (!isNonAgentEntity(entity)) entitiesBefore.push(entity);
       } else {
-        entitiesAfter.push(entity);
+        allEntitiesAfter.push(entity);
+        if (!isNonAgentEntity(entity)) entitiesAfter.push(entity);
       }
     });
 
@@ -963,7 +1007,18 @@ class ActExtractor {
       return referentIRI;
     };
 
-    // Agent is typically the closest entity before the verb
+    // Track the grammatical subject (closest entity before verb, ANY type) for inference detection
+    if (allEntitiesBefore.length > 0) {
+      const closestSubject = allEntitiesBefore.reduce((closest, entity) => {
+        const entityEnd = this._getEntityEnd(entity);
+        const closestEnd = this._getEntityEnd(closest);
+        return entityEnd > closestEnd ? entity : closest;
+      });
+      links.subjectEntity = closestSubject;
+      links.subjectIRI = resolveIRI(closestSubject['@id']);
+    }
+
+    // Agent is typically the closest entity before the verb (excluding non-agent types)
     if (entitiesBefore.length > 0) {
       // Get the closest one to the verb
       const closestBefore = entitiesBefore.reduce((closest, entity) => {
@@ -972,6 +1027,7 @@ class ActExtractor {
         return entityEnd > closestEnd ? entity : closest;
       });
       links.agent = resolveIRI(closestBefore['@id']);
+      links.agentEntity = closestBefore; // Preserve for animacy checking
     }
 
     // Patient/affected is typically the closest entity after the verb
@@ -983,6 +1039,18 @@ class ActExtractor {
         return entityStart < closestStart ? entity : closest;
       });
       links.patient = resolveIRI(closestAfter['@id']);
+      links.patientEntity = closestAfter; // Preserve for inference target
+    }
+
+    // Track closest entity after verb (ANY type) for inference target
+    if (allEntitiesAfter.length > 0) {
+      const closestObject = allEntitiesAfter.reduce((closest, entity) => {
+        const entityStart = this._getEntityStart(entity);
+        const closestStart = this._getEntityStart(closest);
+        return entityStart < closestStart ? entity : closest;
+      });
+      links.objectEntity = closestObject;
+      links.objectIRI = resolveIRI(closestObject['@id']);
     }
 
     // All entities after verb are potential participants (resolved to Tier 2)
@@ -1128,6 +1196,72 @@ class ActExtractor {
     }
 
     return node;
+  }
+
+  /**
+   * Create an InformationContentEntity node for inanimate-agent inference verbs.
+   * Phase 7.0 Story 3: "Blood sugar levels suggest diabetes" produces an
+   * Inference/ClinicalFinding ICE instead of an IntentionalAct with inanimate agent.
+   *
+   * @param {Object} actInfo - Act information (same shape as _createIntentionalAct input)
+   * @returns {Object} InformationContentEntity node
+   * @private
+   */
+  _createInferenceNode(actInfo) {
+    const cleanVerb = actInfo.infinitive.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
+    const iri = this.graphBuilder
+      ? this.graphBuilder.generateIRI(actInfo.infinitive, 'Inference', actInfo.offset)
+      : `inst:Inference_${cleanVerb}_${actInfo.offset}`;
+
+    // Determine subtype based on verb
+    const verb = actInfo.infinitive.toLowerCase();
+    const subtype = (verb === 'suggest' || verb === 'imply' || verb === 'point')
+      ? 'tagteam:Inference'
+      : 'tagteam:ClinicalFinding';
+
+    const node = {
+      '@id': iri,
+      '@type': ['cco:InformationContentEntity', subtype, 'owl:NamedIndividual'],
+      'rdfs:label': `Inference from ${actInfo.links.agentEntity
+        ? (actInfo.links.agentEntity['rdfs:label'] || 'source')
+        : 'source'}`,
+      'tagteam:sourceText': actInfo.text,
+      'tagteam:startPosition': actInfo.offset,
+      'tagteam:endPosition': actInfo.offset + actInfo.text.length,
+      'tagteam:detection_method': 'selectional_retype',
+      'tagteam:original_verb': actInfo.infinitive
+    };
+
+    // Link to the inanimate entity (the measurement/quality that "suggests")
+    if (actInfo.links.agent) {
+      node['cco:is_about'] = { '@id': actInfo.links.agent };
+    }
+
+    // Link to the inferred entity (what is being suggested)
+    // Use patient if available, fall back to objectIRI (which includes quality entities)
+    const inferredIRI = actInfo.links.patient || actInfo.links.objectIRI;
+    if (inferredIRI) {
+      node['tagteam:supports_inference'] = { '@id': inferredIRI };
+    }
+
+    return node;
+  }
+
+  /**
+   * Check if an agent entity is inanimate (not a person/organization)
+   * @param {Object} entity - DiscourseReferent entity
+   * @returns {boolean} True if inanimate
+   * @private
+   */
+  _isInanimateAgent(entity) {
+    if (!entity) return false;
+    const dt = entity['tagteam:denotesType'];
+    // Persons and organizations are animate agents
+    if (dt === 'cco:Person' || dt === 'cco:GroupOfPersons' || dt === 'cco:Organization') {
+      return false;
+    }
+    // Artifacts, qualities, material entities are inanimate
+    return true;
   }
 
   /**

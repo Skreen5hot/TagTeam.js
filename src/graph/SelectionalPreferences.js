@@ -58,7 +58,8 @@ const VERB_CLASSES = {
       'suggest', 'recommend', 'propose', 'order', 'command',
       'forbid', 'permit', 'authorize', 'deny', 'confirm', 'reject',
       'say', 'speak', 'write', 'publish', 'broadcast', 'notify',
-      'respond', 'reply', 'answer', 'explain', 'describe', 'assert'
+      'respond', 'reply', 'answer', 'explain', 'describe', 'assert',
+      'indicate', 'show', 'reveal', 'demonstrate', 'imply', 'point'
     ]),
     subjectRequirement: ['animate', 'organization', 'collective'],
     subjectForbidden: ['inanimate'],

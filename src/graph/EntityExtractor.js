@@ -36,6 +36,91 @@ const QUANTITY_WORDS = {
 };
 
 /**
+ * Temporal unit words — when the last word of a noun phrase is one of these,
+ * and a quantity/number precedes it, the entity is a Temporal Region (BFO:0000038).
+ */
+const TEMPORAL_UNITS = {
+  'day': 'day', 'days': 'day',
+  'week': 'week', 'weeks': 'week',
+  'month': 'month', 'months': 'month',
+  'year': 'year', 'years': 'year',
+  'hour': 'hour', 'hours': 'hour',
+  'minute': 'minute', 'minutes': 'minute',
+  'second': 'second', 'seconds': 'second'
+};
+
+/**
+ * Relative temporal expressions — standalone words/phrases that denote
+ * a temporal region without an explicit quantity.
+ */
+const RELATIVE_TEMPORAL_TERMS = [
+  'yesterday', 'today', 'tomorrow',
+  'recently', 'previously', 'currently',
+  'now', 'then', 'earlier', 'later',
+  'overnight', 'midday', 'midnight'
+];
+
+/**
+ * Relative temporal phrase prefixes — when combined with a temporal unit
+ * (e.g., "last week", "next month"), denote an unspecified temporal region.
+ */
+const RELATIVE_TEMPORAL_PREFIXES = ['last', 'next', 'past', 'previous', 'this', 'coming'];
+
+/**
+ * Symptom and physiological quality terms.
+ * These are BFO Qualities (bfo:BFO_0000019) that inhere in material entities,
+ * NOT artifacts. Extensible — add domain terms as needed.
+ *
+ * Single-word terms are matched against rootNoun.
+ * Multi-word terms are matched against the full noun phrase.
+ */
+const SYMPTOM_SINGLE_WORDS = new Set([
+  // Pain
+  'pain', 'ache', 'headache', 'migraine', 'soreness',
+  // Respiratory
+  'cough', 'wheeze', 'congestion', 'dyspnea',
+  // Systemic
+  'fever', 'chills', 'fatigue', 'malaise', 'weakness', 'lethargy',
+  // Gastrointestinal
+  'nausea', 'vomiting', 'diarrhea', 'constipation', 'bloating',
+  // Neurological
+  'dizziness', 'vertigo', 'numbness', 'tingling', 'tremor', 'seizure',
+  // Dermatological
+  'rash', 'itching', 'hives', 'swelling', 'bruising',
+  // Cardiovascular
+  'palpitations', 'tachycardia', 'bradycardia', 'hypertension', 'hypotension',
+  // Other
+  'bleeding', 'inflammation', 'infection', 'edema', 'insomnia',
+  'anxiety', 'depression', 'stress', 'confusion', 'delirium',
+  // Disease names (qualities of a person, not artifacts)
+  'diabetes', 'asthma', 'pneumonia', 'bronchitis', 'anemia',
+  'arthritis', 'epilepsy', 'cancer', 'stroke'
+]);
+
+/**
+ * Multi-word symptom phrases matched against the full noun text.
+ */
+const SYMPTOM_PHRASES = [
+  'chest pain', 'back pain', 'abdominal pain', 'joint pain', 'muscle pain',
+  'sore throat', 'runny nose', 'shortness of breath',
+  'loss of appetite', 'loss of consciousness', 'difficulty breathing',
+  'blood pressure', 'heart rate', 'blood sugar',
+  'weight loss', 'weight gain', 'night sweats', 'cold sweats',
+  'blurred vision', 'double vision', 'hearing loss',
+  'mental health', 'mood changes', 'panic attack'
+];
+
+/**
+ * Adjective modifiers that do NOT change a symptom into a non-symptom.
+ * "persistent cough" is still a symptom. "cough medicine" is not.
+ */
+const SYMPTOM_ADJECTIVE_MODIFIERS = new Set([
+  'persistent', 'chronic', 'acute', 'severe', 'mild', 'moderate',
+  'intermittent', 'constant', 'recurrent', 'sudden', 'gradual',
+  'worsening', 'improving', 'unexplained', 'possible'
+]);
+
+/**
  * Entity type mappings to CCO/BFO types (for denotesType property)
  */
 const ENTITY_TYPE_MAPPINGS = {
@@ -322,12 +407,23 @@ class EntityExtractor {
       // Detect quantity from Compromise and context
       const quantityInfo = this._detectQuantity(nounText, text, offset, nounData);
 
-      // Determine entity type (use root noun for better matching)
-      // Pass context for determiner-sensitive disambiguation of ambiguous nominalizations
-      const entityType = this._determineEntityType(rootNoun, {
+      // Check for temporal type using full noun phrase (needs quantity + unit together)
+      const fullWords = nounText.toLowerCase().trim().split(/\s+/);
+      const temporalType = this._checkForTemporalType(nounText.toLowerCase().trim(), fullWords);
+
+      // Check for symptom/quality type using full noun phrase AND root noun
+      const symptomType = !temporalType
+        ? this._checkForSymptomType(nounText.toLowerCase().trim(), rootNoun.toLowerCase().trim())
+        : null;
+
+      // Determine entity type: temporal > symptom > standard matching
+      const entityType = temporalType || symptomType || this._determineEntityType(rootNoun, {
         fullText: text,
         definitenessInfo: definitenessInfo
       });
+
+      // Extract temporal unit if this is a temporal entity
+      const temporalUnit = temporalType ? this._extractTemporalUnit(nounText) : null;
 
       // Determine referential status
       const referentialStatus = this._determineReferentialStatus(
@@ -346,7 +442,8 @@ class EntityExtractor {
         definiteness: definitenessInfo.definiteness,
         referentialStatus,
         scarcity: scarcityInfo,
-        quantity: quantityInfo
+        quantity: quantityInfo,
+        temporalUnit: temporalUnit
       });
 
       tier1Entities.push(referent);
@@ -658,6 +755,119 @@ class EntityExtractor {
   }
 
   /**
+   * Check if a noun phrase denotes a temporal region.
+   *
+   * Detection rules:
+   * 1. Quantity + temporal unit ("three days") → bfo:BFO_0000038 (1D Temporal Region)
+   * 2. Numeric + temporal unit ("24 hours") → bfo:BFO_0000038
+   * 3. Relative prefix + unit ("last week") → bfo:BFO_0000008 (Temporal Region)
+   * 4. Standalone relative term ("yesterday") → bfo:BFO_0000008
+   *
+   * @param {string} lowerNoun - Lowercased noun text
+   * @param {string[]} words - Words array
+   * @returns {string|null} BFO temporal type IRI or null
+   */
+  _checkForTemporalType(lowerNoun, words) {
+    const lastWord = words[words.length - 1];
+
+    // Rule 1-2: quantity/number + temporal unit → 1D Temporal Region
+    if (words.length >= 2 && TEMPORAL_UNITS[lastWord]) {
+      const firstWord = words[0];
+      if (QUANTITY_WORDS[firstWord] !== undefined || /^\d+$/.test(firstWord)) {
+        return 'bfo:BFO_0000038'; // One-Dimensional Temporal Region
+      }
+    }
+
+    // Rule 3: relative prefix + temporal unit → Temporal Region (unspecified)
+    if (words.length >= 2 && TEMPORAL_UNITS[lastWord]) {
+      if (RELATIVE_TEMPORAL_PREFIXES.includes(words[0])) {
+        return 'bfo:BFO_0000008'; // Temporal Region
+      }
+    }
+
+    // Rule 4: standalone relative temporal term
+    if (words.length === 1 && RELATIVE_TEMPORAL_TERMS.includes(lastWord)) {
+      return 'bfo:BFO_0000008'; // Temporal Region
+    }
+
+    return null;
+  }
+
+  /**
+   * Extract temporal unit from a noun phrase if it is a temporal expression.
+   * Used to annotate Tier 1 nodes with tagteam:unit.
+   *
+   * @param {string} nounText - The noun text
+   * @returns {string|null} Normalized unit ("day", "week", etc.) or null
+   */
+  _extractTemporalUnit(nounText) {
+    const words = nounText.toLowerCase().trim().split(/\s+/);
+    const lastWord = words[words.length - 1];
+    return TEMPORAL_UNITS[lastWord] || null;
+  }
+
+  /**
+   * Check if a noun phrase denotes a physiological symptom or quality.
+   *
+   * Detection rules:
+   * 1. Full phrase matches a known multi-word symptom phrase ("chest pain", "shortness of breath")
+   * 2. Root noun is a known single-word symptom ("cough", "fever", "nausea")
+   * 3. Coordinated symptoms: "cough and fever" — check individual conjuncts
+   *
+   * @param {string} fullNounLower - Full noun phrase, lowercased
+   * @param {string} rootNounLower - Root/head noun, lowercased
+   * @returns {string|null} 'bfo:BFO_0000019' (Quality) or null
+   */
+  _checkForSymptomType(fullNounLower, rootNounLower) {
+    // Rule 1: Multi-word phrase match
+    for (const phrase of SYMPTOM_PHRASES) {
+      if (fullNounLower.includes(phrase)) {
+        return 'bfo:BFO_0000019'; // Quality
+      }
+    }
+
+    // Rule 2: Single-word root noun match
+    if (SYMPTOM_SINGLE_WORDS.has(rootNounLower)) {
+      return 'bfo:BFO_0000019';
+    }
+
+    // Rule 3: Strip adjective modifiers and re-check root
+    // "persistent cough" → root is "cough" (already handled above via Compromise root)
+    // But handle cases where root includes modifier: split and check last word
+    const rootWords = rootNounLower.split(/\s+/);
+    if (rootWords.length > 1) {
+      const headWord = rootWords[rootWords.length - 1];
+      if (SYMPTOM_SINGLE_WORDS.has(headWord)) {
+        return 'bfo:BFO_0000019';
+      }
+    }
+
+    // Rule 4: Coordinated nouns — "cough and fever"
+    // Check individual conjuncts from the full phrase
+    if (fullNounLower.includes(' and ')) {
+      const conjuncts = fullNounLower.split(/\s+and\s+/);
+      const allAreSymptoms = conjuncts.every(c => {
+        const trimmed = c.trim();
+        // Strip leading adjective modifiers
+        const words = trimmed.split(/\s+/);
+        const head = words[words.length - 1];
+        // Check single word
+        if (SYMPTOM_SINGLE_WORDS.has(head)) return true;
+        // Check multi-word
+        for (const phrase of SYMPTOM_PHRASES) {
+          if (trimmed.includes(phrase)) return true;
+        }
+        return false;
+      });
+      if (allAreSymptoms) {
+        return 'bfo:BFO_0000019';
+      }
+    }
+
+    return null;
+  }
+
+  /**
    * Analyze noun phrase context for determiner-sensitive disambiguation
    *
    * Based on ONTOLOGICAL_ISSUES_2026_01_19.md v3.1:
@@ -798,6 +1008,15 @@ class EntityExtractor {
       }
     }
 
+    // Temporal Region detection
+    // "three days" (quantity + temporal unit) → bfo:BFO_0000038 (1D Temporal Region)
+    // "yesterday", "recently" → bfo:BFO_0000008 (Temporal Region)
+    // "last week" (relative prefix + unit) → bfo:BFO_0000008
+    const temporalType = this._checkForTemporalType(lowerNoun, words);
+    if (temporalType) {
+      return temporalType;
+    }
+
     return ENTITY_TYPE_MAPPINGS['_default'];
   }
 
@@ -922,6 +1141,11 @@ class EntityExtractor {
     // Add quantity if detected
     if (entityInfo.quantity && entityInfo.quantity.quantity !== null) {
       node['tagteam:quantity'] = entityInfo.quantity.quantity;
+    }
+
+    // Add temporal unit if this is a temporal entity
+    if (entityInfo.temporalUnit) {
+      node['tagteam:unit'] = entityInfo.temporalUnit;
     }
 
     return node;
