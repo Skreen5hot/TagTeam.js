@@ -669,7 +669,7 @@ describe('OntologyTextTagger', () => {
       expect(tagger.tagText('any text')).toEqual([]);
     });
 
-    it('OTT-058: handles ontology with no keyword properties', () => {
+    it('OTT-058: falls back to rdfs:label when no keyword properties exist', () => {
       const ttl = `
         @prefix ex: <https://example.org/#> .
         @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -678,7 +678,10 @@ describe('OntologyTextTagger', () => {
       const tagger = OntologyTextTagger.fromTTL(ttl, {
         propertyMap: { keywords: 'ex:nonExistentProp' }
       });
-      expect(tagger.tagDefinitions.length).toBe(0);
+      // When NO class has the configured keywords property, the tagger
+      // falls back to standard naming properties (rdfs:label, skos:altLabel, etc.)
+      expect(tagger.tagDefinitions.length).toBe(1);
+      expect(tagger.tagDefinitions[0].keywords).toEqual(['Thing']);
     });
 
     it('OTT-059: validatePropertyMap reports errors when no data loaded', () => {
@@ -733,13 +736,14 @@ describe('OntologyTextTagger', () => {
       expect(defs.length).toBe(2);
     });
 
-    it('OTT-064: validate detects missing required property', () => {
+    it('OTT-064: validate warns when configured keywords property is missing (label fallback)', () => {
       const parser = new TurtleParser();
       const result = parser.parse(SIMPLE_TTL);
       const mapper = new PropertyMapper({ keywords: 'ex:nonExistent' });
       const validation = mapper.validate(result);
-      expect(validation.valid).toBe(false);
-      expect(validation.errors.some(e => e.includes('nonExistent'))).toBe(true);
+      // Missing keywords property is now a warning (label fallback available), not an error
+      expect(validation.valid).toBe(true);
+      expect(validation.warnings.some(w => w.includes('nonExistent'))).toBe(true);
     });
 
     it('OTT-065: validate reports partial coverage as warning', () => {

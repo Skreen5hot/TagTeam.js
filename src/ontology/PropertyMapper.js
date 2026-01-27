@@ -55,6 +55,15 @@ class PropertyMapper {
     // Apply type filter
     const filtered = this._applyTypeFilter(classes);
 
+    // Check if ANY class has the configured keywords property.
+    // If none do, the ontology uses standard naming properties only (e.g., CCO, BFO).
+    // In that case, fall back to rdfs:label / skos:altLabel etc. as evidence.
+    // If at least one class has explicit keywords, only those classes are taggable
+    // (preserves selective keyword assignment for custom ontologies).
+    this._useLabelFallback = !filtered.some(c =>
+      parseResult.getProperty(c.id, this.propertyMap.keywords)
+    );
+
     // Map each subject to a TagDefinition
     return filtered
       .map(c => this._buildTagDefinition(c, parseResult))
@@ -105,7 +114,12 @@ class PropertyMapper {
       coverage[prop.key] = { found: count, total: totalClasses };
 
       if (count === 0 && prop.required) {
-        errors.push(`Required property "${prop.predicate}" not found on any class`);
+        // Keywords property missing is a warning (not error) when label fallback is available
+        if (prop.key === 'keywords') {
+          warnings.push(`Configured keywords property "${prop.predicate}" not found on any class; using rdfs:label / skos:altLabel as fallback`);
+        } else {
+          errors.push(`Required property "${prop.predicate}" not found on any class`);
+        }
       } else if (count === 0 && !prop.required) {
         // Optional property not found anywhere — skip silently
       } else if (count < totalClasses) {
@@ -148,15 +162,20 @@ class PropertyMapper {
   _buildTagDefinition(classInfo, parseResult) {
     const subject = classInfo.id;
 
-    // Extract keywords — required
+    // Extract keywords from configured property
     const keywordsRaw = parseResult.getProperty(subject, this.propertyMap.keywords);
-    if (!keywordsRaw) {
-      return null; // No keywords = not taggable
+    let keywords = this._splitAndTrim(keywordsRaw);
+
+    // Fallback: if no explicit keywords AND the entire ontology lacks the configured
+    // keywords property, use standard naming properties (rdfs:label, skos:altLabel, etc.)
+    // as evidence. This enables standard ontologies (CCO, BFO, SNOMED) to work without
+    // requiring custom keyword annotations.
+    if (keywords.length === 0 && this._useLabelFallback) {
+      keywords = this._collectNamingEvidence(subject, parseResult);
     }
 
-    const keywords = this._splitAndTrim(keywordsRaw);
     if (keywords.length === 0) {
-      return null;
+      return null; // No keywords and no labels = not taggable
     }
 
     // Extract local name
@@ -220,6 +239,55 @@ class PropertyMapper {
     }
 
     return def;
+  }
+
+  /**
+   * Standard naming properties used as fallback evidence when no explicit keywords exist.
+   * These cover the major RDF/OWL/SKOS/DC/Schema.org/FOAF naming conventions.
+   * @private
+   */
+  static get NAMING_PROPERTIES() {
+    return [
+      'rdfs:label',
+      'skos:altLabel',
+      'skos:prefLabel',
+      'dc:title',
+      'dcterms:title',
+      'schema:name',
+      'schema:alternateName',
+      'foaf:name',
+      'foaf:nick'
+    ];
+  }
+
+  /**
+   * Collect evidence terms from standard naming properties.
+   * Used as fallback when the configured keywords property is absent.
+   * @param {string} subject - The class IRI
+   * @param {Object} parseResult - TurtleParser ParseResult
+   * @returns {string[]} Array of evidence terms
+   * @private
+   */
+  _collectNamingEvidence(subject, parseResult) {
+    const evidence = [];
+    const seen = new Set();
+
+    for (const prop of PropertyMapper.NAMING_PROPERTIES) {
+      const raw = parseResult.getProperty(subject, prop);
+      if (!raw) continue;
+
+      // A property may have multiple values (comma-separated or array)
+      const values = this._splitAndTrim(raw);
+      for (const val of values) {
+        const lower = val.toLowerCase();
+        if (!seen.has(lower)) {
+          seen.add(lower);
+          evidence.push(val);
+        }
+      }
+    }
+
+    return evidence;
   }
 
   /**
