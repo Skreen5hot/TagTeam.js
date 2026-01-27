@@ -58,3 +58,18 @@ Capabilities identified during comprehensive testing that require new functional
 **Complexity:** High — requires exclamatory mood detection, predicative nominative parsing, and new ValueAssertion node generation in SemanticGraphBuilder.
 
 ---
+
+## ENH-006: Conditional Clause Detection (If...Then Logic)
+
+**Source:** Test 1.1.4 `linguistic.clause-types.conditional`
+**Input:** "If demand increases, expand capacity."
+**Issue:** Conditional sentences ("If X, then Y") describe a dependency between potential events. Neither the antecedent nor the consequent has occurred. Currently both acts are marked `tagteam:Actual`, which falsely asserts that the events have happened.
+**Proposed Fix:**
+1. Detect conditional markers ("if", "when...then", "unless", "provided that") at sentence start or clause boundary.
+2. Set the antecedent clause acts to `tagteam:Hypothetical` (the "if" part hasn't happened).
+3. Set the consequent clause acts to `tagteam:Conditional` or `tagteam:Prescribed` (depends on whether it's a prediction or command).
+4. Create a `tagteam:ConditionalContent` ICE node with `tagteam:has_antecedent` and `tagteam:has_consequent` linking the two clause acts.
+**Priority:** High
+**Complexity:** High — requires clause boundary detection, conditional marker parsing, actuality propagation per clause, and new ConditionalContent node type.
+
+---

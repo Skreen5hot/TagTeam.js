@@ -122,7 +122,23 @@ const EVALUATIVE_QUALITY_TERMS = new Set([
   'miracle', 'tragedy', 'achievement', 'accomplishment',
   'masterpiece', 'mess', 'blunder', 'mistake', 'error',
   'breakthrough', 'setback', 'improvement', 'decline',
-  'crisis', 'emergency', 'priority', 'necessity'
+  'crisis', 'emergency', 'priority', 'necessity',
+  // Measurable abstract qualities (economic, functional)
+  'demand', 'supply', 'cost', 'price', 'value', 'risk',
+  'quality', 'efficiency', 'productivity', 'performance',
+  'growth', 'revenue', 'profit', 'loss', 'rate', 'level',
+  'speed', 'volume', 'frequency', 'intensity', 'severity'
+]);
+
+/**
+ * Disposition/capability terms — these are Dispositions (bfo:BFO_0000016)
+ * or Realizable Entities. They represent potentials, not physical objects.
+ */
+const DISPOSITION_TERMS = new Set([
+  'capacity', 'capability', 'ability', 'potential', 'tendency',
+  'propensity', 'susceptibility', 'vulnerability', 'resistance',
+  'competence', 'skill', 'talent', 'aptitude', 'readiness',
+  'liability', 'predisposition', 'inclination'
 ]);
 
 /**
@@ -978,8 +994,14 @@ class EntityExtractor {
       }
     }
 
-    // Rule 0b: Evaluative quality terms → Quality (bfo:BFO_0000019)
-    // "disaster", "success", "failure" etc. are evaluative attributes, not artifacts
+    // Rule 0b: Disposition/capability terms → Disposition (bfo:BFO_0000016)
+    // "capacity", "capability", "ability" etc. are realizable entities, not artifacts
+    if (DISPOSITION_TERMS.has(rootNounLower)) {
+      return 'bfo:BFO_0000016'; // Disposition
+    }
+
+    // Rule 0c: Evaluative quality terms → Quality (bfo:BFO_0000019)
+    // "disaster", "success", "failure", "demand" etc. are evaluative attributes, not artifacts
     if (EVALUATIVE_QUALITY_TERMS.has(rootNounLower)) {
       return 'bfo:BFO_0000019'; // Quality
     }
@@ -1177,9 +1199,12 @@ class EntityExtractor {
     }
 
     // Check for known entity types (continuants)
+    // Use word-boundary matching to avoid substring false positives
+    // e.g., "demand" should NOT match "man", "command" should NOT match "man"
     for (const [keyword, type] of Object.entries(ENTITY_TYPE_MAPPINGS)) {
       if (keyword === '_default') continue;
-      if (lowerNoun.includes(keyword)) {
+      const regex = new RegExp(`\\b${keyword}\\b`, 'i');
+      if (regex.test(lowerNoun)) {
         return type;
       }
     }
