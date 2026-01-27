@@ -902,12 +902,18 @@ ex:Concept a ex:MyType ;
           }
         }
 
-        // JSON-LD graph
-        var jsonld = buildJsonLd(text, tags, grouped, domain, tagger);
+        // Build the real Two-Tier JSON-LD graph via TagTeam.buildGraph
+        var graphResult = TagTeam.buildGraph(text, { detectAmbiguity: true });
+        var jsonld = graphResult['@graph'] ? graphResult : { '@graph': graphResult };
+
+        // Enrich Tier 2 nodes with ontology class types from tags
+        enrichGraphWithOntologyTypes(jsonld, tags);
+
         html += '<div class="result-card">';
-        html += '<h3>JSON-LD Graph</h3>';
-        html += '<pre style="background:#1e1e2e;color:#cdd6f4;padding:16px;border-radius:8px;overflow-x:auto;font-size:0.85em;max-height:500px;border-left:4px solid #a855f7;">';
-        html += escapeHtml(JSON.stringify(jsonld, null, 2));
+        html += '<h3>Two-Tier JSON-LD Graph (Ontology-Enriched)</h3>';
+        html += '<p style="color:#aaa;font-size:0.85em;margin-bottom:12px;">Tier 2 entity nodes are typed with matched ontology classes from your TTL.</p>';
+        html += '<pre style="background:#1e1e2e;color:#cdd6f4;padding:16px;border-radius:8px;overflow-x:auto;font-size:0.85em;max-height:600px;border-left:4px solid #a855f7;">';
+        html += syntaxHighlightJsonLd(jsonld);
         html += '</pre>';
         html += '<button onclick="copyJsonLd()" style="margin-top:8px;background:#a855f7;color:white;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:0.85em;">Copy JSON-LD</button>';
         html += '</div>';
@@ -926,52 +932,87 @@ ex:Concept a ex:MyType ;
       }
     }
 
-    function buildJsonLd(text, tags, grouped, domain, tagger) {
-      var graph = {
-        '@context': {
-          'tagteam': 'https://tagteam.js.org/ontology#',
-          'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
-          'xsd': 'http://www.w3.org/2001/XMLSchema#',
-          'tagteam:confidence': { '@type': 'xsd:float' },
-          'tagteam:evidence': { '@container': '@set' },
-          'tagteam:hasTag': { '@type': '@id' }
-        },
-        '@type': 'tagteam:TaggingResult',
-        'tagteam:sourceText': text,
-        'tagteam:domain': domain,
-        'tagteam:tagCount': tags.length,
-        'tagteam:hasTag': []
-      };
+    function enrichGraphWithOntologyTypes(jsonld, tags) {
+      // Build a map of evidence terms → ontology class IRIs
+      // For each tag, its evidence words are the link to Tier 2 entity nodes
+      var graphNodes = jsonld['@graph'] || [];
 
-      for (var i = 0; i < tags.length; i++) {
-        var tag = tags[i];
-        var nodeType = ['tagteam:Tag'];
-        if (tag.iri) nodeType.push(tag.iri);
-        var node = {
-          '@id': tag.iri || ('_:tag' + i),
-          '@type': nodeType,
-          'rdfs:label': tag.label,
-          'tagteam:confidence': tag.confidence,
-          'tagteam:keywordCount': tag.keywordCount,
-          'tagteam:evidence': tag.evidence
-        };
-        if (tag.category) node['tagteam:category'] = tag.category;
-        if (tag.polarity === 1) node['tagteam:polarity'] = 'upholding';
-        else if (tag.polarity === -1) node['tagteam:polarity'] = 'violating';
-        if (tag.metadata) {
-          var metaKeys = Object.keys(tag.metadata);
-          for (var m = 0; m < metaKeys.length; m++) {
-            node['tagteam:meta_' + metaKeys[m].replace(/[^a-zA-Z0-9]/g, '_')] = tag.metadata[metaKeys[m]];
+      for (var ni = 0; ni < graphNodes.length; ni++) {
+        var node = graphNodes[ni];
+        var nodeTypes = node['@type'];
+        if (!nodeTypes || !Array.isArray(nodeTypes)) continue;
+
+        // Only enrich Tier 2 entity nodes (Artifact, Person, Organization — not DiscourseReferent, Role, Act, IBE, Agent)
+        var isTier2Entity = false;
+        for (var ti = 0; ti < nodeTypes.length; ti++) {
+          var t = nodeTypes[ti];
+          if (t === 'cco:Artifact' || t === 'cco:Person' || t === 'cco:Organization' ||
+              t.indexOf('owl:NamedIndividual') >= 0) continue;
+          // Skip non-entity types
+          if (t === 'tagteam:DiscourseReferent' || t === 'bfo:BFO_0000023' ||
+              t === 'cco:AgentRole' || t === 'cco:IntentionalAct' ||
+              t === 'cco:ActOfCommunication' || t === 'cco:InformationBearingEntity' ||
+              t === 'cco:ArtificialAgent' || t === 'cco:ActOfArtificialProcessing') {
+            isTier2Entity = false;
+            break;
           }
         }
-        graph['tagteam:hasTag'].push(node);
-      }
+        // Positive check: must have one of the Tier 2 base types
+        for (var ti2 = 0; ti2 < nodeTypes.length; ti2++) {
+          if (nodeTypes[ti2] === 'cco:Artifact' || nodeTypes[ti2] === 'cco:Person' ||
+              nodeTypes[ti2] === 'cco:Organization') {
+            isTier2Entity = true;
+            break;
+          }
+        }
 
-      return graph;
+        if (!isTier2Entity) continue;
+
+        // Get the node's label to match against tag evidence
+        var nodeLabel = (node['rdfs:label'] || '').toLowerCase();
+        if (!nodeLabel) continue;
+
+        // Check each tag's evidence for overlap with this entity's label
+        for (var tgi = 0; tgi < tags.length; tgi++) {
+          var tag = tags[tgi];
+          var evidenceList = tag.evidence || [];
+          for (var ei = 0; ei < evidenceList.length; ei++) {
+            var ev = evidenceList[ei].toLowerCase();
+            if (nodeLabel.indexOf(ev) >= 0) {
+              // Match found — add the ontology class IRI to this node's @type
+              var classIri = tag.iri || tag.class;
+              if (classIri && nodeTypes.indexOf(classIri) === -1) {
+                nodeTypes.push(classIri);
+              }
+              // Also annotate with confidence and evidence
+              if (!node['tagteam:ontologyMatch']) {
+                node['tagteam:ontologyMatch'] = [];
+              }
+              node['tagteam:ontologyMatch'].push({
+                '@type': classIri,
+                'tagteam:confidence': tag.confidence,
+                'tagteam:evidence': ev
+              });
+              break; // One evidence match is enough for this tag
+            }
+          }
+        }
+      }
     }
 
-    function escapeHtml(str) {
-      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    function syntaxHighlightJsonLd(obj) {
+      var json = JSON.stringify(obj, null, 2);
+      // Escape HTML first
+      json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      // Highlight keys
+      json = json.replace(/"(@?\w[^"]*)":/g, '<span style="color:#89b4fa;">"$1"</span>:');
+      // Highlight string values (but not keys)
+      json = json.replace(/: "((?:[^"\\]|\\.)*)"/g, ': <span style="color:#a6e3a1;">"$1"</span>');
+      // Highlight numbers
+      json = json.replace(/: (\d+\.?\d*)/g, ': <span style="color:#fab387;">$1</span>');
+      // Highlight booleans
+      json = json.replace(/: (true|false)/g, ': <span style="color:#f9e2af;">$1</span>');
+      return json;
     }
 
     function copyJsonLd() {
