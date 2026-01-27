@@ -47,3 +47,14 @@ Capabilities identified during comprehensive testing that require new functional
 **Complexity:** Medium — requires new node type and wiring, similar to ENH-002.
 
 ---
+
+## ENH-005: Exclamatory Semantics (ValueAssertion / Evaluation Node)
+
+**Source:** Test 1.1.3 `linguistic.clause-types.exclamatory`
+**Input:** "What a disaster the launch was!"
+**Issue:** Exclamatory sentences express an evaluation or emotional judgment. The graph should capture this via a `tagteam:ValueAssertionEvent` or `cco:InformationContentEntity` (Assessment) node that asserts a quality relationship: `Launch has_quality Disastrous`. Currently no evaluation node is generated — only the entities are extracted.
+**Proposed Fix:** When exclamatory mood is detected (e.g., "What a...!" pattern, trailing `!`), generate a `tagteam:ValueAssertionEvent` node with `cco:is_about` linking to the subject entity and `bfo:has_quality` linking to the predicated quality. The predicative nominative pattern ("X was a Y") should assign Y as a quality of X rather than treating both as independent entities.
+**Priority:** Medium
+**Complexity:** High — requires exclamatory mood detection, predicative nominative parsing, and new ValueAssertion node generation in SemanticGraphBuilder.
+
+---

@@ -111,6 +111,21 @@ const DISEASE_TERMS = new Set([
 ]);
 
 /**
+ * Evaluative quality terms — nouns that denote judgments, assessments, or
+ * evaluative qualities of events/entities. These are BFO Qualities (bfo:BFO_0000019)
+ * because they describe an attribute/status of something, not a physical object.
+ * "The launch was a disaster" → "disaster" is a quality predicated of "launch".
+ */
+const EVALUATIVE_QUALITY_TERMS = new Set([
+  'disaster', 'catastrophe', 'calamity', 'fiasco', 'debacle',
+  'success', 'failure', 'triumph', 'victory', 'defeat',
+  'miracle', 'tragedy', 'achievement', 'accomplishment',
+  'masterpiece', 'mess', 'blunder', 'mistake', 'error',
+  'breakthrough', 'setback', 'improvement', 'decline',
+  'crisis', 'emergency', 'priority', 'necessity'
+]);
+
+/**
  * Multi-word symptom phrases matched against the full noun text.
  */
 const SYMPTOM_PHRASES = [
@@ -287,6 +302,19 @@ const ONTOLOGICAL_VOCABULARY = {
   'service': 'bfo:BFO_0000015',      // Generic service (domain config specializes)
   'assistance': 'bfo:BFO_0000015',
   'intervention': 'bfo:BFO_0000015',
+  // Zero-derivation nominalizations (verb→noun without suffix)
+  'launch': 'bfo:BFO_0000015',
+  'attack': 'bfo:BFO_0000015',
+  'attempt': 'bfo:BFO_0000015',
+  'collapse': 'bfo:BFO_0000015',
+  'crash': 'bfo:BFO_0000015',
+  'escape': 'bfo:BFO_0000015',
+  'fight': 'bfo:BFO_0000015',
+  'release': 'bfo:BFO_0000015',
+  'search': 'bfo:BFO_0000015',
+  'strike': 'bfo:BFO_0000015',
+  'struggle': 'bfo:BFO_0000015',
+  'surge': 'bfo:BFO_0000015',
 
   // Independent Continuants (objects)
   'person': 'cco:Person',
@@ -948,6 +976,12 @@ class EntityExtractor {
       if (DISEASE_TERMS.has(headForDisease)) {
         return 'bfo:BFO_0000016';
       }
+    }
+
+    // Rule 0b: Evaluative quality terms → Quality (bfo:BFO_0000019)
+    // "disaster", "success", "failure" etc. are evaluative attributes, not artifacts
+    if (EVALUATIVE_QUALITY_TERMS.has(rootNounLower)) {
+      return 'bfo:BFO_0000019'; // Quality
     }
 
     // Rule 1: Multi-word phrase match (symptoms only)
