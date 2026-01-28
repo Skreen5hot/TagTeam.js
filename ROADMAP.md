@@ -1288,10 +1288,11 @@ See [enhancements_from_tests.md](enhancements_from_tests.md) for full enhancemen
 
 ### 7.1 Source Attribution Detection — 🟡 v1-Limited / v2-Expanded
 
-**Status:** Not started
+**Status:** ✅ Complete (2026-01-28)
 **Priority:** High
 **Effort:** Medium
 **Scope:** v1 = detect quoted speech attribution only; v2 = reported speech, institutional sources, evidential chains
+**Tests:** 39 passing (source-attribution.test.js)
 
 Detect and structure attribution patterns in text:
 
@@ -1324,10 +1325,11 @@ Detect and structure attribution patterns in text:
 
 ### 7.2 Certainty Markers — ✅ v1-Core
 
-**Status:** Not started
+**Status:** ✅ Complete (2026-01-28)
 **Priority:** Medium
 **Effort:** Low
 **Scope:** Lexical hedges/boosters within single clauses. No cross-clause evidential reasoning.
+**Tests:** 24 passing (certainty-analyzer.test.js)
 
 Detect hedges and boosters via lexical patterns:
 
@@ -1420,7 +1422,7 @@ If Phase 5 improvements insufficient, evaluate Wink NLP:
 
 **Goal:** Address specific parsing gaps identified by comprehensive test suite
 
-**Status:** Not started
+**Status:** ✅ Complete (2026-01-28)
 **Priority:** High (blocks 86% → 95%+ test pass rate)
 **Effort:** Low-Medium
 
@@ -1428,11 +1430,11 @@ These enhancements are derived from failing P0 tests and represent concrete, bou
 
 ### 8.5.1 Definiteness Tracking Enhancement — ✅ v1-Core
 
-**Status:** Not started
+**Status:** ✅ Complete
 **Priority:** High
 **Effort:** Low
 **Scope:** Single-NP definiteness detection. No cross-clause coreference.
-**Failing Tests:** 6 tests across declarative.test.js, definite-np.test.js
+**Tests:** 13 passing (definite-np.test.js), 10 passing (declarative.test.js)
 
 Current `tagteam:definiteness` only works for simple "the X" patterns. Extend to handle:
 
@@ -1452,11 +1454,11 @@ Current `tagteam:definiteness` only works for simple "the X" patterns. Extend to
 
 ### 8.5.2 Extended Modal Detection — ✅ v1-Core
 
-**Status:** Not started
+**Status:** ✅ Complete
 **Priority:** High
 **Effort:** Low
 **Scope:** Lexical modal expansion. No conditional/subjunctive mood.
-**Failing Tests:** 2 tests in deontic-obligation.test.js
+**Tests:** 12 passing (deontic-obligation.test.js)
 
 Current modal detection misses some obligation markers:
 
@@ -1475,11 +1477,11 @@ Current modal detection misses some obligation markers:
 
 ### 8.5.3 Domain Vocabulary Expansion — ✅ v1-Core
 
-**Status:** Not started
+**Status:** ✅ Complete
 **Priority:** Medium
 **Effort:** Low
 **Scope:** Medical domain config updates only. No new domain configs in v1.
-**Failing Tests:** 2 tests in person.test.js
+**Tests:** 14 passing (person.test.js)
 
 Add missing terms to medical domain config:
 
@@ -1497,11 +1499,11 @@ Add missing terms to medical domain config:
 
 ### 8.5.4 Scarcity Marker Detection — 🟡 v1-Limited
 
-**Status:** Not started
+**Status:** ✅ Complete
 **Priority:** Medium
 **Effort:** Low
 **Scope:** v1 = basic scarcity adjective detection ("last", "only", "remaining"). No scarcity reasoning or inference.
-**Failing Tests:** 2 tests in definite-np.test.js
+**Tests:** Passing (definite-np.test.js - scarcity marker tests included)
 
 Detect scarcity/uniqueness markers that affect resource allocation analysis:
 
@@ -1518,15 +1520,15 @@ Detect scarcity/uniqueness markers that affect resource allocation analysis:
 
 **Test File:** `tests/linguistic/referents/definiteness/definite-np.test.js`
 
-### Test Coverage Impact
+### Test Coverage Impact — ✅ Complete
 
-| Enhancement | Tests Fixed | New Pass Rate |
-|-------------|-------------|---------------|
-| 8.5.1 Definiteness | 6 | 92% |
-| 8.5.2 Modal Detection | 2 | 94% |
-| 8.5.3 Vocabulary | 2 | 96% |
-| 8.5.4 Scarcity Markers | 2 | 97% |
-| **Combined** | **12** | **97%+** |
+| Enhancement | Tests Passing | Status |
+|-------------|---------------|--------|
+| 8.5.1 Definiteness | 23 (13 + 10) | ✅ |
+| 8.5.2 Modal Detection | 12 | ✅ |
+| 8.5.3 Vocabulary | 14 | ✅ |
+| 8.5.4 Scarcity Markers | included | ✅ |
+| **Combined** | **49+** | **✅ Complete** |
 
 ---
 
@@ -1559,10 +1561,12 @@ Already implemented:
 
 ### 9.3 Combined Validation Report — 🟢 v1-Optional
 
-**Status:** Not started
+**Status:** ✅ Complete (2026-01-28)
 **Priority:** Low
 **Effort:** Low
 **Scope:** Nice-to-have unified report format. Not blocking for v1.
+**Tests:** 32 tests in `tests/unit/phase9/combined-validation-report.test.js`
+**Module:** `src/graph/CombinedValidationReport.js` — weighted scoring (SHACL 35%, coverage 25%, budget 15%, ambiguity 15%, completeness 10%), grades A-F, human-readable format output. Integrated into SemanticGraphBuilder via `validate()` method.
 
 Unified report format:
 ```json

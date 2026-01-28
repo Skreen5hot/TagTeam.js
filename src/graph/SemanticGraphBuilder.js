@@ -70,6 +70,21 @@ const _AssertionEventBuilder = (typeof AssertionEventBuilder !== 'undefined') ? 
   try { return require('./AssertionEventBuilder'); } catch (e) { return null; }
 })();
 
+// Phase 7.2: CertaintyAnalyzer for hedge/booster/evidential detection
+const _CertaintyAnalyzer = (typeof CertaintyAnalyzer !== 'undefined') ? CertaintyAnalyzer : (() => {
+  try { return require('../analyzers/CertaintyAnalyzer'); } catch (e) { return null; }
+})();
+
+// Phase 7.1: SourceAttributionDetector for quote/reported speech/institutional source detection
+const _SourceAttributionDetector = (typeof SourceAttributionDetector !== 'undefined') ? SourceAttributionDetector : (() => {
+  try { return require('./SourceAttributionDetector'); } catch (e) { return null; }
+})();
+
+// Phase 9.3: CombinedValidationReport for unified validation output
+const _CombinedValidationReport = (typeof CombinedValidationReport !== 'undefined') ? CombinedValidationReport : (() => {
+  try { return require('./CombinedValidationReport'); } catch (e) { return null; }
+})();
+
 /**
  * Main class for building semantic graphs in JSON-LD format
  */
@@ -141,6 +156,20 @@ class SemanticGraphBuilder {
     } else {
       this.ambiguityResolver = null;
       this.alternativeBuilder = null;
+    }
+
+    // Phase 7.2: Certainty analysis (optional)
+    if (_CertaintyAnalyzer) {
+      this.certaintyAnalyzer = new _CertaintyAnalyzer();
+    } else {
+      this.certaintyAnalyzer = null;
+    }
+
+    // Phase 7.1: Source attribution detection (optional)
+    if (_SourceAttributionDetector) {
+      this.sourceAttributionDetector = new _SourceAttributionDetector();
+    } else {
+      this.sourceAttributionDetector = null;
     }
   }
 
@@ -394,6 +423,18 @@ class SemanticGraphBuilder {
         node['cco:is_concretized_by'] = { '@id': ibeNode['@id'] };
       }
     });
+
+    // Phase 7.2: Certainty analysis on acts and directives
+    // Adds hedge/booster/evidential markers to nodes with sourceText
+    if (this.certaintyAnalyzer && buildOptions.analyzeCertainty !== false) {
+      this._addCertaintyMarkers(text);
+    }
+
+    // Phase 7.1: Source attribution detection on full text
+    // Adds source attribution metadata when quotes/reported speech detected
+    if (this.sourceAttributionDetector && buildOptions.detectSourceAttribution !== false) {
+      this._addSourceAttributions(text);
+    }
 
     // Phase 2.1c: Create parsing act that produced the interpretation
     // Note: has_output will be added at the end after all ICE nodes are created
@@ -685,6 +726,52 @@ class SemanticGraphBuilder {
   }
 
   /**
+   * Phase 9.3: Generate a combined validation report for a built graph.
+   * @param {Object} graph - The graph result from build()
+   * @param {Object} [options] - Validation options
+   * @param {boolean} [options.runShacl=true] - Run SHACL validation
+   * @param {boolean} [options.includeDetails=true] - Include detailed breakdowns
+   * @returns {Object|null} Combined validation report, or null if reporter unavailable
+   */
+  validate(graph, options = {}) {
+    if (!_CombinedValidationReport) return null;
+
+    const reporter = new _CombinedValidationReport({
+      includeDetails: options.includeDetails !== false
+    });
+
+    const params = {
+      graph,
+      inputText: this.inputText || ''
+    };
+
+    // Run SHACL validation if available and requested
+    if (options.runShacl !== false && this.shmlValidator) {
+      try {
+        params.shaclResult = this.shmlValidator.validate(graph);
+      } catch (e) {
+        // SHACL validation failure is non-blocking
+      }
+    }
+
+    // Include complexity budget usage if available
+    if (this.complexityBudget) {
+      try {
+        params.budgetUsage = this.complexityBudget.getUsage();
+      } catch (e) {
+        // Budget query failure is non-blocking
+      }
+    }
+
+    // Include ambiguity report if available
+    if (graph._ambiguityReport) {
+      params.ambiguityReport = graph._ambiguityReport;
+    }
+
+    return reporter.generate(params);
+  }
+
+  /**
    * Generate a hash for text (used for IRI generation)
    * @param {string} text - Text to hash
    * @returns {string} SHA-256 hash (12 chars)
@@ -696,6 +783,154 @@ class SemanticGraphBuilder {
       .update(text)
       .digest('hex')
       .substring(0, 12);
+  }
+
+  /**
+   * Phase 7.2: Add certainty markers to nodes that have sourceText.
+   * Applies hedge/booster/evidential detection to acts and directives.
+   * @param {string} fullText - Full input text for context
+   * @private
+   */
+  _addCertaintyMarkers(fullText) {
+    if (!this.certaintyAnalyzer) return;
+
+    // Node types that should have certainty analysis
+    const targetTypes = [
+      'cco:IntentionalAct',
+      'cco:ActOfCommunication',
+      'tagteam:DirectiveContent',
+      'tagteam:DeonticContent',
+      'tagteam:ScarcityAssertion',
+      'tagteam:Inference',
+      'tagteam:ClinicalFinding'
+    ];
+
+    for (const node of this.nodes) {
+      const types = node['@type'] || [];
+
+      // Check if this node type should have certainty analysis
+      const shouldAnalyze = targetTypes.some(t =>
+        types.includes(t) || types.some(nt => nt.startsWith('cco:ActOf'))
+      );
+
+      if (!shouldAnalyze) continue;
+
+      // Get the source text for this node
+      const sourceText = node['tagteam:sourceText'];
+      if (!sourceText) continue;
+
+      // Get context around the sourceText (for better marker detection)
+      const startPos = node['tagteam:startPosition'];
+      const endPos = node['tagteam:endPosition'];
+      let contextText = sourceText;
+
+      // Expand context to capture surrounding markers (e.g., "reportedly" before verb)
+      if (typeof startPos === 'number' && startPos > 0) {
+        const contextStart = Math.max(0, startPos - 30);
+        const contextEnd = Math.min(fullText.length, (endPos || startPos + sourceText.length) + 10);
+        contextText = fullText.substring(contextStart, contextEnd);
+      }
+
+      // Analyze certainty markers
+      const analysis = this.certaintyAnalyzer.analyze(contextText);
+
+      // Only add properties if markers found
+      if (analysis.markerCount > 0) {
+        node['tagteam:certaintyScore'] = Math.round(analysis.certaintyScore * 100) / 100;
+
+        if (analysis.isHedged) {
+          node['tagteam:isHedged'] = true;
+          node['tagteam:hedgeMarkers'] = analysis.hedges.map(h => h.marker);
+        }
+
+        if (analysis.isBoosted) {
+          node['tagteam:isBoosted'] = true;
+          node['tagteam:boosterMarkers'] = analysis.boosters.map(b => b.marker);
+        }
+
+        if (analysis.isEvidential) {
+          node['tagteam:isEvidential'] = true;
+          node['tagteam:evidentialMarkers'] = analysis.evidentials.map(e => ({
+            marker: e.marker,
+            sourceType: e.sourceType
+          }));
+        }
+      }
+    }
+  }
+
+  /**
+   * Phase 7.1: Detect and add source attributions from the full text.
+   * Creates SourceAttribution nodes when quotes, reported speech, or
+   * institutional sources are detected.
+   * @param {string} fullText - Full input text
+   * @private
+   */
+  _addSourceAttributions(fullText) {
+    if (!this.sourceAttributionDetector) return;
+
+    const analysis = this.sourceAttributionDetector.analyze(fullText);
+
+    if (!analysis.hasAttributions) return;
+
+    // Create attribution nodes for each detected attribution
+    for (const attr of analysis.attributions) {
+      const attrHash = this._hashText(`${attr.type}|${attr.source}|${attr.position || 0}`).substring(0, 12);
+      const attrIRI = `inst:SourceAttribution_${attrHash}`;
+
+      const attrNode = {
+        '@id': attrIRI,
+        '@type': ['tagteam:SourceAttribution', 'owl:NamedIndividual'],
+        'rdfs:label': `Attribution from ${attr.source}`,
+        'tagteam:attributionType': attr.type,
+        'tagteam:detectedSource': attr.source,
+        'tagteam:confidence': Math.round(attr.confidence * 100) / 100
+      };
+
+      // Add source type if classified
+      if (attr.sourceType) {
+        attrNode['tagteam:sourceType'] = attr.sourceType;
+      }
+
+      // Add verb if present
+      if (attr.verb) {
+        attrNode['tagteam:attributionVerb'] = attr.verb;
+      }
+
+      // Add quoted/reported content
+      if (attr.quote) {
+        attrNode['tagteam:quotedContent'] = attr.quote;
+      } else if (attr.content) {
+        attrNode['tagteam:reportedContent'] = attr.content;
+      }
+
+      // Add institutional type if applicable
+      if (attr.institutionalType) {
+        attrNode['tagteam:institutionalType'] = attr.institutionalType;
+      }
+
+      // Add position if available
+      if (typeof attr.position === 'number') {
+        attrNode['tagteam:sourceTextPosition'] = attr.position;
+      }
+
+      // Add evidence
+      if (attr.evidence) {
+        attrNode['tagteam:evidence'] = attr.evidence;
+      }
+
+      this.addNode(attrNode);
+    }
+
+    // Add summary to graph metadata
+    // This will be accessible via _metadata in the output
+    if (!this._attributionSummary) {
+      this._attributionSummary = {
+        attributionCount: analysis.attributionCount,
+        dominantType: analysis.dominantType,
+        summary: analysis.summary
+      };
+    }
   }
 
   /**

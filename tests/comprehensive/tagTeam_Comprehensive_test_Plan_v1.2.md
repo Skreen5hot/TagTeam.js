@@ -101,11 +101,11 @@ tests/linguistic/
 │   └── conditional.test.js         # "If demand increases, expand capacity."
 │
 ├── sentence-complexity/
-│   ├── simple.test.js              # Single clause
-│   ├── compound.test.js            # "X happened and Y followed."
-│   ├── complex.test.js             # "When X happened, Y followed."
-│   ├── compound-complex.test.js    # Multiple dependent + independent
-│   └── embedded-clauses.test.js    # "The fact that X worried Y..."
+│   ├── simple.test.js              # "The technician calibrated the sensor."
+│   ├── compound.test.js            # "The server rebooted and the application restarted."
+│   ├── complex.test.js             # "When the alarm sounded, the guards responded."
+│   ├── compound-complex.test.js    # "When the alarm sounded, the guards responded and the system logged the event."
+│   └── embedded-clauses.test.js    # "The fact that the server failed worried the administrator."
 │
 ├── voice-and-valency/
 │   ├── active.test.js              # "The auditor found discrepancies."

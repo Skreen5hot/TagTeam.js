@@ -50,6 +50,17 @@ const TEMPORAL_UNITS = {
 };
 
 /**
+ * Words that indicate clause boundaries - stop searching for determiners past these
+ */
+const CLAUSE_BOUNDARY_WORDS = new Set([
+  'and', 'or', 'but', 'because', 'although', 'while', 'when', 'if', 'unless',
+  'that', 'which', 'who', 'whom', 'whose', 'where', 'how', 'why',
+  'is', 'are', 'was', 'were', 'be', 'been', 'being',
+  'has', 'have', 'had', 'do', 'does', 'did',
+  'can', 'could', 'will', 'would', 'shall', 'should', 'may', 'might', 'must'
+]);
+
+/**
  * Relative temporal expressions — standalone words/phrases that denote
  * a temporal region without an explicit quantity.
  */
@@ -217,11 +228,15 @@ const SYMPTOM_ADJECTIVE_MODIFIERS = new Set([
  * Entity type mappings to CCO/BFO types (for denotesType property)
  */
 const ENTITY_TYPE_MAPPINGS = {
-  // Persons/Roles
+  // Persons/Roles (Medical)
   'doctor': 'cco:Person',
   'physician': 'cco:Person',
+  'surgeon': 'cco:Person',
   'nurse': 'cco:Person',
   'patient': 'cco:Person',
+  'therapist': 'cco:Person',
+  'pharmacist': 'cco:Person',
+  'paramedic': 'cco:Person',
   'family': 'cco:GroupOfPersons',
   'person': 'cco:Person',
   'man': 'cco:Person',
@@ -759,7 +774,8 @@ class EntityExtractor {
       }
     }
 
-    // Fallback: check text before noun for possessives (Compromise may not catch these)
+    // Fallback: check text before noun (Compromise may miss determiners with intervening modifiers)
+    // e.g., "the critically ill patient" - Compromise may only see "ill patient"
     const lowerText = fullText.toLowerCase();
     const lowerNoun = nounText.toLowerCase();
     const nounIndex = lowerText.indexOf(lowerNoun);
@@ -767,18 +783,68 @@ class EntityExtractor {
     if (nounIndex > 0) {
       const beforeNoun = lowerText.substring(0, nounIndex).trim();
       const words = beforeNoun.split(/\s+/);
-      const lastWord = words[words.length - 1];
 
-      if (definiteMarkers.includes(lastWord)) {
-        return { definiteness: 'definite', determiner: lastWord };
+      // Look back up to 6 words to find a determiner (handles modifiers like "the critically ill")
+      const searchLimit = Math.min(6, words.length);
+      for (let i = 1; i <= searchLimit; i++) {
+        const word = words[words.length - i];
+        if (definiteMarkers.includes(word)) {
+          return { definiteness: 'definite', determiner: word };
+        }
+        if (indefiniteMarkers.includes(word)) {
+          return { definiteness: 'indefinite', determiner: word };
+        }
+        // Stop if we hit a verb, preposition, or punctuation (different clause)
+        if (word.match(/[.,;:!?]$/) || CLAUSE_BOUNDARY_WORDS.has(word)) {
+          break;
+        }
       }
-      if (indefiniteMarkers.includes(lastWord)) {
-        return { definiteness: 'indefinite', determiner: lastWord };
-      }
+    }
+
+    // Check for proper names (inherently definite)
+    // Proper names are capitalized and typically don't have determiners
+    // e.g., "Dr. Smith", "John", "Mary"
+    if (this._isProperName(nounText, fullText, nounIndex)) {
+      return { definiteness: 'definite', determiner: null, isProperName: true };
     }
 
     // Default to indefinite if no determiner
     return { definiteness: 'indefinite', determiner: null };
+  }
+
+  /**
+   * Check if a noun phrase is a proper name (inherently definite)
+   * @param {string} nounText - The noun text
+   * @param {string} fullText - Full input text
+   * @param {number} nounIndex - Position of noun in text
+   * @returns {boolean} True if proper name
+   */
+  _isProperName(nounText, fullText, nounIndex) {
+    // Titles that indicate proper names
+    const titles = ['dr', 'dr.', 'mr', 'mr.', 'mrs', 'mrs.', 'ms', 'ms.', 'prof', 'prof.'];
+
+    const words = nounText.split(/\s+/);
+
+    // Check if first word is a title
+    if (titles.includes(words[0].toLowerCase())) {
+      return true;
+    }
+
+    // Check if first word is capitalized (and not at sentence start)
+    const firstWord = words[0];
+    if (firstWord[0] === firstWord[0].toUpperCase() && firstWord[0] !== firstWord[0].toLowerCase()) {
+      // Make sure it's not at the start of a sentence
+      if (nounIndex > 0) {
+        const charBefore = fullText[nounIndex - 1];
+        const twoCharsBefore = nounIndex > 1 ? fullText.substring(nounIndex - 2, nounIndex) : '';
+        // If preceded by space (not after period), it's likely a proper name
+        if (charBefore === ' ' && !twoCharsBefore.match(/[.!?]\s*$/)) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 
   /**

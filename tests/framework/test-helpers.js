@@ -312,11 +312,26 @@ const semantic = {
 
   /**
    * Find node in graph by predicate
+   * Prefers DiscourseReferent (Tier 1) nodes when multiple nodes match,
+   * since linguistic properties (definiteness, referentialStatus) are on Tier 1.
    */
   findNode(graph, predicate) {
     const nodes = graph['@graph'] || graph.nodes || graph;
     const nodesArray = Array.isArray(nodes) ? nodes : [nodes];
-    return nodesArray.find(predicate);
+    const matches = nodesArray.filter(predicate);
+
+    if (matches.length === 0) return undefined;
+    if (matches.length === 1) return matches[0];
+
+    // Prefer DiscourseReferent (Tier 1) when multiple matches exist
+    const tier1 = matches.find(n => {
+      const types = Array.isArray(n['@type']) ? n['@type'] : [n['@type']];
+      return types.includes('tagteam:DiscourseReferent');
+    });
+    if (tier1) return tier1;
+
+    // Otherwise return first match
+    return matches[0];
   },
 
   /**

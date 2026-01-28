@@ -508,7 +508,11 @@ class ActExtractor {
 
       if (this._isAuxiliaryOnly(verbData)) return;
 
-      const infinitive = verbData.infinitive || verbData.root || verbText;
+      // Get infinitive and strip "to " prefix if present (e.g., "to allocate" → "allocate")
+      let infinitive = verbData.infinitive || verbData.root || verbText;
+      if (infinitive.toLowerCase().startsWith('to ')) {
+        infinitive = infinitive.substring(3);
+      }
       const isInfinitive = !!(verbData.grammar?.isInfinitive && !verbData.auxiliary);
       const isControlVerb = CONTROL_VERBS.has(infinitive.toLowerCase());
 

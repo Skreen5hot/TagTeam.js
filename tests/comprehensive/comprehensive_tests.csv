@@ -1,0 +1,23 @@
+test,input,pass/fail
+Test1.1.0 linguistic.clause-types.declarative,The engineer reviewed the design.,PASS
+Test1.1.1 linguistic.clause-types.interrogative,Did the committee approve the budget?,PASS
+Test1.1.2 linguistic.clause-types.imperative,Submit the report by Friday.,PASS
+Test1.1.3 linguistic.clause-types.exclamatory,What a disaster the launch was!,fail
+Test1.1.4 linguistic.clause-types.conditional,"If demand increases, expand capacity.",fail
+Test1.1.5 linguistic.sentence-complexity.simple,The technician calibrated the sensor.,PASS
+Test1.1.6 linguistic.sentence-complexity.compound,The server rebooted and the application restarted.,fail
+Test1.1.7 linguistic.sentence-complexity.complex,"When the alarm sounded, the guards responded.",fail
+Test1.1.8 linguistic.sentence-complexity.compound-complex,"When the alarm sounded, the guards responded and the system logged the event.",fail
+Test1.1.9 linguistic.sentence-complexity.embedded-clauses,The fact that the server failed worried the administrator.,fail
+Test1.1.10 linguistic.voice-and-valency.active,The auditor found discrepancies.,PASS
+Test1.1.11 linguistic.voice-and-valency.passive,Discrepancies were found.,PASS
+Test1.1.12 linguistic.voice-and-valency.passive-agentless,The contract was terminated.,PASS
+Test1.1.13 linguistic.voice-and-valency.middle-voice,The door opened.,PASS
+Test1.1.14 linguistic.voice-and-valency.ditransitive,She gave him the report.,PASS
+Test1.1.15 linguistic.voice-and-valency.ditransitive,The manager had the team revise it.,fail
+Test1.1.16 linguistic.argument-structure.subject-extraction,Which report did the auditor review?,fail
+Test1.1.17 linguistic.argument-structure.direct-object,The auditor reviewed the report.,PASS
+Test1.1.18 linguistic.argument-structure.indirect-object,The auditor gave the committee the report.,PASS
+Test1.1.19 linguistic.argument-structure.oblique-arguments,The technician repaired the device with the tool for the client.,PASS
+Test1.1.20 linguistic.argument-structure.expletive-subjects,It is necessary that the system restart.,fail
+Test1.1.21 linguistic.argument-structure.raising-control,The engineer seems to understand the problem.,fail

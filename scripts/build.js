@@ -50,6 +50,7 @@ const patternMatcherPath = path.join(__dirname, '..', 'src', 'core', 'PatternMat
 const matchingStrategiesPath = path.join(__dirname, '..', 'src', 'core', 'MatchingStrategies.js');
 const compromisePath = path.join(__dirname, '..', 'node_modules', 'compromise', 'builds', 'compromise.js');
 const contextAnalyzerPath = path.join(__dirname, '..', 'src', 'analyzers', 'ContextAnalyzer.js');
+const certaintyAnalyzerPath = path.join(__dirname, '..', 'src', 'analyzers', 'CertaintyAnalyzer.js');
 const valueMatcherPath = path.join(__dirname, '..', 'src', 'analyzers', 'ValueMatcher.js');
 const valueScorerPath = path.join(__dirname, '..', 'src', 'analyzers', 'ValueScorer.js');
 const ethicalProfilerPath = path.join(__dirname, '..', 'src', 'analyzers', 'EthicalProfiler.js');
@@ -103,12 +104,19 @@ const bridgeOntologyLoaderPath = path.join(__dirname, '..', 'src', 'ontology', '
 const propertyMapperPath = path.join(__dirname, '..', 'src', 'ontology', 'PropertyMapper.js');
 const ontologyTextTaggerPath = path.join(__dirname, '..', 'src', 'ontology', 'OntologyTextTagger.js');
 
+// Phase 7.1: Source attribution detection
+const sourceAttributionDetectorPath = path.join(__dirname, '..', 'src', 'graph', 'SourceAttributionDetector.js');
+
+// Phase 9.3: Combined validation report
+const combinedValidationReportPath = path.join(__dirname, '..', 'src', 'graph', 'CombinedValidationReport.js');
+
 let lexicon = fs.readFileSync(lexiconPath, 'utf8');
 let posTagger = fs.readFileSync(posTaggerPath, 'utf8');
 let patternMatcher = fs.readFileSync(patternMatcherPath, 'utf8');
 let matchingStrategies = fs.readFileSync(matchingStrategiesPath, 'utf8');
 let compromise = fs.readFileSync(compromisePath, 'utf8');
 let contextAnalyzer = fs.readFileSync(contextAnalyzerPath, 'utf8');
+let certaintyAnalyzer = fs.readFileSync(certaintyAnalyzerPath, 'utf8');
 let valueMatcher = fs.readFileSync(valueMatcherPath, 'utf8');
 let valueScorer = fs.readFileSync(valueScorerPath, 'utf8');
 let ethicalProfiler = fs.readFileSync(ethicalProfilerPath, 'utf8');
@@ -120,6 +128,7 @@ console.log(`  ✓ Compromise.js (NLP) (${(compromise.length / 1024).toFixed(2)}
 console.log(`  ✓ MatchingStrategies.js (${(matchingStrategies.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ PatternMatcher.js (${(patternMatcher.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ ContextAnalyzer.js (${(contextAnalyzer.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ CertaintyAnalyzer.js (${(certaintyAnalyzer.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ ValueMatcher.js (${(valueMatcher.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ ValueScorer.js (${(valueScorer.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ EthicalProfiler.js (${(ethicalProfiler.length / 1024).toFixed(2)} KB)`);
@@ -174,6 +183,12 @@ let bridgeOntologyLoader = fs.readFileSync(bridgeOntologyLoaderPath, 'utf8');
 let propertyMapper = fs.readFileSync(propertyMapperPath, 'utf8');
 let ontologyTextTagger = fs.readFileSync(ontologyTextTaggerPath, 'utf8');
 
+// Phase 7.1: Source attribution
+let sourceAttributionDetector = fs.readFileSync(sourceAttributionDetectorPath, 'utf8');
+
+// Phase 9.3: Combined validation report
+let combinedValidationReport = fs.readFileSync(combinedValidationReportPath, 'utf8');
+
 console.log(`  ✓ RealWorldEntityFactory.js (${(realWorldEntityFactory.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ EntityExtractor.js (${(entityExtractor.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ ActExtractor.js (${(actExtractor.length / 1024).toFixed(2)} KB)`);
@@ -202,6 +217,8 @@ console.log(`  ✓ ValueNetAdapter.js (${(valueNetAdapter.length / 1024).toFixed
 console.log(`  ✓ BridgeOntologyLoader.js (${(bridgeOntologyLoader.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ PropertyMapper.js (${(propertyMapper.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ OntologyTextTagger.js (${(ontologyTextTagger.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ SourceAttributionDetector.js (${(sourceAttributionDetector.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ CombinedValidationReport.js (${(combinedValidationReport.length / 1024).toFixed(2)} KB)`);
 
 // Read data files for Week 2b
 console.log('\n📖 Reading Week 2b data files...');
@@ -301,6 +318,21 @@ if (ethicalProfiler.includes('(function(root, factory)')) {
     console.log('  ✓ Stripped UMD wrapper from EthicalProfiler');
   }
 }
+
+// Phase 7.2: Strip CommonJS from CertaintyAnalyzer
+certaintyAnalyzer = certaintyAnalyzer.replace(/module\.exports\s*=\s*\w+;\s*\n?/g, '');
+certaintyAnalyzer = certaintyAnalyzer.replace(/'use strict';\s*\n?/g, '');
+console.log('  ✓ Processed CertaintyAnalyzer for browser');
+
+// Phase 7.1: Strip CommonJS from SourceAttributionDetector
+sourceAttributionDetector = sourceAttributionDetector.replace(/module\.exports\s*=\s*\w+;\s*\n?/g, '');
+sourceAttributionDetector = sourceAttributionDetector.replace(/'use strict';\s*\n?/g, '');
+console.log('  ✓ Processed SourceAttributionDetector for browser');
+
+// Phase 9.3: Strip CommonJS from CombinedValidationReport
+combinedValidationReport = combinedValidationReport.replace(/module\.exports\s*=\s*\w+;\s*\n?/g, '');
+combinedValidationReport = combinedValidationReport.replace(/'use strict';\s*\n?/g, '');
+console.log('  ✓ Processed CombinedValidationReport for browser');
 
 // Process Phase 4 graph modules - convert CommonJS to browser-compatible
 console.log('\n🔧 Processing Phase 4 graph modules (Two-Tier v2.2)...');
@@ -542,6 +574,33 @@ ${patternMatcher}
 ${contextAnalyzer}
     return ContextAnalyzer;
   })(PatternMatcher);
+
+  // ============================================================================
+  // CERTAINTY ANALYZER (Phase 7.2) (~8KB)
+  // ============================================================================
+
+${certaintyAnalyzer}
+
+  // Make CertaintyAnalyzer available globally for SemanticGraphBuilder
+  _global.CertaintyAnalyzer = CertaintyAnalyzer;
+
+  // ============================================================================
+  // PHASE 7.1: SOURCE ATTRIBUTION DETECTION (~10KB)
+  // ============================================================================
+
+${sourceAttributionDetector}
+
+  // Make SourceAttributionDetector available globally for SemanticGraphBuilder
+  _global.SourceAttributionDetector = SourceAttributionDetector;
+
+  // ============================================================================
+  // PHASE 9.3: COMBINED VALIDATION REPORT (~12KB)
+  // ============================================================================
+
+${combinedValidationReport}
+
+  // Make CombinedValidationReport available globally for SemanticGraphBuilder
+  _global.CombinedValidationReport = CombinedValidationReport;
 
   // ============================================================================
   // WEEK 2B: ETHICAL VALUE DETECTION DATA (~70KB)
@@ -1002,7 +1061,16 @@ ${semanticGraphBuilder}
 
     // Phase 6.6: General-purpose tagger
     PropertyMapper: PropertyMapper,
-    OntologyTextTagger: OntologyTextTagger
+    OntologyTextTagger: OntologyTextTagger,
+
+    // Phase 7.2: Certainty analysis
+    CertaintyAnalyzer: CertaintyAnalyzer,
+
+    // Phase 7.1: Source attribution detection
+    SourceAttributionDetector: SourceAttributionDetector,
+
+    // Phase 9.3: Combined validation report
+    CombinedValidationReport: CombinedValidationReport
   };
 
   // Return the unified API
