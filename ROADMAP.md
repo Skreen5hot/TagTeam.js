@@ -1,8 +1,8 @@
 # TagTeam Consolidated Roadmap
 
 **Version:** 6.6.0
-**Last Updated:** 2026-01-27
-**Status:** Phase 6.6 Complete (OntologyTextTagger), Phase 7 Next (Epistemic Layer)
+**Last Updated:** 2026-01-28
+**Status:** Phase 6.6 Complete (OntologyTextTagger), v1/v2 Scope Contract Locked, Phase 7 Next (Epistemic Layer)
 
 ---
 
@@ -1220,6 +1220,50 @@ examples/ontologies/
 demos/
 └── phase66-custom-tagger-demo.html  # Interactive demo (planned)
 ```
+
+---
+
+## v1/v2 Scope Contract (2026-01-28)
+
+> **TagTeam.js is an intake compiler, not an AI.**
+> Its job is to deterministically map standard linguistic inputs into ontology-aligned semantic structures — not to understand everything.
+> Success is measured by correctness and predictability, not coverage.
+
+### v1: Stabilization / Semantic Intake Engine
+
+**Mission:** Produce correct, deterministic semantic graphs for single-clause and minimally compound sentences, with explicit uncertainty when structure cannot be resolved.
+
+**Architectural constraints:** Flat/shallow parsing only. No discourse memory. No cross-clause normalization. No cross-sentence inference. When ambiguous: do not guess.
+
+**v1 IN SCOPE (locked):**
+- Passive voice transformations (active ↔ passive, agent demotion/promotion)
+- Verb-context object typing / selectional restrictions (ENH-001)
+- Implicit agent for imperatives (ENH-003, partial — no directive ICE nodes)
+- Prepositional phrase role discrimination: with→Instrument, for→Beneficiary, to→Recipient (ENH-015, bounded)
+- Ergative verb agent demotion on hardcoded allowlist, inanimate subjects only (ENH-008, bounded)
+- All existing passing capabilities frozen: simple declaratives, active/passive/middle voice, basic ditransitives, direct/indirect objects, oblique arguments
+
+**v1 EXPLICITLY DEFERRED to v2:**
+- Question/Directive ICE nodes (ENH-002, ENH-004)
+- Exclamatory/ValueAssertion semantics (ENH-005)
+- Conditional logic (ENH-006)
+- Compound/complex/compound-complex clause linking (ENH-007)
+- Temporal relations (ENH-009)
+- Abstract anaphora (ENH-010)
+- Clausal subjects (ENH-011)
+- Psych verbs (ENH-012)
+- Causative constructions (ENH-013)
+- Wh-movement & do-support (ENH-014)
+- Expletive "it" constructions (ENH-016)
+- Raising verbs (ENH-017)
+
+### v2: Structural Semantics & Normalization
+
+**Mission:** Normalize surface syntax into semantically scoped clauses and speech acts before semantic compilation. v2 prepares normalized input; v1 compiles it.
+
+**v2 introduces:** Clause segmentation, structural normalization, ICE wrapper nodes (Question, Directive, Conditional, ValueAssertion), verb-class routing (raising, psych, causative), scoped temporal and causal relations, limited discourse memory.
+
+See [enhancements_from_tests.md](enhancements_from_tests.md) for full enhancement details with `[v1]`/`[v2]` scope tags.
 
 ---
 

@@ -2,9 +2,18 @@
 
 Capabilities identified during comprehensive testing that require new functionality (not bugs in existing features).
 
+## Scope Classification
+
+Per the **v1/v2 Scope Contract** (2026-01-28), each enhancement is classified:
+
+- **v1** — In scope for v1 stabilization. Improves correctness without structural re-architecture.
+- **v2** — Deferred to v2 (Structural Semantics & Normalization). Requires clause segmentation, discourse memory, or structural normalization.
+
+**Guiding principle:** TagTeam.js v1 is an intake compiler, not an AI. Correctness before coverage. Determinism before cleverness.
+
 ---
 
-## ENH-001: Verb-Context Object Typing (Selectional Restriction on Objects)
+## ENH-001: Verb-Context Object Typing (Selectional Restriction on Objects) `[v1]`
 
 **Source:** Test 1.1.0 `linguistic.clause-types.declarative`
 **Input:** "The engineer reviewed the design."
@@ -15,7 +24,7 @@ Capabilities identified during comprehensive testing that require new functional
 
 ---
 
-## ENH-002: Question ICE Node (Interrogative Semantics)
+## ENH-002: Question ICE Node (Interrogative Semantics) `[v2]`
 
 **Source:** Test 1.1.1 `linguistic.clause-types.interrogative`
 **Input:** "Did the committee approve the budget?"
@@ -26,7 +35,7 @@ Capabilities identified during comprehensive testing that require new functional
 
 ---
 
-## ENH-003: Implicit Agent for Imperatives
+## ENH-003: Implicit Agent for Imperatives `[v1]`
 
 **Source:** Test 1.1.2 `linguistic.clause-types.imperative`
 **Input:** "Submit the report by Friday."
@@ -37,7 +46,7 @@ Capabilities identified during comprehensive testing that require new functional
 
 ---
 
-## ENH-004: Directive ICE Node (Imperative Semantics)
+## ENH-004: Directive ICE Node (Imperative Semantics) `[v2]`
 
 **Source:** Test 1.1.2 `linguistic.clause-types.imperative`
 **Input:** "Submit the report by Friday."
@@ -48,7 +57,7 @@ Capabilities identified during comprehensive testing that require new functional
 
 ---
 
-## ENH-005: Exclamatory Semantics (ValueAssertion / Evaluation Node)
+## ENH-005: Exclamatory Semantics (ValueAssertion / Evaluation Node) `[v2]`
 
 **Source:** Test 1.1.3 `linguistic.clause-types.exclamatory`
 **Input:** "What a disaster the launch was!"
@@ -59,7 +68,7 @@ Capabilities identified during comprehensive testing that require new functional
 
 ---
 
-## ENH-006: Conditional Clause Detection (If...Then Logic)
+## ENH-006: Conditional Clause Detection (If...Then Logic) `[v2]`
 
 **Source:** Test 1.1.4 `linguistic.clause-types.conditional`
 **Input:** "If demand increases, expand capacity."
@@ -74,7 +83,7 @@ Capabilities identified during comprehensive testing that require new functional
 
 ---
 
-## ENH-007: Compound Sentence Clause Boundary Detection
+## ENH-007: Compound Sentence Clause Boundary Detection `[v2]`
 
 **Source:** Test 1.1.6 `linguistic.sentence-complexity.compound`
 **Input:** "The server rebooted and the application restarted."
@@ -88,7 +97,7 @@ Capabilities identified during comprehensive testing that require new functional
 
 ---
 
-## ENH-008: Ergative/Unaccusative Verb Agent Demotion (Transitive Context)
+## ENH-008: Ergative/Unaccusative Verb Agent Demotion (Transitive Context) `[v1]`
 
 **Source:** Test 1.1.6 `linguistic.sentence-complexity.compound`
 **Input:** "The server rebooted and the application restarted."
@@ -98,7 +107,7 @@ Capabilities identified during comprehensive testing that require new functional
 
 ---
 
-## ENH-009: Temporal "When" Clause Linking
+## ENH-009: Temporal "When" Clause Linking `[v2]`
 
 **Source:** Test 1.1.7 `linguistic.sentence-complexity.complex`
 **Input:** "When the alarm sounded, the guards responded."
@@ -112,7 +121,7 @@ Capabilities identified during comprehensive testing that require new functional
 
 ---
 
-## ENH-010: Abstract Noun Coreference (Event/Situation Anaphora)
+## ENH-010: Abstract Noun Coreference (Event/Situation Anaphora) `[v2]`
 
 **Source:** Test 1.1.8 `linguistic.sentence-complexity.compound-complex`
 **Input:** "When the alarm sounded, the guards responded and the system logged the event."
@@ -127,7 +136,7 @@ Capabilities identified during comprehensive testing that require new functional
 
 ---
 
-## ENH-011: Clausal Subject Parsing ("The fact that X" as Agent)
+## ENH-011: Clausal Subject Parsing ("The fact that X" as Agent) `[v2]`
 
 **Source:** Test 1.1.9 `linguistic.sentence-complexity.embedded-clauses`
 **Input:** "The fact that the server failed worried the administrator."
@@ -142,7 +151,7 @@ Capabilities identified during comprehensive testing that require new functional
 
 ---
 
-## ENH-012: Psych-Verb Causation (Experiencer Subjects)
+## ENH-012: Psych-Verb Causation (Experiencer Subjects) `[v2]`
 
 **Source:** Test 1.1.9 `linguistic.sentence-complexity.embedded-clauses`
 **Input:** "The fact that the server failed worried the administrator."
@@ -154,5 +163,107 @@ Capabilities identified during comprehensive testing that require new functional
 4. Optionally use `cco:is_cause_of` rather than `cco:has_agent` for the subject link.
 **Priority:** Medium
 **Complexity:** High — requires new verb class, reversed thematic role mapping, and causal linking.
+
+---
+
+## ENH-013: Causative Construction Detection ("had X do Y") `[v2]`
+
+**Source:** Test 1.1.15 `linguistic.voice-and-valency.ditransitive`
+**Input:** "The manager had the team revise it."
+**Issue:** The causative verb "had" is lost entirely. "Had" in this context is a causative/directive verb — the manager *caused* the team to revise. The graph should contain two linked acts: (1) a commanding/causing act with the manager as agent, and (2) the revise act with the team as agent. Currently only the "revise" act exists and the manager entity is disconnected from any process.
+**Proposed Fix:**
+1. Detect causative patterns: `[Subject1] had/made/let/got [Subject2] [bare infinitive verb]`.
+2. Create a `cco:ActOfCommunication` or `tagteam:DirectiveAct` for the causative verb ("had") with Subject1 (manager) as `cco:has_agent`.
+3. Create the standard `cco:IntentionalAct` for the semantic verb ("revise") with Subject2 (team) as `cco:has_agent`.
+4. Link the causative act to the semantic act via `tagteam:causes` or `cco:is_cause_of`.
+5. Causative verbs: "have" (past: "had"), "make" (past: "made"), "let", "get" (with "to" infinitive).
+6. The causative act's `tagteam:actualityStatus` should be `tagteam:Actual` (the manager did cause it); the semantic act should also be `tagteam:Actual` (the team did revise it).
+**Priority:** High
+**Complexity:** High — requires detecting causative verb + NP + bare infinitive pattern, creating two linked acts with separate agents, and distinguishing causative "had" from auxiliary "had" (past perfect).
+
+---
+
+## ENH-014: Wh-Question Parsing (Wh-Movement & Do-Support) `[v2]`
+
+**Source:** Test 1.1.16 `linguistic.argument-structure.subject-extraction`
+**Input:** "Which report did the auditor review?"
+**Issue:** Three interrelated failures:
+1. **Wh-movement not handled:** "Which report" is the logical *object* of "review" (fronted via Wh-movement), but the parser treats it as the agent because it appears first. The auditor is the true agent.
+2. **"Auditor review" hallucinated as compound noun:** The parser fuses "auditor" and "review" into a single entity `Person_Auditor_Review` instead of recognizing "review" as the main verb and "auditor" as a separate noun (the subject).
+3. **Do-support creates false act:** "Did" is extracted as the main `IntentionalAct` verb ("do") instead of being recognized as an auxiliary. The semantic verb is "review", split across the auxiliary ("did ... review").
+**Proposed Fix:**
+1. Detect Wh-question pattern: `[Wh-word] [NP] did/does/do [NP] [Verb]?`
+   - Wh-words: "which", "what", "who", "whom", "where", "when", "how", "why"
+   - The first NP after the Wh-word is the **fronted object** (logical patient)
+   - The NP between auxiliary and verb is the **subject** (logical agent)
+   - The final verb is the **semantic verb** (not the auxiliary)
+2. Reconstitute split verb phrase: "did ... review" → single act with verb "review"
+3. Assign roles: Wh-NP ("which report") → `cco:affects` (patient); intervening NP ("the auditor") → `cco:has_agent`
+4. Mark actuality as `tagteam:Interrogative` (already working)
+5. This also fixes the do-support issue from Test 1.1.0 for interrogatives
+**Priority:** High
+**Complexity:** Very High — requires Wh-movement detection, auxiliary verb filtering, split verb phrase reconstitution, and reordering of positional entity-verb linking for interrogative word order.
+
+---
+
+## ENH-015: Prepositional Phrase Semantic Role Discrimination (Beneficiary vs Patient) `[v1]`
+
+**Source:** Test 1.1.19 `linguistic.argument-structure.oblique-arguments`
+**Input:** "The technician repaired the device with the tool for the client."
+**Issue:** The client (introduced by "for the client") is assigned a `cco:PatientRole`, implying the technician performed repairs *on* the client. The client is actually a **Beneficiary** — the person for whom the act was performed. Currently all Person entities linked via `bfo:has_participant` get `PatientRole` by default regardless of the preposition that introduced them.
+**Proposed Fix:**
+1. Track the introducing preposition for each entity during extraction (e.g., "with" → instrument, "for" → beneficiary, "to" → recipient, "from" → source, "by" → agent in passive).
+2. Map prepositions to semantic roles:
+   - "with" → `cco:InstrumentRole` (already partially working as participant)
+   - "for" → `cco:BeneficiaryRole` (new, or generic `bfo:BFO_0000023` with label "beneficiary role")
+   - "to" → `cco:RecipientRole` or participant
+   - "by" → `cco:AgentRole` (passive voice, already handled)
+   - "from" → participant (source)
+3. In RoleDetector, use the preposition metadata to assign the correct role type instead of defaulting Person participants to PatientRole.
+**Priority:** Medium
+**Complexity:** Medium — requires tracking preposition context during entity extraction and mapping it to role types in RoleDetector.
+
+---
+
+## ENH-016: Expletive Subject Detection & Extraposed Clause Parsing `[v2]`
+
+**Source:** Test 1.1.20 `linguistic.argument-structure.expletive-subjects`
+**Input:** "It is necessary that the system restart."
+**Issue:** Three interrelated failures:
+1. **Expletive "It" reified:** "It" in "It is necessary that..." is a syntactic placeholder (dummy subject) with no referent. The parser creates a `bfo:BFO_0000004` entity for it.
+2. **Embedded clause mis-chunked:** "the system restart" is parsed as a compound noun (`cco:Artifact`) instead of a clause with subject ("the system") + verb ("restart" in subjunctive).
+3. **Modal adjective "necessary" ignored:** The deontic modality expressed by "necessary" is entirely absent from the graph. Should produce a `cco:Requirement` or modal assertion targeting the restart process.
+**Proposed Fix:**
+1. Detect expletive "It" pattern: `It + be + [Adjective] + that + [clause]`. Discard "It" as non-referential; the logical subject is the that-clause.
+2. Parse the that-clause as an embedded clause: "the system restart" → subject ("system") + verb ("restart").
+3. Map modal adjectives to deontic/epistemic status:
+   - "necessary", "required", "essential", "mandatory" → `obligation` / `cco:Requirement`
+   - "possible", "likely", "probable" → `epistemic possibility`
+   - "important", "critical", "vital" → `high priority obligation`
+   - "unlikely", "impossible" → `epistemic impossibility`
+4. Create a modal assertion node linking the modality to the embedded act.
+**Priority:** High
+**Complexity:** Very High — requires expletive detection, that-clause boundary parsing, subjunctive verb recognition, and modal adjective → deontic mapping.
+
+---
+
+## ENH-017: Raising Verb Detection (seem, appear, tend) `[v2]`
+
+**Source:** Test 1.1.21 `linguistic.argument-structure.raising-control`
+**Input:** "The engineer seems to understand the problem."
+**Issue:** Three failures:
+1. **"Seem" treated as IntentionalAct:** "Seem" is a raising verb — it has no agent and is not an intentional act. The graph asserts the engineer performs an "act of seeming", which is a BFO category error.
+2. **"Understand" missing entirely:** The infinitive complement "to understand" is the actual semantic predicate but is not extracted. Total information loss.
+3. **Subject not lowered:** In raising constructions, the syntactic subject of the raising verb ("the engineer") is the semantic agent of the embedded verb ("understand"), not of "seem".
+**Proposed Fix:**
+1. Create a `RAISING_VERBS` set: "seem", "appear", "tend", "happen", "turn out", "prove" (in the sense of "proved to be").
+2. When a raising verb + infinitive complement is detected:
+   - Extract the **infinitive** ("understand") as the primary act
+   - Assign the raising verb's syntactic subject ("engineer") as the agent of the infinitive act
+   - Do NOT create an IntentionalAct for the raising verb itself
+   - Map the raising verb to an epistemic qualifier on the act: "seem" → `tagteam:epistemicStatus: "apparent"` or `tagteam:confidence: "probable"`
+3. This is similar to control verb handling (plan for Phase 7.2) but differs: control verbs have a true agent ("He needs to..."), raising verbs do not ("He seems to..." — "he" is NOT the agent of "seeming").
+**Priority:** High
+**Complexity:** High — requires raising verb detection, subject lowering to embedded verb, and epistemic status mapping. Can build on the control verb / infinitive complement infrastructure.
 
 ---
