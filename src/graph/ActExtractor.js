@@ -601,6 +601,37 @@ class ActExtractor {
         : offset;
       const links = this._linkToEntities(text, linkText, linkOffset, entities);
 
+      // Passive voice detection: "X was found [by Y]" → X is patient, Y is agent
+      // Compromise NLP provides grammar.passive flag
+      const isPassive = !!(verbData.grammar?.passive);
+      if (isPassive && links.agent) {
+        // In passive voice, the grammatical subject (pre-verb) is the patient, not the agent
+        // Save the subject for patient assignment
+        const passiveSubject = links.agent;
+        const passiveSubjectEntity = links.agentEntity;
+
+        // Check for "by [agent]" phrase after the verb to find the real agent
+        const byAgent = this._findByAgent(text, offset, entities);
+        if (byAgent) {
+          links.agent = byAgent.iri;
+          links.agentEntity = byAgent.entity;
+          // The entity after "by" is the agent, not the patient
+          // Clear patient if it was assigned to the by-agent
+          if (links.patient === byAgent.iri) {
+            links.patient = null;
+            links.patientEntity = null;
+          }
+        } else {
+          // No explicit agent — agent is unknown/implicit
+          links.agent = null;
+          links.agentEntity = null;
+        }
+
+        // The grammatical subject becomes the patient (affected entity)
+        links.patient = passiveSubject;
+        links.patientEntity = passiveSubjectEntity;
+      }
+
       // Phase 7.0 Story 3: Inanimate agent re-typing
       // If an inference verb has an inanimate subject, create ICE instead of IntentionalAct
       // Use subjectEntity (includes qualities/temporals) not agentEntity (excludes them)
@@ -1111,6 +1142,49 @@ class ActExtractor {
     if (form.includes('progressive') || form.includes('continuous')) return 'progressive';
     if (form.includes('perfect')) return 'perfect';
     return 'simple';
+  }
+
+  /**
+   * Find the agent in a passive "by [agent]" phrase.
+   * E.g., "The report was reviewed by the committee." → committee is agent.
+   * @param {string} text - Full input text
+   * @param {Object} verbOffset - Verb offset info
+   * @param {Array} entities - All entities
+   * @returns {Object|null} { iri, entity } or null if no "by" agent found
+   */
+  _findByAgent(text, verbOffset, entities) {
+    if (!entities || entities.length === 0) return null;
+
+    const lowerText = text.toLowerCase();
+    const verbEnd = verbOffset.end || verbOffset.start + 10;
+
+    // Look for "by" after the verb
+    const byIndex = lowerText.indexOf(' by ', verbEnd - 1);
+    if (byIndex === -1) return null;
+
+    // Find an entity that starts after "by"
+    const byPos = byIndex + 4; // position after "by "
+    const referents = entities.filter(e =>
+      e['@type'] && e['@type'].includes('tagteam:DiscourseReferent')
+    );
+
+    const linkMap = this.options.linkToTier2 ? this._buildTier2LinkMap(entities) : new Map();
+    const resolveIRI = (referentIRI) => {
+      if (this.options.linkToTier2 && linkMap.has(referentIRI)) {
+        return linkMap.get(referentIRI);
+      }
+      return referentIRI;
+    };
+
+    for (const entity of referents) {
+      const start = this._getEntityStart(entity);
+      // Entity must start near the "by" position (within ~5 chars to account for determiners)
+      if (start >= byPos - 1 && start <= byPos + 10) {
+        return { iri: resolveIRI(entity['@id']), entity };
+      }
+    }
+
+    return null;
   }
 
   /**
