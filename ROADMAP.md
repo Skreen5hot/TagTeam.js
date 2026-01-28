@@ -1275,11 +1275,23 @@ See [enhancements_from_tests.md](enhancements_from_tests.md) for full enhancemen
 
 **Scope Definition:** This phase focuses on *detecting* epistemic markers in text, NOT implementing a full epistemology framework. The goal is structured metadata that downstream consumers can use.
 
-### 7.1 Source Attribution Detection
+### Phase Scope Legend
+
+| Marker | Meaning |
+|--------|---------|
+| ✅ v1-Core | Fully in scope for v1 stabilization |
+| ✅ v1-Complete | Already implemented, no further v1 work |
+| 🟡 v1-Limited | Partial v1 scope with bounded implementation |
+| 🟢 v1-Optional | Nice-to-have, not blocking v1 |
+| 🔜 v2-Only | Deferred entirely to v2 |
+| ❌ Defer Entirely | Post-v2 or indefinitely deferred |
+
+### 7.1 Source Attribution Detection — 🟡 v1-Limited / v2-Expanded
 
 **Status:** Not started
 **Priority:** High
 **Effort:** Medium
+**Scope:** v1 = detect quoted speech attribution only; v2 = reported speech, institutional sources, evidential chains
 
 Detect and structure attribution patterns in text:
 
@@ -1310,11 +1322,12 @@ Detect and structure attribution patterns in text:
 
 **NOT in scope:** Full evidential reasoning chains, multi-hop attribution
 
-### 7.2 Certainty Markers
+### 7.2 Certainty Markers — ✅ v1-Core
 
 **Status:** Not started
 **Priority:** Medium
 **Effort:** Low
+**Scope:** Lexical hedges/boosters within single clauses. No cross-clause evidential reasoning.
 
 Detect hedges and boosters via lexical patterns:
 
@@ -1329,11 +1342,12 @@ Detect hedges and boosters via lexical patterns:
 - Certainty vocabulary in @context
 - ~50 marker terms in lexicon
 
-### 7.3 Temporal Grounding
+### 7.3 Temporal Grounding — 🔜 v2-Only
 
 **Status:** Not started
 **Priority:** Medium
 **Effort:** Medium
+**Scope:** Requires discourse memory and cross-clause temporal relation resolution. Deferred entirely to v2.
 
 Add explicit referenceTime support for relative temporal expressions:
 
@@ -1360,11 +1374,12 @@ builder.build(text, {
 
 **Goal:** Improve accuracy using context and iteration
 
-### 8.1 Noun Ambiguity Resolution
+### 8.1 Noun Ambiguity Resolution — 🔜 v2-Only
 
 **Status:** Not started
 **Priority:** Medium
 **Effort:** Medium
+**Scope:** Requires cross-clause context signals (e.g., "during X"). Deferred to v2.
 
 | Signal | Interpretation | Example |
 |--------|---------------|---------|
@@ -1372,11 +1387,12 @@ builder.build(text, {
 | "X of Y" | Process | "Organization of files..." |
 | "during X" | Occurrent | "During treatment..." |
 
-### 8.2 Iterative Verb Refinement
+### 8.2 Iterative Verb Refinement — 🔜 v2-Only
 
 **Status:** Not started
 **Priority:** Low
 **Effort:** Medium
+**Scope:** Multi-pass disambiguation requires architectural changes. Deferred to v2.
 
 Multi-pass disambiguation:
 ```
@@ -1385,11 +1401,12 @@ Pass 2: ContextDimension scores
 Pass 3: ActualityStatus consistency
 ```
 
-### 8.3 Evaluate Wink NLP
+### 8.3 Evaluate Wink NLP — ❌ Defer Entirely (Post-v2)
 
 **Status:** Not started
 **Priority:** Low
 **Effort:** Medium
+**Scope:** External NLP library evaluation deferred indefinitely. Phase 5 custom implementations sufficient. Only revisit if v2 requirements expose gaps that cannot be addressed by custom code.
 
 If Phase 5 improvements insufficient, evaluate Wink NLP:
 - +600KB bundle size
@@ -1409,11 +1426,12 @@ If Phase 5 improvements insufficient, evaluate Wink NLP:
 
 These enhancements are derived from failing P0 tests and represent concrete, bounded improvements.
 
-### 8.5.1 Definiteness Tracking Enhancement
+### 8.5.1 Definiteness Tracking Enhancement — ✅ v1-Core
 
 **Status:** Not started
 **Priority:** High
 **Effort:** Low
+**Scope:** Single-NP definiteness detection. No cross-clause coreference.
 **Failing Tests:** 6 tests across declarative.test.js, definite-np.test.js
 
 Current `tagteam:definiteness` only works for simple "the X" patterns. Extend to handle:
@@ -1432,11 +1450,12 @@ Current `tagteam:definiteness` only works for simple "the X" patterns. Extend to
 
 **Test File:** `tests/linguistic/referents/definiteness/definite-np.test.js`
 
-### 8.5.2 Extended Modal Detection
+### 8.5.2 Extended Modal Detection — ✅ v1-Core
 
 **Status:** Not started
 **Priority:** High
 **Effort:** Low
+**Scope:** Lexical modal expansion. No conditional/subjunctive mood.
 **Failing Tests:** 2 tests in deontic-obligation.test.js
 
 Current modal detection misses some obligation markers:
@@ -1454,11 +1473,12 @@ Current modal detection misses some obligation markers:
 
 **Test File:** `tests/linguistic/verbphrase/modality/deontic-obligation.test.js`
 
-### 8.5.3 Domain Vocabulary Expansion
+### 8.5.3 Domain Vocabulary Expansion — ✅ v1-Core
 
 **Status:** Not started
 **Priority:** Medium
 **Effort:** Low
+**Scope:** Medical domain config updates only. No new domain configs in v1.
 **Failing Tests:** 2 tests in person.test.js
 
 Add missing terms to medical domain config:
@@ -1475,11 +1495,12 @@ Add missing terms to medical domain config:
 
 **Test File:** `tests/ontology/cco-mapping/agents/person.test.js`
 
-### 8.5.4 Scarcity Marker Detection
+### 8.5.4 Scarcity Marker Detection — 🟡 v1-Limited
 
 **Status:** Not started
 **Priority:** Medium
 **Effort:** Low
+**Scope:** v1 = basic scarcity adjective detection ("last", "only", "remaining"). No scarcity reasoning or inference.
 **Failing Tests:** 2 tests in definite-np.test.js
 
 Detect scarcity/uniqueness markers that affect resource allocation analysis:
@@ -1513,32 +1534,35 @@ Detect scarcity/uniqueness markers that affect resource allocation analysis:
 
 **Goal:** Robust internal and external validation
 
-### 9.1 Internal Self-Assessment
+### 9.1 Internal Self-Assessment — ✅ v1-Core
 
 **Status:** Partial (SHACL done)
 **Priority:** Medium
 **Effort:** Low
+**Scope:** Self-assessment metrics already implemented. v1-complete.
 
 What TagTeam can reliably know about itself:
 - Configuration state (ontologies loaded, domain configs active)
 - Processing metrics (parse success/failure, unknown terms)
 - Coverage (% of input that produced output)
 
-### 9.2 External SHACL Validation
+### 9.2 External SHACL Validation — ✅ v1-Complete
 
 **Status:** ✅ Complete (SHMLValidator)
 **Priority:** N/A
+**Scope:** Already implemented with 8 expert-certified patterns. v1-complete.
 
 Already implemented:
 - 8 expert-certified patterns
 - Domain plausibility checks
 - Role bearer constraints
 
-### 9.3 Combined Validation Report
+### 9.3 Combined Validation Report — 🟢 v1-Optional
 
 **Status:** Not started
 **Priority:** Low
 **Effort:** Low
+**Scope:** Nice-to-have unified report format. Not blocking for v1.
 
 Unified report format:
 ```json
@@ -1553,11 +1577,14 @@ Unified report format:
 
 ---
 
-## Phase 10: Human Validation Loop
+## Phase 10: Human Validation Loop — 🔜 v2-Only (Design-Only in v1)
 
 **Goal:** Enable expert correction workflow
 
 **Status:** Not Started - Requires IEE (Institute for Ethical Engineering) team input
+
+**v1 Scope:** Design data model only (no implementation). Define JSON-LD vocabulary for validation events.
+**v2 Scope:** Full implementation of validation event builder and supersession chains.
 
 **Scope:** Define data model for human corrections. TagTeam does NOT implement UI—consumers build their own validation interfaces using this data model.
 
@@ -1607,16 +1634,18 @@ Original → Correction1 → Correction2 (current)
 
 ---
 
-## Phase 11: Extended Domain Support
+## Phase 11: Extended Domain Support — ✅ Medical v1 / 🔜 Others v2
 
 **Goal:** Expand to additional domains
 
-| Domain | Config File | Status |
-|--------|-------------|--------|
-| Medical | `config/medical.json` | ✅ Complete |
-| Legal | `config/legal.json` | Not started |
-| Business | `config/business.json` | Not started |
-| Scientific | `config/scientific.json` | Not started |
+**Scope:** Medical domain config is v1-complete. Additional domains (legal, business, scientific) deferred to v2.
+
+| Domain | Config File | Status | Scope |
+|--------|-------------|--------|-------|
+| Medical | `config/medical.json` | ✅ Complete | ✅ v1 |
+| Legal | `config/legal.json` | Not started | 🔜 v2 |
+| Business | `config/business.json` | Not started | 🔜 v2 |
+| Scientific | `config/scientific.json` | Not started | 🔜 v2 |
 
 ---
 
