@@ -137,7 +137,8 @@ const ERGATIVE_VERBS = new Set([
   'dissolve', 'evaporate', 'corrode', 'deteriorate', 'degrade',
   'sink', 'capsize', 'derail', 'rupture', 'fracture', 'shatter',
   'start', 'stop', 'open', 'close', 'change', 'move', 'grow',
-  'shrink', 'expand', 'increase', 'decrease', 'improve', 'worsen'
+  'shrink', 'expand', 'increase', 'decrease', 'improve', 'worsen',
+  'sound', 'ring', 'buzz', 'beep', 'flash', 'chime', 'blare', 'tick'
 ]);
 
 /**

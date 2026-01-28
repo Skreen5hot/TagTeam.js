@@ -97,3 +97,17 @@ Capabilities identified during comprehensive testing that require new functional
 **Complexity:** Medium — already partially implemented; full fix requires clause boundaries.
 
 ---
+
+## ENH-009: Temporal "When" Clause Linking
+
+**Source:** Test 1.1.7 `linguistic.sentence-complexity.complex`
+**Input:** "When the alarm sounded, the guards responded."
+**Issue:** The "When" subordinate clause establishes a temporal relationship between two events: the alarm sounding *precedes* the guards responding. Currently, both acts are extracted independently with no temporal link. The graph should capture the temporal dependency between the antecedent event (alarm sounding) and the consequent event (guards responding).
+**Proposed Fix:**
+1. Detect temporal subordinating conjunctions ("when", "after", "before", "while", "until", "since", "as soon as") at clause boundaries.
+2. Create a `tagteam:temporalRelation` link between the subordinate clause act and the main clause act (e.g., `tagteam:precedes`, `tagteam:simultaneous_with`, `tagteam:follows`).
+3. Map conjunction to relation type: "when" → `tagteam:precedes` or `tagteam:simultaneous_with`; "after" → `tagteam:follows`; "before" → `tagteam:precedes`; "while" → `tagteam:simultaneous_with`.
+**Priority:** Medium
+**Complexity:** High — requires clause boundary detection (related to ENH-007) and temporal relation vocabulary.
+
+---
