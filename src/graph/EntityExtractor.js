@@ -369,7 +369,13 @@ const ONTOLOGICAL_VOCABULARY = {
   'reason': 'cco:InformationContentEntity',
   'evidence': 'cco:InformationContentEntity',
   'truth': 'cco:InformationContentEntity',
-  'notion': 'cco:InformationContentEntity'
+  'notion': 'cco:InformationContentEntity',
+  'discrepancy': 'cco:InformationContentEntity',
+  'error': 'cco:InformationContentEntity',
+  'difference': 'cco:InformationContentEntity',
+  'inconsistency': 'cco:InformationContentEntity',
+  'anomaly': 'cco:InformationContentEntity',
+  'variance': 'cco:InformationContentEntity'
 };
 
 /**
