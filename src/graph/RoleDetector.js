@@ -54,13 +54,15 @@ const ROLE_TYPE_MAPPINGS = {
 
   // Patient roles (ONLY for Persons receiving care/treatment)
   'patient': 'cco:PatientRole',
-  'recipient': 'cco:PatientRole',
+
+  // ENH-015: Recipient role (for "to NP" prepositional phrases)
+  'recipient': 'cco:RecipientRole',
 
   // Instrument roles (for artifacts used in acts)
   'instrument': 'cco:InstrumentRole',
   'tool': 'cco:InstrumentRole',
 
-  // Beneficiary roles
+  // Beneficiary roles (for "for NP" prepositional phrases)
   'beneficiary': 'cco:BeneficiaryRole',
 
   // Participant (generic role for other participants)
@@ -156,15 +158,26 @@ class RoleDetector {
       }
 
       // Detect patient/affected role (from affects)
+      // ENH-015: Use preposition to determine specific role type
       const affectedIRI = extractIRI(act['cco:affects']);
       if (affectedIRI) {
         const bearer = entityIndex.get(affectedIRI);
-        if (bearer && this._isPersonEntity(bearer)) {
-          accumulateRole('patient', affectedIRI, bearer, act['@id'], act, canRealize);
+        if (bearer) {
+          // ENH-015: Check for introducing preposition to determine role
+          const prep = bearer['tagteam:introducingPreposition'];
+          const roleType = this._getRoleTypeFromPreposition(prep, bearer);
+          if (roleType) {
+            accumulateRole(roleType, affectedIRI, bearer, act['@id'], act, canRealize);
+          } else {
+            // ENH-015: Direct object without preposition = patient role
+            // This applies to both persons and artifacts (semantic patient = affected entity)
+            accumulateRole('patient', affectedIRI, bearer, act['@id'], act, canRealize);
+          }
         }
       }
 
       // Detect participant roles (from has_participant)
+      // ENH-015: Use preposition to determine specific role type
       const participantIRIs = extractIRIs(act['bfo:has_participant']);
       if (participantIRIs.length > 0) {
         participantIRIs.forEach(participantIRI => {
@@ -181,8 +194,15 @@ class RoleDetector {
                 }
               });
             } else {
-              const roleType = this._isPersonEntity(bearer) ? 'patient' : 'participant';
-              accumulateRole(roleType, participantIRI, bearer, act['@id'], act, canRealize);
+              // ENH-015: Check for introducing preposition first
+              const prep = bearer['tagteam:introducingPreposition'];
+              const prepRoleType = this._getRoleTypeFromPreposition(prep, bearer);
+              if (prepRoleType) {
+                accumulateRole(prepRoleType, participantIRI, bearer, act['@id'], act, canRealize);
+              } else {
+                const roleType = this._isPersonEntity(bearer) ? 'patient' : 'participant';
+                accumulateRole(roleType, participantIRI, bearer, act['@id'], act, canRealize);
+              }
             }
           }
         });
@@ -198,6 +218,46 @@ class RoleDetector {
     }
 
     return roles;
+  }
+
+  /**
+   * ENH-015: Get role type based on introducing preposition
+   *
+   * Preposition → Role mapping:
+   * - "for" → beneficiary
+   * - "with" + inanimate → instrument
+   * - "with" + person → participant (comitative)
+   * - "to" → recipient
+   * - "from" → participant (source)
+   *
+   * @param {string|null} preposition - The introducing preposition
+   * @param {Object} bearer - The entity bearing the role
+   * @returns {string|null} Role type key or null for default handling
+   */
+  _getRoleTypeFromPreposition(preposition, bearer) {
+    if (!preposition) return null;
+
+    const prep = preposition.toLowerCase();
+    const isPerson = this._isPersonEntity(bearer);
+
+    switch (prep) {
+      case 'for':
+        return 'beneficiary';
+      case 'with':
+        // "with" + person = comitative (participant)
+        // "with" + inanimate = instrument
+        return isPerson ? 'participant' : 'instrument';
+      case 'to':
+        return 'recipient';
+      case 'from':
+        // Source is treated as participant
+        return 'participant';
+      case 'by':
+        // "by" in passive = agent (handled elsewhere)
+        return null;
+      default:
+        return null;
+    }
   }
 
   /**
@@ -277,9 +337,16 @@ class RoleDetector {
     const iri = this._generateRoleIRI(roleType, bearerIRI);
     const specificType = ROLE_TYPE_MAPPINGS[roleType] || ROLE_TYPE_MAPPINGS['_default'];
 
+    // Build @type array, avoiding duplicates
+    const types = [specificType];
+    if (specificType !== 'bfo:BFO_0000023') {
+      types.push('bfo:BFO_0000023');
+    }
+    types.push('owl:NamedIndividual');
+
     const role = {
       '@id': iri,
-      '@type': [specificType, 'bfo:BFO_0000023', 'owl:NamedIndividual'],
+      '@type': types,
       'rdfs:label': this._generateRoleLabel(roleType, bearer),
       'tagteam:roleType': roleType,
       'bfo:inheres_in': { '@id': bearerIRI }

@@ -138,7 +138,8 @@ const ERGATIVE_VERBS = new Set([
   'sink', 'capsize', 'derail', 'rupture', 'fracture', 'shatter',
   'start', 'stop', 'open', 'close', 'change', 'move', 'grow',
   'shrink', 'expand', 'increase', 'decrease', 'improve', 'worsen',
-  'sound', 'ring', 'buzz', 'beep', 'flash', 'chime', 'blare', 'tick'
+  'sound', 'ring', 'buzz', 'beep', 'flash', 'chime', 'blare', 'tick',
+  'emit', 'glow', 'shine', 'flicker', 'hum', 'vibrate', 'rattle'  // ENH-008: emission verbs
 ]);
 
 // Always-ergative verbs: always intransitive. The inanimate subject is never an intentional agent,
@@ -148,6 +149,7 @@ const ALWAYS_ERGATIVE_VERBS = new Set([
   // Emission verbs
   'sound', 'ring', 'buzz', 'beep', 'flash', 'chime', 'blare', 'tick',
   'glow', 'shine', 'flicker', 'hum', 'vibrate', 'rattle',
+  'emit',  // ENH-008: "The sensor emitted a signal" → sensor is not agent
   // Dysfunction/state-change verbs (always intransitive when inanimate)
   'fail', 'malfunction', 'stall', 'freeze', 'overheat',
   'corrode', 'deteriorate', 'degrade'
@@ -462,6 +464,8 @@ class ActExtractor {
     };
     this.graphBuilder = options.graphBuilder || null;
     this.entities = options.entities || [];
+    // ENH-003: Track implicit "you" entity for reuse across imperatives
+    this._implicitYouEntity = null;
   }
 
   /**
@@ -478,6 +482,9 @@ class ActExtractor {
   extract(text, options = {}) {
     const acts = [];
     const entities = options.entities || this.entities;
+
+    // ENH-003: Reset implicit "you" tracking for fresh text
+    this._resetImplicitYou();
 
     // Phase 6.4: First detect sentence-level deontic patterns
     // These may not be captured by Compromise NLP verb extraction
@@ -632,6 +639,23 @@ class ActExtractor {
         links.patientEntity = passiveSubjectEntity;
       }
 
+      // ENH-003: Implicit agent for imperatives
+      // If this is an imperative sentence, use implicit "you" as agent
+      // Exception: if there's an explicit "You" subject pronoun, keep it
+      if (isImperative) {
+        // Check if the found agent is an explicit "you" pronoun
+        const agentLabel = links.agentEntity?.['rdfs:label']?.toLowerCase();
+        const hasExplicitYou = agentLabel === 'you';
+
+        if (!hasExplicitYou) {
+          // Use implicit "you" - override any incorrectly assigned agent
+          const implicitYou = this._getOrCreateImplicitYou();
+          links.agent = implicitYou['@id'];
+          links.agentEntity = implicitYou;
+          links.isImplicitAgent = true;
+        }
+      }
+
       // Phase 7.0 Story 3: Inanimate agent re-typing
       // If an inference verb has an inanimate subject, create ICE instead of IntentionalAct
       // Use subjectEntity (includes qualities/temporals) not agentEntity (excludes them)
@@ -663,7 +687,11 @@ class ActExtractor {
         // Demote: agent becomes participant, no agent
         if (!links.participants) links.participants = [];
         links.participants.push(links.agent);
-        links.patient = links.agent; // The subject undergoes the process
+        // ENH-008: Only set agent as patient if no existing patient
+        // "The alarm sounded the warning" → warning is patient, alarm is participant
+        if (!links.patient) {
+          links.patient = links.agent; // The subject undergoes the process
+        }
         links.agent = null;
         links.agentEntity = null;
       }
@@ -704,7 +732,21 @@ class ActExtractor {
       acts.push(act);
     });
 
+    // ENH-003: Attach implicit entities to result for graph builder to include
+    // Using a property on the array to maintain backward compatibility
+    acts._implicitEntities = this._implicitYouEntity ? [this._implicitYouEntity] : [];
+
     return acts;
+  }
+
+  /**
+   * ENH-003: Get any implicit entities created during extraction.
+   * These should be added to the graph as Tier 2 entities.
+   *
+   * @returns {Array<Object>} Implicit entities (e.g., implicit "you" for imperatives)
+   */
+  getImplicitEntities() {
+    return this._implicitYouEntity ? [this._implicitYouEntity] : [];
   }
 
   /**
@@ -734,6 +776,7 @@ class ActExtractor {
    * Detect imperative mood: sentence starts with a base-form verb, no explicit subject.
    * "Submit the report by Friday." → imperative (verb-initial, no subject)
    * "He submits the report." → NOT imperative (has subject "He")
+   * "Please submit the report." → imperative (polite marker + verb)
    * @param {string} text - Full sentence text
    * @param {Object} doc - Compromise NLP document
    * @returns {boolean} True if sentence is imperative
@@ -743,14 +786,26 @@ class ActExtractor {
     // Questions are not imperatives
     if (trimmed.endsWith('?')) return false;
 
-    // Get the first word of the sentence
-    const firstWord = trimmed.split(/\s+/)[0].replace(/[^a-zA-Z]/g, '').toLowerCase();
-    if (!firstWord) return false;
+    // ENH-003: Polite imperative markers that can precede the verb
+    const politeMarkers = ['please', 'kindly', 'just'];
+
+    // Get the words of the sentence
+    const words = trimmed.split(/\s+/).map(w => w.replace(/[^a-zA-Z]/g, '').toLowerCase());
+    if (words.length === 0) return false;
+
+    let firstWord = words[0];
+    let verbIndex = 0;
+
+    // Skip polite markers to find the main verb
+    if (politeMarkers.includes(firstWord)) {
+      if (words.length < 2) return false;
+      firstWord = words[1];
+      verbIndex = 1;
+    }
 
     // Check if first word is a verb (base form) by looking at Compromise's analysis
     // Also check: no subject pronoun or noun before the first verb
     const nouns = doc.nouns().out('array');
-    const firstNounText = nouns.length > 0 ? nouns[0].toLowerCase().trim() : '';
 
     // If the sentence starts with a noun/pronoun before the verb, it's not imperative
     // Simple heuristic: if the first word is a known subject pronoun or the first noun
@@ -762,17 +817,17 @@ class ActExtractor {
     // Check if first word appears to be a noun (starts with capital in non-initial position doesn't help here)
     // Instead: check if the first token is tagged as a verb by Compromise
     const terms = doc.json()[0]?.terms || [];
-    if (terms.length === 0) return false;
+    if (terms.length <= verbIndex) return false;
 
-    const firstTerm = terms[0];
-    const firstTags = firstTerm?.tags || [];
+    const verbTerm = terms[verbIndex];
+    const verbTags = verbTerm?.tags || [];
     // Compromise tags can be array of strings or object with boolean values
-    const tagList = Array.isArray(firstTags) ? firstTags : Object.keys(firstTags);
+    const tagList = Array.isArray(verbTags) ? verbTags : Object.keys(verbTags);
 
-    // Compromise tags: check if first word is tagged as Verb
-    const isFirstWordVerb = tagList.some(t => t === 'Verb' || t === 'Infinitive' || t === 'Imperative');
+    // Compromise tags: check if the word is tagged as Verb
+    const isVerbWord = tagList.some(t => t === 'Verb' || t === 'Infinitive' || t === 'Imperative');
 
-    if (!isFirstWordVerb) return false;
+    if (!isVerbWord) return false;
 
     // Additional: the first word should NOT be tagged as a Noun (e.g., "Report" could be noun or verb)
     // If it's ONLY a verb tag (not also noun), it's more likely imperative
@@ -1580,6 +1635,54 @@ class ActExtractor {
     }
     // Artifacts, qualities, material entities are inanimate
     return true;
+  }
+
+  /**
+   * ENH-003: Get or create the implicit "you" entity for imperative sentences.
+   *
+   * When an imperative sentence has no explicit subject (e.g., "Submit the report"),
+   * the addressee "you" is the implicit agent. This method creates a synthetic
+   * Tier 2 Person entity representing the implicit "you".
+   *
+   * The entity is cached and reused across multiple imperatives in the same text,
+   * ensuring a single "you" entity is shared (BFO principle: one entity per referent).
+   *
+   * @returns {Object} Implicit "you" Tier 2 Person entity
+   * @private
+   */
+  _getOrCreateImplicitYou() {
+    // Reuse existing implicit "you" if already created
+    if (this._implicitYouEntity) {
+      return this._implicitYouEntity;
+    }
+
+    // Generate IRI for the implicit "you" entity
+    const iri = this.graphBuilder
+      ? this.graphBuilder.generateIRI('you', 'Person', 0)
+      : 'inst:Person_You_implicit';
+
+    // Create Tier 2 Person entity for implicit "you"
+    // ENH-003: Include all required properties for a proper Tier 2 entity
+    this._implicitYouEntity = {
+      '@id': iri,
+      '@type': ['cco:Person', 'owl:NamedIndividual'],
+      'rdfs:label': 'you',
+      'tagteam:denotesType': 'cco:Person',
+      'tagteam:referentialStatus': 'deictic',  // "you" refers deictically to addressee
+      'tagteam:isImplicit': true,
+      'tagteam:implicitReason': 'imperative_addressee'
+    };
+
+    return this._implicitYouEntity;
+  }
+
+  /**
+   * ENH-003: Reset implicit "you" entity tracking.
+   * Called at the start of processing new text to ensure fresh state.
+   * @private
+   */
+  _resetImplicitYou() {
+    this._implicitYouEntity = null;
   }
 
   /**

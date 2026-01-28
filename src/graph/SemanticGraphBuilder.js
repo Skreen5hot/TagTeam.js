@@ -347,6 +347,12 @@ class SemanticGraphBuilder {
       });
       this.addNodes(extractedActs);
 
+      // ENH-003: Add any implicit entities (e.g., implicit "you" for imperatives)
+      const implicitEntities = this.actExtractor.getImplicitEntities();
+      if (implicitEntities.length > 0) {
+        this.addNodes(implicitEntities);
+      }
+
       // v2.3: Create DirectiveContent for modal markers
       if (buildOptions.extractDirectives !== false) {
         const directives = this.directiveExtractor.extract(extractedActs, text);

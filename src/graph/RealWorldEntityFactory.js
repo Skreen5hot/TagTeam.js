@@ -263,6 +263,19 @@ class RealWorldEntityFactory {
       }
     }
 
+    // ENH-015: Copy introducing preposition from referent for role mapping
+    if (referent['tagteam:introducingPreposition']) {
+      node['tagteam:introducingPreposition'] = referent['tagteam:introducingPreposition'];
+    }
+
+    // ENH-001: Copy type information from referent for consistency
+    if (referent['tagteam:denotesType']) {
+      node['tagteam:denotesType'] = referent['tagteam:denotesType'];
+    }
+    if (referent['tagteam:typeRefinedBy']) {
+      node['tagteam:typeRefinedBy'] = referent['tagteam:typeRefinedBy'];
+    }
+
     return node;
   }
 

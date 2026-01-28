@@ -111,6 +111,55 @@ const DISEASE_TERMS = new Set([
 ]);
 
 /**
+ * ENH-001: Cognitive verbs — verbs that typically take ICE as direct object.
+ * When these verbs govern an ambiguous noun (design, report, data), the noun
+ * should be refined to InformationContentEntity.
+ */
+const COGNITIVE_VERBS = new Set([
+  // Reading/comprehension
+  'read', 'study', 'review', 'examine', 'analyze', 'analyse',
+  'inspect', 'scrutinize', 'peruse', 'scan', 'skim',
+  // Evaluation/assessment
+  'evaluate', 'assess', 'appraise', 'critique', 'judge',
+  // Understanding/interpretation
+  'understand', 'comprehend', 'interpret', 'parse', 'decode',
+  // Discussion/communication about content
+  'discuss', 'present', 'explain', 'summarize', 'describe'
+]);
+
+/**
+ * ENH-001: Physical verbs — verbs that typically involve physical manipulation.
+ * When these verbs govern an ambiguous noun, the noun should remain Artifact.
+ */
+const PHYSICAL_VERBS = new Set([
+  // Creation/construction
+  'build', 'construct', 'assemble', 'create', 'make', 'produce',
+  // Movement/transport
+  'carry', 'move', 'transport', 'lift', 'push', 'pull', 'drag',
+  'deliver', 'ship', 'mail', 'send',  // physical sending
+  // Physical manipulation
+  'cut', 'fold', 'tear', 'shred', 'bind', 'staple', 'laminate',
+  'print', 'copy', 'scan',  // physical document operations
+  // Storage
+  'store', 'file', 'archive', 'shelve', 'stack'
+]);
+
+/**
+ * ENH-001: Ambiguous nouns that can denote either ICE or Artifact.
+ * These nouns are refinable based on verb context.
+ * "design" with "review" → ICE; "design" with "build" → Artifact
+ */
+const AMBIGUOUS_OBJECT_NOUNS = new Set([
+  'design', 'report', 'document', 'record', 'file', 'form',
+  'plan', 'blueprint', 'specification', 'specifications', 'spec', 'specs',
+  'proposal', 'draft', 'manuscript', 'paper', 'article',
+  'data', 'information', 'content', 'material', 'materials',
+  'chart', 'graph', 'diagram', 'schematic', 'drawing',
+  'contract', 'agreement', 'policy', 'procedure', 'manual',
+  'guide', 'handbook', 'instructions', 'guidelines'
+]);
+
+/**
  * Evaluative quality terms — nouns that denote judgments, assessments, or
  * evaluative qualities of events/entities. These are BFO Qualities (bfo:BFO_0000019)
  * because they describe an attribute/status of something, not a physical object.
@@ -586,6 +635,9 @@ class EntityExtractor {
       // Get span offset
       const offset = this._getSpanOffset(text, nounText, index);
 
+      // ENH-015: Detect introducing preposition (for role assignment)
+      const introducingPreposition = this._detectIntroducingPreposition(text, offset);
+
       // Use Compromise data for definiteness detection
       const definitenessInfo = this._detectDefiniteness(noun, nounText, text, nounData);
 
@@ -605,10 +657,21 @@ class EntityExtractor {
         : null;
 
       // Determine entity type: temporal > symptom > standard matching
-      const entityType = temporalType || symptomType || this._determineEntityType(rootNoun, {
+      let entityType = temporalType || symptomType || this._determineEntityType(rootNoun, {
         fullText: text,
         definitenessInfo: definitenessInfo
       });
+
+      // ENH-001: Verb-context refinement for ambiguous nouns
+      // If the noun is ambiguous and governed by a cognitive/physical verb, refine type
+      let typeRefinedBy = null;
+      if (!temporalType && !symptomType) {
+        const verbRefinement = this._refineTypeByVerbContext(rootNoun, text, offset);
+        if (verbRefinement.refinedType) {
+          entityType = verbRefinement.refinedType;
+          typeRefinedBy = verbRefinement.governingVerb;
+        }
+      }
 
       // Extract temporal unit if this is a temporal entity
       const temporalUnit = temporalType ? this._extractTemporalUnit(nounText) : null;
@@ -631,7 +694,9 @@ class EntityExtractor {
         referentialStatus,
         scarcity: scarcityInfo,
         quantity: quantityInfo,
-        temporalUnit: temporalUnit
+        temporalUnit: temporalUnit,
+        typeRefinedBy: typeRefinedBy,  // ENH-001: record refining verb
+        introducingPreposition: introducingPreposition  // ENH-015: preposition for role mapping
       });
 
       tier1Entities.push(referent);
@@ -1087,6 +1152,166 @@ class EntityExtractor {
   }
 
   /**
+   * ENH-001: Refine entity type based on governing verb context.
+   *
+   * For ambiguous nouns (design, report, data), the governing verb determines
+   * whether the entity is information content (ICE) or physical artifact.
+   *
+   * - Cognitive verbs (review, analyze, read) → ICE
+   * - Physical verbs (build, carry, print) → Artifact
+   *
+   * Uses IEE-approved guardrail: checks for intervening nouns between verb
+   * and entity to avoid misattribution in multi-verb sentences.
+   *
+   * @param {string} rootNoun - Root noun to check
+   * @param {string} fullText - Full input text
+   * @param {number} entityOffset - Position of entity in text
+   * @returns {Object} { refinedType: string|null, governingVerb: string|null }
+   */
+  _refineTypeByVerbContext(rootNoun, fullText, entityOffset) {
+    const result = { refinedType: null, governingVerb: null };
+
+    // Only refine ambiguous nouns
+    const lowerRoot = rootNoun.toLowerCase().trim();
+    const words = lowerRoot.split(/\s+/);
+    const lastWord = words[words.length - 1];
+
+    if (!AMBIGUOUS_OBJECT_NOUNS.has(lastWord)) {
+      return result;
+    }
+
+    // Find the governing verb
+    const governingVerb = this._findGoverningVerb(fullText, entityOffset, lowerRoot);
+    if (!governingVerb) {
+      return result;
+    }
+
+    // Refine based on verb class
+    if (COGNITIVE_VERBS.has(governingVerb)) {
+      result.refinedType = 'cco:InformationContentEntity';
+      result.governingVerb = governingVerb;
+    } else if (PHYSICAL_VERBS.has(governingVerb)) {
+      result.refinedType = 'cco:Artifact';
+      result.governingVerb = governingVerb;
+    }
+
+    return result;
+  }
+
+  /**
+   * ENH-001: Find the verb that governs an entity as its direct object.
+   *
+   * Looks backward from the entity position to find the nearest verb.
+   * Includes guardrail to check for intervening nouns (IEE requirement).
+   *
+   * @param {string} fullText - Full input text
+   * @param {number} entityOffset - Position of entity in text
+   * @param {string} entityText - The entity text (lowercased)
+   * @returns {string|null} Governing verb (infinitive) or null
+   */
+  _findGoverningVerb(fullText, entityOffset, entityText) {
+    const nlp = require('compromise');
+    const doc = nlp(fullText);
+    const verbs = doc.verbs();
+
+    let nearestVerb = null;
+    let nearestVerbEnd = -1;
+
+    // Find the nearest verb before the entity
+    verbs.forEach(verb => {
+      const verbText = verb.text().toLowerCase();
+      const verbStart = fullText.toLowerCase().indexOf(verbText);
+      const verbEnd = verbStart + verbText.length;
+
+      // Verb must be before the entity
+      if (verbEnd <= entityOffset && verbEnd > nearestVerbEnd) {
+        // Extract infinitive form
+        const verbJson = verb.json()[0] || {};
+        const verbData = verbJson.verb || {};
+        const infinitive = (verbData.infinitive || verbData.root || verbText).toLowerCase();
+
+        nearestVerb = infinitive;
+        nearestVerbEnd = verbEnd;
+      }
+    });
+
+    if (!nearestVerb) {
+      return null;
+    }
+
+    // IEE Guardrail: Check if another noun intervenes between verb and entity
+    // If so, the entity is likely not the direct object of this verb
+    const textBetween = fullText.substring(nearestVerbEnd, entityOffset).toLowerCase();
+
+    // Extract nouns from the text between verb and entity
+    const betweenDoc = nlp(textBetween);
+    const nounsBetween = betweenDoc.nouns().out('array');
+
+    // Filter out determiners and the entity itself
+    const interveningNouns = nounsBetween.filter(n => {
+      const nLower = n.toLowerCase().trim();
+      // Skip if it's just a determiner or part of the target entity
+      if (['the', 'a', 'an'].includes(nLower)) return false;
+      if (entityText.includes(nLower) || nLower.includes(entityText)) return false;
+      return true;
+    });
+
+    if (interveningNouns.length > 0) {
+      // Another noun intervenes - this verb doesn't govern our entity
+      return null;
+    }
+
+    return nearestVerb;
+  }
+
+  /**
+   * ENH-015: Detect the preposition that introduces an entity.
+   *
+   * Looks backward from the entity position to find a preposition immediately
+   * before the noun phrase (accounting for determiners and adjectives).
+   *
+   * Prepositions tracked: for, with, to, from, by, at, in, on, about, through
+   *
+   * @param {string} fullText - Full input text
+   * @param {number} entityOffset - Position of entity in text
+   * @returns {string|null} Introducing preposition or null
+   */
+  _detectIntroducingPreposition(fullText, entityOffset) {
+    // Get text before the entity (look back ~30 chars should be enough)
+    const lookbackStart = Math.max(0, entityOffset - 30);
+    const textBefore = fullText.substring(lookbackStart, entityOffset).toLowerCase();
+
+    // ENH-015 fix: Match the NEAREST preposition to the entity
+    // Pattern: preposition + optional determiner + optional adjectives (non-prep words) + end
+    // We need to ensure we don't match prepositions that have other prepositions after them
+    const prepositions = ['with', 'for', 'to', 'from', 'by', 'at', 'in', 'on', 'about', 'through', 'into', 'onto', 'upon'];
+
+    // Find all preposition positions
+    let lastPrep = null;
+    let lastPrepPos = -1;
+
+    for (const prep of prepositions) {
+      // Find all occurrences of this preposition
+      const regex = new RegExp(`\\b${prep}\\s+(the|a|an)?\\s*`, 'gi');
+      let match;
+      while ((match = regex.exec(textBefore)) !== null) {
+        // Check that no other preposition appears between this one and the end
+        const afterMatch = textBefore.substring(match.index + match[0].length);
+        const hasLaterPrep = prepositions.some(p =>
+          new RegExp(`\\b${p}\\s+(the|a|an)?\\s`).test(afterMatch)
+        );
+
+        if (!hasLaterPrep && match.index > lastPrepPos) {
+          lastPrep = prep;
+          lastPrepPos = match.index;
+        }
+      }
+    }
+
+    return lastPrep;
+  }
+
+  /**
    * Analyze noun phrase context for determiner-sensitive disambiguation
    *
    * Based on ONTOLOGICAL_ISSUES_2026_01_19.md v3.1:
@@ -1397,6 +1622,16 @@ class EntityExtractor {
     // Add temporal unit if this is a temporal entity
     if (entityInfo.temporalUnit) {
       node['tagteam:unit'] = entityInfo.temporalUnit;
+    }
+
+    // ENH-001: Add typeRefinedBy if entity type was refined by verb context
+    if (entityInfo.typeRefinedBy) {
+      node['tagteam:typeRefinedBy'] = entityInfo.typeRefinedBy;
+    }
+
+    // ENH-015: Add introducing preposition for role mapping
+    if (entityInfo.introducingPreposition) {
+      node['tagteam:introducingPreposition'] = entityInfo.introducingPreposition;
     }
 
     return node;
