@@ -111,3 +111,18 @@ Capabilities identified during comprehensive testing that require new functional
 **Complexity:** High — requires clause boundary detection (related to ENH-007) and temporal relation vocabulary.
 
 ---
+
+## ENH-010: Abstract Noun Coreference (Event/Situation Anaphora)
+
+**Source:** Test 1.1.8 `linguistic.sentence-complexity.compound-complex`
+**Input:** "When the alarm sounded, the guards responded and the system logged the event."
+**Issue:** "The event" refers back to the entire situation described in the preceding clauses (alarm sounding + guards responding), not to an independent entity. Currently, a new generic `bfo:BFO_0000015` (Process) node is created for "event" with no coreference link to the acts it refers to. This creates a disconnected node that loses the anaphoric relationship.
+**Proposed Fix:**
+1. Detect abstract anaphoric nouns ("the event", "the incident", "the situation", "the occurrence", "the problem", "the issue") with definite articles.
+2. When such a noun appears after one or more acts, resolve it as a coreference to the preceding act(s) rather than creating a new entity.
+3. Use `owl:sameAs` or `tagteam:corefers_with` to link the discourse referent to the act node(s) it refers to.
+4. Alternatively, create a `bfo:ProcessAggregate` that bundles the preceding acts and link "the event" to it.
+**Priority:** Medium
+**Complexity:** High — requires discourse-level anaphora resolution and act-to-entity coreference linking.
+
+---
