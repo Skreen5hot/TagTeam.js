@@ -10,8 +10,30 @@
 
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
-console.log('🔨 Building TagTeam.js bundle...\n');
+// Auto-increment build number
+const buildNumberPath = path.join(__dirname, 'build-number.json');
+let buildNumber = 0;
+try {
+  const data = JSON.parse(fs.readFileSync(buildNumberPath, 'utf8'));
+  buildNumber = (data.build || 0) + 1;
+} catch (e) {
+  buildNumber = 1;
+}
+fs.writeFileSync(buildNumberPath, JSON.stringify({ build: buildNumber }, null, 2) + '\n', 'utf8');
+
+// Get git hash
+let gitHash = 'unknown';
+try {
+  gitHash = execSync('git rev-parse --short HEAD', { encoding: 'utf8' }).trim();
+} catch (e) { /* not in git repo */ }
+
+const buildTimestamp = new Date().toISOString();
+const buildInfo = `build ${buildNumber} | ${gitHash} | ${buildTimestamp}`;
+
+console.log('🔨 Building TagTeam.js bundle...');
+console.log(`   Build #${buildNumber} (${gitHash} @ ${buildTimestamp})\n`);
 
 // Create dist directory if it doesn't exist
 const distDir = path.join(__dirname, '..', 'dist');
@@ -928,6 +950,7 @@ ${semanticGraphBuilder}
      * Version information
      */
     version: '6.5.4',
+    BUILD: '${buildInfo}',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
