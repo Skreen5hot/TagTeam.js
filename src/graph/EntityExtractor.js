@@ -1248,7 +1248,12 @@ class EntityExtractor {
 
     // Direct ONTOLOGICAL_VOCABULARY lookup for non-process types (ICE, GDC, etc.)
     // _checkForProcessType only returns process types; this catches the rest
-    const vocabType = ONTOLOGICAL_VOCABULARY[lastWord];
+    // Try exact match first, then simple singularization for plurals
+    const vocabType = ONTOLOGICAL_VOCABULARY[lastWord]
+      || (lastWord.endsWith('ies') ? ONTOLOGICAL_VOCABULARY[lastWord.slice(0, -3) + 'y'] : null)
+      || (lastWord.endsWith('ses') || lastWord.endsWith('zes') || lastWord.endsWith('xes') || lastWord.endsWith('ches') || lastWord.endsWith('shes')
+          ? ONTOLOGICAL_VOCABULARY[lastWord.slice(0, -2)] : null)
+      || (lastWord.endsWith('s') && !lastWord.endsWith('ss') ? ONTOLOGICAL_VOCABULARY[lastWord.slice(0, -1)] : null);
     if (vocabType && vocabType !== 'bfo:BFO_0000015') {
       return vocabType;
     }
