@@ -126,3 +126,33 @@ Capabilities identified during comprehensive testing that require new functional
 **Complexity:** High — requires discourse-level anaphora resolution and act-to-entity coreference linking.
 
 ---
+
+## ENH-011: Clausal Subject Parsing ("The fact that X" as Agent)
+
+**Source:** Test 1.1.9 `linguistic.sentence-complexity.embedded-clauses`
+**Input:** "The fact that the server failed worried the administrator."
+**Issue:** The subject of "worried" is the entire clause "The fact that the server failed", not the nearest concrete noun "server". The parser's positional entity-verb linking grabs "server" (closest noun before "worried") instead of the head noun "fact" or the embedded process "failed". This produces the false assertion that the server worried the administrator.
+**Proposed Fix:**
+1. Detect "the fact that" / "the idea that" / "the claim that" complementizer patterns.
+2. Identify the head noun of the subject NP ("fact") as the true agent of the main verb.
+3. The embedded clause ("the server failed") should be linked to the head noun via `cco:is_about` (the fact IS ABOUT the failure).
+4. The head noun (ICE) or the embedded process becomes the agent/cause of the main verb.
+**Priority:** High
+**Complexity:** Very High — requires NP head detection, complementizer clause parsing, and agent reassignment based on syntactic structure rather than linear position.
+
+---
+
+## ENH-012: Psych-Verb Causation (Experiencer Subjects)
+
+**Source:** Test 1.1.9 `linguistic.sentence-complexity.embedded-clauses`
+**Input:** "The fact that the server failed worried the administrator."
+**Issue:** Psychological verbs like "worry", "surprise", "frighten", "concern", "alarm", "disturb" have reversed thematic roles: the grammatical subject is the Stimulus/Cause and the grammatical object is the Experiencer. Currently "worry" is treated as an IntentionalAct with a standard agent. Instead, the subject should be a `cco:is_cause_of` link and the object should be the Experiencer (bearing a `cco:ExperiencerRole` or similar).
+**Proposed Fix:**
+1. Create a PSYCH_VERBS set: worry, surprise, frighten, concern, alarm, disturb, shock, confuse, puzzle, annoy, irritate, please, delight, amuse, bore, interest, fascinate, terrify, horrify, embarrass.
+2. For psych-verbs, allow ICE or Process entities as the Cause (not agent).
+3. Map the grammatical object as the Experiencer rather than Patient.
+4. Optionally use `cco:is_cause_of` rather than `cco:has_agent` for the subject link.
+**Priority:** Medium
+**Complexity:** High — requires new verb class, reversed thematic role mapping, and causal linking.
+
+---

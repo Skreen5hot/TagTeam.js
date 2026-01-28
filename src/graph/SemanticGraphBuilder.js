@@ -259,7 +259,8 @@ class SemanticGraphBuilder {
           t.includes('cco:Person') || t.includes('cco:Artifact') || t.includes('cco:Organization') ||
           t === 'bfo:BFO_0000038' || t === 'bfo:BFO_0000008' || t === 'bfo:BFO_0000019' || t === 'bfo:BFO_0000016' ||
           t === 'bfo:BFO_0000004' || t === 'bfo:BFO_0000027' || t === 'bfo:BFO_0000001' ||
-          t === 'bfo:BFO_0000015'
+          t === 'bfo:BFO_0000015' ||
+          t === 'cco:InformationContentEntity'
         )
       );
 

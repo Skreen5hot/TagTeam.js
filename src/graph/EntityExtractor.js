@@ -351,7 +351,25 @@ const ONTOLOGICAL_VOCABULARY = {
   'data': 'bfo:BFO_0000031',
   'plan': 'bfo:BFO_0000031',
   'record': 'bfo:BFO_0000031',
-  'report': 'bfo:BFO_0000031'
+  'report': 'bfo:BFO_0000031',
+
+  // Information Content Entities (abstract propositional content)
+  'fact': 'cco:InformationContentEntity',
+  'idea': 'cco:InformationContentEntity',
+  'proposal': 'cco:InformationContentEntity',
+  'theory': 'cco:InformationContentEntity',
+  'claim': 'cco:InformationContentEntity',
+  'belief': 'cco:InformationContentEntity',
+  'assumption': 'cco:InformationContentEntity',
+  'hypothesis': 'cco:InformationContentEntity',
+  'conclusion': 'cco:InformationContentEntity',
+  'finding': 'cco:InformationContentEntity',
+  'observation': 'cco:InformationContentEntity',
+  'opinion': 'cco:InformationContentEntity',
+  'reason': 'cco:InformationContentEntity',
+  'evidence': 'cco:InformationContentEntity',
+  'truth': 'cco:InformationContentEntity',
+  'notion': 'cco:InformationContentEntity'
 };
 
 /**
@@ -1204,9 +1222,10 @@ class EntityExtractor {
     // Check for known entity types (continuants)
     // Use word-boundary matching to avoid substring false positives
     // e.g., "demand" should NOT match "man", "command" should NOT match "man"
+    // Also match common plural forms (keyword + "s" or "es")
     for (const [keyword, type] of Object.entries(ENTITY_TYPE_MAPPINGS)) {
       if (keyword === '_default') continue;
-      const regex = new RegExp(`\\b${keyword}\\b`, 'i');
+      const regex = new RegExp(`\\b${keyword}(?:e?s)?\\b`, 'i');
       if (regex.test(lowerNoun)) {
         return type;
       }
@@ -1219,6 +1238,13 @@ class EntityExtractor {
     const temporalType = this._checkForTemporalType(lowerNoun, words);
     if (temporalType) {
       return temporalType;
+    }
+
+    // Direct ONTOLOGICAL_VOCABULARY lookup for non-process types (ICE, GDC, etc.)
+    // _checkForProcessType only returns process types; this catches the rest
+    const vocabType = ONTOLOGICAL_VOCABULARY[lastWord];
+    if (vocabType && vocabType !== 'bfo:BFO_0000015') {
+      return vocabType;
     }
 
     return ENTITY_TYPE_MAPPINGS['_default'];

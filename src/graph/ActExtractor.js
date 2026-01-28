@@ -141,11 +141,16 @@ const ERGATIVE_VERBS = new Set([
   'sound', 'ring', 'buzz', 'beep', 'flash', 'chime', 'blare', 'tick'
 ]);
 
-// Emission verbs: always intransitive-ergative. The subject is never an intentional agent,
+// Always-ergative verbs: always intransitive. The inanimate subject is never an intentional agent,
 // even when cross-clause linking falsely assigns a patient. These bypass the !links.patient guard.
-const EMISSION_VERBS = new Set([
+// Includes emission verbs (sound, ring) and dysfunction verbs (fail, malfunction).
+const ALWAYS_ERGATIVE_VERBS = new Set([
+  // Emission verbs
   'sound', 'ring', 'buzz', 'beep', 'flash', 'chime', 'blare', 'tick',
-  'glow', 'shine', 'flicker', 'hum', 'vibrate', 'rattle'
+  'glow', 'shine', 'flicker', 'hum', 'vibrate', 'rattle',
+  // Dysfunction/state-change verbs (always intransitive when inanimate)
+  'fail', 'malfunction', 'stall', 'freeze', 'overheat',
+  'corrode', 'deteriorate', 'degrade'
 ]);
 
 /**
@@ -620,10 +625,10 @@ class ActExtractor {
 
       // Ergative verb check: "The server rebooted" → server is patient, not agent
       // When an ergative verb has an inanimate subject and no object, demote agent to participant
-      // Emission verbs (sound, ring, buzz) always demote — they can never have intentional agents
-      const isEmission = EMISSION_VERBS.has(infinitive.toLowerCase());
+      // Always-ergative verbs (emission + dysfunction) always demote — they can never have intentional agents
+      const isAlwaysErgative = ALWAYS_ERGATIVE_VERBS.has(infinitive.toLowerCase());
       if (ERGATIVE_VERBS.has(infinitive.toLowerCase()) && links.agentEntity &&
-          this._isInanimateAgent(links.agentEntity) && (isEmission || !links.patient)) {
+          this._isInanimateAgent(links.agentEntity) && (isAlwaysErgative || !links.patient)) {
         // Demote: agent becomes participant, no agent
         if (!links.participants) links.participants = [];
         links.participants.push(links.agent);
@@ -1204,7 +1209,7 @@ class ActExtractor {
     const linkMap = this.options.linkToTier2 ? this._buildTier2LinkMap(entities) : new Map();
 
     // Temporal regions and qualities cannot be agents, patients, or primary participants
-    const NON_AGENT_TYPES = ['bfo:BFO_0000038', 'bfo:BFO_0000008', 'bfo:BFO_0000019', 'bfo:BFO_0000016'];
+    const NON_AGENT_TYPES = ['bfo:BFO_0000038', 'bfo:BFO_0000008', 'bfo:BFO_0000019', 'bfo:BFO_0000016', 'cco:InformationContentEntity'];
     const isNonAgentEntity = (entity) => {
       const dt = entity['tagteam:denotesType'];
       return dt && NON_AGENT_TYPES.includes(dt);

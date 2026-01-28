@@ -40,7 +40,10 @@ const TIER2_TYPE_MAPPINGS = {
   // Pronoun-derived types (Phase 7.1 — IEE pronoun mapping)
   'bfo:BFO_0000004': 'bfo:BFO_0000004',  // Independent Continuant (for "it")
   'bfo:BFO_0000027': 'bfo:BFO_0000027',  // Object Aggregate (for plural "they")
-  'bfo:BFO_0000001': 'bfo:BFO_0000001'   // Entity (for demonstratives "this/that")
+  'bfo:BFO_0000001': 'bfo:BFO_0000001',  // Entity (for demonstratives "this/that")
+
+  // Information Content Entities (abstract propositional content)
+  'cco:InformationContentEntity': 'cco:InformationContentEntity'
 };
 
 /**
