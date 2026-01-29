@@ -558,7 +558,7 @@ ex:Concept a ex:MyType ;
   <script>
     // Load tagteam.js: use local dist for dev, same-directory for GitHub Pages
     (function() {
-      var isGitHubPages = window.location.hostname.indexOf('github.io') >= 0;
+      var isGitHubPages = window.location.hostname === 'github.io' || window.location.hostname.endsWith('.github.io');
       var s = document.createElement('script');
       s.src = isGitHubPages ? 'tagteam.js' : '../dist/tagteam.js';
       if (!isGitHubPages) {
