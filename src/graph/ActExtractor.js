@@ -1497,16 +1497,25 @@ class ActExtractor {
     // Build link map from Tier 1 to Tier 2 (if linkToTier2 enabled)
     const linkMap = this.options.linkToTier2 ? this._buildTier2LinkMap(entities) : new Map();
 
-    // Temporal regions and qualities cannot be agents, patients, or primary participants
-    const NON_AGENT_TYPES = ['bfo:BFO_0000038', 'bfo:BFO_0000008', 'bfo:BFO_0000019', 'bfo:BFO_0000016', 'cco:InformationContentEntity'];
+    // Temporal regions and qualities cannot be agents or patients
+    const NON_PARTICIPANT_TYPES = ['bfo:BFO_0000038', 'bfo:BFO_0000008', 'bfo:BFO_0000019', 'bfo:BFO_0000016'];
+    // Types that cannot be agents but CAN be patients (objects of actions)
+    const NON_AGENT_TYPES = [...NON_PARTICIPANT_TYPES, 'cco:InformationContentEntity'];
     const isNonAgentEntity = (entity) => {
       const dt = entity['tagteam:denotesType'];
       return dt && NON_AGENT_TYPES.includes(dt);
     };
+    const isNonPatientEntity = (entity) => {
+      const dt = entity['tagteam:denotesType'];
+      return dt && NON_PARTICIPANT_TYPES.includes(dt);
+    };
 
-    // Find entities before and after verb (excluding temporal/quality entities from agent/patient)
+    // Find entities before and after verb
+    // Agent candidates: exclude non-agent types (temporal, quality, ICE)
+    // Patient candidates: exclude only non-participant types (temporal, quality) — ICE can be patients
     const entitiesBefore = [];
     const entitiesAfter = [];
+    const patientCandidatesAfter = [];
     // Also track ALL entities (including non-agent types) for inference detection
     const allEntitiesBefore = [];
     const allEntitiesAfter = [];
@@ -1519,6 +1528,7 @@ class ActExtractor {
       } else {
         allEntitiesAfter.push(entity);
         if (!isNonAgentEntity(entity)) entitiesAfter.push(entity);
+        if (!isNonPatientEntity(entity)) patientCandidatesAfter.push(entity);
       }
     });
 
@@ -1554,9 +1564,10 @@ class ActExtractor {
     }
 
     // Patient/affected is typically the closest entity after the verb
-    if (entitiesAfter.length > 0) {
+    // Use patientCandidatesAfter which includes ICE types (they can be objects of actions)
+    if (patientCandidatesAfter.length > 0) {
       // Get the closest one to the verb
-      const closestAfter = entitiesAfter.reduce((closest, entity) => {
+      const closestAfter = patientCandidatesAfter.reduce((closest, entity) => {
         const entityStart = this._getEntityStart(entity);
         const closestStart = this._getEntityStart(closest);
         return entityStart < closestStart ? entity : closest;
