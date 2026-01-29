@@ -17,12 +17,21 @@
 git clone https://github.com/yourusername/TagTeam.js.git
 cd TagTeam.js
 
-# Install dependencies (optional, for development)
+# Install dependencies
 npm install
 
 # Build the bundle
 npm run build
 ```
+
+### Dependencies
+
+| Package | Version | Purpose |
+|---------|---------|---------|
+| [compromise](https://www.npmjs.com/package/compromise) | ^14.14.5 | Natural language parsing and POS tagging |
+| [n3](https://www.npmjs.com/package/n3) | ^1.17.1 | RDF/Turtle ontology parsing |
+
+No dev dependencies are required for runtime use.
 
 ### Use the Bundle
 
@@ -113,7 +122,7 @@ TagTeam.js/
 - **Advanced detection**: Negation, modality, tense, aspect
 - **150 compound terms** (life support, best friend, climate change, etc.)
 - **IEE format compliance**
-- **Performance**: <10ms per sentence, zero dependencies
+- **Performance**: <10ms per sentence, minimal dependencies (2 runtime)
 
 ### Week 2a: Context Intensity Analysis ✅
 - **12 dimensions** across 4 categories:
