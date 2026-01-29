@@ -203,7 +203,7 @@ console.log('--------------------------------------\n');
 
         test('BFO uses OBO namespace', () => {
             const bfoPrefix = result.prefixes['bfo'];
-            if (!bfoPrefix || !bfoPrefix.includes('purl.obolibrary.org')) {
+            if (!bfoPrefix || !bfoPrefix.startsWith('http://purl.obolibrary.org/') && !bfoPrefix.startsWith('https://purl.obolibrary.org/')) {
                 throw new Error('BFO namespace not found or incorrect');
             }
         });

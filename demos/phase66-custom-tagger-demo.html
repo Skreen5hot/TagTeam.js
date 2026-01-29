@@ -573,6 +573,12 @@ ex:Concept a ex:MyType ;
   </script>
 
   <script>
+    function escapeHtml(str) {
+      var div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
     // =========================================================================
     // Example Ontologies
     // =========================================================================
@@ -800,7 +806,7 @@ ex:Concept a ex:MyType ;
 
         output.innerHTML = html;
       } catch (e) {
-        output.innerHTML = '<div class="validation-msg validation-err"><strong>Error:</strong> ' + e.message + '</div>';
+        output.innerHTML = '<div class="validation-msg validation-err"><strong>Error:</strong> ' + escapeHtml(e.message) + '</div>';
       }
     }
 
@@ -929,7 +935,7 @@ ex:Concept a ex:MyType ;
         resultsArea.scrollIntoView({ behavior: 'smooth' });
 
       } catch (e) {
-        resultsContent.innerHTML = '<div class="result-card" style="border-left-color:#ef4444;"><h3 style="color:#fca5a5;">Error</h3><p>' + e.message + '</p></div>';
+        resultsContent.innerHTML = '<div class="result-card" style="border-left-color:#ef4444;"><h3 style="color:#fca5a5;">Error</h3><p>' + escapeHtml(e.message) + '</p></div>';
         resultsArea.classList.add('show');
         console.error(e);
       }

@@ -1501,17 +1501,18 @@ export const shaclValidator = {
      * @returns {string} Short form (e.g., "cco:Person")
      */
     getShortIri(iri) {
-      if (iri.includes('CommonCoreOntologies/')) {
-        const parts = iri.split('/');
-        return `cco:${parts[parts.length - 1]}`;
-      }
-      if (iri.includes('purl.obolibrary.org/obo/')) {
-        const parts = iri.split('/');
-        return `bfo:${parts[parts.length - 1]}`;
-      }
-      if (iri.includes('example.org/')) {
-        const parts = iri.split('/');
-        return `ex:${parts[parts.length - 1]}`;
+      const prefixMap = [
+        { namespace: 'CommonCoreOntologies/', prefix: 'cco' },
+        { namespace: 'purl.obolibrary.org/obo/', prefix: 'bfo' },
+        { namespace: 'example.org/', prefix: 'ex' }
+      ];
+      for (const { namespace, prefix } of prefixMap) {
+        const idx = iri.indexOf('://');
+        const path = idx >= 0 ? iri.substring(idx + 3) : iri;
+        if (path.startsWith(namespace) || path.startsWith('www.' + namespace)) {
+          const parts = iri.split('/');
+          return `${prefix}:${parts[parts.length - 1]}`;
+        }
       }
       return iri;
     },

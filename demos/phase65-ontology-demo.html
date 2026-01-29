@@ -508,6 +508,12 @@ vn:BeneficenceDisposition a bfo:0000016 ;
 </script>
 
 <script>
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
   // =========================================================================
   // TTL Examples
   // =========================================================================
@@ -662,7 +668,7 @@ tagteam:Fairness ethics:relatedTo vn:JusticeDisposition .`
       resultsDiv.classList.add('show');
 
     } catch (e) {
-      resultsDiv.innerHTML = '<div class="result-card" style="border-left-color: #ff6b6b;"><h3 style="color: #ff6b6b;">Error</h3><p>' + e.message + '</p></div>';
+      resultsDiv.innerHTML = '<div class="result-card" style="border-left-color: #ff6b6b;"><h3 style="color: #ff6b6b;">Error</h3><p>' + escapeHtml(e.message) + '</p></div>';
       resultsDiv.classList.add('show');
       console.error(e);
     }
@@ -753,7 +759,7 @@ tagteam:Fairness ethics:relatedTo vn:JusticeDisposition .`
       resultsDiv.classList.add('show');
 
     } catch (e) {
-      resultsDiv.innerHTML = '<div class="result-card" style="border-left-color: #ff6b6b;"><h3 style="color: #ff6b6b;">Error</h3><p>' + e.message + '</p></div>';
+      resultsDiv.innerHTML = '<div class="result-card" style="border-left-color: #ff6b6b;"><h3 style="color: #ff6b6b;">Error</h3><p>' + escapeHtml(e.message) + '</p></div>';
       resultsDiv.classList.add('show');
       console.error(e);
     }
@@ -844,7 +850,7 @@ tagteam:Fairness ethics:relatedTo vn:JusticeDisposition .`
       resultsDiv.classList.add('show');
 
     } catch (e) {
-      resultsDiv.innerHTML = '<div class="result-card" style="border-left-color: #ff6b6b;"><h3 style="color: #ff6b6b;">Error</h3><p>' + e.message + '</p></div>';
+      resultsDiv.innerHTML = '<div class="result-card" style="border-left-color: #ff6b6b;"><h3 style="color: #ff6b6b;">Error</h3><p>' + escapeHtml(e.message) + '</p></div>';
       resultsDiv.classList.add('show');
       console.error(e);
     }

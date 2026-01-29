@@ -8,9 +8,14 @@ on:
   schedule:
     - cron: '0 6 * * 1'  # Weekly Monday 6am UTC
 
+permissions:
+  contents: read
+
 jobs:
   security:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -24,6 +29,8 @@ jobs:
 
   ontology:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -37,6 +44,8 @@ jobs:
 
   security-tests:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

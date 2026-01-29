@@ -498,6 +498,12 @@
 
 <script src="tagteam.js"></script>
 <script>
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
   // Debug: Check if Phase 6 modules are available
   console.log('TagTeam version:', TagTeam.version);
   console.log('Has AmbiguityDetector:', typeof TagTeam.AmbiguityDetector !== 'undefined');
@@ -696,7 +702,7 @@
       resultsDiv.classList.add('show');
 
     } catch (e) {
-      resultsDiv.innerHTML = '<div class="warning-box"><span class="icon">&#x274C;</span><div>Error: ' + e.message + '<br><br>Make sure the TagTeam bundle is loaded correctly.</div></div>';
+      resultsDiv.innerHTML = '<div class="warning-box"><span class="icon">&#x274C;</span><div>Error: ' + escapeHtml(e.message) + '<br><br>Make sure the TagTeam bundle is loaded correctly.</div></div>';
       resultsDiv.classList.add('show');
       console.error(e);
     }
