@@ -405,12 +405,14 @@ class SemanticGraphBuilder {
         cdNodes = cdDetector.createNodes(cdSpans, this);
 
         // Suppress shadow entities: remove DiscourseReferents and Tier 2 entities
-        // whose text spans overlap with ComplexDesignator spans
+        // whose text spans overlap with ComplexDesignator spans.
+        // Use proper interval overlap: two ranges [a,b) and [c,d) overlap if a < d && c < b.
+        // Also catch "the X" referents where "the " prefix shifts start before CD start.
         const overlapsCD = (entity) => {
           const eStart = entity['tagteam:startPosition'];
           const eEnd = entity['tagteam:endPosition'];
           if (eStart == null || eEnd == null) return false;
-          return cdSpans.some(cd => eStart >= cd.start && eStart < cd.end);
+          return cdSpans.some(cd => eStart < cd.end && cd.start < eEnd);
         };
 
         // Remove overlapping entities from graph nodes
@@ -443,8 +445,10 @@ class SemanticGraphBuilder {
           return true;
         });
 
-        // Filter extractedEntities for downstream use
+        // Filter extractedEntities and tier lists for downstream use
         extractedEntities = extractedEntities.filter(e => !shadowIRIs.has(e['@id']));
+        tier1Referents = tier1Referents.filter(e => !shadowIRIs.has(e['@id']));
+        tier2Entities = tier2Entities.filter(e => !shadowIRIs.has(e['@id']));
 
         // Add CD nodes and include in extractedEntities
         this.addNodes(cdNodes);
@@ -1331,8 +1335,12 @@ class SemanticGraphBuilder {
 
     const score = (density * 0.4) + (Math.min(connectors, 5) / 5 * 0.3) + (Math.min(commas, 3) / 3 * 0.3);
 
+    // Require at least 4 content words in the object phrase for high complexity.
+    // Simple proper nouns like "the United States" (2-3 words) don't need greedy NER.
+    const minWordsForHigh = words.length >= 4;
+
     return {
-      high: score > 0.3 || density > 0.5,
+      high: minWordsForHigh && (score > 0.3 || density > 0.5),
       score: Math.round(score * 100) / 100
     };
   }
