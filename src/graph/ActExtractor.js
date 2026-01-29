@@ -19,6 +19,7 @@
  */
 
 const nlp = require('compromise');
+const SentenceModeClassifier = require('./SentenceModeClassifier');
 
 /**
  * Verb-to-CCO Act Type mappings
@@ -464,6 +465,7 @@ class ActExtractor {
     };
     this.graphBuilder = options.graphBuilder || null;
     this.entities = options.entities || [];
+    this._sentenceModeClassifier = new SentenceModeClassifier();
     // ENH-003: Track implicit "you" entity for reuse across imperatives
     this._implicitYouEntity = null;
   }
@@ -482,6 +484,7 @@ class ActExtractor {
   extract(text, options = {}) {
     const acts = [];
     const entities = options.entities || this.entities;
+    const cdSpans = options.complexDesignatorSpans || [];
 
     // ENH-003: Reset implicit "you" tracking for fresh text
     this._resetImplicitYou();
@@ -567,6 +570,64 @@ class ActExtractor {
 
       // Get span offset
       const offset = this._getSpanOffset(text, verbText, index);
+
+      // Phase 7 v7: Skip verbs that fall inside ComplexDesignator spans
+      if (cdSpans.length > 0) {
+        const verbEnd = offset + verbText.length;
+        const insideCD = cdSpans.some(span =>
+          offset >= span.start && verbEnd <= span.end
+        );
+        if (insideCD) return; // Skip — this "verb" is part of a proper name
+      }
+
+      // Phase 7 v7: Check if verb is stative — route to StructuralAssertion instead of IntentionalAct
+      const followedBy = this._getWordAfterVerb(text, offset, verbText);
+      const verbClassification = this._sentenceModeClassifier.classifyVerb(infinitive, { followedBy });
+
+      if (verbClassification.category === 'STATIVE_DEFINITE') {
+        const links = this._linkToEntities(text, verbText, offset, entities);
+        const assertion = this._createStructuralAssertion({
+          text: verbText,
+          infinitive,
+          offset,
+          relation: verbClassification.relation,
+          inverse: verbClassification.inverse,
+          links,
+          sourceText: text
+        });
+        acts.push(assertion);
+        return; // Skip IntentionalAct creation
+      }
+
+      if (verbClassification.category === 'STATIVE_AMBIGUOUS') {
+        const links = this._linkToEntities(text, verbText, offset, entities);
+        // Get object entity type for disambiguation
+        const objectEntity = links.patientEntity || links.affectedEntity;
+        const objectType = objectEntity?.['@type']?.[0] || objectEntity?.['tagteam:denotesType'] || null;
+        const objectLabel = objectEntity?.['rdfs:label'] || null;
+        const subjectEntity = links.agentEntity || links.subjectEntity;
+        const subjectType = subjectEntity?.['@type']?.[0] || subjectEntity?.['tagteam:denotesType'] || null;
+
+        const disambiguation = this._sentenceModeClassifier.disambiguateStativeVerb(infinitive, {
+          objectType, objectLabel, subjectType
+        });
+
+        if (disambiguation === 'STATIVE') {
+          const stativeRelation = this._sentenceModeClassifier.getRelationForStativeVerb(infinitive);
+          const assertion = this._createStructuralAssertion({
+            text: verbText,
+            infinitive,
+            offset,
+            relation: stativeRelation,
+            inverse: null,
+            links,
+            sourceText: text
+          });
+          acts.push(assertion);
+          return; // Skip IntentionalAct creation
+        }
+        // Otherwise fall through to eventive processing
+      }
 
       // Phase 3: Get direct object type for selectional restrictions
       const directObjectType = this._getDirectObjectType(offset, entities);
@@ -754,14 +815,74 @@ class ActExtractor {
   }
 
   /**
+   * Phase 7 v7: Get the word immediately following the verb in the text.
+   * Used for "have to" detection.
+   */
+  _getWordAfterVerb(text, offset, verbText) {
+    const afterIndex = offset + verbText.length;
+    const rest = text.slice(afterIndex).trimStart();
+    const match = rest.match(/^(\w+)/);
+    return match ? match[1].toLowerCase() : null;
+  }
+
+  /**
+   * Phase 7 v7: Create a StructuralAssertion node for stative verbs.
+   * Instead of IntentionalAct + AgentRole/PatientRole, stative verbs produce
+   * a subject-relation-object assertion with no act semantics.
+   */
+  _createStructuralAssertion({ text, infinitive, offset, relation, inverse, links, sourceText }) {
+    let id;
+    if (this.graphBuilder) {
+      id = this.graphBuilder.generateIRI(infinitive, 'StructuralAssertion', offset);
+    } else {
+      const cleanVerb = infinitive.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
+      id = `inst:StructuralAssertion_${cleanVerb}_${offset}`;
+    }
+
+    const subject = links.agent || links.subjectIRI || null;
+    const object = links.patient || links.affected || null;
+
+    const node = {
+      '@id': id,
+      '@type': ['tagteam:StructuralAssertion'],
+      'tagteam:verb': infinitive,
+      'tagteam:assertsRelation': relation,
+      'tagteam:sourceText': sourceText
+    };
+
+    if (subject) {
+      node['tagteam:hasSubject'] = { '@id': subject };
+    }
+    if (object) {
+      node['tagteam:hasObject'] = { '@id': object };
+    }
+    if (inverse) {
+      node['tagteam:inverseRelation'] = inverse;
+    }
+
+    return node;
+  }
+
+  /**
    * Check if verb is auxiliary only (no main verb content)
    * @param {Object} verbData - Compromise verb data
    * @returns {boolean} True if auxiliary only
    */
   _isAuxiliaryOnly(verbData) {
-    const auxOnlyVerbs = ['be', 'is', 'are', 'was', 'were', 'been', 'being', 'have', 'has', 'had'];
+    const auxOnlyVerbs = ['be', 'is', 'are', 'was', 'were', 'been', 'being'];
+    // Phase 7 v7: "have/has/had" removed from aux-only list — they can be stative main verbs
+    // (e.g., "The hospital has two ventilators"). The stative check in the verb loop handles routing.
+    const haveVerbs = ['have', 'has', 'had'];
     const root = (verbData.infinitive || verbData.root || '').toLowerCase();
-    return auxOnlyVerbs.includes(root) && !verbData.auxiliary;
+    if (auxOnlyVerbs.includes(root) && !verbData.auxiliary) return true;
+    // For have/has/had: only filter if it's truly auxiliary (another main verb exists)
+    if (haveVerbs.includes(root) && !verbData.auxiliary) {
+      // Check if Compromise detected it as a standalone verb (no participle follows)
+      const text = verbData.text || '';
+      // If the verb phrase is just "has"/"have"/"had" with no participle, it's a main verb
+      return false;
+    }
+    return false;
   }
 
   /**

@@ -107,6 +107,12 @@ const ontologyTextTaggerPath = path.join(__dirname, '..', 'src', 'ontology', 'On
 // Phase 7.1: Source attribution detection
 const sourceAttributionDetectorPath = path.join(__dirname, '..', 'src', 'graph', 'SourceAttributionDetector.js');
 
+// Phase 7 v7: Sentence mode classifier (stative predication)
+const sentenceModeClassifierPath = path.join(__dirname, '..', 'src', 'graph', 'SentenceModeClassifier.js');
+
+// Phase 7 v7: Complex designator detector (greedy NER)
+const complexDesignatorDetectorPath = path.join(__dirname, '..', 'src', 'graph', 'ComplexDesignatorDetector.js');
+
 // Phase 9.3: Combined validation report
 const combinedValidationReportPath = path.join(__dirname, '..', 'src', 'graph', 'CombinedValidationReport.js');
 
@@ -186,6 +192,12 @@ let ontologyTextTagger = fs.readFileSync(ontologyTextTaggerPath, 'utf8');
 // Phase 7.1: Source attribution
 let sourceAttributionDetector = fs.readFileSync(sourceAttributionDetectorPath, 'utf8');
 
+// Phase 7 v7: Sentence mode classifier
+let sentenceModeClassifier = fs.readFileSync(sentenceModeClassifierPath, 'utf8');
+
+// Phase 7 v7: Complex designator detector
+let complexDesignatorDetector = fs.readFileSync(complexDesignatorDetectorPath, 'utf8');
+
 // Phase 9.3: Combined validation report
 let combinedValidationReport = fs.readFileSync(combinedValidationReportPath, 'utf8');
 
@@ -218,6 +230,8 @@ console.log(`  ✓ BridgeOntologyLoader.js (${(bridgeOntologyLoader.length / 102
 console.log(`  ✓ PropertyMapper.js (${(propertyMapper.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ OntologyTextTagger.js (${(ontologyTextTagger.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ SourceAttributionDetector.js (${(sourceAttributionDetector.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ SentenceModeClassifier.js (${(sentenceModeClassifier.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ ComplexDesignatorDetector.js (${(complexDesignatorDetector.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ CombinedValidationReport.js (${(combinedValidationReport.length / 1024).toFixed(2)} KB)`);
 
 // Read data files for Week 2b
@@ -328,6 +342,16 @@ console.log('  ✓ Processed CertaintyAnalyzer for browser');
 sourceAttributionDetector = sourceAttributionDetector.replace(/module\.exports\s*=\s*\w+;\s*\n?/g, '');
 sourceAttributionDetector = sourceAttributionDetector.replace(/'use strict';\s*\n?/g, '');
 console.log('  ✓ Processed SourceAttributionDetector for browser');
+
+// Phase 7 v7: Strip CommonJS from SentenceModeClassifier
+sentenceModeClassifier = sentenceModeClassifier.replace(/module\.exports\s*=\s*\w+;\s*\n?/g, '');
+sentenceModeClassifier = sentenceModeClassifier.replace(/'use strict';\s*\n?/g, '');
+console.log('  ✓ Processed SentenceModeClassifier for browser');
+
+// Phase 7 v7: Strip CommonJS from ComplexDesignatorDetector
+complexDesignatorDetector = complexDesignatorDetector.replace(/module\.exports\s*=\s*\w+;\s*\n?/g, '');
+complexDesignatorDetector = complexDesignatorDetector.replace(/'use strict';\s*\n?/g, '');
+console.log('  ✓ Processed ComplexDesignatorDetector for browser');
 
 // Phase 9.3: Strip CommonJS from CombinedValidationReport
 combinedValidationReport = combinedValidationReport.replace(/module\.exports\s*=\s*\w+;\s*\n?/g, '');
@@ -592,6 +616,24 @@ ${sourceAttributionDetector}
 
   // Make SourceAttributionDetector available globally for SemanticGraphBuilder
   _global.SourceAttributionDetector = SourceAttributionDetector;
+
+  // ============================================================================
+  // PHASE 7 v7: SENTENCE MODE CLASSIFIER (~6KB)
+  // ============================================================================
+
+${sentenceModeClassifier}
+
+  // Make SentenceModeClassifier available globally for ActExtractor
+  _global.SentenceModeClassifier = SentenceModeClassifier;
+
+  // ============================================================================
+  // PHASE 7 v7: COMPLEX DESIGNATOR DETECTOR (~12KB)
+  // ============================================================================
+
+${complexDesignatorDetector}
+
+  // Make ComplexDesignatorDetector available globally for SemanticGraphBuilder
+  _global.ComplexDesignatorDetector = ComplexDesignatorDetector;
 
   // ============================================================================
   // PHASE 9.3: COMBINED VALIDATION REPORT (~12KB)
@@ -1068,6 +1110,10 @@ ${semanticGraphBuilder}
 
     // Phase 7.1: Source attribution detection
     SourceAttributionDetector: SourceAttributionDetector,
+
+    // Phase 7 v7: Sentence mode classifier + complex designator detector
+    SentenceModeClassifier: SentenceModeClassifier,
+    ComplexDesignatorDetector: ComplexDesignatorDetector,
 
     // Phase 9.3: Combined validation report
     CombinedValidationReport: CombinedValidationReport

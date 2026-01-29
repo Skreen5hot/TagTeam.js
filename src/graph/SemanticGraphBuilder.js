@@ -34,6 +34,7 @@
 
 const crypto = require('crypto');
 const EntityExtractor = require('./EntityExtractor');
+const ComplexDesignatorDetector = require('./ComplexDesignatorDetector');
 const ActExtractor = require('./ActExtractor');
 const RoleDetector = require('./RoleDetector');
 const ScarcityAssertionFactory = require('./ScarcityAssertionFactory');
@@ -270,6 +271,23 @@ class SemanticGraphBuilder {
     this.buildTimestamp = new Date().toISOString();
     this.buildContext = buildOptions.context;
 
+    // Phase 7 v7: Traffic Cop — classify sentence mode before parsing
+    const trafficCopEnabled = buildOptions.enableTrafficCop !== false;
+    if (trafficCopEnabled) {
+      const modeResult = this._classifySentenceMode(text);
+      this.sentenceMode = modeResult.mode;
+
+      // Auto-enable greedy NER for high-complexity objects
+      if (!buildOptions.greedyNER) {
+        const complexity = this._measureObjectComplexity(text);
+        if (complexity.high) {
+          buildOptions.greedyNER = true;
+        }
+      }
+    } else {
+      this.sentenceMode = undefined;
+    }
+
     // Phase 1.2: Extract entities as DiscourseReferent + Tier 2 nodes
     let extractedEntities = [];
     let tier1Referents = [];
@@ -367,12 +385,25 @@ class SemanticGraphBuilder {
       extractedEntities = [...tier1Referents, ...tier2Entities, ...allAggregates];
     }
 
+    // Phase 7 v7: Detect ComplexDesignators when greedyNER is enabled
+    let cdSpans = [];
+    if (buildOptions.greedyNER) {
+      const cdDetector = new ComplexDesignatorDetector();
+      cdSpans = cdDetector.detect(text);
+      if (cdSpans.length > 0) {
+        const cdNodes = cdDetector.createNodes(cdSpans, this);
+        this.addNodes(cdNodes);
+        extractedEntities = [...extractedEntities, ...cdNodes];
+      }
+    }
+
     // Phase 1.3: Extract acts as IntentionalAct nodes
     let extractedActs = [];
     if (buildOptions.extractActs !== false) {
       extractedActs = this.actExtractor.extract(text, {
         ...buildOptions,
-        entities: extractedEntities
+        entities: extractedEntities,
+        complexDesignatorSpans: cdSpans
       });
       this.addNodes(extractedActs);
 
@@ -1160,6 +1191,93 @@ class SemanticGraphBuilder {
         referent['tagteam:describes_quality'] = describedQualities.map(qIRI => ({ '@id': qIRI }));
       }
     });
+  }
+  /**
+   * Phase 7 v7: Classify sentence mode based on main verb.
+   * @param {string} text - Input text
+   * @returns {{ mode: string, confidence: number }}
+   */
+  _classifySentenceMode(text) {
+    const classifier = new (require('./SentenceModeClassifier'))();
+
+    // Extract main verb using Compromise
+    const nlp = require('compromise');
+    const doc = nlp(text);
+    const verbs = doc.verbs();
+
+    // Check ALL verbs — if any is stative, classify as STRUCTURAL
+    // This handles cases where participial adjectives (e.g., "named") appear before the stative verb
+    const verbInfinitives = [];
+    verbs.forEach(verb => {
+      const json = verb.json()[0] || {};
+      const verbData = json.verb || {};
+      const inf = (verbData.infinitive || verbData.root || '').toLowerCase();
+      if (['be', 'is', 'are', 'was', 'were', 'do', 'did', 'does'].includes(inf)) return;
+      verbInfinitives.push(inf);
+    });
+
+    if (verbInfinitives.length === 0) {
+      return { mode: 'NARRATIVE', confidence: 0.5 };
+    }
+
+    // Priority: if any verb is stative definite, route to STRUCTURAL
+    for (const inf of verbInfinitives) {
+      const classification = classifier.classifyVerb(inf);
+      if (classification.category === 'STATIVE_DEFINITE') {
+        return { mode: 'STRUCTURAL', confidence: 0.95 };
+      }
+    }
+    for (const inf of verbInfinitives) {
+      const classification = classifier.classifyVerb(inf);
+      if (classification.category === 'STATIVE_AMBIGUOUS') {
+        return { mode: 'STRUCTURAL', confidence: 0.7 };
+      }
+    }
+    return { mode: 'NARRATIVE', confidence: 0.9 };
+  }
+
+  /**
+   * Phase 7 v7: Measure object complexity to decide if greedy NER is needed.
+   * High complexity = many capitalized words in the object phrase (after main verb).
+   * @param {string} text - Input text
+   * @returns {{ high: boolean, score: number }}
+   */
+  _measureObjectComplexity(text) {
+    // Find the main verb position to isolate the object phrase
+    const nlp = require('compromise');
+    const doc = nlp(text);
+    const verbs = doc.verbs();
+
+    let verbEnd = 0;
+    verbs.forEach(verb => {
+      const offset = text.indexOf(verb.text());
+      if (offset >= 0) {
+        const end = offset + verb.text().length;
+        if (end > verbEnd) verbEnd = end;
+      }
+    });
+
+    // Get the object phrase (everything after the main verb)
+    const objectPhrase = text.substring(verbEnd).trim();
+    if (!objectPhrase) return { high: false, score: 0 };
+
+    // Count capitalized vs total content words
+    const words = objectPhrase.split(/\s+/).filter(w => w.length > 1);
+    if (words.length === 0) return { high: false, score: 0 };
+
+    const capitalizedWords = words.filter(w => /^[A-Z]/.test(w));
+    const density = capitalizedWords.length / words.length;
+
+    // Also check for multi-word name indicators
+    const connectors = (objectPhrase.match(/\b(of|for|and|or)\b/gi) || []).length;
+    const commas = (objectPhrase.match(/,/g) || []).length;
+
+    const score = (density * 0.4) + (Math.min(connectors, 5) / 5 * 0.3) + (Math.min(commas, 3) / 3 * 0.3);
+
+    return {
+      high: score > 0.3 || density > 0.5,
+      score: Math.round(score * 100) / 100
+    };
   }
 }
 

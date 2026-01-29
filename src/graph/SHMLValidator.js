@@ -82,7 +82,8 @@ const KNOWN_CLASSES = new Set([
   'tagteam:ValueAssertionEvent', 'tagteam:ContextAssessmentEvent',
   'tagteam:EthicalValueICE', 'tagteam:ContextDimensionICE',
   'tagteam:AutomatedDetection', 'tagteam:HumanValidation',
-  'tagteam:HumanRejection', 'tagteam:HumanCorrection'
+  'tagteam:HumanRejection', 'tagteam:HumanCorrection',
+  'tagteam:StructuralAssertion', 'tagteam:ComplexDesignator'
 ]);
 
 /**
@@ -145,7 +146,9 @@ const KNOWN_PREDICATES = new Set([
   'tagteam:polarity', 'tagteam:salience', 'tagteam:matched_markers',
   'tagteam:detection_method', 'tagteam:dimension', 'tagteam:score',
   // TagTeam Properties - Directive
-  'tagteam:prescribes'
+  'tagteam:prescribes',
+  // TagTeam Properties - StructuralAssertion (Phase 7 v7)
+  'tagteam:assertsRelation', 'tagteam:hasSubject', 'tagteam:hasObject', 'tagteam:inverseRelation'
 ]);
 
 /**

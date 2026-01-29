@@ -145,6 +145,9 @@ class RoleDetector {
 
     // Process each act to find roles
     acts.forEach(act => {
+      // Phase 7 v7: Skip StructuralAssertions — stative verbs have no agent/patient roles
+      const types = Array.isArray(act['@type']) ? act['@type'] : [act['@type']];
+      if (types.some(t => t && t.includes('StructuralAssertion'))) return;
       const actualityStatus = act['tagteam:actualityStatus'];
       const canRealize = REALIZABLE_STATUSES.includes(actualityStatus);
 
