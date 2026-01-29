@@ -1,0 +1,53 @@
+'use strict';
+
+/**
+ * Output Sanitizer with Provenance
+ *
+ * Strips unexpected properties from ICE output and attaches
+ * provenance metadata so downstream systems can reason about trust.
+ *
+ * @module security/output-sanitizer
+ */
+
+const ALLOWED = [
+  'id', 'type', 'label', 'fullName', 'nameComponents',
+  'denotedType', 'candidateType', 'expression',
+  'assertedRelation', 'subject', 'objects',
+  'verbPhrase', 'agent', 'patient',
+  'actualityStatus', 'normativeStatus', 'salience',
+  'denotationConfidence', 'sourceSpan', 'evidence'
+];
+
+/**
+ * Strip an ICE object to only allowed properties.
+ * @param {Object} ice
+ * @returns {Object}
+ */
+function sanitize(ice) {
+  const result = {};
+  for (const prop of ALLOWED) {
+    if (ice[prop] !== undefined) result[prop] = ice[prop];
+  }
+  return result;
+}
+
+/**
+ * Sanitize ICEs and attach provenance metadata.
+ * @param {Array<Object>} ices
+ * @param {{ ontologyHash: string, warnings: Array<{code: string}> }} context
+ * @returns {Array<Object>}
+ */
+function sanitizeWithProvenance(ices, context) {
+  return ices.map(ice => ({
+    ...sanitize(ice),
+    provenance: {
+      tagteamVersion: process.env.TAGTEAM_VERSION || 'unknown',
+      ontologyHash: context.ontologyHash,
+      inputValidated: true,
+      securityWarnings: context.warnings.map(w => w.code),
+      timestamp: new Date().toISOString()
+    }
+  }));
+}
+
+module.exports = { sanitize, sanitizeWithProvenance, ALLOWED };
