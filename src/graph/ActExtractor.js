@@ -699,11 +699,12 @@ class ActExtractor {
       // Passive voice detection: "X was found [by Y]" → X is patient, Y is agent
       // Compromise NLP provides grammar.passive flag
       const isPassive = !!(verbData.grammar?.passive);
-      if (isPassive && links.agent) {
+      const passiveSubjectIRI = links.agent || links.subjectIRI;
+      const passiveSubjectEntity = links.agentEntity || links.subjectEntity;
+      if (isPassive && passiveSubjectIRI) {
         // In passive voice, the grammatical subject (pre-verb) is the patient, not the agent
         // Save the subject for patient assignment
-        const passiveSubject = links.agent;
-        const passiveSubjectEntity = links.agentEntity;
+        const passiveSubject = passiveSubjectIRI;
 
         // Check for "by [agent]" phrase after the verb to find the real agent
         const byAgent = this._findByAgent(text, offset, entities);
