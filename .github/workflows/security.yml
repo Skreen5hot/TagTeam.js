@@ -54,7 +54,7 @@ jobs:
           node-version: '20'
           cache: 'npm'
       - run: npm ci && npm run sbom
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: sbom
           path: sbom.json
