@@ -397,11 +397,56 @@ class SemanticGraphBuilder {
 
     // Phase 7 v7: Detect ComplexDesignators when greedyNER is enabled
     let cdSpans = [];
+    let cdNodes = [];
     if (buildOptions.greedyNER) {
       const cdDetector = new ComplexDesignatorDetector();
       cdSpans = cdDetector.detect(text);
       if (cdSpans.length > 0) {
-        const cdNodes = cdDetector.createNodes(cdSpans, this);
+        cdNodes = cdDetector.createNodes(cdSpans, this);
+
+        // Suppress shadow entities: remove DiscourseReferents and Tier 2 entities
+        // whose text spans overlap with ComplexDesignator spans
+        const overlapsCD = (entity) => {
+          const eStart = entity['tagteam:startPosition'];
+          const eEnd = entity['tagteam:endPosition'];
+          if (eStart == null || eEnd == null) return false;
+          return cdSpans.some(cd => eStart >= cd.start && eStart < cd.end);
+        };
+
+        // Remove overlapping entities from graph nodes
+        const shadowIRIs = new Set();
+        this.nodes = this.nodes.filter(n => {
+          if (overlapsCD(n)) {
+            shadowIRIs.add(n['@id']);
+            return false;
+          }
+          return true;
+        });
+        this.nodeIndex.forEach((node, iri) => {
+          if (shadowIRIs.has(iri)) this.nodeIndex.delete(iri);
+        });
+
+        // Also remove Tier 2 entities linked via is_about from shadow referents
+        this.nodes = this.nodes.filter(n => {
+          const id = n['@id'];
+          // Check if any shadow referent pointed to this entity
+          for (const ref of [...tier1Referents]) {
+            if (shadowIRIs.has(ref['@id'])) {
+              const aboutId = typeof ref['cco:is_about'] === 'object'
+                ? ref['cco:is_about']['@id'] : ref['cco:is_about'];
+              if (aboutId === id) {
+                shadowIRIs.add(id);
+                return false;
+              }
+            }
+          }
+          return true;
+        });
+
+        // Filter extractedEntities for downstream use
+        extractedEntities = extractedEntities.filter(e => !shadowIRIs.has(e['@id']));
+
+        // Add CD nodes and include in extractedEntities
         this.addNodes(cdNodes);
         extractedEntities = [...extractedEntities, ...cdNodes];
       }
@@ -413,7 +458,9 @@ class SemanticGraphBuilder {
       extractedActs = this.actExtractor.extract(text, {
         ...buildOptions,
         entities: extractedEntities,
-        complexDesignatorSpans: cdSpans
+        complexDesignatorSpans: cdSpans,
+        sentenceMode: this.sentenceMode,
+        complexDesignatorNodes: cdNodes
       });
       this.addNodes(extractedActs);
 

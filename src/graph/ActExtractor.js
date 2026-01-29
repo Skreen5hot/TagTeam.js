@@ -584,6 +584,27 @@ class ActExtractor {
       const followedBy = this._getWordAfterVerb(text, offset, verbText);
       const verbClassification = this._sentenceModeClassifier.classifyVerb(infinitive, { followedBy });
 
+      // Phase 7 v7: In STRUCTURAL mode, suppress non-stative verbs that appear
+      // BEFORE the stative verb (participial adjectives like "named" in "Complexly named organizations include...")
+      // Verbs after the stative verb are allowed (mixed sentences: "includes X and decided to Y")
+      if (options.sentenceMode === 'STRUCTURAL' &&
+          verbClassification.category !== 'STATIVE_DEFINITE' &&
+          verbClassification.category !== 'STATIVE_AMBIGUOUS') {
+        // Find the first stative verb's offset to determine if this verb precedes it
+        const firstStativeEntry = verbEntries.find(ve => {
+          const inf = ve.infinitive.toLowerCase();
+          const fb = this._getWordAfterVerb(text, this._getSpanOffset(text, ve.verbText, ve.index), ve.verbText);
+          const cls = this._sentenceModeClassifier.classifyVerb(inf, { followedBy: fb });
+          return cls.category === 'STATIVE_DEFINITE' || cls.category === 'STATIVE_AMBIGUOUS';
+        });
+        if (firstStativeEntry) {
+          const stativeOffset = this._getSpanOffset(text, firstStativeEntry.verbText, firstStativeEntry.index);
+          if (offset < stativeOffset) {
+            return; // Skip pre-stative participial adjective verbs
+          }
+        }
+      }
+
       if (verbClassification.category === 'STATIVE_DEFINITE') {
         const links = this._linkToEntities(text, verbText, offset, entities);
         const assertion = this._createStructuralAssertion({
@@ -593,7 +614,8 @@ class ActExtractor {
           relation: verbClassification.relation,
           inverse: verbClassification.inverse,
           links,
-          sourceText: text
+          sourceText: text,
+          complexDesignatorNodes: options.complexDesignatorNodes || []
         });
         acts.push(assertion);
         return; // Skip IntentionalAct creation
@@ -621,7 +643,8 @@ class ActExtractor {
             relation: stativeRelation,
             inverse: null,
             links,
-            sourceText: text
+            sourceText: text,
+            complexDesignatorNodes: options.complexDesignatorNodes || []
           });
           acts.push(assertion);
           return; // Skip IntentionalAct creation
@@ -830,7 +853,7 @@ class ActExtractor {
    * Instead of IntentionalAct + AgentRole/PatientRole, stative verbs produce
    * a subject-relation-object assertion with no act semantics.
    */
-  _createStructuralAssertion({ text, infinitive, offset, relation, inverse, links, sourceText }) {
+  _createStructuralAssertion({ text, infinitive, offset, relation, inverse, links, sourceText, complexDesignatorNodes }) {
     let id;
     if (this.graphBuilder) {
       id = this.graphBuilder.generateIRI(infinitive, 'StructuralAssertion', offset);
@@ -840,7 +863,6 @@ class ActExtractor {
     }
 
     const subject = links.agent || links.subjectIRI || null;
-    const object = links.patient || links.affected || null;
 
     const node = {
       '@id': id,
@@ -853,9 +875,22 @@ class ActExtractor {
     if (subject) {
       node['tagteam:hasSubject'] = { '@id': subject };
     }
-    if (object) {
-      node['tagteam:hasObject'] = { '@id': object };
+
+    // Phase 7 v7: If ComplexDesignator nodes exist, wire hasObject to them
+    // instead of the old fragmented entity references
+    if (complexDesignatorNodes && complexDesignatorNodes.length > 0) {
+      if (complexDesignatorNodes.length === 1) {
+        node['tagteam:hasObject'] = { '@id': complexDesignatorNodes[0]['@id'] };
+      } else {
+        node['tagteam:hasObject'] = complexDesignatorNodes.map(cd => ({ '@id': cd['@id'] }));
+      }
+    } else {
+      const object = links.patient || links.affected || null;
+      if (object) {
+        node['tagteam:hasObject'] = { '@id': object };
+      }
     }
+
     if (inverse) {
       node['tagteam:inverseRelation'] = inverse;
     }
