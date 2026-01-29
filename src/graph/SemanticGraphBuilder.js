@@ -86,6 +86,16 @@ const _CombinedValidationReport = (typeof CombinedValidationReport !== 'undefine
   try { return require('./CombinedValidationReport'); } catch (e) { return null; }
 })();
 
+// Phase 7 v7: SentenceModeClassifier for stative predication
+const _SentenceModeClassifier = (typeof SentenceModeClassifier !== 'undefined') ? SentenceModeClassifier : (() => {
+  try { return require('./SentenceModeClassifier'); } catch (e) { return null; }
+})();
+
+// Compromise NLP (available globally in browser bundle, require in Node)
+const _nlp = (typeof nlp !== 'undefined') ? nlp : (() => {
+  try { return require('compromise'); } catch (e) { return null; }
+})();
+
 /**
  * Main class for building semantic graphs in JSON-LD format
  */
@@ -1198,10 +1208,10 @@ class SemanticGraphBuilder {
    * @returns {{ mode: string, confidence: number }}
    */
   _classifySentenceMode(text) {
-    const classifier = new (require('./SentenceModeClassifier'))();
+    const classifier = new _SentenceModeClassifier();
 
     // Extract main verb using Compromise
-    const nlp = require('compromise');
+    const nlp = _nlp;
     const doc = nlp(text);
     const verbs = doc.verbs();
 
@@ -1244,7 +1254,7 @@ class SemanticGraphBuilder {
    */
   _measureObjectComplexity(text) {
     // Find the main verb position to isolate the object phrase
-    const nlp = require('compromise');
+    const nlp = _nlp;
     const doc = nlp(text);
     const verbs = doc.verbs();
 
