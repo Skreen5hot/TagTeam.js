@@ -330,6 +330,9 @@
       <textarea id="demo-input" rows="3" placeholder="Enter a sentence about an ethical dilemma...">The nurse must decide whether to inform the family about the diagnosis.</textarea>
       <br>
       <button onclick="runDemo()">Analyze This Sentence</button>
+      <label style="display: inline-flex; align-items: center; gap: 6px; margin-left: 10px; font-size: 0.9em; color: #666; cursor: pointer;">
+        <input type="checkbox" id="verbose-toggle"> Show POS Tags
+      </label>
     </div>
 
     <div id="demo-output"></div>
@@ -393,12 +396,32 @@
   <span id="current-slide">1</span> / <span id="total-slides">8</span>
 </div>
 
-<script src="tagteam.js"></script>
+<script>
+    const scriptPath = window.location.hostname === 'localhost' || window.location.hostname === ''
+        ? '../dist/tagteam.js'
+        : 'tagteam.js';
+    document.write('<script src="' + scriptPath + '"><\/script>');
+</script>
 <script>
   function escapeHtml(str) {
     var div = document.createElement('div');
     div.textContent = str;
     return div.innerHTML;
+  }
+
+  function renderPosTokens(debug) {
+    if (!debug || !debug.tokens || !debug.tokens.length) return '';
+    var html = '<h4 style="margin-top: 15px; color: #2196f3;">POS Tags (Verbose Mode)</h4>';
+    html += '<div style="display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0;">';
+    debug.tokens.forEach(function(t) {
+      var tagLabel = t.tags.join(', ');
+      html += '<div style="background: #e3f2fd; border: 1px solid #90caf9; border-radius: 6px; padding: 5px 8px; text-align: center;">';
+      html += '<div style="font-weight: bold;">' + t.text + '</div>';
+      html += '<div style="font-size: 0.75em; color: #1565c0;">' + tagLabel + '</div>';
+      html += '</div>';
+    });
+    html += '</div>';
+    return html;
   }
 
   let currentSlide = 1;
@@ -441,7 +464,8 @@
 
     try {
       // Use TagTeam.buildGraph for rich Phase 4 output
-      const graph = TagTeam.buildGraph(input);
+      const verbose = document.getElementById('verbose-toggle').checked;
+      const graph = TagTeam.buildGraph(input, { verbose: verbose });
       const nodes = graph['@graph'] || [];
 
       let html = '<h3>Analysis Results:</h3>';
@@ -599,6 +623,11 @@
         html += '</ul>';
         html += '<p style="margin-top: 10px; font-style: italic; color: #92400e;">TagTeam preserves both interpretations in the lattice!</p>';
         html += '</div>';
+      }
+
+      // Verbose mode: show POS tokens
+      if (graph._debug) {
+        html += renderPosTokens(graph._debug);
       }
 
       // Summary stats

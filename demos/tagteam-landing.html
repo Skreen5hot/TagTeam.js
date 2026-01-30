@@ -452,6 +452,9 @@
                     <br>
                     <button class="phase4-btn" onclick="buildGraph()">Build JSON-LD Graph</button>
                     <button class="phase4-btn" onclick="showGraphSummary()">Show Two-Tier Summary</button>
+                    <label style="display: inline-flex; align-items: center; gap: 6px; margin-left: 15px; font-size: 0.9em; color: #6b7280; cursor: pointer;">
+                        <input type="checkbox" id="verbose-toggle"> Show POS Tags
+                    </label>
                 </div>
 
                 <div id="phase4-results" style="display: none;">
@@ -724,6 +727,21 @@
             }
         };
 
+        function renderPosTokens(debug) {
+            if (!debug || !debug.tokens || !debug.tokens.length) return '';
+            let html = '<h4 style="color: #0ea5e9; margin-top: 20px;">POS Tags (Verbose Mode)</h4>';
+            html += '<div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0;">';
+            debug.tokens.forEach(function(t) {
+                const tagLabel = t.tags.join(', ');
+                html += '<div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 6px; padding: 6px 10px; text-align: center;">';
+                html += '<div style="font-weight: bold;">' + t.text + '</div>';
+                html += '<div style="font-size: 0.75em; color: #0369a1;">' + tagLabel + '</div>';
+                html += '</div>';
+            });
+            html += '</div>';
+            return html;
+        }
+
         // Phase 4: JSON-LD Graph Functions
         function buildGraph() {
             const text = document.getElementById('phase4-input').value;
@@ -748,7 +766,8 @@
                 return;
             }
 
-            const graph = TagTeam.buildGraph(text, { detectAmbiguity: true });
+            const verbose = document.getElementById('verbose-toggle').checked;
+            const graph = TagTeam.buildGraph(text, { detectAmbiguity: true, verbose: verbose });
             const jsonld = TagTeam.toJSONLD(text, { pretty: true, detectAmbiguity: true });
 
             // Two-Tier Architecture: Tier 1 (DiscourseReferent) and Tier 2 (Person/Artifact)
@@ -864,6 +883,11 @@
             } else {
                 html += '<h4 style="color: #10b981; margin-top: 20px;">✅ No Ambiguities Detected</h4>';
                 html += '<p style="color: #6b7280;">The input text has no detected linguistic ambiguities.</p>';
+            }
+
+            // Verbose mode: show POS tokens
+            if (graph._debug) {
+                html += renderPosTokens(graph._debug);
             }
 
             document.getElementById('phase4-results').style.display = 'block';

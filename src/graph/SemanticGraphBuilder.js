@@ -688,6 +688,22 @@ class SemanticGraphBuilder {
       result._interpretationLattice = interpretationLattice;
     }
 
+    // Verbose mode: attach POS token data from Compromise NLP
+    if (buildOptions.verbose && _nlp) {
+      const doc = _nlp(text);
+      const sentences = doc.json();
+      const tokens = [];
+      for (const sentence of sentences) {
+        for (const term of (sentence.terms || [])) {
+          tokens.push({
+            text: term.text,
+            tags: Array.from(term.tags || [])
+          });
+        }
+      }
+      result._debug = { tokens };
+    }
+
     return result;
   }
 

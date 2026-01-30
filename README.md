@@ -51,6 +51,28 @@ No dev dependencies are required for runtime use.
 </html>
 ```
 
+### Verbose Mode (POS Diagnostic)
+
+Pass `{ verbose: true }` to see the Part-of-Speech tags Compromise NLP assigned to each token. This is useful for understanding *why* TagTeam parsed a sentence the way it did, without polluting the semantic graph.
+
+```javascript
+const graph = TagTeam.buildGraph("The doctor obtained consent.", { verbose: true });
+
+// Semantic graph is unchanged
+console.log(graph['@graph']);
+
+// POS tokens available in _debug
+console.log(graph._debug.tokens);
+// [
+//   { text: "The",      tags: ["Determiner"] },
+//   { text: "doctor",   tags: ["Noun", "Actor", "Singular"] },
+//   { text: "obtained", tags: ["Verb", "PastTense"] },
+//   { text: "consent",  tags: ["Noun", "Singular"] }
+// ]
+```
+
+All demo pages include a "Show POS Tags" checkbox to enable this.
+
 ### Run Tests
 
 ```bash

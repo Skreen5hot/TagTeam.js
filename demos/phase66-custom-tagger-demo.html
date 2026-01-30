@@ -498,6 +498,9 @@ myns:MyClass a myns:MyType ;
       <div style="margin-top:15px;">
         <button onclick="runTagger()">Tag Text</button>
         <button class="secondary" onclick="validateMap()" style="margin-left:10px;">Validate Mapping</button>
+        <label style="display:inline-flex;align-items:center;gap:6px;margin-left:15px;font-size:0.9em;color:#888;cursor:pointer;">
+          <input type="checkbox" id="verbose-toggle"> Show POS Tags
+        </label>
       </div>
 
       <div id="validation-output"></div>
@@ -810,6 +813,22 @@ ex:Concept a ex:MyType ;
       }
     }
 
+    function renderPosTokens(debug) {
+      if (!debug || !debug.tokens || !debug.tokens.length) return '';
+      var html = '<div class="result-card"><h3 style="color:#0ea5e9;">POS Tags (Verbose Mode)</h3>';
+      html += '<div style="display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;">';
+      for (var i = 0; i < debug.tokens.length; i++) {
+        var t = debug.tokens[i];
+        var tagLabel = t.tags.join(', ');
+        html += '<div style="background:#1e1e2e;border:1px solid #333;border-radius:6px;padding:6px 10px;text-align:center;">';
+        html += '<div style="font-weight:bold;color:#cdd6f4;">' + t.text + '</div>';
+        html += '<div style="font-size:0.75em;color:#89b4fa;">' + tagLabel + '</div>';
+        html += '</div>';
+      }
+      html += '</div></div>';
+      return html;
+    }
+
     function runTagger() {
       var resultsArea = document.getElementById('results-area');
       var resultsContent = document.getElementById('results-content');
@@ -912,11 +931,17 @@ ex:Concept a ex:MyType ;
         }
 
         // Build the real Two-Tier JSON-LD graph via TagTeam.buildGraph
-        var graphResult = TagTeam.buildGraph(text, { detectAmbiguity: true });
+        var verbose = document.getElementById('verbose-toggle').checked;
+        var graphResult = TagTeam.buildGraph(text, { detectAmbiguity: true, verbose: verbose });
         var jsonld = graphResult['@graph'] ? graphResult : { '@graph': graphResult };
 
         // Enrich Tier 2 nodes with ontology class types from tags
         enrichGraphWithOntologyTypes(jsonld, tags);
+
+        // Verbose mode: show POS tokens
+        if (graphResult._debug) {
+          html += renderPosTokens(graphResult._debug);
+        }
 
         html += '<div class="result-card">';
         html += '<h3>Two-Tier JSON-LD Graph (Ontology-Enriched)</h3>';

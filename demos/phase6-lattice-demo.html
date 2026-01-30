@@ -426,6 +426,9 @@
       <button class="btn-example" onclick="loadExample('scope')">Scope Ambiguity</button>
       <button class="btn-example" onclick="loadExample('metonymy')">Metonymy</button>
       <button class="btn-example" onclick="loadExample('violation')">Selectional Violation</button>
+      <label style="display: inline-flex; align-items: center; gap: 6px; margin-left: 15px; font-size: 0.9em; color: #888; cursor: pointer;">
+        <input type="checkbox" id="verbose-toggle"> Show POS Tags
+      </label>
     </div>
 
     <div id="results" class="results"></div>
@@ -496,12 +499,32 @@
   </footer>
 </div>
 
-<script src="tagteam.js"></script>
+<script>
+    const scriptPath = window.location.hostname === 'localhost' || window.location.hostname === ''
+        ? '../dist/tagteam.js'
+        : 'tagteam.js';
+    document.write('<script src="' + scriptPath + '"><\/script>');
+</script>
 <script>
   function escapeHtml(str) {
     var div = document.createElement('div');
     div.textContent = str;
     return div.innerHTML;
+  }
+
+  function renderPosTokens(debug) {
+    if (!debug || !debug.tokens || !debug.tokens.length) return '';
+    var html = '<h4 style="color: #0ea5e9; margin-top: 20px;">POS Tags (Verbose Mode)</h4>';
+    html += '<div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0;">';
+    debug.tokens.forEach(function(t) {
+      var tagLabel = t.tags.join(', ');
+      html += '<div style="background: #0d1b2a; border: 1px solid #1b4965; border-radius: 6px; padding: 6px 10px; text-align: center;">';
+      html += '<div style="font-weight: bold; color: #e0e0e0;">' + t.text + '</div>';
+      html += '<div style="font-size: 0.75em; color: #00d9ff;">' + tagLabel + '</div>';
+      html += '</div>';
+    });
+    html += '</div>';
+    return html;
   }
 
   // Debug: Check if Phase 6 modules are available
@@ -547,9 +570,11 @@
 
     try {
       // Build graph with lattice preservation
+      const verbose = document.getElementById('verbose-toggle').checked;
       const result = TagTeam.buildGraph(input, {
         preserveAmbiguity: true,
-        detectAmbiguity: true
+        detectAmbiguity: true,
+        verbose: verbose
       });
 
       const lattice = result._interpretationLattice;
@@ -696,6 +721,11 @@
         html += JSON.stringify(report.ambiguities, null, 2).replace(/\n/g, '<br>').replace(/ /g, '&nbsp;');
         html += '</div>';
         html += '</div>';
+      }
+
+      // Verbose mode: show POS tokens
+      if (result._debug) {
+        html += renderPosTokens(result._debug);
       }
 
       resultsDiv.innerHTML = html;
