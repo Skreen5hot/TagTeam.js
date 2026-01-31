@@ -29,7 +29,7 @@
  * - options.preserveAmbiguity enables lattice generation
  *
  * @module graph/SemanticGraphBuilder
- * @version 6.0.0
+ * @version 3.0.0-alpha.1
  */
 
 const crypto = require('crypto');
@@ -147,7 +147,7 @@ class SemanticGraphBuilder {
     // Core infrastructure
     this.contextManager = new ContextManager({ graphBuilder: this });
     this.informationStaircaseBuilder = new InformationStaircaseBuilder({
-      version: '6.0.0'
+      version: '3.0.0-alpha.1'
     });
 
     // Phase 2: Domain configuration loader for type specialization
@@ -669,7 +669,7 @@ class SemanticGraphBuilder {
         buildTimestamp: this.buildTimestamp,
         inputLength: text.length,
         nodeCount: this.nodes.length,
-        version: '6.0.0',
+        version: '3.0.0-alpha.1',
         contextIRI,
         ibeIRI: ibeNode['@id'],
         parserAgentIRI: parserAgentNode['@id'],

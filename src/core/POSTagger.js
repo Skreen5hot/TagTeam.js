@@ -9,8 +9,8 @@
  */
 
 function POSTagger(){
-    this.lexicon = POSTAGGER_LEXICON;
-    this.tagsMap = LEXICON_TAG_MAP;
+    this.lexicon = (typeof POSTAGGER_LEXICON !== 'undefined') ? POSTAGGER_LEXICON : {};
+    this.tagsMap = (typeof LEXICON_TAG_MAP !== 'undefined') ? LEXICON_TAG_MAP : {};
 }
 
 /**
@@ -117,3 +117,11 @@ POSTagger.prototype.prettyPrint = function(taggedWords) {
 }
 
 //print(new POSTagger().tag(["i", "went", "to", "the", "store", "to", "buy", "5.2", "gallons", "of", "milk"]));
+
+// Export for Node.js / CommonJS environments
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = POSTagger;
+}
+if (typeof window !== 'undefined') {
+    window.POSTagger = POSTagger;
+}

@@ -3,8 +3,8 @@
 **A client-side JavaScript library for extracting semantic roles and detecting ethical values in natural language text**
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-2.0.0-success)](package.json)
-[![Status](https://img.shields.io/badge/status-Week%202b%20Complete-success)](deliverables/week2b/)
+[![Version](https://img.shields.io/badge/version-3.0.0--alpha.1-success)](package.json)
+[![Status](https://img.shields.io/badge/status-Phase%207%20Complete-success)](deliverables/)
 
 ---
 
@@ -95,44 +95,69 @@ TagTeam.js/
 │   │   ├── POSTagger.js         # Part-of-speech tagger
 │   │   ├── PatternMatcher.js    # Keyword pattern matching
 │   │   └── SemanticRoleExtractor.js  # Main semantic parser
-│   └── analyzers/               # Week 2 analyzers
-│       ├── ContextAnalyzer.js   # 12-dimension context intensity
-│       ├── ValueMatcher.js      # Ethical value detection
-│       ├── ValueScorer.js       # Value salience scoring
-│       └── EthicalProfiler.js   # Ethical profile builder
+│   ├── analyzers/               # Analysis modules
+│   │   ├── ContextAnalyzer.js   # 12-dimension context intensity
+│   │   ├── CertaintyAnalyzer.js # Epistemic certainty detection
+│   │   ├── ValueMatcher.js      # Ethical value detection
+│   │   ├── ValueScorer.js       # Value salience scoring
+│   │   └── EthicalProfiler.js   # Ethical profile builder
+│   ├── graph/                    # Phase 4-9: Semantic graph building
+│   │   ├── SemanticGraphBuilder.js  # Main graph builder
+│   │   ├── EntityExtractor.js   # Two-tier entity extraction
+│   │   ├── ActExtractor.js      # Intentional act extraction
+│   │   ├── RoleDetector.js      # BFO role detection
+│   │   ├── AmbiguityDetector.js # Phase 5: ambiguity detection
+│   │   ├── InterpretationLattice.js # Phase 6: interpretation lattice
+│   │   └── ...                  # 20+ additional modules
+│   ├── ontology/                 # Phase 6.5-6.6: Ontology support
+│   │   ├── TurtleParser.js      # Lightweight TTL parser
+│   │   ├── OntologyManager.js   # Unified ontology loading
+│   │   ├── OntologyTextTagger.js # Custom ontology tagging
+│   │   └── ...                  # Adapters and loaders
+│   ├── security/                 # Security hardening modules
+│   │   ├── input-validator.js   # Input length/null-byte validation
+│   │   ├── semantic-validators.js # Heuristic threat detection (T3-T6)
+│   │   ├── output-sanitizer.js  # Allowlist-based output filtering
+│   │   ├── ontology-integrity.js # SHA-256 manifest verification (Node)
+│   │   └── audit-logger.js      # Structured security event logging
+│   └── validation/               # SHACL validation
+│       └── shaclValidator.js    # Graph constraint validation
 │
 ├── tests/                        # Test suites
+│   ├── unit/                    # Unit tests (including security/)
 │   ├── integration/             # Node.js integration tests
-│   ├── browser/                 # HTML browser tests
 │   ├── iee/                     # IEE validation tests
-│   └── validators/              # Validation utilities
+│   └── ...                      # Browser, linguistic, robustness tests
 │
-├── dist/                         # Built bundle (4.3MB)
+├── dist/                         # Built bundle (~5.2MB)
 │   ├── tagteam.js              # UMD bundle (browser + Node.js)
-│   └── test.html               # Simple test page
+│   └── test.html               # Bundle test page
 │
-├── planning/                     # Planning documents
-│   ├── week1/                   # Week 1 planning
-│   ├── week2/                   # Week 2a planning
-│   ├── week2b/                  # Week 2b planning
-│   └── week3/                   # Week 3 roadmap
+├── demos/                        # Interactive demo pages
+│   ├── tagteam-landing.html     # Main landing page
+│   ├── stakeholder-demo.html    # Stakeholder presentation
+│   ├── phase6-lattice-demo.html # Interpretation lattice demo
+│   └── ...                      # Ontology, custom tagger demos
 │
-├── deliverables/                 # Milestone deliverables
-│   ├── week1/                   # Week 1 deliverable
-│   └── week2/                   # Week 2 deliverables
+├── security/                     # Red team test corpus
+│   └── test-corpus/             # Adversarial inputs (T3-T6)
+│
+├── docs/                         # Documentation
+│   └── architecture/            # Security plans, implementation docs
 │
 ├── scripts/                      # Build scripts
-│   ├── build.js                 # Bundle builder
-│   └── calculate-metrics.js     # Metrics calculator
+│   └── build.js                 # Bundle builder
 │
-├── ontologies/                   # Future: Custom ontologies (Week 3+)
+├── .github/                      # CI/CD configuration
+│   ├── workflows/security.yml   # Security scanning workflow
+│   └── dependabot.yml           # Automated dependency updates
+│
+├── ontology/                     # TagTeam ontology (TTL)
 ├── archive/                      # Deprecated/old files
 └── iee-collaboration/           # IEE team interface
-    ├── from-iee/                # Requirements, data
+    ├── from-iee/                # Requirements, data, validators
     └── to-iee/                  # Deliverables
 ```
-
-**→** See [README files in each directory](.) for detailed documentation
 
 ---
 
@@ -328,4 +353,4 @@ MIT License - See [LICENSE](LICENSE)
 
 ---
 
-**Version:** 2.0.0 (Week 2b Complete) | **Date:** 2026-01-18 | **Status:** ✅ Production Ready
+**Version:** 3.0.0-alpha.1 (Phase 7 Complete) | **Date:** 2026-01-31 | **Status:** ✅ Active Development

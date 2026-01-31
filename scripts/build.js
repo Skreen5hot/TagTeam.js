@@ -30,6 +30,8 @@ try {
 } catch (e) { /* not in git repo */ }
 
 const buildTimestamp = new Date().toISOString();
+const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8'));
+const pkgVersion = pkg.version;
 const buildInfo = `build ${buildNumber} | ${gitHash} | ${buildTimestamp}`;
 
 console.log('🔨 Building TagTeam.js bundle...');
@@ -116,6 +118,13 @@ const complexDesignatorDetectorPath = path.join(__dirname, '..', 'src', 'graph',
 // Phase 9.3: Combined validation report
 const combinedValidationReportPath = path.join(__dirname, '..', 'src', 'graph', 'CombinedValidationReport.js');
 
+// Security modules
+const inputValidatorPath = path.join(__dirname, '..', 'src', 'security', 'input-validator.js');
+const ontologyIntegrityPath = path.join(__dirname, '..', 'src', 'security', 'ontology-integrity.js');
+const semanticValidatorsPath = path.join(__dirname, '..', 'src', 'security', 'semantic-validators.js');
+const outputSanitizerPath = path.join(__dirname, '..', 'src', 'security', 'output-sanitizer.js');
+const auditLoggerPath = path.join(__dirname, '..', 'src', 'security', 'audit-logger.js');
+
 let lexicon = fs.readFileSync(lexiconPath, 'utf8');
 let posTagger = fs.readFileSync(posTaggerPath, 'utf8');
 let patternMatcher = fs.readFileSync(patternMatcherPath, 'utf8');
@@ -201,6 +210,13 @@ let complexDesignatorDetector = fs.readFileSync(complexDesignatorDetectorPath, '
 // Phase 9.3: Combined validation report
 let combinedValidationReport = fs.readFileSync(combinedValidationReportPath, 'utf8');
 
+// Security modules
+let inputValidator = fs.readFileSync(inputValidatorPath, 'utf8');
+let ontologyIntegrity = fs.readFileSync(ontologyIntegrityPath, 'utf8');
+let semanticValidators = fs.readFileSync(semanticValidatorsPath, 'utf8');
+let outputSanitizer = fs.readFileSync(outputSanitizerPath, 'utf8');
+let auditLogger = fs.readFileSync(auditLoggerPath, 'utf8');
+
 console.log(`  ✓ RealWorldEntityFactory.js (${(realWorldEntityFactory.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ EntityExtractor.js (${(entityExtractor.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ ActExtractor.js (${(actExtractor.length / 1024).toFixed(2)} KB)`);
@@ -233,6 +249,11 @@ console.log(`  ✓ SourceAttributionDetector.js (${(sourceAttributionDetector.le
 console.log(`  ✓ SentenceModeClassifier.js (${(sentenceModeClassifier.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ ComplexDesignatorDetector.js (${(complexDesignatorDetector.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ CombinedValidationReport.js (${(combinedValidationReport.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ input-validator.js (${(inputValidator.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ ontology-integrity.js (${(ontologyIntegrity.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ semantic-validators.js (${(semanticValidators.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ output-sanitizer.js (${(outputSanitizer.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ audit-logger.js (${(auditLogger.length / 1024).toFixed(2)} KB)`);
 
 // Read data files for Week 2b
 console.log('\n📖 Reading Week 2b data files...');
@@ -357,6 +378,17 @@ console.log('  ✓ Processed ComplexDesignatorDetector for browser');
 combinedValidationReport = combinedValidationReport.replace(/module\.exports\s*=\s*\w+;\s*\n?/g, '');
 combinedValidationReport = combinedValidationReport.replace(/'use strict';\s*\n?/g, '');
 console.log('  ✓ Processed CombinedValidationReport for browser');
+
+// Security modules: Strip CommonJS exports (ontology-integrity excluded — requires Node crypto/fs)
+inputValidator = inputValidator.replace(/module\.exports\s*=\s*\{[^}]*\};\s*\n?/g, '');
+inputValidator = inputValidator.replace(/'use strict';\s*\n?/g, '');
+semanticValidators = semanticValidators.replace(/module\.exports\s*=\s*\{[^}]*\};\s*\n?/g, '');
+semanticValidators = semanticValidators.replace(/'use strict';\s*\n?/g, '');
+outputSanitizer = outputSanitizer.replace(/module\.exports\s*=\s*\{[^}]*\};\s*\n?/g, '');
+outputSanitizer = outputSanitizer.replace(/'use strict';\s*\n?/g, '');
+auditLogger = auditLogger.replace(/module\.exports\s*=\s*\{[^}]*\};\s*\n?/g, '');
+auditLogger = auditLogger.replace(/'use strict';\s*\n?/g, '');
+console.log('  ✓ Processed security modules for browser (4 of 5; ontology-integrity is Node-only)');
 
 // Process Phase 4 graph modules - convert CommonJS to browser-compatible
 console.log('\n🔧 Processing Phase 4 graph modules (Two-Tier v2.2)...');
@@ -643,6 +675,18 @@ ${combinedValidationReport}
 
   // Make CombinedValidationReport available globally for SemanticGraphBuilder
   _global.CombinedValidationReport = CombinedValidationReport;
+
+  // ============================================================================
+  // SECURITY MODULES (~15KB)
+  // ============================================================================
+
+${inputValidator}
+
+${semanticValidators}
+
+${outputSanitizer}
+
+${auditLogger}
 
   // ============================================================================
   // WEEK 2B: ETHICAL VALUE DETECTION DATA (~70KB)
@@ -1050,7 +1094,7 @@ ${semanticGraphBuilder}
     /**
      * Version information
      */
-    version: '6.5.4',
+    version: '${pkgVersion}',
     BUILD: '${buildInfo}',
 
     // Advanced: Expose classes for power users
@@ -1116,7 +1160,15 @@ ${semanticGraphBuilder}
     ComplexDesignatorDetector: ComplexDesignatorDetector,
 
     // Phase 9.3: Combined validation report
-    CombinedValidationReport: CombinedValidationReport
+    CombinedValidationReport: CombinedValidationReport,
+
+    // Security modules
+    validateInput: validateInput,
+    INPUT_LIMITS: INPUT_LIMITS,
+    SemanticSecurityValidator: SemanticSecurityValidator,
+    sanitize: sanitize,
+    sanitizeWithProvenance: sanitizeWithProvenance,
+    SecurityAuditLogger: SecurityAuditLogger
   };
 
   // Return the unified API

@@ -247,7 +247,7 @@
 
     function SemanticRoleExtractor() {
         this.frames = SEMANTIC_FRAMES;
-        this.posTagger = new POSTagger(); // Use existing TagTeam POS tagger
+        this.posTagger = (window && window.POSTagger) ? new window.POSTagger() : null;
 
         // Week 2a: Initialize ContextAnalyzer
         // Load it dynamically if available, otherwise context analysis is skipped
