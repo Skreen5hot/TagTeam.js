@@ -1093,7 +1093,8 @@
                         html += ' <span style="background: #fbbf24; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; color: #78350f;">ellipsis_injection</span>';
                     }
 
-                    var status = a['tagteam:actualityStatus'];
+                    var rawStatus = a['tagteam:actualityStatus'];
+                    var status = typeof rawStatus === 'object' ? (rawStatus['@id'] || '') : (rawStatus || '');
                     if (status) {
                         html += ' <span style="background: #8b5cf6; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em;">' + status.replace('tagteam:', '') + '</span>';
                     }
