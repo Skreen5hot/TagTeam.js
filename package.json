@@ -18,7 +18,9 @@
     "metrics": "node scripts/calculate-metrics.js",
     "compile-ontology": "node bin/tagteam-ontology-compiler.js",
     "verify:ontology": "node -e \"const {verifyOntologyIntegrity}=require('./src/security/ontology-integrity'); const r=verifyOntologyIntegrity('ontology-manifest.json'); console.log(JSON.stringify(r,null,2)); if(!r.valid)process.exit(1)\"",
-    "security:test": "node tests/unit/security/input-validator.test.js && node tests/unit/security/ontology-integrity.test.js && node tests/unit/security/semantic-validators.test.js && node tests/unit/security/output-sanitizer.test.js && node tests/unit/security/audit-logger.test.js && node tests/unit/security/verb-taxonomy.test.js && node tests/unit/security/red-team.test.js"
+    "security:test": "node tests/unit/security/input-validator.test.js && node tests/unit/security/ontology-integrity.test.js && node tests/unit/security/semantic-validators.test.js && node tests/unit/security/output-sanitizer.test.js && node tests/unit/security/audit-logger.test.js && node tests/unit/security/verb-taxonomy.test.js && node tests/unit/security/red-team.test.js",
+    "test:v2": "node tests/unit/v2/run-all.js",
+    "test:v2:integration": "node tests/integration/v2/run-all.js"
   },
   "keywords": [
     "nlp",
