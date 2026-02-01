@@ -479,13 +479,48 @@ class SemanticGraphBuilder {
     // Phase 1.3: Extract acts as IntentionalAct nodes
     let extractedActs = [];
     if (buildOptions.extractActs !== false) {
-      extractedActs = this.actExtractor.extract(text, {
-        ...buildOptions,
-        entities: extractedEntities,
-        complexDesignatorSpans: cdSpans,
-        sentenceMode: this.sentenceMode,
-        complexDesignatorNodes: cdNodes
-      });
+      // v2 Phase 2: Per-clause act extraction to enforce entity boundaries
+      if (buildOptions._v2.enabled && buildOptions._clauses && buildOptions._clauses.length > 1) {
+        for (const clause of buildOptions._clauses) {
+          // Filter entities to this clause's boundary and adjust positions to clause-relative
+          const clauseEntities = extractedEntities
+            .filter(e => {
+              const start = e['tagteam:startPosition'];
+              return start !== undefined && start >= clause.start && start < clause.end;
+            })
+            .map(e => ({
+              ...e,
+              'tagteam:startPosition': e['tagteam:startPosition'] - clause.start,
+              'tagteam:endPosition': e['tagteam:endPosition'] - clause.start
+            }));
+          // Extract acts from clause text with clause-relative entity positions
+          const clauseActs = this.actExtractor.extract(clause.text, {
+            ...buildOptions,
+            entities: clauseEntities,
+            complexDesignatorSpans: [],
+            sentenceMode: this.sentenceMode,
+            complexDesignatorNodes: []
+          });
+          // Adjust act positions back to full-text space
+          clauseActs.forEach(act => {
+            if (act['tagteam:startPosition'] !== undefined) {
+              act['tagteam:startPosition'] += clause.start;
+            }
+            if (act['tagteam:endPosition'] !== undefined) {
+              act['tagteam:endPosition'] += clause.start;
+            }
+          });
+          extractedActs.push(...clauseActs);
+        }
+      } else {
+        extractedActs = this.actExtractor.extract(text, {
+          ...buildOptions,
+          entities: extractedEntities,
+          complexDesignatorSpans: cdSpans,
+          sentenceMode: this.sentenceMode,
+          complexDesignatorNodes: cdNodes
+        });
+      }
       this.addNodes(extractedActs);
 
       // ENH-003: Add any implicit entities (e.g., implicit "you" for imperatives)

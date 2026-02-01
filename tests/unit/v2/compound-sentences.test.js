@@ -159,4 +159,79 @@ describe('P2-FALL: Fallback Behavior', () => {
   });
 });
 
+describe('P2-BOUNDARY: Hard Entity Boundaries at Clause Edges', () => {
+
+  function getActByVerb(nodes, verbSubstring) {
+    return nodes.find(n => {
+      const types = Array.isArray(n['@type']) ? n['@type'] : [n['@type']];
+      if (!types.some(t => t.includes('IntentionalAct') || t.includes('ActOf'))) return false;
+      const verb = (n['tagteam:verb'] || n['rdfs:label'] || '').toLowerCase();
+      return verb.includes(verbSubstring.toLowerCase());
+    });
+  }
+
+  function iriContains(val, substring) {
+    if (!val) return false;
+    const id = typeof val === 'object' ? (val['@id'] || '') : val;
+    return id.toLowerCase().includes(substring.toLowerCase());
+  }
+
+  test('P2-BOUNDARY-1: "The server rebooted and the application restarted." — Act 0 must NOT link to "application"', () => {
+    const builder = createGraphBuilder();
+    const graph = builder.build('The server rebooted and the application restarted.', {
+      v2: { enabled: true }
+    });
+    const nodes = graph['@graph'] || [];
+    const rebootAct = getActByVerb(nodes, 'reboot');
+    expect(rebootAct).toBeDefined();
+
+    // "application" must NOT appear as patient/affects of reboot
+    const affects = rebootAct['cco:affects'];
+    const hasPatient = rebootAct['cco:has_patient'];
+    expect(iriContains(affects, 'application')).toBe(false);
+    expect(iriContains(hasPatient, 'application')).toBe(false);
+  });
+
+  test('P2-BOUNDARY-2: "The doctor examined the patient but the nurse disagreed." — Nurse must NOT be patient of examine', () => {
+    const builder = createGraphBuilder();
+    const graph = builder.build('The doctor examined the patient but the nurse disagreed.', {
+      v2: { enabled: true }
+    });
+    const nodes = graph['@graph'] || [];
+    const examineAct = getActByVerb(nodes, 'examine');
+    expect(examineAct).toBeDefined();
+
+    // Check all participants of examine — nurse must not be among them
+    const affects = examineAct['cco:affects'];
+    const hasPatient = examineAct['cco:has_patient'];
+    const participants = examineAct['tagteam:participants'] || [];
+    expect(iriContains(affects, 'nurse')).toBe(false);
+    expect(iriContains(hasPatient, 'nurse')).toBe(false);
+    const nurseInParticipants = participants.some(p => iriContains(p, 'nurse'));
+    expect(nurseInParticipants).toBe(false);
+  });
+
+  test('P2-BOUNDARY-3: "The system was slow so the user refreshed the page." — user/page must NOT link to slow act', () => {
+    const builder = createGraphBuilder();
+    const graph = builder.build('The system was slow so the user refreshed the page.', {
+      v2: { enabled: true }
+    });
+    const nodes = graph['@graph'] || [];
+
+    // Find the "slow" or first act (clause 0)
+    const acts = nodes.filter(n => {
+      const types = Array.isArray(n['@type']) ? n['@type'] : [n['@type']];
+      return types.some(t => t.includes('IntentionalAct'));
+    });
+    // Clause 0 act should not link to user or page
+    const clause0Act = acts.find(a => (a['tagteam:clauseIndex'] === 0));
+    if (clause0Act) {
+      expect(iriContains(clause0Act['cco:affects'], 'user')).toBe(false);
+      expect(iriContains(clause0Act['cco:affects'], 'page')).toBe(false);
+      expect(iriContains(clause0Act['cco:has_patient'], 'user')).toBe(false);
+      expect(iriContains(clause0Act['cco:has_patient'], 'page')).toBe(false);
+    }
+  });
+});
+
 printSummary();
