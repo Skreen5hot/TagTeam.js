@@ -49,7 +49,7 @@ const PASSIVE_AUX = new Set(['was', 'were', 'been', 'being', 'is', 'are']);
 /**
  * Common determiners that signal a noun phrase (subject) follows.
  */
-const DETERMINERS = new Set(['the', 'a', 'an', 'this', 'that', 'these', 'those',
+const CS_DETERMINERS = new Set(['the', 'a', 'an', 'this', 'that', 'these', 'those',
   'his', 'her', 'its', 'their', 'my', 'our', 'your', 'some', 'any', 'each', 'every']);
 
 class ClauseSegmenter {
@@ -175,7 +175,7 @@ class ClauseSegmenter {
     // Heuristic: if the word after conjunction is a determiner, check whether
     // the right side has its own INDEPENDENT clause (subject + different verb)
     // vs. just being a second NP before a shared verb.
-    if (DETERMINERS.has(wordAfter)) {
+    if (CS_DETERMINERS.has(wordAfter)) {
       // Count words after conjunction until we hit a verb
       const rightWords = rightText.trim().split(/\s+/);
       let verbIdx = -1;
@@ -254,7 +254,7 @@ class ClauseSegmenter {
     if (pronouns.has(first)) return true;
 
     // Determiner + noun + verb pattern
-    if (DETERMINERS.has(first)) {
+    if (CS_DETERMINERS.has(first)) {
       // Check that a verb follows somewhere after the noun
       return this._hasVerb(words.slice(1).join(' '));
     }
@@ -332,7 +332,7 @@ class ClauseSegmenter {
     if (pronouns[first]) return pronouns[first];
 
     // Determiner + noun(s) subject
-    if (DETERMINERS.has(first)) {
+    if (CS_DETERMINERS.has(first)) {
       // Take determiner + following nouns until we hit a verb
       const subject = [words[0]];
       for (let i = 1; i < words.length; i++) {
@@ -344,7 +344,7 @@ class ClauseSegmenter {
         }
         subject.push(words[i]);
         // Stop after first non-determiner word (the noun) unless next is also a noun
-        if (!DETERMINERS.has(w) && i > 0) {
+        if (!CS_DETERMINERS.has(w) && i > 0) {
           break;
         }
       }
