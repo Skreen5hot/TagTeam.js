@@ -1100,8 +1100,10 @@
 
                     var agent = a['cco:has_agent'];
                     var patient = a['cco:has_patient'];
-                    if (agent) html += '<br><span style="color: #059669; font-size: 0.9em;">Agent: ' + agent.split('_').slice(0, 2).join(' ') + '</span>';
-                    if (patient) html += '<br><span style="color: #b45309; font-size: 0.9em;">Patient: ' + patient.split('_').slice(0, 2).join(' ') + '</span>';
+                    var agentId = typeof agent === 'object' ? (agent['@id'] || '') : (agent || '');
+                    var patientId = typeof patient === 'object' ? (patient['@id'] || '') : (patient || '');
+                    if (agentId) html += '<br><span style="color: #059669; font-size: 0.9em;">Agent: ' + agentId.split('_').slice(0, 2).join(' ') + '</span>';
+                    if (patientId) html += '<br><span style="color: #b45309; font-size: 0.9em;">Patient: ' + patientId.split('_').slice(0, 2).join(' ') + '</span>';
 
                     html += '</div>';
                 });
