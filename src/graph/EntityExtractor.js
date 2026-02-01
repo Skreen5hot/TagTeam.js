@@ -80,6 +80,20 @@ const RELATIVE_TEMPORAL_TERMS = [
 const RELATIVE_TEMPORAL_PREFIXES = ['last', 'next', 'past', 'previous', 'this', 'coming'];
 
 /**
+ * v2 Phase 0: Wh-word pseudo-entities
+ * Maps Wh-words to BFO/CCO types for interrogative entity recognition.
+ * These are recognized as entities when v2 normalizes Wh-questions into SVO order.
+ */
+const WH_PSEUDO_ENTITIES = {
+  'who':   { type: 'cco:Person', definiteness: 'interrogative' },
+  'whom':  { type: 'cco:Person', definiteness: 'interrogative' },
+  'what':  { type: 'bfo:Entity', definiteness: 'interrogative' },
+  'which': { type: 'bfo:Entity', definiteness: 'interrogative_selective' },
+  'where': { type: 'bfo:Site', definiteness: 'interrogative' },
+  'when':  { type: 'bfo:TemporalRegion', definiteness: 'interrogative' }
+};
+
+/**
  * Symptom and physiological quality terms.
  * These are BFO Qualities (bfo:BFO_0000019) that inhere in material entities,
  * NOT artifacts. Extensible — add domain terms as needed.
@@ -716,6 +730,53 @@ class EntityExtractor {
 
       tier1Entities.push(referent);
     });
+
+    // v2 Phase 0: Wh-word pseudo-entity extraction
+    // Scans for Wh-words that Compromise NLP does not recognize as nouns.
+    // Handles both standalone Wh-words ("who", "what") and Wh + noun phrases ("which report").
+    if (options.v2WhEntities !== false) {
+      const words = text.toLowerCase().split(/\s+/);
+      for (let i = 0; i < words.length; i++) {
+        const cleanWord = words[i].replace(/[^a-z]/g, '');
+        const whEntry = WH_PSEUDO_ENTITIES[cleanWord];
+        if (!whEntry) continue;
+
+        // Build the full Wh-phrase: for "which", include the following noun
+        let whPhraseText = words[i];
+        let whPhraseType = whEntry.type;
+        const rawOffset = text.toLowerCase().indexOf(words[i], i > 0 ? text.toLowerCase().indexOf(words[i - 1]) + words[i - 1].length : 0);
+
+        if (cleanWord === 'which' && i + 1 < words.length) {
+          // "which report" — include the head noun
+          whPhraseText = words[i] + ' ' + words[i + 1];
+        }
+
+        // Check if this Wh-word is already captured by an existing entity
+        const alreadyCaptured = tier1Entities.some(e => {
+          const eText = (e['rdfs:label'] || '').toLowerCase();
+          return eText.includes(cleanWord);
+        });
+        if (alreadyCaptured) continue;
+
+        // Create DiscourseReferent for Wh-pseudo-entity
+        const offset = rawOffset >= 0 ? rawOffset : 0;
+        const referent = this._createDiscourseReferent({
+          text: whPhraseText,
+          rootNoun: cleanWord,
+          offset,
+          entityType: whPhraseType,
+          definiteness: whEntry.definiteness,
+          referentialStatus: 'interrogative',
+          scarcity: { isScarce: false },
+          quantity: { quantity: null },
+          temporalUnit: null,
+          typeRefinedBy: null,
+          introducingPreposition: null
+        });
+
+        tier1Entities.push(referent);
+      }
+    }
 
     // Create Tier 2 entities and link via is_about (Two-Tier Architecture)
     const shouldCreateTier2 = options.createTier2 !== undefined

@@ -118,6 +118,9 @@ const complexDesignatorDetectorPath = path.join(__dirname, '..', 'src', 'graph',
 // Phase 9.3: Combined validation report
 const combinedValidationReportPath = path.join(__dirname, '..', 'src', 'graph', 'CombinedValidationReport.js');
 
+// v2 Phase 1: Clause segmenter
+const clauseSegmenterPath = path.join(__dirname, '..', 'src', 'graph', 'ClauseSegmenter.js');
+
 // Security modules
 const inputValidatorPath = path.join(__dirname, '..', 'src', 'security', 'input-validator.js');
 const ontologyIntegrityPath = path.join(__dirname, '..', 'src', 'security', 'ontology-integrity.js');
@@ -209,6 +212,9 @@ let complexDesignatorDetector = fs.readFileSync(complexDesignatorDetectorPath, '
 
 // Phase 9.3: Combined validation report
 let combinedValidationReport = fs.readFileSync(combinedValidationReportPath, 'utf8');
+
+// v2 Phase 1: Clause segmenter
+let clauseSegmenter = fs.readFileSync(clauseSegmenterPath, 'utf8');
 
 // Security modules
 let inputValidator = fs.readFileSync(inputValidatorPath, 'utf8');
@@ -500,6 +506,9 @@ console.log('  ✓ Converted PropertyMapper to browser format');
 
 ontologyTextTagger = stripCommonJS(ontologyTextTagger, 'OntologyTextTagger');
 console.log('  ✓ Converted OntologyTextTagger to browser format');
+
+clauseSegmenter = stripCommonJS(clauseSegmenter, 'ClauseSegmenter');
+console.log('  ✓ Converted ClauseSegmenter to browser format');
 
 // Build the bundle
 console.log('\n🔧 Building bundle...');
@@ -949,6 +958,12 @@ ${propertyMapper}
 ${ontologyTextTagger}
 
   // ============================================================================
+  // v2 CLAUSE SEGMENTER (Phase 1)
+  // ============================================================================
+
+${clauseSegmenter}
+
+  // ============================================================================
   // SEMANTIC GRAPH BUILDER (Phase 4 - Week 1 + Week 2 + Phase 6)
   // ============================================================================
 
@@ -1161,6 +1176,9 @@ ${semanticGraphBuilder}
 
     // Phase 9.3: Combined validation report
     CombinedValidationReport: CombinedValidationReport,
+
+    // v2 Phase 1: Clause segmenter
+    ClauseSegmenter: ClauseSegmenter,
 
     // Security modules
     validateInput: validateInput,

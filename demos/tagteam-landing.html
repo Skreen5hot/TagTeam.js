@@ -376,6 +376,97 @@
         .badge-phase4 {
             background: #8b5cf6;
         }
+
+        /* M-1 Clause Segmentation Styles */
+        .badge-m1 {
+            background: #0891b2;
+        }
+
+        .m1-section {
+            background: linear-gradient(135deg, #0891b2 0%, #155e75 100%);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 20px 0;
+        }
+
+        .m1-section h3 {
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .m1-section p {
+            color: rgba(255,255,255,0.9);
+        }
+
+        .m1-btn {
+            background: white;
+            color: #0891b2;
+            border: none;
+            padding: 12px 24px;
+            font-size: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px 5px 10px 0;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .m1-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(8, 145, 178, 0.4);
+        }
+
+        .m1-results {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 5px solid #0891b2;
+        }
+
+        .m1-results h3 {
+            color: #0891b2;
+            margin-bottom: 15px;
+        }
+
+        .m1-example-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 8px 14px;
+            font-size: 13px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 4px;
+            transition: background 0.2s;
+        }
+
+        .m1-example-btn:hover {
+            background: rgba(255,255,255,0.35);
+        }
+
+        .clause-card {
+            background: #f0fdfa;
+            border: 1px solid #99f6e4;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .clause-card.elliptical {
+            background: #fef3c7;
+            border-color: #fcd34d;
+        }
+
+        .relation-badge {
+            display: inline-block;
+            background: #0891b2;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -464,6 +555,49 @@
                         <details style="margin-top: 20px;">
                             <summary style="cursor: pointer; font-weight: 600; color: #7c3aed;">View Full JSON-LD Output</summary>
                             <pre id="jsonld-output"></pre>
+                        </details>
+                    </div>
+                </div>
+            </section>
+
+            <section class="demo-section">
+                <h2>🔗 M-1: Clause Segmentation &amp; Compound Sentences <span class="badge badge-m1">v2.0</span></h2>
+                <p>Compound and coordinated sentences produce one correctly-scoped act per clause with inter-clause relationship links:</p>
+                <ul style="margin: 15px 0 20px 25px; line-height: 1.8;">
+                    <li><strong>Case A:</strong> Full clause coordination — explicit subject + verb on both sides</li>
+                    <li><strong>Case B:</strong> Elliptical coordination — voice/auxiliary change, subject injected from left clause</li>
+                    <li><strong>Case C:</strong> VP coordination — shared subject, same verb form, no segmentation</li>
+                    <li><strong>"So" disambiguation:</strong> Result (<code>therefore</code>) vs Purpose (<code>in_order_that</code>)</li>
+                </ul>
+
+                <div class="m1-section">
+                    <h3>Try the Clause Segmentation Demo</h3>
+                    <p>Enter a compound sentence to see clause boundaries, relation types, and elliptical subject injection:</p>
+                    <br>
+                    <textarea id="m1-input" placeholder="Enter a compound sentence..." style="min-height: 80px;">The server rebooted and the application restarted.</textarea>
+                    <br>
+                    <button class="m1-btn" onclick="runM1Demo()">Segment Clauses</button>
+                    <button class="m1-btn" onclick="runM1Graph()">Build Full Graph</button>
+                    <br>
+                    <div style="margin-top: 10px;">
+                        <span style="color: rgba(255,255,255,0.7); font-size: 0.85em;">Try:</span>
+                        <button class="m1-example-btn" onclick="setM1Example('The server rebooted and the application restarted.')">Case A (and)</button>
+                        <button class="m1-example-btn" onclick="setM1Example('The doctor examined the patient but the nurse disagreed.')">Case A (but)</button>
+                        <button class="m1-example-btn" onclick="setM1Example('The server rebooted and was verified by the admin.')">Case B (elliptical)</button>
+                        <button class="m1-example-btn" onclick="setM1Example('The server rebooted and restarted.')">Case C (VP coord)</button>
+                        <button class="m1-example-btn" onclick="setM1Example('The system was slow so the user refreshed the page.')">So (Result)</button>
+                        <button class="m1-example-btn" onclick="setM1Example('He worked late so he could finish the report.')">So (Purpose)</button>
+                        <button class="m1-example-btn" onclick="setM1Example('The doctor and the nurse treated the patient.')">NP coordination</button>
+                    </div>
+                </div>
+
+                <div id="m1-results" style="display: none;">
+                    <div class="m1-results">
+                        <h3>Clause Segmentation Results</h3>
+                        <div id="m1-summary"></div>
+                        <details style="margin-top: 20px;">
+                            <summary style="cursor: pointer; font-weight: 600; color: #0891b2;">View Full JSON-LD Output</summary>
+                            <pre id="m1-jsonld-output"></pre>
                         </details>
                     </div>
                 </div>
@@ -895,6 +1029,109 @@
             document.getElementById('jsonld-output').textContent = jsonld;
 
             document.getElementById('phase4-results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // M-1: Clause Segmentation Functions
+        function setM1Example(text) {
+            document.getElementById('m1-input').value = text;
+            runM1Demo();
+        }
+
+        function runM1Demo() {
+            var text = document.getElementById('m1-input').value;
+            if (!text.trim()) { alert('Please enter a sentence'); return; }
+
+            var graph = TagTeam.buildGraph(text, { v2: { enabled: true } });
+            var nodes = graph['@graph'] || [];
+
+            var acts = nodes.filter(function(n) {
+                return n['@type'] && n['@type'].some(function(t) { return t.includes('IntentionalAct') || t.includes('ActOf'); });
+            });
+            var relations = nodes.filter(function(n) {
+                return n['@type'] && n['@type'].some(function(t) { return t.includes('ClauseRelation'); });
+            });
+
+            var html = '';
+
+            // Summary stats
+            var clauseCount = relations.length > 0 ? 2 : 1;
+            html += '<div class="graph-summary">';
+            html += '<div class="summary-stat"><div class="number">' + clauseCount + '</div><div class="label">Clauses</div></div>';
+            html += '<div class="summary-stat"><div class="number">' + acts.length + '</div><div class="label">Acts</div></div>';
+            html += '<div class="summary-stat"><div class="number">' + relations.length + '</div><div class="label">Clause Relations</div></div>';
+            html += '</div>';
+
+            // Show clause relation
+            if (relations.length > 0) {
+                var rel = relations[0];
+                var relType = (rel['tagteam:relationType'] || '').replace('tagteam:', '');
+                html += '<div style="text-align: center; margin: 15px 0;">';
+                html += '<span class="relation-badge">' + relType + '</span>';
+                html += '</div>';
+            } else {
+                html += '<div style="text-align: center; margin: 15px 0; color: #6b7280;">';
+                html += '<em>No clause segmentation — single clause or VP coordination (Case C)</em>';
+                html += '</div>';
+            }
+
+            // Show acts with clause index and subject source
+            if (acts.length > 0) {
+                html += '<h4 style="color: #0891b2; margin-top: 20px;">Acts by Clause</h4>';
+                acts.forEach(function(a) {
+                    var clauseIdx = a['tagteam:clauseIndex'];
+                    var isElliptical = a['tagteam:subjectSource'] === 'ellipsis_injection';
+                    var cardClass = isElliptical ? 'clause-card elliptical' : 'clause-card';
+
+                    html += '<div class="' + cardClass + '">';
+                    html += '<strong>' + (a['tagteam:verb'] || a['rdfs:label'] || 'Act') + '</strong>';
+
+                    if (clauseIdx !== undefined) {
+                        html += ' <span style="background: #e0f2fe; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; color: #0369a1;">Clause ' + clauseIdx + '</span>';
+                    }
+
+                    if (isElliptical) {
+                        html += ' <span style="background: #fbbf24; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; color: #78350f;">ellipsis_injection</span>';
+                    }
+
+                    var status = a['tagteam:actualityStatus'];
+                    if (status) {
+                        html += ' <span style="background: #8b5cf6; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em;">' + status.replace('tagteam:', '') + '</span>';
+                    }
+
+                    var agent = a['cco:has_agent'];
+                    var patient = a['cco:has_patient'];
+                    if (agent) html += '<br><span style="color: #059669; font-size: 0.9em;">Agent: ' + agent.split('_').slice(0, 2).join(' ') + '</span>';
+                    if (patient) html += '<br><span style="color: #b45309; font-size: 0.9em;">Patient: ' + patient.split('_').slice(0, 2).join(' ') + '</span>';
+
+                    html += '</div>';
+                });
+            }
+
+            // Show relation details
+            if (relations.length > 0) {
+                html += '<h4 style="color: #0891b2; margin-top: 20px;">Clause Relation</h4>';
+                relations.forEach(function(r) {
+                    html += '<div class="clause-card">';
+                    html += '<strong>Type:</strong> ' + (r['tagteam:relationType'] || '').replace('tagteam:', '') + '<br>';
+                    html += '<strong>From:</strong> ' + (r['tagteam:fromClause'] ? r['tagteam:fromClause']['@id'].split('_').slice(0, 3).join('_') : '—') + '<br>';
+                    html += '<strong>To:</strong> ' + (r['tagteam:toClause'] ? r['tagteam:toClause']['@id'].split('_').slice(0, 3).join('_') : '—');
+                    html += '</div>';
+                });
+            }
+
+            document.getElementById('m1-results').style.display = 'block';
+            document.getElementById('m1-summary').innerHTML = html;
+            document.getElementById('m1-jsonld-output').textContent = '';
+            document.getElementById('m1-results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function runM1Graph() {
+            var text = document.getElementById('m1-input').value;
+            if (!text.trim()) { alert('Please enter a sentence'); return; }
+
+            runM1Demo();
+            var jsonld = TagTeam.toJSONLD(text, { pretty: true, v2: { enabled: true } });
+            document.getElementById('m1-jsonld-output').textContent = jsonld;
         }
     </script>
 </body>

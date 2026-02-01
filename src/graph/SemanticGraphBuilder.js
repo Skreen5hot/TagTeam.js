@@ -42,6 +42,7 @@ const DirectiveExtractor = require('./DirectiveExtractor');
 const ObjectAggregateFactory = require('./ObjectAggregateFactory');
 const QualityFactory = require('./QualityFactory');
 const DomainConfigLoader = require('./DomainConfigLoader');
+const ClauseSegmenter = require('./ClauseSegmenter');
 
 // Core infrastructure modules
 const ContextManager = require('./ContextManager');
@@ -129,6 +130,9 @@ class SemanticGraphBuilder {
 
     // v2.4: Quality factory for entity qualifiers
     this.qualityFactory = new QualityFactory({ graphBuilder: this });
+
+    // v2 Phase 1: Clause segmenter
+    this.clauseSegmenter = new ClauseSegmenter();
 
     // v5.0.0: AssertionEventBuilder is OPTIONAL
     // Can be injected via options.assertionBuilder (for tagteam-iee-values)
@@ -296,6 +300,22 @@ class SemanticGraphBuilder {
       }
     } else {
       this.sentenceMode = undefined;
+    }
+
+    // v2 Phase 0: Normalize v2 config with defaults
+    const v2Config = buildOptions.v2 || {};
+    buildOptions._v2 = {
+      enabled: v2Config.enabled || false,
+      clauseSegmentation: { enabled: false, ellipsisInjection: true, ...v2Config.clauseSegmentation },
+      speechActNodes: { questions: true, directives: true, conditionals: true, ...v2Config.speechActNodes },
+      discourse: { enabled: false, ...v2Config.discourse }
+    };
+
+    // v2 Phase 1: Clause segmentation (pass boundaries to extractors)
+    if (buildOptions._v2.enabled) {
+      const segResult = this.clauseSegmenter.segment(text, buildOptions);
+      buildOptions._clauses = segResult.clauses;
+      buildOptions._clauseRelation = segResult.relation;
     }
 
     // Phase 1.2: Extract entities as DiscourseReferent + Tier 2 nodes
@@ -487,6 +507,38 @@ class SemanticGraphBuilder {
     if (buildOptions.detectRoles !== false && extractedActs.length > 0) {
       const roles = this.roleDetector.detect(extractedActs, extractedEntities, buildOptions);
       this.addNodes(roles);
+    }
+
+    // v2 Phase 2: Create ClauseRelation nodes for compound sentences
+    if (buildOptions._v2.enabled && buildOptions._clauses && buildOptions._clauses.length > 1 && extractedActs.length >= 2 && buildOptions._clauseRelation) {
+      // Match acts to clauses by verb offset proximity
+      const clauseActs = this._matchActsToClauses(extractedActs, buildOptions._clauses);
+
+      // Annotate acts with clauseIndex and elliptical subjectSource
+      for (const clause of buildOptions._clauses) {
+        if (!clauseActs.has(clause.index)) continue;
+        for (const act of clauseActs.get(clause.index)) {
+          act['tagteam:clauseIndex'] = clause.index;
+          if (clause.clauseType === 'elliptical' && clause.injectedSubject) {
+            act['tagteam:subjectSource'] = 'ellipsis_injection';
+          }
+        }
+      }
+
+      // Create ClauseRelation node linking acts from clause 0 to clause 1
+      const clause0Acts = clauseActs.get(0) || [];
+      const clause1Acts = clauseActs.get(1) || [];
+      if (clause0Acts.length > 0 && clause1Acts.length > 0) {
+        const relationIRI = this.generateIRI(buildOptions._clauseRelation, 'ClauseRelation', 0);
+        const clauseRelationNode = {
+          '@id': relationIRI,
+          '@type': ['tagteam:ClauseRelation'],
+          'tagteam:relationType': buildOptions._clauseRelation,
+          'tagteam:fromClause': { '@id': clause0Acts[0]['@id'] },
+          'tagteam:toClause': { '@id': clause1Acts[0]['@id'] }
+        };
+        this.addNode(clauseRelationNode);
+      }
     }
 
     // ================================================================
@@ -702,6 +754,11 @@ class SemanticGraphBuilder {
         }
       }
       result._debug = { tokens };
+
+      // v2 Phase 1: Include clause boundaries in debug output
+      if (buildOptions._clauses) {
+        result._debug.clauses = buildOptions._clauses;
+      }
     }
 
     return result;
@@ -1274,6 +1331,25 @@ class SemanticGraphBuilder {
    * @param {string} text - Input text
    * @returns {{ mode: string, confidence: number }}
    */
+  _matchActsToClauses(acts, clauses) {
+    const clauseActs = new Map();
+    for (const clause of clauses) {
+      clauseActs.set(clause.index, []);
+    }
+    for (const act of acts) {
+      const verbStart = act['tagteam:startPosition'] || 0;
+      let bestClause = 0;
+      for (const clause of clauses) {
+        if (verbStart >= clause.start && verbStart < clause.end) {
+          bestClause = clause.index;
+          break;
+        }
+      }
+      clauseActs.get(bestClause)?.push(act);
+    }
+    return clauseActs;
+  }
+
   _classifySentenceMode(text) {
     const classifier = new _SentenceModeClassifier();
 
