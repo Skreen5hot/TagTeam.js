@@ -493,6 +493,26 @@ class SemanticGraphBuilder {
               'tagteam:startPosition': e['tagteam:startPosition'] - clause.start,
               'tagteam:endPosition': e['tagteam:endPosition'] - clause.start
             }));
+
+          // V7-002: For elliptical clauses, inject subject entity from previous clause
+          if (clause.injectedSubject && clause.index > 0) {
+            const prevClause = buildOptions._clauses[clause.index - 1];
+            const injectedLabel = clause.injectedSubject.toLowerCase();
+            const subjectEntity = extractedEntities.find(e => {
+              const start = e['tagteam:startPosition'];
+              if (start === undefined || start < prevClause.start || start >= prevClause.end) return false;
+              const label = (e['rdfs:label'] || '').toLowerCase();
+              return label === injectedLabel || label === injectedLabel.replace(/^the\s+/, '');
+            });
+            if (subjectEntity) {
+              clauseEntities.unshift({
+                ...subjectEntity,
+                'tagteam:startPosition': 0,
+                'tagteam:endPosition': clause.injectedSubject.length
+              });
+            }
+          }
+
           // Extract acts from clause text with clause-relative entity positions
           const clauseActs = this.actExtractor.extract(clause.text, {
             ...buildOptions,
