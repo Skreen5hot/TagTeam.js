@@ -52,7 +52,7 @@
     rdfs:subClassOf cco:InformationContentEntity ;
     rdfs:label "Discourse Referent"@en ;
     skos:prefLabel "Discourse Referent"@en ;
-    skos:definition "An information content entity that represents a linguistic reference to an entity mentioned in text. Discourse referents are parsing-layer artifacts that denote real-world entities."@en ;
+    skos:definition "An information content entity that denotes a linguistic reference to an entity mentioned in text."@en ;
     rdfs:comment "In the two-tier architecture, DiscourseReferents (Tier 1) are linked to real-world entities like cco:Person (Tier 2) via the denotesType property."@en ;
     skos:example "The text 'the doctor' creates a DiscourseReferent that denotesType cco:Person."@en .
 
@@ -61,14 +61,14 @@
     rdfs:subClassOf cco:InformationContentEntity ;
     rdfs:label "Verb Phrase"@en ;
     skos:prefLabel "Verb Phrase"@en ;
-    skos:definition "An information content entity representing a verb phrase extracted from text, including its lemma, tense, aspect, and modality markers."@en .
+    skos:definition "An information content entity that denotes a linguistic unit expressing an action, state, or occurrence along with its associated temporal, aspectual, and modal properties."@en .
 
 :DeonticContent
     a owl:Class ;
     rdfs:subClassOf cco:InformationContentEntity ;
     rdfs:label "Deontic Content"@en ;
     skos:prefLabel "Deontic Content"@en ;
-    skos:definition "An information content entity representing deontic (normative) content extracted from text. Deontic content expresses obligations, permissions, prohibitions, or recommendations - the 'ought' rather than the 'is'."@en ;
+    skos:definition "An information content entity that denotes normative propositions expressing obligations, permissions, prohibitions, or recommendations."@en ;
     rdfs:comment "Parent class for all normative/prescriptive content. Per CCO Expert Review: DeonticContent is the broader category; DirectiveContent is a specific subclass for imperatives."@en .
 
 :DirectiveContent
@@ -76,7 +76,7 @@
     rdfs:subClassOf :DeonticContent, cco:DirectiveInformationContentEntity ;
     rdfs:label "Directive Content"@en ;
     skos:prefLabel "Directive Content"@en ;
-    skos:definition "A specific type of deontic content that directly prescribes, permits, or prohibits an action. Extracted from imperative modal expressions like 'must', 'shall', 'may not'."@en ;
+    skos:definition "A deontic information content entity that denotes a mandate, instruction, or prohibition requiring specific actions."@en ;
     rdfs:comment "Subclass of DeonticContent for explicit directives. Also aligned with cco:DirectiveInformationContentEntity for CCO compatibility."@en .
 
 :ScarcityAssertion
@@ -84,7 +84,7 @@
     rdfs:subClassOf cco:InformationContentEntity ;
     rdfs:label "Scarcity Assertion"@en ;
     skos:prefLabel "Scarcity Assertion"@en ;
-    skos:definition "An information content entity asserting that a resource is scarce relative to demand, based on linguistic markers like 'the last', 'only one', etc."@en ;
+    skos:definition "An information content entity that denotes the insufficient availability of a resource relative to demand for that resource."@en ;
     skos:example "The phrase 'the last ventilator' triggers creation of a ScarcityAssertion."@en .
 
 :InterpretationContext
@@ -92,7 +92,7 @@
     rdfs:subClassOf cco:InformationContentEntity ;
     rdfs:label "Interpretation Context"@en ;
     skos:prefLabel "Interpretation Context"@en ;
-    skos:definition "An information content entity representing the interpretive framework under which assertions are made, such as medical ethics (Principlism) or legal contexts."@en ;
+    skos:definition "An information content entity that denotes a framework of principles, standards, or perspectives that guides the understanding and evaluation of assertions, such as medical ethics or legal doctrine."@en ;
     skos:example "MedicalEthics context uses Beauchamp & Childress Principlism framework."@en .
 
 
@@ -105,54 +105,54 @@
     rdfs:subClassOf cco:InformationContentEntity ;
     rdfs:label "Actuality Status"@en ;
     skos:prefLabel "Actuality Status"@en ;
-    skos:definition "A class whose instances represent the actuality or modality status of an act: whether it is actual, prescribed, permitted, prohibited, hypothetical, planned, or negated."@en .
+    skos:definition "An Information Content Entity that denotes the modal condition of an act with respect to its realization in reality."@en .
 
 :Actual
     a owl:NamedIndividual, :ActualityStatus ;
     rdfs:label "Actual"@en ;
     skos:prefLabel "Actual"@en ;
-    skos:definition "An actuality status indicating the act has occurred or is occurring in reality."@en .
+    skos:definition "An actuality status that denotes the occurrence or current occurrence of an act in reality."@en .
 
 :Prescribed
     a owl:NamedIndividual, :ActualityStatus ;
     rdfs:label "Prescribed"@en ;
     skos:prefLabel "Prescribed"@en ;
-    skos:definition "An actuality status indicating the act is obligated or required (deontic necessity)."@en ;
+    skos:definition "An actuality status that denotes the deontic necessity of some act or state of affairs."@en ;
     rdfs:comment "Corresponds to modal markers like 'must', 'should', 'ought to'."@en .
 
 :Permitted
     a owl:NamedIndividual, :ActualityStatus ;
     rdfs:label "Permitted"@en ;
     skos:prefLabel "Permitted"@en ;
-    skos:definition "An actuality status indicating the act is allowed but not required (deontic possibility)."@en ;
+    skos:definition "An actuality status that denotes a deontic modality wherein an act is allowed but not required."@en ;
     rdfs:comment "Corresponds to modal markers like 'may', 'can', 'is allowed to'."@en .
 
 :Prohibited
     a owl:NamedIndividual, :ActualityStatus ;
     rdfs:label "Prohibited"@en ;
     skos:prefLabel "Prohibited"@en ;
-    skos:definition "An actuality status indicating the act is forbidden (deontic impossibility)."@en ;
+    skos:definition "An actuality status that denotes the deontic impossibility of some act or state of affairs."@en ;
     rdfs:comment "Corresponds to modal markers like 'must not', 'shall not', 'is forbidden to'."@en .
 
 :Hypothetical
     a owl:NamedIndividual, :ActualityStatus ;
     rdfs:label "Hypothetical"@en ;
     skos:prefLabel "Hypothetical"@en ;
-    skos:definition "An actuality status indicating the act is being considered or discussed as a possibility, not asserted as actual."@en ;
+    skos:definition "An actuality status that denotes a state of affairs as being considered or discussed as a possibility rather than being asserted as actual."@en ;
     rdfs:comment "Corresponds to conditional constructions like 'if...then', 'would'."@en .
 
 :Planned
     a owl:NamedIndividual, :ActualityStatus ;
     rdfs:label "Planned"@en ;
     skos:prefLabel "Planned"@en ;
-    skos:definition "An actuality status indicating the act is intended for future execution."@en ;
+    skos:definition "An actuality status that denotes an act is intended for future execution but has not yet been initiated."@en ;
     rdfs:comment "Corresponds to intention markers like 'will', 'intend to', 'plan to'."@en .
 
 :Negated
     a owl:NamedIndividual, :ActualityStatus ;
     rdfs:label "Negated"@en ;
     skos:prefLabel "Negated"@en ;
-    skos:definition "An actuality status indicating the act is explicitly negated in the text."@en ;
+    skos:definition "An actuality status that denotes the explicit denial or contradiction of an act's occurrence in the text."@en ;
     rdfs:comment "Corresponds to negation markers like 'not', 'never', 'won't'."@en .
 
 
@@ -164,7 +164,7 @@
     a owl:NamedIndividual, :InterpretationContext ;
     rdfs:label "Default Context"@en ;
     skos:prefLabel "Default Context"@en ;
-    skos:definition "The default interpretation context used when no specific context is specified."@en .
+    skos:definition "An interpretive framework automatically applied to assertions when no specific alternative framework is designated."@en .
 
 
 # =============================================================================
@@ -175,7 +175,7 @@
     a owl:ObjectProperty ;
     rdfs:label "has component"@en ;
     skos:prefLabel "has component"@en ;
-    skos:definition "Relates a complex linguistic structure to its component parts."@en ;
+    skos:definition "A relation that holds between a complex linguistic structure and a constituent part of that structure."@en ;
     rdfs:domain cco:InformationContentEntity ;
     rdfs:range cco:InformationContentEntity .
 
@@ -183,7 +183,7 @@
     a owl:ObjectProperty ;
     rdfs:label "extracted from"@en ;
     skos:prefLabel "extracted from"@en ;
-    skos:definition "Relates a parsed entity or assertion to the discourse referent from which it was extracted."@en ;
+    skos:definition "An object property that relates an information content entity to the discourse referent that bears the information content denoted by that entity."@en ;
     rdfs:domain cco:InformationContentEntity ;
     rdfs:range :DiscourseReferent .
 
@@ -191,7 +191,7 @@
     a owl:ObjectProperty ;
     rdfs:label "corefers with"@en ;
     skos:prefLabel "corefers with"@en ;
-    skos:definition "Relates two discourse referents that refer to the same real-world entity."@en ;
+    skos:definition "An object property that relates two discourse referents that denote the same entity."@en ;
     rdfs:domain :DiscourseReferent ;
     rdfs:range :DiscourseReferent ;
     rdf:type owl:SymmetricProperty .
@@ -200,7 +200,7 @@
     a owl:ObjectProperty ;
     rdfs:label "describes quality"@en ;
     skos:prefLabel "describes quality"@en ;
-    skos:definition "Relates a discourse referent to a BFO quality that it linguistically describes. This grounds linguistic adjectives (like 'critically ill') in physical states modeled as bfo:Quality."@en ;
+    skos:definition "An object property that relates a discourse referent to a BFO qualitative characteristic that the discourse referent linguistically denotes."@en ;
     rdfs:comment """Phase 5 Addition (per CCO Expert Review):
 This property enables mapping from linguistic qualifiers to formal BFO qualities.
 For example, 'critically ill patient' would have:
@@ -221,7 +221,7 @@ not just recording them as text strings in :qualifierText."""@en ;
     a owl:ObjectProperty ;
     rdfs:label "would be realized in"@en ;
     skos:prefLabel "would be realized in"@en ;
-    skos:definition "Relates a BFO role to a process in which it would be realized if the process were to occur. Used for prescribed, permitted, or hypothetical acts where the role is not yet actually realized."@en ;
+    skos:definition "An object property that relates a role to a process type such that the role has the disposition to be actualized during instances of that process type under appropriate conditions."@en ;
     rdfs:comment """Extends BFO's realized_in (BFO_0000054) for non-actual processes.
 
 USAGE CONSTRAINT (per CCO Expert Review):
@@ -242,7 +242,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:ObjectProperty ;
     rdfs:label "actuality status"@en ;
     skos:prefLabel "actuality status"@en ;
-    skos:definition "Relates an act to its actuality status, indicating whether it is actual, prescribed, permitted, prohibited, hypothetical, planned, or negated."@en ;
+    skos:definition "An object property that relates an act to a quality that specifies the modal nature of that act."@en ;
     rdfs:domain bfo:BFO_0000015 ;  # process
     rdfs:range :ActualityStatus .
 
@@ -250,7 +250,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:ObjectProperty ;
     rdfs:label "prescribes"@en ;
     skos:prefLabel "prescribes"@en ;
-    skos:definition "Relates a directive content entity to the act it prescribes."@en ;
+    skos:definition "A relation that holds between a directive information content entity and an act that the directive specifies as required or obligatory."@en ;
     rdfs:subPropertyOf cco:prescribes ;
     rdfs:domain :DirectiveContent ;
     rdfs:range bfo:BFO_0000015 ;
@@ -260,7 +260,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:ObjectProperty ;
     rdfs:label "prescribed by"@en ;
     skos:prefLabel "prescribed by"@en ;
-    skos:definition "Relates an act (process) to the directive content entity that prescribes it. Inverse of prescribes."@en ;
+    skos:definition "An object property that relates an act to the directive content entity that prescribes it."@en ;
     rdfs:domain bfo:BFO_0000015 ;
     rdfs:range :DirectiveContent ;
     owl:inverseOf :prescribes .
@@ -274,7 +274,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:ObjectProperty ;
     rdfs:label "scarce resource"@en ;
     skos:prefLabel "scarce resource"@en ;
-    skos:definition "Relates a scarcity assertion to the resource that is scarce."@en ;
+    skos:definition "An object property that relates a scarcity assertion to a material entity that is in limited supply."@en ;
     rdfs:domain :ScarcityAssertion ;
     rdfs:range bfo:BFO_0000030 .  # object
 
@@ -282,7 +282,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:ObjectProperty ;
     rdfs:label "competing parties"@en ;
     skos:prefLabel "competing parties"@en ;
-    skos:definition "Relates a scarcity assertion to the parties competing for the scarce resource."@en ;
+    skos:definition "An object property that relates a scarcity assertion to the agents that are in competition for the scarce resource."@en ;
     rdfs:domain :ScarcityAssertion ;
     rdfs:range cco:Agent .
 
@@ -295,7 +295,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:ObjectProperty ;
     rdfs:label "instantiated by"@en ;
     skos:prefLabel "instantiated by"@en ;
-    skos:definition "The agent or document that caused an entity to be instantiated."@en ;
+    skos:definition "An object property that relates an entity to the agent or document that brought it into existence."@en ;
     rdfs:range cco:InformationBearingEntity .
 
 
@@ -307,7 +307,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:DatatypeProperty ;
     rdfs:label "instantiated at"@en ;
     skos:prefLabel "instantiated at"@en ;
-    skos:definition "The timestamp when an entity was instantiated in the graph."@en ;
+    skos:definition "A datatype property that denotes the timestamp when an entity was created in the graph."@en ;
     rdfs:range xsd:dateTime .
 
 :detected_at
@@ -321,7 +321,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:DatatypeProperty ;
     rdfs:label "received at"@en ;
     skos:prefLabel "received at"@en ;
-    skos:definition "The timestamp when input text was received for processing."@en ;
+    skos:definition "A temporal instant that denotes when input text arrived for processing."@en ;
     rdfs:domain cco:InformationBearingEntity ;
     rdfs:range xsd:dateTime .
 
@@ -329,7 +329,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:DatatypeProperty ;
     rdfs:label "temporal extent"@en ;
     skos:prefLabel "temporal extent"@en ;
-    skos:definition "The temporal extent or duration associated with an entity or process."@en ;
+    skos:definition "A datatype property that denotes the duration of time during which an entity exists or a process occurs."@en ;
     rdfs:range xsd:dateTime .
 
 
@@ -341,7 +341,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:DatatypeProperty ;
     rdfs:label "source text"@en ;
     skos:prefLabel "source text"@en ;
-    skos:definition "The original text span from which an entity was extracted."@en ;
+    skos:definition "A datatype property that denotes the original character sequence from which an entity originates."@en ;
     rdfs:range xsd:string .
 
 :startPosition
@@ -355,14 +355,14 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:DatatypeProperty ;
     rdfs:label "end position"@en ;
     skos:prefLabel "end position"@en ;
-    skos:definition "The character offset where the source text ends in the input."@en ;
+    skos:definition "A datatype property that denotes the character offset where the source text concludes in the input."@en ;
     rdfs:range xsd:integer .
 
 :char_count
     a owl:DatatypeProperty ;
     rdfs:label "character count"@en ;
     skos:prefLabel "character count"@en ;
-    skos:definition "The number of characters in the input text."@en ;
+    skos:definition "A datatype property that denotes the quantity of individual symbols contained within a specified textual entity."@en ;
     rdfs:domain cco:InformationBearingEntity ;
     rdfs:range xsd:integer .
 
@@ -370,7 +370,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:DatatypeProperty ;
     rdfs:label "word count"@en ;
     skos:prefLabel "word count"@en ;
-    skos:definition "The number of words in the input text."@en ;
+    skos:definition "A datatype property that denotes the quantity of lexical units in a given textual input."@en ;
     rdfs:domain cco:InformationBearingEntity ;
     rdfs:range xsd:integer .
 
@@ -378,14 +378,14 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:DatatypeProperty ;
     rdfs:label "extracted from span"@en ;
     skos:prefLabel "extracted from span"@en ;
-    skos:definition "The text span from which an entity was extracted."@en ;
+    skos:definition "A datatype property that relates an entity to the text segment that is the source of that entity."@en ;
     rdfs:range xsd:string .
 
 :span_offset
     a owl:DatatypeProperty ;
     rdfs:label "span offset"@en ;
     skos:prefLabel "span offset"@en ;
-    skos:definition "The start and end character offsets of a span, as a pair of integers."@en ;
+    skos:definition "A datatype property that denotes the start and end character positions of a text segment, expressed as a pair of integers."@en ;
     rdfs:comment "Stored as a JSON array [start, end] in JSON-LD."@en ;
     rdfs:range xsd:string .
 
@@ -398,7 +398,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:DatatypeProperty ;
     rdfs:label "denotes type"@en ;
     skos:prefLabel "denotes type"@en ;
-    skos:definition "The IRI of the ontology class that a discourse referent denotes (e.g., cco:Person, cco:Artifact)."@en ;
+    skos:definition "A datatype property that relates a discourse referent to the IRI of the ontology class that the discourse referent refers to."@en ;
     rdfs:domain :DiscourseReferent ;
     rdfs:range xsd:string .
 
@@ -406,7 +406,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:DatatypeProperty ;
     rdfs:label "referential status"@en ;
     skos:prefLabel "referential status"@en ;
-    skos:definition "The discourse status of a referent: 'presupposed' (definite, known), 'introduced' (new to discourse), 'anaphoric' (referring back), or 'hypothetical'."@en ;
+    skos:definition "A datatype property that denotes the discourse accessibility of an entity mentioned in text, with values indicating whether the entity is presupposed as known, newly introduced, referenced anaphorically, or presented hypothetically."@en ;
     rdfs:domain :DiscourseReferent ;
     rdfs:range xsd:string .
 
@@ -414,7 +414,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:DatatypeProperty ;
     rdfs:label "definiteness"@en ;
     skos:prefLabel "definiteness"@en ;
-    skos:definition "Whether the referent is 'definite' (the X) or 'indefinite' (a X)."@en ;
+    skos:definition "A datatype property that denotes whether a linguistic referent has definite or indefinite determination."@en ;
     rdfs:domain :DiscourseReferent ;
     rdfs:range xsd:string .
 
@@ -422,21 +422,21 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:DatatypeProperty ;
     rdfs:label "quantity"@en ;
     skos:prefLabel "quantity"@en ;
-    skos:definition "The numeric quantity of entities referred to (e.g., 2 for 'two patients')."@en ;
+    skos:definition "A datatype property that denotes the numeric value indicating how many entities are being referenced."@en ;
     rdfs:range xsd:integer .
 
 :quantityIndicator
     a owl:DatatypeProperty ;
     rdfs:label "quantity indicator"@en ;
     skos:prefLabel "quantity indicator"@en ;
-    skos:definition "The linguistic marker indicating quantity (e.g., 'two', 'several', 'the last')."@en ;
+    skos:definition "A linguistic marker that denotes the amount or number of entities being referenced."@en ;
     rdfs:range xsd:string .
 
 :qualifiers
     a owl:DatatypeProperty ;
     rdfs:label "qualifiers"@en ;
     skos:prefLabel "qualifiers"@en ;
-    skos:definition "Adjective or adverbial qualifiers associated with an entity (e.g., 'critically ill')."@en ;
+    skos:definition "A datatype property that denotes adjective or adverbial modifiers associated with an entity."@en ;
     rdfs:range xsd:string .
 
 
@@ -448,7 +448,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:DatatypeProperty ;
     rdfs:label "role type"@en ;
     skos:prefLabel "role type"@en ;
-    skos:definition "The semantic role type (e.g., 'agent', 'patient', 'theme', 'beneficiary')."@en ;
+    skos:definition "A datatype property that denotes the semantic function performed by a participant in a linguistic or conceptual relation."@en ;
     rdfs:domain bfo:BFO_0000023 ;
     rdfs:range xsd:string .
 
@@ -456,49 +456,49 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:DatatypeProperty ;
     rdfs:label "verb"@en ;
     skos:prefLabel "verb"@en ;
-    skos:definition "The infinitive form of the verb in a verb phrase or act."@en ;
+    skos:definition "A datatype property that denotes the infinitive form of an action word within a linguistic act or expression."@en ;
     rdfs:range xsd:string .
 
 :lemma
     a owl:DatatypeProperty ;
     rdfs:label "lemma"@en ;
     skos:prefLabel "lemma"@en ;
-    skos:definition "The base/dictionary form of a word."@en ;
+    skos:definition "A datatype property that denotes the canonical or dictionary form of a lexical item from which inflected variants are derived."@en ;
     rdfs:range xsd:string .
 
 :tense
     a owl:DatatypeProperty ;
     rdfs:label "tense"@en ;
     skos:prefLabel "tense"@en ;
-    skos:definition "The grammatical tense of a verb (e.g., 'past', 'present', 'future')."@en ;
+    skos:definition "A datatype property that denotes the temporal relationship between the time of an action or state and the time of speaking or reference point in a grammatical expression."@en ;
     rdfs:range xsd:string .
 
 :aspect
     a owl:DatatypeProperty ;
     rdfs:label "aspect"@en ;
     skos:prefLabel "aspect"@en ;
-    skos:definition "The grammatical aspect of a verb (e.g., 'simple', 'progressive', 'perfect')."@en ;
+    skos:definition "A datatype property that denotes the temporal structure or completion status of a verbal action or state."@en ;
     rdfs:range xsd:string .
 
 :negated
     a owl:DatatypeProperty ;
     rdfs:label "negated"@en ;
     skos:prefLabel "negated"@en ;
-    skos:definition "Whether the verb phrase or act is negated."@en ;
+    skos:definition "A datatype property that denotes whether a linguistic expression or action has opposite or contrary meaning to its positive form."@en ;
     rdfs:range xsd:boolean .
 
 :negationMarker
     a owl:DatatypeProperty ;
     rdfs:label "negation marker"@en ;
     skos:prefLabel "negation marker"@en ;
-    skos:definition "The linguistic marker of negation (e.g., 'not', 'never')."@en ;
+    skos:definition "A datatype property that denotes linguistic elements which indicate the absence or contradiction of a stated condition."@en ;
     rdfs:range xsd:string .
 
 :hasModalMarker
     a owl:DatatypeProperty ;
     rdfs:label "has modal marker"@en ;
     skos:prefLabel "has modal marker"@en ;
-    skos:definition "Whether the verb phrase contains a modal verb."@en ;
+    skos:definition "A datatype property that denotes whether a linguistic expression contains an auxiliary verb indicating possibility, necessity, or obligation."@en ;
     rdfs:range xsd:boolean .
 
 
@@ -510,28 +510,28 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:DatatypeProperty ;
     rdfs:label "modality"@en ;
     skos:prefLabel "modality"@en ;
-    skos:definition "The deontic modality type: 'obligation', 'permission', 'prohibition', 'recommendation', 'intention', or 'hypothetical'."@en ;
+    skos:definition "A datatype property that denotes the deontic status of a statement as obligation, permission, prohibition, recommendation, intention, or hypothetical."@en ;
     rdfs:range xsd:string .
 
 :modalType
     a owl:DatatypeProperty ;
     rdfs:label "modal type"@en ;
     skos:prefLabel "modal type"@en ;
-    skos:definition "The type of modal expression (e.g., 'deontic', 'epistemic', 'dynamic')."@en ;
+    skos:definition "A datatype property that denotes the category of necessity, possibility, or obligation expressed by a linguistic construction."@en ;
     rdfs:range xsd:string .
 
 :modalMarker
     a owl:DatatypeProperty ;
     rdfs:label "modal marker"@en ;
     skos:prefLabel "modal marker"@en ;
-    skos:definition "The linguistic marker of modality (e.g., 'must', 'should', 'may')."@en ;
+    skos:definition "A datatype property that denotes linguistic expressions indicating modality such as necessity, possibility, or obligation."@en ;
     rdfs:range xsd:string .
 
 :modalStrength
     a owl:DatatypeProperty ;
     rdfs:label "modal strength"@en ;
     skos:prefLabel "modal strength"@en ;
-    skos:definition "The strength of the modal expression [0.0-1.0], where 1.0 is strongest obligation/prohibition."@en ;
+    skos:definition "A datatype property that denotes the degree of deontic force expressed by an obligation or prohibition on a scale from 0.0 to 1.0, where 1.0 indicates the highest degree of binding force."@en ;
     rdfs:range xsd:decimal .
 
 
@@ -543,14 +543,14 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:DatatypeProperty ;
     rdfs:label "is scarce"@en ;
     skos:prefLabel "is scarce"@en ;
-    skos:definition "Whether an entity is marked as scarce based on linguistic markers."@en ;
+    skos:definition "A datatype property that denotes whether an entity has limited availability or insufficient quantity based on linguistic markers."@en ;
     rdfs:range xsd:boolean .
 
 :scarcity_marker
     a owl:DatatypeProperty ;
     rdfs:label "scarcity marker"@en ;
     skos:prefLabel "scarcity marker"@en ;
-    skos:definition "The linguistic marker indicating scarcity (e.g., 'the last', 'only')."@en ;
+    skos:definition "A linguistic expression that denotes the limited availability or restricted quantity of some entity."@en ;
     rdfs:range xsd:string .
 
 :scarcityMarker
@@ -558,14 +558,14 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     rdfs:label "scarcity marker"@en ;
     skos:prefLabel "scarcity marker"@en ;
     owl:equivalentProperty :scarcity_marker ;
-    skos:definition "Alternative property name for scarcity_marker."@en ;
+    skos:definition "A datatype property that denotes the degree of rarity or limited availability of some entity within a specified context."@en ;
     rdfs:range xsd:string .
 
 :supplyCount
     a owl:DatatypeProperty ;
     rdfs:label "supply count"@en ;
     skos:prefLabel "supply count"@en ;
-    skos:definition "The number of available units of a scarce resource."@en ;
+    skos:definition "A quantity that denotes the number of available units of a scarce resource at a specific time."@en ;
     rdfs:domain :ScarcityAssertion ;
     rdfs:range xsd:integer .
 
@@ -573,7 +573,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:DatatypeProperty ;
     rdfs:label "demand count"@en ;
     skos:prefLabel "demand count"@en ;
-    skos:definition "The number of parties requiring the scarce resource."@en ;
+    skos:definition "A non-negative integer that denotes the number of parties requiring a particular scarce resource in a specific context."@en ;
     rdfs:domain :ScarcityAssertion ;
     rdfs:range xsd:integer .
 
@@ -581,7 +581,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:DatatypeProperty ;
     rdfs:label "scarcity ratio"@en ;
     skos:prefLabel "scarcity ratio"@en ;
-    skos:definition "The ratio of supply to demand for a scarce resource."@en ;
+    skos:definition "A measurement datum that denotes the quotient of available supply to demand for a resource when that resource is limited in availability."@en ;
     rdfs:domain :ScarcityAssertion ;
     rdfs:range xsd:decimal .
 
@@ -594,21 +594,21 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:DatatypeProperty ;
     rdfs:label "qualifier text"@en ;
     skos:prefLabel "qualifier text"@en ;
-    skos:definition "The text of a qualifier (e.g., 'critically ill', 'elderly')."@en ;
+    skos:definition "A textual information content entity that denotes a modifying characteristic or condition that specifies or limits the meaning of another entity."@en ;
     rdfs:range xsd:string .
 
 :severity
     a owl:DatatypeProperty ;
     rdfs:label "severity"@en ;
     skos:prefLabel "severity"@en ;
-    skos:definition "The severity level of a condition (e.g., 'critical', 'severe', 'mild')."@en ;
+    skos:definition "A datatype property that denotes the degree of intensity or seriousness of a medical condition or symptom."@en ;
     rdfs:range xsd:string .
 
 :ageCategory
     a owl:DatatypeProperty ;
     rdfs:label "age category"@en ;
     skos:prefLabel "age category"@en ;
-    skos:definition "The age category of a person (e.g., 'elderly', 'pediatric', 'adult')."@en ;
+    skos:definition "A datatype property that denotes the life stage classification of a person based on their chronological maturity."@en ;
     rdfs:range xsd:string .
 
 
@@ -620,7 +620,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:DatatypeProperty ;
     rdfs:label "member count"@en ;
     skos:prefLabel "member count"@en ;
-    skos:definition "The number of members in an object aggregate."@en ;
+    skos:definition "A datatype property that denotes the quantity of constituent entities within an object aggregate."@en ;
     rdfs:domain bfo:BFO_0000027 ;  # object aggregate
     rdfs:range xsd:integer .
 
@@ -628,7 +628,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:DatatypeProperty ;
     rdfs:label "member index"@en ;
     skos:prefLabel "member index"@en ;
-    skos:definition "The index (1-based) of a member within an object aggregate."@en ;
+    skos:definition "A datatype property that denotes the ordinal position of a constituent within an object aggregate using one-based numbering."@en ;
     rdfs:range xsd:integer .
 
 
@@ -640,21 +640,21 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:DatatypeProperty ;
     rdfs:label "version"@en ;
     skos:prefLabel "version"@en ;
-    skos:definition "The version string of the parser or ontology."@en ;
+    skos:definition "A datatype property that denotes an alphanumeric identifier indicating the release or iteration number of a software tool or knowledge organization system."@en ;
     rdfs:range xsd:string .
 
 :algorithm
     a owl:DatatypeProperty ;
     rdfs:label "algorithm"@en ;
     skos:prefLabel "algorithm"@en ;
-    skos:definition "A description of the algorithm used by the parser."@en ;
+    skos:definition "An information content entity that denotes a systematic procedure for solving a computational problem or performing a specific task."@en ;
     rdfs:range xsd:string .
 
 :capabilities
     a owl:DatatypeProperty ;
     rdfs:label "capabilities"@en ;
     skos:prefLabel "capabilities"@en ;
-    skos:definition "A list of capabilities of the parser agent."@en ;
+    skos:definition "A datatype property that denotes the functional abilities possessed by a parser agent."@en ;
     rdfs:range xsd:string .
 
 
@@ -666,7 +666,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:DatatypeProperty ;
     rdfs:label "framework"@en ;
     skos:prefLabel "framework"@en ;
-    skos:definition "The ethical or interpretive framework associated with a context (e.g., 'Principlism (Beauchamp & Childress)')."@en ;
+    skos:definition "A datatype property that denotes the ethical or interpretive approach associated with a particular context."@en ;
     rdfs:domain :InterpretationContext ;
     rdfs:range xsd:string .
 
@@ -679,21 +679,21 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     a owl:DatatypeProperty ;
     rdfs:label "budget usage"@en ;
     skos:prefLabel "budget usage"@en ;
-    skos:definition "A record of complexity budget usage during graph construction."@en ;
+    skos:definition "A datatype property that denotes the amount of computational resources consumed during graph construction processes."@en ;
     rdfs:range xsd:string .
 
 :truncated
     a owl:DatatypeProperty ;
     rdfs:label "truncated"@en ;
     skos:prefLabel "truncated"@en ;
-    skos:definition "Whether the graph was truncated due to budget constraints."@en ;
+    skos:definition "A datatype property that denotes whether a graph was cut short due to budget constraints."@en ;
     rdfs:range xsd:boolean .
 
 :budgetWarnings
     a owl:DatatypeProperty ;
     rdfs:label "budget warnings"@en ;
     skos:prefLabel "budget warnings"@en ;
-    skos:definition "Warning messages generated during complexity budget tracking."@en ;
+    skos:definition "A datatype property that denotes alert messages produced during computational complexity resource allocation monitoring."@en ;
     rdfs:range xsd:string .
 
 

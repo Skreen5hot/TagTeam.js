@@ -330,7 +330,7 @@ Scarcity is a **context-dependent assessment** about resource availability, not 
 ```json
 {
   "@context": {
-    "tagteam": "https://tagteam.js.org/ontology#",
+    "tagteam": "http://tagteam.fandaws.org/ontology/",
     "cco": "http://www.ontologyrepository.com/CommonCoreOntologies/",
     "bfo": "http://purl.obolibrary.org/obo/",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
@@ -473,12 +473,12 @@ Scarcity is a **context-dependent assessment** about resource availability, not 
 ```json
 {
   "@context": {
-    "tagteam": "https://tagteam.js.org/ontology#",
+    "tagteam": "http://tagteam.fandaws.org/ontology/",
     "cco": "http://www.ontologyrepository.com/CommonCoreOntologies/",
     "bfo": "http://purl.obolibrary.org/obo/",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "inst": "https://tagteam.js.org/instance#",
+    "inst": "http://tagteam.fandaws.org/instance/",
 
     "is_about": { "@id": "cco:is_about", "@type": "@id" },
     "denotes": { "@id": "tagteam:denotes", "@type": "@id" },

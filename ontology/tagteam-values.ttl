@@ -53,7 +53,7 @@
     rdfs:subClassOf bfo:BFO_0000015 ;  # process
     rdfs:label "Value Assertion Event"@en ;
     skos:prefLabel "Value Assertion Event"@en ;
-    skos:definition "A process in which an agent (human or artificial) asserts that an ethical value is present in or relevant to a given text. Includes confidence decomposition and provenance tracking."@en ;
+    skos:definition "A process in which an agent asserts that an ethical principle is present in or relevant to a given text and includes confidence decomposition and provenance tracking."@en ;
     rdfs:comment "ValueAssertionEvents are processes because they occur at a specific time and have temporal extent. They assert EthicalValueICE nodes."@en .
 
 :ContextAssessmentEvent
@@ -61,21 +61,21 @@
     rdfs:subClassOf bfo:BFO_0000015 ;  # process
     rdfs:label "Context Assessment Event"@en ;
     skos:prefLabel "Context Assessment Event"@en ;
-    skos:definition "A process in which an agent assesses a context dimension (e.g., temporal urgency, stakeholder vulnerability) and assigns a score."@en .
+    skos:definition "A process in which an agent evaluates a situational dimension and assigns a score to that dimension."@en .
 
 :EthicalValueICE
     a owl:Class ;
     rdfs:subClassOf cco:InformationContentEntity ;
     rdfs:label "Ethical Value ICE"@en ;
     skos:prefLabel "Ethical Value Information Content Entity"@en ;
-    skos:definition "An information content entity representing an ethical value (e.g., autonomy, beneficence, justice) that is the subject of a ValueAssertionEvent."@en .
+    skos:definition "An information content entity that denotes a moral principle or standard (such as autonomy, beneficence, or justice) that guides conduct and decision-making."@en .
 
 :ContextDimensionICE
     a owl:Class ;
     rdfs:subClassOf cco:InformationContentEntity ;
     rdfs:label "Context Dimension ICE"@en ;
     skos:prefLabel "Context Dimension Information Content Entity"@en ;
-    skos:definition "An information content entity representing a context dimension assessment (e.g., temporal.urgency, stakeholder.vulnerability)."@en .
+    skos:definition "An Information Content Entity that denotes an evaluative aspect of a situational circumstance along which assessments can be made."@en .
 
 
 # =============================================================================
@@ -87,31 +87,31 @@
     rdfs:subClassOf cco:InformationContentEntity ;
     rdfs:label "Assertion Type"@en ;
     skos:prefLabel "Assertion Type"@en ;
-    skos:definition "A class whose instances categorize the provenance and validation status of assertions."@en .
+    skos:definition "An Information Content Entity that denotes a category specifying the provenance and validation status of declarative statements."@en .
 
 :AutomatedDetection
     a owl:NamedIndividual, :AssertionType ;
     rdfs:label "Automated Detection"@en ;
     skos:prefLabel "Automated Detection"@en ;
-    skos:definition "An assertion type indicating the assertion was made by an automated parser without human validation."@en .
+    skos:definition "An assertion type that denotes assertions made by computational systems without human validation."@en .
 
 :HumanValidation
     a owl:NamedIndividual, :AssertionType ;
     rdfs:label "Human Validation"@en ;
     skos:prefLabel "Human Validation"@en ;
-    skos:definition "An assertion type indicating the assertion has been validated by a human reviewer."@en .
+    skos:definition "An assertion type that denotes assertions which have been confirmed as accurate by a person."@en .
 
 :HumanRejection
     a owl:NamedIndividual, :AssertionType ;
     rdfs:label "Human Rejection"@en ;
     skos:prefLabel "Human Rejection"@en ;
-    skos:definition "An assertion type indicating the assertion has been rejected by a human reviewer as incorrect."@en .
+    skos:definition "An assertion type that denotes an assertion has been rejected by a person reviewer as incorrect."@en .
 
 :HumanCorrection
     a owl:NamedIndividual, :AssertionType ;
     rdfs:label "Human Correction"@en ;
     skos:prefLabel "Human Correction"@en ;
-    skos:definition "An assertion type indicating the assertion has been corrected by a human reviewer, superseding a previous assertion."@en .
+    skos:definition "An assertion type that denotes an assertion has been modified by a person to supersede a previous assertion."@en .
 
 
 # =============================================================================
@@ -145,7 +145,7 @@
     a owl:ObjectProperty ;
     rdfs:label "asserts"@en ;
     skos:prefLabel "asserts"@en ;
-    skos:definition "Relates an assertion event to the information content entity being asserted."@en ;
+    skos:definition "A relation that holds between an assertion event and an information content entity that is the propositional content of that event."@en ;
     rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
     rdfs:range cco:InformationContentEntity .
 
@@ -153,7 +153,7 @@
     a owl:ObjectProperty ;
     rdfs:label "detected by"@en ;
     skos:prefLabel "detected by"@en ;
-    skos:definition "Relates an assertion event to the agent (human or artificial) that made the detection."@en ;
+    skos:definition "An object property that relates an assertion event to the agent that is the detector of the content of that assertion."@en ;
     rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
     rdfs:range cco:Agent .
 
@@ -161,7 +161,7 @@
     a owl:ObjectProperty ;
     rdfs:label "based on"@en ;
     skos:prefLabel "based on"@en ;
-    skos:definition "Relates an assertion event to the information bearing entity (input text) on which the assertion is based."@en ;
+    skos:definition "An object property that relates an assertion event to the information bearing entity that serves as the evidential foundation for that assertion."@en ;
     rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
     rdfs:range cco:InformationBearingEntity .
 
@@ -169,7 +169,7 @@
     a owl:ObjectProperty ;
     rdfs:label "assertion type"@en ;
     skos:prefLabel "assertion type"@en ;
-    skos:definition "Relates an assertion event to its type (automated detection, human validation, etc.)."@en ;
+    skos:definition "An object property that relates a declarative information content entity to the process classification that brought about that entity."@en ;
     rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
     rdfs:range :AssertionType .
 
@@ -177,7 +177,7 @@
     a owl:ObjectProperty ;
     rdfs:label "valid in context"@en ;
     skos:prefLabel "valid in context"@en ;
-    skos:definition "Relates an assertion to the interpretation context under which it is valid."@en ;
+    skos:definition "An object property that relates an assertion to the interpretation framework under which that assertion holds true."@en ;
     rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
     rdfs:range :InterpretationContext .
 
@@ -185,7 +185,7 @@
     a owl:ObjectProperty ;
     rdfs:label "validated by"@en ;
     skos:prefLabel "validated by"@en ;
-    skos:definition "Relates an assertion event to the human agent who validated it."@en ;
+    skos:definition "An object property that relates an assertion event to the human agent who confirmed its accuracy or correctness."@en ;
     rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
     rdfs:range cco:Person .
 
@@ -193,7 +193,7 @@
     a owl:ObjectProperty ;
     rdfs:label "supersedes"@en ;
     skos:prefLabel "supersedes"@en ;
-    skos:definition "Relates a corrected assertion to the previous assertion it supersedes."@en ;
+    skos:definition "A relation that holds between a corrected assertion and a previous assertion that the corrected assertion replaces due to the previous assertion containing an error or being outdated."@en ;
     rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
     rdfs:range [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] .
 
@@ -206,7 +206,7 @@
     a owl:DatatypeProperty ;
     rdfs:label "extraction confidence"@en ;
     skos:prefLabel "extraction confidence"@en ;
-    skos:definition "The confidence score [0.0-1.0] for the extraction step of an assertion."@en ;
+    skos:definition "A datatype property that denotes a numerical value between 0.0 and 1.0 indicating the degree of certainty associated with an automated derivation process for an assertion."@en ;
     rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
     rdfs:range xsd:decimal .
 
@@ -214,7 +214,7 @@
     a owl:DatatypeProperty ;
     rdfs:label "classification confidence"@en ;
     skos:prefLabel "classification confidence"@en ;
-    skos:definition "The confidence score [0.0-1.0] for the classification step of an assertion."@en ;
+    skos:definition "A datatype property that denotes a numerical value between 0.0 and 1.0 indicating the degree of certainty in a categorical assignment."@en ;
     rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
     rdfs:range xsd:decimal .
 
@@ -222,7 +222,7 @@
     a owl:DatatypeProperty ;
     rdfs:label "relevance confidence"@en ;
     skos:prefLabel "relevance confidence"@en ;
-    skos:definition "The confidence score [0.0-1.0] for the relevance of an assertion to the current context."@en ;
+    skos:definition "A datatype property that denotes a numerical value between 0.0 and 1.0 indicating the degree to which an assertion pertains to a specified context."@en ;
     rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
     rdfs:range xsd:decimal .
 
@@ -230,7 +230,7 @@
     a owl:DatatypeProperty ;
     rdfs:label "aggregate confidence"@en ;
     skos:prefLabel "aggregate confidence"@en ;
-    skos:definition "The aggregated confidence score [0.0-1.0] combining extraction, classification, and relevance."@en ;
+    skos:definition "A datatype property that denotes a numerical value between 0.0 and 1.0 representing the combined certainty measure derived from extraction, classification, and relevance assessments."@en ;
     rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
     rdfs:range xsd:decimal .
 
@@ -238,7 +238,7 @@
     a owl:DatatypeProperty ;
     rdfs:label "aggregation method"@en ;
     skos:prefLabel "aggregation method"@en ;
-    skos:definition "The method used to compute the aggregate confidence (e.g., 'geometric_mean', 'direct_score')."@en ;
+    skos:definition "A datatype property that denotes the computational approach for combining multiple confidence values into a single aggregate value."@en ;
     rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
     rdfs:range xsd:string .
 
@@ -251,7 +251,7 @@
     a owl:DatatypeProperty ;
     rdfs:label "validation timestamp"@en ;
     skos:prefLabel "validation timestamp"@en ;
-    skos:definition "The timestamp when an assertion was validated by a human reviewer."@en ;
+    skos:definition "A datatype property that denotes the temporal instant when an assertion was validated by a human reviewer."@en ;
     rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
     rdfs:range xsd:dateTime .
 
@@ -264,7 +264,7 @@
     a owl:DatatypeProperty ;
     rdfs:label "value name"@en ;
     skos:prefLabel "value name"@en ;
-    skos:definition "The name of the ethical value detected (e.g., 'autonomy', 'beneficence', 'justice')."@en ;
+    skos:definition "A datatype property that denotes the textual identifier of an ethical principle or standard such as autonomy, beneficence, or justice."@en ;
     rdfs:domain :EthicalValueICE ;
     rdfs:range xsd:string .
 
@@ -272,7 +272,7 @@
     a owl:DatatypeProperty ;
     rdfs:label "value category"@en ;
     skos:prefLabel "value category"@en ;
-    skos:definition "The category of the ethical value (e.g., 'ethical', 'legal', 'social')."@en ;
+    skos:definition "A datatype property that denotes the classificatory domain to which an ethical principle belongs, such as ethical, legal, or social domains."@en ;
     rdfs:domain :EthicalValueICE ;
     rdfs:range xsd:string .
 
@@ -280,7 +280,7 @@
     a owl:DatatypeProperty ;
     rdfs:label "dimension"@en ;
     skos:prefLabel "dimension"@en ;
-    skos:definition "The context dimension being assessed (e.g., 'temporal.urgency', 'stakeholder.vulnerability')."@en ;
+    skos:definition "A datatype property that specifies the contextual aspect being evaluated in an assessment framework."@en ;
     rdfs:domain :ContextDimensionICE ;
     rdfs:range xsd:string .
 
@@ -288,28 +288,28 @@
     a owl:DatatypeProperty ;
     rdfs:label "category"@en ;
     skos:prefLabel "category"@en ;
-    skos:definition "A category classification for context dimensions."@en ;
+    skos:definition "A datatype property that assigns classificatory labels to context dimensions."@en ;
     rdfs:range xsd:string .
 
 :score
     a owl:DatatypeProperty ;
     rdfs:label "score"@en ;
     skos:prefLabel "score"@en ;
-    skos:definition "A numeric score [0.0-1.0] for a context dimension assessment."@en ;
+    skos:definition "A numeric value between 0.0 and 1.0 that quantifies the degree of assessment for a context dimension."@en ;
     rdfs:range xsd:decimal .
 
 :polarity
     a owl:DatatypeProperty ;
     rdfs:label "polarity"@en ;
     skos:prefLabel "polarity"@en ;
-    skos:definition "The polarity of a value detection: positive (1), negative (-1), or neutral (0)."@en ;
+    skos:definition "A datatype property that denotes whether a value has a positive, negative, or neutral orientation as indicated by the numerical values 1, -1, or 0 respectively."@en ;
     rdfs:range xsd:integer .
 
 :salience
     a owl:DatatypeProperty ;
     rdfs:label "salience"@en ;
     skos:prefLabel "salience"@en ;
-    skos:definition "The salience or prominence [0.0-1.0] of a detected value in the text."@en ;
+    skos:definition "A datatype property that denotes the degree of prominence of a textual value on a scale from 0.0 to 1.0."@en ;
     rdfs:range xsd:decimal .
 
 
@@ -321,7 +321,7 @@
     a owl:DatatypeProperty ;
     rdfs:label "evidence"@en ;
     skos:prefLabel "evidence"@en ;
-    skos:definition "The textual evidence supporting an assertion."@en ;
+    skos:definition "A textual information content entity that denotes facts or observations which support the truth or validity of an assertion."@en ;
     rdfs:range xsd:string .
 
 :evidenceText
@@ -329,28 +329,28 @@
     rdfs:label "evidence text"@en ;
     skos:prefLabel "evidence text"@en ;
     owl:equivalentProperty :evidence ;
-    skos:definition "Alternative property name for evidence."@en ;
+    skos:definition "A datatype property that denotes textual content serving as support or proof for a claim or conclusion."@en ;
     rdfs:range xsd:string .
 
 :sourceSpan
     a owl:DatatypeProperty ;
     rdfs:label "source span"@en ;
     skos:prefLabel "source span"@en ;
-    skos:definition "The text span from which evidence was extracted."@en ;
+    skos:definition "A datatype property that denotes the textual boundaries within a document from which supporting evidence originates."@en ;
     rdfs:range xsd:string .
 
 :matched_markers
     a owl:DatatypeProperty ;
     rdfs:label "matched markers"@en ;
     skos:prefLabel "matched markers"@en ;
-    skos:definition "The linguistic markers that were matched in value/context detection."@en ;
+    skos:definition "A datatype property that denotes linguistic elements that correspond to specific patterns within textual content."@en ;
     rdfs:range xsd:string .
 
 :detection_method
     a owl:DatatypeProperty ;
     rdfs:label "detection method"@en ;
     skos:prefLabel "detection method"@en ;
-    skos:definition "The method used for detection (e.g., 'pattern_matching', 'ml_classification')."@en ;
+    skos:definition "A datatype property that denotes the specific technique or approach employed to identify the presence or occurrence of a particular entity or phenomenon."@en ;
     rdfs:range xsd:string .
 
 

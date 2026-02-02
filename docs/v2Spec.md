@@ -633,7 +633,7 @@ Clause 2:  "[The server] was verified by the administrator"
    │    whPhrase: "why"                             │
    │    whFunction: "adjunct_reason"                │
    │    negation: TRUE  ◄── PRESERVED               │
-   │    actualityStatus: [Interrogative, Negative]  │
+   │    actualityStatus: [Interrogative, Negated]  │
    └─────────────────────────────────────────────────┘
 ```
 
@@ -642,8 +642,8 @@ Clause 2:  "[The server] was verified by the administrator"
 | Input | Auxiliary | Negation | actualityStatus |
 |-------|-----------|----------|-----------------|
 | "Did they approve?" | did | false | [Interrogative] |
-| "Didn't they approve?" | didn't | true | [Interrogative, Negative] |
-| "Why won't it start?" | won't | true | [Interrogative, Negative] |
+| "Didn't they approve?" | didn't | true | [Interrogative, Negated] |
+| "Why won't it start?" | won't | true | [Interrogative, Negated] |
 
 #### 3.3.3 Expletive Subject Detection (ENH-016)
 
@@ -825,46 +825,43 @@ salience = (recency × 0.4) + (grammaticalRole × 0.3) +
 ### 4.1 Schema Overview
 
 **File**: `ontologies/tagteam.ttl`  
-**Namespace**: `https://tagteam.js.org/ontology#`
+**Namespace**: `http://tagteam.fandaws.org/ontology/`
 
 ### 4.2 Core Classes
 
 ```turtle
-@prefix tagteam: <https://tagteam.js.org/ontology#> .
+@prefix : <http://tagteam.fandaws.org/ontology/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix cco: <http://www.ontologyrepository.com/CommonCoreOntologies/> .
 
-tagteam: a owl:Ontology ;
-    owl:versionInfo "2.0.0" .
+<http://tagteam.fandaws.org/ontology/v2/> a owl:Ontology ;
+    owl:versionInfo "2.0.0" ;
+    owl:imports <http://tagteam.fandaws.org/ontology/core/> .
 
-# Speech Act Classes
-tagteam:SpeechAct rdfs:subClassOf cco:InformationContentEntity .
-tagteam:Inquiry rdfs:subClassOf tagteam:SpeechAct .
-tagteam:DirectiveContent rdfs:subClassOf tagteam:SpeechAct .
-tagteam:ConditionalContent rdfs:subClassOf tagteam:SpeechAct .
+# Speech Act Classes (DirectiveContent is in core)
+:SpeechAct rdfs:subClassOf cco:InformationContentEntity .
+:Inquiry rdfs:subClassOf :SpeechAct .
+:ConditionalContent rdfs:subClassOf :SpeechAct .
 
 # Structural Classes
-tagteam:ClauseRelation a owl:Class .
-tagteam:CausativeAct rdfs:subClassOf cco:IntentionalAct .
+:ClauseRelation a owl:Class .
+:CausativeAct rdfs:subClassOf cco:IntentionalAct .
 
-# Actuality Status
-tagteam:Actual a owl:NamedIndividual .
-tagteam:Hypothetical a owl:NamedIndividual .
-tagteam:Interrogative a owl:NamedIndividual .
-tagteam:Negative a owl:NamedIndividual .
+# Actuality Status (Actual, Hypothetical, Prescribed, Negated in core)
+:Interrogative a owl:NamedIndividual, :ActualityStatus .
 
 # Clause Relations
-tagteam:and_then a owl:NamedIndividual .
-tagteam:therefore a owl:NamedIndividual .
-tagteam:in_order_that a owl:NamedIndividual .
-tagteam:contrasts_with a owl:NamedIndividual .
+:and_then a owl:NamedIndividual .
+:therefore a owl:NamedIndividual .
+:in_order_that a owl:NamedIndividual .
+:contrasts_with a owl:NamedIndividual .
 
 # Properties
-tagteam:clauseIndex a owl:DatatypeProperty .
-tagteam:subjectSource a owl:DatatypeProperty .
-tagteam:whPhrase a owl:DatatypeProperty .
-tagteam:verbClass a owl:DatatypeProperty .
-tagteam:structuralAmbiguity a owl:AnnotationProperty .
+:clauseIndex a owl:DatatypeProperty .
+:subjectSource a owl:DatatypeProperty .
+:whPhrase a owl:DatatypeProperty .
+:verbClass a owl:DatatypeProperty .
+:structuralAmbiguity a owl:AnnotationProperty .
 ```
 
 ---

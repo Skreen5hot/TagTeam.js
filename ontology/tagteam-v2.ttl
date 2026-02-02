@@ -1,9 +1,11 @@
-@prefix tagteam: <https://tagteam.js.org/ontology#> .
+@prefix : <http://tagteam.fandaws.org/ontology/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix bfo: <http://purl.obolibrary.org/obo/> .
 @prefix cco: <http://www.ontologyrepository.com/CommonCoreOntologies/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 
@@ -12,165 +14,190 @@
 # =============================================================================
 #
 # Extends BFO/CCO with vocabulary for:
-# - Speech act ICE nodes (Inquiry, Directive, Conditional, Exclamatory)
+# - Speech act ICE nodes (Inquiry, Conditional, Exclamatory)
 # - Clause segmentation and linking
 # - Verb class routing (psych-verbs, raising, causatives)
 # - Discourse memory and anaphora resolution
 #
-# Namespace: https://tagteam.js.org/ontology#
+# Namespace: http://tagteam.fandaws.org/ontology/
 # Alignment: BFO 2020, CCO
+# Imports: tagteam-core.ttl
 # =============================================================================
 
-tagteam: a owl:Ontology ;
+<http://tagteam.fandaws.org/ontology/v2/>
+    a owl:Ontology ;
+    owl:versionIRI <http://tagteam.fandaws.org/ontology/v2/2.0.0/> ;
     owl:versionInfo "2.0.0"^^xsd:string ;
     dc:title "TagTeam v2 Ontology"@en ;
     dc:description "Structural semantics extension for clause segmentation, speech act typing, verb class routing, and discourse memory."@en ;
-    dcterms:created "2026-02-01"^^xsd:date .
+    dcterms:created "2026-02-01"^^xsd:date ;
+    owl:imports <http://tagteam.fandaws.org/ontology/core/> .
 
 
 # =============================================================================
 # SPEECH ACT CLASSES
 # =============================================================================
 
-tagteam:SpeechAct a owl:Class ;
+:SpeechAct
+    a owl:Class ;
     rdfs:subClassOf cco:InformationContentEntity ;
     rdfs:label "Speech Act"@en ;
-    rdfs:comment "An information content entity that represents the illocutionary force of an utterance."@en .
+    skos:prefLabel "Speech Act"@en ;
+    skos:definition "An information content entity that represents the illocutionary force of an utterance."@en .
 
-tagteam:Inquiry a owl:Class ;
-    rdfs:subClassOf tagteam:SpeechAct ;
+:Inquiry
+    a owl:Class ;
+    rdfs:subClassOf :SpeechAct ;
     rdfs:label "Inquiry"@en ;
-    rdfs:comment "A speech act requesting information. Wraps interrogative acts."@en .
+    skos:prefLabel "Inquiry"@en ;
+    skos:definition "A speech act that requests information by wrapping an interrogative act."@en .
 
-tagteam:DirectiveContent a owl:Class ;
-    rdfs:subClassOf tagteam:SpeechAct ;
-    rdfs:label "Directive Content"@en ;
-    rdfs:comment "A speech act commanding or requesting action. Wraps imperative acts."@en .
-
-tagteam:ConditionalContent a owl:Class ;
-    rdfs:subClassOf tagteam:SpeechAct ;
+:ConditionalContent
+    a owl:Class ;
+    rdfs:subClassOf :SpeechAct ;
     rdfs:label "Conditional Content"@en ;
-    rdfs:comment "A speech act expressing a condition-consequence relationship."@en .
+    skos:prefLabel "Conditional Content"@en ;
+    skos:definition "A speech act expressing a condition-consequence relationship between two clauses."@en .
 
-tagteam:ValueAssertionEvent a owl:Class ;
-    rdfs:subClassOf tagteam:SpeechAct ;
+:ValueAssertionEvent
+    a owl:Class ;
+    rdfs:subClassOf :SpeechAct ;
     rdfs:label "Value Assertion Event"@en ;
-    rdfs:comment "A speech act expressing an evaluative exclamation."@en .
+    skos:prefLabel "Value Assertion Event"@en ;
+    skos:definition "A speech act expressing an evaluative exclamation."@en .
 
 
 # =============================================================================
 # STRUCTURAL CLASSES
 # =============================================================================
 
-tagteam:ClauseRelation a owl:Class ;
+:ClauseRelation
+    a owl:Class ;
     rdfs:label "Clause Relation"@en ;
-    rdfs:comment "A structural relation linking two clauses within a compound or complex sentence."@en .
+    skos:prefLabel "Clause Relation"@en ;
+    skos:definition "A structural relation linking two clauses within a compound or complex sentence."@en .
 
-tagteam:CausativeAct a owl:Class ;
+:CausativeAct
+    a owl:Class ;
     rdfs:subClassOf cco:IntentionalAct ;
     rdfs:label "Causative Act"@en ;
-    rdfs:comment "An act where one agent causes another agent to perform an action."@en .
+    skos:prefLabel "Causative Act"@en ;
+    skos:definition "An act where one agent causes another agent to perform an action."@en .
 
 
 # =============================================================================
-# ACTUALITY STATUS INDIVIDUALS
+# ACTUALITY STATUS INDIVIDUALS (new to v2; others reused from core)
 # =============================================================================
 
-tagteam:Actual a owl:NamedIndividual ;
-    rdfs:label "Actual"@en ;
-    rdfs:comment "The event is asserted as having occurred or being the case."@en .
-
-tagteam:Hypothetical a owl:NamedIndividual ;
-    rdfs:label "Hypothetical"@en ;
-    rdfs:comment "The event is conditional or counterfactual."@en .
-
-tagteam:Interrogative a owl:NamedIndividual ;
+:Interrogative
+    a owl:NamedIndividual, :ActualityStatus ;
     rdfs:label "Interrogative"@en ;
-    rdfs:comment "The event is being questioned."@en .
-
-tagteam:Negative a owl:NamedIndividual ;
-    rdfs:label "Negative"@en ;
-    rdfs:comment "The event is negated."@en .
-
-tagteam:Prescribed a owl:NamedIndividual ;
-    rdfs:label "Prescribed"@en ;
-    rdfs:comment "The event is commanded or obligated."@en .
+    skos:prefLabel "Interrogative"@en ;
+    skos:definition "An actuality status that denotes the event is being questioned."@en .
 
 
 # =============================================================================
 # CLAUSE RELATION TYPE INDIVIDUALS
 # =============================================================================
 
-tagteam:and_then a owl:NamedIndividual ;
+:and_then
+    a owl:NamedIndividual, :ClauseRelation ;
     rdfs:label "and then"@en ;
-    rdfs:comment "Sequential coordination: clause A is followed by clause B."@en .
+    skos:prefLabel "and then"@en ;
+    skos:definition "A clause relation denoting sequential coordination where clause A is followed by clause B."@en .
 
-tagteam:therefore a owl:NamedIndividual ;
+:therefore
+    a owl:NamedIndividual, :ClauseRelation ;
     rdfs:label "therefore"@en ;
-    rdfs:comment "Result relation: clause B is a consequence of clause A."@en .
+    skos:prefLabel "therefore"@en ;
+    skos:definition "A clause relation denoting that clause B is a consequence of clause A."@en .
 
-tagteam:in_order_that a owl:NamedIndividual ;
+:in_order_that
+    a owl:NamedIndividual, :ClauseRelation ;
     rdfs:label "in order that"@en ;
-    rdfs:comment "Purpose relation: clause A is performed for the purpose of clause B."@en .
+    skos:prefLabel "in order that"@en ;
+    skos:definition "A clause relation denoting that clause A is performed for the purpose of clause B."@en .
 
-tagteam:contrasts_with a owl:NamedIndividual ;
+:contrasts_with
+    a owl:NamedIndividual, :ClauseRelation ;
     rdfs:label "contrasts with"@en ;
-    rdfs:comment "Adversative relation: clause B contrasts with clause A."@en .
+    skos:prefLabel "contrasts with"@en ;
+    skos:definition "A clause relation denoting that clause B contrasts with clause A."@en .
 
-tagteam:alternative_to a owl:NamedIndividual ;
+:alternative_to
+    a owl:NamedIndividual, :ClauseRelation ;
     rdfs:label "alternative to"@en ;
-    rdfs:comment "Disjunctive relation: clause B is an alternative to clause A."@en .
+    skos:prefLabel "alternative to"@en ;
+    skos:definition "A clause relation denoting that clause B is an alternative to clause A."@en .
 
 
 # =============================================================================
 # TEMPORAL RELATION INDIVIDUALS
 # =============================================================================
 
-tagteam:precedes a owl:NamedIndividual ;
+:precedes
+    a owl:NamedIndividual ;
     rdfs:label "precedes"@en ;
-    rdfs:comment "Temporal precedence: the source event occurs before the target event."@en .
+    skos:prefLabel "precedes"@en ;
+    skos:definition "A temporal relation denoting that the source event occurs before the target event."@en .
 
-tagteam:follows a owl:NamedIndividual ;
+:follows
+    a owl:NamedIndividual ;
     rdfs:label "follows"@en ;
-    rdfs:comment "Temporal succession: the source event occurs after the target event."@en .
+    skos:prefLabel "follows"@en ;
+    skos:definition "A temporal relation denoting that the source event occurs after the target event."@en .
 
-tagteam:simultaneous_with a owl:NamedIndividual ;
+:simultaneous_with
+    a owl:NamedIndividual ;
     rdfs:label "simultaneous with"@en ;
-    rdfs:comment "Temporal overlap: the events occur at the same time."@en .
+    skos:prefLabel "simultaneous with"@en ;
+    skos:definition "A temporal relation denoting that the events occur at the same time."@en .
 
 
 # =============================================================================
 # DATATYPE PROPERTIES
 # =============================================================================
 
-tagteam:clauseIndex a owl:DatatypeProperty ;
+:clauseIndex
+    a owl:DatatypeProperty ;
     rdfs:label "clause index"@en ;
-    rdfs:comment "Zero-based index identifying which clause an act belongs to in a multi-clause sentence."@en ;
+    skos:prefLabel "clause index"@en ;
+    skos:definition "A zero-based index identifying which clause an act belongs to in a multi-clause sentence."@en ;
     rdfs:range xsd:integer .
 
-tagteam:subjectSource a owl:DatatypeProperty ;
+:subjectSource
+    a owl:DatatypeProperty ;
     rdfs:label "subject source"@en ;
-    rdfs:comment "Indicates how the subject was determined. Value 'ellipsis_injection' means the subject was copied from the preceding clause."@en ;
+    skos:prefLabel "subject source"@en ;
+    skos:definition "A datatype property indicating how the subject was determined, e.g., 'ellipsis_injection' means the subject was copied from the preceding clause."@en ;
     rdfs:range xsd:string .
 
-tagteam:whPhrase a owl:DatatypeProperty ;
+:whPhrase
+    a owl:DatatypeProperty ;
     rdfs:label "Wh-phrase"@en ;
-    rdfs:comment "The original Wh-phrase from a question before normalization."@en ;
+    skos:prefLabel "Wh-phrase"@en ;
+    skos:definition "A datatype property that denotes the original Wh-phrase from a question before normalization."@en ;
     rdfs:range xsd:string .
 
-tagteam:verbClass a owl:DatatypeProperty ;
+:verbClass
+    a owl:DatatypeProperty ;
     rdfs:label "verb class"@en ;
-    rdfs:comment "The verb class classification (e.g., psych_verb, raising_verb, causative)."@en ;
+    skos:prefLabel "verb class"@en ;
+    skos:definition "A datatype property that denotes the verb class classification, e.g., psych_verb, raising_verb, or causative."@en ;
     rdfs:range xsd:string .
 
-tagteam:epistemicStatus a owl:DatatypeProperty ;
+:epistemicStatus
+    a owl:DatatypeProperty ;
     rdfs:label "epistemic status"@en ;
-    rdfs:comment "Epistemic qualification derived from raising verbs (e.g., apparent, tendency)."@en ;
+    skos:prefLabel "epistemic status"@en ;
+    skos:definition "A datatype property that denotes an epistemic qualification derived from raising verbs, e.g., apparent or tendency."@en ;
     rdfs:range xsd:string .
 
-tagteam:isQuestionFocus a owl:DatatypeProperty ;
+:isQuestionFocus
+    a owl:DatatypeProperty ;
     rdfs:label "is question focus"@en ;
-    rdfs:comment "Indicates the entity is the focus of a Wh-question."@en ;
+    skos:prefLabel "is question focus"@en ;
+    skos:definition "A datatype property indicating that the entity is the focus of a Wh-question."@en ;
     rdfs:range xsd:boolean .
 
 
@@ -178,39 +205,59 @@ tagteam:isQuestionFocus a owl:DatatypeProperty ;
 # ANNOTATION PROPERTIES
 # =============================================================================
 
-tagteam:structuralAmbiguity a owl:AnnotationProperty ;
+:structuralAmbiguity
+    a owl:AnnotationProperty ;
     rdfs:label "structural ambiguity"@en ;
-    rdfs:comment "Flags a node as having unresolved structural ambiguity from the v2 pre-processing layer."@en .
+    skos:prefLabel "structural ambiguity"@en ;
+    skos:definition "An annotation that flags a node as having unresolved structural ambiguity from the v2 pre-processing layer."@en .
 
 
 # =============================================================================
 # OBJECT PROPERTIES
 # =============================================================================
 
-tagteam:relationType a owl:ObjectProperty ;
+:relationType
+    a owl:ObjectProperty ;
     rdfs:label "relation type"@en ;
-    rdfs:comment "The type of clause relation (e.g., and_then, therefore, contrasts_with)."@en .
+    skos:prefLabel "relation type"@en ;
+    skos:definition "An object property relating a clause relation to its type, e.g., and_then, therefore, or contrasts_with."@en ;
+    rdfs:domain :ClauseRelation .
 
-tagteam:fromClause a owl:ObjectProperty ;
+:fromClause
+    a owl:ObjectProperty ;
     rdfs:label "from clause"@en ;
-    rdfs:comment "The source clause act in a clause relation."@en .
+    skos:prefLabel "from clause"@en ;
+    skos:definition "An object property relating a clause relation to its source clause act."@en ;
+    rdfs:domain :ClauseRelation .
 
-tagteam:toClause a owl:ObjectProperty ;
+:toClause
+    a owl:ObjectProperty ;
     rdfs:label "to clause"@en ;
-    rdfs:comment "The target clause act in a clause relation."@en .
+    skos:prefLabel "to clause"@en ;
+    skos:definition "An object property relating a clause relation to its target clause act."@en ;
+    rdfs:domain :ClauseRelation .
 
-tagteam:has_antecedent a owl:ObjectProperty ;
+:has_antecedent
+    a owl:ObjectProperty ;
     rdfs:label "has antecedent"@en ;
-    rdfs:comment "Links a ConditionalContent to its condition clause."@en .
+    skos:prefLabel "has antecedent"@en ;
+    skos:definition "An object property linking a ConditionalContent to its condition clause."@en ;
+    rdfs:domain :ConditionalContent .
 
-tagteam:has_consequent a owl:ObjectProperty ;
+:has_consequent
+    a owl:ObjectProperty ;
     rdfs:label "has consequent"@en ;
-    rdfs:comment "Links a ConditionalContent to its consequence clause."@en .
+    skos:prefLabel "has consequent"@en ;
+    skos:definition "An object property linking a ConditionalContent to its consequence clause."@en ;
+    rdfs:domain :ConditionalContent .
 
-tagteam:has_cause a owl:ObjectProperty ;
+:has_cause
+    a owl:ObjectProperty ;
     rdfs:label "has cause"@en ;
-    rdfs:comment "Links a MentalProcess to its causal stimulus."@en .
+    skos:prefLabel "has cause"@en ;
+    skos:definition "An object property linking a mental process to its causal stimulus."@en .
 
-tagteam:corefers_with a owl:ObjectProperty ;
-    rdfs:label "corefers with"@en ;
-    rdfs:comment "Links an anaphoric expression to its discourse antecedent."@en .
+
+# =============================================================================
+# END OF V2 ONTOLOGY
+# =============================================================================

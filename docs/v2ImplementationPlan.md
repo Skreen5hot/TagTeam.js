@@ -77,7 +77,7 @@ Three deliverables:
 | P0-TTL-1 | `tagteam.ttl` parses without error via TurtleParser | No parse errors |
 | P0-TTL-2 | Schema defines `tagteam:Inquiry`, `tagteam:DirectiveContent`, `tagteam:ConditionalContent`, `tagteam:ClauseRelation` | All classes present |
 | P0-TTL-3 | Schema defines `tagteam:and_then`, `tagteam:therefore`, `tagteam:in_order_that`, `tagteam:contrasts_with` | All clause relation individuals present |
-| P0-TTL-4 | Schema defines `tagteam:Hypothetical`, `tagteam:Negative` actuality statuses | Present |
+| P0-TTL-4 | Schema defines `tagteam:Interrogative` actuality status (others in core) | Present |
 | P0-TTL-5 | Schema defines `tagteam:clauseIndex`, `tagteam:subjectSource`, `tagteam:whPhrase`, `tagteam:verbClass` properties | All properties present |
 
 **Wh-word entity recognition:**
@@ -99,59 +99,55 @@ Three deliverables:
 ### 0.5 tagteam.ttl Schema Content
 
 ```turtle
-@prefix tagteam: <https://tagteam.js.org/ontology#> .
+@prefix : <http://tagteam.fandaws.org/ontology/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix cco: <http://www.ontologyrepository.com/CommonCoreOntologies/> .
 
-tagteam: a owl:Ontology ; owl:versionInfo "2.0.0" .
+<http://tagteam.fandaws.org/ontology/v2/> a owl:Ontology ;
+    owl:versionInfo "2.0.0" ;
+    owl:imports <http://tagteam.fandaws.org/ontology/core/> .
 
-# Speech Act Classes
-tagteam:SpeechAct rdfs:subClassOf cco:InformationContentEntity .
-tagteam:Inquiry rdfs:subClassOf tagteam:SpeechAct .
-tagteam:DirectiveContent rdfs:subClassOf tagteam:SpeechAct .
-tagteam:ConditionalContent rdfs:subClassOf tagteam:SpeechAct .
-tagteam:ValueAssertionEvent rdfs:subClassOf tagteam:SpeechAct .
+# Speech Act Classes (DirectiveContent is in core)
+:SpeechAct rdfs:subClassOf cco:InformationContentEntity .
+:Inquiry rdfs:subClassOf :SpeechAct .
+:ConditionalContent rdfs:subClassOf :SpeechAct .
+:ValueAssertionEvent rdfs:subClassOf :SpeechAct .
 
 # Structural Classes
-tagteam:ClauseRelation a owl:Class .
-tagteam:CausativeAct rdfs:subClassOf cco:IntentionalAct .
+:ClauseRelation a owl:Class .
+:CausativeAct rdfs:subClassOf cco:IntentionalAct .
 
-# Actuality Status Individuals
-tagteam:Actual a owl:NamedIndividual .
-tagteam:Hypothetical a owl:NamedIndividual .
-tagteam:Interrogative a owl:NamedIndividual .
-tagteam:Negative a owl:NamedIndividual .
-tagteam:Prescribed a owl:NamedIndividual .
+# Actuality Status (Actual, Hypothetical, Prescribed, Negated in core)
+:Interrogative a owl:NamedIndividual, :ActualityStatus .
 
 # Clause Relation Type Individuals
-tagteam:and_then a owl:NamedIndividual .
-tagteam:therefore a owl:NamedIndividual .
-tagteam:in_order_that a owl:NamedIndividual .
-tagteam:contrasts_with a owl:NamedIndividual .
-tagteam:alternative_to a owl:NamedIndividual .
+:and_then a owl:NamedIndividual .
+:therefore a owl:NamedIndividual .
+:in_order_that a owl:NamedIndividual .
+:contrasts_with a owl:NamedIndividual .
+:alternative_to a owl:NamedIndividual .
 
 # Temporal Relation Individuals
-tagteam:precedes a owl:NamedIndividual .
-tagteam:follows a owl:NamedIndividual .
-tagteam:simultaneous_with a owl:NamedIndividual .
+:precedes a owl:NamedIndividual .
+:follows a owl:NamedIndividual .
+:simultaneous_with a owl:NamedIndividual .
 
-# Properties
-tagteam:clauseIndex a owl:DatatypeProperty .
-tagteam:subjectSource a owl:DatatypeProperty .
-tagteam:whPhrase a owl:DatatypeProperty .
-tagteam:verbClass a owl:DatatypeProperty .
-tagteam:epistemicStatus a owl:DatatypeProperty .
-tagteam:isQuestionFocus a owl:DatatypeProperty .
-tagteam:structuralAmbiguity a owl:AnnotationProperty .
-tagteam:corefers_with a owl:ObjectProperty .
+# Properties (corefersWith is in core)
+:clauseIndex a owl:DatatypeProperty .
+:subjectSource a owl:DatatypeProperty .
+:whPhrase a owl:DatatypeProperty .
+:verbClass a owl:DatatypeProperty .
+:epistemicStatus a owl:DatatypeProperty .
+:isQuestionFocus a owl:DatatypeProperty .
+:structuralAmbiguity a owl:AnnotationProperty .
 
 # Clause Relation Properties
-tagteam:relationType a owl:ObjectProperty .
-tagteam:fromClause a owl:ObjectProperty .
-tagteam:toClause a owl:ObjectProperty .
-tagteam:has_antecedent a owl:ObjectProperty .
-tagteam:has_consequent a owl:ObjectProperty .
-tagteam:has_cause a owl:ObjectProperty .
+:relationType a owl:ObjectProperty .
+:fromClause a owl:ObjectProperty .
+:toClause a owl:ObjectProperty .
+:has_antecedent a owl:ObjectProperty .
+:has_consequent a owl:ObjectProperty .
+:has_cause a owl:ObjectProperty .
 ```
 
 ---
@@ -403,7 +399,7 @@ A `StructuralNormalizer.js` that rewrites Wh-questions and expletive-subject con
 
 | Test ID | Input | Assertion |
 |---------|-------|-----------|
-| P4-NEG-1 | `"Why didn't the server restart?"` | `actualityStatus` includes `"tagteam:Negative"` AND `"tagteam:Interrogative"` |
+| P4-NEG-1 | `"Why didn't the server restart?"` | `actualityStatus` includes `"tagteam:Negated"` AND `"tagteam:Interrogative"` |
 | P4-NEG-2 | `"Why didn't the server restart?"` | No act for "didn't"; verb = "restart" |
 | P4-NEG-3 | `"Won't the committee approve?"` | Negation preserved; verb = "approve" |
 | P4-NEG-4 | `"Did the committee approve?"` | NO negation (positive question) |
@@ -731,7 +727,7 @@ tests/unit/v2/abstract-anaphora.test.js
 
 | Test ID | Input | Assertion |
 |---------|-------|-----------|
-| P13-ANA-1 | Session: `"The server failed."` then `"The administrator logged the event."` | "the event" → `tagteam:corefers_with` → fail act |
+| P13-ANA-1 | Session: `"The server failed."` then `"The administrator logged the event."` | "the event" → `tagteam:corefersWith` → fail act |
 | P13-ANA-2 | Single sentence: `"When the alarm sounded, the guards responded and the system logged the event."` | "the event" resolves to preceding acts (intra-sentence) |
 | P13-ANA-3 | `"An event occurred yesterday."` | "event" creates normal entity (indefinite, no resolution) |
 | P13-ANA-4 | Anaphoric nouns covered: `the event`, `the incident`, `the situation`, `the occurrence`, `the problem`, `the issue` | All resolve when preceded by acts |

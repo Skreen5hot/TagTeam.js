@@ -129,7 +129,7 @@ Per the **v1/v2 Scope Contract** (2026-01-28), each enhancement is classified:
 **Proposed Fix:**
 1. Detect abstract anaphoric nouns ("the event", "the incident", "the situation", "the occurrence", "the problem", "the issue") with definite articles.
 2. When such a noun appears after one or more acts, resolve it as a coreference to the preceding act(s) rather than creating a new entity.
-3. Use `owl:sameAs` or `tagteam:corefers_with` to link the discourse referent to the act node(s) it refers to.
+3. Use `owl:sameAs` or `tagteam:corefersWith` to link the discourse referent to the act node(s) it refers to.
 4. Alternatively, create a `bfo:ProcessAggregate` that bundles the preceding acts and link "the event" to it.
 **Priority:** Medium
 **Complexity:** High — requires discourse-level anaphora resolution and act-to-entity coreference linking.

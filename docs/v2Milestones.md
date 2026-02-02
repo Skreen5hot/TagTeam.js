@@ -178,7 +178,7 @@ Wh-questions are structurally normalized before semantic compilation, producing 
 ### In-Scope
 
 - **Wh-movement normalization** (§3.3.2): Fronted Wh-NP identified as patient, intervening NP as agent, split verb reconstituted, auxiliary discarded
-- **Negation preservation** (§3.3.2): Contracted auxiliaries (`didn't`, `won't`, `can't`) → `tagteam:Negative` actuality status preserved alongside `tagteam:Interrogative`
+- **Negation preservation** (§3.3.2): Contracted auxiliaries (`didn't`, `won't`, `can't`) → `tagteam:Negated` actuality status preserved alongside `tagteam:Interrogative`
 - **v2Metadata handoff**: `whPhrase`, `whFunction`, `headNoun`, `negation` fields passed to v1
 
 ### Out-of-Scope
@@ -372,7 +372,7 @@ Multi-sentence discourse within concurrency-safe sessions resolves abstract anap
 ### In-Scope
 
 - **Concurrency-safe sessions** (§3.4.1): `builder.createSession()` → `session.build()` → `session.finalize()` with isolated `DiscourseState` per session
-- **Abstract anaphora** (ENH-010, §3.4.2): "the event/incident/situation" resolved to preceding act(s) via `tagteam:corefers_with`
+- **Abstract anaphora** (ENH-010, §3.4.2): "the event/incident/situation" resolved to preceding act(s) via `tagteam:corefersWith`
 - **Clausal subjects** (ENH-011): "The fact that X" recognized as subject of main verb, embedded clause parsed independently
 - **Salience model** (§3.4.2): `salience = (recency × 0.4) + (grammaticalRole × 0.3) + (topicContinuity × 0.2) + (definiteness × 0.1)`
 - Definite vs indefinite anaphora ("the event" resolves, "an event" creates new entity)
@@ -393,7 +393,7 @@ Multi-sentence discourse within concurrency-safe sessions resolves abstract anap
    session.build("The administrator noticed the event.");
    const result = session.finalize();
    ```
-   - Show: "the event" in sentence 2 resolves via `tagteam:corefers_with` to the Fail act from sentence 1
+   - Show: "the event" in sentence 2 resolves via `tagteam:corefersWith` to the Fail act from sentence 1
    - Show: no disconnected entity node for "event"
 2. **Clausal subject**: Build `"The fact that the server failed worried the administrator."`
    - Show: embedded "failed" process is cause of "worried" (`cco:MentalProcess`, integration with M-5)
@@ -413,7 +413,7 @@ Multi-sentence discourse within concurrency-safe sessions resolves abstract anap
 
 - Test suites: `tests/unit/clausal-subjects.test.js`, `tests/unit/abstract-anaphora.test.js`, `tests/unit/concurrency.test.js` — all green
 - Concurrency test: 100 parallel sessions, no state leakage
-- JSON-LD output showing `tagteam:corefers_with` links
+- JSON-LD output showing `tagteam:corefersWith` links
 - v1 regression suite: no failures
 
 ### Traceability
