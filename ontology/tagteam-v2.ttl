@@ -43,7 +43,7 @@
     rdfs:subClassOf cco:InformationContentEntity ;
     rdfs:label "Speech Act"@en ;
     skos:prefLabel "Speech Act"@en ;
-    skos:definition "An information content entity that represents the illocutionary force of an utterance."@en .
+    skos:definition "An information content entity that denotes the illocutionary force of an utterance."@en .
 
 :Inquiry
     a owl:Class ;
@@ -57,14 +57,14 @@
     rdfs:subClassOf :SpeechAct ;
     rdfs:label "Conditional Content"@en ;
     skos:prefLabel "Conditional Content"@en ;
-    skos:definition "A speech act expressing a condition-consequence relationship between two clauses."@en .
+    skos:definition "A speech act that denotes a condition-consequence relationship where the truth or occurrence of one proposition depends upon the truth or occurrence of another proposition."@en .
 
 :ValueAssertionEvent
     a owl:Class ;
     rdfs:subClassOf :SpeechAct ;
     rdfs:label "Value Assertion Event"@en ;
     skos:prefLabel "Value Assertion Event"@en ;
-    skos:definition "A speech act expressing an evaluative exclamation."@en .
+    skos:definition "A speech act that expresses a judgment about the worth, quality, or significance of some entity."@en .
 
 
 # =============================================================================
@@ -75,14 +75,14 @@
     a owl:Class ;
     rdfs:label "Clause Relation"@en ;
     skos:prefLabel "Clause Relation"@en ;
-    skos:definition "A structural relation linking two clauses within a compound or complex sentence."@en .
+    skos:definition "A structural connection that links two grammatical units within a compound or complex sentence."@en .
 
 :CausativeAct
     a owl:Class ;
     rdfs:subClassOf cco:IntentionalAct ;
     rdfs:label "Causative Act"@en ;
     skos:prefLabel "Causative Act"@en ;
-    skos:definition "An act where one agent causes another agent to perform an action."@en .
+    skos:definition "An intentional behavior that brings about another agent's performance of an action."@en .
 
 
 # =============================================================================
@@ -116,19 +116,19 @@
     a owl:NamedIndividual, :ClauseRelation ;
     rdfs:label "in order that"@en ;
     skos:prefLabel "in order that"@en ;
-    skos:definition "A clause relation denoting that clause A is performed for the purpose of clause B."@en .
+    skos:definition "A clause relation denoting a purposive connection where one clause expresses the goal or intended outcome of another clause."@en .
 
 :contrasts_with
     a owl:NamedIndividual, :ClauseRelation ;
     rdfs:label "contrasts with"@en ;
     skos:prefLabel "contrasts with"@en ;
-    skos:definition "A clause relation denoting that clause B contrasts with clause A."@en .
+    skos:definition "A clause relation denoting that clause B presents information that differs from or opposes the information presented in clause A."@en .
 
 :alternative_to
     a owl:NamedIndividual, :ClauseRelation ;
     rdfs:label "alternative to"@en ;
     skos:prefLabel "alternative to"@en ;
-    skos:definition "A clause relation denoting that clause B is an alternative to clause A."@en .
+    skos:definition "A clause relation denoting that clause B is a substitute option for clause A."@en .
 
 
 # =============================================================================
@@ -162,42 +162,42 @@
     a owl:DatatypeProperty ;
     rdfs:label "clause index"@en ;
     skos:prefLabel "clause index"@en ;
-    skos:definition "A zero-based index identifying which clause an act belongs to in a multi-clause sentence."@en ;
+    skos:definition "A datatype property that denotes a zero-based numerical position identifying which grammatical unit an act belongs to in a multi-unit sentence."@en ;
     rdfs:range xsd:integer .
 
 :subjectSource
     a owl:DatatypeProperty ;
     rdfs:label "subject source"@en ;
     skos:prefLabel "subject source"@en ;
-    skos:definition "A datatype property indicating how the subject was determined, e.g., 'ellipsis_injection' means the subject was copied from the preceding clause."@en ;
+    skos:definition "A datatype property that denotes the method by which a grammatical topic was determined for a linguistic expression."@en ;
     rdfs:range xsd:string .
 
 :whPhrase
     a owl:DatatypeProperty ;
     rdfs:label "Wh-phrase"@en ;
     skos:prefLabel "Wh-phrase"@en ;
-    skos:definition "A datatype property that denotes the original Wh-phrase from a question before normalization."@en ;
+    skos:definition "A datatype property that denotes the original interrogative phrase from a question before normalization."@en ;
     rdfs:range xsd:string .
 
 :verbClass
     a owl:DatatypeProperty ;
     rdfs:label "verb class"@en ;
     skos:prefLabel "verb class"@en ;
-    skos:definition "A datatype property that denotes the verb class classification, e.g., psych_verb, raising_verb, or causative."@en ;
+    skos:definition "A datatype property that denotes the grammatical category classification of action words, such as psychological, raising, or causative types."@en ;
     rdfs:range xsd:string .
 
 :epistemicStatus
     a owl:DatatypeProperty ;
     rdfs:label "epistemic status"@en ;
     skos:prefLabel "epistemic status"@en ;
-    skos:definition "A datatype property that denotes an epistemic qualification derived from raising verbs, e.g., apparent or tendency."@en ;
+    skos:definition "A datatype property that denotes a qualification concerning the degree of certainty or confidence associated with a proposition or belief state."@en ;
     rdfs:range xsd:string .
 
 :isQuestionFocus
     a owl:DatatypeProperty ;
     rdfs:label "is question focus"@en ;
     skos:prefLabel "is question focus"@en ;
-    skos:definition "A datatype property indicating that the entity is the focus of a Wh-question."@en ;
+    skos:definition "A datatype property that indicates the entity is the primary subject of inquiry in an interrogative statement."@en ;
     rdfs:range xsd:boolean .
 
 
@@ -220,42 +220,42 @@
     a owl:ObjectProperty ;
     rdfs:label "relation type"@en ;
     skos:prefLabel "relation type"@en ;
-    skos:definition "An object property relating a clause relation to its type, e.g., and_then, therefore, or contrasts_with."@en ;
+    skos:definition "An object property that links a clause connection to its semantic category, such as sequential, causal, or contrastive."@en ;
     rdfs:domain :ClauseRelation .
 
 :fromClause
     a owl:ObjectProperty ;
     rdfs:label "from clause"@en ;
     skos:prefLabel "from clause"@en ;
-    skos:definition "An object property relating a clause relation to its source clause act."@en ;
+    skos:definition "An object property that relates a relational entity to its source linguistic act."@en ;
     rdfs:domain :ClauseRelation .
 
 :toClause
     a owl:ObjectProperty ;
     rdfs:label "to clause"@en ;
     skos:prefLabel "to clause"@en ;
-    skos:definition "An object property relating a clause relation to its target clause act."@en ;
+    skos:definition "An object property that relates a conditional statement to its consequent linguistic act."@en ;
     rdfs:domain :ClauseRelation .
 
 :has_antecedent
     a owl:ObjectProperty ;
     rdfs:label "has antecedent"@en ;
     skos:prefLabel "has antecedent"@en ;
-    skos:definition "An object property linking a ConditionalContent to its condition clause."@en ;
+    skos:definition "An object property that relates a conditional information content entity to the information content entity that denotes the condition upon which the conditional depends."@en ;
     rdfs:domain :ConditionalContent .
 
 :has_consequent
     a owl:ObjectProperty ;
     rdfs:label "has consequent"@en ;
     skos:prefLabel "has consequent"@en ;
-    skos:definition "An object property linking a ConditionalContent to its consequence clause."@en ;
+    skos:definition "An object property that relates a conditional information content entity to the information content entity that denotes what follows when the conditional's antecedent condition is satisfied."@en ;
     rdfs:domain :ConditionalContent .
 
 :has_cause
     a owl:ObjectProperty ;
     rdfs:label "has cause"@en ;
     skos:prefLabel "has cause"@en ;
-    skos:definition "An object property linking a mental process to its causal stimulus."@en .
+    skos:definition "An object property that relates a mental process to the entity that causally brings about that mental process."@en .
 
 
 # =============================================================================

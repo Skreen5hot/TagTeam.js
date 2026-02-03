@@ -1,0 +1,1117 @@
+{
+  "@context": {
+    "@base": "http://tagteam.fandaws.org/ontology/",
+    "tagteam": "http://tagteam.fandaws.org/ontology/",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "bfo": "http://purl.obolibrary.org/obo/",
+    "cco": "http://www.ontologyrepository.com/CommonCoreOntologies/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "dc": "http://purl.org/dc/elements/1.1/",
+    "dcterms": "http://purl.org/dc/terms/"
+  },
+  "@graph": [
+    {
+      "@id": "http://tagteam.fandaws.org/ontology/",
+      "@type": "owl:Ontology",
+      "owl:versionIRI": { "@id": "http://tagteam.fandaws.org/ontology/4.0.1/" },
+      "owl:versionInfo": "4.0.1",
+      "dc:title": { "@value": "TagTeam Ontology", "@language": "en" },
+      "dc:description": { "@value": "An extension ontology for BFO and CCO providing vocabulary for natural language parsing, assertion events, deontic modality, and ethical value detection.", "@language": "en" },
+      "dc:creator": { "@value": "TagTeam Development Team", "@language": "en" },
+      "dcterms:license": { "@id": "https://creativecommons.org/licenses/by/4.0/" },
+      "dcterms:created": { "@value": "2024-01-01", "@type": "xsd:date" },
+      "dcterms:modified": { "@value": "2026-01-22", "@type": "xsd:date" },
+      "rdfs:comment": { "@value": "TagTeam extends BFO and CCO to support semantic graph construction from natural language text, with particular focus on ethical discourse analysis.", "@language": "en" },
+      "owl:imports": { "@id": "http://purl.obolibrary.org/obo/bfo/2020/bfo.owl" }
+    },
+
+    {
+      "@id": "tagteam:DiscourseReferent",
+      "@type": "owl:Class",
+      "rdfs:subClassOf": { "@id": "cco:InformationContentEntity" },
+      "rdfs:label": { "@value": "Discourse Referent", "@language": "en" },
+      "skos:prefLabel": { "@value": "Discourse Referent", "@language": "en" },
+      "skos:definition": { "@value": "An information content entity that denotes a linguistic reference to an entity mentioned in text.", "@language": "en" },
+      "rdfs:comment": { "@value": "In the two-tier architecture, DiscourseReferents (Tier 1) are linked to real-world entities like cco:Person (Tier 2) via the denotesType property.", "@language": "en" },
+      "skos:example": { "@value": "The text 'the doctor' creates a DiscourseReferent that denotesType cco:Person.", "@language": "en" }
+    },
+
+    {
+      "@id": "tagteam:VerbPhrase",
+      "@type": "owl:Class",
+      "rdfs:subClassOf": { "@id": "cco:InformationContentEntity" },
+      "rdfs:label": { "@value": "Verb Phrase", "@language": "en" },
+      "skos:prefLabel": { "@value": "Verb Phrase", "@language": "en" },
+      "skos:definition": { "@value": "An information content entity that denotes a linguistic unit expressing an action, state, or occurrence along with its associated temporal, aspectual, and modal properties.", "@language": "en" }
+    },
+
+    {
+      "@id": "tagteam:DeonticContent",
+      "@type": "owl:Class",
+      "rdfs:subClassOf": { "@id": "cco:InformationContentEntity" },
+      "rdfs:label": { "@value": "Deontic Content", "@language": "en" },
+      "skos:prefLabel": { "@value": "Deontic Content", "@language": "en" },
+      "skos:definition": { "@value": "An information content entity that denotes normative propositions expressing obligations, permissions, prohibitions, or recommendations.", "@language": "en" },
+      "rdfs:comment": { "@value": "Parent class for all normative/prescriptive content. Per CCO Expert Review: DeonticContent is the broader category; DirectiveContent is a specific subclass for imperatives.", "@language": "en" }
+    },
+
+    {
+      "@id": "tagteam:DirectiveContent",
+      "@type": "owl:Class",
+      "rdfs:subClassOf": [
+        { "@id": "tagteam:DeonticContent" },
+        { "@id": "cco:DirectiveInformationContentEntity" }
+      ],
+      "rdfs:label": { "@value": "Directive Content", "@language": "en" },
+      "skos:prefLabel": { "@value": "Directive Content", "@language": "en" },
+      "skos:definition": { "@value": "A deontic information content entity that denotes a mandate, instruction, or prohibition requiring specific actions.", "@language": "en" },
+      "rdfs:comment": { "@value": "Subclass of DeonticContent for explicit directives. Also aligned with cco:DirectiveInformationContentEntity for CCO compatibility.", "@language": "en" }
+    },
+
+    {
+      "@id": "tagteam:ScarcityAssertion",
+      "@type": "owl:Class",
+      "rdfs:subClassOf": { "@id": "cco:InformationContentEntity" },
+      "rdfs:label": { "@value": "Scarcity Assertion", "@language": "en" },
+      "skos:prefLabel": { "@value": "Scarcity Assertion", "@language": "en" },
+      "skos:definition": { "@value": "An information content entity that denotes the insufficient availability of a resource relative to demand for that resource.", "@language": "en" },
+      "skos:example": { "@value": "The phrase 'the last ventilator' triggers creation of a ScarcityAssertion.", "@language": "en" }
+    },
+
+    {
+      "@id": "tagteam:ValueDetectionRecord",
+      "@type": "owl:Class",
+      "rdfs:subClassOf": { "@id": "cco:InformationContentEntity" },
+      "rdfs:label": { "@value": "Value Detection Record", "@language": "en" },
+      "skos:prefLabel": { "@value": "Value Detection Record", "@language": "en" },
+      "skos:definition": { "@value": "A record of an ethical value detected in text through pattern matching or semantic analysis.", "@language": "en" },
+      "owl:deprecated": true,
+      "rdfs:comment": { "@value": "Deprecated: Use ValueAssertionEvent instead for GIT-Minimal compliance.", "@language": "en" }
+    },
+
+    {
+      "@id": "tagteam:ContextAssessmentRecord",
+      "@type": "owl:Class",
+      "rdfs:subClassOf": { "@id": "cco:InformationContentEntity" },
+      "rdfs:label": { "@value": "Context Assessment Record", "@language": "en" },
+      "skos:prefLabel": { "@value": "Context Assessment Record", "@language": "en" },
+      "skos:definition": { "@value": "A record of context dimension scores assessed from text analysis.", "@language": "en" },
+      "owl:deprecated": true,
+      "rdfs:comment": { "@value": "Deprecated: Use ContextAssessmentEvent instead for GIT-Minimal compliance.", "@language": "en" }
+    },
+
+    {
+      "@id": "tagteam:InterpretationContext",
+      "@type": "owl:Class",
+      "rdfs:subClassOf": { "@id": "cco:InformationContentEntity" },
+      "rdfs:label": { "@value": "Interpretation Context", "@language": "en" },
+      "skos:prefLabel": { "@value": "Interpretation Context", "@language": "en" },
+      "skos:definition": { "@value": "An information content entity that denotes a framework of principles, standards, or perspectives that guides the understanding and evaluation of assertions, such as medical ethics or legal doctrine.", "@language": "en" },
+      "skos:example": { "@value": "MedicalEthics context uses Beauchamp & Childress Principlism framework.", "@language": "en" }
+    },
+
+    {
+      "@id": "tagteam:SpeechAct",
+      "@type": "owl:Class",
+      "rdfs:subClassOf": { "@id": "cco:InformationContentEntity" },
+      "rdfs:label": { "@value": "Speech Act", "@language": "en" },
+      "skos:prefLabel": { "@value": "Speech Act", "@language": "en" },
+      "skos:definition": { "@value": "An information content entity that denotes the illocutionary force of an utterance.", "@language": "en" }
+    },
+
+    {
+      "@id": "tagteam:ValueAssertionEvent",
+      "@type": "owl:Class",
+      "rdfs:subClassOf": { "@id": "tagteam:SpeechAct" },
+      "rdfs:label": { "@value": "Value Assertion Event", "@language": "en" },
+      "skos:prefLabel": { "@value": "Value Assertion Event", "@language": "en" },
+      "skos:definition": { "@value": "A speech act that expresses a judgment about the worth, quality, or significance of some entity.", "@language": "en" },
+      "rdfs:comment": { "@value": "Aligned with tagteam-v2.ttl definition. For the process of detecting values, use detection event patterns with :detected_by and :assertionType.", "@language": "en" }
+    },
+
+    {
+      "@id": "tagteam:ContextAssessmentEvent",
+      "@type": "owl:Class",
+      "rdfs:subClassOf": { "@id": "bfo:BFO_0000015" },
+      "rdfs:label": { "@value": "Context Assessment Event", "@language": "en" },
+      "skos:prefLabel": { "@value": "Context Assessment Event", "@language": "en" },
+      "skos:definition": { "@value": "A process in which an agent evaluates a situational dimension and assigns a score to that dimension.", "@language": "en" }
+    },
+
+    {
+      "@id": "tagteam:EthicalValueICE",
+      "@type": "owl:Class",
+      "rdfs:subClassOf": { "@id": "cco:InformationContentEntity" },
+      "rdfs:label": { "@value": "Ethical Value ICE", "@language": "en" },
+      "skos:prefLabel": { "@value": "Ethical Value Information Content Entity", "@language": "en" },
+      "skos:definition": { "@value": "An information content entity that denotes a moral principle or standard (such as autonomy, beneficence, or justice) that guides conduct and decision-making.", "@language": "en" }
+    },
+
+    {
+      "@id": "tagteam:ContextDimensionICE",
+      "@type": "owl:Class",
+      "rdfs:subClassOf": { "@id": "cco:InformationContentEntity" },
+      "rdfs:label": { "@value": "Context Dimension ICE", "@language": "en" },
+      "skos:prefLabel": { "@value": "Context Dimension Information Content Entity", "@language": "en" },
+      "skos:definition": { "@value": "An Information Content Entity that denotes an evaluative aspect of a situational circumstance along which assessments can be made.", "@language": "en" }
+    },
+
+    {
+      "@id": "tagteam:AssertionType",
+      "@type": "owl:Class",
+      "rdfs:subClassOf": { "@id": "cco:InformationContentEntity" },
+      "rdfs:label": { "@value": "Assertion Type", "@language": "en" },
+      "skos:prefLabel": { "@value": "Assertion Type", "@language": "en" },
+      "skos:definition": { "@value": "An Information Content Entity that denotes a category specifying the provenance and validation status of declarative statements.", "@language": "en" }
+    },
+
+    {
+      "@id": "tagteam:AutomatedDetection",
+      "@type": ["owl:NamedIndividual", "tagteam:AssertionType"],
+      "rdfs:label": { "@value": "Automated Detection", "@language": "en" },
+      "skos:prefLabel": { "@value": "Automated Detection", "@language": "en" },
+      "skos:definition": { "@value": "An assertion type that denotes assertions made by computational systems without human validation.", "@language": "en" }
+    },
+
+    {
+      "@id": "tagteam:HumanValidation",
+      "@type": ["owl:NamedIndividual", "tagteam:AssertionType"],
+      "rdfs:label": { "@value": "Human Validation", "@language": "en" },
+      "skos:prefLabel": { "@value": "Human Validation", "@language": "en" },
+      "skos:definition": { "@value": "An assertion type that denotes assertions which have been confirmed as accurate by a person.", "@language": "en" }
+    },
+
+    {
+      "@id": "tagteam:HumanRejection",
+      "@type": ["owl:NamedIndividual", "tagteam:AssertionType"],
+      "rdfs:label": { "@value": "Human Rejection", "@language": "en" },
+      "skos:prefLabel": { "@value": "Human Rejection", "@language": "en" },
+      "skos:definition": { "@value": "An assertion type that denotes an assertion has been rejected by a person reviewer as incorrect.", "@language": "en" }
+    },
+
+    {
+      "@id": "tagteam:HumanCorrection",
+      "@type": ["owl:NamedIndividual", "tagteam:AssertionType"],
+      "rdfs:label": { "@value": "Human Correction", "@language": "en" },
+      "skos:prefLabel": { "@value": "Human Correction", "@language": "en" },
+      "skos:definition": { "@value": "An assertion type that denotes an assertion has been modified by a person to supersede a previous assertion.", "@language": "en" }
+    },
+
+    {
+      "@id": "tagteam:ActualityStatus",
+      "@type": "owl:Class",
+      "rdfs:subClassOf": { "@id": "cco:InformationContentEntity" },
+      "rdfs:label": { "@value": "Actuality Status", "@language": "en" },
+      "skos:prefLabel": { "@value": "Actuality Status", "@language": "en" },
+      "skos:definition": { "@value": "An Information Content Entity that denotes the modal condition of an act with respect to its realization in reality.", "@language": "en" }
+    },
+
+    {
+      "@id": "tagteam:Actual",
+      "@type": ["owl:NamedIndividual", "tagteam:ActualityStatus"],
+      "rdfs:label": { "@value": "Actual", "@language": "en" },
+      "skos:prefLabel": { "@value": "Actual", "@language": "en" },
+      "skos:definition": { "@value": "An actuality status that denotes the occurrence or current occurrence of an act in reality.", "@language": "en" }
+    },
+
+    {
+      "@id": "tagteam:Prescribed",
+      "@type": ["owl:NamedIndividual", "tagteam:ActualityStatus"],
+      "rdfs:label": { "@value": "Prescribed", "@language": "en" },
+      "skos:prefLabel": { "@value": "Prescribed", "@language": "en" },
+      "skos:definition": { "@value": "An actuality status that denotes the deontic necessity of some act or state of affairs.", "@language": "en" },
+      "rdfs:comment": { "@value": "Corresponds to modal markers like 'must', 'should', 'ought to'.", "@language": "en" }
+    },
+
+    {
+      "@id": "tagteam:Permitted",
+      "@type": ["owl:NamedIndividual", "tagteam:ActualityStatus"],
+      "rdfs:label": { "@value": "Permitted", "@language": "en" },
+      "skos:prefLabel": { "@value": "Permitted", "@language": "en" },
+      "skos:definition": { "@value": "An actuality status that denotes a deontic modality wherein an act is allowed but not required.", "@language": "en" },
+      "rdfs:comment": { "@value": "Corresponds to modal markers like 'may', 'can', 'is allowed to'.", "@language": "en" }
+    },
+
+    {
+      "@id": "tagteam:Prohibited",
+      "@type": ["owl:NamedIndividual", "tagteam:ActualityStatus"],
+      "rdfs:label": { "@value": "Prohibited", "@language": "en" },
+      "skos:prefLabel": { "@value": "Prohibited", "@language": "en" },
+      "skos:definition": { "@value": "An actuality status that denotes the deontic impossibility of some act or state of affairs.", "@language": "en" },
+      "rdfs:comment": { "@value": "Corresponds to modal markers like 'must not', 'shall not', 'is forbidden to'.", "@language": "en" }
+    },
+
+    {
+      "@id": "tagteam:Hypothetical",
+      "@type": ["owl:NamedIndividual", "tagteam:ActualityStatus"],
+      "rdfs:label": { "@value": "Hypothetical", "@language": "en" },
+      "skos:prefLabel": { "@value": "Hypothetical", "@language": "en" },
+      "skos:definition": { "@value": "An actuality status that denotes a state of affairs as being considered or discussed as a possibility rather than being asserted as actual.", "@language": "en" },
+      "rdfs:comment": { "@value": "Corresponds to conditional constructions like 'if...then', 'would'.", "@language": "en" }
+    },
+
+    {
+      "@id": "tagteam:Planned",
+      "@type": ["owl:NamedIndividual", "tagteam:ActualityStatus"],
+      "rdfs:label": { "@value": "Planned", "@language": "en" },
+      "skos:prefLabel": { "@value": "Planned", "@language": "en" },
+      "skos:definition": { "@value": "An actuality status that denotes an act is intended for future execution but has not yet been initiated.", "@language": "en" },
+      "rdfs:comment": { "@value": "Corresponds to intention markers like 'will', 'intend to', 'plan to'.", "@language": "en" }
+    },
+
+    {
+      "@id": "tagteam:Negated",
+      "@type": ["owl:NamedIndividual", "tagteam:ActualityStatus"],
+      "rdfs:label": { "@value": "Negated", "@language": "en" },
+      "skos:prefLabel": { "@value": "Negated", "@language": "en" },
+      "skos:definition": { "@value": "An actuality status that denotes the explicit denial or contradiction of an act's occurrence in the text.", "@language": "en" },
+      "rdfs:comment": { "@value": "Corresponds to negation markers like 'not', 'never', 'won't'.", "@language": "en" }
+    },
+
+    {
+      "@id": "tagteam:Default_Context",
+      "@type": ["owl:NamedIndividual", "tagteam:InterpretationContext"],
+      "rdfs:label": { "@value": "Default Context", "@language": "en" },
+      "skos:prefLabel": { "@value": "Default Context", "@language": "en" },
+      "skos:definition": { "@value": "An interpretive framework automatically applied to assertions when no specific alternative framework is designated.", "@language": "en" }
+    },
+
+    {
+      "@id": "tagteam:has_component",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": { "@value": "has component", "@language": "en" },
+      "skos:prefLabel": { "@value": "has component", "@language": "en" },
+      "skos:definition": { "@value": "A relation that holds between a complex linguistic structure and a constituent part of that structure.", "@language": "en" },
+      "rdfs:domain": { "@id": "cco:InformationContentEntity" },
+      "rdfs:range": { "@id": "cco:InformationContentEntity" }
+    },
+
+    {
+      "@id": "tagteam:extracted_from",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": { "@value": "extracted from", "@language": "en" },
+      "skos:prefLabel": { "@value": "extracted from", "@language": "en" },
+      "skos:definition": { "@value": "An object property that relates an information content entity to the discourse referent that bears the information content denoted by that entity.", "@language": "en" },
+      "rdfs:domain": { "@id": "cco:InformationContentEntity" },
+      "rdfs:range": { "@id": "tagteam:DiscourseReferent" }
+    },
+
+    {
+      "@id": "tagteam:corefersWith",
+      "@type": ["owl:ObjectProperty", "owl:SymmetricProperty"],
+      "rdfs:label": { "@value": "corefers with", "@language": "en" },
+      "skos:prefLabel": { "@value": "corefers with", "@language": "en" },
+      "skos:definition": { "@value": "An object property that relates two discourse referents that denote the same entity.", "@language": "en" },
+      "rdfs:domain": { "@id": "tagteam:DiscourseReferent" },
+      "rdfs:range": { "@id": "tagteam:DiscourseReferent" }
+    },
+
+    {
+      "@id": "tagteam:describes_quality",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": { "@value": "describes quality", "@language": "en" },
+      "skos:prefLabel": { "@value": "describes quality", "@language": "en" },
+      "skos:definition": { "@value": "An object property that relates a discourse referent to a BFO qualitative characteristic that the discourse referent linguistically denotes.", "@language": "en" },
+      "rdfs:comment": { "@value": "Phase 5 Addition (per CCO Expert Review):\nThis property enables mapping from linguistic qualifiers to formal BFO qualities.\nFor example, 'critically ill patient' would have:\n  - DiscourseReferent for 'patient' with :describes_quality linking to\n  - bfo:Quality (specifically cco:DiseaseQuality) that inheres in the Patient\n\nThis is essential for reasoning about the physical states described by adjectives,\nnot just recording them as text strings in :qualifierText.", "@language": "en" },
+      "rdfs:domain": { "@id": "tagteam:DiscourseReferent" },
+      "rdfs:range": { "@id": "bfo:BFO_0000019" }
+    },
+
+    {
+      "@id": "tagteam:would_be_realized_in",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": { "@value": "would be realized in", "@language": "en" },
+      "skos:prefLabel": { "@value": "would be realized in", "@language": "en" },
+      "skos:definition": { "@value": "An object property that relates a role to a process type such that the role has the disposition to be actualized during instances of that process type under appropriate conditions.", "@language": "en" },
+      "rdfs:comment": { "@value": "Extends BFO's realized_in (BFO_0000054) for non-actual processes.\n\nUSAGE CONSTRAINT (per CCO Expert Review):\nThis property MUST ONLY be used when the target process has an actualityStatus\nother than :Actual (i.e., :Prescribed, :Permitted, :Prohibited, :Hypothetical,\n:Planned, or :Negated). Using this property with an :Actual process violates\nBFO's principle that bfo:realized_in should be used for actual realizations.\n\nCorrect usage:\n  - Role links via :would_be_realized_in to a Prescribed act\n  - Role links via bfo:realized_in to an Actual act\n\nThis prevents over-generation of potentiality in factual graphs.", "@language": "en" },
+      "rdfs:domain": { "@id": "bfo:BFO_0000023" },
+      "rdfs:range": { "@id": "bfo:BFO_0000015" }
+    },
+
+    {
+      "@id": "tagteam:actualityStatus",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": { "@value": "actuality status", "@language": "en" },
+      "skos:prefLabel": { "@value": "actuality status", "@language": "en" },
+      "skos:definition": { "@value": "An object property that relates an act to a quality that specifies the modal nature of that act.", "@language": "en" },
+      "rdfs:domain": { "@id": "bfo:BFO_0000015" },
+      "rdfs:range": { "@id": "tagteam:ActualityStatus" }
+    },
+
+    {
+      "@id": "tagteam:prescribes",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": { "@value": "prescribes", "@language": "en" },
+      "skos:prefLabel": { "@value": "prescribes", "@language": "en" },
+      "skos:definition": { "@value": "A relation that holds between a directive information content entity and an act that the directive specifies as required or obligatory.", "@language": "en" },
+      "rdfs:subPropertyOf": { "@id": "cco:prescribes" },
+      "rdfs:domain": { "@id": "tagteam:DirectiveContent" },
+      "rdfs:range": { "@id": "bfo:BFO_0000015" },
+      "owl:inverseOf": { "@id": "tagteam:prescribed_by" }
+    },
+
+    {
+      "@id": "tagteam:prescribed_by",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": { "@value": "prescribed by", "@language": "en" },
+      "skos:prefLabel": { "@value": "prescribed by", "@language": "en" },
+      "skos:definition": { "@value": "An object property that relates an act to the directive content entity that prescribes it.", "@language": "en" },
+      "rdfs:domain": { "@id": "bfo:BFO_0000015" },
+      "rdfs:range": { "@id": "tagteam:DirectiveContent" },
+      "owl:inverseOf": { "@id": "tagteam:prescribes" }
+    },
+
+    {
+      "@id": "tagteam:asserts",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": { "@value": "asserts", "@language": "en" },
+      "skos:prefLabel": { "@value": "asserts", "@language": "en" },
+      "skos:definition": { "@value": "A relation that holds between an assertion event and an information content entity that is the propositional content of that event.", "@language": "en" },
+      "rdfs:domain": {
+        "@type": "owl:Class",
+        "owl:unionOf": { "@list": [{ "@id": "tagteam:ValueAssertionEvent" }, { "@id": "tagteam:ContextAssessmentEvent" }] }
+      },
+      "rdfs:range": { "@id": "cco:InformationContentEntity" }
+    },
+
+    {
+      "@id": "tagteam:detected_by",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": { "@value": "detected by", "@language": "en" },
+      "skos:prefLabel": { "@value": "detected by", "@language": "en" },
+      "skos:definition": { "@value": "An object property that relates an assertion event to the agent that is the detector of the content of that assertion.", "@language": "en" },
+      "rdfs:domain": {
+        "@type": "owl:Class",
+        "owl:unionOf": { "@list": [{ "@id": "tagteam:ValueAssertionEvent" }, { "@id": "tagteam:ContextAssessmentEvent" }] }
+      },
+      "rdfs:range": { "@id": "cco:Agent" }
+    },
+
+    {
+      "@id": "tagteam:based_on",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": { "@value": "based on", "@language": "en" },
+      "skos:prefLabel": { "@value": "based on", "@language": "en" },
+      "skos:definition": { "@value": "An object property that relates an assertion event to the information bearing entity that serves as the evidential foundation for that assertion.", "@language": "en" },
+      "rdfs:domain": {
+        "@type": "owl:Class",
+        "owl:unionOf": { "@list": [{ "@id": "tagteam:ValueAssertionEvent" }, { "@id": "tagteam:ContextAssessmentEvent" }] }
+      },
+      "rdfs:range": { "@id": "cco:InformationBearingEntity" }
+    },
+
+    {
+      "@id": "tagteam:assertionType",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": { "@value": "assertion type", "@language": "en" },
+      "skos:prefLabel": { "@value": "assertion type", "@language": "en" },
+      "skos:definition": { "@value": "An object property that relates a declarative information content entity to the process classification that brought about that entity.", "@language": "en" },
+      "rdfs:domain": {
+        "@type": "owl:Class",
+        "owl:unionOf": { "@list": [{ "@id": "tagteam:ValueAssertionEvent" }, { "@id": "tagteam:ContextAssessmentEvent" }] }
+      },
+      "rdfs:range": { "@id": "tagteam:AssertionType" }
+    },
+
+    {
+      "@id": "tagteam:validInContext",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": { "@value": "valid in context", "@language": "en" },
+      "skos:prefLabel": { "@value": "valid in context", "@language": "en" },
+      "skos:definition": { "@value": "An object property that relates an assertion to the interpretation framework under which that assertion holds true.", "@language": "en" },
+      "rdfs:domain": {
+        "@type": "owl:Class",
+        "owl:unionOf": { "@list": [{ "@id": "tagteam:ValueAssertionEvent" }, { "@id": "tagteam:ContextAssessmentEvent" }] }
+      },
+      "rdfs:range": { "@id": "tagteam:InterpretationContext" }
+    },
+
+    {
+      "@id": "tagteam:validatedBy",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": { "@value": "validated by", "@language": "en" },
+      "skos:prefLabel": { "@value": "validated by", "@language": "en" },
+      "skos:definition": { "@value": "An object property that relates an assertion event to the human agent who confirmed its accuracy or correctness.", "@language": "en" },
+      "rdfs:domain": {
+        "@type": "owl:Class",
+        "owl:unionOf": { "@list": [{ "@id": "tagteam:ValueAssertionEvent" }, { "@id": "tagteam:ContextAssessmentEvent" }] }
+      },
+      "rdfs:range": { "@id": "cco:Person" }
+    },
+
+    {
+      "@id": "tagteam:supersedes",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": { "@value": "supersedes", "@language": "en" },
+      "skos:prefLabel": { "@value": "supersedes", "@language": "en" },
+      "skos:definition": { "@value": "A relation that holds between a corrected assertion and a previous assertion that the corrected assertion replaces due to the previous assertion containing an error or being outdated.", "@language": "en" },
+      "rdfs:domain": {
+        "@type": "owl:Class",
+        "owl:unionOf": { "@list": [{ "@id": "tagteam:ValueAssertionEvent" }, { "@id": "tagteam:ContextAssessmentEvent" }] }
+      },
+      "rdfs:range": {
+        "@type": "owl:Class",
+        "owl:unionOf": { "@list": [{ "@id": "tagteam:ValueAssertionEvent" }, { "@id": "tagteam:ContextAssessmentEvent" }] }
+      }
+    },
+
+    {
+      "@id": "tagteam:scarceResource",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": { "@value": "scarce resource", "@language": "en" },
+      "skos:prefLabel": { "@value": "scarce resource", "@language": "en" },
+      "skos:definition": { "@value": "An object property that relates a scarcity assertion to a material entity that is in limited supply.", "@language": "en" },
+      "rdfs:domain": { "@id": "tagteam:ScarcityAssertion" },
+      "rdfs:range": { "@id": "bfo:BFO_0000030" }
+    },
+
+    {
+      "@id": "tagteam:competingParties",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": { "@value": "competing parties", "@language": "en" },
+      "skos:prefLabel": { "@value": "competing parties", "@language": "en" },
+      "skos:definition": { "@value": "An object property that relates a scarcity assertion to the agents that are in competition for the scarce resource.", "@language": "en" },
+      "rdfs:domain": { "@id": "tagteam:ScarcityAssertion" },
+      "rdfs:range": { "@id": "cco:Agent" }
+    },
+
+    {
+      "@id": "tagteam:extractionConfidence",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "extraction confidence", "@language": "en" },
+      "skos:prefLabel": { "@value": "extraction confidence", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes a numerical value between 0.0 and 1.0 indicating the degree of certainty associated with an automated derivation process for an assertion.", "@language": "en" },
+      "rdfs:domain": {
+        "@type": "owl:Class",
+        "owl:unionOf": { "@list": [{ "@id": "tagteam:ValueAssertionEvent" }, { "@id": "tagteam:ContextAssessmentEvent" }] }
+      },
+      "rdfs:range": { "@id": "xsd:decimal" }
+    },
+
+    {
+      "@id": "tagteam:classificationConfidence",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "classification confidence", "@language": "en" },
+      "skos:prefLabel": { "@value": "classification confidence", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes a numerical value between 0.0 and 1.0 indicating the degree of certainty in a categorical assignment.", "@language": "en" },
+      "rdfs:domain": {
+        "@type": "owl:Class",
+        "owl:unionOf": { "@list": [{ "@id": "tagteam:ValueAssertionEvent" }, { "@id": "tagteam:ContextAssessmentEvent" }] }
+      },
+      "rdfs:range": { "@id": "xsd:decimal" }
+    },
+
+    {
+      "@id": "tagteam:relevanceConfidence",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "relevance confidence", "@language": "en" },
+      "skos:prefLabel": { "@value": "relevance confidence", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes a numerical value between 0.0 and 1.0 indicating the degree to which an assertion pertains to a specified context.", "@language": "en" },
+      "rdfs:domain": {
+        "@type": "owl:Class",
+        "owl:unionOf": { "@list": [{ "@id": "tagteam:ValueAssertionEvent" }, { "@id": "tagteam:ContextAssessmentEvent" }] }
+      },
+      "rdfs:range": { "@id": "xsd:decimal" }
+    },
+
+    {
+      "@id": "tagteam:aggregateConfidence",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "aggregate confidence", "@language": "en" },
+      "skos:prefLabel": { "@value": "aggregate confidence", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes a numerical value between 0.0 and 1.0 representing the combined certainty measure derived from extraction, classification, and relevance assessments.", "@language": "en" },
+      "rdfs:domain": {
+        "@type": "owl:Class",
+        "owl:unionOf": { "@list": [{ "@id": "tagteam:ValueAssertionEvent" }, { "@id": "tagteam:ContextAssessmentEvent" }] }
+      },
+      "rdfs:range": { "@id": "xsd:decimal" }
+    },
+
+    {
+      "@id": "tagteam:aggregationMethod",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "aggregation method", "@language": "en" },
+      "skos:prefLabel": { "@value": "aggregation method", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the computational approach for combining multiple confidence values into a single aggregate value.", "@language": "en" },
+      "rdfs:domain": {
+        "@type": "owl:Class",
+        "owl:unionOf": { "@list": [{ "@id": "tagteam:ValueAssertionEvent" }, { "@id": "tagteam:ContextAssessmentEvent" }] }
+      },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:instantiated_at",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "instantiated at", "@language": "en" },
+      "skos:prefLabel": { "@value": "instantiated at", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the timestamp when an entity was created in the graph.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:dateTime" }
+    },
+
+    {
+      "@id": "tagteam:instantiated_by",
+      "@type": "owl:ObjectProperty",
+      "rdfs:label": { "@value": "instantiated by", "@language": "en" },
+      "skos:prefLabel": { "@value": "instantiated by", "@language": "en" },
+      "skos:definition": { "@value": "An object property that relates an entity to the agent or document that brought it into existence.", "@language": "en" },
+      "rdfs:range": { "@id": "cco:InformationBearingEntity" }
+    },
+
+    {
+      "@id": "tagteam:detected_at",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "detected at", "@language": "en" },
+      "skos:prefLabel": { "@value": "detected at", "@language": "en" },
+      "skos:definition": { "@value": "The timestamp when a detection (e.g., scarcity, value) was made.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:dateTime" }
+    },
+
+    {
+      "@id": "tagteam:received_at",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "received at", "@language": "en" },
+      "skos:prefLabel": { "@value": "received at", "@language": "en" },
+      "skos:definition": { "@value": "A temporal instant that denotes when input text arrived for processing.", "@language": "en" },
+      "rdfs:domain": { "@id": "cco:InformationBearingEntity" },
+      "rdfs:range": { "@id": "xsd:dateTime" }
+    },
+
+    {
+      "@id": "tagteam:validationTimestamp",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "validation timestamp", "@language": "en" },
+      "skos:prefLabel": { "@value": "validation timestamp", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the temporal instant when an assertion was validated by a human reviewer.", "@language": "en" },
+      "rdfs:domain": {
+        "@type": "owl:Class",
+        "owl:unionOf": { "@list": [{ "@id": "tagteam:ValueAssertionEvent" }, { "@id": "tagteam:ContextAssessmentEvent" }] }
+      },
+      "rdfs:range": { "@id": "xsd:dateTime" }
+    },
+
+    {
+      "@id": "tagteam:temporal_extent",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "temporal extent", "@language": "en" },
+      "skos:prefLabel": { "@value": "temporal extent", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the duration of time during which an entity exists or a process occurs.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:dateTime" }
+    },
+
+    {
+      "@id": "tagteam:sourceText",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "source text", "@language": "en" },
+      "skos:prefLabel": { "@value": "source text", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the original character sequence from which an entity originates.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:startPosition",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "start position", "@language": "en" },
+      "skos:prefLabel": { "@value": "start position", "@language": "en" },
+      "skos:definition": { "@value": "The character offset where the source text begins in the input.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:integer" }
+    },
+
+    {
+      "@id": "tagteam:endPosition",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "end position", "@language": "en" },
+      "skos:prefLabel": { "@value": "end position", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the character offset where the source text concludes in the input.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:integer" }
+    },
+
+    {
+      "@id": "tagteam:char_count",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "character count", "@language": "en" },
+      "skos:prefLabel": { "@value": "character count", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the quantity of individual symbols contained within a specified textual entity.", "@language": "en" },
+      "rdfs:domain": { "@id": "cco:InformationBearingEntity" },
+      "rdfs:range": { "@id": "xsd:integer" }
+    },
+
+    {
+      "@id": "tagteam:word_count",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "word count", "@language": "en" },
+      "skos:prefLabel": { "@value": "word count", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the quantity of lexical units in a given textual input.", "@language": "en" },
+      "rdfs:domain": { "@id": "cco:InformationBearingEntity" },
+      "rdfs:range": { "@id": "xsd:integer" }
+    },
+
+    {
+      "@id": "tagteam:extracted_from_span",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "extracted from span", "@language": "en" },
+      "skos:prefLabel": { "@value": "extracted from span", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that relates an entity to the text segment that is the source of that entity.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:span_offset",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "span offset", "@language": "en" },
+      "skos:prefLabel": { "@value": "span offset", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the start and end character positions of a text segment, expressed as a pair of integers.", "@language": "en" },
+      "rdfs:comment": { "@value": "Stored as a JSON array [start, end] in JSON-LD.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:denotesType",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "denotes type", "@language": "en" },
+      "skos:prefLabel": { "@value": "denotes type", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that relates a discourse referent to the IRI of the ontology class that the discourse referent refers to.", "@language": "en" },
+      "rdfs:domain": { "@id": "tagteam:DiscourseReferent" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:referentialStatus",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "referential status", "@language": "en" },
+      "skos:prefLabel": { "@value": "referential status", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the discourse accessibility of an entity mentioned in text, with values indicating whether the entity is presupposed as known, newly introduced, referenced anaphorically, or presented hypothetically.", "@language": "en" },
+      "rdfs:domain": { "@id": "tagteam:DiscourseReferent" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:definiteness",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "definiteness", "@language": "en" },
+      "skos:prefLabel": { "@value": "definiteness", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes whether a linguistic referent has definite or indefinite determination.", "@language": "en" },
+      "rdfs:domain": { "@id": "tagteam:DiscourseReferent" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:quantity",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "quantity", "@language": "en" },
+      "skos:prefLabel": { "@value": "quantity", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the numeric value indicating how many entities are being referenced.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:integer" }
+    },
+
+    {
+      "@id": "tagteam:quantityIndicator",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "quantity indicator", "@language": "en" },
+      "skos:prefLabel": { "@value": "quantity indicator", "@language": "en" },
+      "skos:definition": { "@value": "A linguistic marker that denotes the amount or number of entities being referenced.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:qualifiers",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "qualifiers", "@language": "en" },
+      "skos:prefLabel": { "@value": "qualifiers", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes adjective or adverbial modifiers associated with an entity.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:roleType",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "role type", "@language": "en" },
+      "skos:prefLabel": { "@value": "role type", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the semantic function performed by a participant in a linguistic or conceptual relation.", "@language": "en" },
+      "rdfs:domain": { "@id": "bfo:BFO_0000023" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:verb",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "verb", "@language": "en" },
+      "skos:prefLabel": { "@value": "verb", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the infinitive form of an action word within a linguistic act or expression.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:lemma",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "lemma", "@language": "en" },
+      "skos:prefLabel": { "@value": "lemma", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the canonical or dictionary form of a lexical item from which inflected variants are derived.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:tense",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "tense", "@language": "en" },
+      "skos:prefLabel": { "@value": "tense", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the temporal relationship between the time of an action or state and the time of speaking or reference point in a grammatical expression.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:aspect",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "aspect", "@language": "en" },
+      "skos:prefLabel": { "@value": "aspect", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the temporal structure or completion status of a verbal action or state.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:negated",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "negated", "@language": "en" },
+      "skos:prefLabel": { "@value": "negated", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes whether a linguistic expression or action has opposite or contrary meaning to its positive form.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:boolean" }
+    },
+
+    {
+      "@id": "tagteam:negationMarker",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "negation marker", "@language": "en" },
+      "skos:prefLabel": { "@value": "negation marker", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes linguistic elements which indicate the absence or contradiction of a stated condition.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:hasModalMarker",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "has modal marker", "@language": "en" },
+      "skos:prefLabel": { "@value": "has modal marker", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes whether a linguistic expression contains an auxiliary verb indicating possibility, necessity, or obligation.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:boolean" }
+    },
+
+    {
+      "@id": "tagteam:modality",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "modality", "@language": "en" },
+      "skos:prefLabel": { "@value": "modality", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the deontic status of a statement as obligation, permission, prohibition, recommendation, intention, or hypothetical.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:modalType",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "modal type", "@language": "en" },
+      "skos:prefLabel": { "@value": "modal type", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the category of necessity, possibility, or obligation expressed by a linguistic construction.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:modalMarker",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "modal marker", "@language": "en" },
+      "skos:prefLabel": { "@value": "modal marker", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes linguistic expressions indicating modality such as necessity, possibility, or obligation.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:modalStrength",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "modal strength", "@language": "en" },
+      "skos:prefLabel": { "@value": "modal strength", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the degree of deontic force expressed by an obligation or prohibition on a scale from 0.0 to 1.0, where 1.0 indicates the highest degree of binding force.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:decimal" }
+    },
+
+    {
+      "@id": "tagteam:is_scarce",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "is scarce", "@language": "en" },
+      "skos:prefLabel": { "@value": "is scarce", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes whether an entity has limited availability or insufficient quantity based on linguistic markers.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:boolean" }
+    },
+
+    {
+      "@id": "tagteam:scarcity_marker",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "scarcity marker", "@language": "en" },
+      "skos:prefLabel": { "@value": "scarcity marker", "@language": "en" },
+      "skos:definition": { "@value": "A linguistic expression that denotes the limited availability or restricted quantity of some entity.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:scarcityMarker",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "scarcity marker", "@language": "en" },
+      "skos:prefLabel": { "@value": "scarcity marker", "@language": "en" },
+      "owl:equivalentProperty": { "@id": "tagteam:scarcity_marker" },
+      "skos:definition": { "@value": "A datatype property that denotes the degree of rarity or limited availability of some entity within a specified context.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:supplyCount",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "supply count", "@language": "en" },
+      "skos:prefLabel": { "@value": "supply count", "@language": "en" },
+      "skos:definition": { "@value": "A quantity that denotes the number of available units of a scarce resource at a specific time.", "@language": "en" },
+      "rdfs:domain": { "@id": "tagteam:ScarcityAssertion" },
+      "rdfs:range": { "@id": "xsd:integer" }
+    },
+
+    {
+      "@id": "tagteam:demandCount",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "demand count", "@language": "en" },
+      "skos:prefLabel": { "@value": "demand count", "@language": "en" },
+      "skos:definition": { "@value": "A non-negative integer that denotes the number of parties requiring a particular scarce resource in a specific context.", "@language": "en" },
+      "rdfs:domain": { "@id": "tagteam:ScarcityAssertion" },
+      "rdfs:range": { "@id": "xsd:integer" }
+    },
+
+    {
+      "@id": "tagteam:scarcityRatio",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "scarcity ratio", "@language": "en" },
+      "skos:prefLabel": { "@value": "scarcity ratio", "@language": "en" },
+      "skos:definition": { "@value": "A measurement datum that denotes the quotient of available supply to demand for a resource when that resource is limited in availability.", "@language": "en" },
+      "rdfs:domain": { "@id": "tagteam:ScarcityAssertion" },
+      "rdfs:range": { "@id": "xsd:decimal" }
+    },
+
+    {
+      "@id": "tagteam:qualifierText",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "qualifier text", "@language": "en" },
+      "skos:prefLabel": { "@value": "qualifier text", "@language": "en" },
+      "skos:definition": { "@value": "A textual information content entity that denotes a modifying characteristic or condition that specifies or limits the meaning of another entity.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:severity",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "severity", "@language": "en" },
+      "skos:prefLabel": { "@value": "severity", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the degree of intensity or seriousness of a medical condition or symptom.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:ageCategory",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "age category", "@language": "en" },
+      "skos:prefLabel": { "@value": "age category", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the life stage classification of a person based on their chronological maturity.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:member_count",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "member count", "@language": "en" },
+      "skos:prefLabel": { "@value": "member count", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the quantity of constituent entities within an object aggregate.", "@language": "en" },
+      "rdfs:domain": { "@id": "bfo:BFO_0000027" },
+      "rdfs:range": { "@id": "xsd:integer" }
+    },
+
+    {
+      "@id": "tagteam:member_index",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "member index", "@language": "en" },
+      "skos:prefLabel": { "@value": "member index", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the ordinal position of a constituent within an object aggregate using one-based numbering.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:integer" }
+    },
+
+    {
+      "@id": "tagteam:valueName",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "value name", "@language": "en" },
+      "skos:prefLabel": { "@value": "value name", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the textual identifier of an ethical principle or standard such as autonomy, beneficence, or justice.", "@language": "en" },
+      "rdfs:domain": { "@id": "tagteam:EthicalValueICE" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:valueCategory",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "value category", "@language": "en" },
+      "skos:prefLabel": { "@value": "value category", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the classificatory domain to which an ethical principle belongs, such as ethical, legal, or social domains.", "@language": "en" },
+      "rdfs:domain": { "@id": "tagteam:EthicalValueICE" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:dimension",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "dimension", "@language": "en" },
+      "skos:prefLabel": { "@value": "dimension", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that specifies the contextual aspect being evaluated in an assessment framework.", "@language": "en" },
+      "rdfs:domain": { "@id": "tagteam:ContextDimensionICE" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:category",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "category", "@language": "en" },
+      "skos:prefLabel": { "@value": "category", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that assigns classificatory labels to context dimensions.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:score",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "score", "@language": "en" },
+      "skos:prefLabel": { "@value": "score", "@language": "en" },
+      "skos:definition": { "@value": "A numeric value between 0.0 and 1.0 that quantifies the degree of assessment for a context dimension.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:decimal" }
+    },
+
+    {
+      "@id": "tagteam:polarity",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "polarity", "@language": "en" },
+      "skos:prefLabel": { "@value": "polarity", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes whether a value has a positive, negative, or neutral orientation as indicated by the numerical values 1, -1, or 0 respectively.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:integer" }
+    },
+
+    {
+      "@id": "tagteam:salience",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "salience", "@language": "en" },
+      "skos:prefLabel": { "@value": "salience", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the degree of prominence of a textual value on a scale from 0.0 to 1.0.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:decimal" }
+    },
+
+    {
+      "@id": "tagteam:evidence",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "evidence", "@language": "en" },
+      "skos:prefLabel": { "@value": "evidence", "@language": "en" },
+      "skos:definition": { "@value": "A textual information content entity that denotes facts or observations which support the truth or validity of an assertion.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:evidenceText",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "evidence text", "@language": "en" },
+      "skos:prefLabel": { "@value": "evidence text", "@language": "en" },
+      "owl:equivalentProperty": { "@id": "tagteam:evidence" },
+      "skos:definition": { "@value": "A datatype property that denotes textual content serving as support or proof for a claim or conclusion.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:sourceSpan",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "source span", "@language": "en" },
+      "skos:prefLabel": { "@value": "source span", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the textual boundaries within a document from which supporting evidence originates.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:matched_markers",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "matched markers", "@language": "en" },
+      "skos:prefLabel": { "@value": "matched markers", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes linguistic elements that correspond to specific patterns within textual content.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:detection_method",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "detection method", "@language": "en" },
+      "skos:prefLabel": { "@value": "detection method", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the specific technique or approach employed to identify the presence or occurrence of a particular entity or phenomenon.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:version",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "version", "@language": "en" },
+      "skos:prefLabel": { "@value": "version", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes an alphanumeric identifier indicating the release or iteration number of a software tool or knowledge organization system.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:algorithm",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "algorithm", "@language": "en" },
+      "skos:prefLabel": { "@value": "algorithm", "@language": "en" },
+      "skos:definition": { "@value": "An information content entity that denotes a systematic procedure for solving a computational problem or performing a specific task.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:capabilities",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "capabilities", "@language": "en" },
+      "skos:prefLabel": { "@value": "capabilities", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the functional abilities possessed by a parser agent.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:framework",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "framework", "@language": "en" },
+      "skos:prefLabel": { "@value": "framework", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the ethical or interpretive approach associated with a particular context.", "@language": "en" },
+      "rdfs:domain": { "@id": "tagteam:InterpretationContext" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:budgetUsage",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "budget usage", "@language": "en" },
+      "skos:prefLabel": { "@value": "budget usage", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes the amount of computational resources consumed during graph construction processes.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+
+    {
+      "@id": "tagteam:truncated",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "truncated", "@language": "en" },
+      "skos:prefLabel": { "@value": "truncated", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes whether a graph was cut short due to budget constraints.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:boolean" }
+    },
+
+    {
+      "@id": "tagteam:budgetWarnings",
+      "@type": "owl:DatatypeProperty",
+      "rdfs:label": { "@value": "budget warnings", "@language": "en" },
+      "skos:prefLabel": { "@value": "budget warnings", "@language": "en" },
+      "skos:definition": { "@value": "A datatype property that denotes alert messages produced during computational complexity resource allocation monitoring.", "@language": "en" },
+      "rdfs:range": { "@id": "xsd:string" }
+    }
+  ]
+}

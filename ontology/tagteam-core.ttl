@@ -97,6 +97,18 @@
 
 
 # =============================================================================
+# CLASSES - Speech Acts
+# =============================================================================
+
+:SpeechAct
+    a owl:Class ;
+    rdfs:subClassOf cco:InformationContentEntity ;
+    rdfs:label "Speech Act"@en ;
+    skos:prefLabel "Speech Act"@en ;
+    skos:definition "An information content entity that denotes the illocutionary force of an utterance."@en .
+
+
+# =============================================================================
 # CLASSES - Actuality Status (Deontic/Temporal)
 # =============================================================================
 

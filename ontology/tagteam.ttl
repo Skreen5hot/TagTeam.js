@@ -123,16 +123,28 @@
 
 
 # =============================================================================
+# CLASSES - Speech Acts (from v2)
+# =============================================================================
+
+:SpeechAct
+    a owl:Class ;
+    rdfs:subClassOf cco:InformationContentEntity ;
+    rdfs:label "Speech Act"@en ;
+    skos:prefLabel "Speech Act"@en ;
+    skos:definition "An information content entity that denotes the illocutionary force of an utterance."@en .
+
+
+# =============================================================================
 # CLASSES - Assertion Events (Week 2: GIT-Minimal Compliance)
 # =============================================================================
 
 :ValueAssertionEvent
     a owl:Class ;
-    rdfs:subClassOf bfo:BFO_0000015 ;  # process
+    rdfs:subClassOf :SpeechAct ;
     rdfs:label "Value Assertion Event"@en ;
     skos:prefLabel "Value Assertion Event"@en ;
-    skos:definition "A process in which an agent asserts that an ethical principle is present in or relevant to a given text and includes confidence decomposition and provenance tracking."@en ;
-    rdfs:comment "ValueAssertionEvents are processes because they occur at a specific time and have temporal extent. They assert EthicalValueICE nodes."@en .
+    skos:definition "A speech act that expresses a judgment about the worth, quality, or significance of some entity."@en ;
+    rdfs:comment "Aligned with tagteam-v2.ttl definition. For the process of detecting values, use detection event patterns with :detected_by and :assertionType."@en .
 
 :ContextAssessmentEvent
     a owl:Class ;
