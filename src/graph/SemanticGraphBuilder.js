@@ -303,9 +303,10 @@ class SemanticGraphBuilder {
     }
 
     // v2 Phase 0: Normalize v2 config with defaults
+    // V7-003: Enable v2 by default to support subordination detection
     const v2Config = buildOptions.v2 || {};
     buildOptions._v2 = {
-      enabled: v2Config.enabled || false,
+      enabled: v2Config.enabled !== false,  // V7-003: Default to TRUE (can be explicitly disabled)
       clauseSegmentation: { enabled: false, ellipsisInjection: true, ...v2Config.clauseSegmentation },
       speechActNodes: { questions: true, directives: true, conditionals: true, ...v2Config.speechActNodes },
       discourse: { enabled: false, ...v2Config.discourse }
@@ -1403,6 +1404,61 @@ class SemanticGraphBuilder {
       clauseActs.get(bestClause)?.push(act);
     }
     return clauseActs;
+  }
+
+  /**
+   * V7-003: Enforce hard clause boundaries (Cambridge Grammar §8.3)
+   * Remove arguments that reference entities from different clauses.
+   * Prevents argument bleeding in subordinate/coordinate structures.
+   */
+  _enforceClauseBoundaries(acts, entities, clauses, clauseActs) {
+    // Build entity position map
+    const entityPositionMap = new Map();
+    entities.forEach(entity => {
+      const start = entity['tagteam:startPosition'];
+      const end = entity['tagteam:endPosition'];
+      if (start !== undefined && end !== undefined) {
+        entityPositionMap.set(entity['@id'], { start, end });
+      }
+    });
+
+    // For each act, check if its arguments are in the same clause
+    for (const [clauseIdx, actsInClause] of clauseActs) {
+      const clause = clauses[clauseIdx];
+      if (!clause) continue;
+
+      for (const act of actsInClause) {
+        const argumentProperties = ['cco:has_agent', 'cco:has_patient', 'cco:affects', 'bfo:has_participant'];
+
+        argumentProperties.forEach(prop => {
+          const argValue = act[prop];
+          if (!argValue) return;
+
+          // Handle both single entity and array of entities
+          const argIds = Array.isArray(argValue)
+            ? argValue.map(v => (typeof v === 'object' ? v['@id'] : v))
+            : [typeof argValue === 'object' ? argValue['@id'] : argValue];
+
+          argIds.forEach((argId, idx) => {
+            const entityPos = entityPositionMap.get(argId);
+            if (!entityPos) return;
+
+            // Check if entity is outside this clause's boundaries
+            const entityInClause = entityPos.start >= clause.start && entityPos.end <= clause.end;
+
+            if (!entityInClause) {
+              // Remove this argument - it crosses clause boundary
+              if (Array.isArray(act[prop])) {
+                act[prop] = act[prop].filter((_, i) => i !== idx);
+                if (act[prop].length === 0) delete act[prop];
+              } else {
+                delete act[prop];
+              }
+            }
+          });
+        });
+      }
+    }
   }
 
   _classifySentenceMode(text) {

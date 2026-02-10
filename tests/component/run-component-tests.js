@@ -90,11 +90,9 @@ function analyzeResult(result, test) {
   };
 
   // Extract acts from JSON-LD @graph
+  // Use tagteam:verb to identify acts (more reliable than @type filtering)
   const acts = result['@graph'] ? result['@graph'].filter(node =>
-    node['@type'] && (
-      node['@type'].includes('IntentionalAct') ||
-      node['@type'].includes('cco:IntentionalAct')
-    )
+    node['tagteam:verb']  // Any node with a verb is an act
   ) : [];
 
   // Category-specific analysis

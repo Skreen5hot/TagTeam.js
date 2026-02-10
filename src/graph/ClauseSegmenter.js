@@ -25,6 +25,16 @@
 const COORDINATING_CONJUNCTIONS = ['and', 'but', 'or', 'nor', 'yet', 'so'];
 
 /**
+ * Subordinating conjunctions that introduce dependent clauses.
+ * When these appear at sentence start with a comma, they mark
+ * a subordinate clause boundary (Cambridge Grammar §8.3).
+ */
+const SUBORDINATING_CONJUNCTIONS = [
+  'if', 'when', 'while', 'because', 'although', 'though',
+  'unless', 'after', 'before', 'since', 'as', 'until', 'whereas'
+];
+
+/**
  * Conjunction-to-relation mapping per v2Spec.
  */
 const CONJUNCTION_RELATIONS = {
@@ -34,6 +44,25 @@ const CONJUNCTION_RELATIONS = {
   'or':  'tagteam:alternative_to',
   'nor': 'tagteam:alternative_to'
   // "so" is handled dynamically by _disambiguateSo()
+};
+
+/**
+ * Subordinator-to-relation mapping.
+ */
+const SUBORDINATOR_RELATIONS = {
+  'if': 'tagteam:conditional',
+  'unless': 'tagteam:conditional',
+  'when': 'tagteam:temporal',
+  'while': 'tagteam:temporal',
+  'after': 'tagteam:temporal',
+  'before': 'tagteam:temporal',
+  'since': 'tagteam:temporal',
+  'until': 'tagteam:temporal',
+  'as': 'tagteam:temporal',
+  'because': 'tagteam:causal',
+  'although': 'tagteam:concessive',
+  'though': 'tagteam:concessive',
+  'whereas': 'tagteam:contrastive'
 };
 
 /**
@@ -61,7 +90,13 @@ class ClauseSegmenter {
    * @returns {{ clauses: Array, relation: string|null }}
    */
   segment(text, options = {}) {
-    // Find coordinating conjunction positions
+    // Check for prefix subordination FIRST (if/when/while at start)
+    const subResult = this._findSubordination(text);
+    if (subResult) {
+      return subResult;
+    }
+
+    // Then check for coordinating conjunction positions
     const conjResult = this._findConjunction(text);
 
     if (!conjResult) {
@@ -111,6 +146,75 @@ class ClauseSegmenter {
     }
 
     const relation = CONJUNCTION_RELATIONS[conjunction] || 'tagteam:and_then';
+
+    return {
+      clauses: [clause0, clause1],
+      relation: relation
+    };
+  }
+
+  /**
+   * Detect prefix subordination: "If X, Y" or "When X, Y" patterns.
+   * Returns segmented clauses if detected, null otherwise.
+   *
+   * Per Cambridge Grammar §8.3: "Prefix subordinate clauses are bounded
+   * by comma when preceding main clause."
+   *
+   * @param {string} text
+   * @returns {{ clauses: Array, relation: string }|null}
+   */
+  _findSubordination(text) {
+    const words = text.trim().split(/\s+/);
+    if (words.length < 4) return null; // Too short for "If X, Y" pattern
+
+    const firstWord = words[0].toLowerCase().replace(/[.,;:!?]$/, '');
+
+    // Check if sentence starts with subordinator
+    if (!SUBORDINATING_CONJUNCTIONS.includes(firstWord)) {
+      return null;
+    }
+
+    // Find comma that marks subordinate clause boundary
+    const commaIndex = text.indexOf(',');
+    if (commaIndex === -1) {
+      // No comma → subordinator may be mid-sentence or different pattern
+      return null;
+    }
+
+    // Check that comma isn't too early (e.g., "If, ..." is invalid)
+    if (commaIndex < 5) return null;
+
+    // Split at comma
+    const subordinateText = text.substring(0, commaIndex).trim();
+    const mainText = text.substring(commaIndex + 1).trim();
+
+    // Verify both clauses have verbs
+    if (!this._hasVerb(subordinateText) || !this._hasVerb(mainText)) {
+      return null;
+    }
+
+    // Build subordinate clause
+    const clause0 = {
+      text: subordinateText,
+      start: 0,
+      end: commaIndex,
+      index: 0,
+      conjunction: null,
+      clauseType: 'subordinate',
+      subordinator: firstWord
+    };
+
+    // Build main clause
+    const clause1 = {
+      text: mainText,
+      start: commaIndex + 1,
+      end: text.length,
+      index: 1,
+      conjunction: null,
+      clauseType: 'main'
+    };
+
+    const relation = SUBORDINATOR_RELATIONS[firstWord] || 'tagteam:conditional';
 
     return {
       clauses: [clause0, clause1],
@@ -297,13 +401,17 @@ class ClauseSegmenter {
   _hasVerb(text) {
     const words = text.trim().toLowerCase().split(/\s+/);
     // Past tense heuristic: ends in -ed, -ied
+    // Present tense: ends in -s, -es
     // Common irregular verbs
     const irregulars = new Set([
       'went', 'came', 'gave', 'took', 'made', 'got', 'did', 'had', 'was', 'were',
       'ran', 'won', 'lost', 'said', 'saw', 'knew', 'grew', 'flew', 'drew', 'fell',
       'wrote', 'drove', 'broke', 'spoke', 'chose', 'woke', 'rose', 'began', 'sang',
       'swam', 'drank', 'ate', 'sat', 'stood', 'understood', 'left', 'sent', 'built',
-      'spent', 'meant', 'kept', 'felt', 'led', 'read', 'met', 'found', 'told', 'brought'
+      'spent', 'meant', 'kept', 'felt', 'led', 'read', 'met', 'found', 'told', 'brought',
+      'fails', 'receives', 'completes', 'restarts', 'runs', 'locks', 'expired', 'is',
+      'approves', 'blocks', 'finishes', 'launches', 'starts', 'loads', 'deployed',
+      'stopped', 'increases', 'rises'
     ]);
     for (const w of words) {
       const clean = w.replace(/[.,;:!?]$/, '');
@@ -311,6 +419,7 @@ class ClauseSegmenter {
       if (clean.endsWith('ed') && clean.length > 3) return true;
       if (clean.endsWith('ied') && clean.length > 4) return true;
       if (clean.endsWith('es') && clean.length > 3) return true;
+      if (clean.endsWith('s') && clean.length > 2 && !clean.endsWith('ss')) return true;  // Present tense -s
       if (PASSIVE_AUX.has(clean)) return true;
       if (MODALS.has(clean)) return true;
     }
