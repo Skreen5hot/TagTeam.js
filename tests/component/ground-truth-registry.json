@@ -1,10 +1,23 @@
 {
   "description": "Registry of authoritative sources of truth for component tests",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "lastUpdated": "2026-02-10",
+  "expertApproval": {
+    "date": "2026-02-10",
+    "validator": "CCO/SME Expert",
+    "status": "Approved",
+    "notes": "Roadmap approved. Primary authorities confirmed: Cambridge Grammar (syntax), VerbNet (roles), BFO/CCO (ontology)."
+  },
+  "authorityDocumentation": {
+    "linguisticTheory": "docs/sources-of-truth/linguistic-theory.md",
+    "semanticRoles": "docs/sources-of-truth/semantic-roles.md",
+    "bfoCcoOntology": "docs/sources-of-truth/bfo-cco-ontology.md"
+  },
   "categories": {
     "clause-segmentation": {
       "component": "ClauseSegmenter",
+      "primaryAuthority": "Cambridge Grammar of the English Language (Huddleston & Pullum, 2002)",
+      "documentationReference": "docs/sources-of-truth/linguistic-theory.md",
       "authorities": [
         {
           "source": "Cambridge Grammar of the English Language",
@@ -12,6 +25,7 @@
           "year": 2002,
           "publisher": "Cambridge University Press",
           "isbn": "978-0521431460",
+          "status": "PRIMARY AUTHORITY (Expert-approved 2026-02-10)",
           "relevantSections": [
             {
               "section": "§8.3",
@@ -93,12 +107,15 @@
     },
     "entity-extraction": {
       "component": "EntityExtractor",
+      "primaryAuthority": "BFO 2.0 + CCO v1.5 (Expert-approved 2026-02-10)",
+      "documentationReference": "docs/sources-of-truth/bfo-cco-ontology.md",
       "authorities": [
         {
           "source": "Basic Formal Ontology (BFO)",
-          "version": "2.0",
+          "version": "2.0 (ISO/IEC 21838-2)",
           "year": 2020,
           "url": "https://basic-formal-ontology.org/",
+          "status": "PRIMARY AUTHORITY",
           "relevantPrinciples": [
             {
               "principle": "BFO:0000001 Entity",
@@ -159,11 +176,44 @@
     },
     "semantic-roles": {
       "component": "RoleDetector",
+      "primaryAuthority": "VerbNet 3.4 (Expert-approved 2026-02-10)",
+      "documentationReference": "docs/sources-of-truth/semantic-roles.md",
       "authorities": [
+        {
+          "source": "VerbNet - A Broad-Coverage Verb Lexicon",
+          "version": "3.4",
+          "year": 2023,
+          "maintainer": "University of Colorado Boulder",
+          "url": "https://verbs.colorado.edu/verbnet/",
+          "status": "PRIMARY AUTHORITY",
+          "relevantPrinciples": [
+            {
+              "class": "fail-45.6",
+              "principle": "Intransitive change-of-state verbs",
+              "description": "Theme undergoes change; no patient role"
+            },
+            {
+              "class": "get-13.5.1",
+              "principle": "Obtaining/receiving verbs",
+              "description": "Agent receives theme"
+            },
+            {
+              "class": "build-26.1",
+              "principle": "Creation verbs",
+              "description": "Agent creates patient artifact"
+            },
+            {
+              "class": "leave-51.2",
+              "principle": "Departure verbs",
+              "description": "Theme departs from source"
+            }
+          ]
+        },
         {
           "source": "Common Core Ontologies - IntentionalAct",
           "version": "1.5",
           "year": 2023,
+          "status": "SECONDARY AUTHORITY (for CCO property mapping)",
           "relevantPrinciples": [
             {
               "property": "cco:has_agent",
@@ -198,17 +248,27 @@
           ]
         },
         {
+          "source": "PropBank - Proposition Bank",
+          "version": "3.4",
+          "maintainer": "Linguistic Data Consortium (LDC)",
+          "url": "https://propbank.github.io/",
+          "status": "TERTIARY AUTHORITY (cross-validation)",
+          "relevantPrinciples": [
+            {
+              "principle": "Arg0/Arg1 proto-roles",
+              "description": "Arg0=proto-agent, Arg1=proto-patient; use when VerbNet is ambiguous"
+            }
+          ]
+        },
+        {
           "source": "FrameNet",
           "version": "1.7",
           "url": "https://framenet.icsi.berkeley.edu/",
+          "status": "TERTIARY AUTHORITY (high-level frames)",
           "relevantPrinciples": [
             {
               "principle": "Frame-specific semantic roles",
-              "description": "Verbs evoke frames with frame-specific roles (e.g., 'receive' evokes Transfer frame with Recipient, Theme roles)"
-            },
-            {
-              "principle": "Core vs. Peripheral frame elements",
-              "description": "Core FEs are conceptually necessary (agent, patient); peripheral FEs are optional (time, location)"
+              "description": "Use for complex multi-participant events when VerbNet roles are too coarse"
             }
           ]
         }
