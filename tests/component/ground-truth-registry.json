@@ -1,0 +1,285 @@
+{
+  "description": "Registry of authoritative sources of truth for component tests",
+  "version": "1.0.0",
+  "lastUpdated": "2026-02-10",
+  "categories": {
+    "clause-segmentation": {
+      "component": "ClauseSegmenter",
+      "authorities": [
+        {
+          "source": "Cambridge Grammar of the English Language",
+          "authors": "Huddleston, Rodney & Pullum, Geoffrey K.",
+          "year": 2002,
+          "publisher": "Cambridge University Press",
+          "isbn": "978-0521431460",
+          "relevantSections": [
+            {
+              "section": "§8.3",
+              "topic": "Subordinate clause boundaries",
+              "principle": "Prefix subordinate clauses (if/when/while/because/etc.) are bounded by comma when preceding main clause"
+            },
+            {
+              "section": "§8.3.1",
+              "topic": "Conditional clauses",
+              "principle": "Prefix conditional clauses (if/unless) require comma separator"
+            },
+            {
+              "section": "§8.3.2",
+              "topic": "Temporal clauses",
+              "principle": "Prefix temporal clauses (when/while/after/before/since/as) require comma separator"
+            },
+            {
+              "section": "§8.4.1",
+              "topic": "Causal clauses",
+              "principle": "Prefix causal clauses (because/since) require comma separator"
+            },
+            {
+              "section": "§8.5.1",
+              "topic": "Concessive clauses",
+              "principle": "Prefix concessive clauses (although/though) require comma separator"
+            },
+            {
+              "section": "§12.1-12.3",
+              "topic": "Relative clauses",
+              "principle": "Relative clauses with who/which/that/whom/whose are embedded modifiers; relativizers are anaphoric to antecedent NP, not separate entities"
+            },
+            {
+              "section": "§12.2",
+              "topic": "Object relative clauses",
+              "principle": "Object relative clauses have relativizer in object position; antecedent is typically subject of main clause"
+            },
+            {
+              "section": "§12.3",
+              "topic": "Possessive relative clauses",
+              "principle": "Possessive relative clauses with 'whose' mark genitive relation"
+            },
+            {
+              "section": "§12.4",
+              "topic": "Zero relativizers",
+              "principle": "Zero relativizers (no overt that/which) are licensed in object relative clauses"
+            },
+            {
+              "section": "§12.5",
+              "topic": "Nested relative clauses",
+              "principle": "Relative clauses can be recursively nested; each relativizer has local antecedent"
+            },
+            {
+              "section": "§12.6",
+              "topic": "Prepositional relative clauses",
+              "principle": "Prepositional relative clauses may front preposition + relativizer (on which, to whom)"
+            }
+          ]
+        },
+        {
+          "source": "A Comprehensive Grammar of the English Language",
+          "authors": "Quirk, Randolph et al.",
+          "year": 1985,
+          "publisher": "Longman",
+          "isbn": "978-0582517349",
+          "relevantSections": [
+            {
+              "section": "§15.19-15.30",
+              "topic": "Adverbial clauses",
+              "principle": "Subordinate clauses marked by subordinating conjunctions"
+            },
+            {
+              "section": "§17.1-17.30",
+              "topic": "Relative clauses",
+              "principle": "Relative clauses modify NPs; relativizers are pronouns with anaphoric function"
+            }
+          ]
+        }
+      ]
+    },
+    "entity-extraction": {
+      "component": "EntityExtractor",
+      "authorities": [
+        {
+          "source": "Basic Formal Ontology (BFO)",
+          "version": "2.0",
+          "year": 2020,
+          "url": "https://basic-formal-ontology.org/",
+          "relevantPrinciples": [
+            {
+              "principle": "BFO:0000001 Entity",
+              "description": "Top-level ontological category; all things that exist are entities"
+            },
+            {
+              "principle": "BFO:0000002 Continuant",
+              "description": "Entities that persist through time (objects, qualities, roles)"
+            },
+            {
+              "principle": "BFO:0000003 Occurrent",
+              "description": "Entities that unfold over time (processes, events, temporal regions)"
+            },
+            {
+              "principle": "BFO:0000004 IndependentContinuant",
+              "description": "Material objects that exist independently (persons, artifacts, systems)"
+            },
+            {
+              "principle": "BFO:0000023 Role",
+              "description": "Realizable entity that inheres in an independent continuant (admin, engineer, user)"
+            }
+          ]
+        },
+        {
+          "source": "Common Core Ontologies (CCO)",
+          "version": "1.5",
+          "year": 2023,
+          "url": "https://github.com/CommonCoreOntology/CommonCoreOntologies",
+          "relevantPrinciples": [
+            {
+              "principle": "cco:Agent",
+              "description": "Material entity capable of performing intentional acts",
+              "subclassOf": "BFO:0000030 Object"
+            },
+            {
+              "principle": "cco:Artifact",
+              "description": "Material entity that is the product of intentional design (servers, databases, systems)",
+              "subclassOf": "BFO:0000030 Object"
+            },
+            {
+              "principle": "cco:Person",
+              "description": "Human being (engineer, admin, user)",
+              "subclassOf": "cco:Agent"
+            },
+            {
+              "principle": "cco:Organization",
+              "description": "Social entity with collective intentionality (team, company)",
+              "subclassOf": "cco:Agent"
+            },
+            {
+              "principle": "cco:InformationContentEntity",
+              "description": "Generically dependent continuant that encodes information (data, credentials, alerts)",
+              "subclassOf": "BFO:0000031 GenericallyDependentContinuant"
+            }
+          ]
+        }
+      ]
+    },
+    "semantic-roles": {
+      "component": "RoleDetector",
+      "authorities": [
+        {
+          "source": "Common Core Ontologies - IntentionalAct",
+          "version": "1.5",
+          "year": 2023,
+          "relevantPrinciples": [
+            {
+              "property": "cco:has_agent",
+              "domain": "cco:IntentionalAct",
+              "range": "cco:Agent",
+              "description": "Links act to the agent who performs it (subject role)"
+            },
+            {
+              "property": "cco:has_patient",
+              "domain": "cco:Act",
+              "range": "BFO:0000002 Continuant",
+              "description": "Links act to the entity that undergoes change (direct object role)"
+            },
+            {
+              "property": "cco:affects",
+              "domain": "cco:Act",
+              "range": "BFO:0000002 Continuant",
+              "description": "Links act to entity that is causally affected but may not undergo intrinsic change"
+            },
+            {
+              "property": "cco:has_input",
+              "domain": "cco:Act",
+              "range": "BFO:0000002 Continuant",
+              "description": "Links act to entity that serves as input to the act"
+            },
+            {
+              "property": "cco:has_output",
+              "domain": "cco:Act",
+              "range": "BFO:0000002 Continuant",
+              "description": "Links act to entity that is produced by the act"
+            }
+          ]
+        },
+        {
+          "source": "FrameNet",
+          "version": "1.7",
+          "url": "https://framenet.icsi.berkeley.edu/",
+          "relevantPrinciples": [
+            {
+              "principle": "Frame-specific semantic roles",
+              "description": "Verbs evoke frames with frame-specific roles (e.g., 'receive' evokes Transfer frame with Recipient, Theme roles)"
+            },
+            {
+              "principle": "Core vs. Peripheral frame elements",
+              "description": "Core FEs are conceptually necessary (agent, patient); peripheral FEs are optional (time, location)"
+            }
+          ]
+        }
+      ]
+    },
+    "boundary-enforcement": {
+      "component": "Cross-component (Architecture)",
+      "authorities": [
+        {
+          "source": "TagTeam V7 Architecture Specification",
+          "version": "7.0",
+          "date": "2026-01",
+          "location": "docs/v7-architecture.md",
+          "relevantPrinciples": [
+            {
+              "principle": "Hard clause boundaries",
+              "description": "Entities cannot cross clause boundaries; each clause has independent entity scope"
+            },
+            {
+              "principle": "No argument bleeding",
+              "description": "Verbs in clause N cannot consume entities from clause N+1 or N-1 as arguments"
+            },
+            {
+              "principle": "Coordination scoping",
+              "description": "Coordinated clauses ('X and Y') share global entity pool but maintain separate act scopes"
+            },
+            {
+              "principle": "Entity anchoring",
+              "description": "Each entity must be anchored to specific character span in source text"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "testCoverage": {
+    "clause-segmentation": {
+      "prefix-subordination": {
+        "testCount": 10,
+        "authorities": ["Cambridge Grammar §8.3-8.5"],
+        "v7ExpectedFailureRate": "90-100%"
+      },
+      "relative-clauses": {
+        "testCount": 8,
+        "authorities": ["Cambridge Grammar §12.1-12.6"],
+        "v7ExpectedFailureRate": "80-100%"
+      }
+    },
+    "entity-extraction": {
+      "planned": true,
+      "testCount": "50-100",
+      "authorities": ["BFO 2.0", "CCO 1.5"],
+      "v7ExpectedFailureRate": "10-20%"
+    },
+    "semantic-roles": {
+      "planned": true,
+      "testCount": "40-60",
+      "authorities": ["CCO IntentionalAct", "FrameNet 1.7"],
+      "v7ExpectedFailureRate": "15-25%"
+    },
+    "boundary-enforcement": {
+      "planned": true,
+      "testCount": "30-40",
+      "authorities": ["TagTeam V7 Spec"],
+      "v7ExpectedFailureRate": "5-10%"
+    }
+  },
+  "notes": {
+    "purpose": "Component tests are DIAGNOSTIC, not gatekeeping. High failure rates on V7.0 are expected and valuable.",
+    "methodology": "Each test cites specific authoritative principle. Failures indicate architectural gaps, not test defects.",
+    "v7Limitations": "V7 architecture optimized for infix coordination ('X and Y'). Lacks prefix subordination, relative clauses, anaphora resolution.",
+    "nextSteps": "After V7 baseline failures documented, implement V7-003 (subordination) and V7-004 (relative clauses) incrementally."
+  }
+}

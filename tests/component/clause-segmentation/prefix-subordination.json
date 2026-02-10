@@ -1,0 +1,404 @@
+[
+  {
+    "id": "CS-PREFIX-SUB-001",
+    "category": "prefix-subordination-if",
+    "input": "If the server fails, the admin receives an alert.",
+    "component": "ClauseSegmenter",
+    "expected": {
+      "clauses": [
+        {
+          "text": "If the server fails",
+          "start": 0,
+          "end": 19,
+          "type": "subordinate",
+          "subordinator": "if",
+          "subordinatorType": "conditional"
+        },
+        {
+          "text": "the admin receives an alert",
+          "start": 21,
+          "end": 48,
+          "type": "main"
+        }
+      ],
+      "boundaries": [
+        {
+          "position": 19,
+          "marker": "comma",
+          "reason": "subordinate-clause-terminator",
+          "clauseRelation": "condition"
+        }
+      ]
+    },
+    "sourceOfTruth": {
+      "reference": "Cambridge Grammar §8.3.1",
+      "principle": "Prefix conditional clauses introduced by 'if' are bounded by comma when preceding main clause",
+      "authority": "Huddleston & Pullum (2002)"
+    },
+    "v7ExpectedResult": "FAIL",
+    "v7ExpectedFailureMode": "No prefix subordination detection; returns single clause; argument bleeding across comma boundary",
+    "priority": "P0",
+    "relatedExpertTest": "1.2-subordination-if"
+  },
+  {
+    "id": "CS-PREFIX-SUB-002",
+    "category": "prefix-subordination-when",
+    "input": "When the deployment completes, the system restarts.",
+    "component": "ClauseSegmenter",
+    "expected": {
+      "clauses": [
+        {
+          "text": "When the deployment completes",
+          "start": 0,
+          "end": 29,
+          "type": "subordinate",
+          "subordinator": "when",
+          "subordinatorType": "temporal"
+        },
+        {
+          "text": "the system restarts",
+          "start": 31,
+          "end": 50,
+          "type": "main"
+        }
+      ],
+      "boundaries": [
+        {
+          "position": 29,
+          "marker": "comma",
+          "reason": "subordinate-clause-terminator",
+          "clauseRelation": "temporal"
+        }
+      ]
+    },
+    "sourceOfTruth": {
+      "reference": "Cambridge Grammar §8.3.2",
+      "principle": "Prefix temporal clauses introduced by 'when' are bounded by comma when preceding main clause",
+      "authority": "Huddleston & Pullum (2002)"
+    },
+    "v7ExpectedResult": "FAIL",
+    "v7ExpectedFailureMode": "No prefix subordination detection; argument bleeding confirmed in Test 1.1.7",
+    "priority": "P0",
+    "relatedExpertTest": "1.1.7-subordination-when"
+  },
+  {
+    "id": "CS-PREFIX-SUB-003",
+    "category": "prefix-subordination-while",
+    "input": "While the backup runs, the database locks.",
+    "component": "ClauseSegmenter",
+    "expected": {
+      "clauses": [
+        {
+          "text": "While the backup runs",
+          "start": 0,
+          "end": 21,
+          "type": "subordinate",
+          "subordinator": "while",
+          "subordinatorType": "temporal-durative"
+        },
+        {
+          "text": "the database locks",
+          "start": 23,
+          "end": 41,
+          "type": "main"
+        }
+      ],
+      "boundaries": [
+        {
+          "position": 21,
+          "marker": "comma",
+          "reason": "subordinate-clause-terminator",
+          "clauseRelation": "simultaneity"
+        }
+      ]
+    },
+    "sourceOfTruth": {
+      "reference": "Cambridge Grammar §8.3.2",
+      "principle": "Prefix temporal clauses introduced by 'while' are bounded by comma when preceding main clause",
+      "authority": "Huddleston & Pullum (2002)"
+    },
+    "v7ExpectedResult": "FAIL",
+    "v7ExpectedFailureMode": "No prefix subordination detection; single clause returned",
+    "priority": "P0"
+  },
+  {
+    "id": "CS-PREFIX-SUB-004",
+    "category": "prefix-subordination-because",
+    "input": "Because the cache expired, the query is slow.",
+    "component": "ClauseSegmenter",
+    "expected": {
+      "clauses": [
+        {
+          "text": "Because the cache expired",
+          "start": 0,
+          "end": 25,
+          "type": "subordinate",
+          "subordinator": "because",
+          "subordinatorType": "causal"
+        },
+        {
+          "text": "the query is slow",
+          "start": 27,
+          "end": 44,
+          "type": "main"
+        }
+      ],
+      "boundaries": [
+        {
+          "position": 25,
+          "marker": "comma",
+          "reason": "subordinate-clause-terminator",
+          "clauseRelation": "cause"
+        }
+      ]
+    },
+    "sourceOfTruth": {
+      "reference": "Cambridge Grammar §8.4.1",
+      "principle": "Prefix causal clauses introduced by 'because' are bounded by comma when preceding main clause",
+      "authority": "Huddleston & Pullum (2002)"
+    },
+    "v7ExpectedResult": "FAIL",
+    "v7ExpectedFailureMode": "No prefix subordination detection",
+    "priority": "P1"
+  },
+  {
+    "id": "CS-PREFIX-SUB-005",
+    "category": "prefix-subordination-although",
+    "input": "Although the test passed, the build failed.",
+    "component": "ClauseSegmenter",
+    "expected": {
+      "clauses": [
+        {
+          "text": "Although the test passed",
+          "start": 0,
+          "end": 24,
+          "type": "subordinate",
+          "subordinator": "although",
+          "subordinatorType": "concessive"
+        },
+        {
+          "text": "the build failed",
+          "start": 26,
+          "end": 42,
+          "type": "main"
+        }
+      ],
+      "boundaries": [
+        {
+          "position": 24,
+          "marker": "comma",
+          "reason": "subordinate-clause-terminator",
+          "clauseRelation": "concession"
+        }
+      ]
+    },
+    "sourceOfTruth": {
+      "reference": "Cambridge Grammar §8.5.1",
+      "principle": "Prefix concessive clauses introduced by 'although' are bounded by comma when preceding main clause",
+      "authority": "Huddleston & Pullum (2002)"
+    },
+    "v7ExpectedResult": "FAIL",
+    "v7ExpectedFailureMode": "No prefix subordination detection",
+    "priority": "P1"
+  },
+  {
+    "id": "CS-PREFIX-SUB-006",
+    "category": "prefix-subordination-unless",
+    "input": "Unless the admin approves, the request blocks.",
+    "component": "ClauseSegmenter",
+    "expected": {
+      "clauses": [
+        {
+          "text": "Unless the admin approves",
+          "start": 0,
+          "end": 25,
+          "type": "subordinate",
+          "subordinator": "unless",
+          "subordinatorType": "conditional-negative"
+        },
+        {
+          "text": "the request blocks",
+          "start": 27,
+          "end": 45,
+          "type": "main"
+        }
+      ],
+      "boundaries": [
+        {
+          "position": 25,
+          "marker": "comma",
+          "reason": "subordinate-clause-terminator",
+          "clauseRelation": "negative-condition"
+        }
+      ]
+    },
+    "sourceOfTruth": {
+      "reference": "Cambridge Grammar §8.3.3",
+      "principle": "Prefix conditional clauses introduced by 'unless' are bounded by comma when preceding main clause",
+      "authority": "Huddleston & Pullum (2002)"
+    },
+    "v7ExpectedResult": "FAIL",
+    "v7ExpectedFailureMode": "No prefix subordination detection",
+    "priority": "P1"
+  },
+  {
+    "id": "CS-PREFIX-SUB-007",
+    "category": "prefix-subordination-after",
+    "input": "After the migration finishes, the app launches.",
+    "component": "ClauseSegmenter",
+    "expected": {
+      "clauses": [
+        {
+          "text": "After the migration finishes",
+          "start": 0,
+          "end": 28,
+          "type": "subordinate",
+          "subordinator": "after",
+          "subordinatorType": "temporal-sequential"
+        },
+        {
+          "text": "the app launches",
+          "start": 30,
+          "end": 46,
+          "type": "main"
+        }
+      ],
+      "boundaries": [
+        {
+          "position": 28,
+          "marker": "comma",
+          "reason": "subordinate-clause-terminator",
+          "clauseRelation": "sequence"
+        }
+      ]
+    },
+    "sourceOfTruth": {
+      "reference": "Cambridge Grammar §8.3.2",
+      "principle": "Prefix temporal clauses introduced by 'after' are bounded by comma when preceding main clause",
+      "authority": "Huddleston & Pullum (2002)"
+    },
+    "v7ExpectedResult": "FAIL",
+    "v7ExpectedFailureMode": "No prefix subordination detection",
+    "priority": "P1"
+  },
+  {
+    "id": "CS-PREFIX-SUB-008",
+    "category": "prefix-subordination-before",
+    "input": "Before the server starts, the config loads.",
+    "component": "ClauseSegmenter",
+    "expected": {
+      "clauses": [
+        {
+          "text": "Before the server starts",
+          "start": 0,
+          "end": 24,
+          "type": "subordinate",
+          "subordinator": "before",
+          "subordinatorType": "temporal-sequential"
+        },
+        {
+          "text": "the config loads",
+          "start": 26,
+          "end": 42,
+          "type": "main"
+        }
+      ],
+      "boundaries": [
+        {
+          "position": 24,
+          "marker": "comma",
+          "reason": "subordinate-clause-terminator",
+          "clauseRelation": "precedence"
+        }
+      ]
+    },
+    "sourceOfTruth": {
+      "reference": "Cambridge Grammar §8.3.2",
+      "principle": "Prefix temporal clauses introduced by 'before' are bounded by comma when preceding main clause",
+      "authority": "Huddleston & Pullum (2002)"
+    },
+    "v7ExpectedResult": "FAIL",
+    "v7ExpectedFailureMode": "No prefix subordination detection",
+    "priority": "P1"
+  },
+  {
+    "id": "CS-PREFIX-SUB-009",
+    "category": "prefix-subordination-since",
+    "input": "Since the patch deployed, the errors stopped.",
+    "component": "ClauseSegmenter",
+    "expected": {
+      "clauses": [
+        {
+          "text": "Since the patch deployed",
+          "start": 0,
+          "end": 24,
+          "type": "subordinate",
+          "subordinator": "since",
+          "subordinatorType": "temporal-causal"
+        },
+        {
+          "text": "the errors stopped",
+          "start": 26,
+          "end": 44,
+          "type": "main"
+        }
+      ],
+      "boundaries": [
+        {
+          "position": 24,
+          "marker": "comma",
+          "reason": "subordinate-clause-terminator",
+          "clauseRelation": "temporal-cause"
+        }
+      ]
+    },
+    "sourceOfTruth": {
+      "reference": "Cambridge Grammar §8.3.2 & §8.4.1",
+      "principle": "Prefix temporal-causal clauses introduced by 'since' are bounded by comma when preceding main clause",
+      "authority": "Huddleston & Pullum (2002)"
+    },
+    "v7ExpectedResult": "FAIL",
+    "v7ExpectedFailureMode": "No prefix subordination detection",
+    "priority": "P1"
+  },
+  {
+    "id": "CS-PREFIX-SUB-010",
+    "category": "prefix-subordination-as",
+    "input": "As the load increases, the latency rises.",
+    "component": "ClauseSegmenter",
+    "expected": {
+      "clauses": [
+        {
+          "text": "As the load increases",
+          "start": 0,
+          "end": 21,
+          "type": "subordinate",
+          "subordinator": "as",
+          "subordinatorType": "temporal-simultaneous"
+        },
+        {
+          "text": "the latency rises",
+          "start": 23,
+          "end": 40,
+          "type": "main"
+        }
+      ],
+      "boundaries": [
+        {
+          "position": 21,
+          "marker": "comma",
+          "reason": "subordinate-clause-terminator",
+          "clauseRelation": "simultaneity"
+        }
+      ]
+    },
+    "sourceOfTruth": {
+      "reference": "Cambridge Grammar §8.3.2",
+      "principle": "Prefix temporal clauses introduced by 'as' are bounded by comma when preceding main clause",
+      "authority": "Huddleston & Pullum (2002)"
+    },
+    "v7ExpectedResult": "FAIL",
+    "v7ExpectedFailureMode": "No prefix subordination detection",
+    "priority": "P1"
+  }
+]

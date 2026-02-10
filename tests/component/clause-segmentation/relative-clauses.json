@@ -1,0 +1,388 @@
+[
+  {
+    "id": "CS-REL-001",
+    "category": "relative-clause-subject-who",
+    "input": "The engineer who designed the system left.",
+    "component": "ClauseSegmenter",
+    "expected": {
+      "clauses": [
+        {
+          "text": "The engineer who designed the system left",
+          "start": 0,
+          "end": 41,
+          "type": "complex",
+          "mainClause": {
+            "subject": "The engineer",
+            "verb": "left",
+            "subjectModifier": "who designed the system"
+          },
+          "relativeClause": {
+            "text": "who designed the system",
+            "start": 13,
+            "end": 36,
+            "type": "subject-relative",
+            "relativizer": "who",
+            "antecedent": "The engineer",
+            "antecedentStart": 0,
+            "antecedentEnd": 12
+          }
+        }
+      ],
+      "anaphoricLinks": [
+        {
+          "anaphor": "who",
+          "antecedent": "The engineer",
+          "relation": "subject-identity"
+        }
+      ]
+    },
+    "sourceOfTruth": {
+      "reference": "Cambridge Grammar §12.1-12.3",
+      "principle": "Subject relative clauses with 'who' are embedded modifiers; relativizer is anaphoric to antecedent NP, not a separate entity",
+      "authority": "Huddleston & Pullum (2002)"
+    },
+    "v7ExpectedResult": "FAIL",
+    "v7ExpectedFailureMode": "'who' instantiated as separate Person entity; 'system' becomes subject of 'left'; no anaphora resolution",
+    "priority": "P1",
+    "relatedExpertTest": "2.1-relative-subject"
+  },
+  {
+    "id": "CS-REL-002",
+    "category": "relative-clause-object-which",
+    "input": "The database which stores user data crashed.",
+    "component": "ClauseSegmenter",
+    "expected": {
+      "clauses": [
+        {
+          "text": "The database which stores user data crashed",
+          "start": 0,
+          "end": 43,
+          "type": "complex",
+          "mainClause": {
+            "subject": "The database",
+            "verb": "crashed",
+            "subjectModifier": "which stores user data"
+          },
+          "relativeClause": {
+            "text": "which stores user data",
+            "start": 13,
+            "end": 35,
+            "type": "subject-relative",
+            "relativizer": "which",
+            "antecedent": "The database",
+            "antecedentStart": 0,
+            "antecedentEnd": 12
+          }
+        }
+      ],
+      "anaphoricLinks": [
+        {
+          "anaphor": "which",
+          "antecedent": "The database",
+          "relation": "subject-identity"
+        }
+      ]
+    },
+    "sourceOfTruth": {
+      "reference": "Cambridge Grammar §12.1-12.3",
+      "principle": "Subject relative clauses with 'which' are embedded modifiers; relativizer is anaphoric to antecedent NP",
+      "authority": "Huddleston & Pullum (2002)"
+    },
+    "v7ExpectedResult": "FAIL",
+    "v7ExpectedFailureMode": "'which' treated as separate entity or clause boundary marker; potential subject bleeding",
+    "priority": "P1"
+  },
+  {
+    "id": "CS-REL-003",
+    "category": "relative-clause-object-that",
+    "input": "The server that handles requests is down.",
+    "component": "ClauseSegmenter",
+    "expected": {
+      "clauses": [
+        {
+          "text": "The server that handles requests is down",
+          "start": 0,
+          "end": 40,
+          "type": "complex",
+          "mainClause": {
+            "subject": "The server",
+            "verb": "is down",
+            "subjectModifier": "that handles requests"
+          },
+          "relativeClause": {
+            "text": "that handles requests",
+            "start": 11,
+            "end": 32,
+            "type": "subject-relative",
+            "relativizer": "that",
+            "antecedent": "The server",
+            "antecedentStart": 0,
+            "antecedentEnd": 10
+          }
+        }
+      ],
+      "anaphoricLinks": [
+        {
+          "anaphor": "that",
+          "antecedent": "The server",
+          "relation": "subject-identity"
+        }
+      ]
+    },
+    "sourceOfTruth": {
+      "reference": "Cambridge Grammar §12.1-12.3",
+      "principle": "Subject relative clauses with 'that' are embedded modifiers; relativizer is anaphoric to antecedent NP",
+      "authority": "Huddleston & Pullum (2002)"
+    },
+    "v7ExpectedResult": "FAIL",
+    "v7ExpectedFailureMode": "'that' may trigger coordination logic; potential fragmentation",
+    "priority": "P1"
+  },
+  {
+    "id": "CS-REL-004",
+    "category": "relative-clause-object-whom",
+    "input": "The developer whom the manager hired resigned.",
+    "component": "ClauseSegmenter",
+    "expected": {
+      "clauses": [
+        {
+          "text": "The developer whom the manager hired resigned",
+          "start": 0,
+          "end": 45,
+          "type": "complex",
+          "mainClause": {
+            "subject": "The developer",
+            "verb": "resigned",
+            "subjectModifier": "whom the manager hired"
+          },
+          "relativeClause": {
+            "text": "whom the manager hired",
+            "start": 14,
+            "end": 36,
+            "type": "object-relative",
+            "relativizer": "whom",
+            "antecedent": "The developer",
+            "antecedentStart": 0,
+            "antecedentEnd": 13
+          }
+        }
+      ],
+      "anaphoricLinks": [
+        {
+          "anaphor": "whom",
+          "antecedent": "The developer",
+          "relation": "object-identity"
+        }
+      ]
+    },
+    "sourceOfTruth": {
+      "reference": "Cambridge Grammar §12.2",
+      "principle": "Object relative clauses with 'whom' have relativizer in object position; antecedent is subject of main clause",
+      "authority": "Huddleston & Pullum (2002)"
+    },
+    "v7ExpectedResult": "FAIL",
+    "v7ExpectedFailureMode": "'whom' instantiated as separate entity; potential argument bleeding",
+    "priority": "P1"
+  },
+  {
+    "id": "CS-REL-005",
+    "category": "relative-clause-possessive-whose",
+    "input": "The admin whose credentials expired cannot login.",
+    "component": "ClauseSegmenter",
+    "expected": {
+      "clauses": [
+        {
+          "text": "The admin whose credentials expired cannot login",
+          "start": 0,
+          "end": 48,
+          "type": "complex",
+          "mainClause": {
+            "subject": "The admin",
+            "verb": "cannot login",
+            "subjectModifier": "whose credentials expired"
+          },
+          "relativeClause": {
+            "text": "whose credentials expired",
+            "start": 10,
+            "end": 35,
+            "type": "possessive-relative",
+            "relativizer": "whose",
+            "antecedent": "The admin",
+            "antecedentStart": 0,
+            "antecedentEnd": 9
+          }
+        }
+      ],
+      "anaphoricLinks": [
+        {
+          "anaphor": "whose",
+          "antecedent": "The admin",
+          "relation": "possessive"
+        }
+      ]
+    },
+    "sourceOfTruth": {
+      "reference": "Cambridge Grammar §12.3",
+      "principle": "Possessive relative clauses with 'whose' mark genitive relation; relativizer is anaphoric to antecedent",
+      "authority": "Huddleston & Pullum (2002)"
+    },
+    "v7ExpectedResult": "FAIL",
+    "v7ExpectedFailureMode": "'whose' treated as separate entity or unknown token; fragmentation likely",
+    "priority": "P1"
+  },
+  {
+    "id": "CS-REL-006",
+    "category": "relative-clause-zero-relativizer",
+    "input": "The patch the team deployed fixed the bug.",
+    "component": "ClauseSegmenter",
+    "expected": {
+      "clauses": [
+        {
+          "text": "The patch the team deployed fixed the bug",
+          "start": 0,
+          "end": 41,
+          "type": "complex",
+          "mainClause": {
+            "subject": "The patch",
+            "verb": "fixed",
+            "object": "the bug",
+            "subjectModifier": "the team deployed"
+          },
+          "relativeClause": {
+            "text": "the team deployed",
+            "start": 10,
+            "end": 27,
+            "type": "object-relative-zero",
+            "relativizer": "Ø",
+            "antecedent": "The patch",
+            "antecedentStart": 0,
+            "antecedentEnd": 9
+          }
+        }
+      ],
+      "anaphoricLinks": [
+        {
+          "anaphor": "Ø",
+          "antecedent": "The patch",
+          "relation": "object-identity"
+        }
+      ]
+    },
+    "sourceOfTruth": {
+      "reference": "Cambridge Grammar §12.4",
+      "principle": "Zero relativizers (no overt 'that/which') are licensed in object relative clauses; antecedent gap inferred",
+      "authority": "Huddleston & Pullum (2002)"
+    },
+    "v7ExpectedResult": "FAIL",
+    "v7ExpectedFailureMode": "No zero-relativizer detection; 'team' becomes object of 'fixed' (argument bleeding)",
+    "priority": "P0"
+  },
+  {
+    "id": "CS-REL-007",
+    "category": "relative-clause-nested",
+    "input": "The user who filed the issue that caused the crash responded.",
+    "component": "ClauseSegmenter",
+    "expected": {
+      "clauses": [
+        {
+          "text": "The user who filed the issue that caused the crash responded",
+          "start": 0,
+          "end": 60,
+          "type": "complex-nested",
+          "mainClause": {
+            "subject": "The user",
+            "verb": "responded",
+            "subjectModifier": "who filed the issue that caused the crash"
+          },
+          "relativeClause1": {
+            "text": "who filed the issue that caused the crash",
+            "start": 9,
+            "end": 50,
+            "type": "subject-relative",
+            "relativizer": "who",
+            "antecedent": "The user",
+            "antecedentStart": 0,
+            "antecedentEnd": 8
+          },
+          "relativeClause2": {
+            "text": "that caused the crash",
+            "start": 29,
+            "end": 50,
+            "type": "subject-relative",
+            "relativizer": "that",
+            "antecedent": "the issue",
+            "antecedentStart": 20,
+            "antecedentEnd": 29
+          }
+        }
+      ],
+      "anaphoricLinks": [
+        {
+          "anaphor": "who",
+          "antecedent": "The user",
+          "relation": "subject-identity"
+        },
+        {
+          "anaphor": "that",
+          "antecedent": "the issue",
+          "relation": "subject-identity"
+        }
+      ]
+    },
+    "sourceOfTruth": {
+      "reference": "Cambridge Grammar §12.5",
+      "principle": "Relative clauses can be recursively nested; each relativizer has local antecedent within its embedding",
+      "authority": "Huddleston & Pullum (2002)"
+    },
+    "v7ExpectedResult": "FAIL",
+    "v7ExpectedFailureMode": "Multiple fragmentation; severe argument bleeding; likely semantic corruption",
+    "priority": "P2"
+  },
+  {
+    "id": "CS-REL-008",
+    "category": "relative-clause-prepositional",
+    "input": "The server on which the app runs is offline.",
+    "component": "ClauseSegmenter",
+    "expected": {
+      "clauses": [
+        {
+          "text": "The server on which the app runs is offline",
+          "start": 0,
+          "end": 43,
+          "type": "complex",
+          "mainClause": {
+            "subject": "The server",
+            "verb": "is offline",
+            "subjectModifier": "on which the app runs"
+          },
+          "relativeClause": {
+            "text": "on which the app runs",
+            "start": 11,
+            "end": 32,
+            "type": "prepositional-relative",
+            "relativizer": "which",
+            "preposition": "on",
+            "antecedent": "The server",
+            "antecedentStart": 0,
+            "antecedentEnd": 10
+          }
+        }
+      ],
+      "anaphoricLinks": [
+        {
+          "anaphor": "which",
+          "antecedent": "The server",
+          "relation": "prepositional-object"
+        }
+      ]
+    },
+    "sourceOfTruth": {
+      "reference": "Cambridge Grammar §12.6",
+      "principle": "Prepositional relative clauses fronted preposition + relativizer; antecedent is object of preposition",
+      "authority": "Huddleston & Pullum (2002)"
+    },
+    "v7ExpectedResult": "FAIL",
+    "v7ExpectedFailureMode": "Preposition triggers fragmentation; 'which' as separate entity",
+    "priority": "P2"
+  }
+]

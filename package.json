@@ -26,7 +26,10 @@
     "test:golden:full": "node tests/golden/run-golden-tests.js && node tests/golden/generate-enhanced-report.js && node tests/golden/detect-regressions.js",
     "test:expert": "node tests/expert-validation/run-expert-tests.js",
     "test:expert:open": "echo 'Opening expert test harness...' && start tests/expert-validation/expert-test-harness.html",
+    "test:component": "node tests/component/run-component-tests.js",
+    "test:component:verbose": "node tests/component/run-component-tests.js --verbose",
     "report:golden": "node tests/golden/generate-enhanced-report.js",
+    "report:component": "node tests/component/run-component-tests.js",
     "regression:check": "node tests/golden/detect-regressions.js",
     "validate:golden": "node tests/golden/run-golden-tests.js --dry-run",
     "validate:schema": "node tests/golden/run-golden-tests.js --dry-run"
