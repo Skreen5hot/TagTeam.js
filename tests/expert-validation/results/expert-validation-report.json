@@ -1,0 +1,1232 @@
+{
+  "metadata": {
+    "timestamp": "2026-02-10T12:18:59.088Z",
+    "tagteamVersion": "7.0",
+    "totalTests": 2,
+    "passed": 0,
+    "failed": 2,
+    "accuracy": "0.0%"
+  },
+  "summary": {
+    "byCategory": {
+      "subordination-prefix": {
+        "total": 1,
+        "passed": 0,
+        "failed": 1
+      },
+      "relative-clause-subject": {
+        "total": 1,
+        "passed": 0,
+        "failed": 1
+      }
+    },
+    "byPriority": {}
+  },
+  "results": [
+    {
+      "id": "1.2-subordination-if",
+      "category": "subordination-prefix",
+      "sentence": "If the server fails, the admin receives an alert.",
+      "hypothesis": "Likely FAIL: Same comma-dependency as 'When'",
+      "priority": "P0",
+      "dimension": "Subordination",
+      "expectedIssue": "Argument bleeding - 'fails' may consume 'admin' as object",
+      "status": "fail",
+      "output": {
+        "@graph": [
+          {
+            "@id": "inst:The_Server_DiscourseReferent_30852574563a",
+            "@type": [
+              "tagteam:DiscourseReferent",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "the server",
+            "tagteam:sourceText": "the server",
+            "tagteam:startPosition": 3,
+            "tagteam:endPosition": 13,
+            "tagteam:definiteness": "definite",
+            "tagteam:referentialStatus": "hypothetical",
+            "tagteam:denotesType": "bfo:BFO_0000040",
+            "cco:is_about": {
+              "@id": "inst:Artifact_Server_e8e00d5673b6"
+            },
+            "cco:is_concretized_by": {
+              "@id": "inst:Input_Text_IBE_8bbae1dc4984"
+            }
+          },
+          {
+            "@id": "inst:The_Admin_DiscourseReferent_cc3c0c16d3e1",
+            "@type": [
+              "tagteam:DiscourseReferent",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "the admin",
+            "tagteam:sourceText": "the admin",
+            "tagteam:startPosition": 21,
+            "tagteam:endPosition": 30,
+            "tagteam:definiteness": "definite",
+            "tagteam:referentialStatus": "hypothetical",
+            "tagteam:denotesType": "bfo:BFO_0000040",
+            "cco:is_about": {
+              "@id": "inst:Artifact_Admin_0ad23e88ee81"
+            },
+            "cco:is_concretized_by": {
+              "@id": "inst:Input_Text_IBE_8bbae1dc4984"
+            }
+          },
+          {
+            "@id": "inst:An_Alert_DiscourseReferent_e9ee58744726",
+            "@type": [
+              "tagteam:DiscourseReferent",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "an alert",
+            "tagteam:sourceText": "an alert",
+            "tagteam:startPosition": 40,
+            "tagteam:endPosition": 48,
+            "tagteam:definiteness": "indefinite",
+            "tagteam:referentialStatus": "hypothetical",
+            "tagteam:denotesType": "bfo:BFO_0000040",
+            "cco:is_about": {
+              "@id": "inst:Artifact_Alert_ae357417423d"
+            },
+            "cco:is_concretized_by": {
+              "@id": "inst:Input_Text_IBE_8bbae1dc4984"
+            }
+          },
+          {
+            "@id": "inst:Artifact_Server_e8e00d5673b6",
+            "@type": [
+              "cco:Artifact",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "server",
+            "tagteam:instantiated_at": "2026-02-10T12:18:59.027Z",
+            "tagteam:denotesType": "bfo:BFO_0000040",
+            "bfo:is_bearer_of": [
+              {
+                "@id": "inst:Participant_Role_00c7bb0e"
+              }
+            ]
+          },
+          {
+            "@id": "inst:Artifact_Admin_0ad23e88ee81",
+            "@type": [
+              "cco:Artifact",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "admin",
+            "tagteam:instantiated_at": "2026-02-10T12:18:59.027Z",
+            "tagteam:denotesType": "bfo:BFO_0000040",
+            "bfo:is_bearer_of": [
+              {
+                "@id": "inst:Patient_Role_e3ee7645"
+              }
+            ]
+          },
+          {
+            "@id": "inst:Artifact_Alert_ae357417423d",
+            "@type": [
+              "cco:Artifact",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "alert",
+            "tagteam:instantiated_at": "2026-02-10T12:18:59.027Z",
+            "tagteam:denotesType": "bfo:BFO_0000040",
+            "bfo:is_bearer_of": [
+              {
+                "@id": "inst:Participant_Role_7f59f4fa"
+              },
+              {
+                "@id": "inst:Patient_Role_2a2f92d0"
+              }
+            ]
+          },
+          {
+            "@id": "inst:Fail_IntentionalAct_adc70c9b48f0",
+            "@type": [
+              "cco:IntentionalAct",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "Act of fail",
+            "tagteam:verb": "fail",
+            "tagteam:sourceText": "fails",
+            "tagteam:startPosition": 14,
+            "tagteam:endPosition": 19,
+            "tagteam:actualityStatus": "tagteam:Actual",
+            "tagteam:tense": "PresentTense",
+            "cco:affects": {
+              "@id": "inst:Artifact_Admin_0ad23e88ee81"
+            },
+            "bfo:has_participant": [
+              {
+                "@id": "inst:Artifact_Admin_0ad23e88ee81"
+              },
+              {
+                "@id": "inst:Artifact_Alert_ae357417423d"
+              },
+              {
+                "@id": "inst:Artifact_Server_e8e00d5673b6"
+              }
+            ]
+          },
+          {
+            "@id": "inst:Receive_IntentionalAct_7395ff41f8ed",
+            "@type": [
+              "cco:ActOfReceiving",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "Act of receive",
+            "tagteam:verb": "receive",
+            "tagteam:sourceText": "receives",
+            "tagteam:startPosition": 31,
+            "tagteam:endPosition": 39,
+            "tagteam:actualityStatus": "tagteam:Actual",
+            "tagteam:tense": "PresentTense",
+            "cco:has_agent": {
+              "@id": "inst:Artifact_Admin_0ad23e88ee81"
+            },
+            "cco:affects": {
+              "@id": "inst:Artifact_Alert_ae357417423d"
+            },
+            "bfo:has_participant": [
+              {
+                "@id": "inst:Artifact_Alert_ae357417423d"
+              }
+            ]
+          },
+          {
+            "@id": "inst:Patient_Role_e3ee7645",
+            "@type": [
+              "cco:PatientRole",
+              "bfo:BFO_0000023",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "patient role of admin",
+            "tagteam:roleType": "patient",
+            "bfo:inheres_in": {
+              "@id": "inst:Artifact_Admin_0ad23e88ee81"
+            },
+            "bfo:realized_in": {
+              "@id": "inst:Fail_IntentionalAct_adc70c9b48f0"
+            }
+          },
+          {
+            "@id": "inst:Participant_Role_7f59f4fa",
+            "@type": [
+              "bfo:BFO_0000023",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "participant role of alert",
+            "tagteam:roleType": "participant",
+            "bfo:inheres_in": {
+              "@id": "inst:Artifact_Alert_ae357417423d"
+            },
+            "bfo:realized_in": {
+              "@id": "inst:Fail_IntentionalAct_adc70c9b48f0"
+            }
+          },
+          {
+            "@id": "inst:Participant_Role_00c7bb0e",
+            "@type": [
+              "bfo:BFO_0000023",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "participant role of server",
+            "tagteam:roleType": "participant",
+            "bfo:inheres_in": {
+              "@id": "inst:Artifact_Server_e8e00d5673b6"
+            },
+            "bfo:realized_in": {
+              "@id": "inst:Fail_IntentionalAct_adc70c9b48f0"
+            }
+          },
+          {
+            "@id": "inst:Patient_Role_2a2f92d0",
+            "@type": [
+              "cco:PatientRole",
+              "bfo:BFO_0000023",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "patient role of alert",
+            "tagteam:roleType": "patient",
+            "bfo:inheres_in": {
+              "@id": "inst:Artifact_Alert_ae357417423d"
+            },
+            "bfo:realized_in": {
+              "@id": "inst:Receive_IntentionalAct_7395ff41f8ed"
+            }
+          },
+          {
+            "@id": "inst:Input_Text_IBE_8bbae1dc4984",
+            "@type": [
+              "cco:InformationBearingEntity",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "Input text",
+            "cco:has_text_value": "If the server fails, the admin receives an alert.",
+            "tagteam:char_count": 49,
+            "tagteam:word_count": 9,
+            "tagteam:received_at": "2026-02-10T12:18:58.931Z"
+          },
+          {
+            "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+            "@type": [
+              "cco:ArtificialAgent",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+            "tagteam:version": "3.0.0-alpha.1",
+            "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+            "tagteam:capabilities": [
+              "entity_extraction",
+              "act_extraction",
+              "role_detection",
+              "value_detection",
+              "context_analysis"
+            ]
+          },
+          {
+            "@id": "inst:ParsingAct_8bbae1dc",
+            "@type": [
+              "cco:ActOfArtificialProcessing",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "Semantic parsing act",
+            "tagteam:actualityStatus": {
+              "@id": "tagteam:Actual"
+            },
+            "cco:has_input": {
+              "@id": "inst:Input_Text_IBE_8bbae1dc4984"
+            },
+            "cco:has_agent": {
+              "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+            },
+            "tagteam:instantiated_at": "2026-02-10T12:18:58.931Z",
+            "cco:has_output": [
+              {
+                "@id": "inst:The_Server_DiscourseReferent_30852574563a"
+              },
+              {
+                "@id": "inst:The_Admin_DiscourseReferent_cc3c0c16d3e1"
+              },
+              {
+                "@id": "inst:An_Alert_DiscourseReferent_e9ee58744726"
+              }
+            ]
+          }
+        ],
+        "_metadata": {
+          "buildTimestamp": "2026-02-10T12:18:58.931Z",
+          "inputLength": 49,
+          "nodeCount": 15,
+          "version": "3.0.0-alpha.1",
+          "contextIRI": "tagteam:Default_Context",
+          "ibeIRI": "inst:Input_Text_IBE_8bbae1dc4984",
+          "parserAgentIRI": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+          "hasValueAssertions": false,
+          "hasInterpretationLattice": true
+        },
+        "_ambiguityReport": {
+          "ambiguities": [],
+          "timestamp": "2026-02-10T12:18:59.055Z",
+          "statistics": {
+            "total": 0,
+            "byType": {},
+            "avgReadings": 0
+          }
+        },
+        "_interpretationLattice": {
+          "defaultReading": {
+            "@graph": [
+              {
+                "@id": "inst:The_Server_DiscourseReferent_30852574563a",
+                "@type": [
+                  "tagteam:DiscourseReferent",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "the server",
+                "tagteam:sourceText": "the server",
+                "tagteam:startPosition": 3,
+                "tagteam:endPosition": 13,
+                "tagteam:definiteness": "definite",
+                "tagteam:referentialStatus": "hypothetical",
+                "tagteam:denotesType": "bfo:BFO_0000040",
+                "cco:is_about": {
+                  "@id": "inst:Artifact_Server_e8e00d5673b6"
+                },
+                "cco:is_concretized_by": {
+                  "@id": "inst:Input_Text_IBE_8bbae1dc4984"
+                }
+              },
+              {
+                "@id": "inst:The_Admin_DiscourseReferent_cc3c0c16d3e1",
+                "@type": [
+                  "tagteam:DiscourseReferent",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "the admin",
+                "tagteam:sourceText": "the admin",
+                "tagteam:startPosition": 21,
+                "tagteam:endPosition": 30,
+                "tagteam:definiteness": "definite",
+                "tagteam:referentialStatus": "hypothetical",
+                "tagteam:denotesType": "bfo:BFO_0000040",
+                "cco:is_about": {
+                  "@id": "inst:Artifact_Admin_0ad23e88ee81"
+                },
+                "cco:is_concretized_by": {
+                  "@id": "inst:Input_Text_IBE_8bbae1dc4984"
+                }
+              },
+              {
+                "@id": "inst:An_Alert_DiscourseReferent_e9ee58744726",
+                "@type": [
+                  "tagteam:DiscourseReferent",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "an alert",
+                "tagteam:sourceText": "an alert",
+                "tagteam:startPosition": 40,
+                "tagteam:endPosition": 48,
+                "tagteam:definiteness": "indefinite",
+                "tagteam:referentialStatus": "hypothetical",
+                "tagteam:denotesType": "bfo:BFO_0000040",
+                "cco:is_about": {
+                  "@id": "inst:Artifact_Alert_ae357417423d"
+                },
+                "cco:is_concretized_by": {
+                  "@id": "inst:Input_Text_IBE_8bbae1dc4984"
+                }
+              },
+              {
+                "@id": "inst:Artifact_Server_e8e00d5673b6",
+                "@type": [
+                  "cco:Artifact",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "server",
+                "tagteam:instantiated_at": "2026-02-10T12:18:59.027Z",
+                "tagteam:denotesType": "bfo:BFO_0000040",
+                "bfo:is_bearer_of": [
+                  {
+                    "@id": "inst:Participant_Role_00c7bb0e"
+                  }
+                ]
+              },
+              {
+                "@id": "inst:Artifact_Admin_0ad23e88ee81",
+                "@type": [
+                  "cco:Artifact",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "admin",
+                "tagteam:instantiated_at": "2026-02-10T12:18:59.027Z",
+                "tagteam:denotesType": "bfo:BFO_0000040",
+                "bfo:is_bearer_of": [
+                  {
+                    "@id": "inst:Patient_Role_e3ee7645"
+                  }
+                ]
+              },
+              {
+                "@id": "inst:Artifact_Alert_ae357417423d",
+                "@type": [
+                  "cco:Artifact",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "alert",
+                "tagteam:instantiated_at": "2026-02-10T12:18:59.027Z",
+                "tagteam:denotesType": "bfo:BFO_0000040",
+                "bfo:is_bearer_of": [
+                  {
+                    "@id": "inst:Participant_Role_7f59f4fa"
+                  },
+                  {
+                    "@id": "inst:Patient_Role_2a2f92d0"
+                  }
+                ]
+              },
+              {
+                "@id": "inst:Fail_IntentionalAct_adc70c9b48f0",
+                "@type": [
+                  "cco:IntentionalAct",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "Act of fail",
+                "tagteam:verb": "fail",
+                "tagteam:sourceText": "fails",
+                "tagteam:startPosition": 14,
+                "tagteam:endPosition": 19,
+                "tagteam:actualityStatus": "tagteam:Actual",
+                "tagteam:tense": "PresentTense",
+                "cco:affects": {
+                  "@id": "inst:Artifact_Admin_0ad23e88ee81"
+                },
+                "bfo:has_participant": [
+                  {
+                    "@id": "inst:Artifact_Admin_0ad23e88ee81"
+                  },
+                  {
+                    "@id": "inst:Artifact_Alert_ae357417423d"
+                  },
+                  {
+                    "@id": "inst:Artifact_Server_e8e00d5673b6"
+                  }
+                ]
+              },
+              {
+                "@id": "inst:Receive_IntentionalAct_7395ff41f8ed",
+                "@type": [
+                  "cco:ActOfReceiving",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "Act of receive",
+                "tagteam:verb": "receive",
+                "tagteam:sourceText": "receives",
+                "tagteam:startPosition": 31,
+                "tagteam:endPosition": 39,
+                "tagteam:actualityStatus": "tagteam:Actual",
+                "tagteam:tense": "PresentTense",
+                "cco:has_agent": {
+                  "@id": "inst:Artifact_Admin_0ad23e88ee81"
+                },
+                "cco:affects": {
+                  "@id": "inst:Artifact_Alert_ae357417423d"
+                },
+                "bfo:has_participant": [
+                  {
+                    "@id": "inst:Artifact_Alert_ae357417423d"
+                  }
+                ]
+              },
+              {
+                "@id": "inst:Patient_Role_e3ee7645",
+                "@type": [
+                  "cco:PatientRole",
+                  "bfo:BFO_0000023",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "patient role of admin",
+                "tagteam:roleType": "patient",
+                "bfo:inheres_in": {
+                  "@id": "inst:Artifact_Admin_0ad23e88ee81"
+                },
+                "bfo:realized_in": {
+                  "@id": "inst:Fail_IntentionalAct_adc70c9b48f0"
+                }
+              },
+              {
+                "@id": "inst:Participant_Role_7f59f4fa",
+                "@type": [
+                  "bfo:BFO_0000023",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "participant role of alert",
+                "tagteam:roleType": "participant",
+                "bfo:inheres_in": {
+                  "@id": "inst:Artifact_Alert_ae357417423d"
+                },
+                "bfo:realized_in": {
+                  "@id": "inst:Fail_IntentionalAct_adc70c9b48f0"
+                }
+              },
+              {
+                "@id": "inst:Participant_Role_00c7bb0e",
+                "@type": [
+                  "bfo:BFO_0000023",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "participant role of server",
+                "tagteam:roleType": "participant",
+                "bfo:inheres_in": {
+                  "@id": "inst:Artifact_Server_e8e00d5673b6"
+                },
+                "bfo:realized_in": {
+                  "@id": "inst:Fail_IntentionalAct_adc70c9b48f0"
+                }
+              },
+              {
+                "@id": "inst:Patient_Role_2a2f92d0",
+                "@type": [
+                  "cco:PatientRole",
+                  "bfo:BFO_0000023",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "patient role of alert",
+                "tagteam:roleType": "patient",
+                "bfo:inheres_in": {
+                  "@id": "inst:Artifact_Alert_ae357417423d"
+                },
+                "bfo:realized_in": {
+                  "@id": "inst:Receive_IntentionalAct_7395ff41f8ed"
+                }
+              },
+              {
+                "@id": "inst:Input_Text_IBE_8bbae1dc4984",
+                "@type": [
+                  "cco:InformationBearingEntity",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "Input text",
+                "cco:has_text_value": "If the server fails, the admin receives an alert.",
+                "tagteam:char_count": 49,
+                "tagteam:word_count": 9,
+                "tagteam:received_at": "2026-02-10T12:18:58.931Z"
+              },
+              {
+                "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+                "@type": [
+                  "cco:ArtificialAgent",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+                "tagteam:version": "3.0.0-alpha.1",
+                "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+                "tagteam:capabilities": [
+                  "entity_extraction",
+                  "act_extraction",
+                  "role_detection",
+                  "value_detection",
+                  "context_analysis"
+                ]
+              },
+              {
+                "@id": "inst:ParsingAct_8bbae1dc",
+                "@type": [
+                  "cco:ActOfArtificialProcessing",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "Semantic parsing act",
+                "tagteam:actualityStatus": {
+                  "@id": "tagteam:Actual"
+                },
+                "cco:has_input": {
+                  "@id": "inst:Input_Text_IBE_8bbae1dc4984"
+                },
+                "cco:has_agent": {
+                  "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+                },
+                "tagteam:instantiated_at": "2026-02-10T12:18:58.931Z",
+                "cco:has_output": [
+                  {
+                    "@id": "inst:The_Server_DiscourseReferent_30852574563a"
+                  },
+                  {
+                    "@id": "inst:The_Admin_DiscourseReferent_cc3c0c16d3e1"
+                  },
+                  {
+                    "@id": "inst:An_Alert_DiscourseReferent_e9ee58744726"
+                  }
+                ]
+              }
+            ]
+          },
+          "resolutionResult": {
+            "preserved": [],
+            "resolved": [],
+            "flagged": [],
+            "stats": {
+              "total": 0,
+              "preserved": 0,
+              "resolved": 0,
+              "flagged": 0
+            }
+          },
+          "alternativeReadings": [],
+          "resolutionLog": [],
+          "options": {},
+          "_alternativeIds": {}
+        }
+      },
+      "analysis": {
+        "hasIssues": true,
+        "issues": [
+          {
+            "type": "no-acts",
+            "severity": "critical",
+            "message": "No acts detected"
+          },
+          {
+            "type": "missing-relation",
+            "severity": "high",
+            "message": "No clause relations found (expected temporal/conditional link)"
+          }
+        ],
+        "summary": "2 potential issues detected"
+      },
+      "executionTime": 129,
+      "timestamp": "2026-02-10T12:18:59.057Z"
+    },
+    {
+      "id": "2.1-relative-subject",
+      "category": "relative-clause-subject",
+      "sentence": "The engineer who designed the system left.",
+      "hypothesis": "High risk: Subject bleeding or fragmentation",
+      "priority": "P1",
+      "dimension": "Relative Clauses",
+      "expectedIssue": "Either 'designed' eats 'left' OR 'left' has no subject",
+      "status": "fail",
+      "output": {
+        "@graph": [
+          {
+            "@id": "inst:The_Engineer_DiscourseReferent_ffe5ef672b80",
+            "@type": [
+              "tagteam:DiscourseReferent",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "The engineer",
+            "tagteam:sourceText": "The engineer",
+            "tagteam:startPosition": 0,
+            "tagteam:endPosition": 12,
+            "tagteam:definiteness": "definite",
+            "tagteam:referentialStatus": "presupposed",
+            "tagteam:denotesType": "cco:Person",
+            "cco:is_about": {
+              "@id": "inst:Person_Engineer_28efe1552bc3"
+            },
+            "cco:is_concretized_by": {
+              "@id": "inst:Input_Text_IBE_85cdc6a3e9f7"
+            }
+          },
+          {
+            "@id": "inst:The_System_DiscourseReferent_a24a70f77867",
+            "@type": [
+              "tagteam:DiscourseReferent",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "the system",
+            "tagteam:sourceText": "the system",
+            "tagteam:startPosition": 26,
+            "tagteam:endPosition": 36,
+            "tagteam:definiteness": "definite",
+            "tagteam:referentialStatus": "presupposed",
+            "tagteam:denotesType": "bfo:BFO_0000040",
+            "cco:is_about": {
+              "@id": "inst:Artifact_System_687dfc046cd6"
+            },
+            "cco:is_concretized_by": {
+              "@id": "inst:Input_Text_IBE_85cdc6a3e9f7"
+            }
+          },
+          {
+            "@id": "inst:Who_DiscourseReferent_b69aa47b3fd3",
+            "@type": [
+              "tagteam:DiscourseReferent",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "who",
+            "tagteam:sourceText": "who",
+            "tagteam:startPosition": 13,
+            "tagteam:endPosition": 16,
+            "tagteam:definiteness": "interrogative",
+            "tagteam:referentialStatus": "interrogative",
+            "tagteam:denotesType": "cco:Person",
+            "cco:is_about": {
+              "@id": "inst:Person_Who_ab8cfe76a31d"
+            },
+            "cco:is_concretized_by": {
+              "@id": "inst:Input_Text_IBE_85cdc6a3e9f7"
+            }
+          },
+          {
+            "@id": "inst:Person_Engineer_28efe1552bc3",
+            "@type": [
+              "cco:Person",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "engineer",
+            "tagteam:instantiated_at": "2026-02-10T12:18:59.076Z",
+            "tagteam:denotesType": "cco:Person"
+          },
+          {
+            "@id": "inst:Artifact_System_687dfc046cd6",
+            "@type": [
+              "cco:Artifact",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "system",
+            "tagteam:instantiated_at": "2026-02-10T12:18:59.076Z",
+            "tagteam:denotesType": "bfo:BFO_0000040",
+            "bfo:is_bearer_of": [
+              {
+                "@id": "inst:Patient_Role_6207de68"
+              }
+            ]
+          },
+          {
+            "@id": "inst:Person_Who_ab8cfe76a31d",
+            "@type": [
+              "cco:Person",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "who",
+            "tagteam:instantiated_at": "2026-02-10T12:18:59.076Z",
+            "tagteam:denotesType": "cco:Person",
+            "bfo:is_bearer_of": [
+              {
+                "@id": "inst:Agent_Role_9e8aa3aa"
+              }
+            ]
+          },
+          {
+            "@id": "inst:Design_IntentionalAct_d385637c06f4",
+            "@type": [
+              "cco:IntentionalAct",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "Act of design",
+            "tagteam:verb": "design",
+            "tagteam:sourceText": "designed",
+            "tagteam:startPosition": 17,
+            "tagteam:endPosition": 25,
+            "tagteam:actualityStatus": "tagteam:Actual",
+            "tagteam:tense": "PastTense",
+            "cco:has_agent": {
+              "@id": "inst:Person_Who_ab8cfe76a31d"
+            },
+            "cco:affects": {
+              "@id": "inst:Artifact_System_687dfc046cd6"
+            },
+            "bfo:has_participant": [
+              {
+                "@id": "inst:Artifact_System_687dfc046cd6"
+              }
+            ],
+            "tagteam:hasAmbiguity": true,
+            "tagteam:selectionalMismatch": true,
+            "tagteam:ambiguityType": "inanimate_agent",
+            "tagteam:ontologyConstraint": "bfo:Agent requires bfo:MaterialEntity with cco:has_function capability"
+          },
+          {
+            "@id": "inst:Leave_IntentionalAct_664f58d15945",
+            "@type": [
+              "cco:IntentionalAct",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "Act of leave",
+            "tagteam:verb": "leave",
+            "tagteam:sourceText": "left",
+            "tagteam:startPosition": 37,
+            "tagteam:endPosition": 41,
+            "tagteam:actualityStatus": "tagteam:Actual",
+            "tagteam:tense": "PastTense",
+            "cco:has_agent": {
+              "@id": "inst:Artifact_System_687dfc046cd6"
+            }
+          },
+          {
+            "@id": "inst:Agent_Role_9e8aa3aa",
+            "@type": [
+              "cco:AgentRole",
+              "bfo:BFO_0000023",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "agent role of who",
+            "tagteam:roleType": "agent",
+            "bfo:inheres_in": {
+              "@id": "inst:Person_Who_ab8cfe76a31d"
+            },
+            "bfo:realized_in": {
+              "@id": "inst:Design_IntentionalAct_d385637c06f4"
+            }
+          },
+          {
+            "@id": "inst:Patient_Role_6207de68",
+            "@type": [
+              "cco:PatientRole",
+              "bfo:BFO_0000023",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "patient role of system",
+            "tagteam:roleType": "patient",
+            "bfo:inheres_in": {
+              "@id": "inst:Artifact_System_687dfc046cd6"
+            },
+            "bfo:realized_in": {
+              "@id": "inst:Design_IntentionalAct_d385637c06f4"
+            }
+          },
+          {
+            "@id": "inst:Input_Text_IBE_85cdc6a3e9f7",
+            "@type": [
+              "cco:InformationBearingEntity",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "Input text",
+            "cco:has_text_value": "The engineer who designed the system left.",
+            "tagteam:char_count": 42,
+            "tagteam:word_count": 7,
+            "tagteam:received_at": "2026-02-10T12:18:59.058Z"
+          },
+          {
+            "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+            "@type": [
+              "cco:ArtificialAgent",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+            "tagteam:version": "3.0.0-alpha.1",
+            "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+            "tagteam:capabilities": [
+              "entity_extraction",
+              "act_extraction",
+              "role_detection",
+              "value_detection",
+              "context_analysis"
+            ]
+          },
+          {
+            "@id": "inst:ParsingAct_85cdc6a3",
+            "@type": [
+              "cco:ActOfArtificialProcessing",
+              "owl:NamedIndividual"
+            ],
+            "rdfs:label": "Semantic parsing act",
+            "tagteam:actualityStatus": {
+              "@id": "tagteam:Actual"
+            },
+            "cco:has_input": {
+              "@id": "inst:Input_Text_IBE_85cdc6a3e9f7"
+            },
+            "cco:has_agent": {
+              "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+            },
+            "tagteam:instantiated_at": "2026-02-10T12:18:59.058Z",
+            "cco:has_output": [
+              {
+                "@id": "inst:The_Engineer_DiscourseReferent_ffe5ef672b80"
+              },
+              {
+                "@id": "inst:The_System_DiscourseReferent_a24a70f77867"
+              },
+              {
+                "@id": "inst:Who_DiscourseReferent_b69aa47b3fd3"
+              }
+            ]
+          }
+        ],
+        "_metadata": {
+          "buildTimestamp": "2026-02-10T12:18:59.058Z",
+          "inputLength": 42,
+          "nodeCount": 13,
+          "version": "3.0.0-alpha.1",
+          "contextIRI": "tagteam:Default_Context",
+          "ibeIRI": "inst:Input_Text_IBE_85cdc6a3e9f7",
+          "parserAgentIRI": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+          "hasValueAssertions": false,
+          "hasInterpretationLattice": true
+        },
+        "_ambiguityReport": {
+          "ambiguities": [
+            {
+              "type": "selectional_violation",
+              "signal": "inanimate_agent",
+              "subject": "who",
+              "verb": "design",
+              "verbClass": "creation",
+              "agentCategory": "inanimate",
+              "nodeId": "inst:Design_IntentionalAct_d385637c06f4",
+              "confidence": "high",
+              "ontologyConstraint": "bfo:Agent requires bfo:MaterialEntity with cco:has_function capability"
+            }
+          ],
+          "timestamp": "2026-02-10T12:18:59.087Z",
+          "statistics": {
+            "total": 1,
+            "byType": {
+              "selectional_violation": 1
+            },
+            "avgReadings": 0
+          }
+        },
+        "_interpretationLattice": {
+          "defaultReading": {
+            "@graph": [
+              {
+                "@id": "inst:The_Engineer_DiscourseReferent_ffe5ef672b80",
+                "@type": [
+                  "tagteam:DiscourseReferent",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "The engineer",
+                "tagteam:sourceText": "The engineer",
+                "tagteam:startPosition": 0,
+                "tagteam:endPosition": 12,
+                "tagteam:definiteness": "definite",
+                "tagteam:referentialStatus": "presupposed",
+                "tagteam:denotesType": "cco:Person",
+                "cco:is_about": {
+                  "@id": "inst:Person_Engineer_28efe1552bc3"
+                },
+                "cco:is_concretized_by": {
+                  "@id": "inst:Input_Text_IBE_85cdc6a3e9f7"
+                }
+              },
+              {
+                "@id": "inst:The_System_DiscourseReferent_a24a70f77867",
+                "@type": [
+                  "tagteam:DiscourseReferent",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "the system",
+                "tagteam:sourceText": "the system",
+                "tagteam:startPosition": 26,
+                "tagteam:endPosition": 36,
+                "tagteam:definiteness": "definite",
+                "tagteam:referentialStatus": "presupposed",
+                "tagteam:denotesType": "bfo:BFO_0000040",
+                "cco:is_about": {
+                  "@id": "inst:Artifact_System_687dfc046cd6"
+                },
+                "cco:is_concretized_by": {
+                  "@id": "inst:Input_Text_IBE_85cdc6a3e9f7"
+                }
+              },
+              {
+                "@id": "inst:Who_DiscourseReferent_b69aa47b3fd3",
+                "@type": [
+                  "tagteam:DiscourseReferent",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "who",
+                "tagteam:sourceText": "who",
+                "tagteam:startPosition": 13,
+                "tagteam:endPosition": 16,
+                "tagteam:definiteness": "interrogative",
+                "tagteam:referentialStatus": "interrogative",
+                "tagteam:denotesType": "cco:Person",
+                "cco:is_about": {
+                  "@id": "inst:Person_Who_ab8cfe76a31d"
+                },
+                "cco:is_concretized_by": {
+                  "@id": "inst:Input_Text_IBE_85cdc6a3e9f7"
+                }
+              },
+              {
+                "@id": "inst:Person_Engineer_28efe1552bc3",
+                "@type": [
+                  "cco:Person",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "engineer",
+                "tagteam:instantiated_at": "2026-02-10T12:18:59.076Z",
+                "tagteam:denotesType": "cco:Person"
+              },
+              {
+                "@id": "inst:Artifact_System_687dfc046cd6",
+                "@type": [
+                  "cco:Artifact",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "system",
+                "tagteam:instantiated_at": "2026-02-10T12:18:59.076Z",
+                "tagteam:denotesType": "bfo:BFO_0000040",
+                "bfo:is_bearer_of": [
+                  {
+                    "@id": "inst:Patient_Role_6207de68"
+                  }
+                ]
+              },
+              {
+                "@id": "inst:Person_Who_ab8cfe76a31d",
+                "@type": [
+                  "cco:Person",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "who",
+                "tagteam:instantiated_at": "2026-02-10T12:18:59.076Z",
+                "tagteam:denotesType": "cco:Person",
+                "bfo:is_bearer_of": [
+                  {
+                    "@id": "inst:Agent_Role_9e8aa3aa"
+                  }
+                ]
+              },
+              {
+                "@id": "inst:Design_IntentionalAct_d385637c06f4",
+                "@type": [
+                  "cco:IntentionalAct",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "Act of design",
+                "tagteam:verb": "design",
+                "tagteam:sourceText": "designed",
+                "tagteam:startPosition": 17,
+                "tagteam:endPosition": 25,
+                "tagteam:actualityStatus": "tagteam:Actual",
+                "tagteam:tense": "PastTense",
+                "cco:has_agent": {
+                  "@id": "inst:Person_Who_ab8cfe76a31d"
+                },
+                "cco:affects": {
+                  "@id": "inst:Artifact_System_687dfc046cd6"
+                },
+                "bfo:has_participant": [
+                  {
+                    "@id": "inst:Artifact_System_687dfc046cd6"
+                  }
+                ],
+                "tagteam:hasAmbiguity": true,
+                "tagteam:selectionalMismatch": true,
+                "tagteam:ambiguityType": "inanimate_agent",
+                "tagteam:ontologyConstraint": "bfo:Agent requires bfo:MaterialEntity with cco:has_function capability"
+              },
+              {
+                "@id": "inst:Leave_IntentionalAct_664f58d15945",
+                "@type": [
+                  "cco:IntentionalAct",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "Act of leave",
+                "tagteam:verb": "leave",
+                "tagteam:sourceText": "left",
+                "tagteam:startPosition": 37,
+                "tagteam:endPosition": 41,
+                "tagteam:actualityStatus": "tagteam:Actual",
+                "tagteam:tense": "PastTense",
+                "cco:has_agent": {
+                  "@id": "inst:Artifact_System_687dfc046cd6"
+                }
+              },
+              {
+                "@id": "inst:Agent_Role_9e8aa3aa",
+                "@type": [
+                  "cco:AgentRole",
+                  "bfo:BFO_0000023",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "agent role of who",
+                "tagteam:roleType": "agent",
+                "bfo:inheres_in": {
+                  "@id": "inst:Person_Who_ab8cfe76a31d"
+                },
+                "bfo:realized_in": {
+                  "@id": "inst:Design_IntentionalAct_d385637c06f4"
+                }
+              },
+              {
+                "@id": "inst:Patient_Role_6207de68",
+                "@type": [
+                  "cco:PatientRole",
+                  "bfo:BFO_0000023",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "patient role of system",
+                "tagteam:roleType": "patient",
+                "bfo:inheres_in": {
+                  "@id": "inst:Artifact_System_687dfc046cd6"
+                },
+                "bfo:realized_in": {
+                  "@id": "inst:Design_IntentionalAct_d385637c06f4"
+                }
+              },
+              {
+                "@id": "inst:Input_Text_IBE_85cdc6a3e9f7",
+                "@type": [
+                  "cco:InformationBearingEntity",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "Input text",
+                "cco:has_text_value": "The engineer who designed the system left.",
+                "tagteam:char_count": 42,
+                "tagteam:word_count": 7,
+                "tagteam:received_at": "2026-02-10T12:18:59.058Z"
+              },
+              {
+                "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+                "@type": [
+                  "cco:ArtificialAgent",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+                "tagteam:version": "3.0.0-alpha.1",
+                "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+                "tagteam:capabilities": [
+                  "entity_extraction",
+                  "act_extraction",
+                  "role_detection",
+                  "value_detection",
+                  "context_analysis"
+                ]
+              },
+              {
+                "@id": "inst:ParsingAct_85cdc6a3",
+                "@type": [
+                  "cco:ActOfArtificialProcessing",
+                  "owl:NamedIndividual"
+                ],
+                "rdfs:label": "Semantic parsing act",
+                "tagteam:actualityStatus": {
+                  "@id": "tagteam:Actual"
+                },
+                "cco:has_input": {
+                  "@id": "inst:Input_Text_IBE_85cdc6a3e9f7"
+                },
+                "cco:has_agent": {
+                  "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+                },
+                "tagteam:instantiated_at": "2026-02-10T12:18:59.058Z",
+                "cco:has_output": [
+                  {
+                    "@id": "inst:The_Engineer_DiscourseReferent_ffe5ef672b80"
+                  },
+                  {
+                    "@id": "inst:The_System_DiscourseReferent_a24a70f77867"
+                  },
+                  {
+                    "@id": "inst:Who_DiscourseReferent_b69aa47b3fd3"
+                  }
+                ]
+              }
+            ]
+          },
+          "resolutionResult": {
+            "preserved": [],
+            "resolved": [],
+            "flagged": [
+              {
+                "ambiguity": {
+                  "type": "selectional_violation",
+                  "signal": "inanimate_agent",
+                  "subject": "who",
+                  "verb": "design",
+                  "verbClass": "creation",
+                  "agentCategory": "inanimate",
+                  "nodeId": "inst:Design_IntentionalAct_d385637c06f4",
+                  "confidence": "high",
+                  "ontologyConstraint": "bfo:Agent requires bfo:MaterialEntity with cco:has_function capability"
+                },
+                "flag": "selectionalMismatch",
+                "reason": "Anomalous input - flag but do not fork"
+              }
+            ],
+            "stats": {
+              "total": 1,
+              "preserved": 0,
+              "resolved": 0,
+              "flagged": 1
+            }
+          },
+          "alternativeReadings": [],
+          "resolutionLog": [],
+          "options": {},
+          "_alternativeIds": {}
+        }
+      },
+      "analysis": {
+        "hasIssues": true,
+        "issues": [
+          {
+            "type": "no-acts",
+            "severity": "critical",
+            "message": "No acts detected"
+          }
+        ],
+        "summary": "1 potential issues detected"
+      },
+      "executionTime": 29,
+      "timestamp": "2026-02-10T12:18:59.088Z"
+    }
+  ]
+}
