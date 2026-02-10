@@ -1,0 +1,235 @@
+{
+  "version": "2.0",
+  "corpusId": "temporal-corpus",
+  "description": "Golden test cases for tense, aspect, and temporal expressions (v1)",
+  "metadata": {
+    "created": "2026-02-10",
+    "lastUpdated": "2026-02-10",
+    "author": "TagTeam Core Team",
+    "phase": "v1",
+    "priority": "P1",
+    "notes": "Tests temporal reference, tense, aspect, temporal adverbs"
+  },
+  "cases": [
+    {
+      "id": "temp-001",
+      "category": "tense-present-simple",
+      "input": "The patient needs treatment",
+      "expectedOutput": {
+        "tense": "present",
+        "aspect": "simple",
+        "temporalReference": "current",
+        "verb": "needs"
+      },
+      "tags": ["tense", "present", "medical"],
+      "priority": "P1",
+      "notes": "Simple present - current state"
+    },
+    {
+      "id": "temp-002",
+      "category": "tense-past-simple",
+      "input": "The doctor examined the patient",
+      "expectedOutput": {
+        "tense": "past",
+        "aspect": "simple",
+        "temporalReference": "before-now",
+        "verb": "examined"
+      },
+      "tags": ["tense", "past", "medical"],
+      "priority": "P0",
+      "notes": "Simple past - completed event"
+    },
+    {
+      "id": "temp-003",
+      "category": "tense-future-will",
+      "input": "The patient will recover",
+      "expectedOutput": {
+        "tense": "future",
+        "aspect": "simple",
+        "temporalReference": "after-now",
+        "auxiliary": "will",
+        "modality": "prediction"
+      },
+      "tags": ["tense", "future", "medical"],
+      "priority": "P1",
+      "notes": "Future with 'will' - prediction"
+    },
+    {
+      "id": "temp-004",
+      "category": "tense-future-going-to",
+      "input": "The hospital is going to close",
+      "expectedOutput": {
+        "tense": "future",
+        "aspect": "prospective",
+        "temporalReference": "after-now",
+        "construction": "going to",
+        "intention": true
+      },
+      "tags": ["tense", "future", "prospective"],
+      "priority": "P1",
+      "notes": "Future with 'going to' - intention/plan"
+    },
+    {
+      "id": "temp-005",
+      "category": "tense-present-habitual",
+      "input": "The nurse checks vitals hourly",
+      "expectedOutput": {
+        "tense": "present",
+        "aspect": "habitual",
+        "temporalReference": "generic",
+        "frequency": "hourly"
+      },
+      "tags": ["tense", "present", "habitual", "medical"],
+      "priority": "P2",
+      "notes": "Present habitual - repeated action"
+    },
+    {
+      "id": "temp-006",
+      "category": "tense-past-habitual",
+      "input": "The doctor used to work nights",
+      "expectedOutput": {
+        "tense": "past",
+        "aspect": "habitual",
+        "temporalReference": "before-now",
+        "construction": "used to",
+        "discontinued": true
+      },
+      "tags": ["tense", "past", "habitual", "used-to"],
+      "priority": "P2",
+      "notes": "Past habitual - discontinued practice"
+    },
+    {
+      "id": "temp-007",
+      "category": "aspect-progressive-present",
+      "input": "The patient is recovering",
+      "expectedOutput": {
+        "tense": "present",
+        "aspect": "progressive",
+        "temporalReference": "current-ongoing",
+        "auxiliary": "is",
+        "verb": "recovering"
+      },
+      "tags": ["aspect", "progressive", "present", "medical"],
+      "priority": "P0",
+      "notes": "Present progressive - ongoing event"
+    },
+    {
+      "id": "temp-008",
+      "category": "aspect-progressive-past",
+      "input": "The surgeon was operating",
+      "expectedOutput": {
+        "tense": "past",
+        "aspect": "progressive",
+        "temporalReference": "past-ongoing",
+        "auxiliary": "was",
+        "verb": "operating"
+      },
+      "tags": ["aspect", "progressive", "past", "medical"],
+      "priority": "P1",
+      "notes": "Past progressive - past ongoing event"
+    },
+    {
+      "id": "temp-009",
+      "category": "aspect-perfect-present",
+      "input": "The patient has recovered",
+      "expectedOutput": {
+        "tense": "present",
+        "aspect": "perfect",
+        "temporalReference": "past-with-current-relevance",
+        "auxiliary": "has",
+        "verb": "recovered"
+      },
+      "tags": ["aspect", "perfect", "present", "medical"],
+      "priority": "P0",
+      "notes": "Present perfect - past event with current relevance"
+    },
+    {
+      "id": "temp-010",
+      "category": "aspect-perfect-past",
+      "input": "The patient had deteriorated",
+      "expectedOutput": {
+        "tense": "past",
+        "aspect": "perfect",
+        "temporalReference": "past-before-past",
+        "auxiliary": "had",
+        "verb": "deteriorated"
+      },
+      "tags": ["aspect", "perfect", "past", "medical"],
+      "priority": "P1",
+      "notes": "Past perfect - event before another past event"
+    },
+    {
+      "id": "temp-011",
+      "category": "aspect-perfect-progressive",
+      "input": "The patient has been waiting for hours",
+      "expectedOutput": {
+        "tense": "present",
+        "aspect": "perfect-progressive",
+        "temporalReference": "past-to-now-ongoing",
+        "auxiliary": "has been",
+        "verb": "waiting",
+        "duration": "hours"
+      },
+      "tags": ["aspect", "perfect", "progressive", "medical"],
+      "priority": "P1",
+      "notes": "Present perfect progressive - duration from past to now"
+    },
+    {
+      "id": "temp-012",
+      "category": "temporal-adverb-past",
+      "input": "The patient arrived yesterday",
+      "expectedOutput": {
+        "tense": "past",
+        "temporalAdverb": "yesterday",
+        "temporalReference": "specific-past",
+        "deixis": "deictic"
+      },
+      "tags": ["temporal", "adverb", "past", "medical"],
+      "priority": "P0",
+      "notes": "Deictic temporal adverb"
+    },
+    {
+      "id": "temp-013",
+      "category": "temporal-adverb-recent",
+      "input": "The doctor recently retired",
+      "expectedOutput": {
+        "tense": "past",
+        "temporalAdverb": "recently",
+        "temporalReference": "recent-past",
+        "vagueness": "imprecise"
+      },
+      "tags": ["temporal", "adverb", "recent"],
+      "priority": "P1",
+      "notes": "Vague temporal adverb"
+    },
+    {
+      "id": "temp-014",
+      "category": "temporal-adverb-future",
+      "input": "The surgery is scheduled tomorrow",
+      "expectedOutput": {
+        "tense": "present",
+        "temporalAdverb": "tomorrow",
+        "temporalReference": "specific-future",
+        "deixis": "deictic"
+      },
+      "tags": ["temporal", "adverb", "future", "medical"],
+      "priority": "P1",
+      "notes": "Future-oriented temporal adverb"
+    },
+    {
+      "id": "temp-015",
+      "category": "temporal-adverb-frequency",
+      "input": "The patient always follows instructions",
+      "expectedOutput": {
+        "tense": "present",
+        "temporalAdverb": "always",
+        "temporalReference": "habitual",
+        "frequency": "universal",
+        "aspect": "habitual"
+      },
+      "tags": ["temporal", "adverb", "frequency", "medical"],
+      "priority": "P2",
+      "notes": "Frequency adverb - universal quantification"
+    }
+  ]
+}

@@ -1,0 +1,538 @@
+{
+  "version": "2.0",
+  "corpusId": "edge-cases",
+  "description": "Comprehensive edge cases - empty inputs, malformed sentences, special characters, domain boundary",
+  "metadata": {
+    "created": "2026-02-10",
+    "lastUpdated": "2026-02-10",
+    "author": "TagTeam Core Team",
+    "phase": "all",
+    "priority": "P2",
+    "notes": "Tests robustness and graceful degradation - lower pass rate expected (70%+)"
+  },
+  "cases": [
+    {
+      "id": "edge-empty-001",
+      "category": "empty-string",
+      "input": "<EMPTY_STRING>",
+      "expectedOutput": {
+        "error": "empty-input",
+        "gracefulDegradation": true,
+        "errorMessage": "Input is empty",
+        "treatAs": "empty-string"
+      },
+      "tags": ["edge-case", "empty-input", "error-handling"],
+      "priority": "P0",
+      "notes": "Empty string input (represented as <EMPTY_STRING>) - should handle gracefully"
+    },
+    {
+      "id": "edge-empty-002",
+      "category": "whitespace-only",
+      "input": "   \t\n  ",
+      "expectedOutput": {
+        "error": "whitespace-only",
+        "gracefulDegradation": true,
+        "errorMessage": "Input contains only whitespace"
+      },
+      "tags": ["edge-case", "whitespace", "error-handling"],
+      "priority": "P0",
+      "notes": "Whitespace-only input"
+    },
+    {
+      "id": "edge-empty-003",
+      "category": "null-input",
+      "input": "<NULL>",
+      "expectedOutput": {
+        "error": "null-input",
+        "gracefulDegradation": true,
+        "errorMessage": "Input is null or undefined",
+        "treatAs": "null"
+      },
+      "tags": ["edge-case", "null-input", "error-handling"],
+      "priority": "P0",
+      "notes": "Null input (represented as <NULL>) - should handle gracefully"
+    },
+    {
+      "id": "edge-empty-004",
+      "category": "punctuation-only",
+      "input": "... !!! ???",
+      "expectedOutput": {
+        "error": "no-content",
+        "gracefulDegradation": true,
+        "errorMessage": "Input contains only punctuation"
+      },
+      "tags": ["edge-case", "punctuation-only", "error-handling"],
+      "priority": "P2",
+      "notes": "Punctuation-only input"
+    },
+    {
+      "id": "edge-empty-005",
+      "category": "single-word",
+      "input": "Hello",
+      "expectedOutput": {
+        "parsed": true,
+        "limitedAnalysis": true,
+        "note": "Single word - minimal structure"
+      },
+      "tags": ["edge-case", "single-word", "minimal"],
+      "priority": "P2",
+      "notes": "Single word input - minimal structure to parse"
+    },
+    {
+      "id": "edge-long-001",
+      "category": "extremely-long-sentence",
+      "input": "The doctor examined the patient who was admitted to the hospital that was located in the city that was known for the medical center that was famous for the treatment that was recommended by the specialist who was trained at the university that was recognized for the program that was established by the foundation that was created by the benefactor who was honored for the contribution that was made to the field that was transformed by the research that was conducted in the laboratory that was funded by the grant that was awarded to the scientist who was acknowledged for the discovery that was published in the journal that was read by the community that was interested in the topic that was discussed at the conference",
+      "expectedOutput": {
+        "parsed": true,
+        "limitedDepth": true,
+        "note": "Extremely long sentence - may truncate or simplify"
+      },
+      "tags": ["edge-case", "long-sentence", "performance"],
+      "priority": "P2",
+      "notes": "Extremely long sentence with nested relative clauses"
+    },
+    {
+      "id": "edge-long-002",
+      "category": "repetitive-long",
+      "input": "The patient took medication and medication and medication and medication and medication and medication and medication and medication and medication and medication",
+      "expectedOutput": {
+        "parsed": true,
+        "note": "Repetitive coordination - may simplify"
+      },
+      "tags": ["edge-case", "repetitive", "coordination"],
+      "priority": "P2",
+      "notes": "Highly repetitive coordination"
+    },
+    {
+      "id": "edge-long-003",
+      "category": "many-modifiers",
+      "input": "The very sick, extremely weak, severely dehydrated, critically ill, highly vulnerable, deeply concerned, thoroughly examined, carefully monitored, intensively treated patient recovered",
+      "expectedOutput": {
+        "parsed": true,
+        "note": "Many modifiers - may not capture all"
+      },
+      "tags": ["edge-case", "modifiers", "adjectives"],
+      "priority": "P2",
+      "notes": "Excessive modification"
+    },
+    {
+      "id": "edge-long-004",
+      "category": "long-noun-phrase",
+      "input": "The head of the department of internal medicine at the university hospital medical center's division of cardiology's chief of staff examined the patient",
+      "expectedOutput": {
+        "parsed": true,
+        "note": "Complex possessive chain - may simplify"
+      },
+      "tags": ["edge-case", "possessive-chain", "complex-np"],
+      "priority": "P2",
+      "notes": "Deeply nested possessive constructions"
+    },
+    {
+      "id": "edge-long-005",
+      "category": "embedded-depth",
+      "input": "The doctor said that the nurse reported that the patient claimed that the family believed that the specialist recommended that surgery was necessary",
+      "expectedOutput": {
+        "parsed": true,
+        "limitedDepth": true,
+        "note": "Deep embedding - may limit depth"
+      },
+      "tags": ["edge-case", "embedding", "recursion"],
+      "priority": "P2",
+      "notes": "Deeply embedded reported speech"
+    },
+    {
+      "id": "edge-special-001",
+      "category": "unicode-characters",
+      "input": "The patient's café au lait spots suggested neurofibromatosis",
+      "expectedOutput": {
+        "parsed": true,
+        "unicodeHandled": true
+      },
+      "tags": ["edge-case", "unicode", "accents"],
+      "priority": "P1",
+      "notes": "Unicode accented characters"
+    },
+    {
+      "id": "edge-special-002",
+      "category": "emoji",
+      "input": "The patient 😊 is feeling better 👍",
+      "expectedOutput": {
+        "parsed": true,
+        "emojiIgnored": true,
+        "note": "Emojis stripped or ignored"
+      },
+      "tags": ["edge-case", "emoji", "unicode"],
+      "priority": "P2",
+      "notes": "Emoji characters in text"
+    },
+    {
+      "id": "edge-special-003",
+      "category": "special-punctuation",
+      "input": "The patient's condition—which was critical—improved (miraculously!)",
+      "expectedOutput": {
+        "parsed": true,
+        "punctuationHandled": true
+      },
+      "tags": ["edge-case", "punctuation", "em-dash", "parentheses"],
+      "priority": "P1",
+      "notes": "Em-dashes, parentheses, exclamations"
+    },
+    {
+      "id": "edge-special-004",
+      "category": "html-entities",
+      "input": "The patient&apos;s temperature was &gt; 103&deg;F",
+      "expectedOutput": {
+        "parsed": true,
+        "entitiesDecoded": true,
+        "note": "HTML entities should be decoded"
+      },
+      "tags": ["edge-case", "html-entities", "encoding"],
+      "priority": "P2",
+      "notes": "HTML entities in input"
+    },
+    {
+      "id": "edge-special-005",
+      "category": "currency-symbols",
+      "input": "The treatment cost $50,000 or €45,000",
+      "expectedOutput": {
+        "parsed": true,
+        "currencyHandled": true
+      },
+      "tags": ["edge-case", "currency", "symbols"],
+      "priority": "P2",
+      "notes": "Currency symbols"
+    },
+    {
+      "id": "edge-malformed-001",
+      "category": "no-verb",
+      "input": "The patient the hospital the doctor",
+      "expectedOutput": {
+        "error": "no-verb",
+        "gracefulDegradation": true,
+        "note": "No verb found in sentence"
+      },
+      "tags": ["edge-case", "malformed", "no-verb"],
+      "priority": "P1",
+      "notes": "Sentence fragment with no verb"
+    },
+    {
+      "id": "edge-malformed-002",
+      "category": "unmatched-parentheses",
+      "input": "The patient (who was admitted recovered",
+      "expectedOutput": {
+        "parsed": true,
+        "punctuationError": true,
+        "note": "Unmatched parentheses - attempt parse anyway"
+      },
+      "tags": ["edge-case", "malformed", "punctuation"],
+      "priority": "P2",
+      "notes": "Unmatched parentheses"
+    },
+    {
+      "id": "edge-malformed-003",
+      "category": "missing-article",
+      "input": "Doctor examined patient in hospital",
+      "expectedOutput": {
+        "parsed": true,
+        "note": "Missing articles - telegraphic speech"
+      },
+      "tags": ["edge-case", "malformed", "telegraphic"],
+      "priority": "P2",
+      "notes": "Telegraphic speech without articles"
+    },
+    {
+      "id": "edge-malformed-004",
+      "category": "word-salad",
+      "input": "Patient doctor hospital medicine treatment recovery examination",
+      "expectedOutput": {
+        "error": "no-structure",
+        "gracefulDegradation": true,
+        "note": "No grammatical structure detected"
+      },
+      "tags": ["edge-case", "malformed", "word-salad"],
+      "priority": "P1",
+      "notes": "Word salad - no structure"
+    },
+    {
+      "id": "edge-malformed-005",
+      "category": "incomplete-sentence",
+      "input": "The doctor examined the patient and then",
+      "expectedOutput": {
+        "parsed": true,
+        "incomplete": true,
+        "note": "Incomplete coordination - parse available portion"
+      },
+      "tags": ["edge-case", "malformed", "incomplete"],
+      "priority": "P2",
+      "notes": "Incomplete sentence"
+    },
+    {
+      "id": "edge-domain-001",
+      "category": "mixed-medical-legal",
+      "input": "The physician testified that the defendant's treatment violated the standard of care",
+      "expectedOutput": {
+        "parsed": true,
+        "domains": ["medical", "legal"],
+        "mixedDomain": true
+      },
+      "tags": ["edge-case", "domain-mixing", "medical", "legal"],
+      "priority": "P1",
+      "notes": "Medical and legal domains mixed"
+    },
+    {
+      "id": "edge-domain-002",
+      "category": "mixed-medical-business",
+      "input": "The hospital CEO negotiated the contract for medical equipment",
+      "expectedOutput": {
+        "parsed": true,
+        "domains": ["medical", "business"],
+        "mixedDomain": true
+      },
+      "tags": ["edge-case", "domain-mixing", "medical", "business"],
+      "priority": "P1",
+      "notes": "Medical and business domains mixed"
+    },
+    {
+      "id": "edge-domain-003",
+      "category": "technical-jargon",
+      "input": "The patient presented with acute myocardial infarction and required percutaneous coronary intervention",
+      "expectedOutput": {
+        "parsed": true,
+        "technicalTerms": true,
+        "note": "Heavy medical jargon"
+      },
+      "tags": ["edge-case", "domain-specific", "medical-jargon"],
+      "priority": "P1",
+      "notes": "Heavy medical terminology"
+    },
+    {
+      "id": "edge-domain-004",
+      "category": "informal-colloquial",
+      "input": "The doc said the patient's gonna be okay if they chill out and take their meds",
+      "expectedOutput": {
+        "parsed": true,
+        "register": "informal",
+        "note": "Colloquial language"
+      },
+      "tags": ["edge-case", "register", "colloquial"],
+      "priority": "P2",
+      "notes": "Informal colloquial language"
+    },
+    {
+      "id": "edge-domain-005",
+      "category": "archaic-language",
+      "input": "The physician doth prescribe bloodletting for the patient's malady",
+      "expectedOutput": {
+        "parsed": true,
+        "register": "archaic",
+        "note": "Archaic forms may not be recognized"
+      },
+      "tags": ["edge-case", "register", "archaic"],
+      "priority": "P2",
+      "notes": "Archaic language forms"
+    },
+    {
+      "id": "edge-ontology-001",
+      "category": "unknown-entity-type",
+      "input": "The xenomorph patient required special treatment protocols",
+      "expectedOutput": {
+        "parsed": true,
+        "unknownType": "xenomorph",
+        "note": "Unknown entity type - treated generically"
+      },
+      "tags": ["edge-case", "ontology", "unknown-type"],
+      "priority": "P2",
+      "notes": "Completely unknown entity type"
+    },
+    {
+      "id": "edge-ontology-002",
+      "category": "type-conflict",
+      "input": "The building examined the patient",
+      "expectedOutput": {
+        "error": "type-violation",
+        "note": "Severe selectional preference violation"
+      },
+      "tags": ["edge-case", "ontology", "type-violation"],
+      "priority": "P1",
+      "notes": "Severe type violation - inanimate agent"
+    },
+    {
+      "id": "edge-ontology-003",
+      "category": "novel-compound",
+      "input": "The cyber-physician performed tele-surgery using nano-robots",
+      "expectedOutput": {
+        "parsed": true,
+        "novelTerms": true,
+        "note": "Novel compounds - decompose or treat as unknown"
+      },
+      "tags": ["edge-case", "ontology", "novel-terms"],
+      "priority": "P2",
+      "notes": "Novel compound words"
+    },
+    {
+      "id": "edge-ontology-004",
+      "category": "missing-ontology-entry",
+      "input": "The patient was diagnosed with COVID-19",
+      "expectedOutput": {
+        "parsed": true,
+        "unknownDisease": "COVID-19",
+        "note": "Disease may not be in ontology"
+      },
+      "tags": ["edge-case", "ontology", "missing-entry"],
+      "priority": "P2",
+      "notes": "Term not in ontology - novel disease"
+    },
+    {
+      "id": "edge-ontology-005",
+      "category": "brand-name-medication",
+      "input": "The doctor prescribed Tylenol for the pain",
+      "expectedOutput": {
+        "parsed": true,
+        "brandName": "Tylenol",
+        "note": "Brand name vs. generic name handling"
+      },
+      "tags": ["edge-case", "ontology", "brand-name"],
+      "priority": "P2",
+      "notes": "Brand name medication"
+    },
+    {
+      "id": "edge-numeric-001",
+      "category": "numeric-subject",
+      "input": "50 patients were treated",
+      "expectedOutput": {
+        "parsed": true,
+        "numericQuantifier": "50",
+        "entity": "patients"
+      },
+      "tags": ["edge-case", "numeric", "quantifier"],
+      "priority": "P1",
+      "notes": "Numeric quantifier in subject"
+    },
+    {
+      "id": "edge-numeric-002",
+      "category": "percentage",
+      "input": "75% of patients survived",
+      "expectedOutput": {
+        "parsed": true,
+        "percentage": "75%",
+        "note": "Percentage quantifier"
+      },
+      "tags": ["edge-case", "numeric", "percentage"],
+      "priority": "P1",
+      "notes": "Percentage expression"
+    },
+    {
+      "id": "edge-numeric-003",
+      "category": "decimal-number",
+      "input": "The patient's temperature was 98.6 degrees",
+      "expectedOutput": {
+        "parsed": true,
+        "measurement": {
+          "value": "98.6",
+          "unit": "degrees"
+        }
+      },
+      "tags": ["edge-case", "numeric", "measurement"],
+      "priority": "P1",
+      "notes": "Decimal measurement"
+    },
+    {
+      "id": "edge-numeric-004",
+      "category": "ordinal",
+      "input": "The 1st patient recovered faster than the 2nd patient",
+      "expectedOutput": {
+        "parsed": true,
+        "ordinals": ["1st", "2nd"],
+        "note": "Ordinal numbers"
+      },
+      "tags": ["edge-case", "numeric", "ordinal"],
+      "priority": "P2",
+      "notes": "Ordinal number expressions"
+    },
+    {
+      "id": "edge-numeric-005",
+      "category": "range",
+      "input": "The patient's blood pressure was 120-130 over 80-90",
+      "expectedOutput": {
+        "parsed": true,
+        "ranges": ["120-130", "80-90"],
+        "note": "Numeric ranges"
+      },
+      "tags": ["edge-case", "numeric", "range"],
+      "priority": "P2",
+      "notes": "Numeric range expressions"
+    },
+    {
+      "id": "edge-quote-001",
+      "category": "direct-quote",
+      "input": "The patient said \"I consent to the treatment\"",
+      "expectedOutput": {
+        "parsed": true,
+        "quotation": {
+          "type": "direct",
+          "content": "I consent to the treatment",
+          "speaker": "the patient"
+        }
+      },
+      "tags": ["edge-case", "quotation", "direct-speech"],
+      "priority": "P1",
+      "notes": "Direct quotation"
+    },
+    {
+      "id": "edge-quote-002",
+      "category": "nested-quotes",
+      "input": "The doctor said \"The nurse reported 'The patient is stable'\"",
+      "expectedOutput": {
+        "parsed": true,
+        "quotation": {
+          "type": "nested",
+          "levels": 2
+        }
+      },
+      "tags": ["edge-case", "quotation", "nested"],
+      "priority": "P2",
+      "notes": "Nested quotations"
+    },
+    {
+      "id": "edge-quote-003",
+      "category": "unmatched-quotes",
+      "input": "The patient said \"I don't consent",
+      "expectedOutput": {
+        "parsed": true,
+        "quotationError": true,
+        "note": "Unmatched quotation marks"
+      },
+      "tags": ["edge-case", "quotation", "malformed"],
+      "priority": "P2",
+      "notes": "Unmatched quotation marks"
+    },
+    {
+      "id": "edge-quote-004",
+      "category": "scare-quotes",
+      "input": "The patient's \"recovery\" was actually a relapse",
+      "expectedOutput": {
+        "parsed": true,
+        "scareQuotes": ["recovery"],
+        "note": "Scare quotes indicating irony"
+      },
+      "tags": ["edge-case", "quotation", "scare-quotes"],
+      "priority": "P2",
+      "notes": "Scare quotes (ironic usage)"
+    },
+    {
+      "id": "edge-quote-005",
+      "category": "multiple-speakers",
+      "input": "The doctor said \"Prepare the patient\" and the nurse replied \"Right away\"",
+      "expectedOutput": {
+        "parsed": true,
+        "quotations": [
+          { "speaker": "the doctor", "content": "Prepare the patient" },
+          { "speaker": "the nurse", "content": "Right away" }
+        ]
+      },
+      "tags": ["edge-case", "quotation", "dialogue"],
+      "priority": "P2",
+      "notes": "Multiple speakers in dialogue"
+    }
+  ]
+}

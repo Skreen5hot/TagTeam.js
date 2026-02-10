@@ -1,0 +1,868 @@
+{
+  "version": "2.0",
+  "corpusId": "ontology-loading",
+  "description": "Golden test cases for ontology loading and validation (Phase 6.5)",
+  "metadata": {
+    "created": "2026-02-10",
+    "lastUpdated": "2026-02-10",
+    "author": "TagTeam Core Team",
+    "phase": "6.5",
+    "priority": "P0",
+    "notes": "Tests TTL parsing, JSON config loading, merge strategies, and bridge ontology mappings"
+  },
+  "cases": [
+    {
+      "id": "ontology-ttl-001",
+      "category": "ttl-basic-class",
+      "input": {
+        "format": "ttl",
+        "content": "@prefix tagteam: <http://tagteam.fandaws.org/ontology/> .\n@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n\ntagteam:MedicalEvent a rdfs:Class ;\n  rdfs:label \"Medical Event\" ;\n  rdfs:comment \"An event in a medical context\" ."
+      },
+      "expectedOutput": {
+        "loaded": true,
+        "classCount": 1,
+        "classes": [
+          {
+            "uri": "http://tagteam.fandaws.org/ontology/MedicalEvent",
+            "label": "Medical Event",
+            "comment": "An event in a medical context",
+            "type": "Class"
+          }
+        ],
+        "errors": []
+      },
+      "tags": ["ontology", "ttl", "basic", "class-definition", "phase6"],
+      "priority": "P0",
+      "notes": "Basic TTL class definition"
+    },
+    {
+      "id": "ontology-ttl-002",
+      "category": "ttl-subclass",
+      "input": {
+        "format": "ttl",
+        "content": "@prefix tagteam: <http://tagteam.fandaws.org/ontology/> .\n@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n\ntagteam:TreatmentEvent a rdfs:Class ;\n  rdfs:subClassOf tagteam:MedicalEvent ;\n  rdfs:label \"Treatment Event\" ."
+      },
+      "expectedOutput": {
+        "loaded": true,
+        "classCount": 1,
+        "classes": [
+          {
+            "uri": "http://tagteam.fandaws.org/ontology/TreatmentEvent",
+            "label": "Treatment Event",
+            "subClassOf": "http://tagteam.fandaws.org/ontology/MedicalEvent",
+            "type": "Class"
+          }
+        ],
+        "errors": []
+      },
+      "tags": ["ontology", "ttl", "subclass", "hierarchy", "phase6"],
+      "priority": "P0",
+      "notes": "TTL subclass relationship"
+    },
+    {
+      "id": "ontology-ttl-003",
+      "category": "ttl-property",
+      "input": {
+        "format": "ttl",
+        "content": "@prefix tagteam: <http://tagteam.fandaws.org/ontology/> .\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n\ntagteam:hasAgent a rdf:Property ;\n  rdfs:label \"has agent\" ;\n  rdfs:domain tagteam:Event ;\n  rdfs:range tagteam:Agent ."
+      },
+      "expectedOutput": {
+        "loaded": true,
+        "propertyCount": 1,
+        "properties": [
+          {
+            "uri": "http://tagteam.fandaws.org/ontology/hasAgent",
+            "label": "has agent",
+            "domain": "http://tagteam.fandaws.org/ontology/Event",
+            "range": "http://tagteam.fandaws.org/ontology/Agent",
+            "type": "Property"
+          }
+        ],
+        "errors": []
+      },
+      "tags": ["ontology", "ttl", "property", "relation", "phase6"],
+      "priority": "P0",
+      "notes": "TTL property with domain and range"
+    },
+    {
+      "id": "ontology-ttl-004",
+      "category": "ttl-value-individual",
+      "input": {
+        "format": "ttl",
+        "content": "@prefix tagteam: <http://tagteam.fandaws.org/ontology/> .\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n\ntagteam:Autonomy a tagteam:EthicalValue ;\n  rdfs:label \"Autonomy\" ;\n  tagteam:domain \"Dignity\" ;\n  tagteam:polarity \"neutral\" ."
+      },
+      "expectedOutput": {
+        "loaded": true,
+        "individualCount": 1,
+        "individuals": [
+          {
+            "uri": "http://tagteam.fandaws.org/ontology/Autonomy",
+            "label": "Autonomy",
+            "type": "http://tagteam.fandaws.org/ontology/EthicalValue",
+            "properties": {
+              "domain": "Dignity",
+              "polarity": "neutral"
+            }
+          }
+        ],
+        "errors": []
+      },
+      "tags": ["ontology", "ttl", "individual", "value", "phase6"],
+      "priority": "P0",
+      "notes": "TTL individual (ethical value instance)"
+    },
+    {
+      "id": "ontology-ttl-005",
+      "category": "ttl-multiple-prefixes",
+      "input": {
+        "format": "ttl",
+        "content": "@prefix tagteam: <http://tagteam.fandaws.org/ontology/> .\n@prefix bfo: <http://purl.obolibrary.org/obo/> .\n@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n\ntagteam:Event rdfs:subClassOf bfo:BFO_0000003 ;\n  rdfs:label \"Event\" ."
+      },
+      "expectedOutput": {
+        "loaded": true,
+        "prefixes": ["tagteam", "bfo", "rdfs"],
+        "classes": [
+          {
+            "uri": "http://tagteam.fandaws.org/ontology/Event",
+            "label": "Event",
+            "subClassOf": "http://purl.obolibrary.org/obo/BFO_0000003"
+          }
+        ],
+        "errors": []
+      },
+      "tags": ["ontology", "ttl", "prefixes", "bfo-alignment", "phase6"],
+      "priority": "P0",
+      "notes": "TTL with multiple prefixes and BFO alignment"
+    },
+    {
+      "id": "ontology-ttl-006",
+      "category": "ttl-annotation",
+      "input": {
+        "format": "ttl",
+        "content": "@prefix tagteam: <http://tagteam.fandaws.org/ontology/> .\n@prefix dc: <http://purl.org/dc/elements/1.1/> .\n\ntagteam:ConsentEvent a rdfs:Class ;\n  rdfs:label \"Consent Event\" ;\n  dc:description \"An event involving patient consent\" ;\n  dc:created \"2026-02-10\" ."
+      },
+      "expectedOutput": {
+        "loaded": true,
+        "classes": [
+          {
+            "uri": "http://tagteam.fandaws.org/ontology/ConsentEvent",
+            "label": "Consent Event",
+            "annotations": {
+              "description": "An event involving patient consent",
+              "created": "2026-02-10"
+            }
+          }
+        ],
+        "errors": []
+      },
+      "tags": ["ontology", "ttl", "annotation", "metadata", "phase6"],
+      "priority": "P0",
+      "notes": "TTL with Dublin Core annotations"
+    },
+    {
+      "id": "ontology-ttl-007",
+      "category": "ttl-inverse-property",
+      "input": {
+        "format": "ttl",
+        "content": "@prefix tagteam: <http://tagteam.fandaws.org/ontology/> .\n@prefix owl: <http://www.w3.org/2002/07/owl#> .\n\ntagteam:hasAgent a owl:ObjectProperty ;\n  owl:inverseOf tagteam:isAgentOf ."
+      },
+      "expectedOutput": {
+        "loaded": true,
+        "properties": [
+          {
+            "uri": "http://tagteam.fandaws.org/ontology/hasAgent",
+            "type": "ObjectProperty",
+            "inverseOf": "http://tagteam.fandaws.org/ontology/isAgentOf"
+          }
+        ],
+        "errors": []
+      },
+      "tags": ["ontology", "ttl", "inverse-property", "owl", "phase6"],
+      "priority": "P1",
+      "notes": "OWL inverse property relationship"
+    },
+    {
+      "id": "ontology-ttl-008",
+      "category": "ttl-restriction",
+      "input": {
+        "format": "ttl",
+        "content": "@prefix tagteam: <http://tagteam.fandaws.org/ontology/> .\n@prefix owl: <http://www.w3.org/2002/07/owl#> .\n\ntagteam:MedicalProfessional a owl:Class ;\n  rdfs:subClassOf [\n    a owl:Restriction ;\n    owl:onProperty tagteam:hasRole ;\n    owl:someValuesFrom tagteam:ProfessionalRole\n  ] ."
+      },
+      "expectedOutput": {
+        "loaded": true,
+        "classes": [
+          {
+            "uri": "http://tagteam.fandaws.org/ontology/MedicalProfessional",
+            "restrictions": [
+              {
+                "type": "someValuesFrom",
+                "property": "http://tagteam.fandaws.org/ontology/hasRole",
+                "value": "http://tagteam.fandaws.org/ontology/ProfessionalRole"
+              }
+            ]
+          }
+        ],
+        "errors": []
+      },
+      "tags": ["ontology", "ttl", "restriction", "owl", "advanced", "phase6"],
+      "priority": "P1",
+      "notes": "OWL restriction (someValuesFrom)"
+    },
+    {
+      "id": "ontology-ttl-009",
+      "category": "ttl-malformed",
+      "input": {
+        "format": "ttl",
+        "content": "@prefix tagteam: <http://tagteam.fandaws.org/ontology/> .\n\ntagteam:BadClass a rdfs:Class\n  rdfs:label \"Missing semicolon\" ."
+      },
+      "expectedOutput": {
+        "loaded": false,
+        "errors": [
+          {
+            "type": "syntax-error",
+            "message": "Missing semicolon or period",
+            "line": 3
+          }
+        ]
+      },
+      "tags": ["ontology", "ttl", "malformed", "error-handling", "phase6"],
+      "priority": "P0",
+      "notes": "Malformed TTL - missing punctuation"
+    },
+    {
+      "id": "ontology-ttl-010",
+      "category": "ttl-undefined-prefix",
+      "input": {
+        "format": "ttl",
+        "content": "@prefix tagteam: <http://tagteam.fandaws.org/ontology/> .\n\ntagteam:Event rdfs:subClassOf unknown:BaseClass ."
+      },
+      "expectedOutput": {
+        "loaded": false,
+        "errors": [
+          {
+            "type": "undefined-prefix",
+            "prefix": "unknown",
+            "message": "Undefined prefix 'unknown'",
+            "line": 3
+          }
+        ]
+      },
+      "tags": ["ontology", "ttl", "error", "undefined-prefix", "phase6"],
+      "priority": "P0",
+      "notes": "Error handling for undefined prefix"
+    },
+    {
+      "id": "ontology-json-001",
+      "category": "json-basic-config",
+      "input": {
+        "format": "json",
+        "content": {
+          "namespace": "http://tagteam.fandaws.org/ontology/",
+          "classes": [
+            {
+              "id": "MedicalEvent",
+              "label": "Medical Event",
+              "description": "An event in a medical context"
+            }
+          ]
+        }
+      },
+      "expectedOutput": {
+        "loaded": true,
+        "namespace": "http://tagteam.fandaws.org/ontology/",
+        "classCount": 1,
+        "classes": [
+          {
+            "id": "MedicalEvent",
+            "label": "Medical Event",
+            "description": "An event in a medical context"
+          }
+        ],
+        "errors": []
+      },
+      "tags": ["ontology", "json", "basic", "config", "phase6"],
+      "priority": "P0",
+      "notes": "Basic JSON ontology configuration"
+    },
+    {
+      "id": "ontology-json-002",
+      "category": "json-medical-domain",
+      "input": {
+        "format": "json",
+        "content": {
+          "domain": "medical",
+          "selectionalPreferences": {
+            "examine": {
+              "subject": ["Doctor", "Nurse", "Specialist"],
+              "object": ["Patient", "Wound", "Symptom"]
+            }
+          }
+        }
+      },
+      "expectedOutput": {
+        "loaded": true,
+        "domain": "medical",
+        "selectionalPreferences": {
+          "examine": {
+            "subject": ["Doctor", "Nurse", "Specialist"],
+            "object": ["Patient", "Wound", "Symptom"]
+          }
+        },
+        "errors": []
+      },
+      "tags": ["ontology", "json", "medical", "selectional-preferences", "phase6"],
+      "priority": "P0",
+      "notes": "JSON medical domain selectional preferences"
+    },
+    {
+      "id": "ontology-json-003",
+      "category": "json-value-taxonomy",
+      "input": {
+        "format": "json",
+        "content": {
+          "values": [
+            {
+              "name": "Autonomy",
+              "domain": "Dignity",
+              "polarity_patterns": {
+                "positive": ["respect autonomy", "patient choice"],
+                "negative": ["violate autonomy", "force treatment"]
+              }
+            }
+          ]
+        }
+      },
+      "expectedOutput": {
+        "loaded": true,
+        "valueCount": 1,
+        "values": [
+          {
+            "name": "Autonomy",
+            "domain": "Dignity",
+            "polarity_patterns": {
+              "positive": ["respect autonomy", "patient choice"],
+              "negative": ["violate autonomy", "force treatment"]
+            }
+          }
+        ],
+        "errors": []
+      },
+      "tags": ["ontology", "json", "values", "polarity", "phase6"],
+      "priority": "P0",
+      "notes": "JSON value taxonomy with polarity patterns"
+    },
+    {
+      "id": "ontology-json-004",
+      "category": "json-semantic-roles",
+      "input": {
+        "format": "json",
+        "content": {
+          "semanticRoles": {
+            "Agent": {
+              "description": "Intentional actor",
+              "markers": ["by", "performed by"]
+            },
+            "Patient": {
+              "description": "Affected participant",
+              "markers": ["affected", "undergoes"]
+            }
+          }
+        }
+      },
+      "expectedOutput": {
+        "loaded": true,
+        "semanticRoleCount": 2,
+        "semanticRoles": {
+          "Agent": {
+            "description": "Intentional actor",
+            "markers": ["by", "performed by"]
+          },
+          "Patient": {
+            "description": "Affected participant",
+            "markers": ["affected", "undergoes"]
+          }
+        },
+        "errors": []
+      },
+      "tags": ["ontology", "json", "semantic-roles", "phase6"],
+      "priority": "P0",
+      "notes": "JSON semantic role definitions"
+    },
+    {
+      "id": "ontology-json-005",
+      "category": "json-modality-taxonomy",
+      "input": {
+        "format": "json",
+        "content": {
+          "modals": {
+            "must": {
+              "types": ["deontic-obligation", "epistemic-necessity"],
+              "default": "deontic-obligation",
+              "contexts": {
+                "medical": "deontic-obligation"
+              }
+            }
+          }
+        }
+      },
+      "expectedOutput": {
+        "loaded": true,
+        "modalCount": 1,
+        "modals": {
+          "must": {
+            "types": ["deontic-obligation", "epistemic-necessity"],
+            "default": "deontic-obligation",
+            "contexts": {
+              "medical": "deontic-obligation"
+            }
+          }
+        },
+        "errors": []
+      },
+      "tags": ["ontology", "json", "modality", "taxonomy", "phase6"],
+      "priority": "P0",
+      "notes": "JSON modal taxonomy with context-specific defaults"
+    },
+    {
+      "id": "ontology-json-006",
+      "category": "json-verb-classes",
+      "input": {
+        "format": "json",
+        "content": {
+          "verbClasses": [
+            {
+              "class": "CommunicationVerb",
+              "members": ["inform", "tell", "explain", "disclose"],
+              "frames": [
+                {
+                  "pattern": "NP V NP PP",
+                  "roles": {"subject": "Agent", "object": "Recipient", "pp": "Theme"}
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "expectedOutput": {
+        "loaded": true,
+        "verbClassCount": 1,
+        "verbClasses": [
+          {
+            "class": "CommunicationVerb",
+            "members": ["inform", "tell", "explain", "disclose"],
+            "frameCount": 1
+          }
+        ],
+        "errors": []
+      },
+      "tags": ["ontology", "json", "verb-classes", "frames", "phase6"],
+      "priority": "P0",
+      "notes": "JSON verb class with argument frames"
+    },
+    {
+      "id": "ontology-json-007",
+      "category": "json-scarcity-markers",
+      "input": {
+        "format": "json",
+        "content": {
+          "scarcityMarkers": {
+            "definite": ["the last", "the only", "the final"],
+            "quantifiers": ["few", "rare", "scarce"],
+            "contextual": ["running out", "depleted"]
+          }
+        }
+      },
+      "expectedOutput": {
+        "loaded": true,
+        "scarcityMarkers": {
+          "definite": ["the last", "the only", "the final"],
+          "quantifiers": ["few", "rare", "scarce"],
+          "contextual": ["running out", "depleted"]
+        },
+        "errors": []
+      },
+      "tags": ["ontology", "json", "scarcity-markers", "phase6"],
+      "priority": "P0",
+      "notes": "JSON scarcity marker taxonomy"
+    },
+    {
+      "id": "ontology-json-008",
+      "category": "json-validation-schema",
+      "input": {
+        "format": "json",
+        "content": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "required": ["namespace", "classes"],
+          "properties": {
+            "namespace": {"type": "string"},
+            "classes": {"type": "array"}
+          }
+        }
+      },
+      "expectedOutput": {
+        "loaded": true,
+        "hasSchema": true,
+        "requiredFields": ["namespace", "classes"],
+        "errors": []
+      },
+      "tags": ["ontology", "json", "schema", "validation", "phase6"],
+      "priority": "P1",
+      "notes": "JSON Schema for ontology validation"
+    },
+    {
+      "id": "ontology-json-009",
+      "category": "json-malformed",
+      "input": {
+        "format": "json",
+        "content": "{ \"namespace\": \"http://example.org/\", \"classes\": [ "
+      },
+      "expectedOutput": {
+        "loaded": false,
+        "errors": [
+          {
+            "type": "json-parse-error",
+            "message": "Unexpected end of JSON input"
+          }
+        ]
+      },
+      "tags": ["ontology", "json", "malformed", "error-handling", "phase6"],
+      "priority": "P0",
+      "notes": "Malformed JSON - incomplete structure"
+    },
+    {
+      "id": "ontology-json-010",
+      "category": "json-missing-required",
+      "input": {
+        "format": "json",
+        "content": {
+          "classes": [
+            {"id": "Event"}
+          ]
+        }
+      },
+      "expectedOutput": {
+        "loaded": false,
+        "errors": [
+          {
+            "type": "validation-error",
+            "message": "Missing required field 'namespace'"
+          }
+        ]
+      },
+      "tags": ["ontology", "json", "validation-error", "required-fields", "phase6"],
+      "priority": "P0",
+      "notes": "Missing required namespace field"
+    },
+    {
+      "id": "ontology-merge-001",
+      "category": "merge-basic",
+      "input": {
+        "operation": "merge",
+        "sources": [
+          {
+            "name": "medical.json",
+            "namespace": "http://tagteam.fandaws.org/ontology/medical/",
+            "classes": ["Doctor", "Patient"]
+          },
+          {
+            "name": "legal.json",
+            "namespace": "http://tagteam.fandaws.org/ontology/legal/",
+            "classes": ["Lawyer", "Judge"]
+          }
+        ]
+      },
+      "expectedOutput": {
+        "merged": true,
+        "namespaces": [
+          "http://tagteam.fandaws.org/ontology/medical/",
+          "http://tagteam.fandaws.org/ontology/legal/"
+        ],
+        "totalClasses": 4,
+        "errors": []
+      },
+      "tags": ["ontology", "merge", "basic", "multiple-sources", "phase6"],
+      "priority": "P0",
+      "notes": "Basic merge of two ontologies with distinct namespaces"
+    },
+    {
+      "id": "ontology-merge-002",
+      "category": "merge-conflict",
+      "input": {
+        "operation": "merge",
+        "sources": [
+          {
+            "name": "source1.json",
+            "namespace": "http://example.org/",
+            "classes": [{"id": "Event", "label": "Event Type 1"}]
+          },
+          {
+            "name": "source2.json",
+            "namespace": "http://example.org/",
+            "classes": [{"id": "Event", "label": "Event Type 2"}]
+          }
+        ],
+        "strategy": "prefer-first"
+      },
+      "expectedOutput": {
+        "merged": true,
+        "conflicts": [
+          {
+            "type": "duplicate-class",
+            "id": "Event",
+            "resolution": "prefer-first",
+            "kept": "Event Type 1",
+            "discarded": "Event Type 2"
+          }
+        ],
+        "errors": []
+      },
+      "tags": ["ontology", "merge", "conflict", "resolution", "phase6"],
+      "priority": "P0",
+      "notes": "Merge with namespace conflict - prefer first strategy"
+    },
+    {
+      "id": "ontology-merge-003",
+      "category": "merge-inheritance",
+      "input": {
+        "operation": "merge",
+        "sources": [
+          {
+            "name": "base.json",
+            "classes": [{"id": "Event", "properties": ["timestamp"]}]
+          },
+          {
+            "name": "medical.json",
+            "classes": [{"id": "Event", "properties": ["patient"], "extends": "base.Event"}]
+          }
+        ],
+        "strategy": "inherit"
+      },
+      "expectedOutput": {
+        "merged": true,
+        "classes": [
+          {
+            "id": "Event",
+            "properties": ["timestamp", "patient"],
+            "sources": ["base.json", "medical.json"]
+          }
+        ],
+        "errors": []
+      },
+      "tags": ["ontology", "merge", "inheritance", "properties", "phase6"],
+      "priority": "P0",
+      "notes": "Merge with property inheritance"
+    },
+    {
+      "id": "ontology-merge-004",
+      "category": "merge-priority",
+      "input": {
+        "operation": "merge",
+        "sources": [
+          {
+            "name": "default.json",
+            "priority": 1,
+            "values": {"Autonomy": {"domain": "Dignity"}}
+          },
+          {
+            "name": "custom.json",
+            "priority": 10,
+            "values": {"Autonomy": {"domain": "Dignity", "salience": 0.9}}
+          }
+        ],
+        "strategy": "priority-based"
+      },
+      "expectedOutput": {
+        "merged": true,
+        "values": {
+          "Autonomy": {
+            "domain": "Dignity",
+            "salience": 0.9,
+            "source": "custom.json"
+          }
+        },
+        "errors": []
+      },
+      "tags": ["ontology", "merge", "priority", "values", "phase6"],
+      "priority": "P0",
+      "notes": "Priority-based merge - higher priority wins"
+    },
+    {
+      "id": "ontology-merge-005",
+      "category": "merge-validation",
+      "input": {
+        "operation": "merge",
+        "sources": [
+          {
+            "name": "valid.json",
+            "namespace": "http://example.org/",
+            "classes": ["Event"]
+          },
+          {
+            "name": "invalid.json",
+            "classes": ["MissingNamespace"]
+          }
+        ],
+        "validateEach": true
+      },
+      "expectedOutput": {
+        "merged": false,
+        "errors": [
+          {
+            "source": "invalid.json",
+            "type": "validation-error",
+            "message": "Missing required namespace"
+          }
+        ]
+      },
+      "tags": ["ontology", "merge", "validation", "error-handling", "phase6"],
+      "priority": "P0",
+      "notes": "Merge fails if any source is invalid"
+    },
+    {
+      "id": "ontology-bridge-001",
+      "category": "bridge-iee-tagteam",
+      "input": {
+        "operation": "bridge",
+        "source": "iee",
+        "target": "tagteam",
+        "mappings": [
+          {
+            "ieeClass": "EthicalValue",
+            "tagteamClass": "http://tagteam.fandaws.org/ontology/Value",
+            "type": "equivalentClass"
+          }
+        ]
+      },
+      "expectedOutput": {
+        "bridged": true,
+        "mappingCount": 1,
+        "mappings": [
+          {
+            "source": "iee:EthicalValue",
+            "target": "tagteam:Value",
+            "relation": "owl:equivalentClass"
+          }
+        ],
+        "errors": []
+      },
+      "tags": ["ontology", "bridge", "iee", "mapping", "phase6"],
+      "priority": "P0",
+      "notes": "IEE to TagTeam bridge mapping"
+    },
+    {
+      "id": "ontology-bridge-002",
+      "category": "bridge-property-mapping",
+      "input": {
+        "operation": "bridge",
+        "mappings": [
+          {
+            "ieeProperty": "hasValue",
+            "tagteamProperty": "tagteam:detectedValue",
+            "type": "equivalentProperty"
+          }
+        ]
+      },
+      "expectedOutput": {
+        "bridged": true,
+        "propertyMappings": [
+          {
+            "source": "iee:hasValue",
+            "target": "tagteam:detectedValue",
+            "relation": "owl:equivalentProperty"
+          }
+        ],
+        "errors": []
+      },
+      "tags": ["ontology", "bridge", "property", "mapping", "phase6"],
+      "priority": "P0",
+      "notes": "Property-level bridge mapping"
+    },
+    {
+      "id": "ontology-bridge-003",
+      "category": "bridge-value-transformation",
+      "input": {
+        "operation": "bridge",
+        "mappings": [
+          {
+            "ieeValue": "autonomy_violated",
+            "tagteamValue": "Autonomy",
+            "polarityTransform": {"iee": -1, "tagteam": "negative"}
+          }
+        ]
+      },
+      "expectedOutput": {
+        "bridged": true,
+        "valueMappings": [
+          {
+            "source": "autonomy_violated",
+            "target": "Autonomy",
+            "polarity": "negative"
+          }
+        ],
+        "errors": []
+      },
+      "tags": ["ontology", "bridge", "value", "polarity-transform", "phase6"],
+      "priority": "P0",
+      "notes": "Value mapping with polarity transformation"
+    },
+    {
+      "id": "ontology-bridge-004",
+      "category": "bridge-bfo-alignment",
+      "input": {
+        "operation": "bridge",
+        "source": "tagteam",
+        "target": "bfo",
+        "mappings": [
+          {
+            "tagteamClass": "tagteam:Event",
+            "bfoClass": "bfo:BFO_0000003",
+            "type": "subClassOf",
+            "note": "TagTeam Event is subclass of BFO Occurrent"
+          }
+        ]
+      },
+      "expectedOutput": {
+        "bridged": true,
+        "alignments": [
+          {
+            "source": "tagteam:Event",
+            "target": "bfo:BFO_0000003",
+            "relation": "rdfs:subClassOf",
+            "validated": true
+          }
+        ],
+        "errors": []
+      },
+      "tags": ["ontology", "bridge", "bfo", "upper-ontology", "phase6"],
+      "priority": "P0",
+      "notes": "TagTeam to BFO upper ontology alignment"
+    },
+    {
+      "id": "ontology-bridge-005",
+      "category": "bridge-validation-error",
+      "input": {
+        "operation": "bridge",
+        "mappings": [
+          {
+            "ieeClass": "NonExistentClass",
+            "tagteamClass": "tagteam:Event",
+            "type": "equivalentClass"
+          }
+        ],
+        "validateMappings": true
+      },
+      "expectedOutput": {
+        "bridged": false,
+        "errors": [
+          {
+            "type": "mapping-validation-error",
+            "message": "Source class 'NonExistentClass' not found in IEE ontology"
+          }
+        ]
+      },
+      "tags": ["ontology", "bridge", "validation-error", "error-handling", "phase6"],
+      "priority": "P0",
+      "notes": "Bridge validation catches non-existent classes"
+    }
+  ]
+}

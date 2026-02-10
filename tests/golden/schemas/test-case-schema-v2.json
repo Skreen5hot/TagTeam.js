@@ -1,0 +1,170 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://tagteam.fandaws.org/schemas/golden-test-case-v2.json",
+  "title": "TagTeam Golden Test Case Schema v2.0",
+  "description": "Schema for TagTeam golden test corpus test cases",
+  "type": "object",
+  "required": ["version", "corpusId", "description", "metadata", "cases"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+$",
+      "description": "Schema version (e.g., '2.0')"
+    },
+    "corpusId": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Unique identifier for this corpus"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10,
+      "description": "Human-readable description of this corpus"
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["created", "author", "phase", "priority"],
+      "properties": {
+        "created": {
+          "type": "string",
+          "format": "date",
+          "description": "Creation date (YYYY-MM-DD)"
+        },
+        "lastUpdated": {
+          "type": "string",
+          "format": "date",
+          "description": "Last update date (YYYY-MM-DD)"
+        },
+        "author": {
+          "type": "string",
+          "description": "Author or team name"
+        },
+        "phase": {
+          "type": "string",
+          "description": "Roadmap phase (e.g., '6.1-6.4', 'v1', 'Week 2b')"
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["P0", "P1", "P2"],
+          "description": "Corpus priority level"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Additional notes about this corpus"
+        }
+      }
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/testCase"
+      }
+    }
+  },
+  "definitions": {
+    "testCase": {
+      "type": "object",
+      "required": ["id", "category", "input", "expectedOutput", "tags", "priority"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$",
+          "description": "Unique test case ID within corpus"
+        },
+        "category": {
+          "type": "string",
+          "description": "Test category (e.g., 'deontic-epistemic-ambiguity')"
+        },
+        "input": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Input text to parse"
+        },
+        "expectedOutput": {
+          "type": "object",
+          "description": "Expected parsing output (structure varies by test type)",
+          "additionalProperties": true
+        },
+        "validationRules": {
+          "type": "object",
+          "description": "Validation rules for comparing expected vs actual",
+          "properties": {
+            "mustHaveDefaultReading": {
+              "type": "boolean"
+            },
+            "mustHaveAlternatives": {
+              "type": "boolean"
+            },
+            "minAlternatives": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "maxAlternatives": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "defaultPlausibility": {
+              "type": "object",
+              "properties": {
+                "min": { "type": "number", "minimum": 0, "maximum": 1 },
+                "max": { "type": "number", "minimum": 0, "maximum": 1 }
+              }
+            },
+            "alternativePlausibility": {
+              "type": "object",
+              "properties": {
+                "min": { "type": "number", "minimum": 0, "maximum": 1 },
+                "max": { "type": "number", "minimum": 0, "maximum": 1 }
+              }
+            },
+            "tolerance": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Tolerance for numeric comparisons (e.g., ±0.1)"
+            }
+          },
+          "additionalProperties": true
+        },
+        "tags": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          },
+          "description": "Tags for categorization and filtering"
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["P0", "P1", "P2"],
+          "description": "Test case priority"
+        },
+        "phase": {
+          "type": "string",
+          "description": "Roadmap phase this test validates"
+        },
+        "relatedIssues": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Related GitHub issues or bug IDs"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Additional notes or context"
+        },
+        "disabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether this test is temporarily disabled"
+        },
+        "disabledReason": {
+          "type": "string",
+          "description": "Reason for disabling (if disabled=true)"
+        }
+      }
+    }
+  }
+}

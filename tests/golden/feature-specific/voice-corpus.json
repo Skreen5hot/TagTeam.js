@@ -1,0 +1,374 @@
+{
+  "version": "2.0",
+  "corpusId": "voice-corpus",
+  "description": "Golden test cases for voice transformations (v1 core feature)",
+  "metadata": {
+    "created": "2026-02-10",
+    "lastUpdated": "2026-02-10",
+    "author": "TagTeam Core Team",
+    "phase": "v1",
+    "priority": "P0",
+    "notes": "Tests active, passive, middle voice, and causatives - critical v1 feature"
+  },
+  "cases": [
+    {
+      "id": "voice-001",
+      "category": "active-transitive",
+      "input": "The doctor treated the patient",
+      "expectedOutput": {
+        "voice": "active",
+        "transitivity": "transitive",
+        "agent": { "text": "the doctor", "role": "Agent", "position": "subject" },
+        "patient": { "text": "the patient", "role": "Patient", "position": "object" }
+      },
+      "tags": ["active", "transitive", "medical", "v1"],
+      "priority": "P0",
+      "notes": "Canonical active transitive - Agent in subject position"
+    },
+    {
+      "id": "voice-002",
+      "category": "active-ditransitive",
+      "input": "The nurse gave the patient medication",
+      "expectedOutput": {
+        "voice": "active",
+        "transitivity": "ditransitive",
+        "agent": { "text": "the nurse", "role": "Agent" },
+        "theme": { "text": "medication", "role": "Theme" },
+        "recipient": { "text": "the patient", "role": "Recipient" }
+      },
+      "tags": ["active", "ditransitive", "medical"],
+      "priority": "P0",
+      "notes": "Active ditransitive with recipient"
+    },
+    {
+      "id": "voice-003",
+      "category": "active-intransitive",
+      "input": "The patient recovered",
+      "expectedOutput": {
+        "voice": "active",
+        "transitivity": "intransitive",
+        "theme": { "text": "the patient", "role": "Theme", "position": "subject" }
+      },
+      "tags": ["active", "intransitive", "medical"],
+      "priority": "P1",
+      "notes": "Active intransitive - no object"
+    },
+    {
+      "id": "voice-004",
+      "category": "active-unergative",
+      "input": "The doctor worked all night",
+      "expectedOutput": {
+        "voice": "active",
+        "transitivity": "intransitive",
+        "verbType": "unergative",
+        "agent": { "text": "the doctor", "role": "Agent" }
+      },
+      "tags": ["active", "unergative"],
+      "priority": "P2",
+      "notes": "Unergative verb - agentive intransitive"
+    },
+    {
+      "id": "voice-005",
+      "category": "active-unaccusative",
+      "input": "The patient died",
+      "expectedOutput": {
+        "voice": "active",
+        "transitivity": "intransitive",
+        "verbType": "unaccusative",
+        "theme": { "text": "the patient", "role": "Theme" }
+      },
+      "tags": ["active", "unaccusative", "medical"],
+      "priority": "P2",
+      "notes": "Unaccusative verb - theme in subject position"
+    },
+    {
+      "id": "voice-006",
+      "category": "active-resultative",
+      "input": "The surgeon cut the tissue open",
+      "expectedOutput": {
+        "voice": "active",
+        "construction": "resultative",
+        "agent": { "text": "the surgeon", "role": "Agent" },
+        "patient": { "text": "the tissue", "role": "Patient" },
+        "result": { "text": "open", "role": "Result" }
+      },
+      "tags": ["active", "resultative", "medical"],
+      "priority": "P2",
+      "notes": "Resultative construction"
+    },
+    {
+      "id": "voice-007",
+      "category": "active-transitive-prepositional",
+      "input": "The doctor operated on the patient",
+      "expectedOutput": {
+        "voice": "active",
+        "construction": "prepositional",
+        "agent": { "text": "the doctor", "role": "Agent" },
+        "patient": { "text": "the patient", "role": "Patient", "marker": "on" }
+      },
+      "tags": ["active", "prepositional", "medical"],
+      "priority": "P1",
+      "notes": "Prepositional object with 'on'"
+    },
+    {
+      "id": "voice-008",
+      "category": "active-compound",
+      "input": "The nurse took the patient's temperature",
+      "expectedOutput": {
+        "voice": "active",
+        "verbType": "light-verb",
+        "agent": { "text": "the nurse", "role": "Agent" },
+        "theme": { "text": "temperature", "role": "Theme" },
+        "possessor": { "text": "the patient", "role": "Possessor" }
+      },
+      "tags": ["active", "light-verb", "medical"],
+      "priority": "P1",
+      "notes": "Light verb construction"
+    },
+    {
+      "id": "voice-009",
+      "category": "passive-by-phrase",
+      "input": "The patient was treated by the doctor",
+      "expectedOutput": {
+        "voice": "passive",
+        "construction": "by-phrase",
+        "agent": { "text": "the doctor", "role": "Agent", "position": "by-phrase" },
+        "patient": { "text": "the patient", "role": "Patient", "position": "subject" }
+      },
+      "tags": ["passive", "by-phrase", "medical", "v1"],
+      "priority": "P0",
+      "notes": "Canonical passive with by-phrase - CRITICAL v1 feature"
+    },
+    {
+      "id": "voice-010",
+      "category": "passive-agentless",
+      "input": "The medication was prescribed",
+      "expectedOutput": {
+        "voice": "passive",
+        "construction": "agentless",
+        "patient": { "text": "the medication", "role": "Patient", "position": "subject" },
+        "agent": { "implicit": true, "role": "Agent" }
+      },
+      "tags": ["passive", "agentless", "medical", "v1"],
+      "priority": "P0",
+      "notes": "Agentless passive - agent backgrounded"
+    },
+    {
+      "id": "voice-011",
+      "category": "passive-get",
+      "input": "The patient got injured",
+      "expectedOutput": {
+        "voice": "passive",
+        "construction": "get-passive",
+        "patient": { "text": "the patient", "role": "Patient", "position": "subject" },
+        "adversative": true
+      },
+      "tags": ["passive", "get-passive", "medical"],
+      "priority": "P1",
+      "notes": "Get-passive - often adversative events"
+    },
+    {
+      "id": "voice-012",
+      "category": "passive-stative",
+      "input": "The patient is hospitalized",
+      "expectedOutput": {
+        "voice": "passive",
+        "aspect": "stative",
+        "patient": { "text": "the patient", "role": "Patient" },
+        "statehood": "resultant-state"
+      },
+      "tags": ["passive", "stative", "medical"],
+      "priority": "P1",
+      "notes": "Stative passive - resultant state"
+    },
+    {
+      "id": "voice-013",
+      "category": "passive-ditransitive",
+      "input": "The patient was given medication by the nurse",
+      "expectedOutput": {
+        "voice": "passive",
+        "transitivity": "ditransitive",
+        "recipient": { "text": "the patient", "role": "Recipient", "position": "subject" },
+        "theme": { "text": "medication", "role": "Theme", "position": "object" },
+        "agent": { "text": "the nurse", "role": "Agent", "position": "by-phrase" }
+      },
+      "tags": ["passive", "ditransitive", "medical", "v1"],
+      "priority": "P0",
+      "notes": "Passive of ditransitive - recipient promoted"
+    },
+    {
+      "id": "voice-014",
+      "category": "passive-prepositional",
+      "input": "The patient was operated on",
+      "expectedOutput": {
+        "voice": "passive",
+        "construction": "prepositional",
+        "patient": { "text": "the patient", "role": "Patient", "position": "subject" },
+        "preposition": "on",
+        "stranding": true
+      },
+      "tags": ["passive", "prepositional", "medical"],
+      "priority": "P1",
+      "notes": "Passive with stranded preposition"
+    },
+    {
+      "id": "voice-015",
+      "category": "passive-modal",
+      "input": "The patient should be examined",
+      "expectedOutput": {
+        "voice": "passive",
+        "modal": "should",
+        "modality": "deontic-obligation",
+        "patient": { "text": "the patient", "role": "Patient" }
+      },
+      "tags": ["passive", "modal", "medical"],
+      "priority": "P0",
+      "notes": "Passive with modal auxiliary"
+    },
+    {
+      "id": "voice-016",
+      "category": "passive-progressive",
+      "input": "The patient is being treated",
+      "expectedOutput": {
+        "voice": "passive",
+        "aspect": "progressive",
+        "patient": { "text": "the patient", "role": "Patient" }
+      },
+      "tags": ["passive", "progressive", "medical"],
+      "priority": "P1",
+      "notes": "Progressive passive"
+    },
+    {
+      "id": "voice-017",
+      "category": "passive-perfect",
+      "input": "The patient has been discharged",
+      "expectedOutput": {
+        "voice": "passive",
+        "aspect": "perfect",
+        "patient": { "text": "the patient", "role": "Patient" }
+      },
+      "tags": ["passive", "perfect", "medical"],
+      "priority": "P1",
+      "notes": "Perfect passive"
+    },
+    {
+      "id": "voice-018",
+      "category": "middle-anticausative",
+      "input": "The door opened",
+      "expectedOutput": {
+        "voice": "middle",
+        "construction": "anticausative",
+        "theme": { "text": "the door", "role": "Theme", "position": "subject" },
+        "agentSuppression": true
+      },
+      "tags": ["middle", "anticausative"],
+      "priority": "P1",
+      "notes": "Anticausative - event happens without agent"
+    },
+    {
+      "id": "voice-019",
+      "category": "middle-reflexive",
+      "input": "The patient positioned themselves",
+      "expectedOutput": {
+        "voice": "middle",
+        "construction": "reflexive",
+        "agent": { "text": "the patient", "role": "Agent" },
+        "patient": { "text": "themselves", "role": "Patient" },
+        "coreference": true
+      },
+      "tags": ["middle", "reflexive", "medical"],
+      "priority": "P2",
+      "notes": "Reflexive construction - agent=patient"
+    },
+    {
+      "id": "voice-020",
+      "category": "middle-reciprocal",
+      "input": "The doctors consulted each other",
+      "expectedOutput": {
+        "voice": "middle",
+        "construction": "reciprocal",
+        "participants": { "text": "the doctors", "role": "Agent-Patient" },
+        "reciprocal": "each other"
+      },
+      "tags": ["middle", "reciprocal", "medical"],
+      "priority": "P2",
+      "notes": "Reciprocal construction"
+    },
+    {
+      "id": "voice-021",
+      "category": "middle-ergative",
+      "input": "The wound healed",
+      "expectedOutput": {
+        "voice": "middle",
+        "construction": "ergative",
+        "theme": { "text": "the wound", "role": "Theme" },
+        "causation": "spontaneous"
+      },
+      "tags": ["middle", "ergative", "medical"],
+      "priority": "P1",
+      "notes": "Ergative verb - intransitive change-of-state"
+    },
+    {
+      "id": "voice-022",
+      "category": "middle-inchoative",
+      "input": "The patient's condition worsened",
+      "expectedOutput": {
+        "voice": "middle",
+        "construction": "inchoative",
+        "theme": { "text": "condition", "role": "Theme" },
+        "change": "gradual"
+      },
+      "tags": ["middle", "inchoative", "medical"],
+      "priority": "P2",
+      "notes": "Inchoative - gradual change verb"
+    },
+    {
+      "id": "voice-023",
+      "category": "causative-lexical",
+      "input": "The doctor killed the infection",
+      "expectedOutput": {
+        "voice": "active",
+        "construction": "causative",
+        "causativeType": "lexical",
+        "causer": { "text": "the doctor", "role": "Agent" },
+        "causee": { "text": "the infection", "role": "Patient" },
+        "result": "death"
+      },
+      "tags": ["causative", "lexical", "medical"],
+      "priority": "P2",
+      "notes": "Lexical causative - 'kill' = 'cause to die'"
+    },
+    {
+      "id": "voice-024",
+      "category": "causative-periphrastic",
+      "input": "The nurse had the patient sign consent",
+      "expectedOutput": {
+        "voice": "active",
+        "construction": "causative",
+        "causativeType": "periphrastic",
+        "causer": { "text": "the nurse", "role": "Agent" },
+        "causee": { "text": "the patient", "role": "Causee" },
+        "causedEvent": "sign consent"
+      },
+      "tags": ["causative", "periphrastic", "medical"],
+      "priority": "P1",
+      "notes": "Periphrastic causative with 'have'"
+    },
+    {
+      "id": "voice-025",
+      "category": "causative-make",
+      "input": "The medication made the patient drowsy",
+      "expectedOutput": {
+        "voice": "active",
+        "construction": "causative",
+        "causativeType": "periphrastic",
+        "causer": { "text": "the medication", "role": "Cause" },
+        "causee": { "text": "the patient", "role": "Patient" },
+        "result": { "text": "drowsy", "role": "Result" }
+      },
+      "tags": ["causative", "make", "medical"],
+      "priority": "P1",
+      "notes": "Causative with 'make' + adjective result"
+    }
+  ]
+}

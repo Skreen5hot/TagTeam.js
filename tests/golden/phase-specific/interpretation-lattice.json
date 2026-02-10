@@ -1,0 +1,1100 @@
+{
+  "version": "2.0",
+  "corpusId": "interpretation-lattice",
+  "description": "Golden test cases for interpretation lattice and ambiguity preservation (Phase 6.1-6.4)",
+  "metadata": {
+    "created": "2026-02-09",
+    "lastUpdated": "2026-02-09",
+    "author": "TagTeam Core Team",
+    "phase": "6.1-6.4",
+    "priority": "P0",
+    "notes": "Tests ambiguity detection, preservation, and alternative reading generation"
+  },
+  "cases": [
+    {
+      "id": "lattice-001",
+      "category": "deontic-epistemic-ambiguity",
+      "input": "The doctor should prioritize the younger patient",
+      "expectedOutput": {
+        "defaultReading": {
+          "interpretationType": "deontic",
+          "gloss": "obligation to prioritize",
+          "modality": "obligation",
+          "actualityStatus": "tagteam:Prescribed"
+        },
+        "alternativeReadings": [
+          {
+            "interpretationType": "epistemic",
+            "gloss": "expectation of prioritizing",
+            "modality": "expectation",
+            "actualityStatus": "tagteam:Hypothetical",
+            "plausibility": 0.3
+          }
+        ],
+        "ambiguityType": "modal_force",
+        "ambiguityPreserved": true,
+        "minReadings": 2,
+        "maxReadings": 2
+      },
+      "validationRules": {
+        "mustHaveDefaultReading": true,
+        "mustHaveAlternatives": true,
+        "minAlternatives": 1,
+        "maxAlternatives": 1,
+        "defaultPlausibility": { "min": 0.6, "max": 1.0 },
+        "alternativePlausibility": { "min": 0.2, "max": 0.4 },
+        "tolerance": 0.1
+      },
+      "tags": ["ambiguity", "modal", "deontic", "epistemic", "medical", "phase-6"],
+      "priority": "P0",
+      "phase": "6.1",
+      "notes": "Classic deontic-epistemic ambiguity with 'should'. In medical contexts, deontic reading is preferred."
+    },
+    {
+      "id": "lattice-002",
+      "category": "deontic-epistemic-ambiguity",
+      "input": "The family must decide soon",
+      "expectedOutput": {
+        "defaultReading": {
+          "interpretationType": "deontic",
+          "modality": "obligation",
+          "actualityStatus": "tagteam:Prescribed"
+        },
+        "alternativeReadings": [
+          {
+            "interpretationType": "epistemic",
+            "modality": "necessity",
+            "actualityStatus": "tagteam:Hypothetical",
+            "plausibility": 0.2
+          }
+        ],
+        "ambiguityType": "modal_force",
+        "ambiguityPreserved": true
+      },
+      "tags": ["ambiguity", "modal", "deontic", "epistemic", "medical"],
+      "priority": "P0",
+      "notes": "'Must' can be obligation (deontic) or logical necessity (epistemic)"
+    },
+    {
+      "id": "lattice-003",
+      "category": "deontic-epistemic-ambiguity",
+      "input": "The patient may refuse treatment",
+      "expectedOutput": {
+        "defaultReading": {
+          "interpretationType": "deontic",
+          "modality": "permission",
+          "actualityStatus": "tagteam:Permitted"
+        },
+        "alternativeReadings": [
+          {
+            "interpretationType": "epistemic",
+            "modality": "possibility",
+            "actualityStatus": "tagteam:Hypothetical",
+            "plausibility": 0.4
+          }
+        ],
+        "ambiguityType": "modal_force",
+        "ambiguityPreserved": true
+      },
+      "tags": ["ambiguity", "modal", "deontic", "epistemic", "medical"],
+      "priority": "P0",
+      "notes": "'May' can be permission (deontic) or possibility (epistemic)"
+    },
+    {
+      "id": "lattice-004",
+      "category": "deontic-epistemic-ambiguity",
+      "input": "The hospital ought to inform patients",
+      "expectedOutput": {
+        "defaultReading": {
+          "interpretationType": "deontic",
+          "modality": "obligation",
+          "actualityStatus": "tagteam:Prescribed"
+        },
+        "alternativeReadings": [
+          {
+            "interpretationType": "epistemic",
+            "modality": "expectation",
+            "actualityStatus": "tagteam:Hypothetical",
+            "plausibility": 0.2
+          }
+        ],
+        "ambiguityType": "modal_force",
+        "ambiguityPreserved": true
+      },
+      "tags": ["ambiguity", "modal", "deontic", "epistemic", "medical"],
+      "priority": "P0",
+      "notes": "'Ought to' typically deontic but can be epistemic expectation"
+    },
+    {
+      "id": "lattice-005",
+      "category": "deontic-epistemic-ambiguity",
+      "input": "The nurse can administer medication",
+      "expectedOutput": {
+        "defaultReading": {
+          "interpretationType": "deontic",
+          "modality": "permission",
+          "actualityStatus": "tagteam:Permitted"
+        },
+        "alternativeReadings": [
+          {
+            "interpretationType": "dynamic",
+            "modality": "ability",
+            "actualityStatus": "tagteam:Potential",
+            "plausibility": 0.5
+          }
+        ],
+        "ambiguityType": "modal_force",
+        "ambiguityPreserved": true
+      },
+      "tags": ["ambiguity", "modal", "deontic", "dynamic", "medical"],
+      "priority": "P0",
+      "notes": "'Can' has three readings: permission (deontic), ability (dynamic), possibility (epistemic)"
+    },
+    {
+      "id": "lattice-006",
+      "category": "deontic-epistemic-ambiguity",
+      "input": "The committee might approve the request",
+      "expectedOutput": {
+        "defaultReading": {
+          "interpretationType": "epistemic",
+          "modality": "possibility",
+          "actualityStatus": "tagteam:Hypothetical"
+        },
+        "alternativeReadings": [],
+        "ambiguityType": "none",
+        "ambiguityPreserved": false
+      },
+      "tags": ["modal", "epistemic", "medical", "unambiguous"],
+      "priority": "P1",
+      "notes": "'Might' is primarily epistemic, no strong alternative reading"
+    },
+    {
+      "id": "lattice-007",
+      "category": "deontic-epistemic-ambiguity",
+      "input": "Treatment should be effective",
+      "expectedOutput": {
+        "defaultReading": {
+          "interpretationType": "epistemic",
+          "modality": "expectation",
+          "actualityStatus": "tagteam:Hypothetical"
+        },
+        "alternativeReadings": [
+          {
+            "interpretationType": "deontic",
+            "modality": "obligation",
+            "actualityStatus": "tagteam:Prescribed",
+            "plausibility": 0.3
+          }
+        ],
+        "ambiguityType": "modal_force",
+        "ambiguityPreserved": true
+      },
+      "tags": ["ambiguity", "modal", "epistemic", "deontic", "medical"],
+      "priority": "P0",
+      "notes": "Predicate context shifts 'should' preference to epistemic"
+    },
+    {
+      "id": "lattice-008",
+      "category": "deontic-epistemic-ambiguity",
+      "input": "The patient could die",
+      "expectedOutput": {
+        "defaultReading": {
+          "interpretationType": "epistemic",
+          "modality": "possibility",
+          "actualityStatus": "tagteam:Hypothetical"
+        },
+        "alternativeReadings": [],
+        "ambiguityType": "none",
+        "ambiguityPreserved": false
+      },
+      "tags": ["modal", "epistemic", "medical", "unambiguous"],
+      "priority": "P1",
+      "notes": "'Could' with outcome predicate is epistemic"
+    },
+    {
+      "id": "lattice-009",
+      "category": "deontic-epistemic-ambiguity",
+      "input": "The doctor shall inform the patient",
+      "expectedOutput": {
+        "defaultReading": {
+          "interpretationType": "deontic",
+          "modality": "obligation",
+          "actualityStatus": "tagteam:Prescribed"
+        },
+        "alternativeReadings": [
+          {
+            "interpretationType": "epistemic",
+            "modality": "prediction",
+            "actualityStatus": "tagteam:Hypothetical",
+            "plausibility": 0.2
+          }
+        ],
+        "ambiguityType": "modal_force",
+        "ambiguityPreserved": true
+      },
+      "tags": ["ambiguity", "modal", "deontic", "epistemic", "medical", "formal"],
+      "priority": "P1",
+      "notes": "'Shall' in formal/legal contexts is deontic obligation"
+    },
+    {
+      "id": "lattice-010",
+      "category": "deontic-epistemic-ambiguity",
+      "input": "The ethics committee must evaluate all cases",
+      "expectedOutput": {
+        "defaultReading": {
+          "interpretationType": "deontic",
+          "modality": "obligation",
+          "actualityStatus": "tagteam:Prescribed"
+        },
+        "alternativeReadings": [],
+        "ambiguityType": "none",
+        "ambiguityPreserved": false
+      },
+      "tags": ["modal", "deontic", "medical-ethics", "unambiguous"],
+      "priority": "P1",
+      "notes": "Universal quantifier 'all' strengthens deontic reading"
+    },
+    {
+      "id": "lattice-011",
+      "category": "noun-category-ambiguity",
+      "input": "The organization of the files was complete",
+      "expectedOutput": {
+        "defaultReading": {
+          "entityType": "bfo:Occurrent",
+          "interpretation": "process of organizing",
+          "category": "process"
+        },
+        "alternativeReadings": [
+          {
+            "entityType": "bfo:Continuant",
+            "interpretation": "organizational structure",
+            "category": "structure",
+            "plausibility": 0.4
+          }
+        ],
+        "ambiguityType": "noun_category",
+        "ambiguityPreserved": true,
+        "disambiguationSignal": "of the files"
+      },
+      "tags": ["ambiguity", "noun-category", "process-continuant", "phase-6"],
+      "priority": "P0",
+      "notes": "Classic process/continuant ambiguity with deverbal noun"
+    },
+    {
+      "id": "lattice-012",
+      "category": "noun-category-ambiguity",
+      "input": "The treatment improved outcomes",
+      "expectedOutput": {
+        "defaultReading": {
+          "entityType": "bfo:Occurrent",
+          "interpretation": "therapeutic process",
+          "category": "process"
+        },
+        "alternativeReadings": [
+          {
+            "entityType": "bfo:Continuant",
+            "interpretation": "medical substance/intervention",
+            "category": "object",
+            "plausibility": 0.3
+          }
+        ],
+        "ambiguityType": "noun_category",
+        "ambiguityPreserved": true
+      },
+      "tags": ["ambiguity", "noun-category", "medical", "process-continuant"],
+      "priority": "P0",
+      "notes": "'Treatment' can be process or concrete intervention"
+    },
+    {
+      "id": "lattice-013",
+      "category": "noun-category-ambiguity",
+      "input": "The examination revealed abnormalities",
+      "expectedOutput": {
+        "defaultReading": {
+          "entityType": "bfo:Occurrent",
+          "interpretation": "examination process",
+          "category": "process"
+        },
+        "alternativeReadings": [],
+        "ambiguityType": "none",
+        "ambiguityPreserved": false
+      },
+      "tags": ["noun-category", "medical", "unambiguous", "process"],
+      "priority": "P1",
+      "notes": "Agent position (subject) strongly suggests process reading"
+    },
+    {
+      "id": "lattice-014",
+      "category": "noun-category-ambiguity",
+      "input": "The decision was difficult",
+      "expectedOutput": {
+        "defaultReading": {
+          "entityType": "bfo:Occurrent",
+          "interpretation": "decision-making process",
+          "category": "process"
+        },
+        "alternativeReadings": [
+          {
+            "entityType": "bfo:Continuant",
+            "interpretation": "decision outcome/result",
+            "category": "abstract-object",
+            "plausibility": 0.5
+          }
+        ],
+        "ambiguityType": "noun_category",
+        "ambiguityPreserved": true
+      },
+      "tags": ["ambiguity", "noun-category", "process-continuant"],
+      "priority": "P0",
+      "notes": "Process/result ambiguity - predicate 'difficult' allows both"
+    },
+    {
+      "id": "lattice-015",
+      "category": "noun-category-ambiguity",
+      "input": "The hospital announced construction",
+      "expectedOutput": {
+        "defaultReading": {
+          "entityType": "bfo:Occurrent",
+          "interpretation": "construction process",
+          "category": "process"
+        },
+        "alternativeReadings": [],
+        "ambiguityType": "none",
+        "ambiguityPreserved": false
+      },
+      "tags": ["noun-category", "medical", "unambiguous", "process"],
+      "priority": "P2",
+      "notes": "Bare noun strongly prefers process reading"
+    },
+    {
+      "id": "lattice-016",
+      "category": "noun-category-ambiguity",
+      "input": "The committee is an organization",
+      "expectedOutput": {
+        "defaultReading": {
+          "entityType": "bfo:Continuant",
+          "interpretation": "organizational entity",
+          "category": "structure"
+        },
+        "alternativeReadings": [],
+        "ambiguityType": "none",
+        "ambiguityPreserved": false
+      },
+      "tags": ["noun-category", "unambiguous", "continuant"],
+      "priority": "P1",
+      "notes": "Copula 'is' forces continuant reading"
+    },
+    {
+      "id": "lattice-017",
+      "category": "noun-category-ambiguity",
+      "input": "The investigation continues",
+      "expectedOutput": {
+        "defaultReading": {
+          "entityType": "bfo:Occurrent",
+          "interpretation": "investigative process",
+          "category": "process"
+        },
+        "alternativeReadings": [],
+        "ambiguityType": "none",
+        "ambiguityPreserved": false
+      },
+      "tags": ["noun-category", "unambiguous", "process"],
+      "priority": "P1",
+      "notes": "Verb 'continues' requires process subject"
+    },
+    {
+      "id": "lattice-018",
+      "category": "noun-category-ambiguity",
+      "input": "The diagnosis changed treatment",
+      "expectedOutput": {
+        "defaultReading": {
+          "entityType": "bfo:Occurrent",
+          "interpretation": "diagnostic process",
+          "category": "process"
+        },
+        "alternativeReadings": [
+          {
+            "entityType": "bfo:Continuant",
+            "interpretation": "diagnostic result/classification",
+            "category": "abstract-object",
+            "plausibility": 0.6
+          }
+        ],
+        "ambiguityType": "noun_category",
+        "ambiguityPreserved": true
+      },
+      "tags": ["ambiguity", "noun-category", "medical", "process-continuant"],
+      "priority": "P0",
+      "notes": "Result reading slightly preferred in causation context"
+    },
+    {
+      "id": "lattice-019",
+      "category": "noun-category-ambiguity",
+      "input": "The consultation lasted an hour",
+      "expectedOutput": {
+        "defaultReading": {
+          "entityType": "bfo:Occurrent",
+          "interpretation": "consultative process",
+          "category": "process"
+        },
+        "alternativeReadings": [],
+        "ambiguityType": "none",
+        "ambiguityPreserved": false
+      },
+      "tags": ["noun-category", "medical", "unambiguous", "process"],
+      "priority": "P1",
+      "notes": "Duration predicate 'lasted' requires process"
+    },
+    {
+      "id": "lattice-020",
+      "category": "noun-category-ambiguity",
+      "input": "The procedure was successful",
+      "expectedOutput": {
+        "defaultReading": {
+          "entityType": "bfo:Occurrent",
+          "interpretation": "procedural process",
+          "category": "process"
+        },
+        "alternativeReadings": [],
+        "ambiguityType": "none",
+        "ambiguityPreserved": false
+      },
+      "tags": ["noun-category", "medical", "unambiguous", "process"],
+      "priority": "P1",
+      "notes": "Outcome predicate 'successful' strongly suggests process"
+    },
+    {
+      "id": "lattice-021",
+      "category": "verb-sense-disambiguation",
+      "input": "The doctor provided care",
+      "expectedOutput": {
+        "defaultReading": {
+          "verbSense": "provide-service",
+          "objectType": "abstract-service",
+          "frameType": "Supplying"
+        },
+        "alternativeReadings": [],
+        "ambiguityType": "none",
+        "ambiguityPreserved": false
+      },
+      "tags": ["verb-sense", "medical", "unambiguous"],
+      "priority": "P1",
+      "notes": "'Care' is abstract service, unambiguous"
+    },
+    {
+      "id": "lattice-022",
+      "category": "verb-sense-disambiguation",
+      "input": "The hospital provided equipment",
+      "expectedOutput": {
+        "defaultReading": {
+          "verbSense": "provide-object",
+          "objectType": "physical-object",
+          "frameType": "Giving"
+        },
+        "alternativeReadings": [],
+        "ambiguityType": "none",
+        "ambiguityPreserved": false
+      },
+      "tags": ["verb-sense", "medical", "unambiguous"],
+      "priority": "P1",
+      "notes": "'Equipment' is physical object, unambiguous"
+    },
+    {
+      "id": "lattice-023",
+      "category": "verb-sense-disambiguation",
+      "input": "The nurse took the patient's temperature",
+      "expectedOutput": {
+        "defaultReading": {
+          "verbSense": "take-measurement",
+          "objectType": "measurement",
+          "frameType": "Measuring"
+        },
+        "alternativeReadings": [],
+        "ambiguityType": "none",
+        "ambiguityPreserved": false
+      },
+      "tags": ["verb-sense", "medical", "unambiguous"],
+      "priority": "P1",
+      "notes": "Medical context disambiguates 'take'"
+    },
+    {
+      "id": "lattice-024",
+      "category": "verb-sense-disambiguation",
+      "input": "The patient took medication",
+      "expectedOutput": {
+        "defaultReading": {
+          "verbSense": "take-consume",
+          "objectType": "consumable",
+          "frameType": "Ingestion"
+        },
+        "alternativeReadings": [],
+        "ambiguityType": "none",
+        "ambiguityPreserved": false
+      },
+      "tags": ["verb-sense", "medical", "unambiguous"],
+      "priority": "P1",
+      "notes": "'Medication' disambiguates to consumption sense"
+    },
+    {
+      "id": "lattice-025",
+      "category": "verb-sense-disambiguation",
+      "input": "The surgeon performed the operation",
+      "expectedOutput": {
+        "defaultReading": {
+          "verbSense": "perform-procedure",
+          "objectType": "medical-procedure",
+          "frameType": "Intentional_act"
+        },
+        "alternativeReadings": [],
+        "ambiguityType": "none",
+        "ambiguityPreserved": false
+      },
+      "tags": ["verb-sense", "medical", "unambiguous"],
+      "priority": "P2",
+      "notes": "Medical procedure object is unambiguous"
+    },
+    {
+      "id": "lattice-026",
+      "category": "verb-sense-disambiguation",
+      "input": "The committee addressed the issue",
+      "expectedOutput": {
+        "defaultReading": {
+          "verbSense": "address-deal-with",
+          "objectType": "abstract-problem",
+          "frameType": "Topic"
+        },
+        "alternativeReadings": [],
+        "ambiguityType": "none",
+        "ambiguityPreserved": false
+      },
+      "tags": ["verb-sense", "unambiguous"],
+      "priority": "P1",
+      "notes": "Abstract object 'issue' disambiguates"
+    },
+    {
+      "id": "lattice-027",
+      "category": "verb-sense-disambiguation",
+      "input": "The doctor saw the patient",
+      "expectedOutput": {
+        "defaultReading": {
+          "verbSense": "see-meet-professionally",
+          "objectType": "person-patient",
+          "frameType": "Medical_interaction"
+        },
+        "alternativeReadings": [
+          {
+            "verbSense": "see-perceive-visually",
+            "objectType": "person",
+            "frameType": "Perception_experience",
+            "plausibility": 0.3
+          }
+        ],
+        "ambiguityType": "verb_sense",
+        "ambiguityPreserved": true
+      },
+      "tags": ["ambiguity", "verb-sense", "medical"],
+      "priority": "P0",
+      "notes": "Medical context prefers professional meeting sense"
+    },
+    {
+      "id": "lattice-028",
+      "category": "verb-sense-disambiguation",
+      "input": "The family left the hospital",
+      "expectedOutput": {
+        "defaultReading": {
+          "verbSense": "leave-depart",
+          "objectType": "location",
+          "frameType": "Departing"
+        },
+        "alternativeReadings": [],
+        "ambiguityType": "none",
+        "ambiguityPreserved": false
+      },
+      "tags": ["verb-sense", "medical", "unambiguous"],
+      "priority": "P2",
+      "notes": "Location object disambiguates 'left'"
+    },
+    {
+      "id": "lattice-029",
+      "category": "verb-sense-disambiguation",
+      "input": "The doctor ran the tests",
+      "expectedOutput": {
+        "defaultReading": {
+          "verbSense": "run-conduct",
+          "objectType": "procedure",
+          "frameType": "Conducting"
+        },
+        "alternativeReadings": [],
+        "ambiguityType": "none",
+        "ambiguityPreserved": false
+      },
+      "tags": ["verb-sense", "medical", "unambiguous"],
+      "priority": "P1",
+      "notes": "Medical procedure object disambiguates"
+    },
+    {
+      "id": "lattice-030",
+      "category": "verb-sense-disambiguation",
+      "input": "The patient broke the news to family",
+      "expectedOutput": {
+        "defaultReading": {
+          "verbSense": "break-disclose",
+          "objectType": "information",
+          "frameType": "Reveal_secret"
+        },
+        "alternativeReadings": [],
+        "ambiguityType": "none",
+        "ambiguityPreserved": false
+      },
+      "tags": ["verb-sense", "unambiguous"],
+      "priority": "P2",
+      "notes": "'News' object disambiguates idiomatic sense"
+    },
+    {
+      "id": "lattice-031",
+      "category": "scope-ambiguity",
+      "input": "Not all patients received treatment",
+      "expectedOutput": {
+        "defaultReading": {
+          "scopeOrder": "negation > quantifier",
+          "interpretation": "some patients did not receive treatment",
+          "logicalForm": "¬∀x(patient(x) → received_treatment(x))"
+        },
+        "alternativeReadings": [
+          {
+            "scopeOrder": "quantifier > negation",
+            "interpretation": "all patients failed to receive treatment",
+            "logicalForm": "∀x(patient(x) → ¬received_treatment(x))",
+            "plausibility": 0.2
+          }
+        ],
+        "ambiguityType": "scope",
+        "ambiguityPreserved": true
+      },
+      "tags": ["ambiguity", "scope", "negation", "quantifier", "medical"],
+      "priority": "P0",
+      "notes": "Classic negation-quantifier scope ambiguity"
+    },
+    {
+      "id": "lattice-032",
+      "category": "scope-ambiguity",
+      "input": "Every doctor must report errors",
+      "expectedOutput": {
+        "defaultReading": {
+          "scopeOrder": "quantifier > modal",
+          "interpretation": "for each doctor, obligation to report",
+          "logicalForm": "∀x(doctor(x) → must(report_errors(x)))"
+        },
+        "alternativeReadings": [],
+        "ambiguityType": "none",
+        "ambiguityPreserved": false
+      },
+      "tags": ["scope", "quantifier", "modal", "medical", "unambiguous"],
+      "priority": "P1",
+      "notes": "Surface order matches semantic scope"
+    },
+    {
+      "id": "lattice-033",
+      "category": "scope-ambiguity",
+      "input": "The doctor may examine every patient",
+      "expectedOutput": {
+        "defaultReading": {
+          "scopeOrder": "modal > quantifier",
+          "interpretation": "permission to examine all patients",
+          "logicalForm": "may(∀x(patient(x) → examine(doctor, x)))"
+        },
+        "alternativeReadings": [
+          {
+            "scopeOrder": "quantifier > modal",
+            "interpretation": "each patient is such that doctor may examine them",
+            "logicalForm": "∀x(patient(x) → may(examine(doctor, x)))",
+            "plausibility": 0.3
+          }
+        ],
+        "ambiguityType": "scope",
+        "ambiguityPreserved": true
+      },
+      "tags": ["ambiguity", "scope", "modal", "quantifier", "medical"],
+      "priority": "P0",
+      "notes": "Modal-quantifier scope interaction"
+    },
+    {
+      "id": "lattice-034",
+      "category": "scope-ambiguity",
+      "input": "The patient didn't take all medication",
+      "expectedOutput": {
+        "defaultReading": {
+          "scopeOrder": "negation > quantifier",
+          "interpretation": "some medication not taken",
+          "logicalForm": "¬∀x(medication(x) → took(patient, x))"
+        },
+        "alternativeReadings": [
+          {
+            "scopeOrder": "quantifier > negation",
+            "interpretation": "all medication was not taken",
+            "logicalForm": "∀x(medication(x) → ¬took(patient, x))",
+            "plausibility": 0.3
+          }
+        ],
+        "ambiguityType": "scope",
+        "ambiguityPreserved": true
+      },
+      "tags": ["ambiguity", "scope", "negation", "quantifier", "medical"],
+      "priority": "P0",
+      "notes": "Negation-quantifier interaction, 'not all' preferred"
+    },
+    {
+      "id": "lattice-035",
+      "category": "scope-ambiguity",
+      "input": "Someone should review each case",
+      "expectedOutput": {
+        "defaultReading": {
+          "scopeOrder": "existential > modal > universal",
+          "interpretation": "there's someone who should review all cases"
+        },
+        "alternativeReadings": [
+          {
+            "scopeOrder": "modal > universal > existential",
+            "interpretation": "for each case, someone (possibly different) should review it",
+            "plausibility": 0.4
+          }
+        ],
+        "ambiguityType": "scope",
+        "ambiguityPreserved": true
+      },
+      "tags": ["ambiguity", "scope", "quantifier", "modal"],
+      "priority": "P0",
+      "notes": "Complex scope interaction with three operators"
+    },
+    {
+      "id": "lattice-036",
+      "category": "pp-attachment",
+      "input": "The doctor treated the patient with care",
+      "expectedOutput": {
+        "defaultReading": {
+          "attachment": "verb",
+          "interpretation": "manner of treating",
+          "ppRole": "manner"
+        },
+        "alternativeReadings": [
+          {
+            "attachment": "noun",
+            "interpretation": "patient who has care",
+            "ppRole": "modifier",
+            "plausibility": 0.2
+          }
+        ],
+        "ambiguityType": "pp_attachment",
+        "ambiguityPreserved": true
+      },
+      "tags": ["ambiguity", "pp-attachment", "medical"],
+      "priority": "P0",
+      "notes": "Classic PP attachment ambiguity, verb attachment preferred"
+    },
+    {
+      "id": "lattice-037",
+      "category": "pp-attachment",
+      "input": "The nurse saw the patient with fever",
+      "expectedOutput": {
+        "defaultReading": {
+          "attachment": "noun",
+          "interpretation": "patient who has fever",
+          "ppRole": "modifier"
+        },
+        "alternativeReadings": [
+          {
+            "attachment": "verb",
+            "interpretation": "saw while having fever",
+            "ppRole": "circumstance",
+            "plausibility": 0.1
+          }
+        ],
+        "ambiguityType": "pp_attachment",
+        "ambiguityPreserved": true
+      },
+      "tags": ["ambiguity", "pp-attachment", "medical"],
+      "priority": "P0",
+      "notes": "Noun attachment preferred - fever is patient attribute"
+    },
+    {
+      "id": "lattice-038",
+      "category": "pp-attachment",
+      "input": "The surgeon operated on the patient with precision",
+      "expectedOutput": {
+        "defaultReading": {
+          "attachment": "verb",
+          "interpretation": "manner of operating",
+          "ppRole": "manner"
+        },
+        "alternativeReadings": [],
+        "ambiguityType": "none",
+        "ambiguityPreserved": false
+      },
+      "tags": ["pp-attachment", "medical", "unambiguous"],
+      "priority": "P1",
+      "notes": "'Precision' is clearly manner, not patient attribute"
+    },
+    {
+      "id": "lattice-039",
+      "category": "pp-attachment",
+      "input": "The hospital admitted patients with insurance",
+      "expectedOutput": {
+        "defaultReading": {
+          "attachment": "noun",
+          "interpretation": "patients who have insurance",
+          "ppRole": "modifier"
+        },
+        "alternativeReadings": [
+          {
+            "attachment": "verb",
+            "interpretation": "admitted by means of insurance",
+            "ppRole": "instrument",
+            "plausibility": 0.3
+          }
+        ],
+        "ambiguityType": "pp_attachment",
+        "ambiguityPreserved": true
+      },
+      "tags": ["ambiguity", "pp-attachment", "medical"],
+      "priority": "P0",
+      "notes": "Both readings plausible, noun attachment slightly preferred"
+    },
+    {
+      "id": "lattice-040",
+      "category": "pp-attachment",
+      "input": "The doctor examined the patient on Tuesday",
+      "expectedOutput": {
+        "defaultReading": {
+          "attachment": "verb",
+          "interpretation": "time of examining",
+          "ppRole": "temporal"
+        },
+        "alternativeReadings": [],
+        "ambiguityType": "none",
+        "ambiguityPreserved": false
+      },
+      "tags": ["pp-attachment", "medical", "temporal", "unambiguous"],
+      "priority": "P2",
+      "notes": "Temporal PPs attach to verb unambiguously"
+    },
+    {
+      "id": "lattice-041",
+      "category": "modal-negation-interaction",
+      "input": "The patient should not undergo surgery",
+      "expectedOutput": {
+        "defaultReading": {
+          "scopeOrder": "modal > negation",
+          "modality": "prohibition",
+          "interpretation": "obligation not to undergo",
+          "actualityStatus": "tagteam:Prohibited"
+        },
+        "alternativeReadings": [
+          {
+            "scopeOrder": "negation > modal",
+            "modality": "lack-of-obligation",
+            "interpretation": "no obligation to undergo",
+            "actualityStatus": "tagteam:Optional",
+            "plausibility": 0.2
+          }
+        ],
+        "ambiguityType": "scope",
+        "ambiguityPreserved": true
+      },
+      "tags": ["ambiguity", "modal", "negation", "scope", "deontic", "medical"],
+      "priority": "P0",
+      "notes": "'Should not' = prohibition vs 'not should' = lack of obligation"
+    },
+    {
+      "id": "lattice-042",
+      "category": "modal-negation-interaction",
+      "input": "The doctor must not delay treatment",
+      "expectedOutput": {
+        "defaultReading": {
+          "scopeOrder": "modal > negation",
+          "modality": "prohibition",
+          "interpretation": "obligation not to delay",
+          "actualityStatus": "tagteam:Prohibited"
+        },
+        "alternativeReadings": [],
+        "ambiguityType": "none",
+        "ambiguityPreserved": false
+      },
+      "tags": ["modal", "negation", "deontic", "medical", "unambiguous"],
+      "priority": "P1",
+      "notes": "'Must not' unambiguously = prohibition"
+    },
+    {
+      "id": "lattice-043",
+      "category": "modal-negation-interaction",
+      "input": "The patient may not refuse treatment",
+      "expectedOutput": {
+        "defaultReading": {
+          "scopeOrder": "modal > negation",
+          "modality": "prohibition",
+          "interpretation": "not permitted to refuse",
+          "actualityStatus": "tagteam:Prohibited"
+        },
+        "alternativeReadings": [
+          {
+            "scopeOrder": "epistemic",
+            "modality": "possibility",
+            "interpretation": "possibly will not refuse",
+            "actualityStatus": "tagteam:Hypothetical",
+            "plausibility": 0.3
+          }
+        ],
+        "ambiguityType": "modal_force",
+        "ambiguityPreserved": true
+      },
+      "tags": ["ambiguity", "modal", "negation", "deontic", "epistemic", "medical"],
+      "priority": "P0",
+      "notes": "'May not' can be prohibition (deontic) or possibility (epistemic)"
+    },
+    {
+      "id": "lattice-044",
+      "category": "modal-negation-interaction",
+      "input": "The family cannot decide",
+      "expectedOutput": {
+        "defaultReading": {
+          "modality": "inability",
+          "interpretation": "unable to decide",
+          "actualityStatus": "tagteam:Impossible"
+        },
+        "alternativeReadings": [
+          {
+            "modality": "prohibition",
+            "interpretation": "not permitted to decide",
+            "actualityStatus": "tagteam:Prohibited",
+            "plausibility": 0.3
+          }
+        ],
+        "ambiguityType": "modal_force",
+        "ambiguityPreserved": true
+      },
+      "tags": ["ambiguity", "modal", "negation", "dynamic", "deontic"],
+      "priority": "P0",
+      "notes": "'Cannot' = inability (dynamic) vs prohibition (deontic)"
+    },
+    {
+      "id": "lattice-045",
+      "category": "modal-negation-interaction",
+      "input": "The nurse might not arrive",
+      "expectedOutput": {
+        "defaultReading": {
+          "modality": "possibility-of-not",
+          "interpretation": "possible that won't arrive",
+          "actualityStatus": "tagteam:Hypothetical"
+        },
+        "alternativeReadings": [],
+        "ambiguityType": "none",
+        "ambiguityPreserved": false
+      },
+      "tags": ["modal", "negation", "epistemic", "unambiguous"],
+      "priority": "P1",
+      "notes": "'Might not' unambiguously epistemic possibility"
+    },
+    {
+      "id": "lattice-046",
+      "category": "metonymy",
+      "input": "The White House announced new healthcare policy",
+      "expectedOutput": {
+        "defaultReading": {
+          "entityType": "metonymic-organization",
+          "baseEntity": "building",
+          "interpretedEntity": "administration",
+          "metonymyType": "place-for-institution"
+        },
+        "alternativeReadings": [],
+        "ambiguityType": "none",
+        "ambiguityPreserved": false
+      },
+      "tags": ["metonymy", "organization", "government"],
+      "priority": "P0",
+      "notes": "Classic metonymy - location stands for institution"
+    },
+    {
+      "id": "lattice-047",
+      "category": "metonymy",
+      "input": "The hospital announced budget cuts",
+      "expectedOutput": {
+        "defaultReading": {
+          "entityType": "metonymic-organization",
+          "baseEntity": "building",
+          "interpretedEntity": "administration",
+          "metonymyType": "place-for-institution"
+        },
+        "alternativeReadings": [],
+        "ambiguityType": "none",
+        "ambiguityPreserved": false
+      },
+      "tags": ["metonymy", "organization", "medical"],
+      "priority": "P0",
+      "notes": "Hospital building stands for hospital administration"
+    },
+    {
+      "id": "lattice-048",
+      "category": "metonymy",
+      "input": "The board voted on the proposal",
+      "expectedOutput": {
+        "defaultReading": {
+          "entityType": "collective-agent",
+          "baseEntity": "organization",
+          "interpretedEntity": "members",
+          "metonymyType": "organization-for-members"
+        },
+        "alternativeReadings": [],
+        "ambiguityType": "none",
+        "ambiguityPreserved": false
+      },
+      "tags": ["metonymy", "organization", "collective"],
+      "priority": "P1",
+      "notes": "Organization stands for its members"
+    },
+    {
+      "id": "lattice-049",
+      "category": "metonymy",
+      "input": "The scalpel slipped",
+      "expectedOutput": {
+        "defaultReading": {
+          "entityType": "instrument",
+          "baseEntity": "tool",
+          "interpretedEntity": "tool",
+          "metonymyType": "none"
+        },
+        "alternativeReadings": [
+          {
+            "entityType": "metonymic-agent",
+            "baseEntity": "tool",
+            "interpretedEntity": "surgeon-holding-tool",
+            "metonymyType": "instrument-for-agent",
+            "plausibility": 0.4
+          }
+        ],
+        "ambiguityType": "metonymy",
+        "ambiguityPreserved": true
+      },
+      "tags": ["ambiguity", "metonymy", "medical", "instrument"],
+      "priority": "P0",
+      "notes": "Instrument can stand for agent, or literal reading"
+    },
+    {
+      "id": "lattice-050",
+      "category": "metonymy",
+      "input": "The entire floor was evacuated",
+      "expectedOutput": {
+        "defaultReading": {
+          "entityType": "metonymic-group",
+          "baseEntity": "location",
+          "interpretedEntity": "people-on-floor",
+          "metonymyType": "place-for-occupants"
+        },
+        "alternativeReadings": [],
+        "ambiguityType": "none",
+        "ambiguityPreserved": false
+      },
+      "tags": ["metonymy", "medical", "location"],
+      "priority": "P1",
+      "notes": "Floor (place) stands for people on floor"
+    }
+  ]
+}

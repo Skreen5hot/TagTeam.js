@@ -1,0 +1,574 @@
+{
+  "version": "2.0",
+  "corpusId": "v1-deferred-features",
+  "description": "Golden test cases for v1 EXPLICITLY DEFERRED features - must flag as v2_required",
+  "metadata": {
+    "created": "2026-02-10",
+    "lastUpdated": "2026-02-10",
+    "author": "TagTeam Core Team",
+    "phase": "v1",
+    "priority": "P0",
+    "notes": "Tests that v2-only features are correctly identified and flagged - NOT attempted by v1"
+  },
+  "cases": [
+    {
+      "id": "v1-defer-001",
+      "category": "question-ice-node",
+      "input": "Should the doctor proceed with surgery?",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "question-ice-node",
+        "roadmapRef": "ENH-002 (v2-only)",
+        "v1Behavior": "flag-only",
+        "partialParse": {
+          "detected": "interrogative",
+          "modal": "should",
+          "mainVerb": "proceed"
+        }
+      },
+      "tags": ["v1-deferred", "question", "ice-node", "v2-only"],
+      "priority": "P0",
+      "notes": "v1 DEFERRED: Questions require ICE wrapper nodes (v2-only)"
+    },
+    {
+      "id": "v1-defer-002",
+      "category": "question-ice-node",
+      "input": "Did the patient consent?",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "question-ice-node",
+        "roadmapRef": "ENH-002",
+        "v1Behavior": "flag-only",
+        "partialParse": {
+          "detected": "interrogative",
+          "tense": "past"
+        }
+      },
+      "tags": ["v1-deferred", "question", "yes-no", "v2-only"],
+      "priority": "P0",
+      "notes": "v1 DEFERRED: Yes/no questions need ICE nodes"
+    },
+    {
+      "id": "v1-defer-003",
+      "category": "question-ice-node",
+      "input": "Who treated the patient?",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "question-ice-node",
+        "roadmapRef": "ENH-002",
+        "v1Behavior": "flag-only",
+        "partialParse": {
+          "detected": "wh-question",
+          "whWord": "who",
+          "whRole": "agent"
+        }
+      },
+      "tags": ["v1-deferred", "question", "wh-question", "v2-only"],
+      "priority": "P0",
+      "notes": "v1 DEFERRED: Wh-questions require v2 wh-movement handling"
+    },
+    {
+      "id": "v1-defer-004",
+      "category": "question-ice-node",
+      "input": "What did the doctor prescribe?",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "question-ice-node",
+        "roadmapRef": "ENH-002",
+        "v1Behavior": "flag-only",
+        "partialParse": {
+          "detected": "wh-question",
+          "whWord": "what",
+          "whRole": "theme"
+        }
+      },
+      "tags": ["v1-deferred", "question", "wh-question", "v2-only"],
+      "priority": "P0",
+      "notes": "v1 DEFERRED: Object wh-questions"
+    },
+    {
+      "id": "v1-defer-005",
+      "category": "question-ice-node",
+      "input": "When will the patient recover?",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "question-ice-node",
+        "roadmapRef": "ENH-002",
+        "v1Behavior": "flag-only",
+        "partialParse": {
+          "detected": "wh-question",
+          "whWord": "when",
+          "whRole": "temporal"
+        }
+      },
+      "tags": ["v1-deferred", "question", "wh-question", "temporal", "v2-only"],
+      "priority": "P1",
+      "notes": "v1 DEFERRED: Temporal wh-questions"
+    },
+    {
+      "id": "v1-defer-006",
+      "category": "directive-ice-node",
+      "input": "The doctor must examine all patients",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "directive-ice-node",
+        "roadmapRef": "ENH-004 (v2-only)",
+        "v1Behavior": "flag-only",
+        "partialParse": {
+          "detected": "deontic-directive",
+          "modal": "must",
+          "quantifier": "all"
+        }
+      },
+      "tags": ["v1-deferred", "directive", "ice-node", "v2-only"],
+      "priority": "P0",
+      "notes": "v1 DEFERRED: Directives need ICE wrapper for propositional content"
+    },
+    {
+      "id": "v1-defer-007",
+      "category": "directive-ice-node",
+      "input": "The patient should not smoke",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "directive-ice-node",
+        "roadmapRef": "ENH-004",
+        "v1Behavior": "flag-only",
+        "partialParse": {
+          "detected": "deontic-directive",
+          "modal": "should",
+          "negation": true
+        }
+      },
+      "tags": ["v1-deferred", "directive", "prohibition", "v2-only"],
+      "priority": "P0",
+      "notes": "v1 DEFERRED: Prohibitive directives"
+    },
+    {
+      "id": "v1-defer-008",
+      "category": "directive-ice-node",
+      "input": "The family may refuse treatment",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "directive-ice-node",
+        "roadmapRef": "ENH-004",
+        "v1Behavior": "flag-only",
+        "partialParse": {
+          "detected": "deontic-permission",
+          "modal": "may"
+        }
+      },
+      "tags": ["v1-deferred", "directive", "permission", "v2-only"],
+      "priority": "P0",
+      "notes": "v1 DEFERRED: Permission directives"
+    },
+    {
+      "id": "v1-defer-009",
+      "category": "directive-ice-node",
+      "input": "Staff shall report incidents immediately",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "directive-ice-node",
+        "roadmapRef": "ENH-004",
+        "v1Behavior": "flag-only",
+        "partialParse": {
+          "detected": "deontic-directive",
+          "modal": "shall",
+          "register": "formal"
+        }
+      },
+      "tags": ["v1-deferred", "directive", "formal", "v2-only"],
+      "priority": "P1",
+      "notes": "v1 DEFERRED: Formal directives"
+    },
+    {
+      "id": "v1-defer-010",
+      "category": "directive-ice-node",
+      "input": "The doctor ought to inform patients",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "directive-ice-node",
+        "roadmapRef": "ENH-004",
+        "v1Behavior": "flag-only",
+        "partialParse": {
+          "detected": "deontic-directive",
+          "modal": "ought to"
+        }
+      },
+      "tags": ["v1-deferred", "directive", "obligation", "v2-only"],
+      "priority": "P1",
+      "notes": "v1 DEFERRED: Moral obligation directives"
+    },
+    {
+      "id": "v1-defer-011",
+      "category": "conditional-logic",
+      "input": "If the patient consents, proceed with surgery",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "conditional-logic",
+        "roadmapRef": "ENH-006 (v2-only)",
+        "v1Behavior": "parse-main-clause-only",
+        "partialParse": {
+          "detected": "conditional",
+          "mainClause": "proceed with surgery",
+          "antecedent": "flagged-as-v2"
+        }
+      },
+      "tags": ["v1-deferred", "conditional", "v2-only"],
+      "priority": "P0",
+      "notes": "v1 DEFERRED: Conditionals - v1 may parse main clause only"
+    },
+    {
+      "id": "v1-defer-012",
+      "category": "conditional-logic",
+      "input": "The patient will recover if treated early",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "conditional-logic",
+        "roadmapRef": "ENH-006",
+        "v1Behavior": "parse-main-clause-only",
+        "partialParse": {
+          "detected": "conditional",
+          "mainClause": "The patient will recover",
+          "antecedent": "flagged-as-v2"
+        }
+      },
+      "tags": ["v1-deferred", "conditional", "v2-only"],
+      "priority": "P0",
+      "notes": "v1 DEFERRED: Consequent-antecedent conditionals"
+    },
+    {
+      "id": "v1-defer-013",
+      "category": "conditional-logic",
+      "input": "Unless the patient objects, begin treatment",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "conditional-logic",
+        "roadmapRef": "ENH-006",
+        "v1Behavior": "parse-main-clause-only",
+        "partialParse": {
+          "detected": "conditional-unless",
+          "mainClause": "begin treatment"
+        }
+      },
+      "tags": ["v1-deferred", "conditional", "unless", "v2-only"],
+      "priority": "P0",
+      "notes": "v1 DEFERRED: Negative conditionals (unless)"
+    },
+    {
+      "id": "v1-defer-014",
+      "category": "conditional-logic",
+      "input": "The doctor will operate provided insurance approves",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "conditional-logic",
+        "roadmapRef": "ENH-006",
+        "v1Behavior": "parse-main-clause-only",
+        "partialParse": {
+          "detected": "conditional-provided",
+          "mainClause": "The doctor will operate"
+        }
+      },
+      "tags": ["v1-deferred", "conditional", "provided", "v2-only"],
+      "priority": "P1",
+      "notes": "v1 DEFERRED: Conditional with 'provided'"
+    },
+    {
+      "id": "v1-defer-015",
+      "category": "conditional-logic",
+      "input": "Should the patient worsen, contact ICU",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "conditional-logic",
+        "roadmapRef": "ENH-006",
+        "v1Behavior": "parse-main-clause-only",
+        "partialParse": {
+          "detected": "conditional-inverted",
+          "mainClause": "contact ICU"
+        }
+      },
+      "tags": ["v1-deferred", "conditional", "inverted", "v2-only"],
+      "priority": "P1",
+      "notes": "v1 DEFERRED: Inverted conditionals"
+    },
+    {
+      "id": "v1-defer-016",
+      "category": "compound-clauses",
+      "input": "The doctor examined the patient and the nurse recorded vitals",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "compound-clauses",
+        "roadmapRef": "ENH-007 (v2-only)",
+        "v1Behavior": "parse-first-clause-only",
+        "partialParse": {
+          "detected": "coordination",
+          "firstClause": "The doctor examined the patient",
+          "secondClause": "flagged-as-v2"
+        }
+      },
+      "tags": ["v1-deferred", "compound", "coordination", "v2-only"],
+      "priority": "P0",
+      "notes": "v1 DEFERRED: Coordinate clauses - v1 parses first clause only"
+    },
+    {
+      "id": "v1-defer-017",
+      "category": "compound-clauses",
+      "input": "The patient consented but the family objected",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "compound-clauses",
+        "roadmapRef": "ENH-007",
+        "v1Behavior": "parse-first-clause-only",
+        "partialParse": {
+          "detected": "coordination-adversative",
+          "firstClause": "The patient consented",
+          "coordinator": "but"
+        }
+      },
+      "tags": ["v1-deferred", "compound", "adversative", "v2-only"],
+      "priority": "P0",
+      "notes": "v1 DEFERRED: Adversative coordination"
+    },
+    {
+      "id": "v1-defer-018",
+      "category": "compound-clauses",
+      "input": "The treatment failed so the doctor changed medication",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "compound-clauses",
+        "roadmapRef": "ENH-007",
+        "v1Behavior": "parse-first-clause-only",
+        "partialParse": {
+          "detected": "coordination-causal",
+          "firstClause": "The treatment failed",
+          "coordinator": "so"
+        }
+      },
+      "tags": ["v1-deferred", "compound", "causal", "v2-only"],
+      "priority": "P0",
+      "notes": "v1 DEFERRED: Causal coordination"
+    },
+    {
+      "id": "v1-defer-019",
+      "category": "compound-clauses",
+      "input": "Either the patient improves or we adjust treatment",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "compound-clauses",
+        "roadmapRef": "ENH-007",
+        "v1Behavior": "parse-first-clause-only",
+        "partialParse": {
+          "detected": "coordination-disjunctive",
+          "firstClause": "the patient improves",
+          "coordinator": "or"
+        }
+      },
+      "tags": ["v1-deferred", "compound", "disjunctive", "v2-only"],
+      "priority": "P0",
+      "notes": "v1 DEFERRED: Disjunctive coordination"
+    },
+    {
+      "id": "v1-defer-020",
+      "category": "compound-clauses",
+      "input": "The nurse arrived yet the patient had left",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "compound-clauses",
+        "roadmapRef": "ENH-007",
+        "v1Behavior": "parse-first-clause-only",
+        "partialParse": {
+          "detected": "coordination-adversative",
+          "firstClause": "The nurse arrived",
+          "coordinator": "yet"
+        }
+      },
+      "tags": ["v1-deferred", "compound", "adversative", "v2-only"],
+      "priority": "P1",
+      "notes": "v1 DEFERRED: Adversative 'yet'"
+    },
+    {
+      "id": "v1-defer-021",
+      "category": "temporal-relations",
+      "input": "After the surgery, the patient recovered",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "temporal-relations",
+        "roadmapRef": "ENH-009 (v2-only)",
+        "v1Behavior": "flag-only",
+        "partialParse": {
+          "detected": "temporal-relation",
+          "mainClause": "the patient recovered",
+          "temporalMarker": "after"
+        }
+      },
+      "tags": ["v1-deferred", "temporal", "after", "v2-only"],
+      "priority": "P0",
+      "notes": "v1 DEFERRED: Temporal relations require v2 discourse modeling"
+    },
+    {
+      "id": "v1-defer-022",
+      "category": "temporal-relations",
+      "input": "Before treatment, the doctor obtained consent",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "temporal-relations",
+        "roadmapRef": "ENH-009",
+        "v1Behavior": "flag-only",
+        "partialParse": {
+          "detected": "temporal-relation",
+          "mainClause": "the doctor obtained consent",
+          "temporalMarker": "before"
+        }
+      },
+      "tags": ["v1-deferred", "temporal", "before", "v2-only"],
+      "priority": "P0",
+      "notes": "v1 DEFERRED: Precedence relations"
+    },
+    {
+      "id": "v1-defer-023",
+      "category": "temporal-relations",
+      "input": "While the patient slept, vitals were monitored",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "temporal-relations",
+        "roadmapRef": "ENH-009",
+        "v1Behavior": "flag-only",
+        "partialParse": {
+          "detected": "temporal-relation",
+          "mainClause": "vitals were monitored",
+          "temporalMarker": "while"
+        }
+      },
+      "tags": ["v1-deferred", "temporal", "while", "v2-only"],
+      "priority": "P0",
+      "notes": "v1 DEFERRED: Simultaneous temporal relations"
+    },
+    {
+      "id": "v1-defer-024",
+      "category": "temporal-relations",
+      "input": "Since the diagnosis, symptoms have worsened",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "temporal-relations",
+        "roadmapRef": "ENH-009",
+        "v1Behavior": "flag-only",
+        "partialParse": {
+          "detected": "temporal-relation",
+          "mainClause": "symptoms have worsened",
+          "temporalMarker": "since"
+        }
+      },
+      "tags": ["v1-deferred", "temporal", "since", "v2-only"],
+      "priority": "P1",
+      "notes": "v1 DEFERRED: Duration from reference point"
+    },
+    {
+      "id": "v1-defer-025",
+      "category": "temporal-relations",
+      "input": "Until recovery, the patient must rest",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "temporal-relations",
+        "roadmapRef": "ENH-009",
+        "v1Behavior": "flag-only",
+        "partialParse": {
+          "detected": "temporal-relation",
+          "mainClause": "the patient must rest",
+          "temporalMarker": "until"
+        }
+      },
+      "tags": ["v1-deferred", "temporal", "until", "v2-only"],
+      "priority": "P1",
+      "notes": "v1 DEFERRED: Duration until endpoint"
+    },
+    {
+      "id": "v1-defer-026",
+      "category": "clausal-subjects",
+      "input": "That the patient consented is documented",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "clausal-subjects",
+        "roadmapRef": "ENH-011 (v2-only)",
+        "v1Behavior": "flag-only",
+        "partialParse": {
+          "detected": "clausal-subject",
+          "clauseType": "that-clause"
+        }
+      },
+      "tags": ["v1-deferred", "clausal-subject", "that-clause", "v2-only"],
+      "priority": "P0",
+      "notes": "v1 DEFERRED: Clausal subjects require v2 clause segmentation"
+    },
+    {
+      "id": "v1-defer-027",
+      "category": "clausal-subjects",
+      "input": "What the doctor recommended was rejected",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "clausal-subjects",
+        "roadmapRef": "ENH-011",
+        "v1Behavior": "flag-only",
+        "partialParse": {
+          "detected": "clausal-subject",
+          "clauseType": "wh-clause"
+        }
+      },
+      "tags": ["v1-deferred", "clausal-subject", "wh-clause", "v2-only"],
+      "priority": "P0",
+      "notes": "v1 DEFERRED: Wh-clause as subject"
+    },
+    {
+      "id": "v1-defer-028",
+      "category": "clausal-subjects",
+      "input": "Whether to proceed remains uncertain",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "clausal-subjects",
+        "roadmapRef": "ENH-011",
+        "v1Behavior": "flag-only",
+        "partialParse": {
+          "detected": "clausal-subject",
+          "clauseType": "whether-clause"
+        }
+      },
+      "tags": ["v1-deferred", "clausal-subject", "whether-clause", "v2-only"],
+      "priority": "P0",
+      "notes": "v1 DEFERRED: Whether-clause as subject"
+    },
+    {
+      "id": "v1-defer-029",
+      "category": "clausal-subjects",
+      "input": "To treat the patient requires consent",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "clausal-subjects",
+        "roadmapRef": "ENH-011",
+        "v1Behavior": "flag-only",
+        "partialParse": {
+          "detected": "clausal-subject",
+          "clauseType": "infinitival"
+        }
+      },
+      "tags": ["v1-deferred", "clausal-subject", "infinitive", "v2-only"],
+      "priority": "P0",
+      "notes": "v1 DEFERRED: Infinitival clause as subject"
+    },
+    {
+      "id": "v1-defer-030",
+      "category": "clausal-subjects",
+      "input": "Obtaining consent is required",
+      "expectedOutput": {
+        "v2Required": true,
+        "featureType": "clausal-subjects",
+        "roadmapRef": "ENH-011",
+        "v1Behavior": "flag-only",
+        "partialParse": {
+          "detected": "clausal-subject",
+          "clauseType": "gerundive"
+        }
+      },
+      "tags": ["v1-deferred", "clausal-subject", "gerund", "v2-only"],
+      "priority": "P0",
+      "notes": "v1 DEFERRED: Gerundive clause as subject"
+    }
+  ]
+}

@@ -1,0 +1,942 @@
+{
+  "version": "2.0",
+  "corpusId": "ethical-values",
+  "description": "Golden test cases for ethical value detection (IEE Week 2b integration)",
+  "metadata": {
+    "created": "2026-02-10",
+    "lastUpdated": "2026-02-10",
+    "author": "TagTeam Core Team",
+    "phase": "Week 2b",
+    "priority": "P0",
+    "notes": "Tests 50 ethical values across 5 domains - CRITICAL for IEE integration",
+    "ieeReference": "IEE-TagTeam-Integration-Requirements-v1.md",
+    "targetAccuracy": "75%+"
+  },
+  "cases": [
+    {
+      "id": "values-dignity-001",
+      "category": "dignity-autonomy",
+      "input": "The family must decide whether to continue treatment",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Autonomy", "polarity": 0, "salience": 0.9, "domain": "Dignity", "evidence": ["must decide"] },
+          { "name": "Life", "polarity": 0, "salience": 0.85, "domain": "Dignity", "evidence": ["treatment"] },
+          { "name": "Beneficence", "polarity": 0, "salience": 0.7, "domain": "Dignity", "evidence": ["treatment"] },
+          { "name": "Family Unity", "polarity": 1, "salience": 0.6, "domain": "Community", "evidence": ["family", "decide"] }
+        ],
+        "conflicts": [
+          { "value1": "Autonomy", "value2": "Life", "intensity": 0.75, "type": "life-vs-autonomy" }
+        ],
+        "dominantDomain": "Dignity"
+      },
+      "tags": ["value-detection", "dignity", "medical-ethics", "week2b", "iee"],
+      "priority": "P0",
+      "notes": "Classic end-of-life autonomy vs life tension - from IEE test scenario healthcare-001"
+    },
+    {
+      "id": "values-dignity-002",
+      "category": "dignity-life-scarcity",
+      "input": "The doctor must allocate the last ventilator between two critically ill patients",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Justice", "polarity": 0, "salience": 1.0, "domain": "Dignity", "evidence": ["allocate"] },
+          { "name": "Life", "polarity": 1, "salience": 0.95, "domain": "Dignity", "evidence": ["critically ill", "ventilator"] },
+          { "name": "Fairness", "polarity": 0, "salience": 0.85, "domain": "Community", "evidence": ["allocate", "between two"] },
+          { "name": "Scarcity", "polarity": -1, "salience": 0.9, "domain": "Stewardship", "evidence": ["last", "between"] }
+        ],
+        "conflicts": [
+          { "value1": "Life", "value2": "Justice", "intensity": 0.9, "type": "resource-scarcity" }
+        ],
+        "dominantDomain": "Dignity",
+        "scarcityMarkers": ["last"]
+      },
+      "tags": ["value-detection", "dignity", "scarcity", "medical-ethics", "justice", "week2b"],
+      "priority": "P0",
+      "notes": "Resource scarcity dilemma - tests 'last' scarcity marker - from IEE healthcare-002"
+    },
+    {
+      "id": "values-dignity-003",
+      "category": "dignity-truthfulness",
+      "input": "The surgeon must decide whether to disclose the error to the patient",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Honesty", "polarity": 0, "salience": 0.95, "domain": "Truth", "evidence": ["disclose"] },
+          { "name": "Autonomy", "polarity": 1, "salience": 0.9, "domain": "Dignity", "evidence": ["patient", "disclose"] },
+          { "name": "Transparency", "polarity": 0, "salience": 0.85, "domain": "Truth", "evidence": ["disclose", "error"] },
+          { "name": "Professional Integrity", "polarity": 0, "salience": 0.8, "domain": "Truth", "evidence": ["surgeon", "error"] }
+        ],
+        "conflicts": [
+          { "value1": "Honesty", "value2": "Non-maleficence", "intensity": 0.7, "type": "truth-vs-harm" }
+        ],
+        "dominantDomain": "Truth"
+      },
+      "tags": ["value-detection", "dignity", "truth", "medical-error", "week2b"],
+      "priority": "P0",
+      "notes": "Medical error disclosure - truth vs harm - from IEE healthcare-003"
+    },
+    {
+      "id": "values-dignity-004",
+      "category": "dignity-autonomy-conflict",
+      "input": "The parents are demanding an unproven treatment for their dying child",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Parental Autonomy", "polarity": 1, "salience": 0.9, "domain": "Dignity", "evidence": ["parents", "demanding"] },
+          { "name": "Non-maleficence", "polarity": -1, "salience": 0.95, "domain": "Dignity", "evidence": ["unproven"] },
+          { "name": "Life", "polarity": -1, "salience": 0.85, "domain": "Dignity", "evidence": ["dying"] },
+          { "name": "Hope", "polarity": 1, "salience": 0.7, "domain": "Growth", "evidence": ["demanding", "treatment"] }
+        ],
+        "conflicts": [
+          { "value1": "Parental Autonomy", "value2": "Non-maleficence", "intensity": 0.9, "type": "autonomy-vs-beneficence" }
+        ],
+        "dominantDomain": "Dignity"
+      },
+      "tags": ["value-detection", "dignity", "pediatric", "experimental", "week2b"],
+      "priority": "P0",
+      "notes": "Experimental treatment request - from IEE healthcare-004"
+    },
+    {
+      "id": "values-dignity-005",
+      "category": "dignity-commitment",
+      "input": "The psychiatrist must decide whether to commit the patient against their will",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Autonomy", "polarity": -1, "salience": 1.0, "domain": "Dignity", "evidence": ["against their will"] },
+          { "name": "Beneficence", "polarity": 1, "salience": 0.9, "domain": "Dignity", "evidence": ["commit"] },
+          { "name": "Safety", "polarity": 1, "salience": 0.85, "domain": "Dignity", "evidence": ["commit"] },
+          { "name": "Liberty", "polarity": -1, "salience": 0.95, "domain": "Dignity", "evidence": ["against their will"] }
+        ],
+        "conflicts": [
+          { "value1": "Autonomy", "value2": "Safety", "intensity": 0.95, "type": "liberty-vs-safety" }
+        ],
+        "dominantDomain": "Dignity"
+      },
+      "tags": ["value-detection", "dignity", "mental-health", "commitment", "week2b"],
+      "priority": "P0",
+      "notes": "Involuntary commitment - classic autonomy vs safety - from IEE healthcare-005"
+    },
+    {
+      "id": "values-dignity-006",
+      "category": "dignity-privacy",
+      "input": "The hospital released patient records without consent for research",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Privacy", "polarity": -1, "salience": 1.0, "domain": "Dignity", "evidence": ["patient records", "without consent"] },
+          { "name": "Consent", "polarity": -1, "salience": 0.95, "domain": "Dignity", "evidence": ["without consent"] },
+          { "name": "Beneficence", "polarity": 1, "salience": 0.7, "domain": "Dignity", "evidence": ["research"] },
+          { "name": "Scientific Progress", "polarity": 1, "salience": 0.65, "domain": "Growth", "evidence": ["research"] }
+        ],
+        "conflicts": [
+          { "value1": "Privacy", "value2": "Scientific Progress", "intensity": 0.8, "type": "privacy-vs-research" }
+        ],
+        "dominantDomain": "Dignity"
+      },
+      "tags": ["value-detection", "dignity", "privacy", "research", "consent", "week2b"],
+      "priority": "P0",
+      "notes": "Privacy violation for research purposes"
+    },
+    {
+      "id": "values-dignity-007",
+      "category": "dignity-bodily-integrity",
+      "input": "The surgeon performed an additional procedure without prior consent",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Bodily Integrity", "polarity": -1, "salience": 1.0, "domain": "Dignity", "evidence": ["procedure", "without prior consent"] },
+          { "name": "Consent", "polarity": -1, "salience": 0.95, "domain": "Dignity", "evidence": ["without prior consent"] },
+          { "name": "Autonomy", "polarity": -1, "salience": 0.9, "domain": "Dignity", "evidence": ["without prior consent"] },
+          { "name": "Beneficence", "polarity": 1, "salience": 0.7, "domain": "Dignity", "evidence": ["procedure"] }
+        ],
+        "conflicts": [
+          { "value1": "Bodily Integrity", "value2": "Beneficence", "intensity": 0.85, "type": "consent-vs-beneficence" }
+        ],
+        "dominantDomain": "Dignity"
+      },
+      "tags": ["value-detection", "dignity", "bodily-integrity", "consent", "medical", "week2b"],
+      "priority": "P0",
+      "notes": "Unauthorized procedure during surgery"
+    },
+    {
+      "id": "values-dignity-008",
+      "category": "dignity-informed-consent",
+      "input": "The doctor obtained informed consent after explaining all risks and alternatives",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Informed Consent", "polarity": 1, "salience": 1.0, "domain": "Dignity", "evidence": ["obtained informed consent", "explaining all risks"] },
+          { "name": "Autonomy", "polarity": 1, "salience": 0.95, "domain": "Dignity", "evidence": ["informed consent"] },
+          { "name": "Transparency", "polarity": 1, "salience": 0.9, "domain": "Truth", "evidence": ["explaining all risks and alternatives"] },
+          { "name": "Respect", "polarity": 1, "salience": 0.85, "domain": "Dignity", "evidence": ["informed consent"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Dignity"
+      },
+      "tags": ["value-detection", "dignity", "informed-consent", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Proper informed consent process - positive polarity example"
+    },
+    {
+      "id": "values-dignity-009",
+      "category": "dignity-human-dignity",
+      "input": "The healthcare team treated the homeless patient with the same care as others",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Human Dignity", "polarity": 1, "salience": 1.0, "domain": "Dignity", "evidence": ["same care"] },
+          { "name": "Equality", "polarity": 1, "salience": 0.95, "domain": "Community", "evidence": ["same care as others"] },
+          { "name": "Non-discrimination", "polarity": 1, "salience": 0.9, "domain": "Community", "evidence": ["homeless", "same care"] },
+          { "name": "Compassion", "polarity": 1, "salience": 0.85, "domain": "Dignity", "evidence": ["care"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Dignity"
+      },
+      "tags": ["value-detection", "dignity", "equality", "homelessness", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Equal treatment regardless of social status"
+    },
+    {
+      "id": "values-dignity-010",
+      "category": "dignity-end-of-life",
+      "input": "The patient chose palliative care to die with dignity at home",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Death with Dignity", "polarity": 1, "salience": 1.0, "domain": "Dignity", "evidence": ["die with dignity"] },
+          { "name": "Autonomy", "polarity": 1, "salience": 0.95, "domain": "Dignity", "evidence": ["patient chose"] },
+          { "name": "Comfort", "polarity": 1, "salience": 0.9, "domain": "Dignity", "evidence": ["palliative care"] },
+          { "name": "Quality of Life", "polarity": 1, "salience": 0.85, "domain": "Dignity", "evidence": ["dignity", "home"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Dignity"
+      },
+      "tags": ["value-detection", "dignity", "end-of-life", "palliative", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Dignified end-of-life choice"
+    },
+    {
+      "id": "values-community-001",
+      "category": "community-justice",
+      "input": "The hospital prioritized patients based on medical need, not ability to pay",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Justice", "polarity": 1, "salience": 1.0, "domain": "Community", "evidence": ["based on medical need"] },
+          { "name": "Fairness", "polarity": 1, "salience": 0.95, "domain": "Community", "evidence": ["not ability to pay"] },
+          { "name": "Equality", "polarity": 1, "salience": 0.9, "domain": "Community", "evidence": ["medical need", "not ability to pay"] },
+          { "name": "Access to Care", "polarity": 1, "salience": 0.85, "domain": "Community", "evidence": ["prioritized patients"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Community"
+      },
+      "tags": ["value-detection", "community", "justice", "healthcare-access", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Just allocation based on need not wealth"
+    },
+    {
+      "id": "values-community-002",
+      "category": "community-solidarity",
+      "input": "The community organized to support families affected by the epidemic",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Solidarity", "polarity": 1, "salience": 1.0, "domain": "Community", "evidence": ["community organized to support"] },
+          { "name": "Compassion", "polarity": 1, "salience": 0.95, "domain": "Dignity", "evidence": ["support families"] },
+          { "name": "Mutual Aid", "polarity": 1, "salience": 0.9, "domain": "Community", "evidence": ["community", "support"] },
+          { "name": "Common Good", "polarity": 1, "salience": 0.85, "domain": "Community", "evidence": ["community organized"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Community"
+      },
+      "tags": ["value-detection", "community", "solidarity", "mutual-aid", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Community solidarity during crisis"
+    },
+    {
+      "id": "values-community-003",
+      "category": "community-common-good",
+      "input": "The public health mandate required vaccination to protect vulnerable populations",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Common Good", "polarity": 1, "salience": 1.0, "domain": "Community", "evidence": ["public health", "protect vulnerable populations"] },
+          { "name": "Protection of Vulnerable", "polarity": 1, "salience": 0.95, "domain": "Community", "evidence": ["protect vulnerable populations"] },
+          { "name": "Autonomy", "polarity": -1, "salience": 0.8, "domain": "Dignity", "evidence": ["mandate", "required"] },
+          { "name": "Public Health", "polarity": 1, "salience": 0.9, "domain": "Community", "evidence": ["public health mandate", "vaccination"] }
+        ],
+        "conflicts": [
+          { "value1": "Common Good", "value2": "Autonomy", "intensity": 0.75, "type": "individual-vs-collective" }
+        ],
+        "dominantDomain": "Community"
+      },
+      "tags": ["value-detection", "community", "common-good", "public-health", "vaccination", "week2b"],
+      "priority": "P0",
+      "notes": "Individual liberty vs collective protection"
+    },
+    {
+      "id": "values-community-004",
+      "category": "community-social-trust",
+      "input": "The researcher fabricated data, undermining public trust in science",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Social Trust", "polarity": -1, "salience": 1.0, "domain": "Community", "evidence": ["undermining public trust"] },
+          { "name": "Honesty", "polarity": -1, "salience": 0.95, "domain": "Truth", "evidence": ["fabricated data"] },
+          { "name": "Scientific Integrity", "polarity": -1, "salience": 0.95, "domain": "Truth", "evidence": ["fabricated data", "science"] },
+          { "name": "Public Good", "polarity": -1, "salience": 0.85, "domain": "Community", "evidence": ["undermining", "public"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Community"
+      },
+      "tags": ["value-detection", "community", "social-trust", "research-integrity", "negative", "week2b"],
+      "priority": "P0",
+      "notes": "Research fraud eroding public trust"
+    },
+    {
+      "id": "values-community-005",
+      "category": "community-reciprocity",
+      "input": "The organ donor's family received priority access when they later needed a transplant",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Reciprocity", "polarity": 1, "salience": 1.0, "domain": "Community", "evidence": ["received priority access", "later needed"] },
+          { "name": "Gratitude", "polarity": 1, "salience": 0.85, "domain": "Community", "evidence": ["donor", "priority access"] },
+          { "name": "Justice", "polarity": 0, "salience": 0.7, "domain": "Community", "evidence": ["priority access"] },
+          { "name": "Fairness", "polarity": 0, "salience": 0.65, "domain": "Community", "evidence": ["priority"] }
+        ],
+        "conflicts": [
+          { "value1": "Reciprocity", "value2": "Justice", "intensity": 0.5, "type": "reciprocity-vs-equality" }
+        ],
+        "dominantDomain": "Community"
+      },
+      "tags": ["value-detection", "community", "reciprocity", "organ-donation", "week2b"],
+      "priority": "P0",
+      "notes": "Reciprocity vs equal access tension"
+    },
+    {
+      "id": "values-community-006",
+      "category": "community-inclusion",
+      "input": "The committee ensured representation from all affected communities in the decision",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Inclusion", "polarity": 1, "salience": 1.0, "domain": "Community", "evidence": ["representation from all"] },
+          { "name": "Participation", "polarity": 1, "salience": 0.95, "domain": "Community", "evidence": ["representation", "communities in the decision"] },
+          { "name": "Fairness", "polarity": 1, "salience": 0.9, "domain": "Community", "evidence": ["all affected communities"] },
+          { "name": "Democratic Process", "polarity": 1, "salience": 0.85, "domain": "Community", "evidence": ["committee", "representation"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Community"
+      },
+      "tags": ["value-detection", "community", "inclusion", "participation", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Inclusive decision-making process"
+    },
+    {
+      "id": "values-community-007",
+      "category": "community-social-responsibility",
+      "input": "The pharmaceutical company refused to lower drug prices for the poor",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Social Responsibility", "polarity": -1, "salience": 1.0, "domain": "Community", "evidence": ["refused", "for the poor"] },
+          { "name": "Access to Care", "polarity": -1, "salience": 0.95, "domain": "Community", "evidence": ["refused to lower", "poor"] },
+          { "name": "Justice", "polarity": -1, "salience": 0.9, "domain": "Community", "evidence": ["refused", "poor"] },
+          { "name": "Profit", "polarity": 1, "salience": 0.7, "domain": "Stewardship", "evidence": ["refused to lower prices"] }
+        ],
+        "conflicts": [
+          { "value1": "Social Responsibility", "value2": "Profit", "intensity": 0.85, "type": "profit-vs-access" }
+        ],
+        "dominantDomain": "Community"
+      },
+      "tags": ["value-detection", "community", "social-responsibility", "healthcare-access", "negative", "week2b"],
+      "priority": "P0",
+      "notes": "Corporate responsibility vs profit"
+    },
+    {
+      "id": "values-community-008",
+      "category": "community-equity",
+      "input": "The program allocated additional resources to underserved communities",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Equity", "polarity": 1, "salience": 1.0, "domain": "Community", "evidence": ["additional resources to underserved"] },
+          { "name": "Justice", "polarity": 1, "salience": 0.95, "domain": "Community", "evidence": ["underserved communities"] },
+          { "name": "Distributive Justice", "polarity": 1, "salience": 0.9, "domain": "Community", "evidence": ["allocated", "additional resources"] },
+          { "name": "Social Equality", "polarity": 1, "salience": 0.85, "domain": "Community", "evidence": ["underserved"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Community"
+      },
+      "tags": ["value-detection", "community", "equity", "distributive-justice", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Equity-based resource allocation"
+    },
+    {
+      "id": "values-community-009",
+      "category": "community-civic-duty",
+      "input": "The citizens volunteered to help with the disaster relief effort",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Civic Duty", "polarity": 1, "salience": 1.0, "domain": "Community", "evidence": ["citizens volunteered"] },
+          { "name": "Solidarity", "polarity": 1, "salience": 0.95, "domain": "Community", "evidence": ["help", "disaster relief"] },
+          { "name": "Altruism", "polarity": 1, "salience": 0.9, "domain": "Community", "evidence": ["volunteered"] },
+          { "name": "Compassion", "polarity": 1, "salience": 0.85, "domain": "Dignity", "evidence": ["help", "disaster"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Community"
+      },
+      "tags": ["value-detection", "community", "civic-duty", "volunteering", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Civic engagement during crisis"
+    },
+    {
+      "id": "values-community-010",
+      "category": "community-cultural-respect",
+      "input": "The hospital accommodated traditional healing practices alongside modern medicine",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Cultural Respect", "polarity": 1, "salience": 1.0, "domain": "Community", "evidence": ["accommodated traditional healing practices"] },
+          { "name": "Pluralism", "polarity": 1, "salience": 0.95, "domain": "Community", "evidence": ["traditional", "alongside modern"] },
+          { "name": "Respect", "polarity": 1, "salience": 0.9, "domain": "Dignity", "evidence": ["accommodated"] },
+          { "name": "Integration", "polarity": 1, "salience": 0.85, "domain": "Community", "evidence": ["alongside"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Community"
+      },
+      "tags": ["value-detection", "community", "cultural-respect", "traditional-medicine", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Cultural pluralism in healthcare"
+    },
+    {
+      "id": "values-stewardship-001",
+      "category": "stewardship-sustainability",
+      "input": "The hospital invested in renewable energy to reduce environmental impact",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Sustainability", "polarity": 1, "salience": 1.0, "domain": "Stewardship", "evidence": ["renewable energy", "reduce environmental impact"] },
+          { "name": "Environmental Responsibility", "polarity": 1, "salience": 0.95, "domain": "Stewardship", "evidence": ["reduce environmental impact"] },
+          { "name": "Stewardship", "polarity": 1, "salience": 0.9, "domain": "Stewardship", "evidence": ["invested", "renewable"] },
+          { "name": "Future Generations", "polarity": 1, "salience": 0.85, "domain": "Stewardship", "evidence": ["sustainability", "environmental"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Stewardship"
+      },
+      "tags": ["value-detection", "stewardship", "sustainability", "environment", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Environmental stewardship in healthcare"
+    },
+    {
+      "id": "values-stewardship-002",
+      "category": "stewardship-resource-conservation",
+      "input": "The clinic wasted single-use supplies to avoid sterilization costs",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Resource Conservation", "polarity": -1, "salience": 1.0, "domain": "Stewardship", "evidence": ["wasted single-use supplies"] },
+          { "name": "Sustainability", "polarity": -1, "salience": 0.95, "domain": "Stewardship", "evidence": ["wasted", "single-use"] },
+          { "name": "Stewardship", "polarity": -1, "salience": 0.9, "domain": "Stewardship", "evidence": ["wasted"] },
+          { "name": "Economic Efficiency", "polarity": 1, "salience": 0.7, "domain": "Stewardship", "evidence": ["avoid costs"] }
+        ],
+        "conflicts": [
+          { "value1": "Resource Conservation", "value2": "Economic Efficiency", "intensity": 0.7, "type": "environment-vs-cost" }
+        ],
+        "dominantDomain": "Stewardship"
+      },
+      "tags": ["value-detection", "stewardship", "waste", "resource-conservation", "negative", "week2b"],
+      "priority": "P0",
+      "notes": "Wasteful practices for short-term cost savings"
+    },
+    {
+      "id": "values-stewardship-003",
+      "category": "stewardship-future-generations",
+      "input": "The research preserved genetic diversity for future medical breakthroughs",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Future Generations", "polarity": 1, "salience": 1.0, "domain": "Stewardship", "evidence": ["for future"] },
+          { "name": "Preservation", "polarity": 1, "salience": 0.95, "domain": "Stewardship", "evidence": ["preserved"] },
+          { "name": "Scientific Progress", "polarity": 1, "salience": 0.9, "domain": "Growth", "evidence": ["medical breakthroughs"] },
+          { "name": "Stewardship", "polarity": 1, "salience": 0.85, "domain": "Stewardship", "evidence": ["preserved", "future"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Stewardship"
+      },
+      "tags": ["value-detection", "stewardship", "future-generations", "preservation", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Long-term thinking and preservation"
+    },
+    {
+      "id": "values-stewardship-004",
+      "category": "stewardship-responsible-use",
+      "input": "The doctor prescribed antibiotics responsibly to prevent resistance",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Responsible Use", "polarity": 1, "salience": 1.0, "domain": "Stewardship", "evidence": ["responsibly", "prevent resistance"] },
+          { "name": "Stewardship", "polarity": 1, "salience": 0.95, "domain": "Stewardship", "evidence": ["responsibly"] },
+          { "name": "Future Generations", "polarity": 1, "salience": 0.9, "domain": "Stewardship", "evidence": ["prevent resistance"] },
+          { "name": "Public Health", "polarity": 1, "salience": 0.85, "domain": "Community", "evidence": ["prevent resistance"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Stewardship"
+      },
+      "tags": ["value-detection", "stewardship", "antibiotic-stewardship", "responsible-use", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Antibiotic stewardship for long-term effectiveness"
+    },
+    {
+      "id": "values-stewardship-005",
+      "category": "stewardship-care-for-creation",
+      "input": "The healthcare system polluted the river with untreated medical waste",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Care for Creation", "polarity": -1, "salience": 1.0, "domain": "Stewardship", "evidence": ["polluted the river"] },
+          { "name": "Environmental Responsibility", "polarity": -1, "salience": 0.95, "domain": "Stewardship", "evidence": ["polluted", "untreated"] },
+          { "name": "Stewardship", "polarity": -1, "salience": 0.9, "domain": "Stewardship", "evidence": ["polluted"] },
+          { "name": "Public Health", "polarity": -1, "salience": 0.85, "domain": "Community", "evidence": ["medical waste", "river"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Stewardship"
+      },
+      "tags": ["value-detection", "stewardship", "pollution", "environmental-harm", "negative", "week2b"],
+      "priority": "P0",
+      "notes": "Environmental pollution from healthcare"
+    },
+    {
+      "id": "values-stewardship-006",
+      "category": "stewardship-intergenerational-justice",
+      "input": "The policy shifted healthcare costs onto future generations through debt",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Intergenerational Justice", "polarity": -1, "salience": 1.0, "domain": "Stewardship", "evidence": ["shifted costs onto future generations"] },
+          { "name": "Future Generations", "polarity": -1, "salience": 0.95, "domain": "Stewardship", "evidence": ["future generations", "debt"] },
+          { "name": "Responsibility", "polarity": -1, "salience": 0.9, "domain": "Stewardship", "evidence": ["shifted", "debt"] },
+          { "name": "Fairness", "polarity": -1, "salience": 0.85, "domain": "Community", "evidence": ["shifted costs"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Stewardship"
+      },
+      "tags": ["value-detection", "stewardship", "intergenerational-justice", "debt", "negative", "week2b"],
+      "priority": "P0",
+      "notes": "Shifting burdens to future generations"
+    },
+    {
+      "id": "values-stewardship-007",
+      "category": "stewardship-prudence",
+      "input": "The administrator managed resources prudently to ensure long-term viability",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Prudence", "polarity": 1, "salience": 1.0, "domain": "Stewardship", "evidence": ["prudently"] },
+          { "name": "Stewardship", "polarity": 1, "salience": 0.95, "domain": "Stewardship", "evidence": ["managed resources", "prudently"] },
+          { "name": "Sustainability", "polarity": 1, "salience": 0.9, "domain": "Stewardship", "evidence": ["long-term viability"] },
+          { "name": "Responsibility", "polarity": 1, "salience": 0.85, "domain": "Stewardship", "evidence": ["managed", "ensure"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Stewardship"
+      },
+      "tags": ["value-detection", "stewardship", "prudence", "resource-management", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Prudent long-term resource management"
+    },
+    {
+      "id": "values-stewardship-008",
+      "category": "stewardship-accountability",
+      "input": "The organization published transparent reports on resource allocation and outcomes",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Accountability", "polarity": 1, "salience": 1.0, "domain": "Stewardship", "evidence": ["transparent reports"] },
+          { "name": "Transparency", "polarity": 1, "salience": 0.95, "domain": "Truth", "evidence": ["transparent reports", "published"] },
+          { "name": "Stewardship", "polarity": 1, "salience": 0.9, "domain": "Stewardship", "evidence": ["resource allocation"] },
+          { "name": "Trust", "polarity": 1, "salience": 0.85, "domain": "Community", "evidence": ["transparent"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Stewardship"
+      },
+      "tags": ["value-detection", "stewardship", "accountability", "transparency", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Transparent accountability for resources"
+    },
+    {
+      "id": "values-stewardship-009",
+      "category": "stewardship-legacy",
+      "input": "The foundation endowed scholarships for future healthcare workers",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Legacy", "polarity": 1, "salience": 1.0, "domain": "Stewardship", "evidence": ["endowed", "for future"] },
+          { "name": "Future Generations", "polarity": 1, "salience": 0.95, "domain": "Stewardship", "evidence": ["for future"] },
+          { "name": "Education", "polarity": 1, "salience": 0.9, "domain": "Growth", "evidence": ["scholarships"] },
+          { "name": "Generosity", "polarity": 1, "salience": 0.85, "domain": "Community", "evidence": ["endowed scholarships"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Stewardship"
+      },
+      "tags": ["value-detection", "stewardship", "legacy", "education", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Creating lasting positive legacy"
+    },
+    {
+      "id": "values-stewardship-010",
+      "category": "stewardship-biodiversity",
+      "input": "The research protocol destroyed unique ecosystems to develop new drugs",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Biodiversity", "polarity": -1, "salience": 1.0, "domain": "Stewardship", "evidence": ["destroyed unique ecosystems"] },
+          { "name": "Care for Creation", "polarity": -1, "salience": 0.95, "domain": "Stewardship", "evidence": ["destroyed", "ecosystems"] },
+          { "name": "Scientific Progress", "polarity": 1, "salience": 0.85, "domain": "Growth", "evidence": ["develop new drugs"] },
+          { "name": "Stewardship", "polarity": -1, "salience": 0.9, "domain": "Stewardship", "evidence": ["destroyed"] }
+        ],
+        "conflicts": [
+          { "value1": "Biodiversity", "value2": "Scientific Progress", "intensity": 0.8, "type": "conservation-vs-research" }
+        ],
+        "dominantDomain": "Stewardship"
+      },
+      "tags": ["value-detection", "stewardship", "biodiversity", "research-ethics", "negative", "week2b"],
+      "priority": "P0",
+      "notes": "Environmental destruction for medical research"
+    },
+    {
+      "id": "values-truth-001",
+      "category": "truth-honesty",
+      "input": "The doctor honestly informed the patient about the poor prognosis",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Honesty", "polarity": 1, "salience": 1.0, "domain": "Truth", "evidence": ["honestly informed"] },
+          { "name": "Transparency", "polarity": 1, "salience": 0.95, "domain": "Truth", "evidence": ["informed", "poor prognosis"] },
+          { "name": "Truthfulness", "polarity": 1, "salience": 0.9, "domain": "Truth", "evidence": ["honestly"] },
+          { "name": "Respect", "polarity": 1, "salience": 0.85, "domain": "Dignity", "evidence": ["informed", "patient"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Truth"
+      },
+      "tags": ["value-detection", "truth", "honesty", "medical-disclosure", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Honest disclosure of difficult news"
+    },
+    {
+      "id": "values-truth-002",
+      "category": "truth-deception",
+      "input": "The pharmaceutical company concealed adverse trial results from regulators",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Honesty", "polarity": -1, "salience": 1.0, "domain": "Truth", "evidence": ["concealed"] },
+          { "name": "Transparency", "polarity": -1, "salience": 0.95, "domain": "Truth", "evidence": ["concealed", "from regulators"] },
+          { "name": "Scientific Integrity", "polarity": -1, "salience": 0.95, "domain": "Truth", "evidence": ["concealed", "trial results"] },
+          { "name": "Public Safety", "polarity": -1, "salience": 0.9, "domain": "Community", "evidence": ["adverse", "concealed"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Truth"
+      },
+      "tags": ["value-detection", "truth", "deception", "research-fraud", "negative", "week2b"],
+      "priority": "P0",
+      "notes": "Concealment of safety data"
+    },
+    {
+      "id": "values-truth-003",
+      "category": "truth-accuracy",
+      "input": "The laboratory implemented rigorous quality controls to ensure accuracy",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Accuracy", "polarity": 1, "salience": 1.0, "domain": "Truth", "evidence": ["ensure accuracy"] },
+          { "name": "Precision", "polarity": 1, "salience": 0.95, "domain": "Truth", "evidence": ["rigorous quality controls"] },
+          { "name": "Reliability", "polarity": 1, "salience": 0.9, "domain": "Truth", "evidence": ["quality controls"] },
+          { "name": "Scientific Integrity", "polarity": 1, "salience": 0.85, "domain": "Truth", "evidence": ["rigorous", "accuracy"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Truth"
+      },
+      "tags": ["value-detection", "truth", "accuracy", "quality-control", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Commitment to accurate results"
+    },
+    {
+      "id": "values-truth-004",
+      "category": "truth-intellectual-integrity",
+      "input": "The researcher acknowledged limitations and uncertainties in the findings",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Intellectual Integrity", "polarity": 1, "salience": 1.0, "domain": "Truth", "evidence": ["acknowledged limitations and uncertainties"] },
+          { "name": "Honesty", "polarity": 1, "salience": 0.95, "domain": "Truth", "evidence": ["acknowledged"] },
+          { "name": "Humility", "polarity": 1, "salience": 0.9, "domain": "Truth", "evidence": ["limitations", "uncertainties"] },
+          { "name": "Scientific Integrity", "polarity": 1, "salience": 0.85, "domain": "Truth", "evidence": ["researcher", "findings"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Truth"
+      },
+      "tags": ["value-detection", "truth", "intellectual-integrity", "research", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Acknowledging limitations honestly"
+    },
+    {
+      "id": "values-truth-005",
+      "category": "truth-veracity",
+      "input": "The witness testified truthfully despite personal consequences",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Veracity", "polarity": 1, "salience": 1.0, "domain": "Truth", "evidence": ["truthfully"] },
+          { "name": "Courage", "polarity": 1, "salience": 0.95, "domain": "Growth", "evidence": ["despite personal consequences"] },
+          { "name": "Honesty", "polarity": 1, "salience": 0.9, "domain": "Truth", "evidence": ["truthfully"] },
+          { "name": "Integrity", "polarity": 1, "salience": 0.85, "domain": "Truth", "evidence": ["truthfully", "despite consequences"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Truth"
+      },
+      "tags": ["value-detection", "truth", "veracity", "courage", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Truth-telling despite personal risk"
+    },
+    {
+      "id": "values-truth-006",
+      "category": "truth-evidence-based",
+      "input": "The policy was grounded in empirical evidence and peer-reviewed research",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Evidence-Based Practice", "polarity": 1, "salience": 1.0, "domain": "Truth", "evidence": ["grounded in empirical evidence", "peer-reviewed"] },
+          { "name": "Scientific Rigor", "polarity": 1, "salience": 0.95, "domain": "Truth", "evidence": ["empirical evidence", "peer-reviewed research"] },
+          { "name": "Objectivity", "polarity": 1, "salience": 0.9, "domain": "Truth", "evidence": ["empirical", "research"] },
+          { "name": "Reliability", "polarity": 1, "salience": 0.85, "domain": "Truth", "evidence": ["peer-reviewed"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Truth"
+      },
+      "tags": ["value-detection", "truth", "evidence-based", "research", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Policy based on sound evidence"
+    },
+    {
+      "id": "values-truth-007",
+      "category": "truth-misinformation",
+      "input": "The website spread medical misinformation that endangered public health",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Truthfulness", "polarity": -1, "salience": 1.0, "domain": "Truth", "evidence": ["misinformation"] },
+          { "name": "Public Safety", "polarity": -1, "salience": 0.95, "domain": "Community", "evidence": ["endangered public health"] },
+          { "name": "Honesty", "polarity": -1, "salience": 0.9, "domain": "Truth", "evidence": ["misinformation"] },
+          { "name": "Responsibility", "polarity": -1, "salience": 0.85, "domain": "Stewardship", "evidence": ["spread", "endangered"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Truth"
+      },
+      "tags": ["value-detection", "truth", "misinformation", "public-health", "negative", "week2b"],
+      "priority": "P0",
+      "notes": "Spreading dangerous misinformation"
+    },
+    {
+      "id": "values-truth-008",
+      "category": "truth-objectivity",
+      "input": "The reviewer assessed the research objectively without bias or conflicts",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Objectivity", "polarity": 1, "salience": 1.0, "domain": "Truth", "evidence": ["objectively", "without bias"] },
+          { "name": "Impartiality", "polarity": 1, "salience": 0.95, "domain": "Truth", "evidence": ["without bias or conflicts"] },
+          { "name": "Intellectual Integrity", "polarity": 1, "salience": 0.9, "domain": "Truth", "evidence": ["objectively", "without conflicts"] },
+          { "name": "Fairness", "polarity": 1, "salience": 0.85, "domain": "Community", "evidence": ["without bias"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Truth"
+      },
+      "tags": ["value-detection", "truth", "objectivity", "peer-review", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Unbiased objective review"
+    },
+    {
+      "id": "values-truth-009",
+      "category": "truth-candor",
+      "input": "The administrator candidly admitted the mistake and proposed corrections",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Candor", "polarity": 1, "salience": 1.0, "domain": "Truth", "evidence": ["candidly admitted"] },
+          { "name": "Honesty", "polarity": 1, "salience": 0.95, "domain": "Truth", "evidence": ["admitted the mistake"] },
+          { "name": "Accountability", "polarity": 1, "salience": 0.9, "domain": "Stewardship", "evidence": ["admitted", "proposed corrections"] },
+          { "name": "Responsibility", "polarity": 1, "salience": 0.85, "domain": "Stewardship", "evidence": ["admitted", "corrections"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Truth"
+      },
+      "tags": ["value-detection", "truth", "candor", "accountability", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Candid admission of error"
+    },
+    {
+      "id": "values-truth-010",
+      "category": "truth-authenticity",
+      "input": "The patient shared their authentic experience without embellishment",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Authenticity", "polarity": 1, "salience": 1.0, "domain": "Truth", "evidence": ["authentic experience", "without embellishment"] },
+          { "name": "Honesty", "polarity": 1, "salience": 0.95, "domain": "Truth", "evidence": ["without embellishment"] },
+          { "name": "Genuineness", "polarity": 1, "salience": 0.9, "domain": "Truth", "evidence": ["authentic"] },
+          { "name": "Trust", "polarity": 1, "salience": 0.85, "domain": "Community", "evidence": ["shared", "authentic"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Truth"
+      },
+      "tags": ["value-detection", "truth", "authenticity", "patient-narrative", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Authentic truthful self-expression"
+    },
+    {
+      "id": "values-growth-001",
+      "category": "growth-development",
+      "input": "The mentorship program fostered professional development and clinical excellence",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Development", "polarity": 1, "salience": 1.0, "domain": "Growth", "evidence": ["professional development"] },
+          { "name": "Excellence", "polarity": 1, "salience": 0.95, "domain": "Growth", "evidence": ["clinical excellence"] },
+          { "name": "Education", "polarity": 1, "salience": 0.9, "domain": "Growth", "evidence": ["mentorship"] },
+          { "name": "Growth", "polarity": 1, "salience": 0.85, "domain": "Growth", "evidence": ["fostered", "development"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Growth"
+      },
+      "tags": ["value-detection", "growth", "development", "education", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Professional development and excellence"
+    },
+    {
+      "id": "values-growth-002",
+      "category": "growth-innovation",
+      "input": "The team pioneered innovative surgical techniques that improved outcomes",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Innovation", "polarity": 1, "salience": 1.0, "domain": "Growth", "evidence": ["pioneered innovative"] },
+          { "name": "Excellence", "polarity": 1, "salience": 0.95, "domain": "Growth", "evidence": ["improved outcomes"] },
+          { "name": "Progress", "polarity": 1, "salience": 0.9, "domain": "Growth", "evidence": ["pioneered", "improved"] },
+          { "name": "Beneficence", "polarity": 1, "salience": 0.85, "domain": "Dignity", "evidence": ["improved outcomes"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Growth"
+      },
+      "tags": ["value-detection", "growth", "innovation", "medical-advancement", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Medical innovation improving care"
+    },
+    {
+      "id": "values-growth-003",
+      "category": "growth-learning",
+      "input": "The student embraced mistakes as opportunities for learning and growth",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Learning", "polarity": 1, "salience": 1.0, "domain": "Growth", "evidence": ["learning"] },
+          { "name": "Growth", "polarity": 1, "salience": 0.95, "domain": "Growth", "evidence": ["growth"] },
+          { "name": "Resilience", "polarity": 1, "salience": 0.9, "domain": "Growth", "evidence": ["embraced mistakes"] },
+          { "name": "Humility", "polarity": 1, "salience": 0.85, "domain": "Truth", "evidence": ["mistakes", "learning"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Growth"
+      },
+      "tags": ["value-detection", "growth", "learning", "resilience", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Learning from mistakes"
+    },
+    {
+      "id": "values-growth-004",
+      "category": "growth-self-actualization",
+      "input": "The therapist helped the patient discover their potential and purpose",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Self-Actualization", "polarity": 1, "salience": 1.0, "domain": "Growth", "evidence": ["discover their potential"] },
+          { "name": "Personal Growth", "polarity": 1, "salience": 0.95, "domain": "Growth", "evidence": ["potential", "purpose"] },
+          { "name": "Flourishing", "polarity": 1, "salience": 0.9, "domain": "Growth", "evidence": ["potential", "purpose"] },
+          { "name": "Beneficence", "polarity": 1, "salience": 0.85, "domain": "Dignity", "evidence": ["helped"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Growth"
+      },
+      "tags": ["value-detection", "growth", "self-actualization", "therapy", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Facilitating self-actualization"
+    },
+    {
+      "id": "values-growth-005",
+      "category": "growth-transformation",
+      "input": "The rehabilitation program transformed lives through recovery and renewal",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Transformation", "polarity": 1, "salience": 1.0, "domain": "Growth", "evidence": ["transformed"] },
+          { "name": "Recovery", "polarity": 1, "salience": 0.95, "domain": "Growth", "evidence": ["recovery"] },
+          { "name": "Renewal", "polarity": 1, "salience": 0.9, "domain": "Growth", "evidence": ["renewal"] },
+          { "name": "Hope", "polarity": 1, "salience": 0.85, "domain": "Growth", "evidence": ["transformed", "recovery"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Growth"
+      },
+      "tags": ["value-detection", "growth", "transformation", "rehabilitation", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Transformative rehabilitation"
+    },
+    {
+      "id": "values-growth-006",
+      "category": "growth-excellence",
+      "input": "The center pursued excellence through continuous quality improvement",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Excellence", "polarity": 1, "salience": 1.0, "domain": "Growth", "evidence": ["pursued excellence"] },
+          { "name": "Continuous Improvement", "polarity": 1, "salience": 0.95, "domain": "Growth", "evidence": ["continuous quality improvement"] },
+          { "name": "Quality", "polarity": 1, "salience": 0.9, "domain": "Growth", "evidence": ["quality improvement"] },
+          { "name": "Commitment", "polarity": 1, "salience": 0.85, "domain": "Growth", "evidence": ["pursued", "continuous"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Growth"
+      },
+      "tags": ["value-detection", "growth", "excellence", "quality-improvement", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Commitment to excellence and improvement"
+    },
+    {
+      "id": "values-growth-007",
+      "category": "growth-creativity",
+      "input": "The researcher developed creative solutions to complex medical challenges",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Creativity", "polarity": 1, "salience": 1.0, "domain": "Growth", "evidence": ["creative solutions"] },
+          { "name": "Innovation", "polarity": 1, "salience": 0.95, "domain": "Growth", "evidence": ["developed", "solutions"] },
+          { "name": "Problem-Solving", "polarity": 1, "salience": 0.9, "domain": "Growth", "evidence": ["solutions to challenges"] },
+          { "name": "Excellence", "polarity": 1, "salience": 0.85, "domain": "Growth", "evidence": ["complex", "solutions"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Growth"
+      },
+      "tags": ["value-detection", "growth", "creativity", "innovation", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Creative problem-solving in medicine"
+    },
+    {
+      "id": "values-growth-008",
+      "category": "growth-mastery",
+      "input": "The surgeon achieved mastery through decades of dedicated practice",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Mastery", "polarity": 1, "salience": 1.0, "domain": "Growth", "evidence": ["achieved mastery"] },
+          { "name": "Excellence", "polarity": 1, "salience": 0.95, "domain": "Growth", "evidence": ["mastery"] },
+          { "name": "Dedication", "polarity": 1, "salience": 0.9, "domain": "Growth", "evidence": ["dedicated practice"] },
+          { "name": "Perseverance", "polarity": 1, "salience": 0.85, "domain": "Growth", "evidence": ["decades", "dedicated"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Growth"
+      },
+      "tags": ["value-detection", "growth", "mastery", "dedication", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Achieving mastery through dedication"
+    },
+    {
+      "id": "values-growth-009",
+      "category": "growth-resilience",
+      "input": "The patient demonstrated remarkable resilience in recovering from trauma",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Resilience", "polarity": 1, "salience": 1.0, "domain": "Growth", "evidence": ["remarkable resilience"] },
+          { "name": "Recovery", "polarity": 1, "salience": 0.95, "domain": "Growth", "evidence": ["recovering"] },
+          { "name": "Strength", "polarity": 1, "salience": 0.9, "domain": "Growth", "evidence": ["remarkable", "resilience"] },
+          { "name": "Hope", "polarity": 1, "salience": 0.85, "domain": "Growth", "evidence": ["recovering"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Growth"
+      },
+      "tags": ["value-detection", "growth", "resilience", "trauma", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Resilience in trauma recovery"
+    },
+    {
+      "id": "values-growth-010",
+      "category": "growth-wisdom",
+      "input": "The elder physician shared wisdom gained from years of experience",
+      "expectedOutput": {
+        "detectedValues": [
+          { "name": "Wisdom", "polarity": 1, "salience": 1.0, "domain": "Growth", "evidence": ["wisdom"] },
+          { "name": "Experience", "polarity": 1, "salience": 0.95, "domain": "Growth", "evidence": ["years of experience"] },
+          { "name": "Generosity", "polarity": 1, "salience": 0.9, "domain": "Community", "evidence": ["shared"] },
+          { "name": "Mentorship", "polarity": 1, "salience": 0.85, "domain": "Growth", "evidence": ["shared", "wisdom"] }
+        ],
+        "conflicts": [],
+        "dominantDomain": "Growth"
+      },
+      "tags": ["value-detection", "growth", "wisdom", "mentorship", "positive", "week2b"],
+      "priority": "P0",
+      "notes": "Sharing accumulated wisdom"
+    }
+  ]
+}

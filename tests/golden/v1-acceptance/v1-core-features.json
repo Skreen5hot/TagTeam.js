@@ -1,0 +1,593 @@
+{
+  "version": "2.0",
+  "corpusId": "v1-core-features",
+  "description": "Golden test cases for v1 IN SCOPE features - v1 acceptance criteria",
+  "metadata": {
+    "created": "2026-02-10",
+    "lastUpdated": "2026-02-10",
+    "author": "TagTeam Core Team",
+    "phase": "v1",
+    "priority": "P0",
+    "notes": "Tests ALL v1 IN SCOPE features from ROADMAP.md - must pass at 100%"
+  },
+  "cases": [
+    {
+      "id": "v1-core-001",
+      "category": "passive-voice-by-phrase",
+      "input": "The patient was examined by the doctor",
+      "expectedOutput": {
+        "voice": "passive",
+        "agent": { "text": "the doctor", "role": "Agent", "position": "by-phrase" },
+        "patient": { "text": "the patient", "role": "Patient", "position": "subject" },
+        "v1Feature": "passive-voice-transformation",
+        "roadmapRef": "v1 IN SCOPE"
+      },
+      "tags": ["v1", "passive", "by-phrase", "medical", "critical"],
+      "priority": "P0",
+      "notes": "v1 CORE: Canonical passive with by-phrase agent - MUST work"
+    },
+    {
+      "id": "v1-core-002",
+      "category": "passive-voice-agentless",
+      "input": "The medication was prescribed",
+      "expectedOutput": {
+        "voice": "passive",
+        "patient": { "text": "the medication", "role": "Patient", "position": "subject" },
+        "agent": { "implicit": true, "role": "Agent" },
+        "v1Feature": "passive-voice-transformation"
+      },
+      "tags": ["v1", "passive", "agentless", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: Agentless passive - backgrounded agent"
+    },
+    {
+      "id": "v1-core-003",
+      "category": "passive-voice-ditransitive",
+      "input": "The patient was given medication",
+      "expectedOutput": {
+        "voice": "passive",
+        "recipient": { "text": "the patient", "role": "Recipient", "position": "subject" },
+        "theme": { "text": "medication", "role": "Theme", "position": "object" },
+        "agent": { "implicit": true },
+        "v1Feature": "passive-voice-transformation"
+      },
+      "tags": ["v1", "passive", "ditransitive", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: Passive of ditransitive - recipient promoted"
+    },
+    {
+      "id": "v1-core-004",
+      "category": "passive-voice-modal",
+      "input": "The patient must be monitored",
+      "expectedOutput": {
+        "voice": "passive",
+        "modal": "must",
+        "patient": { "text": "the patient", "role": "Patient" },
+        "agent": { "implicit": true },
+        "v1Feature": "passive-voice-transformation"
+      },
+      "tags": ["v1", "passive", "modal", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: Passive with modal auxiliary"
+    },
+    {
+      "id": "v1-core-005",
+      "category": "passive-voice-progressive",
+      "input": "The patient is being treated",
+      "expectedOutput": {
+        "voice": "passive",
+        "aspect": "progressive",
+        "patient": { "text": "the patient", "role": "Patient" },
+        "v1Feature": "passive-voice-transformation"
+      },
+      "tags": ["v1", "passive", "progressive", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: Progressive passive"
+    },
+    {
+      "id": "v1-core-006",
+      "category": "passive-voice-perfect",
+      "input": "The results have been analyzed",
+      "expectedOutput": {
+        "voice": "passive",
+        "aspect": "perfect",
+        "patient": { "text": "the results", "role": "Patient" },
+        "v1Feature": "passive-voice-transformation"
+      },
+      "tags": ["v1", "passive", "perfect", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: Perfect passive"
+    },
+    {
+      "id": "v1-core-007",
+      "category": "passive-voice-negation",
+      "input": "The treatment was not approved",
+      "expectedOutput": {
+        "voice": "passive",
+        "negation": true,
+        "patient": { "text": "the treatment", "role": "Patient" },
+        "v1Feature": "passive-voice-transformation"
+      },
+      "tags": ["v1", "passive", "negation", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: Negated passive"
+    },
+    {
+      "id": "v1-core-008",
+      "category": "passive-voice-long-by-phrase",
+      "input": "The policy was approved by the ethics committee",
+      "expectedOutput": {
+        "voice": "passive",
+        "agent": { "text": "the ethics committee", "role": "Agent", "position": "by-phrase" },
+        "patient": { "text": "the policy", "role": "Patient" },
+        "v1Feature": "passive-voice-transformation"
+      },
+      "tags": ["v1", "passive", "by-phrase", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: Passive with multi-word agent"
+    },
+    {
+      "id": "v1-core-009",
+      "category": "verb-object-typing-selectional",
+      "input": "The doctor provided care",
+      "expectedOutput": {
+        "verb": "provided",
+        "object": { "text": "care", "type": "abstract-service" },
+        "verbSense": "provide-service",
+        "selectionalRestriction": "abstract-object",
+        "v1Feature": "verb-context-object-typing",
+        "roadmapRef": "ENH-001"
+      },
+      "tags": ["v1", "verb-typing", "selectional", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: Object type disambiguates verb sense"
+    },
+    {
+      "id": "v1-core-010",
+      "category": "verb-object-typing-selectional",
+      "input": "The hospital provided equipment",
+      "expectedOutput": {
+        "verb": "provided",
+        "object": { "text": "equipment", "type": "physical-object" },
+        "verbSense": "provide-object",
+        "selectionalRestriction": "physical-object",
+        "v1Feature": "verb-context-object-typing"
+      },
+      "tags": ["v1", "verb-typing", "selectional", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: Different object type = different verb sense"
+    },
+    {
+      "id": "v1-core-011",
+      "category": "verb-object-typing-medical",
+      "input": "The nurse took the patient's temperature",
+      "expectedOutput": {
+        "verb": "took",
+        "object": { "text": "temperature", "type": "measurement" },
+        "verbSense": "take-measurement",
+        "domain": "medical",
+        "v1Feature": "verb-context-object-typing"
+      },
+      "tags": ["v1", "verb-typing", "medical", "measurement"],
+      "priority": "P0",
+      "notes": "v1 CORE: Medical context disambiguates 'take'"
+    },
+    {
+      "id": "v1-core-012",
+      "category": "verb-object-typing-consumption",
+      "input": "The patient took medication",
+      "expectedOutput": {
+        "verb": "took",
+        "object": { "text": "medication", "type": "consumable" },
+        "verbSense": "take-consume",
+        "v1Feature": "verb-context-object-typing"
+      },
+      "tags": ["v1", "verb-typing", "medical", "consumption"],
+      "priority": "P0",
+      "notes": "v1 CORE: Consumable object = consumption sense"
+    },
+    {
+      "id": "v1-core-013",
+      "category": "verb-object-typing-causation",
+      "input": "The medication caused side effects",
+      "expectedOutput": {
+        "verb": "caused",
+        "subject": { "text": "medication", "type": "substance" },
+        "object": { "text": "side effects", "type": "consequence" },
+        "semanticFrame": "Causation",
+        "v1Feature": "verb-context-object-typing"
+      },
+      "tags": ["v1", "verb-typing", "causation", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: Causative verb with consequence object"
+    },
+    {
+      "id": "v1-core-014",
+      "category": "verb-object-typing-transfer",
+      "input": "The doctor gave the patient medication",
+      "expectedOutput": {
+        "verb": "gave",
+        "theme": { "text": "medication", "type": "physical-object" },
+        "recipient": { "text": "the patient", "type": "person" },
+        "semanticFrame": "Giving",
+        "v1Feature": "verb-context-object-typing"
+      },
+      "tags": ["v1", "verb-typing", "transfer", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: Transfer verb with theme and recipient"
+    },
+    {
+      "id": "v1-core-015",
+      "category": "verb-object-typing-communication",
+      "input": "The nurse reported the incident",
+      "expectedOutput": {
+        "verb": "reported",
+        "object": { "text": "the incident", "type": "event" },
+        "semanticFrame": "Statement",
+        "v1Feature": "verb-context-object-typing"
+      },
+      "tags": ["v1", "verb-typing", "communication", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: Communication verb with event object"
+    },
+    {
+      "id": "v1-core-016",
+      "category": "verb-object-typing-perception",
+      "input": "The doctor saw the patient",
+      "expectedOutput": {
+        "verb": "saw",
+        "object": { "text": "the patient", "type": "person" },
+        "verbSense": "see-meet-professionally",
+        "domain": "medical",
+        "v1Feature": "verb-context-object-typing"
+      },
+      "tags": ["v1", "verb-typing", "perception", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: Medical domain shifts 'see' to professional meeting"
+    },
+    {
+      "id": "v1-core-017",
+      "category": "implicit-agent-imperative",
+      "input": "Contact the on-call physician",
+      "expectedOutput": {
+        "mood": "imperative",
+        "agent": { "implicit": true, "role": "Agent", "interpretation": "addressee" },
+        "patient": { "text": "the on-call physician", "role": "Patient" },
+        "v1Feature": "implicit-agent-imperative",
+        "roadmapRef": "ENH-003 (partial)"
+      },
+      "tags": ["v1", "imperative", "implicit-agent", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE (partial): Imperative with implicit addressee agent"
+    },
+    {
+      "id": "v1-core-018",
+      "category": "implicit-agent-imperative-negated",
+      "input": "Do not delay treatment",
+      "expectedOutput": {
+        "mood": "imperative",
+        "negation": true,
+        "agent": { "implicit": true, "role": "Agent" },
+        "patient": { "text": "treatment", "role": "Patient" },
+        "v1Feature": "implicit-agent-imperative"
+      },
+      "tags": ["v1", "imperative", "negation", "implicit-agent", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: Negated imperative with implicit agent"
+    },
+    {
+      "id": "v1-core-019",
+      "category": "implicit-agent-imperative-ditransitive",
+      "input": "Give the patient medication",
+      "expectedOutput": {
+        "mood": "imperative",
+        "agent": { "implicit": true, "role": "Agent" },
+        "recipient": { "text": "the patient", "role": "Recipient" },
+        "theme": { "text": "medication", "role": "Theme" },
+        "v1Feature": "implicit-agent-imperative"
+      },
+      "tags": ["v1", "imperative", "ditransitive", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: Ditransitive imperative"
+    },
+    {
+      "id": "v1-core-020",
+      "category": "implicit-agent-imperative-modal",
+      "input": "Please inform the family",
+      "expectedOutput": {
+        "mood": "imperative",
+        "politeness": "please",
+        "agent": { "implicit": true, "role": "Agent" },
+        "patient": { "text": "the family", "role": "Patient" },
+        "v1Feature": "implicit-agent-imperative"
+      },
+      "tags": ["v1", "imperative", "politeness", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: Polite imperative with 'please'"
+    },
+    {
+      "id": "v1-core-021",
+      "category": "implicit-agent-imperative-sequence",
+      "input": "Monitor vitals and report changes",
+      "expectedOutput": {
+        "mood": "imperative",
+        "coordination": "and",
+        "agent": { "implicit": true, "role": "Agent", "scope": "both-verbs" },
+        "v1Feature": "implicit-agent-imperative",
+        "v1Scope": "simple-coordination"
+      },
+      "tags": ["v1", "imperative", "coordination", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: Coordinated imperatives with shared agent"
+    },
+    {
+      "id": "v1-core-022",
+      "category": "implicit-agent-infinitive",
+      "input": "To reduce pain, take medication",
+      "expectedOutput": {
+        "construction": "infinitive-purpose",
+        "infinitive": { "agent": { "implicit": true, "controlledBy": "imperative-agent" } },
+        "imperative": { "agent": { "implicit": true } },
+        "v1Feature": "implicit-agent-imperative",
+        "v1Scope": "bounded"
+      },
+      "tags": ["v1", "imperative", "infinitive", "control", "medical"],
+      "priority": "P1",
+      "notes": "v1 BOUNDED: Infinitive purpose clause with control"
+    },
+    {
+      "id": "v1-core-023",
+      "category": "pp-role-manner",
+      "input": "The doctor treated the patient with care",
+      "expectedOutput": {
+        "verb": "treated",
+        "pp": { "text": "with care", "attachment": "verb", "role": "manner" },
+        "v1Feature": "prepositional-phrase-roles",
+        "roadmapRef": "ENH-015 (bounded)"
+      },
+      "tags": ["v1", "pp-attachment", "manner", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: PP with manner role"
+    },
+    {
+      "id": "v1-core-024",
+      "category": "pp-role-instrument",
+      "input": "The surgeon operated with a scalpel",
+      "expectedOutput": {
+        "verb": "operated",
+        "pp": { "text": "with a scalpel", "attachment": "verb", "role": "instrument" },
+        "v1Feature": "prepositional-phrase-roles"
+      },
+      "tags": ["v1", "pp-attachment", "instrument", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: PP with instrument role"
+    },
+    {
+      "id": "v1-core-025",
+      "category": "pp-role-location",
+      "input": "The patient rested in the recovery room",
+      "expectedOutput": {
+        "verb": "rested",
+        "pp": { "text": "in the recovery room", "attachment": "verb", "role": "location" },
+        "v1Feature": "prepositional-phrase-roles"
+      },
+      "tags": ["v1", "pp-attachment", "location", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: PP with location role"
+    },
+    {
+      "id": "v1-core-026",
+      "category": "pp-role-temporal",
+      "input": "The surgery occurred on Tuesday",
+      "expectedOutput": {
+        "verb": "occurred",
+        "pp": { "text": "on Tuesday", "attachment": "verb", "role": "temporal" },
+        "v1Feature": "prepositional-phrase-roles"
+      },
+      "tags": ["v1", "pp-attachment", "temporal", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: PP with temporal role"
+    },
+    {
+      "id": "v1-core-027",
+      "category": "pp-role-beneficiary",
+      "input": "The doctor prescribed medication for the patient",
+      "expectedOutput": {
+        "verb": "prescribed",
+        "pp": { "text": "for the patient", "attachment": "verb", "role": "beneficiary" },
+        "v1Feature": "prepositional-phrase-roles"
+      },
+      "tags": ["v1", "pp-attachment", "beneficiary", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: PP with beneficiary role"
+    },
+    {
+      "id": "v1-core-028",
+      "category": "pp-role-source",
+      "input": "The patient recovered from surgery",
+      "expectedOutput": {
+        "verb": "recovered",
+        "pp": { "text": "from surgery", "attachment": "verb", "role": "source" },
+        "v1Feature": "prepositional-phrase-roles"
+      },
+      "tags": ["v1", "pp-attachment", "source", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: PP with source role"
+    },
+    {
+      "id": "v1-core-029",
+      "category": "pp-role-goal",
+      "input": "The patient went to the emergency room",
+      "expectedOutput": {
+        "verb": "went",
+        "pp": { "text": "to the emergency room", "attachment": "verb", "role": "goal" },
+        "v1Feature": "prepositional-phrase-roles"
+      },
+      "tags": ["v1", "pp-attachment", "goal", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: PP with goal role"
+    },
+    {
+      "id": "v1-core-030",
+      "category": "pp-role-comitative",
+      "input": "The doctor consulted with colleagues",
+      "expectedOutput": {
+        "verb": "consulted",
+        "pp": { "text": "with colleagues", "attachment": "verb", "role": "comitative" },
+        "v1Feature": "prepositional-phrase-roles"
+      },
+      "tags": ["v1", "pp-attachment", "comitative", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: PP with comitative role"
+    },
+    {
+      "id": "v1-core-031",
+      "category": "pp-role-about",
+      "input": "The nurse spoke about the procedure",
+      "expectedOutput": {
+        "verb": "spoke",
+        "pp": { "text": "about the procedure", "attachment": "verb", "role": "topic" },
+        "v1Feature": "prepositional-phrase-roles"
+      },
+      "tags": ["v1", "pp-attachment", "topic", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: PP with topic role"
+    },
+    {
+      "id": "v1-core-032",
+      "category": "pp-role-cause",
+      "input": "The patient suffered from complications",
+      "expectedOutput": {
+        "verb": "suffered",
+        "pp": { "text": "from complications", "attachment": "verb", "role": "cause" },
+        "v1Feature": "prepositional-phrase-roles"
+      },
+      "tags": ["v1", "pp-attachment", "cause", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: PP with cause role"
+    },
+    {
+      "id": "v1-core-033",
+      "category": "ergative-agent-demotion",
+      "input": "The door opened",
+      "expectedOutput": {
+        "verb": "opened",
+        "verbType": "ergative",
+        "voice": "middle",
+        "theme": { "text": "the door", "role": "Theme", "position": "subject" },
+        "agent": { "demoted": true, "implicit": true },
+        "v1Feature": "ergative-agent-demotion",
+        "roadmapRef": "ENH-008 (bounded)"
+      },
+      "tags": ["v1", "ergative", "middle", "agent-demotion"],
+      "priority": "P0",
+      "notes": "v1 CORE (bounded): Ergative verb - agent demoted"
+    },
+    {
+      "id": "v1-core-034",
+      "category": "ergative-agent-demotion",
+      "input": "The wound healed",
+      "expectedOutput": {
+        "verb": "healed",
+        "verbType": "ergative",
+        "voice": "middle",
+        "theme": { "text": "the wound", "role": "Theme" },
+        "agent": { "demoted": true, "implicit": true },
+        "v1Feature": "ergative-agent-demotion"
+      },
+      "tags": ["v1", "ergative", "middle", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: Medical ergative - spontaneous healing"
+    },
+    {
+      "id": "v1-core-035",
+      "category": "ergative-agent-demotion",
+      "input": "The patient's condition improved",
+      "expectedOutput": {
+        "verb": "improved",
+        "verbType": "ergative",
+        "voice": "middle",
+        "theme": { "text": "condition", "role": "Theme" },
+        "v1Feature": "ergative-agent-demotion"
+      },
+      "tags": ["v1", "ergative", "middle", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: Ergative change-of-state verb"
+    },
+    {
+      "id": "v1-core-036",
+      "category": "ergative-agent-demotion",
+      "input": "The symptoms decreased",
+      "expectedOutput": {
+        "verb": "decreased",
+        "verbType": "ergative",
+        "voice": "middle",
+        "theme": { "text": "the symptoms", "role": "Theme" },
+        "v1Feature": "ergative-agent-demotion"
+      },
+      "tags": ["v1", "ergative", "middle", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: Quantitative change ergative"
+    },
+    {
+      "id": "v1-core-037",
+      "category": "ergative-agent-demotion",
+      "input": "The infection spread",
+      "expectedOutput": {
+        "verb": "spread",
+        "verbType": "ergative",
+        "voice": "middle",
+        "theme": { "text": "the infection", "role": "Theme" },
+        "v1Feature": "ergative-agent-demotion"
+      },
+      "tags": ["v1", "ergative", "middle", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: Dispersal ergative"
+    },
+    {
+      "id": "v1-core-038",
+      "category": "ergative-agent-demotion",
+      "input": "The pain subsided",
+      "expectedOutput": {
+        "verb": "subsided",
+        "verbType": "ergative",
+        "voice": "middle",
+        "theme": { "text": "the pain", "role": "Theme" },
+        "v1Feature": "ergative-agent-demotion"
+      },
+      "tags": ["v1", "ergative", "middle", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: Diminishment ergative"
+    },
+    {
+      "id": "v1-core-039",
+      "category": "ergative-agent-demotion",
+      "input": "The temperature dropped",
+      "expectedOutput": {
+        "verb": "dropped",
+        "verbType": "ergative",
+        "voice": "middle",
+        "theme": { "text": "the temperature", "role": "Theme" },
+        "v1Feature": "ergative-agent-demotion"
+      },
+      "tags": ["v1", "ergative", "middle", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: Measurement change ergative"
+    },
+    {
+      "id": "v1-core-040",
+      "category": "ergative-agent-demotion",
+      "input": "The bleeding stopped",
+      "expectedOutput": {
+        "verb": "stopped",
+        "verbType": "ergative",
+        "voice": "middle",
+        "theme": { "text": "the bleeding", "role": "Theme" },
+        "v1Feature": "ergative-agent-demotion"
+      },
+      "tags": ["v1", "ergative", "middle", "medical"],
+      "priority": "P0",
+      "notes": "v1 CORE: Cessation ergative"
+    }
+  ]
+}

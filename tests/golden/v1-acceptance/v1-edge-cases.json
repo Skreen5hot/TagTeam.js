@@ -1,0 +1,313 @@
+{
+  "version": "2.0",
+  "corpusId": "v1-edge-cases",
+  "description": "Golden test cases for v1/v2 boundary conditions and edge cases",
+  "metadata": {
+    "created": "2026-02-10",
+    "lastUpdated": "2026-02-10",
+    "author": "TagTeam Core Team",
+    "phase": "v1",
+    "priority": "P1",
+    "notes": "Tests edge cases at v1/v2 boundary - defines exact v1 scope limits"
+  },
+  "cases": [
+    {
+      "id": "v1-edge-001",
+      "category": "minimally-compound-single-and",
+      "input": "The patient rested and recovered",
+      "expectedOutput": {
+        "construction": "minimally-compound",
+        "coordinator": "and",
+        "sharedSubject": true,
+        "v1Scope": "boundary",
+        "v1Behavior": "attempt-parse-or-flag",
+        "parseApproach": "shared-subject-coordination"
+      },
+      "tags": ["v1-edge", "compound", "coordination", "boundary"],
+      "priority": "P1",
+      "notes": "v1 BOUNDARY: Single conjunction with shared subject - v1 edge case"
+    },
+    {
+      "id": "v1-edge-002",
+      "category": "minimally-compound-single-or",
+      "input": "The patient may accept or refuse treatment",
+      "expectedOutput": {
+        "construction": "minimally-compound",
+        "coordinator": "or",
+        "sharedSubject": true,
+        "v1Scope": "boundary",
+        "v1Behavior": "attempt-parse-or-flag"
+      },
+      "tags": ["v1-edge", "compound", "disjunction", "boundary"],
+      "priority": "P1",
+      "notes": "v1 BOUNDARY: VP coordination, may be in v1 scope"
+    },
+    {
+      "id": "v1-edge-003",
+      "category": "minimally-compound-vp-coordination",
+      "input": "The doctor examined and treated the patient",
+      "expectedOutput": {
+        "construction": "vp-coordination",
+        "coordinator": "and",
+        "sharedSubject": true,
+        "sharedObject": true,
+        "v1Scope": "boundary",
+        "v1Behavior": "likely-in-scope"
+      },
+      "tags": ["v1-edge", "vp-coordination", "boundary"],
+      "priority": "P1",
+      "notes": "v1 BOUNDARY: VP coordination may be parseable in v1"
+    },
+    {
+      "id": "v1-edge-004",
+      "category": "minimally-compound-np-coordination",
+      "input": "The doctor and nurse examined the patient",
+      "expectedOutput": {
+        "construction": "np-coordination",
+        "coordinator": "and",
+        "coordinatedElement": "subject",
+        "v1Scope": "in-scope",
+        "v1Behavior": "should-parse"
+      },
+      "tags": ["v1-edge", "np-coordination", "in-scope"],
+      "priority": "P0",
+      "notes": "v1 IN SCOPE: NP coordination should be parseable"
+    },
+    {
+      "id": "v1-edge-005",
+      "category": "minimally-compound-object-coordination",
+      "input": "The patient needs rest and medication",
+      "expectedOutput": {
+        "construction": "np-coordination",
+        "coordinator": "and",
+        "coordinatedElement": "object",
+        "v1Scope": "in-scope",
+        "v1Behavior": "should-parse"
+      },
+      "tags": ["v1-edge", "np-coordination", "object", "in-scope"],
+      "priority": "P0",
+      "notes": "v1 IN SCOPE: Object NP coordination"
+    },
+    {
+      "id": "v1-edge-006",
+      "category": "implicit-agent-bare-imperative",
+      "input": "Rest",
+      "expectedOutput": {
+        "mood": "imperative",
+        "agent": { "implicit": true, "role": "Agent" },
+        "v1Feature": "implicit-agent-imperative",
+        "v1Scope": "in-scope",
+        "edgeCase": "minimal-imperative"
+      },
+      "tags": ["v1-edge", "imperative", "bare", "implicit-agent"],
+      "priority": "P0",
+      "notes": "v1 EDGE: Minimal bare imperative"
+    },
+    {
+      "id": "v1-edge-007",
+      "category": "implicit-agent-explicit-you",
+      "input": "You rest now",
+      "expectedOutput": {
+        "mood": "imperative",
+        "agent": { "text": "you", "role": "Agent", "explicit": true },
+        "v1Feature": "implicit-agent-imperative",
+        "v1Scope": "in-scope",
+        "edgeCase": "explicit-subject-imperative"
+      },
+      "tags": ["v1-edge", "imperative", "explicit-subject"],
+      "priority": "P0",
+      "notes": "v1 EDGE: Imperative with explicit 'you'"
+    },
+    {
+      "id": "v1-edge-008",
+      "category": "implicit-agent-infinitive-control",
+      "input": "The patient decided to rest",
+      "expectedOutput": {
+        "mainVerb": "decided",
+        "infinitive": "to rest",
+        "control": "subject-control",
+        "implicitAgent": { "controlledBy": "the patient" },
+        "v1Scope": "boundary",
+        "v1Behavior": "partial-control-detection"
+      },
+      "tags": ["v1-edge", "infinitive", "control", "boundary"],
+      "priority": "P1",
+      "notes": "v1 BOUNDARY: Subject control - may detect controller"
+    },
+    {
+      "id": "v1-edge-009",
+      "category": "implicit-agent-raising",
+      "input": "The patient seems to be recovering",
+      "expectedOutput": {
+        "construction": "raising",
+        "raisingVerb": "seems",
+        "v1Scope": "out-of-scope",
+        "v1Behavior": "flag-as-v2",
+        "v2Feature": "raising-verbs"
+      },
+      "tags": ["v1-edge", "raising", "out-of-scope", "v2-only"],
+      "priority": "P1",
+      "notes": "v1 OUT OF SCOPE: Raising verbs deferred to v2"
+    },
+    {
+      "id": "v1-edge-010",
+      "category": "implicit-agent-passive-infinitive",
+      "input": "The patient needs to be monitored",
+      "expectedOutput": {
+        "mainVerb": "needs",
+        "infinitive": "to be monitored",
+        "infinitiveVoice": "passive",
+        "v1Scope": "boundary",
+        "v1Behavior": "attempt-parse"
+      },
+      "tags": ["v1-edge", "infinitive", "passive", "boundary"],
+      "priority": "P1",
+      "notes": "v1 BOUNDARY: Passive infinitive complement"
+    },
+    {
+      "id": "v1-edge-011",
+      "category": "pp-attachment-high-vs-low",
+      "input": "The doctor saw the patient with the chart",
+      "expectedOutput": {
+        "ppAttachment": "ambiguous",
+        "highAttachment": { "site": "verb", "interpretation": "doctor had chart" },
+        "lowAttachment": { "site": "noun", "interpretation": "patient had chart" },
+        "v1Scope": "boundary",
+        "v1Behavior": "flag-ambiguity-or-default"
+      },
+      "tags": ["v1-edge", "pp-attachment", "ambiguity", "boundary"],
+      "priority": "P0",
+      "notes": "v1 BOUNDARY: PP attachment ambiguity - when to defer vs guess?"
+    },
+    {
+      "id": "v1-edge-012",
+      "category": "pp-attachment-clear-instrument",
+      "input": "The surgeon operated with a scalpel",
+      "expectedOutput": {
+        "ppAttachment": "unambiguous",
+        "attachment": "verb",
+        "role": "instrument",
+        "v1Scope": "in-scope"
+      },
+      "tags": ["v1-edge", "pp-attachment", "unambiguous", "in-scope"],
+      "priority": "P0",
+      "notes": "v1 IN SCOPE: Unambiguous instrument PP"
+    },
+    {
+      "id": "v1-edge-013",
+      "category": "pp-attachment-clear-modifier",
+      "input": "The patient with fever was admitted",
+      "expectedOutput": {
+        "ppAttachment": "unambiguous",
+        "attachment": "noun",
+        "role": "modifier",
+        "v1Scope": "in-scope"
+      },
+      "tags": ["v1-edge", "pp-attachment", "unambiguous", "in-scope"],
+      "priority": "P0",
+      "notes": "v1 IN SCOPE: Unambiguous noun modifier PP"
+    },
+    {
+      "id": "v1-edge-014",
+      "category": "pp-attachment-multiple-pps",
+      "input": "The doctor treated the patient with care in the ICU",
+      "expectedOutput": {
+        "ppCount": 2,
+        "pp1": { "text": "with care", "attachment": "verb", "role": "manner" },
+        "pp2": { "text": "in the ICU", "attachment": "verb", "role": "location" },
+        "v1Scope": "boundary",
+        "v1Behavior": "attempt-multiple-pps"
+      },
+      "tags": ["v1-edge", "pp-attachment", "multiple", "boundary"],
+      "priority": "P1",
+      "notes": "v1 BOUNDARY: Multiple PPs - complexity boundary"
+    },
+    {
+      "id": "v1-edge-015",
+      "category": "pp-attachment-stranded-preposition",
+      "input": "The patient was operated on",
+      "expectedOutput": {
+        "construction": "stranded-preposition",
+        "voice": "passive",
+        "preposition": "on",
+        "v1Scope": "in-scope",
+        "v1Feature": "passive-with-stranded-prep"
+      },
+      "tags": ["v1-edge", "pp-attachment", "stranding", "passive", "in-scope"],
+      "priority": "P0",
+      "notes": "v1 IN SCOPE: Preposition stranding in passive"
+    },
+    {
+      "id": "v1-edge-016",
+      "category": "scarcity-marker-last",
+      "input": "The last ventilator is available",
+      "expectedOutput": {
+        "entity": "ventilator",
+        "definiteness": "definite",
+        "scarcityMarker": "last",
+        "v1Feature": "scarcity-markers",
+        "roadmapRef": "Phase 8.5.4"
+      },
+      "tags": ["v1-edge", "scarcity", "definiteness", "resource-allocation"],
+      "priority": "P0",
+      "notes": "v1 FEATURE: Scarcity marker 'last' - critical for resource allocation"
+    },
+    {
+      "id": "v1-edge-017",
+      "category": "scarcity-marker-only",
+      "input": "The only available bed was assigned",
+      "expectedOutput": {
+        "entity": "bed",
+        "definiteness": "definite",
+        "scarcityMarker": "only",
+        "v1Feature": "scarcity-markers"
+      },
+      "tags": ["v1-edge", "scarcity", "definiteness", "resource-allocation"],
+      "priority": "P0",
+      "notes": "v1 FEATURE: Scarcity marker 'only'"
+    },
+    {
+      "id": "v1-edge-018",
+      "category": "scarcity-marker-few",
+      "input": "Few ventilators remain functional",
+      "expectedOutput": {
+        "entity": "ventilators",
+        "definiteness": "indefinite",
+        "quantifier": "few",
+        "scarcityImplication": true,
+        "v1Feature": "scarcity-markers"
+      },
+      "tags": ["v1-edge", "scarcity", "quantifier", "resource-allocation"],
+      "priority": "P0",
+      "notes": "v1 FEATURE: Quantifier 'few' implies scarcity"
+    },
+    {
+      "id": "v1-edge-019",
+      "category": "scarcity-marker-final",
+      "input": "The final dose was administered",
+      "expectedOutput": {
+        "entity": "dose",
+        "definiteness": "definite",
+        "scarcityMarker": "final",
+        "v1Feature": "scarcity-markers"
+      },
+      "tags": ["v1-edge", "scarcity", "definiteness", "medical"],
+      "priority": "P0",
+      "notes": "v1 FEATURE: Scarcity marker 'final'"
+    },
+    {
+      "id": "v1-edge-020",
+      "category": "scarcity-marker-remaining",
+      "input": "The remaining staff worked overtime",
+      "expectedOutput": {
+        "entity": "staff",
+        "definiteness": "definite",
+        "scarcityMarker": "remaining",
+        "v1Feature": "scarcity-markers"
+      },
+      "tags": ["v1-edge", "scarcity", "definiteness"],
+      "priority": "P1",
+      "notes": "v1 FEATURE: Scarcity marker 'remaining'"
+    }
+  ]
+}

@@ -1,0 +1,316 @@
+{
+  "version": "2.0",
+  "corpusId": "definiteness-corpus",
+  "description": "Golden test cases for definiteness detection (Phase 8.5.1)",
+  "metadata": {
+    "created": "2026-02-10",
+    "lastUpdated": "2026-02-10",
+    "author": "TagTeam Core Team",
+    "phase": "8.5.1",
+    "priority": "P0",
+    "notes": "Tests definite/indefinite NP detection, scarcity markers, bare plurals"
+  },
+  "cases": [
+    {
+      "id": "def-001",
+      "category": "definite-np-with-scarcity",
+      "input": "The last ventilator is available",
+      "expectedOutput": {
+        "entity": "ventilator",
+        "definiteness": "definite",
+        "determiner": "the",
+        "modifiers": ["last"],
+        "scarcityMarker": "last",
+        "entityType": "bfo:MaterialEntity"
+      },
+      "tags": ["definite", "scarcity", "medical", "phase-8"],
+      "priority": "P0",
+      "notes": "Definite NP with scarcity marker 'last' - critical for resource allocation"
+    },
+    {
+      "id": "def-002",
+      "category": "definite-np-with-scarcity",
+      "input": "The only surgeon can perform this",
+      "expectedOutput": {
+        "entity": "surgeon",
+        "definiteness": "definite",
+        "determiner": "the",
+        "modifiers": ["only"],
+        "scarcityMarker": "only",
+        "entityType": "cco:Person"
+      },
+      "tags": ["definite", "scarcity", "medical"],
+      "priority": "P0",
+      "notes": "Scarcity marker 'only' implies uniqueness and scarcity"
+    },
+    {
+      "id": "def-003",
+      "category": "definite-np-simple",
+      "input": "The patient needs treatment",
+      "expectedOutput": {
+        "entity": "patient",
+        "definiteness": "definite",
+        "determiner": "the",
+        "modifiers": [],
+        "scarcityMarker": null
+      },
+      "tags": ["definite", "medical", "simple"],
+      "priority": "P0",
+      "notes": "Simple definite NP - referent presumed known in context"
+    },
+    {
+      "id": "def-004",
+      "category": "definite-np-modified",
+      "input": "The elderly patient requires care",
+      "expectedOutput": {
+        "entity": "patient",
+        "definiteness": "definite",
+        "determiner": "the",
+        "modifiers": ["elderly"],
+        "scarcityMarker": null
+      },
+      "tags": ["definite", "medical", "modified"],
+      "priority": "P0",
+      "notes": "Definite NP with attributive modifier"
+    },
+    {
+      "id": "def-005",
+      "category": "definite-np-superlative",
+      "input": "The best treatment option failed",
+      "expectedOutput": {
+        "entity": "treatment option",
+        "definiteness": "definite",
+        "determiner": "the",
+        "modifiers": ["best"],
+        "superlative": true
+      },
+      "tags": ["definite", "medical", "superlative"],
+      "priority": "P0",
+      "notes": "Superlative forces definite reading"
+    },
+    {
+      "id": "def-006",
+      "category": "definite-np-ordinal",
+      "input": "The first patient arrived early",
+      "expectedOutput": {
+        "entity": "patient",
+        "definiteness": "definite",
+        "determiner": "the",
+        "modifiers": ["first"],
+        "ordinal": true
+      },
+      "tags": ["definite", "medical", "ordinal"],
+      "priority": "P0",
+      "notes": "Ordinals require definite article"
+    },
+    {
+      "id": "def-007",
+      "category": "definite-np-possessive",
+      "input": "The patient's family arrived",
+      "expectedOutput": {
+        "entity": "family",
+        "definiteness": "definite",
+        "determiner": "the",
+        "possessor": "patient",
+        "construction": "possessive"
+      },
+      "tags": ["definite", "medical", "possessive"],
+      "priority": "P1",
+      "notes": "Possessive construction implies definiteness"
+    },
+    {
+      "id": "def-008",
+      "category": "definite-np-unique",
+      "input": "The hospital announced closures",
+      "expectedOutput": {
+        "entity": "hospital",
+        "definiteness": "definite",
+        "determiner": "the",
+        "uniqueness": "contextual"
+      },
+      "tags": ["definite", "medical", "unique"],
+      "priority": "P1",
+      "notes": "Contextually unique referent"
+    },
+    {
+      "id": "def-009",
+      "category": "indefinite-np-simple",
+      "input": "A patient needs help",
+      "expectedOutput": {
+        "entity": "patient",
+        "definiteness": "indefinite",
+        "determiner": "a",
+        "modifiers": [],
+        "specificity": "non-specific"
+      },
+      "tags": ["indefinite", "medical", "simple"],
+      "priority": "P0",
+      "notes": "Indefinite article introduces new or non-specific referent"
+    },
+    {
+      "id": "def-010",
+      "category": "indefinite-np-modified",
+      "input": "A skilled surgeon performed the operation",
+      "expectedOutput": {
+        "entity": "surgeon",
+        "definiteness": "indefinite",
+        "determiner": "a",
+        "modifiers": ["skilled"],
+        "specificity": "specific"
+      },
+      "tags": ["indefinite", "medical", "modified"],
+      "priority": "P0",
+      "notes": "Indefinite but specific referent (speaker has particular surgeon in mind)"
+    },
+    {
+      "id": "def-011",
+      "category": "indefinite-np-plural",
+      "input": "Some patients refused treatment",
+      "expectedOutput": {
+        "entity": "patients",
+        "definiteness": "indefinite",
+        "determiner": "some",
+        "number": "plural",
+        "specificity": "partitive"
+      },
+      "tags": ["indefinite", "medical", "plural", "partitive"],
+      "priority": "P0",
+      "notes": "Partitive indefinite - subset of larger group"
+    },
+    {
+      "id": "def-012",
+      "category": "indefinite-np-cardinal",
+      "input": "Three patients need intensive care",
+      "expectedOutput": {
+        "entity": "patients",
+        "definiteness": "indefinite",
+        "determiner": "three",
+        "number": "plural",
+        "cardinality": 3
+      },
+      "tags": ["indefinite", "medical", "cardinal"],
+      "priority": "P1",
+      "notes": "Cardinal numeral as determiner"
+    },
+    {
+      "id": "def-013",
+      "category": "indefinite-np-another",
+      "input": "Another doctor will consult",
+      "expectedOutput": {
+        "entity": "doctor",
+        "definiteness": "indefinite",
+        "determiner": "another",
+        "implication": "additional"
+      },
+      "tags": ["indefinite", "medical"],
+      "priority": "P1",
+      "notes": "'Another' implies additional member of known set"
+    },
+    {
+      "id": "def-014",
+      "category": "bare-plural",
+      "input": "Patients need compassionate care",
+      "expectedOutput": {
+        "entity": "patients",
+        "definiteness": "bare",
+        "determiner": null,
+        "number": "plural",
+        "reading": "generic"
+      },
+      "tags": ["bare-plural", "medical", "generic"],
+      "priority": "P0",
+      "notes": "Bare plural with generic reading"
+    },
+    {
+      "id": "def-015",
+      "category": "bare-plural",
+      "input": "Doctors must report errors",
+      "expectedOutput": {
+        "entity": "doctors",
+        "definiteness": "bare",
+        "determiner": null,
+        "number": "plural",
+        "reading": "generic"
+      },
+      "tags": ["bare-plural", "medical", "generic"],
+      "priority": "P0",
+      "notes": "Bare plural generic statement about profession"
+    },
+    {
+      "id": "def-016",
+      "category": "bare-plural-existential",
+      "input": "There are complications",
+      "expectedOutput": {
+        "entity": "complications",
+        "definiteness": "bare",
+        "determiner": null,
+        "number": "plural",
+        "reading": "existential"
+      },
+      "tags": ["bare-plural", "medical", "existential"],
+      "priority": "P1",
+      "notes": "Bare plural in existential construction"
+    },
+    {
+      "id": "def-017",
+      "category": "proper-name",
+      "input": "Dr. Smith examined the patient",
+      "expectedOutput": {
+        "entity": "Dr. Smith",
+        "definiteness": "inherently-definite",
+        "determiner": null,
+        "entityType": "cco:Person",
+        "properName": true
+      },
+      "tags": ["proper-name", "medical", "person"],
+      "priority": "P0",
+      "notes": "Proper names are inherently definite"
+    },
+    {
+      "id": "def-018",
+      "category": "proper-name-organization",
+      "input": "Mayo Clinic announced the policy",
+      "expectedOutput": {
+        "entity": "Mayo Clinic",
+        "definiteness": "inherently-definite",
+        "determiner": null,
+        "entityType": "cco:Organization",
+        "properName": true
+      },
+      "tags": ["proper-name", "medical", "organization"],
+      "priority": "P1",
+      "notes": "Organizational proper name"
+    },
+    {
+      "id": "def-019",
+      "category": "proper-name-with-article",
+      "input": "The University of Michigan conducted research",
+      "expectedOutput": {
+        "entity": "The University of Michigan",
+        "definiteness": "inherently-definite",
+        "determiner": "the",
+        "entityType": "cco:Organization",
+        "properName": true,
+        "articleRequired": true
+      },
+      "tags": ["proper-name", "organization", "article"],
+      "priority": "P1",
+      "notes": "Some proper names conventionally require 'the'"
+    },
+    {
+      "id": "def-020",
+      "category": "definite-np-demonstrative",
+      "input": "This patient requires surgery",
+      "expectedOutput": {
+        "entity": "patient",
+        "definiteness": "definite",
+        "determiner": "this",
+        "demonstrative": true,
+        "deixis": "proximal"
+      },
+      "tags": ["definite", "demonstrative", "medical"],
+      "priority": "P0",
+      "notes": "Demonstrative determiner - deictic definiteness"
+    }
+  ]
+}

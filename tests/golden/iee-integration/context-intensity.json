@@ -1,0 +1,629 @@
+{
+  "version": "2.0",
+  "corpusId": "context-intensity",
+  "description": "Golden test cases for context intensity analysis (IEE Week 2a integration)",
+  "metadata": {
+    "created": "2026-02-10",
+    "lastUpdated": "2026-02-10",
+    "author": "TagTeam Core Team",
+    "phase": "Week 2a",
+    "priority": "P0",
+    "notes": "Tests 12-dimensional context analysis across temporal, relational, consequential, and epistemic categories",
+    "ieeReference": "IEE-TagTeam-Integration-Requirements-v1.md",
+    "targetAccuracy": "100%"
+  },
+  "cases": [
+    {
+      "id": "context-temporal-urgency-001",
+      "category": "temporal-urgency-high",
+      "input": "The patient is bleeding out and needs immediate surgery",
+      "expectedOutput": {
+        "temporalDimensions": {
+          "urgency": { "intensity": 1.0, "level": "immediate", "timeframe": "minutes" },
+          "duration": { "intensity": 0.2, "level": "acute", "timeframe": "hours" },
+          "reversibility": { "intensity": 0.9, "level": "time-critical", "window": "very-short" }
+        },
+        "dominantDimension": "urgency",
+        "contextComplexity": 0.95
+      },
+      "tags": ["context-intensity", "temporal", "urgency", "emergency", "medical", "week2a"],
+      "priority": "P0",
+      "notes": "Extreme time pressure - life-threatening emergency"
+    },
+    {
+      "id": "context-temporal-urgency-002",
+      "category": "temporal-urgency-medium",
+      "input": "The treatment should begin within the next few weeks for best outcomes",
+      "expectedOutput": {
+        "temporalDimensions": {
+          "urgency": { "intensity": 0.5, "level": "timely", "timeframe": "weeks" },
+          "duration": { "intensity": 0.4, "level": "subacute", "timeframe": "weeks-months" },
+          "reversibility": { "intensity": 0.6, "level": "window-exists", "window": "moderate" }
+        },
+        "dominantDimension": "urgency",
+        "contextComplexity": 0.5
+      },
+      "tags": ["context-intensity", "temporal", "urgency", "routine", "week2a"],
+      "priority": "P0",
+      "notes": "Moderate time sensitivity"
+    },
+    {
+      "id": "context-temporal-urgency-003",
+      "category": "temporal-urgency-low",
+      "input": "The preventive screening can be scheduled at the patient's convenience",
+      "expectedOutput": {
+        "temporalDimensions": {
+          "urgency": { "intensity": 0.1, "level": "elective", "timeframe": "months-years" },
+          "duration": { "intensity": 0.1, "level": "ongoing", "timeframe": "indefinite" },
+          "reversibility": { "intensity": 0.2, "level": "flexible", "window": "long" }
+        },
+        "dominantDimension": "urgency",
+        "contextComplexity": 0.15
+      },
+      "tags": ["context-intensity", "temporal", "urgency", "preventive", "week2a"],
+      "priority": "P0",
+      "notes": "Minimal time pressure - elective care"
+    },
+    {
+      "id": "context-temporal-duration-001",
+      "category": "temporal-duration-brief",
+      "input": "The procedure takes fifteen minutes and requires no follow-up",
+      "expectedOutput": {
+        "temporalDimensions": {
+          "urgency": { "intensity": 0.3, "level": "routine", "timeframe": "days" },
+          "duration": { "intensity": 0.1, "level": "brief", "timeframe": "minutes" },
+          "reversibility": { "intensity": 0.4, "level": "easily-reversible", "window": "long" }
+        },
+        "dominantDimension": "duration",
+        "contextComplexity": 0.2
+      },
+      "tags": ["context-intensity", "temporal", "duration", "brief", "week2a"],
+      "priority": "P0",
+      "notes": "Very brief intervention"
+    },
+    {
+      "id": "context-temporal-duration-002",
+      "category": "temporal-duration-extended",
+      "input": "The chemotherapy regimen will continue for six months with weekly monitoring",
+      "expectedOutput": {
+        "temporalDimensions": {
+          "urgency": { "intensity": 0.6, "level": "important", "timeframe": "days-weeks" },
+          "duration": { "intensity": 0.8, "level": "extended", "timeframe": "months" },
+          "reversibility": { "intensity": 0.7, "level": "partially-reversible", "window": "moderate" }
+        },
+        "dominantDimension": "duration",
+        "contextComplexity": 0.75
+      },
+      "tags": ["context-intensity", "temporal", "duration", "extended", "medical", "week2a"],
+      "priority": "P0",
+      "notes": "Long-term treatment commitment"
+    },
+    {
+      "id": "context-temporal-duration-003",
+      "category": "temporal-duration-lifelong",
+      "input": "The patient will need lifelong medication and regular monitoring",
+      "expectedOutput": {
+        "temporalDimensions": {
+          "urgency": { "intensity": 0.5, "level": "ongoing", "timeframe": "continuous" },
+          "duration": { "intensity": 1.0, "level": "lifelong", "timeframe": "years-decades" },
+          "reversibility": { "intensity": 0.9, "level": "irreversible", "window": "none" }
+        },
+        "dominantDimension": "duration",
+        "contextComplexity": 0.9
+      },
+      "tags": ["context-intensity", "temporal", "duration", "lifelong", "chronic", "week2a"],
+      "priority": "P0",
+      "notes": "Permanent ongoing commitment"
+    },
+    {
+      "id": "context-temporal-reversibility-001",
+      "category": "temporal-reversibility-high",
+      "input": "The medication can be stopped at any time without lasting effects",
+      "expectedOutput": {
+        "temporalDimensions": {
+          "urgency": { "intensity": 0.2, "level": "flexible", "timeframe": "flexible" },
+          "duration": { "intensity": 0.3, "level": "variable", "timeframe": "flexible" },
+          "reversibility": { "intensity": 0.1, "level": "fully-reversible", "window": "unlimited" }
+        },
+        "dominantDimension": "reversibility",
+        "contextComplexity": 0.15
+      },
+      "tags": ["context-intensity", "temporal", "reversibility", "reversible", "week2a"],
+      "priority": "P0",
+      "notes": "Fully reversible decision"
+    },
+    {
+      "id": "context-temporal-reversibility-002",
+      "category": "temporal-reversibility-medium",
+      "input": "The surgery can be undone, but reversal carries significant risks",
+      "expectedOutput": {
+        "temporalDimensions": {
+          "urgency": { "intensity": 0.6, "level": "considered", "timeframe": "weeks" },
+          "duration": { "intensity": 0.5, "level": "permanent-unless-reversed", "timeframe": "indefinite" },
+          "reversibility": { "intensity": 0.6, "level": "difficult-reversal", "window": "limited" }
+        },
+        "dominantDimension": "reversibility",
+        "contextComplexity": 0.65
+      },
+      "tags": ["context-intensity", "temporal", "reversibility", "difficult", "surgical", "week2a"],
+      "priority": "P0",
+      "notes": "Technically reversible but with high costs"
+    },
+    {
+      "id": "context-temporal-reversibility-003",
+      "category": "temporal-reversibility-low",
+      "input": "The organ removal is permanent and cannot be undone",
+      "expectedOutput": {
+        "temporalDimensions": {
+          "urgency": { "intensity": 0.7, "level": "critical-decision", "timeframe": "before-procedure" },
+          "duration": { "intensity": 1.0, "level": "permanent", "timeframe": "lifelong" },
+          "reversibility": { "intensity": 1.0, "level": "irreversible", "window": "none" }
+        },
+        "dominantDimension": "reversibility",
+        "contextComplexity": 0.95
+      },
+      "tags": ["context-intensity", "temporal", "reversibility", "irreversible", "surgical", "week2a"],
+      "priority": "P0",
+      "notes": "Completely irreversible decision"
+    },
+    {
+      "id": "context-relational-intimacy-001",
+      "category": "relational-intimacy-high",
+      "input": "The spouse must decide whether to discontinue their partner's life support",
+      "expectedOutput": {
+        "relationalDimensions": {
+          "intimacy": { "intensity": 1.0, "level": "intimate", "relationship": "spouse" },
+          "powerDifferential": { "intensity": 0.8, "level": "decision-maker", "asymmetry": "high" },
+          "trust": { "intensity": 0.9, "level": "deep-trust", "basis": "long-term-bond" }
+        },
+        "dominantDimension": "intimacy",
+        "contextComplexity": 0.95
+      },
+      "tags": ["context-intensity", "relational", "intimacy", "family", "end-of-life", "week2a"],
+      "priority": "P0",
+      "notes": "Highest intimacy - spousal end-of-life decision"
+    },
+    {
+      "id": "context-relational-intimacy-002",
+      "category": "relational-intimacy-medium",
+      "input": "The primary care physician recommends lifestyle changes to the regular patient",
+      "expectedOutput": {
+        "relationalDimensions": {
+          "intimacy": { "intensity": 0.5, "level": "professional-rapport", "relationship": "long-term-provider" },
+          "powerDifferential": { "intensity": 0.4, "level": "advisory", "asymmetry": "moderate" },
+          "trust": { "intensity": 0.7, "level": "established-trust", "basis": "ongoing-relationship" }
+        },
+        "dominantDimension": "intimacy",
+        "contextComplexity": 0.55
+      },
+      "tags": ["context-intensity", "relational", "intimacy", "physician-patient", "week2a"],
+      "priority": "P0",
+      "notes": "Moderate intimacy - established therapeutic relationship"
+    },
+    {
+      "id": "context-relational-intimacy-003",
+      "category": "relational-intimacy-low",
+      "input": "The emergency room doctor treats an unconscious stranger",
+      "expectedOutput": {
+        "relationalDimensions": {
+          "intimacy": { "intensity": 0.1, "level": "anonymous", "relationship": "stranger" },
+          "powerDifferential": { "intensity": 0.9, "level": "complete-authority", "asymmetry": "extreme" },
+          "trust": { "intensity": 0.3, "level": "institutional-trust", "basis": "professional-role" }
+        },
+        "dominantDimension": "intimacy",
+        "contextComplexity": 0.45
+      },
+      "tags": ["context-intensity", "relational", "intimacy", "emergency", "stranger", "week2a"],
+      "priority": "P0",
+      "notes": "Minimal intimacy - anonymous emergency care"
+    },
+    {
+      "id": "context-relational-power-001",
+      "category": "relational-power-high",
+      "input": "The prison doctor decides whether to force-feed the hunger striker",
+      "expectedOutput": {
+        "relationalDimensions": {
+          "intimacy": { "intensity": 0.2, "level": "institutional", "relationship": "prisoner-provider" },
+          "powerDifferential": { "intensity": 1.0, "level": "coercive-authority", "asymmetry": "extreme" },
+          "trust": { "intensity": 0.2, "level": "low-trust", "basis": "conflicted-roles" }
+        },
+        "dominantDimension": "powerDifferential",
+        "contextComplexity": 0.85
+      },
+      "tags": ["context-intensity", "relational", "power-differential", "coercion", "prison", "week2a"],
+      "priority": "P0",
+      "notes": "Extreme power imbalance - coercive context"
+    },
+    {
+      "id": "context-relational-power-002",
+      "category": "relational-power-medium",
+      "input": "The supervisor suggests that the junior doctor work overtime",
+      "expectedOutput": {
+        "relationalDimensions": {
+          "intimacy": { "intensity": 0.3, "level": "professional", "relationship": "hierarchical" },
+          "powerDifferential": { "intensity": 0.6, "level": "hierarchical", "asymmetry": "moderate" },
+          "trust": { "intensity": 0.5, "level": "professional-trust", "basis": "workplace-relationship" }
+        },
+        "dominantDimension": "powerDifferential",
+        "contextComplexity": 0.5
+      },
+      "tags": ["context-intensity", "relational", "power-differential", "workplace", "hierarchy", "week2a"],
+      "priority": "P0",
+      "notes": "Moderate power asymmetry - workplace hierarchy"
+    },
+    {
+      "id": "context-relational-power-003",
+      "category": "relational-power-low",
+      "input": "The patient and doctor collaboratively develop the treatment plan",
+      "expectedOutput": {
+        "relationalDimensions": {
+          "intimacy": { "intensity": 0.6, "level": "therapeutic-alliance", "relationship": "collaborative" },
+          "powerDifferential": { "intensity": 0.2, "level": "shared-decision", "asymmetry": "low" },
+          "trust": { "intensity": 0.8, "level": "mutual-trust", "basis": "partnership" }
+        },
+        "dominantDimension": "powerDifferential",
+        "contextComplexity": 0.3
+      },
+      "tags": ["context-intensity", "relational", "power-differential", "collaboration", "shared-decision", "week2a"],
+      "priority": "P0",
+      "notes": "Low power asymmetry - collaborative partnership"
+    },
+    {
+      "id": "context-relational-trust-001",
+      "category": "relational-trust-high",
+      "input": "The longtime family physician reassures the anxious patient about the diagnosis",
+      "expectedOutput": {
+        "relationalDimensions": {
+          "intimacy": { "intensity": 0.7, "level": "family-physician", "relationship": "long-term" },
+          "powerDifferential": { "intensity": 0.3, "level": "expert-advisory", "asymmetry": "low" },
+          "trust": { "intensity": 1.0, "level": "deep-trust", "basis": "long-history" }
+        },
+        "dominantDimension": "trust",
+        "contextComplexity": 0.4
+      },
+      "tags": ["context-intensity", "relational", "trust", "established", "reassurance", "week2a"],
+      "priority": "P0",
+      "notes": "High trust - long-established relationship"
+    },
+    {
+      "id": "context-relational-trust-002",
+      "category": "relational-trust-medium",
+      "input": "The specialist provides a second opinion to a referred patient",
+      "expectedOutput": {
+        "relationalDimensions": {
+          "intimacy": { "intensity": 0.3, "level": "professional-interaction", "relationship": "new-encounter" },
+          "powerDifferential": { "intensity": 0.5, "level": "expert-authority", "asymmetry": "moderate" },
+          "trust": { "intensity": 0.5, "level": "professional-credibility", "basis": "credentials-referral" }
+        },
+        "dominantDimension": "trust",
+        "contextComplexity": 0.45
+      },
+      "tags": ["context-intensity", "relational", "trust", "referral", "second-opinion", "week2a"],
+      "priority": "P0",
+      "notes": "Moderate trust - based on professional credentials"
+    },
+    {
+      "id": "context-relational-trust-003",
+      "category": "relational-trust-low",
+      "input": "The patient doubts the doctor's recommendation after reading online misinformation",
+      "expectedOutput": {
+        "relationalDimensions": {
+          "intimacy": { "intensity": 0.4, "level": "professional", "relationship": "clinical" },
+          "powerDifferential": { "intensity": 0.4, "level": "contested-authority", "asymmetry": "challenged" },
+          "trust": { "intensity": 0.2, "level": "low-trust", "basis": "eroded-by-misinformation" }
+        },
+        "dominantDimension": "trust",
+        "contextComplexity": 0.7
+      },
+      "tags": ["context-intensity", "relational", "trust", "misinformation", "doubt", "week2a"],
+      "priority": "P0",
+      "notes": "Low trust - eroded by external sources"
+    },
+    {
+      "id": "context-consequential-harm-001",
+      "category": "consequential-harm-high",
+      "input": "The experimental drug could cause death or permanent disability",
+      "expectedOutput": {
+        "consequentialDimensions": {
+          "harmSeverity": { "intensity": 1.0, "level": "catastrophic", "type": "death-or-disability" },
+          "benefitMagnitude": { "intensity": 0.4, "level": "uncertain", "type": "experimental" },
+          "scope": { "intensity": 0.6, "level": "individual", "reach": "single-patient" }
+        },
+        "dominantDimension": "harmSeverity",
+        "contextComplexity": 0.9
+      },
+      "tags": ["context-intensity", "consequential", "harm-severity", "catastrophic", "experimental", "week2a"],
+      "priority": "P0",
+      "notes": "Catastrophic potential harm - life-threatening"
+    },
+    {
+      "id": "context-consequential-harm-002",
+      "category": "consequential-harm-medium",
+      "input": "The surgery carries a 20% risk of chronic pain",
+      "expectedOutput": {
+        "consequentialDimensions": {
+          "harmSeverity": { "intensity": 0.5, "level": "moderate", "type": "chronic-impairment" },
+          "benefitMagnitude": { "intensity": 0.6, "level": "significant", "type": "functional-improvement" },
+          "scope": { "intensity": 0.5, "level": "individual", "reach": "single-patient" }
+        },
+        "dominantDimension": "harmSeverity",
+        "contextComplexity": 0.55
+      },
+      "tags": ["context-intensity", "consequential", "harm-severity", "moderate", "surgical", "week2a"],
+      "priority": "P0",
+      "notes": "Moderate harm risk - chronic but non-fatal"
+    },
+    {
+      "id": "context-consequential-harm-003",
+      "category": "consequential-harm-low",
+      "input": "The vaccine may cause mild temporary discomfort at the injection site",
+      "expectedOutput": {
+        "consequentialDimensions": {
+          "harmSeverity": { "intensity": 0.1, "level": "minimal", "type": "temporary-discomfort" },
+          "benefitMagnitude": { "intensity": 0.8, "level": "substantial", "type": "disease-prevention" },
+          "scope": { "intensity": 0.7, "level": "individual-and-community", "reach": "public-health" }
+        },
+        "dominantDimension": "harmSeverity",
+        "contextComplexity": 0.2
+      },
+      "tags": ["context-intensity", "consequential", "harm-severity", "minimal", "vaccination", "week2a"],
+      "priority": "P0",
+      "notes": "Minimal harm - temporary minor discomfort"
+    },
+    {
+      "id": "context-consequential-benefit-001",
+      "category": "consequential-benefit-high",
+      "input": "The treatment will cure the disease and prevent all future complications",
+      "expectedOutput": {
+        "consequentialDimensions": {
+          "harmSeverity": { "intensity": 0.2, "level": "minimal", "type": "minor-side-effects" },
+          "benefitMagnitude": { "intensity": 1.0, "level": "curative", "type": "complete-resolution" },
+          "scope": { "intensity": 0.6, "level": "individual", "reach": "single-patient" }
+        },
+        "dominantDimension": "benefitMagnitude",
+        "contextComplexity": 0.3
+      },
+      "tags": ["context-intensity", "consequential", "benefit-magnitude", "curative", "week2a"],
+      "priority": "P0",
+      "notes": "Maximum benefit - complete cure"
+    },
+    {
+      "id": "context-consequential-benefit-002",
+      "category": "consequential-benefit-medium",
+      "input": "The therapy will reduce symptoms but not cure the condition",
+      "expectedOutput": {
+        "consequentialDimensions": {
+          "harmSeverity": { "intensity": 0.3, "level": "low", "type": "manageable-side-effects" },
+          "benefitMagnitude": { "intensity": 0.5, "level": "palliative", "type": "symptom-reduction" },
+          "scope": { "intensity": 0.5, "level": "individual", "reach": "single-patient" }
+        },
+        "dominantDimension": "benefitMagnitude",
+        "contextComplexity": 0.4
+      },
+      "tags": ["context-intensity", "consequential", "benefit-magnitude", "palliative", "week2a"],
+      "priority": "P0",
+      "notes": "Moderate benefit - symptom management"
+    },
+    {
+      "id": "context-consequential-benefit-003",
+      "category": "consequential-benefit-low",
+      "input": "The supplement may provide slight improvements but evidence is weak",
+      "expectedOutput": {
+        "consequentialDimensions": {
+          "harmSeverity": { "intensity": 0.1, "level": "negligible", "type": "rare-mild-effects" },
+          "benefitMagnitude": { "intensity": 0.2, "level": "marginal", "type": "uncertain-minor-improvement" },
+          "scope": { "intensity": 0.4, "level": "individual", "reach": "single-patient" }
+        },
+        "dominantDimension": "benefitMagnitude",
+        "contextComplexity": 0.25
+      },
+      "tags": ["context-intensity", "consequential", "benefit-magnitude", "marginal", "supplement", "week2a"],
+      "priority": "P0",
+      "notes": "Minimal benefit - uncertain marginal improvement"
+    },
+    {
+      "id": "context-consequential-scope-001",
+      "category": "consequential-scope-wide",
+      "input": "The public health policy will affect millions of citizens nationwide",
+      "expectedOutput": {
+        "consequentialDimensions": {
+          "harmSeverity": { "intensity": 0.4, "level": "variable", "type": "mixed-impacts" },
+          "benefitMagnitude": { "intensity": 0.7, "level": "population-level", "type": "public-health" },
+          "scope": { "intensity": 1.0, "level": "population", "reach": "millions" }
+        },
+        "dominantDimension": "scope",
+        "contextComplexity": 0.8
+      },
+      "tags": ["context-intensity", "consequential", "scope", "population-level", "public-health", "week2a"],
+      "priority": "P0",
+      "notes": "Maximum scope - population-wide impact"
+    },
+    {
+      "id": "context-consequential-scope-002",
+      "category": "consequential-scope-medium",
+      "input": "The hospital policy change will affect all patients and staff at the facility",
+      "expectedOutput": {
+        "consequentialDimensions": {
+          "harmSeverity": { "intensity": 0.3, "level": "low", "type": "procedural-changes" },
+          "benefitMagnitude": { "intensity": 0.6, "level": "institutional", "type": "quality-improvement" },
+          "scope": { "intensity": 0.6, "level": "institutional", "reach": "hundreds-thousands" }
+        },
+        "dominantDimension": "scope",
+        "contextComplexity": 0.5
+      },
+      "tags": ["context-intensity", "consequential", "scope", "institutional", "hospital", "week2a"],
+      "priority": "P0",
+      "notes": "Moderate scope - institutional level"
+    },
+    {
+      "id": "context-consequential-scope-003",
+      "category": "consequential-scope-narrow",
+      "input": "The personalized treatment plan is tailored for this specific patient",
+      "expectedOutput": {
+        "consequentialDimensions": {
+          "harmSeverity": { "intensity": 0.4, "level": "moderate", "type": "individual-risks" },
+          "benefitMagnitude": { "intensity": 0.7, "level": "substantial", "type": "personalized-care" },
+          "scope": { "intensity": 0.1, "level": "individual", "reach": "single-patient" }
+        },
+        "dominantDimension": "scope",
+        "contextComplexity": 0.35
+      },
+      "tags": ["context-intensity", "consequential", "scope", "individual", "personalized", "week2a"],
+      "priority": "P0",
+      "notes": "Narrow scope - individual patient"
+    },
+    {
+      "id": "context-epistemic-certainty-001",
+      "category": "epistemic-certainty-high",
+      "input": "The diagnosis is confirmed by definitive laboratory tests and imaging",
+      "expectedOutput": {
+        "epistemicDimensions": {
+          "certainty": { "intensity": 0.95, "level": "definitive", "basis": "objective-confirmation" },
+          "informationCompleteness": { "intensity": 0.9, "level": "comprehensive", "basis": "multiple-sources" },
+          "expertise": { "intensity": 0.8, "level": "specialist", "basis": "expert-consensus" }
+        },
+        "dominantDimension": "certainty",
+        "contextComplexity": 0.2
+      },
+      "tags": ["context-intensity", "epistemic", "certainty", "definitive", "diagnostic", "week2a"],
+      "priority": "P0",
+      "notes": "High certainty - definitive objective evidence"
+    },
+    {
+      "id": "context-epistemic-certainty-002",
+      "category": "epistemic-certainty-medium",
+      "input": "The symptoms suggest several possible diagnoses that require further testing",
+      "expectedOutput": {
+        "epistemicDimensions": {
+          "certainty": { "intensity": 0.5, "level": "probable", "basis": "clinical-presentation" },
+          "informationCompleteness": { "intensity": 0.5, "level": "partial", "basis": "initial-assessment" },
+          "expertise": { "intensity": 0.7, "level": "experienced", "basis": "clinical-judgment" }
+        },
+        "dominantDimension": "certainty",
+        "contextComplexity": 0.6
+      },
+      "tags": ["context-intensity", "epistemic", "certainty", "probable", "differential", "week2a"],
+      "priority": "P0",
+      "notes": "Moderate certainty - differential diagnosis phase"
+    },
+    {
+      "id": "context-epistemic-certainty-003",
+      "category": "epistemic-certainty-low",
+      "input": "The patient presents with atypical symptoms that puzzle the medical team",
+      "expectedOutput": {
+        "epistemicDimensions": {
+          "certainty": { "intensity": 0.2, "level": "uncertain", "basis": "atypical-presentation" },
+          "informationCompleteness": { "intensity": 0.3, "level": "incomplete", "basis": "limited-data" },
+          "expertise": { "intensity": 0.6, "level": "challenged", "basis": "rare-case" }
+        },
+        "dominantDimension": "certainty",
+        "contextComplexity": 0.85
+      },
+      "tags": ["context-intensity", "epistemic", "certainty", "uncertain", "atypical", "week2a"],
+      "priority": "P0",
+      "notes": "Low certainty - puzzling atypical case"
+    },
+    {
+      "id": "context-epistemic-completeness-001",
+      "category": "epistemic-completeness-high",
+      "input": "The patient's complete medical history and all test results are available",
+      "expectedOutput": {
+        "epistemicDimensions": {
+          "certainty": { "intensity": 0.8, "level": "well-informed", "basis": "complete-information" },
+          "informationCompleteness": { "intensity": 1.0, "level": "complete", "basis": "full-records" },
+          "expertise": { "intensity": 0.7, "level": "informed", "basis": "comprehensive-data" }
+        },
+        "dominantDimension": "informationCompleteness",
+        "contextComplexity": 0.25
+      },
+      "tags": ["context-intensity", "epistemic", "completeness", "complete", "records", "week2a"],
+      "priority": "P0",
+      "notes": "Complete information - full medical records"
+    },
+    {
+      "id": "context-epistemic-completeness-002",
+      "category": "epistemic-completeness-medium",
+      "input": "The patient remembers some medical history but records were lost",
+      "expectedOutput": {
+        "epistemicDimensions": {
+          "certainty": { "intensity": 0.5, "level": "moderate-confidence", "basis": "partial-information" },
+          "informationCompleteness": { "intensity": 0.4, "level": "partial", "basis": "patient-recall-only" },
+          "expertise": { "intensity": 0.6, "level": "working-with-gaps", "basis": "incomplete-data" }
+        },
+        "dominantDimension": "informationCompleteness",
+        "contextComplexity": 0.65
+      },
+      "tags": ["context-intensity", "epistemic", "completeness", "partial", "lost-records", "week2a"],
+      "priority": "P0",
+      "notes": "Partial information - relying on patient recall"
+    },
+    {
+      "id": "context-epistemic-completeness-003",
+      "category": "epistemic-completeness-low",
+      "input": "The unconscious patient has no identification or medical history",
+      "expectedOutput": {
+        "epistemicDimensions": {
+          "certainty": { "intensity": 0.3, "level": "low-confidence", "basis": "no-background" },
+          "informationCompleteness": { "intensity": 0.1, "level": "minimal", "basis": "no-history" },
+          "expertise": { "intensity": 0.7, "level": "emergency-protocols", "basis": "standard-care" }
+        },
+        "dominantDimension": "informationCompleteness",
+        "contextComplexity": 0.8
+      },
+      "tags": ["context-intensity", "epistemic", "completeness", "minimal", "unknown-patient", "week2a"],
+      "priority": "P0",
+      "notes": "Minimal information - unknown patient emergency"
+    },
+    {
+      "id": "context-epistemic-expertise-001",
+      "category": "epistemic-expertise-high",
+      "input": "The world-renowned specialist team collaborates on the rare case",
+      "expectedOutput": {
+        "epistemicDimensions": {
+          "certainty": { "intensity": 0.85, "level": "expert-consensus", "basis": "specialist-agreement" },
+          "informationCompleteness": { "intensity": 0.8, "level": "thorough", "basis": "expert-investigation" },
+          "expertise": { "intensity": 1.0, "level": "world-class", "basis": "top-specialists" }
+        },
+        "dominantDimension": "expertise",
+        "contextComplexity": 0.3
+      },
+      "tags": ["context-intensity", "epistemic", "expertise", "world-class", "specialist", "week2a"],
+      "priority": "P0",
+      "notes": "Highest expertise - world-renowned specialists"
+    },
+    {
+      "id": "context-epistemic-expertise-002",
+      "category": "epistemic-expertise-medium",
+      "input": "The experienced general practitioner manages the routine case",
+      "expectedOutput": {
+        "epistemicDimensions": {
+          "certainty": { "intensity": 0.7, "level": "professional-judgment", "basis": "clinical-experience" },
+          "informationCompleteness": { "intensity": 0.7, "level": "adequate", "basis": "standard-workup" },
+          "expertise": { "intensity": 0.6, "level": "competent-generalist", "basis": "general-practice" }
+        },
+        "dominantDimension": "expertise",
+        "contextComplexity": 0.4
+      },
+      "tags": ["context-intensity", "epistemic", "expertise", "general-practice", "routine", "week2a"],
+      "priority": "P0",
+      "notes": "Moderate expertise - competent general practitioner"
+    },
+    {
+      "id": "context-epistemic-expertise-003",
+      "category": "epistemic-expertise-low",
+      "input": "The medical student provides first aid while waiting for the physician",
+      "expectedOutput": {
+        "epistemicDimensions": {
+          "certainty": { "intensity": 0.4, "level": "basic-protocols", "basis": "training-guidelines" },
+          "informationCompleteness": { "intensity": 0.5, "level": "emergency-assessment", "basis": "immediate-presentation" },
+          "expertise": { "intensity": 0.2, "level": "trainee", "basis": "student-level" }
+        },
+        "dominantDimension": "expertise",
+        "contextComplexity": 0.7
+      },
+      "tags": ["context-intensity", "epistemic", "expertise", "trainee", "first-aid", "week2a"],
+      "priority": "P0",
+      "notes": "Limited expertise - student providing emergency care"
+    }
+  ]
+}

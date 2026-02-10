@@ -1,0 +1,830 @@
+{
+  "version": "2.0",
+  "corpusId": "epistemic-markers",
+  "description": "Golden test cases for epistemic markers - source attribution, certainty, and evidentials (Phase 7.1-7.2)",
+  "metadata": {
+    "created": "2026-02-10",
+    "lastUpdated": "2026-02-10",
+    "author": "TagTeam Core Team",
+    "phase": "7.1-7.2",
+    "priority": "P0",
+    "notes": "Tests source attribution, certainty markers, and evidential constructions - critical for epistemic tracking"
+  },
+  "cases": [
+    {
+      "id": "epistemic-source-001",
+      "category": "source-attribution-said",
+      "input": "Dr. Smith said the patient needs immediate surgery",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "sourceAttribution": {
+            "present": true,
+            "source": { "text": "Dr. Smith", "role": "medical-professional", "authority": "high" },
+            "verb": "said",
+            "verbType": "reporting",
+            "content": "the patient needs immediate surgery",
+            "confidence": 0.9
+          }
+        }
+      },
+      "tags": ["epistemic", "source-attribution", "medical", "reporting-verb", "phase7"],
+      "priority": "P0",
+      "notes": "Basic source attribution with 'said'"
+    },
+    {
+      "id": "epistemic-source-002",
+      "category": "source-attribution-reported",
+      "input": "The nurse reported abnormal vital signs",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "sourceAttribution": {
+            "present": true,
+            "source": { "text": "the nurse", "role": "medical-professional", "authority": "moderate" },
+            "verb": "reported",
+            "verbType": "reporting",
+            "content": "abnormal vital signs",
+            "confidence": 0.85
+          }
+        }
+      },
+      "tags": ["epistemic", "source-attribution", "medical", "reporting-verb", "phase7"],
+      "priority": "P0",
+      "notes": "Source attribution with 'reported'"
+    },
+    {
+      "id": "epistemic-source-003",
+      "category": "source-attribution-according-to",
+      "input": "According to the specialist, the prognosis is poor",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "sourceAttribution": {
+            "present": true,
+            "source": { "text": "the specialist", "role": "medical-expert", "authority": "high" },
+            "marker": "according to",
+            "markerType": "prepositional",
+            "content": "the prognosis is poor",
+            "confidence": 0.9
+          }
+        }
+      },
+      "tags": ["epistemic", "source-attribution", "medical", "prepositional-marker", "phase7"],
+      "priority": "P0",
+      "notes": "Prepositional source attribution with 'according to'"
+    },
+    {
+      "id": "epistemic-source-004",
+      "category": "source-attribution-claims",
+      "input": "The family claims the hospital was negligent",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "sourceAttribution": {
+            "present": true,
+            "source": { "text": "the family", "role": "stakeholder", "authority": "low" },
+            "verb": "claims",
+            "verbType": "assertion",
+            "content": "the hospital was negligent",
+            "confidence": 0.5,
+            "commitmentLevel": "claim"
+          }
+        }
+      },
+      "tags": ["epistemic", "source-attribution", "legal", "assertion-verb", "phase7"],
+      "priority": "P0",
+      "notes": "Source attribution with 'claims' - lower commitment"
+    },
+    {
+      "id": "epistemic-source-005",
+      "category": "source-attribution-believes",
+      "input": "The doctor believes the treatment will be effective",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "sourceAttribution": {
+            "present": true,
+            "source": { "text": "the doctor", "role": "medical-professional", "authority": "high" },
+            "verb": "believes",
+            "verbType": "mental-state",
+            "content": "the treatment will be effective",
+            "confidence": 0.7,
+            "commitmentLevel": "belief"
+          }
+        }
+      },
+      "tags": ["epistemic", "source-attribution", "medical", "belief-verb", "phase7"],
+      "priority": "P0",
+      "notes": "Mental state verb - subjective belief"
+    },
+    {
+      "id": "epistemic-source-006",
+      "category": "source-attribution-advised",
+      "input": "The pharmacist advised reducing the dosage",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "sourceAttribution": {
+            "present": true,
+            "source": { "text": "the pharmacist", "role": "medical-professional", "authority": "moderate-high" },
+            "verb": "advised",
+            "verbType": "recommendation",
+            "content": "reducing the dosage",
+            "confidence": 0.8
+          }
+        }
+      },
+      "tags": ["epistemic", "source-attribution", "medical", "recommendation-verb", "phase7"],
+      "priority": "P0",
+      "notes": "Source attribution with recommendation verb"
+    },
+    {
+      "id": "epistemic-source-007",
+      "category": "source-attribution-testified",
+      "input": "The expert witness testified that the standard of care was met",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "sourceAttribution": {
+            "present": true,
+            "source": { "text": "the expert witness", "role": "legal-expert", "authority": "high" },
+            "verb": "testified",
+            "verbType": "legal-testimony",
+            "content": "that the standard of care was met",
+            "confidence": 0.95,
+            "context": "legal"
+          }
+        }
+      },
+      "tags": ["epistemic", "source-attribution", "legal", "testimony", "phase7"],
+      "priority": "P0",
+      "notes": "Legal testimony - high confidence attribution"
+    },
+    {
+      "id": "epistemic-source-008",
+      "category": "source-attribution-documented",
+      "input": "The medical record documents elevated blood pressure",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "sourceAttribution": {
+            "present": true,
+            "source": { "text": "the medical record", "role": "official-document", "authority": "very-high" },
+            "verb": "documents",
+            "verbType": "documentation",
+            "content": "elevated blood pressure",
+            "confidence": 0.95,
+            "evidenceType": "written-record"
+          }
+        }
+      },
+      "tags": ["epistemic", "source-attribution", "medical", "documentation", "phase7"],
+      "priority": "P0",
+      "notes": "Documentary evidence - very high reliability"
+    },
+    {
+      "id": "epistemic-source-009",
+      "category": "source-attribution-quoted",
+      "input": "The patient stated, 'I do not consent to this procedure'",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "sourceAttribution": {
+            "present": true,
+            "source": { "text": "the patient", "role": "patient", "authority": "definitive-for-consent" },
+            "verb": "stated",
+            "verbType": "direct-quotation",
+            "content": "I do not consent to this procedure",
+            "confidence": 1.0,
+            "quotationType": "direct"
+          }
+        }
+      },
+      "tags": ["epistemic", "source-attribution", "consent", "direct-quote", "phase7"],
+      "priority": "P0",
+      "notes": "Direct quotation - maximum confidence"
+    },
+    {
+      "id": "epistemic-source-010",
+      "category": "source-attribution-study",
+      "input": "A recent study found that the drug reduces mortality by 30%",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "sourceAttribution": {
+            "present": true,
+            "source": { "text": "a recent study", "role": "research", "authority": "high" },
+            "verb": "found",
+            "verbType": "research-finding",
+            "content": "that the drug reduces mortality by 30%",
+            "confidence": 0.85,
+            "evidenceType": "empirical-research"
+          }
+        }
+      },
+      "tags": ["epistemic", "source-attribution", "research", "empirical", "phase7"],
+      "priority": "P0",
+      "notes": "Research attribution - empirical evidence"
+    },
+    {
+      "id": "epistemic-source-011",
+      "category": "source-attribution-guidelines",
+      "input": "Clinical guidelines recommend annual screening for high-risk patients",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "sourceAttribution": {
+            "present": true,
+            "source": { "text": "clinical guidelines", "role": "professional-standards", "authority": "very-high" },
+            "verb": "recommend",
+            "verbType": "guideline-recommendation",
+            "content": "annual screening for high-risk patients",
+            "confidence": 0.9,
+            "evidenceType": "expert-consensus"
+          }
+        }
+      },
+      "tags": ["epistemic", "source-attribution", "guidelines", "medical", "phase7"],
+      "priority": "P0",
+      "notes": "Professional guidelines - authoritative source"
+    },
+    {
+      "id": "epistemic-source-012",
+      "category": "source-attribution-consensus",
+      "input": "The medical team agreed that surgery was necessary",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "sourceAttribution": {
+            "present": true,
+            "source": { "text": "the medical team", "role": "medical-collective", "authority": "high" },
+            "verb": "agreed",
+            "verbType": "consensus",
+            "content": "that surgery was necessary",
+            "confidence": 0.9,
+            "evidenceType": "professional-consensus"
+          }
+        }
+      },
+      "tags": ["epistemic", "source-attribution", "consensus", "medical", "phase7"],
+      "priority": "P0",
+      "notes": "Team consensus - collective authority"
+    },
+    {
+      "id": "epistemic-source-013",
+      "category": "source-attribution-conflicting",
+      "input": "Dr. Jones said surgery is needed, but Dr. Lee recommended waiting",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "sourceAttribution": {
+            "present": true,
+            "sources": [
+              { "text": "Dr. Jones", "verb": "said", "content": "surgery is needed", "authority": "high" },
+              { "text": "Dr. Lee", "verb": "recommended", "content": "waiting", "authority": "high" }
+            ],
+            "conflict": true,
+            "conflictType": "expert-disagreement"
+          }
+        }
+      },
+      "tags": ["epistemic", "source-attribution", "conflict", "medical", "phase7"],
+      "priority": "P0",
+      "notes": "Conflicting expert sources - important to track"
+    },
+    {
+      "id": "epistemic-source-014",
+      "category": "source-attribution-implicit",
+      "input": "The diagnosis is confirmed",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "sourceAttribution": {
+            "present": false,
+            "implicitSource": "medical-authority",
+            "confidence": 0.8,
+            "notes": "No explicit source - assumes medical authority"
+          }
+        }
+      },
+      "tags": ["epistemic", "source-attribution", "implicit", "medical", "phase7"],
+      "priority": "P1",
+      "notes": "Implicit source - no explicit attribution"
+    },
+    {
+      "id": "epistemic-source-015",
+      "category": "source-attribution-hearsay",
+      "input": "The patient's family heard from a neighbor that the treatment is dangerous",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "sourceAttribution": {
+            "present": true,
+            "primarySource": { "text": "the patient's family", "role": "stakeholder", "authority": "low" },
+            "secondarySource": { "text": "a neighbor", "role": "layperson", "authority": "very-low" },
+            "chain": "hearsay",
+            "content": "that the treatment is dangerous",
+            "confidence": 0.2,
+            "evidenceType": "hearsay"
+          }
+        }
+      },
+      "tags": ["epistemic", "source-attribution", "hearsay", "unreliable", "phase7"],
+      "priority": "P0",
+      "notes": "Hearsay chain - very low reliability"
+    },
+    {
+      "id": "epistemic-certainty-001",
+      "category": "certainty-definite",
+      "input": "The test results definitely indicate infection",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "certainty": {
+            "present": true,
+            "marker": "definitely",
+            "level": "very-high",
+            "confidence": 0.95,
+            "scope": "indicate infection"
+          }
+        }
+      },
+      "tags": ["epistemic", "certainty", "definite", "medical", "phase7"],
+      "priority": "P0",
+      "notes": "High certainty marker - 'definitely'"
+    },
+    {
+      "id": "epistemic-certainty-002",
+      "category": "certainty-probable",
+      "input": "The patient probably has pneumonia",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "certainty": {
+            "present": true,
+            "marker": "probably",
+            "level": "moderate-high",
+            "confidence": 0.7,
+            "scope": "has pneumonia"
+          }
+        }
+      },
+      "tags": ["epistemic", "certainty", "probable", "medical", "phase7"],
+      "priority": "P0",
+      "notes": "Moderate-high certainty - 'probably'"
+    },
+    {
+      "id": "epistemic-certainty-003",
+      "category": "certainty-possible",
+      "input": "The symptoms possibly suggest a rare condition",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "certainty": {
+            "present": true,
+            "marker": "possibly",
+            "level": "low-moderate",
+            "confidence": 0.4,
+            "scope": "suggest a rare condition"
+          }
+        }
+      },
+      "tags": ["epistemic", "certainty", "possible", "medical", "phase7"],
+      "priority": "P0",
+      "notes": "Low-moderate certainty - 'possibly'"
+    },
+    {
+      "id": "epistemic-certainty-004",
+      "category": "certainty-certainly",
+      "input": "This approach will certainly improve outcomes",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "certainty": {
+            "present": true,
+            "marker": "certainly",
+            "level": "very-high",
+            "confidence": 0.9,
+            "scope": "will improve outcomes"
+          }
+        }
+      },
+      "tags": ["epistemic", "certainty", "certain", "medical", "phase7"],
+      "priority": "P0",
+      "notes": "Very high certainty - 'certainly'"
+    },
+    {
+      "id": "epistemic-certainty-005",
+      "category": "certainty-maybe",
+      "input": "Maybe the medication is causing the side effects",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "certainty": {
+            "present": true,
+            "marker": "maybe",
+            "level": "moderate",
+            "confidence": 0.5,
+            "scope": "the medication is causing the side effects"
+          }
+        }
+      },
+      "tags": ["epistemic", "certainty", "maybe", "medical", "phase7"],
+      "priority": "P0",
+      "notes": "Moderate uncertainty - 'maybe'"
+    },
+    {
+      "id": "epistemic-certainty-006",
+      "category": "certainty-likely",
+      "input": "The recovery will likely take several months",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "certainty": {
+            "present": true,
+            "marker": "likely",
+            "level": "moderate-high",
+            "confidence": 0.75,
+            "scope": "will take several months"
+          }
+        }
+      },
+      "tags": ["epistemic", "certainty", "likely", "medical", "phase7"],
+      "priority": "P0",
+      "notes": "Moderate-high probability - 'likely'"
+    },
+    {
+      "id": "epistemic-certainty-007",
+      "category": "certainty-unclear",
+      "input": "It is unclear whether the treatment helped",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "certainty": {
+            "present": true,
+            "marker": "unclear",
+            "level": "very-low",
+            "confidence": 0.3,
+            "scope": "whether the treatment helped",
+            "epistemic_state": "uncertain"
+          }
+        }
+      },
+      "tags": ["epistemic", "certainty", "unclear", "medical", "phase7"],
+      "priority": "P0",
+      "notes": "Explicit uncertainty - 'unclear'"
+    },
+    {
+      "id": "epistemic-certainty-008",
+      "category": "certainty-seems",
+      "input": "The patient seems to be improving",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "certainty": {
+            "present": true,
+            "marker": "seems",
+            "level": "moderate",
+            "confidence": 0.6,
+            "scope": "to be improving",
+            "evidenceType": "observation-based"
+          }
+        }
+      },
+      "tags": ["epistemic", "certainty", "seems", "medical", "observation", "phase7"],
+      "priority": "P0",
+      "notes": "Observation-based moderate certainty"
+    },
+    {
+      "id": "epistemic-certainty-009",
+      "category": "certainty-appears",
+      "input": "The wound appears to be healing properly",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "certainty": {
+            "present": true,
+            "marker": "appears",
+            "level": "moderate",
+            "confidence": 0.65,
+            "scope": "to be healing properly",
+            "evidenceType": "visual-observation"
+          }
+        }
+      },
+      "tags": ["epistemic", "certainty", "appears", "medical", "observation", "phase7"],
+      "priority": "P0",
+      "notes": "Visual observation - moderate certainty"
+    },
+    {
+      "id": "epistemic-certainty-010",
+      "category": "certainty-undoubtedly",
+      "input": "This is undoubtedly the correct diagnosis",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "certainty": {
+            "present": true,
+            "marker": "undoubtedly",
+            "level": "very-high",
+            "confidence": 0.95,
+            "scope": "the correct diagnosis"
+          }
+        }
+      },
+      "tags": ["epistemic", "certainty", "undoubtedly", "medical", "phase7"],
+      "priority": "P0",
+      "notes": "Strongest certainty marker"
+    },
+    {
+      "id": "epistemic-certainty-011",
+      "category": "certainty-presumably",
+      "input": "The infection presumably spread through contaminated equipment",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "certainty": {
+            "present": true,
+            "marker": "presumably",
+            "level": "moderate",
+            "confidence": 0.6,
+            "scope": "spread through contaminated equipment",
+            "evidenceType": "inference"
+          }
+        }
+      },
+      "tags": ["epistemic", "certainty", "presumably", "medical", "inference", "phase7"],
+      "priority": "P0",
+      "notes": "Inference-based moderate certainty"
+    },
+    {
+      "id": "epistemic-certainty-012",
+      "category": "certainty-must",
+      "input": "The patient must have taken the wrong dosage",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "certainty": {
+            "present": true,
+            "marker": "must have",
+            "level": "high",
+            "confidence": 0.85,
+            "scope": "taken the wrong dosage",
+            "evidenceType": "logical-inference"
+          }
+        }
+      },
+      "tags": ["epistemic", "certainty", "must", "inference", "medical", "phase7"],
+      "priority": "P0",
+      "notes": "Epistemic 'must' - logical necessity from evidence"
+    },
+    {
+      "id": "epistemic-certainty-013",
+      "category": "certainty-might",
+      "input": "The symptoms might indicate multiple conditions",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "certainty": {
+            "present": true,
+            "marker": "might",
+            "level": "low-moderate",
+            "confidence": 0.4,
+            "scope": "indicate multiple conditions"
+          }
+        }
+      },
+      "tags": ["epistemic", "certainty", "might", "medical", "phase7"],
+      "priority": "P0",
+      "notes": "Low-moderate possibility - 'might'"
+    },
+    {
+      "id": "epistemic-certainty-014",
+      "category": "certainty-doubt",
+      "input": "I doubt the treatment will be effective",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "certainty": {
+            "present": true,
+            "marker": "doubt",
+            "level": "low",
+            "confidence": 0.3,
+            "scope": "the treatment will be effective",
+            "polarity": "negative"
+          }
+        }
+      },
+      "tags": ["epistemic", "certainty", "doubt", "medical", "negative-polarity", "phase7"],
+      "priority": "P0",
+      "notes": "Negative certainty - doubt"
+    },
+    {
+      "id": "epistemic-certainty-015",
+      "category": "certainty-confident",
+      "input": "We are confident the surgery will succeed",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "certainty": {
+            "present": true,
+            "marker": "confident",
+            "level": "high",
+            "confidence": 0.85,
+            "scope": "the surgery will succeed",
+            "source": "professional-judgment"
+          }
+        }
+      },
+      "tags": ["epistemic", "certainty", "confident", "medical", "phase7"],
+      "priority": "P0",
+      "notes": "High confidence statement"
+    },
+    {
+      "id": "epistemic-evidential-001",
+      "category": "evidential-reportedly",
+      "input": "The medication reportedly caused severe allergic reactions",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "evidential": {
+            "present": true,
+            "marker": "reportedly",
+            "type": "reportative",
+            "evidenceSource": "indirect-report",
+            "reliability": "medium",
+            "confidence": 0.6,
+            "scope": "caused severe allergic reactions"
+          }
+        }
+      },
+      "tags": ["epistemic", "evidential", "reportedly", "medical", "phase7"],
+      "priority": "P0",
+      "notes": "Reportative evidential - indirect evidence"
+    },
+    {
+      "id": "epistemic-evidential-002",
+      "category": "evidential-allegedly",
+      "input": "The surgeon allegedly performed unauthorized procedures",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "evidential": {
+            "present": true,
+            "marker": "allegedly",
+            "type": "reportative-disputed",
+            "evidenceSource": "unverified-claim",
+            "reliability": "low",
+            "confidence": 0.4,
+            "scope": "performed unauthorized procedures",
+            "commitment": "distanced"
+          }
+        }
+      },
+      "tags": ["epistemic", "evidential", "allegedly", "legal", "disputed", "phase7"],
+      "priority": "P0",
+      "notes": "Disputed claim - low commitment"
+    },
+    {
+      "id": "epistemic-evidential-003",
+      "category": "evidential-apparently",
+      "input": "The patient apparently stopped taking medication",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "evidential": {
+            "present": true,
+            "marker": "apparently",
+            "type": "inferential",
+            "evidenceSource": "inference-from-observation",
+            "reliability": "medium",
+            "confidence": 0.65,
+            "scope": "stopped taking medication"
+          }
+        }
+      },
+      "tags": ["epistemic", "evidential", "apparently", "medical", "inference", "phase7"],
+      "priority": "P0",
+      "notes": "Inferential evidential - based on observed evidence"
+    },
+    {
+      "id": "epistemic-evidential-004",
+      "category": "evidential-clearly",
+      "input": "The test clearly shows elevated glucose levels",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "evidential": {
+            "present": true,
+            "marker": "clearly",
+            "type": "direct-observational",
+            "evidenceSource": "direct-measurement",
+            "reliability": "high",
+            "confidence": 0.9,
+            "scope": "shows elevated glucose levels"
+          }
+        }
+      },
+      "tags": ["epistemic", "evidential", "clearly", "medical", "direct-evidence", "phase7"],
+      "priority": "P0",
+      "notes": "Direct observational evidence - high reliability"
+    },
+    {
+      "id": "epistemic-evidential-005",
+      "category": "evidential-supposedly",
+      "input": "The treatment supposedly works for most patients",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "evidential": {
+            "present": true,
+            "marker": "supposedly",
+            "type": "reportative-skeptical",
+            "evidenceSource": "hearsay",
+            "reliability": "low-medium",
+            "confidence": 0.5,
+            "scope": "works for most patients",
+            "commitment": "skeptical"
+          }
+        }
+      },
+      "tags": ["epistemic", "evidential", "supposedly", "medical", "skeptical", "phase7"],
+      "priority": "P0",
+      "notes": "Skeptical reportative - doubtful stance"
+    },
+    {
+      "id": "epistemic-evidential-006",
+      "category": "evidential-evidently",
+      "input": "The infection evidently spread despite precautions",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "evidential": {
+            "present": true,
+            "marker": "evidently",
+            "type": "inferential",
+            "evidenceSource": "observed-outcome",
+            "reliability": "medium-high",
+            "confidence": 0.75,
+            "scope": "spread despite precautions"
+          }
+        }
+      },
+      "tags": ["epistemic", "evidential", "evidently", "medical", "inference", "phase7"],
+      "priority": "P0",
+      "notes": "Evidence-based inference - moderate-high reliability"
+    },
+    {
+      "id": "epistemic-evidential-007",
+      "category": "evidential-purportedly",
+      "input": "The drug purportedly has no side effects",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "evidential": {
+            "present": true,
+            "marker": "purportedly",
+            "type": "reportative-claimed",
+            "evidenceSource": "manufacturer-claim",
+            "reliability": "low",
+            "confidence": 0.4,
+            "scope": "has no side effects",
+            "commitment": "distanced"
+          }
+        }
+      },
+      "tags": ["epistemic", "evidential", "purportedly", "medical", "claimed", "phase7"],
+      "priority": "P0",
+      "notes": "Claimed information - speaker distances from claim"
+    },
+    {
+      "id": "epistemic-evidential-008",
+      "category": "evidential-observably",
+      "input": "The wound is observably infected",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "evidential": {
+            "present": true,
+            "marker": "observably",
+            "type": "direct-observational",
+            "evidenceSource": "visual-inspection",
+            "reliability": "high",
+            "confidence": 0.9,
+            "scope": "infected"
+          }
+        }
+      },
+      "tags": ["epistemic", "evidential", "observably", "medical", "direct-observation", "phase7"],
+      "priority": "P0",
+      "notes": "Direct observable evidence - high confidence"
+    },
+    {
+      "id": "epistemic-evidential-009",
+      "category": "evidential-presumably-based",
+      "input": "Based on the symptoms, the diagnosis is viral pneumonia",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "evidential": {
+            "present": true,
+            "marker": "based on",
+            "type": "inferential",
+            "evidenceSource": "symptoms",
+            "reliability": "medium-high",
+            "confidence": 0.75,
+            "scope": "the diagnosis is viral pneumonia",
+            "inferenceType": "diagnostic"
+          }
+        }
+      },
+      "tags": ["epistemic", "evidential", "based-on", "medical", "diagnostic", "phase7"],
+      "priority": "P0",
+      "notes": "Evidence-based diagnostic inference"
+    },
+    {
+      "id": "epistemic-evidential-010",
+      "category": "evidential-proven",
+      "input": "Clinical trials have proven the treatment is effective",
+      "expectedOutput": {
+        "epistemicMarkers": {
+          "evidential": {
+            "present": true,
+            "marker": "proven",
+            "type": "empirical",
+            "evidenceSource": "clinical-trials",
+            "reliability": "very-high",
+            "confidence": 0.95,
+            "scope": "the treatment is effective",
+            "evidenceStrength": "conclusive"
+          }
+        }
+      },
+      "tags": ["epistemic", "evidential", "proven", "medical", "empirical", "phase7"],
+      "priority": "P0",
+      "notes": "Empirical proof - highest evidential strength"
+    }
+  ]
+}

@@ -1,0 +1,307 @@
+{
+  "version": "2.0",
+  "corpusId": "phase4-regressions",
+  "description": "Known Phase 4 limitations and regressions - documents expected failures",
+  "metadata": {
+    "created": "2026-02-10",
+    "lastUpdated": "2026-02-10",
+    "author": "TagTeam Core Team",
+    "phase": "4",
+    "priority": "P1",
+    "notes": "These tests document KNOWN Phase 4 limitations - failures are expected and documented"
+  },
+  "cases": [
+    {
+      "id": "phase4-reg-001",
+      "category": "compound-sentence-and",
+      "input": "The doctor examined the patient and the nurse administered medication",
+      "expectedOutput": {
+        "limitation": "compound-clause",
+        "v1Behavior": "parse-first-clause-only",
+        "partialParse": {
+          "clause1": "The doctor examined the patient",
+          "clause2": "DEFERRED"
+        },
+        "roadmapRef": "ENH-007: Compound clauses (v2-only)",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase4", "compound-sentence", "coordination", "known-limitation"],
+      "priority": "P1",
+      "notes": "Phase 4 limitation: compound sentences with 'and' - v2 feature"
+    },
+    {
+      "id": "phase4-reg-002",
+      "category": "compound-sentence-but",
+      "input": "The treatment was effective but the side effects were severe",
+      "expectedOutput": {
+        "limitation": "compound-clause",
+        "v1Behavior": "parse-first-clause-only",
+        "roadmapRef": "ENH-007",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase4", "compound-sentence", "contrastive", "known-limitation"],
+      "priority": "P1",
+      "notes": "Contrastive coordination - deferred to v2"
+    },
+    {
+      "id": "phase4-reg-003",
+      "category": "subordinate-clause",
+      "input": "The patient recovered after the surgery was completed",
+      "expectedOutput": {
+        "limitation": "subordinate-clause",
+        "v1Behavior": "parse-main-clause-only",
+        "roadmapRef": "ENH-009: Temporal relations (v2-only)",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase4", "subordinate-clause", "temporal", "known-limitation"],
+      "priority": "P1",
+      "notes": "Subordinate temporal clause - v2 feature"
+    },
+    {
+      "id": "phase4-reg-004",
+      "category": "relative-clause",
+      "input": "The doctor who performed the surgery recommended rest",
+      "expectedOutput": {
+        "limitation": "relative-clause",
+        "v1Behavior": "parse-main-clause",
+        "roadmapRef": "ENH-010: Relative clauses (v2-only)",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase4", "relative-clause", "known-limitation"],
+      "priority": "P1",
+      "notes": "Restrictive relative clause - v2 feature"
+    },
+    {
+      "id": "phase4-reg-005",
+      "category": "conditional-sentence",
+      "input": "If the patient consents, the surgery will proceed",
+      "expectedOutput": {
+        "limitation": "conditional-logic",
+        "v1Behavior": "parse-main-clause-only",
+        "roadmapRef": "ENH-006: Conditional logic (v2-only)",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase4", "conditional", "known-limitation"],
+      "priority": "P1",
+      "notes": "Conditional sentences - v2 feature"
+    },
+    {
+      "id": "phase4-reg-006",
+      "category": "question-ice-node",
+      "input": "Should the doctor proceed with the treatment?",
+      "expectedOutput": {
+        "limitation": "question-ice-node",
+        "v1Behavior": "flag-as-v2-required",
+        "roadmapRef": "ENH-002: Question ICE nodes (v2-only)",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase4", "question", "ice-node", "known-limitation"],
+      "priority": "P1",
+      "notes": "Question ICE nodes - v2 feature"
+    },
+    {
+      "id": "phase4-reg-007",
+      "category": "directive-ice-node",
+      "input": "Stop the treatment immediately",
+      "expectedOutput": {
+        "limitation": "directive-ice-node",
+        "v1Behavior": "parse-as-imperative",
+        "roadmapRef": "ENH-004: Directive ICE nodes (v2-only)",
+        "expectedFailure": false,
+        "notes": "Imperatives partially supported in v1"
+      },
+      "tags": ["regression", "phase4", "directive", "imperative", "partial-support"],
+      "priority": "P1",
+      "notes": "Directive nodes - partial v1 support, full in v2"
+    },
+    {
+      "id": "phase4-reg-008",
+      "category": "clausal-subject",
+      "input": "That the patient survived is remarkable",
+      "expectedOutput": {
+        "limitation": "clausal-subject",
+        "v1Behavior": "flag-as-v2-required",
+        "roadmapRef": "ENH-011: Clausal subjects (v2-only)",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase4", "clausal-subject", "known-limitation"],
+      "priority": "P1",
+      "notes": "Clausal subjects - v2 feature"
+    },
+    {
+      "id": "phase4-reg-009",
+      "category": "embedded-clause",
+      "input": "The doctor said that the patient should rest",
+      "expectedOutput": {
+        "limitation": "embedded-clause",
+        "v1Behavior": "parse-main-clause-only",
+        "partialParse": {
+          "main": "The doctor said",
+          "embedded": "DEFERRED"
+        },
+        "roadmapRef": "ENH-007",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase4", "embedded-clause", "quotation", "known-limitation"],
+      "priority": "P1",
+      "notes": "Embedded clauses - v2 feature"
+    },
+    {
+      "id": "phase4-reg-010",
+      "category": "multiple-modals",
+      "input": "The patient might have to undergo surgery",
+      "expectedOutput": {
+        "limitation": "modal-stacking",
+        "v1Behavior": "parse-primary-modal-only",
+        "roadmapRef": "Phase 4 modal limitations",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase4", "modal-stacking", "known-limitation"],
+      "priority": "P1",
+      "notes": "Modal stacking - Phase 4 limitation"
+    },
+    {
+      "id": "phase4-reg-011",
+      "category": "complex-negation",
+      "input": "Nobody said nothing about the treatment",
+      "expectedOutput": {
+        "limitation": "double-negation-scope",
+        "v1Behavior": "parse-single-negation",
+        "roadmapRef": "Phase 4 negation limitations",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase4", "double-negation", "scope", "known-limitation"],
+      "priority": "P1",
+      "notes": "Complex double negation - Phase 4 limitation"
+    },
+    {
+      "id": "phase4-reg-012",
+      "category": "coordination-ellipsis",
+      "input": "The doctor examined and treated the patient",
+      "expectedOutput": {
+        "limitation": "vp-coordination",
+        "v1Behavior": "parse-first-verb-only",
+        "roadmapRef": "V7-002: Ellipsis handling",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase4", "ellipsis", "coordination", "known-limitation"],
+      "priority": "P1",
+      "notes": "VP coordination with ellipsis - requires V7 fix"
+    },
+    {
+      "id": "phase4-reg-013",
+      "category": "long-distance-dependency",
+      "input": "Which patient did the doctor say needs treatment?",
+      "expectedOutput": {
+        "limitation": "long-distance-dependency",
+        "v1Behavior": "flag-as-v2-required",
+        "roadmapRef": "ENH-002",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase4", "wh-question", "dependency", "known-limitation"],
+      "priority": "P1",
+      "notes": "Long-distance dependencies - v2 feature"
+    },
+    {
+      "id": "phase4-reg-014",
+      "category": "multiple-pp-attachment",
+      "input": "The doctor from the hospital in the city treated the patient",
+      "expectedOutput": {
+        "limitation": "pp-attachment-ambiguity",
+        "v1Behavior": "attach-locally",
+        "roadmapRef": "Phase 4 PP limitations",
+        "expectedFailure": false,
+        "notes": "Handled but may be ambiguous"
+      },
+      "tags": ["regression", "phase4", "pp-attachment", "ambiguity", "partial-support"],
+      "priority": "P2",
+      "notes": "Multiple PP attachment - handled with local attachment heuristic"
+    },
+    {
+      "id": "phase4-reg-015",
+      "category": "comparative-construction",
+      "input": "The patient is healthier than before",
+      "expectedOutput": {
+        "limitation": "comparative-construction",
+        "v1Behavior": "parse-base-predicate",
+        "roadmapRef": "Phase 4 comparative limitations",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase4", "comparative", "known-limitation"],
+      "priority": "P2",
+      "notes": "Comparative constructions - Phase 4 limitation"
+    },
+    {
+      "id": "phase4-reg-016",
+      "category": "quantifier-scope-ambiguity",
+      "input": "Every doctor examined a patient",
+      "expectedOutput": {
+        "limitation": "quantifier-scope",
+        "v1Behavior": "surface-scope-only",
+        "roadmapRef": "Phase 4 scope limitations",
+        "expectedFailure": false,
+        "notes": "Surface scope used - ambiguity not represented"
+      },
+      "tags": ["regression", "phase4", "quantifier-scope", "ambiguity", "partial-support"],
+      "priority": "P2",
+      "notes": "Quantifier scope ambiguity - default to surface scope"
+    },
+    {
+      "id": "phase4-reg-017",
+      "category": "implicit-argument",
+      "input": "The doctor prescribed for three weeks",
+      "expectedOutput": {
+        "limitation": "implicit-object",
+        "v1Behavior": "flag-missing-argument",
+        "roadmapRef": "Phase 4 argument structure limitations",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase4", "implicit-argument", "known-limitation"],
+      "priority": "P2",
+      "notes": "Implicit objects - Phase 4 limitation"
+    },
+    {
+      "id": "phase4-reg-018",
+      "category": "anaphora-resolution",
+      "input": "The patient arrived. She was examined immediately.",
+      "expectedOutput": {
+        "limitation": "anaphora-resolution",
+        "v1Behavior": "parse-clauses-independently",
+        "roadmapRef": "ENH-012: Anaphora resolution (v2-only)",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase4", "anaphora", "coreference", "known-limitation"],
+      "priority": "P1",
+      "notes": "Cross-sentence anaphora - v2 feature"
+    },
+    {
+      "id": "phase4-reg-019",
+      "category": "measurement-expression",
+      "input": "The patient's temperature rose 2.5 degrees",
+      "expectedOutput": {
+        "limitation": "numeric-measurement",
+        "v1Behavior": "parse-without-quantity",
+        "roadmapRef": "Phase 4 numeric limitations",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase4", "measurement", "numeric", "known-limitation"],
+      "priority": "P2",
+      "notes": "Numeric measurements - Phase 4 limitation"
+    },
+    {
+      "id": "phase4-reg-020",
+      "category": "idiom-expression",
+      "input": "The doctor went the extra mile for the patient",
+      "expectedOutput": {
+        "limitation": "idiomatic-expression",
+        "v1Behavior": "parse-literally",
+        "roadmapRef": "Phase 4 idiom limitations",
+        "expectedFailure": false,
+        "notes": "Parsed literally - idiom not recognized"
+      },
+      "tags": ["regression", "phase4", "idiom", "non-compositional", "partial-support"],
+      "priority": "P2",
+      "notes": "Idiomatic expressions - parsed literally in Phase 4"
+    }
+  ]
+}

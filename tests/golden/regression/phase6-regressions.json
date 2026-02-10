@@ -1,0 +1,313 @@
+{
+  "version": "2.0",
+  "corpusId": "phase6-regressions",
+  "description": "Known Phase 6 limitations and regressions - documents expected failures",
+  "metadata": {
+    "created": "2026-02-10",
+    "lastUpdated": "2026-02-10",
+    "author": "TagTeam Core Team",
+    "phase": "6",
+    "priority": "P1",
+    "notes": "These tests document KNOWN Phase 6 limitations - failures are expected and documented"
+  },
+  "cases": [
+    {
+      "id": "phase6-reg-001",
+      "category": "selectional-violation-metaphor",
+      "input": "The hospital swallowed the patient's complaint",
+      "expectedOutput": {
+        "limitation": "metaphorical-selectional-violation",
+        "v1Behavior": "flag-selectional-mismatch",
+        "roadmapRef": "Phase 6 metaphor limitations",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase6", "selectional-preference", "metaphor", "known-limitation"],
+      "priority": "P1",
+      "notes": "Metaphorical selectional violations - Phase 6 limitation"
+    },
+    {
+      "id": "phase6-reg-002",
+      "category": "type-coercion",
+      "input": "The patient began the medication",
+      "expectedOutput": {
+        "limitation": "type-coercion",
+        "v1Behavior": "flag-type-mismatch",
+        "roadmapRef": "Phase 6 coercion limitations",
+        "expectedFailure": true,
+        "notes": "Requires coercion: medication -> taking medication"
+      },
+      "tags": ["regression", "phase6", "type-coercion", "metonymy", "known-limitation"],
+      "priority": "P1",
+      "notes": "Type coercion - Phase 6 limitation"
+    },
+    {
+      "id": "phase6-reg-003",
+      "category": "ambiguity-explosion",
+      "input": "Every doctor must examine every patient with every instrument in every room",
+      "expectedOutput": {
+        "limitation": "combinatorial-ambiguity-explosion",
+        "v1Behavior": "prune-unlikely-readings",
+        "roadmapRef": "Phase 6 ambiguity limitations",
+        "expectedFailure": false,
+        "notes": "Too many interpretations - pruning applied"
+      },
+      "tags": ["regression", "phase6", "ambiguity-explosion", "pruning", "partial-support"],
+      "priority": "P2",
+      "notes": "Combinatorial explosion - interpretations pruned"
+    },
+    {
+      "id": "phase6-reg-004",
+      "category": "cross-categorial-polysemy",
+      "input": "The patient's condition is stable",
+      "expectedOutput": {
+        "limitation": "noun-adjective-polysemy",
+        "v1Behavior": "default-to-primary-sense",
+        "roadmapRef": "Phase 6 polysemy limitations",
+        "expectedFailure": false,
+        "notes": "'stable' has medical and general senses"
+      },
+      "tags": ["regression", "phase6", "polysemy", "word-sense", "partial-support"],
+      "priority": "P2",
+      "notes": "Cross-categorial polysemy - defaults to primary sense"
+    },
+    {
+      "id": "phase6-reg-005",
+      "category": "unknown-domain-term",
+      "input": "The oncologist recommended immunotherapy",
+      "expectedOutput": {
+        "limitation": "unknown-specialized-term",
+        "v1Behavior": "treat-as-generic-noun",
+        "roadmapRef": "Phase 6 lexicon limitations",
+        "expectedFailure": false,
+        "notes": "Specialized medical terms may not be in ontology"
+      },
+      "tags": ["regression", "phase6", "unknown-term", "lexicon", "partial-support"],
+      "priority": "P2",
+      "notes": "Unknown specialized terminology - treated generically"
+    },
+    {
+      "id": "phase6-reg-006",
+      "category": "systematic-polysemy",
+      "input": "The hospital admitted 50 patients",
+      "expectedOutput": {
+        "limitation": "container-content-polysemy",
+        "v1Behavior": "default-interpretation",
+        "roadmapRef": "Phase 6 systematic polysemy limitations",
+        "expectedFailure": false,
+        "notes": "'hospital' = building or organization"
+      },
+      "tags": ["regression", "phase6", "systematic-polysemy", "metonymy", "partial-support"],
+      "priority": "P2",
+      "notes": "Systematic polysemy - defaults to one reading"
+    },
+    {
+      "id": "phase6-reg-007",
+      "category": "homonymy",
+      "input": "The bank of data showed the patient's history",
+      "expectedOutput": {
+        "limitation": "homonymy-resolution",
+        "v1Behavior": "wrong-sense-selection",
+        "roadmapRef": "Phase 6 homonymy limitations",
+        "expectedFailure": true,
+        "notes": "'bank' = financial vs. collection"
+      },
+      "tags": ["regression", "phase6", "homonymy", "word-sense", "known-limitation"],
+      "priority": "P2",
+      "notes": "Homonymy - may select wrong sense without context"
+    },
+    {
+      "id": "phase6-reg-008",
+      "category": "generalized-quantifier",
+      "input": "Most of the doctors examined some of the patients",
+      "expectedOutput": {
+        "limitation": "generalized-quantifier-scope",
+        "v1Behavior": "simplified-quantifier-treatment",
+        "roadmapRef": "Phase 6 quantifier limitations",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase6", "quantifier", "scope", "known-limitation"],
+      "priority": "P1",
+      "notes": "Complex generalized quantifiers - Phase 6 limitation"
+    },
+    {
+      "id": "phase6-reg-009",
+      "category": "collective-distributive",
+      "input": "The doctors gathered in the conference room",
+      "expectedOutput": {
+        "limitation": "collective-distributive-ambiguity",
+        "v1Behavior": "default-to-collective",
+        "roadmapRef": "Phase 6 collective limitations",
+        "expectedFailure": false,
+        "notes": "Collective vs. distributive reading"
+      },
+      "tags": ["regression", "phase6", "collective", "distributive", "partial-support"],
+      "priority": "P2",
+      "notes": "Collective/distributive ambiguity - defaults to collective"
+    },
+    {
+      "id": "phase6-reg-010",
+      "category": "implicit-comparison",
+      "input": "The patient has a high fever",
+      "expectedOutput": {
+        "limitation": "implicit-comparison-class",
+        "v1Behavior": "parse-without-comparison-class",
+        "roadmapRef": "Phase 6 gradable adjective limitations",
+        "expectedFailure": false,
+        "notes": "'high' relative to normal temperature"
+      },
+      "tags": ["regression", "phase6", "gradable-adjective", "comparison", "partial-support"],
+      "priority": "P2",
+      "notes": "Implicit comparison classes - not fully represented"
+    },
+    {
+      "id": "phase6-reg-011",
+      "category": "privative-adjective",
+      "input": "The former doctor visited the hospital",
+      "expectedOutput": {
+        "limitation": "privative-adjective",
+        "v1Behavior": "parse-as-simple-modifier",
+        "roadmapRef": "Phase 6 privative limitations",
+        "expectedFailure": true,
+        "notes": "'former' negates the noun it modifies"
+      },
+      "tags": ["regression", "phase6", "privative-adjective", "semantics", "known-limitation"],
+      "priority": "P2",
+      "notes": "Privative adjectives - semantics not captured"
+    },
+    {
+      "id": "phase6-reg-012",
+      "category": "intensional-context",
+      "input": "The patient sought a cure for the disease",
+      "expectedOutput": {
+        "limitation": "intensional-context",
+        "v1Behavior": "parse-extensionally",
+        "roadmapRef": "Phase 6 intensional limitations",
+        "expectedFailure": true,
+        "notes": "'seek' creates intensional context"
+      },
+      "tags": ["regression", "phase6", "intensional", "opacity", "known-limitation"],
+      "priority": "P1",
+      "notes": "Intensional contexts - Phase 6 limitation"
+    },
+    {
+      "id": "phase6-reg-013",
+      "category": "generic-sentence",
+      "input": "Doctors treat patients",
+      "expectedOutput": {
+        "limitation": "generic-habitual",
+        "v1Behavior": "parse-as-specific-event",
+        "roadmapRef": "Phase 6 generic limitations",
+        "expectedFailure": true,
+        "notes": "Generic statement vs. specific event"
+      },
+      "tags": ["regression", "phase6", "generic", "habitual", "known-limitation"],
+      "priority": "P1",
+      "notes": "Generic sentences - parsed as specific events"
+    },
+    {
+      "id": "phase6-reg-014",
+      "category": "presupposition-failure",
+      "input": "The patient stopped taking medication",
+      "expectedOutput": {
+        "limitation": "presupposition-projection",
+        "v1Behavior": "parse-without-presupposition",
+        "roadmapRef": "Phase 6 presupposition limitations",
+        "expectedFailure": false,
+        "notes": "Presupposes patient was taking medication"
+      },
+      "tags": ["regression", "phase6", "presupposition", "pragmatics", "partial-support"],
+      "priority": "P2",
+      "notes": "Presupposition projection - not fully handled"
+    },
+    {
+      "id": "phase6-reg-015",
+      "category": "implicature",
+      "input": "Some of the patients recovered",
+      "expectedOutput": {
+        "limitation": "scalar-implicature",
+        "v1Behavior": "parse-literal-meaning",
+        "roadmapRef": "Phase 6 implicature limitations",
+        "expectedFailure": false,
+        "notes": "Implicates not all patients recovered"
+      },
+      "tags": ["regression", "phase6", "implicature", "pragmatics", "partial-support"],
+      "priority": "P2",
+      "notes": "Scalar implicatures - not computed"
+    },
+    {
+      "id": "phase6-reg-016",
+      "category": "focus-sensitive",
+      "input": "Only the doctor examined the patient",
+      "expectedOutput": {
+        "limitation": "focus-sensitivity",
+        "v1Behavior": "parse-without-focus",
+        "roadmapRef": "Phase 6 focus limitations",
+        "expectedFailure": true,
+        "notes": "'only' creates focus-sensitive interpretation"
+      },
+      "tags": ["regression", "phase6", "focus", "only", "known-limitation"],
+      "priority": "P1",
+      "notes": "Focus-sensitive operators - Phase 6 limitation"
+    },
+    {
+      "id": "phase6-reg-017",
+      "category": "event-coercion",
+      "input": "The patient enjoyed the treatment",
+      "expectedOutput": {
+        "limitation": "event-coercion",
+        "v1Behavior": "type-mismatch-error",
+        "roadmapRef": "Phase 6 coercion limitations",
+        "expectedFailure": true,
+        "notes": "Requires coercion: treatment -> undergoing treatment"
+      },
+      "tags": ["regression", "phase6", "event-coercion", "aspectual", "known-limitation"],
+      "priority": "P1",
+      "notes": "Event coercion - Phase 6 limitation"
+    },
+    {
+      "id": "phase6-reg-018",
+      "category": "collective-noun",
+      "input": "The staff treated the patient professionally",
+      "expectedOutput": {
+        "limitation": "collective-noun-plurality",
+        "v1Behavior": "treat-as-singular",
+        "roadmapRef": "Phase 6 collective noun limitations",
+        "expectedFailure": false,
+        "notes": "'staff' is grammatically singular but semantically plural"
+      },
+      "tags": ["regression", "phase6", "collective-noun", "number", "partial-support"],
+      "priority": "P2",
+      "notes": "Collective nouns - number agreement issues"
+    },
+    {
+      "id": "phase6-reg-019",
+      "category": "possessive-ambiguity",
+      "input": "The patient's treatment was successful",
+      "expectedOutput": {
+        "limitation": "possessive-relation-ambiguity",
+        "v1Behavior": "default-interpretation",
+        "roadmapRef": "Phase 6 possessive limitations",
+        "expectedFailure": false,
+        "notes": "Treatment OF patient vs. treatment BY patient"
+      },
+      "tags": ["regression", "phase6", "possessive", "relation", "partial-support"],
+      "priority": "P2",
+      "notes": "Possessive relation ambiguity - defaults to one reading"
+    },
+    {
+      "id": "phase6-reg-020",
+      "category": "nominal-compound",
+      "input": "The patient safety committee met yesterday",
+      "expectedOutput": {
+        "limitation": "nominal-compound-interpretation",
+        "v1Behavior": "parse-without-relation",
+        "roadmapRef": "Phase 6 compound limitations",
+        "expectedFailure": true,
+        "notes": "Implicit relation: committee FOR patient safety"
+      },
+      "tags": ["regression", "phase6", "nominal-compound", "implicit-relation", "known-limitation"],
+      "priority": "P2",
+      "notes": "Nominal compounds - implicit relations not captured"
+    }
+  ]
+}

@@ -1,0 +1,445 @@
+{
+  "version": "2.0",
+  "corpusId": "modality-corpus",
+  "description": "Golden test cases for modal force detection (Phase 8.5.2)",
+  "metadata": {
+    "created": "2026-02-10",
+    "lastUpdated": "2026-02-10",
+    "author": "TagTeam Core Team",
+    "phase": "8.5.2",
+    "priority": "P0",
+    "notes": "Tests deontic, epistemic, alethic, and dynamic modality across modal types"
+  },
+  "cases": [
+    {
+      "id": "modal-001",
+      "category": "deontic-obligation",
+      "input": "The doctor must obtain consent",
+      "expectedOutput": {
+        "modal": "must",
+        "modalType": "deontic",
+        "modalForce": "obligation",
+        "actualityStatus": "tagteam:Prescribed",
+        "source": "institutional"
+      },
+      "tags": ["deontic", "obligation", "medical", "must"],
+      "priority": "P0",
+      "notes": "Strong deontic obligation from professional/legal norms"
+    },
+    {
+      "id": "modal-002",
+      "category": "deontic-obligation",
+      "input": "Nurses should report incidents immediately",
+      "expectedOutput": {
+        "modal": "should",
+        "modalType": "deontic",
+        "modalForce": "obligation",
+        "strength": "weak",
+        "actualityStatus": "tagteam:Prescribed"
+      },
+      "tags": ["deontic", "obligation", "medical", "should"],
+      "priority": "P0",
+      "notes": "Weaker deontic obligation - advisory"
+    },
+    {
+      "id": "modal-003",
+      "category": "deontic-obligation",
+      "input": "The hospital ought to improve safety",
+      "expectedOutput": {
+        "modal": "ought to",
+        "modalType": "deontic",
+        "modalForce": "obligation",
+        "actualityStatus": "tagteam:Prescribed"
+      },
+      "tags": ["deontic", "obligation", "medical", "ought"],
+      "priority": "P0",
+      "notes": "Moral obligation marker"
+    },
+    {
+      "id": "modal-004",
+      "category": "deontic-obligation",
+      "input": "The doctor shall inform patients",
+      "expectedOutput": {
+        "modal": "shall",
+        "modalType": "deontic",
+        "modalForce": "obligation",
+        "register": "formal",
+        "actualityStatus": "tagteam:Prescribed"
+      },
+      "tags": ["deontic", "obligation", "formal", "shall"],
+      "priority": "P1",
+      "notes": "Formal/legal obligation marker"
+    },
+    {
+      "id": "modal-005",
+      "category": "deontic-permission",
+      "input": "The patient may refuse treatment",
+      "expectedOutput": {
+        "modal": "may",
+        "modalType": "deontic",
+        "modalForce": "permission",
+        "actualityStatus": "tagteam:Permitted"
+      },
+      "tags": ["deontic", "permission", "medical", "may"],
+      "priority": "P0",
+      "notes": "Explicit permission - patient rights"
+    },
+    {
+      "id": "modal-006",
+      "category": "deontic-permission",
+      "input": "Visitors can stay overnight",
+      "expectedOutput": {
+        "modal": "can",
+        "modalType": "deontic",
+        "modalForce": "permission",
+        "actualityStatus": "tagteam:Permitted"
+      },
+      "tags": ["deontic", "permission", "can"],
+      "priority": "P0",
+      "notes": "'Can' with permission reading"
+    },
+    {
+      "id": "modal-007",
+      "category": "deontic-prohibition",
+      "input": "Staff must not enter without PPE",
+      "expectedOutput": {
+        "modal": "must not",
+        "modalType": "deontic",
+        "modalForce": "prohibition",
+        "actualityStatus": "tagteam:Prohibited"
+      },
+      "tags": ["deontic", "prohibition", "medical", "must-not"],
+      "priority": "P0",
+      "notes": "Strong prohibition"
+    },
+    {
+      "id": "modal-008",
+      "category": "deontic-prohibition",
+      "input": "The patient should not smoke",
+      "expectedOutput": {
+        "modal": "should not",
+        "modalType": "deontic",
+        "modalForce": "prohibition",
+        "strength": "weak",
+        "actualityStatus": "tagteam:Prohibited"
+      },
+      "tags": ["deontic", "prohibition", "medical", "should-not"],
+      "priority": "P0",
+      "notes": "Weak prohibition - medical advice"
+    },
+    {
+      "id": "modal-009",
+      "category": "deontic-optionality",
+      "input": "The family need not decide today",
+      "expectedOutput": {
+        "modal": "need not",
+        "modalType": "deontic",
+        "modalForce": "optionality",
+        "actualityStatus": "tagteam:Optional"
+      },
+      "tags": ["deontic", "optionality", "need-not"],
+      "priority": "P1",
+      "notes": "Absence of obligation"
+    },
+    {
+      "id": "modal-010",
+      "category": "deontic-imperative",
+      "input": "Contact the on-call physician",
+      "expectedOutput": {
+        "modal": "imperative",
+        "modalType": "deontic",
+        "modalForce": "directive",
+        "actualityStatus": "tagteam:Prescribed"
+      },
+      "tags": ["deontic", "imperative", "directive"],
+      "priority": "P1",
+      "notes": "Imperative mood = implicit obligation"
+    },
+    {
+      "id": "modal-011",
+      "category": "epistemic-possibility",
+      "input": "The patient might recover",
+      "expectedOutput": {
+        "modal": "might",
+        "modalType": "epistemic",
+        "modalForce": "possibility",
+        "actualityStatus": "tagteam:Hypothetical",
+        "certainty": "low"
+      },
+      "tags": ["epistemic", "possibility", "medical", "might"],
+      "priority": "P0",
+      "notes": "Epistemic possibility - uncertain outcome"
+    },
+    {
+      "id": "modal-012",
+      "category": "epistemic-possibility",
+      "input": "The diagnosis may be incorrect",
+      "expectedOutput": {
+        "modal": "may",
+        "modalType": "epistemic",
+        "modalForce": "possibility",
+        "actualityStatus": "tagteam:Hypothetical"
+      },
+      "tags": ["epistemic", "possibility", "medical", "may"],
+      "priority": "P0",
+      "notes": "'May' with epistemic possibility"
+    },
+    {
+      "id": "modal-013",
+      "category": "epistemic-possibility",
+      "input": "The patient could have complications",
+      "expectedOutput": {
+        "modal": "could",
+        "modalType": "epistemic",
+        "modalForce": "possibility",
+        "actualityStatus": "tagteam:Hypothetical"
+      },
+      "tags": ["epistemic", "possibility", "medical", "could"],
+      "priority": "P0",
+      "notes": "Epistemic 'could' - possible but not certain"
+    },
+    {
+      "id": "modal-014",
+      "category": "epistemic-probability",
+      "input": "The treatment should be effective",
+      "expectedOutput": {
+        "modal": "should",
+        "modalType": "epistemic",
+        "modalForce": "expectation",
+        "actualityStatus": "tagteam:Hypothetical",
+        "certainty": "moderate-high"
+      },
+      "tags": ["epistemic", "expectation", "medical", "should"],
+      "priority": "P0",
+      "notes": "Epistemic 'should' - expected outcome"
+    },
+    {
+      "id": "modal-015",
+      "category": "epistemic-probability",
+      "input": "The results will likely improve",
+      "expectedOutput": {
+        "modal": "will",
+        "modalType": "epistemic",
+        "modalForce": "prediction",
+        "adverb": "likely",
+        "actualityStatus": "tagteam:Hypothetical",
+        "certainty": "high"
+      },
+      "tags": ["epistemic", "prediction", "will", "likely"],
+      "priority": "P1",
+      "notes": "Future prediction with epistemic adverb"
+    },
+    {
+      "id": "modal-016",
+      "category": "epistemic-necessity",
+      "input": "The patient must have taken medication",
+      "expectedOutput": {
+        "modal": "must",
+        "modalType": "epistemic",
+        "modalForce": "necessity",
+        "actualityStatus": "tagteam:Inferred",
+        "evidentiality": "inferential"
+      },
+      "tags": ["epistemic", "necessity", "inferential", "must"],
+      "priority": "P0",
+      "notes": "Epistemic 'must' - logical inference from evidence"
+    },
+    {
+      "id": "modal-017",
+      "category": "epistemic-certainty",
+      "input": "The patient will recover",
+      "expectedOutput": {
+        "modal": "will",
+        "modalType": "epistemic",
+        "modalForce": "prediction",
+        "actualityStatus": "tagteam:Hypothetical",
+        "certainty": "high"
+      },
+      "tags": ["epistemic", "prediction", "will"],
+      "priority": "P1",
+      "notes": "Future 'will' as epistemic prediction"
+    },
+    {
+      "id": "modal-018",
+      "category": "epistemic-doubt",
+      "input": "The doctor cannot be certain",
+      "expectedOutput": {
+        "modal": "cannot",
+        "modalType": "epistemic",
+        "modalForce": "impossibility",
+        "actualityStatus": "tagteam:Impossible"
+      },
+      "tags": ["epistemic", "impossibility", "cannot"],
+      "priority": "P1",
+      "notes": "Epistemic impossibility"
+    },
+    {
+      "id": "modal-019",
+      "category": "alethic-necessity",
+      "input": "Recovery necessarily takes time",
+      "expectedOutput": {
+        "modal": "necessarily",
+        "modalType": "alethic",
+        "modalForce": "necessity",
+        "actualityStatus": "tagteam:Necessary"
+      },
+      "tags": ["alethic", "necessity", "necessarily"],
+      "priority": "P1",
+      "notes": "Logical/metaphysical necessity"
+    },
+    {
+      "id": "modal-020",
+      "category": "alethic-possibility",
+      "input": "Remission is possible",
+      "expectedOutput": {
+        "modal": "possible",
+        "modalType": "alethic",
+        "modalForce": "possibility",
+        "actualityStatus": "tagteam:Possible"
+      },
+      "tags": ["alethic", "possibility", "possible"],
+      "priority": "P2",
+      "notes": "Alethic possibility - metaphysically possible"
+    },
+    {
+      "id": "modal-021",
+      "category": "alethic-impossibility",
+      "input": "The outcome cannot be both positive and negative",
+      "expectedOutput": {
+        "modal": "cannot",
+        "modalType": "alethic",
+        "modalForce": "impossibility",
+        "actualityStatus": "tagteam:Impossible"
+      },
+      "tags": ["alethic", "impossibility", "logical"],
+      "priority": "P2",
+      "notes": "Logical impossibility (contradiction)"
+    },
+    {
+      "id": "modal-022",
+      "category": "alethic-inevitability",
+      "input": "All patients inevitably face mortality",
+      "expectedOutput": {
+        "modal": "inevitably",
+        "modalType": "alethic",
+        "modalForce": "necessity",
+        "actualityStatus": "tagteam:Necessary"
+      },
+      "tags": ["alethic", "necessity", "inevitably"],
+      "priority": "P2",
+      "notes": "Metaphysical/natural necessity"
+    },
+    {
+      "id": "modal-023",
+      "category": "alethic-contingency",
+      "input": "Treatment may or may not work",
+      "expectedOutput": {
+        "modal": "may",
+        "modalType": "alethic",
+        "modalForce": "contingency",
+        "actualityStatus": "tagteam:Contingent"
+      },
+      "tags": ["alethic", "contingency", "may"],
+      "priority": "P2",
+      "notes": "Contingent - neither necessary nor impossible"
+    },
+    {
+      "id": "modal-024",
+      "category": "dynamic-ability",
+      "input": "The surgeon can perform the procedure",
+      "expectedOutput": {
+        "modal": "can",
+        "modalType": "dynamic",
+        "modalForce": "ability",
+        "actualityStatus": "tagteam:Potential"
+      },
+      "tags": ["dynamic", "ability", "medical", "can"],
+      "priority": "P0",
+      "notes": "Agent-internal ability"
+    },
+    {
+      "id": "modal-025",
+      "category": "dynamic-ability",
+      "input": "The patient is able to walk",
+      "expectedOutput": {
+        "modal": "is able to",
+        "modalType": "dynamic",
+        "modalForce": "ability",
+        "actualityStatus": "tagteam:Potential"
+      },
+      "tags": ["dynamic", "ability", "medical", "able"],
+      "priority": "P0",
+      "notes": "Physical ability"
+    },
+    {
+      "id": "modal-026",
+      "category": "dynamic-capacity",
+      "input": "The ventilator can support breathing",
+      "expectedOutput": {
+        "modal": "can",
+        "modalType": "dynamic",
+        "modalForce": "capacity",
+        "actualityStatus": "tagteam:Potential"
+      },
+      "tags": ["dynamic", "capacity", "medical", "can"],
+      "priority": "P0",
+      "notes": "Equipment capacity/capability"
+    },
+    {
+      "id": "modal-027",
+      "category": "dynamic-inability",
+      "input": "The patient cannot swallow",
+      "expectedOutput": {
+        "modal": "cannot",
+        "modalType": "dynamic",
+        "modalForce": "inability",
+        "actualityStatus": "tagteam:Impossible"
+      },
+      "tags": ["dynamic", "inability", "medical", "cannot"],
+      "priority": "P0",
+      "notes": "Lack of ability"
+    },
+    {
+      "id": "modal-028",
+      "category": "dynamic-willingness",
+      "input": "The doctor will see you now",
+      "expectedOutput": {
+        "modal": "will",
+        "modalType": "dynamic",
+        "modalForce": "willingness",
+        "actualityStatus": "tagteam:Intended"
+      },
+      "tags": ["dynamic", "willingness", "will"],
+      "priority": "P1",
+      "notes": "Volitional 'will' - agent willingness"
+    },
+    {
+      "id": "modal-029",
+      "category": "dynamic-disposition",
+      "input": "The medication tends to cause drowsiness",
+      "expectedOutput": {
+        "modal": "tends to",
+        "modalType": "dynamic",
+        "modalForce": "disposition",
+        "actualityStatus": "tagteam:Tendency"
+      },
+      "tags": ["dynamic", "disposition", "tendency"],
+      "priority": "P1",
+      "notes": "Dispositional property"
+    },
+    {
+      "id": "modal-030",
+      "category": "dynamic-acquired-ability",
+      "input": "The patient learned to manage symptoms",
+      "expectedOutput": {
+        "modal": "learned to",
+        "modalType": "dynamic",
+        "modalForce": "acquired-ability",
+        "actualityStatus": "tagteam:Actualized"
+      },
+      "tags": ["dynamic", "ability", "acquired", "learned"],
+      "priority": "P1",
+      "notes": "Acquired skill/ability through learning"
+    }
+  ]
+}

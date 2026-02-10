@@ -1,0 +1,340 @@
+{
+  "version": "2.0",
+  "corpusId": "negation-corpus",
+  "description": "Golden test cases for negation scope and polarity (v1 core feature)",
+  "metadata": {
+    "created": "2026-02-10",
+    "lastUpdated": "2026-02-10",
+    "author": "TagTeam Core Team",
+    "phase": "v1",
+    "priority": "P0",
+    "notes": "Tests negation scope, polarity items, double negation"
+  },
+  "cases": [
+    {
+      "id": "neg-001",
+      "category": "verb-negation-simple",
+      "input": "The patient did not consent",
+      "expectedOutput": {
+        "negation": true,
+        "negationMarker": "not",
+        "scope": "verb-phrase",
+        "negatedElement": "consent",
+        "polarity": "negative"
+      },
+      "tags": ["negation", "verb", "medical", "v1"],
+      "priority": "P0",
+      "notes": "Simple VP negation with 'do'-support"
+    },
+    {
+      "id": "neg-002",
+      "category": "verb-negation-contracted",
+      "input": "The doctor didn't arrive",
+      "expectedOutput": {
+        "negation": true,
+        "negationMarker": "didn't",
+        "scope": "verb-phrase",
+        "negatedElement": "arrive",
+        "contraction": true
+      },
+      "tags": ["negation", "verb", "contraction"],
+      "priority": "P0",
+      "notes": "Contracted negation"
+    },
+    {
+      "id": "neg-003",
+      "category": "verb-negation-modal",
+      "input": "The patient should not undergo surgery",
+      "expectedOutput": {
+        "negation": true,
+        "negationMarker": "not",
+        "scope": "verb-phrase",
+        "modal": "should",
+        "scopeOrder": "modal > negation"
+      },
+      "tags": ["negation", "modal", "medical", "v1"],
+      "priority": "P0",
+      "notes": "Negation with modal - prohibition reading"
+    },
+    {
+      "id": "neg-004",
+      "category": "verb-negation-auxiliary",
+      "input": "The treatment is not effective",
+      "expectedOutput": {
+        "negation": true,
+        "negationMarker": "not",
+        "scope": "predicate",
+        "negatedElement": "effective",
+        "auxiliary": "is"
+      },
+      "tags": ["negation", "copula", "medical"],
+      "priority": "P0",
+      "notes": "Copula negation - predicative adjective"
+    },
+    {
+      "id": "neg-005",
+      "category": "verb-negation-never",
+      "input": "The hospital never admitted fault",
+      "expectedOutput": {
+        "negation": true,
+        "negationMarker": "never",
+        "scope": "verb-phrase",
+        "temporal": "universal-negative",
+        "polarity": "negative"
+      },
+      "tags": ["negation", "never", "temporal"],
+      "priority": "P0",
+      "notes": "Temporal negation - 'never' = not at any time"
+    },
+    {
+      "id": "neg-006",
+      "category": "verb-negation-nobody",
+      "input": "Nobody consulted the patient",
+      "expectedOutput": {
+        "negation": true,
+        "negationMarker": "nobody",
+        "scope": "sentence",
+        "quantifier": "universal-negative",
+        "negatedElement": "agent"
+      },
+      "tags": ["negation", "quantifier", "nobody"],
+      "priority": "P0",
+      "notes": "Negative quantifier in subject position"
+    },
+    {
+      "id": "neg-007",
+      "category": "verb-negation-nothing",
+      "input": "The test revealed nothing abnormal",
+      "expectedOutput": {
+        "negation": true,
+        "negationMarker": "nothing",
+        "scope": "object",
+        "quantifier": "universal-negative"
+      },
+      "tags": ["negation", "quantifier", "nothing", "medical"],
+      "priority": "P0",
+      "notes": "Negative quantifier in object position"
+    },
+    {
+      "id": "neg-008",
+      "category": "verb-negation-no",
+      "input": "The patient has no symptoms",
+      "expectedOutput": {
+        "negation": true,
+        "negationMarker": "no",
+        "scope": "noun-phrase",
+        "negatedElement": "symptoms",
+        "determiner": "no"
+      },
+      "tags": ["negation", "determiner", "medical"],
+      "priority": "P0",
+      "notes": "Negative determiner - NP negation"
+    },
+    {
+      "id": "neg-009",
+      "category": "scope-ambiguity-quantifier",
+      "input": "Not all patients received treatment",
+      "expectedOutput": {
+        "negation": true,
+        "negationMarker": "not",
+        "scope": "quantifier",
+        "ambiguityType": "scope",
+        "defaultReading": {
+          "scopeOrder": "negation > quantifier",
+          "interpretation": "some patients did not receive treatment",
+          "logicalForm": "¬∀x(received_treatment(x))"
+        },
+        "alternativeReading": {
+          "scopeOrder": "quantifier > negation",
+          "interpretation": "all patients failed to receive treatment",
+          "logicalForm": "∀x(¬received_treatment(x))",
+          "plausibility": 0.2
+        }
+      },
+      "tags": ["negation", "scope", "quantifier", "ambiguity", "medical"],
+      "priority": "P0",
+      "notes": "Classic negation-quantifier scope ambiguity"
+    },
+    {
+      "id": "neg-010",
+      "category": "scope-ambiguity-modal",
+      "input": "The patient may not leave",
+      "expectedOutput": {
+        "negation": true,
+        "modal": "may",
+        "negationMarker": "not",
+        "ambiguityType": "scope",
+        "defaultReading": {
+          "scopeOrder": "modal > negation",
+          "interpretation": "not permitted to leave",
+          "modalForce": "prohibition"
+        },
+        "alternativeReading": {
+          "scopeOrder": "negation > modal",
+          "interpretation": "possible that won't leave",
+          "modalForce": "epistemic-possibility",
+          "plausibility": 0.3
+        }
+      },
+      "tags": ["negation", "scope", "modal", "ambiguity", "medical"],
+      "priority": "P0",
+      "notes": "Modal-negation scope interaction"
+    },
+    {
+      "id": "neg-011",
+      "category": "scope-quantifier-every",
+      "input": "Every patient didn't respond",
+      "expectedOutput": {
+        "negation": true,
+        "quantifier": "every",
+        "ambiguityType": "scope",
+        "defaultReading": {
+          "scopeOrder": "quantifier > negation",
+          "interpretation": "all patients failed to respond"
+        },
+        "alternativeReading": {
+          "scopeOrder": "negation > quantifier",
+          "interpretation": "not all patients responded",
+          "plausibility": 0.4
+        }
+      },
+      "tags": ["negation", "scope", "quantifier", "medical"],
+      "priority": "P0",
+      "notes": "Surface scope preferred with 'every'"
+    },
+    {
+      "id": "neg-012",
+      "category": "scope-adverb",
+      "input": "The patient barely survived",
+      "expectedOutput": {
+        "negation": "weak",
+        "negationMarker": "barely",
+        "scope": "verb-phrase",
+        "interpretation": "almost did not survive",
+        "degree": "minimal"
+      },
+      "tags": ["negation", "degree", "barely", "medical"],
+      "priority": "P1",
+      "notes": "Degree adverb with negative semantics"
+    },
+    {
+      "id": "neg-013",
+      "category": "scope-neither",
+      "input": "Neither treatment was effective",
+      "expectedOutput": {
+        "negation": true,
+        "negationMarker": "neither",
+        "scope": "noun-phrase",
+        "quantifier": "dual-negative",
+        "interpretation": "not treatment A and not treatment B"
+      },
+      "tags": ["negation", "quantifier", "neither", "medical"],
+      "priority": "P1",
+      "notes": "Dual negation - neither of two"
+    },
+    {
+      "id": "neg-014",
+      "category": "scope-nor",
+      "input": "The patient has no fever nor chills",
+      "expectedOutput": {
+        "negation": true,
+        "negationMarker": "no",
+        "coordinator": "nor",
+        "scope": "coordinated-NPs",
+        "interpretation": "not fever and not chills"
+      },
+      "tags": ["negation", "coordination", "nor", "medical"],
+      "priority": "P1",
+      "notes": "Negative coordination with 'nor'"
+    },
+    {
+      "id": "neg-015",
+      "category": "polarity-any",
+      "input": "The doctor didn't find any abnormalities",
+      "expectedOutput": {
+        "negation": true,
+        "polarityItem": "any",
+        "polarityType": "negative-polarity-item",
+        "licenser": "didn't",
+        "licensed": true
+      },
+      "tags": ["negation", "polarity", "any", "medical"],
+      "priority": "P0",
+      "notes": "NPI 'any' licensed by negation"
+    },
+    {
+      "id": "neg-016",
+      "category": "polarity-ever",
+      "input": "The patient hasn't ever complained",
+      "expectedOutput": {
+        "negation": true,
+        "polarityItem": "ever",
+        "polarityType": "negative-polarity-item",
+        "licenser": "hasn't",
+        "temporal": true
+      },
+      "tags": ["negation", "polarity", "ever"],
+      "priority": "P1",
+      "notes": "Temporal NPI 'ever'"
+    },
+    {
+      "id": "neg-017",
+      "category": "polarity-at-all",
+      "input": "The treatment didn't help at all",
+      "expectedOutput": {
+        "negation": true,
+        "polarityItem": "at all",
+        "polarityType": "negative-polarity-item",
+        "licenser": "didn't",
+        "emphasis": true
+      },
+      "tags": ["negation", "polarity", "at-all", "medical"],
+      "priority": "P1",
+      "notes": "Emphatic NPI 'at all'"
+    },
+    {
+      "id": "neg-018",
+      "category": "double-negation-litotes",
+      "input": "The result is not uncommon",
+      "expectedOutput": {
+        "negation": "double",
+        "negationMarkers": ["not", "un-"],
+        "interpretation": "somewhat common",
+        "figure": "litotes",
+        "semantics": "weakly-positive"
+      },
+      "tags": ["negation", "double", "litotes"],
+      "priority": "P1",
+      "notes": "Litotes - double negative = weak positive"
+    },
+    {
+      "id": "neg-019",
+      "category": "double-negation-cancellation",
+      "input": "It's not impossible to recover",
+      "expectedOutput": {
+        "negation": "double",
+        "negationMarkers": ["not", "im-"],
+        "interpretation": "possible to recover",
+        "semantics": "positive"
+      },
+      "tags": ["negation", "double", "medical"],
+      "priority": "P2",
+      "notes": "Double negation cancels to positive"
+    },
+    {
+      "id": "neg-020",
+      "category": "affixal-negation",
+      "input": "The diagnosis was inconclusive",
+      "expectedOutput": {
+        "negation": true,
+        "negationMarker": "in-",
+        "negationType": "affixal",
+        "base": "conclusive",
+        "negatedElement": "conclusive"
+      },
+      "tags": ["negation", "affixal", "medical"],
+      "priority": "P1",
+      "notes": "Affixal negation with prefix 'in-'"
+    }
+  ]
+}

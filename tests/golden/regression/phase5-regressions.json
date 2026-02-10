@@ -1,0 +1,300 @@
+{
+  "version": "2.0",
+  "corpusId": "phase5-regressions",
+  "description": "Known Phase 5 limitations and regressions - documents expected failures",
+  "metadata": {
+    "created": "2026-02-10",
+    "lastUpdated": "2026-02-10",
+    "author": "TagTeam Core Team",
+    "phase": "5",
+    "priority": "P1",
+    "notes": "These tests document KNOWN Phase 5 limitations - failures are expected and documented"
+  },
+  "cases": [
+    {
+      "id": "phase5-reg-001",
+      "category": "complex-argument-structure",
+      "input": "The doctor convinced the patient to undergo the surgery for their health",
+      "expectedOutput": {
+        "limitation": "complex-argument-structure",
+        "v1Behavior": "partial-argument-parse",
+        "roadmapRef": "Phase 5 argument structure limitations",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase5", "argument-structure", "control-verb", "known-limitation"],
+      "priority": "P1",
+      "notes": "Complex control verb with multiple arguments - Phase 5 limitation"
+    },
+    {
+      "id": "phase5-reg-002",
+      "category": "resultative-construction",
+      "input": "The treatment made the patient weak and dizzy",
+      "expectedOutput": {
+        "limitation": "complex-resultative",
+        "v1Behavior": "parse-first-result-only",
+        "roadmapRef": "Phase 5 resultative limitations",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase5", "resultative", "coordination", "known-limitation"],
+      "priority": "P1",
+      "notes": "Coordinated resultative predicates - Phase 5 limitation"
+    },
+    {
+      "id": "phase5-reg-003",
+      "category": "raising-construction",
+      "input": "The patient seems to be recovering from the surgery",
+      "expectedOutput": {
+        "limitation": "raising-verb",
+        "v1Behavior": "parse-without-raising",
+        "roadmapRef": "Phase 5 raising limitations",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase5", "raising", "seem-verb", "known-limitation"],
+      "priority": "P1",
+      "notes": "Raising verbs - Phase 5 limitation"
+    },
+    {
+      "id": "phase5-reg-004",
+      "category": "tough-movement",
+      "input": "This patient is difficult to treat effectively",
+      "expectedOutput": {
+        "limitation": "tough-movement",
+        "v1Behavior": "parse-without-movement",
+        "roadmapRef": "Phase 5 movement limitations",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase5", "tough-movement", "known-limitation"],
+      "priority": "P1",
+      "notes": "Tough-movement constructions - Phase 5 limitation"
+    },
+    {
+      "id": "phase5-reg-005",
+      "category": "extraposition",
+      "input": "It is important for the patient to rest adequately",
+      "expectedOutput": {
+        "limitation": "extraposition",
+        "v1Behavior": "parse-without-extraposition",
+        "roadmapRef": "Phase 5 extraposition limitations",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase5", "extraposition", "it-cleft", "known-limitation"],
+      "priority": "P1",
+      "notes": "Extraposition constructions - Phase 5 limitation"
+    },
+    {
+      "id": "phase5-reg-006",
+      "category": "particle-verb",
+      "input": "The doctor looked up the patient's medical history",
+      "expectedOutput": {
+        "limitation": "particle-verb",
+        "v1Behavior": "parse-verb-and-particle-separately",
+        "roadmapRef": "Phase 5 phrasal verb limitations",
+        "expectedFailure": false,
+        "notes": "Parsed but particle not recognized as part of verb"
+      },
+      "tags": ["regression", "phase5", "phrasal-verb", "particle", "partial-support"],
+      "priority": "P2",
+      "notes": "Phrasal verbs with particles - partial Phase 5 support"
+    },
+    {
+      "id": "phase5-reg-007",
+      "category": "dative-alternation",
+      "input": "The nurse explained to the family the treatment options",
+      "expectedOutput": {
+        "limitation": "dative-shift",
+        "v1Behavior": "parse-standard-order-only",
+        "roadmapRef": "Phase 5 dative limitations",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase5", "dative-alternation", "word-order", "known-limitation"],
+      "priority": "P2",
+      "notes": "Non-standard dative word order - Phase 5 limitation"
+    },
+    {
+      "id": "phase5-reg-008",
+      "category": "heavy-np-shift",
+      "input": "The doctor prescribed yesterday a medication that reduces inflammation",
+      "expectedOutput": {
+        "limitation": "heavy-np-shift",
+        "v1Behavior": "parse-canonical-order",
+        "roadmapRef": "Phase 5 word order limitations",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase5", "heavy-np-shift", "word-order", "known-limitation"],
+      "priority": "P2",
+      "notes": "Heavy NP shift - Phase 5 limitation"
+    },
+    {
+      "id": "phase5-reg-009",
+      "category": "locative-inversion",
+      "input": "In the emergency room was a critically ill patient",
+      "expectedOutput": {
+        "limitation": "locative-inversion",
+        "v1Behavior": "parse-canonical-order",
+        "roadmapRef": "Phase 5 inversion limitations",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase5", "locative-inversion", "word-order", "known-limitation"],
+      "priority": "P2",
+      "notes": "Locative inversion - Phase 5 limitation"
+    },
+    {
+      "id": "phase5-reg-010",
+      "category": "multiple-obliques",
+      "input": "The doctor treated the patient with medication for the infection in the hospital",
+      "expectedOutput": {
+        "limitation": "multiple-oblique-arguments",
+        "v1Behavior": "attach-obliques-ambiguously",
+        "roadmapRef": "Phase 5 oblique limitations",
+        "expectedFailure": false,
+        "notes": "Parsed but attachments may be incorrect"
+      },
+      "tags": ["regression", "phase5", "oblique-arguments", "pp-attachment", "partial-support"],
+      "priority": "P2",
+      "notes": "Multiple oblique arguments - attachment ambiguity"
+    },
+    {
+      "id": "phase5-reg-011",
+      "category": "denominal-verb",
+      "input": "The patient hospitalized after the accident",
+      "expectedOutput": {
+        "limitation": "denominal-verb",
+        "v1Behavior": "parse-as-unknown-verb",
+        "roadmapRef": "Phase 5 denominal limitations",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase5", "denominal-verb", "derivation", "known-limitation"],
+      "priority": "P2",
+      "notes": "Denominal verbs - Phase 5 limitation"
+    },
+    {
+      "id": "phase5-reg-012",
+      "category": "light-verb-construction",
+      "input": "The patient took a turn for the worse",
+      "expectedOutput": {
+        "limitation": "light-verb-idiom",
+        "v1Behavior": "parse-literally",
+        "roadmapRef": "Phase 5 light verb limitations",
+        "expectedFailure": false,
+        "notes": "Parsed literally - idiom not recognized"
+      },
+      "tags": ["regression", "phase5", "light-verb", "idiom", "partial-support"],
+      "priority": "P2",
+      "notes": "Light verb constructions - parsed literally"
+    },
+    {
+      "id": "phase5-reg-013",
+      "category": "complex-predicate",
+      "input": "The treatment proved effective in reducing symptoms",
+      "expectedOutput": {
+        "limitation": "complex-predicate",
+        "v1Behavior": "parse-simple-predicate",
+        "roadmapRef": "Phase 5 complex predicate limitations",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase5", "complex-predicate", "known-limitation"],
+      "priority": "P1",
+      "notes": "Complex predicates with clausal complements - Phase 5 limitation"
+    },
+    {
+      "id": "phase5-reg-014",
+      "category": "causative-alternation",
+      "input": "The medication increased the patient's heart rate",
+      "expectedOutput": {
+        "limitation": "causative-alternation",
+        "v1Behavior": "parse-as-simple-transitive",
+        "roadmapRef": "Phase 5 causative limitations",
+        "expectedFailure": false,
+        "notes": "Parsed but causative semantics not captured"
+      },
+      "tags": ["regression", "phase5", "causative", "alternation", "partial-support"],
+      "priority": "P2",
+      "notes": "Causative alternations - parsed but semantics incomplete"
+    },
+    {
+      "id": "phase5-reg-015",
+      "category": "applicative-construction",
+      "input": "The nurse bandaged the patient the wound",
+      "expectedOutput": {
+        "limitation": "applicative-construction",
+        "v1Behavior": "parse-as-error",
+        "roadmapRef": "Phase 5 applicative limitations",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase5", "applicative", "non-standard", "known-limitation"],
+      "priority": "P2",
+      "notes": "Applicative constructions - Phase 5 limitation"
+    },
+    {
+      "id": "phase5-reg-016",
+      "category": "discourse-marker",
+      "input": "Well, the patient seems to be recovering nicely",
+      "expectedOutput": {
+        "limitation": "discourse-marker",
+        "v1Behavior": "ignore-discourse-marker",
+        "roadmapRef": "Phase 5 discourse limitations",
+        "expectedFailure": false,
+        "notes": "Discourse marker ignored"
+      },
+      "tags": ["regression", "phase5", "discourse-marker", "partial-support"],
+      "priority": "P2",
+      "notes": "Discourse markers - ignored in Phase 5"
+    },
+    {
+      "id": "phase5-reg-017",
+      "category": "free-relative",
+      "input": "The doctor prescribed what the patient needed",
+      "expectedOutput": {
+        "limitation": "free-relative",
+        "v1Behavior": "parse-as-interrogative",
+        "roadmapRef": "Phase 5 free relative limitations",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase5", "free-relative", "wh-clause", "known-limitation"],
+      "priority": "P1",
+      "notes": "Free relative clauses - Phase 5 limitation"
+    },
+    {
+      "id": "phase5-reg-018",
+      "category": "gapping",
+      "input": "The doctor examined the patient and the nurse the visitor",
+      "expectedOutput": {
+        "limitation": "gapping",
+        "v1Behavior": "parse-first-clause-only",
+        "roadmapRef": "Phase 5 ellipsis limitations",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase5", "gapping", "ellipsis", "known-limitation"],
+      "priority": "P1",
+      "notes": "Gapping constructions - Phase 5 limitation"
+    },
+    {
+      "id": "phase5-reg-019",
+      "category": "pseudo-cleft",
+      "input": "What the patient needs is rest and medication",
+      "expectedOutput": {
+        "limitation": "pseudo-cleft",
+        "v1Behavior": "parse-as-question",
+        "roadmapRef": "Phase 5 cleft limitations",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase5", "pseudo-cleft", "focus", "known-limitation"],
+      "priority": "P1",
+      "notes": "Pseudo-cleft constructions - Phase 5 limitation"
+    },
+    {
+      "id": "phase5-reg-020",
+      "category": "right-node-raising",
+      "input": "The doctor examined and the nurse treated the patient",
+      "expectedOutput": {
+        "limitation": "right-node-raising",
+        "v1Behavior": "parse-first-clause-only",
+        "roadmapRef": "Phase 5 coordination limitations",
+        "expectedFailure": true
+      },
+      "tags": ["regression", "phase5", "right-node-raising", "coordination", "known-limitation"],
+      "priority": "P1",
+      "notes": "Right-node raising - Phase 5 limitation"
+    }
+  ]
+}

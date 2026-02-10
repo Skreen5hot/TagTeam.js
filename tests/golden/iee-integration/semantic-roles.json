@@ -1,0 +1,506 @@
+{
+  "version": "2.0",
+  "corpusId": "semantic-roles",
+  "description": "Golden test cases for semantic role extraction (IEE Week 1 integration)",
+  "metadata": {
+    "created": "2026-02-10",
+    "lastUpdated": "2026-02-10",
+    "author": "TagTeam Core Team",
+    "phase": "Week 1",
+    "priority": "P0",
+    "notes": "Tests extraction of Agent, Patient, Recipient, Theme roles - foundational for IEE value detection",
+    "ieeReference": "IEE-TagTeam-Integration-Requirements-v1.md",
+    "targetAccuracy": "84.2%+"
+  },
+  "cases": [
+    {
+      "id": "roles-agent-001",
+      "category": "agent-human-intentional",
+      "input": "The surgeon performed the operation",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the surgeon", "role": "Agent", "position": "subject", "intentionality": "high", "entityType": "human-professional" },
+          { "text": "the operation", "role": "Theme", "position": "object", "entityType": "event" }
+        ],
+        "verb": "performed",
+        "actionType": "intentional-action"
+      },
+      "tags": ["semantic-roles", "agent", "intentional", "medical", "week1"],
+      "priority": "P0",
+      "notes": "Clear agentive action - intentional professional act"
+    },
+    {
+      "id": "roles-agent-002",
+      "category": "agent-institutional",
+      "input": "The hospital implemented new safety protocols",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the hospital", "role": "Agent", "position": "subject", "intentionality": "institutional", "entityType": "organization" },
+          { "text": "new safety protocols", "role": "Theme", "position": "object", "entityType": "policy" }
+        ],
+        "verb": "implemented",
+        "actionType": "institutional-action"
+      },
+      "tags": ["semantic-roles", "agent", "institutional", "policy", "week1"],
+      "priority": "P0",
+      "notes": "Institutional agent - organization as actor"
+    },
+    {
+      "id": "roles-agent-003",
+      "category": "agent-collective",
+      "input": "The ethics committee decided to approve the research",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the ethics committee", "role": "Agent", "position": "subject", "intentionality": "collective", "entityType": "group" },
+          { "text": "to approve the research", "role": "Theme", "position": "complement", "entityType": "decision" }
+        ],
+        "verb": "decided",
+        "actionType": "deliberative-decision"
+      },
+      "tags": ["semantic-roles", "agent", "collective", "decision", "week1"],
+      "priority": "P0",
+      "notes": "Collective agent - group decision-making"
+    },
+    {
+      "id": "roles-agent-004",
+      "category": "agent-implicit-imperative",
+      "input": "Inform the patient about the risks",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "implicit-you", "role": "Agent", "position": "implicit", "intentionality": "directive", "entityType": "addressee" },
+          { "text": "the patient", "role": "Recipient", "position": "object", "entityType": "human" },
+          { "text": "about the risks", "role": "Theme", "position": "prepositional", "entityType": "information" }
+        ],
+        "verb": "inform",
+        "actionType": "imperative-directive"
+      },
+      "tags": ["semantic-roles", "agent", "implicit", "imperative", "week1"],
+      "priority": "P0",
+      "notes": "Implicit agent in imperative - critical v1 feature"
+    },
+    {
+      "id": "roles-agent-005",
+      "category": "agent-causal-force",
+      "input": "The medication caused adverse reactions",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the medication", "role": "Agent", "position": "subject", "intentionality": "none", "entityType": "substance-causal" },
+          { "text": "adverse reactions", "role": "Theme", "position": "object", "entityType": "effect" }
+        ],
+        "verb": "caused",
+        "actionType": "causal-non-intentional"
+      },
+      "tags": ["semantic-roles", "agent", "causal", "non-intentional", "medical", "week1"],
+      "priority": "P0",
+      "notes": "Non-intentional causal agent - substance causing effects"
+    },
+    {
+      "id": "roles-agent-006",
+      "category": "agent-passive-suppression",
+      "input": "The patient was treated with chemotherapy",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "implicit-medical-staff", "role": "Agent", "position": "suppressed", "intentionality": "high", "entityType": "human-implicit" },
+          { "text": "the patient", "role": "Patient", "position": "subject", "entityType": "human" },
+          { "text": "with chemotherapy", "role": "Instrument", "position": "prepositional", "entityType": "treatment" }
+        ],
+        "verb": "was treated",
+        "actionType": "passive-agentless"
+      },
+      "tags": ["semantic-roles", "agent", "implicit", "passive", "medical", "week1"],
+      "priority": "P0",
+      "notes": "Suppressed agent in passive voice"
+    },
+    {
+      "id": "roles-agent-007",
+      "category": "agent-volitional",
+      "input": "The patient chose to discontinue treatment",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the patient", "role": "Agent", "position": "subject", "intentionality": "volitional", "entityType": "human" },
+          { "text": "to discontinue treatment", "role": "Theme", "position": "complement", "entityType": "decision" }
+        ],
+        "verb": "chose",
+        "actionType": "volitional-decision"
+      },
+      "tags": ["semantic-roles", "agent", "volitional", "autonomy", "week1"],
+      "priority": "P0",
+      "notes": "Volitional agent - autonomous choice"
+    },
+    {
+      "id": "roles-agent-008",
+      "category": "agent-experiencer",
+      "input": "The family experienced profound grief",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the family", "role": "Experiencer", "position": "subject", "intentionality": "none", "entityType": "human-group" },
+          { "text": "profound grief", "role": "Theme", "position": "object", "entityType": "emotion" }
+        ],
+        "verb": "experienced",
+        "actionType": "experiential-state"
+      },
+      "tags": ["semantic-roles", "agent", "experiencer", "emotion", "week1"],
+      "priority": "P1",
+      "notes": "Experiencer role - not truly agentive"
+    },
+    {
+      "id": "roles-patient-001",
+      "category": "patient-affected-participant",
+      "input": "The doctor examined the patient",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the doctor", "role": "Agent", "position": "subject", "entityType": "human-professional" },
+          { "text": "the patient", "role": "Patient", "position": "object", "entityType": "human", "affected": true }
+        ],
+        "verb": "examined",
+        "actionType": "transitive-action"
+      },
+      "tags": ["semantic-roles", "patient", "affected", "medical", "week1"],
+      "priority": "P0",
+      "notes": "Clear patient role - affected participant"
+    },
+    {
+      "id": "roles-patient-002",
+      "category": "patient-undergoer",
+      "input": "The tumor shrank after radiation",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the tumor", "role": "Patient", "position": "subject", "entityType": "medical-entity", "undergoer": true },
+          { "text": "radiation", "role": "Cause", "position": "prepositional", "entityType": "treatment" }
+        ],
+        "verb": "shrank",
+        "actionType": "change-of-state"
+      },
+      "tags": ["semantic-roles", "patient", "undergoer", "medical", "week1"],
+      "priority": "P0",
+      "notes": "Patient as undergoer of change"
+    },
+    {
+      "id": "roles-patient-003",
+      "category": "patient-passive-subject",
+      "input": "The child was vaccinated",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the child", "role": "Patient", "position": "subject", "entityType": "human", "affected": true },
+          { "text": "implicit-healthcare-provider", "role": "Agent", "position": "suppressed", "entityType": "human-implicit" }
+        ],
+        "verb": "was vaccinated",
+        "actionType": "passive-voice"
+      },
+      "tags": ["semantic-roles", "patient", "passive", "medical", "week1"],
+      "priority": "P0",
+      "notes": "Patient promoted to subject in passive"
+    },
+    {
+      "id": "roles-patient-004",
+      "category": "patient-incremental-theme",
+      "input": "The surgeon repaired the damaged tissue",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the surgeon", "role": "Agent", "position": "subject", "entityType": "human-professional" },
+          { "text": "the damaged tissue", "role": "Patient", "position": "object", "entityType": "anatomical", "affected": true, "incremental": true }
+        ],
+        "verb": "repaired",
+        "actionType": "transitive-action"
+      },
+      "tags": ["semantic-roles", "patient", "incremental-theme", "surgical", "week1"],
+      "priority": "P0",
+      "notes": "Patient as incremental theme - undergoes change"
+    },
+    {
+      "id": "roles-patient-005",
+      "category": "patient-beneficiary",
+      "input": "The treatment benefited the patient significantly",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the treatment", "role": "Agent", "position": "subject", "entityType": "medical-intervention", "intentionality": "none" },
+          { "text": "the patient", "role": "Patient", "position": "object", "entityType": "human", "beneficiary": true }
+        ],
+        "verb": "benefited",
+        "actionType": "benefactive"
+      },
+      "tags": ["semantic-roles", "patient", "beneficiary", "medical", "week1"],
+      "priority": "P0",
+      "notes": "Patient as beneficiary of action"
+    },
+    {
+      "id": "roles-patient-006",
+      "category": "patient-stimulus",
+      "input": "The diagnosis shocked the family",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the diagnosis", "role": "Stimulus", "position": "subject", "entityType": "information" },
+          { "text": "the family", "role": "Patient", "position": "object", "entityType": "human-group", "experiencer": true }
+        ],
+        "verb": "shocked",
+        "actionType": "psych-verb"
+      },
+      "tags": ["semantic-roles", "patient", "experiencer", "psych-verb", "week1"],
+      "priority": "P1",
+      "notes": "Patient as experiencer in psychological verb"
+    },
+    {
+      "id": "roles-patient-007",
+      "category": "patient-double-object",
+      "input": "The hospital charged the patient excessive fees",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the hospital", "role": "Agent", "position": "subject", "entityType": "organization" },
+          { "text": "the patient", "role": "Recipient", "position": "indirect-object", "entityType": "human" },
+          { "text": "excessive fees", "role": "Theme", "position": "direct-object", "entityType": "financial" }
+        ],
+        "verb": "charged",
+        "actionType": "ditransitive"
+      },
+      "tags": ["semantic-roles", "patient", "recipient", "financial", "week1"],
+      "priority": "P0",
+      "notes": "Patient in double-object construction"
+    },
+    {
+      "id": "roles-patient-008",
+      "category": "patient-reflexive",
+      "input": "The patient injured themselves",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the patient", "role": "Agent", "position": "subject", "entityType": "human" },
+          { "text": "themselves", "role": "Patient", "position": "object", "entityType": "human", "coreferent": "the patient" }
+        ],
+        "verb": "injured",
+        "actionType": "reflexive"
+      },
+      "tags": ["semantic-roles", "patient", "reflexive", "coreference", "week1"],
+      "priority": "P1",
+      "notes": "Patient coreferent with agent - reflexive"
+    },
+    {
+      "id": "roles-recipient-001",
+      "category": "recipient-indirect-object",
+      "input": "The nurse gave the patient medication",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the nurse", "role": "Agent", "position": "subject", "entityType": "human-professional" },
+          { "text": "the patient", "role": "Recipient", "position": "indirect-object", "entityType": "human" },
+          { "text": "medication", "role": "Theme", "position": "direct-object", "entityType": "substance" }
+        ],
+        "verb": "gave",
+        "actionType": "ditransitive-transfer"
+      },
+      "tags": ["semantic-roles", "recipient", "ditransitive", "medical", "week1"],
+      "priority": "P0",
+      "notes": "Classic recipient in ditransitive construction"
+    },
+    {
+      "id": "roles-recipient-002",
+      "category": "recipient-benefactive",
+      "input": "The surgeon operated on the patient",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the surgeon", "role": "Agent", "position": "subject", "entityType": "human-professional" },
+          { "text": "the patient", "role": "Recipient", "position": "prepositional-object", "entityType": "human", "preposition": "on", "beneficiary": true }
+        ],
+        "verb": "operated",
+        "actionType": "prepositional-benefactive"
+      },
+      "tags": ["semantic-roles", "recipient", "benefactive", "surgical", "week1"],
+      "priority": "P0",
+      "notes": "Recipient as beneficiary with prepositional marking"
+    },
+    {
+      "id": "roles-recipient-003",
+      "category": "recipient-communication",
+      "input": "The doctor explained the diagnosis to the patient",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the doctor", "role": "Agent", "position": "subject", "entityType": "human-professional" },
+          { "text": "the diagnosis", "role": "Theme", "position": "object", "entityType": "information" },
+          { "text": "the patient", "role": "Recipient", "position": "prepositional-object", "entityType": "human", "preposition": "to" }
+        ],
+        "verb": "explained",
+        "actionType": "communication-verb"
+      },
+      "tags": ["semantic-roles", "recipient", "communication", "medical", "week1"],
+      "priority": "P0",
+      "notes": "Recipient of communicated information"
+    },
+    {
+      "id": "roles-recipient-004",
+      "category": "recipient-passive-promotion",
+      "input": "The patient was told about the poor prognosis",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the patient", "role": "Recipient", "position": "subject", "entityType": "human", "passive-promotion": true },
+          { "text": "about the poor prognosis", "role": "Theme", "position": "prepositional", "entityType": "information" },
+          { "text": "implicit-doctor", "role": "Agent", "position": "suppressed", "entityType": "human-implicit" }
+        ],
+        "verb": "was told",
+        "actionType": "passive-communication"
+      },
+      "tags": ["semantic-roles", "recipient", "passive", "communication", "week1"],
+      "priority": "P0",
+      "notes": "Recipient promoted to subject in passive"
+    },
+    {
+      "id": "roles-recipient-005",
+      "category": "recipient-experiencer",
+      "input": "The news brought hope to the family",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the news", "role": "Agent", "position": "subject", "entityType": "information", "intentionality": "none" },
+          { "text": "hope", "role": "Theme", "position": "object", "entityType": "emotion" },
+          { "text": "the family", "role": "Recipient", "position": "prepositional-object", "entityType": "human-group", "preposition": "to" }
+        ],
+        "verb": "brought",
+        "actionType": "transfer-emotional"
+      },
+      "tags": ["semantic-roles", "recipient", "experiencer", "emotion", "week1"],
+      "priority": "P1",
+      "notes": "Recipient as experiencer of emotional state"
+    },
+    {
+      "id": "roles-recipient-006",
+      "category": "recipient-goal",
+      "input": "The ambulance transported the patient to the hospital",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the ambulance", "role": "Agent", "position": "subject", "entityType": "vehicle-institutional" },
+          { "text": "the patient", "role": "Theme", "position": "object", "entityType": "human" },
+          { "text": "the hospital", "role": "Goal", "position": "prepositional-object", "entityType": "location", "preposition": "to" }
+        ],
+        "verb": "transported",
+        "actionType": "motion-directional"
+      },
+      "tags": ["semantic-roles", "recipient", "goal", "location", "medical", "week1"],
+      "priority": "P1",
+      "notes": "Goal as destination - locative recipient"
+    },
+    {
+      "id": "roles-recipient-007",
+      "category": "recipient-malefactive",
+      "input": "The error caused harm to the patient",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the error", "role": "Agent", "position": "subject", "entityType": "event-negative", "intentionality": "none" },
+          { "text": "harm", "role": "Theme", "position": "object", "entityType": "negative-effect" },
+          { "text": "the patient", "role": "Recipient", "position": "prepositional-object", "entityType": "human", "preposition": "to", "maleficiary": true }
+        ],
+        "verb": "caused",
+        "actionType": "causal-negative"
+      },
+      "tags": ["semantic-roles", "recipient", "malefactive", "harm", "medical", "week1"],
+      "priority": "P0",
+      "notes": "Recipient as maleficiary - harmed party"
+    },
+    {
+      "id": "roles-theme-001",
+      "category": "theme-direct-object",
+      "input": "The doctor prescribed antibiotics",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the doctor", "role": "Agent", "position": "subject", "entityType": "human-professional" },
+          { "text": "antibiotics", "role": "Theme", "position": "direct-object", "entityType": "substance" }
+        ],
+        "verb": "prescribed",
+        "actionType": "transitive-action"
+      },
+      "tags": ["semantic-roles", "theme", "direct-object", "medical", "week1"],
+      "priority": "P0",
+      "notes": "Theme as direct object - prototypical"
+    },
+    {
+      "id": "roles-theme-002",
+      "category": "theme-proposition",
+      "input": "The committee decided that treatment should continue",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the committee", "role": "Agent", "position": "subject", "entityType": "group" },
+          { "text": "that treatment should continue", "role": "Theme", "position": "clausal-complement", "entityType": "proposition" }
+        ],
+        "verb": "decided",
+        "actionType": "propositional-attitude"
+      },
+      "tags": ["semantic-roles", "theme", "proposition", "decision", "week1"],
+      "priority": "P0",
+      "notes": "Theme as propositional content"
+    },
+    {
+      "id": "roles-theme-003",
+      "category": "theme-subject-intransitive",
+      "input": "The patient recovered",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the patient", "role": "Theme", "position": "subject", "entityType": "human", "undergoer": true }
+        ],
+        "verb": "recovered",
+        "actionType": "intransitive-change"
+      },
+      "tags": ["semantic-roles", "theme", "intransitive", "medical", "week1"],
+      "priority": "P0",
+      "notes": "Theme as subject of intransitive change-of-state"
+    },
+    {
+      "id": "roles-theme-004",
+      "category": "theme-information",
+      "input": "The nurse recorded the vital signs",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the nurse", "role": "Agent", "position": "subject", "entityType": "human-professional" },
+          { "text": "the vital signs", "role": "Theme", "position": "object", "entityType": "information-medical" }
+        ],
+        "verb": "recorded",
+        "actionType": "information-handling"
+      },
+      "tags": ["semantic-roles", "theme", "information", "medical", "week1"],
+      "priority": "P0",
+      "notes": "Theme as information content"
+    },
+    {
+      "id": "roles-theme-005",
+      "category": "theme-transferred",
+      "input": "The pharmacy delivered the prescription to the patient",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the pharmacy", "role": "Agent", "position": "subject", "entityType": "organization" },
+          { "text": "the prescription", "role": "Theme", "position": "object", "entityType": "substance", "transferred": true },
+          { "text": "the patient", "role": "Recipient", "position": "prepositional-object", "entityType": "human", "preposition": "to" }
+        ],
+        "verb": "delivered",
+        "actionType": "transfer-physical"
+      },
+      "tags": ["semantic-roles", "theme", "transfer", "medical", "week1"],
+      "priority": "P0",
+      "notes": "Theme as transferred object"
+    },
+    {
+      "id": "roles-theme-006",
+      "category": "theme-created",
+      "input": "The team developed a new treatment protocol",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the team", "role": "Agent", "position": "subject", "entityType": "group" },
+          { "text": "a new treatment protocol", "role": "Theme", "position": "object", "entityType": "document", "created": true }
+        ],
+        "verb": "developed",
+        "actionType": "creation-verb"
+      },
+      "tags": ["semantic-roles", "theme", "created", "medical", "week1"],
+      "priority": "P0",
+      "notes": "Theme as created object"
+    },
+    {
+      "id": "roles-theme-007",
+      "category": "theme-topic",
+      "input": "The doctor discussed the treatment options",
+      "expectedOutput": {
+        "semanticRoles": [
+          { "text": "the doctor", "role": "Agent", "position": "subject", "entityType": "human-professional" },
+          { "text": "the treatment options", "role": "Theme", "position": "object", "entityType": "topic-abstract" }
+        ],
+        "verb": "discussed",
+        "actionType": "communication-topic"
+      },
+      "tags": ["semantic-roles", "theme", "topic", "medical", "week1"],
+      "priority": "P0",
+      "notes": "Theme as topic of communication"
+    }
+  ]
+}

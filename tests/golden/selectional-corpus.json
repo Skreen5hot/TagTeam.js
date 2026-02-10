@@ -1,188 +1,424 @@
 {
-  "version": "1.0",
-  "description": "Golden test cases for selectional preference validation",
-  "created": "2026-01-26",
+  "version": "2.0",
+  "corpusId": "selectional-corpus",
+  "description": "Golden test cases for selectional preference validation (Phase 6.0)",
+  "metadata": {
+    "created": "2026-01-26",
+    "lastUpdated": "2026-02-09",
+    "author": "TagTeam Core Team",
+    "phase": "6.0",
+    "priority": "P0"
+  },
   "cases": [
     {
       "id": "golden-001",
-      "sentence": "The doctor decided to operate",
-      "verb": "decide",
-      "subject": { "label": "doctor", "type": "cco:Person" },
-      "expectedSubjectValid": true,
-      "expectedConfidence": 0.95,
-      "tags": ["intentional_mental", "animate_subject", "medical"]
+      "category": "selectional-preference",
+      "input": "The doctor decided to operate",
+      "expectedOutput": {
+        "verb": "decide",
+        "subject": {
+          "label": "doctor",
+          "type": "cco:Person"
+        },
+        "subjectValid": true,
+        "subjectConfidence": 0.95
+      },
+      "tags": [
+        "intentional_mental",
+        "animate_subject",
+        "medical"
+      ],
+      "priority": "P0",
+      "notes": "Valid intentional act with animate subject"
     },
     {
       "id": "golden-002",
-      "sentence": "The rock decided to move",
-      "verb": "decide",
-      "subject": { "label": "rock" },
-      "expectedSubjectValid": false,
-      "expectedConfidence": 0.9,
-      "expectedViolationType": "selectional_violation",
-      "tags": ["intentional_mental", "inanimate_subject", "anomalous"]
+      "category": "selectional-preference",
+      "input": "The rock decided to move",
+      "expectedOutput": {
+        "verb": "decide",
+        "subject": {
+          "label": "rock"
+        },
+        "subjectValid": false,
+        "subjectConfidence": 0.9,
+        "selectionalViolation": true
+      },
+      "tags": [
+        "intentional_mental",
+        "inanimate_subject",
+        "anomalous"
+      ],
+      "priority": "P0",
+      "notes": "Invalid selectional preference, inanimate subject"
     },
     {
       "id": "golden-003",
-      "sentence": "The committee decided to proceed",
-      "verb": "decide",
-      "subject": { "label": "committee", "type": "cco:Organization" },
-      "expectedSubjectValid": true,
-      "expectedConfidence": 0.9,
-      "tags": ["intentional_mental", "organization_subject"]
+      "category": "selectional-preference",
+      "input": "The committee decided to proceed",
+      "expectedOutput": {
+        "verb": "decide",
+        "subject": {
+          "label": "committee",
+          "type": "cco:Organization"
+        },
+        "subjectValid": true,
+        "subjectConfidence": 0.9
+      },
+      "tags": [
+        "intentional_mental",
+        "organization_subject"
+      ],
+      "priority": "P0",
+      "notes": "Valid selectional preference, organization as valid agent"
     },
     {
       "id": "golden-004",
-      "sentence": "The hospital announced the policy",
-      "verb": "announce",
-      "subject": { "label": "hospital" },
-      "expectedSubjectValid": true,
-      "expectedConfidence": 0.9,
-      "tags": ["communication", "organization_subject", "metonymy"]
+      "category": "selectional-preference",
+      "input": "The hospital announced the policy",
+      "expectedOutput": {
+        "verb": "announce",
+        "subject": {
+          "label": "hospital"
+        },
+        "subjectValid": true,
+        "subjectConfidence": 0.9
+      },
+      "tags": [
+        "communication",
+        "organization_subject",
+        "metonymy"
+      ],
+      "priority": "P0",
+      "notes": "Valid selectional preference, organization as valid agent, metonymic use"
     },
     {
       "id": "golden-005",
-      "sentence": "The storm caused significant damage",
-      "verb": "cause",
-      "subject": { "label": "storm" },
-      "expectedSubjectValid": true,
-      "expectedConfidence": 0.8,
-      "tags": ["causation", "inanimate_subject", "natural_force"]
+      "category": "selectional-preference",
+      "input": "The storm caused significant damage",
+      "expectedOutput": {
+        "verb": "cause",
+        "subject": {
+          "label": "storm"
+        },
+        "subjectValid": true,
+        "subjectConfidence": 0.8
+      },
+      "tags": [
+        "causation",
+        "inanimate_subject",
+        "natural_force"
+      ],
+      "priority": "P0",
+      "notes": "Valid selectional preference, inanimate subject"
     },
     {
       "id": "golden-006",
-      "sentence": "The ventilator decided to stop",
-      "verb": "decide",
-      "subject": { "label": "ventilator", "type": "bfo:MaterialEntity" },
-      "expectedSubjectValid": false,
-      "expectedConfidence": 0.9,
-      "expectedViolationType": "selectional_violation",
-      "tags": ["intentional_mental", "inanimate_subject", "medical_equipment"]
+      "category": "selectional-preference",
+      "input": "The ventilator decided to stop",
+      "expectedOutput": {
+        "verb": "decide",
+        "subject": {
+          "label": "ventilator",
+          "type": "bfo:MaterialEntity"
+        },
+        "subjectValid": false,
+        "subjectConfidence": 0.9,
+        "selectionalViolation": true
+      },
+      "tags": [
+        "intentional_mental",
+        "inanimate_subject",
+        "medical_equipment"
+      ],
+      "priority": "P0",
+      "notes": "Invalid selectional preference, inanimate subject"
     },
     {
       "id": "golden-007",
-      "sentence": "The table announced the results",
-      "verb": "announce",
-      "subject": { "label": "table" },
-      "expectedSubjectValid": false,
-      "expectedConfidence": 0.9,
-      "expectedViolationType": "selectional_violation",
-      "tags": ["communication", "inanimate_subject", "anomalous"]
+      "category": "selectional-preference",
+      "input": "The table announced the results",
+      "expectedOutput": {
+        "verb": "announce",
+        "subject": {
+          "label": "table"
+        },
+        "subjectValid": false,
+        "subjectConfidence": 0.9,
+        "selectionalViolation": true
+      },
+      "tags": [
+        "communication",
+        "inanimate_subject",
+        "anomalous"
+      ],
+      "priority": "P0",
+      "notes": "Invalid selectional preference, inanimate subject"
     },
     {
       "id": "golden-008",
-      "sentence": "The family believes in recovery",
-      "verb": "believe",
-      "subject": { "label": "family" },
-      "expectedSubjectValid": true,
-      "expectedConfidence": 0.9,
-      "tags": ["intentional_mental", "collective_subject"]
+      "category": "selectional-preference",
+      "input": "The family believes in recovery",
+      "expectedOutput": {
+        "verb": "believe",
+        "subject": {
+          "label": "family"
+        },
+        "subjectValid": true,
+        "subjectConfidence": 0.9
+      },
+      "tags": [
+        "intentional_mental",
+        "collective_subject"
+      ],
+      "priority": "P0",
+      "notes": "Valid selectional preference"
     },
     {
       "id": "golden-009",
-      "sentence": "The board allocated the resources",
-      "verb": "allocate",
-      "subject": { "label": "board" },
-      "object": { "label": "resources" },
-      "expectedSubjectValid": true,
-      "expectedObjectValid": true,
-      "tags": ["transfer", "organization_subject", "resource_allocation"]
+      "category": "selectional-preference",
+      "input": "The board allocated the resources",
+      "expectedOutput": {
+        "verb": "allocate",
+        "subject": {
+          "label": "board"
+        },
+        "object": {
+          "label": "resources"
+        },
+        "subjectValid": true,
+        "objectValid": true
+      },
+      "tags": [
+        "transfer",
+        "organization_subject",
+        "resource_allocation"
+      ],
+      "priority": "P0",
+      "notes": "Valid selectional preference, organization as valid agent"
     },
     {
       "id": "golden-010",
-      "sentence": "The White House announced sanctions",
-      "verb": "announce",
-      "subject": { "label": "The White House" },
-      "expectedSubjectValid": true,
-      "expectedConfidence": 0.8,
-      "tags": ["communication", "metonymy", "government"]
+      "category": "selectional-preference",
+      "input": "The White House announced sanctions",
+      "expectedOutput": {
+        "verb": "announce",
+        "subject": {
+          "label": "The White House"
+        },
+        "subjectValid": true,
+        "subjectConfidence": 0.8
+      },
+      "tags": [
+        "communication",
+        "metonymy",
+        "government"
+      ],
+      "priority": "P0",
+      "notes": "Valid selectional preference, metonymic use"
     },
     {
       "id": "golden-011",
-      "sentence": "The surgeon lifted the scalpel",
-      "verb": "lift",
-      "subject": { "label": "surgeon" },
-      "object": { "label": "scalpel" },
-      "expectedSubjectValid": true,
-      "expectedObjectValid": true,
-      "tags": ["intentional_physical", "animate_subject", "medical"]
+      "category": "selectional-preference",
+      "input": "The surgeon lifted the scalpel",
+      "expectedOutput": {
+        "verb": "lift",
+        "subject": {
+          "label": "surgeon"
+        },
+        "object": {
+          "label": "scalpel"
+        },
+        "subjectValid": true,
+        "objectValid": true
+      },
+      "tags": [
+        "intentional_physical",
+        "animate_subject",
+        "medical"
+      ],
+      "priority": "P0",
+      "notes": "Valid selectional preference, animate subject"
     },
     {
       "id": "golden-012",
-      "sentence": "The committee lifted the ban",
-      "verb": "lift",
-      "subject": { "label": "committee" },
-      "expectedSubjectValid": false,
-      "expectedConfidence": 0.85,
-      "tags": ["intentional_physical", "organization_subject", "metaphorical"]
+      "category": "selectional-preference",
+      "input": "The committee lifted the ban",
+      "expectedOutput": {
+        "verb": "lift",
+        "subject": {
+          "label": "committee"
+        },
+        "subjectValid": false,
+        "subjectConfidence": 0.85
+      },
+      "tags": [
+        "intentional_physical",
+        "organization_subject",
+        "metaphorical"
+      ],
+      "priority": "P0",
+      "notes": "Invalid selectional preference, organization as valid agent"
     },
     {
       "id": "golden-013",
-      "sentence": "The nurse reported the incident",
-      "verb": "report",
-      "subject": { "label": "nurse" },
-      "object": { "label": "incident" },
-      "expectedSubjectValid": true,
-      "tags": ["communication", "animate_subject", "medical"]
+      "category": "selectional-preference",
+      "input": "The nurse reported the incident",
+      "expectedOutput": {
+        "verb": "report",
+        "subject": {
+          "label": "nurse"
+        },
+        "object": {
+          "label": "incident"
+        },
+        "subjectValid": true
+      },
+      "tags": [
+        "communication",
+        "animate_subject",
+        "medical"
+      ],
+      "priority": "P0",
+      "notes": "Valid selectional preference, animate subject"
     },
     {
       "id": "golden-014",
-      "sentence": "The policy decided the outcome",
-      "verb": "decide",
-      "subject": { "label": "policy" },
-      "expectedSubjectValid": false,
-      "expectedConfidence": 0.85,
-      "tags": ["intentional_mental", "abstract_subject", "anomalous"]
+      "category": "selectional-preference",
+      "input": "The policy decided the outcome",
+      "expectedOutput": {
+        "verb": "decide",
+        "subject": {
+          "label": "policy"
+        },
+        "subjectValid": false,
+        "subjectConfidence": 0.85
+      },
+      "tags": [
+        "intentional_mental",
+        "abstract_subject",
+        "anomalous"
+      ],
+      "priority": "P0",
+      "notes": "Invalid selectional preference"
     },
     {
       "id": "golden-015",
-      "sentence": "The patient preferred the treatment",
-      "verb": "prefer",
-      "subject": { "label": "patient" },
-      "object": { "label": "treatment" },
-      "expectedSubjectValid": true,
-      "tags": ["intentional_mental", "animate_subject", "medical"]
+      "category": "selectional-preference",
+      "input": "The patient preferred the treatment",
+      "expectedOutput": {
+        "verb": "prefer",
+        "subject": {
+          "label": "patient"
+        },
+        "object": {
+          "label": "treatment"
+        },
+        "subjectValid": true
+      },
+      "tags": [
+        "intentional_mental",
+        "animate_subject",
+        "medical"
+      ],
+      "priority": "P0",
+      "notes": "Valid selectional preference, animate subject"
     },
     {
       "id": "golden-016",
-      "sentence": "The ethics committee evaluated the case",
-      "verb": "evaluate",
-      "subject": { "label": "ethics committee" },
-      "expectedSubjectValid": true,
-      "tags": ["intentional_mental", "organization_subject", "medical_ethics"]
+      "category": "selectional-preference",
+      "input": "The ethics committee evaluated the case",
+      "expectedOutput": {
+        "verb": "evaluate",
+        "subject": {
+          "label": "ethics committee"
+        },
+        "subjectValid": true
+      },
+      "tags": [
+        "intentional_mental",
+        "organization_subject",
+        "medical_ethics"
+      ],
+      "priority": "P0",
+      "notes": "Valid selectional preference, organization as valid agent"
     },
     {
       "id": "golden-017",
-      "sentence": "The medication caused side effects",
-      "verb": "cause",
-      "subject": { "label": "medication" },
-      "expectedSubjectValid": true,
-      "tags": ["causation", "inanimate_subject", "medical"]
+      "category": "selectional-preference",
+      "input": "The medication caused side effects",
+      "expectedOutput": {
+        "verb": "cause",
+        "subject": {
+          "label": "medication"
+        },
+        "subjectValid": true
+      },
+      "tags": [
+        "causation",
+        "inanimate_subject",
+        "medical"
+      ],
+      "priority": "P0",
+      "notes": "Valid selectional preference, inanimate subject"
     },
     {
       "id": "golden-018",
-      "sentence": "The court ordered the treatment",
-      "verb": "order",
-      "subject": { "label": "court" },
-      "expectedSubjectValid": true,
-      "tags": ["communication", "organization_subject", "legal"]
+      "category": "selectional-preference",
+      "input": "The court ordered the treatment",
+      "expectedOutput": {
+        "verb": "order",
+        "subject": {
+          "label": "court"
+        },
+        "subjectValid": true
+      },
+      "tags": [
+        "communication",
+        "organization_subject",
+        "legal"
+      ],
+      "priority": "P0",
+      "notes": "Valid selectional preference, organization as valid agent"
     },
     {
       "id": "golden-019",
-      "sentence": "The algorithm decided the allocation",
-      "verb": "decide",
-      "subject": { "label": "algorithm" },
-      "expectedSubjectValid": false,
-      "expectedConfidence": 0.85,
-      "tags": ["intentional_mental", "inanimate_subject", "technology"]
+      "category": "selectional-preference",
+      "input": "The algorithm decided the allocation",
+      "expectedOutput": {
+        "verb": "decide",
+        "subject": {
+          "label": "algorithm"
+        },
+        "subjectValid": false,
+        "subjectConfidence": 0.85
+      },
+      "tags": [
+        "intentional_mental",
+        "inanimate_subject",
+        "technology"
+      ],
+      "priority": "P0",
+      "notes": "Invalid selectional preference, inanimate subject"
     },
     {
       "id": "golden-020",
-      "sentence": "The patient's family requested a second opinion",
-      "verb": "request",
-      "subject": { "label": "family" },
-      "expectedSubjectValid": true,
-      "tags": ["communication", "collective_subject", "medical"]
+      "category": "selectional-preference",
+      "input": "The patient's family requested a second opinion",
+      "expectedOutput": {
+        "verb": "request",
+        "subject": {
+          "label": "family"
+        },
+        "subjectValid": true
+      },
+      "tags": [
+        "communication",
+        "collective_subject",
+        "medical"
+      ],
+      "priority": "P0",
+      "notes": "Valid selectional preference"
     }
   ]
 }
