@@ -66,6 +66,12 @@ const SUBORDINATOR_RELATIONS = {
 };
 
 /**
+ * Relativizers that introduce relative clauses.
+ * Per Cambridge Grammar §12.1-12.6.
+ */
+const RELATIVIZERS = ['who', 'whom', 'whose', 'which', 'that'];
+
+/**
  * Modal verbs used for "so" Purpose detection.
  */
 const MODALS = new Set(['could', 'would', 'might', 'can', 'will', 'shall', 'should', 'may']);

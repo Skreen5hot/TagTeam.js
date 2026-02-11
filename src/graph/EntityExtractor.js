@@ -743,12 +743,21 @@ class EntityExtractor {
     // v2 Phase 0: Wh-word pseudo-entity extraction
     // Scans for Wh-words that Compromise NLP does not recognize as nouns.
     // Handles both standalone Wh-words ("who", "what") and Wh + noun phrases ("which report").
+    // V7-004: Skip relativizers (who/whom/which/that after NPs) - they're not entities
     if (options.v2WhEntities !== false) {
       const words = text.toLowerCase().split(/\s+/);
+      const relativizers = new Set(['who', 'whom', 'whose', 'which', 'that']);
+
       for (let i = 0; i < words.length; i++) {
         const cleanWord = words[i].replace(/[^a-z]/g, '');
         const whEntry = WH_PSEUDO_ENTITIES[cleanWord];
         if (!whEntry) continue;
+
+        // V7-004: Skip if this is a relativizer (follows a noun phrase)
+        // e.g., "The engineer who..." - "who" follows NP, so it's a relativizer, not interrogative
+        if (relativizers.has(cleanWord) && this._isRelativizerContext(tier1Entities, text, i, words)) {
+          continue;
+        }
 
         // Build the full Wh-phrase: for "which", include the following noun
         let whPhraseText = words[i];
@@ -877,6 +886,38 @@ class EntityExtractor {
     }
 
     return words.join(' ');
+  }
+
+  /**
+   * V7-004: Check if Wh-word is in relativizer context (follows NP)
+   * e.g., "The engineer who..." - "who" follows NP, so it's a relativizer
+   * vs. "Who designed..." - "who" at start, so it's interrogative
+   * @param {Array} entities - Extracted entities so far
+   * @param {string} text - Full text
+   * @param {number} wordIndex - Index of Wh-word in words array
+   * @param {Array} words - Words array
+   * @returns {boolean} True if this is a relativizer context
+   */
+  _isRelativizerContext(entities, text, wordIndex, words) {
+    // If Wh-word is at start of sentence, it's interrogative, not relativizer
+    if (wordIndex === 0) return false;
+
+    // Find position of this Wh-word in original text
+    let position = 0;
+    for (let i = 0; i < wordIndex; i++) {
+      position = text.toLowerCase().indexOf(words[i], position) + words[i].length;
+    }
+    const whWordStart = text.toLowerCase().indexOf(words[wordIndex], position);
+
+    // Check if any entity ends just before this Wh-word
+    // Relativizers typically follow immediately after NPs (with maybe a space)
+    const precedingEntity = entities.find(e => {
+      const entityEnd = e['tagteam:endPosition'];
+      // Allow 1-2 character gap (space) between entity and Wh-word
+      return entityEnd !== undefined && entityEnd >= whWordStart - 2 && entityEnd <= whWordStart;
+    });
+
+    return !!precedingEntity;
   }
 
   /**
