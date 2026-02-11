@@ -1220,7 +1220,33 @@ class EntityExtractor {
 
       // Coordinating conjunctions (missing from jsPOS lexicon)
       'and': (word, tag, prevTag) => 'CC',
-      'or': (word, tag, prevTag) => 'CC'
+      'or': (word, tag, prevTag) => 'CC',
+
+      // Common verbs (missing from jsPOS lexicon)
+      // Past tense forms
+      'gave': (word, tag, prevTag) => 'VBD',
+      'sent': (word, tag, prevTag) => 'VBD',
+      'told': (word, tag, prevTag) => 'VBD',
+      'showed': (word, tag, prevTag) => 'VBD',
+      'taught': (word, tag, prevTag) => 'VBD',
+      'offered': (word, tag, prevTag) => 'VBD',
+      'lent': (word, tag, prevTag) => 'VBD',
+      'passed': (word, tag, prevTag) => 'VBD',
+      'handed': (word, tag, prevTag) => 'VBD',
+      'got': (word, tag, prevTag) => 'VBD',
+      'received': (word, tag, prevTag) => 'VBD',
+      // Base forms
+      'give': (word, tag, prevTag) => 'VB',
+      'send': (word, tag, prevTag) => 'VB',
+      'tell': (word, tag, prevTag) => 'VB',
+      'show': (word, tag, prevTag) => 'VB',
+      'teach': (word, tag, prevTag) => 'VB',
+      'offer': (word, tag, prevTag) => 'VB',
+      'lend': (word, tag, prevTag) => 'VB',
+      'pass': (word, tag, prevTag) => 'VB',
+      'hand': (word, tag, prevTag) => 'VB',
+      'get': (word, tag, prevTag) => 'VB',
+      'receive': (word, tag, prevTag) => 'VB'
     };
 
     for (let i = 0; i < tagged.length; i++) {
@@ -1236,7 +1262,93 @@ class EntityExtractor {
 
     // Step 3: Chunk NPs
     const npChunker = new NPChunker();
-    const chunks = npChunker.chunk(tagged);
+    let chunks = npChunker.chunk(tagged);
+
+    // Step 3.4: Split ditransitive NPs
+    // Ditransitive verbs (give, send, tell, etc.) take two objects: recipient + theme
+    // NPChunker may merge "DT NN NN" into single chunk (e.g., "the patient medication")
+    // We need to split this into two entities for correct role assignment
+    const DITRANSITIVE_VERBS = new Set([
+      'give', 'gave', 'send', 'sent', 'tell', 'told', 'show', 'showed',
+      'teach', 'taught', 'offer', 'offered', 'lend', 'lent',
+      'pass', 'passed', 'hand', 'handed'
+    ]);
+
+    // Find ditransitive verb positions
+    const ditransitiveIndices = [];
+    for (let i = 0; i < tagged.length; i++) {
+      const [word, tag] = tagged[i];
+      if ((tag === 'VB' || tag === 'VBD' || tag === 'VBP' || tag === 'VBZ') &&
+          DITRANSITIVE_VERBS.has(word.toLowerCase())) {
+        ditransitiveIndices.push(i);
+      }
+    }
+
+    // If we found a ditransitive verb, split post-verb NPs
+    if (ditransitiveIndices.length > 0) {
+      const newChunks = [];
+
+      for (let chunkIdx = 0; chunkIdx < chunks.length; chunkIdx++) {
+        const chunk = chunks[chunkIdx];
+
+        // Check if this chunk comes after a ditransitive verb
+        const afterDitransitive = ditransitiveIndices.some(vIdx => chunk.startIndex > vIdx);
+
+        if (afterDitransitive && chunk.type === 'simple') {
+          // Get tokens in this chunk
+          const chunkTokens = [];
+          for (let i = chunk.startIndex; i <= chunk.endIndex; i++) {
+            if (tagged[i]) {
+              chunkTokens.push(tagged[i]);
+            }
+          }
+
+          // Pattern: DT NN NN → split into "DT NN" + "NN"
+          // Pattern: NN NN → split into "NN" + "NN"
+          if (chunkTokens.length >= 2) {
+            const lastTwoAreNouns = chunkTokens.length >= 2 &&
+              chunkTokens[chunkTokens.length - 2][1].startsWith('NN') &&
+              chunkTokens[chunkTokens.length - 1][1].startsWith('NN');
+
+            if (lastTwoAreNouns) {
+              // Split: all but last token → first NP, last token → second NP
+              const splitPoint = chunkTokens.length - 1;
+
+              // First chunk: DT NN or just NN
+              const firstTokens = chunkTokens.slice(0, splitPoint);
+              const firstText = firstTokens.map(t => t[0]).join(' ');
+              const firstChunk = {
+                text: firstText,
+                startIndex: chunk.startIndex,
+                endIndex: chunk.startIndex + splitPoint - 1,
+                type: 'simple',
+                head: firstTokens[firstTokens.length - 1][0],
+                structure: { hasDeterminer: firstTokens[0][1] === 'DT' }
+              };
+
+              // Second chunk: NN
+              const secondToken = chunkTokens[splitPoint];
+              const secondChunk = {
+                text: secondToken[0],
+                startIndex: chunk.startIndex + splitPoint,
+                endIndex: chunk.startIndex + splitPoint,
+                type: 'simple',
+                head: secondToken[0],
+                structure: { hasDeterminer: false }
+              };
+
+              newChunks.push(firstChunk, secondChunk);
+              continue;
+            }
+          }
+        }
+
+        // No split needed, keep original chunk
+        newChunks.push(chunk);
+      }
+
+      chunks = newChunks;
+    }
 
     // Step 3.5: Detect coordination between adjacent chunks
     // If two chunks are separated by CC (and, or), mark them as coordinated

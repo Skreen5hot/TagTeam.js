@@ -83,6 +83,9 @@ const VERB_TO_CCO_MAPPINGS = {
 const VERB_INFINITIVE_CORRECTIONS = {
   // Irregular past tense forms
   'sent': 'send',
+  'gave': 'give',
+  'got': 'get',
+  'received': 'receive',
   'built': 'build',
   'left': 'leave',
   'meant': 'mean',
@@ -92,6 +95,12 @@ const VERB_INFINITIVE_CORRECTIONS = {
   'held': 'hold',
   'told': 'tell',
   'sold': 'sell',
+  'showed': 'show',
+  'taught': 'teach',
+  'offered': 'offer',
+  'lent': 'lend',
+  'passed': 'pass',
+  'handed': 'hand',
 
   // Compromise truncations (missing final 'e')
   'receiv': 'receive',
@@ -110,7 +119,10 @@ const VERB_INFINITIVE_CORRECTIONS = {
   'generat': 'generate',
   'operat': 'operate',
   'observ': 'observe',
-  'resolv': 'resolve'
+  'resolv': 'resolve',
+  'delet': 'delete',
+  'complet': 'complete',
+  'execut': 'execute'
 };
 
 /**
@@ -524,6 +536,7 @@ class ActExtractor {
     const entities = options.entities || this.entities;
     const cdSpans = options.complexDesignatorSpans || [];
 
+
     // ENH-003: Reset implicit "you" tracking for fresh text
     this._resetImplicitYou();
 
@@ -760,8 +773,12 @@ class ActExtractor {
       const links = this._linkToEntities(text, linkText, linkOffset, entities);
 
       // Passive voice detection: "X was found [by Y]" → X is patient, Y is agent
-      // Compromise NLP provides grammar.passive flag
-      const isPassive = !!(verbData.grammar?.passive);
+      // V7-009d: Use both Compromise grammar.passive flag AND "by" phrase detection
+      // (morphological verbs don't have grammar data, so we need the "by" fallback)
+      const hasPassiveFlag = !!(verbData.grammar?.passive);
+      const byAgent = this._findByAgent(text, { start: offset, end: offset + verbText.length }, entities);
+      const isPassive = hasPassiveFlag || byAgent; // Passive if flag OR "by X" phrase detected
+
       const passiveSubjectIRI = links.agent || links.subjectIRI;
       const passiveSubjectEntity = links.agentEntity || links.subjectEntity;
       if (isPassive && passiveSubjectIRI) {
@@ -769,8 +786,7 @@ class ActExtractor {
         // Save the subject for patient assignment
         const passiveSubject = passiveSubjectIRI;
 
-        // Check for "by [agent]" phrase after the verb to find the real agent
-        const byAgent = this._findByAgent(text, offset, entities);
+        // byAgent was already detected above for passive detection
         if (byAgent) {
           links.agent = byAgent.iri;
           links.agentEntity = byAgent.entity;
@@ -1642,6 +1658,57 @@ class ActExtractor {
   }
 
   /**
+   * V7-010: Find all entities that are coordinated with the given entity.
+   *
+   * When EntityExtractor splits "X and Y" into separate entities, both are marked
+   * with `tagteam:isConjunct: true` and `tagteam:coordinationType: 'and'|'or'`.
+   *
+   * This method finds all entities that share the same coordination context,
+   * allowing ActExtractor to assign the same role to all conjuncts.
+   *
+   * Linguistic Foundation: Penn Treebank coordination rules
+   * - "The engineer and the admin" → both should be agents of the same verb
+   * - "configured the server and the database" → both should be patients
+   *
+   * @param {Object} entity - The entity to find coordination partners for
+   * @param {Array} entityPool - Pool of candidate entities to search
+   * @returns {Array} - All coordinated entities including the input entity
+   */
+  _findCoordinatedEntities(entity, entityPool) {
+    // If entity is not marked as conjunct, return it alone
+    if (!entity['tagteam:isConjunct']) {
+      return [entity];
+    }
+
+    const coordinationType = entity['tagteam:coordinationType'];
+    const entityOffset = this._getEntityStart(entity);
+
+    // Find all entities in the pool that:
+    // 1. Are marked as conjuncts
+    // 2. Have the same coordination type ('and' or 'or')
+    // 3. Are close to each other (within ~100 characters - coordination span)
+    const COORDINATION_WINDOW = 100; // Max distance between coordinated entities
+
+    const coordinated = entityPool.filter(e => {
+      // Must be a conjunct
+      if (!e['tagteam:isConjunct']) return false;
+
+      // Must have same coordination type
+      if (e['tagteam:coordinationType'] !== coordinationType) return false;
+
+      // Must be within coordination window
+      const eOffset = this._getEntityStart(e);
+      const distance = Math.abs(eOffset - entityOffset);
+      return distance <= COORDINATION_WINDOW;
+    });
+
+    // Return all coordinated entities, sorted by position
+    return coordinated.sort((a, b) => {
+      return this._getEntityStart(a) - this._getEntityStart(b);
+    });
+  }
+
+  /**
    * V7-004/V7-005: Find the correct agent for a verb, accounting for relative clauses
    *
    * Handles four patterns:
@@ -1834,6 +1901,7 @@ class ActExtractor {
     const links = {
       agent: null,
       patient: null,
+      recipient: null, // V7-009c: Ditransitive verb support
       participants: [],
       // V7-009b: Oblique role properties
       beneficiary: null,
@@ -1922,12 +1990,49 @@ class ActExtractor {
       if (agentCandidate) {
         links.agent = resolveIRI(agentCandidate['@id']);
         links.agentEntity = agentCandidate; // Preserve for animacy checking
+
+        // V7-010: Check if agent is part of a coordination ("X and Y verb")
+        // If so, find all coordinated entities and assign agent role to all
+        if (agentCandidate['tagteam:isConjunct']) {
+          const coordinatedAgents = this._findCoordinatedEntities(agentCandidate, entitiesBefore);
+          if (coordinatedAgents.length > 1) {
+            // Store all coordinated agents (including the primary agent)
+            links.coordinatedAgents = coordinatedAgents.map(e => ({
+              iri: resolveIRI(e['@id']),
+              entity: e
+            }));
+          }
+        }
       }
     }
 
-    // Patient/affected is typically the closest entity after the verb
-    // Use patientCandidatesAfter which includes ICE types (they can be objects of actions)
-    if (patientCandidatesAfter.length > 0) {
+    // V7-009d: Reflexive pronoun support (Binding Theory)
+    // Reflexives (itself, himself, herself, themselves, etc.) are always patients, coreferent with subject
+    const REFLEXIVE_PRONOUNS = ['itself', 'himself', 'herself', 'themselves', 'ourselves', 'yourself', 'yourselves', 'myself'];
+
+    // Search in the text after the verb for reflexive pronouns
+    const textAfterVerb = fullText.substring(verbOffset).toLowerCase();
+    let reflexiveEntity = null;
+
+    for (const reflex of REFLEXIVE_PRONOUNS) {
+      if (textAfterVerb.includes(reflex)) {
+        // Found a reflexive pronoun in the text - now find the matching entity
+        reflexiveEntity = allEntitiesAfter.find(e => {
+          const label = (e['rdfs:label'] || '').toLowerCase();
+          const sourceText = (e['tagteam:sourceText'] || '').toLowerCase();
+          return label.includes(reflex) || sourceText.includes(reflex) || sourceText === reflex;
+        });
+        if (reflexiveEntity) break;
+      }
+    }
+
+    if (reflexiveEntity) {
+      // Reflexive is always the patient, coreferent with subject
+      links.patient = resolveIRI(reflexiveEntity['@id']);
+      links.patientEntity = reflexiveEntity;
+    } else if (patientCandidatesAfter.length > 0) {
+      // Patient/affected is typically the closest entity after the verb
+      // Use patientCandidatesAfter which includes ICE types (they can be objects of actions)
       // Get the closest one to the verb
       const closestAfter = patientCandidatesAfter.reduce((closest, entity) => {
         const entityStart = this._getEntityStart(entity);
@@ -1936,6 +2041,19 @@ class ActExtractor {
       });
       links.patient = resolveIRI(closestAfter['@id']);
       links.patientEntity = closestAfter; // Preserve for inference target
+
+      // V7-010: Check if patient is part of a coordination ("verb X and Y")
+      // If so, find all coordinated entities and assign patient role to all
+      if (closestAfter['tagteam:isConjunct']) {
+        const coordinatedPatients = this._findCoordinatedEntities(closestAfter, patientCandidatesAfter);
+        if (coordinatedPatients.length > 1) {
+          // Store all coordinated patients (including the primary patient)
+          links.coordinatedPatients = coordinatedPatients.map(e => ({
+            iri: resolveIRI(e['@id']),
+            entity: e
+          }));
+        }
+      }
     }
 
     // Track closest entity after verb (ANY type) for inference target
@@ -1951,6 +2069,49 @@ class ActExtractor {
 
     // All entities after verb are potential participants (resolved to Tier 2)
     links.participants = entitiesAfter.map(e => resolveIRI(e['@id']));
+
+    // V7-009c: Ditransitive verb support (send, receive, give, tell, etc.)
+    // Pattern: "X sent Y Z" → agent=X, recipient=Y (first after verb), patient=Z (second after verb)
+    // Pattern: "Y received Z" → recipient=Y (subject), patient=Z (first after verb)
+    const DITRANSITIVE_VERBS = new Set([
+      'send', 'give', 'tell', 'show', 'teach', 'offer', 'lend', 'pass', 'hand',
+      'receive', 'get' // These take recipient as subject
+    ]);
+    const RECIPIENT_AS_SUBJECT_VERBS = new Set(['receive', 'get']);
+
+    // Get infinitive form for comparison (verbText may be inflected like "sent" or "received")
+    let verbInfinitive = this._getInfinitive(verbText);
+    // Apply corrections for truncated forms
+    verbInfinitive = VERB_INFINITIVE_CORRECTIONS[verbInfinitive] || verbInfinitive;
+
+    if (DITRANSITIVE_VERBS.has(verbInfinitive)) {
+      // For "receive"/"get": recipient is subject, patient is first object
+      if (RECIPIENT_AS_SUBJECT_VERBS.has(verbInfinitive)) {
+        if (links.agent) {
+          links.recipient = links.agent; // Subject is recipient
+          links.agent = null; // No agent for receive
+        }
+      }
+      // For "send"/"give"/etc: recipient is first object, patient is second object
+      else {
+        // Use allEntitiesAfter to include all entities (Person and ICE)
+        const objectsAfter = allEntitiesAfter.filter(e => !isNonPatientEntity(e));
+
+        if (objectsAfter.length >= 2) {
+          // Sort by position
+          const sortedAfter = [...objectsAfter].sort((a, b) => {
+            return this._getEntityStart(a) - this._getEntityStart(b);
+          });
+
+          // First entity after verb = recipient
+          links.recipient = resolveIRI(sortedAfter[0]['@id']);
+          // Second entity after verb = patient
+          links.patient = resolveIRI(sortedAfter[1]['@id']);
+        }
+        // If only 1 object, it's the patient (not recipient)
+        // e.g., "sent an alert" → patient=alert, no recipient
+      }
+    }
 
     // V7-009b: Detect prepositional phrase roles for oblique arguments
     const verbEnd = verbOffset + verbText.length;
@@ -2119,12 +2280,28 @@ class ActExtractor {
 
     // Add links to entities (Tier 2 if linkToTier2 enabled)
     // Use object notation with @id for JSON-LD compliance
-    if (actInfo.links.agent) {
+
+    // V7-010: Handle coordinated agents ("The engineer and the admin deployed")
+    if (actInfo.links.coordinatedAgents && actInfo.links.coordinatedAgents.length > 0) {
+      // Multiple agents: assign agent role to all coordinated entities
+      node['cco:has_agent'] = actInfo.links.coordinatedAgents.map(a => ({ '@id': a.iri }));
+    } else if (actInfo.links.agent) {
+      // Single agent
       node['cco:has_agent'] = { '@id': actInfo.links.agent };
     }
 
-    if (actInfo.links.patient) {
+    // V7-010: Handle coordinated patients ("configured the server and the database")
+    if (actInfo.links.coordinatedPatients && actInfo.links.coordinatedPatients.length > 0) {
+      // Multiple patients: assign patient role to all coordinated entities
+      node['cco:affects'] = actInfo.links.coordinatedPatients.map(p => ({ '@id': p.iri }));
+    } else if (actInfo.links.patient) {
+      // Single patient
       node['cco:affects'] = { '@id': actInfo.links.patient };
+    }
+
+    // V7-009c: Add recipient role for ditransitive verbs
+    if (actInfo.links.recipient) {
+      node['cco:has_recipient'] = { '@id': actInfo.links.recipient };
     }
 
     // V7-009b: Add oblique role properties (beneficiary, instrument, location, etc.)
@@ -2155,11 +2332,23 @@ class ActExtractor {
     // V7-009: Auto-populate bfo:has_participant as superproperty
     // has_participant aggregates all semantic participants (agent, patient, oblique roles, etc.)
     const participants = [];
-    if (actInfo.links.agent) {
+
+    // V7-010: Include all coordinated agents
+    if (actInfo.links.coordinatedAgents && actInfo.links.coordinatedAgents.length > 0) {
+      participants.push(...actInfo.links.coordinatedAgents.map(a => a.iri));
+    } else if (actInfo.links.agent) {
       participants.push(actInfo.links.agent);
     }
-    if (actInfo.links.patient) {
+
+    // V7-010: Include all coordinated patients
+    if (actInfo.links.coordinatedPatients && actInfo.links.coordinatedPatients.length > 0) {
+      participants.push(...actInfo.links.coordinatedPatients.map(p => p.iri));
+    } else if (actInfo.links.patient) {
       participants.push(actInfo.links.patient);
+    }
+    // V7-009c: Include recipient participant
+    if (actInfo.links.recipient) {
+      participants.push(actInfo.links.recipient);
     }
     // V7-009b: Include oblique role participants
     if (actInfo.links.beneficiary) {
