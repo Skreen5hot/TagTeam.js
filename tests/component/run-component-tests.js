@@ -136,9 +136,10 @@ function analyzePrefixSubordination(acts, result, test) {
 
     acts.forEach((act, idx) => {
       const verb = act['tagteam:verb'] || '';
+      const actStart = act['tagteam:startPosition'];
 
-      // Check if this act's verb is in the prefix clause
-      if (beforeComma.includes(verb.toLowerCase())) {
+      // Check if this act's position is in the prefix clause (before comma)
+      if (actStart !== undefined && actStart < commaPos) {
         // This act should only reference entities from BEFORE comma
         const args = [];
         if (act['cco:has_agent']) args.push({ role: 'agent', value: act['cco:has_agent'] });
