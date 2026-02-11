@@ -483,6 +483,14 @@ class SemanticGraphBuilder {
       }
     }
 
+    // V7-004: Phase 1.2b: Create anaphoric links for relative clauses
+    if (buildOptions.extractAnaphoricLinks !== false) {
+      const anaphoricLinks = this._detectAnaphoricLinks(text, extractedEntities);
+      if (anaphoricLinks.length > 0) {
+        this.addNodes(anaphoricLinks);
+      }
+    }
+
     // Phase 1.3: Extract acts as IntentionalAct nodes
     let extractedActs = [];
     if (buildOptions.extractActs !== false) {
@@ -1410,6 +1418,54 @@ class SemanticGraphBuilder {
       clauseActs.get(bestClause)?.push(act);
     }
     return clauseActs;
+  }
+
+  /**
+   * V7-004: Detect anaphoric links for relative clauses.
+   * Per Cambridge Grammar §12.1: Relativizers (who/which/that) are anaphoric to antecedent NPs.
+   * @param {string} text - Full text
+   * @param {Array} entities - Extracted entities
+   * @returns {Array} Array of AnaphoricLink nodes
+   */
+  _detectAnaphoricLinks(text, entities) {
+    const links = [];
+    const relativizers = ['who', 'whom', 'whose', 'which', 'that'];
+    const words = text.split(/\s+/);
+
+    // Find all relativizer positions
+    for (let i = 0; i < words.length; i++) {
+      const word = words[i].toLowerCase().replace(/[.,;:!?]$/, '');
+      if (!relativizers.includes(word)) continue;
+
+      // Calculate position of this relativizer in original text
+      let position = 0;
+      for (let j = 0; j < i; j++) {
+        position = text.indexOf(words[j], position) + words[j].length;
+      }
+      const relPos = text.indexOf(words[i], position);
+
+      // Find antecedent: entity that ends just before this relativizer
+      const antecedent = entities.find(e => {
+        const entityEnd = e['tagteam:endPosition'];
+        // Allow small gap (spaces) between entity and relativizer
+        return entityEnd !== undefined && entityEnd >= relPos - 3 && entityEnd <= relPos;
+      });
+
+      if (!antecedent) continue;
+
+      // Create AnaphoricLink node
+      const linkIRI = this.generateIRI(word + '_' + antecedent['rdfs:label'], 'AnaphoricLink', relPos);
+      const link = {
+        '@id': linkIRI,
+        '@type': ['tagteam:AnaphoricLink', 'owl:NamedIndividual'],
+        'tagteam:anaphor': word,
+        'tagteam:antecedent': { '@id': antecedent['@id'] },
+        'rdfs:comment': `Relativizer "${word}" is anaphoric to "${antecedent['rdfs:label']}"`
+      };
+      links.push(link);
+    }
+
+    return links;
   }
 
   /**
