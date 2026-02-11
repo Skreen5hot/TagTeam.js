@@ -502,13 +502,34 @@ class ActExtractor {
     // Extract verbs
     const verbs = doc.verbs();
 
+    // V7-003: Morphological fallback for verbs Compromise misses
+    // Compromise sometimes tags present tense verbs (e.g., "restarts", "completes") as nouns
+    const morphologicalVerbs = this._findMorphologicalVerbs(text, doc, verbs);
+    const allVerbs = [...verbs.out('array'), ...morphologicalVerbs];
+
     // Pass 1: Collect verb entries, identifying control verbs and infinitive complements
     const verbEntries = [];
-    verbs.forEach((verb, index) => {
-      const verbText = verb.text();
-      const verbJson = verb.json()[0] || {};
+    allVerbs.forEach((verb, index) => {
+      // Handle both Compromise verb objects and plain strings from morphological detection
+      const verbText = typeof verb === 'string' ? verb : verb;
+      const verbJson = typeof verb === 'object' && verb.json ? (verb.json()[0] || {}) : {};
       const verbData = verbJson.verb || {};
 
+      // For morphological verbs (strings), create minimal verbData
+      if (typeof verb === 'string') {
+        const infinitive = this._getInfinitive(verb);
+        verbEntries.push({
+          verbText: verb,
+          verbData: {},
+          infinitive,
+          isInfinitive: false,
+          isControlVerb: CONTROL_VERBS.has(infinitive.toLowerCase()),
+          index,
+          morphological: true
+        });
+        return;
+      }
+      // For Compromise verb objects
       if (this._isAuxiliaryOnly(verbData)) return;
 
       // Get infinitive and strip "to " prefix if present (e.g., "to allocate" → "allocate")
@@ -897,6 +918,103 @@ class ActExtractor {
     }
 
     return node;
+  }
+
+  /**
+   * V7-003: Find verbs using morphological patterns (fallback for Compromise misses)
+   * @param {string} text - Full text
+   * @param {Object} doc - Compromise doc
+   * @param {Object} compromiseVerbs - Verbs found by Compromise
+   * @returns {Array<string>} Array of verb strings found morphologically
+   */
+  _findMorphologicalVerbs(text, doc, compromiseVerbs) {
+    const compromiseVerbTexts = new Set(compromiseVerbs.out('array'));
+    const morphologicalVerbs = [];
+    const words = text.split(/\s+/);
+
+    // Common verb endings
+    const verbPatterns = [
+      /s$/,           // present tense 3rd person (fails, runs, completes, restarts)
+      /ed$/,          // past tense (failed, completed, restarted)
+      /ing$/,         // present participle (failing, running, completing)
+      /es$/,          // present tense (goes, does, reaches)
+      /ied$/          // past tense -y verbs (tried, replied)
+    ];
+
+    // Common verbs that Compromise often misses
+    const commonVerbs = new Set([
+      'fails', 'fail', 'failed', 'receives', 'receive', 'received',
+      'completes', 'complete', 'completed', 'restarts', 'restart', 'restarted',
+      'runs', 'run', 'ran', 'locks', 'lock', 'locked', 'expires', 'expire', 'expired',
+      'approves', 'approve', 'approved', 'blocks', 'block', 'blocked',
+      'finishes', 'finish', 'finished', 'launches', 'launch', 'launched',
+      'starts', 'start', 'started', 'loads', 'load', 'loaded',
+      'stops', 'stop', 'stopped', 'increases', 'increase', 'increased',
+      'rises', 'rise', 'rose', 'goes', 'go', 'went', 'does', 'do', 'did',
+      'designs', 'design', 'designed', 'stores', 'store', 'stored',
+      'handles', 'handle', 'handled', 'crashes', 'crash', 'crashed',
+      'hires', 'hire', 'hired', 'resigns', 'resign', 'resigned',
+      'deploys', 'deploy', 'deployed', 'fixes', 'fix', 'fixed',
+      'files', 'file', 'filed', 'causes', 'cause', 'caused',
+      'responds', 'respond', 'responded', 'leaves', 'leave', 'left'
+    ]);
+
+    for (const word of words) {
+      const clean = word.toLowerCase().replace(/[.,;:!?]$/, '');
+
+      // Skip if already found by Compromise
+      if (compromiseVerbTexts.has(word)) continue;
+
+      // Skip if too short
+      if (clean.length < 3) continue;
+
+      // Check if it's a known verb
+      if (commonVerbs.has(clean)) {
+        morphologicalVerbs.push(word);
+        continue;
+      }
+
+      // Check if it matches verb patterns
+      const matchesVerbPattern = verbPatterns.some(pattern => pattern.test(clean));
+      if (matchesVerbPattern && clean.length > 3) {
+        // Additional check: make sure it's not a common noun that happens to end in -s
+        // (e.g., "class", "business", "address")
+        const nounExceptions = ['class', 'business', 'address', 'process', 'access', 'success', 'progress'];
+        if (!nounExceptions.includes(clean)) {
+          morphologicalVerbs.push(word);
+        }
+      }
+    }
+
+    return morphologicalVerbs;
+  }
+
+  /**
+   * V7-003: Get infinitive form of a verb
+   * @param {string} verb - Verb text
+   * @returns {string} Infinitive form
+   */
+  _getInfinitive(verb) {
+    const clean = verb.toLowerCase().replace(/[.,;:!?]$/, '');
+
+    // Irregular verbs
+    const irregulars = {
+      'ran': 'run', 'went': 'go', 'did': 'do', 'was': 'be', 'were': 'be',
+      'had': 'have', 'has': 'have', 'is': 'be', 'are': 'be',
+      'left': 'leave', 'rose': 'rise'
+    };
+
+    if (irregulars[clean]) return irregulars[clean];
+
+    // Regular patterns
+    if (clean.endsWith('ies')) return clean.slice(0, -3) + 'y';  // tries → try
+    if (clean.endsWith('ied')) return clean.slice(0, -3) + 'y';  // tried → try
+    if (clean.endsWith('es')) return clean.slice(0, -2);         // goes → go
+    if (clean.endsWith('ed')) return clean.slice(0, -2);         // failed → fail
+    if (clean.endsWith('ing')) return clean.slice(0, -3);        // failing → fail
+    if (clean.endsWith('s')) return clean.slice(0, -1);          // fails → fail
+
+    return clean;
   }
 
   /**

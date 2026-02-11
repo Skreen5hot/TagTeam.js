@@ -326,7 +326,13 @@ class SemanticGraphBuilder {
     let linkMap = new Map();
 
     if (buildOptions.extractEntities !== false) {
+      // Extract entities from full text (Compromise needs full context for POS tagging)
       extractedEntities = this.entityExtractor.extract(text, buildOptions);
+
+      // v2: Post-process entities to enforce clause boundaries
+      if (buildOptions._v2.enabled && buildOptions._clauses && buildOptions._clauses.length > 1) {
+        extractedEntities = this._enforceClauseBoundariesOnEntities(extractedEntities, buildOptions._clauses);
+      }
 
       // Separate Tier 1 and Tier 2 entities
       tier1Referents = extractedEntities.filter(e =>
@@ -1404,6 +1410,59 @@ class SemanticGraphBuilder {
       clauseActs.get(bestClause)?.push(act);
     }
     return clauseActs;
+  }
+
+  /**
+   * V7-003: Enforce clause boundaries on entities.
+   * Trims entities that extend beyond their clause's end position.
+   * Prevents entities from absorbing verbs from subsequent clauses.
+   */
+  _enforceClauseBoundariesOnEntities(entities, clauses) {
+    const trimmedEntities = [];
+
+    for (const entity of entities) {
+      const start = entity['tagteam:startPosition'];
+      const end = entity['tagteam:endPosition'];
+
+      if (start === undefined || end === undefined) {
+        // No position info, keep as-is
+        trimmedEntities.push(entity);
+        continue;
+      }
+
+      // Find which clause this entity starts in
+      const clause = clauses.find(c => start >= c.start && start < c.end);
+      if (!clause) {
+        // Entity doesn't start in any clause, keep as-is
+        trimmedEntities.push(entity);
+        continue;
+      }
+
+      // Check if entity extends beyond clause boundary
+      if (end > clause.end) {
+        // Trim entity to clause boundary
+        const trimmedText = entity['rdfs:label'] || entity['tagteam:sourceText'] || '';
+        const trimLength = clause.end - start;
+        const newText = trimmedText.substring(0, trimLength).trim();
+
+        // Skip if trimming removes everything
+        if (newText.length === 0) continue;
+
+        // Create trimmed entity
+        const trimmedEntity = {
+          ...entity,
+          'rdfs:label': newText,
+          'tagteam:sourceText': newText,
+          'tagteam:endPosition': clause.end
+        };
+        trimmedEntities.push(trimmedEntity);
+      } else {
+        // Entity within clause boundary, keep as-is
+        trimmedEntities.push(entity);
+      }
+    }
+
+    return trimmedEntities;
   }
 
   /**

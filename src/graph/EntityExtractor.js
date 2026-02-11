@@ -649,9 +649,18 @@ class EntityExtractor {
     const nouns = doc.nouns();
 
     nouns.forEach((noun, index) => {
-      const nounText = noun.text();
+      let nounText = noun.text();
       const nounJson = noun.json()[0] || {};
       const nounData = nounJson.noun || {};
+
+      // V7-003: Trim trailing verbs from noun phrases to prevent absorption of verbs
+      // e.g., "the system restarts" → "the system"
+      nounText = this._trimTrailingVerbs(nounText);
+
+      // Skip if trimming removed everything
+      if (!nounText || nounText.trim().length === 0) {
+        return;
+      }
 
       // Get the root noun (without determiner/adjectives)
       const rootNoun = nounData.root || nounText;
@@ -797,6 +806,68 @@ class EntityExtractor {
     }
 
     return tier1Entities;
+  }
+
+  /**
+   * V7-003: Trim trailing verbs from noun phrase to prevent absorption
+   * e.g., "the system restarts" → "the system"
+   * @param {string} nounPhrase - The noun phrase from Compromise
+   * @returns {string} Trimmed noun phrase without trailing verbs
+   */
+  _trimTrailingVerbs(nounPhrase) {
+    const words = nounPhrase.trim().split(/\s+/);
+    if (words.length === 0) return nounPhrase;
+
+    // Common verb patterns to trim
+    const verbPatterns = [
+      /s$/,           // present tense 3rd person (fails, runs, completes, restarts)
+      /ed$/,          // past tense (failed, completed, restarted)
+      /ing$/,         // present participle (failing, running, completing)
+      /es$/,          // present tense (goes, does, reaches)
+      /ied$/          // past tense -y verbs (tried, replied)
+    ];
+
+    // Common verbs to trim (irregular + common regular)
+    const commonVerbs = new Set([
+      'fails', 'fail', 'failed', 'receives', 'receive', 'received',
+      'completes', 'complete', 'completed', 'restarts', 'restart', 'restarted',
+      'runs', 'run', 'ran', 'locks', 'lock', 'locked', 'expires', 'expire', 'expired',
+      'approves', 'approve', 'approved', 'blocks', 'block', 'blocked',
+      'finishes', 'finish', 'finished', 'launches', 'launch', 'launched',
+      'starts', 'start', 'started', 'loads', 'load', 'loaded',
+      'stops', 'stop', 'stopped', 'increases', 'increase', 'increased',
+      'rises', 'rise', 'rose', 'goes', 'go', 'went', 'does', 'do', 'did',
+      'is', 'are', 'was', 'were', 'has', 'have', 'had',
+      'designs', 'design', 'designed', 'stores', 'store', 'stored',
+      'handles', 'handle', 'handled', 'crashes', 'crash', 'crashed',
+      'hired', 'hire', 'hires', 'resigned', 'resign', 'resigns',
+      'deployed', 'deploy', 'deploys', 'fixed', 'fix', 'fixes',
+      'filed', 'file', 'files', 'caused', 'cause', 'causes',
+      'responded', 'respond', 'responds', 'left', 'leave', 'leaves'
+    ]);
+
+    // Trim from the end while last word looks like a verb
+    while (words.length > 1) {
+      const lastWord = words[words.length - 1].toLowerCase().replace(/[.,;:!?]$/, '');
+
+      // Check if it's a known verb
+      if (commonVerbs.has(lastWord)) {
+        words.pop();
+        continue;
+      }
+
+      // Check if it matches verb patterns
+      const matchesVerbPattern = verbPatterns.some(pattern => pattern.test(lastWord));
+      if (matchesVerbPattern && lastWord.length > 3) {
+        words.pop();
+        continue;
+      }
+
+      // Not a verb, stop trimming
+      break;
+    }
+
+    return words.join(' ');
   }
 
   /**
