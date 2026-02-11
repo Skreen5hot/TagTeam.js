@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How TagTeam.js Works - Visual Explainer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #e8e8e8;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #a0a0a0;
+        }
+
+        /* Input Section */
+        .input-section {
+            background: linear-gradient(135deg, #2d2d44 0%, #1f1f35 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            border: 2px solid #3d3d5c;
+            text-align: center;
+        }
+
+        .input-label {
+            font-size: 1.1rem;
+            color: #7c3aed;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .input-text {
+            font-size: 1.8rem;
+            color: #00d4ff;
+            font-style: italic;
+            padding: 20px;
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid #00d4ff;
+        }
+
+        /* Pipeline Section */
+        .pipeline {
+            position: relative;
+        }
+
+        .pipeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #00d4ff, #7c3aed, #ff6b6b, #4ade80);
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .stage {
+            display: flex;
+            align-items: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .stage:nth-child(odd) {
+            flex-direction: row;
+        }
+
+        .stage:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .stage-content {
+            width: 45%;
+            padding: 30px;
+            background: linear-gradient(135deg, #2d2d44 0%, #1f1f35 100%);
+            border-radius: 20px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .stage:nth-child(1) .stage-content { border-color: #00d4ff; }
+        .stage:nth-child(2) .stage-content { border-color: #7c3aed; }
+        .stage:nth-child(3) .stage-content { border-color: #ff6b6b; }
+        .stage:nth-child(4) .stage-content { border-color: #4ade80; }
+
+        .stage-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .stage-number {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+        .stage:nth-child(1) .stage-number { background: linear-gradient(135deg, #00d4ff, #0099cc); }
+        .stage:nth-child(2) .stage-number { background: linear-gradient(135deg, #7c3aed, #5b21b6); }
+        .stage:nth-child(3) .stage-number { background: linear-gradient(135deg, #ff6b6b, #dc2626); }
+        .stage:nth-child(4) .stage-number { background: linear-gradient(135deg, #4ade80, #22c55e); }
+
+        .stage-title {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stage:nth-child(1) .stage-title { color: #00d4ff; }
+        .stage:nth-child(2) .stage-title { color: #7c3aed; }
+        .stage:nth-child(3) .stage-title { color: #ff6b6b; }
+        .stage:nth-child(4) .stage-title { color: #4ade80; }
+
+        .stage-icon {
+            font-size: 1.8rem;
+        }
+
+        .stage-description {
+            color: #c0c0c0;
+            margin-bottom: 20px;
+        }
+
+        .component-name {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .output-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+
+        .word-tag {
+            display: inline-block;
+            margin: 3px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+        }
+
+        .tag-noun { background: #3b82f6; }
+        .tag-verb { background: #ef4444; }
+        .tag-det { background: #6b7280; }
+        .tag-modal { background: #f59e0b; }
+        .tag-prep { background: #8b5cf6; }
+        .tag-adj { background: #10b981; }
+
+        .role-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .role {
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+        }
+
+        .role-agent { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .role-action { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .role-patient { background: linear-gradient(135deg, #10b981, #059669); }
+        .role-theme { background: linear-gradient(135deg, #f59e0b, #d97706); }
+
+        .role-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.8;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        /* Graph visualization */
+        .graph-visual {
+            margin-top: 15px;
+        }
+
+        .node {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            border-radius: 25px;
+            margin: 5px;
+            font-size: 0.85rem;
+        }
+
+        .node-discourse { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+        .node-person { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .node-artifact { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .node-aggregate { background: linear-gradient(135deg, #6366f1, #4f46e5); }
+        .node-act { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .node-role { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .node-quality { background: linear-gradient(135deg, #10b981, #059669); }
+        .node-directive { background: linear-gradient(135deg, #ec4899, #db2777); }
+        .node-scarcity { background: linear-gradient(135deg, #f97316, #ea580c); }
+        .node-ibe { background: linear-gradient(135deg, #64748b, #475569); }
+
+        .node-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+        }
+
+        .connections {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        .connection {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+            flex-wrap: wrap;
+        }
+
+        .connection-arrow {
+            color: #00d4ff;
+            font-weight: bold;
+        }
+
+        .connection-label {
+            color: #fbbf24;
+            font-style: italic;
+            font-family: 'Courier New', monospace;
+            background: rgba(251, 191, 36, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        /* Two-tier explanation */
+        .two-tier {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .tier {
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .tier-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .tier-1 .tier-label { color: #06b6d4; }
+        .tier-2 .tier-label { color: #3b82f6; }
+
+        /* Output Section */
+        .output-section {
+            background: linear-gradient(135deg, #1a4d2e 0%, #0d3320 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+            border: 2px solid #22c55e;
+            text-align: center;
+        }
+
+        .output-label {
+            font-size: 1.1rem;
+            color: #4ade80;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .output-description {
+            font-size: 1.1rem;
+            color: #c0c0c0;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        .output-features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .feature {
+            background: rgba(74, 222, 128, 0.1);
+            border: 1px solid #4ade80;
+            padding: 15px 25px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+        }
+
+        /* Legend */
+        .legend {
+            margin-top: 60px;
+            padding: 30px;
+            background: linear-gradient(135deg, #2d2d44 0%, #1f1f35 100%);
+            border-radius: 20px;
+        }
+
+        .legend h3 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #a0a0a0;
+        }
+
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+
+        .legend-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        /* Predicate reference */
+        .predicate-ref {
+            margin-top: 60px;
+            padding: 30px;
+            background: linear-gradient(135deg, #2d2d44 0%, #1f1f35 100%);
+            border-radius: 20px;
+        }
+
+        .predicate-ref h3 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #fbbf24;
+        }
+
+        .predicate-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .predicate-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+        }
+
+        .predicate-name {
+            font-family: 'Courier New', monospace;
+            color: #fbbf24;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .predicate-desc {
+            color: #a0a0a0;
+            font-size: 0.85rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            color: #666;
+        }
+
+        footer a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .stage {
+                flex-direction: column !important;
+            }
+
+            .stage-content {
+                width: 100%;
+                margin-top: 40px;
+            }
+
+            .pipeline::before {
+                display: none;
+            }
+
+            .stage-number {
+                position: relative;
+                left: auto;
+                transform: none;
+                margin-bottom: 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .two-tier {
+                grid-template-columns: 1fr;
+            }
+
+            .connection {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>How TagTeam.js Works</h1>
+            <p class="subtitle">From everyday sentences to structured semantic graphs</p>
+        </header>
+
+        <!-- Input -->
+        <div class="input-section">
+            <div class="input-label">Input: Plain English Sentence</div>
+            <div class="input-text">"The doctor must allocate the last ventilator between two critically ill patients"</div>
+        </div>
+
+        <!-- Pipeline -->
+        <div class="pipeline">
+
+            <!-- Stage 1: POS Tagging -->
+            <div class="stage">
+                <div class="stage-content">
+                    <div class="component-name">POSTagger (jsPOS Lexicon)</div>
+                    <h2 class="stage-title">
+                        <span class="stage-icon">&#128218;</span>
+                        Word Classification
+                    </h2>
+                    <p class="stage-description">
+                        Every word is labeled with its grammatical type using a 4-million-word dictionary.
+                        This tells us which words are nouns (people, things), verbs (actions),
+                        modals (obligation words like "must"), and more.
+                    </p>
+                    <div class="output-box">
+                        <span class="word-tag tag-det">The <small>DET</small></span>
+                        <span class="word-tag tag-noun">doctor <small>NOUN</small></span>
+                        <span class="word-tag tag-modal">must <small>MODAL</small></span>
+                        <span class="word-tag tag-verb">allocate <small>VERB</small></span>
+                        <span class="word-tag tag-det">the <small>DET</small></span>
+                        <span class="word-tag tag-adj">last <small>ADJ</small></span>
+                        <span class="word-tag tag-noun">ventilator <small>NOUN</small></span>
+                        <span class="word-tag tag-prep">between <small>PREP</small></span>
+                        <span class="word-tag tag-adj">two critically ill <small>ADJ</small></span>
+                        <span class="word-tag tag-noun">patients <small>NOUN</small></span>
+                    </div>
+                </div>
+                <div class="stage-number">1</div>
+            </div>
+
+            <!-- Stage 2: Entity Extraction (Two-Tier) -->
+            <div class="stage">
+                <div class="stage-content">
+                    <div class="component-name">EntityExtractor + RealWorldEntityFactory</div>
+                    <h2 class="stage-title">
+                        <span class="stage-icon">&#128269;</span>
+                        Two-Tier Entity Extraction
+                    </h2>
+                    <p class="stage-description">
+                        We create two layers: <strong>Discourse Referents</strong> (the exact phrases from the text)
+                        and <strong>Real-World Entities</strong> (the actual people/things they refer to).
+                        The referent <em>is_about</em> the real entity.
+                    </p>
+                    <div class="two-tier">
+                        <div class="tier tier-1">
+                            <div class="tier-label">Tier 1: Discourse Referents (Text Phrases)</div>
+                            <div class="node node-discourse"><span class="node-icon">&#128172;</span> "The doctor"</div>
+                            <div class="node node-discourse"><span class="node-icon">&#128172;</span> "the last ventilator"</div>
+                            <div class="node node-discourse"><span class="node-icon">&#128172;</span> "two critically ill patients"</div>
+                        </div>
+                        <div class="tier tier-2">
+                            <div class="tier-label">Tier 2: Real-World Entities</div>
+                            <div class="node node-person"><span class="node-icon">&#128100;</span> Person: doctor</div>
+                            <div class="node node-artifact"><span class="node-icon">&#128736;</span> Artifact: ventilator</div>
+                            <div class="node node-aggregate"><span class="node-icon">&#128101;</span> ObjectAggregate: 2 patients</div>
+                        </div>
+                    </div>
+                    <div class="connections" style="margin-top: 15px;">
+                        <div class="connection">
+                            <span class="node node-discourse" style="padding: 5px 10px;">"The doctor"</span>
+                            <span class="connection-arrow">&#8594;</span>
+                            <span class="connection-label">is_about</span>
+                            <span class="connection-arrow">&#8594;</span>
+                            <span class="node node-person" style="padding: 5px 10px;">Person: doctor</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="stage-number">2</div>
+            </div>
+
+            <!-- Stage 3: Acts, Roles, Qualities, Directives -->
+            <div class="stage">
+                <div class="stage-content">
+                    <div class="component-name">ActExtractor + RoleDetector + QualityFactory + DirectiveExtractor</div>
+                    <h2 class="stage-title">
+                        <span class="stage-icon">&#127922;</span>
+                        Acts, Roles, Qualities & Directives
+                    </h2>
+                    <p class="stage-description">
+                        Verbs become <strong>Acts</strong>. People bear <strong>Roles</strong> (agent, patient).
+                        Descriptive words create <strong>Qualities</strong>. Modal words like "must" create
+                        <strong>Directives</strong> that prescribe the act.
+                    </p>
+                    <div class="graph-visual">
+                        <div class="node node-act"><span class="node-icon">&#9889;</span> ActOfAllocation (allocate)</div>
+                        <div class="node node-directive"><span class="node-icon">&#128220;</span> DirectiveContent (must)</div>
+                        <div class="node node-role"><span class="node-icon">&#127917;</span> AgentRole</div>
+                        <div class="node node-role"><span class="node-icon">&#127917;</span> PatientRole (x3)</div>
+                        <div class="node node-quality"><span class="node-icon">&#10004;</span> DiseaseQuality (critically ill)</div>
+                        <div class="node node-scarcity"><span class="node-icon">&#9888;</span> ScarcityAssertion (last)</div>
+                    </div>
+                </div>
+                <div class="stage-number">3</div>
+            </div>
+
+            <!-- Stage 4: Graph Assembly with Real Predicates -->
+            <div class="stage">
+                <div class="stage-content">
+                    <div class="component-name">SemanticGraphBuilder</div>
+                    <h2 class="stage-title">
+                        <span class="stage-icon">&#128279;</span>
+                        Connecting with Predicates
+                    </h2>
+                    <p class="stage-description">
+                        All nodes are connected using formal predicates from BFO and CCO ontologies.
+                        Each relationship has precise meaning that machines can reason about.
+                    </p>
+                    <div class="connections">
+                        <div class="connection">
+                            <span class="node node-act" style="padding: 5px 10px;">ActOfAllocation</span>
+                            <span class="connection-arrow">&#8594;</span>
+                            <span class="connection-label">has_agent</span>
+                            <span class="connection-arrow">&#8594;</span>
+                            <span class="node node-person" style="padding: 5px 10px;">Person: doctor</span>
+                        </div>
+                        <div class="connection">
+                            <span class="node node-act" style="padding: 5px 10px;">ActOfAllocation</span>
+                            <span class="connection-arrow">&#8594;</span>
+                            <span class="connection-label">affects</span>
+                            <span class="connection-arrow">&#8594;</span>
+                            <span class="node node-artifact" style="padding: 5px 10px;">Artifact: ventilator</span>
+                        </div>
+                        <div class="connection">
+                            <span class="node node-act" style="padding: 5px 10px;">ActOfAllocation</span>
+                            <span class="connection-arrow">&#8594;</span>
+                            <span class="connection-label">has_participant</span>
+                            <span class="connection-arrow">&#8594;</span>
+                            <span class="node node-aggregate" style="padding: 5px 10px;">ObjectAggregate</span>
+                        </div>
+                        <div class="connection">
+                            <span class="node node-directive" style="padding: 5px 10px;">DirectiveContent</span>
+                            <span class="connection-arrow">&#8594;</span>
+                            <span class="connection-label">prescribes</span>
+                            <span class="connection-arrow">&#8594;</span>
+                            <span class="node node-act" style="padding: 5px 10px;">ActOfAllocation</span>
+                        </div>
+                        <div class="connection">
+                            <span class="node node-role" style="padding: 5px 10px;">AgentRole</span>
+                            <span class="connection-arrow">&#8594;</span>
+                            <span class="connection-label">inheres_in</span>
+                            <span class="connection-arrow">&#8594;</span>
+                            <span class="node node-person" style="padding: 5px 10px;">Person: doctor</span>
+                        </div>
+                        <div class="connection">
+                            <span class="node node-role" style="padding: 5px 10px;">AgentRole</span>
+                            <span class="connection-arrow">&#8594;</span>
+                            <span class="connection-label">would_be_realized_in</span>
+                            <span class="connection-arrow">&#8594;</span>
+                            <span class="node node-act" style="padding: 5px 10px;">ActOfAllocation</span>
+                        </div>
+                        <div class="connection">
+                            <span class="node node-person" style="padding: 5px 10px;">Person: doctor</span>
+                            <span class="connection-arrow">&#8594;</span>
+                            <span class="connection-label">is_bearer_of</span>
+                            <span class="connection-arrow">&#8594;</span>
+                            <span class="node node-role" style="padding: 5px 10px;">AgentRole</span>
+                        </div>
+                        <div class="connection">
+                            <span class="node node-quality" style="padding: 5px 10px;">DiseaseQuality</span>
+                            <span class="connection-arrow">&#8594;</span>
+                            <span class="connection-label">inheres_in</span>
+                            <span class="connection-arrow">&#8594;</span>
+                            <span class="node node-person" style="padding: 5px 10px;">Person: patient 1</span>
+                        </div>
+                        <div class="connection">
+                            <span class="node node-aggregate" style="padding: 5px 10px;">ObjectAggregate</span>
+                            <span class="connection-arrow">&#8594;</span>
+                            <span class="connection-label">has_member</span>
+                            <span class="connection-arrow">&#8594;</span>
+                            <span class="node node-person" style="padding: 5px 10px;">Person: patient 1, 2</span>
+                        </div>
+                        <div class="connection">
+                            <span class="node node-scarcity" style="padding: 5px 10px;">ScarcityAssertion</span>
+                            <span class="connection-arrow">&#8594;</span>
+                            <span class="connection-label">is_about</span>
+                            <span class="connection-arrow">&#8594;</span>
+                            <span class="node node-artifact" style="padding: 5px 10px;">Artifact: ventilator</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="stage-number">4</div>
+            </div>
+        </div>
+
+        <!-- Output -->
+        <div class="output-section">
+            <div class="output-label">Output: JSON-LD Semantic Graph</div>
+            <p class="output-description">
+                The final result is a structured, machine-readable graph in JSON-LD format that captures
+                <strong>who</strong> (agents), <strong>what action</strong> (acts), <strong>who/what is affected</strong> (patients),
+                <strong>obligations</strong> (directives), <strong>conditions</strong> (qualities), and <strong>constraints</strong> (scarcity).
+            </p>
+            <div class="output-features">
+                <div class="feature">&#128172; Discourse Referents linked to real entities</div>
+                <div class="feature">&#128100; Persons with Roles they bear</div>
+                <div class="feature">&#9889; Acts with agents and participants</div>
+                <div class="feature">&#128220; Directives that prescribe acts</div>
+                <div class="feature">&#10004; Qualities that inhere in entities</div>
+                <div class="feature">&#9888; Scarcity assertions about resources</div>
+            </div>
+        </div>
+
+        <!-- Predicate Reference -->
+        <div class="predicate-ref">
+            <h3>Key Predicates (Relationships)</h3>
+            <div class="predicate-grid">
+                <div class="predicate-item">
+                    <span class="predicate-name">is_about</span>
+                    <span class="predicate-desc">Links a discourse referent to the real-world entity it refers to</span>
+                </div>
+                <div class="predicate-item">
+                    <span class="predicate-name">has_agent</span>
+                    <span class="predicate-desc">Links an act to the person performing it</span>
+                </div>
+                <div class="predicate-item">
+                    <span class="predicate-name">affects</span>
+                    <span class="predicate-desc">Links an act to the entity directly affected by it</span>
+                </div>
+                <div class="predicate-item">
+                    <span class="predicate-name">has_participant</span>
+                    <span class="predicate-desc">Links an act to all entities involved in it</span>
+                </div>
+                <div class="predicate-item">
+                    <span class="predicate-name">prescribes</span>
+                    <span class="predicate-desc">Links a directive to the act it obligates</span>
+                </div>
+                <div class="predicate-item">
+                    <span class="predicate-name">inheres_in</span>
+                    <span class="predicate-desc">Links a role or quality to the entity that has it</span>
+                </div>
+                <div class="predicate-item">
+                    <span class="predicate-name">is_bearer_of</span>
+                    <span class="predicate-desc">Links an entity to the roles it carries</span>
+                </div>
+                <div class="predicate-item">
+                    <span class="predicate-name">would_be_realized_in</span>
+                    <span class="predicate-desc">Links a role to the act where it would be exercised</span>
+                </div>
+                <div class="predicate-item">
+                    <span class="predicate-name">has_member</span>
+                    <span class="predicate-desc">Links an aggregate (group) to its individual members</span>
+                </div>
+                <div class="predicate-item">
+                    <span class="predicate-name">is_concretized_by</span>
+                    <span class="predicate-desc">Links information content to the text that carries it</span>
+                </div>
+                <div class="predicate-item">
+                    <span class="predicate-name">describes_quality</span>
+                    <span class="predicate-desc">Links a discourse referent to qualities mentioned about it</span>
+                </div>
+                <div class="predicate-item">
+                    <span class="predicate-name">extracted_from</span>
+                    <span class="predicate-desc">Links derived content to its source discourse referent</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend">
+            <h3>Node Types</h3>
+            <div class="legend-grid">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #06b6d4, #0891b2);"></div>
+                    <span>DiscourseReferent (text phrases)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);"></div>
+                    <span>Person (cco:Person)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);"></div>
+                    <span>Artifact (cco:Artifact)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #6366f1, #4f46e5);"></div>
+                    <span>ObjectAggregate (groups)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #ef4444, #dc2626);"></div>
+                    <span>IntentionalAct (actions)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #f59e0b, #d97706);"></div>
+                    <span>Role (AgentRole, PatientRole)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #10b981, #059669);"></div>
+                    <span>Quality (DiseaseQuality, etc.)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #ec4899, #db2777);"></div>
+                    <span>DirectiveContent (obligations)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #f97316, #ea580c);"></div>
+                    <span>ScarcityAssertion (resource limits)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #64748b, #475569);"></div>
+                    <span>InformationBearingEntity (input text)</span>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>TagTeam.js - Semantic Parsing for Ethical Context Analysis</p>
+            <p><a href="index.html">Back to Landing Page</a> | <a href="demo.html">Try Interactive Demo</a></p>
+        </footer>
+    </div>
+</body>
+</html>

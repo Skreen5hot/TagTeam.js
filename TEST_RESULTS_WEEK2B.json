@@ -1,0 +1,319 @@
+{
+  "timestamp": "2026-02-03T11:24:04.087Z",
+  "summary": {
+    "total": 20,
+    "withProfile": 20,
+    "withoutProfile": 0,
+    "avgValuesPerScenario": 1.2,
+    "avgParseTime": 15.3,
+    "polarityAccuracy": "4.4%",
+    "salienceAccuracy": "2.9%"
+  },
+  "scenarios": [
+    {
+      "id": "healthcare-001",
+      "text": "The family must decide whether to continue treatment",
+      "hasProfile": true,
+      "valuesDetected": 1,
+      "valuesExpected": 4,
+      "topValue": "Autonomy",
+      "domain": "Dignity",
+      "confidence": 0.53,
+      "matches": [
+        {
+          "value": "Autonomy",
+          "expectedSalience": 0.9,
+          "actualSalience": 0.6,
+          "expectedPolarity": -1,
+          "actualPolarity": 0,
+          "polarityMatch": false,
+          "salienceClose": false
+        }
+      ]
+    },
+    {
+      "id": "healthcare-002",
+      "text": "The doctor must allocate the last ventilator between two critically ill patients",
+      "hasProfile": true,
+      "valuesDetected": 1,
+      "valuesExpected": 4,
+      "topValue": "Justice",
+      "domain": "Dignity",
+      "confidence": 0.38,
+      "matches": [
+        {
+          "value": "Justice",
+          "expectedSalience": 1,
+          "actualSalience": 0.3,
+          "expectedPolarity": 0,
+          "actualPolarity": 0,
+          "polarityMatch": true,
+          "salienceClose": false
+        }
+      ]
+    },
+    {
+      "id": "healthcare-003",
+      "text": "The surgeon must decide whether to disclose the error to the patient",
+      "hasProfile": true,
+      "valuesDetected": 3,
+      "valuesExpected": 4,
+      "topValue": "Autonomy",
+      "domain": "Dignity",
+      "confidence": 0.49,
+      "matches": []
+    },
+    {
+      "id": "healthcare-004",
+      "text": "The parents are demanding an unproven treatment for their dying child",
+      "hasProfile": true,
+      "valuesDetected": 0,
+      "valuesExpected": 3,
+      "topValue": null,
+      "domain": "Mixed",
+      "confidence": 0,
+      "matches": []
+    },
+    {
+      "id": "healthcare-005",
+      "text": "The psychiatrist must decide whether to commit the patient against their will",
+      "hasProfile": true,
+      "valuesDetected": 2,
+      "valuesExpected": 3,
+      "topValue": "Autonomy",
+      "domain": "Dignity",
+      "confidence": 0.54,
+      "matches": [
+        {
+          "value": "Autonomy",
+          "expectedSalience": 1,
+          "actualSalience": 0.8,
+          "expectedPolarity": -1,
+          "actualPolarity": -1,
+          "polarityMatch": true,
+          "salienceClose": true
+        }
+      ]
+    },
+    {
+      "id": "spiritual-001",
+      "text": "I am questioning core doctrines",
+      "hasProfile": true,
+      "valuesDetected": 0,
+      "valuesExpected": 4,
+      "topValue": null,
+      "domain": "Mixed",
+      "confidence": 0,
+      "matches": []
+    },
+    {
+      "id": "spiritual-002",
+      "text": "I am converting to a religion that my parents believe will damn my soul",
+      "hasProfile": true,
+      "valuesDetected": 1,
+      "valuesExpected": 4,
+      "topValue": "Faith",
+      "domain": "Transcendence",
+      "confidence": 0.38,
+      "matches": []
+    },
+    {
+      "id": "spiritual-003",
+      "text": "I must choose between honoring my Sabbath and keeping my job",
+      "hasProfile": true,
+      "valuesDetected": 1,
+      "valuesExpected": 3,
+      "topValue": "Autonomy",
+      "domain": "Dignity",
+      "confidence": 0.53,
+      "matches": []
+    },
+    {
+      "id": "spiritual-004",
+      "text": "I discovered that church leadership is covering up abuse allegations",
+      "hasProfile": true,
+      "valuesDetected": 1,
+      "valuesExpected": 4,
+      "topValue": "Human Rights",
+      "domain": "Dignity",
+      "confidence": 0.38,
+      "matches": []
+    },
+    {
+      "id": "spiritual-005",
+      "text": "I must decide whether to follow my faith's rejection of medicine or seek treatment for my child",
+      "hasProfile": true,
+      "valuesDetected": 3,
+      "valuesExpected": 3,
+      "topValue": "Autonomy",
+      "domain": "Dignity",
+      "confidence": 0.49,
+      "matches": [
+        {
+          "value": "Autonomy",
+          "expectedSalience": 0.6,
+          "actualSalience": 0.6,
+          "expectedPolarity": -1,
+          "actualPolarity": 0,
+          "polarityMatch": false,
+          "salienceClose": true
+        }
+      ]
+    },
+    {
+      "id": "vocational-001",
+      "text": "I discovered that my company is falsifying safety reports",
+      "hasProfile": true,
+      "valuesDetected": 1,
+      "valuesExpected": 4,
+      "topValue": "Non-maleficence",
+      "domain": "Care",
+      "confidence": 0.38,
+      "matches": []
+    },
+    {
+      "id": "vocational-002",
+      "text": "I am considering exaggerating my credentials to get the job",
+      "hasProfile": true,
+      "valuesDetected": 1,
+      "valuesExpected": 3,
+      "topValue": "Autonomy",
+      "domain": "Dignity",
+      "confidence": 0.18,
+      "matches": []
+    },
+    {
+      "id": "vocational-003",
+      "text": "My supervisor is claiming credit for my work",
+      "hasProfile": true,
+      "valuesDetected": 0,
+      "valuesExpected": 3,
+      "topValue": null,
+      "domain": "Mixed",
+      "confidence": 0,
+      "matches": []
+    },
+    {
+      "id": "vocational-004",
+      "text": "Management is instructing me to discriminate in hiring",
+      "hasProfile": true,
+      "valuesDetected": 0,
+      "valuesExpected": 4,
+      "topValue": null,
+      "domain": "Mixed",
+      "confidence": 0,
+      "matches": []
+    },
+    {
+      "id": "vocational-005",
+      "text": "I can increase profits by using environmentally damaging waste disposal methods",
+      "hasProfile": true,
+      "valuesDetected": 1,
+      "valuesExpected": 3,
+      "topValue": "Stewardship",
+      "domain": "Community",
+      "confidence": 0.38,
+      "matches": [
+        {
+          "value": "Stewardship",
+          "expectedSalience": 1,
+          "actualSalience": 0.3,
+          "expectedPolarity": -1,
+          "actualPolarity": -1,
+          "polarityMatch": true,
+          "salienceClose": false
+        }
+      ]
+    },
+    {
+      "id": "interpersonal-001",
+      "text": "My best friend is cheating on their spouse",
+      "hasProfile": true,
+      "valuesDetected": 0,
+      "valuesExpected": 3,
+      "topValue": null,
+      "domain": "Mixed",
+      "confidence": 0,
+      "matches": []
+    },
+    {
+      "id": "interpersonal-002",
+      "text": "My friend is asking for honest feedback about work I think is bad",
+      "hasProfile": true,
+      "valuesDetected": 2,
+      "valuesExpected": 3,
+      "topValue": "Honesty",
+      "domain": "Virtue",
+      "confidence": 0.46,
+      "matches": [
+        {
+          "value": "Honesty",
+          "expectedSalience": 1,
+          "actualSalience": 0.5,
+          "expectedPolarity": 0,
+          "actualPolarity": 1,
+          "polarityMatch": false,
+          "salienceClose": false
+        }
+      ]
+    },
+    {
+      "id": "interpersonal-003",
+      "text": "I could claim more inheritance than I deserve through a legal loophole",
+      "hasProfile": true,
+      "valuesDetected": 2,
+      "valuesExpected": 3,
+      "topValue": "Justice",
+      "domain": "Dignity",
+      "confidence": 0.41,
+      "matches": [
+        {
+          "value": "Justice",
+          "expectedSalience": 1,
+          "actualSalience": 0.3,
+          "expectedPolarity": 0,
+          "actualPolarity": 1,
+          "polarityMatch": false,
+          "salienceClose": false
+        }
+      ]
+    },
+    {
+      "id": "interpersonal-004",
+      "text": "I am considering forcing my adult child into addiction treatment",
+      "hasProfile": true,
+      "valuesDetected": 2,
+      "valuesExpected": 3,
+      "topValue": "Temperance",
+      "domain": "Mixed",
+      "confidence": 0.31,
+      "matches": [
+        {
+          "value": "Autonomy",
+          "expectedSalience": 1,
+          "actualSalience": 0.3,
+          "expectedPolarity": -1,
+          "actualPolarity": 1,
+          "polarityMatch": false,
+          "salienceClose": false
+        }
+      ]
+    },
+    {
+      "id": "interpersonal-005",
+      "text": "I suspect my neighbor is being abused but they deny it",
+      "hasProfile": true,
+      "valuesDetected": 2,
+      "valuesExpected": 3,
+      "topValue": "Rights",
+      "domain": "Mixed",
+      "confidence": 0.41,
+      "matches": []
+    }
+  ],
+  "assessments": [
+    "✅ Profile generation: EXCELLENT (90%+ scenarios)",
+    "✅ Performance: EXCELLENT (<100ms)",
+    "⚠️ Polarity accuracy: NEEDS IMPROVEMENT (<80%)"
+  ]
+}

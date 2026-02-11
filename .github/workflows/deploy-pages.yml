@@ -59,6 +59,12 @@ jobs:
           # Copy validation tests
           cp tests/browser/test-week2a-context.html gh-pages/validation.html
 
+          # Copy expert validation results
+          cp tests/expert-validation/results/expert-validation-visual-summary.html gh-pages/expert-validation-visual-summary.html
+
+          # Copy visual explainer
+          cp demos/how-tagteam-works.html gh-pages/how-tagteam-works.html
+
           # Create demo page
           cat > gh-pages/demo.html << 'EOF'
           <!DOCTYPE html>

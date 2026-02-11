@@ -169,7 +169,7 @@ function analyzePrefixSubordination(acts, result, test) {
   // Check for clause relation
   const hasClauseRelation = result['@graph'].some(node =>
     node['@type'] && (
-      node['@type'].includes('ClauseRelation') ||
+      node['@type'].some(t => t.includes('ClauseRelation')) ||  // Check if any type includes 'ClauseRelation'
       node['tagteam:clauseRelation']
     )
   );

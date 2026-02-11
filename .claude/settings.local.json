@@ -24,7 +24,27 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git fetch:*)",
-      "Read(//c/**)"
+      "Read(//c/**)",
+      "Bash(powershell -Command \"gh api repos/Skreen5hot/TagTeam.js/pages\")",
+      "Bash(npx jest:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(gitHash)",
+      "Bash(timestamp\" in the\nbrowser console, making it easy to verify the demo uses the latest bundle.\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(tee:*)",
+      "Bash(git stash:*)",
+      "Bash(git status:*)",
+      "Bash(git checkout:*)",
+      "Bash(found\" correctly link cco:affects to the patient.\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(npm run security:test:*)",
+      "Bash(do node \"$f\")",
+      "Bash(npm run test:integration:*)",
+      "Bash(npm run test:golden:*)",
+      "Bash(npm run validate:golden:*)",
+      "Bash(npm run regression:check:*)",
+      "Bash(npm run test:expert:*)",
+      "Bash(start tests/expert-validation/results/expert-validation-visual-summary.html)",
+      "Bash(npm run test:component:*)",
+      "Bash(DEBUG_CLAUSE=1 node:*)"
     ]
   }
 }

@@ -1,14 +1,6 @@
 test,input,pass/fail
 Test1.1.0 linguistic.clause-types.declarative,The engineer reviewed the design.,PASS
 Test1.1.1 linguistic.clause-types.interrogative,Did the committee approve the budget?,PASS
-Test1.1.2 linguistic.clause-types.imperative,Submit the report by Friday.,PASS
-Test1.1.3 linguistic.clause-types.exclamatory,What a disaster the launch was!,fail
-Test1.1.4 linguistic.clause-types.conditional,"If demand increases, expand capacity.",fail
-Test1.1.5 linguistic.sentence-complexity.simple,The technician calibrated the sensor.,PASS
-Test1.1.6 linguistic.sentence-complexity.compound,The server rebooted and the application restarted.,fail
-Test1.1.7 linguistic.sentence-complexity.complex,"When the alarm sounded, the guards responded.",fail
-Test1.1.8 linguistic.sentence-complexity.compound-complex,"When the alarm sounded, the guards responded and the system logged the event.",fail
-Test1.1.9 linguistic.sentence-complexity.embedded-clauses,The fact that the server failed worried the administrator.,fail
 Test1.1.10 linguistic.voice-and-valency.active,The auditor found discrepancies.,PASS
 Test1.1.11 linguistic.voice-and-valency.passive,Discrepancies were found.,PASS
 Test1.1.12 linguistic.voice-and-valency.passive-agentless,The contract was terminated.,PASS
@@ -19,5 +11,19 @@ Test1.1.16 linguistic.argument-structure.subject-extraction,Which report did the
 Test1.1.17 linguistic.argument-structure.direct-object,The auditor reviewed the report.,PASS
 Test1.1.18 linguistic.argument-structure.indirect-object,The auditor gave the committee the report.,PASS
 Test1.1.19 linguistic.argument-structure.oblique-arguments,The technician repaired the device with the tool for the client.,PASS
+Test1.1.2 linguistic.clause-types.imperative,Submit the report by Friday.,PASS
 Test1.1.20 linguistic.argument-structure.expletive-subjects,It is necessary that the system restart.,fail
 Test1.1.21 linguistic.argument-structure.raising-control,The engineer seems to understand the problem.,fail
+Test1.1.3 linguistic.clause-types.exclamatory,What a disaster the launch was!,fail
+Test1.1.4 linguistic.clause-types.conditional,"If demand increases, expand capacity.",fail
+Test1.1.5 linguistic.sentence-complexity.simple,The technician calibrated the sensor.,PASS
+Test1.1.6 linguistic.sentence-complexity.compound_clause_coordination_and,The server rebooted and the application restarted.,PASS
+Test1.1.6.1 linguistic.sentence-complexity.compound_clause_coordination_but,The doctor examined the patient but the nurse disagreed.,PASS
+Test1.1.6.2 linguistic.argument-structure.compound_elliptical_coordinaiton,The server rebooted and was verified by the admin.,PASS
+Test1.1.6.3 linguistic.argument-structure.compound_vp_coordinaiton,The server rebooted and restarted.,PASS
+Test1.1.6.4 linguistic.argument-structure.compound_so_result,The system was slow so the user refreshed the page.,fail
+Test1.1.6.5 linguistic.argument-structure.compound_so_purpose,He worked late so he could finish the report.,PASS
+Test1.1.6.6 linguistic.argument-structure.compound_np_coordinaiton,The doctor and the nurse treated the patient.,PASS
+Test1.1.7 linguistic.sentence-complexity.complex,"When the alarm sounded, the guards responded.",fail
+Test1.1.8 linguistic.sentence-complexity.compound-complex,"When the alarm sounded, the guards responded and the system logged the event.",fail
+Test1.1.9 linguistic.sentence-complexity.embedded-clauses,The fact that the server failed worried the administrator.,fail
