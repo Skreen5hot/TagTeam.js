@@ -770,6 +770,11 @@ class EntityExtractor {
       tier1Entities.push(referent);
     });
 
+    // V7-007: Extract proper names using Compromise's specialized methods
+    // This handles person names, organizations, and places more reliably than
+    // capitalization heuristics, especially for sentence-initial names.
+    this._extractProperNames(doc, text, tier1Entities);
+
     // v2 Phase 0: Wh-word pseudo-entity extraction
     // Scans for Wh-words that Compromise NLP does not recognize as nouns.
     // Handles both standalone Wh-words ("who", "what") and Wh + noun phrases ("which report").
@@ -845,6 +850,318 @@ class EntityExtractor {
     }
 
     return tier1Entities;
+  }
+
+  /**
+   * V7-007: Extract proper names using Compromise NLP's specialized methods.
+   *
+   * This handles person names, organizations, and places that may not be
+   * detected as regular nouns, especially sentence-initial proper names where
+   * capitalization doesn't distinguish "The server" from "John".
+   *
+   * @param {Object} doc - Compromise NLP document
+   * @param {string} text - Full input text
+   * @param {Array} tier1Entities - Array to add entities to (modified in place)
+   */
+  _extractProperNames(doc, text, tier1Entities) {
+    // Extract person names
+    const people = doc.people();
+    people.forEach((person, index) => {
+      const personText = person.text();
+
+      // Skip if already extracted as noun
+      const alreadyExtracted = tier1Entities.some(e => {
+        const label = (e['rdfs:label'] || '').toLowerCase();
+        return label === personText.toLowerCase() || label.includes(personText.toLowerCase());
+      });
+      if (alreadyExtracted) return;
+
+      const offset = this._getSpanOffset(text, personText, index);
+
+      const referent = this._createDiscourseReferent({
+        text: personText,
+        rootNoun: personText,
+        offset,
+        entityType: 'cco:Person',
+        definiteness: 'definite',  // Proper names are inherently definite
+        referentialStatus: 'introduced',
+        scarcity: { isScarce: false },
+        quantity: { quantity: null },
+        temporalUnit: null,
+        typeRefinedBy: null,
+        introducingPreposition: null
+      });
+
+      tier1Entities.push(referent);
+    });
+
+    // Extract organizations
+    const orgs = doc.organizations();
+    orgs.forEach((org, index) => {
+      const orgText = org.text();
+
+      // Skip if already extracted
+      const alreadyExtracted = tier1Entities.some(e => {
+        const label = (e['rdfs:label'] || '').toLowerCase();
+        return label === orgText.toLowerCase() || label.includes(orgText.toLowerCase());
+      });
+      if (alreadyExtracted) return;
+
+      const offset = this._getSpanOffset(text, orgText, index);
+
+      const referent = this._createDiscourseReferent({
+        text: orgText,
+        rootNoun: orgText,
+        offset,
+        entityType: 'cco:Organization',
+        definiteness: 'definite',
+        referentialStatus: 'introduced',
+        scarcity: { isScarce: false },
+        quantity: { quantity: null },
+        temporalUnit: null,
+        typeRefinedBy: null,
+        introducingPreposition: null
+      });
+
+      tier1Entities.push(referent);
+    });
+
+    // Extract places
+    const places = doc.places();
+    places.forEach((place, index) => {
+      const placeText = place.text();
+
+      // Skip if already extracted
+      const alreadyExtracted = tier1Entities.some(e => {
+        const label = (e['rdfs:label'] || '').toLowerCase();
+        return label === placeText.toLowerCase() || label.includes(placeText.toLowerCase());
+      });
+      if (alreadyExtracted) return;
+
+      const offset = this._getSpanOffset(text, placeText, index);
+
+      // Use GeopoliticalEntity for places (cities, countries, etc.)
+      const referent = this._createDiscourseReferent({
+        text: placeText,
+        rootNoun: placeText,
+        offset,
+        entityType: 'cco:GeopoliticalEntity',
+        definiteness: 'definite',
+        referentialStatus: 'introduced',
+        scarcity: { isScarce: false },
+        quantity: { quantity: null },
+        temporalUnit: null,
+        typeRefinedBy: null,
+        introducingPreposition: null
+      });
+
+      tier1Entities.push(referent);
+    });
+
+    // V7-007: Fallback - scan for capitalized words not yet extracted
+    // This catches proper names that Compromise doesn't recognize
+    this._extractCapitalizedWords(text, tier1Entities);
+
+    // V7-007: Post-process - upgrade default-typed entities if they're capitalized proper names
+    this._upgradeCapitalizedDefaultEntities(tier1Entities);
+  }
+
+  /**
+   * V7-007: Upgrade entities with default type if they appear to be proper names.
+   *
+   * Some proper names get extracted as regular nouns with bfo:BFO_0000040 default type.
+   * This post-processing step upgrades them based on capitalization heuristics.
+   *
+   * @param {Array} tier1Entities - Entities to upgrade (modified in place)
+   */
+  _upgradeCapitalizedDefaultEntities(tier1Entities) {
+    const DEFAULT_TYPE = 'bfo:BFO_0000040';
+
+    tier1Entities.forEach(entity => {
+      // Only upgrade if it has default type
+      const types = entity['@type'] || [];
+      if (!types.includes(DEFAULT_TYPE)) return;
+
+      const text = entity['rdfs:label'] || '';
+      const words = text.trim().split(/\s+/);
+
+      // Check if all main words are capitalized (skip articles)
+      const mainWords = words.filter(w => {
+        const lower = w.toLowerCase();
+        return !['the', 'a', 'an'].includes(lower);
+      });
+
+      const allCapitalized = mainWords.every(w => {
+        const clean = w.replace(/[.,;:!?]$/, '');
+        return clean.length > 0 &&
+               clean[0] === clean[0].toUpperCase() &&
+               clean[0] !== clean[0].toLowerCase();
+      });
+
+      if (!allCapitalized) return;
+
+      // Determine new type based on word count, length, and patterns
+      let newType;
+      const cleanWords = mainWords.map(w => w.replace(/[.,;:!?]$/, ''));
+      const totalLength = cleanWords.join('').length;
+      const firstWord = cleanWords[0];
+
+      // Check for known tech companies/products
+      const techCompanies = new Set(['Microsoft', 'Google', 'Apple', 'Amazon', 'Facebook', 'Oracle', 'IBM', 'Intel', 'AMD', 'Nvidia']);
+      const techProducts = new Set(['Windows', 'Linux', 'Mac', 'Unix', 'Android', 'iOS', 'Chrome', 'Firefox', 'Safari']);
+
+      if (cleanWords.length === 1) {
+        // Single capitalized word
+        if (techCompanies.has(firstWord)) {
+          newType = 'cco:Organization';
+        } else if (techProducts.has(firstWord)) {
+          newType = 'cco:Artifact';  // Product names are artifacts
+        } else if (totalLength >= 3 && totalLength <= 8) {
+          // Short word - likely person name (John, Mary, Smith)
+          newType = 'cco:Person';
+        } else if (totalLength >= 9) {
+          // Longer single word - likely organization (Microsoft = 9 chars)
+          newType = 'cco:Organization';
+        }
+      } else if (cleanWords.length === 2) {
+        // Two capitalized words
+        // Check if second word is a common name suffix (indicates person)
+        const nameSuffixes = new Set(['Jr', 'Sr', 'II', 'III']);
+        if (nameSuffixes.has(cleanWords[1])) {
+          newType = 'cco:Person';
+        } else if (totalLength <= 20) {
+          // Likely "FirstName LastName"
+          newType = 'cco:Person';
+        } else {
+          // Long two-word phrase - likely organization
+          newType = 'cco:Organization';
+        }
+      } else {
+        // Multiple words - likely organization
+        newType = 'cco:Organization';
+      }
+
+      if (newType) {
+        // Replace default type with specific type
+        const typeIndex = types.indexOf(DEFAULT_TYPE);
+        if (typeIndex !== -1) {
+          types[typeIndex] = newType;
+        }
+      }
+    });
+  }
+
+  /**
+   * V7-007: Extract capitalized words that weren't caught by other methods.
+   *
+   * Fallback for proper names that Compromise doesn't recognize in its
+   * dictionaries (e.g., "John", "Microsoft", "Windows").
+   *
+   * Heuristics:
+   * - Capitalized word(s) not in ENTITY_TYPE_MAPPINGS or common words
+   * - Short single words (3-10 chars) → likely Person names
+   * - Longer or multi-word → likely Organizations or product names
+   *
+   * @param {string} text - Full input text
+   * @param {Array} tier1Entities - Existing entities (modified in place)
+   */
+  _extractCapitalizedWords(text, tier1Entities) {
+    const words = text.split(/\s+/);
+    const commonWords = new Set(['the', 'a', 'an', 'this', 'that', 'these', 'those', 'i', 'he', 'she', 'it', 'we', 'they']);
+
+    let i = 0;
+    while (i < words.length) {
+      const cleanWord = words[i].replace(/[.,;:!?]$/, '');
+      const lowerWord = cleanWord.toLowerCase();
+
+      // Skip if not capitalized or is a common word
+      if (cleanWord[0] !== cleanWord[0].toUpperCase() ||
+          cleanWord[0] === cleanWord[0].toLowerCase() ||
+          commonWords.has(lowerWord)) {
+        i++;
+        continue;
+      }
+
+      // Skip if in ENTITY_TYPE_MAPPINGS (already handled by noun extraction)
+      if (ENTITY_TYPE_MAPPINGS[lowerWord]) {
+        i++;
+        continue;
+      }
+
+      // Check if already extracted
+      const wordStart = text.indexOf(words[i], i > 0 ? text.indexOf(words[i - 1]) + words[i - 1].length : 0);
+      const alreadyExtracted = tier1Entities.some(e => {
+        const start = e['tagteam:startPosition'];
+        const end = e['tagteam:endPosition'];
+        return start <= wordStart && wordStart < end;
+      });
+
+      if (alreadyExtracted) {
+        i++;
+        continue;
+      }
+
+      // Check for multi-word capitalized phrase (e.g., "John Smith")
+      let phrase = cleanWord;
+      let phraseEnd = i;
+      while (phraseEnd + 1 < words.length) {
+        const nextWord = words[phraseEnd + 1].replace(/[.,;:!?]$/, '');
+        if (nextWord[0] === nextWord[0].toUpperCase() && nextWord[0] !== nextWord[0].toLowerCase()) {
+          phrase += ' ' + nextWord;
+          phraseEnd++;
+        } else {
+          break;
+        }
+      }
+
+      // Determine type based on heuristics
+      let entityType;
+      const phraseLength = phrase.replace(/\s+/g, '').length;
+
+      if (phraseEnd > i) {
+        // Multi-word capitalized phrase
+        if (phrase.split(/\s+/).length === 2 && phraseLength <= 20) {
+          // Likely "FirstName LastName"
+          entityType = 'cco:Person';
+        } else {
+          // Longer phrase - likely Organization
+          entityType = 'cco:Organization';
+        }
+      } else {
+        // Single capitalized word
+        if (phraseLength >= 3 && phraseLength <= 10) {
+          // Short word - likely person name
+          entityType = 'cco:Person';
+        } else if (phraseLength > 10) {
+          // Longer word - likely organization or product
+          entityType = 'cco:Organization';
+        } else {
+          // Very short - skip (might be abbreviation)
+          i++;
+          continue;
+        }
+      }
+
+      const offset = wordStart >= 0 ? wordStart : 0;
+
+      const referent = this._createDiscourseReferent({
+        text: phrase,
+        rootNoun: phrase,
+        offset,
+        entityType,
+        definiteness: 'definite',
+        referentialStatus: 'introduced',
+        scarcity: { isScarce: false },
+        quantity: { quantity: null },
+        temporalUnit: null,
+        typeRefinedBy: null,
+        introducingPreposition: null
+      });
+
+      tier1Entities.push(referent);
+
+      i = phraseEnd + 1;
+    }
   }
 
   /**
