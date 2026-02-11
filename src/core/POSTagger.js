@@ -60,12 +60,16 @@ POSTagger.prototype.tag = function(words){
         //change
 ret[i] = this.tagsMap[ss[0]] ? this.tagsMap[ss[0]][0] : ss[0];
     }
-	
+
 	/**
      * Apply transformational rules
      **/
     for (var i = 0; i < words.length; i++) {
         word = ret[i];
+		// rule 0: possessive marker 's --> POS
+        if (words[i] === "'s") {
+            ret[i] = "POS";
+        }
 		//  rule 1: DT, {VBD | VBP} --> DT, NN
         if (i > 0 && ret[i - 1] == "DT") {
             if (word == "VBD" ||

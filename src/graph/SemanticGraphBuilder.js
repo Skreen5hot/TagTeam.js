@@ -548,9 +548,19 @@ class SemanticGraphBuilder {
           extractedActs.push(...clauseActs);
         }
       } else {
+        // Deduplicate entities by @id before passing to ActExtractor
+        const seenIDs = new Set();
+        const deduplicatedEntities = extractedEntities.filter(e => {
+          if (seenIDs.has(e['@id'])) {
+            return false;
+          }
+          seenIDs.add(e['@id']);
+          return true;
+        });
+
         extractedActs = this.actExtractor.extract(text, {
           ...buildOptions,
-          entities: extractedEntities,
+          entities: deduplicatedEntities,
           complexDesignatorSpans: cdSpans,
           sentenceMode: this.sentenceMode,
           complexDesignatorNodes: cdNodes

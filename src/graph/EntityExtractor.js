@@ -16,6 +16,11 @@
 const nlp = require('compromise');
 const RealWorldEntityFactory = require('./RealWorldEntityFactory');
 
+// V7-012 Phase 1: Custom NP chunking to replace Compromise
+const POSTagger = require('../core/POSTagger');
+const Tokenizer = require('./Tokenizer');
+const NPChunker = require('./NPChunker');
+
 /**
  * Scarcity markers that indicate limited resources
  */
@@ -336,11 +341,38 @@ const ENTITY_TYPE_MAPPINGS = {
   'configuration': 'cco:InformationContentEntity',
   'feature': 'cco:Artifact',
 
+  // V7-Priority5: Software/hardware product names → cco:Artifact
+  // Case-insensitive matching handles "Windows", "windows", etc.
+  'windows': 'cco:Artifact',
+  'linux': 'cco:Artifact',
+  'macos': 'cco:Artifact',
+  'ios': 'cco:Artifact',
+  'android': 'cco:Artifact',
+  'chrome': 'cco:Artifact',
+  'firefox': 'cco:Artifact',
+  'safari': 'cco:Artifact',
+  'edge': 'cco:Artifact',
+
   // V7-006: Facilities and locations
   'datacenter': 'cco:Facility',
   'facility': 'cco:Facility',
   'building': 'cco:Facility',
   'office': 'cco:Facility',
+
+  // V7-Priority4: Abstract nouns → bfo:Quality (BFO specifically dependent continuants)
+  // Qualities inhere in material entities but are not material themselves
+  'power': 'bfo:Quality',
+  'memory': 'bfo:Quality',
+  'speed': 'bfo:Quality',
+  'temperature': 'bfo:Quality',
+  'pressure': 'bfo:Quality',
+  'weight': 'bfo:Quality',
+  'size': 'bfo:Quality',
+  'color': 'bfo:Quality',
+  'brightness': 'bfo:Quality',
+  'capacity': 'bfo:Quality',
+  'bandwidth': 'bfo:Quality',
+  'latency': 'bfo:Quality',
 
   // Default
   '_default': 'bfo:BFO_0000040' // Material Entity
@@ -672,6 +704,16 @@ class EntityExtractor {
       this.tier2Factory.setDocumentIRI(options.documentIRI);
     }
 
+    // V7-012 Phase 1: Use custom NPChunker instead of Compromise
+    // Feature flag: options.useNPChunker (default: true for Phase 1 testing)
+    const useNPChunker = options.useNPChunker !== false;
+
+    if (useNPChunker) {
+      // NEW: Custom NP chunking with jsPOS
+      return this._extractWithNPChunker(text, options, tier1Entities);
+    }
+
+    // FALLBACK: Original Compromise-based extraction
     // Parse with Compromise NLP
     const doc = nlp(text);
 
@@ -700,6 +742,130 @@ class EntityExtractor {
         return;
       }
 
+      // V7-011: Detect possessive NP ("X's Y") and extract possessor as separate entity
+      // Cambridge Grammar §5.4: Possessive constructions have both possessor and possessed
+      const possessive = this._detectPossessiveNP(nounText, text);
+      if (possessive.isPossessive) {
+        // Extract possessor as separate entity ("the admin" from "the admin's credentials")
+        const possessorOffset = this._getSpanOffset(text, possessive.possessor, 0);
+        const possessorDoc = nlp(possessive.possessor);
+        const possessorNounData = possessorDoc.nouns().json()[0]?.noun || {};
+        const possessorRootNoun = possessorNounData.root || possessive.possessor;
+
+        if (!this._isNonEntityNoun(possessorRootNoun)) {
+          const possessorEntity = this._createEntityFromText(
+            possessive.possessor,
+            possessorRootNoun,
+            possessorOffset,
+            text,
+            possessorDoc.nouns().first(),
+            possessorNounData
+          );
+          possessorEntity['tagteam:isPossessor'] = true;
+          tier1Entities.push(possessorEntity);
+        }
+        // Continue to extract full possessive phrase as well
+      }
+
+      // V7-011: Detect PP modifier ("X in Y") and extract PP object as separate entity
+      // Cambridge Grammar §7.2: PP attachment creates hierarchical structure
+      const ppModifier = this._detectPPModifier(nounText, text);
+      if (ppModifier.hasPP) {
+        // Extract PP object as separate entity ("the datacenter" from "the server in the datacenter")
+        const ppObjectOffset = this._getSpanOffset(text, ppModifier.ppObject, 0);
+        const ppObjectDoc = nlp(ppModifier.ppObject);
+        const ppObjectNounData = ppObjectDoc.nouns().json()[0]?.noun || {};
+        const ppObjectRootNoun = ppObjectNounData.root || ppModifier.ppObject;
+
+        if (!this._isNonEntityNoun(ppObjectRootNoun)) {
+          const ppObjectEntity = this._createEntityFromText(
+            ppModifier.ppObject,
+            ppObjectRootNoun,
+            ppObjectOffset,
+            text,
+            ppObjectDoc.nouns().first(),
+            ppObjectNounData
+          );
+          ppObjectEntity['tagteam:isPPObject'] = true;
+          ppObjectEntity['tagteam:preposition'] = ppModifier.preposition;
+          tier1Entities.push(ppObjectEntity);
+        }
+        // Continue to extract full phrase with PP as well
+      }
+
+      // V7-010: Detect and split coordinated noun phrases ("X and Y")
+      // Penn Treebank coordination rules: NP conjunction creates separate entities
+      const coordination = this._detectCoordination(nounText, text);
+      if (coordination.isCoordinated) {
+        // Process each conjunct as a separate entity
+        coordination.conjuncts.forEach((conjunctText, conjunctIndex) => {
+          const conjunctOffset = this._getSpanOffset(text, conjunctText, 0);
+
+          // Extract root noun for conjunct
+          const conjunctDoc = nlp(conjunctText);
+          const conjunctNounData = conjunctDoc.nouns().json()[0]?.noun || {};
+          const conjunctRootNoun = conjunctNounData.root || conjunctText;
+
+          // Skip non-entity nouns
+          if (this._isNonEntityNoun(conjunctRootNoun)) {
+            return;
+          }
+
+          // Detect properties for this conjunct
+          const introducingPrep = this._detectIntroducingPreposition(text, conjunctOffset);
+          const defInfo = this._detectDefiniteness(nlp(conjunctText).nouns().first(), conjunctText, text, conjunctNounData);
+          const scarcityInfo = this._detectScarcity(conjunctText, text, conjunctOffset, conjunctNounData);
+          const quantityInfo = this._detectQuantity(conjunctText, text, conjunctOffset, conjunctNounData);
+
+          const fullWords = conjunctText.toLowerCase().trim().split(/\s+/);
+          const temporalType = this._checkForTemporalType(conjunctText.toLowerCase().trim(), fullWords);
+          const symptomType = !temporalType
+            ? this._checkForSymptomType(conjunctText.toLowerCase().trim(), conjunctRootNoun.toLowerCase().trim())
+            : null;
+
+          let entityType = temporalType || symptomType || this._determineEntityType(conjunctRootNoun, {
+            fullText: text,
+            definitenessInfo: defInfo
+          });
+
+          let typeRefinedBy = null;
+          if (!temporalType && !symptomType) {
+            const verbRefinement = this._refineTypeByVerbContext(conjunctRootNoun, text, conjunctOffset);
+            if (verbRefinement.refinedType) {
+              entityType = verbRefinement.refinedType;
+              typeRefinedBy = verbRefinement.governingVerb;
+            }
+          }
+
+          const temporalUnit = temporalType ? this._extractTemporalUnit(conjunctText) : null;
+          const referentialStatus = this._determineReferentialStatus(defInfo, conjunctText, text, index);
+
+          // Create separate entity for this conjunct
+          const conjunctReferent = this._createDiscourseReferent({
+            text: conjunctText,
+            rootNoun: conjunctRootNoun,
+            offset: conjunctOffset,
+            entityType,
+            definiteness: defInfo.definiteness,
+            referentialStatus,
+            scarcity: scarcityInfo,
+            quantity: quantityInfo,
+            temporalUnit: temporalUnit,
+            typeRefinedBy: typeRefinedBy,
+            introducingPreposition: introducingPrep
+          });
+
+          // Mark as part of coordination
+          conjunctReferent['tagteam:isConjunct'] = true;
+          conjunctReferent['tagteam:coordinationType'] = coordination.type;
+
+          tier1Entities.push(conjunctReferent);
+        });
+
+        // Skip normal processing since we handled coordination
+        return;
+      }
+
       // Get span offset
       const offset = this._getSpanOffset(text, nounText, index);
 
@@ -719,22 +885,28 @@ class EntityExtractor {
       const fullWords = nounText.toLowerCase().trim().split(/\s+/);
       const temporalType = this._checkForTemporalType(nounText.toLowerCase().trim(), fullWords);
 
-      // Check for symptom/quality type using full noun phrase AND root noun
+      // V7-011c: Extract syntactic head noun for accurate type classification
+      // For complex NPs (possessives, PP modifiers), Compromise's rootNoun is unreliable
+      const headNoun = this._extractHeadNoun(nounText, rootNoun);
+
+      // Check for symptom/quality type using full noun phrase AND head noun
       const symptomType = !temporalType
-        ? this._checkForSymptomType(nounText.toLowerCase().trim(), rootNoun.toLowerCase().trim())
+        ? this._checkForSymptomType(nounText.toLowerCase().trim(), headNoun)
         : null;
 
       // Determine entity type: temporal > symptom > standard matching
-      let entityType = temporalType || symptomType || this._determineEntityType(rootNoun, {
+      // V7-011c: Use headNoun instead of rootNoun for accurate type classification
+      let entityType = temporalType || symptomType || this._determineEntityType(headNoun, {
         fullText: text,
         definitenessInfo: definitenessInfo
       });
 
       // ENH-001: Verb-context refinement for ambiguous nouns
       // If the noun is ambiguous and governed by a cognitive/physical verb, refine type
+      // V7-011c: Use headNoun for accurate refinement
       let typeRefinedBy = null;
       if (!temporalType && !symptomType) {
-        const verbRefinement = this._refineTypeByVerbContext(rootNoun, text, offset);
+        const verbRefinement = this._refineTypeByVerbContext(headNoun, text, offset);
         if (verbRefinement.refinedType) {
           entityType = verbRefinement.refinedType;
           typeRefinedBy = verbRefinement.governingVerb;
@@ -774,6 +946,10 @@ class EntityExtractor {
     // This handles person names, organizations, and places more reliably than
     // capitalization heuristics, especially for sentence-initial names.
     this._extractProperNames(doc, text, tier1Entities);
+
+    // V7-010: Extract pronouns (especially reflexives for Binding Theory)
+    // Reflexive pronouns need to be extracted as entities for role assignment
+    this._extractPronouns(doc, text, tier1Entities);
 
     // v2 Phase 0: Wh-word pseudo-entity extraction
     // Scans for Wh-words that Compromise NLP does not recognize as nouns.
@@ -900,12 +1076,24 @@ class EntityExtractor {
     orgs.forEach((org, index) => {
       const orgText = org.text();
 
-      // Skip if already extracted
-      const alreadyExtracted = tier1Entities.some(e => {
+      // Check if already extracted by NPChunker
+      const existingEntity = tier1Entities.find(e => {
         const label = (e['rdfs:label'] || '').toLowerCase();
-        return label === orgText.toLowerCase() || label.includes(orgText.toLowerCase());
+        return label === orgText.toLowerCase();
       });
-      if (alreadyExtracted) return;
+
+      if (existingEntity) {
+        // Update type if it was extracted by NPChunker with default type
+        if (existingEntity['tagteam:denotesType'] === 'bfo:BFO_0000040') {
+          existingEntity['tagteam:denotesType'] = 'cco:Organization';
+          // Also update @type array
+          const typeIndex = existingEntity['@type'].indexOf('bfo:BFO_0000040');
+          if (typeIndex !== -1) {
+            existingEntity['@type'][typeIndex] = 'cco:Organization';
+          }
+        }
+        return;
+      }
 
       const offset = this._getSpanOffset(text, orgText, index);
 
@@ -931,12 +1119,24 @@ class EntityExtractor {
     places.forEach((place, index) => {
       const placeText = place.text();
 
-      // Skip if already extracted
-      const alreadyExtracted = tier1Entities.some(e => {
+      // Check if already extracted by NPChunker
+      const existingEntity = tier1Entities.find(e => {
         const label = (e['rdfs:label'] || '').toLowerCase();
-        return label === placeText.toLowerCase() || label.includes(placeText.toLowerCase());
+        return label === placeText.toLowerCase();
       });
-      if (alreadyExtracted) return;
+
+      if (existingEntity) {
+        // Update type if it was extracted by NPChunker with default type
+        if (existingEntity['tagteam:denotesType'] === 'bfo:BFO_0000040') {
+          existingEntity['tagteam:denotesType'] = 'cco:GeopoliticalEntity';
+          // Also update @type array
+          const typeIndex = existingEntity['@type'].indexOf('bfo:BFO_0000040');
+          if (typeIndex !== -1) {
+            existingEntity['@type'][typeIndex] = 'cco:GeopoliticalEntity';
+          }
+        }
+        return;
+      }
 
       const offset = this._getSpanOffset(text, placeText, index);
 
@@ -964,6 +1164,772 @@ class EntityExtractor {
 
     // V7-007: Post-process - upgrade default-typed entities if they're capitalized proper names
     this._upgradeCapitalizedDefaultEntities(tier1Entities);
+  }
+
+  /**
+   * V7-012 Phase 1: Extract entities using custom NPChunker instead of Compromise
+   *
+   * Replaces Compromise's unreliable .nouns() method with explicit, rule-based chunking:
+   * - Uses jsPOS for POS tagging (more reliable than Compromise)
+   * - Uses NPChunker for pattern-based NP extraction
+   * - Correctly identifies head nouns for possessives and PP-modified NPs
+   * - Still uses Compromise for proper names (.people(), .places(), .organizations())
+   *
+   * @param {string} text - Input text
+   * @param {Object} options - Extraction options
+   * @param {Array} tier1Entities - Entity array to populate
+   * @returns {Array} tier1Entities + tier2Entities (if enabled)
+   */
+  _extractWithNPChunker(text, options, tier1Entities) {
+
+    // Step 1: Tokenize
+    const tokenizer = new Tokenizer();
+    const words = tokenizer.tokenizeForPOS(text);
+
+    // Step 2: POS tag with jsPOS
+    const posTagger = new POSTagger();
+    const tagged = posTagger.tag(words);
+
+    // Step 2.5: Fix common ambiguous words that jsPOS mistags
+    // jsPOS lexicon lists ambiguous words' most common sense first,
+    // but context may require a different sense.
+    // Also fixes missing function words (prepositions, determiners, conjunctions).
+    const AMBIGUOUS_WORD_FIXES = {
+      // Words that jsPOS lists as JJ first but are often nouns after determiners
+      'alert': (word, tag, prevTag) => (prevTag === 'DT' && tag === 'JJ') ? 'NN' : tag,
+      'access': (word, tag, prevTag) => (prevTag === 'DT' && tag === 'NN') ? 'NN' : tag,
+      'change': (word, tag, prevTag) => (prevTag === 'DT' && tag === 'NN') ? 'NN' : tag,
+
+      // Common prepositions (missing from jsPOS lexicon, default to NN)
+      'for': (word, tag, prevTag) => 'IN',
+      'with': (word, tag, prevTag) => 'IN',
+      'on': (word, tag, prevTag) => 'IN',
+      'in': (word, tag, prevTag) => 'IN',
+      'at': (word, tag, prevTag) => 'IN',
+      'from': (word, tag, prevTag) => 'IN',
+      'to': (word, tag, prevTag) => 'IN',
+      'into': (word, tag, prevTag) => 'IN',
+      'onto': (word, tag, prevTag) => 'IN',
+      'by': (word, tag, prevTag) => 'IN',
+      'of': (word, tag, prevTag) => 'IN',
+
+      // Common determiners (missing from jsPOS lexicon)
+      'the': (word, tag, prevTag) => 'DT',
+      'a': (word, tag, prevTag) => 'DT',
+      'an': (word, tag, prevTag) => 'DT',
+
+      // Coordinating conjunctions (missing from jsPOS lexicon)
+      'and': (word, tag, prevTag) => 'CC',
+      'or': (word, tag, prevTag) => 'CC'
+    };
+
+    for (let i = 0; i < tagged.length; i++) {
+      const [word, tag] = tagged[i];
+      const wordLower = word.toLowerCase();
+      const prevTag = i > 0 ? tagged[i - 1][1] : null;
+
+      if (AMBIGUOUS_WORD_FIXES[wordLower]) {
+        const correctedTag = AMBIGUOUS_WORD_FIXES[wordLower](word, tag, prevTag);
+        tagged[i] = [word, correctedTag];
+      }
+    }
+
+    // Step 3: Chunk NPs
+    const npChunker = new NPChunker();
+    const chunks = npChunker.chunk(tagged);
+
+    // Step 3.5: Detect coordination between adjacent chunks
+    // If two chunks are separated by CC (and, or), mark them as coordinated
+    const coordinationInfo = new Map(); // chunkIdx → {isConjunct: true, type: 'and'/'or'}
+
+    for (let i = 0; i < chunks.length - 1; i++) {
+      const currentChunk = chunks[i];
+      const nextChunk = chunks[i + 1];
+
+      // Check if there's a CC token between these chunks
+      const betweenStart = currentChunk.endIndex + 1;
+      const betweenEnd = nextChunk.startIndex - 1;
+
+      if (betweenStart <= betweenEnd) {
+        for (let j = betweenStart; j <= betweenEnd; j++) {
+          if (tagged[j] && tagged[j][1] === 'CC') {
+            const coordType = tagged[j][0].toLowerCase(); // 'and' or 'or'
+            coordinationInfo.set(i, { isConjunct: true, type: coordType });
+            coordinationInfo.set(i + 1, { isConjunct: true, type: coordType });
+            break;
+          }
+        }
+      }
+    }
+
+    // Step 4: Extract entities from NP chunks
+    chunks.forEach((chunk, chunkIdx) => {
+
+      // Extract component entities (possessor, PP object, full phrase)
+      const components = npChunker.extractComponents(chunk);
+
+      components.forEach((component, compIdx) => {
+
+        // Skip temporal adverbs - these are temporal modifiers, not entities
+        // BFO treats these as TemporalRegion annotations, not discourse referents
+        const temporalAdverbs = new Set([
+          'yesterday', 'today', 'tomorrow', 'now', 'then',
+          'recently', 'lately', 'soon', 'earlier', 'later'
+        ]);
+        if (temporalAdverbs.has(component.text.toLowerCase())) {
+          return;
+        }
+
+        // Skip if already extracted (avoid duplicates)
+        const alreadyExtracted = tier1Entities.some(e => {
+          const label = (e['rdfs:label'] || '').toLowerCase().trim();
+          return label === component.text.toLowerCase().trim();
+        });
+        if (alreadyExtracted) {
+          return;
+        }
+
+        // V7-010 (Phase 2): Check for coordination ("X and Y")
+        const coordination = this._detectCoordination(component.text, text);
+        if (coordination.isCoordinated) {
+          // Split into separate conjunct entities
+          coordination.conjuncts.forEach((conjunctText) => {
+            // Skip if already extracted
+            const conjunctAlreadyExtracted = tier1Entities.some(e => {
+              const label = (e['rdfs:label'] || '').toLowerCase().trim();
+              return label === conjunctText.toLowerCase().trim();
+            });
+            if (conjunctAlreadyExtracted) return;
+
+            // Get head noun for conjunct (use simple extraction)
+            const conjunctWords = conjunctText.trim().split(/\s+/);
+            const conjunctHead = conjunctWords[conjunctWords.length - 1]; // Last word as head
+
+            const conjunctType = this._determineEntityType(conjunctHead, {
+              fullText: text,
+              definitenessInfo: { definiteness: 'definite' }
+            });
+
+            const conjunctOffset = this._getSpanOffset(text, conjunctText, 0);
+
+            const conjunctReferent = this._createDiscourseReferent({
+              text: conjunctText,
+              rootNoun: conjunctHead,
+              offset: conjunctOffset,
+              entityType: conjunctType,
+              definiteness: 'definite',
+              referentialStatus: 'introduced',
+              scarcity: { isScarce: false },
+              quantity: { quantity: null },
+              temporalUnit: null,
+              typeRefinedBy: null,
+              introducingPreposition: component.properties['tagteam:preposition'] || null
+            });
+
+            // Mark as part of coordination
+            conjunctReferent['tagteam:isConjunct'] = true;
+            conjunctReferent['tagteam:coordinationType'] = coordination.type;
+
+            tier1Entities.push(conjunctReferent);
+          });
+
+          // Skip normal processing since we handled coordination
+          return;
+        }
+
+        // Determine entity type using head noun
+        const entityType = this._determineEntityType(component.head, {
+          fullText: text,
+          definitenessInfo: { definiteness: 'definite' } // Simplified for Phase 1
+        });
+
+        // Get offset in original text
+        const offset = this._getSpanOffset(text, component.text, 0);
+
+        // Create DiscourseReferent
+        const referent = this._createDiscourseReferent({
+          text: component.text,
+          rootNoun: component.head,
+          offset,
+          entityType,
+          definiteness: 'definite', // Simplified for Phase 1
+          referentialStatus: 'introduced',
+          scarcity: { isScarce: false },
+          quantity: { quantity: null },
+          temporalUnit: null,
+          typeRefinedBy: null,
+          introducingPreposition: component.properties['tagteam:preposition'] || null
+        });
+
+        // Add component-specific properties
+        Object.assign(referent, component.properties);
+
+        // V7-010 (Phase 2): Mark as conjunct if part of coordination
+        const coordInfo = coordinationInfo.get(chunkIdx);
+        if (coordInfo) {
+          referent['tagteam:isConjunct'] = true;
+          referent['tagteam:coordinationType'] = coordInfo.type;
+        }
+
+        tier1Entities.push(referent);
+      });
+    });
+
+    // Step 5: Still use Compromise for proper names (good at this)
+    const doc = nlp(text);
+
+    // Extract persons
+    const people = doc.people();
+    people.forEach((person, index) => {
+      const personText = person.text();
+
+      // Check if already extracted by NPChunker
+      const existingEntity = tier1Entities.find(e => {
+        const label = (e['rdfs:label'] || '').toLowerCase();
+        return label === personText.toLowerCase();
+      });
+
+      if (existingEntity) {
+        // Update type if it was extracted by NPChunker with default type
+        if (existingEntity['tagteam:denotesType'] === 'bfo:BFO_0000040') {
+          existingEntity['tagteam:denotesType'] = 'cco:Person';
+          // Also update @type array
+          const typeIndex = existingEntity['@type'].indexOf('bfo:BFO_0000040');
+          if (typeIndex !== -1) {
+            existingEntity['@type'][typeIndex] = 'cco:Person';
+          }
+        }
+        return;
+      }
+
+      const offset = this._getSpanOffset(text, personText, index);
+
+      const referent = this._createDiscourseReferent({
+        text: personText,
+        rootNoun: personText,
+        offset,
+        entityType: 'cco:Person',
+        definiteness: 'definite',
+        referentialStatus: 'introduced',
+        scarcity: { isScarce: false },
+        quantity: { quantity: null },
+        temporalUnit: null,
+        typeRefinedBy: null,
+        introducingPreposition: null
+      });
+
+      tier1Entities.push(referent);
+    });
+
+    // Extract organizations
+    const orgs = doc.organizations();
+    orgs.forEach((org, index) => {
+      const orgText = org.text();
+
+      // Check if already extracted by NPChunker
+      const existingEntity = tier1Entities.find(e => {
+        const label = (e['rdfs:label'] || '').toLowerCase();
+        return label === orgText.toLowerCase();
+      });
+
+      if (existingEntity) {
+        // Update type if it was extracted by NPChunker with default type
+        if (existingEntity['tagteam:denotesType'] === 'bfo:BFO_0000040') {
+          existingEntity['tagteam:denotesType'] = 'cco:Organization';
+          // Also update @type array
+          const typeIndex = existingEntity['@type'].indexOf('bfo:BFO_0000040');
+          if (typeIndex !== -1) {
+            existingEntity['@type'][typeIndex] = 'cco:Organization';
+          }
+        }
+        return;
+      }
+
+      const offset = this._getSpanOffset(text, orgText, index);
+
+      const referent = this._createDiscourseReferent({
+        text: orgText,
+        rootNoun: orgText,
+        offset,
+        entityType: 'cco:Organization',
+        definiteness: 'definite',
+        referentialStatus: 'introduced',
+        scarcity: { isScarce: false },
+        quantity: { quantity: null },
+        temporalUnit: null,
+        typeRefinedBy: null,
+        introducingPreposition: null
+      });
+
+      tier1Entities.push(referent);
+    });
+
+    // Extract places
+    const places = doc.places();
+    places.forEach((place, index) => {
+      const placeText = place.text();
+
+      // Check if already extracted by NPChunker
+      const existingEntity = tier1Entities.find(e => {
+        const label = (e['rdfs:label'] || '').toLowerCase();
+        return label === placeText.toLowerCase();
+      });
+
+      if (existingEntity) {
+        // Update type if it was extracted by NPChunker with default type
+        if (existingEntity['tagteam:denotesType'] === 'bfo:BFO_0000040') {
+          existingEntity['tagteam:denotesType'] = 'cco:GeopoliticalEntity';
+          // Also update @type array
+          const typeIndex = existingEntity['@type'].indexOf('bfo:BFO_0000040');
+          if (typeIndex !== -1) {
+            existingEntity['@type'][typeIndex] = 'cco:GeopoliticalEntity';
+          }
+        }
+        return;
+      }
+
+      const offset = this._getSpanOffset(text, placeText, index);
+
+      const referent = this._createDiscourseReferent({
+        text: placeText,
+        rootNoun: placeText,
+        offset,
+        entityType: 'cco:GeopoliticalEntity',
+        definiteness: 'definite',
+        referentialStatus: 'introduced',
+        scarcity: { isScarce: false },
+        quantity: { quantity: null },
+        temporalUnit: null,
+        typeRefinedBy: null,
+        introducingPreposition: null
+      });
+
+      tier1Entities.push(referent);
+    });
+
+    // Extract pronouns (V7-010: reflexives)
+    this._extractPronouns(doc, text, tier1Entities);
+
+    // V7-Priority5: Filter out partial name fragments BEFORE tier2 processing
+    // E.g., remove "Dr" and "Smith" when "Dr. Smith" exists
+    // This handles title+name patterns where tokenization splits them
+    tier1Entities = tier1Entities.filter(entity => {
+      const entityText = (entity['rdfs:label'] || '').trim();
+
+      // Check if this entity is a single-word fragment of a multi-word entity
+      const entityWords = entityText.split(/\s+/);
+      if (entityWords.length === 1) {
+        // Single-word entity - check if it appears in a longer entity
+        const isPartOfLonger = tier1Entities.some(other => {
+          if (other === entity) return false;
+
+          const otherText = (other['rdfs:label'] || '').trim();
+          const otherWords = otherText.split(/\s+/);
+
+          // Other must be longer (multi-word)
+          if (otherWords.length <= 1) return false;
+
+          // Check if our single word appears in the other entity's words
+          // Match with or without punctuation (e.g., "Dr" matches "Dr.")
+          return otherWords.some(word => {
+            const cleanWord = word.replace(/[.,;:!?]/g, '');
+            const cleanEntity = entityText.replace(/[.,;:!?]/g, '');
+            return cleanWord.toLowerCase() === cleanEntity.toLowerCase();
+          });
+        });
+
+        return !isPartOfLonger;
+      }
+
+      return true;
+    });
+
+    // V7-Priority6: Filter out appositive phrases
+    // Pattern: "NP1, NP2," where NP2 provides additional info about NP1
+    // E.g., "The engineer, a senior developer," → keep "The engineer", filter "a senior developer"
+    tier1Entities = tier1Entities.filter(entity => {
+      const entityText = (entity['rdfs:label'] || '').trim();
+
+      // Check if this entity appears in the original text between commas (appositive pattern)
+      // Look for pattern: ", <entity>," in the text
+      const appositivePattern = new RegExp(`,\\s*${entityText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*,`, 'i');
+
+      if (appositivePattern.test(text)) {
+        // This entity appears between commas - likely an appositive
+        // Check if there's another entity immediately before it (the head noun)
+        const entityIndex = text.toLowerCase().indexOf(entityText.toLowerCase());
+
+        // Look for the preceding entity
+        const hasAntecedent = tier1Entities.some(other => {
+          if (other === entity) return false;
+
+          const otherText = (other['rdfs:label'] || '').trim();
+          const otherIndex = text.toLowerCase().indexOf(otherText.toLowerCase());
+
+          // Other entity should appear before this one
+          if (otherIndex >= entityIndex) return false;
+
+          // Check if they're separated by a comma (appositive structure)
+          const between = text.substring(otherIndex + otherText.length, entityIndex);
+          return /^\s*,\s*$/.test(between);
+        });
+
+        // If this entity is an appositive (has antecedent), filter it out
+        return !hasAntecedent;
+      }
+
+      return true;
+    });
+
+    // Create Tier 2 entities and link via is_about (Two-Tier Architecture)
+    const shouldCreateTier2 = options.createTier2 !== undefined
+      ? options.createTier2
+      : this.options.createTier2 !== false;
+
+
+    if (shouldCreateTier2 && tier1Entities.length > 0) {
+      const { tier2Entities, linkMap } = this.tier2Factory.createFromReferents(
+        tier1Entities,
+        { documentIRI: options.documentIRI }
+      );
+
+
+      // Add is_about links to Tier 1 referents
+      const linkedReferents = this.tier2Factory.linkReferentsToTier2(tier1Entities, linkMap);
+
+      const result = [...linkedReferents, ...tier2Entities];
+
+      // Deduplicate by @id (linkReferentsToTier2 may create duplicates)
+      const seen = new Set();
+      const deduplicated = result.filter(entity => {
+        if (seen.has(entity['@id'])) {
+          return false;
+        }
+        seen.add(entity['@id']);
+        return true;
+      });
+
+      // Return both Tier 1 (with is_about) and Tier 2 entities
+      return deduplicated;
+    }
+
+    return tier1Entities;
+  }
+
+  /**
+   * V7-011: Detect possessive NP structure ("X's Y" patterns).
+   *
+   * Linguistic Foundation: Cambridge Grammar §5.4 (possessive constructions)
+   * - Possessive NP has both possessor and possessed
+   * - "the admin's credentials" → possessor="the admin", possessed="credentials"
+   * - Penn Treebank structure: [NP [NP X]'s [N Y]]
+   *
+   * @param {string} nounText - The noun phrase text
+   * @param {string} fullText - Full input text for context
+   * @returns {Object} {isPossessive: boolean, possessor: string, possessed: string}
+   */
+  _detectPossessiveNP(nounText, fullText) {
+    // Possessive pattern: "X's" (possessor + 's)
+    // Note: Compromise often splits "X's Y" into two nouns, so we detect just "X's"
+    const possessivePattern = /^(.+?)'s$/i;
+    const match = nounText.match(possessivePattern);
+
+    if (!match) {
+      return { isPossessive: false, possessor: null, possessed: null };
+    }
+
+    return {
+      isPossessive: true,
+      possessor: match[1].trim(),    // "the admin"
+      possessed: null                 // Will be in next noun
+    };
+  }
+
+  /**
+   * V7-011: Detect PP modifier in noun phrases ("X in Y" patterns).
+   *
+   * Linguistic Foundation: Cambridge Grammar §7.2 (PP attachment)
+   * - PP modifiers create hierarchical NP structure
+   * - "the server in the datacenter" → head="the server", ppObject="the datacenter"
+   * - High attachment: both head and PP object are separate entities
+   *
+   * @param {string} nounText - The noun phrase text
+   * @param {string} fullText - Full input text for context
+   * @returns {Object} {hasPP: boolean, head: string, preposition: string, ppObject: string}
+   */
+  _detectPPModifier(nounText, fullText) {
+    // PP pattern: "X [PREP] Y" where PREP is locative/directional preposition
+    const ppPattern = /^(.+?)\s+(in|on|at|from|to|into|onto|near|inside|outside|within)\s+(.+)$/i;
+    const match = nounText.match(ppPattern);
+
+    if (!match) {
+      return { hasPP: false, head: null, preposition: null, ppObject: null };
+    }
+
+    return {
+      hasPP: true,
+      head: match[1].trim(),         // "the server"
+      preposition: match[2].toLowerCase(),  // "in"
+      ppObject: match[3].trim()      // "the datacenter"
+    };
+  }
+
+  /**
+   * V7-011: Helper method to create entity from text components.
+   * Extracted from main noun processing loop to avoid code duplication.
+   *
+   * @param {string} entityText - The entity text
+   * @param {string} rootNoun - The root noun
+   * @param {number} offset - Text offset
+   * @param {string} fullText - Full input text
+   * @param {Object} nounObj - Compromise noun object
+   * @param {Object} nounData - Noun data from Compromise
+   * @returns {Object} DiscourseReferent entity
+   */
+  _createEntityFromText(entityText, rootNoun, offset, fullText, nounObj, nounData) {
+    const introducingPrep = this._detectIntroducingPreposition(fullText, offset);
+    const defInfo = this._detectDefiniteness(nounObj, entityText, fullText, nounData);
+    const scarcityInfo = this._detectScarcity(entityText, fullText, offset, nounData);
+    const quantityInfo = this._detectQuantity(entityText, fullText, offset, nounData);
+
+    // V7-011c: Extract syntactic head noun for accurate type classification
+    const headNoun = this._extractHeadNoun(entityText, rootNoun);
+
+    const fullWords = entityText.toLowerCase().trim().split(/\s+/);
+    const temporalType = this._checkForTemporalType(entityText.toLowerCase().trim(), fullWords);
+    const symptomType = !temporalType
+      ? this._checkForSymptomType(entityText.toLowerCase().trim(), headNoun)
+      : null;
+
+    let entityType = temporalType || symptomType || this._determineEntityType(headNoun, {
+      fullText: fullText,
+      definitenessInfo: defInfo
+    });
+
+    let typeRefinedBy = null;
+    if (!temporalType && !symptomType) {
+      const verbRefinement = this._refineTypeByVerbContext(headNoun, fullText, offset);
+      if (verbRefinement.refinedType) {
+        entityType = verbRefinement.refinedType;
+        typeRefinedBy = verbRefinement.governingVerb;
+      }
+    }
+
+    const temporalUnit = temporalType ? this._extractTemporalUnit(entityText) : null;
+    const referentialStatus = this._determineReferentialStatus(defInfo, entityText, fullText, 0);
+
+    return this._createDiscourseReferent({
+      text: entityText,
+      rootNoun: rootNoun,
+      offset,
+      entityType,
+      definiteness: defInfo.definiteness,
+      referentialStatus,
+      scarcity: scarcityInfo,
+      quantity: quantityInfo,
+      temporalUnit: temporalUnit,
+      typeRefinedBy: typeRefinedBy,
+      introducingPreposition: introducingPrep
+    });
+  }
+
+  /**
+   * V7-011c: Extract syntactic head noun from complex NP.
+   *
+   * Linguistic Foundation:
+   * - Cambridge Grammar §5.4: Possessive NP head is the possessed (rightmost noun)
+   * - Cambridge Grammar §7.2: PP-modified NP head is the noun before the preposition
+   * - X-bar Theory: Head determines the category and semantic type of the phrase
+   *
+   * Problem: Compromise NLP doesn't reliably identify syntactic heads for complex NPs:
+   * - "admin's credentials" → Compromise returns "admin's" as head (should be "credentials")
+   * - "server in datacenter" → Compromise returns "datacenter" or phrase (should be "server")
+   *
+   * Solution: Apply linguistic rules to extract true head noun:
+   * 1. Possessives ("X's Y"): Rightmost noun is head ("credentials")
+   * 2. PP modifiers ("X in/on/at Y"): Leftmost noun before prep is head ("server")
+   * 3. Otherwise: Use Compromise's rootNoun
+   *
+   * @param {string} nounText - The full noun phrase text
+   * @param {string} rootNoun - Compromise's root noun (fallback)
+   * @returns {string} The syntactic head noun
+   */
+  _extractHeadNoun(nounText, rootNoun) {
+    const text = nounText.trim();
+
+    // Pattern 1: Possessive NP ("X's Y" or just "X's")
+    // Cambridge Grammar §5.4: In "the admin's credentials", head is "credentials"
+    const possessivePattern = /^(.+?)'s(?:\s+(.+))?$/i;
+    const possMatch = text.match(possessivePattern);
+    if (possMatch) {
+      if (possMatch[2]) {
+        // "X's Y" form - possessed is head
+        const possessed = possMatch[2].trim();
+        // Extract rightmost noun from possessed part
+        const words = possessed.split(/\s+/);
+        return words[words.length - 1].toLowerCase();
+      } else {
+        // Just "X's" with no Y - use possessor
+        const possessor = possMatch[1].trim();
+        const words = possessor.split(/\s+/);
+        return words[words.length - 1].toLowerCase();
+      }
+    }
+
+    // Pattern 2: PP modifier ("X in/on/at/from/to/... Y")
+    // Cambridge Grammar §7.2: In "the server in the datacenter", head is "server"
+    // Use greedy matching (.+) to capture full head phrase before preposition
+    const ppPattern = /^(.+)\s+(in|on|at|from|to|into|onto|near|by|with|under|over|above|below|beside|behind|before|after|during|within|outside)\s+(.+)$/i;
+    const ppMatch = text.match(ppPattern);
+    if (ppMatch) {
+      const headPhrase = ppMatch[1].trim();
+      // Extract rightmost noun from head phrase (before preposition)
+      const words = headPhrase.split(/\s+/);
+      return words[words.length - 1].toLowerCase();
+    }
+
+    // Pattern 3: No complex structure - use Compromise's rootNoun
+    return (rootNoun || text).toLowerCase();
+  }
+
+  /**
+   * V7-010: Detect coordination in noun phrases ("X and Y" patterns).
+   *
+   * Linguistic Foundation: Penn Treebank NP coordination rules
+   * - "NP and NP" creates two separate entities, not one merged entity
+   * - "the admin and the user" → 2 entities: "the admin", "the user"
+   * - "servers and databases" → 2 entities: "servers", "databases"
+   *
+   * Handles both "and" and "or" coordination.
+   *
+   * @param {string} nounText - The noun phrase text
+   * @param {string} fullText - Full input text for context
+   * @returns {Object} {isCoordinated: boolean, conjuncts: string[], type: 'and'|'or'}
+   */
+  _detectCoordination(nounText, fullText) {
+    // Coordination pattern: "X and Y" or "X or Y"
+    // Use word boundaries to avoid matching "brand" or "standard"
+    const andPattern = /\b(\w+(?:\s+\w+)*)\s+and\s+(\w+(?:\s+\w+)*)\b/i;
+    const orPattern = /\b(\w+(?:\s+\w+)*)\s+or\s+(\w+(?:\s+\w+)*)\b/i;
+
+    let match = nounText.match(andPattern);
+    let type = 'and';
+
+    if (!match) {
+      match = nounText.match(orPattern);
+      type = 'or';
+    }
+
+    if (!match) {
+      return { isCoordinated: false, conjuncts: [], type: null };
+    }
+
+    // Extract conjuncts
+    // For "the admin and the user" → ["the admin", "the user"]
+    // For "servers and databases" → ["servers", "databases"]
+    const conjuncts = [];
+
+    // Check if pattern has determiners
+    const leftPart = match[1].trim();
+    const rightPart = match[2].trim();
+
+    // Handle determiner inheritance
+    // "the admin and user" → ["the admin", "the user"] (inherit determiner)
+    // "the admin and the user" → ["the admin", "the user"] (explicit determiners)
+    const determinerPattern = /^(the|a|an|this|that|these|those)\s+/i;
+    const leftDet = leftPart.match(determinerPattern);
+
+    if (leftDet && !rightPart.match(determinerPattern)) {
+      // Inherit determiner to right conjunct
+      conjuncts.push(leftPart);
+      conjuncts.push(leftDet[1] + ' ' + rightPart);
+    } else {
+      // Both have explicit determiners or both are bare
+      conjuncts.push(leftPart);
+      conjuncts.push(rightPart);
+    }
+
+    return {
+      isCoordinated: true,
+      conjuncts: conjuncts,
+      type: type
+    };
+  }
+
+  /**
+   * V7-010: Extract pronouns, especially reflexives for Binding Theory support.
+   *
+   * Reflexive pronouns (itself, himself, herself, etc.) need to be extracted
+   * as entities so ActExtractor can assign them to patient roles.
+   *
+   * Linguistic Foundation: Chomsky's Binding Theory (Principle A)
+   * - Reflexive pronouns must be bound within their local domain
+   * - In "The system updated itself", "itself" must be patient of "updated"
+   *
+   * @param {Object} doc - Compromise NLP document
+   * @param {string} text - Full input text
+   * @param {Array} tier1Entities - Array to add entities to (modified in place)
+   */
+  _extractPronouns(doc, text, tier1Entities) {
+    // Reflexive pronouns that need entity extraction
+    const REFLEXIVE_PRONOUNS = new Set([
+      'itself', 'himself', 'herself', 'themselves',
+      'ourselves', 'yourself', 'yourselves', 'myself'
+    ]);
+
+    // Extract all pronouns using Compromise
+    const pronouns = doc.pronouns();
+
+    pronouns.forEach((pronoun, index) => {
+      const pronounText = pronoun.text().toLowerCase();
+
+      // Only extract reflexive pronouns (non-reflexives like "it", "he" are handled by anaphora)
+      if (!REFLEXIVE_PRONOUNS.has(pronounText)) {
+        return;
+      }
+
+      // Skip if already extracted (shouldn't happen, but safety check)
+      const alreadyExtracted = tier1Entities.some(e => {
+        const label = (e['rdfs:label'] || '').toLowerCase();
+        return label === pronounText;
+      });
+      if (alreadyExtracted) return;
+
+      // Get offset in original text
+      const offset = this._getSpanOffset(text, pronounText, index);
+
+      // Determine entity type based on pronoun
+      // "itself" → generic entity (could be artifact, system, etc.)
+      // "himself/herself" → person
+      // "themselves/ourselves" → group
+      let entityType = 'bfo:Entity';  // Default for "itself"
+      if (pronounText === 'himself' || pronounText === 'herself' || pronounText === 'myself' || pronounText === 'yourself') {
+        entityType = 'cco:Person';
+      } else if (pronounText === 'themselves' || pronounText === 'ourselves' || pronounText === 'yourselves') {
+        entityType = 'cco:GroupOfPersons';
+      }
+
+      // Create DiscourseReferent for reflexive pronoun
+      const referent = this._createDiscourseReferent({
+        text: pronounText,
+        rootNoun: pronounText,
+        offset,
+        entityType: entityType,
+        definiteness: 'anaphoric',  // Pronouns are anaphoric by definition
+        referentialStatus: 'anaphoric',
+        scarcity: { isScarce: false },
+        quantity: { quantity: null },
+        temporalUnit: null,
+        typeRefinedBy: null,
+        introducingPreposition: null
+      });
+
+      // V7-010: Mark as pronoun for ActExtractor
+      referent['tagteam:isPronoun'] = true;
+      referent['tagteam:pronounType'] = 'reflexive';
+
+      tier1Entities.push(referent);
+    });
   }
 
   /**
@@ -2026,6 +2992,21 @@ class EntityExtractor {
 
       if (hasOrgIndicator) {
         return 'cco:Organization';
+      }
+
+      // V7-Priority5: Product names (software, hardware)
+      // Common technology product names should be classified as Artifacts
+      const productNames = [
+        'Windows', 'Linux', 'macOS', 'iOS', 'Android',
+        'Chrome', 'Firefox', 'Safari', 'Edge',
+        'Office', 'Excel', 'Word', 'PowerPoint',
+        'Photoshop', 'Illustrator',
+        'MySQL', 'PostgreSQL', 'MongoDB', 'Redis',
+        'Docker', 'Kubernetes',
+        'AWS', 'Azure', 'GCP'
+      ];
+      if (productNames.includes(originalNoun)) {
+        return 'cco:Artifact';
       }
 
       // Single capitalized word: could be person name, product name, or location
