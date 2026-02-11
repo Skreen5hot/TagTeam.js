@@ -1551,8 +1551,9 @@ class EntityExtractor {
 
       if (matchesTerm) {
         // Check if it's an occurrent type
-        if (type === 'bfo:BFO_0000015') {
-          return { isProcess: true, type };
+        if (type === 'bfo:BFO_0000015' || type === 'bfo:Process') {
+          // V7-008: Accept both full IRI and compact form
+          return { isProcess: true, type: 'bfo:Process' };
         }
         // Not a process (person, artifact, GDC) - return null to use other classification
         return null;
@@ -1581,13 +1582,23 @@ class EntityExtractor {
       }
     }
 
+    // Priority 4.5: V7-008 Action nominalizations → cco:Act
+    // These are nominalized intentional acts, not generic processes
+    const actionNominalizations = new Set([
+      'deployment', 'implementation', 'installation', 'configuration',
+      'execution', 'operation', 'deployment', 'migration', 'upgrade'
+    ]);
+    if (actionNominalizations.has(lastWord)) {
+      return { isProcess: true, type: 'cco:Act' };
+    }
+
     // Priority 5: Nominalization suffixes - domain-neutral detection mechanism
     // This is the linguistic pattern approach when no config specialization matches
     for (const suffix of PROCESS_SUFFIXES) {
       const cleanSuffix = suffix.replace('-', '');
       if (lastWord.endsWith(cleanSuffix) && lastWord.length > cleanSuffix.length + 2) {
         // Has process suffix and not in exception list → Process
-        return { isProcess: true, type: 'bfo:BFO_0000015' }; // BFO:Process
+        return { isProcess: true, type: 'bfo:Process' }; // V7-008: Use compact form instead of bfo:BFO_0000015
       }
     }
 
@@ -1682,42 +1693,42 @@ class EntityExtractor {
    * @returns {string|null} 'bfo:BFO_0000019' (Quality) or null
    */
   _checkForSymptomType(fullNounLower, rootNounLower) {
-    // Rule 0: Disease terms → Disposition (bfo:BFO_0000016), NOT Quality
+    // Rule 0: Disease terms → Disposition, NOT Quality
     // Per OGMS/BFO, diseases are dispositions to undergo pathological processes
     if (DISEASE_TERMS.has(rootNounLower)) {
-      return 'bfo:BFO_0000016'; // Disposition
+      return 'bfo:Disposition'; // V7-008: Use compact form instead of bfo:BFO_0000016
     }
     // Check head word of multi-word root for diseases
     const rootWordsForDisease = rootNounLower.split(/\s+/);
     if (rootWordsForDisease.length > 1) {
       const headForDisease = rootWordsForDisease[rootWordsForDisease.length - 1];
       if (DISEASE_TERMS.has(headForDisease)) {
-        return 'bfo:BFO_0000016';
+        return 'bfo:Disposition';
       }
     }
 
-    // Rule 0b: Disposition/capability terms → Disposition (bfo:BFO_0000016)
+    // Rule 0b: Disposition/capability terms → Disposition
     // "capacity", "capability", "ability" etc. are realizable entities, not artifacts
     if (DISPOSITION_TERMS.has(rootNounLower)) {
-      return 'bfo:BFO_0000016'; // Disposition
+      return 'bfo:Disposition'; // V7-008: Use compact form
     }
 
-    // Rule 0c: Evaluative quality terms → Quality (bfo:BFO_0000019)
+    // Rule 0c: Evaluative quality terms → Quality
     // "disaster", "success", "failure", "demand" etc. are evaluative attributes, not artifacts
     if (EVALUATIVE_QUALITY_TERMS.has(rootNounLower)) {
-      return 'bfo:BFO_0000019'; // Quality
+      return 'bfo:Quality'; // V7-008: Use compact form instead of bfo:BFO_0000019
     }
 
     // Rule 1: Multi-word phrase match (symptoms only)
     for (const phrase of SYMPTOM_PHRASES) {
       if (fullNounLower.includes(phrase)) {
-        return 'bfo:BFO_0000019'; // Quality
+        return 'bfo:Quality'; // V7-008: Use compact form
       }
     }
 
     // Rule 2: Single-word root noun match
     if (SYMPTOM_SINGLE_WORDS.has(rootNounLower)) {
-      return 'bfo:BFO_0000019';
+      return 'bfo:Quality';
     }
 
     // Rule 3: Strip adjective modifiers and re-check root
@@ -1725,7 +1736,7 @@ class EntityExtractor {
     if (rootWords.length > 1) {
       const headWord = rootWords[rootWords.length - 1];
       if (SYMPTOM_SINGLE_WORDS.has(headWord)) {
-        return 'bfo:BFO_0000019';
+        return 'bfo:Quality';
       }
     }
 
@@ -1754,7 +1765,7 @@ class EntityExtractor {
           const head = c.trim().split(/\s+/).pop();
           return DISEASE_TERMS.has(head);
         });
-        return anyDisease ? 'bfo:BFO_0000016' : 'bfo:BFO_0000019';
+        return anyDisease ? 'bfo:Disposition' : 'bfo:Quality';
       }
     }
 
