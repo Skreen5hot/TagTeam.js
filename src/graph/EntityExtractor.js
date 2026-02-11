@@ -889,9 +889,14 @@ class EntityExtractor {
   }
 
   /**
-   * V7-004: Check if Wh-word is in relativizer context (follows NP)
-   * e.g., "The engineer who..." - "who" follows NP, so it's a relativizer
+   * V7-004/V7-005: Check if Wh-word is in relativizer context (follows NP or preposition)
+   *
+   * Patterns:
+   * 1. Direct: "The engineer who..." - "who" follows NP
+   * 2. Prepositional: "The server on which..." - "which" follows preposition
+   *
    * vs. "Who designed..." - "who" at start, so it's interrogative
+   *
    * @param {Array} entities - Extracted entities so far
    * @param {string} text - Full text
    * @param {number} wordIndex - Index of Wh-word in words array
@@ -901,6 +906,16 @@ class EntityExtractor {
   _isRelativizerContext(entities, text, wordIndex, words) {
     // If Wh-word is at start of sentence, it's interrogative, not relativizer
     if (wordIndex === 0) return false;
+
+    // V7-005: Check if immediately preceded by a preposition (prepositional relative)
+    // Pattern: "on which", "to whom", "for whose", etc.
+    const PREPOSITIONS = ['on', 'in', 'at', 'to', 'from', 'with', 'by', 'for', 'of', 'about', 'through', 'during', 'after', 'before'];
+    if (wordIndex > 0) {
+      const prevWord = words[wordIndex - 1].toLowerCase().replace(/[.,;:!?]$/, '');
+      if (PREPOSITIONS.includes(prevWord)) {
+        return true; // Prepositional relative: "on which"
+      }
+    }
 
     // Find position of this Wh-word in original text
     let position = 0;

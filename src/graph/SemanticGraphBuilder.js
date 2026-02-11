@@ -1421,8 +1421,16 @@ class SemanticGraphBuilder {
   }
 
   /**
-   * V7-004: Detect anaphoric links for relative clauses.
-   * Per Cambridge Grammar §12.1: Relativizers (who/which/that) are anaphoric to antecedent NPs.
+   * V7-004/V7-005: Detect anaphoric links for relative clauses.
+   *
+   * Per Cambridge Grammar:
+   * - §12.1-12.5: Relativizers (who/which/that) are anaphoric to antecedent NPs
+   * - §12.6: Prepositional relatives (on which, to whom) have antecedent before preposition
+   *
+   * Patterns:
+   * 1. Direct: "The engineer who..." - relativizer follows NP
+   * 2. Prepositional: "The server on which..." - relativizer follows NP + PREP
+   *
    * @param {string} text - Full text
    * @param {Array} entities - Extracted entities
    * @returns {Array} Array of AnaphoricLink nodes
@@ -1430,6 +1438,7 @@ class SemanticGraphBuilder {
   _detectAnaphoricLinks(text, entities) {
     const links = [];
     const relativizers = ['who', 'whom', 'whose', 'which', 'that'];
+    const prepositions = ['on', 'in', 'at', 'to', 'from', 'with', 'by', 'for', 'of', 'about', 'through', 'during', 'after', 'before'];
     const words = text.split(/\s+/);
 
     // Find all relativizer positions
@@ -1444,23 +1453,39 @@ class SemanticGraphBuilder {
       }
       const relPos = text.indexOf(words[i], position);
 
-      // Find antecedent: entity that ends just before this relativizer
+      // V7-005: Check if preceded by preposition (prepositional relative)
+      let isPrepositionalRelative = false;
+      if (i > 0) {
+        const prevWord = words[i - 1].toLowerCase().replace(/[.,;:!?]$/, '');
+        isPrepositionalRelative = prepositions.includes(prevWord);
+      }
+
+      // Find antecedent: entity that ends before this relativizer
       const antecedent = entities.find(e => {
         const entityEnd = e['tagteam:endPosition'];
-        // Allow small gap (spaces) between entity and relativizer
-        return entityEnd !== undefined && entityEnd >= relPos - 3 && entityEnd <= relPos;
+        if (entityEnd === undefined) return false;
+
+        if (isPrepositionalRelative) {
+          // For "on which", allow larger gap to account for preposition
+          // e.g., "The server on which" - gap includes "on "
+          return entityEnd >= relPos - 10 && entityEnd <= relPos;
+        } else {
+          // Direct relative: small gap (spaces) between entity and relativizer
+          return entityEnd >= relPos - 3 && entityEnd <= relPos;
+        }
       });
 
       if (!antecedent) continue;
 
       // Create AnaphoricLink node
+      const anaphorText = isPrepositionalRelative ? `${words[i-1]} ${word}` : word;
       const linkIRI = this.generateIRI(word + '_' + antecedent['rdfs:label'], 'AnaphoricLink', relPos);
       const link = {
         '@id': linkIRI,
         '@type': ['tagteam:AnaphoricLink', 'owl:NamedIndividual'],
-        'tagteam:anaphor': word,
+        'tagteam:anaphor': anaphorText,
         'tagteam:antecedent': { '@id': antecedent['@id'] },
-        'rdfs:comment': `Relativizer "${word}" is anaphoric to "${antecedent['rdfs:label']}"`
+        'rdfs:comment': `Relativizer "${anaphorText}" is anaphoric to "${antecedent['rdfs:label']}"`
       };
       links.push(link);
     }

@@ -1600,15 +1600,17 @@ class ActExtractor {
   }
 
   /**
-   * V7-004: Find the correct agent for a verb, accounting for relative clauses
+   * V7-004/V7-005: Find the correct agent for a verb, accounting for relative clauses
    *
-   * Handles three patterns:
+   * Handles four patterns:
    * 1. Explicit relativizers: "The engineer who designed the system left"
    * 2. Nested relatives: "The user who filed the issue that caused the crash responded"
    * 3. Zero relativizers: "The patch the team deployed fixed the bug" (reduced relative)
+   * 4. Prepositional relatives: "The server on which the app runs is offline" (V7-005)
    *
    * Heuristics:
    * - If explicit relativizer exists → use farthest entity
+   * - If prepositional relative (PREP + RELATIVIZER) → use farthest entity
    * - If no relativizer but multiple entities + embedded verbs → zero relativizer → use farthest entity
    * - Otherwise → use closest entity (normal SVO)
    *
@@ -1619,6 +1621,7 @@ class ActExtractor {
    */
   _findAgentForVerb(fullText, verbOffset, entitiesBefore) {
     const RELATIVIZERS = ['who', 'whom', 'whose', 'which', 'that'];
+    const PREPOSITIONS = ['on', 'in', 'at', 'to', 'from', 'with', 'by', 'for', 'of', 'about', 'through', 'during', 'after', 'before'];
 
     // Sort entities by end position
     const sorted = [...entitiesBefore].sort((a, b) => {
@@ -1643,6 +1646,16 @@ class ActExtractor {
         if (RELATIVIZERS.includes(firstWord)) {
           hasRelativizer = true;
           break; // Found a relativizer
+        }
+
+        // V7-005: Check for prepositional relative: "PREP + RELATIVIZER"
+        // Pattern: "The server on which..." → "on" + "which"
+        if (words.length > 1 && PREPOSITIONS.includes(firstWord)) {
+          const secondWord = words[1].replace(/[.,;:!?]$/, '');
+          if (RELATIVIZERS.includes(secondWord)) {
+            hasRelativizer = true;
+            break; // Found prepositional relativizer
+          }
         }
       }
     }
