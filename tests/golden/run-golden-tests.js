@@ -17,6 +17,14 @@
 const fs = require('fs');
 const path = require('path');
 
+// Load semantic role validator (optional)
+let semanticRoleValidator = null;
+try {
+  semanticRoleValidator = require('./semantic-role-validator.js');
+} catch (e) {
+  // Validator not available
+}
+
 // ============================================================================
 // Configuration
 // ============================================================================
@@ -227,25 +235,15 @@ function validateTestCase(testCase, index) {
 /**
  * Execute a single test case
  *
- * NOTE: This is a placeholder implementation. In production, this would:
- * 1. Load TagTeam library
- * 2. Parse the input text
- * 3. Compare actual output with expectedOutput
- * 4. Apply validationRules for flexible comparison
- * 5. Return detailed results
+ * Loads TagTeam, parses input, and compares with expected output
  */
 function executeTest(testCase, args) {
-  // TODO: Implement actual TagTeam parsing
-  // const TagTeam = require('../../dist/tagteam.js');
-  // const actual = TagTeam.buildGraph(testCase.input, { preserveAmbiguity: true });
-
-  // Placeholder: Just return a mock result
   const result = {
     id: testCase.id,
     input: testCase.input,
-    passed: true,  // Mock: always pass for now
+    passed: false,
     expected: testCase.expectedOutput,
-    actual: null,  // Would be actual TagTeam output
+    actual: null,
     diff: null,
     executionTime: 0,
     error: null
@@ -253,6 +251,55 @@ function executeTest(testCase, args) {
 
   if (args.verbose) {
     console.log(`  ${CONFIG.colors.cyan}Executing:${CONFIG.colors.reset} ${testCase.id}`);
+  }
+
+  try {
+    const startTime = Date.now();
+
+    // Load TagTeam library
+    delete require.cache[require.resolve('../../dist/tagteam.js')];
+    const TagTeam = require('../../dist/tagteam.js');
+
+    // Parse input with NPChunker enabled
+    const graph = TagTeam.buildGraph(testCase.input, {
+      useNPChunker: true,
+      preserveAmbiguity: true
+    });
+
+    result.actual = graph;
+    result.executionTime = Date.now() - startTime;
+
+    // Use semantic role validator for role-based tests
+    if (semanticRoleValidator && testCase.expectedOutput?.semanticRoles) {
+      const validation = semanticRoleValidator.validateSemanticRoles(testCase, graph);
+      result.passed = validation.passed;
+      result.diff = validation.diffs;
+      result.semanticValidation = validation;
+
+      if (args.verbose && !validation.passed) {
+        console.log(`    ${CONFIG.colors.red}Role mismatches:${CONFIG.colors.reset}`);
+        validation.diffs.forEach(diff => {
+          if (diff.type === 'missing-role') {
+            console.log(`      Missing: ${diff.expected.role} - "${diff.expected.text}"`);
+          } else if (diff.type === 'extra-role') {
+            console.log(`      Extra: ${diff.actual.role} - "${diff.actual.text}"`);
+          }
+        });
+      }
+    } else {
+      // Default comparison for other test types
+      const diffs = compareResults(
+        testCase.expectedOutput,
+        graph,
+        testCase.validationRules || {}
+      );
+      result.diff = diffs;
+      result.passed = diffs.length === 0;
+    }
+
+  } catch (error) {
+    result.error = error.message;
+    result.passed = false;
   }
 
   return result;
