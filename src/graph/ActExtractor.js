@@ -76,6 +76,44 @@ const VERB_TO_CCO_MAPPINGS = {
 };
 
 /**
+ * Verb infinitive corrections
+ * Maps Compromise's truncated/irregular lemmas to correct base forms
+ * Fixes: "sent"→"send", "receiv"→"receive", "configur"→"configure"
+ */
+const VERB_INFINITIVE_CORRECTIONS = {
+  // Irregular past tense forms
+  'sent': 'send',
+  'built': 'build',
+  'left': 'leave',
+  'meant': 'mean',
+  'kept': 'keep',
+  'slept': 'sleep',
+  'felt': 'feel',
+  'held': 'hold',
+  'told': 'tell',
+  'sold': 'sell',
+
+  // Compromise truncations (missing final 'e')
+  'receiv': 'receive',
+  'configur': 'configure',
+  'manag': 'manage',
+  'produc': 'produce',
+  'provid': 'provide',
+  'requir': 'require',
+  'achiev': 'achieve',
+  'believ': 'believe',
+  'recogniz': 'recognize',
+  'realiz': 'realize',
+  'caus': 'cause',
+  'updat': 'update',
+  'creat': 'create',
+  'generat': 'generate',
+  'operat': 'operate',
+  'observ': 'observe',
+  'resolv': 'resolve'
+};
+
+/**
  * Verbs that, when used with an inanimate subject, indicate an inference
  * or clinical finding rather than an intentional act.
  * "Blood sugar levels suggest diabetes" → InformationContentEntity, not IntentionalAct
@@ -517,7 +555,9 @@ class ActExtractor {
 
       // For morphological verbs (strings), create minimal verbData
       if (typeof verb === 'string') {
-        const infinitive = this._getInfinitive(verb);
+        let infinitive = this._getInfinitive(verb);
+        // V7-009: Apply infinitive corrections for truncated/irregular forms
+        infinitive = VERB_INFINITIVE_CORRECTIONS[infinitive] || infinitive;
         verbEntries.push({
           verbText: verb,
           verbData: {},
@@ -537,6 +577,8 @@ class ActExtractor {
       if (infinitive.toLowerCase().startsWith('to ')) {
         infinitive = infinitive.substring(3);
       }
+      // V7-009: Apply infinitive corrections for truncated/irregular forms
+      infinitive = VERB_INFINITIVE_CORRECTIONS[infinitive] || infinitive;
       const isInfinitive = !!(verbData.grammar?.isInfinitive && !verbData.auxiliary);
       const isControlVerb = CONTROL_VERBS.has(infinitive.toLowerCase());
 
@@ -1968,8 +2010,24 @@ class ActExtractor {
       node['cco:affects'] = { '@id': actInfo.links.patient };
     }
 
+    // V7-009: Auto-populate bfo:has_participant as superproperty
+    // has_participant aggregates all semantic participants (agent, patient, etc.)
+    const participants = [];
+    if (actInfo.links.agent) {
+      participants.push(actInfo.links.agent);
+    }
+    if (actInfo.links.patient) {
+      participants.push(actInfo.links.patient);
+    }
+    // Include any explicitly provided participants
     if (actInfo.links.participants && actInfo.links.participants.length > 0) {
-      node['bfo:has_participant'] = actInfo.links.participants.map(p => ({ '@id': p }));
+      participants.push(...actInfo.links.participants.filter(p =>
+        !participants.includes(p) // Avoid duplicates
+      ));
+    }
+
+    if (participants.length > 0) {
+      node['bfo:has_participant'] = participants.map(p => ({ '@id': p }));
     }
 
     return node;
