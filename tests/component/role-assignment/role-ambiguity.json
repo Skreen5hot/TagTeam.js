@@ -1,0 +1,120 @@
+[
+  {
+    "id": "RA-AMBIG-001",
+    "category": "role-assignment-pp-attachment",
+    "priority": "P2",
+    "input": "The engineer fixed the bug with the patch.",
+    "expected": {
+      "roles": [
+        {
+          "entity": "the engineer",
+          "role": "cco:AgentRole",
+          "verb": "fix"
+        },
+        {
+          "entity": "the bug",
+          "role": "cco:PatientRole",
+          "verb": "fix"
+        },
+        {
+          "entity": "the patch",
+          "role": "cco:InstrumentRole",
+          "verb": "fix"
+        }
+      ]
+    },
+    "sourceOfTruth": "VerbNet PP attachment + CCO instrument (high attach)",
+    "description": "PP attachment ambiguity (instrument vs modifier)"
+  },
+  {
+    "id": "RA-AMBIG-002",
+    "category": "role-assignment-temporal-modifier",
+    "priority": "P2",
+    "input": "The server failed yesterday.",
+    "expected": {
+      "roles": [
+        {
+          "entity": "the server",
+          "role": "cco:PatientRole",
+          "verb": "fail"
+        }
+      ],
+      "temporalModifiers": [
+        {
+          "text": "yesterday",
+          "attachedTo": "fail"
+        }
+      ]
+    },
+    "sourceOfTruth": "VerbNet temporal adjunct + BFO TemporalRegion",
+    "description": "Temporal modifier (not a role)"
+  },
+  {
+    "id": "RA-AMBIG-003",
+    "category": "role-assignment-manner-modifier",
+    "priority": "P2",
+    "input": "The engineer quickly fixed the bug.",
+    "expected": {
+      "roles": [
+        {
+          "entity": "the engineer",
+          "role": "cco:AgentRole",
+          "verb": "fix"
+        },
+        {
+          "entity": "the bug",
+          "role": "cco:PatientRole",
+          "verb": "fix"
+        }
+      ],
+      "mannerModifiers": [
+        {
+          "text": "quickly",
+          "attachedTo": "fix"
+        }
+      ]
+    },
+    "sourceOfTruth": "VerbNet manner adjunct (adverb not a role)",
+    "description": "Manner adverb (not a role)"
+  },
+  {
+    "id": "RA-AMBIG-004",
+    "category": "role-assignment-agent-patient-ambiguity",
+    "priority": "P2",
+    "input": "The door opened.",
+    "expected": {
+      "roles": [
+        {
+          "entity": "the door",
+          "role": "cco:PatientRole",
+          "verb": "open"
+        }
+      ]
+    },
+    "sourceOfTruth": "VerbNet inchoative alternation (patient-only reading)",
+    "description": "Inchoative (patient as subject, no agent)"
+  },
+  {
+    "id": "RA-AMBIG-005",
+    "category": "role-assignment-possessive-role",
+    "priority": "P2",
+    "input": "The admin's script failed.",
+    "expected": {
+      "roles": [
+        {
+          "entity": "the admin's script",
+          "role": "cco:PatientRole",
+          "verb": "fail"
+        }
+      ],
+      "possessiveRelations": [
+        {
+          "possessor": "the admin",
+          "possessed": "script"
+        }
+      ]
+    },
+    "sourceOfTruth": "VerbNet possessive NP (ownership not a semantic role)",
+    "description": "Possessive not a semantic role"
+  }
+]

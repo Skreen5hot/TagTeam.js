@@ -1,0 +1,165 @@
+[
+  {
+    "id": "RA-COMPLEX-001",
+    "category": "role-assignment-coordinated-agents",
+    "priority": "P1",
+    "input": "The engineer and the admin deployed the patch.",
+    "expected": {
+      "roles": [
+        {
+          "entity": "the engineer",
+          "role": "cco:AgentRole",
+          "verb": "deploy"
+        },
+        {
+          "entity": "the admin",
+          "role": "cco:AgentRole",
+          "verb": "deploy"
+        },
+        {
+          "entity": "the patch",
+          "role": "cco:PatientRole",
+          "verb": "deploy"
+        }
+      ]
+    },
+    "sourceOfTruth": "VerbNet coordination + CCO multiple agents",
+    "description": "Multiple coordinated agents"
+  },
+  {
+    "id": "RA-COMPLEX-002",
+    "category": "role-assignment-coordinated-patients",
+    "priority": "P1",
+    "input": "The admin configured the server and the database.",
+    "expected": {
+      "roles": [
+        {
+          "entity": "the admin",
+          "role": "cco:AgentRole",
+          "verb": "configure"
+        },
+        {
+          "entity": "the server",
+          "role": "cco:PatientRole",
+          "verb": "configure"
+        },
+        {
+          "entity": "the database",
+          "role": "cco:PatientRole",
+          "verb": "configure"
+        }
+      ]
+    },
+    "sourceOfTruth": "VerbNet coordination + CCO multiple patients",
+    "description": "Multiple coordinated patients"
+  },
+  {
+    "id": "RA-COMPLEX-003",
+    "category": "role-assignment-reflexive",
+    "priority": "P2",
+    "input": "The system updated itself.",
+    "expected": {
+      "roles": [
+        {
+          "entity": "the system",
+          "role": "cco:AgentRole",
+          "verb": "update"
+        },
+        {
+          "entity": "itself",
+          "role": "cco:PatientRole",
+          "verb": "update",
+          "coreferent": "the system"
+        }
+      ]
+    },
+    "sourceOfTruth": "VerbNet reflexive + CCO coreference",
+    "description": "Reflexive pronoun role"
+  },
+  {
+    "id": "RA-COMPLEX-004",
+    "category": "role-assignment-multiple-verbs",
+    "priority": "P1",
+    "input": "The engineer fixed the bug and deployed the patch.",
+    "expected": {
+      "roles": [
+        {
+          "entity": "the engineer",
+          "role": "cco:AgentRole",
+          "verb": "fix"
+        },
+        {
+          "entity": "the bug",
+          "role": "cco:PatientRole",
+          "verb": "fix"
+        },
+        {
+          "entity": "the engineer",
+          "role": "cco:AgentRole",
+          "verb": "deploy"
+        },
+        {
+          "entity": "the patch",
+          "role": "cco:PatientRole",
+          "verb": "deploy"
+        }
+      ]
+    },
+    "sourceOfTruth": "VerbNet VP coordination + CCO multiple acts",
+    "description": "Shared agent across coordinated VPs"
+  },
+  {
+    "id": "RA-COMPLEX-005",
+    "category": "role-assignment-nested-roles",
+    "priority": "P2",
+    "input": "The admin sent the engineer the file from the server.",
+    "expected": {
+      "roles": [
+        {
+          "entity": "the admin",
+          "role": "cco:AgentRole",
+          "verb": "send"
+        },
+        {
+          "entity": "the engineer",
+          "role": "cco:RecipientRole",
+          "verb": "send"
+        },
+        {
+          "entity": "the file",
+          "role": "cco:PatientRole",
+          "verb": "send"
+        },
+        {
+          "entity": "the server",
+          "role": "cco:SourceRole",
+          "verb": "send"
+        }
+      ]
+    },
+    "sourceOfTruth": "VerbNet send-11.1 + CCO multiple oblique roles",
+    "description": "Multiple oblique roles (recipient + source)"
+  },
+  {
+    "id": "RA-COMPLEX-006",
+    "category": "role-assignment-causative",
+    "priority": "P2",
+    "input": "The bug caused the server to crash.",
+    "expected": {
+      "roles": [
+        {
+          "entity": "the bug",
+          "role": "cco:CauseRole",
+          "verb": "cause"
+        },
+        {
+          "entity": "the server",
+          "role": "cco:PatientRole",
+          "verb": "crash"
+        }
+      ]
+    },
+    "sourceOfTruth": "VerbNet cause-48.1 + CCO causation",
+    "description": "Causative construction with embedded VP"
+  }
+]

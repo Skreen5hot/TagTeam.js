@@ -1,0 +1,107 @@
+[
+  {
+    "id": "AL-INV-001",
+    "category": "argument-linking-agent-in",
+    "priority": "P2",
+    "input": "The engineer fixed the bug.",
+    "expected": {
+      "inverseLinks": [
+        {
+          "entity": "the engineer",
+          "property": "cco:agent_in",
+          "target": "fix"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO agent_in inverse of has_agent",
+    "description": "agent_in links entity back to act"
+  },
+  {
+    "id": "AL-INV-002",
+    "category": "argument-linking-patient-in",
+    "priority": "P2",
+    "input": "The engineer fixed the bug.",
+    "expected": {
+      "inverseLinks": [
+        {
+          "entity": "the bug",
+          "property": "cco:patient_in",
+          "target": "fix"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO patient_in inverse of affects",
+    "description": "patient_in links entity back to act"
+  },
+  {
+    "id": "AL-INV-003",
+    "category": "argument-linking-bidirectional",
+    "priority": "P2",
+    "input": "The admin deployed the patch.",
+    "expected": {
+      "assertions": [
+        {
+          "subject": "deploy",
+          "property": "cco:has_agent",
+          "object": "the admin"
+        },
+        {
+          "subject": "the admin",
+          "property": "cco:agent_in",
+          "object": "deploy"
+        },
+        {
+          "subject": "deploy",
+          "property": "cco:affects",
+          "object": "the patch"
+        },
+        {
+          "subject": "the patch",
+          "property": "cco:patient_in",
+          "object": "deploy"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO inverse properties for bidirectional navigation",
+    "description": "Both forward and inverse properties present"
+  },
+  {
+    "id": "AL-INV-004",
+    "category": "argument-linking-participant-in",
+    "priority": "P2",
+    "input": "The engineer fixed the bug.",
+    "expected": {
+      "inverseLinks": [
+        {
+          "entity": "the engineer",
+          "property": "bfo:participates_in",
+          "target": "fix"
+        },
+        {
+          "entity": "the bug",
+          "property": "bfo:participates_in",
+          "target": "fix"
+        }
+      ]
+    },
+    "sourceOfTruth": "BFO participates_in inverse of has_participant",
+    "description": "participates_in links all participants back to act"
+  },
+  {
+    "id": "AL-INV-005",
+    "category": "argument-linking-multiple-acts",
+    "priority": "P2",
+    "input": "The engineer fixed the bug and deployed the patch.",
+    "expected": {
+      "inverseLinks": [
+        {
+          "entity": "the engineer",
+          "property": "cco:agent_in",
+          "targets": ["fix", "deploy"]
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO agent_in can link to multiple acts",
+    "description": "Entity participates in multiple acts"
+  }
+]

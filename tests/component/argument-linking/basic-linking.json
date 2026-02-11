@@ -1,0 +1,106 @@
+[
+  {
+    "id": "AL-BASIC-001",
+    "category": "argument-linking-has-agent",
+    "priority": "P1",
+    "input": "The engineer fixed the bug.",
+    "expected": {
+      "links": [
+        {
+          "act": "fix",
+          "property": "cco:has_agent",
+          "target": "the engineer"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO IntentionalAct has_agent property",
+    "description": "has_agent property links act to agent"
+  },
+  {
+    "id": "AL-BASIC-002",
+    "category": "argument-linking-affects",
+    "priority": "P1",
+    "input": "The engineer fixed the bug.",
+    "expected": {
+      "links": [
+        {
+          "act": "fix",
+          "property": "cco:affects",
+          "target": "the bug"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO affects property (patient link)",
+    "description": "affects property links act to patient"
+  },
+  {
+    "id": "AL-BASIC-003",
+    "category": "argument-linking-both-roles",
+    "priority": "P1",
+    "input": "The admin deployed the patch.",
+    "expected": {
+      "links": [
+        {
+          "act": "deploy",
+          "property": "cco:has_agent",
+          "target": "the admin"
+        },
+        {
+          "act": "deploy",
+          "property": "cco:affects",
+          "target": "the patch"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO IntentionalAct both agent and patient",
+    "description": "Both agent and patient links present"
+  },
+  {
+    "id": "AL-BASIC-004",
+    "category": "argument-linking-intransitive",
+    "priority": "P1",
+    "input": "The server failed.",
+    "expected": {
+      "links": [
+        {
+          "act": "fail",
+          "property": "cco:affects",
+          "target": "the server"
+        }
+      ],
+      "absentLinks": [
+        {
+          "act": "fail",
+          "property": "cco:has_agent",
+          "reason": "intransitive verb has no agent"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO affects without has_agent for intransitives",
+    "description": "Intransitive verb has patient, no agent"
+  },
+  {
+    "id": "AL-BASIC-005",
+    "category": "argument-linking-target-type",
+    "priority": "P1",
+    "input": "The engineer fixed the bug.",
+    "expected": {
+      "links": [
+        {
+          "act": "fix",
+          "property": "cco:has_agent",
+          "target": "the engineer",
+          "targetType": "cco:Person"
+        },
+        {
+          "act": "fix",
+          "property": "cco:affects",
+          "target": "the bug",
+          "targetType": "cco:Artifact"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO has_agent/affects link to real-world entities (Tier 2)",
+    "description": "Links point to Tier 2 entities, not DiscourseReferents"
+  }
+]

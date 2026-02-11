@@ -1,0 +1,186 @@
+[
+  {
+    "id": "RA-INDIRECT-001",
+    "category": "role-assignment-ditransitive",
+    "priority": "P1",
+    "input": "The admin sent the user an alert.",
+    "expected": {
+      "roles": [
+        {
+          "entity": "the admin",
+          "role": "cco:AgentRole",
+          "verb": "send"
+        },
+        {
+          "entity": "the user",
+          "role": "cco:RecipientRole",
+          "verb": "send"
+        },
+        {
+          "entity": "an alert",
+          "role": "cco:PatientRole",
+          "verb": "send"
+        }
+      ]
+    },
+    "sourceOfTruth": "VerbNet send-11.1 ditransitive + CCO",
+    "description": "Ditransitive with recipient"
+  },
+  {
+    "id": "RA-INDIRECT-002",
+    "category": "role-assignment-beneficiary",
+    "priority": "P2",
+    "input": "The engineer fixed the bug for the team.",
+    "expected": {
+      "roles": [
+        {
+          "entity": "the engineer",
+          "role": "cco:AgentRole",
+          "verb": "fix"
+        },
+        {
+          "entity": "the bug",
+          "role": "cco:PatientRole",
+          "verb": "fix"
+        },
+        {
+          "entity": "the team",
+          "role": "cco:BeneficiaryRole",
+          "verb": "fix"
+        }
+      ]
+    },
+    "sourceOfTruth": "VerbNet benefactive alternation + CCO",
+    "description": "Beneficiary role with 'for' PP"
+  },
+  {
+    "id": "RA-INDIRECT-003",
+    "category": "role-assignment-instrument",
+    "priority": "P2",
+    "input": "The admin configured the server with the script.",
+    "expected": {
+      "roles": [
+        {
+          "entity": "the admin",
+          "role": "cco:AgentRole",
+          "verb": "configure"
+        },
+        {
+          "entity": "the server",
+          "role": "cco:PatientRole",
+          "verb": "configure"
+        },
+        {
+          "entity": "the script",
+          "role": "cco:InstrumentRole",
+          "verb": "configure"
+        }
+      ]
+    },
+    "sourceOfTruth": "VerbNet instrument-with alternation + CCO",
+    "description": "Instrument role with 'with' PP"
+  },
+  {
+    "id": "RA-INDIRECT-004",
+    "category": "role-assignment-location",
+    "priority": "P2",
+    "input": "The engineer installed the patch on the server.",
+    "expected": {
+      "roles": [
+        {
+          "entity": "the engineer",
+          "role": "cco:AgentRole",
+          "verb": "install"
+        },
+        {
+          "entity": "the patch",
+          "role": "cco:PatientRole",
+          "verb": "install"
+        },
+        {
+          "entity": "the server",
+          "role": "cco:LocationRole",
+          "verb": "install"
+        }
+      ]
+    },
+    "sourceOfTruth": "VerbNet locative alternation + CCO located_in",
+    "description": "Location role with 'on' PP"
+  },
+  {
+    "id": "RA-INDIRECT-005",
+    "category": "role-assignment-source",
+    "priority": "P2",
+    "input": "The user downloaded the file from the server.",
+    "expected": {
+      "roles": [
+        {
+          "entity": "the user",
+          "role": "cco:AgentRole",
+          "verb": "download"
+        },
+        {
+          "entity": "the file",
+          "role": "cco:PatientRole",
+          "verb": "download"
+        },
+        {
+          "entity": "the server",
+          "role": "cco:SourceRole",
+          "verb": "download"
+        }
+      ]
+    },
+    "sourceOfTruth": "VerbNet source-goal alternation + CCO",
+    "description": "Source role with 'from' PP"
+  },
+  {
+    "id": "RA-INDIRECT-006",
+    "category": "role-assignment-destination",
+    "priority": "P2",
+    "input": "The admin uploaded the file to the server.",
+    "expected": {
+      "roles": [
+        {
+          "entity": "the admin",
+          "role": "cco:AgentRole",
+          "verb": "upload"
+        },
+        {
+          "entity": "the file",
+          "role": "cco:PatientRole",
+          "verb": "upload"
+        },
+        {
+          "entity": "the server",
+          "role": "cco:DestinationRole",
+          "verb": "upload"
+        }
+      ]
+    },
+    "sourceOfTruth": "VerbNet destination alternation + CCO",
+    "description": "Destination role with 'to' PP"
+  },
+  {
+    "id": "RA-INDIRECT-007",
+    "category": "role-assignment-comitative",
+    "priority": "P2",
+    "input": "The engineer worked with the admin.",
+    "expected": {
+      "roles": [
+        {
+          "entity": "the engineer",
+          "role": "cco:AgentRole",
+          "verb": "work"
+        },
+        {
+          "entity": "the admin",
+          "role": "cco:ComitativeRole",
+          "verb": "work"
+        }
+      ]
+    },
+    "sourceOfTruth": "VerbNet comitative alternation + CCO",
+    "description": "Comitative role (accompaniment)"
+  }
+]

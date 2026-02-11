@@ -1,0 +1,168 @@
+[
+  {
+    "id": "RA-BASIC-001",
+    "category": "role-assignment-agent-patient",
+    "priority": "P1",
+    "input": "The engineer fixed the bug.",
+    "expected": {
+      "roles": [
+        {
+          "entity": "the engineer",
+          "role": "cco:AgentRole",
+          "verb": "fix"
+        },
+        {
+          "entity": "the bug",
+          "role": "cco:PatientRole",
+          "verb": "fix"
+        }
+      ]
+    },
+    "sourceOfTruth": "VerbNet 3.4 + CCO IntentionalAct has_agent/affects",
+    "description": "Basic agent-patient assignment"
+  },
+  {
+    "id": "RA-BASIC-002",
+    "category": "role-assignment-transitive",
+    "priority": "P1",
+    "input": "The admin deployed the patch.",
+    "expected": {
+      "roles": [
+        {
+          "entity": "the admin",
+          "role": "cco:AgentRole",
+          "verb": "deploy"
+        },
+        {
+          "entity": "the patch",
+          "role": "cco:PatientRole",
+          "verb": "deploy"
+        }
+      ]
+    },
+    "sourceOfTruth": "VerbNet 3.4 transitive frame + CCO",
+    "description": "Transitive verb role assignment"
+  },
+  {
+    "id": "RA-BASIC-003",
+    "category": "role-assignment-intransitive",
+    "priority": "P1",
+    "input": "The server failed.",
+    "expected": {
+      "roles": [
+        {
+          "entity": "the server",
+          "role": "cco:PatientRole",
+          "verb": "fail"
+        }
+      ]
+    },
+    "sourceOfTruth": "VerbNet 3.4 intransitive frame + CCO",
+    "description": "Intransitive verb (patient only)"
+  },
+  {
+    "id": "RA-BASIC-004",
+    "category": "role-assignment-creation-verb",
+    "priority": "P1",
+    "input": "The developer created the function.",
+    "expected": {
+      "roles": [
+        {
+          "entity": "the developer",
+          "role": "cco:AgentRole",
+          "verb": "create"
+        },
+        {
+          "entity": "the function",
+          "role": "cco:PatientRole",
+          "verb": "create"
+        }
+      ]
+    },
+    "sourceOfTruth": "VerbNet create-26.4 + CCO",
+    "description": "Creation verb role assignment"
+  },
+  {
+    "id": "RA-BASIC-005",
+    "category": "role-assignment-destruction-verb",
+    "priority": "P1",
+    "input": "The administrator deleted the file.",
+    "expected": {
+      "roles": [
+        {
+          "entity": "the administrator",
+          "role": "cco:AgentRole",
+          "verb": "delete"
+        },
+        {
+          "entity": "the file",
+          "role": "cco:PatientRole",
+          "verb": "delete"
+        }
+      ]
+    },
+    "sourceOfTruth": "VerbNet destroy-44 + CCO",
+    "description": "Destruction verb role assignment"
+  },
+  {
+    "id": "RA-BASIC-006",
+    "category": "role-assignment-passive-voice",
+    "priority": "P2",
+    "input": "The patch was deployed by the admin.",
+    "expected": {
+      "roles": [
+        {
+          "entity": "the admin",
+          "role": "cco:AgentRole",
+          "verb": "deploy"
+        },
+        {
+          "entity": "the patch",
+          "role": "cco:PatientRole",
+          "verb": "deploy"
+        }
+      ]
+    },
+    "sourceOfTruth": "VerbNet passive transformation + CCO",
+    "description": "Passive voice role preservation"
+  },
+  {
+    "id": "RA-BASIC-007",
+    "category": "role-assignment-experiencer",
+    "priority": "P2",
+    "input": "The user received an alert.",
+    "expected": {
+      "roles": [
+        {
+          "entity": "the user",
+          "role": "cco:RecipientRole",
+          "verb": "receive"
+        },
+        {
+          "entity": "an alert",
+          "role": "cco:PatientRole",
+          "verb": "receive"
+        }
+      ]
+    },
+    "sourceOfTruth": "VerbNet get-13.5.1 + CCO recipient",
+    "description": "Recipient/experiencer role"
+  },
+  {
+    "id": "RA-BASIC-008",
+    "category": "role-assignment-state-change",
+    "priority": "P1",
+    "input": "The system crashed.",
+    "expected": {
+      "roles": [
+        {
+          "entity": "the system",
+          "role": "cco:PatientRole",
+          "verb": "crash"
+        }
+      ]
+    },
+    "sourceOfTruth": "VerbNet break-45.1 + CCO state change",
+    "description": "State change patient role"
+  }
+]

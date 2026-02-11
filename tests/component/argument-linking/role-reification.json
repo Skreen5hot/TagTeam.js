@@ -1,0 +1,80 @@
+[
+  {
+    "id": "AL-ROLE-001",
+    "category": "argument-linking-agent-role-instance",
+    "priority": "P2",
+    "input": "The engineer fixed the bug.",
+    "expected": {
+      "roleInstances": [
+        {
+          "type": "cco:AgentRole",
+          "bearer": "the engineer",
+          "realizedIn": "fix"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO AgentRole reification via bfo:is_bearer_of",
+    "description": "AgentRole instance with bearer and realized_in"
+  },
+  {
+    "id": "AL-ROLE-002",
+    "category": "argument-linking-patient-role-instance",
+    "priority": "P2",
+    "input": "The engineer fixed the bug.",
+    "expected": {
+      "roleInstances": [
+        {
+          "type": "cco:PatientRole",
+          "bearer": "the bug",
+          "realizedIn": "fix"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO PatientRole reification via bfo:is_bearer_of",
+    "description": "PatientRole instance with bearer and realized_in"
+  },
+  {
+    "id": "AL-ROLE-003",
+    "category": "argument-linking-role-bidirectional",
+    "priority": "P2",
+    "input": "The admin deployed the patch.",
+    "expected": {
+      "roleInstances": [
+        {
+          "type": "cco:AgentRole",
+          "bearer": "the admin",
+          "realizedIn": "deploy"
+        },
+        {
+          "type": "cco:PatientRole",
+          "bearer": "the patch",
+          "realizedIn": "deploy"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO Role instances bidirectional with act and entity",
+    "description": "Both role instances present with correct links"
+  },
+  {
+    "id": "AL-ROLE-004",
+    "category": "argument-linking-role-disposition",
+    "priority": "P2",
+    "input": "The engineer fixed the bug.",
+    "expected": {
+      "assertions": [
+        {
+          "entity": "the engineer",
+          "property": "bfo:is_bearer_of",
+          "target": "AgentRole"
+        },
+        {
+          "role": "AgentRole",
+          "property": "bfo:is_realized_in",
+          "target": "fix"
+        }
+      ]
+    },
+    "sourceOfTruth": "BFO role-as-disposition pattern",
+    "description": "Role follows BFO disposition realization pattern"
+  }
+]

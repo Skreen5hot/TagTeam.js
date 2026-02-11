@@ -1,0 +1,92 @@
+[
+  {
+    "id": "AL-TIER-001",
+    "category": "argument-linking-tier2-targets",
+    "priority": "P1",
+    "input": "The engineer fixed the bug.",
+    "expected": {
+      "assertions": [
+        {
+          "act": "fix",
+          "property": "cco:has_agent",
+          "targetPattern": "inst:Person_",
+          "note": "Links to Tier 2 Person, not DiscourseReferent"
+        },
+        {
+          "act": "fix",
+          "property": "cco:affects",
+          "targetPattern": "inst:Artifact_",
+          "note": "Links to Tier 2 Artifact, not DiscourseReferent"
+        }
+      ]
+    },
+    "sourceOfTruth": "TagTeam two-tier architecture: acts link to Tier 2",
+    "description": "Act properties link to real-world entities (Tier 2)"
+  },
+  {
+    "id": "AL-TIER-002",
+    "category": "argument-linking-discourse-separation",
+    "priority": "P1",
+    "input": "The server failed.",
+    "expected": {
+      "assertions": [
+        {
+          "discourseReferent": "the server",
+          "property": "cco:is_about",
+          "targetPattern": "inst:Artifact_Server_",
+          "note": "DiscourseReferent links to Tier 2 via is_about"
+        },
+        {
+          "act": "fail",
+          "property": "cco:affects",
+          "targetPattern": "inst:Artifact_Server_",
+          "note": "Act also links to same Tier 2 entity"
+        }
+      ]
+    },
+    "sourceOfTruth": "TagTeam is_about links Tier 1 to Tier 2",
+    "description": "DiscourseReferent and Act both link to Tier 2"
+  },
+  {
+    "id": "AL-TIER-003",
+    "category": "argument-linking-no-cross-tier",
+    "priority": "P1",
+    "input": "The admin deployed the patch.",
+    "expected": {
+      "forbidden": [
+        {
+          "act": "deploy",
+          "property": "cco:has_agent",
+          "targetPattern": "DiscourseReferent",
+          "reason": "Act must not link to DiscourseReferent"
+        },
+        {
+          "act": "deploy",
+          "property": "cco:affects",
+          "targetPattern": "DiscourseReferent",
+          "reason": "Act must not link to DiscourseReferent"
+        }
+      ]
+    },
+    "sourceOfTruth": "TagTeam tier separation: no direct Tier 1 ↔ Act links",
+    "description": "Acts never link directly to DiscourseReferents"
+  },
+  {
+    "id": "AL-TIER-004",
+    "category": "argument-linking-role-bearer-tier2",
+    "priority": "P2",
+    "input": "The engineer fixed the bug.",
+    "expected": {
+      "assertions": [
+        {
+          "roleType": "cco:AgentRole",
+          "property": "bfo:is_bearer_of",
+          "sourcePattern": "inst:Person_",
+          "note": "Role borne by Tier 2 entity, not DiscourseReferent"
+        }
+      ]
+    },
+    "sourceOfTruth": "BFO is_bearer_of from Tier 2 entity to Role",
+    "description": "Roles borne by Tier 2 entities"
+  }
+]

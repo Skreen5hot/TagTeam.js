@@ -44,9 +44,27 @@ const CATEGORIES = {
       'entity-extraction/type-classification.json'
     ],
     component: 'EntityExtractor'
+  },
+  'role-assignment': {
+    files: [
+      'role-assignment/basic-roles.json',
+      'role-assignment/indirect-roles.json',
+      'role-assignment/complex-roles.json',
+      'role-assignment/role-ambiguity.json'
+    ],
+    component: 'RoleDetector'
+  },
+  'argument-linking': {
+    files: [
+      'argument-linking/basic-linking.json',
+      'argument-linking/role-reification.json',
+      'argument-linking/participant-collection.json',
+      'argument-linking/inverse-properties.json',
+      'argument-linking/tier-separation.json'
+    ],
+    component: 'ArgumentLinker'
   }
   // Future categories:
-  // 'semantic-roles': { files: [...], component: 'RoleDetector' },
   // 'boundary-enforcement': { files: [...], component: 'CrossComponent' }
 };
 
@@ -110,6 +128,10 @@ function analyzeResult(result, test) {
     return analyzeRelativeClause(acts, result, test);
   } else if (test.category.startsWith('entity-extraction')) {
     return analyzeEntityExtraction(result, test);
+  } else if (test.category.startsWith('role-assignment')) {
+    return analyzeRoleAssignment(acts, result, test);
+  } else if (test.category.startsWith('argument-linking')) {
+    return analyzeArgumentLinking(acts, result, test);
   }
 
   // Default analysis
@@ -263,6 +285,234 @@ function analyzeRelativeClause(acts, result, test) {
       }
     }
   }
+
+  analysis.passed = analysis.issues.length === 0;
+  return analysis;
+}
+
+/**
+ * Analyze role assignment test
+ */
+function analyzeRoleAssignment(acts, result, test) {
+  const analysis = {
+    passed: false,
+    issues: [],
+    observations: []
+  };
+
+  const expectedRoles = test.expected.roles || [];
+
+  analysis.observations.push(`Expected ${expectedRoles.length} role assignments`);
+
+  // Mapping from test role names to actual CCO property names
+  const rolePropertyMap = {
+    'cco:AgentRole': ['cco:has_agent', 'cco:agent_in'],
+    'cco:PatientRole': ['cco:has_patient', 'cco:affects', 'cco:patient_in'],
+    'cco:RecipientRole': ['cco:has_recipient', 'tagteam:recipient'],
+    'cco:BeneficiaryRole': ['cco:has_beneficiary', 'tagteam:beneficiary'],
+    'cco:InstrumentRole': ['cco:has_instrument', 'tagteam:instrument'],
+    'cco:LocationRole': ['cco:has_location', 'tagteam:located_in'],
+    'cco:SourceRole': ['cco:has_source', 'tagteam:source'],
+    'cco:DestinationRole': ['cco:has_destination', 'tagteam:destination'],
+    'cco:ComitativeRole': ['cco:has_comitative', 'tagteam:comitative'],
+    'cco:CauseRole': ['cco:has_cause', 'tagteam:cause']
+  };
+
+  // For each expected role assignment
+  expectedRoles.forEach(expected => {
+    const verb = expected.verb.toLowerCase();
+    const entityText = expected.entity.toLowerCase();
+    const roleType = expected.role;
+
+    // Find act with matching verb
+    const matchingAct = acts.find(act => {
+      const actVerb = (act['tagteam:verb'] || '').toLowerCase();
+      return actVerb === verb || actVerb.includes(verb);
+    });
+
+    if (!matchingAct) {
+      analysis.issues.push(`No act found for verb "${verb}"`);
+      return;
+    }
+
+    // Get properties to check for this role type
+    const propertiesToCheck = rolePropertyMap[roleType] || [];
+
+    // Check if any of the role properties exist and reference the expected entity
+    let foundRole = false;
+    for (const prop of propertiesToCheck) {
+      if (matchingAct[prop]) {
+        const roleValue = matchingAct[prop];
+        const entityId = typeof roleValue === 'string' ? roleValue : roleValue['@id'];
+
+        // Find entity in @graph
+        const entity = result['@graph'].find(node => node['@id'] === entityId);
+        if (entity && entity['rdfs:label']) {
+          const entityLabel = entity['rdfs:label'].toLowerCase().replace('entity of ', '');
+
+          // Check if entity matches expected text
+          if (entityLabel.includes(entityText) || entityText.includes(entityLabel)) {
+            foundRole = true;
+            analysis.observations.push(
+              `✓ Found ${roleType} for "${verb}": "${entity['rdfs:label']}" via ${prop}`
+            );
+            break;
+          }
+        }
+      }
+    }
+
+    if (!foundRole) {
+      analysis.issues.push(
+        `Missing ${roleType} for verb "${verb}": expected entity "${expected.entity}"`
+      );
+    }
+  });
+
+  analysis.passed = analysis.issues.length === 0;
+  return analysis;
+}
+
+/**
+ * Analyze argument linking test
+ */
+function analyzeArgumentLinking(acts, result, test) {
+  const analysis = {
+    passed: false,
+    issues: [],
+    observations: []
+  };
+
+  const expectedLinks = test.expected.links || [];
+  const expectedAssertions = test.expected.assertions || [];
+  const expectedInverseLinks = test.expected.inverseLinks || [];
+  const forbiddenLinks = test.expected.forbidden || [];
+
+  // Check forward property links (act -> entity)
+  expectedLinks.forEach(expected => {
+    const verb = expected.act.toLowerCase();
+    const property = expected.property;
+
+    // Find act with matching verb
+    const matchingAct = acts.find(act => {
+      const actVerb = (act['tagteam:verb'] || '').toLowerCase();
+      return actVerb === verb || actVerb.includes(verb);
+    });
+
+    if (!matchingAct) {
+      analysis.issues.push(`No act found for verb "${verb}"`);
+      return;
+    }
+
+    // Check if expected property exists
+    if (expected.target) {
+      // Single target
+      const targetEntity = expected.target.toLowerCase();
+
+      if (!matchingAct[property]) {
+        analysis.issues.push(`Missing property ${property} on act "${verb}"`);
+        return;
+      }
+
+      const propValue = matchingAct[property];
+      const entityId = typeof propValue === 'string' ? propValue : propValue['@id'];
+
+      // Find entity in @graph
+      const entity = result['@graph'].find(node => node['@id'] === entityId);
+      if (!entity) {
+        analysis.issues.push(`Property ${property} references non-existent entity ${entityId}`);
+        return;
+      }
+
+      const entityLabel = (entity['rdfs:label'] || '').toLowerCase().replace('entity of ', '');
+      if (!entityLabel.includes(targetEntity) && !targetEntity.includes(entityLabel)) {
+        analysis.issues.push(
+          `Wrong target for ${property}: expected "${expected.target}", got "${entity['rdfs:label']}"`
+        );
+      } else {
+        analysis.observations.push(`✓ ${property}: "${verb}" → "${entity['rdfs:label']}"`);
+      }
+
+      // Check target type if specified
+      if (expected.targetType) {
+        const entityTypes = entity['@type'] || [];
+        const hasExpectedType = entityTypes.some(t =>
+          t.includes(expected.targetType.replace('cco:', '').replace('bfo:', ''))
+        );
+
+        if (!hasExpectedType) {
+          analysis.issues.push(
+            `Wrong type for ${property} target: expected ${expected.targetType}, got ${entityTypes.join(', ')}`
+          );
+        }
+      }
+    } else if (expected.targets) {
+      // Multiple targets (for has_participant)
+      if (!matchingAct[property]) {
+        analysis.issues.push(`Missing property ${property} on act "${verb}"`);
+        return;
+      }
+
+      // Property could be array or single value
+      const propValues = Array.isArray(matchingAct[property])
+        ? matchingAct[property]
+        : [matchingAct[property]];
+
+      analysis.observations.push(
+        `Found ${propValues.length} ${property} links for "${verb}"`
+      );
+
+      // Check if all expected targets are present
+      expected.targets.forEach(targetText => {
+        const found = propValues.some(pv => {
+          const entityId = typeof pv === 'string' ? pv : pv['@id'];
+          const entity = result['@graph'].find(node => node['@id'] === entityId);
+          if (entity && entity['rdfs:label']) {
+            const label = entity['rdfs:label'].toLowerCase().replace('entity of ', '');
+            return label.includes(targetText.toLowerCase()) ||
+                   targetText.toLowerCase().includes(label);
+          }
+          return false;
+        });
+
+        if (!found) {
+          analysis.issues.push(
+            `Missing ${property} link for "${verb}" to "${targetText}"`
+          );
+        }
+      });
+    }
+  });
+
+  // Check forbidden links (tier separation tests)
+  forbiddenLinks.forEach(forbidden => {
+    const verb = forbidden.act.toLowerCase();
+    const property = forbidden.property;
+    const targetPattern = forbidden.targetPattern;
+
+    const matchingAct = acts.find(act => {
+      const actVerb = (act['tagteam:verb'] || '').toLowerCase();
+      return actVerb === verb || actVerb.includes(verb);
+    });
+
+    if (matchingAct && matchingAct[property]) {
+      const propValue = matchingAct[property];
+      const entityId = typeof propValue === 'string' ? propValue : propValue['@id'];
+
+      // Find entity in @graph
+      const entity = result['@graph'].find(node => node['@id'] === entityId);
+      if (entity) {
+        const entityTypes = entity['@type'] || [];
+        const hasForbiddenType = entityTypes.some(t => t.includes(targetPattern));
+
+        if (hasForbiddenType) {
+          analysis.issues.push(
+            `FORBIDDEN: Act "${verb}" has ${property} linking to ${targetPattern} (${forbidden.reason})`
+          );
+        }
+      }
+    }
+  });
 
   analysis.passed = analysis.issues.length === 0;
   return analysis;

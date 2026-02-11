@@ -1,0 +1,87 @@
+[
+  {
+    "id": "AL-PART-001",
+    "category": "argument-linking-has-participant",
+    "priority": "P2",
+    "input": "The engineer fixed the bug.",
+    "expected": {
+      "links": [
+        {
+          "act": "fix",
+          "property": "bfo:has_participant",
+          "targets": ["the engineer", "the bug"]
+        }
+      ]
+    },
+    "sourceOfTruth": "BFO has_participant aggregates all participants",
+    "description": "has_participant includes both agent and patient"
+  },
+  {
+    "id": "AL-PART-002",
+    "category": "argument-linking-participant-superproperty",
+    "priority": "P2",
+    "input": "The admin deployed the patch.",
+    "expected": {
+      "assertions": [
+        {
+          "act": "deploy",
+          "property": "cco:has_agent",
+          "target": "the admin"
+        },
+        {
+          "act": "deploy",
+          "property": "cco:affects",
+          "target": "the patch"
+        },
+        {
+          "act": "deploy",
+          "property": "bfo:has_participant",
+          "target": "the admin"
+        },
+        {
+          "act": "deploy",
+          "property": "bfo:has_participant",
+          "target": "the patch"
+        }
+      ]
+    },
+    "sourceOfTruth": "BFO has_participant is superproperty of specific roles",
+    "description": "has_participant duplicates specific role links"
+  },
+  {
+    "id": "AL-PART-003",
+    "category": "argument-linking-participant-count",
+    "priority": "P2",
+    "input": "The user downloaded the file from the server.",
+    "expected": {
+      "links": [
+        {
+          "act": "download",
+          "property": "bfo:has_participant",
+          "minCount": 2,
+          "maxCount": 3,
+          "note": "Agent + patient required, source optional"
+        }
+      ]
+    },
+    "sourceOfTruth": "BFO has_participant includes all semantic participants",
+    "description": "has_participant count matches role count"
+  },
+  {
+    "id": "AL-PART-004",
+    "category": "argument-linking-participant-intransitive",
+    "priority": "P2",
+    "input": "The server failed.",
+    "expected": {
+      "links": [
+        {
+          "act": "fail",
+          "property": "bfo:has_participant",
+          "targets": ["the server"]
+        }
+      ]
+    },
+    "sourceOfTruth": "BFO has_participant for intransitive includes patient only",
+    "description": "has_participant with single participant"
+  }
+]
