@@ -977,10 +977,16 @@ class ActExtractor {
       // Check if it matches verb patterns
       const matchesVerbPattern = verbPatterns.some(pattern => pattern.test(clean));
       if (matchesVerbPattern && clean.length > 3) {
-        // Additional check: make sure it's not a common noun that happens to end in -s
-        // (e.g., "class", "business", "address")
-        const nounExceptions = ['class', 'business', 'address', 'process', 'access', 'success', 'progress'];
-        if (!nounExceptions.includes(clean)) {
+        // Exclude non-verbs that happen to match verb patterns
+        const nonVerbExceptions = [
+          // Common nouns ending in -s/-ss
+          'class', 'business', 'address', 'process', 'access', 'success', 'progress',
+          // Subordinating conjunctions
+          'unless', 'as',
+          // Other function words
+          'this', 'thus', 'yes'
+        ];
+        if (!nonVerbExceptions.includes(clean)) {
           morphologicalVerbs.push(word);
         }
       }
