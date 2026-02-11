@@ -1,0 +1,147 @@
+[
+  {
+    "id": "EE-PROPER-001",
+    "category": "entity-extraction-person-name",
+    "priority": "P1",
+    "input": "John deployed the patch.",
+    "expected": {
+      "entities": [
+        {
+          "text": "John",
+          "type": "cco:Person",
+          "definiteness": "definite",
+          "number": "singular",
+          "properNoun": true
+        },
+        {
+          "text": "the patch",
+          "type": "cco:Artifact",
+          "definiteness": "definite",
+          "number": "singular"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO Person + Proper noun semantics",
+    "description": "Simple person name"
+  },
+  {
+    "id": "EE-PROPER-002",
+    "category": "entity-extraction-full-name",
+    "priority": "P1",
+    "input": "John Smith deployed the patch.",
+    "expected": {
+      "entities": [
+        {
+          "text": "John Smith",
+          "type": "cco:Person",
+          "definiteness": "definite",
+          "number": "singular",
+          "properNoun": true
+        },
+        {
+          "text": "the patch",
+          "type": "cco:Artifact",
+          "definiteness": "definite",
+          "number": "singular"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO Person + Full name proper noun",
+    "description": "Full person name"
+  },
+  {
+    "id": "EE-PROPER-003",
+    "category": "entity-extraction-organization-name",
+    "priority": "P1",
+    "input": "Microsoft released a patch.",
+    "expected": {
+      "entities": [
+        {
+          "text": "Microsoft",
+          "type": "cco:Organization",
+          "definiteness": "definite",
+          "number": "singular",
+          "properNoun": true
+        },
+        {
+          "text": "a patch",
+          "type": "cco:Artifact",
+          "definiteness": "indefinite",
+          "number": "singular"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO Organization + Proper noun",
+    "description": "Organization proper noun"
+  },
+  {
+    "id": "EE-PROPER-004",
+    "category": "entity-extraction-location-name",
+    "priority": "P2",
+    "input": "The server in Seattle failed.",
+    "expected": {
+      "entities": [
+        {
+          "text": "the server in Seattle",
+          "type": "cco:Artifact",
+          "definiteness": "definite",
+          "number": "singular"
+        },
+        {
+          "text": "Seattle",
+          "type": "cco:GeopoliticalEntity",
+          "definiteness": "definite",
+          "number": "singular",
+          "properNoun": true
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO GeopoliticalEntity + Location proper noun",
+    "description": "Location proper noun"
+  },
+  {
+    "id": "EE-PROPER-005",
+    "category": "entity-extraction-product-name",
+    "priority": "P2",
+    "input": "Windows crashed.",
+    "expected": {
+      "entities": [
+        {
+          "text": "Windows",
+          "type": "cco:Artifact",
+          "definiteness": "definite",
+          "number": "singular",
+          "properNoun": true
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO Artifact + Product name proper noun",
+    "description": "Product proper noun"
+  },
+  {
+    "id": "EE-PROPER-006",
+    "category": "entity-extraction-title",
+    "priority": "P2",
+    "input": "Dr. Smith examined the patient.",
+    "expected": {
+      "entities": [
+        {
+          "text": "Dr. Smith",
+          "type": "cco:Person",
+          "definiteness": "definite",
+          "number": "singular",
+          "properNoun": true,
+          "title": "Dr."
+        },
+        {
+          "text": "the patient",
+          "type": "cco:Person",
+          "definiteness": "definite",
+          "number": "singular"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO Person + Title + Proper noun",
+    "description": "Person with professional title"
+  }
+]

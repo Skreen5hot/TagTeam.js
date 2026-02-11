@@ -1,0 +1,215 @@
+[
+  {
+    "id": "EE-BASIC-001",
+    "category": "entity-extraction-definite-singular",
+    "priority": "P1",
+    "input": "The server failed.",
+    "expected": {
+      "entities": [
+        {
+          "text": "the server",
+          "type": "cco:Artifact",
+          "definiteness": "definite",
+          "number": "singular"
+        }
+      ]
+    },
+    "sourceOfTruth": "BFO 2.0 Artifact classification + Definiteness theory (Heim 1982)",
+    "description": "Definite singular artifact"
+  },
+  {
+    "id": "EE-BASIC-002",
+    "category": "entity-extraction-indefinite-singular",
+    "priority": "P1",
+    "input": "A server failed.",
+    "expected": {
+      "entities": [
+        {
+          "text": "a server",
+          "type": "cco:Artifact",
+          "definiteness": "indefinite",
+          "number": "singular"
+        }
+      ]
+    },
+    "sourceOfTruth": "BFO 2.0 Artifact + Indefiniteness theory",
+    "description": "Indefinite singular artifact"
+  },
+  {
+    "id": "EE-BASIC-003",
+    "category": "entity-extraction-definite-person",
+    "priority": "P1",
+    "input": "The engineer designed the system.",
+    "expected": {
+      "entities": [
+        {
+          "text": "the engineer",
+          "type": "cco:Person",
+          "definiteness": "definite",
+          "number": "singular"
+        },
+        {
+          "text": "the system",
+          "type": "cco:Artifact",
+          "definiteness": "definite",
+          "number": "singular"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO Person + Artifact classification",
+    "description": "Person and artifact entities"
+  },
+  {
+    "id": "EE-BASIC-004",
+    "category": "entity-extraction-indefinite-person",
+    "priority": "P1",
+    "input": "An admin received an alert.",
+    "expected": {
+      "entities": [
+        {
+          "text": "an admin",
+          "type": "cco:Person",
+          "definiteness": "indefinite",
+          "number": "singular"
+        },
+        {
+          "text": "an alert",
+          "type": "cco:InformationContentEntity",
+          "definiteness": "indefinite",
+          "number": "singular"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO Person + ICE classification",
+    "description": "Indefinite person and information entity"
+  },
+  {
+    "id": "EE-BASIC-005",
+    "category": "entity-extraction-plural-definite",
+    "priority": "P1",
+    "input": "The servers restarted.",
+    "expected": {
+      "entities": [
+        {
+          "text": "the servers",
+          "type": "cco:Artifact",
+          "definiteness": "definite",
+          "number": "plural"
+        }
+      ]
+    },
+    "sourceOfTruth": "BFO 2.0 Artifact + Plural semantics",
+    "description": "Definite plural artifact"
+  },
+  {
+    "id": "EE-BASIC-006",
+    "category": "entity-extraction-plural-indefinite",
+    "priority": "P2",
+    "input": "Some engineers fixed bugs.",
+    "expected": {
+      "entities": [
+        {
+          "text": "some engineers",
+          "type": "cco:Person",
+          "definiteness": "indefinite",
+          "number": "plural",
+          "quantifier": "some"
+        },
+        {
+          "text": "bugs",
+          "type": "cco:Artifact",
+          "definiteness": "bare",
+          "number": "plural"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO Person + Bare plural semantics",
+    "description": "Indefinite plural with quantifier"
+  },
+  {
+    "id": "EE-BASIC-007",
+    "category": "entity-extraction-organization",
+    "priority": "P1",
+    "input": "The team deployed the patch.",
+    "expected": {
+      "entities": [
+        {
+          "text": "the team",
+          "type": "cco:Organization",
+          "definiteness": "definite",
+          "number": "singular"
+        },
+        {
+          "text": "the patch",
+          "type": "cco:Artifact",
+          "definiteness": "definite",
+          "number": "singular"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO Organization + Artifact classification",
+    "description": "Organization entity"
+  },
+  {
+    "id": "EE-BASIC-008",
+    "category": "entity-extraction-compound-noun",
+    "priority": "P1",
+    "input": "The database server crashed.",
+    "expected": {
+      "entities": [
+        {
+          "text": "the database server",
+          "type": "cco:Artifact",
+          "definiteness": "definite",
+          "number": "singular"
+        }
+      ]
+    },
+    "sourceOfTruth": "BFO 2.0 Artifact + Compound noun theory",
+    "description": "Compound noun phrase"
+  },
+  {
+    "id": "EE-BASIC-009",
+    "category": "entity-extraction-modified-noun",
+    "priority": "P1",
+    "input": "The primary server failed.",
+    "expected": {
+      "entities": [
+        {
+          "text": "the primary server",
+          "type": "cco:Artifact",
+          "definiteness": "definite",
+          "number": "singular",
+          "modifiers": ["primary"]
+        }
+      ]
+    },
+    "sourceOfTruth": "BFO 2.0 Artifact + Adjectival modification",
+    "description": "Adjective-modified noun"
+  },
+  {
+    "id": "EE-BASIC-010",
+    "category": "entity-extraction-possessive",
+    "priority": "P2",
+    "input": "The admin's credentials expired.",
+    "expected": {
+      "entities": [
+        {
+          "text": "the admin",
+          "type": "cco:Person",
+          "definiteness": "definite",
+          "number": "singular"
+        },
+        {
+          "text": "the admin's credentials",
+          "type": "cco:InformationContentEntity",
+          "definiteness": "definite",
+          "number": "plural",
+          "possessor": "the admin"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO Person + ICE + Possessive semantics",
+    "description": "Possessive construction"
+  }
+]

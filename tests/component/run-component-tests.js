@@ -35,9 +35,17 @@ const CATEGORIES = {
       'clause-segmentation/relative-clauses.json'
     ],
     component: 'ClauseSegmenter'
+  },
+  'entity-extraction': {
+    files: [
+      'entity-extraction/basic-entities.json',
+      'entity-extraction/complex-entities.json',
+      'entity-extraction/proper-nouns.json',
+      'entity-extraction/type-classification.json'
+    ],
+    component: 'EntityExtractor'
   }
   // Future categories:
-  // 'entity-extraction': { files: [...], component: 'EntityExtractor' },
   // 'semantic-roles': { files: [...], component: 'RoleDetector' },
   // 'boundary-enforcement': { files: [...], component: 'CrossComponent' }
 };
@@ -100,6 +108,8 @@ function analyzeResult(result, test) {
     return analyzePrefixSubordination(acts, result, test);
   } else if (test.category.startsWith('relative-clause')) {
     return analyzeRelativeClause(acts, result, test);
+  } else if (test.category.startsWith('entity-extraction')) {
+    return analyzeEntityExtraction(result, test);
   }
 
   // Default analysis
@@ -253,6 +263,78 @@ function analyzeRelativeClause(acts, result, test) {
       }
     }
   }
+
+  analysis.passed = analysis.issues.length === 0;
+  return analysis;
+}
+
+/**
+ * Analyze entity extraction test
+ */
+function analyzeEntityExtraction(result, test) {
+  const analysis = {
+    passed: false,
+    issues: [],
+    observations: []
+  };
+
+  // Extract entities from JSON-LD @graph
+  const entities = result['@graph'] ? result['@graph'].filter(node =>
+    node['@type'] && node['@type'].includes('tagteam:DiscourseReferent')
+  ) : [];
+
+  const expectedEntities = test.expected.entities || [];
+
+  analysis.observations.push(`Expected ${expectedEntities.length} entities, found ${entities.length}`);
+
+  // Check entity count
+  if (entities.length !== expectedEntities.length) {
+    analysis.issues.push(`Wrong entity count: expected ${expectedEntities.length}, got ${entities.length}`);
+  }
+
+  // For each expected entity, check if it exists and has correct properties
+  expectedEntities.forEach(expected => {
+    const matchingEntity = entities.find(e => {
+      const label = e['rdfs:label'] || '';
+      const expectedText = expected.text.toLowerCase();
+      return label.toLowerCase().includes(expectedText) ||
+             expectedText.includes(label.toLowerCase().replace('entity of ', ''));
+    });
+
+    if (!matchingEntity) {
+      analysis.issues.push(`Missing entity: "${expected.text}"`);
+      return;
+    }
+
+    analysis.observations.push(`Found entity: "${matchingEntity['rdfs:label']}"`);
+
+    // Check entity type if specified
+    if (expected.type) {
+      const entityTypes = matchingEntity['@type'] || [];
+      const hasExpectedType = entityTypes.some(t => t.includes(expected.type.replace('cco:', '').replace('bfo:', '')));
+
+      if (!hasExpectedType) {
+        analysis.issues.push(
+          `Wrong type for "${expected.text}": expected ${expected.type}, got ${entityTypes.join(', ')}`
+        );
+      } else {
+        analysis.observations.push(`Correct type for "${expected.text}": ${expected.type}`);
+      }
+    }
+
+    // Check definiteness if specified (basic check - this would need refinement)
+    if (expected.definiteness) {
+      const label = matchingEntity['rdfs:label'] || '';
+      const startsWithThe = label.toLowerCase().startsWith('the ');
+      const startsWithA = label.toLowerCase().match(/^a(n)? /);
+
+      if (expected.definiteness === 'definite' && !startsWithThe && !expected.properNoun) {
+        analysis.observations.push(`Note: "${expected.text}" expected definite ("the ...")`);
+      } else if (expected.definiteness === 'indefinite' && !startsWithA) {
+        analysis.observations.push(`Note: "${expected.text}" expected indefinite ("a/an ...")`);
+      }
+    }
+  });
 
   analysis.passed = analysis.issues.length === 0;
   return analysis;

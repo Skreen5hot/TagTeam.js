@@ -201,7 +201,10 @@ const EVALUATIVE_QUALITY_TERMS = new Set([
   'demand', 'supply', 'cost', 'price', 'value', 'risk',
   'quality', 'efficiency', 'productivity', 'performance',
   'growth', 'revenue', 'profit', 'loss', 'rate', 'level',
-  'speed', 'volume', 'frequency', 'intensity', 'severity'
+  'speed', 'volume', 'frequency', 'intensity', 'severity',
+  // V7-006: Physical/technical qualities
+  'power', 'energy', 'capacity', 'memory', 'storage', 'bandwidth',
+  'temperature', 'pressure', 'weight', 'size', 'length', 'width', 'height'
 ]);
 
 /**
@@ -278,6 +281,7 @@ const ENTITY_TYPE_MAPPINGS = {
   'designer': 'cco:Person',
   'consultant': 'cco:Person',
   'administrator': 'cco:Person',
+  'admin': 'cco:Person',  // V7-006: Common abbreviation
   'supervisor': 'cco:Person',
   'coordinator': 'cco:Person',
   'specialist': 'cco:Person',
@@ -317,6 +321,26 @@ const ENTITY_TYPE_MAPPINGS = {
   'bed': 'cco:Artifact',
   'resource': 'cco:Artifact',
   'organ': 'cco:BodyPart',
+
+  // V7-006: Technical/IT artifacts
+  'server': 'cco:Artifact',
+  'database': 'cco:Artifact',
+  'system': 'cco:Artifact',
+  'application': 'cco:Artifact',
+  'patch': 'cco:Artifact',
+  'bug': 'cco:Artifact',
+  'alert': 'cco:InformationContentEntity',
+  'log': 'cco:InformationContentEntity',
+  'credential': 'cco:InformationContentEntity',
+  'data': 'cco:InformationContentEntity',
+  'configuration': 'cco:InformationContentEntity',
+  'feature': 'cco:Artifact',
+
+  // V7-006: Facilities and locations
+  'datacenter': 'cco:Facility',
+  'facility': 'cco:Facility',
+  'building': 'cco:Facility',
+  'office': 'cco:Facility',
 
   // Default
   '_default': 'bfo:BFO_0000040' // Material Entity
@@ -520,6 +544,9 @@ const UNAMBIGUOUS_RESULT_NOUNS = {
   'monument': 'cco:Artifact',        // Physical structure
   'compartment': 'cco:Artifact',     // Physical container/section
 
+  // V7-006: Technical/IT result nouns (artifacts, not processes)
+  'feature': 'cco:Artifact',         // Software feature (thing), not featuring (act)
+
   // Documents (GDC) - always the document, never the process
   'documentation': 'bfo:BFO_0000031',
   'registration': 'bfo:BFO_0000031',
@@ -529,6 +556,9 @@ const UNAMBIGUOUS_RESULT_NOUNS = {
   'recommendation': 'bfo:BFO_0000031',
   'regulation': 'bfo:BFO_0000031',     // The rule document
   'legislation': 'bfo:BFO_0000031',
+
+  // V7-006: IT information content entities (not processes)
+  'configuration': 'cco:InformationContentEntity',  // Config data, not configuring act
 
   // Locations (IC) - always the place, never the process
   'location': 'bfo:BFO_0000040',
@@ -1648,6 +1678,43 @@ class EntityExtractor {
     const words = lowerNoun.split(/\s+/);
     const lastWord = words[words.length - 1];
 
+    // Priority -2: V7-006 Proper name detection
+    // If definitenessInfo indicates this is a proper name, infer type from structure
+    if (context.definitenessInfo && context.definitenessInfo.isProperName) {
+      const originalNoun = nounText.trim();  // Keep original case
+      const firstWord = originalNoun.split(/\s+/)[0];
+
+      // Titles indicate person
+      const titles = ['Dr', 'Dr.', 'Mr', 'Mr.', 'Mrs', 'Mrs.', 'Ms', 'Ms.', 'Prof', 'Prof.'];
+      if (titles.some(t => firstWord.startsWith(t))) {
+        return 'cco:Person';
+      }
+
+      // Multi-word capitalized names are usually persons or organizations
+      // Heuristic: if 2-3 words and all capitalized → Person (e.g., "John Smith")
+      // If includes common org indicators → Organization
+      const orgIndicators = ['Inc', 'Corp', 'LLC', 'Ltd', 'Company', 'Corporation', 'Foundation'];
+      const hasOrgIndicator = orgIndicators.some(ind => originalNoun.includes(ind));
+
+      if (hasOrgIndicator) {
+        return 'cco:Organization';
+      }
+
+      // Single capitalized word: could be person name, product name, or location
+      // Default to Person for short single words (common first names)
+      // This is a heuristic - proper classification needs context
+      if (words.length === 1 && originalNoun.length <= 8) {
+        return 'cco:Person';  // Likely a first name
+      }
+
+      // Multi-word (2-3 words) all capitalized → Person
+      if (words.length >= 2 && words.length <= 3) {
+        return 'cco:Person';  // Likely "FirstName LastName"
+      }
+
+      // Fall through to other detection for proper nouns we can't classify
+    }
+
     // Priority -1: Pronoun type mapping (IEE realist specification)
     // Pronouns carry selectional presuppositions about ontological category
     if (words.length === 1 && PRONOUN_TYPE_MAPPINGS[lowerNoun]) {
@@ -1830,6 +1897,10 @@ class EntityExtractor {
    * - sourceText, startPosition, endPosition (instead of extracted_from_span, span_offset)
    * - denotesType kept for backward compatibility (deprecated; use is_about to Tier 2)
    *
+   * V7-006: Multi-type classification
+   * - @type array includes both DiscourseReferent AND specific CCO/BFO types
+   * - Follows RoleDetector pattern for multi-type entities
+   *
    * @param {Object} entityInfo - Entity information
    * @returns {Object} DiscourseReferent node
    */
@@ -1851,10 +1922,25 @@ class EntityExtractor {
     // Calculate end position
     const endPosition = entityInfo.offset + entityInfo.text.length;
 
+    // V7-006: Build @type array with specific CCO/BFO type + DiscourseReferent
+    // Similar to RoleDetector's multi-type pattern
+    const types = [];
+
+    // Add specific CCO/BFO type first (e.g., cco:Person, cco:Artifact)
+    if (entityInfo.entityType) {
+      types.push(entityInfo.entityType);
+    }
+
+    // Add DiscourseReferent (discourse-level classification)
+    types.push('tagteam:DiscourseReferent');
+
+    // Add owl:NamedIndividual (OWL requirement)
+    types.push('owl:NamedIndividual');
+
     // Build node with v2.2 properties
     const node = {
       '@id': iri,
-      '@type': ['tagteam:DiscourseReferent', 'owl:NamedIndividual'],
+      '@type': types,
       'rdfs:label': entityInfo.text,
 
       // v2.2 position properties

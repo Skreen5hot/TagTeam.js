@@ -1,0 +1,182 @@
+[
+  {
+    "id": "EE-TYPE-001",
+    "category": "entity-extraction-role-noun",
+    "priority": "P1",
+    "input": "The administrator configured the system.",
+    "expected": {
+      "entities": [
+        {
+          "text": "the administrator",
+          "type": "cco:Person",
+          "definiteness": "definite",
+          "number": "singular",
+          "role": "administrator"
+        },
+        {
+          "text": "the system",
+          "type": "cco:Artifact",
+          "definiteness": "definite",
+          "number": "singular"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO Person + Role-based classification",
+    "description": "Role-based person classification"
+  },
+  {
+    "id": "EE-TYPE-002",
+    "category": "entity-extraction-abstract",
+    "priority": "P2",
+    "input": "The configuration was updated.",
+    "expected": {
+      "entities": [
+        {
+          "text": "the configuration",
+          "type": "cco:InformationContentEntity",
+          "definiteness": "definite",
+          "number": "singular"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO ICE + Abstract entity classification",
+    "description": "Abstract information entity"
+  },
+  {
+    "id": "EE-TYPE-003",
+    "category": "entity-extraction-event-noun",
+    "priority": "P2",
+    "input": "The deployment succeeded.",
+    "expected": {
+      "entities": [
+        {
+          "text": "the deployment",
+          "type": "cco:Act",
+          "definiteness": "definite",
+          "number": "singular",
+          "nominalized": true
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO Act + Nominalization",
+    "description": "Nominalized event"
+  },
+  {
+    "id": "EE-TYPE-004",
+    "category": "entity-extraction-facility",
+    "priority": "P2",
+    "input": "The datacenter lost power.",
+    "expected": {
+      "entities": [
+        {
+          "text": "the datacenter",
+          "type": "cco:Facility",
+          "definiteness": "definite",
+          "number": "singular"
+        },
+        {
+          "text": "power",
+          "type": "bfo:Quality",
+          "definiteness": "bare",
+          "number": "singular"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO Facility + BFO Quality",
+    "description": "Facility and quality entities"
+  },
+  {
+    "id": "EE-TYPE-005",
+    "category": "entity-extraction-measurement",
+    "priority": "P2",
+    "input": "The server consumed 100GB of memory.",
+    "expected": {
+      "entities": [
+        {
+          "text": "the server",
+          "type": "cco:Artifact",
+          "definiteness": "definite",
+          "number": "singular"
+        },
+        {
+          "text": "100GB of memory",
+          "type": "bfo:Quality",
+          "definiteness": "indefinite",
+          "measurement": true,
+          "value": "100GB",
+          "unit": "GB"
+        }
+      ]
+    },
+    "sourceOfTruth": "BFO Quality + Measurement semantics",
+    "description": "Measurement entity"
+  },
+  {
+    "id": "EE-TYPE-006",
+    "category": "entity-extraction-temporal",
+    "priority": "P2",
+    "input": "The server failed yesterday.",
+    "expected": {
+      "entities": [
+        {
+          "text": "the server",
+          "type": "cco:Artifact",
+          "definiteness": "definite",
+          "number": "singular"
+        }
+      ],
+      "temporalModifiers": [
+        {
+          "text": "yesterday",
+          "type": "bfo:TemporalRegion"
+        }
+      ]
+    },
+    "sourceOfTruth": "BFO TemporalRegion + Temporal deixis",
+    "description": "Temporal expression (not entity)"
+  },
+  {
+    "id": "EE-TYPE-007",
+    "category": "entity-extraction-group",
+    "priority": "P1",
+    "input": "The development team deployed the feature.",
+    "expected": {
+      "entities": [
+        {
+          "text": "the development team",
+          "type": "cco:Organization",
+          "definiteness": "definite",
+          "number": "singular",
+          "organizationType": "team"
+        },
+        {
+          "text": "the feature",
+          "type": "cco:Artifact",
+          "definiteness": "definite",
+          "number": "singular"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO Organization + Group classification",
+    "description": "Organizational group"
+  },
+  {
+    "id": "EE-TYPE-008",
+    "category": "entity-extraction-software",
+    "priority": "P1",
+    "input": "The application crashed.",
+    "expected": {
+      "entities": [
+        {
+          "text": "the application",
+          "type": "cco:Artifact",
+          "definiteness": "definite",
+          "number": "singular",
+          "artifactType": "software"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO Artifact + Software classification",
+    "description": "Software artifact"
+  }
+]

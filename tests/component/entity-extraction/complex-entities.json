@@ -1,0 +1,234 @@
+[
+  {
+    "id": "EE-COMPLEX-001",
+    "category": "entity-extraction-prepositional-phrase",
+    "priority": "P1",
+    "input": "The server in the datacenter failed.",
+    "expected": {
+      "entities": [
+        {
+          "text": "the server in the datacenter",
+          "type": "cco:Artifact",
+          "definiteness": "definite",
+          "number": "singular",
+          "hasModifier": true
+        },
+        {
+          "text": "the datacenter",
+          "type": "cco:Facility",
+          "definiteness": "definite",
+          "number": "singular"
+        }
+      ]
+    },
+    "sourceOfTruth": "BFO 2.0 + Prepositional phrase attachment",
+    "description": "Entity with prepositional phrase modifier"
+  },
+  {
+    "id": "EE-COMPLEX-002",
+    "category": "entity-extraction-coordination",
+    "priority": "P1",
+    "input": "The engineer and the admin deployed the patch.",
+    "expected": {
+      "entities": [
+        {
+          "text": "the engineer",
+          "type": "cco:Person",
+          "definiteness": "definite",
+          "number": "singular"
+        },
+        {
+          "text": "the admin",
+          "type": "cco:Person",
+          "definiteness": "definite",
+          "number": "singular"
+        },
+        {
+          "text": "the patch",
+          "type": "cco:Artifact",
+          "definiteness": "definite",
+          "number": "singular"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO Person + NP coordination",
+    "description": "Coordinated noun phrases"
+  },
+  {
+    "id": "EE-COMPLEX-003",
+    "category": "entity-extraction-multiple-modifiers",
+    "priority": "P2",
+    "input": "The old primary database server crashed.",
+    "expected": {
+      "entities": [
+        {
+          "text": "the old primary database server",
+          "type": "cco:Artifact",
+          "definiteness": "definite",
+          "number": "singular",
+          "modifiers": ["old", "primary", "database"]
+        }
+      ]
+    },
+    "sourceOfTruth": "BFO 2.0 Artifact + Multiple modification",
+    "description": "Multiple adjective modifiers"
+  },
+  {
+    "id": "EE-COMPLEX-004",
+    "category": "entity-extraction-quantified",
+    "priority": "P2",
+    "input": "All servers restarted.",
+    "expected": {
+      "entities": [
+        {
+          "text": "all servers",
+          "type": "cco:Artifact",
+          "definiteness": "definite",
+          "number": "plural",
+          "quantifier": "all"
+        }
+      ]
+    },
+    "sourceOfTruth": "BFO 2.0 + Universal quantification",
+    "description": "Universally quantified NP"
+  },
+  {
+    "id": "EE-COMPLEX-005",
+    "category": "entity-extraction-numeric",
+    "priority": "P2",
+    "input": "Three engineers fixed the bug.",
+    "expected": {
+      "entities": [
+        {
+          "text": "three engineers",
+          "type": "cco:Person",
+          "definiteness": "indefinite",
+          "number": "plural",
+          "quantity": 3
+        },
+        {
+          "text": "the bug",
+          "type": "cco:Artifact",
+          "definiteness": "definite",
+          "number": "singular"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO Person + Numeric quantification",
+    "description": "Numerically quantified NP"
+  },
+  {
+    "id": "EE-COMPLEX-006",
+    "category": "entity-extraction-demonstrative",
+    "priority": "P1",
+    "input": "This server failed.",
+    "expected": {
+      "entities": [
+        {
+          "text": "this server",
+          "type": "cco:Artifact",
+          "definiteness": "definite",
+          "number": "singular",
+          "demonstrative": "proximal"
+        }
+      ]
+    },
+    "sourceOfTruth": "BFO 2.0 + Demonstrative semantics",
+    "description": "Proximal demonstrative"
+  },
+  {
+    "id": "EE-COMPLEX-007",
+    "category": "entity-extraction-demonstrative-distal",
+    "priority": "P1",
+    "input": "That server failed.",
+    "expected": {
+      "entities": [
+        {
+          "text": "that server",
+          "type": "cco:Artifact",
+          "definiteness": "definite",
+          "number": "singular",
+          "demonstrative": "distal"
+        }
+      ]
+    },
+    "sourceOfTruth": "BFO 2.0 + Demonstrative semantics",
+    "description": "Distal demonstrative"
+  },
+  {
+    "id": "EE-COMPLEX-008",
+    "category": "entity-extraction-bare-plural",
+    "priority": "P2",
+    "input": "Servers often fail.",
+    "expected": {
+      "entities": [
+        {
+          "text": "servers",
+          "type": "cco:Artifact",
+          "definiteness": "bare",
+          "number": "plural",
+          "generic": true
+        }
+      ]
+    },
+    "sourceOfTruth": "BFO 2.0 + Bare plural generics",
+    "description": "Generic bare plural"
+  },
+  {
+    "id": "EE-COMPLEX-009",
+    "category": "entity-extraction-nested-possession",
+    "priority": "P2",
+    "input": "The team's server's logs were analyzed.",
+    "expected": {
+      "entities": [
+        {
+          "text": "the team",
+          "type": "cco:Organization",
+          "definiteness": "definite",
+          "number": "singular"
+        },
+        {
+          "text": "the team's server",
+          "type": "cco:Artifact",
+          "definiteness": "definite",
+          "number": "singular",
+          "possessor": "the team"
+        },
+        {
+          "text": "the team's server's logs",
+          "type": "cco:InformationContentEntity",
+          "definiteness": "definite",
+          "number": "plural",
+          "possessor": "the team's server"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO + Nested possessive semantics",
+    "description": "Nested possessive construction"
+  },
+  {
+    "id": "EE-COMPLEX-010",
+    "category": "entity-extraction-appositive",
+    "priority": "P2",
+    "input": "The engineer, a senior developer, deployed the patch.",
+    "expected": {
+      "entities": [
+        {
+          "text": "the engineer",
+          "type": "cco:Person",
+          "definiteness": "definite",
+          "number": "singular",
+          "appositive": "a senior developer"
+        },
+        {
+          "text": "the patch",
+          "type": "cco:Artifact",
+          "definiteness": "definite",
+          "number": "singular"
+        }
+      ]
+    },
+    "sourceOfTruth": "CCO Person + Appositive construction",
+    "description": "Appositive construction"
+  }
+]
