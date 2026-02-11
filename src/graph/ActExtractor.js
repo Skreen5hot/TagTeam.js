@@ -959,14 +959,23 @@ class ActExtractor {
       'responds', 'respond', 'responded', 'leaves', 'leave', 'left'
     ]);
 
-    for (const word of words) {
+    // Determiners indicate the following word is likely a noun, not a verb
+    const determiners = new Set(['the', 'a', 'an', 'this', 'that', 'these', 'those']);
+
+    for (let i = 0; i < words.length; i++) {
+      const word = words[i];
       const clean = word.toLowerCase().replace(/[.,;:!?]$/, '');
+      const prevWord = i > 0 ? words[i - 1].toLowerCase().replace(/[.,;:!?]$/, '') : null;
 
       // Skip if already found by Compromise
       if (compromiseVerbTexts.has(word)) continue;
 
       // Skip if too short
       if (clean.length < 3) continue;
+
+      // Skip if preceded by a determiner (likely a noun, not a verb)
+      // e.g., "the load increases" → "load" is a noun
+      if (prevWord && determiners.has(prevWord)) continue;
 
       // Check if it's a known verb
       if (commonVerbs.has(clean)) {
@@ -979,8 +988,12 @@ class ActExtractor {
       if (matchesVerbPattern && clean.length > 3) {
         // Exclude non-verbs that happen to match verb patterns
         const nonVerbExceptions = [
-          // Common nouns ending in -s/-ss
+          // Common nouns ending in -s/-ss (singular)
           'class', 'business', 'address', 'process', 'access', 'success', 'progress',
+          // Common plural nouns that look like verbs
+          'errors', 'orders', 'offers', 'users', 'servers', 'systems', 'processes',
+          'requests', 'responses', 'issues', 'changes', 'updates', 'patches',
+          'loads', 'metrics', 'alerts', 'messages', 'events', 'tasks',
           // Subordinating conjunctions
           'unless', 'as',
           // Other function words

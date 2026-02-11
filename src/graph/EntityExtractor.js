@@ -846,9 +846,18 @@ class EntityExtractor {
       'responded', 'respond', 'responds', 'left', 'leave', 'leaves'
     ]);
 
+    // Determiners that should not be left as standalone entities
+    const determiners = new Set(['the', 'a', 'an', 'this', 'that', 'these', 'those']);
+
     // Trim from the end while last word looks like a verb
     while (words.length > 1) {
       const lastWord = words[words.length - 1].toLowerCase().replace(/[.,;:!?]$/, '');
+
+      // Don't trim if it would leave only a determiner
+      // e.g., "the load" → don't trim to just "the"
+      if (words.length === 2 && determiners.has(words[0].toLowerCase().replace(/[.,;:!?]$/, ''))) {
+        break;
+      }
 
       // Check if it's a known verb
       if (commonVerbs.has(lastWord)) {
