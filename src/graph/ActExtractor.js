@@ -1600,6 +1600,89 @@ class ActExtractor {
   }
 
   /**
+   * V7-004: Find the correct agent for a verb, accounting for relative clauses
+   *
+   * Handles three patterns:
+   * 1. Explicit relativizers: "The engineer who designed the system left"
+   * 2. Nested relatives: "The user who filed the issue that caused the crash responded"
+   * 3. Zero relativizers: "The patch the team deployed fixed the bug" (reduced relative)
+   *
+   * Heuristics:
+   * - If explicit relativizer exists → use farthest entity
+   * - If no relativizer but multiple entities + embedded verbs → zero relativizer → use farthest entity
+   * - Otherwise → use closest entity (normal SVO)
+   *
+   * @param {string} fullText - Full input text
+   * @param {number} verbOffset - Position of verb
+   * @param {Array} entitiesBefore - Entities before the verb
+   * @returns {Object|null} Entity to use as agent
+   */
+  _findAgentForVerb(fullText, verbOffset, entitiesBefore) {
+    const RELATIVIZERS = ['who', 'whom', 'whose', 'which', 'that'];
+
+    // Sort entities by end position
+    const sorted = [...entitiesBefore].sort((a, b) => {
+      const endA = this._getEntityEnd(a);
+      const endB = this._getEntityEnd(b);
+      return endA - endB; // Ascending: farthest first
+    });
+
+    if (sorted.length === 0) return null;
+
+    // Check if ANY relativizer exists between any entity and the target verb
+    let hasRelativizer = false;
+
+    for (const entity of sorted) {
+      const entityEnd = this._getEntityEnd(entity);
+      const textBetween = fullText.substring(entityEnd, verbOffset).toLowerCase();
+      const words = textBetween.trim().split(/\s+/);
+
+      // Check if first word after entity is a relativizer
+      if (words.length > 0) {
+        const firstWord = words[0].replace(/[.,;:!?]$/, '');
+        if (RELATIVIZERS.includes(firstWord)) {
+          hasRelativizer = true;
+          break; // Found a relativizer
+        }
+      }
+    }
+
+    // If relativizer found, return the FARTHEST entity (head of main clause)
+    if (hasRelativizer) {
+      return sorted[0]; // First in sorted array = farthest from verb
+    }
+
+    // Check for zero relativizer pattern (reduced relative clause)
+    // Pattern: Entity1 Entity2 Verb1 Verb2 → Verb2's agent = Entity1
+    // Example: "The patch the team deployed fixed" → "fixed"'s agent = "patch"
+    // Indicators: 2+ entities, verb(s) between first entity and target verb
+    if (sorted.length >= 2) {
+      const firstEntity = sorted[0];
+      const firstEntityEnd = this._getEntityEnd(firstEntity);
+
+      // Text between first entity and target verb
+      const textBetween = fullText.substring(firstEntityEnd, verbOffset);
+
+      // Check if there's an entity + verb pattern (sign of embedded clause)
+      // Simple heuristic: check if there's another entity and a verb between first entity and target
+      // Pattern: "Entity1 [Entity2 Verb1] Verb2" → indicates zero relativizer
+      const wordsInBetween = textBetween.trim().split(/\s+/);
+      const hasMultipleWords = wordsInBetween.length >= 3; // At least "the team deployed"
+
+      // Look for verb pattern in between
+      const hasEmbeddedVerb = /\b\w+(ed|es|ing)\b/i.test(textBetween);
+
+      if (hasMultipleWords && hasEmbeddedVerb) {
+        // Zero relativizer detected → use farthest entity
+        return firstEntity;
+      }
+    }
+
+    // No relativizer, no embedded verb: return closest entity (default SVO behavior)
+    return sorted[sorted.length - 1];
+  }
+
+  /**
    * Link act to discourse referents (Tier 1) or real-world entities (Tier 2)
    *
    * v2.2 spec: Acts should link to Tier 2 entities (cco:Person, cco:Artifact)
@@ -1690,15 +1773,14 @@ class ActExtractor {
     }
 
     // Agent is typically the closest entity before the verb (excluding non-agent types)
+    // V7-004: For relative clauses, skip embedded entities and use the antecedent
     if (entitiesBefore.length > 0) {
-      // Get the closest one to the verb
-      const closestBefore = entitiesBefore.reduce((closest, entity) => {
-        const entityEnd = this._getEntityEnd(entity);
-        const closestEnd = this._getEntityEnd(closest);
-        return entityEnd > closestEnd ? entity : closest;
-      });
-      links.agent = resolveIRI(closestBefore['@id']);
-      links.agentEntity = closestBefore; // Preserve for animacy checking
+      // Detect relative clause pattern: "The [antecedent] who/which/that [embedded] [main-verb]"
+      const agentCandidate = this._findAgentForVerb(fullText, verbOffset, entitiesBefore);
+      if (agentCandidate) {
+        links.agent = resolveIRI(agentCandidate['@id']);
+        links.agentEntity = agentCandidate; // Preserve for animacy checking
+      }
     }
 
     // Patient/affected is typically the closest entity after the verb

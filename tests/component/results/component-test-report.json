@@ -1,12 +1,12 @@
 {
   "summary": {
     "total": 18,
-    "passed": 10,
-    "failed": 8,
+    "passed": 17,
+    "failed": 1,
     "errors": 0,
-    "timestamp": "2026-02-11T01:00:40.593Z",
-    "passRate": "55.6",
-    "failRate": "44.4"
+    "timestamp": "2026-02-11T01:23:13.878Z",
+    "passRate": "94.4",
+    "failRate": "5.6"
   },
   "byCategory": {
     "prefix-subordination-if": {
@@ -84,49 +84,49 @@
       "passed": 0,
       "failed": 0,
       "errors": 0,
-      "fail": null
+      "pass": null
     },
     "relative-clause-object-which": {
       "total": 1,
       "passed": 0,
       "failed": 0,
       "errors": 0,
-      "fail": null
+      "pass": null
     },
     "relative-clause-object-that": {
       "total": 1,
       "passed": 0,
       "failed": 0,
       "errors": 0,
-      "fail": null
+      "pass": null
     },
     "relative-clause-object-whom": {
       "total": 1,
       "passed": 0,
       "failed": 0,
       "errors": 0,
-      "fail": null
+      "pass": null
     },
     "relative-clause-possessive-whose": {
       "total": 1,
       "passed": 0,
       "failed": 0,
       "errors": 0,
-      "fail": null
+      "pass": null
     },
     "relative-clause-zero-relativizer": {
       "total": 1,
       "passed": 0,
       "failed": 0,
       "errors": 0,
-      "fail": null
+      "pass": null
     },
     "relative-clause-nested": {
       "total": 1,
       "passed": 0,
       "failed": 0,
       "errors": 0,
-      "fail": null
+      "pass": null
     },
     "relative-clause-prepositional": {
       "total": 1,
@@ -142,22 +142,21 @@
       "passed": 0,
       "failed": 0,
       "errors": 0,
-      "pass": null,
-      "fail": null
+      "pass": null
     },
     "P1": {
       "total": 12,
       "passed": 0,
       "failed": 0,
       "errors": 0,
-      "pass": null,
-      "fail": null
+      "pass": null
     },
     "P2": {
       "total": 2,
       "passed": 0,
       "failed": 0,
       "errors": 0,
+      "pass": null,
       "fail": null
     }
   },
@@ -272,7 +271,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "server",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.250Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.561Z",
             "tagteam:denotesType": "bfo:BFO_0000040",
             "bfo:is_bearer_of": [
               {
@@ -287,7 +286,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "admin",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.251Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.562Z",
             "tagteam:denotesType": "bfo:BFO_0000040"
           },
           {
@@ -297,7 +296,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "alert",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.251Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.562Z",
             "tagteam:denotesType": "bfo:BFO_0000040",
             "bfo:is_bearer_of": [
               {
@@ -409,7 +408,7 @@
             "cco:has_text_value": "If the server fails, the admin receives an alert.",
             "tagteam:char_count": 49,
             "tagteam:word_count": 9,
-            "tagteam:received_at": "2026-02-11T01:00:40.160Z"
+            "tagteam:received_at": "2026-02-11T01:23:13.460Z"
           },
           {
             "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -444,7 +443,7 @@
             "cco:has_agent": {
               "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
             },
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.160Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.460Z",
             "cco:has_output": [
               {
                 "@id": "inst:The_Server_DiscourseReferent_30852574563a"
@@ -459,7 +458,7 @@
           }
         ],
         "_metadata": {
-          "buildTimestamp": "2026-02-11T01:00:40.160Z",
+          "buildTimestamp": "2026-02-11T01:23:13.460Z",
           "inputLength": 49,
           "nodeCount": 14,
           "version": "3.0.0-alpha.1",
@@ -471,7 +470,7 @@
         },
         "_ambiguityReport": {
           "ambiguities": [],
-          "timestamp": "2026-02-11T01:00:40.276Z",
+          "timestamp": "2026-02-11T01:23:13.586Z",
           "statistics": {
             "total": 0,
             "byType": {},
@@ -548,7 +547,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "server",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.250Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.561Z",
                 "tagteam:denotesType": "bfo:BFO_0000040",
                 "bfo:is_bearer_of": [
                   {
@@ -563,7 +562,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "admin",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.251Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.562Z",
                 "tagteam:denotesType": "bfo:BFO_0000040"
               },
               {
@@ -573,7 +572,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "alert",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.251Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.562Z",
                 "tagteam:denotesType": "bfo:BFO_0000040",
                 "bfo:is_bearer_of": [
                   {
@@ -685,7 +684,7 @@
                 "cco:has_text_value": "If the server fails, the admin receives an alert.",
                 "tagteam:char_count": 49,
                 "tagteam:word_count": 9,
-                "tagteam:received_at": "2026-02-11T01:00:40.160Z"
+                "tagteam:received_at": "2026-02-11T01:23:13.460Z"
               },
               {
                 "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -720,7 +719,7 @@
                 "cco:has_agent": {
                   "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
                 },
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.160Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.460Z",
                 "cco:has_output": [
                   {
                     "@id": "inst:The_Server_DiscourseReferent_30852574563a"
@@ -760,7 +759,7 @@
           "Clause relation detected"
         ]
       },
-      "timestamp": "2026-02-11T01:00:40.278Z"
+      "timestamp": "2026-02-11T01:23:13.587Z"
     },
     {
       "id": "CS-PREFIX-SUB-002",
@@ -872,7 +871,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "deployment",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.298Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.602Z",
             "tagteam:denotesType": "bfo:BFO_0000015",
             "tagteam:hasAmbiguity": true,
             "tagteam:categoryAmbiguity": {
@@ -892,7 +891,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "system",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.298Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.602Z",
             "tagteam:denotesType": "bfo:BFO_0000040"
           },
           {
@@ -902,7 +901,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "when",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.298Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.602Z",
             "tagteam:denotesType": "bfo:TemporalRegion"
           },
           {
@@ -964,7 +963,7 @@
             "cco:has_text_value": "When the deployment completes, the system restarts.",
             "tagteam:char_count": 51,
             "tagteam:word_count": 7,
-            "tagteam:received_at": "2026-02-11T01:00:40.278Z"
+            "tagteam:received_at": "2026-02-11T01:23:13.587Z"
           },
           {
             "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -999,7 +998,7 @@
             "cco:has_agent": {
               "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
             },
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.278Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.587Z",
             "cco:has_output": [
               {
                 "@id": "inst:The_Deployment_DiscourseReferent_aa886aa052cd"
@@ -1014,7 +1013,7 @@
           }
         ],
         "_metadata": {
-          "buildTimestamp": "2026-02-11T01:00:40.278Z",
+          "buildTimestamp": "2026-02-11T01:23:13.587Z",
           "inputLength": 51,
           "nodeCount": 12,
           "version": "3.0.0-alpha.1",
@@ -1042,7 +1041,7 @@
               "nominalizationSuffix": "-ment"
             }
           ],
-          "timestamp": "2026-02-11T01:00:40.311Z",
+          "timestamp": "2026-02-11T01:23:13.612Z",
           "statistics": {
             "total": 1,
             "byType": {
@@ -1121,7 +1120,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "deployment",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.298Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.602Z",
                 "tagteam:denotesType": "bfo:BFO_0000015",
                 "tagteam:hasAmbiguity": true,
                 "tagteam:categoryAmbiguity": {
@@ -1141,7 +1140,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "system",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.298Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.602Z",
                 "tagteam:denotesType": "bfo:BFO_0000040"
               },
               {
@@ -1151,7 +1150,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "when",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.298Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.602Z",
                 "tagteam:denotesType": "bfo:TemporalRegion"
               },
               {
@@ -1213,7 +1212,7 @@
                 "cco:has_text_value": "When the deployment completes, the system restarts.",
                 "tagteam:char_count": 51,
                 "tagteam:word_count": 7,
-                "tagteam:received_at": "2026-02-11T01:00:40.278Z"
+                "tagteam:received_at": "2026-02-11T01:23:13.587Z"
               },
               {
                 "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -1248,7 +1247,7 @@
                 "cco:has_agent": {
                   "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
                 },
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.278Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.587Z",
                 "cco:has_output": [
                   {
                     "@id": "inst:The_Deployment_DiscourseReferent_aa886aa052cd"
@@ -1308,7 +1307,7 @@
           "Clause relation detected"
         ]
       },
-      "timestamp": "2026-02-11T01:00:40.312Z"
+      "timestamp": "2026-02-11T01:23:13.613Z"
     },
     {
       "id": "CS-PREFIX-SUB-003",
@@ -1399,7 +1398,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "backup",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.324Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.624Z",
             "tagteam:denotesType": "bfo:BFO_0000040"
           },
           {
@@ -1409,7 +1408,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "database",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.324Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.624Z",
             "tagteam:denotesType": "bfo:BFO_0000040"
           },
           {
@@ -1471,7 +1470,7 @@
             "cco:has_text_value": "While the backup runs, the database locks.",
             "tagteam:char_count": 42,
             "tagteam:word_count": 7,
-            "tagteam:received_at": "2026-02-11T01:00:40.312Z"
+            "tagteam:received_at": "2026-02-11T01:23:13.613Z"
           },
           {
             "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -1506,7 +1505,7 @@
             "cco:has_agent": {
               "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
             },
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.312Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.613Z",
             "cco:has_output": [
               {
                 "@id": "inst:The_Backup_DiscourseReferent_4014129649d3"
@@ -1518,7 +1517,7 @@
           }
         ],
         "_metadata": {
-          "buildTimestamp": "2026-02-11T01:00:40.312Z",
+          "buildTimestamp": "2026-02-11T01:23:13.613Z",
           "inputLength": 42,
           "nodeCount": 10,
           "version": "3.0.0-alpha.1",
@@ -1530,7 +1529,7 @@
         },
         "_ambiguityReport": {
           "ambiguities": [],
-          "timestamp": "2026-02-11T01:00:40.335Z",
+          "timestamp": "2026-02-11T01:23:13.636Z",
           "statistics": {
             "total": 0,
             "byType": {},
@@ -1587,7 +1586,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "backup",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.324Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.624Z",
                 "tagteam:denotesType": "bfo:BFO_0000040"
               },
               {
@@ -1597,7 +1596,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "database",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.324Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.624Z",
                 "tagteam:denotesType": "bfo:BFO_0000040"
               },
               {
@@ -1659,7 +1658,7 @@
                 "cco:has_text_value": "While the backup runs, the database locks.",
                 "tagteam:char_count": 42,
                 "tagteam:word_count": 7,
-                "tagteam:received_at": "2026-02-11T01:00:40.312Z"
+                "tagteam:received_at": "2026-02-11T01:23:13.613Z"
               },
               {
                 "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -1694,7 +1693,7 @@
                 "cco:has_agent": {
                   "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
                 },
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.312Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.613Z",
                 "cco:has_output": [
                   {
                     "@id": "inst:The_Backup_DiscourseReferent_4014129649d3"
@@ -1731,7 +1730,7 @@
           "Clause relation detected"
         ]
       },
-      "timestamp": "2026-02-11T01:00:40.335Z"
+      "timestamp": "2026-02-11T01:23:13.636Z"
     },
     {
       "id": "CS-PREFIX-SUB-004",
@@ -1822,7 +1821,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "cache",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.348Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.652Z",
             "tagteam:denotesType": "bfo:BFO_0000040"
           },
           {
@@ -1832,7 +1831,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "query",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.348Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.652Z",
             "tagteam:denotesType": "bfo:BFO_0000040"
           },
           {
@@ -1894,7 +1893,7 @@
             "cco:has_text_value": "Because the cache expired, the query is slow.",
             "tagteam:char_count": 45,
             "tagteam:word_count": 8,
-            "tagteam:received_at": "2026-02-11T01:00:40.336Z"
+            "tagteam:received_at": "2026-02-11T01:23:13.636Z"
           },
           {
             "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -1929,7 +1928,7 @@
             "cco:has_agent": {
               "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
             },
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.336Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.636Z",
             "cco:has_output": [
               {
                 "@id": "inst:The_Cache_DiscourseReferent_4c21c836f00c"
@@ -1941,7 +1940,7 @@
           }
         ],
         "_metadata": {
-          "buildTimestamp": "2026-02-11T01:00:40.336Z",
+          "buildTimestamp": "2026-02-11T01:23:13.636Z",
           "inputLength": 45,
           "nodeCount": 10,
           "version": "3.0.0-alpha.1",
@@ -1953,7 +1952,7 @@
         },
         "_ambiguityReport": {
           "ambiguities": [],
-          "timestamp": "2026-02-11T01:00:40.355Z",
+          "timestamp": "2026-02-11T01:23:13.659Z",
           "statistics": {
             "total": 0,
             "byType": {},
@@ -2010,7 +2009,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "cache",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.348Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.652Z",
                 "tagteam:denotesType": "bfo:BFO_0000040"
               },
               {
@@ -2020,7 +2019,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "query",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.348Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.652Z",
                 "tagteam:denotesType": "bfo:BFO_0000040"
               },
               {
@@ -2082,7 +2081,7 @@
                 "cco:has_text_value": "Because the cache expired, the query is slow.",
                 "tagteam:char_count": 45,
                 "tagteam:word_count": 8,
-                "tagteam:received_at": "2026-02-11T01:00:40.336Z"
+                "tagteam:received_at": "2026-02-11T01:23:13.636Z"
               },
               {
                 "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -2117,7 +2116,7 @@
                 "cco:has_agent": {
                   "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
                 },
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.336Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.636Z",
                 "cco:has_output": [
                   {
                     "@id": "inst:The_Cache_DiscourseReferent_4c21c836f00c"
@@ -2154,7 +2153,7 @@
           "Clause relation detected"
         ]
       },
-      "timestamp": "2026-02-11T01:00:40.356Z"
+      "timestamp": "2026-02-11T01:23:13.659Z"
     },
     {
       "id": "CS-PREFIX-SUB-005",
@@ -2245,7 +2244,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "test",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.367Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.671Z",
             "tagteam:denotesType": "bfo:BFO_0000040"
           },
           {
@@ -2255,7 +2254,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "build",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.367Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.671Z",
             "tagteam:denotesType": "bfo:BFO_0000040",
             "bfo:is_bearer_of": [
               {
@@ -2347,7 +2346,7 @@
             "cco:has_text_value": "Although the test passed, the build failed.",
             "tagteam:char_count": 43,
             "tagteam:word_count": 7,
-            "tagteam:received_at": "2026-02-11T01:00:40.356Z"
+            "tagteam:received_at": "2026-02-11T01:23:13.660Z"
           },
           {
             "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -2382,7 +2381,7 @@
             "cco:has_agent": {
               "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
             },
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.356Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.660Z",
             "cco:has_output": [
               {
                 "@id": "inst:The_Test_DiscourseReferent_79506703b1a8"
@@ -2394,7 +2393,7 @@
           }
         ],
         "_metadata": {
-          "buildTimestamp": "2026-02-11T01:00:40.356Z",
+          "buildTimestamp": "2026-02-11T01:23:13.660Z",
           "inputLength": 43,
           "nodeCount": 11,
           "version": "3.0.0-alpha.1",
@@ -2418,7 +2417,7 @@
               "ontologyConstraint": "bfo:Agent requires bfo:MaterialEntity with cco:has_function capability"
             }
           ],
-          "timestamp": "2026-02-11T01:00:40.373Z",
+          "timestamp": "2026-02-11T01:23:13.678Z",
           "statistics": {
             "total": 1,
             "byType": {
@@ -2477,7 +2476,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "test",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.367Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.671Z",
                 "tagteam:denotesType": "bfo:BFO_0000040"
               },
               {
@@ -2487,7 +2486,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "build",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.367Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.671Z",
                 "tagteam:denotesType": "bfo:BFO_0000040",
                 "bfo:is_bearer_of": [
                   {
@@ -2579,7 +2578,7 @@
                 "cco:has_text_value": "Although the test passed, the build failed.",
                 "tagteam:char_count": 43,
                 "tagteam:word_count": 7,
-                "tagteam:received_at": "2026-02-11T01:00:40.356Z"
+                "tagteam:received_at": "2026-02-11T01:23:13.660Z"
               },
               {
                 "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -2614,7 +2613,7 @@
                 "cco:has_agent": {
                   "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
                 },
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.356Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.660Z",
                 "cco:has_output": [
                   {
                     "@id": "inst:The_Test_DiscourseReferent_79506703b1a8"
@@ -2667,7 +2666,7 @@
           "Clause relation detected"
         ]
       },
-      "timestamp": "2026-02-11T01:00:40.373Z"
+      "timestamp": "2026-02-11T01:23:13.678Z"
     },
     {
       "id": "CS-PREFIX-SUB-006",
@@ -2758,7 +2757,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "unless the admin",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.381Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.686Z",
             "tagteam:denotesType": "bfo:BFO_0000040"
           },
           {
@@ -2768,7 +2767,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "request",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.381Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.686Z",
             "tagteam:denotesType": "bfo:BFO_0000040"
           },
           {
@@ -2830,7 +2829,7 @@
             "cco:has_text_value": "Unless the admin approves, the request blocks.",
             "tagteam:char_count": 46,
             "tagteam:word_count": 7,
-            "tagteam:received_at": "2026-02-11T01:00:40.373Z"
+            "tagteam:received_at": "2026-02-11T01:23:13.678Z"
           },
           {
             "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -2865,7 +2864,7 @@
             "cco:has_agent": {
               "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
             },
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.373Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.678Z",
             "cco:has_output": [
               {
                 "@id": "inst:Unless_The_Admin_DiscourseReferent_0378663de420"
@@ -2877,7 +2876,7 @@
           }
         ],
         "_metadata": {
-          "buildTimestamp": "2026-02-11T01:00:40.373Z",
+          "buildTimestamp": "2026-02-11T01:23:13.678Z",
           "inputLength": 46,
           "nodeCount": 10,
           "version": "3.0.0-alpha.1",
@@ -2889,7 +2888,7 @@
         },
         "_ambiguityReport": {
           "ambiguities": [],
-          "timestamp": "2026-02-11T01:00:40.386Z",
+          "timestamp": "2026-02-11T01:23:13.692Z",
           "statistics": {
             "total": 0,
             "byType": {},
@@ -2946,7 +2945,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "unless the admin",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.381Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.686Z",
                 "tagteam:denotesType": "bfo:BFO_0000040"
               },
               {
@@ -2956,7 +2955,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "request",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.381Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.686Z",
                 "tagteam:denotesType": "bfo:BFO_0000040"
               },
               {
@@ -3018,7 +3017,7 @@
                 "cco:has_text_value": "Unless the admin approves, the request blocks.",
                 "tagteam:char_count": 46,
                 "tagteam:word_count": 7,
-                "tagteam:received_at": "2026-02-11T01:00:40.373Z"
+                "tagteam:received_at": "2026-02-11T01:23:13.678Z"
               },
               {
                 "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -3053,7 +3052,7 @@
                 "cco:has_agent": {
                   "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
                 },
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.373Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.678Z",
                 "cco:has_output": [
                   {
                     "@id": "inst:Unless_The_Admin_DiscourseReferent_0378663de420"
@@ -3090,7 +3089,7 @@
           "Clause relation detected"
         ]
       },
-      "timestamp": "2026-02-11T01:00:40.386Z"
+      "timestamp": "2026-02-11T01:23:13.692Z"
     },
     {
       "id": "CS-PREFIX-SUB-007",
@@ -3181,7 +3180,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "migration",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.395Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.701Z",
             "tagteam:denotesType": "bfo:BFO_0000040",
             "tagteam:hasAmbiguity": true,
             "tagteam:categoryAmbiguity": {
@@ -3201,7 +3200,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "app",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.395Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.701Z",
             "tagteam:denotesType": "bfo:BFO_0000040"
           },
           {
@@ -3263,7 +3262,7 @@
             "cco:has_text_value": "After the migration finishes, the app launches.",
             "tagteam:char_count": 47,
             "tagteam:word_count": 7,
-            "tagteam:received_at": "2026-02-11T01:00:40.386Z"
+            "tagteam:received_at": "2026-02-11T01:23:13.692Z"
           },
           {
             "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -3298,7 +3297,7 @@
             "cco:has_agent": {
               "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
             },
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.386Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.692Z",
             "cco:has_output": [
               {
                 "@id": "inst:The_Migration_DiscourseReferent_f581516a40da"
@@ -3310,7 +3309,7 @@
           }
         ],
         "_metadata": {
-          "buildTimestamp": "2026-02-11T01:00:40.386Z",
+          "buildTimestamp": "2026-02-11T01:23:13.692Z",
           "inputLength": 47,
           "nodeCount": 10,
           "version": "3.0.0-alpha.1",
@@ -3338,7 +3337,7 @@
               "nominalizationSuffix": "-tion"
             }
           ],
-          "timestamp": "2026-02-11T01:00:40.403Z",
+          "timestamp": "2026-02-11T01:23:13.707Z",
           "statistics": {
             "total": 1,
             "byType": {
@@ -3397,7 +3396,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "migration",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.395Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.701Z",
                 "tagteam:denotesType": "bfo:BFO_0000040",
                 "tagteam:hasAmbiguity": true,
                 "tagteam:categoryAmbiguity": {
@@ -3417,7 +3416,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "app",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.395Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.701Z",
                 "tagteam:denotesType": "bfo:BFO_0000040"
               },
               {
@@ -3479,7 +3478,7 @@
                 "cco:has_text_value": "After the migration finishes, the app launches.",
                 "tagteam:char_count": 47,
                 "tagteam:word_count": 7,
-                "tagteam:received_at": "2026-02-11T01:00:40.386Z"
+                "tagteam:received_at": "2026-02-11T01:23:13.692Z"
               },
               {
                 "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -3514,7 +3513,7 @@
                 "cco:has_agent": {
                   "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
                 },
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.386Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.692Z",
                 "cco:has_output": [
                   {
                     "@id": "inst:The_Migration_DiscourseReferent_f581516a40da"
@@ -3571,7 +3570,7 @@
           "Clause relation detected"
         ]
       },
-      "timestamp": "2026-02-11T01:00:40.403Z"
+      "timestamp": "2026-02-11T01:23:13.707Z"
     },
     {
       "id": "CS-PREFIX-SUB-008",
@@ -3662,7 +3661,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "server",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.411Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.716Z",
             "tagteam:denotesType": "bfo:BFO_0000040"
           },
           {
@@ -3672,7 +3671,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "config",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.411Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.716Z",
             "tagteam:denotesType": "bfo:BFO_0000040"
           },
           {
@@ -3734,7 +3733,7 @@
             "cco:has_text_value": "Before the server starts, the config loads.",
             "tagteam:char_count": 43,
             "tagteam:word_count": 7,
-            "tagteam:received_at": "2026-02-11T01:00:40.404Z"
+            "tagteam:received_at": "2026-02-11T01:23:13.707Z"
           },
           {
             "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -3769,7 +3768,7 @@
             "cco:has_agent": {
               "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
             },
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.404Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.707Z",
             "cco:has_output": [
               {
                 "@id": "inst:The_Server_DiscourseReferent_f3eebe782518"
@@ -3781,7 +3780,7 @@
           }
         ],
         "_metadata": {
-          "buildTimestamp": "2026-02-11T01:00:40.404Z",
+          "buildTimestamp": "2026-02-11T01:23:13.707Z",
           "inputLength": 43,
           "nodeCount": 10,
           "version": "3.0.0-alpha.1",
@@ -3793,7 +3792,7 @@
         },
         "_ambiguityReport": {
           "ambiguities": [],
-          "timestamp": "2026-02-11T01:00:40.417Z",
+          "timestamp": "2026-02-11T01:23:13.722Z",
           "statistics": {
             "total": 0,
             "byType": {},
@@ -3850,7 +3849,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "server",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.411Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.716Z",
                 "tagteam:denotesType": "bfo:BFO_0000040"
               },
               {
@@ -3860,7 +3859,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "config",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.411Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.716Z",
                 "tagteam:denotesType": "bfo:BFO_0000040"
               },
               {
@@ -3922,7 +3921,7 @@
                 "cco:has_text_value": "Before the server starts, the config loads.",
                 "tagteam:char_count": 43,
                 "tagteam:word_count": 7,
-                "tagteam:received_at": "2026-02-11T01:00:40.404Z"
+                "tagteam:received_at": "2026-02-11T01:23:13.707Z"
               },
               {
                 "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -3957,7 +3956,7 @@
                 "cco:has_agent": {
                   "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
                 },
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.404Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.707Z",
                 "cco:has_output": [
                   {
                     "@id": "inst:The_Server_DiscourseReferent_f3eebe782518"
@@ -3994,7 +3993,7 @@
           "Clause relation detected"
         ]
       },
-      "timestamp": "2026-02-11T01:00:40.417Z"
+      "timestamp": "2026-02-11T01:23:13.722Z"
     },
     {
       "id": "CS-PREFIX-SUB-009",
@@ -4085,7 +4084,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "patch",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.427Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.734Z",
             "tagteam:denotesType": "bfo:BFO_0000040"
           },
           {
@@ -4095,7 +4094,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "errors",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.427Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.734Z",
             "tagteam:denotesType": "cco:InformationContentEntity"
           },
           {
@@ -4154,7 +4153,7 @@
             "cco:has_text_value": "Since the patch deployed, the errors stopped.",
             "tagteam:char_count": 45,
             "tagteam:word_count": 7,
-            "tagteam:received_at": "2026-02-11T01:00:40.417Z"
+            "tagteam:received_at": "2026-02-11T01:23:13.722Z"
           },
           {
             "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -4189,7 +4188,7 @@
             "cco:has_agent": {
               "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
             },
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.417Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.722Z",
             "cco:has_output": [
               {
                 "@id": "inst:The_Patch_DiscourseReferent_a90237f0767c"
@@ -4201,7 +4200,7 @@
           }
         ],
         "_metadata": {
-          "buildTimestamp": "2026-02-11T01:00:40.417Z",
+          "buildTimestamp": "2026-02-11T01:23:13.722Z",
           "inputLength": 45,
           "nodeCount": 10,
           "version": "3.0.0-alpha.1",
@@ -4213,7 +4212,7 @@
         },
         "_ambiguityReport": {
           "ambiguities": [],
-          "timestamp": "2026-02-11T01:00:40.435Z",
+          "timestamp": "2026-02-11T01:23:13.741Z",
           "statistics": {
             "total": 0,
             "byType": {},
@@ -4270,7 +4269,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "patch",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.427Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.734Z",
                 "tagteam:denotesType": "bfo:BFO_0000040"
               },
               {
@@ -4280,7 +4279,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "errors",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.427Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.734Z",
                 "tagteam:denotesType": "cco:InformationContentEntity"
               },
               {
@@ -4339,7 +4338,7 @@
                 "cco:has_text_value": "Since the patch deployed, the errors stopped.",
                 "tagteam:char_count": 45,
                 "tagteam:word_count": 7,
-                "tagteam:received_at": "2026-02-11T01:00:40.417Z"
+                "tagteam:received_at": "2026-02-11T01:23:13.722Z"
               },
               {
                 "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -4374,7 +4373,7 @@
                 "cco:has_agent": {
                   "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
                 },
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.417Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.722Z",
                 "cco:has_output": [
                   {
                     "@id": "inst:The_Patch_DiscourseReferent_a90237f0767c"
@@ -4411,7 +4410,7 @@
           "Clause relation detected"
         ]
       },
-      "timestamp": "2026-02-11T01:00:40.435Z"
+      "timestamp": "2026-02-11T01:23:13.741Z"
     },
     {
       "id": "CS-PREFIX-SUB-010",
@@ -4502,7 +4501,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "load",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.450Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.752Z",
             "tagteam:denotesType": "bfo:BFO_0000040"
           },
           {
@@ -4512,7 +4511,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "latency",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.450Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.752Z",
             "tagteam:denotesType": "bfo:BFO_0000040"
           },
           {
@@ -4574,7 +4573,7 @@
             "cco:has_text_value": "As the load increases, the latency rises.",
             "tagteam:char_count": 41,
             "tagteam:word_count": 7,
-            "tagteam:received_at": "2026-02-11T01:00:40.436Z"
+            "tagteam:received_at": "2026-02-11T01:23:13.741Z"
           },
           {
             "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -4609,7 +4608,7 @@
             "cco:has_agent": {
               "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
             },
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.436Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.741Z",
             "cco:has_output": [
               {
                 "@id": "inst:The_Load_DiscourseReferent_8e11969d74b9"
@@ -4621,7 +4620,7 @@
           }
         ],
         "_metadata": {
-          "buildTimestamp": "2026-02-11T01:00:40.436Z",
+          "buildTimestamp": "2026-02-11T01:23:13.741Z",
           "inputLength": 41,
           "nodeCount": 10,
           "version": "3.0.0-alpha.1",
@@ -4633,7 +4632,7 @@
         },
         "_ambiguityReport": {
           "ambiguities": [],
-          "timestamp": "2026-02-11T01:00:40.459Z",
+          "timestamp": "2026-02-11T01:23:13.760Z",
           "statistics": {
             "total": 0,
             "byType": {},
@@ -4690,7 +4689,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "load",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.450Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.752Z",
                 "tagteam:denotesType": "bfo:BFO_0000040"
               },
               {
@@ -4700,7 +4699,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "latency",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.450Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.752Z",
                 "tagteam:denotesType": "bfo:BFO_0000040"
               },
               {
@@ -4762,7 +4761,7 @@
                 "cco:has_text_value": "As the load increases, the latency rises.",
                 "tagteam:char_count": 41,
                 "tagteam:word_count": 7,
-                "tagteam:received_at": "2026-02-11T01:00:40.436Z"
+                "tagteam:received_at": "2026-02-11T01:23:13.741Z"
               },
               {
                 "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -4797,7 +4796,7 @@
                 "cco:has_agent": {
                   "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
                 },
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.436Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.741Z",
                 "cco:has_output": [
                   {
                     "@id": "inst:The_Load_DiscourseReferent_8e11969d74b9"
@@ -4834,7 +4833,7 @@
           "Clause relation detected"
         ]
       },
-      "timestamp": "2026-02-11T01:00:40.459Z"
+      "timestamp": "2026-02-11T01:23:13.760Z"
     },
     {
       "id": "CS-REL-001",
@@ -4882,7 +4881,7 @@
       "v7ExpectedFailureMode": "'who' instantiated as separate Person entity; 'system' becomes subject of 'left'; no anaphora resolution",
       "priority": "P1",
       "relatedExpertTest": "2.1-relative-subject",
-      "status": "fail",
+      "status": "pass",
       "actual": {
         "@graph": [
           {
@@ -4926,34 +4925,19 @@
             }
           },
           {
-            "@id": "inst:Who_DiscourseReferent_b69aa47b3fd3",
-            "@type": [
-              "tagteam:DiscourseReferent",
-              "owl:NamedIndividual"
-            ],
-            "rdfs:label": "who",
-            "tagteam:sourceText": "who",
-            "tagteam:startPosition": 13,
-            "tagteam:endPosition": 16,
-            "tagteam:definiteness": "interrogative",
-            "tagteam:referentialStatus": "interrogative",
-            "tagteam:denotesType": "cco:Person",
-            "cco:is_about": {
-              "@id": "inst:Person_Who_ab8cfe76a31d"
-            },
-            "cco:is_concretized_by": {
-              "@id": "inst:Input_Text_IBE_85cdc6a3e9f7"
-            }
-          },
-          {
             "@id": "inst:Person_Engineer_28efe1552bc3",
             "@type": [
               "cco:Person",
               "owl:NamedIndividual"
             ],
             "rdfs:label": "engineer",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.471Z",
-            "tagteam:denotesType": "cco:Person"
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.770Z",
+            "tagteam:denotesType": "cco:Person",
+            "bfo:is_bearer_of": [
+              {
+                "@id": "inst:Agent_Role_04feadc9"
+              }
+            ]
           },
           {
             "@id": "inst:Artifact_System_687dfc046cd6",
@@ -4962,7 +4946,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "system",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.471Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.770Z",
             "tagteam:denotesType": "bfo:BFO_0000040",
             "bfo:is_bearer_of": [
               {
@@ -4971,19 +4955,16 @@
             ]
           },
           {
-            "@id": "inst:Person_Who_ab8cfe76a31d",
+            "@id": "inst:Who_the_Engineer_AnaphoricLink_af30e69fcd9a",
             "@type": [
-              "cco:Person",
+              "tagteam:AnaphoricLink",
               "owl:NamedIndividual"
             ],
-            "rdfs:label": "who",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.471Z",
-            "tagteam:denotesType": "cco:Person",
-            "bfo:is_bearer_of": [
-              {
-                "@id": "inst:Agent_Role_9e8aa3aa"
-              }
-            ]
+            "tagteam:anaphor": "who",
+            "tagteam:antecedent": {
+              "@id": "inst:The_Engineer_DiscourseReferent_ffe5ef672b80"
+            },
+            "rdfs:comment": "Relativizer \"who\" is anaphoric to \"The engineer\""
           },
           {
             "@id": "inst:Design_IntentionalAct_d385637c06f4",
@@ -4999,7 +4980,7 @@
             "tagteam:actualityStatus": "tagteam:Actual",
             "tagteam:tense": "present",
             "cco:has_agent": {
-              "@id": "inst:Person_Who_ab8cfe76a31d"
+              "@id": "inst:Person_Engineer_28efe1552bc3"
             },
             "cco:affects": {
               "@id": "inst:Artifact_System_687dfc046cd6"
@@ -5008,11 +4989,7 @@
               {
                 "@id": "inst:Artifact_System_687dfc046cd6"
               }
-            ],
-            "tagteam:hasAmbiguity": true,
-            "tagteam:selectionalMismatch": true,
-            "tagteam:ambiguityType": "inanimate_agent",
-            "tagteam:ontologyConstraint": "bfo:Agent requires bfo:MaterialEntity with cco:has_function capability"
+            ]
           },
           {
             "@id": "inst:Leave_IntentionalAct_664f58d15945",
@@ -5028,24 +5005,29 @@
             "tagteam:actualityStatus": "tagteam:Actual",
             "tagteam:tense": "present",
             "cco:has_agent": {
-              "@id": "inst:Artifact_System_687dfc046cd6"
+              "@id": "inst:Person_Engineer_28efe1552bc3"
             }
           },
           {
-            "@id": "inst:Agent_Role_9e8aa3aa",
+            "@id": "inst:Agent_Role_04feadc9",
             "@type": [
               "cco:AgentRole",
               "bfo:BFO_0000023",
               "owl:NamedIndividual"
             ],
-            "rdfs:label": "agent role of who",
+            "rdfs:label": "agent role of engineer",
             "tagteam:roleType": "agent",
             "bfo:inheres_in": {
-              "@id": "inst:Person_Who_ab8cfe76a31d"
+              "@id": "inst:Person_Engineer_28efe1552bc3"
             },
-            "bfo:realized_in": {
-              "@id": "inst:Design_IntentionalAct_d385637c06f4"
-            }
+            "bfo:realized_in": [
+              {
+                "@id": "inst:Design_IntentionalAct_d385637c06f4"
+              },
+              {
+                "@id": "inst:Leave_IntentionalAct_664f58d15945"
+              }
+            ]
           },
           {
             "@id": "inst:Patient_Role_6207de68",
@@ -5073,7 +5055,7 @@
             "cco:has_text_value": "The engineer who designed the system left.",
             "tagteam:char_count": 42,
             "tagteam:word_count": 7,
-            "tagteam:received_at": "2026-02-11T01:00:40.460Z"
+            "tagteam:received_at": "2026-02-11T01:23:13.761Z"
           },
           {
             "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -5108,24 +5090,21 @@
             "cco:has_agent": {
               "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
             },
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.460Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.761Z",
             "cco:has_output": [
               {
                 "@id": "inst:The_Engineer_DiscourseReferent_ffe5ef672b80"
               },
               {
                 "@id": "inst:The_System_DiscourseReferent_a24a70f77867"
-              },
-              {
-                "@id": "inst:Who_DiscourseReferent_b69aa47b3fd3"
               }
             ]
           }
         ],
         "_metadata": {
-          "buildTimestamp": "2026-02-11T01:00:40.460Z",
+          "buildTimestamp": "2026-02-11T01:23:13.761Z",
           "inputLength": 42,
-          "nodeCount": 13,
+          "nodeCount": 12,
           "version": "3.0.0-alpha.1",
           "contextIRI": "tagteam:Default_Context",
           "ibeIRI": "inst:Input_Text_IBE_85cdc6a3e9f7",
@@ -5134,25 +5113,11 @@
           "hasInterpretationLattice": true
         },
         "_ambiguityReport": {
-          "ambiguities": [
-            {
-              "type": "selectional_violation",
-              "signal": "inanimate_agent",
-              "subject": "who",
-              "verb": "design",
-              "verbClass": "creation",
-              "agentCategory": "inanimate",
-              "nodeId": "inst:Design_IntentionalAct_d385637c06f4",
-              "confidence": "high",
-              "ontologyConstraint": "bfo:Agent requires bfo:MaterialEntity with cco:has_function capability"
-            }
-          ],
-          "timestamp": "2026-02-11T01:00:40.478Z",
+          "ambiguities": [],
+          "timestamp": "2026-02-11T01:23:13.773Z",
           "statistics": {
-            "total": 1,
-            "byType": {
-              "selectional_violation": 1
-            },
+            "total": 0,
+            "byType": {},
             "avgReadings": 0
           }
         },
@@ -5200,34 +5165,19 @@
                 }
               },
               {
-                "@id": "inst:Who_DiscourseReferent_b69aa47b3fd3",
-                "@type": [
-                  "tagteam:DiscourseReferent",
-                  "owl:NamedIndividual"
-                ],
-                "rdfs:label": "who",
-                "tagteam:sourceText": "who",
-                "tagteam:startPosition": 13,
-                "tagteam:endPosition": 16,
-                "tagteam:definiteness": "interrogative",
-                "tagteam:referentialStatus": "interrogative",
-                "tagteam:denotesType": "cco:Person",
-                "cco:is_about": {
-                  "@id": "inst:Person_Who_ab8cfe76a31d"
-                },
-                "cco:is_concretized_by": {
-                  "@id": "inst:Input_Text_IBE_85cdc6a3e9f7"
-                }
-              },
-              {
                 "@id": "inst:Person_Engineer_28efe1552bc3",
                 "@type": [
                   "cco:Person",
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "engineer",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.471Z",
-                "tagteam:denotesType": "cco:Person"
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.770Z",
+                "tagteam:denotesType": "cco:Person",
+                "bfo:is_bearer_of": [
+                  {
+                    "@id": "inst:Agent_Role_04feadc9"
+                  }
+                ]
               },
               {
                 "@id": "inst:Artifact_System_687dfc046cd6",
@@ -5236,7 +5186,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "system",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.471Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.770Z",
                 "tagteam:denotesType": "bfo:BFO_0000040",
                 "bfo:is_bearer_of": [
                   {
@@ -5245,19 +5195,16 @@
                 ]
               },
               {
-                "@id": "inst:Person_Who_ab8cfe76a31d",
+                "@id": "inst:Who_the_Engineer_AnaphoricLink_af30e69fcd9a",
                 "@type": [
-                  "cco:Person",
+                  "tagteam:AnaphoricLink",
                   "owl:NamedIndividual"
                 ],
-                "rdfs:label": "who",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.471Z",
-                "tagteam:denotesType": "cco:Person",
-                "bfo:is_bearer_of": [
-                  {
-                    "@id": "inst:Agent_Role_9e8aa3aa"
-                  }
-                ]
+                "tagteam:anaphor": "who",
+                "tagteam:antecedent": {
+                  "@id": "inst:The_Engineer_DiscourseReferent_ffe5ef672b80"
+                },
+                "rdfs:comment": "Relativizer \"who\" is anaphoric to \"The engineer\""
               },
               {
                 "@id": "inst:Design_IntentionalAct_d385637c06f4",
@@ -5273,7 +5220,7 @@
                 "tagteam:actualityStatus": "tagteam:Actual",
                 "tagteam:tense": "present",
                 "cco:has_agent": {
-                  "@id": "inst:Person_Who_ab8cfe76a31d"
+                  "@id": "inst:Person_Engineer_28efe1552bc3"
                 },
                 "cco:affects": {
                   "@id": "inst:Artifact_System_687dfc046cd6"
@@ -5282,11 +5229,7 @@
                   {
                     "@id": "inst:Artifact_System_687dfc046cd6"
                   }
-                ],
-                "tagteam:hasAmbiguity": true,
-                "tagteam:selectionalMismatch": true,
-                "tagteam:ambiguityType": "inanimate_agent",
-                "tagteam:ontologyConstraint": "bfo:Agent requires bfo:MaterialEntity with cco:has_function capability"
+                ]
               },
               {
                 "@id": "inst:Leave_IntentionalAct_664f58d15945",
@@ -5302,24 +5245,29 @@
                 "tagteam:actualityStatus": "tagteam:Actual",
                 "tagteam:tense": "present",
                 "cco:has_agent": {
-                  "@id": "inst:Artifact_System_687dfc046cd6"
+                  "@id": "inst:Person_Engineer_28efe1552bc3"
                 }
               },
               {
-                "@id": "inst:Agent_Role_9e8aa3aa",
+                "@id": "inst:Agent_Role_04feadc9",
                 "@type": [
                   "cco:AgentRole",
                   "bfo:BFO_0000023",
                   "owl:NamedIndividual"
                 ],
-                "rdfs:label": "agent role of who",
+                "rdfs:label": "agent role of engineer",
                 "tagteam:roleType": "agent",
                 "bfo:inheres_in": {
-                  "@id": "inst:Person_Who_ab8cfe76a31d"
+                  "@id": "inst:Person_Engineer_28efe1552bc3"
                 },
-                "bfo:realized_in": {
-                  "@id": "inst:Design_IntentionalAct_d385637c06f4"
-                }
+                "bfo:realized_in": [
+                  {
+                    "@id": "inst:Design_IntentionalAct_d385637c06f4"
+                  },
+                  {
+                    "@id": "inst:Leave_IntentionalAct_664f58d15945"
+                  }
+                ]
               },
               {
                 "@id": "inst:Patient_Role_6207de68",
@@ -5347,7 +5295,7 @@
                 "cco:has_text_value": "The engineer who designed the system left.",
                 "tagteam:char_count": 42,
                 "tagteam:word_count": 7,
-                "tagteam:received_at": "2026-02-11T01:00:40.460Z"
+                "tagteam:received_at": "2026-02-11T01:23:13.761Z"
               },
               {
                 "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -5382,16 +5330,13 @@
                 "cco:has_agent": {
                   "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
                 },
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.460Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.761Z",
                 "cco:has_output": [
                   {
                     "@id": "inst:The_Engineer_DiscourseReferent_ffe5ef672b80"
                   },
                   {
                     "@id": "inst:The_System_DiscourseReferent_a24a70f77867"
-                  },
-                  {
-                    "@id": "inst:Who_DiscourseReferent_b69aa47b3fd3"
                   }
                 ]
               }
@@ -5400,28 +5345,12 @@
           "resolutionResult": {
             "preserved": [],
             "resolved": [],
-            "flagged": [
-              {
-                "ambiguity": {
-                  "type": "selectional_violation",
-                  "signal": "inanimate_agent",
-                  "subject": "who",
-                  "verb": "design",
-                  "verbClass": "creation",
-                  "agentCategory": "inanimate",
-                  "nodeId": "inst:Design_IntentionalAct_d385637c06f4",
-                  "confidence": "high",
-                  "ontologyConstraint": "bfo:Agent requires bfo:MaterialEntity with cco:has_function capability"
-                },
-                "flag": "selectionalMismatch",
-                "reason": "Anomalous input - flag but do not fork"
-              }
-            ],
+            "flagged": [],
             "stats": {
-              "total": 1,
+              "total": 0,
               "preserved": 0,
               "resolved": 0,
-              "flagged": 1
+              "flagged": 0
             }
           },
           "alternativeReadings": [],
@@ -5431,15 +5360,15 @@
         }
       },
       "analysis": {
-        "passed": false,
-        "issues": [
-          "FRAGMENTATION: Relativizer \"who\" instantiated as separate entity: inst:Who_DiscourseReferent_b69aa47b3fd3",
-          "No anaphoric link detected (relative clause not recognized)",
-          "SUBJECT BLEEDING: Expected subject \"the engineer\", got \"system\""
-        ],
-        "observations": []
+        "passed": true,
+        "issues": [],
+        "observations": [
+          "Relativizer \"who\" not instantiated (good)",
+          "Anaphoric link detected",
+          "Correct subject: engineer"
+        ]
       },
-      "timestamp": "2026-02-11T01:00:40.478Z"
+      "timestamp": "2026-02-11T01:23:13.774Z"
     },
     {
       "id": "CS-REL-002",
@@ -5486,7 +5415,7 @@
       "v7ExpectedResult": "FAIL",
       "v7ExpectedFailureMode": "'which' treated as separate entity or clause boundary marker; potential subject bleeding",
       "priority": "P1",
-      "status": "fail",
+      "status": "pass",
       "actual": {
         "@graph": [
           {
@@ -5530,34 +5459,19 @@
             }
           },
           {
-            "@id": "inst:Which_Stores_DiscourseReferent_6c521e607a52",
-            "@type": [
-              "tagteam:DiscourseReferent",
-              "owl:NamedIndividual"
-            ],
-            "rdfs:label": "which stores",
-            "tagteam:sourceText": "which stores",
-            "tagteam:startPosition": 13,
-            "tagteam:endPosition": 25,
-            "tagteam:definiteness": "interrogative_selective",
-            "tagteam:referentialStatus": "interrogative",
-            "tagteam:denotesType": "bfo:Entity",
-            "cco:is_about": {
-              "@id": "inst:Artifact_Which_Stores_757ba7f2103d"
-            },
-            "cco:is_concretized_by": {
-              "@id": "inst:Input_Text_IBE_8d7d8bef30b7"
-            }
-          },
-          {
             "@id": "inst:Artifact_Database_00d91b54de40",
             "@type": [
               "cco:Artifact",
               "owl:NamedIndividual"
             ],
             "rdfs:label": "database",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.491Z",
-            "tagteam:denotesType": "bfo:BFO_0000040"
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.784Z",
+            "tagteam:denotesType": "bfo:BFO_0000040",
+            "bfo:is_bearer_of": [
+              {
+                "@id": "inst:Patient_Role_bda3f815"
+              }
+            ]
           },
           {
             "@id": "inst:Person_Stores_User_Data_44f7f0619f1e",
@@ -5566,26 +5480,25 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "stores user data",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.491Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.784Z",
             "tagteam:denotesType": "cco:Person",
             "bfo:is_bearer_of": [
-              {
-                "@id": "inst:Agent_Role_67be880b"
-              },
               {
                 "@id": "inst:Patient_Role_a5492091"
               }
             ]
           },
           {
-            "@id": "inst:Artifact_Which_Stores_757ba7f2103d",
+            "@id": "inst:Which_the_Database_AnaphoricLink_ab0f1c6ca9db",
             "@type": [
-              "cco:Artifact",
+              "tagteam:AnaphoricLink",
               "owl:NamedIndividual"
             ],
-            "rdfs:label": "which stores",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.491Z",
-            "tagteam:denotesType": "bfo:Entity"
+            "tagteam:anaphor": "which",
+            "tagteam:antecedent": {
+              "@id": "inst:The_Database_DiscourseReferent_d81f910f7d39"
+            },
+            "rdfs:comment": "Relativizer \"which\" is anaphoric to \"The database\""
           },
           {
             "@id": "inst:Crash_IntentionalAct_d1110ff460a5",
@@ -5600,9 +5513,14 @@
             "tagteam:endPosition": 44,
             "tagteam:actualityStatus": "tagteam:Actual",
             "tagteam:tense": "present",
-            "cco:has_agent": {
-              "@id": "inst:Person_Stores_User_Data_44f7f0619f1e"
-            }
+            "cco:affects": {
+              "@id": "inst:Artifact_Database_00d91b54de40"
+            },
+            "bfo:has_participant": [
+              {
+                "@id": "inst:Artifact_Database_00d91b54de40"
+              }
+            ]
           },
           {
             "@id": "inst:Stor_IntentionalAct_af90a78ce302",
@@ -5618,7 +5536,7 @@
             "tagteam:actualityStatus": "tagteam:Actual",
             "tagteam:tense": "present",
             "cco:has_agent": {
-              "@id": "inst:Artifact_Which_Stores_757ba7f2103d"
+              "@id": "inst:Artifact_Database_00d91b54de40"
             },
             "cco:affects": {
               "@id": "inst:Person_Stores_User_Data_44f7f0619f1e"
@@ -5630,16 +5548,16 @@
             ]
           },
           {
-            "@id": "inst:Agent_Role_67be880b",
+            "@id": "inst:Patient_Role_bda3f815",
             "@type": [
-              "cco:AgentRole",
+              "cco:PatientRole",
               "bfo:BFO_0000023",
               "owl:NamedIndividual"
             ],
-            "rdfs:label": "agent role of stores user data",
-            "tagteam:roleType": "agent",
+            "rdfs:label": "patient role of database",
+            "tagteam:roleType": "patient",
             "bfo:inheres_in": {
-              "@id": "inst:Person_Stores_User_Data_44f7f0619f1e"
+              "@id": "inst:Artifact_Database_00d91b54de40"
             },
             "bfo:realized_in": {
               "@id": "inst:Crash_IntentionalAct_d1110ff460a5"
@@ -5671,7 +5589,7 @@
             "cco:has_text_value": "The database which stores user data crashed.",
             "tagteam:char_count": 44,
             "tagteam:word_count": 7,
-            "tagteam:received_at": "2026-02-11T01:00:40.479Z"
+            "tagteam:received_at": "2026-02-11T01:23:13.774Z"
           },
           {
             "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -5706,24 +5624,21 @@
             "cco:has_agent": {
               "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
             },
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.479Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.774Z",
             "cco:has_output": [
               {
                 "@id": "inst:The_Database_DiscourseReferent_d81f910f7d39"
               },
               {
                 "@id": "inst:Stores_User_Data_DiscourseReferent_7ba822ac4c66"
-              },
-              {
-                "@id": "inst:Which_Stores_DiscourseReferent_6c521e607a52"
               }
             ]
           }
         ],
         "_metadata": {
-          "buildTimestamp": "2026-02-11T01:00:40.479Z",
+          "buildTimestamp": "2026-02-11T01:23:13.774Z",
           "inputLength": 44,
-          "nodeCount": 13,
+          "nodeCount": 12,
           "version": "3.0.0-alpha.1",
           "contextIRI": "tagteam:Default_Context",
           "ibeIRI": "inst:Input_Text_IBE_8d7d8bef30b7",
@@ -5733,7 +5648,7 @@
         },
         "_ambiguityReport": {
           "ambiguities": [],
-          "timestamp": "2026-02-11T01:00:40.495Z",
+          "timestamp": "2026-02-11T01:23:13.787Z",
           "statistics": {
             "total": 0,
             "byType": {},
@@ -5784,34 +5699,19 @@
                 }
               },
               {
-                "@id": "inst:Which_Stores_DiscourseReferent_6c521e607a52",
-                "@type": [
-                  "tagteam:DiscourseReferent",
-                  "owl:NamedIndividual"
-                ],
-                "rdfs:label": "which stores",
-                "tagteam:sourceText": "which stores",
-                "tagteam:startPosition": 13,
-                "tagteam:endPosition": 25,
-                "tagteam:definiteness": "interrogative_selective",
-                "tagteam:referentialStatus": "interrogative",
-                "tagteam:denotesType": "bfo:Entity",
-                "cco:is_about": {
-                  "@id": "inst:Artifact_Which_Stores_757ba7f2103d"
-                },
-                "cco:is_concretized_by": {
-                  "@id": "inst:Input_Text_IBE_8d7d8bef30b7"
-                }
-              },
-              {
                 "@id": "inst:Artifact_Database_00d91b54de40",
                 "@type": [
                   "cco:Artifact",
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "database",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.491Z",
-                "tagteam:denotesType": "bfo:BFO_0000040"
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.784Z",
+                "tagteam:denotesType": "bfo:BFO_0000040",
+                "bfo:is_bearer_of": [
+                  {
+                    "@id": "inst:Patient_Role_bda3f815"
+                  }
+                ]
               },
               {
                 "@id": "inst:Person_Stores_User_Data_44f7f0619f1e",
@@ -5820,26 +5720,25 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "stores user data",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.491Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.784Z",
                 "tagteam:denotesType": "cco:Person",
                 "bfo:is_bearer_of": [
-                  {
-                    "@id": "inst:Agent_Role_67be880b"
-                  },
                   {
                     "@id": "inst:Patient_Role_a5492091"
                   }
                 ]
               },
               {
-                "@id": "inst:Artifact_Which_Stores_757ba7f2103d",
+                "@id": "inst:Which_the_Database_AnaphoricLink_ab0f1c6ca9db",
                 "@type": [
-                  "cco:Artifact",
+                  "tagteam:AnaphoricLink",
                   "owl:NamedIndividual"
                 ],
-                "rdfs:label": "which stores",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.491Z",
-                "tagteam:denotesType": "bfo:Entity"
+                "tagteam:anaphor": "which",
+                "tagteam:antecedent": {
+                  "@id": "inst:The_Database_DiscourseReferent_d81f910f7d39"
+                },
+                "rdfs:comment": "Relativizer \"which\" is anaphoric to \"The database\""
               },
               {
                 "@id": "inst:Crash_IntentionalAct_d1110ff460a5",
@@ -5854,9 +5753,14 @@
                 "tagteam:endPosition": 44,
                 "tagteam:actualityStatus": "tagteam:Actual",
                 "tagteam:tense": "present",
-                "cco:has_agent": {
-                  "@id": "inst:Person_Stores_User_Data_44f7f0619f1e"
-                }
+                "cco:affects": {
+                  "@id": "inst:Artifact_Database_00d91b54de40"
+                },
+                "bfo:has_participant": [
+                  {
+                    "@id": "inst:Artifact_Database_00d91b54de40"
+                  }
+                ]
               },
               {
                 "@id": "inst:Stor_IntentionalAct_af90a78ce302",
@@ -5872,7 +5776,7 @@
                 "tagteam:actualityStatus": "tagteam:Actual",
                 "tagteam:tense": "present",
                 "cco:has_agent": {
-                  "@id": "inst:Artifact_Which_Stores_757ba7f2103d"
+                  "@id": "inst:Artifact_Database_00d91b54de40"
                 },
                 "cco:affects": {
                   "@id": "inst:Person_Stores_User_Data_44f7f0619f1e"
@@ -5884,16 +5788,16 @@
                 ]
               },
               {
-                "@id": "inst:Agent_Role_67be880b",
+                "@id": "inst:Patient_Role_bda3f815",
                 "@type": [
-                  "cco:AgentRole",
+                  "cco:PatientRole",
                   "bfo:BFO_0000023",
                   "owl:NamedIndividual"
                 ],
-                "rdfs:label": "agent role of stores user data",
-                "tagteam:roleType": "agent",
+                "rdfs:label": "patient role of database",
+                "tagteam:roleType": "patient",
                 "bfo:inheres_in": {
-                  "@id": "inst:Person_Stores_User_Data_44f7f0619f1e"
+                  "@id": "inst:Artifact_Database_00d91b54de40"
                 },
                 "bfo:realized_in": {
                   "@id": "inst:Crash_IntentionalAct_d1110ff460a5"
@@ -5925,7 +5829,7 @@
                 "cco:has_text_value": "The database which stores user data crashed.",
                 "tagteam:char_count": 44,
                 "tagteam:word_count": 7,
-                "tagteam:received_at": "2026-02-11T01:00:40.479Z"
+                "tagteam:received_at": "2026-02-11T01:23:13.774Z"
               },
               {
                 "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -5960,16 +5864,13 @@
                 "cco:has_agent": {
                   "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
                 },
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.479Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.774Z",
                 "cco:has_output": [
                   {
                     "@id": "inst:The_Database_DiscourseReferent_d81f910f7d39"
                   },
                   {
                     "@id": "inst:Stores_User_Data_DiscourseReferent_7ba822ac4c66"
-                  },
-                  {
-                    "@id": "inst:Which_Stores_DiscourseReferent_6c521e607a52"
                   }
                 ]
               }
@@ -5993,15 +5894,15 @@
         }
       },
       "analysis": {
-        "passed": false,
-        "issues": [
-          "FRAGMENTATION: Relativizer \"which\" instantiated as separate entity: inst:Which_Stores_DiscourseReferent_6c521e607a52",
-          "No anaphoric link detected (relative clause not recognized)",
-          "SUBJECT BLEEDING: Expected subject \"the database\", got \"which stores\""
-        ],
-        "observations": []
+        "passed": true,
+        "issues": [],
+        "observations": [
+          "Relativizer \"which\" not instantiated (good)",
+          "Anaphoric link detected",
+          "Correct subject: database"
+        ]
       },
-      "timestamp": "2026-02-11T01:00:40.495Z"
+      "timestamp": "2026-02-11T01:23:13.787Z"
     },
     {
       "id": "CS-REL-003",
@@ -6048,7 +5949,7 @@
       "v7ExpectedResult": "FAIL",
       "v7ExpectedFailureMode": "'that' may trigger coordination logic; potential fragmentation",
       "priority": "P1",
-      "status": "fail",
+      "status": "pass",
       "actual": {
         "@graph": [
           {
@@ -6098,7 +5999,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "server",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.505Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.798Z",
             "tagteam:denotesType": "bfo:BFO_0000040"
           },
           {
@@ -6108,13 +6009,25 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "requests",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.505Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.798Z",
             "tagteam:denotesType": "bfo:BFO_0000040",
             "bfo:is_bearer_of": [
               {
                 "@id": "inst:Patient_Role_cd3977ec"
               }
             ]
+          },
+          {
+            "@id": "inst:That_the_Server_AnaphoricLink_1ed28daa571b",
+            "@type": [
+              "tagteam:AnaphoricLink",
+              "owl:NamedIndividual"
+            ],
+            "tagteam:anaphor": "that",
+            "tagteam:antecedent": {
+              "@id": "inst:The_Server_DiscourseReferent_eaca7e91d79f"
+            },
+            "rdfs:comment": "Relativizer \"that\" is anaphoric to \"The server\""
           },
           {
             "@id": "inst:Handl_IntentionalAct_e1bf0ae8803d",
@@ -6155,7 +6068,7 @@
             "tagteam:actualityStatus": "tagteam:Actual",
             "tagteam:tense": "present",
             "cco:has_agent": {
-              "@id": "inst:Artifact_Requests_d36fbb1bac62"
+              "@id": "inst:Artifact_Server_e8e00d5673b6"
             }
           },
           {
@@ -6184,7 +6097,7 @@
             "cco:has_text_value": "The server that handles requests is down.",
             "tagteam:char_count": 41,
             "tagteam:word_count": 7,
-            "tagteam:received_at": "2026-02-11T01:00:40.495Z"
+            "tagteam:received_at": "2026-02-11T01:23:13.787Z"
           },
           {
             "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -6219,7 +6132,7 @@
             "cco:has_agent": {
               "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
             },
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.495Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.787Z",
             "cco:has_output": [
               {
                 "@id": "inst:The_Server_DiscourseReferent_eaca7e91d79f"
@@ -6231,9 +6144,9 @@
           }
         ],
         "_metadata": {
-          "buildTimestamp": "2026-02-11T01:00:40.495Z",
+          "buildTimestamp": "2026-02-11T01:23:13.787Z",
           "inputLength": 41,
-          "nodeCount": 10,
+          "nodeCount": 11,
           "version": "3.0.0-alpha.1",
           "contextIRI": "tagteam:Default_Context",
           "ibeIRI": "inst:Input_Text_IBE_f8c844eb4865",
@@ -6243,7 +6156,7 @@
         },
         "_ambiguityReport": {
           "ambiguities": [],
-          "timestamp": "2026-02-11T01:00:40.509Z",
+          "timestamp": "2026-02-11T01:23:13.802Z",
           "statistics": {
             "total": 0,
             "byType": {},
@@ -6300,7 +6213,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "server",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.505Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.798Z",
                 "tagteam:denotesType": "bfo:BFO_0000040"
               },
               {
@@ -6310,13 +6223,25 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "requests",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.505Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.798Z",
                 "tagteam:denotesType": "bfo:BFO_0000040",
                 "bfo:is_bearer_of": [
                   {
                     "@id": "inst:Patient_Role_cd3977ec"
                   }
                 ]
+              },
+              {
+                "@id": "inst:That_the_Server_AnaphoricLink_1ed28daa571b",
+                "@type": [
+                  "tagteam:AnaphoricLink",
+                  "owl:NamedIndividual"
+                ],
+                "tagteam:anaphor": "that",
+                "tagteam:antecedent": {
+                  "@id": "inst:The_Server_DiscourseReferent_eaca7e91d79f"
+                },
+                "rdfs:comment": "Relativizer \"that\" is anaphoric to \"The server\""
               },
               {
                 "@id": "inst:Handl_IntentionalAct_e1bf0ae8803d",
@@ -6357,7 +6282,7 @@
                 "tagteam:actualityStatus": "tagteam:Actual",
                 "tagteam:tense": "present",
                 "cco:has_agent": {
-                  "@id": "inst:Artifact_Requests_d36fbb1bac62"
+                  "@id": "inst:Artifact_Server_e8e00d5673b6"
                 }
               },
               {
@@ -6386,7 +6311,7 @@
                 "cco:has_text_value": "The server that handles requests is down.",
                 "tagteam:char_count": 41,
                 "tagteam:word_count": 7,
-                "tagteam:received_at": "2026-02-11T01:00:40.495Z"
+                "tagteam:received_at": "2026-02-11T01:23:13.787Z"
               },
               {
                 "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -6421,7 +6346,7 @@
                 "cco:has_agent": {
                   "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
                 },
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.495Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.787Z",
                 "cco:has_output": [
                   {
                     "@id": "inst:The_Server_DiscourseReferent_eaca7e91d79f"
@@ -6451,16 +6376,15 @@
         }
       },
       "analysis": {
-        "passed": false,
-        "issues": [
-          "No anaphoric link detected (relative clause not recognized)",
-          "SUBJECT BLEEDING: Expected subject \"the server\", got \"requests\""
-        ],
+        "passed": true,
+        "issues": [],
         "observations": [
-          "Relativizer \"that\" not instantiated (good)"
+          "Relativizer \"that\" not instantiated (good)",
+          "Anaphoric link detected",
+          "Correct subject: server"
         ]
       },
-      "timestamp": "2026-02-11T01:00:40.509Z"
+      "timestamp": "2026-02-11T01:23:13.802Z"
     },
     {
       "id": "CS-REL-004",
@@ -6507,7 +6431,7 @@
       "v7ExpectedResult": "FAIL",
       "v7ExpectedFailureMode": "'whom' instantiated as separate entity; potential argument bleeding",
       "priority": "P1",
-      "status": "fail",
+      "status": "pass",
       "actual": {
         "@graph": [
           {
@@ -6551,34 +6475,19 @@
             }
           },
           {
-            "@id": "inst:Whom_DiscourseReferent_444aeba9b33f",
-            "@type": [
-              "tagteam:DiscourseReferent",
-              "owl:NamedIndividual"
-            ],
-            "rdfs:label": "whom",
-            "tagteam:sourceText": "whom",
-            "tagteam:startPosition": 14,
-            "tagteam:endPosition": 18,
-            "tagteam:definiteness": "interrogative",
-            "tagteam:referentialStatus": "interrogative",
-            "tagteam:denotesType": "cco:Person",
-            "cco:is_about": {
-              "@id": "inst:Person_Whom_85abc023bf37"
-            },
-            "cco:is_concretized_by": {
-              "@id": "inst:Input_Text_IBE_d9d8598ebfb1"
-            }
-          },
-          {
             "@id": "inst:Person_Developer_90fc0b2ed101",
             "@type": [
               "cco:Person",
               "owl:NamedIndividual"
             ],
             "rdfs:label": "developer",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.516Z",
-            "tagteam:denotesType": "cco:Person"
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.810Z",
+            "tagteam:denotesType": "cco:Person",
+            "bfo:is_bearer_of": [
+              {
+                "@id": "inst:Agent_Role_452c7654"
+              }
+            ]
           },
           {
             "@id": "inst:Person_Manager_feeabec395e9",
@@ -6587,23 +6496,20 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "manager",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.516Z",
-            "tagteam:denotesType": "cco:Person",
-            "bfo:is_bearer_of": [
-              {
-                "@id": "inst:Agent_Role_e0a5b4b2"
-              }
-            ]
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.810Z",
+            "tagteam:denotesType": "cco:Person"
           },
           {
-            "@id": "inst:Person_Whom_85abc023bf37",
+            "@id": "inst:Whom_the_Developer_AnaphoricLink_ad69fae60f35",
             "@type": [
-              "cco:Person",
+              "tagteam:AnaphoricLink",
               "owl:NamedIndividual"
             ],
-            "rdfs:label": "whom",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.516Z",
-            "tagteam:denotesType": "cco:Person"
+            "tagteam:anaphor": "whom",
+            "tagteam:antecedent": {
+              "@id": "inst:The_Developer_DiscourseReferent_74c10080531b"
+            },
+            "rdfs:comment": "Relativizer \"whom\" is anaphoric to \"The developer\""
           },
           {
             "@id": "inst:Hir_IntentionalAct_6b199d413d01",
@@ -6619,7 +6525,7 @@
             "tagteam:actualityStatus": "tagteam:Actual",
             "tagteam:tense": "present",
             "cco:has_agent": {
-              "@id": "inst:Person_Manager_feeabec395e9"
+              "@id": "inst:Person_Developer_90fc0b2ed101"
             }
           },
           {
@@ -6636,20 +6542,20 @@
             "tagteam:actualityStatus": "tagteam:Actual",
             "tagteam:tense": "present",
             "cco:has_agent": {
-              "@id": "inst:Person_Manager_feeabec395e9"
+              "@id": "inst:Person_Developer_90fc0b2ed101"
             }
           },
           {
-            "@id": "inst:Agent_Role_e0a5b4b2",
+            "@id": "inst:Agent_Role_452c7654",
             "@type": [
               "cco:AgentRole",
               "bfo:BFO_0000023",
               "owl:NamedIndividual"
             ],
-            "rdfs:label": "agent role of manager",
+            "rdfs:label": "agent role of developer",
             "tagteam:roleType": "agent",
             "bfo:inheres_in": {
-              "@id": "inst:Person_Manager_feeabec395e9"
+              "@id": "inst:Person_Developer_90fc0b2ed101"
             },
             "bfo:realized_in": [
               {
@@ -6670,7 +6576,7 @@
             "cco:has_text_value": "The developer whom the manager hired resigned.",
             "tagteam:char_count": 46,
             "tagteam:word_count": 7,
-            "tagteam:received_at": "2026-02-11T01:00:40.509Z"
+            "tagteam:received_at": "2026-02-11T01:23:13.802Z"
           },
           {
             "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -6705,24 +6611,21 @@
             "cco:has_agent": {
               "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
             },
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.509Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.802Z",
             "cco:has_output": [
               {
                 "@id": "inst:The_Developer_DiscourseReferent_74c10080531b"
               },
               {
                 "@id": "inst:The_Manager_DiscourseReferent_69bb5b0f7e92"
-              },
-              {
-                "@id": "inst:Whom_DiscourseReferent_444aeba9b33f"
               }
             ]
           }
         ],
         "_metadata": {
-          "buildTimestamp": "2026-02-11T01:00:40.509Z",
+          "buildTimestamp": "2026-02-11T01:23:13.802Z",
           "inputLength": 46,
-          "nodeCount": 12,
+          "nodeCount": 11,
           "version": "3.0.0-alpha.1",
           "contextIRI": "tagteam:Default_Context",
           "ibeIRI": "inst:Input_Text_IBE_d9d8598ebfb1",
@@ -6732,7 +6635,7 @@
         },
         "_ambiguityReport": {
           "ambiguities": [],
-          "timestamp": "2026-02-11T01:00:40.521Z",
+          "timestamp": "2026-02-11T01:23:13.815Z",
           "statistics": {
             "total": 0,
             "byType": {},
@@ -6783,34 +6686,19 @@
                 }
               },
               {
-                "@id": "inst:Whom_DiscourseReferent_444aeba9b33f",
-                "@type": [
-                  "tagteam:DiscourseReferent",
-                  "owl:NamedIndividual"
-                ],
-                "rdfs:label": "whom",
-                "tagteam:sourceText": "whom",
-                "tagteam:startPosition": 14,
-                "tagteam:endPosition": 18,
-                "tagteam:definiteness": "interrogative",
-                "tagteam:referentialStatus": "interrogative",
-                "tagteam:denotesType": "cco:Person",
-                "cco:is_about": {
-                  "@id": "inst:Person_Whom_85abc023bf37"
-                },
-                "cco:is_concretized_by": {
-                  "@id": "inst:Input_Text_IBE_d9d8598ebfb1"
-                }
-              },
-              {
                 "@id": "inst:Person_Developer_90fc0b2ed101",
                 "@type": [
                   "cco:Person",
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "developer",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.516Z",
-                "tagteam:denotesType": "cco:Person"
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.810Z",
+                "tagteam:denotesType": "cco:Person",
+                "bfo:is_bearer_of": [
+                  {
+                    "@id": "inst:Agent_Role_452c7654"
+                  }
+                ]
               },
               {
                 "@id": "inst:Person_Manager_feeabec395e9",
@@ -6819,23 +6707,20 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "manager",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.516Z",
-                "tagteam:denotesType": "cco:Person",
-                "bfo:is_bearer_of": [
-                  {
-                    "@id": "inst:Agent_Role_e0a5b4b2"
-                  }
-                ]
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.810Z",
+                "tagteam:denotesType": "cco:Person"
               },
               {
-                "@id": "inst:Person_Whom_85abc023bf37",
+                "@id": "inst:Whom_the_Developer_AnaphoricLink_ad69fae60f35",
                 "@type": [
-                  "cco:Person",
+                  "tagteam:AnaphoricLink",
                   "owl:NamedIndividual"
                 ],
-                "rdfs:label": "whom",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.516Z",
-                "tagteam:denotesType": "cco:Person"
+                "tagteam:anaphor": "whom",
+                "tagteam:antecedent": {
+                  "@id": "inst:The_Developer_DiscourseReferent_74c10080531b"
+                },
+                "rdfs:comment": "Relativizer \"whom\" is anaphoric to \"The developer\""
               },
               {
                 "@id": "inst:Hir_IntentionalAct_6b199d413d01",
@@ -6851,7 +6736,7 @@
                 "tagteam:actualityStatus": "tagteam:Actual",
                 "tagteam:tense": "present",
                 "cco:has_agent": {
-                  "@id": "inst:Person_Manager_feeabec395e9"
+                  "@id": "inst:Person_Developer_90fc0b2ed101"
                 }
               },
               {
@@ -6868,20 +6753,20 @@
                 "tagteam:actualityStatus": "tagteam:Actual",
                 "tagteam:tense": "present",
                 "cco:has_agent": {
-                  "@id": "inst:Person_Manager_feeabec395e9"
+                  "@id": "inst:Person_Developer_90fc0b2ed101"
                 }
               },
               {
-                "@id": "inst:Agent_Role_e0a5b4b2",
+                "@id": "inst:Agent_Role_452c7654",
                 "@type": [
                   "cco:AgentRole",
                   "bfo:BFO_0000023",
                   "owl:NamedIndividual"
                 ],
-                "rdfs:label": "agent role of manager",
+                "rdfs:label": "agent role of developer",
                 "tagteam:roleType": "agent",
                 "bfo:inheres_in": {
-                  "@id": "inst:Person_Manager_feeabec395e9"
+                  "@id": "inst:Person_Developer_90fc0b2ed101"
                 },
                 "bfo:realized_in": [
                   {
@@ -6902,7 +6787,7 @@
                 "cco:has_text_value": "The developer whom the manager hired resigned.",
                 "tagteam:char_count": 46,
                 "tagteam:word_count": 7,
-                "tagteam:received_at": "2026-02-11T01:00:40.509Z"
+                "tagteam:received_at": "2026-02-11T01:23:13.802Z"
               },
               {
                 "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -6937,16 +6822,13 @@
                 "cco:has_agent": {
                   "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
                 },
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.509Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.802Z",
                 "cco:has_output": [
                   {
                     "@id": "inst:The_Developer_DiscourseReferent_74c10080531b"
                   },
                   {
                     "@id": "inst:The_Manager_DiscourseReferent_69bb5b0f7e92"
-                  },
-                  {
-                    "@id": "inst:Whom_DiscourseReferent_444aeba9b33f"
                   }
                 ]
               }
@@ -6970,15 +6852,15 @@
         }
       },
       "analysis": {
-        "passed": false,
-        "issues": [
-          "FRAGMENTATION: Relativizer \"whom\" instantiated as separate entity: inst:Whom_DiscourseReferent_444aeba9b33f",
-          "No anaphoric link detected (relative clause not recognized)",
-          "SUBJECT BLEEDING: Expected subject \"the developer\", got \"manager\""
-        ],
-        "observations": []
+        "passed": true,
+        "issues": [],
+        "observations": [
+          "Relativizer \"whom\" not instantiated (good)",
+          "Anaphoric link detected",
+          "Correct subject: developer"
+        ]
       },
-      "timestamp": "2026-02-11T01:00:40.521Z"
+      "timestamp": "2026-02-11T01:23:13.815Z"
     },
     {
       "id": "CS-REL-005",
@@ -7025,7 +6907,7 @@
       "v7ExpectedResult": "FAIL",
       "v7ExpectedFailureMode": "'whose' treated as separate entity or unknown token; fragmentation likely",
       "priority": "P1",
-      "status": "fail",
+      "status": "pass",
       "actual": {
         "@graph": [
           {
@@ -7095,7 +6977,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "admin",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.538Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.826Z",
             "tagteam:denotesType": "bfo:BFO_0000040"
           },
           {
@@ -7105,7 +6987,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "credentials",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.538Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.826Z",
             "tagteam:denotesType": "bfo:BFO_0000040",
             "bfo:is_bearer_of": [
               {
@@ -7120,7 +7002,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "login",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.538Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.826Z",
             "tagteam:denotesType": "bfo:BFO_0000040",
             "bfo:is_bearer_of": [
               {
@@ -7130,6 +7012,18 @@
                 "@id": "inst:Participant_Role_7b742337"
               }
             ]
+          },
+          {
+            "@id": "inst:Whose_the_Admin_AnaphoricLink_f731a8f0d07d",
+            "@type": [
+              "tagteam:AnaphoricLink",
+              "owl:NamedIndividual"
+            ],
+            "tagteam:anaphor": "whose",
+            "tagteam:antecedent": {
+              "@id": "inst:The_Admin_DiscourseReferent_34963163e90f"
+            },
+            "rdfs:comment": "Relativizer \"whose\" is anaphoric to \"The admin\""
           },
           {
             "@id": "inst:Expired_Cannot_IntentionalAct_b2fa21d8c702",
@@ -7145,7 +7039,7 @@
             "tagteam:actualityStatus": "tagteam:Actual",
             "tagteam:tense": "present",
             "cco:has_agent": {
-              "@id": "inst:Artifact_Credentials_e819bbad1b7e"
+              "@id": "inst:Artifact_Admin_0ad23e88ee81"
             },
             "cco:affects": {
               "@id": "inst:Artifact_Login_9ce2b8b85cb9"
@@ -7198,7 +7092,7 @@
             "tagteam:actualityStatus": "tagteam:Actual",
             "tagteam:tense": "present",
             "cco:has_agent": {
-              "@id": "inst:Artifact_Credentials_e819bbad1b7e"
+              "@id": "inst:Artifact_Admin_0ad23e88ee81"
             },
             "cco:affects": {
               "@id": "inst:Artifact_Login_9ce2b8b85cb9"
@@ -7271,7 +7165,7 @@
             "cco:has_text_value": "The admin whose credentials expired cannot login.",
             "tagteam:char_count": 49,
             "tagteam:word_count": 7,
-            "tagteam:received_at": "2026-02-11T01:00:40.521Z"
+            "tagteam:received_at": "2026-02-11T01:23:13.815Z"
           },
           {
             "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -7306,7 +7200,7 @@
             "cco:has_agent": {
               "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
             },
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.521Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.815Z",
             "cco:has_output": [
               {
                 "@id": "inst:The_Admin_DiscourseReferent_34963163e90f"
@@ -7321,9 +7215,9 @@
           }
         ],
         "_metadata": {
-          "buildTimestamp": "2026-02-11T01:00:40.521Z",
+          "buildTimestamp": "2026-02-11T01:23:13.815Z",
           "inputLength": 49,
-          "nodeCount": 15,
+          "nodeCount": 16,
           "version": "3.0.0-alpha.1",
           "contextIRI": "tagteam:Default_Context",
           "ibeIRI": "inst:Input_Text_IBE_4f4d681efe12",
@@ -7333,7 +7227,7 @@
         },
         "_ambiguityReport": {
           "ambiguities": [],
-          "timestamp": "2026-02-11T01:00:40.543Z",
+          "timestamp": "2026-02-11T01:23:13.830Z",
           "statistics": {
             "total": 0,
             "byType": {},
@@ -7410,7 +7304,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "admin",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.538Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.826Z",
                 "tagteam:denotesType": "bfo:BFO_0000040"
               },
               {
@@ -7420,7 +7314,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "credentials",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.538Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.826Z",
                 "tagteam:denotesType": "bfo:BFO_0000040",
                 "bfo:is_bearer_of": [
                   {
@@ -7435,7 +7329,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "login",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.538Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.826Z",
                 "tagteam:denotesType": "bfo:BFO_0000040",
                 "bfo:is_bearer_of": [
                   {
@@ -7445,6 +7339,18 @@
                     "@id": "inst:Participant_Role_7b742337"
                   }
                 ]
+              },
+              {
+                "@id": "inst:Whose_the_Admin_AnaphoricLink_f731a8f0d07d",
+                "@type": [
+                  "tagteam:AnaphoricLink",
+                  "owl:NamedIndividual"
+                ],
+                "tagteam:anaphor": "whose",
+                "tagteam:antecedent": {
+                  "@id": "inst:The_Admin_DiscourseReferent_34963163e90f"
+                },
+                "rdfs:comment": "Relativizer \"whose\" is anaphoric to \"The admin\""
               },
               {
                 "@id": "inst:Expired_Cannot_IntentionalAct_b2fa21d8c702",
@@ -7460,7 +7366,7 @@
                 "tagteam:actualityStatus": "tagteam:Actual",
                 "tagteam:tense": "present",
                 "cco:has_agent": {
-                  "@id": "inst:Artifact_Credentials_e819bbad1b7e"
+                  "@id": "inst:Artifact_Admin_0ad23e88ee81"
                 },
                 "cco:affects": {
                   "@id": "inst:Artifact_Login_9ce2b8b85cb9"
@@ -7513,7 +7419,7 @@
                 "tagteam:actualityStatus": "tagteam:Actual",
                 "tagteam:tense": "present",
                 "cco:has_agent": {
-                  "@id": "inst:Artifact_Credentials_e819bbad1b7e"
+                  "@id": "inst:Artifact_Admin_0ad23e88ee81"
                 },
                 "cco:affects": {
                   "@id": "inst:Artifact_Login_9ce2b8b85cb9"
@@ -7586,7 +7492,7 @@
                 "cco:has_text_value": "The admin whose credentials expired cannot login.",
                 "tagteam:char_count": 49,
                 "tagteam:word_count": 7,
-                "tagteam:received_at": "2026-02-11T01:00:40.521Z"
+                "tagteam:received_at": "2026-02-11T01:23:13.815Z"
               },
               {
                 "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -7621,7 +7527,7 @@
                 "cco:has_agent": {
                   "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
                 },
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.521Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.815Z",
                 "cco:has_output": [
                   {
                     "@id": "inst:The_Admin_DiscourseReferent_34963163e90f"
@@ -7654,16 +7560,15 @@
         }
       },
       "analysis": {
-        "passed": false,
-        "issues": [
-          "No anaphoric link detected (relative clause not recognized)",
-          "SUBJECT BLEEDING: Expected subject \"the admin\", got \"credentials\""
-        ],
+        "passed": true,
+        "issues": [],
         "observations": [
-          "Relativizer \"whose\" not instantiated (good)"
+          "Relativizer \"whose\" not instantiated (good)",
+          "Anaphoric link detected",
+          "Correct subject: admin"
         ]
       },
-      "timestamp": "2026-02-11T01:00:40.544Z"
+      "timestamp": "2026-02-11T01:23:13.830Z"
     },
     {
       "id": "CS-REL-006",
@@ -7711,7 +7616,7 @@
       "v7ExpectedResult": "FAIL",
       "v7ExpectedFailureMode": "No zero-relativizer detection; 'team' becomes object of 'fixed' (argument bleeding)",
       "priority": "P0",
-      "status": "fail",
+      "status": "pass",
       "actual": {
         "@graph": [
           {
@@ -7781,7 +7686,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "patch",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.556Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.840Z",
             "tagteam:denotesType": "bfo:BFO_0000040"
           },
           {
@@ -7791,7 +7696,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "team",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.556Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.840Z",
             "tagteam:denotesType": "cco:Organization",
             "bfo:is_bearer_of": [
               {
@@ -7806,7 +7711,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "bug",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.556Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.840Z",
             "tagteam:denotesType": "bfo:BFO_0000040",
             "bfo:is_bearer_of": [
               {
@@ -7853,7 +7758,7 @@
             "tagteam:actualityStatus": "tagteam:Actual",
             "tagteam:tense": "present",
             "cco:has_agent": {
-              "@id": "inst:Organization_Team_5162c42d28db"
+              "@id": "inst:Artifact_Patch_10a88c4fc8f9"
             },
             "cco:affects": {
               "@id": "inst:Artifact_Bug_5bf4285d4859"
@@ -7876,14 +7781,9 @@
             "bfo:inheres_in": {
               "@id": "inst:Organization_Team_5162c42d28db"
             },
-            "bfo:realized_in": [
-              {
-                "@id": "inst:Deploy_IntentionalAct_81ad96b1368b"
-              },
-              {
-                "@id": "inst:Fix_IntentionalAct_b0b834eb0f46"
-              }
-            ]
+            "bfo:realized_in": {
+              "@id": "inst:Deploy_IntentionalAct_81ad96b1368b"
+            }
           },
           {
             "@id": "inst:Patient_Role_ab21ad26",
@@ -7916,7 +7816,7 @@
             "cco:has_text_value": "The patch the team deployed fixed the bug.",
             "tagteam:char_count": 42,
             "tagteam:word_count": 8,
-            "tagteam:received_at": "2026-02-11T01:00:40.544Z"
+            "tagteam:received_at": "2026-02-11T01:23:13.831Z"
           },
           {
             "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -7951,7 +7851,7 @@
             "cco:has_agent": {
               "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
             },
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.544Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.831Z",
             "cco:has_output": [
               {
                 "@id": "inst:The_Patch_DiscourseReferent_c066624aa6bc"
@@ -7966,7 +7866,7 @@
           }
         ],
         "_metadata": {
-          "buildTimestamp": "2026-02-11T01:00:40.544Z",
+          "buildTimestamp": "2026-02-11T01:23:13.831Z",
           "inputLength": 42,
           "nodeCount": 13,
           "version": "3.0.0-alpha.1",
@@ -7978,7 +7878,7 @@
         },
         "_ambiguityReport": {
           "ambiguities": [],
-          "timestamp": "2026-02-11T01:00:40.560Z",
+          "timestamp": "2026-02-11T01:23:13.846Z",
           "statistics": {
             "total": 0,
             "byType": {},
@@ -8055,7 +7955,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "patch",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.556Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.840Z",
                 "tagteam:denotesType": "bfo:BFO_0000040"
               },
               {
@@ -8065,7 +7965,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "team",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.556Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.840Z",
                 "tagteam:denotesType": "cco:Organization",
                 "bfo:is_bearer_of": [
                   {
@@ -8080,7 +7980,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "bug",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.556Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.840Z",
                 "tagteam:denotesType": "bfo:BFO_0000040",
                 "bfo:is_bearer_of": [
                   {
@@ -8127,7 +8027,7 @@
                 "tagteam:actualityStatus": "tagteam:Actual",
                 "tagteam:tense": "present",
                 "cco:has_agent": {
-                  "@id": "inst:Organization_Team_5162c42d28db"
+                  "@id": "inst:Artifact_Patch_10a88c4fc8f9"
                 },
                 "cco:affects": {
                   "@id": "inst:Artifact_Bug_5bf4285d4859"
@@ -8150,14 +8050,9 @@
                 "bfo:inheres_in": {
                   "@id": "inst:Organization_Team_5162c42d28db"
                 },
-                "bfo:realized_in": [
-                  {
-                    "@id": "inst:Deploy_IntentionalAct_81ad96b1368b"
-                  },
-                  {
-                    "@id": "inst:Fix_IntentionalAct_b0b834eb0f46"
-                  }
-                ]
+                "bfo:realized_in": {
+                  "@id": "inst:Deploy_IntentionalAct_81ad96b1368b"
+                }
               },
               {
                 "@id": "inst:Patient_Role_ab21ad26",
@@ -8190,7 +8085,7 @@
                 "cco:has_text_value": "The patch the team deployed fixed the bug.",
                 "tagteam:char_count": 42,
                 "tagteam:word_count": 8,
-                "tagteam:received_at": "2026-02-11T01:00:40.544Z"
+                "tagteam:received_at": "2026-02-11T01:23:13.831Z"
               },
               {
                 "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -8225,7 +8120,7 @@
                 "cco:has_agent": {
                   "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
                 },
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.544Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.831Z",
                 "cco:has_output": [
                   {
                     "@id": "inst:The_Patch_DiscourseReferent_c066624aa6bc"
@@ -8258,13 +8153,13 @@
         }
       },
       "analysis": {
-        "passed": false,
-        "issues": [
-          "SUBJECT BLEEDING: Expected subject \"the patch\", got \"team\""
-        ],
-        "observations": []
+        "passed": true,
+        "issues": [],
+        "observations": [
+          "Correct subject: patch"
+        ]
       },
-      "timestamp": "2026-02-11T01:00:40.560Z"
+      "timestamp": "2026-02-11T01:23:13.846Z"
     },
     {
       "id": "CS-REL-007",
@@ -8326,7 +8221,7 @@
       "v7ExpectedResult": "FAIL",
       "v7ExpectedFailureMode": "Multiple fragmentation; severe argument bleeding; likely semantic corruption",
       "priority": "P2",
-      "status": "fail",
+      "status": "pass",
       "actual": {
         "@graph": [
           {
@@ -8390,34 +8285,19 @@
             }
           },
           {
-            "@id": "inst:Who_DiscourseReferent_cd79fb906638",
-            "@type": [
-              "tagteam:DiscourseReferent",
-              "owl:NamedIndividual"
-            ],
-            "rdfs:label": "who",
-            "tagteam:sourceText": "who",
-            "tagteam:startPosition": 9,
-            "tagteam:endPosition": 12,
-            "tagteam:definiteness": "interrogative",
-            "tagteam:referentialStatus": "interrogative",
-            "tagteam:denotesType": "cco:Person",
-            "cco:is_about": {
-              "@id": "inst:Person_Who_ab8cfe76a31d"
-            },
-            "cco:is_concretized_by": {
-              "@id": "inst:Input_Text_IBE_fd930c0be547"
-            }
-          },
-          {
             "@id": "inst:Person_User_b4e9d6671024",
             "@type": [
               "cco:Person",
               "owl:NamedIndividual"
             ],
             "rdfs:label": "user",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.570Z",
-            "tagteam:denotesType": "cco:Person"
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.858Z",
+            "tagteam:denotesType": "cco:Person",
+            "bfo:is_bearer_of": [
+              {
+                "@id": "inst:Agent_Role_733d15fe"
+              }
+            ]
           },
           {
             "@id": "inst:Artifact_Issue_cd424f485837",
@@ -8426,7 +8306,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "issue",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.570Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.858Z",
             "tagteam:denotesType": "bfo:BFO_0000040",
             "bfo:is_bearer_of": [
               {
@@ -8441,7 +8321,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "crash",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.570Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.858Z",
             "tagteam:denotesType": "bfo:BFO_0000015",
             "bfo:is_bearer_of": [
               {
@@ -8453,19 +8333,28 @@
             ]
           },
           {
-            "@id": "inst:Person_Who_ab8cfe76a31d",
+            "@id": "inst:Who_the_User_AnaphoricLink_8e3d98e6ce34",
             "@type": [
-              "cco:Person",
+              "tagteam:AnaphoricLink",
               "owl:NamedIndividual"
             ],
-            "rdfs:label": "who",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.570Z",
-            "tagteam:denotesType": "cco:Person",
-            "bfo:is_bearer_of": [
-              {
-                "@id": "inst:Agent_Role_9e8aa3aa"
-              }
-            ]
+            "tagteam:anaphor": "who",
+            "tagteam:antecedent": {
+              "@id": "inst:The_User_DiscourseReferent_c874fe39ed4c"
+            },
+            "rdfs:comment": "Relativizer \"who\" is anaphoric to \"The user\""
+          },
+          {
+            "@id": "inst:That_the_Issue_AnaphoricLink_6700ec85ad12",
+            "@type": [
+              "tagteam:AnaphoricLink",
+              "owl:NamedIndividual"
+            ],
+            "tagteam:anaphor": "that",
+            "tagteam:antecedent": {
+              "@id": "inst:The_Issue_DiscourseReferent_4958207d95a7"
+            },
+            "rdfs:comment": "Relativizer \"that\" is anaphoric to \"the issue\""
           },
           {
             "@id": "inst:Fil_IntentionalAct_9697ca798f3e",
@@ -8481,7 +8370,7 @@
             "tagteam:actualityStatus": "tagteam:Actual",
             "tagteam:tense": "present",
             "cco:has_agent": {
-              "@id": "inst:Person_Who_ab8cfe76a31d"
+              "@id": "inst:Person_User_b4e9d6671024"
             },
             "cco:affects": {
               "@id": "inst:Artifact_Issue_cd424f485837"
@@ -8509,7 +8398,7 @@
             "tagteam:actualityStatus": "tagteam:Actual",
             "tagteam:tense": "present",
             "cco:has_agent": {
-              "@id": "inst:Artifact_Issue_cd424f485837"
+              "@id": "inst:Person_User_b4e9d6671024"
             },
             "cco:affects": {
               "@id": "inst:bfo:BFO_0000015_Crash_a3ec2a30861e"
@@ -8534,28 +8423,32 @@
             "tagteam:actualityStatus": "tagteam:Actual",
             "tagteam:tense": "present",
             "cco:has_agent": {
-              "@id": "inst:bfo:BFO_0000015_Crash_a3ec2a30861e"
-            },
-            "tagteam:hasAmbiguity": true,
-            "tagteam:selectionalMismatch": true,
-            "tagteam:ambiguityType": "inanimate_agent",
-            "tagteam:ontologyConstraint": "bfo:Agent requires bfo:MaterialEntity with cco:has_function capability"
+              "@id": "inst:Person_User_b4e9d6671024"
+            }
           },
           {
-            "@id": "inst:Agent_Role_9e8aa3aa",
+            "@id": "inst:Agent_Role_733d15fe",
             "@type": [
               "cco:AgentRole",
               "bfo:BFO_0000023",
               "owl:NamedIndividual"
             ],
-            "rdfs:label": "agent role of who",
+            "rdfs:label": "agent role of user",
             "tagteam:roleType": "agent",
             "bfo:inheres_in": {
-              "@id": "inst:Person_Who_ab8cfe76a31d"
+              "@id": "inst:Person_User_b4e9d6671024"
             },
-            "bfo:realized_in": {
-              "@id": "inst:Fil_IntentionalAct_9697ca798f3e"
-            }
+            "bfo:realized_in": [
+              {
+                "@id": "inst:Fil_IntentionalAct_9697ca798f3e"
+              },
+              {
+                "@id": "inst:Caus_IntentionalAct_e344e90dd508"
+              },
+              {
+                "@id": "inst:Respond_IntentionalAct_de44e9fb10a7"
+              }
+            ]
           },
           {
             "@id": "inst:Patient_Role_891ca7cd",
@@ -8614,7 +8507,7 @@
             "cco:has_text_value": "The user who filed the issue that caused the crash responded.",
             "tagteam:char_count": 61,
             "tagteam:word_count": 11,
-            "tagteam:received_at": "2026-02-11T01:00:40.560Z"
+            "tagteam:received_at": "2026-02-11T01:23:13.847Z"
           },
           {
             "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -8649,7 +8542,7 @@
             "cco:has_agent": {
               "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
             },
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.560Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.847Z",
             "cco:has_output": [
               {
                 "@id": "inst:The_User_DiscourseReferent_c874fe39ed4c"
@@ -8659,15 +8552,12 @@
               },
               {
                 "@id": "inst:The_Crash_DiscourseReferent_9b413a6058d5"
-              },
-              {
-                "@id": "inst:Who_DiscourseReferent_cd79fb906638"
               }
             ]
           }
         ],
         "_metadata": {
-          "buildTimestamp": "2026-02-11T01:00:40.560Z",
+          "buildTimestamp": "2026-02-11T01:23:13.847Z",
           "inputLength": 61,
           "nodeCount": 18,
           "version": "3.0.0-alpha.1",
@@ -8678,25 +8568,11 @@
           "hasInterpretationLattice": true
         },
         "_ambiguityReport": {
-          "ambiguities": [
-            {
-              "type": "selectional_violation",
-              "signal": "inanimate_agent",
-              "subject": "crash",
-              "verb": "respond",
-              "verbClass": "communication",
-              "agentCategory": "inanimate",
-              "nodeId": "inst:Respond_IntentionalAct_de44e9fb10a7",
-              "confidence": "high",
-              "ontologyConstraint": "bfo:Agent requires bfo:MaterialEntity with cco:has_function capability"
-            }
-          ],
-          "timestamp": "2026-02-11T01:00:40.576Z",
+          "ambiguities": [],
+          "timestamp": "2026-02-11T01:23:13.863Z",
           "statistics": {
-            "total": 1,
-            "byType": {
-              "selectional_violation": 1
-            },
+            "total": 0,
+            "byType": {},
             "avgReadings": 0
           }
         },
@@ -8764,34 +8640,19 @@
                 }
               },
               {
-                "@id": "inst:Who_DiscourseReferent_cd79fb906638",
-                "@type": [
-                  "tagteam:DiscourseReferent",
-                  "owl:NamedIndividual"
-                ],
-                "rdfs:label": "who",
-                "tagteam:sourceText": "who",
-                "tagteam:startPosition": 9,
-                "tagteam:endPosition": 12,
-                "tagteam:definiteness": "interrogative",
-                "tagteam:referentialStatus": "interrogative",
-                "tagteam:denotesType": "cco:Person",
-                "cco:is_about": {
-                  "@id": "inst:Person_Who_ab8cfe76a31d"
-                },
-                "cco:is_concretized_by": {
-                  "@id": "inst:Input_Text_IBE_fd930c0be547"
-                }
-              },
-              {
                 "@id": "inst:Person_User_b4e9d6671024",
                 "@type": [
                   "cco:Person",
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "user",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.570Z",
-                "tagteam:denotesType": "cco:Person"
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.858Z",
+                "tagteam:denotesType": "cco:Person",
+                "bfo:is_bearer_of": [
+                  {
+                    "@id": "inst:Agent_Role_733d15fe"
+                  }
+                ]
               },
               {
                 "@id": "inst:Artifact_Issue_cd424f485837",
@@ -8800,7 +8661,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "issue",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.570Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.858Z",
                 "tagteam:denotesType": "bfo:BFO_0000040",
                 "bfo:is_bearer_of": [
                   {
@@ -8815,7 +8676,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "crash",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.570Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.858Z",
                 "tagteam:denotesType": "bfo:BFO_0000015",
                 "bfo:is_bearer_of": [
                   {
@@ -8827,19 +8688,28 @@
                 ]
               },
               {
-                "@id": "inst:Person_Who_ab8cfe76a31d",
+                "@id": "inst:Who_the_User_AnaphoricLink_8e3d98e6ce34",
                 "@type": [
-                  "cco:Person",
+                  "tagteam:AnaphoricLink",
                   "owl:NamedIndividual"
                 ],
-                "rdfs:label": "who",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.570Z",
-                "tagteam:denotesType": "cco:Person",
-                "bfo:is_bearer_of": [
-                  {
-                    "@id": "inst:Agent_Role_9e8aa3aa"
-                  }
-                ]
+                "tagteam:anaphor": "who",
+                "tagteam:antecedent": {
+                  "@id": "inst:The_User_DiscourseReferent_c874fe39ed4c"
+                },
+                "rdfs:comment": "Relativizer \"who\" is anaphoric to \"The user\""
+              },
+              {
+                "@id": "inst:That_the_Issue_AnaphoricLink_6700ec85ad12",
+                "@type": [
+                  "tagteam:AnaphoricLink",
+                  "owl:NamedIndividual"
+                ],
+                "tagteam:anaphor": "that",
+                "tagteam:antecedent": {
+                  "@id": "inst:The_Issue_DiscourseReferent_4958207d95a7"
+                },
+                "rdfs:comment": "Relativizer \"that\" is anaphoric to \"the issue\""
               },
               {
                 "@id": "inst:Fil_IntentionalAct_9697ca798f3e",
@@ -8855,7 +8725,7 @@
                 "tagteam:actualityStatus": "tagteam:Actual",
                 "tagteam:tense": "present",
                 "cco:has_agent": {
-                  "@id": "inst:Person_Who_ab8cfe76a31d"
+                  "@id": "inst:Person_User_b4e9d6671024"
                 },
                 "cco:affects": {
                   "@id": "inst:Artifact_Issue_cd424f485837"
@@ -8883,7 +8753,7 @@
                 "tagteam:actualityStatus": "tagteam:Actual",
                 "tagteam:tense": "present",
                 "cco:has_agent": {
-                  "@id": "inst:Artifact_Issue_cd424f485837"
+                  "@id": "inst:Person_User_b4e9d6671024"
                 },
                 "cco:affects": {
                   "@id": "inst:bfo:BFO_0000015_Crash_a3ec2a30861e"
@@ -8908,28 +8778,32 @@
                 "tagteam:actualityStatus": "tagteam:Actual",
                 "tagteam:tense": "present",
                 "cco:has_agent": {
-                  "@id": "inst:bfo:BFO_0000015_Crash_a3ec2a30861e"
-                },
-                "tagteam:hasAmbiguity": true,
-                "tagteam:selectionalMismatch": true,
-                "tagteam:ambiguityType": "inanimate_agent",
-                "tagteam:ontologyConstraint": "bfo:Agent requires bfo:MaterialEntity with cco:has_function capability"
+                  "@id": "inst:Person_User_b4e9d6671024"
+                }
               },
               {
-                "@id": "inst:Agent_Role_9e8aa3aa",
+                "@id": "inst:Agent_Role_733d15fe",
                 "@type": [
                   "cco:AgentRole",
                   "bfo:BFO_0000023",
                   "owl:NamedIndividual"
                 ],
-                "rdfs:label": "agent role of who",
+                "rdfs:label": "agent role of user",
                 "tagteam:roleType": "agent",
                 "bfo:inheres_in": {
-                  "@id": "inst:Person_Who_ab8cfe76a31d"
+                  "@id": "inst:Person_User_b4e9d6671024"
                 },
-                "bfo:realized_in": {
-                  "@id": "inst:Fil_IntentionalAct_9697ca798f3e"
-                }
+                "bfo:realized_in": [
+                  {
+                    "@id": "inst:Fil_IntentionalAct_9697ca798f3e"
+                  },
+                  {
+                    "@id": "inst:Caus_IntentionalAct_e344e90dd508"
+                  },
+                  {
+                    "@id": "inst:Respond_IntentionalAct_de44e9fb10a7"
+                  }
+                ]
               },
               {
                 "@id": "inst:Patient_Role_891ca7cd",
@@ -8988,7 +8862,7 @@
                 "cco:has_text_value": "The user who filed the issue that caused the crash responded.",
                 "tagteam:char_count": 61,
                 "tagteam:word_count": 11,
-                "tagteam:received_at": "2026-02-11T01:00:40.560Z"
+                "tagteam:received_at": "2026-02-11T01:23:13.847Z"
               },
               {
                 "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -9023,7 +8897,7 @@
                 "cco:has_agent": {
                   "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
                 },
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.560Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.847Z",
                 "cco:has_output": [
                   {
                     "@id": "inst:The_User_DiscourseReferent_c874fe39ed4c"
@@ -9033,9 +8907,6 @@
                   },
                   {
                     "@id": "inst:The_Crash_DiscourseReferent_9b413a6058d5"
-                  },
-                  {
-                    "@id": "inst:Who_DiscourseReferent_cd79fb906638"
                   }
                 ]
               }
@@ -9044,28 +8915,12 @@
           "resolutionResult": {
             "preserved": [],
             "resolved": [],
-            "flagged": [
-              {
-                "ambiguity": {
-                  "type": "selectional_violation",
-                  "signal": "inanimate_agent",
-                  "subject": "crash",
-                  "verb": "respond",
-                  "verbClass": "communication",
-                  "agentCategory": "inanimate",
-                  "nodeId": "inst:Respond_IntentionalAct_de44e9fb10a7",
-                  "confidence": "high",
-                  "ontologyConstraint": "bfo:Agent requires bfo:MaterialEntity with cco:has_function capability"
-                },
-                "flag": "selectionalMismatch",
-                "reason": "Anomalous input - flag but do not fork"
-              }
-            ],
+            "flagged": [],
             "stats": {
-              "total": 1,
+              "total": 0,
               "preserved": 0,
               "resolved": 0,
-              "flagged": 1
+              "flagged": 0
             }
           },
           "alternativeReadings": [],
@@ -9075,15 +8930,15 @@
         }
       },
       "analysis": {
-        "passed": false,
-        "issues": [
-          "FRAGMENTATION: Relativizer \"who\" instantiated as separate entity: inst:Who_DiscourseReferent_cd79fb906638",
-          "No anaphoric link detected (relative clause not recognized)",
-          "SUBJECT BLEEDING: Expected subject \"the user\", got \"crash\""
-        ],
-        "observations": []
+        "passed": true,
+        "issues": [],
+        "observations": [
+          "Relativizer \"who\" not instantiated (good)",
+          "Anaphoric link detected",
+          "Correct subject: user"
+        ]
       },
-      "timestamp": "2026-02-11T01:00:40.576Z"
+      "timestamp": "2026-02-11T01:23:13.863Z"
     },
     {
       "id": "CS-REL-008",
@@ -9202,7 +9057,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "server",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.588Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.873Z",
             "tagteam:denotesType": "bfo:BFO_0000040"
           },
           {
@@ -9212,7 +9067,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "app",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.588Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.873Z",
             "tagteam:introducingPreposition": "on",
             "tagteam:denotesType": "bfo:BFO_0000040"
           },
@@ -9223,7 +9078,7 @@
               "owl:NamedIndividual"
             ],
             "rdfs:label": "which the",
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.588Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.873Z",
             "tagteam:denotesType": "bfo:Entity"
           },
           {
@@ -9270,7 +9125,7 @@
             "cco:has_text_value": "The server on which the app runs is offline.",
             "tagteam:char_count": 44,
             "tagteam:word_count": 9,
-            "tagteam:received_at": "2026-02-11T01:00:40.576Z"
+            "tagteam:received_at": "2026-02-11T01:23:13.863Z"
           },
           {
             "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -9305,7 +9160,7 @@
             "cco:has_agent": {
               "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
             },
-            "tagteam:instantiated_at": "2026-02-11T01:00:40.576Z",
+            "tagteam:instantiated_at": "2026-02-11T01:23:13.863Z",
             "cco:has_output": [
               {
                 "@id": "inst:The_Server_DiscourseReferent_eaca7e91d79f"
@@ -9320,7 +9175,7 @@
           }
         ],
         "_metadata": {
-          "buildTimestamp": "2026-02-11T01:00:40.576Z",
+          "buildTimestamp": "2026-02-11T01:23:13.863Z",
           "inputLength": 44,
           "nodeCount": 11,
           "version": "3.0.0-alpha.1",
@@ -9332,7 +9187,7 @@
         },
         "_ambiguityReport": {
           "ambiguities": [],
-          "timestamp": "2026-02-11T01:00:40.593Z",
+          "timestamp": "2026-02-11T01:23:13.877Z",
           "statistics": {
             "total": 0,
             "byType": {},
@@ -9410,7 +9265,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "server",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.588Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.873Z",
                 "tagteam:denotesType": "bfo:BFO_0000040"
               },
               {
@@ -9420,7 +9275,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "app",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.588Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.873Z",
                 "tagteam:introducingPreposition": "on",
                 "tagteam:denotesType": "bfo:BFO_0000040"
               },
@@ -9431,7 +9286,7 @@
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "which the",
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.588Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.873Z",
                 "tagteam:denotesType": "bfo:Entity"
               },
               {
@@ -9478,7 +9333,7 @@
                 "cco:has_text_value": "The server on which the app runs is offline.",
                 "tagteam:char_count": 44,
                 "tagteam:word_count": 9,
-                "tagteam:received_at": "2026-02-11T01:00:40.576Z"
+                "tagteam:received_at": "2026-02-11T01:23:13.863Z"
               },
               {
                 "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -9513,7 +9368,7 @@
                 "cco:has_agent": {
                   "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
                 },
-                "tagteam:instantiated_at": "2026-02-11T01:00:40.576Z",
+                "tagteam:instantiated_at": "2026-02-11T01:23:13.863Z",
                 "cco:has_output": [
                   {
                     "@id": "inst:The_Server_DiscourseReferent_eaca7e91d79f"
@@ -9554,7 +9409,7 @@
         ],
         "observations": []
       },
-      "timestamp": "2026-02-11T01:00:40.593Z"
+      "timestamp": "2026-02-11T01:23:13.877Z"
     }
   ]
 }
