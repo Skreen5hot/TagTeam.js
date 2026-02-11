@@ -1738,6 +1738,86 @@ class ActExtractor {
   }
 
   /**
+   * V7-009b: Detect prepositional phrases after verb for oblique role detection
+   * Maps PP prepositions to semantic roles: for→beneficiary, with→instrument, etc.
+   *
+   * @param {string} fullText - Full input text
+   * @param {number} verbOffset - Verb offset position
+   * @param {number} verbEnd - Verb end position
+   * @param {Array} entities - Available entities
+   * @returns {Array} Array of PP objects with {preposition, entity, role}
+   * @private
+   */
+  _detectPrepositionalPhraseRoles(fullText, verbOffset, verbEnd, entities) {
+    const ppRoles = [];
+
+    // Extract text after verb
+    const textAfterVerb = fullText.substring(verbEnd);
+
+    // Preposition-to-role mapping (VerbNet semantic frames)
+    const PREP_TO_ROLE = {
+      'for': 'beneficiary',        // "fixed for the team"
+      'with': 'instrument',        // "fixed with the patch" (ambiguous with comitative)
+      'on': 'location',            // "installed on the server"
+      'in': 'location',            // "stored in the database"
+      'at': 'location',            // "deployed at the site"
+      'from': 'source',            // "downloaded from the server"
+      'to': 'destination',         // "uploaded to the server"
+      'into': 'destination',       // "moved into the folder"
+      'onto': 'destination'        // "copied onto the disk"
+    };
+
+    // Find prepositional phrases using regex
+    // Pattern: preposition + determiner? + noun phrase
+    const ppPattern = /\b(for|with|on|in|at|from|to|into|onto)\s+(the|a|an)?\s*([a-z]+(?:\s+[a-z]+)*)/gi;
+    let match;
+
+    while ((match = ppPattern.exec(textAfterVerb)) !== null) {
+      const preposition = match[1].toLowerCase();
+      const npText = match[0]; // Full PP text: "with the patch"
+      const ppOffset = verbEnd + match.index;
+
+      // Find entity that overlaps with this PP
+      const matchingEntity = entities.find(e => {
+        if (!e['rdfs:label']) return false;
+        const entityLabel = e['rdfs:label'].toLowerCase().replace('entity of ', '');
+        const entityStart = this._getEntityStart(e);
+        const entityEnd = this._getEntityEnd(e);
+
+        // Check if entity overlaps with PP span
+        return entityStart >= ppOffset && entityStart < ppOffset + npText.length;
+      });
+
+      if (matchingEntity && PREP_TO_ROLE[preposition]) {
+        ppRoles.push({
+          preposition,
+          role: PREP_TO_ROLE[preposition],
+          entity: matchingEntity,
+          ppText: npText
+        });
+      }
+    }
+
+    // Special case: "with" can be comitative with animate entities
+    // "worked with the admin" → comitative, not instrument
+    // Heuristic: if verb is intransitive cooperation verb, "with" is comitative
+    const COMITATIVE_VERBS = new Set(['work', 'collaborate', 'cooperate', 'meet', 'talk', 'discuss']);
+    ppRoles.forEach(pp => {
+      if (pp.role === 'instrument') {
+        const verbText = fullText.substring(verbOffset, verbEnd).toLowerCase().trim();
+        const entityType = pp.entity['tagteam:denotesType'] || '';
+
+        // If verb suggests cooperation OR entity is Person, switch to comitative
+        if (COMITATIVE_VERBS.has(verbText) || entityType.includes('Person')) {
+          pp.role = 'comitative';
+        }
+      }
+    });
+
+    return ppRoles;
+  }
+
+  /**
    * Link act to discourse referents (Tier 1) or real-world entities (Tier 2)
    *
    * v2.2 spec: Acts should link to Tier 2 entities (cco:Person, cco:Artifact)
@@ -1754,7 +1834,14 @@ class ActExtractor {
     const links = {
       agent: null,
       patient: null,
-      participants: []
+      participants: [],
+      // V7-009b: Oblique role properties
+      beneficiary: null,
+      instrument: null,
+      location: null,
+      source: null,
+      destination: null,
+      comitative: null
     };
 
     if (!entities || entities.length === 0) {
@@ -1864,6 +1951,36 @@ class ActExtractor {
 
     // All entities after verb are potential participants (resolved to Tier 2)
     links.participants = entitiesAfter.map(e => resolveIRI(e['@id']));
+
+    // V7-009b: Detect prepositional phrase roles for oblique arguments
+    const verbEnd = verbOffset + verbText.length;
+    const ppRoles = this._detectPrepositionalPhraseRoles(fullText, verbOffset, verbEnd, referents);
+
+    // Populate oblique role links
+    ppRoles.forEach(pp => {
+      const entityIRI = resolveIRI(pp.entity['@id']);
+
+      switch (pp.role) {
+        case 'beneficiary':
+          if (!links.beneficiary) links.beneficiary = entityIRI;
+          break;
+        case 'instrument':
+          if (!links.instrument) links.instrument = entityIRI;
+          break;
+        case 'location':
+          if (!links.location) links.location = entityIRI;
+          break;
+        case 'source':
+          if (!links.source) links.source = entityIRI;
+          break;
+        case 'destination':
+          if (!links.destination) links.destination = entityIRI;
+          break;
+        case 'comitative':
+          if (!links.comitative) links.comitative = entityIRI;
+          break;
+      }
+    });
 
     return links;
   }
@@ -2010,14 +2127,58 @@ class ActExtractor {
       node['cco:affects'] = { '@id': actInfo.links.patient };
     }
 
+    // V7-009b: Add oblique role properties (beneficiary, instrument, location, etc.)
+    if (actInfo.links.beneficiary) {
+      node['tagteam:beneficiary'] = { '@id': actInfo.links.beneficiary };
+    }
+
+    if (actInfo.links.instrument) {
+      node['tagteam:instrument'] = { '@id': actInfo.links.instrument };
+    }
+
+    if (actInfo.links.location) {
+      node['tagteam:located_in'] = { '@id': actInfo.links.location };
+    }
+
+    if (actInfo.links.source) {
+      node['tagteam:source'] = { '@id': actInfo.links.source };
+    }
+
+    if (actInfo.links.destination) {
+      node['tagteam:destination'] = { '@id': actInfo.links.destination };
+    }
+
+    if (actInfo.links.comitative) {
+      node['tagteam:comitative'] = { '@id': actInfo.links.comitative };
+    }
+
     // V7-009: Auto-populate bfo:has_participant as superproperty
-    // has_participant aggregates all semantic participants (agent, patient, etc.)
+    // has_participant aggregates all semantic participants (agent, patient, oblique roles, etc.)
     const participants = [];
     if (actInfo.links.agent) {
       participants.push(actInfo.links.agent);
     }
     if (actInfo.links.patient) {
       participants.push(actInfo.links.patient);
+    }
+    // V7-009b: Include oblique role participants
+    if (actInfo.links.beneficiary) {
+      participants.push(actInfo.links.beneficiary);
+    }
+    if (actInfo.links.instrument) {
+      participants.push(actInfo.links.instrument);
+    }
+    if (actInfo.links.location) {
+      participants.push(actInfo.links.location);
+    }
+    if (actInfo.links.source) {
+      participants.push(actInfo.links.source);
+    }
+    if (actInfo.links.destination) {
+      participants.push(actInfo.links.destination);
+    }
+    if (actInfo.links.comitative) {
+      participants.push(actInfo.links.comitative);
     }
     // Include any explicitly provided participants
     if (actInfo.links.participants && actInfo.links.participants.length > 0) {
