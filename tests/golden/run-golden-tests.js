@@ -513,10 +513,41 @@ function ensureResultsDir() {
 
 function saveResults(results, summary) {
   const timestamp = new Date().toISOString();
+
+  // V7.4 MEMORY-FIX: Strip heavy data from results before JSON serialization
+  // Keep only essential validation info, remove extractedRoles to prevent OOM
+  const lightweightResults = results.map(result => {
+    const lightResult = {
+      id: result.id,
+      input: result.input,
+      passed: result.passed,
+      expected: result.expected,
+      executionTime: result.executionTime,
+      error: result.error
+    };
+
+    // For validation, only keep diffs and summary (not extractedRoles)
+    if (result.validation) {
+      lightResult.validation = {
+        passed: result.validation.passed,
+        diffs: result.validation.diffs,
+        summary: result.validation.summary
+        // Removed: extractedRoles (can be ~10KB per test × 556 tests = ~5.6MB)
+      };
+    }
+
+    // Keep diff for non-semantic-role tests
+    if (result.diff && !result.validation) {
+      lightResult.diff = result.diff;
+    }
+
+    return lightResult;
+  });
+
   const resultData = {
     timestamp,
     summary,
-    results
+    results: lightweightResults
   };
 
   const resultFile = path.join(CONFIG.resultsDir, 'latest-results.json');
