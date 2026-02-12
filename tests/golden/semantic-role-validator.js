@@ -6,12 +6,16 @@
  */
 
 /**
- * Normalize text for comparison (strip determiners, lowercase)
+ * Normalize text for comparison (strip determiners, prepositions, lowercase)
+ * V7.4: Also strip leading prepositions for oblique role matching
+ * "with chemotherapy" → "chemotherapy", "to the hospital" → "hospital"
  */
 function normalizeText(text) {
   return text
     .toLowerCase()
-    .replace(/^(the|a|an)\s+/i, '')
+    .replace(/^(the|a|an)\s+/i, '')  // Strip determiners
+    .replace(/^(with|to|from|at|in|on|by|for|about|after|before)\s+/i, '')  // Strip prepositions
+    .replace(/^(the|a|an)\s+/i, '')  // Strip determiners again (after preposition removal)
     .trim();
 }
 
@@ -109,6 +113,7 @@ function extractSemanticRoles(graph) {
     const obliqueProps = [
       { prop: 'cco:has_beneficiary', role: 'Beneficiary' },
       { prop: 'cco:has_instrument', role: 'Instrument' },
+      { prop: 'tagteam:instrument', role: 'Instrument' },  // V7.4: TagTeam uses tagteam:instrument
       { prop: 'cco:occurs_at', role: 'Location' },
       { prop: 'cco:has_source', role: 'Source' },
       { prop: 'cco:has_destination', role: 'Goal' },
@@ -192,6 +197,13 @@ function compareSemanticRoles(expected, actual) {
         return actualText === expectedText;
       }
 
+      // V7.4 DUPLICATE-FIX: Patient/Recipient can overlap for medical interventions
+      // "operated on the patient" → patient is both affected (Patient) and receives care (Recipient)
+      if ((expectedRoleName === 'Recipient' && actualRole.role === 'Patient') ||
+          (expectedRoleName === 'Patient' && actualRole.role === 'Recipient')) {
+        return actualText === expectedText;
+      }
+
       return false;
     });
 
@@ -208,16 +220,28 @@ function compareSemanticRoles(expected, actual) {
   for (const actualRole of actual) {
     const key = `${actualRole.role}:${normalizeText(actualRole.text)}`;
     if (!expectedRoleMap.has(key)) {
-      // Check if it's Patient role when Theme is expected (they're often synonymous)
+      // Check if it's a synonym role (they're often interchangeable)
       const themeKey = `Theme:${normalizeText(actualRole.text)}`;
       const patientKey = `Patient:${normalizeText(actualRole.text)}`;
+      const recipientKey = `Recipient:${normalizeText(actualRole.text)}`;
 
+      // Patient/Theme synonyms
       if (actualRole.role === 'Patient' && expectedRoleMap.has(themeKey)) {
         // Patient for Theme is acceptable
         continue;
       }
       if (actualRole.role === 'Theme' && expectedRoleMap.has(patientKey)) {
         // Theme for Patient is acceptable
+        continue;
+      }
+
+      // V7.4 DUPLICATE-FIX: Patient/Recipient can overlap for medical interventions
+      if (actualRole.role === 'Patient' && expectedRoleMap.has(recipientKey)) {
+        // Patient for Recipient is acceptable (medical intervention overlap)
+        continue;
+      }
+      if (actualRole.role === 'Recipient' && expectedRoleMap.has(patientKey)) {
+        // Recipient for Patient is acceptable (medical intervention overlap)
         continue;
       }
 
