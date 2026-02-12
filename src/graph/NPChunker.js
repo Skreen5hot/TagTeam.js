@@ -264,6 +264,11 @@ class NPChunker {
         }
       });
 
+      // V7.3: Skip full-phrase component for pp-modified chunks
+      // The head-np + pp-object components are sufficient for role assignment
+      // Creating the full phrase causes confusion in patient selection
+      // (ActExtractor can't distinguish between "hope" and "hope to the family")
+      /*
       // Component 3: Full PP-modified phrase (optional, for reference)
       // "the bug for the team" - full phrase
       components.push({
@@ -272,6 +277,7 @@ class NPChunker {
         role: 'full-phrase',
         properties: { 'tagteam:hasModifier': true }
       });
+      */
     } else {
       // Simple NP: just the phrase itself
       components.push({

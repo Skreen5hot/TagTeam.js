@@ -1222,6 +1222,13 @@ class EntityExtractor {
       'and': (word, tag, prevTag) => 'CC',
       'or': (word, tag, prevTag) => 'CC',
 
+      // Common nouns mistagged by jsPOS
+      'family': (word, tag, prevTag) => 'NN',
+      'error': (word, tag, prevTag) => 'NN',
+      'harm': (word, tag, prevTag) => 'NN',
+      'news': (word, tag, prevTag) => 'NN',
+      'hope': (word, tag, prevTag) => 'NN',
+
       // Common verbs (missing from jsPOS lexicon)
       // Past tense forms
       'gave': (word, tag, prevTag) => 'VBD',
@@ -1235,6 +1242,12 @@ class EntityExtractor {
       'handed': (word, tag, prevTag) => 'VBD',
       'got': (word, tag, prevTag) => 'VBD',
       'received': (word, tag, prevTag) => 'VBD',
+      // V7.3: Recipient test verbs
+      'brought': (word, tag, prevTag) => 'VBD',
+      'operated': (word, tag, prevTag) => 'VBD',
+      'explained': (word, tag, prevTag) => 'VBD',
+      'caused': (word, tag, prevTag) => 'VBD',
+      'transported': (word, tag, prevTag) => 'VBD',
       // Base forms
       'give': (word, tag, prevTag) => 'VB',
       'send': (word, tag, prevTag) => 'VB',
@@ -1246,7 +1259,13 @@ class EntityExtractor {
       'pass': (word, tag, prevTag) => 'VB',
       'hand': (word, tag, prevTag) => 'VB',
       'get': (word, tag, prevTag) => 'VB',
-      'receive': (word, tag, prevTag) => 'VB'
+      'receive': (word, tag, prevTag) => 'VB',
+      // V7.3: Recipient test verb base forms
+      'bring': (word, tag, prevTag) => 'VB',
+      'operate': (word, tag, prevTag) => 'VB',
+      'explain': (word, tag, prevTag) => 'VB',
+      'cause': (word, tag, prevTag) => 'VB',
+      'transport': (word, tag, prevTag) => 'VB'
     };
 
     for (let i = 0; i < tagged.length; i++) {

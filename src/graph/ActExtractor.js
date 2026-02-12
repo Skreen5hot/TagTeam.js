@@ -102,6 +102,13 @@ const VERB_INFINITIVE_CORRECTIONS = {
   'passed': 'pass',
   'handed': 'hand',
 
+  // V7.3: Additional irregular forms for oblique role detection
+  'operated': 'operate',
+  'explained': 'explain',
+  'brought': 'bring',
+  'caused': 'cause',
+  'transported': 'transport',
+
   // Compromise truncations (missing final 'e')
   'receiv': 'receive',
   'configur': 'configure',
@@ -556,13 +563,20 @@ class ActExtractor {
     // V7-003: Morphological fallback for verbs Compromise misses
     // Compromise sometimes tags present tense verbs (e.g., "restarts", "completes") as nouns
     const morphologicalVerbs = this._findMorphologicalVerbs(text, doc, verbs);
-    const allVerbs = [...verbs.out('array'), ...morphologicalVerbs];
+
+    // V7.4 DUPLICATE-FIX: Keep verb objects (not strings) to preserve infinitive metadata
+    // Before: verbs.out('array') returned strings like "was treated"
+    // Now: Iterate verb objects directly to access verbData.infinitive
+    const verbObjects = [];
+    verbs.forEach(verb => verbObjects.push(verb));
+    const allVerbs = [...verbObjects, ...morphologicalVerbs];
 
     // Pass 1: Collect verb entries, identifying control verbs and infinitive complements
     const verbEntries = [];
     allVerbs.forEach((verb, index) => {
-      // Handle both Compromise verb objects and plain strings from morphological detection
-      const verbText = typeof verb === 'string' ? verb : verb;
+      // V7.4 DUPLICATE-FIX: Handle both Compromise verb objects and plain strings from morphological detection
+      // For objects, extract text using verb.text() method
+      const verbText = typeof verb === 'string' ? verb : (verb.text ? verb.text() : String(verb));
       const verbJson = typeof verb === 'object' && verb.json ? (verb.json()[0] || {}) : {};
       const verbData = verbJson.verb || {};
 
@@ -990,6 +1004,15 @@ class ActExtractor {
     const morphologicalVerbs = [];
     const words = text.split(/\s+/);
 
+    // V7.4 DUPLICATE-FIX: Get nouns from Compromise to avoid treating them as verbs
+    // "The hospital charged the patient excessive fees" → "fees" is noun, not verb
+    const compromiseNouns = new Set();
+    doc.nouns().forEach(noun => {
+      // Extract individual words from noun phrases
+      const nounWords = noun.text().toLowerCase().split(/\s+/);
+      nounWords.forEach(w => compromiseNouns.add(w));
+    });
+
     // Common verb endings
     const verbPatterns = [
       /s$/,           // present tense 3rd person (fails, runs, completes, restarts)
@@ -1025,8 +1048,19 @@ class ActExtractor {
       const clean = word.toLowerCase().replace(/[.,;:!?]$/, '');
       const prevWord = i > 0 ? words[i - 1].toLowerCase().replace(/[.,;:!?]$/, '') : null;
 
-      // Skip if already found by Compromise
+      // V7.4 DUPLICATE-FIX: Skip if already found by Compromise (exact match)
       if (compromiseVerbTexts.has(word)) continue;
+
+      // V7.4 DUPLICATE-FIX: Skip if word is part of a Compromise verb phrase
+      // e.g., "was treated" contains "treated", "has been running" contains "running"
+      // This prevents creating duplicate Acts for passive voice and compound tenses
+      const isPartOfCompromiseVerb = Array.from(compromiseVerbTexts).some(verbPhrase => {
+        // Check if the verb phrase contains this word as a complete word (not substring)
+        // "treated" should match in "was treated", but "eat" should not match in "treated"
+        const phraseWords = verbPhrase.toLowerCase().split(/\s+/);
+        return phraseWords.includes(clean);
+      });
+      if (isPartOfCompromiseVerb) continue;
 
       // Skip if too short
       if (clean.length < 3) continue;
@@ -1034,6 +1068,10 @@ class ActExtractor {
       // Skip if preceded by a determiner (likely a noun, not a verb)
       // e.g., "the load increases" → "load" is a noun
       if (prevWord && determiners.has(prevWord)) continue;
+
+      // V7.4 DUPLICATE-FIX: Skip if Compromise identified this word as a noun
+      // "fees" in "excessive fees" should not be treated as verb
+      if (compromiseNouns.has(clean)) continue;
 
       // Check if it's a known verb
       if (commonVerbs.has(clean)) {
@@ -1869,14 +1907,56 @@ class ActExtractor {
     // "worked with the admin" → comitative, not instrument
     // Heuristic: if verb is intransitive cooperation verb, "with" is comitative
     const COMITATIVE_VERBS = new Set(['work', 'collaborate', 'cooperate', 'meet', 'talk', 'discuss']);
-    ppRoles.forEach(pp => {
-      if (pp.role === 'instrument') {
-        const verbText = fullText.substring(verbOffset, verbEnd).toLowerCase().trim();
-        const entityType = pp.entity['tagteam:denotesType'] || '';
 
-        // If verb suggests cooperation OR entity is Person, switch to comitative
-        if (COMITATIVE_VERBS.has(verbText) || entityType.includes('Person')) {
+    // V7.3 Enhancement: Verb-sensitive preposition mapping for recipient role
+    // Different verb classes map "to" and "on" to different semantic roles
+    const COMMUNICATION_VERBS = new Set([
+      'explain', 'tell', 'say', 'speak', 'talk', 'communicate', 'announce',
+      'describe', 'report', 'inform', 'notify', 'mention', 'reveal', 'disclose'
+    ]);
+    const TRANSFER_VERBS = new Set([
+      'give', 'send', 'deliver', 'bring', 'take', 'hand', 'pass', 'offer',
+      'provide', 'supply', 'grant', 'award', 'lend', 'loan'
+    ]);
+    const CAUSATION_VERBS = new Set([
+      'cause', 'bring', 'lead', 'result', 'contribute'
+    ]);
+    const MEDICAL_INTERVENTION_VERBS = new Set([
+      'operate', 'perform', 'conduct', 'administer', 'carry'
+    ]);
+    const MOTION_VERBS = new Set([
+      'transport', 'move', 'transfer', 'carry', 'convey', 'relocate', 'shift'
+    ]);
+
+    const verbText = fullText.substring(verbOffset, verbEnd).toLowerCase().trim();
+
+    // Normalize verb to infinitive form for class checking
+    const verbInfinitive = VERB_INFINITIVE_CORRECTIONS[verbText] || verbText;
+
+    ppRoles.forEach(pp => {
+      // Handle "with" → comitative for cooperation verbs
+      if (pp.role === 'instrument') {
+        const entityType = pp.entity['tagteam:denotesType'] || '';
+        if (COMITATIVE_VERBS.has(verbInfinitive) || entityType.includes('Person')) {
           pp.role = 'comitative';
+        }
+      }
+
+      // Handle "to" → recipient for communication/transfer/causation verbs
+      // But keep "to" → destination for motion verbs
+      if (pp.role === 'destination' && pp.preposition === 'to') {
+        if (COMMUNICATION_VERBS.has(verbInfinitive) ||
+            TRANSFER_VERBS.has(verbInfinitive) ||
+            CAUSATION_VERBS.has(verbInfinitive)) {
+          pp.role = 'recipient';
+        }
+        // Motion verbs keep destination role (e.g., "transported to the hospital" → Goal)
+      }
+
+      // Handle "on" → recipient for medical intervention verbs
+      if (pp.role === 'location' && pp.preposition === 'on') {
+        if (MEDICAL_INTERVENTION_VERBS.has(verbInfinitive)) {
+          pp.role = 'recipient';
         }
       }
     });
@@ -1932,9 +2012,24 @@ class ActExtractor {
     const NON_PARTICIPANT_TYPES = ['bfo:BFO_0000038', 'bfo:BFO_0000008', 'bfo:BFO_0000019', 'bfo:BFO_0000016'];
     // Types that cannot be agents but CAN be patients (objects of actions)
     const NON_AGENT_TYPES = [...NON_PARTICIPANT_TYPES, 'cco:InformationContentEntity'];
+
+    // V7.3: Get verb infinitive to check for causation verbs
+    // Causation verbs allow ICE agents (e.g., "The error caused harm")
+    let currentVerbInfinitive = this._getInfinitive(verbText);
+    currentVerbInfinitive = VERB_INFINITIVE_CORRECTIONS[currentVerbInfinitive] || currentVerbInfinitive;
+    const CAUSATION_VERBS_LOCAL = new Set(['cause', 'bring', 'lead', 'result', 'contribute', 'trigger', 'produce']);
+
     const isNonAgentEntity = (entity) => {
       const dt = entity['tagteam:denotesType'];
-      return dt && NON_AGENT_TYPES.includes(dt);
+      if (!dt || !NON_AGENT_TYPES.includes(dt)) return false;
+
+      // V7.3: Allow ICE agents for causation verbs
+      // "The error caused harm" - error (ICE) can be causal agent
+      if (dt === 'cco:InformationContentEntity' && CAUSATION_VERBS_LOCAL.has(currentVerbInfinitive)) {
+        return false; // Not filtered - allow as agent
+      }
+
+      return true; // Filter out
     };
     const isNonPatientEntity = (entity) => {
       const dt = entity['tagteam:denotesType'];
@@ -2034,10 +2129,20 @@ class ActExtractor {
       // Patient/affected is typically the closest entity after the verb
       // Use patientCandidatesAfter which includes ICE types (they can be objects of actions)
       // Get the closest one to the verb
+      // V7.3: When multiple entities start at same position (PP-modified phrases),
+      // prefer the shortest one (head-np) over the full phrase
       const closestAfter = patientCandidatesAfter.reduce((closest, entity) => {
         const entityStart = this._getEntityStart(entity);
         const closestStart = this._getEntityStart(closest);
-        return entityStart < closestStart ? entity : closest;
+
+        // If entity is closer to verb, prefer it
+        if (entityStart < closestStart) return entity;
+        if (entityStart > closestStart) return closest;
+
+        // Same start position - prefer shorter entity (head-np over full-phrase)
+        const entityLength = (entity['rdfs:label'] || '').length;
+        const closestLength = (closest['rdfs:label'] || '').length;
+        return entityLength < closestLength ? entity : closest;
       });
       links.patient = resolveIRI(closestAfter['@id']);
       links.patientEntity = closestAfter; // Preserve for inference target
@@ -2122,6 +2227,9 @@ class ActExtractor {
       const entityIRI = resolveIRI(pp.entity['@id']);
 
       switch (pp.role) {
+        case 'recipient':
+          if (!links.recipient) links.recipient = entityIRI;
+          break;
         case 'beneficiary':
           if (!links.beneficiary) links.beneficiary = entityIRI;
           break;

@@ -107,22 +107,23 @@ function extractSemanticRoles(graph) {
 
     // Extract oblique roles (beneficiary, instrument, location, etc.)
     const obliqueProps = [
-      'cco:has_beneficiary',
-      'cco:has_instrument',
-      'cco:occurs_at',
-      'cco:has_source',
-      'cco:has_destination'
+      { prop: 'cco:has_beneficiary', role: 'Beneficiary' },
+      { prop: 'cco:has_instrument', role: 'Instrument' },
+      { prop: 'cco:occurs_at', role: 'Location' },
+      { prop: 'cco:has_source', role: 'Source' },
+      { prop: 'cco:has_destination', role: 'Goal' },
+      { prop: 'tagteam:destination', role: 'Goal' },  // V7.3: TagTeam uses tagteam:destination
+      { prop: 'tagteam:located_in', role: 'Location' }
     ];
 
-    for (const prop of obliqueProps) {
+    for (const { prop, role } of obliqueProps) {
       if (act[prop]) {
         const roleId = act[prop]['@id'] || act[prop];
         const roleEntity = nodes.find(n => n['@id'] === roleId);
         if (roleEntity && !isSpuriousEntity(roleEntity)) {
-          const roleName = prop.replace('cco:has_', '').replace('cco:occurs_at', 'Location');
           roles.push({
             text: normalizeText(roleEntity['rdfs:label'] || ''),
-            role: roleName.charAt(0).toUpperCase() + roleName.slice(1),
+            role: role,
             entityType: extractEntityType(roleEntity),
             verb
           });
@@ -182,6 +183,12 @@ function compareSemanticRoles(expected, actual) {
       // Patient/Theme are synonymous
       if ((expectedRoleName === 'Theme' && actualRole.role === 'Patient') ||
           (expectedRoleName === 'Patient' && actualRole.role === 'Theme')) {
+        return actualText === expectedText;
+      }
+
+      // Goal/Destination are synonymous (V7.3)
+      if ((expectedRoleName === 'Goal' && actualRole.role === 'Destination') ||
+          (expectedRoleName === 'Destination' && actualRole.role === 'Goal')) {
         return actualText === expectedText;
       }
 
