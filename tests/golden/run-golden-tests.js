@@ -266,7 +266,6 @@ function executeTest(testCase, args) {
       preserveAmbiguity: true
     });
 
-    result.actual = graph;
     result.executionTime = Date.now() - startTime;
 
     // Use semantic role validator for role-based tests
@@ -274,7 +273,7 @@ function executeTest(testCase, args) {
       const validation = semanticRoleValidator.validateSemanticRoles(testCase, graph);
       result.passed = validation.passed;
       result.diff = validation.diffs;
-      result.semanticValidation = validation;
+      result.validation = validation; // Store validation instead of full graph
 
       if (args.verbose && !validation.passed) {
         console.log(`    ${CONFIG.colors.red}Role mismatches:${CONFIG.colors.reset}`);
@@ -295,6 +294,15 @@ function executeTest(testCase, args) {
       );
       result.diff = diffs;
       result.passed = diffs.length === 0;
+    }
+
+    // V7.4 MEMORY-FIX: Don't store full graph objects to prevent heap overflow
+    // Only store graph summary for debugging failed tests
+    if (!result.passed && args.verbose) {
+      result.graphSummary = {
+        entityCount: graph['@graph'] ? graph['@graph'].length : 0,
+        hasContext: !!graph['@context']
+      };
     }
 
   } catch (error) {
