@@ -59,6 +59,8 @@ const ethicalProfilerPath = path.join(__dirname, '..', 'src', 'analyzers', 'Ethi
 const semanticExtractorPath = path.join(__dirname, '..', 'src', 'core', 'SemanticRoleExtractor.js');
 
 // Phase 4: Graph modules (Two-Tier Architecture v2.3)
+const tokenizerPath = path.join(__dirname, '..', 'src', 'graph', 'Tokenizer.js');
+const npChunkerPath = path.join(__dirname, '..', 'src', 'graph', 'NPChunker.js');
 const realWorldEntityFactoryPath = path.join(__dirname, '..', 'src', 'graph', 'RealWorldEntityFactory.js');
 const entityExtractorPath = path.join(__dirname, '..', 'src', 'graph', 'EntityExtractor.js');
 const actExtractorPath = path.join(__dirname, '..', 'src', 'graph', 'ActExtractor.js');
@@ -154,6 +156,8 @@ console.log(`  ✓ SemanticRoleExtractor.js (${(semanticExtractor.length / 1024)
 
 // Read Phase 4 graph modules (Two-Tier Architecture v2.3)
 console.log('\n📖 Reading Phase 4 graph modules (Two-Tier v2.3)...');
+let tokenizer = fs.readFileSync(tokenizerPath, 'utf8');
+let npChunker = fs.readFileSync(npChunkerPath, 'utf8');
 let realWorldEntityFactory = fs.readFileSync(realWorldEntityFactoryPath, 'utf8');
 let entityExtractor = fs.readFileSync(entityExtractorPath, 'utf8');
 let actExtractor = fs.readFileSync(actExtractorPath, 'utf8');
@@ -223,6 +227,8 @@ let semanticValidators = fs.readFileSync(semanticValidatorsPath, 'utf8');
 let outputSanitizer = fs.readFileSync(outputSanitizerPath, 'utf8');
 let auditLogger = fs.readFileSync(auditLoggerPath, 'utf8');
 
+console.log(`  ✓ Tokenizer.js (${(tokenizer.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ NPChunker.js (${(npChunker.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ RealWorldEntityFactory.js (${(realWorldEntityFactory.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ EntityExtractor.js (${(entityExtractor.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ ActExtractor.js (${(actExtractor.length / 1024).toFixed(2)} KB)`);
@@ -414,6 +420,12 @@ function stripCommonJS(code, className) {
   code = code.replace(/'use strict';\s*\n?/g, '');
   return code;
 }
+
+tokenizer = stripCommonJS(tokenizer, 'Tokenizer');
+console.log('  ✓ Converted Tokenizer to browser format');
+
+npChunker = stripCommonJS(npChunker, 'NPChunker');
+console.log('  ✓ Converted NPChunker to browser format');
 
 realWorldEntityFactory = stripCommonJS(realWorldEntityFactory, 'RealWorldEntityFactory');
 console.log('  ✓ Converted RealWorldEntityFactory to browser format');
@@ -798,6 +810,20 @@ ${semanticExtractor}
   // ============================================================================
 
 ${realWorldEntityFactory}
+
+  // ============================================================================
+  // TOKENIZER (Phase 4 - Entity Extraction dependency)
+  // Character-level tokenizer for NP chunking
+  // ============================================================================
+
+${tokenizer}
+
+  // ============================================================================
+  // NP CHUNKER (Phase 4 - Entity Extraction dependency)
+  // Noun phrase chunking from POS-tagged tokens
+  // ============================================================================
+
+${npChunker}
 
   // ============================================================================
   // ENTITY EXTRACTOR (Phase 4 - Two-Tier v2.2)
