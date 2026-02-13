@@ -233,18 +233,30 @@ function validateTestCase(testCase, index) {
 // ============================================================================
 
 /**
+ * Load TagTeam library once for all tests (V7.4 MEMORY-FIX)
+ * Previously loaded per-test (556 × 5.35MB module = massive memory churn)
+ */
+let _cachedTagTeam = null;
+function getTagTeam() {
+  if (!_cachedTagTeam) {
+    _cachedTagTeam = require('../../dist/tagteam.js');
+  }
+  return _cachedTagTeam;
+}
+
+/**
  * Execute a single test case
  *
- * Loads TagTeam, parses input, and compares with expected output
+ * Uses cached TagTeam instance, returns lightweight result
  */
 function executeTest(testCase, args) {
+  // V7.4 MEMORY-FIX: Only store essential data in results - no expectedOutput,
+  // no graph references. These were causing ~33MB+ accumulation across 556 tests.
   const result = {
     id: testCase.id,
     input: testCase.input,
     passed: false,
-    expected: testCase.expectedOutput,
-    actual: null,
-    diff: null,
+    diffCount: 0,
     executionTime: 0,
     error: null
   };
@@ -256,9 +268,7 @@ function executeTest(testCase, args) {
   try {
     const startTime = Date.now();
 
-    // Load TagTeam library
-    delete require.cache[require.resolve('../../dist/tagteam.js')];
-    const TagTeam = require('../../dist/tagteam.js');
+    const TagTeam = getTagTeam();
 
     // Parse input with NPChunker enabled
     const graph = TagTeam.buildGraph(testCase.input, {
@@ -272,8 +282,19 @@ function executeTest(testCase, args) {
     if (semanticRoleValidator && testCase.expectedOutput?.semanticRoles) {
       const validation = semanticRoleValidator.validateSemanticRoles(testCase, graph);
       result.passed = validation.passed;
-      result.diff = validation.diffs;
-      result.validation = validation; // Store validation instead of full graph
+      result.diffCount = validation.diffs.length;
+
+      // V7.4 MEMORY-FIX: Only store lightweight diffs (role names + text, no graph refs)
+      if (!validation.passed) {
+        result.diffs = validation.diffs.map(d => ({
+          type: d.type,
+          role: d.expected?.role || d.actual?.role || '',
+          text: d.expected?.text || d.actual?.text || ''
+        }));
+      }
+
+      // Store summary counts only
+      result.validationSummary = validation.summary;
 
       if (args.verbose && !validation.passed) {
         console.log(`    ${CONFIG.colors.red}Role mismatches:${CONFIG.colors.reset}`);
@@ -287,23 +308,18 @@ function executeTest(testCase, args) {
       }
     } else {
       // Default comparison for other test types
+      // V7.4 MEMORY-FIX: Only count diffs, don't store graph fragment references
       const diffs = compareResults(
         testCase.expectedOutput,
         graph,
         testCase.validationRules || {}
       );
-      result.diff = diffs;
+      result.diffCount = diffs.length;
       result.passed = diffs.length === 0;
+      // Don't store diffs - they contain references to graph sub-objects
     }
 
-    // V7.4 MEMORY-FIX: Don't store full graph objects to prevent heap overflow
-    // Only store graph summary for debugging failed tests
-    if (!result.passed && args.verbose) {
-      result.graphSummary = {
-        entityCount: graph['@graph'] ? graph['@graph'].length : 0,
-        hasContext: !!graph['@context']
-      };
-    }
+    // graph goes out of scope here and becomes eligible for GC
 
   } catch (error) {
     result.error = error.message;
@@ -514,40 +530,12 @@ function ensureResultsDir() {
 function saveResults(results, summary) {
   const timestamp = new Date().toISOString();
 
-  // V7.4 MEMORY-FIX: Strip heavy data from results before JSON serialization
-  // Keep only essential validation info, remove extractedRoles to prevent OOM
-  const lightweightResults = results.map(result => {
-    const lightResult = {
-      id: result.id,
-      input: result.input,
-      passed: result.passed,
-      expected: result.expected,
-      executionTime: result.executionTime,
-      error: result.error
-    };
-
-    // For validation, only keep diffs and summary (not extractedRoles)
-    if (result.validation) {
-      lightResult.validation = {
-        passed: result.validation.passed,
-        diffs: result.validation.diffs,
-        summary: result.validation.summary
-        // Removed: extractedRoles (can be ~10KB per test × 556 tests = ~5.6MB)
-      };
-    }
-
-    // Keep diff for non-semantic-role tests
-    if (result.diff && !result.validation) {
-      lightResult.diff = result.diff;
-    }
-
-    return lightResult;
-  });
-
+  // V7.4 MEMORY-FIX: Results are already lightweight from executeTest()
+  // No graph objects, no expectedOutput, no extractedRoles stored
   const resultData = {
     timestamp,
     summary,
-    results: lightweightResults
+    results
   };
 
   const resultFile = path.join(CONFIG.resultsDir, 'latest-results.json');
