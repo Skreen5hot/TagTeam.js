@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TagTeam.js - Ethical Context Analysis Library</title>
+    <title>TagTeam.js - Deterministic Semantic Parser</title>
     <style>
         * {
             margin: 0;
@@ -25,10 +25,11 @@
             padding: 20px;
         }
 
+        /* ── Hero ── */
         header {
             text-align: center;
             color: white;
-            padding: 60px 20px;
+            padding: 50px 20px 40px;
         }
 
         header h1 {
@@ -43,12 +44,12 @@
             padding: 5px 15px;
             border-radius: 20px;
             font-size: 0.9em;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         header p {
-            font-size: 1.3em;
-            margin-bottom: 30px;
+            font-size: 1.2em;
+            margin-bottom: 25px;
             opacity: 0.95;
         }
 
@@ -56,7 +57,7 @@
             display: flex;
             justify-content: center;
             gap: 40px;
-            margin-top: 30px;
+            margin-top: 20px;
             flex-wrap: wrap;
         }
 
@@ -65,7 +66,7 @@
         }
 
         .stat-number {
-            font-size: 2.5em;
+            font-size: 2.2em;
             font-weight: bold;
             display: block;
         }
@@ -75,39 +76,70 @@
             opacity: 0.9;
         }
 
+        .hero-links {
+            margin-top: 25px;
+        }
+
+        .hero-links a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 24px;
+            border: 2px solid rgba(255,255,255,0.6);
+            border-radius: 8px;
+            margin: 0 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .hero-links a:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: white;
+        }
+
+        /* ── Main Content ── */
         .main-content {
             background: white;
             border-radius: 20px;
             padding: 40px;
-            margin: 40px 0;
+            margin: 30px 0;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
 
-        .demo-section {
+        .section {
             margin-bottom: 50px;
         }
 
-        .demo-section h2 {
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section h2 {
             color: #667eea;
-            margin-bottom: 20px;
-            font-size: 2em;
+            margin-bottom: 15px;
+            font-size: 1.8em;
             border-bottom: 3px solid #667eea;
             padding-bottom: 10px;
         }
 
+        .section > p {
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        /* ── Try It Live ── */
         .interactive-demo {
             background: #f8f9fa;
-            padding: 30px;
+            padding: 25px;
             border-radius: 10px;
-            margin: 20px 0;
         }
 
         textarea {
             width: 100%;
-            min-height: 120px;
-            padding: 15px;
+            min-height: 80px;
+            padding: 14px;
             font-family: 'Courier New', monospace;
-            font-size: 16px;
+            font-size: 15px;
             border: 2px solid #ddd;
             border-radius: 8px;
             resize: vertical;
@@ -119,22 +151,29 @@
             border-color: #667eea;
         }
 
+        .action-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
         button {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 15px 40px;
-            font-size: 16px;
+            padding: 12px 28px;
+            font-size: 15px;
             border-radius: 8px;
             cursor: pointer;
-            margin: 10px 5px;
             transition: transform 0.2s, box-shadow 0.2s;
             font-weight: 600;
         }
 
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
         }
 
         button:active {
@@ -144,16 +183,17 @@
         .example-buttons {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin: 20px 0;
+            gap: 8px;
+            margin: 15px 0 0 0;
         }
 
         .example-btn {
             background: white;
             color: #667eea;
             border: 2px solid #667eea;
-            padding: 10px 20px;
-            font-size: 14px;
+            padding: 8px 16px;
+            font-size: 13px;
+            border-radius: 6px;
         }
 
         .example-btn:hover {
@@ -161,106 +201,119 @@
             color: white;
         }
 
-        .results {
-            background: white;
-            padding: 25px;
-            border-radius: 8px;
-            margin-top: 20px;
-            border-left: 5px solid #27ae60;
+        .verbose-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85em;
+            color: #6b7280;
+            cursor: pointer;
         }
 
-        .results h3 {
-            color: #27ae60;
-            margin-bottom: 15px;
+        /* ── Tabs ── */
+        .tab-bar {
+            display: flex;
+            border-bottom: 2px solid #e5e7eb;
+            margin-bottom: 0;
+        }
+
+        .tab-btn {
+            background: none;
+            color: #6b7280;
+            border: none;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            border-radius: 0;
+            transition: color 0.2s, border-color 0.2s;
+            box-shadow: none;
+        }
+
+        .tab-btn:hover {
+            color: #667eea;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-panel {
+            display: none;
+            padding: 20px 0 0 0;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        .results-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #667eea;
+        }
+
+        .results-box h3 {
+            color: #667eea;
+            margin-bottom: 12px;
         }
 
         pre {
             background: #2d3748;
             color: #e2e8f0;
-            padding: 20px;
+            padding: 18px;
             border-radius: 8px;
             overflow-x: auto;
-            font-size: 14px;
+            font-size: 13px;
             line-height: 1.5;
         }
 
-        .features-grid {
+        /* ── Graph summary stats ── */
+        .graph-summary-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin: 30px 0;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            margin: 15px 0;
         }
 
-        .feature-card {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            padding: 25px;
-            border-radius: 12px;
-            transition: transform 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .feature-card h3 {
-            color: #667eea;
-            margin-bottom: 10px;
-            font-size: 1.3em;
-        }
-
-        .feature-icon {
-            font-size: 2.5em;
-            margin-bottom: 15px;
-        }
-
-        .links-section {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 40px 0;
-            flex-wrap: wrap;
-        }
-
-        .link-card {
-            background: white;
-            border: 2px solid #667eea;
-            padding: 20px 30px;
-            border-radius: 10px;
-            text-decoration: none;
-            color: #667eea;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .link-card:hover {
-            background: #667eea;
-            color: white;
-            transform: scale(1.05);
-        }
-
-        footer {
+        .summary-stat {
+            background: #f5f3ff;
+            padding: 12px;
+            border-radius: 8px;
             text-align: center;
-            color: white;
-            padding: 30px;
-            opacity: 0.9;
         }
 
-        .badge {
-            display: inline-block;
-            background: #27ae60;
-            color: white;
-            padding: 5px 12px;
-            border-radius: 5px;
-            font-size: 0.85em;
-            margin-left: 10px;
-            font-weight: 600;
+        .summary-stat .number {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #7c3aed;
         }
 
+        .summary-stat .label {
+            font-size: 0.8em;
+            color: #6b7280;
+        }
+
+        .entity-item, .act-item, .role-item {
+            background: #f5f3ff;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin: 6px 0;
+            border-left: 3px solid #8b5cf6;
+        }
+
+        /* ── Context breakdown ── */
         .context-breakdown {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
-            margin: 20px 0;
+            margin: 15px 0;
         }
 
         .context-category {
@@ -272,14 +325,14 @@
 
         .context-category h4 {
             color: #667eea;
-            margin-bottom: 10px;
-            font-size: 1.1em;
+            margin-bottom: 8px;
+            font-size: 1em;
         }
 
         .context-dimension {
             display: flex;
             justify-content: space-between;
-            margin: 5px 0;
+            margin: 4px 0;
             font-size: 0.9em;
         }
 
@@ -288,169 +341,13 @@
             color: #27ae60;
         }
 
-        /* Phase 4 JSON-LD Styles */
-        .phase4-section {
-            background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
-            border-radius: 12px;
-            padding: 30px;
-            margin: 20px 0;
-        }
-
-        .phase4-section h3 {
-            color: white;
-            margin-bottom: 15px;
-        }
-
-        .phase4-section p {
-            color: rgba(255,255,255,0.9);
-        }
-
-        .phase4-btn {
-            background: white;
-            color: #7c3aed;
-            border: none;
-            padding: 12px 24px;
-            font-size: 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            margin: 10px 5px 10px 0;
-            font-weight: 600;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .phase4-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.4);
-        }
-
-        .phase4-results {
-            background: white;
-            padding: 25px;
-            border-radius: 8px;
-            margin-top: 20px;
-            border-left: 5px solid #8b5cf6;
-        }
-
-        .phase4-results h3 {
-            color: #7c3aed;
-            margin-bottom: 15px;
-        }
-
-        .graph-summary {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .summary-stat {
-            background: #f5f3ff;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .summary-stat .number {
-            font-size: 2em;
-            font-weight: bold;
-            color: #7c3aed;
-        }
-
-        .summary-stat .label {
-            font-size: 0.85em;
-            color: #6b7280;
-        }
-
-        .entity-list, .act-list, .role-list {
-            margin: 15px 0;
-        }
-
-        .entity-item, .act-item, .role-item {
-            background: #f5f3ff;
-            padding: 10px 15px;
-            border-radius: 6px;
-            margin: 8px 0;
-            border-left: 3px solid #8b5cf6;
-        }
-
-        .badge-phase4 {
-            background: #8b5cf6;
-        }
-
-        /* M-1 Clause Segmentation Styles */
-        .badge-m1 {
-            background: #0891b2;
-        }
-
-        .m1-section {
-            background: linear-gradient(135deg, #0891b2 0%, #155e75 100%);
-            border-radius: 12px;
-            padding: 30px;
-            margin: 20px 0;
-        }
-
-        .m1-section h3 {
-            color: white;
-            margin-bottom: 15px;
-        }
-
-        .m1-section p {
-            color: rgba(255,255,255,0.9);
-        }
-
-        .m1-btn {
-            background: white;
-            color: #0891b2;
-            border: none;
-            padding: 12px 24px;
-            font-size: 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            margin: 10px 5px 10px 0;
-            font-weight: 600;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .m1-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(8, 145, 178, 0.4);
-        }
-
-        .m1-results {
-            background: white;
-            padding: 25px;
-            border-radius: 8px;
-            margin-top: 20px;
-            border-left: 5px solid #0891b2;
-        }
-
-        .m1-results h3 {
-            color: #0891b2;
-            margin-bottom: 15px;
-        }
-
-        .m1-example-btn {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.4);
-            padding: 8px 14px;
-            font-size: 13px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin: 4px;
-            transition: background 0.2s;
-        }
-
-        .m1-example-btn:hover {
-            background: rgba(255,255,255,0.35);
-        }
-
+        /* ── Clause cards ── */
         .clause-card {
             background: #f0fdfa;
             border: 1px solid #99f6e4;
             border-radius: 8px;
-            padding: 15px;
-            margin: 10px 0;
+            padding: 12px;
+            margin: 8px 0;
         }
 
         .clause-card.elliptical {
@@ -467,18 +364,327 @@
             font-size: 0.85em;
             font-weight: 600;
         }
+
+        /* ── TTL Ontology Input ── */
+        .ttl-section {
+            margin-top: 18px;
+            background: #f0f4ff;
+            border-radius: 8px;
+            border: 1px solid #d4daf0;
+        }
+
+        .ttl-toggle {
+            cursor: pointer;
+            padding: 12px 16px;
+            font-weight: 600;
+            color: #667eea;
+            font-size: 0.95em;
+        }
+
+        .ttl-toggle:hover {
+            color: #4c5ecf;
+        }
+
+        .ttl-body {
+            padding: 0 16px 16px 16px;
+        }
+
+        .ttl-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .ttl-upload-btn {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            padding: 6px 14px;
+            font-size: 13px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .ttl-upload-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* ── Evidence Table ── */
+        .evidence-class-header {
+            color: #667eea;
+            font-size: 1.05em;
+            font-weight: 600;
+            margin: 18px 0 6px 0;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #e0d4fc;
+        }
+
+        .evidence-class-header:first-child {
+            margin-top: 0;
+        }
+
+        .evidence-iri {
+            font-size: 0.75em;
+            color: #999;
+            font-weight: normal;
+            margin-left: 8px;
+        }
+
+        .evidence-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 8px 0 16px 0;
+            font-size: 0.88em;
+        }
+
+        .evidence-table th {
+            text-align: left;
+            padding: 8px 10px;
+            background: #f5f3ff;
+            color: #667eea;
+            font-weight: 600;
+            border-bottom: 2px solid #e0d4fc;
+        }
+
+        .evidence-table td {
+            padding: 6px 10px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #444;
+            vertical-align: top;
+        }
+
+        .evidence-table code {
+            background: #f0edff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #667eea;
+        }
+
+        .match-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .match-exact {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .match-partial {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .match-keyword {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .no-matches-msg {
+            color: #888;
+            font-style: italic;
+            padding: 15px 0;
+        }
+
+        /* ── Feature Cards ── */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 25px;
+            border-radius: 12px;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .feature-card h3 {
+            color: #667eea;
+            margin-bottom: 8px;
+            font-size: 1.2em;
+        }
+
+        .feature-card p {
+            font-size: 0.95em;
+            color: #444;
+        }
+
+        /* ── Pipeline ── */
+        .pipeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .pipeline-step {
+            flex: 1;
+            min-width: 140px;
+            background: #f5f3ff;
+            padding: 18px 14px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #e0d4fc;
+        }
+
+        .pipeline-step .step-num {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            border-radius: 50%;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .pipeline-step h4 {
+            color: #667eea;
+            font-size: 0.95em;
+            margin-bottom: 4px;
+        }
+
+        .pipeline-step p {
+            font-size: 0.8em;
+            color: #6b7280;
+        }
+
+        .pipeline-arrow {
+            font-size: 1.4em;
+            color: #667eea;
+            flex-shrink: 0;
+        }
+
+        /* ── Links grid ── */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 12px;
+        }
+
+        .link-card {
+            display: block;
+            background: white;
+            border: 2px solid #e5e7eb;
+            padding: 18px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s;
+        }
+
+        .link-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        }
+
+        .link-card h4 {
+            color: #667eea;
+            margin-bottom: 4px;
+        }
+
+        .link-card p {
+            font-size: 0.85em;
+            color: #6b7280;
+        }
+
+        /* ── Developer section ── */
+        .code-example {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        .bundle-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        .bundle-table th, .bundle-table td {
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .bundle-table th {
+            background: #f3f4f6;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .bundle-table td code {
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        /* ── Footer ── */
+        footer {
+            text-align: center;
+            color: white;
+            padding: 25px;
+            opacity: 0.9;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: underline;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.5em; }
+            .main-content { padding: 25px; }
+            .pipeline { flex-direction: column; }
+            .pipeline-arrow { transform: rotate(90deg); }
+            .tab-btn { padding: 10px 14px; font-size: 13px; }
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="container">
             <h1>TagTeam.js</h1>
-            <span class="version">v6.6</span>
-            <p>Two-Tier Semantic Graph Architecture with Custom Ontology Tagging</p>
+            <span class="version" id="hero-version">Loading...</span>
+            <p>Deterministic semantic parser with JSON-LD graph output</p>
             <div class="hero-stats">
                 <div class="stat">
-                    <span class="stat-number">800+</span>
-                    <span class="stat-label">Tests Passing</span>
+                    <span class="stat-number">Deterministic</span>
+                    <span class="stat-label">No AI / No LLM</span>
                 </div>
                 <div class="stat">
                     <span class="stat-number">2-Tier</span>
@@ -486,597 +692,576 @@
                 </div>
                 <div class="stat">
                     <span class="stat-number">BFO/CCO</span>
-                    <span class="stat-label">Compatible</span>
+                    <span class="stat-label">Ontology Aligned</span>
                 </div>
+            </div>
+            <div class="hero-links">
+                <a href="https://github.com/Skreen5hot/TagTeam.js" target="_blank" rel="noopener">GitHub</a>
             </div>
         </div>
     </header>
 
     <div class="container">
         <div class="main-content">
-            <section class="demo-section">
-                <h2>🚀 Try It Live</h2>
-                <p>Enter any ethical scenario or moral dilemma to see TagTeam.js analyze its context:</p>
+
+            <!-- ════════════════════════════════════════ -->
+            <!-- Section 1: Try It Live                   -->
+            <!-- ════════════════════════════════════════ -->
+            <section class="section">
+                <h2>Try It Live</h2>
+                <p>Enter any sentence to see TagTeam.js extract entities, assign roles, and build a knowledge graph:</p>
 
                 <div class="interactive-demo">
-                    <textarea id="input" placeholder="Enter an ethical scenario...">The doctor must allocate the last ventilator between two critically ill patients</textarea>
+                    <textarea id="input" placeholder="Enter a sentence to analyze...">The doctor must allocate the last ventilator between two critically ill patients</textarea>
 
-                    <button onclick="analyze()">Analyze Context</button>
-
-                    <h4 style="margin-top: 25px; margin-bottom: 10px; color: #666;">Quick Examples:</h4>
-                    <div class="example-buttons">
-                        <button class="example-btn" onclick="setExample('The family must decide whether to continue treatment')">Healthcare</button>
-                        <button class="example-btn" onclick="setExample('I am questioning core doctrines')">Spiritual</button>
-                        <button class="example-btn" onclick="setExample('I discovered that my company is falsifying safety reports')">Whistleblowing</button>
-                        <button class="example-btn" onclick="setExample('My best friend is cheating on their spouse')">Interpersonal</button>
-                        <button class="example-btn" onclick="setExample('Should I report my colleague for minor policy violations?')">Professional</button>
+                    <div class="action-row">
+                        <button onclick="runAnalysis()">Analyze</button>
+                        <label class="verbose-label">
+                            <input type="checkbox" id="verbose-toggle"> Show POS Tags
+                        </label>
                     </div>
 
-                    <div id="results" style="display: none;">
-                        <div class="results">
-                            <h3>Analysis Results</h3>
-                            <div id="context-breakdown"></div>
-                            <details style="margin-top: 20px;">
-                                <summary style="cursor: pointer; font-weight: 600; color: #667eea;">View Full JSON Output</summary>
-                                <pre id="json-output"></pre>
-                            </details>
+                    <div class="example-buttons">
+                        <span style="color: #888; font-size: 0.85em; margin-right: 4px;">Examples:</span>
+                        <button class="example-btn" onclick="setExample('The family must decide whether to continue treatment')">Healthcare</button>
+                        <button class="example-btn" onclick="setExample('I discovered that my company is falsifying safety reports')">Whistleblowing</button>
+                        <button class="example-btn" onclick="setExample('My best friend is cheating on their spouse')">Interpersonal</button>
+                        <button class="example-btn" onclick="setExample('The server rebooted and the application restarted.')">Compound Sentence</button>
+                        <button class="example-btn" onclick="setExample('The server rebooted and was verified by the admin.')">Passive Voice</button>
+                    </div>
+
+                    <!-- TTL Ontology Input -->
+                    <details class="ttl-section" id="ttl-section">
+                        <summary class="ttl-toggle">Load Ontology (.ttl) for Class Matching</summary>
+                        <div class="ttl-body">
+                            <div class="ttl-controls">
+                                <label class="ttl-upload-btn">
+                                    Upload .ttl file
+                                    <input type="file" id="ttl-file" accept=".ttl,.turtle" style="display:none;" onchange="loadTtlFile(this)">
+                                </label>
+                                <span style="color: #888; font-size: 0.85em;">or paste below</span>
+                                <button class="example-btn" onclick="loadTtlExample('medical')">Medical Example</button>
+                                <button class="example-btn" onclick="loadTtlExample('legal')">Legal Example</button>
+                            </div>
+                            <textarea id="ttl-input" placeholder="Paste your Turtle (.ttl) ontology here..." style="min-height: 120px; font-size: 13px;"></textarea>
+                            <div style="margin-top: 8px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                                <label style="font-size: 0.85em; color: #555;">
+                                    Keywords property:
+                                    <input type="text" id="ttl-keywords-prop" value="" placeholder="e.g. med:indicators" style="padding: 4px 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; width: 160px; margin-left: 4px;">
+                                </label>
+                                <button class="example-btn" onclick="clearTtl()" style="font-size: 12px; padding: 4px 12px;">Clear TTL</button>
+                            </div>
+                        </div>
+                    </details>
+
+                    <div id="output-area" style="display: none; margin-top: 20px;">
+                        <div class="tab-bar">
+                            <button class="tab-btn active" onclick="switchTab('entities')">Entities &amp; Roles</button>
+                            <button class="tab-btn" onclick="switchTab('context')">Context Intensity</button>
+                            <button class="tab-btn" onclick="switchTab('clauses')">Clause Segmentation</button>
+                            <button class="tab-btn" onclick="switchTab('ontology')" id="ontology-tab-btn" style="display:none;">Ontology Matches</button>
+                        </div>
+
+                        <div id="tab-entities" class="tab-panel active">
+                            <div class="results-box">
+                                <h3>Entities &amp; Roles</h3>
+                                <div id="entities-content"></div>
+                                <details style="margin-top: 15px;">
+                                    <summary style="cursor: pointer; font-weight: 600; color: #667eea;">View Full JSON-LD</summary>
+                                    <pre id="jsonld-output"></pre>
+                                </details>
+                            </div>
+                        </div>
+
+                        <div id="tab-context" class="tab-panel">
+                            <div class="results-box">
+                                <h3>Context Intensity Analysis</h3>
+                                <div id="context-content"></div>
+                                <details style="margin-top: 15px;">
+                                    <summary style="cursor: pointer; font-weight: 600; color: #667eea;">View Full JSON</summary>
+                                    <pre id="context-json-output"></pre>
+                                </details>
+                            </div>
+                        </div>
+
+                        <div id="tab-clauses" class="tab-panel">
+                            <div class="results-box">
+                                <h3>Clause Segmentation</h3>
+                                <div id="clauses-content"></div>
+                                <details style="margin-top: 15px;">
+                                    <summary style="cursor: pointer; font-weight: 600; color: #667eea;">View Full JSON-LD</summary>
+                                    <pre id="clauses-json-output"></pre>
+                                </details>
+                            </div>
+                        </div>
+
+                        <div id="tab-ontology" class="tab-panel">
+                            <div class="results-box">
+                                <h3>Ontology Class Matches</h3>
+                                <p style="color: #555; font-size: 0.9em; margin-bottom: 12px;">Shows which ontology property produced each match against the input text.</p>
+                                <div id="ontology-content"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section class="demo-section">
-                <h2>🧠 Phase 4: Two-Tier Semantic Graph <span class="badge badge-phase4">v2.2</span></h2>
-                <p>Build BFO/CCO-compliant knowledge graphs with Two-Tier Architecture:</p>
-                <ul style="margin: 15px 0 20px 25px; line-height: 1.8;">
-                    <li><strong>Tier 1 (ICE):</strong> DiscourseReferent - what the text says</li>
-                    <li><strong>Tier 2 (IC):</strong> Person/Artifact/Organization - real-world entities</li>
-                    <li><strong>Cross-tier linking:</strong> <code>cco:is_about</code> connects parsing to semantics</li>
-                    <li><strong>ActualityStatus:</strong> Prescribed, Actual, Permitted, Negated, etc.</li>
-                </ul>
-
-                <div class="phase4-section">
-                    <h3>Try the Two-Tier JSON-LD Graph Builder</h3>
-                    <p>Enter text below to generate a semantic knowledge graph with Tier 1 and Tier 2 entities:</p>
-                    <br>
-                    <textarea id="phase4-input" placeholder="Enter text to build a semantic graph..." style="min-height: 80px;">The doctor must allocate the last ventilator between two critically ill patients</textarea>
-                    <br>
-                    <button class="phase4-btn" onclick="buildGraph()">Build JSON-LD Graph</button>
-                    <button class="phase4-btn" onclick="showGraphSummary()">Show Two-Tier Summary</button>
-                    <label style="display: inline-flex; align-items: center; gap: 6px; margin-left: 15px; font-size: 0.9em; color: #6b7280; cursor: pointer;">
-                        <input type="checkbox" id="verbose-toggle"> Show POS Tags
-                    </label>
-                </div>
-
-                <div id="phase4-results" style="display: none;">
-                    <div class="phase4-results">
-                        <h3>Graph Analysis</h3>
-                        <div id="graph-summary"></div>
-                        <details style="margin-top: 20px;">
-                            <summary style="cursor: pointer; font-weight: 600; color: #7c3aed;">View Full JSON-LD Output</summary>
-                            <pre id="jsonld-output"></pre>
-                        </details>
-                    </div>
-                </div>
-            </section>
-
-            <section class="demo-section">
-                <h2>🔗 M-1: Clause Segmentation &amp; Compound Sentences <span class="badge badge-m1">v2.0</span></h2>
-                <p>Compound and coordinated sentences produce one correctly-scoped act per clause with inter-clause relationship links:</p>
-                <ul style="margin: 15px 0 20px 25px; line-height: 1.8;">
-                    <li><strong>Case A:</strong> Full clause coordination — explicit subject + verb on both sides</li>
-                    <li><strong>Case B:</strong> Elliptical coordination — voice/auxiliary change, subject injected from left clause</li>
-                    <li><strong>Case C:</strong> VP coordination — shared subject, same verb form, no segmentation</li>
-                    <li><strong>"So" disambiguation:</strong> Result (<code>therefore</code>) vs Purpose (<code>in_order_that</code>)</li>
-                </ul>
-
-                <div class="m1-section">
-                    <h3>Try the Clause Segmentation Demo</h3>
-                    <p>Enter a compound sentence to see clause boundaries, relation types, and elliptical subject injection:</p>
-                    <br>
-                    <textarea id="m1-input" placeholder="Enter a compound sentence..." style="min-height: 80px;">The server rebooted and the application restarted.</textarea>
-                    <br>
-                    <button class="m1-btn" onclick="runM1Demo()">Segment Clauses</button>
-                    <button class="m1-btn" onclick="runM1Graph()">Build Full Graph</button>
-                    <br>
-                    <div style="margin-top: 10px;">
-                        <span style="color: rgba(255,255,255,0.7); font-size: 0.85em;">Try:</span>
-                        <button class="m1-example-btn" onclick="setM1Example('The server rebooted and the application restarted.')">Case A (and)</button>
-                        <button class="m1-example-btn" onclick="setM1Example('The doctor examined the patient but the nurse disagreed.')">Case A (but)</button>
-                        <button class="m1-example-btn" onclick="setM1Example('The server rebooted and was verified by the admin.')">Case B (elliptical)</button>
-                        <button class="m1-example-btn" onclick="setM1Example('The server rebooted and restarted.')">Case C (VP coord)</button>
-                        <button class="m1-example-btn" onclick="setM1Example('The system was slow so the user refreshed the page.')">So (Result)</button>
-                        <button class="m1-example-btn" onclick="setM1Example('He worked late so he could finish the report.')">So (Purpose)</button>
-                        <button class="m1-example-btn" onclick="setM1Example('The doctor and the nurse treated the patient.')">NP coordination</button>
-                    </div>
-                </div>
-
-                <div id="m1-results" style="display: none;">
-                    <div class="m1-results">
-                        <h3>Clause Segmentation Results</h3>
-                        <div id="m1-summary"></div>
-                        <details style="margin-top: 20px;">
-                            <summary style="cursor: pointer; font-weight: 600; color: #0891b2;">View Full JSON-LD Output</summary>
-                            <pre id="m1-jsonld-output"></pre>
-                        </details>
-                    </div>
-                </div>
-            </section>
-
-            <section class="demo-section">
-                <h2>✨ Key Features</h2>
+            <!-- ════════════════════════════════════════ -->
+            <!-- Section 2: What TagTeam Does             -->
+            <!-- ════════════════════════════════════════ -->
+            <section class="section">
+                <h2>What TagTeam Does</h2>
                 <div class="features-grid">
                     <div class="feature-card">
-                        <div class="feature-icon">🎯</div>
-                        <h3>Context Intensity Analysis</h3>
-                        <p>12-dimension analysis across temporal, relational, consequential, and epistemic categories</p>
+                        <div class="feature-icon">&#x1F50D;</div>
+                        <h3>Understand Language Structure</h3>
+                        <p>Extracts entities (people, things, organizations), identifies who does what to whom, and assigns semantic roles (Agent, Patient, Recipient) using VerbNet mappings.</p>
                     </div>
-
                     <div class="feature-card">
-                        <div class="feature-icon">🔬</div>
-                        <h3>Deterministic Parsing</h3>
-                        <p>Pattern-based keyword matching with negation and intensifier detection - no AI required</p>
+                        <div class="feature-icon">&#x1F4CA;</div>
+                        <h3>Build Knowledge Graphs</h3>
+                        <p>Produces standards-compliant JSON-LD graphs aligned with BFO (ISO 21838-2) and CCO ontologies. Two-tier architecture separates discourse referents from real-world entities.</p>
                     </div>
-
                     <div class="feature-card">
-                        <div class="feature-icon">🌐</div>
-                        <h3>BFO Compatible</h3>
-                        <p>Built on Basic Formal Ontology (ISO/IEC 21838-2) for interoperability with scientific ontologies</p>
-                    </div>
-
-                    <div class="feature-card">
-                        <div class="feature-icon">📦</div>
-                        <h3>Zero Dependencies</h3>
-                        <p>Lightweight bundle with optional N3.js for ontology parsing - production-ready manifests require no runtime parsing</p>
-                    </div>
-
-                    <div class="feature-card">
-                        <div class="feature-icon">⚡</div>
-                        <h3>Fast Performance</h3>
-                        <p>Parse typical scenarios in &lt;50ms with pre-compiled JSON ontology manifests</p>
-                    </div>
-
-                    <div class="feature-card">
-                        <div class="feature-icon">🔧</div>
-                        <h3>Extensible</h3>
-                        <p>Custom ontologies via Turtle (TTL) format with semantic expansion from external hierarchies</p>
-                    </div>
-
-                    <div class="feature-card">
-                        <div class="feature-icon">🔍</div>
-                        <h3>Ambiguity Detection</h3>
-                        <p>Identifies modal force, scope, nominalization, and selectional constraint ambiguities for downstream resolution</p>
-                    </div>
-
-                    <div class="feature-card">
-                        <div class="feature-icon">📝</div>
-                        <h3>NLP Foundation</h3>
-                        <p>Custom lemmatizer, contraction expander, and phrase extractors - zero external NLP dependencies</p>
+                        <div class="feature-icon">&#x2696;&#xFE0F;</div>
+                        <h3>Detect Context &amp; Values</h3>
+                        <p>Analyzes 12 contextual dimensions (urgency, harm severity, trust, etc.) and detects ethical values and modality (must, should, may) for decision-support applications.</p>
                     </div>
                 </div>
             </section>
 
-            <section class="demo-section">
-                <h2>📊 What Gets Analyzed</h2>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <h3>⏱️ Temporal Context</h3>
-                        <ul style="margin-left: 20px; margin-top: 10px;">
-                            <li><strong>Urgency:</strong> Time pressure</li>
-                            <li><strong>Duration:</strong> Impact timeline</li>
-                            <li><strong>Reversibility:</strong> Can it be undone?</li>
-                        </ul>
+            <!-- ════════════════════════════════════════ -->
+            <!-- Section 3: How It Works                  -->
+            <!-- ════════════════════════════════════════ -->
+            <section class="section">
+                <h2>How It Works</h2>
+                <p>A deterministic 4-step pipeline &mdash; no neural networks, no API calls, fully reproducible results:</p>
+                <div class="pipeline">
+                    <div class="pipeline-step">
+                        <div class="step-num">1</div>
+                        <h4>Parse Text</h4>
+                        <p>Compromise NLP + jsPOS tagging</p>
                     </div>
-
-                    <div class="feature-card">
-                        <h3>👥 Relational Context</h3>
-                        <ul style="margin-left: 20px; margin-top: 10px;">
-                            <li><strong>Intimacy:</strong> Relationship closeness</li>
-                            <li><strong>Power Differential:</strong> Authority gaps</li>
-                            <li><strong>Trust:</strong> Relationship confidence</li>
-                        </ul>
+                    <div class="pipeline-arrow">&#x2192;</div>
+                    <div class="pipeline-step">
+                        <div class="step-num">2</div>
+                        <h4>Extract Entities</h4>
+                        <p>NPChunker with Penn Treebank tags</p>
                     </div>
-
-                    <div class="feature-card">
-                        <h3>⚖️ Consequential Context</h3>
-                        <ul style="margin-left: 20px; margin-top: 10px;">
-                            <li><strong>Harm Severity:</strong> Potential damage</li>
-                            <li><strong>Benefit Magnitude:</strong> Potential good</li>
-                            <li><strong>Scope:</strong> Number affected</li>
-                        </ul>
+                    <div class="pipeline-arrow">&#x2192;</div>
+                    <div class="pipeline-step">
+                        <div class="step-num">3</div>
+                        <h4>Assign Roles</h4>
+                        <p>VerbNet semantic role mapping</p>
                     </div>
-
-                    <div class="feature-card">
-                        <h3>🧠 Epistemic Context</h3>
-                        <ul style="margin-left: 20px; margin-top: 10px;">
-                            <li><strong>Certainty:</strong> Confidence level</li>
-                            <li><strong>Information Completeness:</strong> Data availability</li>
-                            <li><strong>Expertise:</strong> Skill requirements</li>
-                        </ul>
+                    <div class="pipeline-arrow">&#x2192;</div>
+                    <div class="pipeline-step">
+                        <div class="step-num">4</div>
+                        <h4>Build Graph</h4>
+                        <p>BFO/CCO-aligned JSON-LD output</p>
                     </div>
                 </div>
             </section>
 
-            <section class="demo-section">
-                <h2>🔗 Explore More</h2>
-                <div class="links-section">
-                    <a href="https://github.com/Skreen5hot/TagTeam.js" class="link-card" target="_blank">
-                        📖 GitHub Repository
+            <!-- ════════════════════════════════════════ -->
+            <!-- Section 4: Browser Validation Tests      -->
+            <!-- ════════════════════════════════════════ -->
+            <section class="section">
+                <h2>Browser Validation Tests</h2>
+                <p>Run these in your browser to verify the TagTeam.js bundle:</p>
+                <div class="links-grid">
+                    <a href="test.html" class="link-card">
+                        <h4>Bundle Test</h4>
+                        <p>Basic integration test &mdash; JSON-LD graph output and summary view</p>
                     </a>
-                    <a href="phase66-custom-tagger-demo.html" class="link-card" style="background: linear-gradient(90deg, #a855f7, #ec4899); color: #fff; border: none;">
-                        🏷️ Phase 6.6: Custom Ontology Tagger
+                    <a href="test-week2b-full.html" class="link-card">
+                        <h4>Full Corpus (20 Scenarios)</h4>
+                        <p>Performance benchmarks and ethical value detection across 20 test scenarios</p>
                     </a>
-                    <a href="phase65-ontology-demo.html" class="link-card" style="background: linear-gradient(90deg, #f7971e, #ffd200); color: #1a1a2e; border: none;">
-                        🌐 Phase 6.5: Ontology Loading
+                    <a href="test-iee-bundle.html" class="link-card">
+                        <h4>IEE Test Corpus</h4>
+                        <p>5-scenario validation against IEE&rsquo;s official Week 1 test specifications</p>
                     </a>
-                    <a href="phase6-lattice-demo.html" class="link-card" style="background: linear-gradient(90deg, #00d9ff, #00ff88); color: #1a1a2e; border: none;">
-                        🧠 Phase 6: Interpretation Lattice
-                    </a>
+                </div>
+            </section>
+
+            <!-- ════════════════════════════════════════ -->
+            <!-- Section 5: For Developers                -->
+            <!-- ════════════════════════════════════════ -->
+            <section class="section">
+                <h2>For Developers</h2>
+
+                <h3 style="color: #444; margin-bottom: 10px;">Quick Start</h3>
+                <div class="code-example"><span style="color: #a0aec0;">// Node.js</span>
+const TagTeam = require('tagteam');
+
+<span style="color: #a0aec0;">// Parse with context intensity</span>
+const result = TagTeam.parse("The doctor must decide");
+console.log(result.agent);            <span style="color: #a0aec0;">// { text: "doctor" }</span>
+console.log(result.action.modality);  <span style="color: #a0aec0;">// "must"</span>
+
+<span style="color: #a0aec0;">// Build JSON-LD knowledge graph</span>
+const graph = TagTeam.buildGraph("The doctor must decide");
+console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of BFO/CCO nodes</span></div>
+
+                <h3 style="color: #444; margin: 20px 0 10px;">Bundle Options</h3>
+                <table class="bundle-table">
+                    <thead>
+                        <tr>
+                            <th>Bundle</th>
+                            <th>Use Case</th>
+                            <th>API</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>tagteam.js</code></td>
+                            <td>Combined (recommended)</td>
+                            <td><code>TagTeam.parse()</code>, <code>TagTeam.buildGraph()</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>tagteam-core.js</code></td>
+                            <td>Core parsing only</td>
+                            <td><code>TagTeam.buildGraph()</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>tagteam-values.js</code></td>
+                            <td>Values add-on (requires core)</td>
+                            <td><code>TagTeamValues.IEEGraphBuilder</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p style="margin-top: 10px; color: #6b7280; font-size: 0.9em;">
+                    See the <a href="https://github.com/Skreen5hot/TagTeam.js" target="_blank" rel="noopener" style="color: #667eea;">GitHub README</a> for full documentation.
+                </p>
+            </section>
+
+            <!-- ════════════════════════════════════════ -->
+            <!-- Section 6: Technical Deep Dives          -->
+            <!-- ════════════════════════════════════════ -->
+            <section class="section">
+                <h2>Technical Deep Dives</h2>
+                <p>Explore individual capabilities in detail:</p>
+                <div class="links-grid">
                     <a href="stakeholder-demo.html" class="link-card">
-                        🎯 Stakeholder Demo
+                        <h4>Stakeholder Presentation</h4>
+                        <p>8-slide overview of TagTeam.js for non-technical audiences</p>
                     </a>
-                    <a href="semantic-demo.html" class="link-card">
-                        🔬 Semantic Role Demo
+                    <a href="how-tagteam-works.html" class="link-card">
+                        <h4>Pipeline Explainer</h4>
+                        <p>Visual walkthrough of the parsing pipeline from text to graph</p>
+                    </a>
+                    <a href="phase6-lattice-demo.html" class="link-card">
+                        <h4>Ambiguity Preservation</h4>
+                        <p>See how linguistic ambiguities are detected and preserved for downstream resolution</p>
                     </a>
                     <a href="phase65-ontology-demo.html" class="link-card">
-                        📦 Phase 6.5: Ontology Loading
+                        <h4>Ontology Integration</h4>
+                        <p>Load and query BFO/CCO ontologies with Turtle and JSON formats</p>
                     </a>
                     <a href="phase66-custom-tagger-demo.html" class="link-card">
-                        ✅ Phase 6.6: Custom Tagger
+                        <h4>Custom POS Tagging</h4>
+                        <p>Extend the tagger with domain-specific vocabularies and ontologies</p>
+                    </a>
+                    <a href="semantic-demo.html" class="link-card">
+                        <h4>Semantic Role Demo</h4>
+                        <p>Detailed view of agent/patient/recipient role assignment</p>
                     </a>
                 </div>
             </section>
 
-            <section class="demo-section">
-                <h2>🏗️ Current Development</h2>
-                <p><strong>Phase 6.5 Ontology Loading:</strong> <span class="badge" style="background: #10b981;">COMPLETE</span></p>
-                <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
-                    <li>✅ Phase 6.5.1: TurtleParser - Lightweight TTL/Turtle parser (80 tests)</li>
-                    <li>✅ Phase 6.5.2: OntologyManager - Unified JSON + TTL loading with caching (80 tests)</li>
-                    <li>✅ Phase 6.5.3: ValueNetAdapter - ValueNet &#x2192; ValueMatcher conversion (50 tests)</li>
-                    <li>✅ Phase 6.5.4: BridgeOntologyLoader - IEE bridge ontology support (54 tests)</li>
-                    <li>✅ Phase 6.6: OntologyTextTagger - Custom ontology text tagging (64 tests)</li>
-                    <li>✅ <strong>800+ unit tests passing</strong> (100% pass rate)</li>
-                </ul>
-
-                <div style="margin-top: 20px; padding: 15px; background: #e0f2fe; border-radius: 8px; border-left: 4px solid #0ea5e9;">
-                    <h4 style="color: #0284c7; margin-bottom: 10px;">Phase 6 Interpretation Lattice Highlights</h4>
-                    <ul style="margin-left: 20px; line-height: 1.6;">
-                        <li><strong>Hierarchy of Evidence:</strong> Selectional match (0.99) → Intensifiers → Structural signals</li>
-                        <li><strong>Plausibility Scores:</strong> Default 70%, alternatives split 30%</li>
-                        <li><strong>Modal Strength Scale:</strong> Adverbial intensifiers modulate readings</li>
-                        <li><strong>Metonymic Bridge:</strong> Location re-typed as cco:Organization</li>
-                        <li><strong>Audit Trail:</strong> Full resolution reasoning via getResolutionReasoning()</li>
-                        <li><strong>Backwards Compatible:</strong> toSimplifiedGraph() returns default only</li>
-                    </ul>
-                </div>
-
-                <div style="margin-top: 20px; padding: 15px; background: #ecfdf5; border-radius: 8px; border-left: 4px solid #10b981;">
-                    <h4 style="color: #059669; margin-bottom: 10px;">Phase 5 Ambiguity Detection</h4>
-                    <ul style="margin-left: 20px; line-height: 1.6;">
-                        <li><strong>Noun Category:</strong> Process vs continuant for nominalizations</li>
-                        <li><strong>Modal Force:</strong> Deontic vs epistemic disambiguation</li>
-                        <li><strong>Scope Ambiguity:</strong> Quantifier + negation scope</li>
-                        <li><strong>Selectional Violations:</strong> Inanimate agents flagged</li>
-                    </ul>
-                </div>
-
-                <div style="margin-top: 20px; padding: 15px; background: #f5f3ff; border-radius: 8px; border-left: 4px solid #8b5cf6;">
-                    <h4 style="color: #7c3aed; margin-bottom: 10px;">Phase 4 Two-Tier Architecture</h4>
-                    <ul style="margin-left: 20px; line-height: 1.6;">
-                        <li><strong>Tier 1 (ICE Layer):</strong> DiscourseReferent with sourceText, positions</li>
-                        <li><strong>Tier 2 (IC Layer):</strong> cco:Person, cco:Artifact, cco:Organization</li>
-                        <li><strong>Cross-tier:</strong> <code>cco:is_about</code> links referents to entities</li>
-                        <li><strong>ActualityStatus:</strong> Prescribed, Actual, Permitted, Negated</li>
-                    </ul>
-                </div>
-
-                <div style="margin-top: 20px; padding: 15px; background: #fef3c7; border-radius: 8px; border-left: 4px solid #f59e0b;">
-                    <h4 style="color: #b45309; margin-bottom: 10px;">Phase 6.5 Ontology Loading Highlights</h4>
-                    <ul style="margin-left: 20px; line-height: 1.6;">
-                        <li><strong>TurtleParser:</strong> Lightweight TTL parser for ValueNet ontologies</li>
-                        <li><strong>OntologyManager:</strong> Unified JSON + TTL loading with caching and merge</li>
-                        <li><strong>ValueNetAdapter:</strong> keywords &#x2192; semanticMarkers, upholdingTerms &#x2192; polarityIndicators</li>
-                        <li><strong>BridgeOntologyLoader:</strong> owl:sameAs, ethics:relatedTo, ethics:mapsToWorldview</li>
-                        <li><strong>Full Pipeline:</strong> TagTeam &#x2192; ValueNet &#x2192; IEE worldview mapping chains</li>
-                    </ul>
-                </div>
-
-                <p style="margin-top: 20px;"><strong>Coming Next:</strong> Phase 7 - Epistemic Layer</p>
-            </section>
         </div>
     </div>
 
     <footer>
         <div class="container">
-            <p><strong>TagTeam.js</strong> - Built with ❤️ for ethical AI and moral reasoning applications</p>
-            <p style="margin-top: 10px; font-size: 0.9em;">MIT License | BFO-Compatible | 100% Deterministic</p>
+            <p><strong>TagTeam.js</strong> &mdash; Deterministic semantic parsing for knowledge graphs</p>
+            <p style="margin-top: 8px; font-size: 0.9em;">
+                MIT License | <a href="https://github.com/Skreen5hot/TagTeam.js" target="_blank" rel="noopener">GitHub</a>
+            </p>
         </div>
     </footer>
 
     <!-- Load TagTeam.js -->
     <script>
-        const scriptPath = window.location.hostname === 'localhost' || window.location.hostname === ''
+        var scriptPath = (window.location.hostname === 'localhost' || window.location.hostname === '')
             ? '../dist/tagteam.js'
             : 'tagteam.js';
         document.write('<script src="' + scriptPath + '"><\/script>');
     </script>
 
     <script>
+        // ── Globals ──
+        var _cachedGraph = null;
+        var _cachedParse = null;
+        var _currentText = '';
+
+        // ── Hero version ──
+        window.addEventListener('load', function() {
+            if (typeof TagTeam !== 'undefined' && TagTeam.version) {
+                document.getElementById('hero-version').textContent = 'v' + TagTeam.version;
+            }
+            // Auto-analyze default text
+            var input = document.getElementById('input');
+            if (input.value.trim()) {
+                runAnalysis();
+            }
+        });
+
+        // ── Example setter ──
         function setExample(text) {
             document.getElementById('input').value = text;
-            analyze();
+            runAnalysis();
         }
 
-        function analyze() {
-            const text = document.getElementById('input').value;
-            if (!text.trim()) {
-                alert('Please enter some text to analyze');
-                return;
-            }
+        // ── Main analysis ──
+        function runAnalysis() {
+            var text = document.getElementById('input').value;
+            if (!text.trim()) { alert('Please enter some text'); return; }
 
-            const result = TagTeam.parse(text);
+            _currentText = text;
+            var verbose = document.getElementById('verbose-toggle').checked;
 
-            // Show results section
-            document.getElementById('results').style.display = 'block';
+            // Run both APIs and cache
+            _cachedParse = TagTeam.parse(text);
+            _cachedGraph = TagTeam.buildGraph(text, { detectAmbiguity: true, verbose: verbose });
 
-            // Display full JSON
-            document.getElementById('json-output').textContent = JSON.stringify(result, null, 2);
+            // Populate all tabs
+            renderEntitiesTab(_cachedGraph, text);
+            renderContextTab(_cachedParse);
+            renderClausesTab(_cachedGraph, text);
 
-            // Display context breakdown
-            const breakdownDiv = document.getElementById('context-breakdown');
-            if (result.contextIntensity) {
-                let html = '<div class="context-breakdown">';
-
-                for (const category in result.contextIntensity) {
-                    html += `<div class="context-category">`;
-                    html += `<h4>${category.charAt(0).toUpperCase() + category.slice(1)}</h4>`;
-
-                    for (const dimension in result.contextIntensity[category]) {
-                        const value = result.contextIntensity[category][dimension];
-                        html += `<div class="context-dimension">`;
-                        html += `<span>${dimension}</span>`;
-                        html += `<span class="dimension-value">${value.toFixed(2)}</span>`;
-                        html += `</div>`;
-                    }
-
-                    html += `</div>`;
-                }
-
-                html += '</div>';
-                breakdownDiv.innerHTML = html;
+            // Ontology matching (if TTL is loaded)
+            var ttlInput = document.getElementById('ttl-input').value.trim();
+            var ontologyTabBtn = document.getElementById('ontology-tab-btn');
+            if (ttlInput) {
+                var keywordsProp = document.getElementById('ttl-keywords-prop').value.trim();
+                renderOntologyTab(ttlInput, text, keywordsProp);
+                ontologyTabBtn.style.display = '';
             } else {
-                breakdownDiv.innerHTML = '<p style="color: #e74c3c;">No context intensity data found in result.</p>';
+                ontologyTabBtn.style.display = 'none';
+                document.getElementById('ontology-content').innerHTML = '';
             }
 
-            // Scroll to results
-            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+            // Show output area
+            document.getElementById('output-area').style.display = 'block';
+            document.getElementById('output-area').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Auto-analyze on page load if there's default text
-        window.onload = function() {
-            const input = document.getElementById('input');
-            if (input.value.trim()) {
-                analyze();
-            }
-        };
+        // ── Tab switching ──
+        function switchTab(tabName) {
+            var buttons = document.querySelectorAll('.tab-btn');
+            var panels = document.querySelectorAll('.tab-panel');
 
-        function renderPosTokens(debug) {
-            if (!debug || !debug.tokens || !debug.tokens.length) return '';
-            let html = '<h4 style="color: #0ea5e9; margin-top: 20px;">POS Tags (Verbose Mode)</h4>';
-            html += '<div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0;">';
-            debug.tokens.forEach(function(t) {
-                const tagLabel = t.tags.join(', ');
-                html += '<div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 6px; padding: 6px 10px; text-align: center;">';
-                html += '<div style="font-weight: bold;">' + t.text + '</div>';
-                html += '<div style="font-size: 0.75em; color: #0369a1;">' + tagLabel + '</div>';
-                html += '</div>';
-            });
-            html += '</div>';
-            return html;
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
+            for (var i = 0; i < panels.length; i++) {
+                panels[i].classList.remove('active');
+            }
+
+            document.getElementById('tab-' + tabName).classList.add('active');
+
+            // Find and activate the right button
+            var tabNames = ['entities', 'context', 'clauses', 'ontology'];
+            var idx = tabNames.indexOf(tabName);
+            if (idx >= 0) buttons[idx].classList.add('active');
         }
 
-        // Phase 4: JSON-LD Graph Functions
-        function buildGraph() {
-            const text = document.getElementById('phase4-input').value;
-            if (!text.trim()) {
-                alert('Please enter some text to build a graph');
-                return;
-            }
-
-            const jsonld = TagTeam.toJSONLD(text, { pretty: true, detectAmbiguity: true });
-
-            document.getElementById('phase4-results').style.display = 'block';
-            document.getElementById('jsonld-output').textContent = jsonld;
-            document.getElementById('graph-summary').innerHTML = '<p>JSON-LD graph generated with ambiguity detection. Click "Show Summary" for details.</p>';
-
-            document.getElementById('phase4-results').scrollIntoView({ behavior: 'smooth' });
+        // ── Helper: extract string ID from JSON-LD value (string or {`@id`: ...}) ──
+        function strId(val) {
+            if (!val) return '';
+            if (typeof val === 'string') return val;
+            if (typeof val === 'object' && val['@id']) return val['@id'];
+            return String(val);
         }
 
-        function showGraphSummary() {
-            const text = document.getElementById('phase4-input').value;
-            if (!text.trim()) {
-                alert('Please enter some text to analyze');
-                return;
-            }
-
-            const verbose = document.getElementById('verbose-toggle').checked;
-            const graph = TagTeam.buildGraph(text, { detectAmbiguity: true, verbose: verbose });
-            const jsonld = TagTeam.toJSONLD(text, { pretty: true, detectAmbiguity: true });
-
-            // Two-Tier Architecture: Tier 1 (DiscourseReferent) and Tier 2 (Person/Artifact)
-            const tier1Referents = graph['@graph'].filter(n =>
-                n['@type'] && n['@type'].includes('tagteam:DiscourseReferent'));
-            const tier2Entities = graph['@graph'].filter(n =>
-                n['@type'] && (n['@type'].includes('cco:Person') ||
-                               n['@type'].includes('cco:Artifact') ||
-                               n['@type'].includes('cco:Organization')));
-            const acts = graph['@graph'].filter(n =>
-                n['@type'] && n['@type'].some(t => t.includes('IntentionalAct') || t.includes('ActOf')));
-            const roles = graph['@graph'].filter(n =>
-                n['@type'] && n['@type'].includes('bfo:BFO_0000023'));
-
-            let html = `
-                <div class="graph-summary">
-                    <div class="summary-stat">
-                        <div class="number">${graph['@graph'].length}</div>
-                        <div class="label">Total Nodes</div>
-                    </div>
-                    <div class="summary-stat">
-                        <div class="number">${tier1Referents.length}</div>
-                        <div class="label">Tier 1 Referents</div>
-                    </div>
-                    <div class="summary-stat">
-                        <div class="number">${tier2Entities.length}</div>
-                        <div class="label">Tier 2 Entities</div>
-                    </div>
-                    <div class="summary-stat">
-                        <div class="number">${acts.length}</div>
-                        <div class="label">Acts</div>
-                    </div>
-                </div>
-            `;
-
-            // Tier 1: Discourse Referents (ICE Layer)
-            if (tier1Referents.length > 0) {
-                html += '<h4 style="color: #7c3aed; margin-top: 20px;">📝 Tier 1: Discourse Referents (ICE Layer)</h4><div class="entity-list">';
-                tier1Referents.forEach(r => {
-                    let extras = '';
-                    if (r['tagteam:is_scarce']) extras += ' <strong style="color: #dc2626;">⚠️ SCARCE</strong>';
-                    const isAbout = r['cco:is_about'] ? ` → <em style="color: #059669;">${r['cco:is_about'].split('_').slice(0,2).join('_')}</em>` : '';
-                    html += `<div class="entity-item"><strong>${r['rdfs:label']}</strong>${isAbout}${extras}</div>`;
-                });
-                html += '</div>';
-            }
-
-            // Tier 2: Real-World Entities (IC Layer)
-            if (tier2Entities.length > 0) {
-                html += '<h4 style="color: #059669; margin-top: 20px;">🌍 Tier 2: Real-World Entities (IC Layer)</h4><div class="entity-list" style="border-left-color: #059669;">';
-                tier2Entities.forEach(e => {
-                    const entityType = e['@type'].find(t => t.startsWith('cco:')) || 'Entity';
-                    html += `<div class="entity-item" style="border-left-color: #059669;"><strong>${e['rdfs:label']}</strong> (${entityType})</div>`;
-                });
-                html += '</div>';
-            }
-
-            // Acts with ActualityStatus
-            if (acts.length > 0) {
-                html += '<h4 style="color: #7c3aed; margin-top: 20px;">🎬 Intentional Acts</h4><div class="act-list">';
-                acts.forEach(a => {
-                    const actType = a['@type'].find(t => t.includes('cco:')) || 'IntentionalAct';
-                    let modality = a['tagteam:modality'] ? ` <em>[${a['tagteam:modality']}]</em>` : '';
-                    let status = a['tagteam:actualityStatus'] ? ` <span style="background: #8b5cf6; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em;">${a['tagteam:actualityStatus'].replace('tagteam:', '')}</span>` : '';
-                    let agent = a['cco:has_agent'] ? ` <span style="color: #059669; font-size: 0.9em;">agent: ${a['cco:has_agent'].split('_').slice(1,2).join('')}</span>` : '';
-                    html += `<div class="act-item"><strong>${a['tagteam:verb']}</strong> (${actType})${modality}${status}${agent}</div>`;
-                });
-                html += '</div>';
-            }
-
-            if (roles.length > 0) {
-                html += '<h4 style="color: #7c3aed; margin-top: 20px;">🎭 BFO Roles</h4><div class="role-list">';
-                roles.forEach(r => {
-                    html += `<div class="role-item">${r['rdfs:label']}</div>`;
-                });
-                html += '</div>';
-            }
-
-            // Phase 5: Ambiguity Detection Results
-            if (graph._ambiguityReport && graph._ambiguityReport.ambiguities && graph._ambiguityReport.ambiguities.length > 0) {
-                html += '<h4 style="color: #f59e0b; margin-top: 20px;">🔍 Detected Ambiguities (Phase 5)</h4>';
-                html += '<div style="background: #fffbeb; padding: 15px; border-radius: 8px; border-left: 4px solid #f59e0b;">';
-
-                graph._ambiguityReport.ambiguities.forEach(amb => {
-                    const typeLabel = amb.type.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-                    const confidence = amb.confidence || 'medium';
-                    const confidenceColor = confidence === 'high' ? '#dc2626' : confidence === 'medium' ? '#f59e0b' : '#6b7280';
-
-                    html += `<div style="margin: 10px 0; padding: 10px; background: white; border-radius: 6px;">`;
-                    html += `<strong style="color: #b45309;">${typeLabel}</strong>`;
-                    html += ` <span style="background: ${confidenceColor}; color: white; padding: 2px 6px; border-radius: 3px; font-size: 0.75em;">${confidence.toUpperCase()}</span>`;
-
-                    if (amb.span) {
-                        html += `<br><em style="color: #6b7280;">Span: "${amb.span}"</em>`;
-                    }
-                    if (amb.modal) {
-                        html += `<br><span style="color: #7c3aed;">Modal: <strong>${amb.modal}</strong></span>`;
-                    }
-                    if (amb.readings && amb.readings.length > 0) {
-                        html += `<br><span style="color: #059669;">Possible readings: ${amb.readings.join(' | ')}</span>`;
-                    }
-                    if (amb.defaultReading) {
-                        html += `<br><span style="color: #2563eb;">Default: <strong>${amb.defaultReading}</strong></span>`;
-                    }
-                    if (amb.signals && amb.signals.length > 0) {
-                        html += `<br><span style="color: #6b7280; font-size: 0.85em;">Signals: ${amb.signals.join(', ')}</span>`;
-                    }
-
-                    html += `</div>`;
-                });
-
-                html += '</div>';
-            } else {
-                html += '<h4 style="color: #10b981; margin-top: 20px;">✅ No Ambiguities Detected</h4>';
-                html += '<p style="color: #6b7280;">The input text has no detected linguistic ambiguities.</p>';
-            }
-
-            // Verbose mode: show POS tokens
-            if (graph._debug) {
-                html += renderPosTokens(graph._debug);
-            }
-
-            document.getElementById('phase4-results').style.display = 'block';
-            document.getElementById('graph-summary').innerHTML = html;
-            document.getElementById('jsonld-output').textContent = jsonld;
-
-            document.getElementById('phase4-results').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // M-1: Clause Segmentation Functions
-        function setM1Example(text) {
-            document.getElementById('m1-input').value = text;
-            runM1Demo();
-        }
-
-        function runM1Demo() {
-            var text = document.getElementById('m1-input').value;
-            if (!text.trim()) { alert('Please enter a sentence'); return; }
-
-            var graph = TagTeam.buildGraph(text, { v2: { enabled: true } });
+        // ── Tab 1: Entities & Roles ──
+        function renderEntitiesTab(graph, text) {
             var nodes = graph['@graph'] || [];
 
-            var acts = nodes.filter(function(n) {
-                return n['@type'] && n['@type'].some(function(t) { return t.includes('IntentionalAct') || t.includes('ActOf'); });
+            var tier1 = nodes.filter(function(n) {
+                return n['@type'] && n['@type'].indexOf('tagteam:DiscourseReferent') !== -1;
             });
-            var relations = nodes.filter(function(n) {
-                return n['@type'] && n['@type'].some(function(t) { return t.includes('ClauseRelation'); });
+            var tier2 = nodes.filter(function(n) {
+                return n['@type'] && (n['@type'].indexOf('cco:Person') !== -1 ||
+                    n['@type'].indexOf('cco:Artifact') !== -1 ||
+                    n['@type'].indexOf('cco:Organization') !== -1);
+            });
+            var acts = nodes.filter(function(n) {
+                return n['@type'] && n['@type'].some(function(t) {
+                    return t.indexOf('IntentionalAct') !== -1 || t.indexOf('ActOf') !== -1;
+                });
+            });
+            var roles = nodes.filter(function(n) {
+                return n['@type'] && n['@type'].indexOf('bfo:BFO_0000023') !== -1;
             });
 
             var html = '';
 
             // Summary stats
-            var clauseCount = relations.length > 0 ? 2 : 1;
-            html += '<div class="graph-summary">';
-            html += '<div class="summary-stat"><div class="number">' + clauseCount + '</div><div class="label">Clauses</div></div>';
+            html += '<div class="graph-summary-grid">';
+            html += '<div class="summary-stat"><div class="number">' + nodes.length + '</div><div class="label">Total Nodes</div></div>';
+            html += '<div class="summary-stat"><div class="number">' + tier1.length + '</div><div class="label">Tier 1 Referents</div></div>';
+            html += '<div class="summary-stat"><div class="number">' + tier2.length + '</div><div class="label">Tier 2 Entities</div></div>';
             html += '<div class="summary-stat"><div class="number">' + acts.length + '</div><div class="label">Acts</div></div>';
-            html += '<div class="summary-stat"><div class="number">' + relations.length + '</div><div class="label">Clause Relations</div></div>';
             html += '</div>';
 
-            // Show clause relation
-            if (relations.length > 0) {
-                var rel = relations[0];
-                var relType = (rel['tagteam:relationType'] || '').replace('tagteam:', '');
-                html += '<div style="text-align: center; margin: 15px 0;">';
-                html += '<span class="relation-badge">' + relType + '</span>';
-                html += '</div>';
-            } else {
-                html += '<div style="text-align: center; margin: 15px 0; color: #6b7280;">';
-                html += '<em>No clause segmentation — single clause or VP coordination (Case C)</em>';
+            // Tier 1
+            if (tier1.length > 0) {
+                html += '<h4 style="color: #7c3aed; margin-top: 18px;">Tier 1: Discourse Referents (ICE Layer)</h4>';
+                tier1.forEach(function(r) {
+                    var extras = '';
+                    if (r['tagteam:is_scarce']) extras += ' <strong style="color: #dc2626;">SCARCE</strong>';
+                    var aboutStr = strId(r['cco:is_about']);
+                    var isAbout = aboutStr ? ' &rarr; <em style="color: #059669;">' + aboutStr.split('_').slice(0,2).join('_') + '</em>' : '';
+                    html += '<div class="entity-item"><strong>' + r['rdfs:label'] + '</strong>' + isAbout + extras + '</div>';
+                });
+            }
+
+            // Tier 2
+            if (tier2.length > 0) {
+                html += '<h4 style="color: #059669; margin-top: 18px;">Tier 2: Real-World Entities (IC Layer)</h4>';
+                tier2.forEach(function(e) {
+                    var entityType = 'Entity';
+                    for (var i = 0; i < e['@type'].length; i++) {
+                        if (e['@type'][i].indexOf('cco:') === 0) { entityType = e['@type'][i]; break; }
+                    }
+                    html += '<div class="entity-item" style="border-left-color: #059669;"><strong>' + e['rdfs:label'] + '</strong> (' + entityType + ')</div>';
+                });
+            }
+
+            // Acts
+            if (acts.length > 0) {
+                html += '<h4 style="color: #7c3aed; margin-top: 18px;">Intentional Acts</h4>';
+                acts.forEach(function(a) {
+                    var actType = 'IntentionalAct';
+                    for (var i = 0; i < a['@type'].length; i++) {
+                        if (a['@type'][i].indexOf('cco:') !== -1) { actType = a['@type'][i]; break; }
+                    }
+                    var modality = a['tagteam:modality'] ? ' <em>[' + a['tagteam:modality'] + ']</em>' : '';
+                    var statusStr = strId(a['tagteam:actualityStatus']);
+                    var status = statusStr ? ' <span style="background: #8b5cf6; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em;">' + statusStr.replace('tagteam:', '') + '</span>' : '';
+                    var agentStr = strId(a['cco:has_agent']);
+                    var agent = agentStr ? ' <span style="color: #059669; font-size: 0.9em;">agent: ' + agentStr.split('_').slice(1,2).join('') + '</span>' : '';
+                    html += '<div class="act-item"><strong>' + a['tagteam:verb'] + '</strong> (' + actType + ')' + modality + status + agent + '</div>';
+                });
+            }
+
+            // Roles
+            if (roles.length > 0) {
+                html += '<h4 style="color: #7c3aed; margin-top: 18px;">BFO Roles</h4>';
+                roles.forEach(function(r) {
+                    html += '<div class="role-item">' + r['rdfs:label'] + '</div>';
+                });
+            }
+
+            // Ambiguities
+            if (graph._ambiguityReport && graph._ambiguityReport.ambiguities && graph._ambiguityReport.ambiguities.length > 0) {
+                html += '<h4 style="color: #f59e0b; margin-top: 18px;">Detected Ambiguities</h4>';
+                html += '<div style="background: #fffbeb; padding: 12px; border-radius: 8px; border-left: 4px solid #f59e0b;">';
+                graph._ambiguityReport.ambiguities.forEach(function(amb) {
+                    var typeLabel = amb.type.replace(/_/g, ' ').replace(/\b\w/g, function(l) { return l.toUpperCase(); });
+                    html += '<div style="margin: 8px 0; padding: 8px; background: white; border-radius: 6px;">';
+                    html += '<strong style="color: #b45309;">' + typeLabel + '</strong>';
+                    if (amb.span) html += '<br><em style="color: #6b7280;">Span: "' + amb.span + '"</em>';
+                    if (amb.readings && amb.readings.length > 0) html += '<br><span style="color: #059669;">Readings: ' + amb.readings.join(' | ') + '</span>';
+                    if (amb.defaultReading) html += '<br><span style="color: #2563eb;">Default: <strong>' + amb.defaultReading + '</strong></span>';
+                    html += '</div>';
+                });
                 html += '</div>';
             }
 
-            // Show acts with clause index and subject source
+            // POS tags (verbose)
+            if (graph._debug) {
+                html += renderPosTokens(graph._debug);
+            }
+
+            document.getElementById('entities-content').innerHTML = html;
+            document.getElementById('jsonld-output').textContent = TagTeam.toJSONLD(text, { pretty: true, detectAmbiguity: true });
+        }
+
+        // ── Tab 2: Context Intensity ──
+        function renderContextTab(result) {
+            var html = '';
+            if (result.contextIntensity) {
+                html += '<div class="context-breakdown">';
+                for (var category in result.contextIntensity) {
+                    html += '<div class="context-category">';
+                    html += '<h4>' + category.charAt(0).toUpperCase() + category.slice(1) + '</h4>';
+                    for (var dimension in result.contextIntensity[category]) {
+                        var value = result.contextIntensity[category][dimension];
+                        html += '<div class="context-dimension">';
+                        html += '<span>' + dimension + '</span>';
+                        html += '<span class="dimension-value">' + value.toFixed(2) + '</span>';
+                        html += '</div>';
+                    }
+                    html += '</div>';
+                }
+                html += '</div>';
+            }
+
+            // Semantic frame and ethical profile
+            if (result.semanticFrame) {
+                html += '<div style="margin-top: 15px; padding: 12px; background: #f0fdf4; border-radius: 8px; border-left: 4px solid #10b981;">';
+                html += '<strong>Semantic Frame:</strong> ' + result.semanticFrame;
+                if (result.action && result.action.modality) html += ' | <strong>Modality:</strong> ' + result.action.modality;
+                html += '</div>';
+            }
+
+            if (result.ethicalProfile && result.ethicalProfile.topValues && result.ethicalProfile.topValues.length > 0) {
+                html += '<div style="margin-top: 10px; padding: 12px; background: #f5f3ff; border-radius: 8px; border-left: 4px solid #8b5cf6;">';
+                html += '<strong>Ethical Values:</strong> ';
+                html += result.ethicalProfile.topValues.map(function(v) { return v.name; }).join(', ');
+                html += ' | <strong>Domain:</strong> ' + (result.ethicalProfile.dominantDomain || 'N/A');
+                html += '</div>';
+            }
+
+            if (!result.contextIntensity) {
+                html = '<p style="color: #6b7280;">No context intensity data found.</p>';
+            }
+
+            document.getElementById('context-content').innerHTML = html;
+            document.getElementById('context-json-output').textContent = JSON.stringify(result, null, 2);
+        }
+
+        // ── Tab 3: Clause Segmentation ──
+        function renderClausesTab(graph, text) {
+            var nodes = graph['@graph'] || [];
+
+            var acts = nodes.filter(function(n) {
+                return n['@type'] && n['@type'].some(function(t) {
+                    return t.indexOf('IntentionalAct') !== -1 || t.indexOf('ActOf') !== -1;
+                });
+            });
+            var relations = nodes.filter(function(n) {
+                return n['@type'] && n['@type'].some(function(t) {
+                    return t.indexOf('ClauseRelation') !== -1;
+                });
+            });
+
+            var html = '';
+            var clauseCount = relations.length > 0 ? 2 : 1;
+
+            html += '<div class="graph-summary-grid">';
+            html += '<div class="summary-stat"><div class="number">' + clauseCount + '</div><div class="label">Clauses</div></div>';
+            html += '<div class="summary-stat"><div class="number">' + acts.length + '</div><div class="label">Acts</div></div>';
+            html += '<div class="summary-stat"><div class="number">' + relations.length + '</div><div class="label">Relations</div></div>';
+            html += '</div>';
+
+            // Clause relation
+            if (relations.length > 0) {
+                var rel = relations[0];
+                var relType = (rel['tagteam:relationType'] || '').replace('tagteam:', '');
+                html += '<div style="text-align: center; margin: 12px 0;"><span class="relation-badge">' + relType + '</span></div>';
+            } else {
+                html += '<div style="text-align: center; margin: 12px 0; color: #6b7280;"><em>Single clause or VP coordination (no segmentation)</em></div>';
+            }
+
+            // Acts
             if (acts.length > 0) {
-                html += '<h4 style="color: #0891b2; margin-top: 20px;">Acts by Clause</h4>';
+                html += '<h4 style="color: #0891b2; margin-top: 15px;">Acts by Clause</h4>';
                 acts.forEach(function(a) {
                     var clauseIdx = a['tagteam:clauseIndex'];
                     var isElliptical = a['tagteam:subjectSource'] === 'ellipsis_injection';
@@ -1088,21 +1273,17 @@
                     if (clauseIdx !== undefined) {
                         html += ' <span style="background: #e0f2fe; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; color: #0369a1;">Clause ' + clauseIdx + '</span>';
                     }
-
                     if (isElliptical) {
                         html += ' <span style="background: #fbbf24; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; color: #78350f;">ellipsis_injection</span>';
                     }
 
-                    var rawStatus = a['tagteam:actualityStatus'];
-                    var status = typeof rawStatus === 'object' ? (rawStatus['@id'] || '') : (rawStatus || '');
-                    if (status) {
-                        html += ' <span style="background: #8b5cf6; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em;">' + status.replace('tagteam:', '') + '</span>';
+                    var statusStr2 = strId(a['tagteam:actualityStatus']);
+                    if (statusStr2) {
+                        html += ' <span style="background: #8b5cf6; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em;">' + statusStr2.replace('tagteam:', '') + '</span>';
                     }
 
-                    var agent = a['cco:has_agent'];
-                    var patient = a['cco:has_patient'];
-                    var agentId = typeof agent === 'object' ? (agent['@id'] || '') : (agent || '');
-                    var patientId = typeof patient === 'object' ? (patient['@id'] || '') : (patient || '');
+                    var agentId = strId(a['cco:has_agent']);
+                    var patientId = strId(a['cco:has_patient']);
                     if (agentId) html += '<br><span style="color: #059669; font-size: 0.9em;">Agent: ' + agentId.split('_').slice(0, 2).join(' ') + '</span>';
                     if (patientId) html += '<br><span style="color: #b45309; font-size: 0.9em;">Patient: ' + patientId.split('_').slice(0, 2).join(' ') + '</span>';
 
@@ -1110,31 +1291,231 @@
                 });
             }
 
-            // Show relation details
+            // Relation details
             if (relations.length > 0) {
-                html += '<h4 style="color: #0891b2; margin-top: 20px;">Clause Relation</h4>';
+                html += '<h4 style="color: #0891b2; margin-top: 15px;">Clause Relation Details</h4>';
                 relations.forEach(function(r) {
                     html += '<div class="clause-card">';
                     html += '<strong>Type:</strong> ' + (r['tagteam:relationType'] || '').replace('tagteam:', '') + '<br>';
-                    html += '<strong>From:</strong> ' + (r['tagteam:fromClause'] ? r['tagteam:fromClause']['@id'].split('_').slice(0, 3).join('_') : '—') + '<br>';
-                    html += '<strong>To:</strong> ' + (r['tagteam:toClause'] ? r['tagteam:toClause']['@id'].split('_').slice(0, 3).join('_') : '—');
+                    var fromId = strId(r['tagteam:fromClause']);
+                    var toId = strId(r['tagteam:toClause']);
+                    html += '<strong>From:</strong> ' + (fromId ? fromId.split('_').slice(0, 3).join('_') : '—') + '<br>';
+                    html += '<strong>To:</strong> ' + (toId ? toId.split('_').slice(0, 3).join('_') : '—');
                     html += '</div>';
                 });
             }
 
-            document.getElementById('m1-results').style.display = 'block';
-            document.getElementById('m1-summary').innerHTML = html;
-            document.getElementById('m1-jsonld-output').textContent = '';
-            document.getElementById('m1-results').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('clauses-content').innerHTML = html;
+            document.getElementById('clauses-json-output').textContent = TagTeam.toJSONLD(text, { pretty: true });
         }
 
-        function runM1Graph() {
-            var text = document.getElementById('m1-input').value;
-            if (!text.trim()) { alert('Please enter a sentence'); return; }
+        // ── TTL helpers ──
+        var TTL_EXAMPLES = {
+            medical: {
+                ttl: [
+                    '@prefix med: <http://example.org/medical#> .',
+                    '@prefix bfo: <http://purl.obolibrary.org/obo/> .',
+                    '@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .',
+                    '',
+                    'med:CardiovascularDisease a bfo:0000016 ;',
+                    '    rdfs:label "Cardiovascular Disease" ;',
+                    '    med:indicators "chest pain, shortness of breath, heart attack, stroke, hypertension" .',
+                    '',
+                    'med:RespiratoryInfection a bfo:0000016 ;',
+                    '    rdfs:label "Respiratory Infection" ;',
+                    '    med:indicators "cough, fever, congestion, pneumonia, bronchitis" .',
+                    '',
+                    'med:Diabetes a bfo:0000016 ;',
+                    '    rdfs:label "Diabetes" ;',
+                    '    med:indicators "blood sugar, insulin, glucose, thirst, fatigue" .',
+                    '',
+                    'med:MentalHealth a bfo:0000016 ;',
+                    '    rdfs:label "Mental Health Disorder" ;',
+                    '    med:indicators "anxiety, depression, insomnia, mood changes, panic" .'
+                ].join('\n'),
+                keywords: 'med:indicators',
+                sampleText: 'The patient presented with chest pain and shortness of breath along with fatigue and anxiety'
+            },
+            legal: {
+                ttl: [
+                    '@prefix law: <http://example.org/legal#> .',
+                    '@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .',
+                    '@prefix skos: <http://www.w3.org/2004/02/skos/core#> .',
+                    '',
+                    'law:ContractBreach a law:LegalConcept ;',
+                    '    rdfs:label "Breach of Contract" ;',
+                    '    skos:altLabel "contract violation" ;',
+                    '    law:keywords "breach, violation, damages, liability, obligation, default" .',
+                    '',
+                    'law:Negligence a law:LegalConcept ;',
+                    '    rdfs:label "Negligence" ;',
+                    '    skos:altLabel "duty of care" ;',
+                    '    law:keywords "negligence, careless, duty of care, reasonable, foreseeable, harm" .',
+                    '',
+                    'law:DueDiligence a law:LegalConcept ;',
+                    '    rdfs:label "Due Diligence" ;',
+                    '    law:keywords "investigation, audit, compliance, review, assessment, risk" .'
+                ].join('\n'),
+                keywords: 'law:keywords',
+                sampleText: 'The investigation revealed a breach of duty of care and foreseeable harm caused by negligence'
+            }
+        };
 
-            runM1Demo();
-            var jsonld = TagTeam.toJSONLD(text, { pretty: true, v2: { enabled: true } });
-            document.getElementById('m1-jsonld-output').textContent = jsonld;
+        function loadTtlExample(name) {
+            var example = TTL_EXAMPLES[name];
+            if (!example) return;
+            document.getElementById('ttl-input').value = example.ttl;
+            document.getElementById('ttl-keywords-prop').value = example.keywords;
+            document.getElementById('ttl-section').open = true;
+            // Set matching sample text so evidence is visible immediately
+            if (example.sampleText) {
+                document.getElementById('input').value = example.sampleText;
+            }
+        }
+
+        function loadTtlFile(input) {
+            if (!input.files || !input.files[0]) return;
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('ttl-input').value = e.target.result;
+                document.getElementById('ttl-section').open = true;
+            };
+            reader.readAsText(input.files[0]);
+        }
+
+        function clearTtl() {
+            document.getElementById('ttl-input').value = '';
+            document.getElementById('ttl-keywords-prop').value = '';
+            document.getElementById('ontology-tab-btn').style.display = 'none';
+            document.getElementById('ontology-content').innerHTML = '';
+        }
+
+        // ── Ontology Match Audit ──
+        function auditClassMatches(ttlContent, text, keywordsPredicate) {
+            var parser = new TagTeam.TurtleParser();
+            var parsed = parser.parse(ttlContent);
+            var lowerText = text.toLowerCase();
+
+            var AUDIT_PROPERTIES = [
+                'rdfs:label', 'skos:prefLabel', 'skos:altLabel', 'rdfs:comment'
+            ];
+            if (keywordsPredicate && AUDIT_PROPERTIES.indexOf(keywordsPredicate) === -1) {
+                AUDIT_PROPERTIES.push(keywordsPredicate);
+            }
+
+            var results = [];
+            var subjects = parsed.getSubjects();
+
+            for (var si = 0; si < subjects.length; si++) {
+                var subj = subjects[si];
+                var matches = [];
+
+                for (var pi = 0; pi < AUDIT_PROPERTIES.length; pi++) {
+                    var prop = AUDIT_PROPERTIES[pi];
+                    var value = parsed.getProperty(subj, prop);
+                    if (!value) continue;
+
+                    var lowerValue = value.toLowerCase().trim();
+
+                    // 1) Exact match: full property value found in text
+                    if (lowerText.indexOf(lowerValue) !== -1) {
+                        matches.push({ property: prop, value: value, matchType: 'exact', matchedText: value });
+                        continue;
+                    }
+
+                    // 2) Keyword match: comma-separated terms checked individually
+                    if (value.indexOf(',') !== -1) {
+                        var terms = value.split(',');
+                        for (var ti = 0; ti < terms.length; ti++) {
+                            var term = terms[ti].trim().toLowerCase();
+                            if (term.length < 2) continue;
+                            if (lowerText.indexOf(term) !== -1) {
+                                matches.push({ property: prop, value: value, matchType: 'keyword', matchedText: terms[ti].trim() });
+                            }
+                        }
+                    } else {
+                        // 3) Partial match: individual words (3+ chars) from value found in text
+                        var words = lowerValue.split(/\s+/);
+                        for (var wi = 0; wi < words.length; wi++) {
+                            var word = words[wi].replace(/[^a-z0-9]/g, '');
+                            if (word.length < 3) continue;
+                            var wordRegex = new RegExp('\\b' + word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i');
+                            if (wordRegex.test(text)) {
+                                matches.push({ property: prop, value: value, matchType: 'partial', matchedText: word });
+                            }
+                        }
+                    }
+                }
+
+                if (matches.length > 0) {
+                    var label = parsed.getProperty(subj, 'rdfs:label') || subj.split(':').pop();
+                    results.push({ classId: subj, classLabel: label, matches: matches });
+                }
+            }
+
+            return results;
+        }
+
+        function renderOntologyTab(ttlContent, text, keywordsPredicate) {
+            var container = document.getElementById('ontology-content');
+            try {
+                var auditResults = auditClassMatches(ttlContent, text, keywordsPredicate);
+
+                if (!auditResults || auditResults.length === 0) {
+                    container.innerHTML = '<p class="no-matches-msg">No ontology classes matched the input text. Try different text or check your TTL.</p>';
+                    return;
+                }
+
+                var html = '';
+                for (var ci = 0; ci < auditResults.length; ci++) {
+                    var cls = auditResults[ci];
+                    html += '<div class="evidence-class-header">';
+                    html += escapeHtml(cls.classLabel);
+                    html += ' <span class="evidence-iri">' + escapeHtml(cls.classId) + '</span>';
+                    html += '</div>';
+
+                    html += '<table class="evidence-table">';
+                    html += '<thead><tr><th>Property</th><th>Value</th><th>Match Type</th><th>Matched Text</th></tr></thead>';
+                    html += '<tbody>';
+
+                    for (var mi = 0; mi < cls.matches.length; mi++) {
+                        var m = cls.matches[mi];
+                        html += '<tr>';
+                        html += '<td><code>' + escapeHtml(m.property) + '</code></td>';
+                        html += '<td>' + escapeHtml(m.value.length > 60 ? m.value.substring(0, 60) + '...' : m.value) + '</td>';
+                        html += '<td><span class="match-badge match-' + m.matchType + '">' + m.matchType + '</span></td>';
+                        html += '<td><strong>' + escapeHtml(m.matchedText) + '</strong></td>';
+                        html += '</tr>';
+                    }
+
+                    html += '</tbody></table>';
+                }
+
+                container.innerHTML = html;
+            } catch (e) {
+                container.innerHTML = '<p style="color: #dc2626;">Error parsing TTL: ' + escapeHtml(e.message) + '</p>';
+            }
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        // ── POS token renderer ──
+        function renderPosTokens(debug) {
+            if (!debug || !debug.tokens || !debug.tokens.length) return '';
+            var html = '<h4 style="color: #0ea5e9; margin-top: 18px;">POS Tags</h4>';
+            html += '<div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0;">';
+            debug.tokens.forEach(function(t) {
+                var tagLabel = t.tags.join(', ');
+                html += '<div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 6px; padding: 6px 10px; text-align: center;">';
+                html += '<div style="font-weight: bold;">' + t.text + '</div>';
+                html += '<div style="font-size: 0.75em; color: #0369a1;">' + tagLabel + '</div>';
+                html += '</div>';
+            });
+            html += '</div>';
+            return html;
         }
     </script>
 </body>

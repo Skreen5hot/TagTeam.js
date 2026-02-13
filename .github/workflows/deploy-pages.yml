@@ -56,7 +56,12 @@ jobs:
           cp demos/stakeholder-demo.html gh-pages/stakeholder-demo.html
           cp demos/semantic-demo.html gh-pages/semantic-demo.html
 
-          # Copy validation tests
+          # Copy browser validation tests
+          cp dist/test.html gh-pages/test.html
+          cp dist/test-week2b-full.html gh-pages/test-week2b-full.html
+          cp dist/test-iee-bundle.html gh-pages/test-iee-bundle.html
+
+          # Copy legacy validation tests
           cp tests/browser/test-week2a-context.html gh-pages/validation.html
 
           # Copy expert validation results

@@ -384,6 +384,75 @@
       border: 1px solid rgba(239, 68, 68, 0.3);
       color: #fca5a5;
     }
+
+    /* Match Evidence Audit */
+    .evidence-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+      font-size: 0.85em;
+    }
+
+    .evidence-table th {
+      text-align: left;
+      padding: 8px 10px;
+      background: rgba(255,255,255,0.05);
+      color: #a78bfa;
+      font-weight: 600;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .evidence-table td {
+      padding: 6px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      color: #c9d1d9;
+      vertical-align: top;
+    }
+
+    .evidence-table code {
+      background: rgba(168, 85, 247, 0.15);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.9em;
+      color: #c084fc;
+    }
+
+    .tag-exact {
+      background: rgba(16, 185, 129, 0.25);
+      color: #6ee7b7;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .tag-partial {
+      background: rgba(245, 158, 11, 0.2);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+
+    .tag-keyword {
+      background: rgba(59, 130, 246, 0.2);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, 0.4);
+    }
+
+    .evidence-class-header {
+      color: #c084fc;
+      font-size: 1.05em;
+      margin: 18px 0 6px 0;
+      padding-bottom: 4px;
+      border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+    }
+
+    .evidence-class-header:first-child {
+      margin-top: 0;
+    }
+
+    .evidence-iri {
+      font-size: 0.75em;
+      color: #666;
+      font-weight: normal;
+      margin-left: 8px;
+    }
   </style>
 </head>
 <body>
@@ -955,6 +1024,14 @@ ex:Concept a ex:MyType ;
         // Store for copy button
         window._lastJsonLd = JSON.stringify(jsonld, null, 2);
 
+        // Match Evidence Audit — independently parse TTL and check each property
+        try {
+          var auditResults = auditClassMatches(ttl, text, propertyMap.keywords);
+          html += renderMatchEvidence(auditResults);
+        } catch (auditErr) {
+          console.warn('Match evidence audit error:', auditErr);
+        }
+
         resultsContent.innerHTML = html;
         resultsArea.classList.add('show');
         resultsArea.scrollIntoView({ behavior: 'smooth' });
@@ -1092,6 +1169,119 @@ ex:Concept a ex:MyType ;
       }
 
       return result;
+    }
+
+    // ---- Match Evidence Audit ----
+
+    function auditClassMatches(ttlContent, text, keywordsPredicate) {
+      var parser = new TagTeam.TurtleParser();
+      var parsed = parser.parse(ttlContent);
+      var lowerText = text.toLowerCase();
+
+      // Standard properties to check + user-configured keywords property
+      var AUDIT_PROPERTIES = [
+        'rdfs:label', 'skos:prefLabel', 'skos:altLabel', 'rdfs:comment'
+      ];
+      if (keywordsPredicate && AUDIT_PROPERTIES.indexOf(keywordsPredicate) === -1) {
+        AUDIT_PROPERTIES.push(keywordsPredicate);
+      }
+
+      var results = [];
+      var subjects = parsed.getSubjects();
+
+      for (var si = 0; si < subjects.length; si++) {
+        var subj = subjects[si];
+        var matches = [];
+
+        for (var pi = 0; pi < AUDIT_PROPERTIES.length; pi++) {
+          var prop = AUDIT_PROPERTIES[pi];
+          var value = parsed.getProperty(subj, prop);
+          if (!value) continue;
+
+          var lowerValue = value.toLowerCase().trim();
+
+          // 1) Exact match: full property value found in text
+          if (lowerText.indexOf(lowerValue) !== -1) {
+            matches.push({ property: prop, value: value, matchType: 'exact', matchedText: value });
+            continue; // exact is strongest, skip partial/keyword for this property
+          }
+
+          // 2) Keyword match: comma-separated terms checked individually
+          if (value.indexOf(',') !== -1) {
+            var terms = value.split(',');
+            for (var ti = 0; ti < terms.length; ti++) {
+              var term = terms[ti].trim().toLowerCase();
+              if (term.length < 2) continue;
+              if (lowerText.indexOf(term) !== -1) {
+                matches.push({ property: prop, value: value, matchType: 'keyword', matchedText: terms[ti].trim() });
+              }
+            }
+          } else {
+            // 3) Partial match: individual words (3+ chars) from value found in text
+            var words = lowerValue.split(/\s+/);
+            for (var wi = 0; wi < words.length; wi++) {
+              var word = words[wi].replace(/[^a-z0-9]/g, '');
+              if (word.length < 3) continue;
+              // Word boundary check
+              var wordRegex = new RegExp('\\b' + word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i');
+              if (wordRegex.test(text)) {
+                matches.push({ property: prop, value: value, matchType: 'partial', matchedText: word });
+              }
+            }
+          }
+        }
+
+        if (matches.length > 0) {
+          var label = parsed.getProperty(subj, 'rdfs:label') || subj.split(':').pop();
+          results.push({ classId: subj, classLabel: label, matches: matches });
+        }
+      }
+
+      return results;
+    }
+
+    function renderMatchEvidence(auditResults) {
+      if (!auditResults || auditResults.length === 0) {
+        return '<div class="result-card"><h3>Match Evidence Audit</h3>' +
+          '<p style="color:#aaa;">No property-level matches found.</p></div>';
+      }
+
+      var html = '<div class="result-card">';
+      html += '<h3>&#x1f50d; Match Evidence Audit</h3>';
+      html += '<p style="color:#aaa;font-size:0.85em;margin-bottom:12px;">Shows which ontology property produced each match against the input text.</p>';
+
+      for (var ci = 0; ci < auditResults.length; ci++) {
+        var cls = auditResults[ci];
+        html += '<div class="evidence-class-header">';
+        html += escapeHtml(cls.classLabel);
+        html += ' <span class="evidence-iri">' + escapeHtml(cls.classId) + '</span>';
+        html += '</div>';
+
+        html += '<table class="evidence-table">';
+        html += '<thead><tr><th>Property</th><th>Value</th><th>Match Type</th><th>Matched Text</th></tr></thead>';
+        html += '<tbody>';
+
+        for (var mi = 0; mi < cls.matches.length; mi++) {
+          var m = cls.matches[mi];
+          var badgeClass = 'tag tag-' + m.matchType;
+          html += '<tr>';
+          html += '<td><code>' + escapeHtml(m.property) + '</code></td>';
+          html += '<td>' + escapeHtml(truncateValue(m.value, 60)) + '</td>';
+          html += '<td><span class="' + badgeClass + '">' + m.matchType + '</span></td>';
+          html += '<td><strong>' + escapeHtml(m.matchedText) + '</strong></td>';
+          html += '</tr>';
+        }
+
+        html += '</tbody></table>';
+      }
+
+      html += '</div>';
+      return html;
+    }
+
+    function truncateValue(str, maxLen) {
+      if (str.length <= maxLen) return str;
+      return str.substring(0, maxLen) + '...';
     }
 
     // Load medical example by default
