@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><base href="/TagTeam.js/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TagTeam.js - Separated Bundles Demo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 { color: #2c3e50; }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            font-family: monospace;
+            font-size: 14px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px 10px 0;
+        }
+        button:hover { background: #2980b9; }
+        button.purple { background: #8e44ad; }
+        button.purple:hover { background: #7d3c98; }
+        button.green { background: #27ae60; }
+        button.green:hover { background: #219a52; }
+        pre {
+            background: #f8f8f8;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            border-left: 4px solid #3498db;
+        }
+        .bundle-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .bundle-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        .bundle-card.core { border-left-color: #3498db; }
+        .bundle-card.values { border-left-color: #8e44ad; }
+        .bundle-card h3 { margin-top: 0; }
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .badge.loaded { background: #27ae60; color: white; }
+        .badge.pending { background: #f39c12; color: white; }
+    </style>
+</head>
+<body>
+    <h1>TagTeam.js - Separated Bundles Demo</h1>
+    <p>This demo shows the modular architecture with core + values as separate bundles.</p>
+
+    <div class="container">
+        <h2>Bundle Status</h2>
+        <div class="bundle-info">
+            <div class="bundle-card core">
+                <h3>tagteam-core.js</h3>
+                <p>Core semantic parsing</p>
+                <span id="core-status" class="badge pending">Loading...</span>
+            </div>
+            <div class="bundle-card values">
+                <h3>tagteam-values.js</h3>
+                <p>IEE ethical value detection</p>
+                <span id="values-status" class="badge pending">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Interactive Demo</h2>
+        <textarea id="input">The doctor must allocate the last ventilator between two critically ill patients</textarea>
+        <br>
+        <button onclick="analyzeCore()">Analyze with Core Only</button>
+        <button class="purple" onclick="analyzeWithValues()">Analyze with Values</button>
+    </div>
+
+    <div class="container" id="results" style="display: none;">
+        <h2>Results</h2>
+        <pre id="output"></pre>
+    </div>
+
+    <div class="container">
+        <h2>Code Example</h2>
+        <pre>
+&lt;!-- Load bundles separately --&gt;
+&lt;script src="tagteam-core.js"&gt;&lt;/script&gt;
+&lt;script src="tagteam-values.js"&gt;&lt;/script&gt;
+
+&lt;script&gt;
+  // Core-only parsing
+  const graph = TagTeam.buildGraph("text");
+
+  // With value analysis
+  const builder = new TagTeamValues.IEEGraphBuilder();
+  const enriched = builder.build("text", { context: "MedicalEthics" });
+&lt;/script&gt;
+        </pre>
+    </div>
+
+    <!-- Load core first, then values -->
+    <script src="tagteam-core.js"></script>
+    <script src="tagteam-values.js"></script>
+    <script>
+        // Check bundle status
+        document.getElementById('core-status').textContent =
+            typeof TagTeam !== 'undefined' ? 'Loaded' : 'Failed';
+        document.getElementById('core-status').className =
+            'badge ' + (typeof TagTeam !== 'undefined' ? 'loaded' : 'pending');
+
+        document.getElementById('values-status').textContent =
+            typeof TagTeamValues !== 'undefined' ? 'Loaded' : 'Failed';
+        document.getElementById('values-status').className =
+            'badge ' + (typeof TagTeamValues !== 'undefined' ? 'loaded' : 'pending');
+
+        function analyzeCore() {
+            const text = document.getElementById('input').value;
+            if (!text.trim()) { alert('Enter text'); return; }
+
+            const result = TagTeam.buildGraph(text, { detectAmbiguity: true });
+            document.getElementById('output').textContent =
+                '// Core parsing result (with ambiguity detection)\n' + JSON.stringify(result, null, 2);
+            document.getElementById('results').style.display = 'block';
+        }
+
+        function analyzeWithValues() {
+            const text = document.getElementById('input').value;
+            if (!text.trim()) { alert('Enter text'); return; }
+
+            if (typeof TagTeamValues === 'undefined') {
+                alert('TagTeamValues not loaded');
+                return;
+            }
+
+            const builder = new TagTeamValues.IEEGraphBuilder();
+            const result = builder.build(text, { context: 'MedicalEthics', detectAmbiguity: true });
+            document.getElementById('output').textContent =
+                '// Core + Values result (with ambiguity detection)\n' + JSON.stringify(result, null, 2);
+            document.getElementById('results').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

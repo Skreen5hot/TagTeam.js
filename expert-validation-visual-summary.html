@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><base href="/TagTeam.js/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TagTeam V7.0 Expert Validation - Visual Summary</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      background: #f5f7fa;
+      padding: 40px 20px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+      color: white;
+      padding: 40px;
+      border-radius: 10px;
+      margin-bottom: 40px;
+      box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+    }
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .subtitle {
+      font-size: 1.2em;
+      opacity: 0.95;
+      margin-top: 10px;
+    }
+    .status-badge {
+      display: inline-block;
+      background: #c0392b;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.5em;
+      font-weight: bold;
+      vertical-align: middle;
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+
+    /* Executive Summary */
+    .executive-summary {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-left: 6px solid #e74c3c;
+    }
+    .executive-summary h2 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+      font-size: 1.8em;
+    }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .summary-card {
+      text-align: center;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+    .summary-value {
+      font-size: 3em;
+      font-weight: bold;
+      color: #e74c3c;
+    }
+    .summary-label {
+      color: #7f8c8d;
+      text-transform: uppercase;
+      font-size: 0.85em;
+      letter-spacing: 1px;
+      margin-top: 10px;
+    }
+
+    /* Test Result Card */
+    .test-result {
+      background: white;
+      border-radius: 10px;
+      padding: 35px;
+      margin-bottom: 40px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+      border-top: 5px solid #e74c3c;
+    }
+    .test-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #ecf0f1;
+    }
+    .test-id {
+      font-size: 1.5em;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+    .fail-badge {
+      background: #e74c3c;
+      color: white;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 1.1em;
+    }
+
+    /* Sentence Display */
+    .sentence-box {
+      background: #2c3e50;
+      color: white;
+      padding: 25px;
+      border-radius: 8px;
+      font-size: 1.3em;
+      font-style: italic;
+      margin: 20px 0;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .sentence-box .word-error {
+      background: #e74c3c;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-weight: bold;
+    }
+
+    /* Hypothesis Box */
+    .hypothesis {
+      background: #fff3cd;
+      border-left: 4px solid #f39c12;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 5px;
+    }
+    .hypothesis strong {
+      color: #f39c12;
+      font-size: 1.1em;
+    }
+
+    /* Failure Analysis */
+    .failure-analysis {
+      background: #fee;
+      border: 2px solid #e74c3c;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 25px 0;
+    }
+    .failure-analysis h3 {
+      color: #e74c3c;
+      font-size: 1.3em;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .failure-point {
+      background: white;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 15px 0;
+      border-left: 4px solid #e74c3c;
+    }
+    .failure-point strong {
+      color: #c0392b;
+    }
+
+    /* Visual Diagram */
+    .diagram {
+      background: #f8f9fa;
+      padding: 30px;
+      border-radius: 8px;
+      margin: 25px 0;
+      border: 2px solid #ecf0f1;
+    }
+    .diagram h4 {
+      color: #34495e;
+      margin-bottom: 20px;
+      font-size: 1.2em;
+    }
+    .diagram-content {
+      font-family: 'Courier New', monospace;
+      font-size: 0.95em;
+      line-height: 2;
+    }
+    .entity {
+      display: inline-block;
+      background: #3498db;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 5px;
+      margin: 0 5px;
+      font-weight: 600;
+    }
+    .verb {
+      display: inline-block;
+      background: #9b59b6;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 5px;
+      margin: 0 5px;
+      font-weight: 600;
+    }
+    .arrow {
+      color: #95a5a6;
+      font-weight: bold;
+      margin: 0 10px;
+    }
+    .error-link {
+      display: inline-block;
+      background: #e74c3c;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 5px;
+      margin: 0 5px;
+      font-weight: 600;
+      position: relative;
+    }
+    .error-link::after {
+      content: '⚠';
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #c0392b;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8em;
+    }
+
+    /* JSON Code Block */
+    .json-block {
+      background: #2c3e50;
+      color: #ecf0f1;
+      padding: 20px;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85em;
+      overflow-x: auto;
+      margin: 20px 0;
+      border: 2px solid #e74c3c;
+    }
+    .json-block .error-line {
+      background: rgba(231, 76, 60, 0.2);
+      border-left: 4px solid #e74c3c;
+      padding-left: 10px;
+    }
+
+    /* Root Cause Box */
+    .root-cause {
+      background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+      color: white;
+      padding: 25px;
+      border-radius: 8px;
+      margin: 25px 0;
+    }
+    .root-cause h3 {
+      font-size: 1.4em;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .root-cause ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .root-cause li {
+      padding: 8px 0;
+      padding-left: 25px;
+      position: relative;
+    }
+    .root-cause li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: #e74c3c;
+      font-weight: bold;
+    }
+
+    /* Recommendation Box */
+    .recommendation {
+      background: #d4edda;
+      border: 2px solid #28a745;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 25px 0;
+    }
+    .recommendation h3 {
+      color: #155724;
+      font-size: 1.3em;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #7f8c8d;
+      margin-top: 50px;
+    }
+    .report-meta {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      display: inline-block;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    @media print {
+      body { background: white; }
+      .container { max-width: 100%; }
+      .test-result { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>
+        ⚠️ TagTeam V7.0 Expert Validation
+        <span class="status-badge">CRITICAL FAILURES</span>
+      </h1>
+      <div class="subtitle">
+        Phase 1 Test Matrix Results - Subordination & Relative Clauses
+      </div>
+      <div class="subtitle" style="font-size: 0.9em; margin-top: 15px; opacity: 0.8;">
+        Generated: February 10, 2026 | Tests: 2/2 Failed | Status: ❌ V7.0 NOT READY
+      </div>
+    </header>
+
+    <div class="executive-summary">
+      <h2>📊 Executive Summary</h2>
+      <p style="font-size: 1.1em; color: #555; margin-bottom: 20px;">
+        Both P0/P1 test cases <strong>CONFIRMED the expert's predictions</strong>.
+        V7.0 architecture exhibits critical failures in subordination and relative clause handling,
+        resulting in <strong>argument bleeding</strong> and <strong>semantic corruption</strong>.
+      </p>
+
+      <div class="summary-grid">
+        <div class="summary-card">
+          <div class="summary-value">2/2</div>
+          <div class="summary-label">Tests Failed</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-value">0%</div>
+          <div class="summary-label">Pass Rate</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-value">P0</div>
+          <div class="summary-label">Blocking Severity</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-value">❌</div>
+          <div class="summary-label">Release Status</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEST 1: Subordination -->
+    <div class="test-result">
+      <div class="test-header">
+        <div class="test-id">Test 1.2: Subordination (If-Clause)</div>
+        <div class="fail-badge">❌ FAIL</div>
+      </div>
+
+      <div class="hypothesis">
+        <strong>Expert Hypothesis:</strong> "Likely FAIL - Same comma-dependency as 'When'.
+        Splitter will miss the boundary; 'fails' may consume 'admin' as object (argument bleeding)."
+      </div>
+
+      <div class="sentence-box">
+        "If the server <span class="word-error">fails</span>, the admin receives an alert."
+      </div>
+
+      <div class="failure-analysis">
+        <h3>💥 Critical Failure: Argument Bleeding Confirmed</h3>
+
+        <div class="failure-point">
+          <strong>❌ False Assertion:</strong> Graph claims "The server fails the admin"
+          <br>
+          <em>Expected:</em> "fails" should be <strong>intransitive</strong> (server fails ø)
+          <br>
+          <em>Actual:</em> "fails" consumed "admin" as <strong>direct object</strong> (transitive)
+        </div>
+
+        <div class="failure-point">
+          <strong>❌ Missing Clause Relation:</strong> No `tagteam:ClauseRelation` linking "fails" → "receives"
+          <br>
+          <em>Expected:</em> Conditional link: IF(fails) → THEN(receives)
+          <br>
+          <em>Actual:</em> Two disconnected acts with no temporal/causal relation
+        </div>
+
+        <div class="failure-point">
+          <strong>❌ Semantic Corruption:</strong> Knowledge graph contains false fact
+          <br>
+          <em>Impact:</em> "Server affects Admin" assertion will propagate to downstream reasoning
+        </div>
+      </div>
+
+      <div class="diagram">
+        <h4>🔍 Visual Representation - What V7.0 Parsed</h4>
+        <div class="diagram-content">
+          <div style="margin: 15px 0;">
+            <span class="entity">Server</span>
+            <span class="arrow">→</span>
+            <span class="verb">fails</span>
+            <span class="arrow">→</span>
+            <span class="error-link">Admin</span>
+            <span style="color: #e74c3c; margin-left: 15px;">⚠ ARGUMENT BLEEDING</span>
+          </div>
+          <div style="margin: 15px 0;">
+            <span class="entity">Admin</span>
+            <span class="arrow">→</span>
+            <span class="verb">receives</span>
+            <span class="arrow">→</span>
+            <span class="entity">Alert</span>
+            <span style="color: #27ae60; margin-left: 15px;">✓ Correct</span>
+          </div>
+          <div style="margin: 15px 0; color: #e74c3c; font-weight: bold;">
+            ⚠ NO LINK: "fails" and "receives" are disconnected
+          </div>
+        </div>
+      </div>
+
+      <div class="diagram">
+        <h4>✅ Expected Parse - What Should Happen</h4>
+        <div class="diagram-content">
+          <div style="margin: 15px 0;">
+            <strong style="color: #3498db;">IF-CLAUSE:</strong>
+            <span class="entity">Server</span>
+            <span class="arrow">→</span>
+            <span class="verb">fails</span>
+            <span style="margin-left: 15px; color: #27ae60;">✓ (intransitive)</span>
+          </div>
+          <div style="margin: 15px 0;">
+            <strong style="color: #3498db;">MAIN-CLAUSE:</strong>
+            <span class="entity">Admin</span>
+            <span class="arrow">→</span>
+            <span class="verb">receives</span>
+            <span class="arrow">→</span>
+            <span class="entity">Alert</span>
+          </div>
+          <div style="margin: 15px 0; color: #27ae60; font-weight: bold;">
+            ✓ RELATION: IF(fails) → tagteam:condition → THEN(receives)
+          </div>
+        </div>
+      </div>
+
+      <div class="json-block">
+<pre>"inst:Fail_IntentionalAct_adc70c9b48f0": {
+  "@type": "cco:IntentionalAct",
+  "rdfs:label": "Act of fail",
+  "tagteam:verb": "fail",
+  <span class="error-line">"cco:affects": "inst:Artifact_Admin_0ad23e88ee81"  // ❌ WRONG!</span>
+}</pre>
+      </div>
+
+      <div class="root-cause">
+        <h3>🔧 Root Cause Analysis</h3>
+        <ul>
+          <li><strong>Segmentation Failure:</strong> Splitter relies on splitting <em>at</em> conjunctions (e.g., "clause1 AND clause2")</li>
+          <li><strong>Pattern Not Recognized:</strong> Structure "[IF] + [Clause 1] + [Comma] + [Clause 2]" not detected</li>
+          <li><strong>No Hard Boundary:</strong> Entire sentence treated as single scope, enabling greedy argument linking</li>
+          <li><strong>Result:</strong> "fails" consumed first available NP ("the admin") as direct object</li>
+        </ul>
+      </div>
+
+      <div class="recommendation">
+        <h3>✅ Required Fix: V7-003 (Subordinate Clause Support)</h3>
+        <ol style="padding-left: 25px;">
+          <li><strong>Update Splitter:</strong> Detect subordinate markers at sentence start ("If", "When", "While", "Although")</li>
+          <li><strong>Split on Comma:</strong> If subordinate marker present, treat first comma as Hard Boundary</li>
+          <li><strong>Map Relation:</strong> Create `tagteam:ClauseRelation` with appropriate type:
+            <ul style="padding-left: 20px; margin-top: 10px;">
+              <li>"If" → `tagteam:conditional`</li>
+              <li>"When" → `tagteam:synchronous` or `tagteam:immediately_before`</li>
+              <li>"While" → `tagteam:co-temporal`</li>
+            </ul>
+          </li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- TEST 2: Relative Clause -->
+    <div class="test-result">
+      <div class="test-header">
+        <div class="test-id">Test 2.1: Relative Clause (Who-Clause)</div>
+        <div class="fail-badge">❌ FAIL</div>
+      </div>
+
+      <div class="hypothesis">
+        <strong>Expert Hypothesis:</strong> "High risk - Either 'designed' eats 'left' (subject bleeding)
+        OR 'left' has no subject (fragmentation). Hard boundary logic may wall off the relative clause."
+      </div>
+
+      <div class="sentence-box">
+        "The engineer <span class="word-error">who</span> designed the system <span class="word-error">left</span>."
+      </div>
+
+      <div class="failure-analysis">
+        <h3>💥 Critical Failure: Both Bleeding AND Fragmentation</h3>
+
+        <div class="failure-point">
+          <strong>❌ False Entity:</strong> "Who" instantiated as separate `Person_Who` entity
+          <br>
+          <em>Expected:</em> "who" is a relative pronoun referring back to "engineer"
+          <br>
+          <em>Actual:</em> "who" treated as new person entity (like interrogative "Who did it?")
+        </div>
+
+        <div class="failure-point">
+          <strong>❌ Wrong Subject Binding:</strong> "Left" consumed "system" as its subject
+          <br>
+          <em>Expected:</em> "The engineer left"
+          <br>
+          <em>Actual:</em> "The system left" ← <strong>FALSE ASSERTION</strong>
+        </div>
+
+        <div class="failure-point">
+          <strong>❌ Orphaned Entity:</strong> "Engineer" has no role in any act
+          <br>
+          <em>Impact:</em> Main clause subject completely lost from graph
+        </div>
+      </div>
+
+      <div class="diagram">
+        <h4>🔍 Visual Representation - What V7.0 Parsed</h4>
+        <div class="diagram-content">
+          <div style="margin: 15px 0;">
+            <span class="entity">Engineer</span>
+            <span style="color: #e74c3c; margin-left: 15px;">⚠ ORPHANED (no role)</span>
+          </div>
+          <div style="margin: 15px 0;">
+            <span class="error-link">Who</span>
+            <span class="arrow">→</span>
+            <span class="verb">designed</span>
+            <span class="arrow">→</span>
+            <span class="entity">System</span>
+            <span style="color: #e74c3c; margin-left: 15px;">⚠ "Who" = separate person?</span>
+          </div>
+          <div style="margin: 15px 0;">
+            <span class="error-link">System</span>
+            <span class="arrow">→</span>
+            <span class="verb">left</span>
+            <span style="color: #e74c3c; margin-left: 15px;">⚠ WRONG SUBJECT</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="diagram">
+        <h4>✅ Expected Parse - What Should Happen</h4>
+        <div class="diagram-content">
+          <div style="margin: 15px 0;">
+            <strong style="color: #3498db;">MAIN NP:</strong>
+            <span class="entity">Engineer</span>
+            <span style="margin-left: 10px; color: #95a5a6;">[modified by relative clause]</span>
+          </div>
+          <div style="margin: 15px 0; padding-left: 30px;">
+            <strong style="color: #9b59b6;">RELATIVE CLAUSE:</strong>
+            <span class="entity">Engineer</span>
+            <span style="font-size: 0.8em; color: #95a5a6;">(= who)</span>
+            <span class="arrow">→</span>
+            <span class="verb">designed</span>
+            <span class="arrow">→</span>
+            <span class="entity">System</span>
+          </div>
+          <div style="margin: 15px 0;">
+            <strong style="color: #3498db;">MAIN VERB:</strong>
+            <span class="entity">Engineer</span>
+            <span class="arrow">→</span>
+            <span class="verb">left</span>
+            <span style="margin-left: 15px; color: #27ae60;">✓ Correct subject</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="json-block">
+<pre>// Act 1: Design
+"inst:Design_IntentionalAct": {
+  <span class="error-line">"cco:has_agent": "inst:Person_Who_ab8cfe76a31d"  // ❌ Who ≠ Engineer!</span>
+}
+
+// Act 2: Leave
+"inst:Leave_IntentionalAct": {
+  <span class="error-line">"cco:has_agent": "inst:Artifact_System_687dfc046cd6"  // ❌ System left?!</span>
+}</pre>
+      </div>
+
+      <div class="root-cause">
+        <h3>🔧 Root Cause Analysis</h3>
+        <ul>
+          <li><strong>No Relative Clause Detection:</strong> Parser doesn't recognize "who/which/that" as relative pronouns</li>
+          <li><strong>Wrong Classification:</strong> "Who" parsed as interrogative/new referent instead of anaphoric binding</li>
+          <li><strong>Greedy Subject Linking:</strong> "Left" consumed nearest available NP ("system") instead of clause head ("engineer")</li>
+          <li><strong>No Coreference:</strong> No mechanism to bind "who" → "engineer"</li>
+        </ul>
+      </div>
+
+      <div class="recommendation">
+        <h3>✅ Required Fix: V7-004 (Relative Clause Support)</h3>
+        <ol style="padding-left: 25px;">
+          <li><strong>Detect Relative Pronouns:</strong> Recognize "who", "which", "that" in NP context (not interrogative)</li>
+          <li><strong>Establish Coreference:</strong> Bind relative pronoun to head noun of containing NP</li>
+          <li><strong>Scope Management:</strong> Keep relative clause internal to NP, don't let it consume main clause elements</li>
+          <li><strong>Subject Preservation:</strong> Ensure main verb ("left") binds to NP head ("engineer"), not to relative clause objects</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Overall Conclusion -->
+    <div class="executive-summary" style="border-left-color: #c0392b; background: #fee;">
+      <h2 style="color: #c0392b;">🚫 V7.0 Release Status: HOLD</h2>
+      <p style="font-size: 1.15em; color: #333; margin-bottom: 20px;">
+        <strong>Expert Assessment Validated:</strong> V7.0 architecture is NOT ready for complex syntax.
+        Both P0 and P1 test cases failed with <strong>semantic corruption</strong> (false assertions in knowledge graph).
+      </p>
+
+      <div style="background: white; padding: 20px; border-radius: 8px; border: 2px solid #c0392b;">
+        <h3 style="color: #c0392b; margin-bottom: 15px;">Critical Issues Confirmed</h3>
+        <ul style="padding-left: 25px; line-height: 2;">
+          <li><strong>P0 BLOCKING:</strong> Subordination (If/When/While) causes argument bleeding</li>
+          <li><strong>P1 CRITICAL:</strong> Relative clauses (who/which/that) cause subject bleeding + fragmentation</li>
+          <li><strong>Architecture Limitation:</strong> V7 over-fits to infix coordination ("X and Y"), lacks prefix/embedded clause support</li>
+          <li><strong>Data Integrity Risk:</strong> False assertions will propagate to downstream reasoning/queries</li>
+        </ul>
+      </div>
+
+      <div style="background: #d4edda; padding: 20px; border-radius: 8px; margin-top: 20px; border: 2px solid #28a745;">
+        <h3 style="color: #155724; margin-bottom: 15px;">✅ Recommended Actions</h3>
+        <ol style="padding-left: 25px; line-height: 2;">
+          <li><strong>Immediate:</strong> Do NOT release V7.0 until V7-003 (subordination) is fixed</li>
+          <li><strong>Short-term:</strong> Implement V7-003 and V7-004 as emergency patches</li>
+          <li><strong>Medium-term:</strong> Run complete expert test matrix (Dimensions 1-4, ~20 tests)</li>
+          <li><strong>Documentation:</strong> If fixes are deferred, mark as "Known Limitations" with examples</li>
+          <li><strong>Scope Decision:</strong> Define V7 minimal viable syntax (simple coordination only?) vs. V8 full syntax</li>
+        </ol>
+      </div>
+    </div>
+
+    <footer>
+      <div class="report-meta">
+        <strong>Report Generated:</strong> February 10, 2026<br>
+        <strong>TagTeam Version:</strong> v3.0.0-alpha.1 (V7.0 architecture)<br>
+        <strong>Test Framework:</strong> Expert Validation Harness<br>
+        <strong>JSON Report:</strong> <code>expert-validation-report.json</code><br>
+        <strong>Status:</strong> <span style="color: #e74c3c; font-weight: bold;">❌ CRITICAL FAILURES - RELEASE BLOCKED</span>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

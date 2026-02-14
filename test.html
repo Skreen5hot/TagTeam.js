@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><base href="/TagTeam.js/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TagTeam.js Bundle Test</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1 { color: #2563eb; }
+    h2 { color: #1e40af; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px; }
+    pre {
+      background: #f3f4f6;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 12px;
+      max-height: 400px;
+    }
+    .result {
+      margin: 20px 0;
+      padding: 15px;
+      border: 2px solid #10b981;
+      border-radius: 8px;
+      background: #f0fdf4;
+    }
+    .result-phase4 {
+      border-color: #8b5cf6;
+      background: #f5f3ff;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-right: 10px;
+    }
+    button:hover { background: #1d4ed8; }
+    button.phase4 { background: #7c3aed; }
+    button.phase4:hover { background: #6d28d9; }
+    .section { margin-bottom: 40px; }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-left: 8px;
+    }
+    .badge-new { background: #dcfce7; color: #166534; }
+    .badge-legacy { background: #e5e7eb; color: #374151; }
+    .summary-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 10px 0;
+    }
+    .summary-box h4 { margin: 0 0 10px 0; color: #1e40af; }
+    .summary-item { margin: 5px 0; }
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+      resize: vertical;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎯 TagTeam.js v3.0.0-alpha.2</h1>
+  <p>Semantic Parser with JSON-LD Graph Output</p>
+
+  <div class="section">
+    <h2>Phase 4: JSON-LD Semantic Graph <span class="badge badge-new">NEW</span></h2>
+    <p>Build BFO/CCO-compliant knowledge graphs from natural language</p>
+
+    <label for="phase4-input"><strong>Input Text:</strong></label>
+    <textarea id="phase4-input" rows="2">The doctor must allocate the last ventilator between two critically ill patients</textarea>
+    <br><br>
+    <button class="phase4" onclick="testPhase4()">Build JSON-LD Graph</button>
+    <button class="phase4" onclick="testPhase4Summary()">Show Summary</button>
+    <div id="phase4-result"></div>
+  </div>
+
+  <hr>
+
+  <div class="section">
+    <h2>Legacy API <span class="badge badge-legacy">CLASSIC</span></h2>
+    <p>Original semantic role extraction</p>
+
+    <h3>Test 1: Simple Parse</h3>
+    <button onclick="test1()">Run Test 1</button>
+    <div id="test1-result"></div>
+
+    <h3>Test 2: Batch Parse</h3>
+    <button onclick="test2()">Run Test 2</button>
+    <div id="test2-result"></div>
+
+    <h3>Test 3: IEE Test Sentence</h3>
+    <button onclick="test3()">Run Test 3</button>
+    <div id="test3-result"></div>
+  </div>
+
+  <!-- Load the bundle -->
+  <script src="tagteam.js"></script>
+
+  <script>
+    // Phase 4: JSON-LD Graph Demo
+    function testPhase4() {
+      const text = document.getElementById('phase4-input').value;
+      const jsonld = TagTeam.toJSONLD(text, { pretty: true });
+
+      document.getElementById('phase4-result').innerHTML = `
+        <div class="result result-phase4">
+          <strong>JSON-LD Output:</strong>
+          <pre>${jsonld}</pre>
+        </div>
+      `;
+    }
+
+    function testPhase4Summary() {
+      const text = document.getElementById('phase4-input').value;
+      const graph = TagTeam.buildGraph(text);
+
+      const referents = graph['@graph'].filter(n =>
+        n['@type'] && n['@type'].includes('tagteam:DiscourseReferent'));
+      const acts = graph['@graph'].filter(n =>
+        n['@type'] && n['@type'].some(t => t.includes('IntentionalAct') || t.includes('ActOf')));
+      const roles = graph['@graph'].filter(n =>
+        n['@type'] && n['@type'].includes('bfo:BFO_0000023'));
+
+      let summaryHtml = `
+        <div class="result result-phase4">
+          <div class="summary-box">
+            <h4>📊 Graph Summary</h4>
+            <div class="summary-item"><strong>Total Nodes:</strong> ${graph['@graph'].length}</div>
+            <div class="summary-item"><strong>Discourse Referents:</strong> ${referents.length}</div>
+            <div class="summary-item"><strong>Intentional Acts:</strong> ${acts.length}</div>
+            <div class="summary-item"><strong>BFO Roles:</strong> ${roles.length}</div>
+          </div>
+      `;
+
+      if (referents.length > 0) {
+        summaryHtml += `<h4>👤 Discourse Referents (Entities)</h4><ul>`;
+        referents.forEach(r => {
+          summaryHtml += `<li><strong>${r['rdfs:label']}</strong> → ${r['tagteam:denotesType']}`;
+          if (r['tagteam:is_scarce']) summaryHtml += ` ⚠️ SCARCE`;
+          summaryHtml += `</li>`;
+        });
+        summaryHtml += `</ul>`;
+      }
+
+      if (acts.length > 0) {
+        summaryHtml += `<h4>⚡ Intentional Acts</h4><ul>`;
+        acts.forEach(a => {
+          const actType = a['@type'].find(t => t.includes('cco:')) || 'IntentionalAct';
+          summaryHtml += `<li><strong>${a['tagteam:verb']}</strong> (${actType})`;
+          if (a['tagteam:modality']) summaryHtml += ` [modality: ${a['tagteam:modality']}]`;
+          summaryHtml += `</li>`;
+        });
+        summaryHtml += `</ul>`;
+      }
+
+      if (roles.length > 0) {
+        summaryHtml += `<h4>🎭 BFO Roles</h4><ul>`;
+        roles.forEach(r => {
+          summaryHtml += `<li>${r['rdfs:label']}</li>`;
+        });
+        summaryHtml += `</ul>`;
+      }
+
+      summaryHtml += `</div>`;
+      document.getElementById('phase4-result').innerHTML = summaryHtml;
+    }
+
+    // Legacy tests
+    function test1() {
+      const text = "I love my best friend";
+      const result = TagTeam.parse(text);
+
+      document.getElementById('test1-result').innerHTML = `
+        <div class="result">
+          <strong>Input:</strong> "${text}"<br><br>
+          <strong>Result:</strong>
+          <pre>${JSON.stringify(result, null, 2)}</pre>
+        </div>
+      `;
+    }
+
+    function test2() {
+      const texts = [
+        "I love my best friend",
+        "The doctor recommended treatment",
+        "We must decide about the coal plant"
+      ];
+      const results = TagTeam.parseMany(texts);
+
+      document.getElementById('test2-result').innerHTML = `
+        <div class="result">
+          <strong>Input:</strong> 3 sentences<br><br>
+          <strong>Results:</strong>
+          <pre>${JSON.stringify(results, null, 2)}</pre>
+        </div>
+      `;
+    }
+
+    function test3() {
+      const text = "I should tell my doctor about the pain";
+      const result = TagTeam.parse(text);
+
+      document.getElementById('test3-result').innerHTML = `
+        <div class="result">
+          <strong>Input:</strong> "${text}"<br><br>
+          <strong>Agent:</strong> ${result.agent ? result.agent.text : 'N/A'}<br>
+          <strong>Action:</strong> ${result.action ? result.action.verb : 'N/A'}<br>
+          <strong>Modality:</strong> ${result.action && result.action.modality ? result.action.modality : 'none'}<br>
+          <strong>Recipient:</strong> ${result.recipient ? result.recipient.text : 'N/A'}<br>
+          <strong>Theme:</strong> ${result.theme ? result.theme.text : 'N/A'}<br>
+          <strong>Frame:</strong> ${result.semanticFrame || 'N/A'}<br><br>
+          <strong>Full Result:</strong>
+          <pre>${JSON.stringify(result, null, 2)}</pre>
+        </div>
+      `;
+    }
+
+    // Auto-run Phase 4 demo on load
+    window.addEventListener('load', () => {
+      console.log('TagTeam.js loaded! Version:', TagTeam.version);
+      testPhase4Summary();
+    });
+  </script>
+</body>
+</html>
