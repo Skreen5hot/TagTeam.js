@@ -8,12 +8,10 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: "pages-${{ github.ref }}"
+  group: "pages-deploy"
   cancel-in-progress: false
 
 jobs:
@@ -139,12 +137,14 @@ jobs:
       - run: npm ci
       - run: npm run security:test
 
-  # ─── Job 4: Build Pages ────────────────────────────────────────────
-  build-pages:
-    name: Build Pages
+  # ─── Job 4: Build & Deploy Pages ─────────────────────────────────────
+  deploy-pages:
+    name: Build & Deploy Pages
     runs-on: ubuntu-latest
     needs: test-gate
     if: github.event_name == 'push'
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -198,44 +198,22 @@ jobs:
           # Copy README
           cp demos/gh-pages-README.md gh-pages/README.md
 
-      - name: Apply branch-based routing
+      - name: Inject base tag
         run: |
           BRANCH_NAME="${GITHUB_REF#refs/heads/}"
-
           if [ "$BRANCH_NAME" = "dev" ]; then
-            # Nest all content under dev/ subdirectory
-            mkdir -p gh-pages-final/dev
-            cp -r gh-pages/* gh-pages-final/dev/
-            rm -rf gh-pages
-            mv gh-pages-final gh-pages
-
-            # Inject <base> tag for dev path resolution
-            find gh-pages -name '*.html' -exec sed -i 's|<head>|<head><base href="/TagTeam.js/dev/">|' {} \;
-            echo "Deployed to /dev/ subdirectory"
+            BASE_HREF="/TagTeam.js/dev/"
           else
-            # Main branch: deploy at root
-            find gh-pages -name '*.html' -exec sed -i 's|<head>|<head><base href="/TagTeam.js/">|' {} \;
-            echo "Deployed to root"
+            BASE_HREF="/TagTeam.js/"
           fi
+          find gh-pages -name '*.html' -exec sed -i "s|<head>|<head><base href=\"${BASE_HREF}\">|" {} \;
+          echo "Injected <base href=\"${BASE_HREF}\"> into all HTML files"
 
-      - name: Upload pages artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Deploy to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          path: './gh-pages'
-
-  # ─── Job 5: Deploy ─────────────────────────────────────────────────
-  deploy:
-    name: Deploy to GitHub Pages
-    runs-on: ubuntu-latest
-    needs: build-pages
-    if: github.event_name == 'push'
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    permissions:
-      pages: write
-      id-token: write
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./gh-pages
+          destination_dir: ${{ github.ref == 'refs/heads/dev' && 'dev' || '.' }}
+          keep_files: true
+          enable_jekyll: false
