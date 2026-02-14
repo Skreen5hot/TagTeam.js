@@ -271,7 +271,8 @@ function executeTest(testCase, args) {
     const TagTeam = getTagTeam();
 
     // Parse input with NPChunker enabled
-    const graph = TagTeam.buildGraph(testCase.input, {
+    // V7.5 MEMORY-FIX: Use let so we can null out after use
+    let graph = TagTeam.buildGraph(testCase.input, {
       useNPChunker: true,
       preserveAmbiguity: true
     });
@@ -308,18 +309,18 @@ function executeTest(testCase, args) {
       }
     } else {
       // Default comparison for other test types
-      // V7.4 MEMORY-FIX: Only count diffs, don't store graph fragment references
-      const diffs = compareResults(
+      // V7.5 MEMORY-FIX: Only count diffs, don't store graph fragment references
+      const diffCount = compareResults(
         testCase.expectedOutput,
         graph,
         testCase.validationRules || {}
-      );
-      result.diffCount = diffs.length;
-      result.passed = diffs.length === 0;
-      // Don't store diffs - they contain references to graph sub-objects
+      ).length;
+      result.diffCount = diffCount;
+      result.passed = diffCount === 0;
     }
 
-    // graph goes out of scope here and becomes eligible for GC
+    // V7.5 MEMORY-FIX: Explicitly null out graph to help GC
+    graph = null;
 
   } catch (error) {
     result.error = error.message;
@@ -333,55 +334,38 @@ function executeTest(testCase, args) {
 // Result Comparison
 // ============================================================================
 
+// V7.5 MEMORY-FIX: Only count diffs instead of building an array of objects
+// that hold references to graph sub-objects. Previous version stored
+// { expected: exp, actual: act } which kept entire sub-trees alive.
 function compareResults(expected, actual, validationRules = {}) {
   const tolerance = validationRules.tolerance || CONFIG.defaultTolerance;
-  const diffs = [];
+  let diffCount = 0;
 
-  // Deep comparison with tolerance for numbers
-  function compare(exp, act, path = '') {
+  function compare(exp, act) {
     if (typeof exp === 'number' && typeof act === 'number') {
       if (Math.abs(exp - act) > tolerance) {
-        diffs.push({
-          path,
-          expected: exp,
-          actual: act,
-          type: 'numeric-mismatch'
-        });
+        diffCount++;
       }
     } else if (typeof exp !== typeof act) {
-      diffs.push({
-        path,
-        expected: exp,
-        actual: act,
-        type: 'type-mismatch'
-      });
+      diffCount++;
     } else if (Array.isArray(exp)) {
       if (!Array.isArray(act) || exp.length !== act.length) {
-        diffs.push({
-          path,
-          expected: exp,
-          actual: act,
-          type: 'array-mismatch'
-        });
+        diffCount++;
       } else {
-        exp.forEach((item, i) => compare(item, act[i], `${path}[${i}]`));
+        exp.forEach((item, i) => compare(item, act[i]));
       }
     } else if (typeof exp === 'object' && exp !== null) {
       for (const key in exp) {
-        compare(exp[key], act?.[key], path ? `${path}.${key}` : key);
+        compare(exp[key], act?.[key]);
       }
     } else if (exp !== act) {
-      diffs.push({
-        path,
-        expected: exp,
-        actual: act,
-        type: 'value-mismatch'
-      });
+      diffCount++;
     }
   }
 
   compare(expected, actual);
-  return diffs;
+  // Return array-like object with .length for backwards compatibility
+  return { length: diffCount };
 }
 
 // ============================================================================
@@ -464,10 +448,17 @@ async function main() {
   // Run tests
   const allResults = [];
 
-  for (const corpusInfo of filteredCorpuses) {
-    console.log(`${CONFIG.colors.bright}Testing corpus: ${corpusInfo.id}${CONFIG.colors.reset}`);
+  // V7.5 MEMORY-FIX: Force GC between corpuses to prevent heap exhaustion
+  const canGC = typeof global.gc === 'function';
+  if (canGC) {
+    console.log(`  ${CONFIG.colors.cyan}GC enabled (--expose-gc detected)${CONFIG.colors.reset}`);
+  }
 
-    const corpus = loadCorpus(corpusInfo);
+  for (let ci = 0; ci < filteredCorpuses.length; ci++) {
+    const corpusInfo = filteredCorpuses[ci];
+    console.log(`${CONFIG.colors.bright}Testing corpus: ${corpusInfo.id} (${ci + 1}/${filteredCorpuses.length})${CONFIG.colors.reset}`);
+
+    let corpus = loadCorpus(corpusInfo);
 
     if (!corpus) {
       console.log(`  ${CONFIG.colors.yellow}⚠ Corpus not found or status is 'planned'${CONFIG.colors.reset}`);
@@ -480,6 +471,7 @@ async function main() {
       if (schemaErrors.length > 0) {
         console.log(`  ${CONFIG.colors.red}✗ Schema validation failed:${CONFIG.colors.reset}`);
         schemaErrors.forEach(err => console.log(`    - ${err}`));
+        corpus = null;
         continue;
       }
       console.log(`  ${CONFIG.colors.green}✓ Schema validation passed${CONFIG.colors.reset}`);
@@ -487,7 +479,9 @@ async function main() {
 
     // Execute tests
     if (!args.dryRun) {
-      for (const testCase of corpus.cases) {
+      const caseCount = corpus.cases.length;
+      for (let ti = 0; ti < caseCount; ti++) {
+        const testCase = corpus.cases[ti];
         // Filter by priority
         if (args.priority && testCase.priority !== args.priority) continue;
 
@@ -498,7 +492,13 @@ async function main() {
         allResults.push(result);
       }
 
-      console.log(`  ${CONFIG.colors.green}✓ Executed ${corpus.cases.length} test(s)${CONFIG.colors.reset}\n`);
+      console.log(`  ${CONFIG.colors.green}✓ Executed ${caseCount} test(s)${CONFIG.colors.reset}\n`);
+    }
+
+    // V7.5 MEMORY-FIX: Release corpus data and force GC between corpuses
+    corpus = null;
+    if (canGC) {
+      global.gc();
     }
   }
 
