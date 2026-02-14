@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><base href="/TagTeam.js/dev/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TagTeam.js - Deterministic Semantic Parser</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ── Hero ── */
+        header {
+            text-align: center;
+            color: white;
+            padding: 50px 20px 40px;
+        }
+
+        header h1 {
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        header .version {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+
+        header p {
+            font-size: 1.2em;
+            margin-bottom: 25px;
+            opacity: 0.95;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.2em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .hero-links {
+            margin-top: 25px;
+        }
+
+        .hero-links a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 24px;
+            border: 2px solid rgba(255,255,255,0.6);
+            border-radius: 8px;
+            margin: 0 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .hero-links a:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: white;
+        }
+
+        /* ── Main Content ── */
+        .main-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .section > p {
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        /* ── Try It Live ── */
+        .interactive-demo {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 14px;
+            font-family: 'Courier New', monospace;
+            font-size: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .action-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            font-size: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .example-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0 0 0;
+        }
+
+        .example-btn {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            padding: 8px 16px;
+            font-size: 13px;
+            border-radius: 6px;
+        }
+
+        .example-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .verbose-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85em;
+            color: #6b7280;
+            cursor: pointer;
+        }
+
+        /* ── Tabs ── */
+        .tab-bar {
+            display: flex;
+            border-bottom: 2px solid #e5e7eb;
+            margin-bottom: 0;
+        }
+
+        .tab-btn {
+            background: none;
+            color: #6b7280;
+            border: none;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            border-radius: 0;
+            transition: color 0.2s, border-color 0.2s;
+            box-shadow: none;
+        }
+
+        .tab-btn:hover {
+            color: #667eea;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-panel {
+            display: none;
+            padding: 20px 0 0 0;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        .results-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #667eea;
+        }
+
+        .results-box h3 {
+            color: #667eea;
+            margin-bottom: 12px;
+        }
+
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 18px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* ── Graph summary stats ── */
+        .graph-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .summary-stat {
+            background: #f5f3ff;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .summary-stat .number {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #7c3aed;
+        }
+
+        .summary-stat .label {
+            font-size: 0.8em;
+            color: #6b7280;
+        }
+
+        .entity-item, .act-item, .role-item {
+            background: #f5f3ff;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin: 6px 0;
+            border-left: 3px solid #8b5cf6;
+        }
+
+        /* ── Context breakdown ── */
+        .context-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .context-category {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .context-category h4 {
+            color: #667eea;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+
+        .context-dimension {
+            display: flex;
+            justify-content: space-between;
+            margin: 4px 0;
+            font-size: 0.9em;
+        }
+
+        .dimension-value {
+            font-weight: 600;
+            color: #27ae60;
+        }
+
+        /* ── Clause cards ── */
+        .clause-card {
+            background: #f0fdfa;
+            border: 1px solid #99f6e4;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 8px 0;
+        }
+
+        .clause-card.elliptical {
+            background: #fef3c7;
+            border-color: #fcd34d;
+        }
+
+        .relation-badge {
+            display: inline-block;
+            background: #0891b2;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        /* ── TTL Ontology Input ── */
+        .ttl-section {
+            margin-top: 18px;
+            background: #f0f4ff;
+            border-radius: 8px;
+            border: 1px solid #d4daf0;
+        }
+
+        .ttl-toggle {
+            cursor: pointer;
+            padding: 12px 16px;
+            font-weight: 600;
+            color: #667eea;
+            font-size: 0.95em;
+        }
+
+        .ttl-toggle:hover {
+            color: #4c5ecf;
+        }
+
+        .ttl-body {
+            padding: 0 16px 16px 16px;
+        }
+
+        .ttl-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .ttl-upload-btn {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            padding: 6px 14px;
+            font-size: 13px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .ttl-upload-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* ── Evidence Table ── */
+        .evidence-class-header {
+            color: #667eea;
+            font-size: 1.05em;
+            font-weight: 600;
+            margin: 18px 0 6px 0;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #e0d4fc;
+        }
+
+        .evidence-class-header:first-child {
+            margin-top: 0;
+        }
+
+        .evidence-iri {
+            font-size: 0.75em;
+            color: #999;
+            font-weight: normal;
+            margin-left: 8px;
+        }
+
+        .evidence-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 8px 0 16px 0;
+            font-size: 0.88em;
+        }
+
+        .evidence-table th {
+            text-align: left;
+            padding: 8px 10px;
+            background: #f5f3ff;
+            color: #667eea;
+            font-weight: 600;
+            border-bottom: 2px solid #e0d4fc;
+        }
+
+        .evidence-table td {
+            padding: 6px 10px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #444;
+            vertical-align: top;
+        }
+
+        .evidence-table code {
+            background: #f0edff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #667eea;
+        }
+
+        .match-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .match-exact {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .match-partial {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .match-keyword {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .no-matches-msg {
+            color: #888;
+            font-style: italic;
+            padding: 15px 0;
+        }
+
+        /* ── Feature Cards ── */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 25px;
+            border-radius: 12px;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .feature-card h3 {
+            color: #667eea;
+            margin-bottom: 8px;
+            font-size: 1.2em;
+        }
+
+        .feature-card p {
+            font-size: 0.95em;
+            color: #444;
+        }
+
+        /* ── Pipeline ── */
+        .pipeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .pipeline-step {
+            flex: 1;
+            min-width: 140px;
+            background: #f5f3ff;
+            padding: 18px 14px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #e0d4fc;
+        }
+
+        .pipeline-step .step-num {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            border-radius: 50%;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .pipeline-step h4 {
+            color: #667eea;
+            font-size: 0.95em;
+            margin-bottom: 4px;
+        }
+
+        .pipeline-step p {
+            font-size: 0.8em;
+            color: #6b7280;
+        }
+
+        .pipeline-arrow {
+            font-size: 1.4em;
+            color: #667eea;
+            flex-shrink: 0;
+        }
+
+        /* ── Links grid ── */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 12px;
+        }
+
+        .link-card {
+            display: block;
+            background: white;
+            border: 2px solid #e5e7eb;
+            padding: 18px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s;
+        }
+
+        .link-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        }
+
+        .link-card h4 {
+            color: #667eea;
+            margin-bottom: 4px;
+        }
+
+        .link-card p {
+            font-size: 0.85em;
+            color: #6b7280;
+        }
+
+        /* ── Developer section ── */
+        .code-example {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        .bundle-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        .bundle-table th, .bundle-table td {
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .bundle-table th {
+            background: #f3f4f6;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .bundle-table td code {
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        /* ── Footer ── */
+        footer {
+            text-align: center;
+            color: white;
+            padding: 25px;
+            opacity: 0.9;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: underline;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.5em; }
+            .main-content { padding: 25px; }
+            .pipeline { flex-direction: column; }
+            .pipeline-arrow { transform: rotate(90deg); }
+            .tab-btn { padding: 10px 14px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>TagTeam.js</h1>
+            <span class="version" id="hero-version">Loading...</span>
+            <p>Deterministic semantic parser with JSON-LD graph output</p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number">Deterministic</span>
+                    <span class="stat-label">No AI / No LLM</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">2-Tier</span>
+                    <span class="stat-label">Architecture</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">BFO/CCO</span>
+                    <span class="stat-label">Ontology Aligned</span>
+                </div>
+            </div>
+            <div class="hero-links">
+                <a href="https://github.com/Skreen5hot/TagTeam.js" target="_blank" rel="noopener">GitHub</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+
+            <!-- ════════════════════════════════════════ -->
+            <!-- Section 1: Try It Live                   -->
+            <!-- ════════════════════════════════════════ -->
+            <section class="section">
+                <h2>Try It Live</h2>
+                <p>Enter any sentence to see TagTeam.js extract entities, assign roles, and build a knowledge graph:</p>
+
+                <div class="interactive-demo">
+                    <textarea id="input" placeholder="Enter a sentence to analyze...">The doctor must allocate the last ventilator between two critically ill patients</textarea>
+
+                    <div class="action-row">
+                        <button onclick="runAnalysis()">Analyze</button>
+                        <label class="verbose-label">
+                            <input type="checkbox" id="verbose-toggle"> Show POS Tags
+                        </label>
+                    </div>
+
+                    <div class="example-buttons">
+                        <span style="color: #888; font-size: 0.85em; margin-right: 4px;">Examples:</span>
+                        <button class="example-btn" onclick="setExample('The family must decide whether to continue treatment')">Healthcare</button>
+                        <button class="example-btn" onclick="setExample('I discovered that my company is falsifying safety reports')">Whistleblowing</button>
+                        <button class="example-btn" onclick="setExample('My best friend is cheating on their spouse')">Interpersonal</button>
+                        <button class="example-btn" onclick="setExample('The server rebooted and the application restarted.')">Compound Sentence</button>
+                        <button class="example-btn" onclick="setExample('The server rebooted and was verified by the admin.')">Passive Voice</button>
+                    </div>
+
+                    <!-- TTL Ontology Input -->
+                    <details class="ttl-section" id="ttl-section">
+                        <summary class="ttl-toggle">Load Ontology (.ttl) for Class Matching</summary>
+                        <div class="ttl-body">
+                            <div class="ttl-controls">
+                                <label class="ttl-upload-btn">
+                                    Upload .ttl file
+                                    <input type="file" id="ttl-file" accept=".ttl,.turtle" style="display:none;" onchange="loadTtlFile(this)">
+                                </label>
+                                <span style="color: #888; font-size: 0.85em;">or paste below</span>
+                                <button class="example-btn" onclick="loadTtlExample('medical')">Medical Example</button>
+                                <button class="example-btn" onclick="loadTtlExample('legal')">Legal Example</button>
+                            </div>
+                            <textarea id="ttl-input" placeholder="Paste your Turtle (.ttl) ontology here..." style="min-height: 120px; font-size: 13px;"></textarea>
+                            <div style="margin-top: 8px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                                <label style="font-size: 0.85em; color: #555;">
+                                    Keywords property:
+                                    <input type="text" id="ttl-keywords-prop" value="" placeholder="e.g. med:indicators" style="padding: 4px 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; width: 160px; margin-left: 4px;">
+                                </label>
+                                <button class="example-btn" onclick="clearTtl()" style="font-size: 12px; padding: 4px 12px;">Clear TTL</button>
+                            </div>
+                        </div>
+                    </details>
+
+                    <div id="output-area" style="display: none; margin-top: 20px;">
+                        <div class="tab-bar">
+                            <button class="tab-btn active" onclick="switchTab('entities')">Entities &amp; Roles</button>
+                            <button class="tab-btn" onclick="switchTab('context')">Context Intensity</button>
+                            <button class="tab-btn" onclick="switchTab('clauses')">Clause Segmentation</button>
+                            <button class="tab-btn" onclick="switchTab('ontology')" id="ontology-tab-btn" style="display:none;">Ontology Matches</button>
+                        </div>
+
+                        <div id="tab-entities" class="tab-panel active">
+                            <div class="results-box">
+                                <h3>Entities &amp; Roles</h3>
+                                <div id="entities-content"></div>
+                                <details style="margin-top: 15px;">
+                                    <summary style="cursor: pointer; font-weight: 600; color: #667eea;">View Full JSON-LD</summary>
+                                    <pre id="jsonld-output"></pre>
+                                </details>
+                            </div>
+                        </div>
+
+                        <div id="tab-context" class="tab-panel">
+                            <div class="results-box">
+                                <h3>Context Intensity Analysis</h3>
+                                <div id="context-content"></div>
+                                <details style="margin-top: 15px;">
+                                    <summary style="cursor: pointer; font-weight: 600; color: #667eea;">View Full JSON</summary>
+                                    <pre id="context-json-output"></pre>
+                                </details>
+                            </div>
+                        </div>
+
+                        <div id="tab-clauses" class="tab-panel">
+                            <div class="results-box">
+                                <h3>Clause Segmentation</h3>
+                                <div id="clauses-content"></div>
+                                <details style="margin-top: 15px;">
+                                    <summary style="cursor: pointer; font-weight: 600; color: #667eea;">View Full JSON-LD</summary>
+                                    <pre id="clauses-json-output"></pre>
+                                </details>
+                            </div>
+                        </div>
+
+                        <div id="tab-ontology" class="tab-panel">
+                            <div class="results-box">
+                                <h3>Ontology Class Matches</h3>
+                                <p style="color: #555; font-size: 0.9em; margin-bottom: 12px;">Shows which ontology property produced each match against the input text.</p>
+                                <div id="ontology-content"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ════════════════════════════════════════ -->
+            <!-- Section 2: What TagTeam Does             -->
+            <!-- ════════════════════════════════════════ -->
+            <section class="section">
+                <h2>What TagTeam Does</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">&#x1F50D;</div>
+                        <h3>Understand Language Structure</h3>
+                        <p>Extracts entities (people, things, organizations), identifies who does what to whom, and assigns semantic roles (Agent, Patient, Recipient) using VerbNet mappings.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">&#x1F4CA;</div>
+                        <h3>Build Knowledge Graphs</h3>
+                        <p>Produces standards-compliant JSON-LD graphs aligned with BFO (ISO 21838-2) and CCO ontologies. Two-tier architecture separates discourse referents from real-world entities.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">&#x2696;&#xFE0F;</div>
+                        <h3>Detect Context &amp; Values</h3>
+                        <p>Analyzes 12 contextual dimensions (urgency, harm severity, trust, etc.) and detects ethical values and modality (must, should, may) for decision-support applications.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ════════════════════════════════════════ -->
+            <!-- Section 3: How It Works                  -->
+            <!-- ════════════════════════════════════════ -->
+            <section class="section">
+                <h2>How It Works</h2>
+                <p>A deterministic 4-step pipeline &mdash; no neural networks, no API calls, fully reproducible results:</p>
+                <div class="pipeline">
+                    <div class="pipeline-step">
+                        <div class="step-num">1</div>
+                        <h4>Parse Text</h4>
+                        <p>Compromise NLP + jsPOS tagging</p>
+                    </div>
+                    <div class="pipeline-arrow">&#x2192;</div>
+                    <div class="pipeline-step">
+                        <div class="step-num">2</div>
+                        <h4>Extract Entities</h4>
+                        <p>NPChunker with Penn Treebank tags</p>
+                    </div>
+                    <div class="pipeline-arrow">&#x2192;</div>
+                    <div class="pipeline-step">
+                        <div class="step-num">3</div>
+                        <h4>Assign Roles</h4>
+                        <p>VerbNet semantic role mapping</p>
+                    </div>
+                    <div class="pipeline-arrow">&#x2192;</div>
+                    <div class="pipeline-step">
+                        <div class="step-num">4</div>
+                        <h4>Build Graph</h4>
+                        <p>BFO/CCO-aligned JSON-LD output</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ════════════════════════════════════════ -->
+            <!-- Section 4: Browser Validation Tests      -->
+            <!-- ════════════════════════════════════════ -->
+            <section class="section">
+                <h2>Browser Validation Tests</h2>
+                <p>Run these in your browser to verify the TagTeam.js bundle:</p>
+                <div class="links-grid">
+                    <a href="test.html" class="link-card">
+                        <h4>Bundle Test</h4>
+                        <p>Basic integration test &mdash; JSON-LD graph output and summary view</p>
+                    </a>
+                    <a href="test-week2b-full.html" class="link-card">
+                        <h4>Full Corpus (20 Scenarios)</h4>
+                        <p>Performance benchmarks and ethical value detection across 20 test scenarios</p>
+                    </a>
+                    <a href="test-iee-bundle.html" class="link-card">
+                        <h4>IEE Test Corpus</h4>
+                        <p>5-scenario validation against IEE&rsquo;s official Week 1 test specifications</p>
+                    </a>
+                </div>
+            </section>
+
+            <!-- ════════════════════════════════════════ -->
+            <!-- Section 5: For Developers                -->
+            <!-- ════════════════════════════════════════ -->
+            <section class="section">
+                <h2>For Developers</h2>
+
+                <h3 style="color: #444; margin-bottom: 10px;">Quick Start</h3>
+                <div class="code-example"><span style="color: #a0aec0;">// Node.js</span>
+const TagTeam = require('tagteam');
+
+<span style="color: #a0aec0;">// Parse with context intensity</span>
+const result = TagTeam.parse("The doctor must decide");
+console.log(result.agent);            <span style="color: #a0aec0;">// { text: "doctor" }</span>
+console.log(result.action.modality);  <span style="color: #a0aec0;">// "must"</span>
+
+<span style="color: #a0aec0;">// Build JSON-LD knowledge graph</span>
+const graph = TagTeam.buildGraph("The doctor must decide");
+console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of BFO/CCO nodes</span></div>
+
+                <h3 style="color: #444; margin: 20px 0 10px;">Bundle Options</h3>
+                <table class="bundle-table">
+                    <thead>
+                        <tr>
+                            <th>Bundle</th>
+                            <th>Use Case</th>
+                            <th>API</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>tagteam.js</code></td>
+                            <td>Combined (recommended)</td>
+                            <td><code>TagTeam.parse()</code>, <code>TagTeam.buildGraph()</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>tagteam-core.js</code></td>
+                            <td>Core parsing only</td>
+                            <td><code>TagTeam.buildGraph()</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>tagteam-values.js</code></td>
+                            <td>Values add-on (requires core)</td>
+                            <td><code>TagTeamValues.IEEGraphBuilder</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p style="margin-top: 10px; color: #6b7280; font-size: 0.9em;">
+                    See the <a href="https://github.com/Skreen5hot/TagTeam.js" target="_blank" rel="noopener" style="color: #667eea;">GitHub README</a> for full documentation.
+                </p>
+            </section>
+
+            <!-- ════════════════════════════════════════ -->
+            <!-- Section 6: Technical Deep Dives          -->
+            <!-- ════════════════════════════════════════ -->
+            <section class="section">
+                <h2>Technical Deep Dives</h2>
+                <p>Explore individual capabilities in detail:</p>
+                <div class="links-grid">
+                    <a href="stakeholder-demo.html" class="link-card">
+                        <h4>Stakeholder Presentation</h4>
+                        <p>8-slide overview of TagTeam.js for non-technical audiences</p>
+                    </a>
+                    <a href="how-tagteam-works.html" class="link-card">
+                        <h4>Pipeline Explainer</h4>
+                        <p>Visual walkthrough of the parsing pipeline from text to graph</p>
+                    </a>
+                    <a href="phase6-lattice-demo.html" class="link-card">
+                        <h4>Ambiguity Preservation</h4>
+                        <p>See how linguistic ambiguities are detected and preserved for downstream resolution</p>
+                    </a>
+                    <a href="phase65-ontology-demo.html" class="link-card">
+                        <h4>Ontology Integration</h4>
+                        <p>Load and query BFO/CCO ontologies with Turtle and JSON formats</p>
+                    </a>
+                    <a href="phase66-custom-tagger-demo.html" class="link-card">
+                        <h4>Custom POS Tagging</h4>
+                        <p>Extend the tagger with domain-specific vocabularies and ontologies</p>
+                    </a>
+                    <a href="semantic-demo.html" class="link-card">
+                        <h4>Semantic Role Demo</h4>
+                        <p>Detailed view of agent/patient/recipient role assignment</p>
+                    </a>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p><strong>TagTeam.js</strong> &mdash; Deterministic semantic parsing for knowledge graphs</p>
+            <p style="margin-top: 8px; font-size: 0.9em;">
+                MIT License | <a href="https://github.com/Skreen5hot/TagTeam.js" target="_blank" rel="noopener">GitHub</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Load TagTeam.js -->
+    <script>
+        var scriptPath = (window.location.hostname === 'localhost' || window.location.hostname === '')
+            ? '../dist/tagteam.js'
+            : 'tagteam.js';
+        document.write('<script src="' + scriptPath + '"><\/script>');
+    </script>
+
+    <script>
+        // ── Globals ──
+        var _cachedGraph = null;
+        var _cachedParse = null;
+        var _currentText = '';
+
+        // ── Hero version ──
+        window.addEventListener('load', function() {
+            if (typeof TagTeam !== 'undefined' && TagTeam.version) {
+                document.getElementById('hero-version').textContent = 'v' + TagTeam.version;
+            }
+            // Auto-analyze default text
+            var input = document.getElementById('input');
+            if (input.value.trim()) {
+                runAnalysis();
+            }
+        });
+
+        // ── Example setter ──
+        function setExample(text) {
+            document.getElementById('input').value = text;
+            runAnalysis();
+        }
+
+        // ── Main analysis ──
+        function runAnalysis() {
+            var text = document.getElementById('input').value;
+            if (!text.trim()) { alert('Please enter some text'); return; }
+
+            _currentText = text;
+            var verbose = document.getElementById('verbose-toggle').checked;
+
+            // Run both APIs and cache
+            _cachedParse = TagTeam.parse(text);
+            _cachedGraph = TagTeam.buildGraph(text, { detectAmbiguity: true, verbose: verbose });
+
+            // Populate all tabs
+            renderEntitiesTab(_cachedGraph, text);
+            renderContextTab(_cachedParse);
+            renderClausesTab(_cachedGraph, text);
+
+            // Ontology matching (if TTL is loaded)
+            var ttlInput = document.getElementById('ttl-input').value.trim();
+            var ontologyTabBtn = document.getElementById('ontology-tab-btn');
+            if (ttlInput) {
+                var keywordsProp = document.getElementById('ttl-keywords-prop').value.trim();
+                renderOntologyTab(ttlInput, text, keywordsProp);
+                ontologyTabBtn.style.display = '';
+            } else {
+                ontologyTabBtn.style.display = 'none';
+                document.getElementById('ontology-content').innerHTML = '';
+            }
+
+            // Show output area
+            document.getElementById('output-area').style.display = 'block';
+            document.getElementById('output-area').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ── Tab switching ──
+        function switchTab(tabName) {
+            var buttons = document.querySelectorAll('.tab-btn');
+            var panels = document.querySelectorAll('.tab-panel');
+
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
+            for (var i = 0; i < panels.length; i++) {
+                panels[i].classList.remove('active');
+            }
+
+            document.getElementById('tab-' + tabName).classList.add('active');
+
+            // Find and activate the right button
+            var tabNames = ['entities', 'context', 'clauses', 'ontology'];
+            var idx = tabNames.indexOf(tabName);
+            if (idx >= 0) buttons[idx].classList.add('active');
+        }
+
+        // ── Helper: extract string ID from JSON-LD value (string or {`@id`: ...}) ──
+        function strId(val) {
+            if (!val) return '';
+            if (typeof val === 'string') return val;
+            if (typeof val === 'object' && val['@id']) return val['@id'];
+            return String(val);
+        }
+
+        // ── Tab 1: Entities & Roles ──
+        function renderEntitiesTab(graph, text) {
+            var nodes = graph['@graph'] || [];
+
+            var tier1 = nodes.filter(function(n) {
+                return n['@type'] && n['@type'].indexOf('tagteam:DiscourseReferent') !== -1;
+            });
+            var tier2 = nodes.filter(function(n) {
+                return n['@type'] && (n['@type'].indexOf('cco:Person') !== -1 ||
+                    n['@type'].indexOf('cco:Artifact') !== -1 ||
+                    n['@type'].indexOf('cco:Organization') !== -1);
+            });
+            var acts = nodes.filter(function(n) {
+                return n['@type'] && n['@type'].some(function(t) {
+                    return t.indexOf('IntentionalAct') !== -1 || t.indexOf('ActOf') !== -1;
+                });
+            });
+            var roles = nodes.filter(function(n) {
+                return n['@type'] && n['@type'].indexOf('bfo:BFO_0000023') !== -1;
+            });
+
+            var html = '';
+
+            // Summary stats
+            html += '<div class="graph-summary-grid">';
+            html += '<div class="summary-stat"><div class="number">' + nodes.length + '</div><div class="label">Total Nodes</div></div>';
+            html += '<div class="summary-stat"><div class="number">' + tier1.length + '</div><div class="label">Tier 1 Referents</div></div>';
+            html += '<div class="summary-stat"><div class="number">' + tier2.length + '</div><div class="label">Tier 2 Entities</div></div>';
+            html += '<div class="summary-stat"><div class="number">' + acts.length + '</div><div class="label">Acts</div></div>';
+            html += '</div>';
+
+            // Tier 1
+            if (tier1.length > 0) {
+                html += '<h4 style="color: #7c3aed; margin-top: 18px;">Tier 1: Discourse Referents (ICE Layer)</h4>';
+                tier1.forEach(function(r) {
+                    var extras = '';
+                    if (r['tagteam:is_scarce']) extras += ' <strong style="color: #dc2626;">SCARCE</strong>';
+                    var aboutStr = strId(r['cco:is_about']);
+                    var isAbout = aboutStr ? ' &rarr; <em style="color: #059669;">' + aboutStr.split('_').slice(0,2).join('_') + '</em>' : '';
+                    html += '<div class="entity-item"><strong>' + r['rdfs:label'] + '</strong>' + isAbout + extras + '</div>';
+                });
+            }
+
+            // Tier 2
+            if (tier2.length > 0) {
+                html += '<h4 style="color: #059669; margin-top: 18px;">Tier 2: Real-World Entities (IC Layer)</h4>';
+                tier2.forEach(function(e) {
+                    var entityType = 'Entity';
+                    for (var i = 0; i < e['@type'].length; i++) {
+                        if (e['@type'][i].indexOf('cco:') === 0) { entityType = e['@type'][i]; break; }
+                    }
+                    html += '<div class="entity-item" style="border-left-color: #059669;"><strong>' + e['rdfs:label'] + '</strong> (' + entityType + ')</div>';
+                });
+            }
+
+            // Acts
+            if (acts.length > 0) {
+                html += '<h4 style="color: #7c3aed; margin-top: 18px;">Intentional Acts</h4>';
+                acts.forEach(function(a) {
+                    var actType = 'IntentionalAct';
+                    for (var i = 0; i < a['@type'].length; i++) {
+                        if (a['@type'][i].indexOf('cco:') !== -1) { actType = a['@type'][i]; break; }
+                    }
+                    var modality = a['tagteam:modality'] ? ' <em>[' + a['tagteam:modality'] + ']</em>' : '';
+                    var statusStr = strId(a['tagteam:actualityStatus']);
+                    var status = statusStr ? ' <span style="background: #8b5cf6; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em;">' + statusStr.replace('tagteam:', '') + '</span>' : '';
+                    var agentStr = strId(a['cco:has_agent']);
+                    var agent = agentStr ? ' <span style="color: #059669; font-size: 0.9em;">agent: ' + agentStr.split('_').slice(1,2).join('') + '</span>' : '';
+                    html += '<div class="act-item"><strong>' + a['tagteam:verb'] + '</strong> (' + actType + ')' + modality + status + agent + '</div>';
+                });
+            }
+
+            // Roles
+            if (roles.length > 0) {
+                html += '<h4 style="color: #7c3aed; margin-top: 18px;">BFO Roles</h4>';
+                roles.forEach(function(r) {
+                    html += '<div class="role-item">' + r['rdfs:label'] + '</div>';
+                });
+            }
+
+            // Ambiguities
+            if (graph._ambiguityReport && graph._ambiguityReport.ambiguities && graph._ambiguityReport.ambiguities.length > 0) {
+                html += '<h4 style="color: #f59e0b; margin-top: 18px;">Detected Ambiguities</h4>';
+                html += '<div style="background: #fffbeb; padding: 12px; border-radius: 8px; border-left: 4px solid #f59e0b;">';
+                graph._ambiguityReport.ambiguities.forEach(function(amb) {
+                    var typeLabel = amb.type.replace(/_/g, ' ').replace(/\b\w/g, function(l) { return l.toUpperCase(); });
+                    html += '<div style="margin: 8px 0; padding: 8px; background: white; border-radius: 6px;">';
+                    html += '<strong style="color: #b45309;">' + typeLabel + '</strong>';
+                    if (amb.span) html += '<br><em style="color: #6b7280;">Span: "' + amb.span + '"</em>';
+                    if (amb.readings && amb.readings.length > 0) html += '<br><span style="color: #059669;">Readings: ' + amb.readings.join(' | ') + '</span>';
+                    if (amb.defaultReading) html += '<br><span style="color: #2563eb;">Default: <strong>' + amb.defaultReading + '</strong></span>';
+                    html += '</div>';
+                });
+                html += '</div>';
+            }
+
+            // POS tags (verbose)
+            if (graph._debug) {
+                html += renderPosTokens(graph._debug);
+            }
+
+            document.getElementById('entities-content').innerHTML = html;
+            document.getElementById('jsonld-output').textContent = TagTeam.toJSONLD(text, { pretty: true, detectAmbiguity: true });
+        }
+
+        // ── Tab 2: Context Intensity ──
+        function renderContextTab(result) {
+            var html = '';
+            if (result.contextIntensity) {
+                html += '<div class="context-breakdown">';
+                for (var category in result.contextIntensity) {
+                    html += '<div class="context-category">';
+                    html += '<h4>' + category.charAt(0).toUpperCase() + category.slice(1) + '</h4>';
+                    for (var dimension in result.contextIntensity[category]) {
+                        var value = result.contextIntensity[category][dimension];
+                        html += '<div class="context-dimension">';
+                        html += '<span>' + dimension + '</span>';
+                        html += '<span class="dimension-value">' + value.toFixed(2) + '</span>';
+                        html += '</div>';
+                    }
+                    html += '</div>';
+                }
+                html += '</div>';
+            }
+
+            // Semantic frame and ethical profile
+            if (result.semanticFrame) {
+                html += '<div style="margin-top: 15px; padding: 12px; background: #f0fdf4; border-radius: 8px; border-left: 4px solid #10b981;">';
+                html += '<strong>Semantic Frame:</strong> ' + result.semanticFrame;
+                if (result.action && result.action.modality) html += ' | <strong>Modality:</strong> ' + result.action.modality;
+                html += '</div>';
+            }
+
+            if (result.ethicalProfile && result.ethicalProfile.topValues && result.ethicalProfile.topValues.length > 0) {
+                html += '<div style="margin-top: 10px; padding: 12px; background: #f5f3ff; border-radius: 8px; border-left: 4px solid #8b5cf6;">';
+                html += '<strong>Ethical Values:</strong> ';
+                html += result.ethicalProfile.topValues.map(function(v) { return v.name; }).join(', ');
+                html += ' | <strong>Domain:</strong> ' + (result.ethicalProfile.dominantDomain || 'N/A');
+                html += '</div>';
+            }
+
+            if (!result.contextIntensity) {
+                html = '<p style="color: #6b7280;">No context intensity data found.</p>';
+            }
+
+            document.getElementById('context-content').innerHTML = html;
+            document.getElementById('context-json-output').textContent = JSON.stringify(result, null, 2);
+        }
+
+        // ── Tab 3: Clause Segmentation ──
+        function renderClausesTab(graph, text) {
+            var nodes = graph['@graph'] || [];
+
+            var acts = nodes.filter(function(n) {
+                return n['@type'] && n['@type'].some(function(t) {
+                    return t.indexOf('IntentionalAct') !== -1 || t.indexOf('ActOf') !== -1;
+                });
+            });
+            var relations = nodes.filter(function(n) {
+                return n['@type'] && n['@type'].some(function(t) {
+                    return t.indexOf('ClauseRelation') !== -1;
+                });
+            });
+
+            var html = '';
+            var clauseCount = relations.length > 0 ? 2 : 1;
+
+            html += '<div class="graph-summary-grid">';
+            html += '<div class="summary-stat"><div class="number">' + clauseCount + '</div><div class="label">Clauses</div></div>';
+            html += '<div class="summary-stat"><div class="number">' + acts.length + '</div><div class="label">Acts</div></div>';
+            html += '<div class="summary-stat"><div class="number">' + relations.length + '</div><div class="label">Relations</div></div>';
+            html += '</div>';
+
+            // Clause relation
+            if (relations.length > 0) {
+                var rel = relations[0];
+                var relType = (rel['tagteam:relationType'] || '').replace('tagteam:', '');
+                html += '<div style="text-align: center; margin: 12px 0;"><span class="relation-badge">' + relType + '</span></div>';
+            } else {
+                html += '<div style="text-align: center; margin: 12px 0; color: #6b7280;"><em>Single clause or VP coordination (no segmentation)</em></div>';
+            }
+
+            // Acts
+            if (acts.length > 0) {
+                html += '<h4 style="color: #0891b2; margin-top: 15px;">Acts by Clause</h4>';
+                acts.forEach(function(a) {
+                    var clauseIdx = a['tagteam:clauseIndex'];
+                    var isElliptical = a['tagteam:subjectSource'] === 'ellipsis_injection';
+                    var cardClass = isElliptical ? 'clause-card elliptical' : 'clause-card';
+
+                    html += '<div class="' + cardClass + '">';
+                    html += '<strong>' + (a['tagteam:verb'] || a['rdfs:label'] || 'Act') + '</strong>';
+
+                    if (clauseIdx !== undefined) {
+                        html += ' <span style="background: #e0f2fe; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; color: #0369a1;">Clause ' + clauseIdx + '</span>';
+                    }
+                    if (isElliptical) {
+                        html += ' <span style="background: #fbbf24; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; color: #78350f;">ellipsis_injection</span>';
+                    }
+
+                    var statusStr2 = strId(a['tagteam:actualityStatus']);
+                    if (statusStr2) {
+                        html += ' <span style="background: #8b5cf6; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em;">' + statusStr2.replace('tagteam:', '') + '</span>';
+                    }
+
+                    var agentId = strId(a['cco:has_agent']);
+                    var patientId = strId(a['cco:has_patient']);
+                    if (agentId) html += '<br><span style="color: #059669; font-size: 0.9em;">Agent: ' + agentId.split('_').slice(0, 2).join(' ') + '</span>';
+                    if (patientId) html += '<br><span style="color: #b45309; font-size: 0.9em;">Patient: ' + patientId.split('_').slice(0, 2).join(' ') + '</span>';
+
+                    html += '</div>';
+                });
+            }
+
+            // Relation details
+            if (relations.length > 0) {
+                html += '<h4 style="color: #0891b2; margin-top: 15px;">Clause Relation Details</h4>';
+                relations.forEach(function(r) {
+                    html += '<div class="clause-card">';
+                    html += '<strong>Type:</strong> ' + (r['tagteam:relationType'] || '').replace('tagteam:', '') + '<br>';
+                    var fromId = strId(r['tagteam:fromClause']);
+                    var toId = strId(r['tagteam:toClause']);
+                    html += '<strong>From:</strong> ' + (fromId ? fromId.split('_').slice(0, 3).join('_') : '—') + '<br>';
+                    html += '<strong>To:</strong> ' + (toId ? toId.split('_').slice(0, 3).join('_') : '—');
+                    html += '</div>';
+                });
+            }
+
+            document.getElementById('clauses-content').innerHTML = html;
+            document.getElementById('clauses-json-output').textContent = TagTeam.toJSONLD(text, { pretty: true });
+        }
+
+        // ── TTL helpers ──
+        var TTL_EXAMPLES = {
+            medical: {
+                ttl: [
+                    '@prefix med: <http://example.org/medical#> .',
+                    '@prefix bfo: <http://purl.obolibrary.org/obo/> .',
+                    '@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .',
+                    '',
+                    'med:CardiovascularDisease a bfo:0000016 ;',
+                    '    rdfs:label "Cardiovascular Disease" ;',
+                    '    med:indicators "chest pain, shortness of breath, heart attack, stroke, hypertension" .',
+                    '',
+                    'med:RespiratoryInfection a bfo:0000016 ;',
+                    '    rdfs:label "Respiratory Infection" ;',
+                    '    med:indicators "cough, fever, congestion, pneumonia, bronchitis" .',
+                    '',
+                    'med:Diabetes a bfo:0000016 ;',
+                    '    rdfs:label "Diabetes" ;',
+                    '    med:indicators "blood sugar, insulin, glucose, thirst, fatigue" .',
+                    '',
+                    'med:MentalHealth a bfo:0000016 ;',
+                    '    rdfs:label "Mental Health Disorder" ;',
+                    '    med:indicators "anxiety, depression, insomnia, mood changes, panic" .'
+                ].join('\n'),
+                keywords: 'med:indicators',
+                sampleText: 'The patient presented with chest pain and shortness of breath along with fatigue and anxiety'
+            },
+            legal: {
+                ttl: [
+                    '@prefix law: <http://example.org/legal#> .',
+                    '@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .',
+                    '@prefix skos: <http://www.w3.org/2004/02/skos/core#> .',
+                    '',
+                    'law:ContractBreach a law:LegalConcept ;',
+                    '    rdfs:label "Breach of Contract" ;',
+                    '    skos:altLabel "contract violation" ;',
+                    '    law:keywords "breach, violation, damages, liability, obligation, default" .',
+                    '',
+                    'law:Negligence a law:LegalConcept ;',
+                    '    rdfs:label "Negligence" ;',
+                    '    skos:altLabel "duty of care" ;',
+                    '    law:keywords "negligence, careless, duty of care, reasonable, foreseeable, harm" .',
+                    '',
+                    'law:DueDiligence a law:LegalConcept ;',
+                    '    rdfs:label "Due Diligence" ;',
+                    '    law:keywords "investigation, audit, compliance, review, assessment, risk" .'
+                ].join('\n'),
+                keywords: 'law:keywords',
+                sampleText: 'The investigation revealed a breach of duty of care and foreseeable harm caused by negligence'
+            }
+        };
+
+        function loadTtlExample(name) {
+            var example = TTL_EXAMPLES[name];
+            if (!example) return;
+            document.getElementById('ttl-input').value = example.ttl;
+            document.getElementById('ttl-keywords-prop').value = example.keywords;
+            document.getElementById('ttl-section').open = true;
+            // Set matching sample text so evidence is visible immediately
+            if (example.sampleText) {
+                document.getElementById('input').value = example.sampleText;
+            }
+        }
+
+        function loadTtlFile(input) {
+            if (!input.files || !input.files[0]) return;
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('ttl-input').value = e.target.result;
+                document.getElementById('ttl-section').open = true;
+            };
+            reader.readAsText(input.files[0]);
+        }
+
+        function clearTtl() {
+            document.getElementById('ttl-input').value = '';
+            document.getElementById('ttl-keywords-prop').value = '';
+            document.getElementById('ontology-tab-btn').style.display = 'none';
+            document.getElementById('ontology-content').innerHTML = '';
+        }
+
+        // ── Ontology Match Audit ──
+        function auditClassMatches(ttlContent, text, keywordsPredicate) {
+            var parser = new TagTeam.TurtleParser();
+            var parsed = parser.parse(ttlContent);
+            var lowerText = text.toLowerCase();
+
+            var AUDIT_PROPERTIES = [
+                'rdfs:label', 'skos:prefLabel', 'skos:altLabel', 'rdfs:comment'
+            ];
+            if (keywordsPredicate && AUDIT_PROPERTIES.indexOf(keywordsPredicate) === -1) {
+                AUDIT_PROPERTIES.push(keywordsPredicate);
+            }
+
+            var results = [];
+            var subjects = parsed.getSubjects();
+
+            for (var si = 0; si < subjects.length; si++) {
+                var subj = subjects[si];
+                var matches = [];
+
+                for (var pi = 0; pi < AUDIT_PROPERTIES.length; pi++) {
+                    var prop = AUDIT_PROPERTIES[pi];
+                    var value = parsed.getProperty(subj, prop);
+                    if (!value) continue;
+
+                    var lowerValue = value.toLowerCase().trim();
+
+                    // 1) Exact match: full property value found in text
+                    if (lowerText.indexOf(lowerValue) !== -1) {
+                        matches.push({ property: prop, value: value, matchType: 'exact', matchedText: value });
+                        continue;
+                    }
+
+                    // 2) Keyword match: comma-separated terms checked individually
+                    if (value.indexOf(',') !== -1) {
+                        var terms = value.split(',');
+                        for (var ti = 0; ti < terms.length; ti++) {
+                            var term = terms[ti].trim().toLowerCase();
+                            if (term.length < 2) continue;
+                            if (lowerText.indexOf(term) !== -1) {
+                                matches.push({ property: prop, value: value, matchType: 'keyword', matchedText: terms[ti].trim() });
+                            }
+                        }
+                    } else {
+                        // 3) Partial match: individual words (3+ chars) from value found in text
+                        var words = lowerValue.split(/\s+/);
+                        for (var wi = 0; wi < words.length; wi++) {
+                            var word = words[wi].replace(/[^a-z0-9]/g, '');
+                            if (word.length < 3) continue;
+                            var wordRegex = new RegExp('\\b' + word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i');
+                            if (wordRegex.test(text)) {
+                                matches.push({ property: prop, value: value, matchType: 'partial', matchedText: word });
+                            }
+                        }
+                    }
+                }
+
+                if (matches.length > 0) {
+                    var label = parsed.getProperty(subj, 'rdfs:label') || subj.split(':').pop();
+                    results.push({ classId: subj, classLabel: label, matches: matches });
+                }
+            }
+
+            return results;
+        }
+
+        function renderOntologyTab(ttlContent, text, keywordsPredicate) {
+            var container = document.getElementById('ontology-content');
+            try {
+                var auditResults = auditClassMatches(ttlContent, text, keywordsPredicate);
+
+                if (!auditResults || auditResults.length === 0) {
+                    container.innerHTML = '<p class="no-matches-msg">No ontology classes matched the input text. Try different text or check your TTL.</p>';
+                    return;
+                }
+
+                var html = '';
+                for (var ci = 0; ci < auditResults.length; ci++) {
+                    var cls = auditResults[ci];
+                    html += '<div class="evidence-class-header">';
+                    html += escapeHtml(cls.classLabel);
+                    html += ' <span class="evidence-iri">' + escapeHtml(cls.classId) + '</span>';
+                    html += '</div>';
+
+                    html += '<table class="evidence-table">';
+                    html += '<thead><tr><th>Property</th><th>Value</th><th>Match Type</th><th>Matched Text</th></tr></thead>';
+                    html += '<tbody>';
+
+                    for (var mi = 0; mi < cls.matches.length; mi++) {
+                        var m = cls.matches[mi];
+                        html += '<tr>';
+                        html += '<td><code>' + escapeHtml(m.property) + '</code></td>';
+                        html += '<td>' + escapeHtml(m.value.length > 60 ? m.value.substring(0, 60) + '...' : m.value) + '</td>';
+                        html += '<td><span class="match-badge match-' + m.matchType + '">' + m.matchType + '</span></td>';
+                        html += '<td><strong>' + escapeHtml(m.matchedText) + '</strong></td>';
+                        html += '</tr>';
+                    }
+
+                    html += '</tbody></table>';
+                }
+
+                container.innerHTML = html;
+            } catch (e) {
+                container.innerHTML = '<p style="color: #dc2626;">Error parsing TTL: ' + escapeHtml(e.message) + '</p>';
+            }
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        // ── POS token renderer ──
+        function renderPosTokens(debug) {
+            if (!debug || !debug.tokens || !debug.tokens.length) return '';
+            var html = '<h4 style="color: #0ea5e9; margin-top: 18px;">POS Tags</h4>';
+            html += '<div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0;">';
+            debug.tokens.forEach(function(t) {
+                var tagLabel = t.tags.join(', ');
+                html += '<div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 6px; padding: 6px 10px; text-align: center;">';
+                html += '<div style="font-weight: bold;">' + t.text + '</div>';
+                html += '<div style="font-size: 0.75em; color: #0369a1;">' + tagLabel + '</div>';
+                html += '</div>';
+            });
+            html += '</div>';
+            return html;
+        }
+    </script>
+</body>
+</html>

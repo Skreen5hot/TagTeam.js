@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><base href="/TagTeam.js/dev/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TagTeam.js - Interactive Demo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            font-family: monospace;
+            font-size: 14px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        pre {
+            background: #f8f8f8;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            border-left: 4px solid #3498db;
+        }
+        .example {
+            background: #e8f4f8;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+        .example:hover {
+            background: #d4e9f2;
+        }
+        .badge {
+            display: inline-block;
+            background: #27ae60;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>TagTeam.js - Ethical Context Analysis <span class="badge">Week 2a</span></h1>
+
+    <div class="container">
+        <h2>Interactive Demo</h2>
+        <p>Enter an ethical dilemma or moral decision scenario:</p>
+
+        <textarea id="input" placeholder="Type or click an example below...">The doctor must allocate the last ventilator between two critically ill patients</textarea>
+        <br>
+        <button onclick="analyze()">Analyze Context</button>
+
+        <h3>Example Scenarios (click to try):</h3>
+        <div class="example" onclick="setExample('The family must decide whether to continue treatment')">
+            Healthcare: End of Life Decision
+        </div>
+        <div class="example" onclick="setExample('I am questioning core doctrines')">
+            Spiritual: Faith Crisis
+        </div>
+        <div class="example" onclick="setExample('I discovered that my company is falsifying safety reports')">
+            Vocational: Whistleblowing
+        </div>
+        <div class="example" onclick="setExample('My best friend is cheating on their spouse')">
+            Interpersonal: Friend Infidelity
+        </div>
+    </div>
+
+    <div class="container" id="results" style="display: none;">
+        <h2>Analysis Results</h2>
+        <pre id="output"></pre>
+    </div>
+
+    <div class="container">
+        <h2>About Week 2a</h2>
+        <p>Week 2a implements <strong>Context Intensity Analysis</strong> with 12 dimensions:</p>
+        <ul>
+            <li><strong>Temporal:</strong> urgency, duration, reversibility</li>
+            <li><strong>Relational:</strong> intimacy, powerDifferential, trust</li>
+            <li><strong>Consequential:</strong> harmSeverity, benefitMagnitude, scope</li>
+            <li><strong>Epistemic:</strong> certainty, informationCompleteness, expertise</li>
+        </ul>
+        <p><strong>Validation:</strong> 100% accuracy (60/60 dimensions) on IEE test corpus</p>
+        <p><a href="index.html">View Full Test Suite</a></p>
+    </div>
+
+    <script src="tagteam.js"></script>
+    <script>
+        function setExample(text) {
+            document.getElementById('input').value = text;
+            analyze();
+        }
+
+        function analyze() {
+            const text = document.getElementById('input').value;
+            if (!text.trim()) {
+                alert('Please enter some text to analyze');
+                return;
+            }
+
+            const result = TagTeam.parse(text);
+            document.getElementById('output').textContent = JSON.stringify(result, null, 2);
+            document.getElementById('results').style.display = 'block';
+
+            // Scroll to results
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Auto-analyze on load if there's default text
+        window.onload = function() {
+            const input = document.getElementById('input');
+            if (input.value.trim()) {
+                analyze();
+            }
+        };
+    </script>
+</body>
+</html>

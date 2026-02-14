@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><base href="/TagTeam.js/dev/">
+  <meta charset="UTF-8">
+  <title>TagTeam.js - Semantic Role Extraction Demo</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+
+    h1 {
+      color: #333;
+      border-bottom: 3px solid #4CAF50;
+      padding-bottom: 10px;
+    }
+
+    h2 {
+      color: #555;
+      margin-top: 30px;
+    }
+
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 80px;
+      padding: 10px;
+      border: 2px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+      font-family: inherit;
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      cursor: pointer;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+
+    button.test-btn {
+      background: #2196F3;
+      margin: 5px;
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+
+    button.test-btn:hover {
+      background: #0b7dda;
+    }
+
+    .results {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f9f9f9;
+      border-left: 4px solid #4CAF50;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .results.show {
+      display: block;
+    }
+
+    .role-card {
+      background: white;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 4px;
+      border: 1px solid #e0e0e0;
+    }
+
+    .role-card h3 {
+      margin: 0 0 10px 0;
+      color: #4CAF50;
+      font-size: 16px;
+    }
+
+    .role-card p {
+      margin: 5px 0;
+      color: #666;
+    }
+
+    .role-card .label {
+      font-weight: bold;
+      color: #333;
+      display: inline-block;
+      min-width: 100px;
+    }
+
+    .confidence {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .confidence.high {
+      background: #4CAF50;
+      color: white;
+    }
+
+    .confidence.medium {
+      background: #FF9800;
+      color: white;
+    }
+
+    .confidence.low {
+      background: #f44336;
+      color: white;
+    }
+
+    .frame-badge {
+      display: inline-block;
+      background: #2196F3;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 13px;
+      margin-left: 10px;
+    }
+
+    .negation-badge {
+      display: inline-block;
+      background: #f44336;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 13px;
+      margin-left: 10px;
+      font-weight: bold;
+    }
+
+    .modality-badge {
+      display: inline-block;
+      background: #9C27B0;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 13px;
+      margin-left: 10px;
+    }
+
+    .ambiguity-warning {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      padding: 12px;
+      border-radius: 4px;
+      margin: 10px 0;
+      color: #856404;
+    }
+
+    .test-scenarios {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 15px 0;
+    }
+
+    pre {
+      background: #263238;
+      color: #aed581;
+      padding: 15px;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-size: 13px;
+    }
+
+    .summary {
+      font-size: 18px;
+      color: #333;
+      padding: 15px;
+      background: #e8f5e9;
+      border-radius: 4px;
+      margin: 10px 0;
+    }
+  </style>
+
+  <!-- Load TagTeam.js bundle -->
+  <script>
+    // Dynamic script loading for both local dev and GitHub Pages
+    const scriptPath = window.location.hostname === 'localhost' || window.location.hostname === ''
+      ? '../dist/tagteam.js'
+      : 'tagteam.js';
+    document.write('<script src="' + scriptPath + '"><\/script>');
+  </script>
+</head>
+<body>
+  <h1>🎯 TagTeam.js - Semantic Role Extraction (Week 1 Demo)</h1>
+
+  <div class="container">
+    <h2>Interactive Testing</h2>
+    <p>Enter a sentence to analyze its semantic structure:</p>
+    <textarea id="inputText" placeholder="I should tell my doctor about the pain">I should tell my doctor about the pain</textarea><br>
+    <button id="analyzeBtn">🔍 Analyze Semantic Roles</button>
+
+    <div id="results" class="results"></div>
+  </div>
+
+  <div class="container">
+    <h2>IEE Test Scenarios</h2>
+    <p>Click to test with IEE's 4 reference scenarios:</p>
+
+    <div class="test-scenarios">
+      <button class="test-btn" onclick="testScenario(1)">Scenario 1: Medical Information</button>
+      <button class="test-btn" onclick="testScenario(2)">Scenario 2: Community Decision</button>
+      <button class="test-btn" onclick="testScenario(3)">Scenario 3: Resource Allocation</button>
+      <button class="test-btn" onclick="testScenario(4)">Scenario 4: Life Support (Negation)</button>
+    </div>
+
+    <div id="testResults" class="results"></div>
+  </div>
+
+  <script>
+    // Use TagTeam.SemanticRoleExtractor from the bundle
+    const extractor = new TagTeam.SemanticRoleExtractor();
+
+    // Test scenarios from IEE requirements
+    const TEST_SCENARIOS = {
+      1: {
+        text: "I should tell my doctor about the pain",
+        description: "Medical information disclosure - tests revealing_information frame",
+        expectedFrame: "revealing_information",
+        expectedRoles: ["agent: I", "recipient: doctor", "theme: pain"]
+      },
+      2: {
+        text: "I might leave my community",
+        description: "Community departure decision - tests abandoning_relationship frame with uncertainty",
+        expectedFrame: "abandoning_relationship",
+        expectedRoles: ["agent: I", "theme: community"]
+      },
+      3: {
+        text: "They should allocate resources to our people",
+        description: "Resource distribution - tests resource_allocation frame",
+        expectedFrame: "resource_allocation",
+        expectedRoles: ["agent: they", "theme: resources", "recipient: people"]
+      },
+      4: {
+        text: "I will not remove life support",
+        description: "Medical decision with negation - tests negation detection",
+        expectedFrame: "medical_treatment",
+        expectedNegation: true
+      }
+    };
+
+    // Main analyze button
+    document.getElementById("analyzeBtn").addEventListener("click", () => {
+      const text = document.getElementById("inputText").value;
+      if (!text.trim()) {
+        alert("Please enter some text to analyze");
+        return;
+      }
+
+      const result = extractor.parseSemanticAction(text);
+      displayResults(result, text);
+    });
+
+    // Test scenario function
+    function testScenario(scenarioNum) {
+      const scenario = TEST_SCENARIOS[scenarioNum];
+      const result = extractor.parseSemanticAction(scenario.text);
+
+      const testResultsDiv = document.getElementById("testResults");
+      testResultsDiv.className = "results show";
+
+      let html = `
+        <h3>Test Scenario ${scenarioNum}</h3>
+        <p><strong>Input:</strong> "${scenario.text}"</p>
+        <p><strong>Description:</strong> ${scenario.description}</p>
+        <hr>
+      `;
+
+      html += formatSemanticAction(result);
+
+      // Validation checks
+      html += '<div style="margin-top: 20px; padding: 15px; background: #e3f2fd; border-radius: 4px;">';
+      html += '<h4 style="margin-top: 0;">✅ Validation Checks:</h4>';
+
+      if (scenario.expectedFrame) {
+        const frameMatch = result.action.frame === scenario.expectedFrame;
+        html += `<p>${frameMatch ? '✅' : '❌'} Frame: Expected "${scenario.expectedFrame}", Got "${result.action.frame}"</p>`;
+      }
+
+      if (scenario.expectedNegation !== undefined) {
+        const negationMatch = result.action.negated === scenario.expectedNegation;
+        html += `<p>${negationMatch ? '✅' : '❌'} Negation: Expected ${scenario.expectedNegation}, Got ${result.action.negated}</p>`;
+      }
+
+      html += '</div>';
+
+      testResultsDiv.innerHTML = html;
+    }
+
+    function displayResults(result, originalText) {
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.className = "results show";
+
+      let html = `<div class="summary">${result.toString()}</div>`;
+
+      html += formatSemanticAction(result);
+
+      // Show raw JSON
+      html += '<h3>Raw JSON Output:</h3>';
+      html += '<pre>' + JSON.stringify(result, null, 2) + '</pre>';
+
+      resultsDiv.innerHTML = html;
+    }
+
+    function formatSemanticAction(result) {
+      let html = '';
+
+      // Action card
+      html += '<div class="role-card">';
+      html += '<h3>🎬 Action</h3>';
+      html += `<p><span class="label">Verb:</span> ${result.action.verbOriginal} → ${result.action.verb}`;
+      html += `<span class="frame-badge">${result.action.frame}</span>`;
+      if (result.action.negated) {
+        html += `<span class="negation-badge">NEGATED: ${result.action.negationMarker}</span>`;
+      }
+      html += '</p>';
+      html += `<p><span class="label">Description:</span> ${result.action.frameDescription}</p>`;
+      html += '</div>';
+
+      // Agent card
+      if (result.agent) {
+        html += '<div class="role-card">';
+        html += '<h3>👤 Agent (WHO)</h3>';
+        html += `<p><span class="label">Text:</span> ${result.agent.text}</p>`;
+        html += `<p><span class="label">Entity Type:</span> ${result.agent.entity}</p>`;
+        html += '</div>';
+      }
+
+      // Patient card
+      if (result.patient) {
+        html += '<div class="role-card">';
+        html += '<h3>🎯 Patient (TO WHOM)</h3>';
+        html += `<p><span class="label">Text:</span> ${result.patient.text}</p>`;
+        html += `<p><span class="label">Entity Type:</span> ${result.patient.entity}</p>`;
+        html += '</div>';
+      }
+
+      // Recipient card
+      if (result.recipient && result.recipient !== result.patient) {
+        html += '<div class="role-card">';
+        html += '<h3>📬 Recipient</h3>';
+        html += `<p><span class="label">Text:</span> ${result.recipient.text}</p>`;
+        html += `<p><span class="label">Entity Type:</span> ${result.recipient.entity}</p>`;
+        html += '</div>';
+      }
+
+      // Theme card
+      if (result.theme) {
+        html += '<div class="role-card">';
+        html += '<h3>💭 Theme (ABOUT WHAT)</h3>';
+        html += `<p><span class="label">Text:</span> ${result.theme.text}</p>`;
+        html += `<p><span class="label">Entity Type:</span> ${result.theme.entity}</p>`;
+        html += '</div>';
+      }
+
+      // Modality card
+      if (result.modality && result.modality.present) {
+        html += '<div class="role-card">';
+        html += '<h3>🎲 Modality</h3>';
+        html += `<p><span class="label">Type:</span> ${result.modality.type}`;
+        html += `<span class="modality-badge">${result.modality.marker}</span></p>`;
+        html += `<p><span class="label">Certainty:</span> ${(result.modality.certainty * 100).toFixed(0)}%</p>`;
+        html += '</div>';
+      }
+
+      // Confidence score
+      const confidenceClass = result.confidence > 0.7 ? 'high' : result.confidence > 0.5 ? 'medium' : 'low';
+      html += '<div class="role-card">';
+      html += '<h3>📊 Analysis Metadata</h3>';
+      html += `<p><span class="label">Confidence:</span> <span class="confidence ${confidenceClass}">${(result.confidence * 100).toFixed(0)}%</span></p>`;
+      html += '</div>';
+
+      // Ambiguity warning
+      if (result.ambiguity && result.ambiguity.flagged) {
+        html += '<div class="ambiguity-warning">';
+        html += '<h4 style="margin-top: 0;">⚠️ Ambiguity Detected</h4>';
+        html += `<p>${result.ambiguity.reason}</p>`;
+        html += '</div>';
+      }
+
+      return html;
+    }
+  </script>
+</body>
+</html>

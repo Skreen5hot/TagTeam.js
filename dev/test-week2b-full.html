@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><base href="/TagTeam.js/dev/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 2b Full Test Suite</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+      line-height: 1.6;
+      background: #f9fafb;
+    }
+    h1 { color: #2563eb; margin-bottom: 10px; }
+    h2 { color: #1e40af; margin-top: 30px; }
+    .version { color: #6b7280; font-size: 14px; margin-bottom: 20px; }
+
+    .test-section {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .test-result {
+      margin: 15px 0;
+      padding: 15px;
+      border-radius: 6px;
+      border-left: 4px solid #10b981;
+      background: #f0fdf4;
+    }
+
+    .test-result.failed {
+      border-left-color: #ef4444;
+      background: #fef2f2;
+    }
+
+    .metric {
+      display: inline-block;
+      margin: 5px 10px 5px 0;
+      padding: 5px 12px;
+      background: #e0e7ff;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .metric.good { background: #d1fae5; color: #065f46; }
+    .metric.warning { background: #fef3c7; color: #92400e; }
+    .metric.bad { background: #fee2e2; color: #991b1b; }
+
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 5px;
+      transition: background 0.2s;
+    }
+    button:hover { background: #1d4ed8; }
+    button:disabled { background: #9ca3af; cursor: not-allowed; }
+
+    .summary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+
+    .summary h3 { margin: 0 0 15px 0; }
+
+    pre {
+      background: #1f2937;
+      color: #f9fafb;
+      padding: 15px;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 13px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .progress {
+      width: 100%;
+      height: 8px;
+      background: #e5e7eb;
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 10px 0;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: #10b981;
+      transition: width 0.3s;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    th {
+      background: #f3f4f6;
+      font-weight: 600;
+    }
+
+    .status-pass { color: #10b981; font-weight: bold; }
+    .status-fail { color: #ef4444; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>🎯 Week 2b Full Test Suite</h1>
+  <div class="version">TagTeam.js v<span id="version">Loading...</span> - Ethical Value Detection</div>
+
+  <div class="test-section">
+    <h2>Quick Tests</h2>
+    <button onclick="runBasicTest()">1. Basic Integration Test</button>
+    <button onclick="runRegressionTest()">2. Regression Test (Week 1)</button>
+    <button onclick="runPerformanceTest()">3. Performance Test</button>
+    <button onclick="runFullCorpusTest()" style="background: #dc2626;">4. Full Corpus (20 Scenarios)</button>
+    <div id="quick-results"></div>
+  </div>
+
+  <div id="full-test-results"></div>
+
+  <div id="summary-section"></div>
+
+  <!-- Load the bundle -->
+  <script src="tagteam.js"></script>
+
+  <script>
+    // Display version
+    document.getElementById('version').textContent = TagTeam.version;
+
+    let testResults = {
+      total: 0,
+      passed: 0,
+      failed: 0,
+      scenarios: []
+    };
+
+    // ========================================
+    // TEST 1: Basic Integration
+    // ========================================
+    function runBasicTest() {
+      const output = document.getElementById('quick-results');
+      output.innerHTML = '<h3>Running Basic Integration Test...</h3>';
+
+      try {
+        const text = "The family must decide whether to continue treatment";
+        const result = TagTeam.parse(text);
+
+        let html = '<div class="test-result">';
+        html += '<h4>✅ Basic Integration Test PASSED</h4>';
+        html += `<p><strong>Input:</strong> "${text}"</p>`;
+        html += `<div class="metric">Version: ${result.version}</div>`;
+        html += `<div class="metric">Agent: ${result.agent ? result.agent.text : 'N/A'}</div>`;
+        html += `<div class="metric">Action: ${result.action ? result.action.verb : 'N/A'}</div>`;
+        html += `<div class="metric">Frame: ${result.semanticFrame}</div>`;
+
+        if (result.ethicalProfile) {
+          html += `<div class="metric good">Ethical Profile: ✅ Present</div>`;
+          html += `<div class="metric">Values: ${result.ethicalProfile.values.length}</div>`;
+          html += `<div class="metric">Top Value: ${result.ethicalProfile.topValues[0]?.name || 'N/A'}</div>`;
+          html += `<div class="metric">Domain: ${result.ethicalProfile.dominantDomain}</div>`;
+          html += `<div class="metric">Confidence: ${result.ethicalProfile.confidence}</div>`;
+        } else {
+          html += `<div class="metric bad">Ethical Profile: ❌ Missing</div>`;
+        }
+
+        html += '<details style="margin-top: 15px;"><summary>Full Output (click to expand)</summary>';
+        html += `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+        html += '</details>';
+        html += '</div>';
+
+        output.innerHTML = html;
+      } catch (error) {
+        output.innerHTML = `<div class="test-result failed">
+          <h4>❌ Basic Integration Test FAILED</h4>
+          <p><strong>Error:</strong> ${error.message}</p>
+          <pre>${error.stack}</pre>
+        </div>`;
+      }
+    }
+
+    // ========================================
+    // TEST 2: Regression Test
+    // ========================================
+    function runRegressionTest() {
+      const output = document.getElementById('quick-results');
+      output.innerHTML = '<h3>Running Regression Test...</h3>';
+
+      const tests = [
+        { text: "I love my best friend", expectedAgent: "I", expectedAction: "love" },
+        { text: "The doctor recommended treatment", expectedAgent: "doctor", expectedAction: "recommended" },
+        { text: "We must decide about the coal plant", expectedAction: "decide", expectedModality: "must" }
+      ];
+
+      let passed = 0;
+      let html = '';
+
+      tests.forEach((test, idx) => {
+        try {
+          const result = TagTeam.parse(test.text);
+          let testPassed = true;
+          let issues = [];
+
+          if (test.expectedAgent && (!result.agent || result.agent.text !== test.expectedAgent)) {
+            testPassed = false;
+            issues.push(`Agent: expected "${test.expectedAgent}", got "${result.agent?.text || 'null'}"`);
+          }
+          if (test.expectedAction && (!result.action || result.action.verb !== test.expectedAction)) {
+            testPassed = false;
+            issues.push(`Action: expected "${test.expectedAction}", got "${result.action?.verb || 'null'}"`);
+          }
+          if (test.expectedModality && (!result.action || result.action.modality !== test.expectedModality)) {
+            testPassed = false;
+            issues.push(`Modality: expected "${test.expectedModality}", got "${result.action?.modality || 'null'}"`);
+          }
+
+          if (testPassed) {
+            passed++;
+            html += `<div class="test-result">
+              <strong>Test ${idx + 1}:</strong> ✅ PASSED<br>
+              <em>"${test.text}"</em>
+            </div>`;
+          } else {
+            html += `<div class="test-result failed">
+              <strong>Test ${idx + 1}:</strong> ❌ FAILED<br>
+              <em>"${test.text}"</em><br>
+              Issues: ${issues.join(', ')}
+            </div>`;
+          }
+        } catch (error) {
+          html += `<div class="test-result failed">
+            <strong>Test ${idx + 1}:</strong> ❌ ERROR<br>
+            ${error.message}
+          </div>`;
+        }
+      });
+
+      output.innerHTML = `
+        <h3>Regression Test Results</h3>
+        <div class="metric ${passed === tests.length ? 'good' : 'warning'}">
+          Passed: ${passed}/${tests.length}
+        </div>
+        ${html}
+      `;
+    }
+
+    // ========================================
+    // TEST 3: Performance Test
+    // ========================================
+    function runPerformanceTest() {
+      const output = document.getElementById('quick-results');
+      output.innerHTML = '<h3>Running Performance Test...</h3>';
+
+      const text = "The family must decide whether to continue treatment";
+      const iterations = 100;
+
+      const startTime = performance.now();
+      for (let i = 0; i < iterations; i++) {
+        TagTeam.parse(text);
+      }
+      const endTime = performance.now();
+
+      const totalTime = endTime - startTime;
+      const avgTime = totalTime / iterations;
+
+      const status = avgTime < 100 ? 'good' : (avgTime < 200 ? 'warning' : 'bad');
+
+      output.innerHTML = `
+        <div class="test-result">
+          <h4>${avgTime < 100 ? '✅' : '⚠️'} Performance Test</h4>
+          <div class="metric">Iterations: ${iterations}</div>
+          <div class="metric">Total Time: ${totalTime.toFixed(2)}ms</div>
+          <div class="metric ${status}">Average: ${avgTime.toFixed(2)}ms</div>
+          <div class="metric ${avgTime < 100 ? 'good' : 'bad'}">
+            Target: &lt;100ms ${avgTime < 100 ? '✅' : '❌'}
+          </div>
+        </div>
+      `;
+    }
+
+    // ========================================
+    // TEST 4: Full Corpus Test
+    // ========================================
+    async function runFullCorpusTest() {
+      const button = event.target;
+      button.disabled = true;
+      button.textContent = 'Running...';
+
+      const output = document.getElementById('full-test-results');
+      output.innerHTML = '<div class="test-section"><h2>Full Corpus Test (20 Scenarios)</h2><p>Loading test data...</p></div>';
+
+      try {
+        // Fetch test corpus
+        const response = await fetch('../iee-collaboration/from-iee/data/test-corpus-week2.json');
+        const testCorpus = await response.json();
+
+        testResults = {
+          total: 0,
+          passed: 0,
+          failed: 0,
+          scenarios: []
+        };
+
+        let html = '<div class="test-section"><h2>Full Corpus Test Results</h2>';
+        html += '<div class="progress"><div class="progress-bar" id="progress-bar" style="width: 0%"></div></div>';
+        html += '<div id="scenario-results"></div></div>';
+
+        output.innerHTML = html;
+
+        const resultsDiv = document.getElementById('scenario-results');
+
+        // Run tests
+        for (let i = 0; i < Math.min(20, testCorpus.scenarios.length); i++) {
+          const scenario = testCorpus.scenarios[i];
+          testResults.total++;
+
+          // Update progress
+          const progress = ((i + 1) / 20) * 100;
+          document.getElementById('progress-bar').style.width = progress + '%';
+
+          try {
+            const result = TagTeam.parse(scenario.testSentence);
+
+            // Check if ethical profile exists
+            const hasProfile = !!result.ethicalProfile;
+            const valuesDetected = hasProfile ? result.ethicalProfile.values.length : 0;
+
+            const scenarioResult = {
+              id: scenario.id,
+              text: scenario.testSentence,
+              passed: hasProfile && valuesDetected > 0,
+              valuesDetected: valuesDetected,
+              topValue: hasProfile ? result.ethicalProfile.topValues[0]?.name : 'N/A',
+              domain: hasProfile ? result.ethicalProfile.dominantDomain : 'N/A',
+              confidence: hasProfile ? result.ethicalProfile.confidence : 0
+            };
+
+            if (scenarioResult.passed) testResults.passed++;
+            else testResults.failed++;
+
+            testResults.scenarios.push(scenarioResult);
+
+            // Display result
+            resultsDiv.innerHTML += `
+              <div class="test-result ${scenarioResult.passed ? '' : 'failed'}">
+                <strong>${scenarioResult.passed ? '✅' : '⚠️'} Scenario ${i + 1}:</strong> ${scenario.id}<br>
+                <em>"${scenario.testSentence.substring(0, 80)}${scenario.testSentence.length > 80 ? '...' : ''}"</em><br>
+                <div class="metric">Values: ${scenarioResult.valuesDetected}</div>
+                <div class="metric">Top: ${scenarioResult.topValue}</div>
+                <div class="metric">Domain: ${scenarioResult.domain}</div>
+                <div class="metric">Confidence: ${scenarioResult.confidence.toFixed(2)}</div>
+              </div>
+            `;
+          } catch (error) {
+            testResults.failed++;
+            resultsDiv.innerHTML += `
+              <div class="test-result failed">
+                <strong>❌ Scenario ${i + 1}:</strong> ${scenario.id}<br>
+                <strong>Error:</strong> ${error.message}
+              </div>
+            `;
+          }
+
+          // Small delay for UI update
+          await new Promise(resolve => setTimeout(resolve, 10));
+        }
+
+        displaySummary();
+
+      } catch (error) {
+        output.innerHTML = `<div class="test-result failed">
+          <h4>❌ Failed to load test corpus</h4>
+          <p>${error.message}</p>
+        </div>`;
+      } finally {
+        button.disabled = false;
+        button.textContent = '4. Full Corpus (20 Scenarios)';
+      }
+    }
+
+    // ========================================
+    // Display Summary
+    // ========================================
+    function displaySummary() {
+      const summaryDiv = document.getElementById('summary-section');
+      const passRate = (testResults.passed / testResults.total * 100).toFixed(1);
+
+      let html = '<div class="summary">';
+      html += '<h3>📊 Test Summary</h3>';
+      html += `<div class="metric">Total Scenarios: ${testResults.total}</div>`;
+      html += `<div class="metric ${testResults.passed === testResults.total ? 'good' : 'warning'}">Passed: ${testResults.passed}</div>`;
+      html += `<div class="metric ${testResults.failed === 0 ? 'good' : 'warning'}">Failed: ${testResults.failed}</div>`;
+      html += `<div class="metric ${parseFloat(passRate) >= 80 ? 'good' : 'warning'}">Pass Rate: ${passRate}%</div>`;
+      html += '</div>';
+
+      // Detailed table
+      html += '<div class="test-section"><h3>Detailed Results</h3>';
+      html += '<table><thead><tr><th>Scenario</th><th>Values</th><th>Top Value</th><th>Domain</th><th>Confidence</th><th>Status</th></tr></thead><tbody>';
+
+      testResults.scenarios.forEach(s => {
+        html += `<tr>
+          <td>${s.id}</td>
+          <td>${s.valuesDetected}</td>
+          <td>${s.topValue}</td>
+          <td>${s.domain}</td>
+          <td>${s.confidence.toFixed(2)}</td>
+          <td class="${s.passed ? 'status-pass' : 'status-fail'}">${s.passed ? 'PASS' : 'FAIL'}</td>
+        </tr>`;
+      });
+
+      html += '</tbody></table></div>';
+
+      summaryDiv.innerHTML = html;
+    }
+
+    // Auto-run basic test on load
+    window.addEventListener('load', () => {
+      console.log('TagTeam.js v' + TagTeam.version + ' loaded!');
+      setTimeout(runBasicTest, 500);
+    });
+  </script>
+</body>
+</html>
