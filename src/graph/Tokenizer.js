@@ -8,6 +8,11 @@ class Tokenizer {
       'Dr', 'Mr', 'Mrs', 'Ms', 'Prof', 'Sr', 'Jr',
       'etc', 'e.g', 'i.e', 'vs', 'Inc', 'Ltd', 'Co'
     ]);
+
+    // Word character test: letters (including accented), digits
+    this._isWordChar = /[\p{L}\p{N}_]/u;
+    // Initial word character test (same, excluding underscore for safety)
+    this._isWordStart = /[\p{L}\p{N}]/u;
   }
 
   tokenize(text) {
@@ -27,8 +32,13 @@ class Tokenizer {
       // Match token (word, punctuation, or special character)
       let tokenText = '';
 
+      // Special case: em dash "--" as single token (UD-EWT convention)
+      if (text[i] === '-' && i + 1 < text.length && text[i + 1] === '-') {
+        tokenText = '--';
+        i += 2;
+      }
       // Special case: possessive 's (keep as separate token for Penn Treebank POS tagging)
-      if (i < text.length - 1 && text.substring(i, i + 2) === "'s") {
+      else if (i < text.length - 1 && text.substring(i, i + 2) === "'s") {
         tokenText = "'s";
         i += 2;
       }
@@ -43,11 +53,54 @@ class Tokenizer {
           i++;
         }
       }
-      // Word characters (letters, numbers, hyphens within words)
-      else if (/[a-zA-Z0-9]/.test(text[i])) {
-        while (i < text.length && /[a-zA-Z0-9\-_]/.test(text[i])) {
+      // Word characters (letters including accented, numbers)
+      else if (this._isWordStart.test(text[i])) {
+        while (i < text.length && this._isWordChar.test(text[i])) {
           tokenText += text[i];
           i++;
+        }
+        // Handle abbreviations like "U.S." (letter.letter. pattern)
+        if (tokenText.length === 1 && /[A-Z]/i.test(tokenText) &&
+            i < text.length && text[i] === '.') {
+          // Check for letter-period-letter-period pattern
+          let j = i;
+          let abbr = tokenText;
+          while (j < text.length && text[j] === '.' &&
+                 j + 1 < text.length && /[A-Za-z]/.test(text[j + 1])) {
+            abbr += text[j] + text[j + 1]; // period + letter
+            j += 2;
+          }
+          // Include trailing period if present
+          if (j < text.length && text[j] === '.' && abbr.length > tokenText.length) {
+            abbr += '.';
+            j++;
+            tokenText = abbr;
+            i = j;
+          }
+        }
+        // Handle decimal numbers like "1.1", "3.5"
+        if (/^\d+$/.test(tokenText) && i < text.length && text[i] === '.' &&
+            i + 1 < text.length && /\d/.test(text[i + 1])) {
+          tokenText += '.';
+          i++;
+          while (i < text.length && /\d/.test(text[i])) {
+            tokenText += text[i];
+            i++;
+          }
+        }
+        // Handle n't contractions: "don't" → "do" + "n't" (Penn Treebank convention)
+        // The word consumed the 'n', check if remaining starts with "'t"
+        if (tokenText.length > 1 && tokenText.endsWith('n') &&
+            i < text.length - 1 && text[i] === "'" && text[i + 1] === 't' &&
+            (i + 2 >= text.length || !/[a-zA-Z]/.test(text[i + 2]))) {
+          // Emit the word without trailing 'n', then emit "n't" as next token
+          tokenText = tokenText.slice(0, -1);
+          tokens.push({ text: tokenText, start: startOffset, end: i - 2 });
+          tokenText = "n't";
+          const ntStart = i - 1;
+          i += 2; // skip past 't
+          tokens.push({ text: tokenText, start: ntStart, end: i - 1 });
+          tokenText = ''; // Already pushed, skip the push below
         }
       }
       // Punctuation (single character)

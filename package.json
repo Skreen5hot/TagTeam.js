@@ -32,7 +32,10 @@
     "report:component": "node tests/component/run-component-tests.js",
     "regression:check": "node tests/golden/detect-regressions.js",
     "validate:golden": "node tests/golden/run-golden-tests.js --dry-run",
-    "validate:schema": "node tests/golden/run-golden-tests.js --dry-run"
+    "validate:schema": "node tests/golden/run-golden-tests.js --dry-run",
+    "test:phase0": "node tests/unit/phase0/label-convention.test.js && node tests/unit/phase0/unicode-normalizer.test.js && node tests/unit/phase0/role-mapping-contract.test.js",
+    "test:phase1": "node tests/unit/phase1/tokenizer-alignment.test.js && node tests/unit/phase1/perceptron-tagger.test.js && node tests/unit/phase1/gazetteer-ner.test.js",
+    "test:ci": "npm run test:phase0 && npm run test:phase1 && npm run test:component"
   },
   "keywords": [
     "nlp",
@@ -49,12 +52,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/TagTeam.js"
+    "url": "https://github.com/Skreen5hot/TagTeam.js"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/TagTeam.js/issues"
+    "url": "https://github.com/Skreen5hot/TagTeam.js/issues"
   },
-  "homepage": "https://github.com/yourusername/TagTeam.js#readme",
+  "homepage": "https://github.com/Skreen5hot/TagTeam.js#readme",
   "engines": {
     "node": ">=14.0.0"
   },

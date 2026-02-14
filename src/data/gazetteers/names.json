@@ -1,0 +1,112 @@
+{
+  "_meta": {
+    "gazetteerId": "tagteam-names-common",
+    "version": "1.0.0",
+    "source": "US Census Bureau common names, public domain",
+    "license": "CC0-1.0",
+    "entryCount": 20,
+    "generatedAt": "2026-02-13T00:00:00Z"
+  },
+  "entities": {
+    "John Smith": {
+      "type": "cco:Person",
+      "aliases": ["J. Smith"],
+      "nameType": "full"
+    },
+    "Jane Doe": {
+      "type": "cco:Person",
+      "aliases": ["J. Doe"],
+      "nameType": "full"
+    },
+    "James": {
+      "type": "cco:Person",
+      "aliases": ["Jim", "Jimmy"],
+      "nameType": "given"
+    },
+    "Robert": {
+      "type": "cco:Person",
+      "aliases": ["Bob", "Bobby", "Rob"],
+      "nameType": "given"
+    },
+    "William": {
+      "type": "cco:Person",
+      "aliases": ["Bill", "Will", "Billy"],
+      "nameType": "given"
+    },
+    "Mary": {
+      "type": "cco:Person",
+      "aliases": [],
+      "nameType": "given"
+    },
+    "Elizabeth": {
+      "type": "cco:Person",
+      "aliases": ["Liz", "Beth", "Eliza"],
+      "nameType": "given"
+    },
+    "Michael": {
+      "type": "cco:Person",
+      "aliases": ["Mike"],
+      "nameType": "given"
+    },
+    "David": {
+      "type": "cco:Person",
+      "aliases": ["Dave"],
+      "nameType": "given"
+    },
+    "Richard": {
+      "type": "cco:Person",
+      "aliases": ["Rick", "Dick"],
+      "nameType": "given"
+    },
+    "Jennifer": {
+      "type": "cco:Person",
+      "aliases": ["Jen", "Jenny"],
+      "nameType": "given"
+    },
+    "Sarah": {
+      "type": "cco:Person",
+      "aliases": ["Sara"],
+      "nameType": "given"
+    },
+    "Thomas": {
+      "type": "cco:Person",
+      "aliases": ["Tom", "Tommy"],
+      "nameType": "given"
+    },
+    "Charles": {
+      "type": "cco:Person",
+      "aliases": ["Charlie", "Chuck"],
+      "nameType": "given"
+    },
+    "Daniel": {
+      "type": "cco:Person",
+      "aliases": ["Dan", "Danny"],
+      "nameType": "given"
+    },
+    "Smith": {
+      "type": "cco:Person",
+      "aliases": [],
+      "nameType": "surname"
+    },
+    "Johnson": {
+      "type": "cco:Person",
+      "aliases": [],
+      "nameType": "surname"
+    },
+    "Williams": {
+      "type": "cco:Person",
+      "aliases": [],
+      "nameType": "surname"
+    },
+    "Brown": {
+      "type": "cco:Person",
+      "aliases": [],
+      "nameType": "surname"
+    },
+    "Jones": {
+      "type": "cco:Person",
+      "aliases": [],
+      "nameType": "surname"
+    }
+  }
+}

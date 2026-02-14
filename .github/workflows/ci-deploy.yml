@@ -1,0 +1,241 @@
+name: CI & Deploy
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages-${{ github.ref }}"
+  cancel-in-progress: false
+
+jobs:
+  # ─── Job 1: Test Gate ───────────────────────────────────────────────
+  test-gate:
+    name: Test Gate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+
+      - name: Run CI tests (Phase 0 + Phase 1 + Component)
+        run: npm run test:ci
+
+      - name: npm audit (high/critical only)
+        run: npm audit --audit-level=high
+
+      - name: Verify ontology integrity
+        run: npm run verify:ontology
+        continue-on-error: true  # TODO: remove once ontology-manifest.json is created
+
+  # ─── Job 2: Golden Tests ────────────────────────────────────────────
+  golden-tests:
+    name: Golden Tests
+    runs-on: ubuntu-latest
+    needs: test-gate
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+
+      - name: Run golden tests
+        run: npm run test:golden
+
+      - name: Generate enhanced report
+        if: always()
+        run: npm run report:golden
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: golden-test-results
+          path: |
+            tests/golden/results/latest-results.json
+            tests/golden/results/enhanced-report.html
+            tests/golden/results/accuracy-history.csv
+          retention-days: 30
+
+      - name: Check test status
+        if: always()
+        run: |
+          if [ -f tests/golden/results/latest-results.json ]; then
+            ACCURACY=$(node -e "const r=require('./tests/golden/results/latest-results.json'); console.log(r.summary.accuracy)")
+            echo "Overall Accuracy: $ACCURACY%"
+            if (( $(echo "$ACCURACY < 95" | bc -l) )); then
+              echo "::warning::Golden test accuracy below 95% threshold: $ACCURACY%"
+            fi
+          fi
+
+      - name: Comment PR with results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const resultsPath = 'tests/golden/results/latest-results.json';
+
+            if (fs.existsSync(resultsPath)) {
+              const results = JSON.parse(fs.readFileSync(resultsPath, 'utf8'));
+              const summary = results.summary;
+
+              const accuracyEmoji = summary.accuracy >= 95 ? '✅' : summary.accuracy >= 80 ? '⚠️' : '❌';
+
+              const comment = `## ${accuracyEmoji} Golden Test Results
+
+            **Overall Accuracy:** ${summary.accuracy}%
+            - **Passed:** ${summary.passed}/${summary.totalTests}
+            - **Failed:** ${summary.failed}
+            - **Errors:** ${summary.errors}
+
+            ### By Priority
+            - **P0 (Critical):** ${summary.byPriority?.P0?.accuracy || 'N/A'}%
+            - **P1 (High):** ${summary.byPriority?.P1?.accuracy || 'N/A'}%
+            - **P2 (Medium):** ${summary.byPriority?.P2?.accuracy || 'N/A'}%
+
+            [View detailed report](../actions/runs/${context.runId})
+            `;
+
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: comment
+              });
+            }
+
+  # ─── Job 3: Security Tests ─────────────────────────────────────────
+  security-tests:
+    name: Security Tests
+    runs-on: ubuntu-latest
+    needs: test-gate
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run security:test
+
+  # ─── Job 4: Build Pages ────────────────────────────────────────────
+  build-pages:
+    name: Build Pages
+    runs-on: ubuntu-latest
+    needs: test-gate
+    if: github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+
+      - name: Build TagTeam.js bundles
+        run: |
+          node scripts/build-separated.js
+          node scripts/build.js
+
+      - name: Assemble Pages site
+        run: |
+          mkdir -p gh-pages
+
+          # Copy all bundles (core, values, combined)
+          cp dist/tagteam.js gh-pages/
+          cp dist/tagteam-core.js gh-pages/
+          cp dist/tagteam-values.js gh-pages/
+
+          # Copy landing page as index
+          cp demos/tagteam-landing.html gh-pages/index.html
+
+          # Copy Phase 6 demos
+          cp demos/phase6-lattice-demo.html gh-pages/phase6-lattice-demo.html
+          cp demos/phase65-ontology-demo.html gh-pages/phase65-ontology-demo.html
+          cp demos/phase66-custom-tagger-demo.html gh-pages/phase66-custom-tagger-demo.html
+          cp demos/stakeholder-demo.html gh-pages/stakeholder-demo.html
+          cp demos/semantic-demo.html gh-pages/semantic-demo.html
+
+          # Copy extracted demo pages
+          cp demos/demo.html gh-pages/demo.html
+          cp demos/separated-demo.html gh-pages/separated-demo.html
+
+          # Copy browser validation tests
+          cp dist/test.html gh-pages/test.html
+          cp dist/test-week2b-full.html gh-pages/test-week2b-full.html
+          cp dist/test-iee-bundle.html gh-pages/test-iee-bundle.html
+
+          # Copy legacy validation tests
+          cp tests/browser/test-week2a-context.html gh-pages/validation.html
+
+          # Copy expert validation results
+          cp tests/expert-validation/results/expert-validation-visual-summary.html gh-pages/expert-validation-visual-summary.html
+
+          # Copy visual explainer
+          cp demos/how-tagteam-works.html gh-pages/how-tagteam-works.html
+
+          # Copy README
+          cp demos/gh-pages-README.md gh-pages/README.md
+
+      - name: Apply branch-based routing
+        run: |
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+
+          if [ "$BRANCH_NAME" = "dev" ]; then
+            # Nest all content under dev/ subdirectory
+            mkdir -p gh-pages-final/dev
+            cp -r gh-pages/* gh-pages-final/dev/
+            rm -rf gh-pages
+            mv gh-pages-final gh-pages
+
+            # Inject <base> tag for dev path resolution
+            find gh-pages -name '*.html' -exec sed -i 's|<head>|<head><base href="/TagTeam.js/dev/">|' {} \;
+            echo "Deployed to /dev/ subdirectory"
+          else
+            # Main branch: deploy at root
+            find gh-pages -name '*.html' -exec sed -i 's|<head>|<head><base href="/TagTeam.js/">|' {} \;
+            echo "Deployed to root"
+          fi
+
+      - name: Upload pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './gh-pages'
+
+  # ─── Job 5: Deploy ─────────────────────────────────────────────────
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: build-pages
+    if: github.event_name == 'push'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
