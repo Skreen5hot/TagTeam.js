@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-02-13T11:38:37.535Z",
+  "timestamp": "2026-02-14T01:47:18.659Z",
   "summary": {
     "totalTests": 556,
     "passed": 18,
@@ -22,7 +22,7 @@
     },
     "byCorpus": {},
     "regressions": [],
-    "executionTime": 5336
+    "executionTime": 4338
   },
   "results": [
     {
@@ -30,7 +30,7 @@
       "input": "The doctor decided to operate",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 694,
+      "executionTime": 582,
       "error": null
     },
     {
@@ -38,7 +38,7 @@
       "input": "The rock decided to move",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 31,
+      "executionTime": 30,
       "error": null
     },
     {
@@ -46,7 +46,7 @@
       "input": "The committee decided to proceed",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 19,
+      "executionTime": 17,
       "error": null
     },
     {
@@ -54,7 +54,7 @@
       "input": "The hospital announced the policy",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 19,
+      "executionTime": 16,
       "error": null
     },
     {
@@ -70,7 +70,7 @@
       "input": "The ventilator decided to stop",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 14,
+      "executionTime": 18,
       "error": null
     },
     {
@@ -86,7 +86,7 @@
       "input": "The family believes in recovery",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 11,
+      "executionTime": 10,
       "error": null
     },
     {
@@ -94,7 +94,7 @@
       "input": "The board allocated the resources",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 14,
+      "executionTime": 11,
       "error": null
     },
     {
@@ -110,7 +110,7 @@
       "input": "The surgeon lifted the scalpel",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 10,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -118,7 +118,7 @@
       "input": "The committee lifted the ban",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 13,
+      "executionTime": 12,
       "error": null
     },
     {
@@ -142,7 +142,7 @@
       "input": "The patient preferred the treatment",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 10,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -158,7 +158,7 @@
       "input": "The medication caused side effects",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 10,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -166,7 +166,7 @@
       "input": "The court ordered the treatment",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 7,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -174,7 +174,7 @@
       "input": "The algorithm decided the allocation",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 11,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -182,7 +182,7 @@
       "input": "The patient's family requested a second opinion",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 16,
+      "executionTime": 10,
       "error": null
     },
     {
@@ -190,7 +190,7 @@
       "input": "The doctor should prioritize the younger patient",
       "passed": false,
       "diffCount": 6,
-      "executionTime": 14,
+      "executionTime": 13,
       "error": null
     },
     {
@@ -198,7 +198,7 @@
       "input": "The family must decide soon",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 13,
+      "executionTime": 10,
       "error": null
     },
     {
@@ -206,7 +206,7 @@
       "input": "The patient may refuse treatment",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 13,
+      "executionTime": 11,
       "error": null
     },
     {
@@ -214,7 +214,7 @@
       "input": "The hospital ought to inform patients",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 19,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -222,7 +222,7 @@
       "input": "The nurse can administer medication",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 14,
+      "executionTime": 10,
       "error": null
     },
     {
@@ -230,7 +230,7 @@
       "input": "The committee might approve the request",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 12,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -238,7 +238,7 @@
       "input": "Treatment should be effective",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 10,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -246,7 +246,7 @@
       "input": "The patient could die",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 13,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -254,7 +254,7 @@
       "input": "The doctor shall inform the patient",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 12,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -262,7 +262,7 @@
       "input": "The ethics committee must evaluate all cases",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 10,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -270,7 +270,7 @@
       "input": "The organization of the files was complete",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 11,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -278,7 +278,7 @@
       "input": "The treatment improved outcomes",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -286,7 +286,7 @@
       "input": "The examination revealed abnormalities",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 12,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -294,7 +294,7 @@
       "input": "The decision was difficult",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -302,7 +302,7 @@
       "input": "The hospital announced construction",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -310,7 +310,7 @@
       "input": "The committee is an organization",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 6,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -318,7 +318,7 @@
       "input": "The investigation continues",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 6,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -326,7 +326,7 @@
       "input": "The diagnosis changed treatment",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -334,7 +334,7 @@
       "input": "The consultation lasted an hour",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -342,7 +342,7 @@
       "input": "The procedure was successful",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -358,7 +358,7 @@
       "input": "The hospital provided equipment",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -366,7 +366,7 @@
       "input": "The nurse took the patient's temperature",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 12,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -382,7 +382,7 @@
       "input": "The surgeon performed the operation",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -390,7 +390,7 @@
       "input": "The committee addressed the issue",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 10,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -398,7 +398,7 @@
       "input": "The doctor saw the patient",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 7,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -406,7 +406,7 @@
       "input": "The family left the hospital",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 7,
+      "executionTime": 4,
       "error": null
     },
     {
@@ -414,7 +414,7 @@
       "input": "The doctor ran the tests",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -422,7 +422,7 @@
       "input": "The patient broke the news to family",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 9,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -430,7 +430,7 @@
       "input": "Not all patients received treatment",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 7,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -438,7 +438,7 @@
       "input": "Every doctor must report errors",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 10,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -446,7 +446,7 @@
       "input": "The doctor may examine every patient",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 9,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -454,7 +454,7 @@
       "input": "The patient didn't take all medication",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 13,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -462,7 +462,7 @@
       "input": "Someone should review each case",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 13,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -470,7 +470,7 @@
       "input": "The doctor treated the patient with care",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -478,7 +478,7 @@
       "input": "The nurse saw the patient with fever",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 9,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -486,7 +486,7 @@
       "input": "The surgeon operated on the patient with precision",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 10,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -494,7 +494,7 @@
       "input": "The hospital admitted patients with insurance",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 7,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -502,7 +502,7 @@
       "input": "The doctor examined the patient on Tuesday",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 10,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -510,7 +510,7 @@
       "input": "The patient should not undergo surgery",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 15,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -518,7 +518,7 @@
       "input": "The doctor must not delay treatment",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 12,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -526,7 +526,7 @@
       "input": "The patient may not refuse treatment",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 11,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -534,7 +534,7 @@
       "input": "The family cannot decide",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 11,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -542,7 +542,7 @@
       "input": "The nurse might not arrive",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 9,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -550,7 +550,7 @@
       "input": "The White House announced new healthcare policy",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -558,7 +558,7 @@
       "input": "The hospital announced budget cuts",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 10,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -566,7 +566,7 @@
       "input": "The board voted on the proposal",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 11,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -574,7 +574,7 @@
       "input": "The scalpel slipped",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 10,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -582,7 +582,7 @@
       "input": "The entire floor was evacuated",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 10,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -1190,7 +1190,7 @@
       "input": "Dr. Smith said the patient needs immediate surgery",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 13,
+      "executionTime": 22,
       "error": null
     },
     {
@@ -1198,7 +1198,7 @@
       "input": "The nurse reported abnormal vital signs",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 11,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -1206,7 +1206,7 @@
       "input": "According to the specialist, the prognosis is poor",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 12,
+      "executionTime": 14,
       "error": null
     },
     {
@@ -1214,7 +1214,7 @@
       "input": "The family claims the hospital was negligent",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 13,
+      "executionTime": 12,
       "error": null
     },
     {
@@ -1222,7 +1222,7 @@
       "input": "The doctor believes the treatment will be effective",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 10,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -1230,7 +1230,7 @@
       "input": "The pharmacist advised reducing the dosage",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 8,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -1238,7 +1238,7 @@
       "input": "The expert witness testified that the standard of care was met",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 11,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -1246,7 +1246,7 @@
       "input": "The medical record documents elevated blood pressure",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 9,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -1254,7 +1254,7 @@
       "input": "The patient stated, 'I do not consent to this procedure'",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 13,
+      "executionTime": 14,
       "error": null
     },
     {
@@ -1262,7 +1262,7 @@
       "input": "A recent study found that the drug reduces mortality by 30%",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 14,
+      "executionTime": 11,
       "error": null
     },
     {
@@ -1270,7 +1270,7 @@
       "input": "Clinical guidelines recommend annual screening for high-risk patients",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1278,7 +1278,7 @@
       "input": "The medical team agreed that surgery was necessary",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 10,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1286,7 +1286,7 @@
       "input": "Dr. Jones said surgery is needed, but Dr. Lee recommended waiting",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 16,
+      "executionTime": 11,
       "error": null
     },
     {
@@ -1294,7 +1294,7 @@
       "input": "The diagnosis is confirmed",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -1302,7 +1302,7 @@
       "input": "The patient's family heard from a neighbor that the treatment is dangerous",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 13,
+      "executionTime": 14,
       "error": null
     },
     {
@@ -1310,7 +1310,7 @@
       "input": "The test results definitely indicate infection",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 10,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -1318,7 +1318,7 @@
       "input": "The patient probably has pneumonia",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 7,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1326,7 +1326,7 @@
       "input": "The symptoms possibly suggest a rare condition",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 9,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1334,7 +1334,7 @@
       "input": "This approach will certainly improve outcomes",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -1342,7 +1342,7 @@
       "input": "Maybe the medication is causing the side effects",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 10,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1350,7 +1350,7 @@
       "input": "The recovery will likely take several months",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -1358,7 +1358,7 @@
       "input": "It is unclear whether the treatment helped",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 9,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1366,7 +1366,7 @@
       "input": "The patient seems to be improving",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 10,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -1374,7 +1374,7 @@
       "input": "The wound appears to be healing properly",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 13,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1382,7 +1382,7 @@
       "input": "This is undoubtedly the correct diagnosis",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 10,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -1390,7 +1390,7 @@
       "input": "The infection presumably spread through contaminated equipment",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 10,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -1398,7 +1398,7 @@
       "input": "The patient must have taken the wrong dosage",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 10,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -1406,7 +1406,7 @@
       "input": "The symptoms might indicate multiple conditions",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 10,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1414,7 +1414,7 @@
       "input": "I doubt the treatment will be effective",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 10,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1422,7 +1422,7 @@
       "input": "We are confident the surgery will succeed",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 14,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -1430,7 +1430,7 @@
       "input": "The medication reportedly caused severe allergic reactions",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 9,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1446,7 +1446,7 @@
       "input": "The patient apparently stopped taking medication",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 9,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -1454,7 +1454,7 @@
       "input": "The test clearly shows elevated glucose levels",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 9,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1462,7 +1462,7 @@
       "input": "The treatment supposedly works for most patients",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 7,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -1470,7 +1470,7 @@
       "input": "The infection evidently spread despite precautions",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 9,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1478,7 +1478,7 @@
       "input": "The drug purportedly has no side effects",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 11,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -1486,7 +1486,7 @@
       "input": "The wound is observably infected",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 12,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1494,7 +1494,7 @@
       "input": "Based on the symptoms, the diagnosis is viral pneumonia",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 14,
+      "executionTime": 10,
       "error": null
     },
     {
@@ -1502,7 +1502,7 @@
       "input": "Clinical trials have proven the treatment is effective",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 14,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -1510,7 +1510,7 @@
       "input": "The last ventilator is available",
       "passed": false,
       "diffCount": 6,
-      "executionTime": 8,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -1518,7 +1518,7 @@
       "input": "The only surgeon can perform this",
       "passed": false,
       "diffCount": 6,
-      "executionTime": 13,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -1526,7 +1526,7 @@
       "input": "The patient needs treatment",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 6,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -1550,7 +1550,7 @@
       "input": "The first patient arrived early",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1558,7 +1558,7 @@
       "input": "The patient's family arrived",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -1566,7 +1566,7 @@
       "input": "The hospital announced closures",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 7,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -1574,7 +1574,7 @@
       "input": "A patient needs help",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 7,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -1598,7 +1598,7 @@
       "input": "Three patients need intensive care",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1606,7 +1606,7 @@
       "input": "Another doctor will consult",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1614,7 +1614,7 @@
       "input": "Patients need compassionate care",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 6,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -1622,7 +1622,7 @@
       "input": "Doctors must report errors",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 9,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1630,7 +1630,7 @@
       "input": "There are complications",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 6,
+      "executionTime": 4,
       "error": null
     },
     {
@@ -1646,7 +1646,7 @@
       "input": "Mayo Clinic announced the policy",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1654,7 +1654,7 @@
       "input": "The University of Michigan conducted research",
       "passed": false,
       "diffCount": 6,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -1662,7 +1662,7 @@
       "input": "This patient requires surgery",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 6,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -1678,7 +1678,7 @@
       "input": "Nurses should report incidents immediately",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 8,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -1686,7 +1686,7 @@
       "input": "The hospital ought to improve safety",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 10,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -1694,7 +1694,7 @@
       "input": "The doctor shall inform patients",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 8,
+      "executionTime": 10,
       "error": null
     },
     {
@@ -1702,7 +1702,7 @@
       "input": "The patient may refuse treatment",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 9,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -1710,7 +1710,7 @@
       "input": "Visitors can stay overnight",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1718,7 +1718,7 @@
       "input": "Staff must not enter without PPE",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 9,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1726,7 +1726,7 @@
       "input": "The patient should not smoke",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 9,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1734,7 +1734,7 @@
       "input": "The family need not decide today",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 6,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -1750,7 +1750,7 @@
       "input": "The patient might recover",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 12,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -1758,7 +1758,7 @@
       "input": "The diagnosis may be incorrect",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 9,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -1766,7 +1766,7 @@
       "input": "The patient could have complications",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 13,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -1774,7 +1774,7 @@
       "input": "The treatment should be effective",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 9,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1782,7 +1782,7 @@
       "input": "The results will likely improve",
       "passed": false,
       "diffCount": 6,
-      "executionTime": 12,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -1790,7 +1790,7 @@
       "input": "The patient must have taken medication",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 11,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -1806,7 +1806,7 @@
       "input": "The doctor cannot be certain",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 10,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -1814,7 +1814,7 @@
       "input": "Recovery necessarily takes time",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 7,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1822,7 +1822,7 @@
       "input": "Remission is possible",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 6,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -1830,7 +1830,7 @@
       "input": "The outcome cannot be both positive and negative",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 11,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -1838,7 +1838,7 @@
       "input": "All patients inevitably face mortality",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 9,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -1846,7 +1846,7 @@
       "input": "Treatment may or may not work",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 10,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -1854,7 +1854,7 @@
       "input": "The surgeon can perform the procedure",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 9,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -1862,7 +1862,7 @@
       "input": "The patient is able to walk",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 9,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1870,7 +1870,7 @@
       "input": "The ventilator can support breathing",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 9,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1878,7 +1878,7 @@
       "input": "The patient cannot swallow",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 9,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1886,7 +1886,7 @@
       "input": "The doctor will see you now",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -1894,7 +1894,7 @@
       "input": "The medication tends to cause drowsiness",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1902,7 +1902,7 @@
       "input": "The patient learned to manage symptoms",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 9,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -1910,7 +1910,7 @@
       "input": "The doctor treated the patient",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 7,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -1926,7 +1926,7 @@
       "input": "The patient recovered",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 6,
+      "executionTime": 4,
       "error": null
     },
     {
@@ -1934,7 +1934,7 @@
       "input": "The doctor worked all night",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 7,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -1942,7 +1942,7 @@
       "input": "The patient died",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 7,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1958,7 +1958,7 @@
       "input": "The doctor operated on the patient",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 7,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -1966,7 +1966,7 @@
       "input": "The nurse took the patient's temperature",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 9,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -1974,7 +1974,7 @@
       "input": "The patient was treated by the doctor",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -1982,7 +1982,7 @@
       "input": "The medication was prescribed",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -1990,7 +1990,7 @@
       "input": "The patient got injured",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 7,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -1998,7 +1998,7 @@
       "input": "The patient is hospitalized",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -2006,7 +2006,7 @@
       "input": "The patient was given medication by the nurse",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -2014,7 +2014,7 @@
       "input": "The patient was operated on",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 7,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2022,7 +2022,7 @@
       "input": "The patient should be examined",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 10,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -2030,7 +2030,7 @@
       "input": "The patient is being treated",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -2038,7 +2038,7 @@
       "input": "The patient has been discharged",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 9,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -2046,7 +2046,7 @@
       "input": "The door opened",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 6,
+      "executionTime": 4,
       "error": null
     },
     {
@@ -2054,7 +2054,7 @@
       "input": "The patient positioned themselves",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 7,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2062,7 +2062,7 @@
       "input": "The doctors consulted each other",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 9,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2070,7 +2070,7 @@
       "input": "The wound healed",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 11,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2094,7 +2094,7 @@
       "input": "The nurse had the patient sign consent",
       "passed": false,
       "diffCount": 6,
-      "executionTime": 7,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -2102,7 +2102,7 @@
       "input": "The medication made the patient drowsy",
       "passed": false,
       "diffCount": 6,
-      "executionTime": 10,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -2110,7 +2110,7 @@
       "input": "The patient did not consent",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 11,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -2118,7 +2118,7 @@
       "input": "The doctor didn't arrive",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 9,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -2126,7 +2126,7 @@
       "input": "The patient should not undergo surgery",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 12,
+      "executionTime": 10,
       "error": null
     },
     {
@@ -2134,7 +2134,7 @@
       "input": "The treatment is not effective",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 8,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -2142,7 +2142,7 @@
       "input": "The hospital never admitted fault",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2150,7 +2150,7 @@
       "input": "Nobody consulted the patient",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 6,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2158,7 +2158,7 @@
       "input": "The test revealed nothing abnormal",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 7,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -2166,7 +2166,7 @@
       "input": "The patient has no symptoms",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 8,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -2174,7 +2174,7 @@
       "input": "Not all patients received treatment",
       "passed": false,
       "diffCount": 6,
-      "executionTime": 7,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2182,7 +2182,7 @@
       "input": "The patient may not leave",
       "passed": false,
       "diffCount": 6,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -2190,7 +2190,7 @@
       "input": "Every patient didn't respond",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 12,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -2198,7 +2198,7 @@
       "input": "The patient barely survived",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 10,
+      "executionTime": 4,
       "error": null
     },
     {
@@ -2206,7 +2206,7 @@
       "input": "Neither treatment was effective",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 9,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2214,7 +2214,7 @@
       "input": "The patient has no fever nor chills",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 9,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -2222,7 +2222,7 @@
       "input": "The doctor didn't find any abnormalities",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 11,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -2230,7 +2230,7 @@
       "input": "The patient hasn't ever complained",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 8,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -2246,7 +2246,7 @@
       "input": "The result is not uncommon",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 6,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -2254,7 +2254,7 @@
       "input": "It's not impossible to recover",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 9,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -2262,7 +2262,7 @@
       "input": "The diagnosis was inconclusive",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 7,
+      "executionTime": 4,
       "error": null
     },
     {
@@ -2270,7 +2270,7 @@
       "input": "The patient needs treatment",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 6,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -2278,7 +2278,7 @@
       "input": "The doctor examined the patient",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 7,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2286,7 +2286,7 @@
       "input": "The patient will recover",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 7,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -2294,7 +2294,7 @@
       "input": "The hospital is going to close",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 12,
+      "executionTime": 10,
       "error": null
     },
     {
@@ -2302,7 +2302,7 @@
       "input": "The nurse checks vitals hourly",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -2310,7 +2310,7 @@
       "input": "The doctor used to work nights",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 9,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -2318,7 +2318,7 @@
       "input": "The patient is recovering",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 7,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2326,7 +2326,7 @@
       "input": "The surgeon was operating",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 7,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2334,7 +2334,7 @@
       "input": "The patient has recovered",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 7,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2342,7 +2342,7 @@
       "input": "The patient had deteriorated",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2350,7 +2350,7 @@
       "input": "The patient has been waiting for hours",
       "passed": false,
       "diffCount": 6,
-      "executionTime": 11,
+      "executionTime": 10,
       "error": null
     },
     {
@@ -2366,7 +2366,7 @@
       "input": "The doctor recently retired",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 7,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2374,7 +2374,7 @@
       "input": "The surgery is scheduled tomorrow",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2382,7 +2382,7 @@
       "input": "The patient always follows instructions",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2398,7 +2398,7 @@
       "input": "The medication was prescribed",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 7,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -2406,7 +2406,7 @@
       "input": "The patient was given medication",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 8,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -2422,7 +2422,7 @@
       "input": "The patient is being treated",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -2430,7 +2430,7 @@
       "input": "The results have been analyzed",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -2438,7 +2438,7 @@
       "input": "The treatment was not approved",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2446,7 +2446,7 @@
       "input": "The policy was approved by the ethics committee",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2454,7 +2454,7 @@
       "input": "The doctor provided care",
       "passed": false,
       "diffCount": 6,
-      "executionTime": 6,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2462,7 +2462,7 @@
       "input": "The hospital provided equipment",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 8,
+      "executionTime": 4,
       "error": null
     },
     {
@@ -2470,7 +2470,7 @@
       "input": "The nurse took the patient's temperature",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 7,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2478,7 +2478,7 @@
       "input": "The patient took medication",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 6,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2486,7 +2486,7 @@
       "input": "The medication caused side effects",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 7,
+      "executionTime": 4,
       "error": null
     },
     {
@@ -2494,7 +2494,7 @@
       "input": "The doctor gave the patient medication",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 8,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -2510,7 +2510,7 @@
       "input": "The doctor saw the patient",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2518,7 +2518,7 @@
       "input": "Contact the on-call physician",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 7,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -2526,7 +2526,7 @@
       "input": "Do not delay treatment",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 7,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2534,7 +2534,7 @@
       "input": "Give the patient medication",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 7,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2542,7 +2542,7 @@
       "input": "Please inform the family",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 6,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -2550,7 +2550,7 @@
       "input": "Monitor vitals and report changes",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 9,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -2558,7 +2558,7 @@
       "input": "To reduce pain, take medication",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 9,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -2566,7 +2566,7 @@
       "input": "The doctor treated the patient with care",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 7,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -2574,7 +2574,7 @@
       "input": "The surgeon operated with a scalpel",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 7,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2582,7 +2582,7 @@
       "input": "The patient rested in the recovery room",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -2590,7 +2590,7 @@
       "input": "The surgery occurred on Tuesday",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2598,7 +2598,7 @@
       "input": "The doctor prescribed medication for the patient",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 7,
+      "executionTime": 4,
       "error": null
     },
     {
@@ -2606,7 +2606,7 @@
       "input": "The patient recovered from surgery",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 6,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2614,7 +2614,7 @@
       "input": "The patient went to the emergency room",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2622,7 +2622,7 @@
       "input": "The doctor consulted with colleagues",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 8,
+      "executionTime": 4,
       "error": null
     },
     {
@@ -2630,7 +2630,7 @@
       "input": "The nurse spoke about the procedure",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 6,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2638,7 +2638,7 @@
       "input": "The patient suffered from complications",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 8,
+      "executionTime": 4,
       "error": null
     },
     {
@@ -2646,7 +2646,7 @@
       "input": "The door opened",
       "passed": false,
       "diffCount": 7,
-      "executionTime": 6,
+      "executionTime": 4,
       "error": null
     },
     {
@@ -2654,7 +2654,7 @@
       "input": "The wound healed",
       "passed": false,
       "diffCount": 6,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -2686,7 +2686,7 @@
       "input": "The pain subsided",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 7,
+      "executionTime": 4,
       "error": null
     },
     {
@@ -2694,7 +2694,7 @@
       "input": "The temperature dropped",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 6,
+      "executionTime": 3,
       "error": null
     },
     {
@@ -2702,7 +2702,7 @@
       "input": "The bleeding stopped",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 7,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2710,7 +2710,7 @@
       "input": "Should the doctor proceed with surgery?",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 7,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -2718,7 +2718,7 @@
       "input": "Did the patient consent?",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 6,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -2726,7 +2726,7 @@
       "input": "Who treated the patient?",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 7,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2734,7 +2734,7 @@
       "input": "What did the doctor prescribe?",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 8,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -2742,7 +2742,7 @@
       "input": "When will the patient recover?",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 7,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -2750,7 +2750,7 @@
       "input": "The doctor must examine all patients",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 12,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -2758,7 +2758,7 @@
       "input": "The patient should not smoke",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 9,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -2766,7 +2766,7 @@
       "input": "The family may refuse treatment",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 10,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -2774,7 +2774,7 @@
       "input": "Staff shall report incidents immediately",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -2782,7 +2782,7 @@
       "input": "The doctor ought to inform patients",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 10,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -2790,7 +2790,7 @@
       "input": "If the patient consents, proceed with surgery",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 8,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -2798,7 +2798,7 @@
       "input": "The patient will recover if treated early",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 10,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -2806,7 +2806,7 @@
       "input": "Unless the patient objects, begin treatment",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 10,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -2814,7 +2814,7 @@
       "input": "The doctor will operate provided insurance approves",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 9,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -2822,7 +2822,7 @@
       "input": "Should the patient worsen, contact ICU",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 10,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -2830,7 +2830,7 @@
       "input": "The doctor examined the patient and the nurse recorded vitals",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 15,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -2838,7 +2838,7 @@
       "input": "The patient consented but the family objected",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 13,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -2846,7 +2846,7 @@
       "input": "The treatment failed so the doctor changed medication",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 11,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -2862,7 +2862,7 @@
       "input": "The nurse arrived yet the patient had left",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 13,
+      "executionTime": 12,
       "error": null
     },
     {
@@ -2878,7 +2878,7 @@
       "input": "Before treatment, the doctor obtained consent",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -2886,7 +2886,7 @@
       "input": "While the patient slept, vitals were monitored",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 10,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -2894,7 +2894,7 @@
       "input": "Since the diagnosis, symptoms have worsened",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 9,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -2902,7 +2902,7 @@
       "input": "Until recovery, the patient must rest",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 10,
+      "executionTime": 11,
       "error": null
     },
     {
@@ -2918,7 +2918,7 @@
       "input": "What the doctor recommended was rejected",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -2926,7 +2926,7 @@
       "input": "Whether to proceed remains uncertain",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 7,
+      "executionTime": 4,
       "error": null
     },
     {
@@ -2934,7 +2934,7 @@
       "input": "To treat the patient requires consent",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -2942,7 +2942,7 @@
       "input": "Obtaining consent is required",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 7,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -2950,7 +2950,7 @@
       "input": "The patient rested and recovered",
       "passed": false,
       "diffCount": 6,
-      "executionTime": 7,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -2958,7 +2958,7 @@
       "input": "The patient may accept or refuse treatment",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 11,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -2966,7 +2966,7 @@
       "input": "The doctor examined and treated the patient",
       "passed": false,
       "diffCount": 6,
-      "executionTime": 10,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -2974,7 +2974,7 @@
       "input": "The doctor and nurse examined the patient",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 10,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -2982,7 +2982,7 @@
       "input": "The patient needs rest and medication",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 10,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -2990,7 +2990,7 @@
       "input": "Rest",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 6,
+      "executionTime": 4,
       "error": null
     },
     {
@@ -3006,7 +3006,7 @@
       "input": "The patient decided to rest",
       "passed": false,
       "diffCount": 6,
-      "executionTime": 11,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3014,7 +3014,7 @@
       "input": "The patient seems to be recovering",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 14,
+      "executionTime": 13,
       "error": null
     },
     {
@@ -3022,7 +3022,7 @@
       "input": "The patient needs to be monitored",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 16,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -3030,7 +3030,7 @@
       "input": "The doctor saw the patient with the chart",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 7,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -3038,7 +3038,7 @@
       "input": "The surgeon operated with a scalpel",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -3046,7 +3046,7 @@
       "input": "The patient with fever was admitted",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 12,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -3054,7 +3054,7 @@
       "input": "The doctor treated the patient with care in the ICU",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 9,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -3062,7 +3062,7 @@
       "input": "The patient was operated on",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3070,7 +3070,7 @@
       "input": "The last ventilator is available",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 8,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -3078,7 +3078,7 @@
       "input": "The only available bed was assigned",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3086,7 +3086,7 @@
       "input": "Few ventilators remain functional",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 10,
+      "executionTime": 4,
       "error": null
     },
     {
@@ -3094,7 +3094,7 @@
       "input": "The final dose was administered",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 10,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -3102,7 +3102,7 @@
       "input": "The remaining staff worked overtime",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 6,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -3110,7 +3110,7 @@
       "input": "The family must decide whether to continue treatment",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 10,
+      "executionTime": 14,
       "error": null
     },
     {
@@ -3118,7 +3118,7 @@
       "input": "The doctor must allocate the last ventilator between two critically ill patients",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 12,
+      "executionTime": 13,
       "error": null
     },
     {
@@ -3126,7 +3126,7 @@
       "input": "The surgeon must decide whether to disclose the error to the patient",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 11,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -3142,7 +3142,7 @@
       "input": "The psychiatrist must decide whether to commit the patient against their will",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 15,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -3150,7 +3150,7 @@
       "input": "The hospital released patient records without consent for research",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 9,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3158,7 +3158,7 @@
       "input": "The surgeon performed an additional procedure without prior consent",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3166,7 +3166,7 @@
       "input": "The doctor obtained informed consent after explaining all risks and alternatives",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 18,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -3174,7 +3174,7 @@
       "input": "The healthcare team treated the homeless patient with the same care as others",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 9,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3182,7 +3182,7 @@
       "input": "The patient chose palliative care to die with dignity at home",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 10,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -3190,7 +3190,7 @@
       "input": "The hospital prioritized patients based on medical need, not ability to pay",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 11,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -3198,7 +3198,7 @@
       "input": "The community organized to support families affected by the epidemic",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 11,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -3206,7 +3206,7 @@
       "input": "The public health mandate required vaccination to protect vulnerable populations",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 9,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -3214,7 +3214,7 @@
       "input": "The researcher fabricated data, undermining public trust in science",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 11,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -3222,7 +3222,7 @@
       "input": "The organ donor's family received priority access when they later needed a transplant",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 11,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -3230,7 +3230,7 @@
       "input": "The committee ensured representation from all affected communities in the decision",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3238,7 +3238,7 @@
       "input": "The pharmaceutical company refused to lower drug prices for the poor",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 10,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -3246,7 +3246,7 @@
       "input": "The program allocated additional resources to underserved communities",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 9,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3254,7 +3254,7 @@
       "input": "The citizens volunteered to help with the disaster relief effort",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 11,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -3262,7 +3262,7 @@
       "input": "The hospital accommodated traditional healing practices alongside modern medicine",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 7,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3270,7 +3270,7 @@
       "input": "The hospital invested in renewable energy to reduce environmental impact",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 13,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -3278,7 +3278,7 @@
       "input": "The clinic wasted single-use supplies to avoid sterilization costs",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 12,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -3286,7 +3286,7 @@
       "input": "The research preserved genetic diversity for future medical breakthroughs",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 9,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3294,7 +3294,7 @@
       "input": "The doctor prescribed antibiotics responsibly to prevent resistance",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 10,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3302,7 +3302,7 @@
       "input": "The healthcare system polluted the river with untreated medical waste",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 10,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -3310,7 +3310,7 @@
       "input": "The policy shifted healthcare costs onto future generations through debt",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 14,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -3318,7 +3318,7 @@
       "input": "The administrator managed resources prudently to ensure long-term viability",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 11,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -3326,7 +3326,7 @@
       "input": "The organization published transparent reports on resource allocation and outcomes",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 10,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3334,7 +3334,7 @@
       "input": "The foundation endowed scholarships for future healthcare workers",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 8,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -3342,7 +3342,7 @@
       "input": "The research protocol destroyed unique ecosystems to develop new drugs",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 9,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -3350,7 +3350,7 @@
       "input": "The doctor honestly informed the patient about the poor prognosis",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 10,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -3358,7 +3358,7 @@
       "input": "The pharmaceutical company concealed adverse trial results from regulators",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 9,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -3366,7 +3366,7 @@
       "input": "The laboratory implemented rigorous quality controls to ensure accuracy",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 10,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -3374,7 +3374,7 @@
       "input": "The researcher acknowledged limitations and uncertainties in the findings",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3382,7 +3382,7 @@
       "input": "The witness testified truthfully despite personal consequences",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 9,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -3390,7 +3390,7 @@
       "input": "The policy was grounded in empirical evidence and peer-reviewed research",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 10,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -3398,7 +3398,7 @@
       "input": "The website spread medical misinformation that endangered public health",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 10,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3406,7 +3406,7 @@
       "input": "The reviewer assessed the research objectively without bias or conflicts",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 9,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3414,7 +3414,7 @@
       "input": "The administrator candidly admitted the mistake and proposed corrections",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 10,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3422,7 +3422,7 @@
       "input": "The patient shared their authentic experience without embellishment",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -3430,7 +3430,7 @@
       "input": "The mentorship program fostered professional development and clinical excellence",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 7,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3438,7 +3438,7 @@
       "input": "The team pioneered innovative surgical techniques that improved outcomes",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3454,7 +3454,7 @@
       "input": "The therapist helped the patient discover their potential and purpose",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 10,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3462,7 +3462,7 @@
       "input": "The rehabilitation program transformed lives through recovery and renewal",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 9,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3470,7 +3470,7 @@
       "input": "The center pursued excellence through continuous quality improvement",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 7,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3478,7 +3478,7 @@
       "input": "The researcher developed creative solutions to complex medical challenges",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3486,7 +3486,7 @@
       "input": "The surgeon achieved mastery through decades of dedicated practice",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -3494,7 +3494,7 @@
       "input": "The patient demonstrated remarkable resilience in recovering from trauma",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 10,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3502,7 +3502,7 @@
       "input": "The elder physician shared wisdom gained from years of experience",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 9,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -3510,7 +3510,7 @@
       "input": "The patient is bleeding out and needs immediate surgery",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 10,
+      "executionTime": 14,
       "error": null
     },
     {
@@ -3518,7 +3518,7 @@
       "input": "The treatment should begin within the next few weeks for best outcomes",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 10,
+      "executionTime": 11,
       "error": null
     },
     {
@@ -3526,7 +3526,7 @@
       "input": "The preventive screening can be scheduled at the patient's convenience",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 10,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -3534,7 +3534,7 @@
       "input": "The procedure takes fifteen minutes and requires no follow-up",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 12,
+      "executionTime": 10,
       "error": null
     },
     {
@@ -3542,7 +3542,7 @@
       "input": "The chemotherapy regimen will continue for six months with weekly monitoring",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 9,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -3550,7 +3550,7 @@
       "input": "The patient will need lifelong medication and regular monitoring",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 9,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -3558,7 +3558,7 @@
       "input": "The medication can be stopped at any time without lasting effects",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 10,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -3566,7 +3566,7 @@
       "input": "The surgery can be undone, but reversal carries significant risks",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 13,
+      "executionTime": 14,
       "error": null
     },
     {
@@ -3574,7 +3574,7 @@
       "input": "The organ removal is permanent and cannot be undone",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 12,
+      "executionTime": 10,
       "error": null
     },
     {
@@ -3582,7 +3582,7 @@
       "input": "The spouse must decide whether to discontinue their partner's life support",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 10,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -3590,7 +3590,7 @@
       "input": "The primary care physician recommends lifestyle changes to the regular patient",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 9,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -3598,7 +3598,7 @@
       "input": "The emergency room doctor treats an unconscious stranger",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 9,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3614,7 +3614,7 @@
       "input": "The supervisor suggests that the junior doctor work overtime",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3622,7 +3622,7 @@
       "input": "The patient and doctor collaboratively develop the treatment plan",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 9,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -3630,7 +3630,7 @@
       "input": "The longtime family physician reassures the anxious patient about the diagnosis",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3638,7 +3638,7 @@
       "input": "The specialist provides a second opinion to a referred patient",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 10,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -3646,7 +3646,7 @@
       "input": "The patient doubts the doctor's recommendation after reading online misinformation",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 13,
+      "executionTime": 10,
       "error": null
     },
     {
@@ -3654,7 +3654,7 @@
       "input": "The experimental drug could cause death or permanent disability",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 10,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -3662,7 +3662,7 @@
       "input": "The surgery carries a 20% risk of chronic pain",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 9,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3670,7 +3670,7 @@
       "input": "The vaccine may cause mild temporary discomfort at the injection site",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 10,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3678,7 +3678,7 @@
       "input": "The treatment will cure the disease and prevent all future complications",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 10,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -3686,7 +3686,7 @@
       "input": "The therapy will reduce symptoms but not cure the condition",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 10,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -3694,7 +3694,7 @@
       "input": "The supplement may provide slight improvements but evidence is weak",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 11,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -3702,7 +3702,7 @@
       "input": "The public health policy will affect millions of citizens nationwide",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 13,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -3710,7 +3710,7 @@
       "input": "The hospital policy change will affect all patients and staff at the facility",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 14,
+      "executionTime": 12,
       "error": null
     },
     {
@@ -3718,7 +3718,7 @@
       "input": "The personalized treatment plan is tailored for this specific patient",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 12,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -3726,7 +3726,7 @@
       "input": "The diagnosis is confirmed by definitive laboratory tests and imaging",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 11,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -3734,7 +3734,7 @@
       "input": "The symptoms suggest several possible diagnoses that require further testing",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 10,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -3742,7 +3742,7 @@
       "input": "The patient presents with atypical symptoms that puzzle the medical team",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 9,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -3750,7 +3750,7 @@
       "input": "The patient's complete medical history and all test results are available",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 11,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -3758,7 +3758,7 @@
       "input": "The patient remembers some medical history but records were lost",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 9,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -3766,7 +3766,7 @@
       "input": "The unconscious patient has no identification or medical history",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 7,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -3774,7 +3774,7 @@
       "input": "The world-renowned specialist team collaborates on the rare case",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 9,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -3782,7 +3782,7 @@
       "input": "The experienced general practitioner manages the routine case",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 7,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -3790,7 +3790,7 @@
       "input": "The medical student provides first aid while waiting for the physician",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 9,
+      "executionTime": 10,
       "error": null
     },
     {
@@ -3798,7 +3798,7 @@
       "input": "The surgeon performed the operation",
       "passed": true,
       "diffCount": 0,
-      "executionTime": 6,
+      "executionTime": 10,
       "error": null,
       "validationSummary": {
         "expectedCount": 2,
@@ -3811,7 +3811,7 @@
       "input": "The hospital implemented new safety protocols",
       "passed": true,
       "diffCount": 0,
-      "executionTime": 7,
+      "executionTime": 6,
       "error": null,
       "validationSummary": {
         "expectedCount": 2,
@@ -3854,7 +3854,7 @@
       "input": "Inform the patient about the risks",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 7,
+      "executionTime": 8,
       "error": null,
       "diffs": [
         {
@@ -3889,7 +3889,7 @@
       "input": "The medication caused adverse reactions",
       "passed": true,
       "diffCount": 0,
-      "executionTime": 6,
+      "executionTime": 4,
       "error": null,
       "validationSummary": {
         "expectedCount": 2,
@@ -3902,7 +3902,7 @@
       "input": "The patient was treated with chemotherapy",
       "passed": true,
       "diffCount": 0,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null,
       "validationSummary": {
         "expectedCount": 3,
@@ -3915,7 +3915,7 @@
       "input": "The patient chose to discontinue treatment",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null,
       "diffs": [
         {
@@ -3945,7 +3945,7 @@
       "input": "The family experienced profound grief",
       "passed": false,
       "diffCount": 2,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null,
       "diffs": [
         {
@@ -3970,7 +3970,7 @@
       "input": "The doctor examined the patient",
       "passed": true,
       "diffCount": 0,
-      "executionTime": 6,
+      "executionTime": 5,
       "error": null,
       "validationSummary": {
         "expectedCount": 2,
@@ -3983,7 +3983,7 @@
       "input": "The tumor shrank after radiation",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 9,
+      "executionTime": 5,
       "error": null,
       "diffs": [
         {
@@ -4018,7 +4018,7 @@
       "input": "The child was vaccinated",
       "passed": true,
       "diffCount": 0,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null,
       "validationSummary": {
         "expectedCount": 2,
@@ -4031,7 +4031,7 @@
       "input": "The surgeon repaired the damaged tissue",
       "passed": false,
       "diffCount": 2,
-      "executionTime": 6,
+      "executionTime": 5,
       "error": null,
       "diffs": [
         {
@@ -4056,7 +4056,7 @@
       "input": "The treatment benefited the patient significantly",
       "passed": true,
       "diffCount": 0,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null,
       "validationSummary": {
         "expectedCount": 2,
@@ -4069,7 +4069,7 @@
       "input": "The diagnosis shocked the family",
       "passed": false,
       "diffCount": 2,
-      "executionTime": 6,
+      "executionTime": 4,
       "error": null,
       "diffs": [
         {
@@ -4094,7 +4094,7 @@
       "input": "The hospital charged the patient excessive fees",
       "passed": false,
       "diffCount": 1,
-      "executionTime": 9,
+      "executionTime": 8,
       "error": null,
       "diffs": [
         {
@@ -4114,7 +4114,7 @@
       "input": "The patient injured themselves",
       "passed": true,
       "diffCount": 0,
-      "executionTime": 6,
+      "executionTime": 5,
       "error": null,
       "validationSummary": {
         "expectedCount": 2,
@@ -4127,7 +4127,7 @@
       "input": "The nurse gave the patient medication",
       "passed": true,
       "diffCount": 0,
-      "executionTime": 7,
+      "executionTime": 8,
       "error": null,
       "validationSummary": {
         "expectedCount": 3,
@@ -4140,7 +4140,7 @@
       "input": "The surgeon operated on the patient",
       "passed": true,
       "diffCount": 0,
-      "executionTime": 7,
+      "executionTime": 5,
       "error": null,
       "validationSummary": {
         "expectedCount": 2,
@@ -4153,7 +4153,7 @@
       "input": "The doctor explained the diagnosis to the patient",
       "passed": true,
       "diffCount": 0,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null,
       "validationSummary": {
         "expectedCount": 3,
@@ -4186,7 +4186,7 @@
       "input": "The news brought hope to the family",
       "passed": true,
       "diffCount": 0,
-      "executionTime": 7,
+      "executionTime": 5,
       "error": null,
       "validationSummary": {
         "expectedCount": 3,
@@ -4199,7 +4199,7 @@
       "input": "The ambulance transported the patient to the hospital",
       "passed": true,
       "diffCount": 0,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null,
       "validationSummary": {
         "expectedCount": 3,
@@ -4212,7 +4212,7 @@
       "input": "The error caused harm to the patient",
       "passed": true,
       "diffCount": 0,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null,
       "validationSummary": {
         "expectedCount": 3,
@@ -4225,7 +4225,7 @@
       "input": "The doctor prescribed antibiotics",
       "passed": true,
       "diffCount": 0,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null,
       "validationSummary": {
         "expectedCount": 2,
@@ -4238,7 +4238,7 @@
       "input": "The committee decided that treatment should continue",
       "passed": false,
       "diffCount": 2,
-      "executionTime": 9,
+      "executionTime": 7,
       "error": null,
       "diffs": [
         {
@@ -4263,7 +4263,7 @@
       "input": "The patient recovered",
       "passed": false,
       "diffCount": 2,
-      "executionTime": 6,
+      "executionTime": 4,
       "error": null,
       "diffs": [
         {
@@ -4301,7 +4301,7 @@
       "input": "The pharmacy delivered the prescription to the patient",
       "passed": false,
       "diffCount": 2,
-      "executionTime": 7,
+      "executionTime": 5,
       "error": null,
       "diffs": [
         {
@@ -4326,7 +4326,7 @@
       "input": "The team developed a new treatment protocol",
       "passed": true,
       "diffCount": 0,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null,
       "validationSummary": {
         "expectedCount": 2,
@@ -4339,7 +4339,7 @@
       "input": "The doctor discussed the treatment options",
       "passed": true,
       "diffCount": 0,
-      "executionTime": 7,
+      "executionTime": 4,
       "error": null,
       "validationSummary": {
         "expectedCount": 2,
@@ -4360,7 +4360,7 @@
       "input": "The treatment was effective but the side effects were severe",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 11,
+      "executionTime": 14,
       "error": null
     },
     {
@@ -4368,7 +4368,7 @@
       "input": "The patient recovered after the surgery was completed",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 15,
+      "executionTime": 10,
       "error": null
     },
     {
@@ -4376,7 +4376,7 @@
       "input": "The doctor who performed the surgery recommended rest",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 9,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -4392,7 +4392,7 @@
       "input": "Should the doctor proceed with the treatment?",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 10,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -4400,7 +4400,7 @@
       "input": "Stop the treatment immediately",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -4408,7 +4408,7 @@
       "input": "That the patient survived is remarkable",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 7,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -4416,7 +4416,7 @@
       "input": "The doctor said that the patient should rest",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 15,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -4424,7 +4424,7 @@
       "input": "The patient might have to undergo surgery",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 31,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -4432,7 +4432,7 @@
       "input": "Nobody said nothing about the treatment",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -4440,7 +4440,7 @@
       "input": "The doctor examined and treated the patient",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 7,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -4448,7 +4448,7 @@
       "input": "Which patient did the doctor say needs treatment?",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 7,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -4456,7 +4456,7 @@
       "input": "The doctor from the hospital in the city treated the patient",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 13,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -4480,7 +4480,7 @@
       "input": "The doctor prescribed for three weeks",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 6,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -4504,7 +4504,7 @@
       "input": "The doctor went the extra mile for the patient",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 5,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -4512,7 +4512,7 @@
       "input": "The doctor convinced the patient to undergo the surgery for their health",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 10,
       "error": null
     },
     {
@@ -4520,7 +4520,7 @@
       "input": "The treatment made the patient weak and dizzy",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 4,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -4528,7 +4528,7 @@
       "input": "The patient seems to be recovering from the surgery",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 7,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -4536,7 +4536,7 @@
       "input": "This patient is difficult to treat effectively",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 9,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -4544,7 +4544,7 @@
       "input": "It is important for the patient to rest adequately",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -4560,7 +4560,7 @@
       "input": "The nurse explained to the family the treatment options",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 4,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -4568,7 +4568,7 @@
       "input": "The doctor prescribed yesterday a medication that reduces inflammation",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 6,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -4576,7 +4576,7 @@
       "input": "In the emergency room was a critically ill patient",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 5,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -4584,7 +4584,7 @@
       "input": "The doctor treated the patient with medication for the infection in the hospital",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 7,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -4592,7 +4592,7 @@
       "input": "The patient hospitalized after the accident",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 4,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -4600,7 +4600,7 @@
       "input": "The patient took a turn for the worse",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 5,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -4608,7 +4608,7 @@
       "input": "The treatment proved effective in reducing symptoms",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 6,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -4616,7 +4616,7 @@
       "input": "The medication increased the patient's heart rate",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 4,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -4632,7 +4632,7 @@
       "input": "Well, the patient seems to be recovering nicely",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 10,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -4640,7 +4640,7 @@
       "input": "The doctor prescribed what the patient needed",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -4648,7 +4648,7 @@
       "input": "The doctor examined the patient and the nurse the visitor",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 6,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -4672,7 +4672,7 @@
       "input": "The hospital swallowed the patient's complaint",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 4,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -4688,7 +4688,7 @@
       "input": "Every doctor must examine every patient with every instrument in every room",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 11,
+      "executionTime": 14,
       "error": null
     },
     {
@@ -4696,7 +4696,7 @@
       "input": "The patient's condition is stable",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 6,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -4704,7 +4704,7 @@
       "input": "The oncologist recommended immunotherapy",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 4,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -4712,7 +4712,7 @@
       "input": "The hospital admitted 50 patients",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 4,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -4736,7 +4736,7 @@
       "input": "The doctors gathered in the conference room",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 4,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -4752,7 +4752,7 @@
       "input": "The former doctor visited the hospital",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 4,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -4768,7 +4768,7 @@
       "input": "Doctors treat patients",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 5,
+      "executionTime": 4,
       "error": null
     },
     {
@@ -4776,7 +4776,7 @@
       "input": "The patient stopped taking medication",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 4,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -4784,7 +4784,7 @@
       "input": "Some of the patients recovered",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 4,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -4792,7 +4792,7 @@
       "input": "Only the doctor examined the patient",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 5,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -4800,7 +4800,7 @@
       "input": "The patient enjoyed the treatment",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 4,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -4808,7 +4808,7 @@
       "input": "The staff treated the patient professionally",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 4,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -4816,7 +4816,7 @@
       "input": "The patient's treatment was successful",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 5,
+      "executionTime": 4,
       "error": null
     },
     {
@@ -4824,7 +4824,7 @@
       "input": "The patient safety committee met yesterday",
       "passed": false,
       "diffCount": 5,
-      "executionTime": 4,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -4832,7 +4832,7 @@
       "input": "<EMPTY_STRING>",
       "passed": false,
       "diffCount": 4,
-      "executionTime": 3,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -4840,7 +4840,7 @@
       "input": "   \t\n  ",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 4,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -4872,7 +4872,7 @@
       "input": "The doctor examined the patient who was admitted to the hospital that was located in the city that was known for the medical center that was famous for the treatment that was recommended by the specialist who was trained at the university that was recognized for the program that was established by the foundation that was created by the benefactor who was honored for the contribution that was made to the field that was transformed by the research that was conducted in the laboratory that was funded by the grant that was awarded to the scientist who was acknowledged for the discovery that was published in the journal that was read by the community that was interested in the topic that was discussed at the conference",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 63,
+      "executionTime": 81,
       "error": null
     },
     {
@@ -4880,7 +4880,7 @@
       "input": "The patient took medication and medication and medication and medication and medication and medication and medication and medication and medication and medication",
       "passed": false,
       "diffCount": 2,
-      "executionTime": 6,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -4888,7 +4888,7 @@
       "input": "The very sick, extremely weak, severely dehydrated, critically ill, highly vulnerable, deeply concerned, thoroughly examined, carefully monitored, intensively treated patient recovered",
       "passed": false,
       "diffCount": 2,
-      "executionTime": 14,
+      "executionTime": 17,
       "error": null
     },
     {
@@ -4896,7 +4896,7 @@
       "input": "The head of the department of internal medicine at the university hospital medical center's division of cardiology's chief of staff examined the patient",
       "passed": false,
       "diffCount": 2,
-      "executionTime": 9,
+      "executionTime": 14,
       "error": null
     },
     {
@@ -4904,7 +4904,7 @@
       "input": "The doctor said that the nurse reported that the patient claimed that the family believed that the specialist recommended that surgery was necessary",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 11,
+      "executionTime": 16,
       "error": null
     },
     {
@@ -4912,7 +4912,7 @@
       "input": "The patient's café au lait spots suggested neurofibromatosis",
       "passed": false,
       "diffCount": 2,
-      "executionTime": 6,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -4920,7 +4920,7 @@
       "input": "The patient 😊 is feeling better 👍",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 9,
+      "executionTime": 10,
       "error": null
     },
     {
@@ -4928,7 +4928,7 @@
       "input": "The patient's condition—which was critical—improved (miraculously!)",
       "passed": false,
       "diffCount": 2,
-      "executionTime": 11,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -4936,7 +4936,7 @@
       "input": "The patient&apos;s temperature was &gt; 103&deg;F",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 8,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -4944,7 +4944,7 @@
       "input": "The treatment cost $50,000 or €45,000",
       "passed": false,
       "diffCount": 2,
-      "executionTime": 6,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -4976,7 +4976,7 @@
       "input": "Patient doctor hospital medicine treatment recovery examination",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 4,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -4984,7 +4984,7 @@
       "input": "The doctor examined the patient and then",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 6,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -4992,7 +4992,7 @@
       "input": "The physician testified that the defendant's treatment violated the standard of care",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 7,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -5000,7 +5000,7 @@
       "input": "The hospital CEO negotiated the contract for medical equipment",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 7,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -5016,7 +5016,7 @@
       "input": "The doc said the patient's gonna be okay if they chill out and take their meds",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 14,
+      "executionTime": 13,
       "error": null
     },
     {
@@ -5032,7 +5032,7 @@
       "input": "The xenomorph patient required special treatment protocols",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 5,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -5048,7 +5048,7 @@
       "input": "The cyber-physician performed tele-surgery using nano-robots",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 7,
+      "executionTime": 8,
       "error": null
     },
     {
@@ -5056,7 +5056,7 @@
       "input": "The patient was diagnosed with COVID-19",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 5,
+      "executionTime": 9,
       "error": null
     },
     {
@@ -5072,7 +5072,7 @@
       "input": "50 patients were treated",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 6,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -5080,7 +5080,7 @@
       "input": "75% of patients survived",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 5,
+      "executionTime": 4,
       "error": null
     },
     {
@@ -5088,7 +5088,7 @@
       "input": "The patient's temperature was 98.6 degrees",
       "passed": false,
       "diffCount": 2,
-      "executionTime": 6,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -5104,7 +5104,7 @@
       "input": "The patient's blood pressure was 120-130 over 80-90",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 9,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -5112,7 +5112,7 @@
       "input": "The patient said \"I consent to the treatment\"",
       "passed": false,
       "diffCount": 2,
-      "executionTime": 7,
+      "executionTime": 6,
       "error": null
     },
     {
@@ -5128,7 +5128,7 @@
       "input": "The patient said \"I don't consent",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 9,
+      "executionTime": 7,
       "error": null
     },
     {
@@ -5136,7 +5136,7 @@
       "input": "The patient's \"recovery\" was actually a relapse",
       "passed": false,
       "diffCount": 3,
-      "executionTime": 7,
+      "executionTime": 5,
       "error": null
     },
     {
@@ -5144,7 +5144,7 @@
       "input": "The doctor said \"Prepare the patient\" and the nurse replied \"Right away\"",
       "passed": false,
       "diffCount": 2,
-      "executionTime": 9,
+      "executionTime": 11,
       "error": null
     }
   ]
