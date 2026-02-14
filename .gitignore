@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+
+# Build output (dist is committed for browser usage, but ignore temp files)
+*.tgz
+
+# Test results (regenerated on each run)
+tests/golden/results/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/settings.json
+
+# Claude Code local settings
+.claude/settings.local.json.bak
