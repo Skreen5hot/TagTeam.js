@@ -198,16 +198,21 @@ jobs:
           # Copy README
           cp demos/gh-pages-README.md gh-pages/README.md
 
-      - name: Inject base tag
+      - name: Inject base tag and dev theme
         run: |
           BRANCH_NAME="${GITHUB_REF#refs/heads/}"
           if [ "$BRANCH_NAME" = "dev" ]; then
             BASE_HREF="/TagTeam.js/dev/"
+            # Dark theme for dev: black background, light text, orange accent
+            DEV_STYLE='<style id="dev-theme">:root{--dev-bg:#111;--dev-fg:#e0e0e0;--dev-accent:#ff9800}body{background:var(--dev-bg)!important;color:var(--dev-fg)!important}.container,div[class]{background:var(--dev-bg)!important;color:var(--dev-fg)!important;border-color:#333!important}a{color:var(--dev-accent)!important}pre,code,textarea{background:#1a1a1a!important;color:#ccc!important;border-color:#333!important}h1,h2,h3{color:var(--dev-fg)!important}button{filter:brightness(0.85)}h1::after{content:" [DEV]";color:var(--dev-accent);font-size:0.6em}</style>'
+            INJECT="<base href=\"${BASE_HREF}\">${DEV_STYLE}"
           else
             BASE_HREF="/TagTeam.js/"
+            INJECT="<base href=\"${BASE_HREF}\">"
           fi
-          find gh-pages -name '*.html' -exec sed -i "s|<head>|<head><base href=\"${BASE_HREF}\">|" {} \;
-          echo "Injected <base href=\"${BASE_HREF}\"> into all HTML files"
+          find gh-pages -name '*.html' -exec sed -i "s|<head>|<head>${INJECT}|" {} \;
+          echo "Injected base href=${BASE_HREF} into all HTML files"
+          [ "$BRANCH_NAME" = "dev" ] && echo "Applied dark dev theme" || true
 
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
