@@ -123,6 +123,11 @@ const combinedValidationReportPath = path.join(__dirname, '..', 'src', 'graph', 
 // v2 Phase 1: Clause segmenter
 const clauseSegmenterPath = path.join(__dirname, '..', 'src', 'graph', 'ClauseSegmenter.js');
 
+// v2 Phase 2: Dependency parser
+const dependencyParserPath = path.join(__dirname, '..', 'src', 'core', 'DependencyParser.js');
+const depTreePath = path.join(__dirname, '..', 'src', 'core', 'DepTree.js');
+const binaryModelLoaderPath = path.join(__dirname, '..', 'src', 'core', 'BinaryModelLoader.js');
+
 // Security modules
 const inputValidatorPath = path.join(__dirname, '..', 'src', 'security', 'input-validator.js');
 const ontologyIntegrityPath = path.join(__dirname, '..', 'src', 'security', 'ontology-integrity.js');
@@ -219,6 +224,11 @@ let combinedValidationReport = fs.readFileSync(combinedValidationReportPath, 'ut
 
 // v2 Phase 1: Clause segmenter
 let clauseSegmenter = fs.readFileSync(clauseSegmenterPath, 'utf8');
+
+// v2 Phase 2: Dependency parser
+let dependencyParser = fs.readFileSync(dependencyParserPath, 'utf8');
+let depTree = fs.readFileSync(depTreePath, 'utf8');
+let binaryModelLoader = fs.readFileSync(binaryModelLoaderPath, 'utf8');
 
 // Security modules
 let inputValidator = fs.readFileSync(inputValidatorPath, 'utf8');
@@ -522,12 +532,21 @@ console.log('  ✓ Converted OntologyTextTagger to browser format');
 clauseSegmenter = stripCommonJS(clauseSegmenter, 'ClauseSegmenter');
 console.log('  ✓ Converted ClauseSegmenter to browser format');
 
+dependencyParser = stripCommonJS(dependencyParser, 'DependencyParser');
+console.log('  ✓ Converted DependencyParser to browser format');
+
+depTree = stripCommonJS(depTree, 'DepTree');
+console.log('  ✓ Converted DepTree to browser format');
+
+binaryModelLoader = stripCommonJS(binaryModelLoader, 'BinaryModelLoader');
+console.log('  ✓ Converted BinaryModelLoader to browser format');
+
 // Build the bundle
 console.log('\n🔧 Building bundle...');
 
 const bundle = `/*!
  * TagTeam.js - Two-Tier Semantic Graph Architecture for Ethical Context Analysis
- * Version: 6.6 (Phase 6.6: OntologyTextTagger)
+ * Version: 7.0 (v2 Phase 2: Dependency Parser)
  * Date: ${new Date().toISOString().split('T')[0]}
  *
  * A client-side JavaScript library for extracting semantic roles from natural language text
@@ -990,6 +1009,16 @@ ${ontologyTextTagger}
 ${clauseSegmenter}
 
   // ============================================================================
+  // v2 DEPENDENCY PARSER (Phase 2)
+  // ============================================================================
+
+${dependencyParser}
+
+${depTree}
+
+${binaryModelLoader}
+
+  // ============================================================================
   // SEMANTIC GRAPH BUILDER (Phase 4 - Week 1 + Week 2 + Phase 6)
   // ============================================================================
 
@@ -1205,6 +1234,11 @@ ${semanticGraphBuilder}
 
     // v2 Phase 1: Clause segmenter
     ClauseSegmenter: ClauseSegmenter,
+
+    // v2 Phase 2: Dependency parser
+    DependencyParser: DependencyParser,
+    DepTree: DepTree,
+    BinaryModelLoader: BinaryModelLoader,
 
     // Security modules
     validateInput: validateInput,

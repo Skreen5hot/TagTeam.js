@@ -35,7 +35,8 @@
     "validate:schema": "node tests/golden/run-golden-tests.js --dry-run",
     "test:phase0": "node tests/unit/phase0/label-convention.test.js && node tests/unit/phase0/unicode-normalizer.test.js && node tests/unit/phase0/role-mapping-contract.test.js",
     "test:phase1": "node tests/unit/phase1/tokenizer-alignment.test.js && node tests/unit/phase1/perceptron-tagger.test.js && node tests/unit/phase1/gazetteer-ner.test.js",
-    "test:ci": "npm run test:phase0 && npm run test:phase1 && npm run test:component"
+    "test:phase2": "node tests/unit/phase2/dep-parser.test.js",
+    "test:ci": "npm run test:phase0 && npm run test:phase1 && npm run test:phase2 && npm run test:component"
   },
   "keywords": [
     "nlp",

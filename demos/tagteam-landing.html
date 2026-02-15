@@ -694,6 +694,10 @@
                     <span class="stat-number">BFO/CCO</span>
                     <span class="stat-label">Ontology Aligned</span>
                 </div>
+                <div class="stat">
+                    <span class="stat-number">85% UAS</span>
+                    <span class="stat-label">Dependency Parser</span>
+                </div>
             </div>
             <div class="hero-links">
                 <a href="https://github.com/Skreen5hot/TagTeam.js" target="_blank" rel="noopener">GitHub</a>
@@ -835,32 +839,87 @@
             <!-- ════════════════════════════════════════ -->
             <section class="section">
                 <h2>How It Works</h2>
-                <p>A deterministic 4-step pipeline &mdash; no neural networks, no API calls, fully reproducible results:</p>
+                <p>A deterministic 5-step pipeline &mdash; no neural networks, no API calls, fully reproducible results:</p>
                 <div class="pipeline">
                     <div class="pipeline-step">
                         <div class="step-num">1</div>
-                        <h4>Parse Text</h4>
-                        <p>Compromise NLP + jsPOS tagging</p>
+                        <h4>Tokenize &amp; Tag</h4>
+                        <p>POS tagging + NER gazetteer</p>
                     </div>
                     <div class="pipeline-arrow">&#x2192;</div>
                     <div class="pipeline-step">
                         <div class="step-num">2</div>
+                        <h4>Dep Parse</h4>
+                        <p>Arc-eager transition parser (85% UAS)</p>
+                    </div>
+                    <div class="pipeline-arrow">&#x2192;</div>
+                    <div class="pipeline-step">
+                        <div class="step-num">3</div>
                         <h4>Extract Entities</h4>
                         <p>NPChunker with Penn Treebank tags</p>
                     </div>
                     <div class="pipeline-arrow">&#x2192;</div>
                     <div class="pipeline-step">
-                        <div class="step-num">3</div>
+                        <div class="step-num">4</div>
                         <h4>Assign Roles</h4>
                         <p>VerbNet semantic role mapping</p>
                     </div>
                     <div class="pipeline-arrow">&#x2192;</div>
                     <div class="pipeline-step">
-                        <div class="step-num">4</div>
+                        <div class="step-num">5</div>
                         <h4>Build Graph</h4>
                         <p>BFO/CCO-aligned JSON-LD output</p>
                     </div>
                 </div>
+            </section>
+
+            <!-- ════════════════════════════════════════ -->
+            <!-- Section 3b: Development Progress          -->
+            <!-- ════════════════════════════════════════ -->
+            <section class="section">
+                <h2>Development Progress</h2>
+                <p>NLP pipeline phases with test coverage:</p>
+                <table class="bundle-table" style="margin-top: 12px;">
+                    <thead>
+                        <tr>
+                            <th>Phase</th>
+                            <th>Component</th>
+                            <th>Tests</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Phase 0</strong></td>
+                            <td>Label conventions, unicode normalization, role mapping</td>
+                            <td>135 / 135</td>
+                            <td><span style="background: #d1fae5; color: #065f46; padding: 2px 10px; border-radius: 10px; font-size: 0.85em; font-weight: 600;">100%</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase 1</strong></td>
+                            <td>Averaged perceptron POS tagger, gazetteer NER</td>
+                            <td>87 / 88</td>
+                            <td><span style="background: #d1fae5; color: #065f46; padding: 2px 10px; border-radius: 10px; font-size: 0.85em; font-weight: 600;">99%</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase 2</strong></td>
+                            <td>Arc-eager dependency parser (UD-EWT, 85% UAS, 1.6 MB)</td>
+                            <td>65 / 69</td>
+                            <td><span style="background: #dbeafe; color: #1e40af; padding: 2px 10px; border-radius: 10px; font-size: 0.85em; font-weight: 600;">94%</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Component</strong></td>
+                            <td>Entity extraction, role assignment, graph building</td>
+                            <td>89 / 100</td>
+                            <td><span style="background: #dbeafe; color: #1e40af; padding: 2px 10px; border-radius: 10px; font-size: 0.85em; font-weight: 600;">89%</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="margin-top: 10px; color: #6b7280; font-size: 0.85em;">
+                    Phase 2 dependency parser: Averaged perceptron with dynamic oracle (Goldberg &amp; Nivre 2012),
+                    trained on UD_English-EWT v2.14 (12,544 sentences). FNV-1a feature hashing compresses
+                    741K features to 1.6 MB binary model for browser deployment.
+                </p>
             </section>
 
             <!-- ════════════════════════════════════════ -->
