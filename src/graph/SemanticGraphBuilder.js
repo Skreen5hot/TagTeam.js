@@ -125,6 +125,9 @@ const _DepTree = (typeof DepTree !== 'undefined') ? DepTree : (() => {
 const _GazetteerNER = (typeof GazetteerNER !== 'undefined') ? GazetteerNER : (() => {
   try { return require('./GazetteerNER'); } catch (e) { return null; }
 })();
+const _ConfidenceAnnotator = (typeof ConfidenceAnnotator !== 'undefined') ? ConfidenceAnnotator : (() => {
+  try { return require('./ConfidenceAnnotator'); } catch (e) { return null; }
+})();
 
 /**
  * Main class for building semantic graphs in JSON-LD format
@@ -1752,6 +1755,7 @@ class SemanticGraphBuilder {
    */
   _buildWithTreeExtractors(text, buildOptions) {
     const stages = {};
+    let autoLoaded = false;
 
     try {
       // Stage 1: Unicode normalization
@@ -1785,7 +1789,9 @@ class SemanticGraphBuilder {
         if (typeof require === 'undefined') {
           throw new Error('POS model not pre-loaded. Call loadTreeModels(posJSON, depJSON) before buildTreeGraph() in browser.');
         }
-        // Try default model path
+        // Auto-load from default path (AC-3.20)
+        autoLoaded = true;
+        console.warn('[TagTeam] Auto-loading POS model from default path. For better performance, pre-load models with loadModels() or loadTreeModels().');
         const fs = require('fs');
         const path = require('path');
         const defaultPath = path.join(__dirname, '../data/pos-weights-pruned.json');
@@ -1812,6 +1818,11 @@ class SemanticGraphBuilder {
         if (typeof require === 'undefined') {
           throw new Error('Dep model not pre-loaded. Call loadTreeModels(posJSON, depJSON) before buildTreeGraph() in browser.');
         }
+        // Auto-load from default path (AC-3.20 / AC-3.21)
+        if (!autoLoaded) {
+          autoLoaded = true;
+          console.warn('[TagTeam] Auto-loading dep model from default path. For better performance, pre-load models with loadModels() or loadTreeModels().');
+        }
         const fs = require('fs');
         const path = require('path');
         const defaultPath = path.join(__dirname, '../../training/models/dep-weights-pruned.json');
@@ -1822,7 +1833,29 @@ class SemanticGraphBuilder {
       const parseResult = depParser.parse(tokens, tags);
       const depTree = new _DepTree(parseResult.arcs, tokens, tags);
 
-      // Stage 4.5: Gazetteer initialization (lazy-load, cached like POS tagger/dep parser)
+      // Stage 4.5: Calibration table loading (lazy-load, cached)
+      if (!this._calibration && typeof require !== 'undefined') {
+        try {
+          const fs = require('fs');
+          const calPath = require('path');
+          const defaultCalPath = calPath.join(__dirname, '../../training/models/dep-calibration.json');
+          if (fs.existsSync(defaultCalPath)) {
+            this._calibration = JSON.parse(fs.readFileSync(defaultCalPath, 'utf8'));
+          }
+        } catch (e) {
+          // Calibration loading is non-blocking
+        }
+      }
+
+      // Stage 4.6: Confidence annotation (AC-3.14 through AC-3.17)
+      let annotatedArcs = parseResult.arcs;
+      let confidenceAnnotator = null;
+      if (_ConfidenceAnnotator) {
+        confidenceAnnotator = new _ConfidenceAnnotator(this._calibration || null);
+        annotatedArcs = confidenceAnnotator.annotateArcs(parseResult.arcs);
+      }
+
+      // Stage 4.7: Gazetteer initialization (lazy-load, cached like POS tagger/dep parser)
       if (!this._treeGazetteerNER && _GazetteerNER) {
         if (typeof require !== 'undefined') {
           try {
@@ -1861,6 +1894,31 @@ class SemanticGraphBuilder {
       const roleMapper = new _TreeRoleMapper();
       const roles = roleMapper.map(entities, acts, depTree);
 
+      // Stage 8: Assign mention IDs (AC-3.22)
+      // Format: "s{sentenceIdx}:h{headId}:{charStart}-{charEnd}"
+      const sentenceIdx = 0; // Single-sentence pipeline for now
+      for (const entity of entities) {
+        const headId = entity.headId || 0;
+        // Compute character offsets from token positions
+        let charStart = 0;
+        let charEnd = 0;
+        if (entity.indices && entity.indices.length > 0) {
+          // Token indices are 1-based; compute char offsets from token positions in text
+          const minIdx = Math.min(...entity.indices);
+          const maxIdx = Math.max(...entity.indices);
+          // Approximate char offsets from token positions
+          charStart = 0;
+          for (let i = 0; i < minIdx - 1 && i < tokens.length; i++) {
+            charStart += tokens[i].length + 1; // +1 for space
+          }
+          charEnd = charStart;
+          for (let i = minIdx - 1; i <= maxIdx - 1 && i < tokens.length; i++) {
+            charEnd += tokens[i].length + (i < maxIdx - 1 ? 1 : 0);
+          }
+        }
+        entity.mentionId = `s${sentenceIdx}:h${headId}:${charStart}-${charEnd}`;
+      }
+
       // Build JSON-LD graph from extracted data
       stages.current = 'buildGraph';
       const graphNodes = [];
@@ -1877,6 +1935,16 @@ class SemanticGraphBuilder {
         }
         if (entity.resolvedVia) {
           entityNode['tagteam:resolvedVia'] = entity.resolvedVia;
+        }
+        // Mention ID (AC-3.22)
+        if (entity.mentionId) {
+          entityNode['tagteam:mentionId'] = entity.mentionId;
+        }
+        // Confidence annotations (AC-3.16)
+        if (confidenceAnnotator) {
+          const conf = confidenceAnnotator.entityConfidence(entity, annotatedArcs);
+          entityNode['tagteam:parseConfidence'] = conf.confidence;
+          entityNode['tagteam:parseProbability'] = conf.probability;
         }
         graphNodes.push(entityNode);
       }
@@ -1920,19 +1988,25 @@ class SemanticGraphBuilder {
           'rdfs:label': `${role.entity} as ${role.role.split(':')[1]}`,
         };
         if (role.preposition) roleNode['tagteam:preposition'] = role.preposition;
+        // Confidence annotations on roles (AC-3.16)
+        if (confidenceAnnotator) {
+          const conf = confidenceAnnotator.roleConfidence(role, annotatedArcs);
+          roleNode['tagteam:parseConfidence'] = conf.confidence;
+          roleNode['tagteam:parseProbability'] = conf.probability;
+        }
         graphNodes.push(roleNode);
       }
 
-      return {
+      const result = {
         '@graph': graphNodes,
         _metadata: {
           pipeline: 'tree-based',
-          version: '3.0.0-alpha.1',
+          version: '3.1.0-alpha.1',
           inputText: text,
           buildTimestamp: this.buildTimestamp,
           tokens,
           tags,
-          arcs: parseResult.arcs,
+          arcs: annotatedArcs,
           entities: entities.length,
           acts: acts.length,
           structuralAssertions: structuralAssertions.length,
@@ -1940,8 +2014,48 @@ class SemanticGraphBuilder {
         }
       };
 
+      // Debug output (AC-3.18): only when verbose: true
+      if (buildOptions.verbose) {
+        // Gazetteer match tracking
+        const gazMatched = [];
+        const gazUnmatched = [];
+        if (this._treeGazetteerNER) {
+          for (const entity of entities) {
+            if (entity.resolvedVia === 'alias' || entity.gazetteerMatch) {
+              gazMatched.push(entity.fullText);
+            } else {
+              gazUnmatched.push(entity.fullText);
+            }
+          }
+        }
+
+        result._debug = {
+          dependencyTree: annotatedArcs.map((arc, idx) => ({
+            id: arc.dependent,
+            word: tokens[arc.dependent - 1] || '',
+            tag: tags[arc.dependent - 1] || '',
+            head: arc.head,
+            deprel: arc.label,
+            margin: arc.scoreMargin || arc.parseMargin || 0,
+          })),
+          tokens: tokens.map((t, i) => ({ text: t, tag: tags[i] || '' })),
+          entitySpans: entities.map(e => ({
+            head: e.headId || 0,
+            span: e.indices || [],
+            fullText: e.fullText,
+            role: e.role || '',
+          })),
+          gazetteers: {
+            matched: gazMatched,
+            unmatched: gazUnmatched,
+          },
+        };
+      }
+
+      return result;
+
     } catch (error) {
-      throw new Error(`Phase 3A pipeline failed at stage "${stages.current}": ${error.message}`);
+      throw new Error(`Tree pipeline failed at stage "${stages.current}": ${error.message}`);
     }
   }
 
