@@ -128,6 +128,18 @@ const dependencyParserPath = path.join(__dirname, '..', 'src', 'core', 'Dependen
 const depTreePath = path.join(__dirname, '..', 'src', 'core', 'DepTree.js');
 const binaryModelLoaderPath = path.join(__dirname, '..', 'src', 'core', 'BinaryModelLoader.js');
 
+// v2 Phase 0: Core contracts for tree pipeline browser support
+const unicodeNormalizerPath = path.join(__dirname, '..', 'src', 'core', 'UnicodeNormalizer.js');
+const roleMappingContractPath = path.join(__dirname, '..', 'src', 'core', 'RoleMappingContract.js');
+
+// v2 Phase 1: PerceptronTagger for tree pipeline browser support
+const perceptronTaggerPath = path.join(__dirname, '..', 'src', 'core', 'PerceptronTagger.js');
+
+// v2 Phase 3A: Tree-based extractors
+const treeEntityExtractorPath = path.join(__dirname, '..', 'src', 'graph', 'TreeEntityExtractor.js');
+const treeActExtractorPath = path.join(__dirname, '..', 'src', 'graph', 'TreeActExtractor.js');
+const treeRoleMapperPath = path.join(__dirname, '..', 'src', 'graph', 'TreeRoleMapper.js');
+
 // Security modules
 const inputValidatorPath = path.join(__dirname, '..', 'src', 'security', 'input-validator.js');
 const ontologyIntegrityPath = path.join(__dirname, '..', 'src', 'security', 'ontology-integrity.js');
@@ -229,6 +241,18 @@ let clauseSegmenter = fs.readFileSync(clauseSegmenterPath, 'utf8');
 let dependencyParser = fs.readFileSync(dependencyParserPath, 'utf8');
 let depTree = fs.readFileSync(depTreePath, 'utf8');
 let binaryModelLoader = fs.readFileSync(binaryModelLoaderPath, 'utf8');
+
+// v2 Phase 0: Core contracts for tree pipeline browser support
+let unicodeNormalizer = fs.readFileSync(unicodeNormalizerPath, 'utf8');
+let roleMappingContract = fs.readFileSync(roleMappingContractPath, 'utf8');
+
+// v2 Phase 1: PerceptronTagger for tree pipeline browser support
+let perceptronTagger2 = fs.readFileSync(perceptronTaggerPath, 'utf8');
+
+// v2 Phase 3A: Tree-based extractors
+let treeEntityExtractor = fs.readFileSync(treeEntityExtractorPath, 'utf8');
+let treeActExtractor = fs.readFileSync(treeActExtractorPath, 'utf8');
+let treeRoleMapper = fs.readFileSync(treeRoleMapperPath, 'utf8');
 
 // Security modules
 let inputValidator = fs.readFileSync(inputValidatorPath, 'utf8');
@@ -420,8 +444,10 @@ function stripCommonJS(code, className) {
   // Remove require statements (including try/catch wrapped requires)
   code = code.replace(/const\s+\w+\s*=\s*require\([^)]+\);\s*\n?/g, '');
   code = code.replace(/let\s+\w+\s*;\s*\ntry\s*\{\s*\n\s*\w+\s*=\s*require\([^)]+\);\s*\n\}\s*catch\s*\([^)]*\)\s*\{[^}]*\}\s*\n?/g, '');
-  // Remove module.exports
+  // Remove module.exports = ClassName;
   code = code.replace(/module\.exports\s*=\s*\w+;\s*\n?/g, '');
+  // Remove module.exports = { ... };
+  code = code.replace(/module\.exports\s*=\s*\{[^}]*\};\s*\n?/g, '');
   // Remove if (typeof module ...) module.exports blocks
   code = code.replace(/if\s*\(typeof\s+module\s*!==\s*'undefined'\s*&&\s*module\.exports\)\s*\{\s*\n?\s*module\.exports\s*=\s*\w+;\s*\n?\s*\}\s*\n?/g, '');
   // Remove if (typeof window ...) window.X blocks
@@ -540,6 +566,24 @@ console.log('  ✓ Converted DepTree to browser format');
 
 binaryModelLoader = stripCommonJS(binaryModelLoader, 'BinaryModelLoader');
 console.log('  ✓ Converted BinaryModelLoader to browser format');
+
+unicodeNormalizer = stripCommonJS(unicodeNormalizer, 'UnicodeNormalizer');
+console.log('  ✓ Converted UnicodeNormalizer to browser format');
+
+roleMappingContract = stripCommonJS(roleMappingContract, 'RoleMappingContract');
+console.log('  ✓ Converted RoleMappingContract to browser format');
+
+perceptronTagger2 = stripCommonJS(perceptronTagger2, 'PerceptronTagger');
+console.log('  ✓ Converted PerceptronTagger to browser format');
+
+treeEntityExtractor = stripCommonJS(treeEntityExtractor, 'TreeEntityExtractor');
+console.log('  ✓ Converted TreeEntityExtractor to browser format');
+
+treeActExtractor = stripCommonJS(treeActExtractor, 'TreeActExtractor');
+console.log('  ✓ Converted TreeActExtractor to browser format');
+
+treeRoleMapper = stripCommonJS(treeRoleMapper, 'TreeRoleMapper');
+console.log('  ✓ Converted TreeRoleMapper to browser format');
 
 // Build the bundle
 console.log('\n🔧 Building bundle...');
@@ -1019,6 +1063,38 @@ ${depTree}
 ${binaryModelLoader}
 
   // ============================================================================
+  // v2 PHASE 0: CORE CONTRACTS (for tree pipeline browser support)
+  // ============================================================================
+
+${unicodeNormalizer}
+
+  // Shim: after stripCommonJS, only function normalizeUnicode survives.
+  // SemanticGraphBuilder checks typeof UnicodeNormalizer !== 'undefined'.
+  const UnicodeNormalizer = { normalizeUnicode };
+
+${roleMappingContract}
+
+  // Shim: after stripCommonJS, only inner constants/functions survive.
+  // TreeRoleMapper references RoleMappingContract.mapUDToRole() etc.
+  const RoleMappingContract = { UD_TO_BFO_ROLE, CASE_TO_OBLIQUE_ROLE, mapUDToRole, mapCaseToOblique };
+
+  // ============================================================================
+  // v2 PHASE 1: PERCEPTRON TAGGER (for tree pipeline browser support)
+  // ============================================================================
+
+${perceptronTagger2}
+
+  // ============================================================================
+  // v2 PHASE 3A: TREE-BASED EXTRACTORS
+  // ============================================================================
+
+${treeEntityExtractor}
+
+${treeActExtractor}
+
+${treeRoleMapper}
+
+  // ============================================================================
   // SEMANTIC GRAPH BUILDER (Phase 4 - Week 1 + Week 2 + Phase 6)
   // ============================================================================
 
@@ -1027,6 +1103,10 @@ ${semanticGraphBuilder}
   // ============================================================================
   // UNIFIED API
   // ============================================================================
+
+  // Cache for pre-loaded tree pipeline models (browser use)
+  let _cachedPosModel = null;
+  let _cachedDepModel = null;
 
   /**
    * TagTeam - Unified API for semantic parsing
@@ -1162,6 +1242,39 @@ ${semanticGraphBuilder}
     },
 
     /**
+     * Pre-load tree pipeline models for browser use.
+     * Call once after fetching model JSON files, before buildTreeGraph().
+     *
+     * @param {Object} posJSON - Parsed POS tagger weights (pos-weights-pruned.json)
+     * @param {Object} depJSON - Parsed dependency parser weights (dep-weights-pruned.json)
+     */
+    loadTreeModels: function(posJSON, depJSON) {
+      _cachedPosModel = posJSON;
+      _cachedDepModel = depJSON;
+    },
+
+    /**
+     * Build a JSON-LD semantic graph using tree-based extractors (Phase 3A).
+     * In browser, call loadTreeModels() first to pre-load models.
+     *
+     * @param {string} text - The text to analyze
+     * @param {Object} [options] - Optional configuration
+     * @returns {Object} Graph object with @graph array and _metadata
+     */
+    buildTreeGraph: function(text, options) {
+      options = options || {};
+      const builder = new SemanticGraphBuilder(options);
+      // Inject pre-loaded models if available
+      if (_cachedPosModel) {
+        builder._treePosTagger = new PerceptronTagger(_cachedPosModel);
+      }
+      if (_cachedDepModel) {
+        builder._treeDepParser = new DependencyParser(_cachedDepModel);
+      }
+      return builder.build(text, Object.assign({}, options, { useTreeExtractors: true }));
+    },
+
+    /**
      * Version information
      */
     version: '${pkgVersion}',
@@ -1239,6 +1352,11 @@ ${semanticGraphBuilder}
     DependencyParser: DependencyParser,
     DepTree: DepTree,
     BinaryModelLoader: BinaryModelLoader,
+
+    // v2 Phase 3A: Tree-based extractors
+    TreeEntityExtractor: TreeEntityExtractor,
+    TreeActExtractor: TreeActExtractor,
+    TreeRoleMapper: TreeRoleMapper,
 
     // Security modules
     validateInput: validateInput,
@@ -1509,6 +1627,19 @@ const testHtml = `<!DOCTYPE html>
 
 fs.writeFileSync(path.join(distDir, 'test.html'), testHtml, 'utf8');
 console.log('  ✓ Created dist/test.html');
+
+// Copy tree pipeline models to dist/models/ for browser fetch
+console.log('\n📦 Copying tree pipeline models...');
+const modelsDir = path.join(distDir, 'models');
+if (!fs.existsSync(modelsDir)) {
+  fs.mkdirSync(modelsDir, { recursive: true });
+}
+const posModelSrc = path.join(__dirname, '..', 'src', 'data', 'pos-weights-pruned.json');
+const depModelSrc = path.join(__dirname, '..', 'training', 'models', 'dep-weights-pruned.json');
+fs.copyFileSync(posModelSrc, path.join(modelsDir, 'pos-weights-pruned.json'));
+console.log(`  ✓ pos-weights-pruned.json (${(fs.statSync(posModelSrc).size / 1024 / 1024).toFixed(2)} MB)`);
+fs.copyFileSync(depModelSrc, path.join(modelsDir, 'dep-weights-pruned.json'));
+console.log(`  ✓ dep-weights-pruned.json (${(fs.statSync(depModelSrc).size / 1024 / 1024).toFixed(2)} MB)`);
 
 // Summary
 console.log('\n✨ Build complete!\n');

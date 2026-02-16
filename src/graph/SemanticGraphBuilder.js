@@ -97,6 +97,35 @@ const _nlp = (typeof nlp !== 'undefined') ? nlp : (() => {
   try { return require('compromise'); } catch (e) { return null; }
 })();
 
+// Phase 3A: Tree-based extractors (optional — activated via useTreeExtractors option)
+const _TreeEntityExtractor = (typeof TreeEntityExtractor !== 'undefined') ? TreeEntityExtractor : (() => {
+  try { return require('./TreeEntityExtractor'); } catch (e) { return null; }
+})();
+const _TreeActExtractor = (typeof TreeActExtractor !== 'undefined') ? TreeActExtractor : (() => {
+  try { return require('./TreeActExtractor'); } catch (e) { return null; }
+})();
+const _TreeRoleMapper = (typeof TreeRoleMapper !== 'undefined') ? TreeRoleMapper : (() => {
+  try { return require('./TreeRoleMapper'); } catch (e) { return null; }
+})();
+const _UnicodeNormalizer = (typeof UnicodeNormalizer !== 'undefined') ? UnicodeNormalizer : (() => {
+  try { return require('../core/UnicodeNormalizer'); } catch (e) { return null; }
+})();
+const _Tokenizer = (typeof Tokenizer !== 'undefined') ? Tokenizer : (() => {
+  try { return require('./Tokenizer'); } catch (e) { return null; }
+})();
+const _PerceptronTagger = (typeof PerceptronTagger !== 'undefined') ? PerceptronTagger : (() => {
+  try { return require('../core/PerceptronTagger'); } catch (e) { return null; }
+})();
+const _DependencyParser = (typeof DependencyParser !== 'undefined') ? DependencyParser : (() => {
+  try { return require('../core/DependencyParser'); } catch (e) { return null; }
+})();
+const _DepTree = (typeof DepTree !== 'undefined') ? DepTree : (() => {
+  try { return require('../core/DepTree'); } catch (e) { return null; }
+})();
+const _GazetteerNER = (typeof GazetteerNER !== 'undefined') ? GazetteerNER : (() => {
+  try { return require('./GazetteerNER'); } catch (e) { return null; }
+})();
+
 /**
  * Main class for building semantic graphs in JSON-LD format
  */
@@ -317,6 +346,13 @@ class SemanticGraphBuilder {
       const segResult = this.clauseSegmenter.segment(text, buildOptions);
       buildOptions._clauses = segResult.clauses;
       buildOptions._clauseRelation = segResult.relation;
+    }
+
+    // ================================================================
+    // Phase 3A: Tree-based pipeline (opt-in via useTreeExtractors)
+    // ================================================================
+    if (buildOptions.useTreeExtractors && _TreeEntityExtractor && _TreeActExtractor && _TreeRoleMapper) {
+      return this._buildWithTreeExtractors(text, buildOptions);
     }
 
     // Phase 1.2: Extract entities as DiscourseReferent + Tier 2 nodes
@@ -1696,6 +1732,227 @@ class SemanticGraphBuilder {
       high: minWordsForHigh && (score > 0.3 || density > 0.5),
       score: Math.round(score * 100) / 100
     };
+  }
+
+  /**
+   * Phase 3A: Build graph using tree-based extractors.
+   *
+   * Pipeline order (AC-3.0):
+   *   1. normalizeUnicode(text)
+   *   2. tokenize(normalizedText)
+   *   3. perceptronTag(tokens)
+   *   4. dependencyParse(tokens, tags)
+   *   5. extractEntities(depTree)     [TreeEntityExtractor]
+   *   6. extractActs(depTree)          [TreeActExtractor]
+   *   7. mapRoles(entities, acts)      [TreeRoleMapper]
+   *
+   * @param {string} text - Raw input text
+   * @param {Object} buildOptions - Build options
+   * @returns {Object} JSON-LD graph
+   */
+  _buildWithTreeExtractors(text, buildOptions) {
+    const stages = {};
+
+    try {
+      // Stage 1: Unicode normalization
+      stages.current = 'normalizeUnicode';
+      const normalizeUnicode = typeof _UnicodeNormalizer === 'function'
+        ? _UnicodeNormalizer
+        : (_UnicodeNormalizer && _UnicodeNormalizer.normalizeUnicode) || (t => t);
+      const normalized = normalizeUnicode(text);
+
+      // Stage 2: Tokenization
+      stages.current = 'tokenize';
+      const tokenizer = new _Tokenizer();
+      const tokenObjs = tokenizer.tokenize(normalized);
+      const tokens = tokenObjs.map(t => typeof t === 'string' ? t : t.text);
+
+      // Stage 3: POS tagging
+      stages.current = 'perceptronTag';
+      const posModelPath = buildOptions.posModel || null;
+      let tagger;
+      if (this._treePosTagger) {
+        tagger = this._treePosTagger;
+      } else if (posModelPath) {
+        if (typeof require === 'undefined') {
+          throw new Error('POS model not pre-loaded. Call loadTreeModels(posJSON, depJSON) before buildTreeGraph() in browser.');
+        }
+        const fs = require('fs');
+        const posModel = JSON.parse(fs.readFileSync(posModelPath, 'utf8'));
+        tagger = new _PerceptronTagger(posModel);
+        this._treePosTagger = tagger;
+      } else {
+        if (typeof require === 'undefined') {
+          throw new Error('POS model not pre-loaded. Call loadTreeModels(posJSON, depJSON) before buildTreeGraph() in browser.');
+        }
+        // Try default model path
+        const fs = require('fs');
+        const path = require('path');
+        const defaultPath = path.join(__dirname, '../data/pos-weights-pruned.json');
+        const posModel = JSON.parse(fs.readFileSync(defaultPath, 'utf8'));
+        tagger = new _PerceptronTagger(posModel);
+        this._treePosTagger = tagger;
+      }
+      const tags = tagger.tag(tokens);
+
+      // Stage 4: Dependency parsing
+      stages.current = 'dependencyParse';
+      let depParser;
+      if (this._treeDepParser) {
+        depParser = this._treeDepParser;
+      } else if (buildOptions.depModel) {
+        if (typeof require === 'undefined') {
+          throw new Error('Dep model not pre-loaded. Call loadTreeModels(posJSON, depJSON) before buildTreeGraph() in browser.');
+        }
+        const fs = require('fs');
+        const depModel = JSON.parse(fs.readFileSync(buildOptions.depModel, 'utf8'));
+        depParser = new _DependencyParser(depModel);
+        this._treeDepParser = depParser;
+      } else {
+        if (typeof require === 'undefined') {
+          throw new Error('Dep model not pre-loaded. Call loadTreeModels(posJSON, depJSON) before buildTreeGraph() in browser.');
+        }
+        const fs = require('fs');
+        const path = require('path');
+        const defaultPath = path.join(__dirname, '../../training/models/dep-weights-pruned.json');
+        const depModel = JSON.parse(fs.readFileSync(defaultPath, 'utf8'));
+        depParser = new _DependencyParser(depModel);
+        this._treeDepParser = depParser;
+      }
+      const parseResult = depParser.parse(tokens, tags);
+      const depTree = new _DepTree(parseResult.arcs, tokens, tags);
+
+      // Stage 4.5: Gazetteer initialization (lazy-load, cached like POS tagger/dep parser)
+      if (!this._treeGazetteerNER && _GazetteerNER) {
+        if (typeof require !== 'undefined') {
+          try {
+            const fs = require('fs');
+            const gazPath = require('path');
+            const gazetteersDir = gazPath.join(__dirname, '../data/gazetteers');
+            if (fs.existsSync(gazetteersDir)) {
+              const files = fs.readdirSync(gazetteersDir).filter(f => f.endsWith('.json'));
+              const gazetteers = files.map(f =>
+                JSON.parse(fs.readFileSync(gazPath.join(gazetteersDir, f), 'utf8'))
+              );
+              if (gazetteers.length > 0) {
+                this._treeGazetteerNER = new _GazetteerNER(gazetteers);
+              }
+            }
+          } catch (e) {
+            // Gazetteer loading is non-blocking — tree pipeline works without it
+          }
+        }
+      }
+
+      // Stage 5: Tree-based entity extraction
+      stages.current = 'extractEntities';
+      const entityExtractor = new _TreeEntityExtractor({
+        gazetteerNER: this._treeGazetteerNER || null
+      });
+      const { entities, aliasMap } = entityExtractor.extract(depTree);
+
+      // Stage 6: Tree-based act extraction
+      stages.current = 'extractActs';
+      const actExtractor = new _TreeActExtractor();
+      const { acts, structuralAssertions } = actExtractor.extract(depTree);
+
+      // Stage 7: Tree-based role mapping
+      stages.current = 'mapRoles';
+      const roleMapper = new _TreeRoleMapper();
+      const roles = roleMapper.map(entities, acts, depTree);
+
+      // Build JSON-LD graph from extracted data
+      stages.current = 'buildGraph';
+      const graphNodes = [];
+
+      // Convert entities to JSON-LD nodes
+      for (const entity of entities) {
+        const entityNode = {
+          '@id': `${this.options.namespace}:${this._sanitizeId(entity.fullText)}`,
+          '@type': [entity.type || 'bfo:Entity'],
+          'rdfs:label': entity.fullText,
+        };
+        if (entity.alias) {
+          entityNode['tagteam:alias'] = entity.alias;
+        }
+        if (entity.resolvedVia) {
+          entityNode['tagteam:resolvedVia'] = entity.resolvedVia;
+        }
+        graphNodes.push(entityNode);
+      }
+
+      // Convert acts to JSON-LD nodes
+      for (const act of acts) {
+        const actNode = {
+          '@id': `${this.options.namespace}:Act_${this._sanitizeId(act.verb)}`,
+          '@type': ['cco:IntentionalAct'],
+          'rdfs:label': act.verb,
+          'tagteam:lemma': act.lemma,
+        };
+        if (act.isPassive) actNode['tagteam:isPassive'] = true;
+        if (act.isNegated) actNode['tagteam:isNegated'] = true;
+        if (act.isCopular) actNode['tagteam:isCopular'] = true;
+        graphNodes.push(actNode);
+      }
+
+      // Convert structural assertions to JSON-LD nodes
+      for (const sa of structuralAssertions) {
+        const assertionNode = {
+          '@id': `${this.options.namespace}:Assertion_${this._sanitizeId(sa.subject || 'unknown')}`,
+          '@type': [sa.negated ? 'tagteam:NegatedStructuralAssertion' : 'tagteam:StructuralAssertion'],
+          'tagteam:subject': sa.subject,
+          'tagteam:pattern': sa.pattern,
+        };
+        if (sa.relation) assertionNode['tagteam:relation'] = sa.relation;
+        if (sa.object) assertionNode['tagteam:object'] = sa.object;
+        if (sa.copula) assertionNode['tagteam:copula'] = sa.copula;
+        if (sa.negated) assertionNode['tagteam:negated'] = true;
+        graphNodes.push(assertionNode);
+      }
+
+      // Convert roles to JSON-LD nodes
+      for (const role of roles) {
+        const roleNode = {
+          '@id': `${this.options.namespace}:Role_${this._sanitizeId(role.entity)}_${this._sanitizeId(role.role)}`,
+          '@type': [role.role],
+          'tagteam:bearer': { '@id': `${this.options.namespace}:${this._sanitizeId(role.entity)}` },
+          'tagteam:realizedIn': { '@id': `${this.options.namespace}:Act_${this._sanitizeId(role.act)}` },
+          'rdfs:label': `${role.entity} as ${role.role.split(':')[1]}`,
+        };
+        if (role.preposition) roleNode['tagteam:preposition'] = role.preposition;
+        graphNodes.push(roleNode);
+      }
+
+      return {
+        '@graph': graphNodes,
+        _metadata: {
+          pipeline: 'tree-based',
+          version: '3.0.0-alpha.1',
+          inputText: text,
+          buildTimestamp: this.buildTimestamp,
+          tokens,
+          tags,
+          arcs: parseResult.arcs,
+          entities: entities.length,
+          acts: acts.length,
+          structuralAssertions: structuralAssertions.length,
+          roles: roles.length,
+        }
+      };
+
+    } catch (error) {
+      throw new Error(`Phase 3A pipeline failed at stage "${stages.current}": ${error.message}`);
+    }
+  }
+
+  /**
+   * Sanitize a string for use as an IRI local name.
+   * @param {string} str
+   * @returns {string}
+   */
+  _sanitizeId(str) {
+    if (!str) return 'unknown';
+    return str.replace(/[^a-zA-Z0-9_-]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
   }
 }
 
