@@ -1,7 +1,7 @@
 /*!
  * TagTeam IEE Values - Ethical Value Detection Add-on
  * Version: 1.0.0
- * Date: 2026-02-15
+ * Date: 2026-02-17
  *
  * IEE ethical value detection for TagTeam semantic graphs.
  * REQUIRES: tagteam-core.js to be loaded first!
