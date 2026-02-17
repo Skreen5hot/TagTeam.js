@@ -180,6 +180,107 @@ test('buildGraph with { extractEntities: false } does not throw', () => {
   assert(result != null, 'Should return a result');
 });
 
+console.log(`\n${C.cyan}--- Path Isolation: Format Separation (AC-4.20 amendment) ---${C.reset}`);
+
+// Both pipelines produce Two-Tier ICE (DiscourseReferent, Tier 2, is_about).
+// Format isolation verifies each pipeline's DISTINCTIVE structural signatures
+// remain consistent and don't bleed into the other.
+//
+// Tree pipeline signatures:
+//   - Acts typed as tagteam:VerbPhrase (not domain-specific cco:Act*)
+//   - Tier 1 entities have bfo:Entity base type (not domain-specific on Tier 1)
+//   - Tier 1 entities do NOT carry owl:NamedIndividual
+//
+// Legacy pipeline signatures:
+//   - Acts typed as domain-specific cco:Act* with owl:NamedIndividual
+//   - Entity DiscourseReferent nodes carry domain types AND owl:NamedIndividual
+//   - No tagteam:VerbPhrase nodes
+
+function graphHasType(graph, typeStr) {
+  return (graph['@graph'] || []).some(n =>
+    (n['@type'] || []).includes(typeStr)
+  );
+}
+
+function getActs(graph) {
+  return (graph['@graph'] || []).filter(n => {
+    const types = n['@type'] || [];
+    return types.some(t => t.includes('Act') || t.includes('Process') || t === 'tagteam:VerbPhrase') &&
+           !types.some(t => t.includes('InformationBearingEntity') || t.includes('ArtificialAgent') || t.includes('ActOfArtificialProcessing'));
+  });
+}
+
+function getTier1Entities(graph) {
+  return (graph['@graph'] || []).filter(n =>
+    (n['@type'] || []).includes('tagteam:DiscourseReferent')
+  );
+}
+
+const legacyGraph = TagTeam.buildGraph('The doctor treated the patient');
+const treeGraph = TagTeam.buildTreeGraph('The doctor treated the patient');
+
+test('buildTreeGraph() acts use tagteam:VerbPhrase', () => {
+  const acts = getActs(treeGraph);
+  assert(acts.length > 0, 'Tree graph should have at least one act');
+  assert(acts.every(a => (a['@type'] || []).includes('tagteam:VerbPhrase')),
+    'All tree acts should be typed as tagteam:VerbPhrase');
+});
+
+test('buildGraph() acts do NOT use tagteam:VerbPhrase', () => {
+  const acts = getActs(legacyGraph);
+  assert(acts.length > 0, 'Legacy graph should have at least one act');
+  assert(acts.every(a => !(a['@type'] || []).includes('tagteam:VerbPhrase')),
+    'Legacy acts should not be typed as tagteam:VerbPhrase');
+});
+
+test('buildTreeGraph() Tier 1 entities lack owl:NamedIndividual', () => {
+  const t1 = getTier1Entities(treeGraph);
+  assert(t1.length > 0, 'Tree graph should have Tier 1 entities');
+  assert(t1.every(e => !(e['@type'] || []).includes('owl:NamedIndividual')),
+    'Tree Tier 1 entities should not carry owl:NamedIndividual');
+});
+
+test('buildGraph() Tier 1 entities carry owl:NamedIndividual', () => {
+  const t1 = getTier1Entities(legacyGraph);
+  assert(t1.length > 0, 'Legacy graph should have Tier 1 entities');
+  assert(t1.every(e => (e['@type'] || []).includes('owl:NamedIndividual')),
+    'Legacy Tier 1 entities should carry owl:NamedIndividual');
+});
+
+console.log(`\n${C.cyan}--- Path Isolation: Shared State (AC-4.20 amendment) ---${C.reset}`);
+
+test('buildTreeGraph then buildGraph: legacy format preserved', () => {
+  const testText = 'The analyst reviewed the report';
+  // Call tree pipeline first (sets up VerbPhrase / tree state)
+  TagTeam.buildTreeGraph(testText);
+  // Then call legacy pipeline on same builder
+  const legacy = TagTeam.buildGraph(testText);
+  const acts = getActs(legacy);
+  assert(acts.length > 0, 'Legacy output should have acts');
+  assert(acts.every(a => !(a['@type'] || []).includes('tagteam:VerbPhrase')),
+    'Legacy acts should not leak VerbPhrase after tree pipeline call');
+  const t1 = getTier1Entities(legacy);
+  assert(t1.length > 0, 'Legacy output should have Tier 1 entities');
+  assert(t1.every(e => (e['@type'] || []).includes('owl:NamedIndividual')),
+    'Legacy Tier 1 entities should retain owl:NamedIndividual after tree pipeline call');
+});
+
+test('buildGraph then buildTreeGraph: tree format preserved', () => {
+  const testText = 'The manager approved the budget';
+  // Call legacy pipeline first
+  TagTeam.buildGraph(testText);
+  // Then call tree pipeline on same builder
+  const tree = TagTeam.buildTreeGraph(testText);
+  const acts = getActs(tree);
+  assert(acts.length > 0, 'Tree output should have acts');
+  assert(acts.every(a => (a['@type'] || []).includes('tagteam:VerbPhrase')),
+    'Tree acts should retain VerbPhrase after legacy pipeline call');
+  const t1 = getTier1Entities(tree);
+  assert(t1.length > 0, 'Tree output should have Tier 1 entities');
+  assert(t1.every(e => !(e['@type'] || []).includes('owl:NamedIndividual')),
+    'Tree Tier 1 entities should not gain owl:NamedIndividual after legacy pipeline call');
+});
+
 // ============================================================================
 // Results
 // ============================================================================
