@@ -55,7 +55,7 @@ const path = require('path');
 let calibration;
 try {
   calibration = JSON.parse(
-    fs.readFileSync(path.join(__dirname, '../../../training/models/dep-calibration.json'), 'utf8')
+    fs.readFileSync(path.join(__dirname, '../../../src/data/dep-calibration.json'), 'utf8')
   );
 } catch (e) {
   console.log(`\x1b[33mWarning: Could not load calibration table: ${e.message}\x1b[0m`);

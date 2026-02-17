@@ -1825,7 +1825,7 @@ class SemanticGraphBuilder {
         }
         const fs = require('fs');
         const path = require('path');
-        const defaultPath = path.join(__dirname, '../../training/models/dep-weights-pruned.json');
+        const defaultPath = path.join(__dirname, '../data/dep-weights-pruned.json');
         const depModel = JSON.parse(fs.readFileSync(defaultPath, 'utf8'));
         depParser = new _DependencyParser(depModel);
         this._treeDepParser = depParser;
@@ -1838,7 +1838,7 @@ class SemanticGraphBuilder {
         try {
           const fs = require('fs');
           const calPath = require('path');
-          const defaultCalPath = calPath.join(__dirname, '../../training/models/dep-calibration.json');
+          const defaultCalPath = calPath.join(__dirname, '../data/dep-calibration.json');
           if (fs.existsSync(defaultCalPath)) {
             this._calibration = JSON.parse(fs.readFileSync(defaultCalPath, 'utf8'));
           }

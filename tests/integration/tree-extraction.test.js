@@ -90,7 +90,7 @@ if (fs.existsSync(posModelPath)) {
 }
 
 // Load trained dep model
-const depModelPath = path.join(ROOT, 'training/models/dep-weights-pruned.json');
+const depModelPath = path.join(ROOT, 'src/data/dep-weights-pruned.json');
 if (fs.existsSync(depModelPath)) {
   try {
     depModel = JSON.parse(fs.readFileSync(depModelPath, 'utf8'));

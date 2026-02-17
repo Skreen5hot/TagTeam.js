@@ -47,9 +47,9 @@ try {
 }
 
 // Model paths
-const posModelPath = path.join(__dirname, '../../../training/models/pos-weights-pruned.json');
-const depModelPath = path.join(__dirname, '../../../training/models/dep-weights-pruned.json');
-const calibrationPath = path.join(__dirname, '../../../training/models/dep-calibration.json');
+const posModelPath = path.join(__dirname, '../../../src/data/pos-weights-pruned.json');
+const depModelPath = path.join(__dirname, '../../../src/data/dep-weights-pruned.json');
+const calibrationPath = path.join(__dirname, '../../../src/data/dep-calibration.json');
 
 const posModelExists = fs.existsSync(posModelPath);
 const depModelExists = fs.existsSync(depModelPath);

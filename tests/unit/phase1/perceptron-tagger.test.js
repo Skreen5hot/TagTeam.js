@@ -378,7 +378,7 @@ console.log('\n\x1b[1mAC-1A.4: Known Problem Sentences\x1b[0m');
 // Try to load trained model
 let trainedModel = null;
 try {
-  const modelPath = path.join(__dirname, '../../../training/models/pos-weights-pruned.json');
+  const modelPath = path.join(__dirname, '../../../src/data/pos-weights-pruned.json');
   if (fs.existsSync(modelPath)) {
     trainedModel = JSON.parse(fs.readFileSync(modelPath, 'utf-8'));
   }
@@ -424,7 +424,7 @@ test('"CBP is a component of DHS" → VBZ NN', () => {
 console.log('\n\x1b[1mAC-1A.5: Model Size Budget\x1b[0m');
 
 test('Pruned model file ≤ 5 MB', () => {
-  const modelPath = path.join(__dirname, '../../../training/models/pos-weights-pruned.json');
+  const modelPath = path.join(__dirname, '../../../src/data/pos-weights-pruned.json');
   if (!fs.existsSync(modelPath)) skip();
   const stats = fs.statSync(modelPath);
   const sizeMB = stats.size / (1024 * 1024);
@@ -439,7 +439,7 @@ test('Pruned model file ≤ 5 MB', () => {
 console.log('\n\x1b[1mAC-1A.7: Model Provenance Fields\x1b[0m');
 
 test('Model JSON contains provenance object with required fields', () => {
-  const modelPath = path.join(__dirname, '../../../training/models/pos-weights-pruned.json');
+  const modelPath = path.join(__dirname, '../../../src/data/pos-weights-pruned.json');
   if (!fs.existsSync(modelPath)) skip();
   const model = JSON.parse(fs.readFileSync(modelPath, 'utf-8'));
   assert(model.provenance, 'Model missing provenance object');
@@ -454,7 +454,7 @@ test('Model JSON contains provenance object with required fields', () => {
 });
 
 test('Model provenance trainingDate is valid ISO-8601', () => {
-  const modelPath = path.join(__dirname, '../../../training/models/pos-weights-pruned.json');
+  const modelPath = path.join(__dirname, '../../../src/data/pos-weights-pruned.json');
   if (!fs.existsSync(modelPath)) skip();
   const model = JSON.parse(fs.readFileSync(modelPath, 'utf-8'));
   const date = new Date(model.provenance.trainingDate);
