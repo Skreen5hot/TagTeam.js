@@ -562,7 +562,14 @@
         html += '<ul class="assertion-list">';
         for (const s of structural) {
           html += '<li>' + escHtml(getLabel(s)) +
-            ' <span class="badge badge-structural">' + escHtml(shortType(getType(s))) + '</span></li>';
+            ' <span class="badge badge-structural">' + escHtml(shortType(getType(s))) + '</span>';
+          if (s['tagteam:relation']) {
+            html += ' <span class="badge" style="background:#6366f1;color:#fff;">' + escHtml(s['tagteam:relation']) + '</span>';
+          }
+          if (s['tagteam:negated']) {
+            html += ' <span class="badge" style="background:#ef4444;color:#fff;">negated</span>';
+          }
+          html += '</li>';
         }
         html += '</ul>';
       }
