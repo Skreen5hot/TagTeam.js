@@ -1659,12 +1659,12 @@ if (!fs.existsSync(modelsDir)) {
   fs.mkdirSync(modelsDir, { recursive: true });
 }
 const posModelSrc = path.join(__dirname, '..', 'src', 'data', 'pos-weights-pruned.json');
-const depModelSrc = path.join(__dirname, '..', 'training', 'models', 'dep-weights-pruned.json');
+const depModelSrc = path.join(__dirname, '..', 'src', 'data', 'dep-weights-pruned.json');
+const calSrc = path.join(__dirname, '..', 'src', 'data', 'dep-calibration.json');
 fs.copyFileSync(posModelSrc, path.join(modelsDir, 'pos-weights-pruned.json'));
 console.log(`  ✓ pos-weights-pruned.json (${(fs.statSync(posModelSrc).size / 1024 / 1024).toFixed(2)} MB)`);
 fs.copyFileSync(depModelSrc, path.join(modelsDir, 'dep-weights-pruned.json'));
 console.log(`  ✓ dep-weights-pruned.json (${(fs.statSync(depModelSrc).size / 1024 / 1024).toFixed(2)} MB)`);
-const calSrc = path.join(__dirname, '..', 'training', 'models', 'dep-calibration.json');
 if (fs.existsSync(calSrc)) {
   fs.copyFileSync(calSrc, path.join(modelsDir, 'dep-calibration.json'));
   console.log(`  ✓ dep-calibration.json (${(fs.statSync(calSrc).size / 1024).toFixed(2)} KB)`);
