@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-17T18:10:08.389Z",
+  "generatedAt": "2026-02-17T19:15:44.411Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -56,30 +56,50 @@
       {
         "@id": "inst:The_analyst",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The analyst",
         "tagteam:mentionId": "s0:h2:0-11",
         "tagteam:parseConfidence": "high",
-        "tagteam:parseProbability": 0.9433
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Analyst_b7b161ed61cd"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_5d7e68cf95fa"
+        }
       },
       {
         "@id": "inst:the_intelligence_briefing",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the intelligence briefing",
         "tagteam:mentionId": "s0:h6:21-46",
         "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.889
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Intelligence_Briefing_2ff128f6a0b5"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_5d7e68cf95fa"
+        }
       },
       {
         "@id": "inst:Act_prepared",
         "@type": [
-          "cco:IntentionalAct"
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
         ],
         "rdfs:label": "prepared",
-        "tagteam:lemma": "prepar"
+        "tagteam:lemma": "prepar",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_5d7e68cf95fa"
+        }
       },
       {
         "@id": "inst:Role_The_analyst_cco_AgentRole",
@@ -110,6 +130,86 @@
         "rdfs:label": "the intelligence briefing as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Artifact_Analyst_b7b161ed61cd",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "analyst",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.411Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_5d7e68cf95fa",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Intelligence_Briefing_2ff128f6a0b5",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "intelligence briefing",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.411Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_5d7e68cf95fa",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_5d7e68cf95fa",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The analyst prepared the intelligence briefing",
+        "tagteam:char_count": 46,
+        "tagteam:word_count": 6,
+        "tagteam:received_at": "2026-02-17T19:15:44.403Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_5d7e68cf",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_5d7e68cf95fa"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_analyst"
+          },
+          {
+            "@id": "inst:the_intelligence_briefing"
+          },
+          {
+            "@id": "inst:Act_prepared"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.403Z"
       }
     ]
   }

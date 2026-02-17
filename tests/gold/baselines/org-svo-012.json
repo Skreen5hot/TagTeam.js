@@ -8,7 +8,7 @@
     "action",
     "pp"
   ],
-  "generatedAt": "2026-02-17T18:10:08.454Z",
+  "generatedAt": "2026-02-17T19:15:44.472Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -70,48 +70,80 @@
       {
         "@id": "inst:The_marshal",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The marshal",
         "tagteam:mentionId": "s0:h2:0-11",
         "tagteam:parseConfidence": "low",
-        "tagteam:parseProbability": 0.3683
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Marshal_c18c66e20788"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_61ebb3f0ac09"
+        }
       },
       {
         "@id": "inst:the_prisoner",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the prisoner",
         "tagteam:mentionId": "s0:h5:24-36",
         "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.6583
+        "tagteam:parseProbability": 0.6583,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Prisoner_18a8903c5670"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_61ebb3f0ac09"
+        }
       },
       {
         "@id": "inst:the_courthouse",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the courthouse",
         "tagteam:mentionId": "s0:h8:40-54",
         "tagteam:parseConfidence": "high",
-        "tagteam:parseProbability": 0.9272
+        "tagteam:parseProbability": 0.9272,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Courthouse_5aa276dfb18b"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_61ebb3f0ac09"
+        }
       },
       {
         "@id": "inst:Act_marshal",
         "@type": [
-          "cco:IntentionalAct"
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
         ],
         "rdfs:label": "marshal",
-        "tagteam:lemma": "marshal"
+        "tagteam:lemma": "marshal",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_61ebb3f0ac09"
+        }
       },
       {
         "@id": "inst:Act_transported",
         "@type": [
-          "cco:IntentionalAct"
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
         ],
         "rdfs:label": "transported",
-        "tagteam:lemma": "transport"
+        "tagteam:lemma": "transport",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_61ebb3f0ac09"
+        }
       },
       {
         "@id": "inst:Role_the_prisoner_cco_PatientRole",
@@ -143,6 +175,103 @@
         "tagteam:preposition": "to",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Artifact_Marshal_c18c66e20788",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "marshal",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.472Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_61ebb3f0ac09",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Prisoner_18a8903c5670",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "prisoner",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.472Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_61ebb3f0ac09",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Courthouse_5aa276dfb18b",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "courthouse",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.472Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_61ebb3f0ac09",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_61ebb3f0ac09",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The marshal transported the prisoner to the courthouse",
+        "tagteam:char_count": 54,
+        "tagteam:word_count": 8,
+        "tagteam:received_at": "2026-02-17T19:15:44.463Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_61ebb3f0",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_61ebb3f0ac09"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_marshal"
+          },
+          {
+            "@id": "inst:the_prisoner"
+          },
+          {
+            "@id": "inst:the_courthouse"
+          },
+          {
+            "@id": "inst:Act_marshal"
+          },
+          {
+            "@id": "inst:Act_transported"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.463Z"
       }
     ]
   }

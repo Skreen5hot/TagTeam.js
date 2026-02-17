@@ -7,7 +7,7 @@
     "split",
     "passive"
   ],
-  "generatedAt": "2026-02-17T18:10:08.751Z",
+  "generatedAt": "2026-02-17T19:15:44.788Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -47,21 +47,33 @@
       {
         "@id": "inst:The_suspect_and_the_accomplice",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The suspect and the accomplice",
         "tagteam:mentionId": "s0:h2:0-30",
         "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.8492
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Suspect_And_The_Accomplice_4d83c901bf90"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_28eb09ab1b77"
+        }
       },
       {
         "@id": "inst:Act_arrested",
         "@type": [
-          "cco:IntentionalAct"
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
         ],
         "rdfs:label": "arrested",
         "tagteam:lemma": "arrest",
-        "tagteam:isPassive": true
+        "tagteam:isPassive": true,
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_28eb09ab1b77"
+        }
       },
       {
         "@id": "inst:Role_The_suspect_and_the_accomplice_cco_PatientRole",
@@ -77,6 +89,72 @@
         "rdfs:label": "The suspect and the accomplice as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Artifact_Suspect_And_The_Accomplice_4d83c901bf90",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "suspect and the accomplice",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.787Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_28eb09ab1b77",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_28eb09ab1b77",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The suspect and the accomplice were arrested",
+        "tagteam:char_count": 44,
+        "tagteam:word_count": 7,
+        "tagteam:received_at": "2026-02-17T19:15:44.778Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_28eb09ab",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_28eb09ab1b77"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_suspect_and_the_accomplice"
+          },
+          {
+            "@id": "inst:Act_arrested"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.778Z"
       }
     ]
   }

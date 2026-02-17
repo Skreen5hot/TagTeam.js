@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-17T18:10:08.739Z",
+  "generatedAt": "2026-02-17T19:15:44.775Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -64,30 +64,50 @@
       {
         "@id": "inst:Agents_and_officers",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "Agents and officers",
         "tagteam:mentionId": "s0:h1:0-19",
         "tagteam:parseConfidence": "high",
-        "tagteam:parseProbability": 0.9272
+        "tagteam:parseProbability": 0.9272,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Agents_And_Officers_46ceaa334d6b"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_602fdc0a1601"
+        }
       },
       {
         "@id": "inst:the_raid",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the raid",
         "tagteam:mentionId": "s0:h6:30-38",
         "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.8492
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Raid_1ef09f6f7c1f"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_602fdc0a1601"
+        }
       },
       {
         "@id": "inst:Act_conducted",
         "@type": [
-          "cco:IntentionalAct"
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
         ],
         "rdfs:label": "conducted",
-        "tagteam:lemma": "conduct"
+        "tagteam:lemma": "conduct",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_602fdc0a1601"
+        }
       },
       {
         "@id": "inst:Role_Agents_and_officers_cco_AgentRole",
@@ -118,6 +138,86 @@
         "rdfs:label": "the raid as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Artifact_Agents_And_Officers_46ceaa334d6b",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "agents and officers",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.775Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_602fdc0a1601",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Raid_1ef09f6f7c1f",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "raid",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.775Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_602fdc0a1601",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_602fdc0a1601",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "Agents and officers conducted the raid",
+        "tagteam:char_count": 38,
+        "tagteam:word_count": 6,
+        "tagteam:received_at": "2026-02-17T19:15:44.768Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_602fdc0a",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_602fdc0a1601"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:Agents_and_officers"
+          },
+          {
+            "@id": "inst:the_raid"
+          },
+          {
+            "@id": "inst:Act_conducted"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.768Z"
       }
     ]
   }

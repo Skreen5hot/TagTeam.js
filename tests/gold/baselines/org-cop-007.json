@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-17T18:10:08.165Z",
+  "generatedAt": "2026-02-17T19:15:44.201Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -33,12 +33,20 @@
       {
         "@id": "inst:The_Secret_Service",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The Secret Service",
         "tagteam:mentionId": "s0:h3:0-18",
         "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.889
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Secret_Service_165269cc218e"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_c648675cc7aa"
+        }
       },
       {
         "@id": "inst:Assertion_The_Secret_Service",
@@ -48,6 +56,69 @@
         "tagteam:subject": "The Secret Service",
         "tagteam:pattern": "predication",
         "tagteam:copula": "is"
+      },
+      {
+        "@id": "inst:Artifact_Secret_Service_165269cc218e",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "secret service",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.201Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_c648675cc7aa",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_c648675cc7aa",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The Secret Service is a federal agency",
+        "tagteam:char_count": 38,
+        "tagteam:word_count": 7,
+        "tagteam:received_at": "2026-02-17T19:15:44.190Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_c648675c",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_c648675cc7aa"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_Secret_Service"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.190Z"
       }
     ]
   }

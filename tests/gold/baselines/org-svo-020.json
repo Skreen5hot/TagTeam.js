@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-17T18:10:08.558Z",
+  "generatedAt": "2026-02-17T19:15:44.579Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -56,30 +56,50 @@
       {
         "@id": "inst:The_bureau",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The bureau",
         "tagteam:mentionId": "s0:h2:0-10",
         "tagteam:parseConfidence": "high",
-        "tagteam:parseProbability": 0.9433
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Bureau_5d2beaa94069"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_62a0e7609c2c"
+        }
       },
       {
         "@id": "inst:an_investigation",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "an investigation",
         "tagteam:mentionId": "s0:h5:21-37",
         "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.8492
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Investigation_525f91960d1b"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_62a0e7609c2c"
+        }
       },
       {
         "@id": "inst:Act_conducted",
         "@type": [
-          "cco:IntentionalAct"
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
         ],
         "rdfs:label": "conducted",
-        "tagteam:lemma": "conduct"
+        "tagteam:lemma": "conduct",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_62a0e7609c2c"
+        }
       },
       {
         "@id": "inst:Role_The_bureau_cco_AgentRole",
@@ -110,6 +130,86 @@
         "rdfs:label": "an investigation as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Artifact_Bureau_5d2beaa94069",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "bureau",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.579Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_62a0e7609c2c",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Investigation_525f91960d1b",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "investigation",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.579Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_62a0e7609c2c",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_62a0e7609c2c",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The bureau conducted an investigation",
+        "tagteam:char_count": 37,
+        "tagteam:word_count": 5,
+        "tagteam:received_at": "2026-02-17T19:15:44.570Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_62a0e760",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_62a0e7609c2c"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_bureau"
+          },
+          {
+            "@id": "inst:an_investigation"
+          },
+          {
+            "@id": "inst:Act_conducted"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.570Z"
       }
     ]
   }

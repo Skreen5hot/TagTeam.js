@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-17T18:10:08.664Z",
+  "generatedAt": "2026-02-17T19:15:44.690Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -64,30 +64,50 @@
       {
         "@id": "inst:The_agent_and_the_analyst",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The agent and the analyst",
         "tagteam:mentionId": "s0:h2:0-25",
         "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.7804
+        "tagteam:parseProbability": 0.7804,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Agent_And_The_Analyst_471212e81343"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_fba35c9e4b1f"
+        }
       },
       {
         "@id": "inst:the_evidence",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the evidence",
         "tagteam:mentionId": "s0:h8:35-47",
         "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.8492
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Evidence_c4a319370847"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_fba35c9e4b1f"
+        }
       },
       {
         "@id": "inst:Act_reviewed",
         "@type": [
-          "cco:IntentionalAct"
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
         ],
         "rdfs:label": "reviewed",
-        "tagteam:lemma": "review"
+        "tagteam:lemma": "review",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_fba35c9e4b1f"
+        }
       },
       {
         "@id": "inst:Role_The_agent_and_the_analyst_cco_AgentRole",
@@ -118,6 +138,86 @@
         "rdfs:label": "the evidence as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Artifact_Agent_And_The_Analyst_471212e81343",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "agent and the analyst",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.690Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_fba35c9e4b1f",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Evidence_c4a319370847",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "evidence",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.690Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_fba35c9e4b1f",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_fba35c9e4b1f",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The agent and the analyst reviewed the evidence",
+        "tagteam:char_count": 47,
+        "tagteam:word_count": 8,
+        "tagteam:received_at": "2026-02-17T19:15:44.682Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_fba35c9e",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_fba35c9e4b1f"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_agent_and_the_analyst"
+          },
+          {
+            "@id": "inst:the_evidence"
+          },
+          {
+            "@id": "inst:Act_reviewed"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.682Z"
       }
     ]
   }

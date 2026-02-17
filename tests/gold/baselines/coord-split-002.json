@@ -8,7 +8,7 @@
     "copular",
     "government"
   ],
-  "generatedAt": "2026-02-17T18:10:08.653Z",
+  "generatedAt": "2026-02-17T19:15:44.679Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -43,22 +43,38 @@
       {
         "@id": "inst:CBP_and_ICE",
         "@type": [
-          "cco:Organization"
+          "cco:Organization",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "CBP and ICE",
         "tagteam:mentionId": "s0:h1:0-11",
         "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.7804
+        "tagteam:parseProbability": 0.7804,
+        "tagteam:denotesType": "cco:Organization",
+        "cco:is_about": {
+          "@id": "inst:Organization_Cbp_And_Ice_5396d99f1b69"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_6f7877c05cfe"
+        }
       },
       {
         "@id": "inst:DHS",
         "@type": [
-          "cco:Organization"
+          "cco:Organization",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "DHS",
         "tagteam:mentionId": "s0:h7:30-33",
         "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.6583
+        "tagteam:parseProbability": 0.6583,
+        "tagteam:denotesType": "cco:Organization",
+        "cco:is_about": {
+          "@id": "inst:Organization_Dhs_252b873869b6"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_6f7877c05cfe"
+        }
       },
       {
         "@id": "inst:Assertion_CBP_and_ICE",
@@ -69,6 +85,83 @@
         "tagteam:pattern": "predication",
         "tagteam:object": "of DHS",
         "tagteam:copula": "are"
+      },
+      {
+        "@id": "inst:Organization_Cbp_And_Ice_5396d99f1b69",
+        "@type": [
+          "cco:Organization",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "cbp and ice",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.678Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_6f7877c05cfe",
+        "tagteam:denotesType": "cco:Organization"
+      },
+      {
+        "@id": "inst:Organization_Dhs_252b873869b6",
+        "@type": [
+          "cco:Organization",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "dhs",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.679Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_6f7877c05cfe",
+        "tagteam:denotesType": "cco:Organization"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_6f7877c05cfe",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "CBP and ICE are components of DHS",
+        "tagteam:char_count": 33,
+        "tagteam:word_count": 7,
+        "tagteam:received_at": "2026-02-17T19:15:44.669Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_6f7877c0",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_6f7877c05cfe"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:CBP_and_ICE"
+          },
+          {
+            "@id": "inst:DHS"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.669Z"
       }
     ]
   }

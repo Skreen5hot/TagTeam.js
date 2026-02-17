@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-17T18:10:08.627Z",
+  "generatedAt": "2026-02-17T19:15:44.651Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -69,48 +69,80 @@
       {
         "@id": "inst:The_supervisor",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The supervisor",
         "tagteam:mentionId": "s0:h2:0-14",
         "tagteam:parseConfidence": "low",
-        "tagteam:parseProbability": 0.3683
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Supervisor_2ac23de2f636"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_ec52282eb233"
+        }
       },
       {
         "@id": "inst:the_officer",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the officer",
         "tagteam:mentionId": "s0:h5:24-35",
         "tagteam:parseConfidence": "low",
-        "tagteam:parseProbability": 0.3683
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Officer_9541bcdb8dc4"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_ec52282eb233"
+        }
       },
       {
         "@id": "inst:a_new_case",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "a new case",
         "tagteam:mentionId": "s0:h8:36-46",
         "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.8492
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_New_Case_1c4b928f997c"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_ec52282eb233"
+        }
       },
       {
         "@id": "inst:Act_supervisor",
         "@type": [
-          "cco:IntentionalAct"
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
         ],
         "rdfs:label": "supervisor",
-        "tagteam:lemma": "supervisor"
+        "tagteam:lemma": "supervisor",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_ec52282eb233"
+        }
       },
       {
         "@id": "inst:Act_assigned",
         "@type": [
-          "cco:IntentionalAct"
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
         ],
         "rdfs:label": "assigned",
-        "tagteam:lemma": "assign"
+        "tagteam:lemma": "assign",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_ec52282eb233"
+        }
       },
       {
         "@id": "inst:Role_the_officer_cco_RecipientRole",
@@ -141,6 +173,103 @@
         "rdfs:label": "a new case as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:Artifact_Supervisor_2ac23de2f636",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "supervisor",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.650Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_ec52282eb233",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Officer_9541bcdb8dc4",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "officer",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.650Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_ec52282eb233",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_New_Case_1c4b928f997c",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "new case",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.650Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_ec52282eb233",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_ec52282eb233",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The supervisor assigned the officer a new case",
+        "tagteam:char_count": 46,
+        "tagteam:word_count": 8,
+        "tagteam:received_at": "2026-02-17T19:15:44.642Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_ec52282e",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_ec52282eb233"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_supervisor"
+          },
+          {
+            "@id": "inst:the_officer"
+          },
+          {
+            "@id": "inst:a_new_case"
+          },
+          {
+            "@id": "inst:Act_supervisor"
+          },
+          {
+            "@id": "inst:Act_assigned"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.642Z"
       }
     ]
   }

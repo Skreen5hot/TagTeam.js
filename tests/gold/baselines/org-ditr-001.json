@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-17T18:10:08.614Z",
+  "generatedAt": "2026-02-17T19:15:44.638Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -64,30 +64,50 @@
       {
         "@id": "inst:The_commander",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The commander",
         "tagteam:mentionId": "s0:h2:0-13",
         "tagteam:parseConfidence": "high",
-        "tagteam:parseProbability": 0.9433
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Person_Commander_3c1a280f82a6"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_04b1e6715106"
+        }
       },
       {
         "@id": "inst:the_team",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the team",
         "tagteam:mentionId": "s0:h5:19-27",
         "tagteam:parseConfidence": "low",
-        "tagteam:parseProbability": 0.3683
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Organization_Team_a4a75cbe1aff"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_04b1e6715106"
+        }
       },
       {
         "@id": "inst:Act_gave",
         "@type": [
-          "cco:IntentionalAct"
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
         ],
         "rdfs:label": "gave",
-        "tagteam:lemma": "give"
+        "tagteam:lemma": "give",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_04b1e6715106"
+        }
       },
       {
         "@id": "inst:Role_The_commander_cco_AgentRole",
@@ -118,6 +138,86 @@
         "rdfs:label": "the team as PatientRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Person_Commander_3c1a280f82a6",
+        "@type": [
+          "cco:Person",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "commander",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.638Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_04b1e6715106",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Organization_Team_a4a75cbe1aff",
+        "@type": [
+          "cco:Organization",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "team",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.638Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_04b1e6715106",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_04b1e6715106",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The commander gave the team new orders",
+        "tagteam:char_count": 38,
+        "tagteam:word_count": 7,
+        "tagteam:received_at": "2026-02-17T19:15:44.627Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_04b1e671",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_04b1e6715106"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_commander"
+          },
+          {
+            "@id": "inst:the_team"
+          },
+          {
+            "@id": "inst:Act_gave"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.627Z"
       }
     ]
   }

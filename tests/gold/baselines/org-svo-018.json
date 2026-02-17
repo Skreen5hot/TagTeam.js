@@ -8,7 +8,7 @@
     "action",
     "pp"
   ],
-  "generatedAt": "2026-02-17T18:10:08.534Z",
+  "generatedAt": "2026-02-17T19:15:44.552Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -66,48 +66,80 @@
       {
         "@id": "inst:The_auditor",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The auditor",
         "tagteam:mentionId": "s0:h2:0-11",
         "tagteam:parseConfidence": "low",
-        "tagteam:parseProbability": 0.3683
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Auditor_7f7093bfbfcc"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_111e711f71dc"
+        }
       },
       {
         "@id": "inst:discrepancies",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "discrepancies",
         "tagteam:mentionId": "s0:h4:23-36",
         "tagteam:parseConfidence": "low",
-        "tagteam:parseProbability": 0.3683
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Discrepancies_2d3081e0d9d8"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_111e711f71dc"
+        }
       },
       {
         "@id": "inst:the_records",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the records",
         "tagteam:mentionId": "s0:h7:40-51",
         "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.6583
+        "tagteam:parseProbability": 0.6583,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Records_0c93346c5f03"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_111e711f71dc"
+        }
       },
       {
         "@id": "inst:Act_auditor",
         "@type": [
-          "cco:IntentionalAct"
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
         ],
         "rdfs:label": "auditor",
-        "tagteam:lemma": "auditor"
+        "tagteam:lemma": "auditor",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_111e711f71dc"
+        }
       },
       {
         "@id": "inst:Act_discovered",
         "@type": [
-          "cco:IntentionalAct"
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
         ],
         "rdfs:label": "discovered",
-        "tagteam:lemma": "discover"
+        "tagteam:lemma": "discover",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_111e711f71dc"
+        }
       },
       {
         "@id": "inst:Role_discrepancies_cco_PatientRole",
@@ -139,6 +171,103 @@
         "tagteam:preposition": "in",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:Artifact_Auditor_7f7093bfbfcc",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "auditor",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.551Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_111e711f71dc",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Discrepancies_2d3081e0d9d8",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "discrepancies",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.552Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_111e711f71dc",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Records_0c93346c5f03",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "records",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.552Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_111e711f71dc",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_111e711f71dc",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The auditor discovered discrepancies in the records",
+        "tagteam:char_count": 51,
+        "tagteam:word_count": 7,
+        "tagteam:received_at": "2026-02-17T19:15:44.542Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_111e711f",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_111e711f71dc"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_auditor"
+          },
+          {
+            "@id": "inst:discrepancies"
+          },
+          {
+            "@id": "inst:the_records"
+          },
+          {
+            "@id": "inst:Act_auditor"
+          },
+          {
+            "@id": "inst:Act_discovered"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.542Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-17T18:10:08.145Z",
+  "generatedAt": "2026-02-17T19:15:44.186Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -38,22 +38,38 @@
       {
         "@id": "inst:ICE",
         "@type": [
-          "cco:Organization"
+          "cco:Organization",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "ICE",
         "tagteam:mentionId": "s0:h1:0-3",
         "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.6583
+        "tagteam:parseProbability": 0.6583,
+        "tagteam:denotesType": "cco:Organization",
+        "cco:is_about": {
+          "@id": "inst:Organization_Ice_6549468a19a4"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_58542db56a45"
+        }
       },
       {
         "@id": "inst:DHS",
         "@type": [
-          "cco:Organization"
+          "cco:Organization",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "DHS",
         "tagteam:mentionId": "s0:h6:24-27",
         "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.8492
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "cco:Organization",
+        "cco:is_about": {
+          "@id": "inst:Organization_Dhs_0cb940414a5e"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_58542db56a45"
+        }
       },
       {
         "@id": "inst:Assertion_ICE",
@@ -64,6 +80,83 @@
         "tagteam:pattern": "predication",
         "tagteam:object": "within DHS",
         "tagteam:copula": "is"
+      },
+      {
+        "@id": "inst:Organization_Ice_6549468a19a4",
+        "@type": [
+          "cco:Organization",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "ice",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.186Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_58542db56a45",
+        "tagteam:denotesType": "cco:Organization"
+      },
+      {
+        "@id": "inst:Organization_Dhs_0cb940414a5e",
+        "@type": [
+          "cco:Organization",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "dhs",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.186Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_58542db56a45",
+        "tagteam:denotesType": "cco:Organization"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_58542db56a45",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "ICE is an agency within DHS",
+        "tagteam:char_count": 27,
+        "tagteam:word_count": 6,
+        "tagteam:received_at": "2026-02-17T19:15:44.177Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_58542db5",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_58542db56a45"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:ICE"
+          },
+          {
+            "@id": "inst:DHS"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.177Z"
       }
     ]
   }

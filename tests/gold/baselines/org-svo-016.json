@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-17T18:10:08.505Z",
+  "generatedAt": "2026-02-17T19:15:44.524Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -56,30 +56,50 @@
       {
         "@id": "inst:The_patrol_unit",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The patrol unit",
         "tagteam:mentionId": "s0:h3:0-15",
         "tagteam:parseConfidence": "high",
-        "tagteam:parseProbability": 0.9433
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Organization_Patrol_Unit_9e14d377cc83"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_f4a24093cff1"
+        }
       },
       {
         "@id": "inst:the_perimeter",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the perimeter",
         "tagteam:mentionId": "s0:h6:24-37",
         "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.8492
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Perimeter_1fc31a2490b1"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_f4a24093cff1"
+        }
       },
       {
         "@id": "inst:Act_secured",
         "@type": [
-          "cco:IntentionalAct"
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
         ],
         "rdfs:label": "secured",
-        "tagteam:lemma": "secur"
+        "tagteam:lemma": "secur",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_f4a24093cff1"
+        }
       },
       {
         "@id": "inst:Role_The_patrol_unit_cco_AgentRole",
@@ -110,6 +130,86 @@
         "rdfs:label": "the perimeter as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Organization_Patrol_Unit_9e14d377cc83",
+        "@type": [
+          "cco:Organization",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "patrol unit",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.524Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_f4a24093cff1",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Perimeter_1fc31a2490b1",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "perimeter",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.524Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_f4a24093cff1",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_f4a24093cff1",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The patrol unit secured the perimeter",
+        "tagteam:char_count": 37,
+        "tagteam:word_count": 6,
+        "tagteam:received_at": "2026-02-17T19:15:44.516Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_f4a24093",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_f4a24093cff1"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_patrol_unit"
+          },
+          {
+            "@id": "inst:the_perimeter"
+          },
+          {
+            "@id": "inst:Act_secured"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.516Z"
       }
     ]
   }

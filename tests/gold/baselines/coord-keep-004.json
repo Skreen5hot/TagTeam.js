@@ -7,7 +7,7 @@
     "keep",
     "government"
   ],
-  "generatedAt": "2026-02-17T18:10:08.805Z",
+  "generatedAt": "2026-02-17T19:15:44.831Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -47,46 +47,160 @@
       {
         "@id": "inst:Fish_and_Wildlife_Service_manages",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "Fish and Wildlife Service manages",
         "tagteam:mentionId": "s0:h5:0-33",
         "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.6583
+        "tagteam:parseProbability": 0.6583,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Person_Fish_And_Wildlife_Service_Manages_4d5538b05cad"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_0256746c2cb5"
+        }
       },
       {
         "@id": "inst:areas",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "areas",
         "tagteam:mentionId": "s0:h7:44-49",
         "tagteam:parseConfidence": "high",
-        "tagteam:parseProbability": 0.9433
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Areas_8641479c2fdb"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_0256746c2cb5"
+        }
       },
       {
         "@id": "inst:Act_manages",
         "@type": [
-          "cco:IntentionalAct"
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
         ],
         "rdfs:label": "manages",
-        "tagteam:lemma": "manages"
+        "tagteam:lemma": "manages",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_0256746c2cb5"
+        }
       },
       {
         "@id": "inst:Act_protected",
         "@type": [
-          "cco:IntentionalAct"
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
         ],
         "rdfs:label": "protected",
-        "tagteam:lemma": "protect"
+        "tagteam:lemma": "protect",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_0256746c2cb5"
+        }
       },
       {
         "@id": "inst:Act_areas",
         "@type": [
-          "cco:IntentionalAct"
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
         ],
         "rdfs:label": "areas",
-        "tagteam:lemma": "areas"
+        "tagteam:lemma": "areas",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_0256746c2cb5"
+        }
+      },
+      {
+        "@id": "inst:Person_Fish_And_Wildlife_Service_Manages_4d5538b05cad",
+        "@type": [
+          "cco:Person",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "fish and wildlife service manages",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.831Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_0256746c2cb5",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Areas_8641479c2fdb",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "areas",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.831Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_0256746c2cb5",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_0256746c2cb5",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "Fish and Wildlife Service manages protected areas",
+        "tagteam:char_count": 49,
+        "tagteam:word_count": 7,
+        "tagteam:received_at": "2026-02-17T19:15:44.823Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_0256746c",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_0256746c2cb5"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:Fish_and_Wildlife_Service_manages"
+          },
+          {
+            "@id": "inst:areas"
+          },
+          {
+            "@id": "inst:Act_manages"
+          },
+          {
+            "@id": "inst:Act_protected"
+          },
+          {
+            "@id": "inst:Act_areas"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.823Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-17T18:10:08.676Z",
+  "generatedAt": "2026-02-17T19:15:44.703Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -64,30 +64,50 @@
       {
         "@id": "inst:The_director_and_the_deputy",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The director and the deputy",
         "tagteam:mentionId": "s0:h2:0-27",
         "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.6583
+        "tagteam:parseProbability": 0.6583,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Director_And_The_Deputy_187d4358c894"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_fd3482a97e5f"
+        }
       },
       {
         "@id": "inst:the_mission",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the mission",
         "tagteam:mentionId": "s0:h8:39-50",
         "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.889
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Mission_eddf903e3157"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_fd3482a97e5f"
+        }
       },
       {
         "@id": "inst:Act_authorized",
         "@type": [
-          "cco:IntentionalAct"
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
         ],
         "rdfs:label": "authorized",
-        "tagteam:lemma": "authoriz"
+        "tagteam:lemma": "authoriz",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_fd3482a97e5f"
+        }
       },
       {
         "@id": "inst:Role_The_director_and_the_deputy_cco_AgentRole",
@@ -118,6 +138,86 @@
         "rdfs:label": "the mission as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Artifact_Director_And_The_Deputy_187d4358c894",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "director and the deputy",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.703Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_fd3482a97e5f",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Mission_eddf903e3157",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "mission",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.703Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_fd3482a97e5f",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_fd3482a97e5f",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The director and the deputy authorized the mission",
+        "tagteam:char_count": 50,
+        "tagteam:word_count": 8,
+        "tagteam:received_at": "2026-02-17T19:15:44.693Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_fd3482a9",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_fd3482a97e5f"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_director_and_the_deputy"
+          },
+          {
+            "@id": "inst:the_mission"
+          },
+          {
+            "@id": "inst:Act_authorized"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.693Z"
       }
     ]
   }

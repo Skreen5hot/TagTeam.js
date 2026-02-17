@@ -7,7 +7,7 @@
     "split",
     "object"
   ],
-  "generatedAt": "2026-02-17T18:10:08.763Z",
+  "generatedAt": "2026-02-17T19:15:44.800Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -64,30 +64,50 @@
       {
         "@id": "inst:The_inspector",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The inspector",
         "tagteam:mentionId": "s0:h2:0-13",
         "tagteam:parseConfidence": "high",
-        "tagteam:parseProbability": 0.9433
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Inspector_bea3dc96e161"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_754e50158ed3"
+        }
       },
       {
         "@id": "inst:the_documents",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the documents",
         "tagteam:mentionId": "s0:h5:23-36",
         "tagteam:parseConfidence": "high",
-        "tagteam:parseProbability": 0.9272
+        "tagteam:parseProbability": 0.9272,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Documents_3c763780cd57"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_754e50158ed3"
+        }
       },
       {
         "@id": "inst:Act_reviewed",
         "@type": [
-          "cco:IntentionalAct"
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
         ],
         "rdfs:label": "reviewed",
-        "tagteam:lemma": "review"
+        "tagteam:lemma": "review",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_754e50158ed3"
+        }
       },
       {
         "@id": "inst:Role_The_inspector_cco_AgentRole",
@@ -118,6 +138,86 @@
         "rdfs:label": "the documents as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Artifact_Inspector_bea3dc96e161",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "inspector",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.799Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_754e50158ed3",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Documents_3c763780cd57",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "documents",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.799Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_754e50158ed3",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_754e50158ed3",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The inspector reviewed the documents and the photographs",
+        "tagteam:char_count": 56,
+        "tagteam:word_count": 8,
+        "tagteam:received_at": "2026-02-17T19:15:44.792Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_754e5015",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_754e50158ed3"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_inspector"
+          },
+          {
+            "@id": "inst:the_documents"
+          },
+          {
+            "@id": "inst:Act_reviewed"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.792Z"
       }
     ]
   }

@@ -96,7 +96,16 @@ for (const sentence of sentences) {
       const isRole = types.some(t => t.includes('Role'));
       const isAssertion = types.some(t => t.includes('StructuralAssertion'));
 
-      if (!isAct && !isRole && !isAssertion && node['rdfs:label']) {
+      // Skip provenance and Tier 2 infrastructure nodes
+      const isProvenance = types.some(t =>
+        t.includes('InformationBearingEntity') || t.includes('ArtificialAgent') ||
+        t.includes('ActOfArtificialProcessing')
+      );
+      const isTier2 = types.includes('owl:NamedIndividual') &&
+        !types.includes('tagteam:DiscourseReferent') &&
+        !types.includes('tagteam:VerbPhrase');
+
+      if (!isAct && !isRole && !isAssertion && !isProvenance && !isTier2 && node['rdfs:label']) {
         extractedEntities.push({
           text: node['rdfs:label'],
           type: types[0] || 'bfo:Entity',

@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-17T18:10:08.341Z",
+  "generatedAt": "2026-02-17T19:15:44.367Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -56,30 +56,50 @@
       {
         "@id": "inst:The_committee",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The committee",
         "tagteam:mentionId": "s0:h2:0-13",
         "tagteam:parseConfidence": "high",
-        "tagteam:parseProbability": 0.9433
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Organization_Committee_a08e0be51ef5"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_aaaf63c68cad"
+        }
       },
       {
         "@id": "inst:the_proposal",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the proposal",
         "tagteam:mentionId": "s0:h5:23-35",
         "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.8492
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Proposal_60434628cc68"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_aaaf63c68cad"
+        }
       },
       {
         "@id": "inst:Act_reviewed",
         "@type": [
-          "cco:IntentionalAct"
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
         ],
         "rdfs:label": "reviewed",
-        "tagteam:lemma": "review"
+        "tagteam:lemma": "review",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_aaaf63c68cad"
+        }
       },
       {
         "@id": "inst:Role_The_committee_cco_AgentRole",
@@ -110,6 +130,86 @@
         "rdfs:label": "the proposal as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Organization_Committee_a08e0be51ef5",
+        "@type": [
+          "cco:Organization",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "committee",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.366Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_aaaf63c68cad",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Proposal_60434628cc68",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "proposal",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.366Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_aaaf63c68cad",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_aaaf63c68cad",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The committee reviewed the proposal",
+        "tagteam:char_count": 35,
+        "tagteam:word_count": 5,
+        "tagteam:received_at": "2026-02-17T19:15:44.359Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_aaaf63c6",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_aaaf63c68cad"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_committee"
+          },
+          {
+            "@id": "inst:the_proposal"
+          },
+          {
+            "@id": "inst:Act_reviewed"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.359Z"
       }
     ]
   }

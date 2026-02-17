@@ -128,6 +128,9 @@ const _GazetteerNER = (typeof GazetteerNER !== 'undefined') ? GazetteerNER : (()
 const _ConfidenceAnnotator = (typeof ConfidenceAnnotator !== 'undefined') ? ConfidenceAnnotator : (() => {
   try { return require('./ConfidenceAnnotator'); } catch (e) { return null; }
 })();
+const _RealWorldEntityFactory = (typeof RealWorldEntityFactory !== 'undefined') ? RealWorldEntityFactory : (() => {
+  try { return require('./RealWorldEntityFactory'); } catch (e) { return null; }
+})();
 
 /**
  * Main class for building semantic graphs in JSON-LD format
@@ -2010,6 +2013,84 @@ class SemanticGraphBuilder {
         }
         graphNodes.push(roleNode);
       }
+
+      // --- Two-Tier ICE: Create Tier 2 real-world entities ---
+      if (_RealWorldEntityFactory) {
+        const entityFactory = new _RealWorldEntityFactory({
+          graphBuilder: this,
+          documentIRI: `inst:Input_Text_IBE_${this._hashText(text)}`
+        });
+
+        // Filter entity nodes (exclude Acts, Roles, Assertions)
+        const referentNodes = graphNodes.filter(n => {
+          const t = [].concat(n['@type'] || []);
+          return !t.some(x => x.includes('Act') || x.includes('Role') || x.includes('Assertion'));
+        });
+
+        // Bootstrap tagteam:denotesType from @type[0] and mark as DiscourseReferent
+        for (const node of referentNodes) {
+          const types = [].concat(node['@type'] || []);
+          if (!node['tagteam:denotesType'] && types[0]) {
+            node['tagteam:denotesType'] = types[0];
+          }
+          if (!types.includes('tagteam:DiscourseReferent')) {
+            node['@type'].push('tagteam:DiscourseReferent');
+          }
+        }
+
+        // Create Tier 2 entities and link via cco:is_about
+        const { tier2Entities, linkMap } = entityFactory.createFromReferents(referentNodes);
+        for (const node of referentNodes) {
+          const tier2IRI = linkMap.get(node['@id']);
+          if (tier2IRI) {
+            node['cco:is_about'] = { '@id': tier2IRI };
+          }
+        }
+        for (const t2 of tier2Entities) {
+          graphNodes.push(t2);
+        }
+      }
+
+      // Mark act nodes as VerbPhrase ICE
+      for (const node of graphNodes) {
+        const types = [].concat(node['@type'] || []);
+        if (types.includes('cco:IntentionalAct') && !types.includes('tagteam:VerbPhrase')) {
+          node['@type'].push('tagteam:VerbPhrase');
+        }
+      }
+
+      // --- Provenance: IBE + ArtificialAgent + ActOfArtificialProcessing ---
+      const ibeNode = this.informationStaircaseBuilder.createInputIBE(text, this.buildTimestamp);
+      const parserAgentNode = this.informationStaircaseBuilder.createParserAgent();
+      graphNodes.push(ibeNode);
+      graphNodes.push(parserAgentNode);
+
+      // Link all ICE nodes to IBE via cco:is_concretized_by
+      const iceTypes = ['tagteam:DiscourseReferent', 'tagteam:VerbPhrase'];
+      for (const node of graphNodes) {
+        const types = [].concat(node['@type'] || []);
+        if (iceTypes.some(t => types.includes(t)) && !node['cco:is_concretized_by']) {
+          node['cco:is_concretized_by'] = { '@id': ibeNode['@id'] };
+        }
+      }
+
+      // Create ParsingAct
+      const parsingActIRI = `inst:ParsingAct_${this._hashText(text).substring(0, 8)}`;
+      const iceNodes = graphNodes.filter(n => {
+        const types = [].concat(n['@type'] || []);
+        return iceTypes.some(t => types.includes(t));
+      });
+      const parsingAct = {
+        '@id': parsingActIRI,
+        '@type': ['cco:ActOfArtificialProcessing', 'owl:NamedIndividual'],
+        'rdfs:label': 'Semantic parsing act',
+        'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
+        'cco:has_input': { '@id': ibeNode['@id'] },
+        'cco:has_agent': { '@id': parserAgentNode['@id'] },
+        'cco:has_output': iceNodes.map(n => ({ '@id': n['@id'] })),
+        'tagteam:instantiated_at': this.buildTimestamp
+      };
+      graphNodes.push(parsingAct);
 
       // AC-4.8: Sanitize all string values in graph nodes to prevent XSS
       for (const node of graphNodes) {

@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-17T18:10:08.274Z",
+  "generatedAt": "2026-02-17T19:15:44.298Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -43,32 +43,56 @@
       {
         "@id": "inst:The_attorney_general",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The attorney general",
         "tagteam:mentionId": "s0:h3:0-20",
         "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.8492
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Attorney_General_ee27a2a18ad3"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_94048581b04c"
+        }
       },
       {
         "@id": "inst:the_Department_of_Justice",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the Department of Justice",
         "tagteam:mentionId": "s0:h9:36-61",
         "tagteam:parseConfidence": "low",
-        "tagteam:parseProbability": 0.3683
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Organization_Department_Of_Justice_47bc1d298103"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_94048581b04c"
+        }
       },
       {
         "@id": "inst:Justice",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "Justice",
         "tagteam:mentionId": "s0:h11:54-61",
         "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.8492
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Justice_043f2cfe54a8"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_94048581b04c"
+        }
       },
       {
         "@id": "inst:Assertion_The_attorney_general",
@@ -79,6 +103,97 @@
         "tagteam:pattern": "predication",
         "tagteam:object": "of the Department of Justice",
         "tagteam:copula": "is"
+      },
+      {
+        "@id": "inst:Artifact_Attorney_General_ee27a2a18ad3",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "attorney general",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.297Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_94048581b04c",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Organization_Department_Of_Justice_47bc1d298103",
+        "@type": [
+          "cco:Organization",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "department of justice",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.297Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_94048581b04c",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Justice_043f2cfe54a8",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "justice",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.297Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_94048581b04c",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_94048581b04c",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The attorney general is the head of the Department of Justice",
+        "tagteam:char_count": 61,
+        "tagteam:word_count": 11,
+        "tagteam:received_at": "2026-02-17T19:15:44.284Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_94048581",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_94048581b04c"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_attorney_general"
+          },
+          {
+            "@id": "inst:the_Department_of_Justice"
+          },
+          {
+            "@id": "inst:Justice"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.284Z"
       }
     ]
   }

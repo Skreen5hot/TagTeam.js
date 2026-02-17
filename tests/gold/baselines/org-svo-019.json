@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-17T18:10:08.545Z",
+  "generatedAt": "2026-02-17T19:15:44.565Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -56,30 +56,50 @@
       {
         "@id": "inst:The_judge",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The judge",
         "tagteam:mentionId": "s0:h2:0-9",
         "tagteam:parseConfidence": "high",
-        "tagteam:parseProbability": 0.9479
+        "tagteam:parseProbability": 0.9479,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Judge_3a0085aa5db1"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_b33178564168"
+        }
       },
       {
         "@id": "inst:the_defendant",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the defendant",
         "tagteam:mentionId": "s0:h5:20-33",
         "tagteam:parseConfidence": "high",
-        "tagteam:parseProbability": 0.9272
+        "tagteam:parseProbability": 0.9272,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Defendant_e7d46a32d739"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_b33178564168"
+        }
       },
       {
         "@id": "inst:Act_sentenced",
         "@type": [
-          "cco:IntentionalAct"
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
         ],
         "rdfs:label": "sentenced",
-        "tagteam:lemma": "sentenc"
+        "tagteam:lemma": "sentenc",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_b33178564168"
+        }
       },
       {
         "@id": "inst:Role_The_judge_cco_AgentRole",
@@ -110,6 +130,86 @@
         "rdfs:label": "the defendant as PatientRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Artifact_Judge_3a0085aa5db1",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "judge",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.565Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_b33178564168",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Defendant_e7d46a32d739",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "defendant",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.565Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_b33178564168",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_b33178564168",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The judge sentenced the defendant",
+        "tagteam:char_count": 33,
+        "tagteam:word_count": 5,
+        "tagteam:received_at": "2026-02-17T19:15:44.556Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_b3317856",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_b33178564168"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_judge"
+          },
+          {
+            "@id": "inst:the_defendant"
+          },
+          {
+            "@id": "inst:Act_sentenced"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.556Z"
       }
     ]
   }

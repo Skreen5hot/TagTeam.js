@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-17T18:10:08.375Z",
+  "generatedAt": "2026-02-17T19:15:44.399Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -56,30 +56,50 @@
       {
         "@id": "inst:The_officer",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The officer",
         "tagteam:mentionId": "s0:h2:0-11",
         "tagteam:parseConfidence": "high",
-        "tagteam:parseProbability": 0.9272
+        "tagteam:parseProbability": 0.9272,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Officer_60c691ed012a"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_6e24e7fb5edc"
+        }
       },
       {
         "@id": "inst:the_individual",
         "@type": [
-          "bfo:Entity"
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the individual",
         "tagteam:mentionId": "s0:h5:21-35",
         "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.7804
+        "tagteam:parseProbability": 0.7804,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Individual_805c1014f5d1"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_6e24e7fb5edc"
+        }
       },
       {
         "@id": "inst:Act_detained",
         "@type": [
-          "cco:IntentionalAct"
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
         ],
         "rdfs:label": "detained",
-        "tagteam:lemma": "detain"
+        "tagteam:lemma": "detain",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_6e24e7fb5edc"
+        }
       },
       {
         "@id": "inst:Role_The_officer_cco_AgentRole",
@@ -110,6 +130,86 @@
         "rdfs:label": "the individual as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804
+      },
+      {
+        "@id": "inst:Artifact_Officer_60c691ed012a",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "officer",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.399Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_6e24e7fb5edc",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Individual_805c1014f5d1",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "individual",
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.399Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_6e24e7fb5edc",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_6e24e7fb5edc",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The officer detained the individual",
+        "tagteam:char_count": 35,
+        "tagteam:word_count": 5,
+        "tagteam:received_at": "2026-02-17T19:15:44.392Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_6e24e7fb",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_6e24e7fb5edc"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_officer"
+          },
+          {
+            "@id": "inst:the_individual"
+          },
+          {
+            "@id": "inst:Act_detained"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-17T19:15:44.392Z"
       }
     ]
   }
