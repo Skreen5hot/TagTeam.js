@@ -140,6 +140,9 @@ const treeEntityExtractorPath = path.join(__dirname, '..', 'src', 'graph', 'Tree
 const treeActExtractorPath = path.join(__dirname, '..', 'src', 'graph', 'TreeActExtractor.js');
 const treeRoleMapperPath = path.join(__dirname, '..', 'src', 'graph', 'TreeRoleMapper.js');
 
+// v2 Phase 3B: Confidence annotator
+const confidenceAnnotatorPath = path.join(__dirname, '..', 'src', 'graph', 'ConfidenceAnnotator.js');
+
 // Security modules
 const inputValidatorPath = path.join(__dirname, '..', 'src', 'security', 'input-validator.js');
 const ontologyIntegrityPath = path.join(__dirname, '..', 'src', 'security', 'ontology-integrity.js');
@@ -253,6 +256,9 @@ let perceptronTagger2 = fs.readFileSync(perceptronTaggerPath, 'utf8');
 let treeEntityExtractor = fs.readFileSync(treeEntityExtractorPath, 'utf8');
 let treeActExtractor = fs.readFileSync(treeActExtractorPath, 'utf8');
 let treeRoleMapper = fs.readFileSync(treeRoleMapperPath, 'utf8');
+
+// v2 Phase 3B: Confidence annotator
+let confidenceAnnotator = fs.readFileSync(confidenceAnnotatorPath, 'utf8');
 
 // Security modules
 let inputValidator = fs.readFileSync(inputValidatorPath, 'utf8');
@@ -584,6 +590,9 @@ console.log('  ✓ Converted TreeActExtractor to browser format');
 
 treeRoleMapper = stripCommonJS(treeRoleMapper, 'TreeRoleMapper');
 console.log('  ✓ Converted TreeRoleMapper to browser format');
+
+confidenceAnnotator = stripCommonJS(confidenceAnnotator, 'ConfidenceAnnotator');
+console.log('  ✓ Converted ConfidenceAnnotator to browser format');
 
 // Build the bundle
 console.log('\n🔧 Building bundle...');
@@ -1095,6 +1104,12 @@ ${treeActExtractor}
 ${treeRoleMapper}
 
   // ============================================================================
+  // v2 PHASE 3B: CONFIDENCE ANNOTATOR
+  // ============================================================================
+
+${confidenceAnnotator}
+
+  // ============================================================================
   // SEMANTIC GRAPH BUILDER (Phase 4 - Week 1 + Week 2 + Phase 6)
   // ============================================================================
 
@@ -1107,6 +1122,7 @@ ${semanticGraphBuilder}
   // Cache for pre-loaded tree pipeline models (browser use)
   let _cachedPosModel = null;
   let _cachedDepModel = null;
+  let _cachedCalibration = null;
 
   /**
    * TagTeam - Unified API for semantic parsing
@@ -1247,10 +1263,12 @@ ${semanticGraphBuilder}
      *
      * @param {Object} posJSON - Parsed POS tagger weights (pos-weights-pruned.json)
      * @param {Object} depJSON - Parsed dependency parser weights (dep-weights-pruned.json)
+     * @param {Object} [calibrationJSON] - Parsed calibration table (dep-calibration.json)
      */
-    loadTreeModels: function(posJSON, depJSON) {
+    loadTreeModels: function(posJSON, depJSON, calibrationJSON) {
       _cachedPosModel = posJSON;
       _cachedDepModel = depJSON;
+      if (calibrationJSON) _cachedCalibration = calibrationJSON;
     },
 
     /**
@@ -1270,6 +1288,9 @@ ${semanticGraphBuilder}
       }
       if (_cachedDepModel) {
         builder._treeDepParser = new DependencyParser(_cachedDepModel);
+      }
+      if (_cachedCalibration) {
+        builder._calibration = _cachedCalibration;
       }
       return builder.build(text, Object.assign({}, options, { useTreeExtractors: true }));
     },
@@ -1357,6 +1378,9 @@ ${semanticGraphBuilder}
     TreeEntityExtractor: TreeEntityExtractor,
     TreeActExtractor: TreeActExtractor,
     TreeRoleMapper: TreeRoleMapper,
+
+    // v2 Phase 3B: Confidence annotator
+    ConfidenceAnnotator: ConfidenceAnnotator,
 
     // Security modules
     validateInput: validateInput,
@@ -1640,6 +1664,11 @@ fs.copyFileSync(posModelSrc, path.join(modelsDir, 'pos-weights-pruned.json'));
 console.log(`  ✓ pos-weights-pruned.json (${(fs.statSync(posModelSrc).size / 1024 / 1024).toFixed(2)} MB)`);
 fs.copyFileSync(depModelSrc, path.join(modelsDir, 'dep-weights-pruned.json'));
 console.log(`  ✓ dep-weights-pruned.json (${(fs.statSync(depModelSrc).size / 1024 / 1024).toFixed(2)} MB)`);
+const calSrc = path.join(__dirname, '..', 'training', 'models', 'dep-calibration.json');
+if (fs.existsSync(calSrc)) {
+  fs.copyFileSync(calSrc, path.join(modelsDir, 'dep-calibration.json'));
+  console.log(`  ✓ dep-calibration.json (${(fs.statSync(calSrc).size / 1024).toFixed(2)} KB)`);
+}
 
 // Summary
 console.log('\n✨ Build complete!\n');
