@@ -128,6 +128,9 @@ const _GazetteerNER = (typeof GazetteerNER !== 'undefined') ? GazetteerNER : (()
 const _ConfidenceAnnotator = (typeof ConfidenceAnnotator !== 'undefined') ? ConfidenceAnnotator : (() => {
   try { return require('./ConfidenceAnnotator'); } catch (e) { return null; }
 })();
+const _DepTreeCorrector = (typeof DepTreeCorrector !== 'undefined') ? DepTreeCorrector : (() => {
+  try { return require('../core/DepTreeCorrector'); } catch (e) { return null; }
+})();
 const _RealWorldEntityFactory = (typeof RealWorldEntityFactory !== 'undefined') ? RealWorldEntityFactory : (() => {
   try { return require('./RealWorldEntityFactory'); } catch (e) { return null; }
 })();
@@ -1848,6 +1851,13 @@ class SemanticGraphBuilder {
         this._treeDepParser = depParser;
       }
       const parseResult = depParser.parse(tokens, tags);
+
+      // Stage 4.1: Ditransitive arc correction (AC-4.3b)
+      // Rewrites compound→iobj for ditransitive verbs before tree construction
+      if (_DepTreeCorrector) {
+        _DepTreeCorrector.correctDitransitives(parseResult.arcs, tokens, tags);
+      }
+
       const depTree = new _DepTree(parseResult.arcs, tokens, tags);
 
       // Stage 4.5: Calibration table loading (lazy-load, cached)

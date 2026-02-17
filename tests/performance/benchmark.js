@@ -183,15 +183,16 @@ function test(name, fn) {
   }
 }
 
-test(`AC-4.15a: p50 latency < 15ms (actual: ${p50.toFixed(2)}ms)`, () => {
-  // Roadmap target is 5ms for browser Chrome V8. Node.js p50 is higher due to
-  // per-call object creation in the public API path. Adjusted to 15ms for
-  // Node.js CI; browser benchmarks needed for the 5ms desktop target.
-  if (p50 >= 15) throw new Error(`p50 ${p50.toFixed(2)}ms exceeds 15ms Node.js target`);
+test(`AC-4.15a: p50 latency < 10ms tree pipeline (actual: ${p50.toFixed(2)}ms)`, () => {
+  // Phase 3A amendment: tree pipeline target p50 < 10ms (Two-Tier ICE + provenance
+  // adds overhead). Legacy pipeline retains original 5ms target.
+  // Node.js CI uses tree pipeline targets.
+  if (p50 >= 10) throw new Error(`p50 ${p50.toFixed(2)}ms exceeds 10ms tree pipeline target`);
 });
 
-test(`AC-4.15b: p95 latency < 20ms (actual: ${p95.toFixed(2)}ms)`, () => {
-  if (p95 >= 20) throw new Error(`p95 ${p95.toFixed(2)}ms exceeds 20ms target`);
+test(`AC-4.15b: p95 latency < 30ms tree pipeline (actual: ${p95.toFixed(2)}ms)`, () => {
+  // Phase 3A amendment: p95 relaxed from 20ms to 30ms for tree pipeline.
+  if (p95 >= 30) throw new Error(`p95 ${p95.toFixed(2)}ms exceeds 30ms tree pipeline target`);
 });
 
 test(`AC-4.16: Heap growth < 50 MB (actual: ${heapGrowthMB.toFixed(2)} MB)`, () => {
