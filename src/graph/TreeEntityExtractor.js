@@ -200,26 +200,11 @@ class TreeEntityExtractor {
       return null; // Common nouns → KEEP
     }
 
-    // Check gazetteer for all conjuncts.
-    // Three cases:
-    //   ALL found → proceed to SPLIT (gazetteer confirms distinct entities)
-    //   PARTIAL miss (some found, some not) → KEEP (ambiguous compound name)
-    //   NONE found → proceed to SPLIT (no gazetteer info, rely on NNP + no-compound)
-    if (this.gazetteerNER) {
-      const headText = depTree.tokens[headId - 1];
-      const headLookup = this.gazetteerNER.lookup(headText);
-      let anyFound = headLookup !== null;
-      let allFound = headLookup !== null;
-
-      for (const conj of conjChildren) {
-        const conjText = depTree.tokens[conj.dependent - 1];
-        const conjLookup = this.gazetteerNER.lookup(conjText);
-        if (conjLookup) anyFound = true;
-        else allFound = false;
-      }
-
-      if (anyFound && !allFound) return null; // Partial miss → KEEP
-    }
+    // Gazetteer check removed: the compound-crossing check above (lines 181-192)
+    // is the authoritative guard against splitting multi-word names like
+    // "Customs and Border Protection". The gazetteer partial-miss heuristic
+    // was redundant and caused false KEEPs when one conjunct happened to be
+    // a gazetteer alias (e.g., "Bob" → Robert) but the other wasn't.
 
     // All checks passed → SPLIT
     const result = [];
