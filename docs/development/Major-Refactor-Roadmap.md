@@ -595,7 +595,8 @@ and infrastructure tests pass (65/65). Domain fine-tuning (post-Phase 5) may imp
 **Dependencies**: Phase 2 complete (dependency parser and DepTree available)
 
 > **Note**: Phase 3 is split into 3A (core NLP extraction) and 3B (infrastructure & integration).
-> Phase 3B depends on 3A. This split allows the core extraction to be validated independently
+> 
+depends on 3A. This split allows the core extraction to be validated independently
 > before layering on confidence propagation, debug output, and async model loading.
 
 ### Deliverables
@@ -1085,6 +1086,16 @@ Test: evaluation-200.test.js
 - AND entity boundary F1 ≥ 88%
 - AND role assignment F1 ≥ 85%
 - AND copular detection accuracy ≥ 95% on copular subset (50 sentences)
+
+Scoring methodology (Phase 3A amendment):
+- Entity/Act/Role F1: Score against Tier 1 extraction only
+  (DiscourseReferents, IntentionalActs, Roles). Exclude Tier 2
+  owl:NamedIndividual nodes and provenance infrastructure
+  (IBE, ArtificialAgent, ActOfArtificialProcessing) from counts.
+- Structural integrity check (pass/fail, separate from F1):
+  Tier 2 nodes exist, cco:is_about links correct, provenance
+  triple present and linked. Do not conflate extraction accuracy
+  with ontology wiring correctness.
 ```
 
 ##### AC-4.2: CBP-Class Organizational Sentences
@@ -1097,6 +1108,22 @@ Test: evaluation-200.test.js (subset)
 - AND aliases extracted from appositions
 ```
 
+##### AC-4.2b: Stative vs. Agentive Passive (Phase 3A amendment)
+```
+Test: evaluation-200.test.js (subset)
+- GIVEN 10 sentences mixing stative locatives ("is located in")
+  and agentive passives ("was located by", "was found by")
+- WHEN processed
+- THEN stative → StructuralAssertion (no Act)
+- AND agentive passive → IntentionalAct + correct roles
+- AND zero crossover (no stative classified as agentive or vice versa)
+
+Rationale: Phase 3A Fix 5 added a heuristic that checks `case`
+children of `obl` arguments to distinguish stative from agentive.
+This deserves explicit gold coverage given the subtlety of the
+distinction.
+```
+
 ##### AC-4.3: Coordination Split Decisions
 ```
 Test: evaluation-200.test.js (subset)
@@ -1104,6 +1131,31 @@ Test: evaluation-200.test.js (subset)
 - WHEN processed
 - THEN split/keep decisions match gold annotations
 - AND split entities inherit parent dependency role
+
+Phase 3A amendment:
+- At least 3-5 of the 20 sentences MUST include three-way
+  coordination (e.g., "Alice, Bob, and Carol reviewed the proposal").
+- Fix 3's recursive _propagateToConjuncts was validated for two-way
+  coordination only. Three-way tests exercise the recursive path
+  through conj children of conj children.
+```
+
+##### AC-4.3b: Ditransitive Verb Subcategorization (Phase 3A amendment)
+```
+Advisory (implementation decision required before gold set finalization):
+- Tree pipeline merges ditransitive objects into single entities
+  (e.g., "The nurse gave the patient medication" → "the patient
+  medication" as one entity, where legacy correctly separates all three).
+- Option A: Implement verb subcategorization — short ditransitive verb
+  list (give, send, hand, show, tell, offer, teach, bring, pass, award);
+  if verb lemma is in the list and parser produces `compound` where
+  `iobj` is expected, rewrite the arc. ~30 lines in a DepTreeCorrector
+  module.
+- Option B: If not implemented in Phase 4, set gold set expectations
+  for ditransitive sentences to match current (broken) behavior so
+  known failures are documented, not hidden.
+
+Decision: [ ] Option A (implement) / [ ] Option B (document as known gap)
 ```
 
 #### Adversarial & Edge Cases
@@ -1152,6 +1204,21 @@ Test: security/sanitization.test.js
 - WHEN graph produced
 - THEN rdfs:label is HTML-escaped in JSON-LD
 - AND no raw HTML in any string value
+```
+
+##### AC-4.8b: XSS via Provenance Nodes (Phase 3A amendment)
+```
+Test: security/sanitization.test.js
+- GIVEN input: '<img src=x onerror=alert(1)> is an entity'
+- WHEN graph produced
+- THEN IBE node's cco:has_text_value has all HTML escaped
+- AND no unescaped angle brackets or quotes in any provenance node
+
+Rationale: The IBE node's cco:has_text_value stores raw input text —
+this is the most direct path from user input to graph output. A
+regression was caught and fixed during Phase 3A review (19/20 → 20/20
+sanitization). Explicit coverage prevents future regressions on this
+specific vector.
 ```
 
 ##### AC-4.9: JSON Injection
@@ -1224,7 +1291,16 @@ Test: model-loading.test.js
 Test: (benchmark)
 - GIVEN 100 representative sentences
 - WHEN processed on desktop Chrome
-- THEN p50 < 5ms, p95 < 20ms per sentence for buildGraph()
+- THEN p50 < 10ms, p95 < 30ms per sentence for buildTreeGraph()
+- AND p50 < 5ms, p95 < 20ms per sentence for legacy buildGraph()
+
+Phase 3A amendment: Original target (p50 < 5ms) was set before
+Two-Tier ICE + provenance wiring. Tree pipeline with Tier 2 entity
+creation, IRI hashing, and provenance linking adds overhead. Phase 3A
+demo times show 7-10ms for tree pipeline. Targets split by pipeline:
+tree pipeline relaxed to p50 < 10ms; legacy pipeline retains original
+target. If tree pipeline exceeds 10ms, profile ICE wiring step for
+optimization before escalating.
 ```
 
 ##### AC-4.16: Desktop Memory
@@ -1267,6 +1343,15 @@ Test: (integration)
 - TagTeam.buildGraph(text) returns valid JSON-LD @graph
 - TagTeam.toJSONLD(text) returns valid JSON-LD string
 - All existing options (verbose, detectAmbiguity, etc.) still work
+
+Phase 3A amendment — Two-tier ICE path isolation:
+- buildGraph() → legacy format (no DiscourseReferent tags, no Tier 2
+  nodes, no provenance triple)
+- buildTreeGraph() / build({useTreeExtractors: true}) → two-tier ICE
+  format (DiscourseReferents, Tier 2 entities, IBE + Agent + ParsingAct)
+- No shared mutable state between the two paths
+- Verify explicitly: legacy build() output does NOT contain
+  owl:NamedIndividual-only nodes or cco:is_about links
 ```
 
 #### Attribution & Legal
@@ -1281,6 +1366,13 @@ Test: (build validation)
   - GeoNames: CC-BY (if used for place gazetteer)
   - Any other training data with copyleft or attribution requirements
 - AND the LICENSE file references THIRD_PARTY_LICENSES.md for training data attribution
+
+Phase 3A amendment — Gazetteer data sources:
+- THIRD_PARTY_LICENSES.md MUST also list the provenance of gazetteer
+  data files (src/data/gazetteers/names.json, organizations.json,
+  places.json). If derived from government datasets, document as
+  public domain with source attribution. Legal sign-off should cover
+  these alongside UD-EWT.
 ```
 
 ### Phase 4 Exit Criteria (RELEASE GATE)
@@ -1300,6 +1392,8 @@ Test: (build validation)
 - [ ] Demo pages updated and working
 - [ ] Evaluation report published with confusion matrix
 - [ ] Performance report published
+- [ ] Two-tier ICE + provenance nodes present and correctly linked in all tree pipeline outputs (`npm run test:two-tier` → 23/23) *(Phase 3A amendment)*
+- [ ] Legacy demo side-by-side comparison shows acts and roles in both panels *(Phase 3A amendment — regression fixed in a020345)*
 
 ---
 
