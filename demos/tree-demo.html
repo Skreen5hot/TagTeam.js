@@ -454,20 +454,24 @@
         const types = [].concat(node['@type'] || []);
         // Skip provenance/infrastructure nodes for legacy panel
         if (types.some(t => t.includes('InformationBearingEntity') || t.includes('ArtificialAgent') || t.includes('ActOfArtificialProcessing'))) continue;
-        // Skip Tier 2 entities (owl:NamedIndividual without DiscourseReferent)
-        if (types.includes('owl:NamedIndividual') && !types.includes('tagteam:DiscourseReferent') && !types.includes('tagteam:VerbPhrase')) continue;
 
+        // Classify acts and roles BEFORE Tier 2 filter — legacy acts/roles
+        // also carry owl:NamedIndividual and would be incorrectly stripped
         if (types.some(t => t.includes('Role'))) {
           roles.push(node);
         } else if (types.some(t => t.includes('Act') || t.includes('Process'))) {
           acts.push(node);
-        } else if (types.some(t =>
-          t.includes('Person') || t.includes('Agent') || t.includes('Entity') ||
-          t.includes('Artifact') || t.includes('Organization') || t.includes('Quality') ||
-          t.includes('DiscourseReferent') || t.includes('InformationContentEntity') ||
-          t.includes('Facility') || t.includes('Aggregate')
-        )) {
-          entities.push(node);
+        } else {
+          // Skip Tier 2 entities (owl:NamedIndividual without DiscourseReferent) — entities only
+          if (types.includes('owl:NamedIndividual') && !types.includes('tagteam:DiscourseReferent') && !types.includes('tagteam:VerbPhrase')) continue;
+          if (types.some(t =>
+            t.includes('Person') || t.includes('Agent') || t.includes('Entity') ||
+            t.includes('Artifact') || t.includes('Organization') || t.includes('Quality') ||
+            t.includes('DiscourseReferent') || t.includes('InformationContentEntity') ||
+            t.includes('Facility') || t.includes('Aggregate')
+          )) {
+            entities.push(node);
+          }
         }
       }
       return { entities, acts, roles };

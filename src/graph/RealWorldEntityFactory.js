@@ -25,6 +25,8 @@ const TIER2_TYPE_MAPPINGS = {
   'cco:Artifact': 'cco:Artifact',
   'cco:BodyPart': 'cco:Artifact', // Organs treated as artifacts in allocation context
   'cco:Organization': 'cco:Organization',
+  'cco:GeopoliticalEntity': 'cco:GeopoliticalEntity', // Cities, countries, states
+  'cco:Facility': 'cco:Facility', // Buildings, datacenters, offices
   'bfo:BFO_0000040': 'cco:Artifact', // Material entity defaults to artifact
 
   // Temporal Regions (Phase 7.0 — not artifacts)
@@ -209,19 +211,23 @@ class RealWorldEntityFactory {
       return TIER2_TYPE_MAPPINGS[denotesType];
     }
 
-    // Fall back to label-based detection
+    // Fall back to label-based detection using head noun (last content word).
+    // This prevents modifiers from triggering false positives, e.g.,
+    // "patient medication" should NOT match Person via "patient".
     const label = (referent['rdfs:label'] || '').toLowerCase();
+    const words = label.replace(/^(the|a|an)\s+/i, '').split(/\s+/).filter(w => w.length > 1);
+    const headNoun = words.length > 0 ? words[words.length - 1] : label;
 
-    // Check for person keywords
+    // Check head noun for person keywords
     for (const keyword of PERSON_KEYWORDS) {
-      if (label.includes(keyword)) {
+      if (headNoun === keyword) {
         return 'cco:Person';
       }
     }
 
-    // Check for organization keywords
+    // Check head noun for organization keywords
     for (const keyword of ORG_KEYWORDS) {
-      if (label.includes(keyword)) {
+      if (headNoun === keyword) {
         return 'cco:Organization';
       }
     }
