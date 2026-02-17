@@ -32,3 +32,12 @@ training/models/
 
 # Claude Code local settings
 .claude/settings.local.json.bak
+
+# Build-time model copies (originals in src/data/)
+dist/models/
+
+# Python cache
+__pycache__/
+
+# Windows shell artifacts
+nul
