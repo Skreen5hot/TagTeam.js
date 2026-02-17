@@ -202,14 +202,19 @@ if (!posModelExists || !depModelExists) {
   }
 
   if (graph && graph['@graph']) {
-    // Find entity nodes in the graph
-    const entityNodes = graph['@graph'].filter(n =>
-      n['@type'] && !n['@type'].includes('cco:IntentionalAct') &&
-      !n['@type'].includes('tagteam:StructuralAssertion') &&
-      !n['@type'].includes('tagteam:NegatedStructuralAssertion') &&
-      n['rdfs:label'] &&
-      !n['@type'].some(t => t.endsWith('Role'))
-    );
+    // Find Tier 1 entity nodes in the graph (exclude Tier 2, provenance, acts, roles)
+    const entityNodes = graph['@graph'].filter(n => {
+      if (!n['@type'] || !n['rdfs:label']) return false;
+      const types = [].concat(n['@type']);
+      if (types.includes('cco:IntentionalAct')) return false;
+      if (types.includes('tagteam:StructuralAssertion')) return false;
+      if (types.includes('tagteam:NegatedStructuralAssertion')) return false;
+      if (types.some(t => t.endsWith('Role'))) return false;
+      // Exclude Tier 2 and provenance nodes
+      if (types.some(t => t.includes('InformationBearingEntity') || t.includes('ArtificialAgent') || t.includes('ActOfArtificialProcessing'))) return false;
+      if (types.includes('owl:NamedIndividual') && !types.includes('tagteam:DiscourseReferent') && !types.includes('tagteam:VerbPhrase')) return false;
+      return true;
+    });
 
     assert(entityNodes.length > 0,
       `AC-3.22a: Entity nodes found in graph (found ${entityNodes.length})`);
