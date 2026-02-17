@@ -26,6 +26,17 @@
 
 const MAGIC = 'TT01';
 const HEADER_SIZE = 64;
+const SUPPORTED_MAJOR = 1;
+const SUPPORTED_MINOR_MIN = 0;
+const SUPPORTED_MINOR_MAX = 1;
+
+class ModelLoadError extends Error {
+  constructor(message, reason) {
+    super(message);
+    this.name = 'ModelLoadError';
+    this.reason = reason;
+  }
+}
 
 class BinaryModelLoader {
   /**
@@ -65,12 +76,12 @@ class BinaryModelLoader {
    */
   static load(buf) {
     if (buf.length < HEADER_SIZE) {
-      throw new Error('BinaryModelLoader: file too small');
+      throw new ModelLoadError('BinaryModelLoader: file too small', 'invalid_format');
     }
 
     // Verify magic
     if (buf.slice(0, 4).toString('ascii') !== MAGIC) {
-      throw new Error('BinaryModelLoader: invalid magic number');
+      throw new ModelLoadError('BinaryModelLoader: invalid magic number', 'invalid_format');
     }
 
     // Read header fields
@@ -85,9 +96,20 @@ class BinaryModelLoader {
     const featureIndexLen = buf.readUInt32LE(24);
     const weightMatrixLen = buf.readUInt32LE(28);
 
-    // Verify checksum
+    // Version check (AC-4.14b)
+    if (versionMajor !== SUPPORTED_MAJOR ||
+        versionMinor < SUPPORTED_MINOR_MIN ||
+        versionMinor > SUPPORTED_MINOR_MAX) {
+      throw new ModelLoadError(
+        `BinaryModelLoader: unsupported version ${versionMajor}.${versionMinor} ` +
+        `(expected ${SUPPORTED_MAJOR}.${SUPPORTED_MINOR_MIN}-${SUPPORTED_MAJOR}.${SUPPORTED_MINOR_MAX})`,
+        'version_incompatible'
+      );
+    }
+
+    // Verify checksum (AC-4.14)
     if (!this.verifyChecksum(buf)) {
-      throw new Error('BinaryModelLoader: SHA-256 checksum mismatch');
+      throw new ModelLoadError('BinaryModelLoader: SHA-256 checksum mismatch', 'checksum_mismatch');
     }
 
     // Parse metadata JSON
@@ -154,9 +176,10 @@ class BinaryModelLoader {
   }
 }
 
-// Constants exposed for testing
+// Constants and classes exposed for testing
 BinaryModelLoader.MAGIC = MAGIC;
 BinaryModelLoader.HEADER_SIZE = HEADER_SIZE;
+BinaryModelLoader.ModelLoadError = ModelLoadError;
 
 // Export for Node.js / CommonJS
 if (typeof module !== 'undefined' && module.exports) {

@@ -44,11 +44,12 @@
     "benchmark": "node tests/performance/benchmark.js",
     "test:api-compat": "node tests/regression/api-compat.test.js",
     "test:regression": "node tests/regression/baseline-gate.test.js",
+    "test:binary": "node tests/unit/phase4/binary-model.test.js",
     "test:two-tier": "node tests/integration/two-tier-provenance.test.js",
     "gold:generate": "node tests/gold/generate-baseline.js",
     "gold:evaluate": "node tests/gold/evaluate.js",
     "gold:evaluate:verbose": "node tests/gold/evaluate.js --verbose",
-    "test:ci": "npm run test:phase0 && npm run test:phase1 && npm run test:phase2 && npm run test:phase3a && npm run test:phase3b && npm run test:two-tier && npm run test:component && npm run test:adversarial && npm run test:sanitization && npm run test:bundle && npm run test:regression && npm run test:api-compat",
+    "test:ci": "npm run test:phase0 && npm run test:phase1 && npm run test:phase2 && npm run test:phase3a && npm run test:phase3b && npm run test:two-tier && npm run test:component && npm run test:adversarial && npm run test:sanitization && npm run test:bundle && npm run test:regression && npm run test:api-compat && npm run test:binary",
     "test:ci:full": "npm run test:ci && npm run benchmark && npm run gold:evaluate"
   },
   "keywords": [
