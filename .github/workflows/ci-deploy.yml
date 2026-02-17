@@ -181,6 +181,10 @@ jobs:
           cp demos/demo.html gh-pages/demo.html
           cp demos/separated-demo.html gh-pages/separated-demo.html
 
+          # Copy Phase 3A tree-based extraction demo + models
+          cp demos/tree-demo.html gh-pages/tree-demo.html
+          cp -r dist/models gh-pages/models
+
           # Copy browser validation tests
           cp dist/test.html gh-pages/test.html
           cp dist/test-week2b-full.html gh-pages/test-week2b-full.html
