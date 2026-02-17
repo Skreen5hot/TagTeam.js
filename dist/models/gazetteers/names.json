@@ -4,7 +4,7 @@
     "version": "1.0.0",
     "source": "US Census Bureau common names, public domain",
     "license": "CC0-1.0",
-    "entryCount": 20,
+    "entryCount": 21,
     "generatedAt": "2026-02-13T00:00:00Z"
   },
   "entities": {
@@ -17,6 +17,11 @@
       "type": "cco:Person",
       "aliases": ["J. Doe"],
       "nameType": "full"
+    },
+    "Alice": {
+      "type": "cco:Person",
+      "aliases": [],
+      "nameType": "given"
     },
     "James": {
       "type": "cco:Person",
