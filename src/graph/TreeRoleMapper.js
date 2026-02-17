@@ -193,22 +193,32 @@ class TreeRoleMapper {
    */
   _propagateToConjuncts(child, depTree, entityByHead, act, sourceRole, roles) {
     const sourceEntity = entityByHead.get(child.dependent);
-    const conjChildren = depTree.getChildren(child.dependent);
-    for (const conjChild of conjChildren) {
-      if (conjChild.label !== 'conj') continue;
-      const conjEntity = entityByHead.get(conjChild.dependent);
-      if (!conjEntity) continue;
-      // Skip if conjunct resolves to the same entity (un-split coordination like "doctors and nurses")
-      if (conjEntity === sourceEntity) continue;
-      roles.push({
-        role: sourceRole.role,
-        entity: conjEntity.fullText || conjEntity.text,
-        entityId: conjEntity.headId,
-        act: act.verb,
-        actId: act.verbId,
-        udLabel: sourceRole.udLabel,
-        note: `Propagated from coordination (conj of ${sourceRole.entity})`,
-      });
+    this._propagateToConjunctsRecursive(child.dependent, sourceEntity, depTree, entityByHead, act, sourceRole, roles);
+  }
+
+  /**
+   * Recursively propagate roles through coordination chains.
+   * Handles 3+ element coordination (e.g., "Alice, Bob, and Carol reviewed")
+   * where UD may produce chains: Carol → conj of Bob → conj of Alice → nsubj of reviewed.
+   */
+  _propagateToConjunctsRecursive(headId, sourceEntity, depTree, entityByHead, act, sourceRole, roles) {
+    const children = depTree.getChildren(headId);
+    for (const child of children) {
+      if (child.label !== 'conj') continue;
+      const conjEntity = entityByHead.get(child.dependent);
+      if (conjEntity && conjEntity !== sourceEntity) {
+        roles.push({
+          role: sourceRole.role,
+          entity: conjEntity.fullText || conjEntity.text,
+          entityId: conjEntity.headId,
+          act: act.verb,
+          actId: act.verbId,
+          udLabel: sourceRole.udLabel,
+          note: `Propagated from coordination (conj of ${sourceRole.entity})`,
+        });
+      }
+      // Recurse into nested conjuncts (3+ element coordination chains)
+      this._propagateToConjunctsRecursive(child.dependent, sourceEntity, depTree, entityByHead, act, sourceRole, roles);
     }
   }
 

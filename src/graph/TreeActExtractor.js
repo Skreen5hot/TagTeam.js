@@ -359,6 +359,19 @@ class TreeActExtractor {
 
     // "located in X" → bfo:located_in
     // "based in X" → bfo:located_in
+    // GUARD: "The building was located BY the surveyor" is agentive passive,
+    // not stative-locative. If obl has case child "by" (agent marker), this
+    // is eventive — keep as Act. Only treat as StructuralAssertion when
+    // obl has locative case child ("in", "at", "on").
+    if ((lemma === 'locate' || lemma === 'base') && act.isPassive) {
+      const hasAgentMarker = children.some(c => {
+        if (c.label !== 'obl') return false;
+        const oblChildren = depTree.getChildren(c.dependent);
+        return oblChildren.some(oc => oc.label === 'case' &&
+          depTree.tokens[oc.dependent - 1].toLowerCase() === 'by');
+      });
+      if (hasAgentMarker) return null; // Eventive, not stative
+    }
     if (lemma === 'locate' || lemma === 'base') {
       const oblChild = children.find(c => c.label === 'obl');
       if (oblChild) {

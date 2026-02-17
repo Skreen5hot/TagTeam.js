@@ -140,6 +140,9 @@ const treeEntityExtractorPath = path.join(__dirname, '..', 'src', 'graph', 'Tree
 const treeActExtractorPath = path.join(__dirname, '..', 'src', 'graph', 'TreeActExtractor.js');
 const treeRoleMapperPath = path.join(__dirname, '..', 'src', 'graph', 'TreeRoleMapper.js');
 
+// v2 Phase 3A: GazetteerNER for entity type lookup
+const gazetteerNERPath = path.join(__dirname, '..', 'src', 'graph', 'GazetteerNER.js');
+
 // v2 Phase 3B: Confidence annotator
 const confidenceAnnotatorPath = path.join(__dirname, '..', 'src', 'graph', 'ConfidenceAnnotator.js');
 
@@ -256,6 +259,9 @@ let perceptronTagger2 = fs.readFileSync(perceptronTaggerPath, 'utf8');
 let treeEntityExtractor = fs.readFileSync(treeEntityExtractorPath, 'utf8');
 let treeActExtractor = fs.readFileSync(treeActExtractorPath, 'utf8');
 let treeRoleMapper = fs.readFileSync(treeRoleMapperPath, 'utf8');
+
+// v2 Phase 3A: GazetteerNER
+let gazetteerNER = fs.readFileSync(gazetteerNERPath, 'utf8');
 
 // v2 Phase 3B: Confidence annotator
 let confidenceAnnotator = fs.readFileSync(confidenceAnnotatorPath, 'utf8');
@@ -581,6 +587,9 @@ console.log('  ✓ Converted RoleMappingContract to browser format');
 
 perceptronTagger2 = stripCommonJS(perceptronTagger2, 'PerceptronTagger');
 console.log('  ✓ Converted PerceptronTagger to browser format');
+
+gazetteerNER = stripCommonJS(gazetteerNER, 'GazetteerNER');
+console.log('  ✓ Converted GazetteerNER to browser format');
 
 treeEntityExtractor = stripCommonJS(treeEntityExtractor, 'TreeEntityExtractor');
 console.log('  ✓ Converted TreeEntityExtractor to browser format');
@@ -1097,6 +1106,8 @@ ${perceptronTagger2}
   // v2 PHASE 3A: TREE-BASED EXTRACTORS
   // ============================================================================
 
+${gazetteerNER}
+
 ${treeEntityExtractor}
 
 ${treeActExtractor}
@@ -1123,6 +1134,7 @@ ${semanticGraphBuilder}
   let _cachedPosModel = null;
   let _cachedDepModel = null;
   let _cachedCalibration = null;
+  let _cachedGazetteers = null;
 
   /**
    * TagTeam - Unified API for semantic parsing
@@ -1265,10 +1277,11 @@ ${semanticGraphBuilder}
      * @param {Object} depJSON - Parsed dependency parser weights (dep-weights-pruned.json)
      * @param {Object} [calibrationJSON] - Parsed calibration table (dep-calibration.json)
      */
-    loadTreeModels: function(posJSON, depJSON, calibrationJSON) {
+    loadTreeModels: function(posJSON, depJSON, calibrationJSON, gazetteersJSON) {
       _cachedPosModel = posJSON;
       _cachedDepModel = depJSON;
       if (calibrationJSON) _cachedCalibration = calibrationJSON;
+      if (gazetteersJSON) _cachedGazetteers = gazetteersJSON;
     },
 
     /**
@@ -1291,6 +1304,9 @@ ${semanticGraphBuilder}
       }
       if (_cachedCalibration) {
         builder._calibration = _cachedCalibration;
+      }
+      if (_cachedGazetteers && typeof GazetteerNER !== 'undefined') {
+        builder._treeGazetteerNER = new GazetteerNER(_cachedGazetteers);
       }
       return builder.build(text, Object.assign({}, options, { useTreeExtractors: true }));
     },
@@ -1668,6 +1684,20 @@ console.log(`  ✓ dep-weights-pruned.json (${(fs.statSync(depModelSrc).size / 1
 if (fs.existsSync(calSrc)) {
   fs.copyFileSync(calSrc, path.join(modelsDir, 'dep-calibration.json'));
   console.log(`  ✓ dep-calibration.json (${(fs.statSync(calSrc).size / 1024).toFixed(2)} KB)`);
+}
+
+// Copy gazetteer files for browser access
+const gazetteersDir = path.join(__dirname, '..', 'src', 'data', 'gazetteers');
+const gazetteersDistDir = path.join(modelsDir, 'gazetteers');
+if (fs.existsSync(gazetteersDir)) {
+  if (!fs.existsSync(gazetteersDistDir)) {
+    fs.mkdirSync(gazetteersDistDir, { recursive: true });
+  }
+  const gazFiles = fs.readdirSync(gazetteersDir).filter(f => f.endsWith('.json'));
+  for (const f of gazFiles) {
+    fs.copyFileSync(path.join(gazetteersDir, f), path.join(gazetteersDistDir, f));
+    console.log(`  ✓ gazetteers/${f}`);
+  }
 }
 
 // Summary

@@ -1,0 +1,87 @@
+{
+  "_meta": {
+    "gazetteerId": "tagteam-orgs-us-gov",
+    "version": "1.0.0",
+    "source": "US Government Manual, public domain",
+    "license": "CC0-1.0",
+    "entryCount": 15,
+    "generatedAt": "2026-02-13T00:00:00Z"
+  },
+  "entities": {
+    "Customs and Border Protection": {
+      "type": "cco:Organization",
+      "aliases": ["CBP", "U.S. Customs and Border Protection", "US Customs and Border Protection"],
+      "parent": "Department of Homeland Security"
+    },
+    "Department of Homeland Security": {
+      "type": "cco:Organization",
+      "aliases": ["DHS", "Dept. of Homeland Security", "Homeland Security"],
+      "parent": null
+    },
+    "Immigration and Customs Enforcement": {
+      "type": "cco:Organization",
+      "aliases": ["ICE", "U.S. Immigration and Customs Enforcement"],
+      "parent": "Department of Homeland Security"
+    },
+    "Transportation Security Administration": {
+      "type": "cco:Organization",
+      "aliases": ["TSA"],
+      "parent": "Department of Homeland Security"
+    },
+    "Federal Bureau of Investigation": {
+      "type": "cco:Organization",
+      "aliases": ["FBI"],
+      "parent": "Department of Justice"
+    },
+    "Department of Justice": {
+      "type": "cco:Organization",
+      "aliases": ["DOJ", "Dept. of Justice"],
+      "parent": null
+    },
+    "Department of Defense": {
+      "type": "cco:Organization",
+      "aliases": ["DOD", "DoD", "Dept. of Defense"],
+      "parent": null
+    },
+    "Central Intelligence Agency": {
+      "type": "cco:Organization",
+      "aliases": ["CIA"],
+      "parent": null
+    },
+    "National Security Agency": {
+      "type": "cco:Organization",
+      "aliases": ["NSA"],
+      "parent": "Department of Defense"
+    },
+    "Department of State": {
+      "type": "cco:Organization",
+      "aliases": ["DOS", "State Department", "Dept. of State"],
+      "parent": null
+    },
+    "United Nations": {
+      "type": "cco:Organization",
+      "aliases": ["UN", "U.N."],
+      "parent": null
+    },
+    "North Atlantic Treaty Organization": {
+      "type": "cco:Organization",
+      "aliases": ["NATO"],
+      "parent": null
+    },
+    "World Health Organization": {
+      "type": "cco:Organization",
+      "aliases": ["WHO"],
+      "parent": "United Nations"
+    },
+    "Federal Emergency Management Agency": {
+      "type": "cco:Organization",
+      "aliases": ["FEMA"],
+      "parent": "Department of Homeland Security"
+    },
+    "Environmental Protection Agency": {
+      "type": "cco:Organization",
+      "aliases": ["EPA"],
+      "parent": null
+    }
+  }
+}

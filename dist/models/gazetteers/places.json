@@ -1,0 +1,112 @@
+{
+  "_meta": {
+    "gazetteerId": "tagteam-places-world",
+    "version": "1.0.0",
+    "source": "GeoNames, CC-BY-4.0",
+    "license": "CC-BY-4.0",
+    "entryCount": 20,
+    "generatedAt": "2026-02-13T00:00:00Z"
+  },
+  "entities": {
+    "United States": {
+      "type": "cco:GeopoliticalEntity",
+      "aliases": ["US", "U.S.", "USA", "U.S.A.", "United States of America"],
+      "placeType": "country"
+    },
+    "United Kingdom": {
+      "type": "cco:GeopoliticalEntity",
+      "aliases": ["UK", "U.K.", "Britain", "Great Britain"],
+      "placeType": "country"
+    },
+    "Canada": {
+      "type": "cco:GeopoliticalEntity",
+      "aliases": [],
+      "placeType": "country"
+    },
+    "Mexico": {
+      "type": "cco:GeopoliticalEntity",
+      "aliases": [],
+      "placeType": "country"
+    },
+    "China": {
+      "type": "cco:GeopoliticalEntity",
+      "aliases": ["PRC", "People's Republic of China"],
+      "placeType": "country"
+    },
+    "Russia": {
+      "type": "cco:GeopoliticalEntity",
+      "aliases": ["Russian Federation"],
+      "placeType": "country"
+    },
+    "Washington": {
+      "type": "cco:GeopoliticalEntity",
+      "aliases": ["Washington, D.C.", "Washington DC", "D.C."],
+      "placeType": "city"
+    },
+    "New York": {
+      "type": "cco:GeopoliticalEntity",
+      "aliases": ["NYC", "New York City"],
+      "placeType": "city"
+    },
+    "Los Angeles": {
+      "type": "cco:GeopoliticalEntity",
+      "aliases": ["LA", "L.A."],
+      "placeType": "city"
+    },
+    "Chicago": {
+      "type": "cco:GeopoliticalEntity",
+      "aliases": [],
+      "placeType": "city"
+    },
+    "Texas": {
+      "type": "cco:GeopoliticalEntity",
+      "aliases": ["TX"],
+      "placeType": "state"
+    },
+    "California": {
+      "type": "cco:GeopoliticalEntity",
+      "aliases": ["CA", "Calif."],
+      "placeType": "state"
+    },
+    "Florida": {
+      "type": "cco:GeopoliticalEntity",
+      "aliases": ["FL", "Fla."],
+      "placeType": "state"
+    },
+    "Virginia": {
+      "type": "cco:GeopoliticalEntity",
+      "aliases": ["VA"],
+      "placeType": "state"
+    },
+    "Arizona": {
+      "type": "cco:GeopoliticalEntity",
+      "aliases": ["AZ"],
+      "placeType": "state"
+    },
+    "European Union": {
+      "type": "cco:GeopoliticalEntity",
+      "aliases": ["EU", "E.U."],
+      "placeType": "supranational"
+    },
+    "Middle East": {
+      "type": "cco:GeopoliticalEntity",
+      "aliases": [],
+      "placeType": "region"
+    },
+    "Pacific Ocean": {
+      "type": "bfo:Site",
+      "aliases": ["the Pacific"],
+      "placeType": "ocean"
+    },
+    "Atlantic Ocean": {
+      "type": "bfo:Site",
+      "aliases": ["the Atlantic"],
+      "placeType": "ocean"
+    },
+    "Gulf of Mexico": {
+      "type": "bfo:Site",
+      "aliases": [],
+      "placeType": "body_of_water"
+    }
+  }
+}
