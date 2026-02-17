@@ -3,7 +3,7 @@
 <head><base href="/TagTeam.js/dev/"><style id="dev-theme">:root{--dev-bg:#111;--dev-fg:#e0e0e0;--dev-accent:#ff9800}body{background:var(--dev-bg)!important;color:var(--dev-fg)!important}.container,div[class]{background:var(--dev-bg)!important;color:var(--dev-fg)!important;border-color:#333!important}a{color:var(--dev-accent)!important}pre,code,textarea{background:#1a1a1a!important;color:#ccc!important;border-color:#333!important}h1,h2,h3{color:var(--dev-fg)!important}button{filter:brightness(0.85)}h1::after{content:" [DEV]";color:var(--dev-accent);font-size:0.6em}</style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TagTeam.js - Phase 3A Tree-Based Extraction Demo</title>
+  <title>TagTeam.js - Tree Pipeline Demo (Two-Tier ICE + Provenance)</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -149,6 +149,31 @@
     .badge-act { background: #faf5ff; color: #6b21a8; }
     .badge-type { background: #f0fdf4; color: #166534; }
     .badge-structural { background: #fff7ed; color: #9a3412; }
+    .badge-tier2 { background: #fdf2f8; color: #831843; }
+    .badge-provenance { background: #f0f9ff; color: #0c4a6e; }
+    .badge-link { background: #ecfdf5; color: #064e3b; font-weight: 400; font-size: 0.72em; }
+
+    .tier-group { margin-bottom: 6px; }
+    .tier-label {
+      font-size: 0.75em;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #94a3b8;
+      margin: 10px 0 4px 0;
+    }
+    .tier-label:first-child { margin-top: 0; }
+    .provenance-box {
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.85em;
+      margin-top: 4px;
+    }
+    .provenance-box .prov-item { padding: 3px 0; }
+    .provenance-box .prov-label { font-weight: 600; color: #0c4a6e; }
+    .arrow { color: #94a3b8; margin: 0 4px; }
 
     .dep-table-section {
       margin-top: 20px;
@@ -222,10 +247,10 @@
 </head>
 <body>
   <div class="header">
-    <h1>Phase 3A: Tree-Based Extraction
+    <h1>Tree Pipeline: Two-Tier ICE + Provenance
       <span id="statusBadge" class="status-badge status-loading">Loading models...</span>
     </h1>
-    <p>Dependency-tree extractors vs. legacy linear-scan pipeline &mdash; side-by-side comparison</p>
+    <p>Dependency-tree extractors with BFO/CCO two-tier entities and provenance triples</p>
   </div>
 
   <div class="container">
@@ -260,7 +285,7 @@
       <!-- Tree panel -->
       <div class="panel panel-tree">
         <div class="panel-header">
-          Tree Pipeline <span class="badge badge-act">Phase 3A</span>
+          Tree Pipeline <span class="badge badge-act">Two-Tier ICE</span>
           <span class="time" id="treeTime"></span>
         </div>
         <div class="panel-body" id="treeResults">
@@ -427,6 +452,11 @@
 
       for (const node of nodes) {
         const types = [].concat(node['@type'] || []);
+        // Skip provenance/infrastructure nodes for legacy panel
+        if (types.some(t => t.includes('InformationBearingEntity') || t.includes('ArtificialAgent') || t.includes('ActOfArtificialProcessing'))) continue;
+        // Skip Tier 2 entities (owl:NamedIndividual without DiscourseReferent)
+        if (types.includes('owl:NamedIndividual') && !types.includes('tagteam:DiscourseReferent') && !types.includes('tagteam:VerbPhrase')) continue;
+
         if (types.some(t => t.includes('Role'))) {
           roles.push(node);
         } else if (types.some(t => t.includes('Act') || t.includes('Process'))) {
@@ -510,53 +540,83 @@
         return;
       }
       const nodes = (graph && graph['@graph']) || [];
-      const entities = [];
+      const tier1 = [];
+      const tier2 = [];
       const acts = [];
       const roles = [];
       const structural = [];
+      const provenance = [];
+
+      // Build IRI → node lookup
+      const nodeById = {};
+      for (const n of nodes) { if (n['@id']) nodeById[n['@id']] = n; }
 
       for (const node of nodes) {
         const types = [].concat(node['@type'] || []);
         if (types.some(t => t.includes('Role'))) {
           roles.push(node);
+        } else if (types.some(t => t.includes('ActOfArtificialProcessing'))) {
+          provenance.push(node);
         } else if (types.some(t => t.includes('Act') || t.includes('Process'))) {
           acts.push(node);
         } else if (types.some(t => t.includes('StructuralAssertion') || t.includes('Assertion'))) {
           structural.push(node);
-        } else if (types.some(t =>
-          t.includes('Person') || t.includes('Agent') || t.includes('Entity') ||
-          t.includes('Artifact') || t.includes('Organization') || t.includes('Quality') ||
-          t.includes('DiscourseReferent') || t.includes('InformationContentEntity') ||
-          t.includes('Facility') || t.includes('Aggregate')
-        )) {
-          entities.push(node);
+        } else if (types.some(t => t.includes('InformationBearingEntity') || t.includes('ArtificialAgent'))) {
+          provenance.push(node);
+        } else if (types.includes('owl:NamedIndividual') && !types.includes('tagteam:DiscourseReferent')) {
+          tier2.push(node);
+        } else if (node['rdfs:label']) {
+          tier1.push(node);
         }
       }
 
       let html = '';
 
-      html += '<div class="section-title">Entities (' + entities.length + ')</div>';
+      // --- Entities: Tier 1 + Tier 2 ---
+      html += '<div class="section-title">Entities &mdash; Two-Tier ICE (' + tier1.length + ' mentions, ' + tier2.length + ' real-world)</div>';
       html += '<ul class="entity-list">';
-      for (const e of entities) {
-        html += '<li>' + escHtml(getLabel(e)) +
-          ' <span class="badge badge-type">' + escHtml(shortType(getType(e))) + '</span>';
+      for (const e of tier1) {
+        const types = [].concat(e['@type'] || []);
+        html += '<li>';
+        html += escHtml(getLabel(e));
+        html += ' <span class="badge badge-type">' + escHtml(shortType(getType(e))) + '</span>';
+        if (types.includes('tagteam:DiscourseReferent')) {
+          html += ' <span class="badge badge-link">ICE</span>';
+        }
         if (e['tagteam:depRole']) {
           html += ' <span class="badge badge-entity">' + escHtml(e['tagteam:depRole']) + '</span>';
         }
+        // Show Tier 2 link
+        if (e['cco:is_about']) {
+          const t2id = typeof e['cco:is_about'] === 'object' ? e['cco:is_about']['@id'] : e['cco:is_about'];
+          const t2node = nodeById[t2id];
+          if (t2node) {
+            html += '<br><span class="arrow">&rarr;</span>';
+            html += '<span class="badge badge-tier2">' + escHtml(shortType(getType(t2node))) + '</span>';
+            html += ' <span style="font-size:0.82em;color:#64748b;">' + escHtml(t2id) + '</span>';
+          }
+        }
         html += '</li>';
       }
-      if (!entities.length) html += '<li style="color:#94a3b8;">None detected</li>';
+      if (!tier1.length) html += '<li style="color:#94a3b8;">None detected</li>';
       html += '</ul>';
 
+      // --- Acts ---
       html += '<div class="section-title">Acts (' + acts.length + ')</div>';
       html += '<ul class="act-list">';
       for (const a of acts) {
+        const types = [].concat(a['@type'] || []);
         html += '<li>' + escHtml(getLabel(a)) +
-          ' <span class="badge badge-act">' + escHtml(shortType(getType(a))) + '</span></li>';
+          ' <span class="badge badge-act">' + escHtml(shortType(getType(a))) + '</span>';
+        if (types.includes('tagteam:VerbPhrase')) {
+          html += ' <span class="badge badge-link">ICE</span>';
+        }
+        html += '</li>';
       }
       if (!acts.length) html += '<li style="color:#94a3b8;">None detected</li>';
       html += '</ul>';
 
+      // --- Structural Assertions ---
       if (structural.length > 0) {
         html += '<div class="section-title">Structural Assertions (' + structural.length + ')</div>';
         html += '<ul class="assertion-list">';
@@ -574,6 +634,7 @@
         html += '</ul>';
       }
 
+      // --- Roles ---
       html += '<div class="section-title">Roles (' + roles.length + ')</div>';
       html += '<ul class="role-list">';
       for (const r of roles) {
@@ -583,6 +644,26 @@
       }
       if (!roles.length) html += '<li style="color:#94a3b8;">None detected</li>';
       html += '</ul>';
+
+      // --- Provenance ---
+      if (provenance.length > 0) {
+        html += '<div class="section-title">Provenance (' + provenance.length + ' nodes)</div>';
+        html += '<div class="provenance-box">';
+        for (const p of provenance) {
+          const types = [].concat(p['@type'] || []);
+          const typeLabel = types[0] ? shortType(types[0]) : 'Node';
+          html += '<div class="prov-item">';
+          html += '<span class="badge badge-provenance">' + escHtml(typeLabel) + '</span> ';
+          html += '<span style="font-size:0.82em;color:#475569;">' + escHtml(p['@id'] || '') + '</span>';
+          // Show has_output count for ParsingAct
+          if (p['cco:has_output']) {
+            const outputs = [].concat(p['cco:has_output']);
+            html += ' <span class="arrow">&rarr;</span> <span style="font-size:0.82em;color:#64748b;">' + outputs.length + ' ICE outputs</span>';
+          }
+          html += '</div>';
+        }
+        html += '</div>';
+      }
 
       el.innerHTML = html;
     }
