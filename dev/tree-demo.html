@@ -345,8 +345,19 @@
           if (calResp.ok) calJSON = await calResp.json();
         } catch (e) { /* calibration is optional */ }
 
+        status.textContent = 'Fetching gazetteers...';
+        let gazetteers = null;
+        try {
+          const gazFiles = ['names.json', 'organizations.json', 'places.json'];
+          gazetteers = await Promise.all(
+            gazFiles.map(f => fetch(modelBase + 'gazetteers/' + f).then(r => r.ok ? r.json() : null))
+          );
+          gazetteers = gazetteers.filter(g => g !== null);
+          if (gazetteers.length === 0) gazetteers = null;
+        } catch (e) { /* gazetteers are optional */ }
+
         status.textContent = 'Initializing tree pipeline...';
-        TagTeam.loadTreeModels(posJSON, depJSON, calJSON);
+        TagTeam.loadTreeModels(posJSON, depJSON, calJSON, gazetteers);
 
         modelsReady = true;
         badge.className = 'status-badge status-ready';
