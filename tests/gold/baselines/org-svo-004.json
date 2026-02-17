@@ -1,0 +1,155 @@
+{
+  "id": "org-svo-004",
+  "text": "The agent filed a report with the office",
+  "subset": "organizational",
+  "tags": [
+    "svo",
+    "government",
+    "action"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.354Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The agent",
+      "type": "cco:Person"
+    },
+    {
+      "text": "a report",
+      "type": "cco:InformationContentEntity"
+    },
+    {
+      "text": "the office",
+      "type": "cco:Organization"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "agent",
+      "role": "Agent"
+    },
+    {
+      "entity": "report",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The agent",
+      "type": "bfo:Entity",
+      "id": "inst:The_agent"
+    },
+    {
+      "text": "a report",
+      "type": "bfo:Entity",
+      "id": "inst:a_report"
+    },
+    {
+      "text": "the office",
+      "type": "bfo:Entity",
+      "id": "inst:the_office"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The agent",
+      "role": "Agent"
+    },
+    {
+      "entity": "a report",
+      "role": "Patient"
+    },
+    {
+      "entity": "the office",
+      "role": "Instrument"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_agent",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The agent",
+        "tagteam:mentionId": "s0:h2:0-9",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:a_report",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "a report",
+        "tagteam:mentionId": "s0:h5:16-24",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:the_office",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the office",
+        "tagteam:mentionId": "s0:h8:30-40",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Act_filed",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "filed",
+        "tagteam:lemma": "fil"
+      },
+      {
+        "@id": "inst:Role_The_agent_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_agent"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_filed"
+        },
+        "rdfs:label": "The agent as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Role_a_report_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:a_report"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_filed"
+        },
+        "rdfs:label": "a report as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Role_the_office_cco_InstrumentRole",
+        "@type": [
+          "cco:InstrumentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_office"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_filed"
+        },
+        "rdfs:label": "the office as InstrumentRole",
+        "tagteam:preposition": "with",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      }
+    ]
+  }
+}

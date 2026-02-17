@@ -1,0 +1,124 @@
+{
+  "id": "coord-split-004",
+  "text": "The director and the deputy authorized the mission",
+  "subset": "coordination",
+  "tags": [
+    "coordination",
+    "split",
+    "government"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.676Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The director",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the deputy",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the mission",
+      "type": "bfo:Process"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "director",
+      "role": "Agent"
+    },
+    {
+      "entity": "deputy",
+      "role": "Agent"
+    },
+    {
+      "entity": "mission",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The director and the deputy",
+      "type": "bfo:Entity",
+      "id": "inst:The_director_and_the_deputy"
+    },
+    {
+      "text": "the mission",
+      "type": "bfo:Entity",
+      "id": "inst:the_mission"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The director and the deputy",
+      "role": "Agent"
+    },
+    {
+      "entity": "the mission",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_director_and_the_deputy",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The director and the deputy",
+        "tagteam:mentionId": "s0:h2:0-27",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:the_mission",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the mission",
+        "tagteam:mentionId": "s0:h8:39-50",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Act_authorized",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "authorized",
+        "tagteam:lemma": "authoriz"
+      },
+      {
+        "@id": "inst:Role_The_director_and_the_deputy_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_director_and_the_deputy"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_authorized"
+        },
+        "rdfs:label": "The director and the deputy as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_mission_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_mission"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_authorized"
+        },
+        "rdfs:label": "the mission as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      }
+    ]
+  }
+}

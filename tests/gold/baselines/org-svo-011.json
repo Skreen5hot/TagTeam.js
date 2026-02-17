@@ -1,0 +1,116 @@
+{
+  "id": "org-svo-011",
+  "text": "The agency deployed additional personnel",
+  "subset": "organizational",
+  "tags": [
+    "svo",
+    "government",
+    "action"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.440Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The agency",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "additional personnel",
+      "type": "cco:Person"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "agency",
+      "role": "Agent"
+    },
+    {
+      "entity": "personnel",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The agency",
+      "type": "bfo:Entity",
+      "id": "inst:The_agency"
+    },
+    {
+      "text": "additional personnel",
+      "type": "bfo:Entity",
+      "id": "inst:additional_personnel"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The agency",
+      "role": "Agent"
+    },
+    {
+      "entity": "additional personnel",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_agency",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The agency",
+        "tagteam:mentionId": "s0:h2:0-10",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:additional_personnel",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "additional personnel",
+        "tagteam:mentionId": "s0:h5:20-40",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Act_deployed",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "deployed",
+        "tagteam:lemma": "deploy"
+      },
+      {
+        "@id": "inst:Role_The_agency_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_agency"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_deployed"
+        },
+        "rdfs:label": "The agency as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Role_additional_personnel_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:additional_personnel"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_deployed"
+        },
+        "rdfs:label": "additional personnel as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      }
+    ]
+  }
+}

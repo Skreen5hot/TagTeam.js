@@ -1,0 +1,159 @@
+{
+  "id": "org-svo-002",
+  "text": "CBP apprehended the suspect at the border",
+  "subset": "organizational",
+  "tags": [
+    "svo",
+    "government",
+    "action"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.332Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "CBP",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the suspect",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the border",
+      "type": "cco:Facility"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "CBP",
+      "role": "Agent"
+    },
+    {
+      "entity": "suspect",
+      "role": "Patient"
+    },
+    {
+      "entity": "border",
+      "role": "Location"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "CBP",
+      "type": "cco:Organization",
+      "id": "inst:CBP"
+    },
+    {
+      "text": "the suspect",
+      "type": "bfo:Entity",
+      "id": "inst:the_suspect"
+    },
+    {
+      "text": "the border",
+      "type": "bfo:Entity",
+      "id": "inst:the_border"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "CBP",
+      "role": "Agent"
+    },
+    {
+      "entity": "the suspect",
+      "role": "Patient"
+    },
+    {
+      "entity": "the border",
+      "role": "Location"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:CBP",
+        "@type": [
+          "cco:Organization"
+        ],
+        "rdfs:label": "CBP",
+        "tagteam:mentionId": "s0:h1:0-3",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:the_suspect",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the suspect",
+        "tagteam:mentionId": "s0:h4:16-27",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:the_border",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the border",
+        "tagteam:mentionId": "s0:h7:31-41",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Act_apprehended",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "apprehended",
+        "tagteam:lemma": "apprehend"
+      },
+      {
+        "@id": "inst:Role_CBP_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:CBP"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_apprehended"
+        },
+        "rdfs:label": "CBP as AgentRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Role_the_suspect_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_suspect"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_apprehended"
+        },
+        "rdfs:label": "the suspect as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Role_the_border_cco_LocationRole",
+        "@type": [
+          "cco:LocationRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_border"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_apprehended"
+        },
+        "rdfs:label": "the border as LocationRole",
+        "tagteam:preposition": "at",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      }
+    ]
+  }
+}

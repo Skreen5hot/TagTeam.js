@@ -1,0 +1,85 @@
+{
+  "id": "coord-split-014",
+  "text": "The senator and the representative sponsored the bill",
+  "subset": "coordination",
+  "tags": [
+    "coordination",
+    "split",
+    "government"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.863Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The senator",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the representative",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the bill",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "senator",
+      "role": "Agent"
+    },
+    {
+      "entity": "representative",
+      "role": "Agent"
+    },
+    {
+      "entity": "bill",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The senator and the representative sponsored the bill",
+      "type": "bfo:Entity",
+      "id": "inst:The_senator_and_the_representative_sponsored_the_bill"
+    },
+    {
+      "text": "the bill",
+      "type": "cco:Person",
+      "id": "inst:the_bill"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_senator_and_the_representative_sponsored_the_bill",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The senator and the representative sponsored the bill",
+        "tagteam:mentionId": "s0:h2:0-53",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:the_bill",
+        "@type": [
+          "cco:Person"
+        ],
+        "rdfs:label": "the bill",
+        "tagteam:mentionId": "s0:h8:45-53",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Act_senator",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "senator",
+        "tagteam:lemma": "senator"
+      }
+    ]
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "id": "org-cop-010",
+  "text": "DEA is the primary federal drug enforcement agency",
+  "subset": "organizational",
+  "tags": [
+    "copular",
+    "definitional",
+    "government"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.221Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "DEA",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the primary federal drug enforcement agency",
+      "type": "cco:Organization"
+    }
+  ],
+  "expectedRoles": [],
+  "extractedEntities": [
+    {
+      "text": "DEA",
+      "type": "bfo:Entity",
+      "id": "inst:DEA"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:DEA",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "DEA",
+        "tagteam:mentionId": "s0:h1:0-3",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804
+      },
+      {
+        "@id": "inst:Assertion_DEA",
+        "@type": [
+          "tagteam:StructuralAssertion"
+        ],
+        "tagteam:subject": "DEA",
+        "tagteam:pattern": "predication",
+        "tagteam:copula": "is"
+      }
+    ]
+  }
+}

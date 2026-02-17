@@ -1,0 +1,70 @@
+{
+  "id": "org-cop-012",
+  "text": "NASA is an independent agency of the federal government",
+  "subset": "organizational",
+  "tags": [
+    "copular",
+    "definitional",
+    "government"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.255Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "NASA",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the federal government",
+      "type": "cco:Organization"
+    }
+  ],
+  "expectedRoles": [],
+  "extractedEntities": [
+    {
+      "text": "NASA",
+      "type": "bfo:Entity",
+      "id": "inst:NASA"
+    },
+    {
+      "text": "the federal government",
+      "type": "bfo:Entity",
+      "id": "inst:the_federal_government"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:NASA",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "NASA",
+        "tagteam:mentionId": "s0:h1:0-4",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:the_federal_government",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the federal government",
+        "tagteam:mentionId": "s0:h9:33-55",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Assertion_NASA",
+        "@type": [
+          "tagteam:StructuralAssertion"
+        ],
+        "tagteam:subject": "NASA",
+        "tagteam:pattern": "predication",
+        "tagteam:object": "of the federal government",
+        "tagteam:copula": "is"
+      }
+    ]
+  }
+}

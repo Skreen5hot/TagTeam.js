@@ -1,0 +1,160 @@
+{
+  "id": "org-svo-014",
+  "text": "The prosecutor presented the evidence to the jury",
+  "subset": "organizational",
+  "tags": [
+    "svo",
+    "government",
+    "action",
+    "pp"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.479Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The prosecutor",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the evidence",
+      "type": "cco:InformationContentEntity"
+    },
+    {
+      "text": "the jury",
+      "type": "cco:Organization"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "prosecutor",
+      "role": "Agent"
+    },
+    {
+      "entity": "evidence",
+      "role": "Patient"
+    },
+    {
+      "entity": "jury",
+      "role": "Recipient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The prosecutor",
+      "type": "bfo:Entity",
+      "id": "inst:The_prosecutor"
+    },
+    {
+      "text": "the evidence",
+      "type": "bfo:Entity",
+      "id": "inst:the_evidence"
+    },
+    {
+      "text": "the jury",
+      "type": "bfo:Entity",
+      "id": "inst:the_jury"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The prosecutor",
+      "role": "Agent"
+    },
+    {
+      "entity": "the evidence",
+      "role": "Patient"
+    },
+    {
+      "entity": "the jury",
+      "role": "Goal"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_prosecutor",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The prosecutor",
+        "tagteam:mentionId": "s0:h2:0-14",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:the_evidence",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the evidence",
+        "tagteam:mentionId": "s0:h5:25-37",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:the_jury",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the jury",
+        "tagteam:mentionId": "s0:h8:41-49",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9479
+      },
+      {
+        "@id": "inst:Act_presented",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "presented",
+        "tagteam:lemma": "present"
+      },
+      {
+        "@id": "inst:Role_The_prosecutor_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_prosecutor"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_presented"
+        },
+        "rdfs:label": "The prosecutor as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Role_the_evidence_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_evidence"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_presented"
+        },
+        "rdfs:label": "the evidence as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Role_the_jury_cco_DestinationRole",
+        "@type": [
+          "cco:DestinationRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_jury"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_presented"
+        },
+        "rdfs:label": "the jury as DestinationRole",
+        "tagteam:preposition": "to",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      }
+    ]
+  }
+}

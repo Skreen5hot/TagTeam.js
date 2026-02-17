@@ -1,0 +1,62 @@
+{
+  "id": "coord-keep-002",
+  "text": "Customs and Border Protection enforces trade laws",
+  "subset": "coordination",
+  "tags": [
+    "coordination",
+    "keep",
+    "government"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.717Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "Customs and Border Protection",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "trade laws",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "Customs and Border Protection",
+      "role": "Agent"
+    },
+    {
+      "entity": "trade laws",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "Customs and Border Protection enforces trade laws",
+      "type": "bfo:Entity",
+      "id": "inst:Customs_and_Border_Protection_enforces_trade_laws"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:Customs_and_Border_Protection_enforces_trade_laws",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "Customs and Border Protection enforces trade laws",
+        "tagteam:mentionId": "s0:h7:0-49",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Act_laws",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "laws",
+        "tagteam:lemma": "laws"
+      }
+    ]
+  }
+}

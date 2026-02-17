@@ -1,0 +1,124 @@
+{
+  "id": "org-ditr-001",
+  "text": "The commander gave the team new orders",
+  "subset": "organizational",
+  "tags": [
+    "ditransitive",
+    "government",
+    "action"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.614Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The commander",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the team",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "new orders",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "commander",
+      "role": "Agent"
+    },
+    {
+      "entity": "team",
+      "role": "Recipient"
+    },
+    {
+      "entity": "orders",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The commander",
+      "type": "bfo:Entity",
+      "id": "inst:The_commander"
+    },
+    {
+      "text": "the team",
+      "type": "bfo:Entity",
+      "id": "inst:the_team"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The commander",
+      "role": "Agent"
+    },
+    {
+      "entity": "the team",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_commander",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The commander",
+        "tagteam:mentionId": "s0:h2:0-13",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:the_team",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the team",
+        "tagteam:mentionId": "s0:h5:19-27",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Act_gave",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "gave",
+        "tagteam:lemma": "give"
+      },
+      {
+        "@id": "inst:Role_The_commander_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_commander"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_gave"
+        },
+        "rdfs:label": "The commander as AgentRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Role_the_team_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_team"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_gave"
+        },
+        "rdfs:label": "the team as PatientRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      }
+    ]
+  }
+}

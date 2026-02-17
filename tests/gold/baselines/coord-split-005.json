@@ -1,0 +1,158 @@
+{
+  "id": "coord-split-005",
+  "text": "FEMA and the Red Cross provided disaster relief",
+  "subset": "coordination",
+  "tags": [
+    "coordination",
+    "split",
+    "government"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.688Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "FEMA",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the Red Cross",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "disaster relief",
+      "type": "bfo:Process"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "FEMA",
+      "role": "Agent"
+    },
+    {
+      "entity": "Red Cross",
+      "role": "Agent"
+    },
+    {
+      "entity": "disaster relief",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "FEMA",
+      "type": "cco:Organization",
+      "id": "inst:FEMA"
+    },
+    {
+      "text": "the Red Cross",
+      "type": "bfo:Entity",
+      "id": "inst:the_Red_Cross"
+    },
+    {
+      "text": "disaster",
+      "type": "bfo:Entity",
+      "id": "inst:disaster"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "FEMA",
+      "role": "Agent"
+    },
+    {
+      "entity": "the Red Cross",
+      "role": "Agent"
+    },
+    {
+      "entity": "disaster",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:FEMA",
+        "@type": [
+          "cco:Organization"
+        ],
+        "rdfs:label": "FEMA",
+        "tagteam:mentionId": "s0:h1:0-4",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:the_Red_Cross",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the Red Cross",
+        "tagteam:mentionId": "s0:h5:9-22",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:disaster",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "disaster",
+        "tagteam:mentionId": "s0:h7:32-40",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Act_provided",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "provided",
+        "tagteam:lemma": "provid"
+      },
+      {
+        "@id": "inst:Role_FEMA_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:FEMA"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_provided"
+        },
+        "rdfs:label": "FEMA as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_Red_Cross_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_Red_Cross"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_provided"
+        },
+        "rdfs:label": "the Red Cross as AgentRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Role_disaster_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:disaster"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_provided"
+        },
+        "rdfs:label": "disaster as PatientRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      }
+    ]
+  }
+}

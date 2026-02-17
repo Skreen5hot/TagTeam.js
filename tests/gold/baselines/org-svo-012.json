@@ -1,0 +1,149 @@
+{
+  "id": "org-svo-012",
+  "text": "The marshal transported the prisoner to the courthouse",
+  "subset": "organizational",
+  "tags": [
+    "svo",
+    "government",
+    "action",
+    "pp"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.454Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The marshal",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the prisoner",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the courthouse",
+      "type": "cco:Facility"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "marshal",
+      "role": "Agent"
+    },
+    {
+      "entity": "prisoner",
+      "role": "Patient"
+    },
+    {
+      "entity": "courthouse",
+      "role": "Goal"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The marshal",
+      "type": "bfo:Entity",
+      "id": "inst:The_marshal"
+    },
+    {
+      "text": "the prisoner",
+      "type": "bfo:Entity",
+      "id": "inst:the_prisoner"
+    },
+    {
+      "text": "the courthouse",
+      "type": "bfo:Entity",
+      "id": "inst:the_courthouse"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "the prisoner",
+      "role": "Patient"
+    },
+    {
+      "entity": "the courthouse",
+      "role": "Goal"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_marshal",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The marshal",
+        "tagteam:mentionId": "s0:h2:0-11",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:the_prisoner",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the prisoner",
+        "tagteam:mentionId": "s0:h5:24-36",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:the_courthouse",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the courthouse",
+        "tagteam:mentionId": "s0:h8:40-54",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Act_marshal",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "marshal",
+        "tagteam:lemma": "marshal"
+      },
+      {
+        "@id": "inst:Act_transported",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "transported",
+        "tagteam:lemma": "transport"
+      },
+      {
+        "@id": "inst:Role_the_prisoner_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_prisoner"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_transported"
+        },
+        "rdfs:label": "the prisoner as PatientRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Role_the_courthouse_cco_DestinationRole",
+        "@type": [
+          "cco:DestinationRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_courthouse"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_transported"
+        },
+        "rdfs:label": "the courthouse as DestinationRole",
+        "tagteam:preposition": "to",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      }
+    ]
+  }
+}

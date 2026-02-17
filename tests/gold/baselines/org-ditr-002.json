@@ -1,0 +1,147 @@
+{
+  "id": "org-ditr-002",
+  "text": "The supervisor assigned the officer a new case",
+  "subset": "organizational",
+  "tags": [
+    "ditransitive",
+    "government",
+    "action"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.627Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The supervisor",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the officer",
+      "type": "cco:Person"
+    },
+    {
+      "text": "a new case",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "supervisor",
+      "role": "Agent"
+    },
+    {
+      "entity": "officer",
+      "role": "Recipient"
+    },
+    {
+      "entity": "case",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The supervisor",
+      "type": "bfo:Entity",
+      "id": "inst:The_supervisor"
+    },
+    {
+      "text": "the officer",
+      "type": "bfo:Entity",
+      "id": "inst:the_officer"
+    },
+    {
+      "text": "a new case",
+      "type": "bfo:Entity",
+      "id": "inst:a_new_case"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "the officer",
+      "role": "Recipient"
+    },
+    {
+      "entity": "a new case",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_supervisor",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The supervisor",
+        "tagteam:mentionId": "s0:h2:0-14",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:the_officer",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the officer",
+        "tagteam:mentionId": "s0:h5:24-35",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:a_new_case",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "a new case",
+        "tagteam:mentionId": "s0:h8:36-46",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Act_supervisor",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "supervisor",
+        "tagteam:lemma": "supervisor"
+      },
+      {
+        "@id": "inst:Act_assigned",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "assigned",
+        "tagteam:lemma": "assign"
+      },
+      {
+        "@id": "inst:Role_the_officer_cco_RecipientRole",
+        "@type": [
+          "cco:RecipientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_officer"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_assigned"
+        },
+        "rdfs:label": "the officer as RecipientRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Role_a_new_case_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:a_new_case"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_assigned"
+        },
+        "rdfs:label": "a new case as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      }
+    ]
+  }
+}

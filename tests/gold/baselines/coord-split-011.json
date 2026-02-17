@@ -1,0 +1,124 @@
+{
+  "id": "coord-split-011",
+  "text": "The agents searched the building and the vehicle",
+  "subset": "coordination",
+  "tags": [
+    "coordination",
+    "split",
+    "object"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.828Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The agents",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the building",
+      "type": "cco:Facility"
+    },
+    {
+      "text": "the vehicle",
+      "type": "cco:Artifact"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "agents",
+      "role": "Agent"
+    },
+    {
+      "entity": "building",
+      "role": "Patient"
+    },
+    {
+      "entity": "vehicle",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The agents",
+      "type": "bfo:Entity",
+      "id": "inst:The_agents"
+    },
+    {
+      "text": "the building",
+      "type": "bfo:Entity",
+      "id": "inst:the_building"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The agents",
+      "role": "Agent"
+    },
+    {
+      "entity": "the building",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_agents",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The agents",
+        "tagteam:mentionId": "s0:h2:0-10",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:the_building",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the building",
+        "tagteam:mentionId": "s0:h5:20-32",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Act_searched",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "searched",
+        "tagteam:lemma": "search"
+      },
+      {
+        "@id": "inst:Role_The_agents_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_agents"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_searched"
+        },
+        "rdfs:label": "The agents as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Role_the_building_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_building"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_searched"
+        },
+        "rdfs:label": "the building as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      }
+    ]
+  }
+}

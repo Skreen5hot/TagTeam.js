@@ -1,0 +1,117 @@
+{
+  "id": "org-svo-015",
+  "text": "The witness provided testimony",
+  "subset": "organizational",
+  "tags": [
+    "svo",
+    "government",
+    "action"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.491Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The witness",
+      "type": "cco:Person"
+    },
+    {
+      "text": "testimony",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "witness",
+      "role": "Agent"
+    },
+    {
+      "entity": "testimony",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The witness",
+      "type": "bfo:Entity",
+      "id": "inst:The_witness"
+    },
+    {
+      "text": "testimony",
+      "type": "bfo:Entity",
+      "id": "inst:testimony"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The witness",
+      "role": "Patient"
+    },
+    {
+      "entity": "testimony",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_witness",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The witness",
+        "tagteam:mentionId": "s0:h2:0-11",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:testimony",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "testimony",
+        "tagteam:mentionId": "s0:h4:21-30",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Act_provided",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "provided",
+        "tagteam:lemma": "provid",
+        "tagteam:isPassive": true
+      },
+      {
+        "@id": "inst:Role_The_witness_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_witness"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_provided"
+        },
+        "rdfs:label": "The witness as PatientRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Role_testimony_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:testimony"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_provided"
+        },
+        "rdfs:label": "testimony as PatientRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      }
+    ]
+  }
+}

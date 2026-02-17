@@ -1,0 +1,145 @@
+{
+  "id": "org-svo-018",
+  "text": "The auditor discovered discrepancies in the records",
+  "subset": "organizational",
+  "tags": [
+    "svo",
+    "government",
+    "action",
+    "pp"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.534Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The auditor",
+      "type": "cco:Person"
+    },
+    {
+      "text": "discrepancies",
+      "type": "bfo:Entity"
+    },
+    {
+      "text": "the records",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "auditor",
+      "role": "Agent"
+    },
+    {
+      "entity": "discrepancies",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The auditor",
+      "type": "bfo:Entity",
+      "id": "inst:The_auditor"
+    },
+    {
+      "text": "discrepancies",
+      "type": "bfo:Entity",
+      "id": "inst:discrepancies"
+    },
+    {
+      "text": "the records",
+      "type": "bfo:Entity",
+      "id": "inst:the_records"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "discrepancies",
+      "role": "Patient"
+    },
+    {
+      "entity": "the records",
+      "role": "Location"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_auditor",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The auditor",
+        "tagteam:mentionId": "s0:h2:0-11",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:discrepancies",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "discrepancies",
+        "tagteam:mentionId": "s0:h4:23-36",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:the_records",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the records",
+        "tagteam:mentionId": "s0:h7:40-51",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:Act_auditor",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "auditor",
+        "tagteam:lemma": "auditor"
+      },
+      {
+        "@id": "inst:Act_discovered",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "discovered",
+        "tagteam:lemma": "discover"
+      },
+      {
+        "@id": "inst:Role_discrepancies_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:discrepancies"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_discovered"
+        },
+        "rdfs:label": "discrepancies as PatientRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Role_the_records_cco_LocationRole",
+        "@type": [
+          "cco:LocationRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_records"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_discovered"
+        },
+        "rdfs:label": "the records as LocationRole",
+        "tagteam:preposition": "in",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      }
+    ]
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "id": "org-pass-002",
+  "text": "The report was submitted to the director",
+  "subset": "organizational",
+  "tags": [
+    "passive",
+    "government",
+    "action"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.587Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The report",
+      "type": "cco:InformationContentEntity"
+    },
+    {
+      "text": "the director",
+      "type": "cco:Person"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "report",
+      "role": "Patient"
+    },
+    {
+      "entity": "director",
+      "role": "Recipient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The report",
+      "type": "bfo:Entity",
+      "id": "inst:The_report"
+    },
+    {
+      "text": "the director",
+      "type": "bfo:Entity",
+      "id": "inst:the_director"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The report",
+      "role": "Patient"
+    },
+    {
+      "entity": "the director",
+      "role": "Agent"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_report",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The report",
+        "tagteam:mentionId": "s0:h2:0-10",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:the_director",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the director",
+        "tagteam:mentionId": "s0:h7:28-40",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Act_submitted",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "submitted",
+        "tagteam:lemma": "submitt",
+        "tagteam:isPassive": true
+      },
+      {
+        "@id": "inst:Role_The_report_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_report"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_submitted"
+        },
+        "rdfs:label": "The report as PatientRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Role_the_director_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_director"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_submitted"
+        },
+        "rdfs:label": "the director as AgentRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      }
+    ]
+  }
+}

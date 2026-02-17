@@ -1,0 +1,116 @@
+{
+  "id": "org-svo-009",
+  "text": "The inspector examined the evidence",
+  "subset": "organizational",
+  "tags": [
+    "svo",
+    "government",
+    "action"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.413Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The inspector",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the evidence",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "inspector",
+      "role": "Agent"
+    },
+    {
+      "entity": "evidence",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The inspector",
+      "type": "bfo:Entity",
+      "id": "inst:The_inspector"
+    },
+    {
+      "text": "the evidence",
+      "type": "bfo:Entity",
+      "id": "inst:the_evidence"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The inspector",
+      "role": "Agent"
+    },
+    {
+      "entity": "the evidence",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_inspector",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The inspector",
+        "tagteam:mentionId": "s0:h2:0-13",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:the_evidence",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the evidence",
+        "tagteam:mentionId": "s0:h5:23-35",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Act_examined",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "examined",
+        "tagteam:lemma": "examin"
+      },
+      {
+        "@id": "inst:Role_The_inspector_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_inspector"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_examined"
+        },
+        "rdfs:label": "The inspector as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_evidence_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_evidence"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_examined"
+        },
+        "rdfs:label": "the evidence as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      }
+    ]
+  }
+}

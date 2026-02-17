@@ -1,0 +1,116 @@
+{
+  "id": "org-svo-019",
+  "text": "The judge sentenced the defendant",
+  "subset": "organizational",
+  "tags": [
+    "svo",
+    "government",
+    "action"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.545Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The judge",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the defendant",
+      "type": "cco:Person"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "judge",
+      "role": "Agent"
+    },
+    {
+      "entity": "defendant",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The judge",
+      "type": "bfo:Entity",
+      "id": "inst:The_judge"
+    },
+    {
+      "text": "the defendant",
+      "type": "bfo:Entity",
+      "id": "inst:the_defendant"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The judge",
+      "role": "Agent"
+    },
+    {
+      "entity": "the defendant",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_judge",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The judge",
+        "tagteam:mentionId": "s0:h2:0-9",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9479
+      },
+      {
+        "@id": "inst:the_defendant",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the defendant",
+        "tagteam:mentionId": "s0:h5:20-33",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Act_sentenced",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "sentenced",
+        "tagteam:lemma": "sentenc"
+      },
+      {
+        "@id": "inst:Role_The_judge_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_judge"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_sentenced"
+        },
+        "rdfs:label": "The judge as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9479
+      },
+      {
+        "@id": "inst:Role_the_defendant_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_defendant"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_sentenced"
+        },
+        "rdfs:label": "the defendant as PatientRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      }
+    ]
+  }
+}

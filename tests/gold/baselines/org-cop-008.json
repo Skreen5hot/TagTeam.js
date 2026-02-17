@@ -1,0 +1,71 @@
+{
+  "id": "org-cop-008",
+  "text": "TSA is responsible for transportation security",
+  "subset": "organizational",
+  "tags": [
+    "copular",
+    "definitional",
+    "government"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.182Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "TSA",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "transportation security",
+      "type": "bfo:Process"
+    }
+  ],
+  "expectedRoles": [],
+  "extractedEntities": [
+    {
+      "text": "TSA",
+      "type": "cco:Organization",
+      "id": "inst:TSA"
+    },
+    {
+      "text": "transportation security",
+      "type": "bfo:Entity",
+      "id": "inst:transportation_security"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:TSA",
+        "@type": [
+          "cco:Organization"
+        ],
+        "rdfs:label": "TSA",
+        "tagteam:mentionId": "s0:h1:0-3",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804
+      },
+      {
+        "@id": "inst:transportation_security",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "transportation security",
+        "tagteam:mentionId": "s0:h6:23-46",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Assertion_TSA",
+        "@type": [
+          "tagteam:StructuralAssertion"
+        ],
+        "tagteam:subject": "TSA",
+        "tagteam:pattern": "predication",
+        "tagteam:relation": "cco:has_function",
+        "tagteam:object": "for transportation security",
+        "tagteam:copula": "is"
+      }
+    ]
+  }
+}

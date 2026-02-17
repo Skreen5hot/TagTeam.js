@@ -1,0 +1,85 @@
+{
+  "id": "org-cop-013",
+  "text": "The attorney general is the head of the Department of Justice",
+  "subset": "organizational",
+  "tags": [
+    "copular",
+    "definitional",
+    "government"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.274Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The attorney general",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the Department of Justice",
+      "type": "cco:Organization"
+    }
+  ],
+  "expectedRoles": [],
+  "extractedEntities": [
+    {
+      "text": "The attorney general",
+      "type": "bfo:Entity",
+      "id": "inst:The_attorney_general"
+    },
+    {
+      "text": "the Department of Justice",
+      "type": "bfo:Entity",
+      "id": "inst:the_Department_of_Justice"
+    },
+    {
+      "text": "Justice",
+      "type": "bfo:Entity",
+      "id": "inst:Justice"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_attorney_general",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The attorney general",
+        "tagteam:mentionId": "s0:h3:0-20",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:the_Department_of_Justice",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the Department of Justice",
+        "tagteam:mentionId": "s0:h9:36-61",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Justice",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "Justice",
+        "tagteam:mentionId": "s0:h11:54-61",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Assertion_The_attorney_general",
+        "@type": [
+          "tagteam:StructuralAssertion"
+        ],
+        "tagteam:subject": "The attorney general",
+        "tagteam:pattern": "predication",
+        "tagteam:object": "of the Department of Justice",
+        "tagteam:copula": "is"
+      }
+    ]
+  }
+}

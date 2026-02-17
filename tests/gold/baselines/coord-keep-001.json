@@ -1,0 +1,131 @@
+{
+  "id": "coord-keep-001",
+  "text": "The Department of Homeland Security issued the directive",
+  "subset": "coordination",
+  "tags": [
+    "coordination",
+    "keep",
+    "government"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.701Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The Department of Homeland Security",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the directive",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "Department of Homeland Security",
+      "role": "Agent"
+    },
+    {
+      "entity": "directive",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The Department of Homeland Security",
+      "type": "bfo:Entity",
+      "id": "inst:The_Department_of_Homeland_Security"
+    },
+    {
+      "text": "Homeland Security",
+      "type": "cco:Organization",
+      "id": "inst:Homeland_Security"
+    },
+    {
+      "text": "the directive",
+      "type": "bfo:Entity",
+      "id": "inst:the_directive"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The Department of Homeland Security",
+      "role": "Agent"
+    },
+    {
+      "entity": "the directive",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_Department_of_Homeland_Security",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The Department of Homeland Security",
+        "tagteam:mentionId": "s0:h2:0-35",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Homeland_Security",
+        "@type": [
+          "cco:Organization"
+        ],
+        "rdfs:label": "Homeland Security",
+        "tagteam:mentionId": "s0:h4:18-35",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:the_directive",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the directive",
+        "tagteam:mentionId": "s0:h8:43-56",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Act_issued",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "issued",
+        "tagteam:lemma": "issu"
+      },
+      {
+        "@id": "inst:Role_The_Department_of_Homeland_Security_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_Department_of_Homeland_Security"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_issued"
+        },
+        "rdfs:label": "The Department of Homeland Security as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_directive_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_directive"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_issued"
+        },
+        "rdfs:label": "the directive as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      }
+    ]
+  }
+}

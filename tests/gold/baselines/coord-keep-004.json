@@ -1,0 +1,93 @@
+{
+  "id": "coord-keep-004",
+  "text": "Fish and Wildlife Service manages protected areas",
+  "subset": "coordination",
+  "tags": [
+    "coordination",
+    "keep",
+    "government"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.805Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "Fish and Wildlife Service",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "protected areas",
+      "type": "cco:Facility"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "Fish and Wildlife Service",
+      "role": "Agent"
+    },
+    {
+      "entity": "protected areas",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "Fish and Wildlife Service manages",
+      "type": "bfo:Entity",
+      "id": "inst:Fish_and_Wildlife_Service_manages"
+    },
+    {
+      "text": "areas",
+      "type": "bfo:Entity",
+      "id": "inst:areas"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:Fish_and_Wildlife_Service_manages",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "Fish and Wildlife Service manages",
+        "tagteam:mentionId": "s0:h5:0-33",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:areas",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "areas",
+        "tagteam:mentionId": "s0:h7:44-49",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Act_manages",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "manages",
+        "tagteam:lemma": "manages"
+      },
+      {
+        "@id": "inst:Act_protected",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "protected",
+        "tagteam:lemma": "protect"
+      },
+      {
+        "@id": "inst:Act_areas",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "areas",
+        "tagteam:lemma": "areas"
+      }
+    ]
+  }
+}

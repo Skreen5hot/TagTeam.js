@@ -1,0 +1,70 @@
+{
+  "id": "org-cop-006",
+  "text": "ICE is an agency within DHS",
+  "subset": "organizational",
+  "tags": [
+    "copular",
+    "definitional",
+    "government"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.145Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "ICE",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "DHS",
+      "type": "cco:Organization"
+    }
+  ],
+  "expectedRoles": [],
+  "extractedEntities": [
+    {
+      "text": "ICE",
+      "type": "cco:Organization",
+      "id": "inst:ICE"
+    },
+    {
+      "text": "DHS",
+      "type": "cco:Organization",
+      "id": "inst:DHS"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:ICE",
+        "@type": [
+          "cco:Organization"
+        ],
+        "rdfs:label": "ICE",
+        "tagteam:mentionId": "s0:h1:0-3",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:DHS",
+        "@type": [
+          "cco:Organization"
+        ],
+        "rdfs:label": "DHS",
+        "tagteam:mentionId": "s0:h6:24-27",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Assertion_ICE",
+        "@type": [
+          "tagteam:StructuralAssertion"
+        ],
+        "tagteam:subject": "ICE",
+        "tagteam:pattern": "predication",
+        "tagteam:object": "within DHS",
+        "tagteam:copula": "is"
+      }
+    ]
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "id": "coord-split-012",
+  "text": "DEA and FBI launched a joint investigation",
+  "subset": "coordination",
+  "tags": [
+    "coordination",
+    "split",
+    "government"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.838Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "DEA",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "FBI",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "a joint investigation",
+      "type": "bfo:Process"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "DEA",
+      "role": "Agent"
+    },
+    {
+      "entity": "FBI",
+      "role": "Agent"
+    },
+    {
+      "entity": "investigation",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "DEA and FBI launched a joint investigation",
+      "type": "bfo:Entity",
+      "id": "inst:DEA_and_FBI_launched_a_joint_investigation"
+    },
+    {
+      "text": "FBI",
+      "type": "cco:Organization",
+      "id": "inst:FBI"
+    },
+    {
+      "text": "a joint investigation",
+      "type": "bfo:Entity",
+      "id": "inst:a_joint_investigation"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:DEA_and_FBI_launched_a_joint_investigation",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "DEA and FBI launched a joint investigation",
+        "tagteam:mentionId": "s0:h1:0-42",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:FBI",
+        "@type": [
+          "cco:Organization"
+        ],
+        "rdfs:label": "FBI",
+        "tagteam:mentionId": "s0:h3:8-11",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:a_joint_investigation",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "a joint investigation",
+        "tagteam:mentionId": "s0:h7:21-42",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Act_DEA",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "DEA",
+        "tagteam:lemma": "dea"
+      }
+    ]
+  }
+}

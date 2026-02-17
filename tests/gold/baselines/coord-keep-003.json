@@ -1,0 +1,165 @@
+{
+  "id": "coord-keep-003",
+  "text": "The Bureau of Alcohol Tobacco and Firearms investigated the case",
+  "subset": "coordination",
+  "tags": [
+    "coordination",
+    "keep",
+    "government"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.728Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The Bureau of Alcohol Tobacco and Firearms",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the case",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "Bureau of Alcohol Tobacco and Firearms",
+      "role": "Agent"
+    },
+    {
+      "entity": "case",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The Bureau of Alcohol Tobacco",
+      "type": "bfo:Entity",
+      "id": "inst:The_Bureau_of_Alcohol_Tobacco"
+    },
+    {
+      "text": "Firearms",
+      "type": "bfo:Entity",
+      "id": "inst:Firearms"
+    },
+    {
+      "text": "Alcohol Tobacco",
+      "type": "bfo:Entity",
+      "id": "inst:Alcohol_Tobacco"
+    },
+    {
+      "text": "the case",
+      "type": "bfo:Entity",
+      "id": "inst:the_case"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The Bureau of Alcohol Tobacco",
+      "role": "Agent"
+    },
+    {
+      "entity": "Firearms",
+      "role": "Agent"
+    },
+    {
+      "entity": "the case",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_Bureau_of_Alcohol_Tobacco",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The Bureau of Alcohol Tobacco",
+        "tagteam:mentionId": "s0:h2:0-29",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804
+      },
+      {
+        "@id": "inst:Firearms",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "Firearms",
+        "tagteam:mentionId": "s0:h7:34-42",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Alcohol_Tobacco",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "Alcohol Tobacco",
+        "tagteam:mentionId": "s0:h4:14-29",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804
+      },
+      {
+        "@id": "inst:the_case",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the case",
+        "tagteam:mentionId": "s0:h10:56-64",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Act_investigated",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "investigated",
+        "tagteam:lemma": "investigat"
+      },
+      {
+        "@id": "inst:Role_The_Bureau_of_Alcohol_Tobacco_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_Bureau_of_Alcohol_Tobacco"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_investigated"
+        },
+        "rdfs:label": "The Bureau of Alcohol Tobacco as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9479
+      },
+      {
+        "@id": "inst:Role_Firearms_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:Firearms"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_investigated"
+        },
+        "rdfs:label": "Firearms as AgentRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Role_the_case_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_case"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_investigated"
+        },
+        "rdfs:label": "the case as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      }
+    ]
+  }
+}

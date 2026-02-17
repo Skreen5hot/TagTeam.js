@@ -1,0 +1,158 @@
+{
+  "id": "coord-split-001",
+  "text": "The FBI and CIA coordinated the operation",
+  "subset": "coordination",
+  "tags": [
+    "coordination",
+    "split",
+    "government"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.640Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The FBI",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "CIA",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the operation",
+      "type": "bfo:Process"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "FBI",
+      "role": "Agent"
+    },
+    {
+      "entity": "CIA",
+      "role": "Agent"
+    },
+    {
+      "entity": "operation",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The FBI",
+      "type": "cco:Organization",
+      "id": "inst:The_FBI"
+    },
+    {
+      "text": "CIA",
+      "type": "cco:Organization",
+      "id": "inst:CIA"
+    },
+    {
+      "text": "the operation",
+      "type": "bfo:Entity",
+      "id": "inst:the_operation"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The FBI",
+      "role": "Agent"
+    },
+    {
+      "entity": "CIA",
+      "role": "Agent"
+    },
+    {
+      "entity": "the operation",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_FBI",
+        "@type": [
+          "cco:Organization"
+        ],
+        "rdfs:label": "The FBI",
+        "tagteam:mentionId": "s0:h2:0-7",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:CIA",
+        "@type": [
+          "cco:Organization"
+        ],
+        "rdfs:label": "CIA",
+        "tagteam:mentionId": "s0:h4:12-15",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:the_operation",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the operation",
+        "tagteam:mentionId": "s0:h7:28-41",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Act_coordinated",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "coordinated",
+        "tagteam:lemma": "coordinat"
+      },
+      {
+        "@id": "inst:Role_The_FBI_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_FBI"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_coordinated"
+        },
+        "rdfs:label": "The FBI as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9479
+      },
+      {
+        "@id": "inst:Role_CIA_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:CIA"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_coordinated"
+        },
+        "rdfs:label": "CIA as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Role_the_operation_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_operation"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_coordinated"
+        },
+        "rdfs:label": "the operation as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      }
+    ]
+  }
+}

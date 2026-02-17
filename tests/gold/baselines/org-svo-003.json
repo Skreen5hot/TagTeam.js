@@ -1,0 +1,116 @@
+{
+  "id": "org-svo-003",
+  "text": "The committee reviewed the proposal",
+  "subset": "organizational",
+  "tags": [
+    "svo",
+    "government",
+    "action"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.341Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The committee",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the proposal",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "committee",
+      "role": "Agent"
+    },
+    {
+      "entity": "proposal",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The committee",
+      "type": "bfo:Entity",
+      "id": "inst:The_committee"
+    },
+    {
+      "text": "the proposal",
+      "type": "bfo:Entity",
+      "id": "inst:the_proposal"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The committee",
+      "role": "Agent"
+    },
+    {
+      "entity": "the proposal",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_committee",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The committee",
+        "tagteam:mentionId": "s0:h2:0-13",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:the_proposal",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the proposal",
+        "tagteam:mentionId": "s0:h5:23-35",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Act_reviewed",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "reviewed",
+        "tagteam:lemma": "review"
+      },
+      {
+        "@id": "inst:Role_The_committee_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_committee"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_reviewed"
+        },
+        "rdfs:label": "The committee as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_proposal_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_proposal"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_reviewed"
+        },
+        "rdfs:label": "the proposal as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      }
+    ]
+  }
+}

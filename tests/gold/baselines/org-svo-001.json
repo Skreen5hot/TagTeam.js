@@ -1,0 +1,116 @@
+{
+  "id": "org-svo-001",
+  "text": "The FBI investigated the case",
+  "subset": "organizational",
+  "tags": [
+    "svo",
+    "government",
+    "action"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.319Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The FBI",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the case",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "FBI",
+      "role": "Agent"
+    },
+    {
+      "entity": "case",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The FBI",
+      "type": "cco:Organization",
+      "id": "inst:The_FBI"
+    },
+    {
+      "text": "the case",
+      "type": "bfo:Entity",
+      "id": "inst:the_case"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The FBI",
+      "role": "Agent"
+    },
+    {
+      "entity": "the case",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_FBI",
+        "@type": [
+          "cco:Organization"
+        ],
+        "rdfs:label": "The FBI",
+        "tagteam:mentionId": "s0:h2:0-7",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9479
+      },
+      {
+        "@id": "inst:the_case",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the case",
+        "tagteam:mentionId": "s0:h5:21-29",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Act_investigated",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "investigated",
+        "tagteam:lemma": "investigat"
+      },
+      {
+        "@id": "inst:Role_The_FBI_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_FBI"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_investigated"
+        },
+        "rdfs:label": "The FBI as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9479
+      },
+      {
+        "@id": "inst:Role_the_case_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_case"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_investigated"
+        },
+        "rdfs:label": "the case as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      }
+    ]
+  }
+}

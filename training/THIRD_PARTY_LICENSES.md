@@ -1,6 +1,7 @@
-# Third-Party Licenses (Draft)
+# Third-Party Licenses
 
-**Status:** DRAFT — Requires legal review before release.
+**Status:** Updated Phase 4E — Pending external legal sign-off on CC BY-SA 4.0 derivative-work status.
+**Last updated:** 2026-02-17
 
 This document tracks third-party resources used in the TagTeam.js major refactor,
 particularly training data and model architectures.
@@ -12,7 +13,7 @@ particularly training data and model architectures.
 **Used for:** Training the Perceptron POS Tagger (Phase 1) and Dependency Parser (Phase 2)
 
 - **Full name:** Universal Dependencies English Web Treebank
-- **Version:** v2.x (exact version to be pinned during Phase 1)
+- **Version:** v2.14 (UD release 2.14, 2024-05-15)
 - **License:** CC BY-SA 4.0
 - **URL:** https://universaldependencies.org/treebanks/en_ewt/
 - **Citation:**
@@ -28,8 +29,11 @@ particularly training data and model architectures.
 
 ### TagTeam Usage
 - Raw CoNLL-U files are NOT distributed with TagTeam
-- Trained model weights ARE distributed (derived work)
+- Trained model weights ARE distributed (see `src/data/MODEL_LICENSE.md`)
 - Training scripts reference the treebank by URL for reproducibility
+- Model weights are derived from statistical patterns in UD-EWT annotations
+- Whether trained weights constitute a "derivative work" under CC BY-SA 4.0
+  is an open legal question — see Legal Review section below
 
 ---
 
@@ -87,13 +91,31 @@ in `package.json` and `node_modules/*/LICENSE`.
 | compromise | MIT | NLP parsing (current pipeline) |
 | jsPOS | LGPL-3.0 | POS tagging (current NPChunker) |
 
+### jsPOS LGPL-3.0 Bundling Note
+jsPOS is bundled into `dist/tagteam.js` via the UMD build process. Under LGPL-3.0,
+bundling is permitted provided that:
+1. The jsPOS source remains available (it is published on npm)
+2. Users can replace the jsPOS component (TagTeam's module structure allows this)
+3. This license notice is preserved in distribution
+
 ---
 
-## TODO (Legal Review Checklist)
+## 7. Model Weight License
 
-- [ ] Confirm CC BY-SA 4.0 compliance for UD-EWT derived model weights
-- [ ] Determine if trained model weights constitute a "derivative work" under CC BY-SA
-- [ ] Add NOTICE file to distributed package with required attributions
-- [ ] Pin exact UD-EWT version used for training
-- [ ] Review jsPOS LGPL-3.0 implications for bundled distribution
-- [ ] Confirm BFO CC BY 4.0 attribution in output metadata
+The trained model weight files distributed with TagTeam are documented separately
+in `src/data/MODEL_LICENSE.md`. They are:
+- `src/data/pos-weights-pruned.json` — POS tagger weights (trained on UD-EWT v2.14)
+- `src/data/dep-weights-pruned.json` — Dependency parser weights (trained on UD-EWT v2.14)
+- `src/data/dep-calibration.json` — Parser calibration parameters
+
+---
+
+## Legal Review Checklist
+
+- [x] Pin exact UD-EWT version used for training → **v2.14** (2024-05-15)
+- [x] Review jsPOS LGPL-3.0 implications for bundled distribution → **Compliant** (see §6)
+- [x] Confirm BFO CC BY 4.0 attribution in output metadata → **BFO IRIs credited in graph output**
+- [x] Add MODEL_LICENSE.md for distributed model weights → **Created at `src/data/MODEL_LICENSE.md`**
+- [ ] **EXTERNAL BLOCKER:** Confirm CC BY-SA 4.0 compliance for UD-EWT derived model weights
+- [ ] **EXTERNAL BLOCKER:** Determine if trained model weights constitute a "derivative work" under CC BY-SA 4.0
+- [ ] **EXTERNAL BLOCKER:** Add NOTICE file to distributed package with required attributions (pending derivative-work determination)

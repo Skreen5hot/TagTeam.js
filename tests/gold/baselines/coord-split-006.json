@@ -1,0 +1,124 @@
+{
+  "id": "coord-split-006",
+  "text": "Agents and officers conducted the raid",
+  "subset": "coordination",
+  "tags": [
+    "coordination",
+    "split",
+    "government"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.739Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "Agents",
+      "type": "cco:Person"
+    },
+    {
+      "text": "officers",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the raid",
+      "type": "bfo:Process"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "Agents",
+      "role": "Agent"
+    },
+    {
+      "entity": "officers",
+      "role": "Agent"
+    },
+    {
+      "entity": "raid",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "Agents and officers",
+      "type": "bfo:Entity",
+      "id": "inst:Agents_and_officers"
+    },
+    {
+      "text": "the raid",
+      "type": "bfo:Entity",
+      "id": "inst:the_raid"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "Agents and officers",
+      "role": "Agent"
+    },
+    {
+      "entity": "the raid",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:Agents_and_officers",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "Agents and officers",
+        "tagteam:mentionId": "s0:h1:0-19",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:the_raid",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the raid",
+        "tagteam:mentionId": "s0:h6:30-38",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Act_conducted",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "conducted",
+        "tagteam:lemma": "conduct"
+      },
+      {
+        "@id": "inst:Role_Agents_and_officers_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:Agents_and_officers"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_conducted"
+        },
+        "rdfs:label": "Agents and officers as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_raid_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_raid"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_conducted"
+        },
+        "rdfs:label": "the raid as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      }
+    ]
+  }
+}

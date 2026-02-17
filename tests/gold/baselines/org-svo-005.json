@@ -1,0 +1,116 @@
+{
+  "id": "org-svo-005",
+  "text": "The director authorized the operation",
+  "subset": "organizational",
+  "tags": [
+    "svo",
+    "government",
+    "action"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.364Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The director",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the operation",
+      "type": "bfo:Process"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "director",
+      "role": "Agent"
+    },
+    {
+      "entity": "operation",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The director",
+      "type": "bfo:Entity",
+      "id": "inst:The_director"
+    },
+    {
+      "text": "the operation",
+      "type": "bfo:Entity",
+      "id": "inst:the_operation"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The director",
+      "role": "Agent"
+    },
+    {
+      "entity": "the operation",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_director",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The director",
+        "tagteam:mentionId": "s0:h2:0-12",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:the_operation",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the operation",
+        "tagteam:mentionId": "s0:h5:24-37",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Act_authorized",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "authorized",
+        "tagteam:lemma": "authoriz"
+      },
+      {
+        "@id": "inst:Role_The_director_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_director"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_authorized"
+        },
+        "rdfs:label": "The director as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_operation_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_operation"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_authorized"
+        },
+        "rdfs:label": "the operation as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      }
+    ]
+  }
+}

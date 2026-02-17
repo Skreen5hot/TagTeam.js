@@ -1,0 +1,117 @@
+{
+  "id": "org-pass-001",
+  "text": "The suspect was apprehended by the officers",
+  "subset": "organizational",
+  "tags": [
+    "passive",
+    "government",
+    "action"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.574Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The suspect",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the officers",
+      "type": "cco:Person"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "officers",
+      "role": "Agent"
+    },
+    {
+      "entity": "suspect",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The suspect",
+      "type": "bfo:Entity",
+      "id": "inst:The_suspect"
+    },
+    {
+      "text": "the officers",
+      "type": "bfo:Entity",
+      "id": "inst:the_officers"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The suspect",
+      "role": "Patient"
+    },
+    {
+      "entity": "the officers",
+      "role": "Agent"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_suspect",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The suspect",
+        "tagteam:mentionId": "s0:h2:0-11",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:the_officers",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the officers",
+        "tagteam:mentionId": "s0:h7:31-43",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Act_apprehended",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "apprehended",
+        "tagteam:lemma": "apprehend",
+        "tagteam:isPassive": true
+      },
+      {
+        "@id": "inst:Role_The_suspect_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_suspect"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_apprehended"
+        },
+        "rdfs:label": "The suspect as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Role_the_officers_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_officers"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_apprehended"
+        },
+        "rdfs:label": "the officers as AgentRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      }
+    ]
+  }
+}

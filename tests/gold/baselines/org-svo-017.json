@@ -1,0 +1,117 @@
+{
+  "id": "org-svo-017",
+  "text": "The department implemented new regulations",
+  "subset": "organizational",
+  "tags": [
+    "svo",
+    "government",
+    "action"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.519Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The department",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "new regulations",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "department",
+      "role": "Agent"
+    },
+    {
+      "entity": "regulations",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The department",
+      "type": "bfo:Entity",
+      "id": "inst:The_department"
+    },
+    {
+      "text": "new regulations",
+      "type": "bfo:Entity",
+      "id": "inst:new_regulations"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The department",
+      "role": "Patient"
+    },
+    {
+      "entity": "new regulations",
+      "role": "Agent"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_department",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The department",
+        "tagteam:mentionId": "s0:h2:0-14",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:new_regulations",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "new regulations",
+        "tagteam:mentionId": "s0:h5:27-42",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:Act_implemented",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "implemented",
+        "tagteam:lemma": "implement",
+        "tagteam:isPassive": true
+      },
+      {
+        "@id": "inst:Role_The_department_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_department"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_implemented"
+        },
+        "rdfs:label": "The department as PatientRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Role_new_regulations_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:new_regulations"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_implemented"
+        },
+        "rdfs:label": "new regulations as AgentRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      }
+    ]
+  }
+}

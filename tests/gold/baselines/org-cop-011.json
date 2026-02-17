@@ -1,0 +1,54 @@
+{
+  "id": "org-cop-011",
+  "text": "The CIA is an intelligence agency",
+  "subset": "organizational",
+  "tags": [
+    "copular",
+    "definitional",
+    "intelligence"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.236Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The CIA",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "an intelligence agency",
+      "type": "cco:Organization"
+    }
+  ],
+  "expectedRoles": [],
+  "extractedEntities": [
+    {
+      "text": "The CIA",
+      "type": "cco:Organization",
+      "id": "inst:The_CIA"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_CIA",
+        "@type": [
+          "cco:Organization"
+        ],
+        "rdfs:label": "The CIA",
+        "tagteam:mentionId": "s0:h2:0-7",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Assertion_The_CIA",
+        "@type": [
+          "tagteam:StructuralAssertion"
+        ],
+        "tagteam:subject": "The CIA",
+        "tagteam:pattern": "predication",
+        "tagteam:copula": "is"
+      }
+    ]
+  }
+}

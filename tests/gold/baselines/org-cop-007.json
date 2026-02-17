@@ -1,0 +1,54 @@
+{
+  "id": "org-cop-007",
+  "text": "The Secret Service is a federal agency",
+  "subset": "organizational",
+  "tags": [
+    "copular",
+    "definitional",
+    "government"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.165Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The Secret Service",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "a federal agency",
+      "type": "cco:Organization"
+    }
+  ],
+  "expectedRoles": [],
+  "extractedEntities": [
+    {
+      "text": "The Secret Service",
+      "type": "bfo:Entity",
+      "id": "inst:The_Secret_Service"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_Secret_Service",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The Secret Service",
+        "tagteam:mentionId": "s0:h3:0-18",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Assertion_The_Secret_Service",
+        "@type": [
+          "tagteam:StructuralAssertion"
+        ],
+        "tagteam:subject": "The Secret Service",
+        "tagteam:pattern": "predication",
+        "tagteam:copula": "is"
+      }
+    ]
+  }
+}

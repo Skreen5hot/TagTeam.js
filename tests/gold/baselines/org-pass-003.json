@@ -1,0 +1,117 @@
+{
+  "id": "org-pass-003",
+  "text": "The policy was approved by the committee",
+  "subset": "organizational",
+  "tags": [
+    "passive",
+    "government",
+    "action"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.600Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The policy",
+      "type": "cco:InformationContentEntity"
+    },
+    {
+      "text": "the committee",
+      "type": "cco:Organization"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "committee",
+      "role": "Agent"
+    },
+    {
+      "entity": "policy",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The policy",
+      "type": "bfo:Entity",
+      "id": "inst:The_policy"
+    },
+    {
+      "text": "the committee",
+      "type": "bfo:Entity",
+      "id": "inst:the_committee"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The policy",
+      "role": "Patient"
+    },
+    {
+      "entity": "the committee",
+      "role": "Agent"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_policy",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The policy",
+        "tagteam:mentionId": "s0:h2:0-10",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:the_committee",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the committee",
+        "tagteam:mentionId": "s0:h7:27-40",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Act_approved",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "approved",
+        "tagteam:lemma": "approv",
+        "tagteam:isPassive": true
+      },
+      {
+        "@id": "inst:Role_The_policy_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_policy"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_approved"
+        },
+        "rdfs:label": "The policy as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Role_the_committee_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_committee"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_approved"
+        },
+        "rdfs:label": "the committee as AgentRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      }
+    ]
+  }
+}

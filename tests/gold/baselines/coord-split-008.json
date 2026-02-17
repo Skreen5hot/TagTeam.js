@@ -1,0 +1,124 @@
+{
+  "id": "coord-split-008",
+  "text": "The inspector reviewed the documents and the photographs",
+  "subset": "coordination",
+  "tags": [
+    "coordination",
+    "split",
+    "object"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.763Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The inspector",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the documents",
+      "type": "cco:InformationContentEntity"
+    },
+    {
+      "text": "the photographs",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "inspector",
+      "role": "Agent"
+    },
+    {
+      "entity": "documents",
+      "role": "Patient"
+    },
+    {
+      "entity": "photographs",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The inspector",
+      "type": "bfo:Entity",
+      "id": "inst:The_inspector"
+    },
+    {
+      "text": "the documents",
+      "type": "bfo:Entity",
+      "id": "inst:the_documents"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The inspector",
+      "role": "Agent"
+    },
+    {
+      "entity": "the documents",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_inspector",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The inspector",
+        "tagteam:mentionId": "s0:h2:0-13",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:the_documents",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the documents",
+        "tagteam:mentionId": "s0:h5:23-36",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Act_reviewed",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "reviewed",
+        "tagteam:lemma": "review"
+      },
+      {
+        "@id": "inst:Role_The_inspector_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_inspector"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_reviewed"
+        },
+        "rdfs:label": "The inspector as AgentRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Role_the_documents_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_documents"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_reviewed"
+        },
+        "rdfs:label": "the documents as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      }
+    ]
+  }
+}

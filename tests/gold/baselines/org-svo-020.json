@@ -1,0 +1,116 @@
+{
+  "id": "org-svo-020",
+  "text": "The bureau conducted an investigation",
+  "subset": "organizational",
+  "tags": [
+    "svo",
+    "government",
+    "action"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.558Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The bureau",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "an investigation",
+      "type": "bfo:Process"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "bureau",
+      "role": "Agent"
+    },
+    {
+      "entity": "investigation",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The bureau",
+      "type": "bfo:Entity",
+      "id": "inst:The_bureau"
+    },
+    {
+      "text": "an investigation",
+      "type": "bfo:Entity",
+      "id": "inst:an_investigation"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The bureau",
+      "role": "Agent"
+    },
+    {
+      "entity": "an investigation",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_bureau",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The bureau",
+        "tagteam:mentionId": "s0:h2:0-10",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:an_investigation",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "an investigation",
+        "tagteam:mentionId": "s0:h5:21-37",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Act_conducted",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "conducted",
+        "tagteam:lemma": "conduct"
+      },
+      {
+        "@id": "inst:Role_The_bureau_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_bureau"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_conducted"
+        },
+        "rdfs:label": "The bureau as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_an_investigation_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:an_investigation"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_conducted"
+        },
+        "rdfs:label": "an investigation as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      }
+    ]
+  }
+}

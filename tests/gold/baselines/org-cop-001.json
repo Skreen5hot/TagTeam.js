@@ -1,0 +1,71 @@
+{
+  "id": "org-cop-001",
+  "text": "CBP is a component of DHS",
+  "subset": "organizational",
+  "tags": [
+    "copular",
+    "definitional",
+    "government"
+  ],
+  "generatedAt": "2026-02-17T18:10:07.953Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "CBP",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "DHS",
+      "type": "cco:Organization"
+    }
+  ],
+  "expectedRoles": [],
+  "extractedEntities": [
+    {
+      "text": "CBP",
+      "type": "cco:Organization",
+      "id": "inst:CBP"
+    },
+    {
+      "text": "DHS",
+      "type": "cco:Organization",
+      "id": "inst:DHS"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:CBP",
+        "@type": [
+          "cco:Organization"
+        ],
+        "rdfs:label": "CBP",
+        "tagteam:mentionId": "s0:h1:0-3",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:DHS",
+        "@type": [
+          "cco:Organization"
+        ],
+        "rdfs:label": "DHS",
+        "tagteam:mentionId": "s0:h6:22-25",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Assertion_CBP",
+        "@type": [
+          "tagteam:StructuralAssertion"
+        ],
+        "tagteam:subject": "CBP",
+        "tagteam:pattern": "predication",
+        "tagteam:relation": "cco:has_part",
+        "tagteam:object": "of DHS",
+        "tagteam:copula": "is"
+      }
+    ]
+  }
+}

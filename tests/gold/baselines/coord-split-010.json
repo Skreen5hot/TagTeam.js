@@ -1,0 +1,124 @@
+{
+  "id": "coord-split-010",
+  "text": "The prosecutor and the defense attorney addressed the court",
+  "subset": "coordination",
+  "tags": [
+    "coordination",
+    "split",
+    "legal"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.791Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The prosecutor",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the defense attorney",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the court",
+      "type": "cco:Organization"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "prosecutor",
+      "role": "Agent"
+    },
+    {
+      "entity": "defense attorney",
+      "role": "Agent"
+    },
+    {
+      "entity": "court",
+      "role": "Recipient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The prosecutor and the defense attorney",
+      "type": "bfo:Entity",
+      "id": "inst:The_prosecutor_and_the_defense_attorney"
+    },
+    {
+      "text": "the court",
+      "type": "bfo:Entity",
+      "id": "inst:the_court"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The prosecutor and the defense attorney",
+      "role": "Agent"
+    },
+    {
+      "entity": "the court",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_prosecutor_and_the_defense_attorney",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The prosecutor and the defense attorney",
+        "tagteam:mentionId": "s0:h2:0-39",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:the_court",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the court",
+        "tagteam:mentionId": "s0:h9:50-59",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Act_addressed",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "addressed",
+        "tagteam:lemma": "address"
+      },
+      {
+        "@id": "inst:Role_The_prosecutor_and_the_defense_attorney_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_prosecutor_and_the_defense_attorney"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_addressed"
+        },
+        "rdfs:label": "The prosecutor and the defense attorney as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_court_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_court"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_addressed"
+        },
+        "rdfs:label": "the court as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      }
+    ]
+  }
+}

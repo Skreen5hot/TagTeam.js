@@ -1,0 +1,92 @@
+{
+  "id": "coord-keep-005",
+  "text": "Immigration and Customs Enforcement deported the individual",
+  "subset": "coordination",
+  "tags": [
+    "coordination",
+    "keep",
+    "government"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.817Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "Immigration and Customs Enforcement",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the individual",
+      "type": "cco:Person"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "Immigration and Customs Enforcement",
+      "role": "Agent"
+    },
+    {
+      "entity": "individual",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "Immigration and Customs Enforcement deported the individual",
+      "type": "bfo:Entity",
+      "id": "inst:Immigration_and_Customs_Enforcement_deported_the_individual"
+    },
+    {
+      "text": "Enforcement",
+      "type": "bfo:Entity",
+      "id": "inst:Enforcement"
+    },
+    {
+      "text": "the individual",
+      "type": "bfo:Entity",
+      "id": "inst:the_individual"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:Immigration_and_Customs_Enforcement_deported_the_individual",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "Immigration and Customs Enforcement deported the individual",
+        "tagteam:mentionId": "s0:h1:0-59",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Enforcement",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "Enforcement",
+        "tagteam:mentionId": "s0:h4:24-35",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:the_individual",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the individual",
+        "tagteam:mentionId": "s0:h7:45-59",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804
+      },
+      {
+        "@id": "inst:Act_Immigration",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "Immigration",
+        "tagteam:lemma": "immigration"
+      }
+    ]
+  }
+}

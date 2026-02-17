@@ -1,0 +1,116 @@
+{
+  "id": "org-svo-013",
+  "text": "The forensic team analyzed the samples",
+  "subset": "organizational",
+  "tags": [
+    "svo",
+    "government",
+    "action"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.467Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The forensic team",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the samples",
+      "type": "bfo:Entity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "forensic team",
+      "role": "Agent"
+    },
+    {
+      "entity": "samples",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The forensic team",
+      "type": "bfo:Entity",
+      "id": "inst:The_forensic_team"
+    },
+    {
+      "text": "the samples",
+      "type": "bfo:Entity",
+      "id": "inst:the_samples"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The forensic team",
+      "role": "Agent"
+    },
+    {
+      "entity": "the samples",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_forensic_team",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The forensic team",
+        "tagteam:mentionId": "s0:h3:0-17",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:the_samples",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the samples",
+        "tagteam:mentionId": "s0:h6:27-38",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Act_analyzed",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "analyzed",
+        "tagteam:lemma": "analyz"
+      },
+      {
+        "@id": "inst:Role_The_forensic_team_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_forensic_team"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_analyzed"
+        },
+        "rdfs:label": "The forensic team as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_samples_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_samples"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_analyzed"
+        },
+        "rdfs:label": "the samples as PatientRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      }
+    ]
+  }
+}

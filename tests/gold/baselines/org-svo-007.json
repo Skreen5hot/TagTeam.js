@@ -1,0 +1,116 @@
+{
+  "id": "org-svo-007",
+  "text": "The analyst prepared the intelligence briefing",
+  "subset": "organizational",
+  "tags": [
+    "svo",
+    "government",
+    "action"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.389Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The analyst",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the intelligence briefing",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "analyst",
+      "role": "Agent"
+    },
+    {
+      "entity": "intelligence briefing",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The analyst",
+      "type": "bfo:Entity",
+      "id": "inst:The_analyst"
+    },
+    {
+      "text": "the intelligence briefing",
+      "type": "bfo:Entity",
+      "id": "inst:the_intelligence_briefing"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The analyst",
+      "role": "Agent"
+    },
+    {
+      "entity": "the intelligence briefing",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_analyst",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The analyst",
+        "tagteam:mentionId": "s0:h2:0-11",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:the_intelligence_briefing",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the intelligence briefing",
+        "tagteam:mentionId": "s0:h6:21-46",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Act_prepared",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "prepared",
+        "tagteam:lemma": "prepar"
+      },
+      {
+        "@id": "inst:Role_The_analyst_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_analyst"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_prepared"
+        },
+        "rdfs:label": "The analyst as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_intelligence_briefing_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_intelligence_briefing"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_prepared"
+        },
+        "rdfs:label": "the intelligence briefing as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      }
+    ]
+  }
+}

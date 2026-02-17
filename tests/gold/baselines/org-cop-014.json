@@ -1,0 +1,53 @@
+{
+  "id": "org-cop-014",
+  "text": "A field office is a regional operational unit",
+  "subset": "organizational",
+  "tags": [
+    "copular",
+    "definitional"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.290Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "A field office",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "a regional operational unit",
+      "type": "cco:Organization"
+    }
+  ],
+  "expectedRoles": [],
+  "extractedEntities": [
+    {
+      "text": "A field office",
+      "type": "bfo:Entity",
+      "id": "inst:A_field_office"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:A_field_office",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "A field office",
+        "tagteam:mentionId": "s0:h3:0-14",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Assertion_A_field_office",
+        "@type": [
+          "tagteam:StructuralAssertion"
+        ],
+        "tagteam:subject": "A field office",
+        "tagteam:pattern": "predication",
+        "tagteam:copula": "is"
+      }
+    ]
+  }
+}

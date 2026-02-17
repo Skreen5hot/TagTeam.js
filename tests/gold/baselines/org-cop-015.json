@@ -1,0 +1,54 @@
+{
+  "id": "org-cop-015",
+  "text": "The inspector general is an independent oversight official",
+  "subset": "organizational",
+  "tags": [
+    "copular",
+    "definitional",
+    "government"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.305Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The inspector general",
+      "type": "cco:Person"
+    },
+    {
+      "text": "an independent oversight official",
+      "type": "cco:Person"
+    }
+  ],
+  "expectedRoles": [],
+  "extractedEntities": [
+    {
+      "text": "The inspector general",
+      "type": "bfo:Entity",
+      "id": "inst:The_inspector_general"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_inspector_general",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The inspector general",
+        "tagteam:mentionId": "s0:h3:0-21",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804
+      },
+      {
+        "@id": "inst:Assertion_The_inspector_general",
+        "@type": [
+          "tagteam:StructuralAssertion"
+        ],
+        "tagteam:subject": "The inspector general",
+        "tagteam:pattern": "predication",
+        "tagteam:copula": "is"
+      }
+    ]
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "id": "org-cop-009",
+  "text": "The Coast Guard is a branch of the armed forces",
+  "subset": "organizational",
+  "tags": [
+    "copular",
+    "definitional",
+    "military"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.203Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The Coast Guard",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the armed forces",
+      "type": "cco:Organization"
+    }
+  ],
+  "expectedRoles": [],
+  "extractedEntities": [
+    {
+      "text": "The Coast Guard",
+      "type": "bfo:Entity",
+      "id": "inst:The_Coast_Guard"
+    },
+    {
+      "text": "the armed forces",
+      "type": "bfo:Entity",
+      "id": "inst:the_armed_forces"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_Coast_Guard",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The Coast Guard",
+        "tagteam:mentionId": "s0:h3:0-15",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:the_armed_forces",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the armed forces",
+        "tagteam:mentionId": "s0:h10:31-47",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804
+      },
+      {
+        "@id": "inst:Assertion_The_Coast_Guard",
+        "@type": [
+          "tagteam:StructuralAssertion"
+        ],
+        "tagteam:subject": "The Coast Guard",
+        "tagteam:pattern": "predication",
+        "tagteam:object": "of the armed forces",
+        "tagteam:copula": "is"
+      }
+    ]
+  }
+}

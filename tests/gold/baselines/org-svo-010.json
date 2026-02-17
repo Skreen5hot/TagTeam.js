@@ -1,0 +1,105 @@
+{
+  "id": "org-svo-010",
+  "text": "The secretary issued a statement",
+  "subset": "organizational",
+  "tags": [
+    "svo",
+    "government",
+    "action"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.427Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The secretary",
+      "type": "cco:Person"
+    },
+    {
+      "text": "a statement",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "secretary",
+      "role": "Agent"
+    },
+    {
+      "entity": "statement",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The secretary",
+      "type": "bfo:Entity",
+      "id": "inst:The_secretary"
+    },
+    {
+      "text": "a statement",
+      "type": "bfo:Entity",
+      "id": "inst:a_statement"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "a statement",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_secretary",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The secretary",
+        "tagteam:mentionId": "s0:h2:0-13",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:a_statement",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "a statement",
+        "tagteam:mentionId": "s0:h5:21-32",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:Act_secretary",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "secretary",
+        "tagteam:lemma": "secretary"
+      },
+      {
+        "@id": "inst:Act_issued",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "issued",
+        "tagteam:lemma": "issu"
+      },
+      {
+        "@id": "inst:Role_a_statement_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:a_statement"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_issued"
+        },
+        "rdfs:label": "a statement as PatientRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      }
+    ]
+  }
+}

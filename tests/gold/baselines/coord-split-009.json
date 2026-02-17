@@ -1,0 +1,70 @@
+{
+  "id": "coord-split-009",
+  "text": "TSA and CBP implemented new screening procedures",
+  "subset": "coordination",
+  "tags": [
+    "coordination",
+    "split",
+    "government"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.776Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "TSA",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "CBP",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "new screening procedures",
+      "type": "bfo:Process"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "TSA",
+      "role": "Agent"
+    },
+    {
+      "entity": "CBP",
+      "role": "Agent"
+    },
+    {
+      "entity": "screening procedures",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "TSA and CBP implemented new screening procedures",
+      "type": "bfo:Entity",
+      "id": "inst:TSA_and_CBP_implemented_new_screening_procedures"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:TSA_and_CBP_implemented_new_screening_procedures",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "TSA and CBP implemented new screening procedures",
+        "tagteam:mentionId": "s0:h7:0-48",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Act_procedures",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "procedures",
+        "tagteam:lemma": "procedures"
+      }
+    ]
+  }
+}

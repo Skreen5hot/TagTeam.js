@@ -1,0 +1,54 @@
+{
+  "id": "org-cop-002",
+  "text": "The FBI is a federal law enforcement agency",
+  "subset": "organizational",
+  "tags": [
+    "copular",
+    "definitional",
+    "government"
+  ],
+  "generatedAt": "2026-02-17T18:10:07.975Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The FBI",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "a federal law enforcement agency",
+      "type": "cco:Organization"
+    }
+  ],
+  "expectedRoles": [],
+  "extractedEntities": [
+    {
+      "text": "The FBI",
+      "type": "cco:Organization",
+      "id": "inst:The_FBI"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_FBI",
+        "@type": [
+          "cco:Organization"
+        ],
+        "rdfs:label": "The FBI",
+        "tagteam:mentionId": "s0:h2:0-7",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Assertion_The_FBI",
+        "@type": [
+          "tagteam:StructuralAssertion"
+        ],
+        "tagteam:subject": "The FBI",
+        "tagteam:pattern": "predication",
+        "tagteam:copula": "is"
+      }
+    ]
+  }
+}

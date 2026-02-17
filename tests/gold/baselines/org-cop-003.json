@@ -1,0 +1,70 @@
+{
+  "id": "org-cop-003",
+  "text": "Border Patrol is the enforcement arm of CBP",
+  "subset": "organizational",
+  "tags": [
+    "copular",
+    "definitional",
+    "government"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.045Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "Border Patrol",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "CBP",
+      "type": "cco:Organization"
+    }
+  ],
+  "expectedRoles": [],
+  "extractedEntities": [
+    {
+      "text": "Border Patrol",
+      "type": "bfo:Entity",
+      "id": "inst:Border_Patrol"
+    },
+    {
+      "text": "CBP",
+      "type": "cco:Organization",
+      "id": "inst:CBP"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:Border_Patrol",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "Border Patrol",
+        "tagteam:mentionId": "s0:h1:0-13",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:CBP",
+        "@type": [
+          "cco:Organization"
+        ],
+        "rdfs:label": "CBP",
+        "tagteam:mentionId": "s0:h8:40-43",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Assertion_Border_Patrol",
+        "@type": [
+          "tagteam:StructuralAssertion"
+        ],
+        "tagteam:subject": "Border Patrol",
+        "tagteam:pattern": "predication",
+        "tagteam:object": "of CBP",
+        "tagteam:copula": "is"
+      }
+    ]
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "id": "org-cop-005",
+  "text": "The Department of Justice is a cabinet-level department",
+  "subset": "organizational",
+  "tags": [
+    "copular",
+    "definitional",
+    "government"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.132Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The Department of Justice",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "a cabinet-level department",
+      "type": "cco:Organization"
+    }
+  ],
+  "expectedRoles": [],
+  "extractedEntities": [
+    {
+      "text": "The Department of Justice",
+      "type": "bfo:Entity",
+      "id": "inst:The_Department_of_Justice"
+    },
+    {
+      "text": "Justice",
+      "type": "bfo:Entity",
+      "id": "inst:Justice"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_Department_of_Justice",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The Department of Justice",
+        "tagteam:mentionId": "s0:h2:0-25",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:Justice",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "Justice",
+        "tagteam:mentionId": "s0:h4:18-25",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Assertion_The_Department_of_Justice",
+        "@type": [
+          "tagteam:StructuralAssertion"
+        ],
+        "tagteam:subject": "The Department of Justice",
+        "tagteam:pattern": "predication",
+        "tagteam:copula": "is"
+      }
+    ]
+  }
+}

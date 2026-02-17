@@ -1,0 +1,83 @@
+{
+  "id": "coord-split-007",
+  "text": "The suspect and the accomplice were arrested",
+  "subset": "coordination",
+  "tags": [
+    "coordination",
+    "split",
+    "passive"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.751Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The suspect",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the accomplice",
+      "type": "cco:Person"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "suspect",
+      "role": "Patient"
+    },
+    {
+      "entity": "accomplice",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The suspect and the accomplice",
+      "type": "bfo:Entity",
+      "id": "inst:The_suspect_and_the_accomplice"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The suspect and the accomplice",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_suspect_and_the_accomplice",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The suspect and the accomplice",
+        "tagteam:mentionId": "s0:h2:0-30",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Act_arrested",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "arrested",
+        "tagteam:lemma": "arrest",
+        "tagteam:isPassive": true
+      },
+      {
+        "@id": "inst:Role_The_suspect_and_the_accomplice_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_suspect_and_the_accomplice"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_arrested"
+        },
+        "rdfs:label": "The suspect and the accomplice as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      }
+    ]
+  }
+}

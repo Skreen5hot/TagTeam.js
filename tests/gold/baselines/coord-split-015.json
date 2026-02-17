@@ -1,0 +1,81 @@
+{
+  "id": "coord-split-015",
+  "text": "State and local authorities assisted in the search",
+  "subset": "coordination",
+  "tags": [
+    "coordination",
+    "split",
+    "government"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.875Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "State",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "local authorities",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the search",
+      "type": "bfo:Process"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "State",
+      "role": "Agent"
+    },
+    {
+      "entity": "local authorities",
+      "role": "Agent"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "State and local authorities",
+      "type": "bfo:Entity",
+      "id": "inst:State_and_local_authorities"
+    },
+    {
+      "text": "the search",
+      "type": "bfo:Entity",
+      "id": "inst:the_search"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:State_and_local_authorities",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "State and local authorities",
+        "tagteam:mentionId": "s0:h1:0-27",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:the_search",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the search",
+        "tagteam:mentionId": "s0:h8:40-50",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Act_State",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "State",
+        "tagteam:lemma": "state"
+      }
+    ]
+  }
+}

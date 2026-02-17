@@ -1,0 +1,116 @@
+{
+  "id": "org-svo-016",
+  "text": "The patrol unit secured the perimeter",
+  "subset": "organizational",
+  "tags": [
+    "svo",
+    "government",
+    "action"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.505Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The patrol unit",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the perimeter",
+      "type": "bfo:Entity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "patrol unit",
+      "role": "Agent"
+    },
+    {
+      "entity": "perimeter",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The patrol unit",
+      "type": "bfo:Entity",
+      "id": "inst:The_patrol_unit"
+    },
+    {
+      "text": "the perimeter",
+      "type": "bfo:Entity",
+      "id": "inst:the_perimeter"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The patrol unit",
+      "role": "Agent"
+    },
+    {
+      "entity": "the perimeter",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_patrol_unit",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The patrol unit",
+        "tagteam:mentionId": "s0:h3:0-15",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:the_perimeter",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the perimeter",
+        "tagteam:mentionId": "s0:h6:24-37",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Act_secured",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "secured",
+        "tagteam:lemma": "secur"
+      },
+      {
+        "@id": "inst:Role_The_patrol_unit_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_patrol_unit"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_secured"
+        },
+        "rdfs:label": "The patrol unit as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_perimeter_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_perimeter"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_secured"
+        },
+        "rdfs:label": "the perimeter as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      }
+    ]
+  }
+}

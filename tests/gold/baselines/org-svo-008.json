@@ -1,0 +1,116 @@
+{
+  "id": "org-svo-008",
+  "text": "The task force coordinated the response",
+  "subset": "organizational",
+  "tags": [
+    "svo",
+    "government",
+    "action"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.402Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The task force",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the response",
+      "type": "bfo:Process"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "task force",
+      "role": "Agent"
+    },
+    {
+      "entity": "response",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The task force",
+      "type": "bfo:Entity",
+      "id": "inst:The_task_force"
+    },
+    {
+      "text": "the response",
+      "type": "bfo:Entity",
+      "id": "inst:the_response"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The task force",
+      "role": "Agent"
+    },
+    {
+      "entity": "the response",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_task_force",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The task force",
+        "tagteam:mentionId": "s0:h3:0-14",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:the_response",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the response",
+        "tagteam:mentionId": "s0:h6:27-39",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Act_coordinated",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "coordinated",
+        "tagteam:lemma": "coordinat"
+      },
+      {
+        "@id": "inst:Role_The_task_force_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_task_force"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_coordinated"
+        },
+        "rdfs:label": "The task force as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_response_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_response"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_coordinated"
+        },
+        "rdfs:label": "the response as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      }
+    ]
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "id": "coord-split-003",
+  "text": "The agent and the analyst reviewed the evidence",
+  "subset": "coordination",
+  "tags": [
+    "coordination",
+    "split",
+    "government"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.664Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The agent",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the analyst",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the evidence",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "agent",
+      "role": "Agent"
+    },
+    {
+      "entity": "analyst",
+      "role": "Agent"
+    },
+    {
+      "entity": "evidence",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The agent and the analyst",
+      "type": "bfo:Entity",
+      "id": "inst:The_agent_and_the_analyst"
+    },
+    {
+      "text": "the evidence",
+      "type": "bfo:Entity",
+      "id": "inst:the_evidence"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The agent and the analyst",
+      "role": "Agent"
+    },
+    {
+      "entity": "the evidence",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_agent_and_the_analyst",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The agent and the analyst",
+        "tagteam:mentionId": "s0:h2:0-25",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804
+      },
+      {
+        "@id": "inst:the_evidence",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the evidence",
+        "tagteam:mentionId": "s0:h8:35-47",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Act_reviewed",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "reviewed",
+        "tagteam:lemma": "review"
+      },
+      {
+        "@id": "inst:Role_The_agent_and_the_analyst_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_agent_and_the_analyst"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_reviewed"
+        },
+        "rdfs:label": "The agent and the analyst as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_evidence_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_evidence"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_reviewed"
+        },
+        "rdfs:label": "the evidence as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      }
+    ]
+  }
+}

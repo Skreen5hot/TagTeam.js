@@ -1,0 +1,124 @@
+{
+  "id": "coord-split-013",
+  "text": "The captain and the lieutenant briefed the team",
+  "subset": "coordination",
+  "tags": [
+    "coordination",
+    "split",
+    "military"
+  ],
+  "generatedAt": "2026-02-17T18:10:08.850Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The captain",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the lieutenant",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the team",
+      "type": "cco:Organization"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "captain",
+      "role": "Agent"
+    },
+    {
+      "entity": "lieutenant",
+      "role": "Agent"
+    },
+    {
+      "entity": "team",
+      "role": "Recipient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The captain and the lieutenant",
+      "type": "bfo:Entity",
+      "id": "inst:The_captain_and_the_lieutenant"
+    },
+    {
+      "text": "the team",
+      "type": "bfo:Entity",
+      "id": "inst:the_team"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The captain and the lieutenant",
+      "role": "Agent"
+    },
+    {
+      "entity": "the team",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_captain_and_the_lieutenant",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "The captain and the lieutenant",
+        "tagteam:mentionId": "s0:h2:0-30",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:the_team",
+        "@type": [
+          "bfo:Entity"
+        ],
+        "rdfs:label": "the team",
+        "tagteam:mentionId": "s0:h8:39-47",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Act_briefed",
+        "@type": [
+          "cco:IntentionalAct"
+        ],
+        "rdfs:label": "briefed",
+        "tagteam:lemma": "brief"
+      },
+      {
+        "@id": "inst:Role_The_captain_and_the_lieutenant_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_captain_and_the_lieutenant"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_briefed"
+        },
+        "rdfs:label": "The captain and the lieutenant as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_team_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_team"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_briefed"
+        },
+        "rdfs:label": "the team as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      }
+    ]
+  }
+}
