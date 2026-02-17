@@ -19,14 +19,28 @@ const ALLOWED = [
 ];
 
 /**
+ * Escape HTML special characters to prevent XSS (AC-4.8).
+ * @param {string} str
+ * @returns {string}
+ */
+function escapeHtml(str) {
+  if (typeof str !== 'string') return str;
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+/**
  * Strip an ICE object to only allowed properties.
+ * String values are HTML-escaped to prevent XSS.
  * @param {Object} ice
  * @returns {Object}
  */
 function sanitize(ice) {
   const result = {};
   for (const prop of ALLOWED) {
-    if (ice[prop] !== undefined) result[prop] = ice[prop];
+    if (ice[prop] !== undefined) {
+      result[prop] = typeof ice[prop] === 'string' ? escapeHtml(ice[prop]) : ice[prop];
+    }
   }
   return result;
 }
@@ -50,4 +64,4 @@ function sanitizeWithProvenance(ices, context) {
   }));
 }
 
-module.exports = { sanitize, sanitizeWithProvenance, ALLOWED };
+module.exports = { sanitize, sanitizeWithProvenance, escapeHtml, ALLOWED };

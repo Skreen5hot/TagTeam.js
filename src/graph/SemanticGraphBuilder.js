@@ -1757,6 +1757,20 @@ class SemanticGraphBuilder {
     const stages = {};
     let autoLoaded = false;
 
+    // Stage 0: Input validation (AC-4.10, AC-4.11)
+    let _inputValidator;
+    try { _inputValidator = require('../security/input-validator'); } catch(e) { /* browser */ }
+    if (_inputValidator) {
+      const validation = _inputValidator.validateInput(text);
+      if (!validation.valid) {
+        return {
+          '@graph': [],
+          _metadata: { error: validation.issues[0].code, inputValidationFailed: true }
+        };
+      }
+      text = validation.normalized;
+    }
+
     try {
       // Stage 1: Unicode normalization
       stages.current = 'normalizeUnicode';
@@ -1995,6 +2009,16 @@ class SemanticGraphBuilder {
           roleNode['tagteam:parseProbability'] = conf.probability;
         }
         graphNodes.push(roleNode);
+      }
+
+      // AC-4.8: Sanitize all string values in graph nodes to prevent XSS
+      for (const node of graphNodes) {
+        for (const key of Object.keys(node)) {
+          if (typeof node[key] === 'string' && key !== '@id' && key !== '@type') {
+            node[key] = node[key].replace(/&/g, '&amp;').replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+          }
+        }
       }
 
       const result = {
