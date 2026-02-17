@@ -1,0 +1,59 @@
+{
+  "bins": [
+    {
+      "margin": 0.0,
+      "probability": 0.3683,
+      "count": 2514
+    },
+    {
+      "margin": 12.62,
+      "probability": 0.6583,
+      "count": 2514
+    },
+    {
+      "margin": 32.47,
+      "probability": 0.7804,
+      "count": 2514
+    },
+    {
+      "margin": 49.62,
+      "probability": 0.8492,
+      "count": 2514
+    },
+    {
+      "margin": 63.31,
+      "probability": 0.889,
+      "count": 2514
+    },
+    {
+      "margin": 74.97,
+      "probability": 0.9272,
+      "count": 2514
+    },
+    {
+      "margin": 85.33,
+      "probability": 0.9433,
+      "count": 2514
+    },
+    {
+      "margin": 96.19,
+      "probability": 0.9433,
+      "count": 2514
+    },
+    {
+      "margin": 107.95,
+      "probability": 0.9479,
+      "count": 2514
+    },
+    {
+      "margin": 124.34,
+      "probability": 0.9499,
+      "count": 2514
+    },
+    {
+      "margin": 220.1,
+      "probability": 1.0,
+      "count": 7
+    }
+  ]
+}

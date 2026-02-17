@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><base href="/TagTeam.js/dev/"><style id="dev-theme">:root{--dev-bg:#111;--dev-fg:#e0e0e0;--dev-accent:#ff9800}body{background:var(--dev-bg)!important;color:var(--dev-fg)!important}.container,div[class]{background:var(--dev-bg)!important;color:var(--dev-fg)!important;border-color:#333!important}a{color:var(--dev-accent)!important}pre,code,textarea{background:#1a1a1a!important;color:#ccc!important;border-color:#333!important}h1,h2,h3{color:var(--dev-fg)!important}button{filter:brightness(0.85)}h1::after{content:" [DEV]";color:var(--dev-accent);font-size:0.6em}</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TagTeam.js - Phase 3A Tree-Based Extraction Demo</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f8fafc;
+      color: #1e293b;
+      line-height: 1.6;
+    }
+    .header {
+      background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
+      color: white;
+      padding: 30px 40px;
+    }
+    .header h1 { font-size: 1.8em; margin-bottom: 4px; }
+    .header p { opacity: 0.85; font-size: 1.05em; }
+    .status-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      font-weight: 600;
+      margin-left: 12px;
+      vertical-align: middle;
+    }
+    .status-loading { background: #fbbf24; color: #78350f; }
+    .status-ready { background: #34d399; color: #064e3b; }
+    .status-error { background: #f87171; color: #7f1d1d; }
+
+    .container { max-width: 1400px; margin: 0 auto; padding: 20px 40px; }
+
+    .input-section {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .input-section label { font-weight: 600; font-size: 1.05em; display: block; margin-bottom: 8px; }
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 1em;
+      font-family: inherit;
+      resize: vertical;
+      transition: border-color 0.2s;
+    }
+    textarea:focus { outline: none; border-color: #6366f1; }
+
+    .examples {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .example-btn {
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      color: #4338ca;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85em;
+      transition: all 0.2s;
+    }
+    .example-btn:hover { background: #c7d2fe; }
+
+    .analyze-btn {
+      background: #4f46e5;
+      color: white;
+      border: none;
+      padding: 10px 28px;
+      border-radius: 8px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 12px;
+      transition: background 0.2s;
+    }
+    .analyze-btn:hover { background: #4338ca; }
+    .analyze-btn:disabled { background: #94a3b8; cursor: not-allowed; }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .panel {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .panel-header {
+      padding: 14px 20px;
+      font-weight: 700;
+      font-size: 1.05em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .panel-header .time { font-weight: 400; font-size: 0.85em; opacity: 0.7; }
+    .panel-legacy .panel-header { background: #f1f5f9; color: #475569; border-bottom: 2px solid #e2e8f0; }
+    .panel-tree .panel-header { background: #eef2ff; color: #3730a3; border-bottom: 2px solid #c7d2fe; }
+    .panel-body { padding: 16px 20px; }
+
+    .section-title {
+      font-weight: 600;
+      font-size: 0.9em;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #64748b;
+      margin: 14px 0 8px 0;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .section-title:first-child { margin-top: 0; }
+
+    .entity-list, .act-list, .role-list, .assertion-list { list-style: none; padding: 0; }
+    .entity-list li, .act-list li, .role-list li, .assertion-list li {
+      padding: 6px 0;
+      font-size: 0.92em;
+      border-bottom: 1px solid #f8fafc;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.78em;
+      font-weight: 600;
+      margin-left: 6px;
+    }
+    .badge-agent { background: #dbeafe; color: #1e40af; }
+    .badge-patient { background: #fce7f3; color: #9d174d; }
+    .badge-recipient { background: #d1fae5; color: #065f46; }
+    .badge-instrument { background: #fef3c7; color: #92400e; }
+    .badge-location { background: #e0e7ff; color: #3730a3; }
+    .badge-entity { background: #f1f5f9; color: #475569; }
+    .badge-act { background: #faf5ff; color: #6b21a8; }
+    .badge-type { background: #f0fdf4; color: #166534; }
+    .badge-structural { background: #fff7ed; color: #9a3412; }
+
+    .dep-table-section {
+      margin-top: 20px;
+    }
+    .dep-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88em;
+    }
+    .dep-table th {
+      background: #f1f5f9;
+      padding: 8px 12px;
+      text-align: left;
+      font-weight: 600;
+      color: #475569;
+      border-bottom: 2px solid #e2e8f0;
+    }
+    .dep-table td {
+      padding: 6px 12px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .dep-table tr:hover { background: #f8fafc; }
+
+    .loading-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .loading-card {
+      background: white;
+      padding: 40px 50px;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .loading-card h2 { color: #1e40af; margin-bottom: 12px; }
+    .loading-card p { color: #64748b; }
+    .spinner {
+      width: 40px; height: 40px;
+      border: 4px solid #e2e8f0;
+      border-top-color: #4f46e5;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 16px auto;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px;
+      color: #94a3b8;
+    }
+
+    @media (max-width: 900px) {
+      .results-grid { grid-template-columns: 1fr; }
+      .container { padding: 16px; }
+    }
+  </style>
+
+  <!-- Load TagTeam.js bundle -->
+  <script>
+    const scriptPath = window.location.hostname === 'localhost' || window.location.hostname === ''
+      ? '../dist/tagteam.js'
+      : 'tagteam.js';
+    document.write('<script src="' + scriptPath + '"><\/script>');
+  </script>
+</head>
+<body>
+  <div class="header">
+    <h1>Phase 3A: Tree-Based Extraction
+      <span id="statusBadge" class="status-badge status-loading">Loading models...</span>
+    </h1>
+    <p>Dependency-tree extractors vs. legacy linear-scan pipeline &mdash; side-by-side comparison</p>
+  </div>
+
+  <div class="container">
+    <div class="input-section">
+      <label for="inputText">Input Sentence</label>
+      <div class="examples">
+        <button class="example-btn" onclick="setExample(0)">Passive voice</button>
+        <button class="example-btn" onclick="setExample(1)">Copular + relation</button>
+        <button class="example-btn" onclick="setExample(2)">Locative</button>
+        <button class="example-btn" onclick="setExample(3)">Oblique instrument</button>
+        <button class="example-btn" onclick="setExample(4)">Negated copular</button>
+        <button class="example-btn" onclick="setExample(5)">Coordination</button>
+        <button class="example-btn" onclick="setExample(6)">Ditransitive</button>
+      </div>
+      <textarea id="inputText" rows="2">The patient was treated by the doctor.</textarea>
+      <br>
+      <button id="analyzeBtn" class="analyze-btn" disabled onclick="analyze()">Analyze</button>
+    </div>
+
+    <div id="resultsArea" class="results-grid" style="display:none;">
+      <!-- Legacy panel -->
+      <div class="panel panel-legacy">
+        <div class="panel-header">
+          Legacy Pipeline <span class="badge badge-entity">linear scan</span>
+          <span class="time" id="legacyTime"></span>
+        </div>
+        <div class="panel-body" id="legacyResults">
+          <div class="empty-state">Click Analyze to see results</div>
+        </div>
+      </div>
+
+      <!-- Tree panel -->
+      <div class="panel panel-tree">
+        <div class="panel-header">
+          Tree Pipeline <span class="badge badge-act">Phase 3A</span>
+          <span class="time" id="treeTime"></span>
+        </div>
+        <div class="panel-body" id="treeResults">
+          <div class="empty-state">Click Analyze to see results</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dependency tree table -->
+    <div id="depTreeSection" class="dep-table-section panel" style="display:none;">
+      <div class="panel-header" style="background:#eef2ff; color:#3730a3; border-bottom:2px solid #c7d2fe;">
+        Dependency Tree <span class="badge badge-structural">UD v2</span>
+      </div>
+      <div class="panel-body" style="overflow-x:auto;">
+        <table class="dep-table" id="depTable">
+          <thead>
+            <tr><th>#</th><th>Token</th><th>POS</th><th>Head</th><th>Label</th></tr>
+          </thead>
+          <tbody id="depTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading overlay -->
+  <div id="loadingOverlay" class="loading-overlay">
+    <div class="loading-card">
+      <h2>Loading Tree Models</h2>
+      <div class="spinner"></div>
+      <p id="loadingStatus">Fetching POS tagger weights...</p>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // Example sentences
+    // =========================================================================
+    const EXAMPLES = [
+      'The patient was treated by the doctor.',
+      'CBP is a component of DHS.',
+      'The headquarters is located in Washington.',
+      'The doctor treated the patient with antibiotics.',
+      'CBP is not an agency of the DOD.',
+      'Alice and Bob reviewed the proposal.',
+      'The nurse gave the patient medication.'
+    ];
+
+    function setExample(idx) {
+      document.getElementById('inputText').value = EXAMPLES[idx];
+    }
+
+    // =========================================================================
+    // Model loading
+    // =========================================================================
+    let modelsReady = false;
+
+    async function loadModels() {
+      const overlay = document.getElementById('loadingOverlay');
+      const status = document.getElementById('loadingStatus');
+      const badge = document.getElementById('statusBadge');
+
+      try {
+        // Determine model path
+        const modelBase = window.location.hostname === 'localhost' || window.location.hostname === ''
+          ? '../dist/models/'
+          : 'models/';
+
+        status.textContent = 'Fetching POS tagger weights (~2.6 MB)...';
+        const posResp = await fetch(modelBase + 'pos-weights-pruned.json');
+        if (!posResp.ok) throw new Error('Failed to fetch POS model: ' + posResp.status);
+        const posJSON = await posResp.json();
+
+        status.textContent = 'Fetching dependency parser weights (~3.3 MB)...';
+        const depResp = await fetch(modelBase + 'dep-weights-pruned.json');
+        if (!depResp.ok) throw new Error('Failed to fetch dep model: ' + depResp.status);
+        const depJSON = await depResp.json();
+
+        status.textContent = 'Fetching calibration data...';
+        let calJSON = null;
+        try {
+          const calResp = await fetch(modelBase + 'dep-calibration.json');
+          if (calResp.ok) calJSON = await calResp.json();
+        } catch (e) { /* calibration is optional */ }
+
+        status.textContent = 'Initializing tree pipeline...';
+        TagTeam.loadTreeModels(posJSON, depJSON, calJSON);
+
+        modelsReady = true;
+        badge.className = 'status-badge status-ready';
+        badge.textContent = 'Ready';
+        document.getElementById('analyzeBtn').disabled = false;
+        overlay.style.display = 'none';
+
+      } catch (err) {
+        badge.className = 'status-badge status-error';
+        badge.textContent = 'Error';
+        status.innerHTML = '<strong>Failed to load models.</strong><br>' +
+          err.message + '<br><br>' +
+          '<small>If using file:// protocol, start a local server:<br>' +
+          '<code>npx serve . -p 8080</code></small>';
+      }
+    }
+
+    window.addEventListener('load', loadModels);
+
+    // =========================================================================
+    // Analysis
+    // =========================================================================
+    function analyze() {
+      const text = document.getElementById('inputText').value.trim();
+      if (!text || !modelsReady) return;
+
+      document.getElementById('resultsArea').style.display = 'grid';
+      document.getElementById('depTreeSection').style.display = 'block';
+
+      // Run legacy pipeline
+      const legacyStart = performance.now();
+      let legacyGraph;
+      try {
+        legacyGraph = TagTeam.buildGraph(text);
+      } catch (e) {
+        legacyGraph = { error: e.message };
+      }
+      const legacyMs = (performance.now() - legacyStart).toFixed(1);
+      document.getElementById('legacyTime').textContent = legacyMs + ' ms';
+
+      // Run tree pipeline
+      const treeStart = performance.now();
+      let treeGraph;
+      try {
+        treeGraph = TagTeam.buildTreeGraph(text);
+      } catch (e) {
+        treeGraph = { error: e.message };
+      }
+      const treeMs = (performance.now() - treeStart).toFixed(1);
+      document.getElementById('treeTime').textContent = treeMs + ' ms';
+
+      // Render results
+      renderLegacy(legacyGraph);
+      renderTree(treeGraph);
+      renderDepTable(treeGraph);
+    }
+
+    // =========================================================================
+    // Rendering helpers
+    // =========================================================================
+
+    function extractFromGraph(graph) {
+      const nodes = (graph && graph['@graph']) || [];
+      const entities = [];
+      const acts = [];
+      const roles = [];
+
+      for (const node of nodes) {
+        const types = [].concat(node['@type'] || []);
+        if (types.some(t => t.includes('Role'))) {
+          roles.push(node);
+        } else if (types.some(t => t.includes('Act') || t.includes('Process'))) {
+          acts.push(node);
+        } else if (types.some(t =>
+          t.includes('Person') || t.includes('Agent') || t.includes('Entity') ||
+          t.includes('Artifact') || t.includes('Organization') || t.includes('Quality') ||
+          t.includes('DiscourseReferent') || t.includes('InformationContentEntity') ||
+          t.includes('Facility') || t.includes('Aggregate')
+        )) {
+          entities.push(node);
+        }
+      }
+      return { entities, acts, roles };
+    }
+
+    function getLabel(node) {
+      return node['rdfs:label'] || node['@id'] || '(unknown)';
+    }
+
+    function getType(node) {
+      const types = [].concat(node['@type'] || []);
+      // Pick most specific type
+      const specific = types.find(t => !t.includes('DiscourseReferent') && !t.includes('bfo:'));
+      return specific || types[0] || '';
+    }
+
+    function getRoleBadgeClass(roleType) {
+      if (roleType.includes('Agent')) return 'badge-agent';
+      if (roleType.includes('Patient') || roleType.includes('Theme')) return 'badge-patient';
+      if (roleType.includes('Recipient')) return 'badge-recipient';
+      if (roleType.includes('Instrument')) return 'badge-instrument';
+      if (roleType.includes('Location')) return 'badge-location';
+      return 'badge-entity';
+    }
+
+    function renderLegacy(graph) {
+      const el = document.getElementById('legacyResults');
+      if (graph.error) {
+        el.innerHTML = '<div style="color:#ef4444;">' + escHtml(graph.error) + '</div>';
+        return;
+      }
+      const { entities, acts, roles } = extractFromGraph(graph);
+      let html = '';
+
+      html += '<div class="section-title">Entities (' + entities.length + ')</div>';
+      html += '<ul class="entity-list">';
+      for (const e of entities) {
+        html += '<li>' + escHtml(getLabel(e)) +
+          ' <span class="badge badge-type">' + escHtml(shortType(getType(e))) + '</span></li>';
+      }
+      if (!entities.length) html += '<li style="color:#94a3b8;">None detected</li>';
+      html += '</ul>';
+
+      html += '<div class="section-title">Acts (' + acts.length + ')</div>';
+      html += '<ul class="act-list">';
+      for (const a of acts) {
+        html += '<li>' + escHtml(getLabel(a)) +
+          ' <span class="badge badge-act">' + escHtml(shortType(getType(a))) + '</span></li>';
+      }
+      if (!acts.length) html += '<li style="color:#94a3b8;">None detected</li>';
+      html += '</ul>';
+
+      html += '<div class="section-title">Roles (' + roles.length + ')</div>';
+      html += '<ul class="role-list">';
+      for (const r of roles) {
+        const rt = getType(r);
+        html += '<li>' + escHtml(getLabel(r)) +
+          ' <span class="badge ' + getRoleBadgeClass(rt) + '">' + escHtml(shortType(rt)) + '</span></li>';
+      }
+      if (!roles.length) html += '<li style="color:#94a3b8;">None detected</li>';
+      html += '</ul>';
+
+      el.innerHTML = html;
+    }
+
+    function renderTree(graph) {
+      const el = document.getElementById('treeResults');
+      if (graph.error) {
+        el.innerHTML = '<div style="color:#ef4444;">' + escHtml(graph.error) + '</div>';
+        return;
+      }
+      const nodes = (graph && graph['@graph']) || [];
+      const entities = [];
+      const acts = [];
+      const roles = [];
+      const structural = [];
+
+      for (const node of nodes) {
+        const types = [].concat(node['@type'] || []);
+        if (types.some(t => t.includes('Role'))) {
+          roles.push(node);
+        } else if (types.some(t => t.includes('Act') || t.includes('Process'))) {
+          acts.push(node);
+        } else if (types.some(t => t.includes('StructuralAssertion') || t.includes('Assertion'))) {
+          structural.push(node);
+        } else if (types.some(t =>
+          t.includes('Person') || t.includes('Agent') || t.includes('Entity') ||
+          t.includes('Artifact') || t.includes('Organization') || t.includes('Quality') ||
+          t.includes('DiscourseReferent') || t.includes('InformationContentEntity') ||
+          t.includes('Facility') || t.includes('Aggregate')
+        )) {
+          entities.push(node);
+        }
+      }
+
+      let html = '';
+
+      html += '<div class="section-title">Entities (' + entities.length + ')</div>';
+      html += '<ul class="entity-list">';
+      for (const e of entities) {
+        html += '<li>' + escHtml(getLabel(e)) +
+          ' <span class="badge badge-type">' + escHtml(shortType(getType(e))) + '</span>';
+        if (e['tagteam:depRole']) {
+          html += ' <span class="badge badge-entity">' + escHtml(e['tagteam:depRole']) + '</span>';
+        }
+        html += '</li>';
+      }
+      if (!entities.length) html += '<li style="color:#94a3b8;">None detected</li>';
+      html += '</ul>';
+
+      html += '<div class="section-title">Acts (' + acts.length + ')</div>';
+      html += '<ul class="act-list">';
+      for (const a of acts) {
+        html += '<li>' + escHtml(getLabel(a)) +
+          ' <span class="badge badge-act">' + escHtml(shortType(getType(a))) + '</span></li>';
+      }
+      if (!acts.length) html += '<li style="color:#94a3b8;">None detected</li>';
+      html += '</ul>';
+
+      if (structural.length > 0) {
+        html += '<div class="section-title">Structural Assertions (' + structural.length + ')</div>';
+        html += '<ul class="assertion-list">';
+        for (const s of structural) {
+          html += '<li>' + escHtml(getLabel(s)) +
+            ' <span class="badge badge-structural">' + escHtml(shortType(getType(s))) + '</span></li>';
+        }
+        html += '</ul>';
+      }
+
+      html += '<div class="section-title">Roles (' + roles.length + ')</div>';
+      html += '<ul class="role-list">';
+      for (const r of roles) {
+        const rt = getType(r);
+        html += '<li>' + escHtml(getLabel(r)) +
+          ' <span class="badge ' + getRoleBadgeClass(rt) + '">' + escHtml(shortType(rt)) + '</span></li>';
+      }
+      if (!roles.length) html += '<li style="color:#94a3b8;">None detected</li>';
+      html += '</ul>';
+
+      el.innerHTML = html;
+    }
+
+    function renderDepTable(graph) {
+      const tbody = document.getElementById('depTableBody');
+      const meta = graph && graph._metadata;
+      if (!meta || !meta.tokens) {
+        tbody.innerHTML = '<tr><td colspan="5" style="color:#94a3b8;text-align:center;">No dependency data</td></tr>';
+        return;
+      }
+
+      const { tokens, tags, arcs } = meta;
+      let html = '';
+      for (let i = 0; i < tokens.length; i++) {
+        const arc = arcs.find(a => a.dependent === i + 1);
+        const head = arc ? arc.head : 0;
+        const label = arc ? arc.label : 'root';
+        const headToken = head > 0 ? tokens[head - 1] : 'ROOT';
+        html += '<tr>' +
+          '<td>' + (i + 1) + '</td>' +
+          '<td><strong>' + escHtml(tokens[i]) + '</strong></td>' +
+          '<td>' + escHtml(tags[i]) + '</td>' +
+          '<td>' + head + ' (' + escHtml(headToken) + ')</td>' +
+          '<td>' + escHtml(label) + '</td>' +
+          '</tr>';
+      }
+      tbody.innerHTML = html;
+    }
+
+    function shortType(type) {
+      if (!type) return '';
+      return type.replace(/^(cco|bfo|tagteam|inst):/, '');
+    }
+
+    function escHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    // Keyboard shortcut
+    document.getElementById('inputText').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        analyze();
+      }
+    });
+  </script>
+</body>
+</html>
