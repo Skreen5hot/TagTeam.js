@@ -1,0 +1,205 @@
+{
+  "id": "stative-002",
+  "text": "The agency is known as the lead federal enforcement body",
+  "subset": "stative-passive",
+  "tags": [
+    "stative",
+    "passive",
+    "government"
+  ],
+  "generatedAt": "2026-02-18T02:11:43.411Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The agency",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the lead federal enforcement body",
+      "type": "cco:Organization"
+    }
+  ],
+  "expectedRoles": [],
+  "extractedEntities": [
+    {
+      "text": "The agency",
+      "type": "bfo:Entity",
+      "id": "inst:The_agency"
+    },
+    {
+      "text": "the lead federal enforcement body",
+      "type": "bfo:Entity",
+      "id": "inst:the_lead_federal_enforcement_body"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The agency",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_agency",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The agency",
+        "tagteam:mentionId": "s0:h2:0-10",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Organization_Agency_e91a42bada06"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_15961e405c23"
+        }
+      },
+      {
+        "@id": "inst:the_lead_federal_enforcement_body",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the lead federal enforcement body",
+        "tagteam:mentionId": "s0:h10:23-56",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Lead_Federal_Enforcement_Body_b5725a6ba422"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_15961e405c23"
+        }
+      },
+      {
+        "@id": "inst:Act_known",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "known",
+        "tagteam:lemma": "known",
+        "tagteam:isPassive": true,
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_15961e405c23"
+        }
+      },
+      {
+        "@id": "inst:Role_The_agency_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_agency"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_known"
+        },
+        "rdfs:label": "The agency as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Role_the_lead_federal_enforcement_body_cco_ObliqueRole",
+        "@type": [
+          "cco:ObliqueRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_lead_federal_enforcement_body"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_known"
+        },
+        "rdfs:label": "the lead federal enforcement body as ObliqueRole",
+        "tagteam:preposition": "as",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:Organization_Agency_e91a42bada06",
+        "@type": [
+          "cco:Organization",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "agency",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.411Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_15961e405c23",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Lead_Federal_Enforcement_Body_b5725a6ba422",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "lead federal enforcement body",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.411Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_15961e405c23",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_15961e405c23",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The agency is known as the lead federal enforcement body",
+        "tagteam:char_count": 56,
+        "tagteam:word_count": 10,
+        "tagteam:received_at": "2026-02-18T02:11:43.397Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_15961e40",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_15961e405c23"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_agency"
+          },
+          {
+            "@id": "inst:the_lead_federal_enforcement_body"
+          },
+          {
+            "@id": "inst:Act_known"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.397Z"
+      }
+    ]
+  }
+}

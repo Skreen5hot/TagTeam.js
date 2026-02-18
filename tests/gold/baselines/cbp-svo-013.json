@@ -1,0 +1,161 @@
+{
+  "id": "cbp-svo-013",
+  "text": "The station commander authorized overtime",
+  "subset": "cbp-domain",
+  "tags": [
+    "svo",
+    "cbp",
+    "operations"
+  ],
+  "generatedAt": "2026-02-18T02:11:43.834Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The station commander",
+      "type": "cco:Person"
+    },
+    {
+      "text": "overtime",
+      "type": "bfo:Entity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "station commander",
+      "role": "Agent"
+    },
+    {
+      "entity": "overtime",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The station commander",
+      "type": "bfo:Entity",
+      "id": "inst:The_station_commander"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The station commander",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_station_commander",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The station commander",
+        "tagteam:mentionId": "s0:h3:0-21",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Station_Commander_081914ef3f7d"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_1739823fda8d"
+        }
+      },
+      {
+        "@id": "inst:Act_authorized",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "authorized",
+        "tagteam:lemma": "authoriz",
+        "tagteam:isPassive": true,
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_1739823fda8d"
+        }
+      },
+      {
+        "@id": "inst:Role_The_station_commander_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_station_commander"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_authorized"
+        },
+        "rdfs:label": "The station commander as PatientRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Artifact_Station_Commander_081914ef3f7d",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "station commander",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.834Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_1739823fda8d",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_1739823fda8d",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The station commander authorized overtime",
+        "tagteam:char_count": 41,
+        "tagteam:word_count": 5,
+        "tagteam:received_at": "2026-02-18T02:11:43.825Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_1739823f",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_1739823fda8d"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_station_commander"
+          },
+          {
+            "@id": "inst:Act_authorized"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.825Z"
+      }
+    ]
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "id": "gen-news-004",
+  "text": "The journalist published the investigation findings",
+  "subset": "general",
+  "tags": [
+    "news",
+    "media"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.545Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The journalist",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the investigation findings",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "journalist",
+      "role": "Agent"
+    },
+    {
+      "entity": "investigation findings",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The journalist",
+      "type": "bfo:Entity",
+      "id": "inst:The_journalist"
+    },
+    {
+      "text": "the investigation findings",
+      "type": "bfo:Entity",
+      "id": "inst:the_investigation_findings"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The journalist",
+      "role": "Agent"
+    },
+    {
+      "entity": "the investigation findings",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_journalist",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The journalist",
+        "tagteam:mentionId": "s0:h2:0-14",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Journalist_73316fe30413"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_ab454fbb5672"
+        }
+      },
+      {
+        "@id": "inst:the_investigation_findings",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the investigation findings",
+        "tagteam:mentionId": "s0:h6:25-51",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Investigation_Findings_6c871909b794"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_ab454fbb5672"
+        }
+      },
+      {
+        "@id": "inst:Act_published",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "published",
+        "tagteam:lemma": "publish",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_ab454fbb5672"
+        }
+      },
+      {
+        "@id": "inst:Role_The_journalist_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_journalist"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_published"
+        },
+        "rdfs:label": "The journalist as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_investigation_findings_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_investigation_findings"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_published"
+        },
+        "rdfs:label": "the investigation findings as PatientRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Artifact_Journalist_73316fe30413",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "journalist",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.545Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_ab454fbb5672",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Investigation_Findings_6c871909b794",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "investigation findings",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.545Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_ab454fbb5672",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_ab454fbb5672",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The journalist published the investigation findings",
+        "tagteam:char_count": 51,
+        "tagteam:word_count": 6,
+        "tagteam:received_at": "2026-02-18T02:11:44.539Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_ab454fbb",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_ab454fbb5672"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_journalist"
+          },
+          {
+            "@id": "inst:the_investigation_findings"
+          },
+          {
+            "@id": "inst:Act_published"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.539Z"
+      }
+    ]
+  }
+}

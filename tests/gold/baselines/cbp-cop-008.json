@@ -1,0 +1,162 @@
+{
+  "id": "cbp-cop-008",
+  "text": "The sector is a geographic area of responsibility",
+  "subset": "cbp-domain",
+  "tags": [
+    "copular",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.048Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The sector",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "a geographic area of responsibility",
+      "type": "cco:GeopoliticalEntity"
+    }
+  ],
+  "expectedRoles": [],
+  "extractedEntities": [
+    {
+      "text": "The sector",
+      "type": "bfo:Entity",
+      "id": "inst:The_sector"
+    },
+    {
+      "text": "responsibility",
+      "type": "bfo:Entity",
+      "id": "inst:responsibility"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_sector",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The sector",
+        "tagteam:mentionId": "s0:h2:0-10",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Sector_9c2ac7b2852c"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_80cdc9eae006"
+        }
+      },
+      {
+        "@id": "inst:responsibility",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "responsibility",
+        "tagteam:mentionId": "s0:h8:35-49",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Responsibility_88928a825e26"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_80cdc9eae006"
+        }
+      },
+      {
+        "@id": "inst:Assertion_The_sector",
+        "@type": [
+          "tagteam:StructuralAssertion"
+        ],
+        "tagteam:subject": "The sector",
+        "tagteam:pattern": "predication",
+        "tagteam:object": "of responsibility",
+        "tagteam:copula": "is"
+      },
+      {
+        "@id": "inst:Artifact_Sector_9c2ac7b2852c",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "sector",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.048Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_80cdc9eae006",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Responsibility_88928a825e26",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "responsibility",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.048Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_80cdc9eae006",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_80cdc9eae006",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The sector is a geographic area of responsibility",
+        "tagteam:char_count": 49,
+        "tagteam:word_count": 8,
+        "tagteam:received_at": "2026-02-18T02:11:44.040Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_80cdc9ea",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_80cdc9eae006"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_sector"
+          },
+          {
+            "@id": "inst:responsibility"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.040Z"
+      }
+    ]
+  }
+}

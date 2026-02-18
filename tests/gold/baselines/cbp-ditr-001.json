@@ -1,0 +1,279 @@
+{
+  "id": "cbp-ditr-001",
+  "text": "The supervisor gave the agent new credentials",
+  "subset": "cbp-domain",
+  "tags": [
+    "ditransitive",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.452Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The supervisor",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the agent",
+      "type": "cco:Person"
+    },
+    {
+      "text": "new credentials",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "supervisor",
+      "role": "Agent"
+    },
+    {
+      "entity": "agent",
+      "role": "Recipient"
+    },
+    {
+      "entity": "credentials",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The supervisor",
+      "type": "bfo:Entity",
+      "id": "inst:The_supervisor"
+    },
+    {
+      "text": "the agent",
+      "type": "bfo:Entity",
+      "id": "inst:the_agent"
+    },
+    {
+      "text": "new credentials",
+      "type": "bfo:Entity",
+      "id": "inst:new_credentials"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The supervisor",
+      "role": "Agent"
+    },
+    {
+      "entity": "the agent",
+      "role": "Patient"
+    },
+    {
+      "entity": "new credentials",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_supervisor",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The supervisor",
+        "tagteam:mentionId": "s0:h2:0-14",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Supervisor_184e5cb79f44"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_d885f31da205"
+        }
+      },
+      {
+        "@id": "inst:the_agent",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the agent",
+        "tagteam:mentionId": "s0:h5:20-29",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Agent_4fc6248bbd70"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_d885f31da205"
+        }
+      },
+      {
+        "@id": "inst:new_credentials",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "new credentials",
+        "tagteam:mentionId": "s0:h7:30-45",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_New_Credentials_197c9b3781d2"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_d885f31da205"
+        }
+      },
+      {
+        "@id": "inst:Act_gave",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "gave",
+        "tagteam:lemma": "give",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_d885f31da205"
+        }
+      },
+      {
+        "@id": "inst:Role_The_supervisor_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_supervisor"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_gave"
+        },
+        "rdfs:label": "The supervisor as AgentRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Role_the_agent_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_agent"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_gave"
+        },
+        "rdfs:label": "the agent as PatientRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Role_new_credentials_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:new_credentials"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_gave"
+        },
+        "rdfs:label": "new credentials as PatientRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Artifact_Supervisor_184e5cb79f44",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "supervisor",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.452Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_d885f31da205",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Agent_4fc6248bbd70",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "agent",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.452Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_d885f31da205",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_New_Credentials_197c9b3781d2",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "new credentials",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.452Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_d885f31da205",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_d885f31da205",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The supervisor gave the agent new credentials",
+        "tagteam:char_count": 45,
+        "tagteam:word_count": 7,
+        "tagteam:received_at": "2026-02-18T02:11:44.444Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_d885f31d",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_d885f31da205"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_supervisor"
+          },
+          {
+            "@id": "inst:the_agent"
+          },
+          {
+            "@id": "inst:new_credentials"
+          },
+          {
+            "@id": "inst:Act_gave"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.444Z"
+      }
+    ]
+  }
+}

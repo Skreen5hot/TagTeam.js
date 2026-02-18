@@ -1,0 +1,216 @@
+{
+  "id": "cbp-svo-011",
+  "text": "The air and marine operations center tracked the aircraft",
+  "subset": "cbp-domain",
+  "tags": [
+    "svo",
+    "cbp",
+    "surveillance"
+  ],
+  "generatedAt": "2026-02-18T02:11:43.808Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The air and marine operations center",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the aircraft",
+      "type": "cco:Artifact"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "air and marine operations center",
+      "role": "Agent"
+    },
+    {
+      "entity": "aircraft",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The air and marine operations center",
+      "type": "bfo:Entity",
+      "id": "inst:The_air_and_marine_operations_center"
+    },
+    {
+      "text": "the aircraft",
+      "type": "bfo:Entity",
+      "id": "inst:the_aircraft"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The air and marine operations center",
+      "role": "Agent"
+    },
+    {
+      "entity": "the aircraft",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_air_and_marine_operations_center",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The air and marine operations center",
+        "tagteam:mentionId": "s0:h6:0-36",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Air_And_Marine_Operations_Center_cdf376be96ff"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_9cb5e554a2fa"
+        }
+      },
+      {
+        "@id": "inst:the_aircraft",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the aircraft",
+        "tagteam:mentionId": "s0:h9:45-57",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Aircraft_a21a8bab45ed"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_9cb5e554a2fa"
+        }
+      },
+      {
+        "@id": "inst:Act_tracked",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "tracked",
+        "tagteam:lemma": "track",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_9cb5e554a2fa"
+        }
+      },
+      {
+        "@id": "inst:Role_The_air_and_marine_operations_center_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_air_and_marine_operations_center"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_tracked"
+        },
+        "rdfs:label": "The air and marine operations center as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_aircraft_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_aircraft"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_tracked"
+        },
+        "rdfs:label": "the aircraft as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Artifact_Air_And_Marine_Operations_Center_cdf376be96ff",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "air and marine operations center",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.808Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_9cb5e554a2fa",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Aircraft_a21a8bab45ed",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "aircraft",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.808Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_9cb5e554a2fa",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_9cb5e554a2fa",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The air and marine operations center tracked the aircraft",
+        "tagteam:char_count": 57,
+        "tagteam:word_count": 9,
+        "tagteam:received_at": "2026-02-18T02:11:43.797Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_9cb5e554",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_9cb5e554a2fa"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_air_and_marine_operations_center"
+          },
+          {
+            "@id": "inst:the_aircraft"
+          },
+          {
+            "@id": "inst:Act_tracked"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.797Z"
+      }
+    ]
+  }
+}

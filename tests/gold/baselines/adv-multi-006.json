@@ -1,0 +1,358 @@
+{
+  "id": "adv-multi-006",
+  "text": "The inspector examined the documents while the officer interviewed the driver",
+  "subset": "adversarial",
+  "tags": [
+    "multi-clause",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:45.250Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The inspector",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the documents",
+      "type": "cco:InformationContentEntity"
+    },
+    {
+      "text": "the officer",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the driver",
+      "type": "cco:Person"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "inspector",
+      "role": "Agent"
+    },
+    {
+      "entity": "documents",
+      "role": "Patient"
+    },
+    {
+      "entity": "officer",
+      "role": "Agent"
+    },
+    {
+      "entity": "driver",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The inspector",
+      "type": "bfo:Entity",
+      "id": "inst:The_inspector"
+    },
+    {
+      "text": "the documents",
+      "type": "bfo:Entity",
+      "id": "inst:the_documents"
+    },
+    {
+      "text": "the officer",
+      "type": "bfo:Entity",
+      "id": "inst:the_officer"
+    },
+    {
+      "text": "the driver",
+      "type": "bfo:Entity",
+      "id": "inst:the_driver"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The inspector",
+      "role": "Agent"
+    },
+    {
+      "entity": "the documents",
+      "role": "Patient"
+    },
+    {
+      "entity": "the officer",
+      "role": "Agent"
+    },
+    {
+      "entity": "the driver",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_inspector",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The inspector",
+        "tagteam:mentionId": "s0:h2:0-13",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Inspector_b2bbc47e7120"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_f94f3a5883eb"
+        }
+      },
+      {
+        "@id": "inst:the_documents",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the documents",
+        "tagteam:mentionId": "s0:h5:23-36",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Documents_46ca491483a8"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_f94f3a5883eb"
+        }
+      },
+      {
+        "@id": "inst:the_officer",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the officer",
+        "tagteam:mentionId": "s0:h8:43-54",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Officer_c3edcf1fd313"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_f94f3a5883eb"
+        }
+      },
+      {
+        "@id": "inst:the_driver",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the driver",
+        "tagteam:mentionId": "s0:h11:67-77",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Driver_0c3d76562b06"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_f94f3a5883eb"
+        }
+      },
+      {
+        "@id": "inst:Act_examined",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "examined",
+        "tagteam:lemma": "examin",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_f94f3a5883eb"
+        }
+      },
+      {
+        "@id": "inst:Act_interviewed",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "interviewed",
+        "tagteam:lemma": "interview",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_f94f3a5883eb"
+        }
+      },
+      {
+        "@id": "inst:Role_The_inspector_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_inspector"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_examined"
+        },
+        "rdfs:label": "The inspector as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_documents_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_documents"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_examined"
+        },
+        "rdfs:label": "the documents as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Role_the_officer_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_officer"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_interviewed"
+        },
+        "rdfs:label": "the officer as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Role_the_driver_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_driver"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_interviewed"
+        },
+        "rdfs:label": "the driver as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Artifact_Inspector_b2bbc47e7120",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "inspector",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.250Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_f94f3a5883eb",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Documents_46ca491483a8",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "documents",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.250Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_f94f3a5883eb",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Officer_c3edcf1fd313",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "officer",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.250Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_f94f3a5883eb",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Driver_0c3d76562b06",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "driver",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.250Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_f94f3a5883eb",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_f94f3a5883eb",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The inspector examined the documents while the officer interviewed the driver",
+        "tagteam:char_count": 77,
+        "tagteam:word_count": 11,
+        "tagteam:received_at": "2026-02-18T02:11:45.236Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_f94f3a58",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_f94f3a5883eb"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_inspector"
+          },
+          {
+            "@id": "inst:the_documents"
+          },
+          {
+            "@id": "inst:the_officer"
+          },
+          {
+            "@id": "inst:the_driver"
+          },
+          {
+            "@id": "inst:Act_examined"
+          },
+          {
+            "@id": "inst:Act_interviewed"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.236Z"
+      }
+    ]
+  }
+}

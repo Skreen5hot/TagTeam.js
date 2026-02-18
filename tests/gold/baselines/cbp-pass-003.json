@@ -1,0 +1,213 @@
+{
+  "id": "cbp-pass-003",
+  "text": "The traveler was referred to secondary inspection",
+  "subset": "cbp-domain",
+  "tags": [
+    "passive",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.193Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The traveler",
+      "type": "cco:Person"
+    },
+    {
+      "text": "secondary inspection",
+      "type": "bfo:Process"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "traveler",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The traveler",
+      "type": "bfo:Entity",
+      "id": "inst:The_traveler"
+    },
+    {
+      "text": "secondary inspection",
+      "type": "bfo:Entity",
+      "id": "inst:secondary_inspection"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The traveler",
+      "role": "Patient"
+    },
+    {
+      "entity": "secondary inspection",
+      "role": "Goal"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_traveler",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The traveler",
+        "tagteam:mentionId": "s0:h2:0-12",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Traveler_4774b19a2f9d"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_e01a3da3904b"
+        }
+      },
+      {
+        "@id": "inst:secondary_inspection",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "secondary inspection",
+        "tagteam:mentionId": "s0:h7:29-49",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Secondary_Inspection_799ff1a9679a"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_e01a3da3904b"
+        }
+      },
+      {
+        "@id": "inst:Act_referred",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "referred",
+        "tagteam:lemma": "referr",
+        "tagteam:isPassive": true,
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_e01a3da3904b"
+        }
+      },
+      {
+        "@id": "inst:Role_The_traveler_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_traveler"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_referred"
+        },
+        "rdfs:label": "The traveler as PatientRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_secondary_inspection_cco_DestinationRole",
+        "@type": [
+          "cco:DestinationRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:secondary_inspection"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_referred"
+        },
+        "rdfs:label": "secondary inspection as DestinationRole",
+        "tagteam:preposition": "to",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804
+      },
+      {
+        "@id": "inst:Artifact_Traveler_4774b19a2f9d",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "traveler",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.193Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_e01a3da3904b",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Secondary_Inspection_799ff1a9679a",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "secondary inspection",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.193Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_e01a3da3904b",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_e01a3da3904b",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The traveler was referred to secondary inspection",
+        "tagteam:char_count": 49,
+        "tagteam:word_count": 7,
+        "tagteam:received_at": "2026-02-18T02:11:44.183Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_e01a3da3",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_e01a3da3904b"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_traveler"
+          },
+          {
+            "@id": "inst:secondary_inspection"
+          },
+          {
+            "@id": "inst:Act_referred"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.183Z"
+      }
+    ]
+  }
+}

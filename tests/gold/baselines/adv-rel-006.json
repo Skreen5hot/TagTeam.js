@@ -1,0 +1,289 @@
+{
+  "id": "adv-rel-006",
+  "text": "The suspect who fled the scene was apprehended by the patrol",
+  "subset": "adversarial",
+  "tags": [
+    "relative-clause",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:45.335Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The suspect",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the scene",
+      "type": "cco:Facility"
+    },
+    {
+      "text": "the patrol",
+      "type": "cco:Organization"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "patrol",
+      "role": "Agent"
+    },
+    {
+      "entity": "suspect",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The suspect",
+      "type": "bfo:Entity",
+      "id": "inst:The_suspect"
+    },
+    {
+      "text": "who",
+      "type": "cco:Organization",
+      "id": "inst:who"
+    },
+    {
+      "text": "the scene",
+      "type": "bfo:Entity",
+      "id": "inst:the_scene"
+    },
+    {
+      "text": "the patrol",
+      "type": "bfo:Entity",
+      "id": "inst:the_patrol"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "who",
+      "role": "Agent"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_suspect",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The suspect",
+        "tagteam:mentionId": "s0:h2:0-11",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Suspect_758c8ac48ea6"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_ea1319c8181c"
+        }
+      },
+      {
+        "@id": "inst:who",
+        "@type": [
+          "cco:Organization",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "who",
+        "tagteam:mentionId": "s0:h3:12-15",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272,
+        "tagteam:denotesType": "cco:Organization",
+        "cco:is_about": {
+          "@id": "inst:Organization_Who_6ed85ce5d355"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_ea1319c8181c"
+        }
+      },
+      {
+        "@id": "inst:the_scene",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the scene",
+        "tagteam:mentionId": "s0:h6:21-30",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Scene_544bdd598e3f"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_ea1319c8181c"
+        }
+      },
+      {
+        "@id": "inst:the_patrol",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the patrol",
+        "tagteam:mentionId": "s0:h11:50-60",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Patrol_4e82bd65c774"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_ea1319c8181c"
+        }
+      },
+      {
+        "@id": "inst:Act_suspect",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "suspect",
+        "tagteam:lemma": "suspect",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_ea1319c8181c"
+        }
+      },
+      {
+        "@id": "inst:Act_fled",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "fled",
+        "tagteam:lemma": "fl",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_ea1319c8181c"
+        }
+      },
+      {
+        "@id": "inst:Role_who_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:who"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_fled"
+        },
+        "rdfs:label": "who as AgentRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804
+      },
+      {
+        "@id": "inst:Artifact_Suspect_758c8ac48ea6",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "suspect",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.335Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_ea1319c8181c",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Organization_Who_6ed85ce5d355",
+        "@type": [
+          "cco:Organization",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "who",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.335Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_ea1319c8181c",
+        "tagteam:denotesType": "cco:Organization"
+      },
+      {
+        "@id": "inst:Artifact_Scene_544bdd598e3f",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "scene",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.335Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_ea1319c8181c",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Patrol_4e82bd65c774",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "patrol",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.335Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_ea1319c8181c",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_ea1319c8181c",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The suspect who fled the scene was apprehended by the patrol",
+        "tagteam:char_count": 60,
+        "tagteam:word_count": 11,
+        "tagteam:received_at": "2026-02-18T02:11:45.323Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_ea1319c8",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_ea1319c8181c"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_suspect"
+          },
+          {
+            "@id": "inst:who"
+          },
+          {
+            "@id": "inst:the_scene"
+          },
+          {
+            "@id": "inst:the_patrol"
+          },
+          {
+            "@id": "inst:Act_suspect"
+          },
+          {
+            "@id": "inst:Act_fled"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.323Z"
+      }
+    ]
+  }
+}

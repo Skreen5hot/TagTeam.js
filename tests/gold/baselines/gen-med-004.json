@@ -1,0 +1,215 @@
+{
+  "id": "gen-med-004",
+  "text": "The pharmacist dispensed the medication",
+  "subset": "general",
+  "tags": [
+    "medical",
+    "treatment"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.732Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The pharmacist",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the medication",
+      "type": "bfo:Entity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "pharmacist",
+      "role": "Agent"
+    },
+    {
+      "entity": "medication",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The pharmacist",
+      "type": "bfo:Entity",
+      "id": "inst:The_pharmacist"
+    },
+    {
+      "text": "the medication",
+      "type": "bfo:Entity",
+      "id": "inst:the_medication"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The pharmacist",
+      "role": "Agent"
+    },
+    {
+      "entity": "the medication",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_pharmacist",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The pharmacist",
+        "tagteam:mentionId": "s0:h2:0-14",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Pharmacist_25f0d8f23227"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_6b7f7e63d5bd"
+        }
+      },
+      {
+        "@id": "inst:the_medication",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the medication",
+        "tagteam:mentionId": "s0:h5:25-39",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Medication_f6ed4d0f4d00"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_6b7f7e63d5bd"
+        }
+      },
+      {
+        "@id": "inst:Act_dispensed",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "dispensed",
+        "tagteam:lemma": "dispens",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_6b7f7e63d5bd"
+        }
+      },
+      {
+        "@id": "inst:Role_The_pharmacist_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_pharmacist"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_dispensed"
+        },
+        "rdfs:label": "The pharmacist as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_medication_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_medication"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_dispensed"
+        },
+        "rdfs:label": "the medication as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Artifact_Pharmacist_25f0d8f23227",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "pharmacist",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.732Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_6b7f7e63d5bd",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Medication_f6ed4d0f4d00",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "medication",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.732Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_6b7f7e63d5bd",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_6b7f7e63d5bd",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The pharmacist dispensed the medication",
+        "tagteam:char_count": 39,
+        "tagteam:word_count": 5,
+        "tagteam:received_at": "2026-02-18T02:11:44.724Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_6b7f7e63",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_6b7f7e63d5bd"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_pharmacist"
+          },
+          {
+            "@id": "inst:the_medication"
+          },
+          {
+            "@id": "inst:Act_dispensed"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.724Z"
+      }
+    ]
+  }
+}

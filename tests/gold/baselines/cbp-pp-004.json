@@ -1,0 +1,280 @@
+{
+  "id": "cbp-pp-004",
+  "text": "The analyst gathered intelligence from multiple sources",
+  "subset": "cbp-domain",
+  "tags": [
+    "pp",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.355Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The analyst",
+      "type": "cco:Person"
+    },
+    {
+      "text": "intelligence",
+      "type": "cco:InformationContentEntity"
+    },
+    {
+      "text": "multiple sources",
+      "type": "bfo:Entity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "analyst",
+      "role": "Agent"
+    },
+    {
+      "entity": "intelligence",
+      "role": "Patient"
+    },
+    {
+      "entity": "sources",
+      "role": "Source"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The analyst",
+      "type": "bfo:Entity",
+      "id": "inst:The_analyst"
+    },
+    {
+      "text": "intelligence",
+      "type": "bfo:Entity",
+      "id": "inst:intelligence"
+    },
+    {
+      "text": "multiple sources",
+      "type": "bfo:Entity",
+      "id": "inst:multiple_sources"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The analyst",
+      "role": "Agent"
+    },
+    {
+      "entity": "intelligence",
+      "role": "Patient"
+    },
+    {
+      "entity": "multiple sources",
+      "role": "Source"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_analyst",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The analyst",
+        "tagteam:mentionId": "s0:h2:0-11",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Analyst_b088b5ec791b"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_052be27bb329"
+        }
+      },
+      {
+        "@id": "inst:intelligence",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "intelligence",
+        "tagteam:mentionId": "s0:h4:21-33",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Intelligence_436ee29e8659"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_052be27bb329"
+        }
+      },
+      {
+        "@id": "inst:multiple_sources",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "multiple sources",
+        "tagteam:mentionId": "s0:h7:39-55",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Multiple_Sources_64bf4fa7779a"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_052be27bb329"
+        }
+      },
+      {
+        "@id": "inst:Act_gathered",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "gathered",
+        "tagteam:lemma": "gather",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_052be27bb329"
+        }
+      },
+      {
+        "@id": "inst:Role_The_analyst_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_analyst"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_gathered"
+        },
+        "rdfs:label": "The analyst as AgentRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804
+      },
+      {
+        "@id": "inst:Role_intelligence_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:intelligence"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_gathered"
+        },
+        "rdfs:label": "intelligence as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804
+      },
+      {
+        "@id": "inst:Role_multiple_sources_cco_SourceRole",
+        "@type": [
+          "cco:SourceRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:multiple_sources"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_gathered"
+        },
+        "rdfs:label": "multiple sources as SourceRole",
+        "tagteam:preposition": "from",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804
+      },
+      {
+        "@id": "inst:Artifact_Analyst_b088b5ec791b",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "analyst",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.355Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_052be27bb329",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Intelligence_436ee29e8659",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "intelligence",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.355Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_052be27bb329",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Multiple_Sources_64bf4fa7779a",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "multiple sources",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.355Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_052be27bb329",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_052be27bb329",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The analyst gathered intelligence from multiple sources",
+        "tagteam:char_count": 55,
+        "tagteam:word_count": 7,
+        "tagteam:received_at": "2026-02-18T02:11:44.348Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_052be27b",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_052be27bb329"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_analyst"
+          },
+          {
+            "@id": "inst:intelligence"
+          },
+          {
+            "@id": "inst:multiple_sources"
+          },
+          {
+            "@id": "inst:Act_gathered"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.348Z"
+      }
+    ]
+  }
+}

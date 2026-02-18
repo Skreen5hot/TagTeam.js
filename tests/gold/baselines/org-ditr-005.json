@@ -1,0 +1,224 @@
+{
+  "id": "org-ditr-005",
+  "text": "The administrator handed the officer a new badge",
+  "subset": "organizational",
+  "tags": [
+    "ditransitive",
+    "government",
+    "action"
+  ],
+  "generatedAt": "2026-02-18T02:11:43.354Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The administrator",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the officer",
+      "type": "cco:Person"
+    },
+    {
+      "text": "a new badge",
+      "type": "cco:Artifact"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "administrator",
+      "role": "Agent"
+    },
+    {
+      "entity": "officer",
+      "role": "Recipient"
+    },
+    {
+      "entity": "badge",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The administrator",
+      "type": "bfo:Entity",
+      "id": "inst:The_administrator"
+    },
+    {
+      "text": "the officer",
+      "type": "bfo:Entity",
+      "id": "inst:the_officer"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The administrator",
+      "role": "Agent"
+    },
+    {
+      "entity": "the officer",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_administrator",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The administrator",
+        "tagteam:mentionId": "s0:h2:0-17",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Administrator_ce60d9ecc5bb"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_7ee7f9f503de"
+        }
+      },
+      {
+        "@id": "inst:the_officer",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the officer",
+        "tagteam:mentionId": "s0:h5:25-36",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Officer_7e30ac6b0a1b"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_7ee7f9f503de"
+        }
+      },
+      {
+        "@id": "inst:Act_handed",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "handed",
+        "tagteam:lemma": "hand",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_7ee7f9f503de"
+        }
+      },
+      {
+        "@id": "inst:Role_The_administrator_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_administrator"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_handed"
+        },
+        "rdfs:label": "The administrator as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_officer_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_officer"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_handed"
+        },
+        "rdfs:label": "the officer as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:Artifact_Administrator_ce60d9ecc5bb",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "administrator",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.354Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_7ee7f9f503de",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Officer_7e30ac6b0a1b",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "officer",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.354Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_7ee7f9f503de",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_7ee7f9f503de",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The administrator handed the officer a new badge",
+        "tagteam:char_count": 48,
+        "tagteam:word_count": 8,
+        "tagteam:received_at": "2026-02-18T02:11:43.331Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_7ee7f9f5",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_7ee7f9f503de"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_administrator"
+          },
+          {
+            "@id": "inst:the_officer"
+          },
+          {
+            "@id": "inst:Act_handed"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.331Z"
+      }
+    ]
+  }
+}

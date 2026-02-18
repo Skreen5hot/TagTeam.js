@@ -1,0 +1,350 @@
+{
+  "id": "adv-pp-007",
+  "text": "The analyst sent the findings to the director of the operations division at headquarters",
+  "subset": "adversarial",
+  "tags": [
+    "nested-pp",
+    "government"
+  ],
+  "generatedAt": "2026-02-18T02:11:45.319Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The analyst",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the findings",
+      "type": "cco:InformationContentEntity"
+    },
+    {
+      "text": "the director",
+      "type": "cco:Person"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "analyst",
+      "role": "Agent"
+    },
+    {
+      "entity": "findings",
+      "role": "Patient"
+    },
+    {
+      "entity": "director",
+      "role": "Recipient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The analyst",
+      "type": "bfo:Entity",
+      "id": "inst:The_analyst"
+    },
+    {
+      "text": "the findings",
+      "type": "bfo:Entity",
+      "id": "inst:the_findings"
+    },
+    {
+      "text": "the director of the operations division at headquarters",
+      "type": "bfo:Entity",
+      "id": "inst:the_director_of_the_operations_division_at_headquarters"
+    },
+    {
+      "text": "the operations division at headquarters",
+      "type": "bfo:Entity",
+      "id": "inst:the_operations_division_at_headquarters"
+    },
+    {
+      "text": "headquarters",
+      "type": "bfo:Entity",
+      "id": "inst:headquarters"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "the findings",
+      "role": "Patient"
+    },
+    {
+      "entity": "the director of the operations division at headquarters",
+      "role": "Goal"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_analyst",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The analyst",
+        "tagteam:mentionId": "s0:h2:0-11",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Analyst_8d6be23a55c2"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_3256b34b6366"
+        }
+      },
+      {
+        "@id": "inst:the_findings",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the findings",
+        "tagteam:mentionId": "s0:h5:17-29",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Findings_06ed6b60f9e8"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_3256b34b6366"
+        }
+      },
+      {
+        "@id": "inst:the_director_of_the_operations_division_at_headquarters",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the director of the operations division at headquarters",
+        "tagteam:mentionId": "s0:h8:33-88",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Director_Of_The_Operations_Division_At_Headquarters_c336816d6d72"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_3256b34b6366"
+        }
+      },
+      {
+        "@id": "inst:the_operations_division_at_headquarters",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the operations division at headquarters",
+        "tagteam:mentionId": "s0:h12:49-88",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Operations_Division_At_Headquarters_1f8c39056360"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_3256b34b6366"
+        }
+      },
+      {
+        "@id": "inst:headquarters",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "headquarters",
+        "tagteam:mentionId": "s0:h14:76-88",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Headquarters_59baf8c34295"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_3256b34b6366"
+        }
+      },
+      {
+        "@id": "inst:Act_analyst",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "analyst",
+        "tagteam:lemma": "analyst",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_3256b34b6366"
+        }
+      },
+      {
+        "@id": "inst:Act_sent",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "sent",
+        "tagteam:lemma": "send",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_3256b34b6366"
+        }
+      },
+      {
+        "@id": "inst:Role_the_findings_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_findings"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_sent"
+        },
+        "rdfs:label": "the findings as PatientRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Role_the_director_of_the_operations_division_at_headquarters_cco_DestinationRole",
+        "@type": [
+          "cco:DestinationRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_director_of_the_operations_division_at_headquarters"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_sent"
+        },
+        "rdfs:label": "the director of the operations division at headquarters as DestinationRole",
+        "tagteam:preposition": "to",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Artifact_Analyst_8d6be23a55c2",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "analyst",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.318Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_3256b34b6366",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Findings_06ed6b60f9e8",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "findings",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.318Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_3256b34b6366",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Director_Of_The_Operations_Division_At_Headquarters_c336816d6d72",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "director of the operations division at headquarters",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.318Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_3256b34b6366",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Operations_Division_At_Headquarters_1f8c39056360",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "operations division at headquarters",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.318Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_3256b34b6366",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Headquarters_59baf8c34295",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "headquarters",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.318Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_3256b34b6366",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_3256b34b6366",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The analyst sent the findings to the director of the operations division at headquarters",
+        "tagteam:char_count": 88,
+        "tagteam:word_count": 14,
+        "tagteam:received_at": "2026-02-18T02:11:45.307Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_3256b34b",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_3256b34b6366"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_analyst"
+          },
+          {
+            "@id": "inst:the_findings"
+          },
+          {
+            "@id": "inst:the_director_of_the_operations_division_at_headquarters"
+          },
+          {
+            "@id": "inst:the_operations_division_at_headquarters"
+          },
+          {
+            "@id": "inst:headquarters"
+          },
+          {
+            "@id": "inst:Act_analyst"
+          },
+          {
+            "@id": "inst:Act_sent"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.307Z"
+      }
+    ]
+  }
+}

@@ -1,0 +1,205 @@
+{
+  "id": "stative-004",
+  "text": "The region is divided into five operational sectors",
+  "subset": "stative-passive",
+  "tags": [
+    "stative",
+    "passive",
+    "government"
+  ],
+  "generatedAt": "2026-02-18T02:11:43.444Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The region",
+      "type": "cco:GeopoliticalEntity"
+    },
+    {
+      "text": "five operational sectors",
+      "type": "cco:Organization"
+    }
+  ],
+  "expectedRoles": [],
+  "extractedEntities": [
+    {
+      "text": "The region",
+      "type": "bfo:Entity",
+      "id": "inst:The_region"
+    },
+    {
+      "text": "five operational sectors",
+      "type": "bfo:Entity",
+      "id": "inst:five_operational_sectors"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The region",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_region",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The region",
+        "tagteam:mentionId": "s0:h2:0-10",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Region_bf0eb3a329fa"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_3c52822f2a0b"
+        }
+      },
+      {
+        "@id": "inst:five_operational_sectors",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "five operational sectors",
+        "tagteam:mentionId": "s0:h8:27-51",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Five_Operational_Sectors_5a6f9a182f1f"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_3c52822f2a0b"
+        }
+      },
+      {
+        "@id": "inst:Act_divided",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "divided",
+        "tagteam:lemma": "divid",
+        "tagteam:isPassive": true,
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_3c52822f2a0b"
+        }
+      },
+      {
+        "@id": "inst:Role_The_region_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_region"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_divided"
+        },
+        "rdfs:label": "The region as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Role_five_operational_sectors_cco_ObliqueRole",
+        "@type": [
+          "cco:ObliqueRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:five_operational_sectors"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_divided"
+        },
+        "rdfs:label": "five operational sectors as ObliqueRole",
+        "tagteam:preposition": "into",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:Artifact_Region_bf0eb3a329fa",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "region",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.443Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_3c52822f2a0b",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Five_Operational_Sectors_5a6f9a182f1f",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "five operational sectors",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.443Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_3c52822f2a0b",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_3c52822f2a0b",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The region is divided into five operational sectors",
+        "tagteam:char_count": 51,
+        "tagteam:word_count": 8,
+        "tagteam:received_at": "2026-02-18T02:11:43.432Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_3c52822f",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_3c52822f2a0b"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_region"
+          },
+          {
+            "@id": "inst:five_operational_sectors"
+          },
+          {
+            "@id": "inst:Act_divided"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.432Z"
+      }
+    ]
+  }
+}

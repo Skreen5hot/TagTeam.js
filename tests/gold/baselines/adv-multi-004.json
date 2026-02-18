@@ -1,0 +1,261 @@
+{
+  "id": "adv-multi-004",
+  "text": "The analyst identified the threat and recommended a response plan",
+  "subset": "adversarial",
+  "tags": [
+    "multi-clause",
+    "shared-subject",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:45.216Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The analyst",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the threat",
+      "type": "bfo:Entity"
+    },
+    {
+      "text": "a response plan",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "analyst",
+      "role": "Agent"
+    },
+    {
+      "entity": "threat",
+      "role": "Patient"
+    },
+    {
+      "entity": "response plan",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The analyst",
+      "type": "bfo:Entity",
+      "id": "inst:The_analyst"
+    },
+    {
+      "text": "the threat",
+      "type": "bfo:Entity",
+      "id": "inst:the_threat"
+    },
+    {
+      "text": "a response plan",
+      "type": "bfo:Entity",
+      "id": "inst:a_response_plan"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The analyst",
+      "role": "Agent"
+    },
+    {
+      "entity": "the threat",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_analyst",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The analyst",
+        "tagteam:mentionId": "s0:h2:0-11",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Analyst_556f5adca149"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_c2deb9cd5398"
+        }
+      },
+      {
+        "@id": "inst:the_threat",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the threat",
+        "tagteam:mentionId": "s0:h5:23-33",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Threat_a71cc06f3d7a"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_c2deb9cd5398"
+        }
+      },
+      {
+        "@id": "inst:a_response_plan",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "a response plan",
+        "tagteam:mentionId": "s0:h10:50-65",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Response_Plan_a72e36bde654"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_c2deb9cd5398"
+        }
+      },
+      {
+        "@id": "inst:Act_identified",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "identified",
+        "tagteam:lemma": "identify",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_c2deb9cd5398"
+        }
+      },
+      {
+        "@id": "inst:Role_The_analyst_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_analyst"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_identified"
+        },
+        "rdfs:label": "The analyst as AgentRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Role_the_threat_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_threat"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_identified"
+        },
+        "rdfs:label": "the threat as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Artifact_Analyst_556f5adca149",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "analyst",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.216Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_c2deb9cd5398",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Threat_a71cc06f3d7a",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "threat",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.216Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_c2deb9cd5398",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Response_Plan_a72e36bde654",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "response plan",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.216Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_c2deb9cd5398",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_c2deb9cd5398",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The analyst identified the threat and recommended a response plan",
+        "tagteam:char_count": 65,
+        "tagteam:word_count": 10,
+        "tagteam:received_at": "2026-02-18T02:11:45.204Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_c2deb9cd",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_c2deb9cd5398"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_analyst"
+          },
+          {
+            "@id": "inst:the_threat"
+          },
+          {
+            "@id": "inst:a_response_plan"
+          },
+          {
+            "@id": "inst:Act_identified"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.204Z"
+      }
+    ]
+  }
+}

@@ -1,0 +1,224 @@
+{
+  "id": "org-ditr-004",
+  "text": "The instructor taught the recruits defensive tactics",
+  "subset": "organizational",
+  "tags": [
+    "ditransitive",
+    "government",
+    "action"
+  ],
+  "generatedAt": "2026-02-18T02:11:43.285Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The instructor",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the recruits",
+      "type": "cco:Person"
+    },
+    {
+      "text": "defensive tactics",
+      "type": "bfo:Process"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "instructor",
+      "role": "Agent"
+    },
+    {
+      "entity": "recruits",
+      "role": "Recipient"
+    },
+    {
+      "entity": "tactics",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The instructor",
+      "type": "bfo:Entity",
+      "id": "inst:The_instructor"
+    },
+    {
+      "text": "the recruits",
+      "type": "bfo:Entity",
+      "id": "inst:the_recruits"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The instructor",
+      "role": "Agent"
+    },
+    {
+      "entity": "the recruits",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_instructor",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The instructor",
+        "tagteam:mentionId": "s0:h2:0-14",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Instructor_9c24479cd9c7"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_4e2012bd3ab5"
+        }
+      },
+      {
+        "@id": "inst:the_recruits",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the recruits",
+        "tagteam:mentionId": "s0:h5:22-34",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Recruits_65c6111601d7"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_4e2012bd3ab5"
+        }
+      },
+      {
+        "@id": "inst:Act_taught",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "taught",
+        "tagteam:lemma": "taught",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_4e2012bd3ab5"
+        }
+      },
+      {
+        "@id": "inst:Role_The_instructor_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_instructor"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_taught"
+        },
+        "rdfs:label": "The instructor as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_recruits_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_recruits"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_taught"
+        },
+        "rdfs:label": "the recruits as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804
+      },
+      {
+        "@id": "inst:Artifact_Instructor_9c24479cd9c7",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "instructor",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.285Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_4e2012bd3ab5",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Recruits_65c6111601d7",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "recruits",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.285Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_4e2012bd3ab5",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_4e2012bd3ab5",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The instructor taught the recruits defensive tactics",
+        "tagteam:char_count": 52,
+        "tagteam:word_count": 7,
+        "tagteam:received_at": "2026-02-18T02:11:43.270Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_4e2012bd",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_4e2012bd3ab5"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_instructor"
+          },
+          {
+            "@id": "inst:the_recruits"
+          },
+          {
+            "@id": "inst:Act_taught"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.270Z"
+      }
+    ]
+  }
+}

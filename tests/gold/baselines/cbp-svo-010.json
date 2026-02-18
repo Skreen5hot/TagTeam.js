@@ -1,0 +1,212 @@
+{
+  "id": "cbp-svo-010",
+  "text": "The commissioner issued a directive",
+  "subset": "cbp-domain",
+  "tags": [
+    "svo",
+    "cbp",
+    "leadership"
+  ],
+  "generatedAt": "2026-02-18T02:11:43.791Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The commissioner",
+      "type": "cco:Person"
+    },
+    {
+      "text": "a directive",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "commissioner",
+      "role": "Agent"
+    },
+    {
+      "entity": "directive",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The commissioner",
+      "type": "bfo:Entity",
+      "id": "inst:The_commissioner"
+    },
+    {
+      "text": "a directive",
+      "type": "bfo:Entity",
+      "id": "inst:a_directive"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "a directive",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_commissioner",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The commissioner",
+        "tagteam:mentionId": "s0:h2:0-16",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Commissioner_b5c3864ee48e"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_591c3ce46791"
+        }
+      },
+      {
+        "@id": "inst:a_directive",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "a directive",
+        "tagteam:mentionId": "s0:h5:24-35",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Directive_3fe731844a8c"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_591c3ce46791"
+        }
+      },
+      {
+        "@id": "inst:Act_commissioner",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "commissioner",
+        "tagteam:lemma": "commissioner",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_591c3ce46791"
+        }
+      },
+      {
+        "@id": "inst:Act_issued",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "issued",
+        "tagteam:lemma": "issu",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_591c3ce46791"
+        }
+      },
+      {
+        "@id": "inst:Role_a_directive_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:a_directive"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_issued"
+        },
+        "rdfs:label": "a directive as PatientRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Artifact_Commissioner_b5c3864ee48e",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "commissioner",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.791Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_591c3ce46791",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Directive_3fe731844a8c",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "directive",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.791Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_591c3ce46791",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_591c3ce46791",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The commissioner issued a directive",
+        "tagteam:char_count": 35,
+        "tagteam:word_count": 5,
+        "tagteam:received_at": "2026-02-18T02:11:43.781Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_591c3ce4",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_591c3ce46791"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_commissioner"
+          },
+          {
+            "@id": "inst:a_directive"
+          },
+          {
+            "@id": "inst:Act_commissioner"
+          },
+          {
+            "@id": "inst:Act_issued"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.781Z"
+      }
+    ]
+  }
+}

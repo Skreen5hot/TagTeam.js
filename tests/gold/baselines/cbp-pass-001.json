@@ -1,0 +1,272 @@
+{
+  "id": "cbp-pass-001",
+  "text": "The cargo was seized by customs officers",
+  "subset": "cbp-domain",
+  "tags": [
+    "passive",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.161Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The cargo",
+      "type": "bfo:Entity"
+    },
+    {
+      "text": "customs officers",
+      "type": "cco:Person"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "customs officers",
+      "role": "Agent"
+    },
+    {
+      "entity": "cargo",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The cargo",
+      "type": "bfo:Entity",
+      "id": "inst:The_cargo"
+    },
+    {
+      "text": "customs",
+      "type": "bfo:Entity",
+      "id": "inst:customs"
+    },
+    {
+      "text": "officers",
+      "type": "bfo:Entity",
+      "id": "inst:officers"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The cargo",
+      "role": "Patient"
+    },
+    {
+      "entity": "customs",
+      "role": "Agent"
+    },
+    {
+      "entity": "officers",
+      "role": "Agent"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_cargo",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The cargo",
+        "tagteam:mentionId": "s0:h2:0-9",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Cargo_a5a27c204c40"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_a68110377e00"
+        }
+      },
+      {
+        "@id": "inst:customs",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "customs",
+        "tagteam:mentionId": "s0:h6:24-31",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Customs_b96a21d3f88f"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_a68110377e00"
+        }
+      },
+      {
+        "@id": "inst:officers",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "officers",
+        "tagteam:mentionId": "s0:h7:32-40",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Officers_b74a3b995ac1"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_a68110377e00"
+        }
+      },
+      {
+        "@id": "inst:Act_seized",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "seized",
+        "tagteam:lemma": "seiz",
+        "tagteam:isPassive": true,
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_a68110377e00"
+        }
+      },
+      {
+        "@id": "inst:Role_The_cargo_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_cargo"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_seized"
+        },
+        "rdfs:label": "The cargo as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Role_customs_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:customs"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_seized"
+        },
+        "rdfs:label": "customs as AgentRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Role_officers_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:officers"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_seized"
+        },
+        "rdfs:label": "officers as AgentRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Artifact_Cargo_a5a27c204c40",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "cargo",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.160Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_a68110377e00",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Customs_b96a21d3f88f",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "customs",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.160Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_a68110377e00",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Officers_b74a3b995ac1",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "officers",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.161Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_a68110377e00",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_a68110377e00",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The cargo was seized by customs officers",
+        "tagteam:char_count": 40,
+        "tagteam:word_count": 7,
+        "tagteam:received_at": "2026-02-18T02:11:44.151Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_a6811037",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_a68110377e00"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_cargo"
+          },
+          {
+            "@id": "inst:customs"
+          },
+          {
+            "@id": "inst:officers"
+          },
+          {
+            "@id": "inst:Act_seized"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.151Z"
+      }
+    ]
+  }
+}

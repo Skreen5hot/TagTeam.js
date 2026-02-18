@@ -1,0 +1,215 @@
+{
+  "id": "gen-med-006",
+  "text": "The radiologist reviewed the imaging results",
+  "subset": "general",
+  "tags": [
+    "medical",
+    "diagnosis"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.759Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The radiologist",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the imaging results",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "radiologist",
+      "role": "Agent"
+    },
+    {
+      "entity": "imaging results",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The radiologist",
+      "type": "bfo:Entity",
+      "id": "inst:The_radiologist"
+    },
+    {
+      "text": "the imaging results",
+      "type": "bfo:Entity",
+      "id": "inst:the_imaging_results"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The radiologist",
+      "role": "Agent"
+    },
+    {
+      "entity": "the imaging results",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_radiologist",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The radiologist",
+        "tagteam:mentionId": "s0:h2:0-15",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Radiologist_7c07563bfb5d"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_7a1c7a55ec96"
+        }
+      },
+      {
+        "@id": "inst:the_imaging_results",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the imaging results",
+        "tagteam:mentionId": "s0:h6:25-44",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Imaging_Results_50bfeb46d5d6"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_7a1c7a55ec96"
+        }
+      },
+      {
+        "@id": "inst:Act_reviewed",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "reviewed",
+        "tagteam:lemma": "review",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_7a1c7a55ec96"
+        }
+      },
+      {
+        "@id": "inst:Role_The_radiologist_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_radiologist"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_reviewed"
+        },
+        "rdfs:label": "The radiologist as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_imaging_results_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_imaging_results"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_reviewed"
+        },
+        "rdfs:label": "the imaging results as PatientRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Artifact_Radiologist_7c07563bfb5d",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "radiologist",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.759Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_7a1c7a55ec96",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Imaging_Results_50bfeb46d5d6",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "imaging results",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.759Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_7a1c7a55ec96",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_7a1c7a55ec96",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The radiologist reviewed the imaging results",
+        "tagteam:char_count": 44,
+        "tagteam:word_count": 6,
+        "tagteam:received_at": "2026-02-18T02:11:44.752Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_7a1c7a55",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_7a1c7a55ec96"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_radiologist"
+          },
+          {
+            "@id": "inst:the_imaging_results"
+          },
+          {
+            "@id": "inst:Act_reviewed"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.752Z"
+      }
+    ]
+  }
+}

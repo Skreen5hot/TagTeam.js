@@ -1,0 +1,337 @@
+{
+  "id": "adv-pp-006",
+  "text": "The team recovered the weapons from the vehicle near the checkpoint at the border",
+  "subset": "adversarial",
+  "tags": [
+    "nested-pp",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:45.302Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The team",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the weapons",
+      "type": "cco:Artifact"
+    },
+    {
+      "text": "the vehicle",
+      "type": "cco:Artifact"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "team",
+      "role": "Agent"
+    },
+    {
+      "entity": "weapons",
+      "role": "Patient"
+    },
+    {
+      "entity": "vehicle",
+      "role": "Source"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The team",
+      "type": "bfo:Entity",
+      "id": "inst:The_team"
+    },
+    {
+      "text": "the weapons",
+      "type": "bfo:Entity",
+      "id": "inst:the_weapons"
+    },
+    {
+      "text": "the vehicle near the checkpoint",
+      "type": "bfo:Entity",
+      "id": "inst:the_vehicle_near_the_checkpoint"
+    },
+    {
+      "text": "the border",
+      "type": "bfo:Entity",
+      "id": "inst:the_border"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The team",
+      "role": "Agent"
+    },
+    {
+      "entity": "the weapons",
+      "role": "Patient"
+    },
+    {
+      "entity": "the vehicle near the checkpoint",
+      "role": "Source"
+    },
+    {
+      "entity": "the border",
+      "role": "Location"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_team",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The team",
+        "tagteam:mentionId": "s0:h2:0-8",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Organization_Team_55745d7770a5"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_5cc8383356e0"
+        }
+      },
+      {
+        "@id": "inst:the_weapons",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the weapons",
+        "tagteam:mentionId": "s0:h5:19-30",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Weapons_2a0223d892b1"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_5cc8383356e0"
+        }
+      },
+      {
+        "@id": "inst:the_vehicle_near_the_checkpoint",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the vehicle near the checkpoint",
+        "tagteam:mentionId": "s0:h8:36-67",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Vehicle_Near_The_Checkpoint_b45df5abbb61"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_5cc8383356e0"
+        }
+      },
+      {
+        "@id": "inst:the_border",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the border",
+        "tagteam:mentionId": "s0:h14:71-81",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Border_eeeb2188de3b"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_5cc8383356e0"
+        }
+      },
+      {
+        "@id": "inst:Act_recovered",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "recovered",
+        "tagteam:lemma": "recover",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_5cc8383356e0"
+        }
+      },
+      {
+        "@id": "inst:Role_The_team_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_team"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_recovered"
+        },
+        "rdfs:label": "The team as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_weapons_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_weapons"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_recovered"
+        },
+        "rdfs:label": "the weapons as PatientRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_vehicle_near_the_checkpoint_cco_SourceRole",
+        "@type": [
+          "cco:SourceRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_vehicle_near_the_checkpoint"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_recovered"
+        },
+        "rdfs:label": "the vehicle near the checkpoint as SourceRole",
+        "tagteam:preposition": "from",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:Role_the_border_cco_LocationRole",
+        "@type": [
+          "cco:LocationRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_border"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_recovered"
+        },
+        "rdfs:label": "the border as LocationRole",
+        "tagteam:preposition": "at",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Organization_Team_55745d7770a5",
+        "@type": [
+          "cco:Organization",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "team",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.302Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_5cc8383356e0",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Weapons_2a0223d892b1",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "weapons",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.302Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_5cc8383356e0",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Vehicle_Near_The_Checkpoint_b45df5abbb61",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "vehicle near the checkpoint",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.302Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_5cc8383356e0",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Border_eeeb2188de3b",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "border",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.302Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_5cc8383356e0",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_5cc8383356e0",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The team recovered the weapons from the vehicle near the checkpoint at the border",
+        "tagteam:char_count": 81,
+        "tagteam:word_count": 14,
+        "tagteam:received_at": "2026-02-18T02:11:45.290Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_5cc83833",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_5cc8383356e0"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_team"
+          },
+          {
+            "@id": "inst:the_weapons"
+          },
+          {
+            "@id": "inst:the_vehicle_near_the_checkpoint"
+          },
+          {
+            "@id": "inst:the_border"
+          },
+          {
+            "@id": "inst:Act_recovered"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.290Z"
+      }
+    ]
+  }
+}

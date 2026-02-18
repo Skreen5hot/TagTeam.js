@@ -1,0 +1,267 @@
+{
+  "id": "adv-rel-004",
+  "text": "The policy that the committee approved took effect immediately",
+  "subset": "adversarial",
+  "tags": [
+    "relative-clause",
+    "government"
+  ],
+  "generatedAt": "2026-02-18T02:11:45.134Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The policy",
+      "type": "cco:InformationContentEntity"
+    },
+    {
+      "text": "the committee",
+      "type": "cco:Organization"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "committee",
+      "role": "Agent"
+    },
+    {
+      "entity": "policy",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The policy",
+      "type": "bfo:Entity",
+      "id": "inst:The_policy"
+    },
+    {
+      "text": "the committee",
+      "type": "bfo:Entity",
+      "id": "inst:the_committee"
+    },
+    {
+      "text": "effect",
+      "type": "bfo:Entity",
+      "id": "inst:effect"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "the committee",
+      "role": "Agent"
+    },
+    {
+      "entity": "effect",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_policy",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The policy",
+        "tagteam:mentionId": "s0:h2:0-10",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Policy_629ad5407081"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_a6a4984e3fd6"
+        }
+      },
+      {
+        "@id": "inst:the_committee",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the committee",
+        "tagteam:mentionId": "s0:h5:16-29",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Organization_Committee_0804a5a0e014"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_a6a4984e3fd6"
+        }
+      },
+      {
+        "@id": "inst:effect",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "effect",
+        "tagteam:mentionId": "s0:h8:44-50",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Effect_acbcb0ee4568"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_a6a4984e3fd6"
+        }
+      },
+      {
+        "@id": "inst:Act_policy",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "policy",
+        "tagteam:lemma": "policy",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_a6a4984e3fd6"
+        }
+      },
+      {
+        "@id": "inst:Act_took",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "took",
+        "tagteam:lemma": "take",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_a6a4984e3fd6"
+        }
+      },
+      {
+        "@id": "inst:Role_the_committee_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_committee"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_took"
+        },
+        "rdfs:label": "the committee as AgentRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:Role_effect_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:effect"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_took"
+        },
+        "rdfs:label": "effect as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:Artifact_Policy_629ad5407081",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "policy",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.134Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_a6a4984e3fd6",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Organization_Committee_0804a5a0e014",
+        "@type": [
+          "cco:Organization",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "committee",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.134Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_a6a4984e3fd6",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Effect_acbcb0ee4568",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "effect",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.134Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_a6a4984e3fd6",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_a6a4984e3fd6",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The policy that the committee approved took effect immediately",
+        "tagteam:char_count": 62,
+        "tagteam:word_count": 9,
+        "tagteam:received_at": "2026-02-18T02:11:45.122Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_a6a4984e",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_a6a4984e3fd6"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_policy"
+          },
+          {
+            "@id": "inst:the_committee"
+          },
+          {
+            "@id": "inst:effect"
+          },
+          {
+            "@id": "inst:Act_policy"
+          },
+          {
+            "@id": "inst:Act_took"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.122Z"
+      }
+    ]
+  }
+}

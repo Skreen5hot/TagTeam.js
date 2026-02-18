@@ -1,0 +1,238 @@
+{
+  "id": "adv-multi-005",
+  "text": "When the alarm sounded the officers evacuated the building",
+  "subset": "adversarial",
+  "tags": [
+    "multi-clause",
+    "subordination",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:45.231Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "the alarm",
+      "type": "cco:Artifact"
+    },
+    {
+      "text": "the officers",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the building",
+      "type": "cco:Facility"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "officers",
+      "role": "Agent"
+    },
+    {
+      "entity": "building",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "the alarm",
+      "type": "bfo:Entity",
+      "id": "inst:the_alarm"
+    },
+    {
+      "text": "the officers",
+      "type": "bfo:Entity",
+      "id": "inst:the_officers"
+    },
+    {
+      "text": "the building",
+      "type": "bfo:Entity",
+      "id": "inst:the_building"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "the alarm",
+      "role": "Agent"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:the_alarm",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the alarm",
+        "tagteam:mentionId": "s0:h3:5-14",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Alarm_496549ce35b9"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_0fad6b4c89c7"
+        }
+      },
+      {
+        "@id": "inst:the_officers",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the officers",
+        "tagteam:mentionId": "s0:h6:23-35",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9479,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Officers_8c74ad53923c"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_0fad6b4c89c7"
+        }
+      },
+      {
+        "@id": "inst:the_building",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the building",
+        "tagteam:mentionId": "s0:h9:46-58",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Building_d86ebb7f2ffa"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_0fad6b4c89c7"
+        }
+      },
+      {
+        "@id": "inst:Act_sounded",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "sounded",
+        "tagteam:lemma": "sound",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_0fad6b4c89c7"
+        }
+      },
+      {
+        "@id": "inst:Role_the_alarm_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_alarm"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_sounded"
+        },
+        "rdfs:label": "the alarm as AgentRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Artifact_Alarm_496549ce35b9",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "alarm",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.231Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_0fad6b4c89c7",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Officers_8c74ad53923c",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "officers",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.231Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_0fad6b4c89c7",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Building_d86ebb7f2ffa",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "building",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.231Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_0fad6b4c89c7",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_0fad6b4c89c7",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "When the alarm sounded the officers evacuated the building",
+        "tagteam:char_count": 58,
+        "tagteam:word_count": 9,
+        "tagteam:received_at": "2026-02-18T02:11:45.220Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_0fad6b4c",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_0fad6b4c89c7"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:the_alarm"
+          },
+          {
+            "@id": "inst:the_officers"
+          },
+          {
+            "@id": "inst:the_building"
+          },
+          {
+            "@id": "inst:Act_sounded"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.220Z"
+      }
+    ]
+  }
+}

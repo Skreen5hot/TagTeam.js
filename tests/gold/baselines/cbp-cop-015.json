@@ -1,0 +1,162 @@
+{
+  "id": "cbp-cop-015",
+  "text": "SENTRI is a border crossing program for low-risk travelers",
+  "subset": "cbp-domain",
+  "tags": [
+    "copular",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.146Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "SENTRI",
+      "type": "bfo:Process"
+    },
+    {
+      "text": "a border crossing program",
+      "type": "bfo:Process"
+    }
+  ],
+  "expectedRoles": [],
+  "extractedEntities": [
+    {
+      "text": "SENTRI",
+      "type": "bfo:Entity",
+      "id": "inst:SENTRI"
+    },
+    {
+      "text": "low risk travelers",
+      "type": "bfo:Entity",
+      "id": "inst:low_risk_travelers"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:SENTRI",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "SENTRI",
+        "tagteam:mentionId": "s0:h1:0-6",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Sentri_092914ff74d8"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_d3178ba20d7b"
+        }
+      },
+      {
+        "@id": "inst:low_risk_travelers",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "low risk travelers",
+        "tagteam:mentionId": "s0:h11:40-60",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Low_Risk_Travelers_decff1286cc1"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_d3178ba20d7b"
+        }
+      },
+      {
+        "@id": "inst:Assertion_SENTRI",
+        "@type": [
+          "tagteam:StructuralAssertion"
+        ],
+        "tagteam:subject": "SENTRI",
+        "tagteam:pattern": "predication",
+        "tagteam:object": "for low risk travelers",
+        "tagteam:copula": "is"
+      },
+      {
+        "@id": "inst:Artifact_Sentri_092914ff74d8",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "sentri",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.146Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_d3178ba20d7b",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Low_Risk_Travelers_decff1286cc1",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "low risk travelers",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.146Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_d3178ba20d7b",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_d3178ba20d7b",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "SENTRI is a border crossing program for low-risk travelers",
+        "tagteam:char_count": 58,
+        "tagteam:word_count": 9,
+        "tagteam:received_at": "2026-02-18T02:11:44.134Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_d3178ba2",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_d3178ba20d7b"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:SENTRI"
+          },
+          {
+            "@id": "inst:low_risk_travelers"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.134Z"
+      }
+    ]
+  }
+}

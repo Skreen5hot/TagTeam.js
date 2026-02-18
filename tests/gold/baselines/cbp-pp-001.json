@@ -1,0 +1,280 @@
+{
+  "id": "cbp-pp-001",
+  "text": "The agent filed the report at the station",
+  "subset": "cbp-domain",
+  "tags": [
+    "pp",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.320Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The agent",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the report",
+      "type": "cco:InformationContentEntity"
+    },
+    {
+      "text": "the station",
+      "type": "cco:Facility"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "agent",
+      "role": "Agent"
+    },
+    {
+      "entity": "report",
+      "role": "Patient"
+    },
+    {
+      "entity": "station",
+      "role": "Location"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The agent",
+      "type": "bfo:Entity",
+      "id": "inst:The_agent"
+    },
+    {
+      "text": "the report",
+      "type": "bfo:Entity",
+      "id": "inst:the_report"
+    },
+    {
+      "text": "the station",
+      "type": "bfo:Entity",
+      "id": "inst:the_station"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The agent",
+      "role": "Agent"
+    },
+    {
+      "entity": "the report",
+      "role": "Patient"
+    },
+    {
+      "entity": "the station",
+      "role": "Location"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_agent",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The agent",
+        "tagteam:mentionId": "s0:h2:0-9",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Agent_c5a9fa13614e"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_1f0c8c112476"
+        }
+      },
+      {
+        "@id": "inst:the_report",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the report",
+        "tagteam:mentionId": "s0:h5:16-26",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Report_483c74294143"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_1f0c8c112476"
+        }
+      },
+      {
+        "@id": "inst:the_station",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the station",
+        "tagteam:mentionId": "s0:h8:30-41",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Station_6d39aaa2bc04"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_1f0c8c112476"
+        }
+      },
+      {
+        "@id": "inst:Act_filed",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "filed",
+        "tagteam:lemma": "fil",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_1f0c8c112476"
+        }
+      },
+      {
+        "@id": "inst:Role_The_agent_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_agent"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_filed"
+        },
+        "rdfs:label": "The agent as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Role_the_report_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_report"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_filed"
+        },
+        "rdfs:label": "the report as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Role_the_station_cco_LocationRole",
+        "@type": [
+          "cco:LocationRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_station"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_filed"
+        },
+        "rdfs:label": "the station as LocationRole",
+        "tagteam:preposition": "at",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Artifact_Agent_c5a9fa13614e",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "agent",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.320Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_1f0c8c112476",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Report_483c74294143",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "report",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.320Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_1f0c8c112476",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Station_6d39aaa2bc04",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "station",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.320Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_1f0c8c112476",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_1f0c8c112476",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The agent filed the report at the station",
+        "tagteam:char_count": 41,
+        "tagteam:word_count": 8,
+        "tagteam:received_at": "2026-02-18T02:11:44.311Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_1f0c8c11",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_1f0c8c112476"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_agent"
+          },
+          {
+            "@id": "inst:the_report"
+          },
+          {
+            "@id": "inst:the_station"
+          },
+          {
+            "@id": "inst:Act_filed"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.311Z"
+      }
+    ]
+  }
+}

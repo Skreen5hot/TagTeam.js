@@ -1,0 +1,216 @@
+{
+  "id": "cbp-svo-012",
+  "text": "The import specialist verified the declaration",
+  "subset": "cbp-domain",
+  "tags": [
+    "svo",
+    "cbp",
+    "trade"
+  ],
+  "generatedAt": "2026-02-18T02:11:43.822Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The import specialist",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the declaration",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "import specialist",
+      "role": "Agent"
+    },
+    {
+      "entity": "declaration",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The import specialist",
+      "type": "bfo:Entity",
+      "id": "inst:The_import_specialist"
+    },
+    {
+      "text": "the declaration",
+      "type": "bfo:Entity",
+      "id": "inst:the_declaration"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The import specialist",
+      "role": "Agent"
+    },
+    {
+      "entity": "the declaration",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_import_specialist",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The import specialist",
+        "tagteam:mentionId": "s0:h3:0-21",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Person_Import_Specialist_f0a01f3eaa49"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_e6194180de4c"
+        }
+      },
+      {
+        "@id": "inst:the_declaration",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the declaration",
+        "tagteam:mentionId": "s0:h6:31-46",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Declaration_75dc3dd2032f"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_e6194180de4c"
+        }
+      },
+      {
+        "@id": "inst:Act_verified",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "verified",
+        "tagteam:lemma": "verify",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_e6194180de4c"
+        }
+      },
+      {
+        "@id": "inst:Role_The_import_specialist_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_import_specialist"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_verified"
+        },
+        "rdfs:label": "The import specialist as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_declaration_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_declaration"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_verified"
+        },
+        "rdfs:label": "the declaration as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Person_Import_Specialist_f0a01f3eaa49",
+        "@type": [
+          "cco:Person",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "import specialist",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.822Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_e6194180de4c",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Declaration_75dc3dd2032f",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "declaration",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.822Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_e6194180de4c",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_e6194180de4c",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The import specialist verified the declaration",
+        "tagteam:char_count": 46,
+        "tagteam:word_count": 6,
+        "tagteam:received_at": "2026-02-18T02:11:43.812Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_e6194180",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_e6194180de4c"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_import_specialist"
+          },
+          {
+            "@id": "inst:the_declaration"
+          },
+          {
+            "@id": "inst:Act_verified"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.812Z"
+      }
+    ]
+  }
+}

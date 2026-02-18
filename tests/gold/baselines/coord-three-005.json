@@ -1,0 +1,269 @@
+{
+  "id": "coord-three-005",
+  "text": "The director, the deputy, and the chief of staff approved the plan",
+  "subset": "three-way-coord",
+  "tags": [
+    "three-way",
+    "coordination",
+    "government"
+  ],
+  "generatedAt": "2026-02-18T02:11:43.632Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The director",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the deputy",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the chief of staff",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the plan",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "director",
+      "role": "Agent"
+    },
+    {
+      "entity": "deputy",
+      "role": "Agent"
+    },
+    {
+      "entity": "chief of staff",
+      "role": "Agent"
+    },
+    {
+      "entity": "plan",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "the deputy and the chief of staff",
+      "type": "bfo:Entity",
+      "id": "inst:the_deputy_and_the_chief_of_staff"
+    },
+    {
+      "text": "staff",
+      "type": "bfo:Entity",
+      "id": "inst:staff"
+    },
+    {
+      "text": "the plan",
+      "type": "bfo:Entity",
+      "id": "inst:the_plan"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "the deputy and the chief of staff",
+      "role": "Agent"
+    },
+    {
+      "entity": "the plan",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:the_deputy_and_the_chief_of_staff",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the deputy and the chief of staff",
+        "tagteam:mentionId": "s0:h5:15-50",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Person_Deputy_And_The_Chief_Of_Staff_1318e8c80741"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_d95632251760"
+        }
+      },
+      {
+        "@id": "inst:staff",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "staff",
+        "tagteam:mentionId": "s0:h11:45-50",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Person_Staff_15d4dfd65e54"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_d95632251760"
+        }
+      },
+      {
+        "@id": "inst:the_plan",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the plan",
+        "tagteam:mentionId": "s0:h14:60-68",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Plan_89090296e811"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_d95632251760"
+        }
+      },
+      {
+        "@id": "inst:Act_approved",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "approved",
+        "tagteam:lemma": "approv",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_d95632251760"
+        }
+      },
+      {
+        "@id": "inst:Role_the_deputy_and_the_chief_of_staff_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_deputy_and_the_chief_of_staff"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_approved"
+        },
+        "rdfs:label": "the deputy and the chief of staff as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Role_the_plan_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_plan"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_approved"
+        },
+        "rdfs:label": "the plan as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Person_Deputy_And_The_Chief_Of_Staff_1318e8c80741",
+        "@type": [
+          "cco:Person",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "deputy and the chief of staff",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.631Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_d95632251760",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Person_Staff_15d4dfd65e54",
+        "@type": [
+          "cco:Person",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "staff",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.631Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_d95632251760",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Plan_89090296e811",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "plan",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.631Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_d95632251760",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_d95632251760",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The director, the deputy, and the chief of staff approved the plan",
+        "tagteam:char_count": 66,
+        "tagteam:word_count": 12,
+        "tagteam:received_at": "2026-02-18T02:11:43.615Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_d9563225",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_d95632251760"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:the_deputy_and_the_chief_of_staff"
+          },
+          {
+            "@id": "inst:staff"
+          },
+          {
+            "@id": "inst:the_plan"
+          },
+          {
+            "@id": "inst:Act_approved"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.615Z"
+      }
+    ]
+  }
+}

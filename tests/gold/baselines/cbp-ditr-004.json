@@ -1,0 +1,223 @@
+{
+  "id": "cbp-ditr-004",
+  "text": "The instructor showed the class the new procedure",
+  "subset": "cbp-domain",
+  "tags": [
+    "ditransitive",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.488Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The instructor",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the class",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the new procedure",
+      "type": "bfo:Process"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "instructor",
+      "role": "Agent"
+    },
+    {
+      "entity": "class",
+      "role": "Recipient"
+    },
+    {
+      "entity": "procedure",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The instructor",
+      "type": "bfo:Entity",
+      "id": "inst:The_instructor"
+    },
+    {
+      "text": "the class",
+      "type": "bfo:Entity",
+      "id": "inst:the_class"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The instructor",
+      "role": "Agent"
+    },
+    {
+      "entity": "the class",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_instructor",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The instructor",
+        "tagteam:mentionId": "s0:h2:0-14",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Instructor_93cd7cf9a7e2"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_412cc0d5f18c"
+        }
+      },
+      {
+        "@id": "inst:the_class",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the class",
+        "tagteam:mentionId": "s0:h5:22-31",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Class_122c730de281"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_412cc0d5f18c"
+        }
+      },
+      {
+        "@id": "inst:Act_showed",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "showed",
+        "tagteam:lemma": "show",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_412cc0d5f18c"
+        }
+      },
+      {
+        "@id": "inst:Role_The_instructor_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_instructor"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_showed"
+        },
+        "rdfs:label": "The instructor as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Role_the_class_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_class"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_showed"
+        },
+        "rdfs:label": "the class as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804
+      },
+      {
+        "@id": "inst:Artifact_Instructor_93cd7cf9a7e2",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "instructor",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.488Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_412cc0d5f18c",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Class_122c730de281",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "class",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.488Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_412cc0d5f18c",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_412cc0d5f18c",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The instructor showed the class the new procedure",
+        "tagteam:char_count": 49,
+        "tagteam:word_count": 8,
+        "tagteam:received_at": "2026-02-18T02:11:44.478Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_412cc0d5",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_412cc0d5f18c"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_instructor"
+          },
+          {
+            "@id": "inst:the_class"
+          },
+          {
+            "@id": "inst:Act_showed"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.478Z"
+      }
+    ]
+  }
+}

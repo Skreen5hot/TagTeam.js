@@ -1,0 +1,215 @@
+{
+  "id": "gen-news-001",
+  "text": "The president signed the executive order",
+  "subset": "general",
+  "tags": [
+    "news",
+    "government"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.511Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The president",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the executive order",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "president",
+      "role": "Agent"
+    },
+    {
+      "entity": "executive order",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The president",
+      "type": "bfo:Entity",
+      "id": "inst:The_president"
+    },
+    {
+      "text": "the executive order",
+      "type": "bfo:Entity",
+      "id": "inst:the_executive_order"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The president",
+      "role": "Agent"
+    },
+    {
+      "entity": "the executive order",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_president",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The president",
+        "tagteam:mentionId": "s0:h2:0-13",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_President_cf92ed2b5cae"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_574197891588"
+        }
+      },
+      {
+        "@id": "inst:the_executive_order",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the executive order",
+        "tagteam:mentionId": "s0:h6:21-40",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Executive_Order_9a0666924ddf"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_574197891588"
+        }
+      },
+      {
+        "@id": "inst:Act_signed",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "signed",
+        "tagteam:lemma": "sign",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_574197891588"
+        }
+      },
+      {
+        "@id": "inst:Role_The_president_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_president"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_signed"
+        },
+        "rdfs:label": "The president as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_executive_order_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_executive_order"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_signed"
+        },
+        "rdfs:label": "the executive order as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804
+      },
+      {
+        "@id": "inst:Artifact_President_cf92ed2b5cae",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "president",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.511Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_574197891588",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Executive_Order_9a0666924ddf",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "executive order",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.511Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_574197891588",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_574197891588",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The president signed the executive order",
+        "tagteam:char_count": 40,
+        "tagteam:word_count": 6,
+        "tagteam:received_at": "2026-02-18T02:11:44.504Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_57419789",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_574197891588"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_president"
+          },
+          {
+            "@id": "inst:the_executive_order"
+          },
+          {
+            "@id": "inst:Act_signed"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.504Z"
+      }
+    ]
+  }
+}

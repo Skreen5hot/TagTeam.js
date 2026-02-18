@@ -1,0 +1,215 @@
+{
+  "id": "gen-acad-007",
+  "text": "The team replicated the experiment",
+  "subset": "general",
+  "tags": [
+    "academic",
+    "research"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.683Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The team",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the experiment",
+      "type": "bfo:Process"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "team",
+      "role": "Agent"
+    },
+    {
+      "entity": "experiment",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The team",
+      "type": "bfo:Entity",
+      "id": "inst:The_team"
+    },
+    {
+      "text": "the experiment",
+      "type": "bfo:Entity",
+      "id": "inst:the_experiment"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The team",
+      "role": "Agent"
+    },
+    {
+      "entity": "the experiment",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_team",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The team",
+        "tagteam:mentionId": "s0:h2:0-8",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Organization_Team_0ac365966bf8"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_b21af55d2390"
+        }
+      },
+      {
+        "@id": "inst:the_experiment",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the experiment",
+        "tagteam:mentionId": "s0:h5:20-34",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Experiment_8ace9068cde3"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_b21af55d2390"
+        }
+      },
+      {
+        "@id": "inst:Act_replicated",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "replicated",
+        "tagteam:lemma": "replicat",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_b21af55d2390"
+        }
+      },
+      {
+        "@id": "inst:Role_The_team_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_team"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_replicated"
+        },
+        "rdfs:label": "The team as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_experiment_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_experiment"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_replicated"
+        },
+        "rdfs:label": "the experiment as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Organization_Team_0ac365966bf8",
+        "@type": [
+          "cco:Organization",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "team",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.683Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_b21af55d2390",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Experiment_8ace9068cde3",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "experiment",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.683Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_b21af55d2390",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_b21af55d2390",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The team replicated the experiment",
+        "tagteam:char_count": 34,
+        "tagteam:word_count": 5,
+        "tagteam:received_at": "2026-02-18T02:11:44.676Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_b21af55d",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_b21af55d2390"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_team"
+          },
+          {
+            "@id": "inst:the_experiment"
+          },
+          {
+            "@id": "inst:Act_replicated"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.676Z"
+      }
+    ]
+  }
+}

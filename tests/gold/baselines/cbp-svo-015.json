@@ -1,0 +1,216 @@
+{
+  "id": "cbp-svo-015",
+  "text": "The targeting center flagged the container",
+  "subset": "cbp-domain",
+  "tags": [
+    "svo",
+    "cbp",
+    "intelligence"
+  ],
+  "generatedAt": "2026-02-18T02:11:43.856Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The targeting center",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the container",
+      "type": "cco:Artifact"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "targeting center",
+      "role": "Agent"
+    },
+    {
+      "entity": "container",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The targeting center",
+      "type": "bfo:Entity",
+      "id": "inst:The_targeting_center"
+    },
+    {
+      "text": "the container",
+      "type": "bfo:Entity",
+      "id": "inst:the_container"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The targeting center",
+      "role": "Agent"
+    },
+    {
+      "entity": "the container",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_targeting_center",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The targeting center",
+        "tagteam:mentionId": "s0:h3:0-20",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Targeting_Center_4f14133594ca"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_73134fecb475"
+        }
+      },
+      {
+        "@id": "inst:the_container",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the container",
+        "tagteam:mentionId": "s0:h6:29-42",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Container_b5b25800390a"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_73134fecb475"
+        }
+      },
+      {
+        "@id": "inst:Act_flagged",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "flagged",
+        "tagteam:lemma": "flagg",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_73134fecb475"
+        }
+      },
+      {
+        "@id": "inst:Role_The_targeting_center_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_targeting_center"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_flagged"
+        },
+        "rdfs:label": "The targeting center as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_container_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_container"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_flagged"
+        },
+        "rdfs:label": "the container as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Artifact_Targeting_Center_4f14133594ca",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "targeting center",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.856Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_73134fecb475",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Container_b5b25800390a",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "container",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.856Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_73134fecb475",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_73134fecb475",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The targeting center flagged the container",
+        "tagteam:char_count": 42,
+        "tagteam:word_count": 6,
+        "tagteam:received_at": "2026-02-18T02:11:43.848Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_73134fec",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_73134fecb475"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_targeting_center"
+          },
+          {
+            "@id": "inst:the_container"
+          },
+          {
+            "@id": "inst:Act_flagged"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.848Z"
+      }
+    ]
+  }
+}

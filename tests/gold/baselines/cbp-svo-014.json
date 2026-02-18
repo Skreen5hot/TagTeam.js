@@ -1,0 +1,216 @@
+{
+  "id": "cbp-svo-014",
+  "text": "The agriculture specialist quarantined the produce",
+  "subset": "cbp-domain",
+  "tags": [
+    "svo",
+    "cbp",
+    "agriculture"
+  ],
+  "generatedAt": "2026-02-18T02:11:43.845Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The agriculture specialist",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the produce",
+      "type": "bfo:Entity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "agriculture specialist",
+      "role": "Agent"
+    },
+    {
+      "entity": "produce",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The agriculture specialist",
+      "type": "bfo:Entity",
+      "id": "inst:The_agriculture_specialist"
+    },
+    {
+      "text": "the produce",
+      "type": "bfo:Entity",
+      "id": "inst:the_produce"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The agriculture specialist",
+      "role": "Agent"
+    },
+    {
+      "entity": "the produce",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_agriculture_specialist",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The agriculture specialist",
+        "tagteam:mentionId": "s0:h3:0-26",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Person_Agriculture_Specialist_adf2cf222561"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_b4965e1834cc"
+        }
+      },
+      {
+        "@id": "inst:the_produce",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the produce",
+        "tagteam:mentionId": "s0:h6:39-50",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Produce_a674eb63c68e"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_b4965e1834cc"
+        }
+      },
+      {
+        "@id": "inst:Act_quarantined",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "quarantined",
+        "tagteam:lemma": "quarantin",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_b4965e1834cc"
+        }
+      },
+      {
+        "@id": "inst:Role_The_agriculture_specialist_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_agriculture_specialist"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_quarantined"
+        },
+        "rdfs:label": "The agriculture specialist as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_produce_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_produce"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_quarantined"
+        },
+        "rdfs:label": "the produce as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Person_Agriculture_Specialist_adf2cf222561",
+        "@type": [
+          "cco:Person",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "agriculture specialist",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.845Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_b4965e1834cc",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Produce_a674eb63c68e",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "produce",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.845Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_b4965e1834cc",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_b4965e1834cc",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The agriculture specialist quarantined the produce",
+        "tagteam:char_count": 50,
+        "tagteam:word_count": 6,
+        "tagteam:received_at": "2026-02-18T02:11:43.838Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_b4965e18",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_b4965e1834cc"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_agriculture_specialist"
+          },
+          {
+            "@id": "inst:the_produce"
+          },
+          {
+            "@id": "inst:Act_quarantined"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.838Z"
+      }
+    ]
+  }
+}

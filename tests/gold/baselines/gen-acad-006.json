@@ -1,0 +1,215 @@
+{
+  "id": "gen-acad-006",
+  "text": "The dean approved the new curriculum",
+  "subset": "general",
+  "tags": [
+    "academic",
+    "administration"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.672Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The dean",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the new curriculum",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "dean",
+      "role": "Agent"
+    },
+    {
+      "entity": "curriculum",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The dean",
+      "type": "bfo:Entity",
+      "id": "inst:The_dean"
+    },
+    {
+      "text": "the new curriculum",
+      "type": "bfo:Entity",
+      "id": "inst:the_new_curriculum"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The dean",
+      "role": "Agent"
+    },
+    {
+      "entity": "the new curriculum",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_dean",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The dean",
+        "tagteam:mentionId": "s0:h2:0-8",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9479,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Dean_ce9621257b0d"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_eebf1989e3dc"
+        }
+      },
+      {
+        "@id": "inst:the_new_curriculum",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the new curriculum",
+        "tagteam:mentionId": "s0:h6:18-36",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_New_Curriculum_11230f67ae45"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_eebf1989e3dc"
+        }
+      },
+      {
+        "@id": "inst:Act_approved",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "approved",
+        "tagteam:lemma": "approv",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_eebf1989e3dc"
+        }
+      },
+      {
+        "@id": "inst:Role_The_dean_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_dean"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_approved"
+        },
+        "rdfs:label": "The dean as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9479
+      },
+      {
+        "@id": "inst:Role_the_new_curriculum_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_new_curriculum"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_approved"
+        },
+        "rdfs:label": "the new curriculum as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Artifact_Dean_ce9621257b0d",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "dean",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.672Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_eebf1989e3dc",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_New_Curriculum_11230f67ae45",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "new curriculum",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.672Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_eebf1989e3dc",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_eebf1989e3dc",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The dean approved the new curriculum",
+        "tagteam:char_count": 36,
+        "tagteam:word_count": 6,
+        "tagteam:received_at": "2026-02-18T02:11:44.662Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_eebf1989",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_eebf1989e3dc"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_dean"
+          },
+          {
+            "@id": "inst:the_new_curriculum"
+          },
+          {
+            "@id": "inst:Act_approved"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.662Z"
+      }
+    ]
+  }
+}

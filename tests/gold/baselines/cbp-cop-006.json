@@ -1,0 +1,196 @@
+{
+  "id": "cbp-cop-006",
+  "text": "Preclearance is a CBP program for inspecting travelers abroad",
+  "subset": "cbp-domain",
+  "tags": [
+    "copular",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.020Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "Preclearance",
+      "type": "bfo:Process"
+    },
+    {
+      "text": "a CBP program",
+      "type": "bfo:Process"
+    }
+  ],
+  "expectedRoles": [],
+  "extractedEntities": [
+    {
+      "text": "Preclearance",
+      "type": "bfo:Entity",
+      "id": "inst:Preclearance"
+    },
+    {
+      "text": "travelers",
+      "type": "bfo:Entity",
+      "id": "inst:travelers"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "travelers",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:Preclearance",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "Preclearance",
+        "tagteam:mentionId": "s0:h1:0-12",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Preclearance_94a11ad08955"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_c74835b2caa5"
+        }
+      },
+      {
+        "@id": "inst:travelers",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "travelers",
+        "tagteam:mentionId": "s0:h8:45-54",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Travelers_34477db6ed40"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_c74835b2caa5"
+        }
+      },
+      {
+        "@id": "inst:Act_inspecting",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "inspecting",
+        "tagteam:lemma": "inspect",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_c74835b2caa5"
+        }
+      },
+      {
+        "@id": "inst:Assertion_Preclearance",
+        "@type": [
+          "tagteam:StructuralAssertion"
+        ],
+        "tagteam:subject": "Preclearance",
+        "tagteam:pattern": "predication",
+        "tagteam:copula": "is"
+      },
+      {
+        "@id": "inst:Role_travelers_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:travelers"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_inspecting"
+        },
+        "rdfs:label": "travelers as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:Artifact_Preclearance_94a11ad08955",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "preclearance",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.020Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_c74835b2caa5",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Travelers_34477db6ed40",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "travelers",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.020Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_c74835b2caa5",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_c74835b2caa5",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "Preclearance is a CBP program for inspecting travelers abroad",
+        "tagteam:char_count": 61,
+        "tagteam:word_count": 9,
+        "tagteam:received_at": "2026-02-18T02:11:44.007Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_c74835b2",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_c74835b2caa5"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:Preclearance"
+          },
+          {
+            "@id": "inst:travelers"
+          },
+          {
+            "@id": "inst:Act_inspecting"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.007Z"
+      }
+    ]
+  }
+}

@@ -1,0 +1,230 @@
+{
+  "id": "adv-rel-007",
+  "text": "The smugglers who operated the tunnel network were indicted",
+  "subset": "adversarial",
+  "tags": [
+    "relative-clause",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:45.350Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The smugglers",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the tunnel network",
+      "type": "cco:Facility"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "smugglers",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The smugglers",
+      "type": "bfo:Entity",
+      "id": "inst:The_smugglers"
+    },
+    {
+      "text": "who",
+      "type": "cco:Organization",
+      "id": "inst:who"
+    },
+    {
+      "text": "the tunnel network",
+      "type": "bfo:Entity",
+      "id": "inst:the_tunnel_network"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The smugglers",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_smugglers",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The smugglers",
+        "tagteam:mentionId": "s0:h2:0-13",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Smugglers_6edec64737ae"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_57d88cbba13c"
+        }
+      },
+      {
+        "@id": "inst:who",
+        "@type": [
+          "cco:Organization",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "who",
+        "tagteam:mentionId": "s0:h3:14-17",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804,
+        "tagteam:denotesType": "cco:Organization",
+        "cco:is_about": {
+          "@id": "inst:Organization_Who_6e5a525a89e0"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_57d88cbba13c"
+        }
+      },
+      {
+        "@id": "inst:the_tunnel_network",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the tunnel network",
+        "tagteam:mentionId": "s0:h7:27-45",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Tunnel_Network_25cafdcbb019"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_57d88cbba13c"
+        }
+      },
+      {
+        "@id": "inst:Act_indicted",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "indicted",
+        "tagteam:lemma": "indict",
+        "tagteam:isPassive": true,
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_57d88cbba13c"
+        }
+      },
+      {
+        "@id": "inst:Role_The_smugglers_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_smugglers"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_indicted"
+        },
+        "rdfs:label": "The smugglers as PatientRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Artifact_Smugglers_6edec64737ae",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "smugglers",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.350Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_57d88cbba13c",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Organization_Who_6e5a525a89e0",
+        "@type": [
+          "cco:Organization",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "who",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.350Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_57d88cbba13c",
+        "tagteam:denotesType": "cco:Organization"
+      },
+      {
+        "@id": "inst:Artifact_Tunnel_Network_25cafdcbb019",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "tunnel network",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.350Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_57d88cbba13c",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_57d88cbba13c",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The smugglers who operated the tunnel network were indicted",
+        "tagteam:char_count": 59,
+        "tagteam:word_count": 9,
+        "tagteam:received_at": "2026-02-18T02:11:45.339Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_57d88cbb",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_57d88cbba13c"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_smugglers"
+          },
+          {
+            "@id": "inst:who"
+          },
+          {
+            "@id": "inst:the_tunnel_network"
+          },
+          {
+            "@id": "inst:Act_indicted"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.339Z"
+      }
+    ]
+  }
+}

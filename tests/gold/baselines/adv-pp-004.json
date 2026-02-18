@@ -1,0 +1,309 @@
+{
+  "id": "adv-pp-004",
+  "text": "The task force investigated the network of smugglers across the border",
+  "subset": "adversarial",
+  "tags": [
+    "nested-pp",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:45.028Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The task force",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the network",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the border",
+      "type": "cco:Facility"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "task force",
+      "role": "Agent"
+    },
+    {
+      "entity": "network",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The task force",
+      "type": "bfo:Entity",
+      "id": "inst:The_task_force"
+    },
+    {
+      "text": "the network of smugglers",
+      "type": "bfo:Entity",
+      "id": "inst:the_network_of_smugglers"
+    },
+    {
+      "text": "smugglers",
+      "type": "bfo:Entity",
+      "id": "inst:smugglers"
+    },
+    {
+      "text": "the border",
+      "type": "bfo:Entity",
+      "id": "inst:the_border"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The task force",
+      "role": "Agent"
+    },
+    {
+      "entity": "the network of smugglers",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_task_force",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The task force",
+        "tagteam:mentionId": "s0:h3:0-14",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Task_Force_b588238138af"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_d2e6a30f1301"
+        }
+      },
+      {
+        "@id": "inst:the_network_of_smugglers",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the network of smugglers",
+        "tagteam:mentionId": "s0:h6:28-52",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Network_Of_Smugglers_8f6fed2d6c5f"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_d2e6a30f1301"
+        }
+      },
+      {
+        "@id": "inst:smugglers",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "smugglers",
+        "tagteam:mentionId": "s0:h8:43-52",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Smugglers_3f31194e4cd2"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_d2e6a30f1301"
+        }
+      },
+      {
+        "@id": "inst:the_border",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the border",
+        "tagteam:mentionId": "s0:h11:60-70",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Border_eb93dcc7fee6"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_d2e6a30f1301"
+        }
+      },
+      {
+        "@id": "inst:Act_investigated",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "investigated",
+        "tagteam:lemma": "investigat",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_d2e6a30f1301"
+        }
+      },
+      {
+        "@id": "inst:Role_The_task_force_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_task_force"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_investigated"
+        },
+        "rdfs:label": "The task force as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_network_of_smugglers_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_network_of_smugglers"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_investigated"
+        },
+        "rdfs:label": "the network of smugglers as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Role_the_border_cco_ObliqueRole",
+        "@type": [
+          "cco:ObliqueRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_border"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_investigated"
+        },
+        "rdfs:label": "the border as ObliqueRole",
+        "tagteam:preposition": "across",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Artifact_Task_Force_b588238138af",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "task force",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.028Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_d2e6a30f1301",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Network_Of_Smugglers_8f6fed2d6c5f",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "network of smugglers",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.028Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_d2e6a30f1301",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Smugglers_3f31194e4cd2",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "smugglers",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.028Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_d2e6a30f1301",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Border_eb93dcc7fee6",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "border",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.028Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_d2e6a30f1301",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_d2e6a30f1301",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The task force investigated the network of smugglers across the border",
+        "tagteam:char_count": 70,
+        "tagteam:word_count": 11,
+        "tagteam:received_at": "2026-02-18T02:11:45.016Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_d2e6a30f",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_d2e6a30f1301"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_task_force"
+          },
+          {
+            "@id": "inst:the_network_of_smugglers"
+          },
+          {
+            "@id": "inst:smugglers"
+          },
+          {
+            "@id": "inst:the_border"
+          },
+          {
+            "@id": "inst:Act_investigated"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.016Z"
+      }
+    ]
+  }
+}

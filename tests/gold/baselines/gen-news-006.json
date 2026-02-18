@@ -1,0 +1,215 @@
+{
+  "id": "gen-news-006",
+  "text": "The court overturned the conviction",
+  "subset": "general",
+  "tags": [
+    "news",
+    "legal"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.569Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The court",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the conviction",
+      "type": "bfo:Process"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "court",
+      "role": "Agent"
+    },
+    {
+      "entity": "conviction",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The court",
+      "type": "bfo:Entity",
+      "id": "inst:The_court"
+    },
+    {
+      "text": "the conviction",
+      "type": "bfo:Entity",
+      "id": "inst:the_conviction"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The court",
+      "role": "Agent"
+    },
+    {
+      "entity": "the conviction",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_court",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The court",
+        "tagteam:mentionId": "s0:h2:0-9",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9479,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Court_8a40d3f28fd3"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_12d4f768dc8b"
+        }
+      },
+      {
+        "@id": "inst:the_conviction",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the conviction",
+        "tagteam:mentionId": "s0:h5:21-35",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Conviction_c85d5fd914a4"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_12d4f768dc8b"
+        }
+      },
+      {
+        "@id": "inst:Act_overturned",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "overturned",
+        "tagteam:lemma": "overturn",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_12d4f768dc8b"
+        }
+      },
+      {
+        "@id": "inst:Role_The_court_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_court"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_overturned"
+        },
+        "rdfs:label": "The court as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9479
+      },
+      {
+        "@id": "inst:Role_the_conviction_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_conviction"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_overturned"
+        },
+        "rdfs:label": "the conviction as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Artifact_Court_8a40d3f28fd3",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "court",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.568Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_12d4f768dc8b",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Conviction_c85d5fd914a4",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "conviction",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.568Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_12d4f768dc8b",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_12d4f768dc8b",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The court overturned the conviction",
+        "tagteam:char_count": 35,
+        "tagteam:word_count": 5,
+        "tagteam:received_at": "2026-02-18T02:11:44.562Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_12d4f768",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_12d4f768dc8b"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_court"
+          },
+          {
+            "@id": "inst:the_conviction"
+          },
+          {
+            "@id": "inst:Act_overturned"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.562Z"
+      }
+    ]
+  }
+}

@@ -1,15 +1,25 @@
 /**
  * Phase 4D: Gold Evaluation Sentences
  *
- * 70 curated sentences for F1 evaluation of the tree pipeline.
- * Split into 3 subsets:
- *   - organizational (50): copular/definitional + SVO organizational patterns
+ * 200 curated sentences for F1 evaluation of the tree pipeline.
+ * Split into 8 subsets:
+ *   - organizational (53): copular/definitional + SVO + passive + ditransitive
  *   - coordination  (20): coordinated NNPs requiring split/keep decisions
+ *   - stative-passive (10): stative vs agentive passive distinction (AC-4.2b)
+ *   - three-way-coord (5): three-way coordination (AC-4.3)
+ *   - cbp-domain (60): CBP/DHS domain expansion
+ *   - general (30): news, academic, medical, legal
+ *   - adversarial (22): long NPs, nested PPs, relative clauses, multi-clause
+ *
+ * Sourcing principle:
+ *   - 50% CBP/DHS domain (~100 sentences)
+ *   - 25% general English (~50 sentences)
+ *   - 25% adversarial/edge-case (~50 sentences)
  *
  * Each sentence has:
  *   - id: unique identifier
  *   - text: input sentence
- *   - subset: 'organizational' | 'coordination'
+ *   - subset: category name
  *   - expectedEntities: gold entity annotations [{text, type}]
  *   - expectedRoles: gold role annotations [{entity, role}]
  *   - tags: metadata tags
@@ -861,6 +871,2071 @@ const sentences = [
     expectedRoles: [
       { entity: 'State', role: 'Agent' },
       { entity: 'local authorities', role: 'Agent' }
+    ]
+  },
+
+  // ==========================================================================
+  // Subset: organizational — Additional Ditransitive (3 more, AC-4.3b)
+  // ==========================================================================
+  {
+    id: 'org-ditr-003',
+    text: 'The director sent the field office updated instructions',
+    subset: 'organizational',
+    tags: ['ditransitive', 'government', 'action'],
+    expectedEntities: [
+      { text: 'The director', type: 'cco:Person' },
+      { text: 'the field office', type: 'cco:Organization' },
+      { text: 'updated instructions', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'director', role: 'Agent' },
+      { entity: 'field office', role: 'Recipient' },
+      { entity: 'instructions', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'org-ditr-004',
+    text: 'The instructor taught the recruits defensive tactics',
+    subset: 'organizational',
+    tags: ['ditransitive', 'government', 'action'],
+    expectedEntities: [
+      { text: 'The instructor', type: 'cco:Person' },
+      { text: 'the recruits', type: 'cco:Person' },
+      { text: 'defensive tactics', type: 'bfo:Process' }
+    ],
+    expectedRoles: [
+      { entity: 'instructor', role: 'Agent' },
+      { entity: 'recruits', role: 'Recipient' },
+      { entity: 'tactics', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'org-ditr-005',
+    text: 'The administrator handed the officer a new badge',
+    subset: 'organizational',
+    tags: ['ditransitive', 'government', 'action'],
+    expectedEntities: [
+      { text: 'The administrator', type: 'cco:Person' },
+      { text: 'the officer', type: 'cco:Person' },
+      { text: 'a new badge', type: 'cco:Artifact' }
+    ],
+    expectedRoles: [
+      { entity: 'administrator', role: 'Agent' },
+      { entity: 'officer', role: 'Recipient' },
+      { entity: 'badge', role: 'Patient' }
+    ]
+  },
+
+  // ==========================================================================
+  // Subset: stative-passive — Stative vs Agentive Passive (AC-4.2b)
+  // ==========================================================================
+  // Stative passives: NO agent implied (state descriptions)
+  {
+    id: 'stative-001',
+    text: 'The headquarters is located in Washington',
+    subset: 'stative-passive',
+    tags: ['stative', 'passive', 'government'],
+    expectedEntities: [
+      { text: 'The headquarters', type: 'cco:Facility' },
+      { text: 'Washington', type: 'cco:GeopoliticalEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'Washington', role: 'Location' }
+    ]
+  },
+  {
+    id: 'stative-002',
+    text: 'The agency is known as the lead federal enforcement body',
+    subset: 'stative-passive',
+    tags: ['stative', 'passive', 'government'],
+    expectedEntities: [
+      { text: 'The agency', type: 'cco:Organization' },
+      { text: 'the lead federal enforcement body', type: 'cco:Organization' }
+    ],
+    expectedRoles: []
+  },
+  {
+    id: 'stative-003',
+    text: 'The department is composed of several divisions',
+    subset: 'stative-passive',
+    tags: ['stative', 'passive', 'government'],
+    expectedEntities: [
+      { text: 'The department', type: 'cco:Organization' },
+      { text: 'several divisions', type: 'cco:Organization' }
+    ],
+    expectedRoles: []
+  },
+  {
+    id: 'stative-004',
+    text: 'The region is divided into five operational sectors',
+    subset: 'stative-passive',
+    tags: ['stative', 'passive', 'government'],
+    expectedEntities: [
+      { text: 'The region', type: 'cco:GeopoliticalEntity' },
+      { text: 'five operational sectors', type: 'cco:Organization' }
+    ],
+    expectedRoles: []
+  },
+  {
+    id: 'stative-005',
+    text: 'The substance is classified as a controlled material',
+    subset: 'stative-passive',
+    tags: ['stative', 'passive', 'government'],
+    expectedEntities: [
+      { text: 'The substance', type: 'bfo:Entity' },
+      { text: 'a controlled material', type: 'bfo:Entity' }
+    ],
+    expectedRoles: []
+  },
+  // Agentive passives: AGENT implied (someone did it)
+  {
+    id: 'agentive-001',
+    text: 'The suspect was located by the tracking team',
+    subset: 'stative-passive',
+    tags: ['agentive', 'passive', 'government'],
+    expectedEntities: [
+      { text: 'The suspect', type: 'cco:Person' },
+      { text: 'the tracking team', type: 'cco:Organization' }
+    ],
+    expectedRoles: [
+      { entity: 'tracking team', role: 'Agent' },
+      { entity: 'suspect', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'agentive-002',
+    text: 'The contraband was identified by the canine unit',
+    subset: 'stative-passive',
+    tags: ['agentive', 'passive', 'government'],
+    expectedEntities: [
+      { text: 'The contraband', type: 'bfo:Entity' },
+      { text: 'the canine unit', type: 'cco:Organization' }
+    ],
+    expectedRoles: [
+      { entity: 'canine unit', role: 'Agent' },
+      { entity: 'contraband', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'agentive-003',
+    text: 'The report was composed by the senior analyst',
+    subset: 'stative-passive',
+    tags: ['agentive', 'passive', 'government'],
+    expectedEntities: [
+      { text: 'The report', type: 'cco:InformationContentEntity' },
+      { text: 'the senior analyst', type: 'cco:Person' }
+    ],
+    expectedRoles: [
+      { entity: 'senior analyst', role: 'Agent' },
+      { entity: 'report', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'agentive-004',
+    text: 'The territory was divided by the planning committee',
+    subset: 'stative-passive',
+    tags: ['agentive', 'passive', 'government'],
+    expectedEntities: [
+      { text: 'The territory', type: 'cco:GeopoliticalEntity' },
+      { text: 'the planning committee', type: 'cco:Organization' }
+    ],
+    expectedRoles: [
+      { entity: 'planning committee', role: 'Agent' },
+      { entity: 'territory', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'agentive-005',
+    text: 'The shipment was classified by the customs inspector',
+    subset: 'stative-passive',
+    tags: ['agentive', 'passive', 'government'],
+    expectedEntities: [
+      { text: 'The shipment', type: 'bfo:Entity' },
+      { text: 'the customs inspector', type: 'cco:Person' }
+    ],
+    expectedRoles: [
+      { entity: 'customs inspector', role: 'Agent' },
+      { entity: 'shipment', role: 'Patient' }
+    ]
+  },
+
+  // ==========================================================================
+  // Subset: three-way-coord — Three-Way Coordination (AC-4.3)
+  // ==========================================================================
+  {
+    id: 'coord-three-001',
+    text: 'The FBI, DEA, and ATF coordinated the joint operation',
+    subset: 'three-way-coord',
+    tags: ['three-way', 'coordination', 'government'],
+    expectedEntities: [
+      { text: 'The FBI', type: 'cco:Organization' },
+      { text: 'DEA', type: 'cco:Organization' },
+      { text: 'ATF', type: 'cco:Organization' },
+      { text: 'the joint operation', type: 'bfo:Process' }
+    ],
+    expectedRoles: [
+      { entity: 'FBI', role: 'Agent' },
+      { entity: 'DEA', role: 'Agent' },
+      { entity: 'ATF', role: 'Agent' },
+      { entity: 'operation', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'coord-three-002',
+    text: 'CBP, ICE, and TSA are components of DHS',
+    subset: 'three-way-coord',
+    tags: ['three-way', 'coordination', 'copular', 'government'],
+    expectedEntities: [
+      { text: 'CBP', type: 'cco:Organization' },
+      { text: 'ICE', type: 'cco:Organization' },
+      { text: 'TSA', type: 'cco:Organization' },
+      { text: 'DHS', type: 'cco:Organization' }
+    ],
+    expectedRoles: []
+  },
+  {
+    id: 'coord-three-003',
+    text: 'The agent, the analyst, and the supervisor reviewed the case',
+    subset: 'three-way-coord',
+    tags: ['three-way', 'coordination', 'government'],
+    expectedEntities: [
+      { text: 'The agent', type: 'cco:Person' },
+      { text: 'the analyst', type: 'cco:Person' },
+      { text: 'the supervisor', type: 'cco:Person' },
+      { text: 'the case', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'agent', role: 'Agent' },
+      { entity: 'analyst', role: 'Agent' },
+      { entity: 'supervisor', role: 'Agent' },
+      { entity: 'case', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'coord-three-004',
+    text: 'Federal, state, and local agencies responded to the emergency',
+    subset: 'three-way-coord',
+    tags: ['three-way', 'coordination', 'government'],
+    expectedEntities: [
+      { text: 'Federal', type: 'cco:Organization' },
+      { text: 'state', type: 'cco:Organization' },
+      { text: 'local agencies', type: 'cco:Organization' },
+      { text: 'the emergency', type: 'bfo:Process' }
+    ],
+    expectedRoles: [
+      { entity: 'Federal', role: 'Agent' },
+      { entity: 'state', role: 'Agent' },
+      { entity: 'local agencies', role: 'Agent' },
+      { entity: 'emergency', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'coord-three-005',
+    text: 'The director, the deputy, and the chief of staff approved the plan',
+    subset: 'three-way-coord',
+    tags: ['three-way', 'coordination', 'government'],
+    expectedEntities: [
+      { text: 'The director', type: 'cco:Person' },
+      { text: 'the deputy', type: 'cco:Person' },
+      { text: 'the chief of staff', type: 'cco:Person' },
+      { text: 'the plan', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'director', role: 'Agent' },
+      { entity: 'deputy', role: 'Agent' },
+      { entity: 'chief of staff', role: 'Agent' },
+      { entity: 'plan', role: 'Patient' }
+    ]
+  },
+
+  // ==========================================================================
+  // Subset: cbp-domain — CBP/DHS Domain Expansion (60 sentences)
+  // ==========================================================================
+
+  // --- CBP SVO (20) ---
+  {
+    id: 'cbp-svo-001',
+    text: 'The border agent intercepted the shipment',
+    subset: 'cbp-domain',
+    tags: ['svo', 'cbp', 'enforcement'],
+    expectedEntities: [
+      { text: 'The border agent', type: 'cco:Person' },
+      { text: 'the shipment', type: 'bfo:Entity' }
+    ],
+    expectedRoles: [
+      { entity: 'border agent', role: 'Agent' },
+      { entity: 'shipment', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-svo-002',
+    text: 'The customs officer inspected the cargo',
+    subset: 'cbp-domain',
+    tags: ['svo', 'cbp', 'inspection'],
+    expectedEntities: [
+      { text: 'The customs officer', type: 'cco:Person' },
+      { text: 'the cargo', type: 'bfo:Entity' }
+    ],
+    expectedRoles: [
+      { entity: 'customs officer', role: 'Agent' },
+      { entity: 'cargo', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-svo-003',
+    text: 'The patrol unit monitored the crossing',
+    subset: 'cbp-domain',
+    tags: ['svo', 'cbp', 'surveillance'],
+    expectedEntities: [
+      { text: 'The patrol unit', type: 'cco:Organization' },
+      { text: 'the crossing', type: 'cco:Facility' }
+    ],
+    expectedRoles: [
+      { entity: 'patrol unit', role: 'Agent' },
+      { entity: 'crossing', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-svo-004',
+    text: 'The intelligence analyst identified the threat',
+    subset: 'cbp-domain',
+    tags: ['svo', 'cbp', 'intelligence'],
+    expectedEntities: [
+      { text: 'The intelligence analyst', type: 'cco:Person' },
+      { text: 'the threat', type: 'bfo:Entity' }
+    ],
+    expectedRoles: [
+      { entity: 'intelligence analyst', role: 'Agent' },
+      { entity: 'threat', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-svo-005',
+    text: 'The field operations directorate managed the ports of entry',
+    subset: 'cbp-domain',
+    tags: ['svo', 'cbp', 'operations'],
+    expectedEntities: [
+      { text: 'The field operations directorate', type: 'cco:Organization' },
+      { text: 'the ports of entry', type: 'cco:Facility' }
+    ],
+    expectedRoles: [
+      { entity: 'field operations directorate', role: 'Agent' },
+      { entity: 'ports of entry', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-svo-006',
+    text: 'The sector chief deployed additional resources',
+    subset: 'cbp-domain',
+    tags: ['svo', 'cbp', 'operations'],
+    expectedEntities: [
+      { text: 'The sector chief', type: 'cco:Person' },
+      { text: 'additional resources', type: 'bfo:Entity' }
+    ],
+    expectedRoles: [
+      { entity: 'sector chief', role: 'Agent' },
+      { entity: 'resources', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-svo-007',
+    text: 'The trade compliance officer assessed the tariff schedule',
+    subset: 'cbp-domain',
+    tags: ['svo', 'cbp', 'trade'],
+    expectedEntities: [
+      { text: 'The trade compliance officer', type: 'cco:Person' },
+      { text: 'the tariff schedule', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'trade compliance officer', role: 'Agent' },
+      { entity: 'tariff schedule', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-svo-008',
+    text: 'The K-9 handler detected narcotics',
+    subset: 'cbp-domain',
+    tags: ['svo', 'cbp', 'enforcement'],
+    expectedEntities: [
+      { text: 'The K-9 handler', type: 'cco:Person' },
+      { text: 'narcotics', type: 'bfo:Entity' }
+    ],
+    expectedRoles: [
+      { entity: 'K-9 handler', role: 'Agent' },
+      { entity: 'narcotics', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-svo-009',
+    text: 'The processing center documented the encounter',
+    subset: 'cbp-domain',
+    tags: ['svo', 'cbp', 'processing'],
+    expectedEntities: [
+      { text: 'The processing center', type: 'cco:Facility' },
+      { text: 'the encounter', type: 'bfo:Process' }
+    ],
+    expectedRoles: [
+      { entity: 'processing center', role: 'Agent' },
+      { entity: 'encounter', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-svo-010',
+    text: 'The commissioner issued a directive',
+    subset: 'cbp-domain',
+    tags: ['svo', 'cbp', 'leadership'],
+    expectedEntities: [
+      { text: 'The commissioner', type: 'cco:Person' },
+      { text: 'a directive', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'commissioner', role: 'Agent' },
+      { entity: 'directive', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-svo-011',
+    text: 'The air and marine operations center tracked the aircraft',
+    subset: 'cbp-domain',
+    tags: ['svo', 'cbp', 'surveillance'],
+    expectedEntities: [
+      { text: 'The air and marine operations center', type: 'cco:Organization' },
+      { text: 'the aircraft', type: 'cco:Artifact' }
+    ],
+    expectedRoles: [
+      { entity: 'air and marine operations center', role: 'Agent' },
+      { entity: 'aircraft', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-svo-012',
+    text: 'The import specialist verified the declaration',
+    subset: 'cbp-domain',
+    tags: ['svo', 'cbp', 'trade'],
+    expectedEntities: [
+      { text: 'The import specialist', type: 'cco:Person' },
+      { text: 'the declaration', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'import specialist', role: 'Agent' },
+      { entity: 'declaration', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-svo-013',
+    text: 'The station commander authorized overtime',
+    subset: 'cbp-domain',
+    tags: ['svo', 'cbp', 'operations'],
+    expectedEntities: [
+      { text: 'The station commander', type: 'cco:Person' },
+      { text: 'overtime', type: 'bfo:Entity' }
+    ],
+    expectedRoles: [
+      { entity: 'station commander', role: 'Agent' },
+      { entity: 'overtime', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-svo-014',
+    text: 'The agriculture specialist quarantined the produce',
+    subset: 'cbp-domain',
+    tags: ['svo', 'cbp', 'agriculture'],
+    expectedEntities: [
+      { text: 'The agriculture specialist', type: 'cco:Person' },
+      { text: 'the produce', type: 'bfo:Entity' }
+    ],
+    expectedRoles: [
+      { entity: 'agriculture specialist', role: 'Agent' },
+      { entity: 'produce', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-svo-015',
+    text: 'The targeting center flagged the container',
+    subset: 'cbp-domain',
+    tags: ['svo', 'cbp', 'intelligence'],
+    expectedEntities: [
+      { text: 'The targeting center', type: 'cco:Organization' },
+      { text: 'the container', type: 'cco:Artifact' }
+    ],
+    expectedRoles: [
+      { entity: 'targeting center', role: 'Agent' },
+      { entity: 'container', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-svo-016',
+    text: 'The lab technician tested the sample',
+    subset: 'cbp-domain',
+    tags: ['svo', 'cbp', 'forensics'],
+    expectedEntities: [
+      { text: 'The lab technician', type: 'cco:Person' },
+      { text: 'the sample', type: 'bfo:Entity' }
+    ],
+    expectedRoles: [
+      { entity: 'lab technician', role: 'Agent' },
+      { entity: 'sample', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-svo-017',
+    text: 'The liaison officer coordinated the response',
+    subset: 'cbp-domain',
+    tags: ['svo', 'cbp', 'operations'],
+    expectedEntities: [
+      { text: 'The liaison officer', type: 'cco:Person' },
+      { text: 'the response', type: 'bfo:Process' }
+    ],
+    expectedRoles: [
+      { entity: 'liaison officer', role: 'Agent' },
+      { entity: 'response', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-svo-018',
+    text: 'The watch commander initiated the lockdown',
+    subset: 'cbp-domain',
+    tags: ['svo', 'cbp', 'operations'],
+    expectedEntities: [
+      { text: 'The watch commander', type: 'cco:Person' },
+      { text: 'the lockdown', type: 'bfo:Process' }
+    ],
+    expectedRoles: [
+      { entity: 'watch commander', role: 'Agent' },
+      { entity: 'lockdown', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-svo-019',
+    text: 'The training division developed the curriculum',
+    subset: 'cbp-domain',
+    tags: ['svo', 'cbp', 'training'],
+    expectedEntities: [
+      { text: 'The training division', type: 'cco:Organization' },
+      { text: 'the curriculum', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'training division', role: 'Agent' },
+      { entity: 'curriculum', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-svo-020',
+    text: 'The procurement office acquired new equipment',
+    subset: 'cbp-domain',
+    tags: ['svo', 'cbp', 'logistics'],
+    expectedEntities: [
+      { text: 'The procurement office', type: 'cco:Organization' },
+      { text: 'new equipment', type: 'cco:Artifact' }
+    ],
+    expectedRoles: [
+      { entity: 'procurement office', role: 'Agent' },
+      { entity: 'equipment', role: 'Patient' }
+    ]
+  },
+
+  // --- CBP Copular (15) ---
+  {
+    id: 'cbp-cop-001',
+    text: 'The Office of Field Operations is the largest component of CBP',
+    subset: 'cbp-domain',
+    tags: ['copular', 'cbp'],
+    expectedEntities: [
+      { text: 'The Office of Field Operations', type: 'cco:Organization' },
+      { text: 'CBP', type: 'cco:Organization' }
+    ],
+    expectedRoles: []
+  },
+  {
+    id: 'cbp-cop-002',
+    text: 'A port of entry is an authorized crossing point',
+    subset: 'cbp-domain',
+    tags: ['copular', 'cbp'],
+    expectedEntities: [
+      { text: 'A port of entry', type: 'cco:Facility' },
+      { text: 'an authorized crossing point', type: 'cco:Facility' }
+    ],
+    expectedRoles: []
+  },
+  {
+    id: 'cbp-cop-003',
+    text: 'The Border Patrol is the mobile enforcement arm of CBP',
+    subset: 'cbp-domain',
+    tags: ['copular', 'cbp'],
+    expectedEntities: [
+      { text: 'The Border Patrol', type: 'cco:Organization' },
+      { text: 'CBP', type: 'cco:Organization' }
+    ],
+    expectedRoles: []
+  },
+  {
+    id: 'cbp-cop-004',
+    text: 'TECS is the primary law enforcement database',
+    subset: 'cbp-domain',
+    tags: ['copular', 'cbp'],
+    expectedEntities: [
+      { text: 'TECS', type: 'cco:Artifact' },
+      { text: 'the primary law enforcement database', type: 'cco:Artifact' }
+    ],
+    expectedRoles: []
+  },
+  {
+    id: 'cbp-cop-005',
+    text: 'The CBP Academy is a training facility in Georgia',
+    subset: 'cbp-domain',
+    tags: ['copular', 'cbp'],
+    expectedEntities: [
+      { text: 'The CBP Academy', type: 'cco:Facility' },
+      { text: 'a training facility', type: 'cco:Facility' },
+      { text: 'Georgia', type: 'cco:GeopoliticalEntity' }
+    ],
+    expectedRoles: []
+  },
+  {
+    id: 'cbp-cop-006',
+    text: 'Preclearance is a CBP program for inspecting travelers abroad',
+    subset: 'cbp-domain',
+    tags: ['copular', 'cbp'],
+    expectedEntities: [
+      { text: 'Preclearance', type: 'bfo:Process' },
+      { text: 'a CBP program', type: 'bfo:Process' }
+    ],
+    expectedRoles: []
+  },
+  {
+    id: 'cbp-cop-007',
+    text: 'Global Entry is a trusted traveler program',
+    subset: 'cbp-domain',
+    tags: ['copular', 'cbp'],
+    expectedEntities: [
+      { text: 'Global Entry', type: 'bfo:Process' },
+      { text: 'a trusted traveler program', type: 'bfo:Process' }
+    ],
+    expectedRoles: []
+  },
+  {
+    id: 'cbp-cop-008',
+    text: 'The sector is a geographic area of responsibility',
+    subset: 'cbp-domain',
+    tags: ['copular', 'cbp'],
+    expectedEntities: [
+      { text: 'The sector', type: 'cco:Organization' },
+      { text: 'a geographic area of responsibility', type: 'cco:GeopoliticalEntity' }
+    ],
+    expectedRoles: []
+  },
+  {
+    id: 'cbp-cop-009',
+    text: 'The checkpoint is a fixed inspection station',
+    subset: 'cbp-domain',
+    tags: ['copular', 'cbp'],
+    expectedEntities: [
+      { text: 'The checkpoint', type: 'cco:Facility' },
+      { text: 'a fixed inspection station', type: 'cco:Facility' }
+    ],
+    expectedRoles: []
+  },
+  {
+    id: 'cbp-cop-010',
+    text: 'The National Targeting Center is a counterterrorism facility',
+    subset: 'cbp-domain',
+    tags: ['copular', 'cbp'],
+    expectedEntities: [
+      { text: 'The National Targeting Center', type: 'cco:Organization' },
+      { text: 'a counterterrorism facility', type: 'cco:Facility' }
+    ],
+    expectedRoles: []
+  },
+  {
+    id: 'cbp-cop-011',
+    text: 'The duty officer is the primary contact for emergencies',
+    subset: 'cbp-domain',
+    tags: ['copular', 'cbp'],
+    expectedEntities: [
+      { text: 'The duty officer', type: 'cco:Person' },
+      { text: 'the primary contact', type: 'cco:Person' }
+    ],
+    expectedRoles: []
+  },
+  {
+    id: 'cbp-cop-012',
+    text: 'ACE is the automated commercial environment system',
+    subset: 'cbp-domain',
+    tags: ['copular', 'cbp', 'trade'],
+    expectedEntities: [
+      { text: 'ACE', type: 'cco:Artifact' },
+      { text: 'the automated commercial environment system', type: 'cco:Artifact' }
+    ],
+    expectedRoles: []
+  },
+  {
+    id: 'cbp-cop-013',
+    text: 'C-TPAT is a voluntary trade partnership program',
+    subset: 'cbp-domain',
+    tags: ['copular', 'cbp', 'trade'],
+    expectedEntities: [
+      { text: 'C-TPAT', type: 'bfo:Process' },
+      { text: 'a voluntary trade partnership program', type: 'bfo:Process' }
+    ],
+    expectedRoles: []
+  },
+  {
+    id: 'cbp-cop-014',
+    text: 'The operational commander is the senior field official',
+    subset: 'cbp-domain',
+    tags: ['copular', 'cbp'],
+    expectedEntities: [
+      { text: 'The operational commander', type: 'cco:Person' },
+      { text: 'the senior field official', type: 'cco:Person' }
+    ],
+    expectedRoles: []
+  },
+  {
+    id: 'cbp-cop-015',
+    text: 'SENTRI is a border crossing program for low-risk travelers',
+    subset: 'cbp-domain',
+    tags: ['copular', 'cbp'],
+    expectedEntities: [
+      { text: 'SENTRI', type: 'bfo:Process' },
+      { text: 'a border crossing program', type: 'bfo:Process' }
+    ],
+    expectedRoles: []
+  },
+
+  // --- CBP Passive (10) ---
+  {
+    id: 'cbp-pass-001',
+    text: 'The cargo was seized by customs officers',
+    subset: 'cbp-domain',
+    tags: ['passive', 'cbp'],
+    expectedEntities: [
+      { text: 'The cargo', type: 'bfo:Entity' },
+      { text: 'customs officers', type: 'cco:Person' }
+    ],
+    expectedRoles: [
+      { entity: 'customs officers', role: 'Agent' },
+      { entity: 'cargo', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-pass-002',
+    text: 'The vehicle was searched at the checkpoint',
+    subset: 'cbp-domain',
+    tags: ['passive', 'cbp'],
+    expectedEntities: [
+      { text: 'The vehicle', type: 'cco:Artifact' },
+      { text: 'the checkpoint', type: 'cco:Facility' }
+    ],
+    expectedRoles: [
+      { entity: 'vehicle', role: 'Patient' },
+      { entity: 'checkpoint', role: 'Location' }
+    ]
+  },
+  {
+    id: 'cbp-pass-003',
+    text: 'The traveler was referred to secondary inspection',
+    subset: 'cbp-domain',
+    tags: ['passive', 'cbp'],
+    expectedEntities: [
+      { text: 'The traveler', type: 'cco:Person' },
+      { text: 'secondary inspection', type: 'bfo:Process' }
+    ],
+    expectedRoles: [
+      { entity: 'traveler', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-pass-004',
+    text: 'The border wall was constructed by the Army Corps of Engineers',
+    subset: 'cbp-domain',
+    tags: ['passive', 'cbp'],
+    expectedEntities: [
+      { text: 'The border wall', type: 'cco:Facility' },
+      { text: 'the Army Corps of Engineers', type: 'cco:Organization' }
+    ],
+    expectedRoles: [
+      { entity: 'Army Corps of Engineers', role: 'Agent' },
+      { entity: 'border wall', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-pass-005',
+    text: 'The intelligence report was distributed to all sectors',
+    subset: 'cbp-domain',
+    tags: ['passive', 'cbp'],
+    expectedEntities: [
+      { text: 'The intelligence report', type: 'cco:InformationContentEntity' },
+      { text: 'all sectors', type: 'cco:Organization' }
+    ],
+    expectedRoles: [
+      { entity: 'intelligence report', role: 'Patient' },
+      { entity: 'sectors', role: 'Recipient' }
+    ]
+  },
+  {
+    id: 'cbp-pass-006',
+    text: 'The new policy was implemented across all field offices',
+    subset: 'cbp-domain',
+    tags: ['passive', 'cbp'],
+    expectedEntities: [
+      { text: 'The new policy', type: 'cco:InformationContentEntity' },
+      { text: 'all field offices', type: 'cco:Organization' }
+    ],
+    expectedRoles: [
+      { entity: 'policy', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-pass-007',
+    text: 'The narcotics were discovered in a hidden compartment',
+    subset: 'cbp-domain',
+    tags: ['passive', 'cbp'],
+    expectedEntities: [
+      { text: 'The narcotics', type: 'bfo:Entity' },
+      { text: 'a hidden compartment', type: 'cco:Artifact' }
+    ],
+    expectedRoles: [
+      { entity: 'narcotics', role: 'Patient' },
+      { entity: 'compartment', role: 'Location' }
+    ]
+  },
+  {
+    id: 'cbp-pass-008',
+    text: 'The suspect was transferred to federal custody',
+    subset: 'cbp-domain',
+    tags: ['passive', 'cbp'],
+    expectedEntities: [
+      { text: 'The suspect', type: 'cco:Person' },
+      { text: 'federal custody', type: 'bfo:Entity' }
+    ],
+    expectedRoles: [
+      { entity: 'suspect', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-pass-009',
+    text: 'Additional agents were deployed by the sector chief',
+    subset: 'cbp-domain',
+    tags: ['passive', 'cbp'],
+    expectedEntities: [
+      { text: 'Additional agents', type: 'cco:Person' },
+      { text: 'the sector chief', type: 'cco:Person' }
+    ],
+    expectedRoles: [
+      { entity: 'sector chief', role: 'Agent' },
+      { entity: 'agents', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-pass-010',
+    text: 'The counterfeit goods were confiscated at the port',
+    subset: 'cbp-domain',
+    tags: ['passive', 'cbp'],
+    expectedEntities: [
+      { text: 'The counterfeit goods', type: 'cco:Artifact' },
+      { text: 'the port', type: 'cco:Facility' }
+    ],
+    expectedRoles: [
+      { entity: 'goods', role: 'Patient' },
+      { entity: 'port', role: 'Location' }
+    ]
+  },
+
+  // --- CBP PP-modified (10) ---
+  {
+    id: 'cbp-pp-001',
+    text: 'The agent filed the report at the station',
+    subset: 'cbp-domain',
+    tags: ['pp', 'cbp'],
+    expectedEntities: [
+      { text: 'The agent', type: 'cco:Person' },
+      { text: 'the report', type: 'cco:InformationContentEntity' },
+      { text: 'the station', type: 'cco:Facility' }
+    ],
+    expectedRoles: [
+      { entity: 'agent', role: 'Agent' },
+      { entity: 'report', role: 'Patient' },
+      { entity: 'station', role: 'Location' }
+    ]
+  },
+  {
+    id: 'cbp-pp-002',
+    text: 'The officer scanned the passport with the reader',
+    subset: 'cbp-domain',
+    tags: ['pp', 'cbp'],
+    expectedEntities: [
+      { text: 'The officer', type: 'cco:Person' },
+      { text: 'the passport', type: 'cco:InformationContentEntity' },
+      { text: 'the reader', type: 'cco:Artifact' }
+    ],
+    expectedRoles: [
+      { entity: 'officer', role: 'Agent' },
+      { entity: 'passport', role: 'Patient' },
+      { entity: 'reader', role: 'Instrument' }
+    ]
+  },
+  {
+    id: 'cbp-pp-003',
+    text: 'The team transported the detainee to the facility',
+    subset: 'cbp-domain',
+    tags: ['pp', 'cbp'],
+    expectedEntities: [
+      { text: 'The team', type: 'cco:Organization' },
+      { text: 'the detainee', type: 'cco:Person' },
+      { text: 'the facility', type: 'cco:Facility' }
+    ],
+    expectedRoles: [
+      { entity: 'team', role: 'Agent' },
+      { entity: 'detainee', role: 'Patient' },
+      { entity: 'facility', role: 'Goal' }
+    ]
+  },
+  {
+    id: 'cbp-pp-004',
+    text: 'The analyst gathered intelligence from multiple sources',
+    subset: 'cbp-domain',
+    tags: ['pp', 'cbp'],
+    expectedEntities: [
+      { text: 'The analyst', type: 'cco:Person' },
+      { text: 'intelligence', type: 'cco:InformationContentEntity' },
+      { text: 'multiple sources', type: 'bfo:Entity' }
+    ],
+    expectedRoles: [
+      { entity: 'analyst', role: 'Agent' },
+      { entity: 'intelligence', role: 'Patient' },
+      { entity: 'sources', role: 'Source' }
+    ]
+  },
+  {
+    id: 'cbp-pp-005',
+    text: 'The supervisor briefed the team on the operation',
+    subset: 'cbp-domain',
+    tags: ['pp', 'cbp'],
+    expectedEntities: [
+      { text: 'The supervisor', type: 'cco:Person' },
+      { text: 'the team', type: 'cco:Organization' },
+      { text: 'the operation', type: 'bfo:Process' }
+    ],
+    expectedRoles: [
+      { entity: 'supervisor', role: 'Agent' },
+      { entity: 'team', role: 'Recipient' }
+    ]
+  },
+  {
+    id: 'cbp-pp-006',
+    text: 'The inspector examined the vehicle with a sensor',
+    subset: 'cbp-domain',
+    tags: ['pp', 'cbp'],
+    expectedEntities: [
+      { text: 'The inspector', type: 'cco:Person' },
+      { text: 'the vehicle', type: 'cco:Artifact' },
+      { text: 'a sensor', type: 'cco:Artifact' }
+    ],
+    expectedRoles: [
+      { entity: 'inspector', role: 'Agent' },
+      { entity: 'vehicle', role: 'Patient' },
+      { entity: 'sensor', role: 'Instrument' }
+    ]
+  },
+  {
+    id: 'cbp-pp-007',
+    text: 'The office transmitted the data to headquarters',
+    subset: 'cbp-domain',
+    tags: ['pp', 'cbp'],
+    expectedEntities: [
+      { text: 'The office', type: 'cco:Organization' },
+      { text: 'the data', type: 'cco:InformationContentEntity' },
+      { text: 'headquarters', type: 'cco:Facility' }
+    ],
+    expectedRoles: [
+      { entity: 'office', role: 'Agent' },
+      { entity: 'data', role: 'Patient' },
+      { entity: 'headquarters', role: 'Goal' }
+    ]
+  },
+  {
+    id: 'cbp-pp-008',
+    text: 'The patrol apprehended the group near the river',
+    subset: 'cbp-domain',
+    tags: ['pp', 'cbp'],
+    expectedEntities: [
+      { text: 'The patrol', type: 'cco:Organization' },
+      { text: 'the group', type: 'cco:Person' },
+      { text: 'the river', type: 'bfo:Entity' }
+    ],
+    expectedRoles: [
+      { entity: 'patrol', role: 'Agent' },
+      { entity: 'group', role: 'Patient' },
+      { entity: 'river', role: 'Location' }
+    ]
+  },
+  {
+    id: 'cbp-pp-009',
+    text: 'The specialist collected samples from the shipment',
+    subset: 'cbp-domain',
+    tags: ['pp', 'cbp'],
+    expectedEntities: [
+      { text: 'The specialist', type: 'cco:Person' },
+      { text: 'samples', type: 'bfo:Entity' },
+      { text: 'the shipment', type: 'bfo:Entity' }
+    ],
+    expectedRoles: [
+      { entity: 'specialist', role: 'Agent' },
+      { entity: 'samples', role: 'Patient' },
+      { entity: 'shipment', role: 'Source' }
+    ]
+  },
+  {
+    id: 'cbp-pp-010',
+    text: 'The commander assigned the unit to the southern sector',
+    subset: 'cbp-domain',
+    tags: ['pp', 'cbp'],
+    expectedEntities: [
+      { text: 'The commander', type: 'cco:Person' },
+      { text: 'the unit', type: 'cco:Organization' },
+      { text: 'the southern sector', type: 'cco:GeopoliticalEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'commander', role: 'Agent' },
+      { entity: 'unit', role: 'Patient' },
+      { entity: 'southern sector', role: 'Goal' }
+    ]
+  },
+
+  // --- CBP Ditransitive (5) ---
+  {
+    id: 'cbp-ditr-001',
+    text: 'The supervisor gave the agent new credentials',
+    subset: 'cbp-domain',
+    tags: ['ditransitive', 'cbp'],
+    expectedEntities: [
+      { text: 'The supervisor', type: 'cco:Person' },
+      { text: 'the agent', type: 'cco:Person' },
+      { text: 'new credentials', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'supervisor', role: 'Agent' },
+      { entity: 'agent', role: 'Recipient' },
+      { entity: 'credentials', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-ditr-002',
+    text: 'The headquarters sent the sector updated guidelines',
+    subset: 'cbp-domain',
+    tags: ['ditransitive', 'cbp'],
+    expectedEntities: [
+      { text: 'The headquarters', type: 'cco:Facility' },
+      { text: 'the sector', type: 'cco:Organization' },
+      { text: 'updated guidelines', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'headquarters', role: 'Agent' },
+      { entity: 'sector', role: 'Recipient' },
+      { entity: 'guidelines', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-ditr-003',
+    text: 'The director offered the officers additional training',
+    subset: 'cbp-domain',
+    tags: ['ditransitive', 'cbp'],
+    expectedEntities: [
+      { text: 'The director', type: 'cco:Person' },
+      { text: 'the officers', type: 'cco:Person' },
+      { text: 'additional training', type: 'bfo:Process' }
+    ],
+    expectedRoles: [
+      { entity: 'director', role: 'Agent' },
+      { entity: 'officers', role: 'Recipient' },
+      { entity: 'training', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-ditr-004',
+    text: 'The instructor showed the class the new procedure',
+    subset: 'cbp-domain',
+    tags: ['ditransitive', 'cbp'],
+    expectedEntities: [
+      { text: 'The instructor', type: 'cco:Person' },
+      { text: 'the class', type: 'cco:Organization' },
+      { text: 'the new procedure', type: 'bfo:Process' }
+    ],
+    expectedRoles: [
+      { entity: 'instructor', role: 'Agent' },
+      { entity: 'class', role: 'Recipient' },
+      { entity: 'procedure', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'cbp-ditr-005',
+    text: 'The chief passed the team the intelligence briefing',
+    subset: 'cbp-domain',
+    tags: ['ditransitive', 'cbp'],
+    expectedEntities: [
+      { text: 'The chief', type: 'cco:Person' },
+      { text: 'the team', type: 'cco:Organization' },
+      { text: 'the intelligence briefing', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'chief', role: 'Agent' },
+      { entity: 'team', role: 'Recipient' },
+      { entity: 'intelligence briefing', role: 'Patient' }
+    ]
+  },
+
+  // ==========================================================================
+  // Subset: general — News, Academic, Medical, Legal (30 sentences)
+  // ==========================================================================
+
+  // --- News (8) ---
+  {
+    id: 'gen-news-001',
+    text: 'The president signed the executive order',
+    subset: 'general',
+    tags: ['news', 'government'],
+    expectedEntities: [
+      { text: 'The president', type: 'cco:Person' },
+      { text: 'the executive order', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'president', role: 'Agent' },
+      { entity: 'executive order', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'gen-news-002',
+    text: 'The company announced a merger with its competitor',
+    subset: 'general',
+    tags: ['news', 'business'],
+    expectedEntities: [
+      { text: 'The company', type: 'cco:Organization' },
+      { text: 'a merger', type: 'bfo:Process' },
+      { text: 'its competitor', type: 'cco:Organization' }
+    ],
+    expectedRoles: [
+      { entity: 'company', role: 'Agent' },
+      { entity: 'merger', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'gen-news-003',
+    text: 'The mayor vetoed the budget proposal',
+    subset: 'general',
+    tags: ['news', 'government'],
+    expectedEntities: [
+      { text: 'The mayor', type: 'cco:Person' },
+      { text: 'the budget proposal', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'mayor', role: 'Agent' },
+      { entity: 'budget proposal', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'gen-news-004',
+    text: 'The journalist published the investigation findings',
+    subset: 'general',
+    tags: ['news', 'media'],
+    expectedEntities: [
+      { text: 'The journalist', type: 'cco:Person' },
+      { text: 'the investigation findings', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'journalist', role: 'Agent' },
+      { entity: 'investigation findings', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'gen-news-005',
+    text: 'The governor declared a state of emergency',
+    subset: 'general',
+    tags: ['news', 'government'],
+    expectedEntities: [
+      { text: 'The governor', type: 'cco:Person' },
+      { text: 'a state of emergency', type: 'bfo:Process' }
+    ],
+    expectedRoles: [
+      { entity: 'governor', role: 'Agent' },
+      { entity: 'state of emergency', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'gen-news-006',
+    text: 'The court overturned the conviction',
+    subset: 'general',
+    tags: ['news', 'legal'],
+    expectedEntities: [
+      { text: 'The court', type: 'cco:Organization' },
+      { text: 'the conviction', type: 'bfo:Process' }
+    ],
+    expectedRoles: [
+      { entity: 'court', role: 'Agent' },
+      { entity: 'conviction', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'gen-news-007',
+    text: 'The union ratified the contract',
+    subset: 'general',
+    tags: ['news', 'labor'],
+    expectedEntities: [
+      { text: 'The union', type: 'cco:Organization' },
+      { text: 'the contract', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'union', role: 'Agent' },
+      { entity: 'contract', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'gen-news-008',
+    text: 'The regulator fined the corporation for violations',
+    subset: 'general',
+    tags: ['news', 'regulation'],
+    expectedEntities: [
+      { text: 'The regulator', type: 'cco:Person' },
+      { text: 'the corporation', type: 'cco:Organization' },
+      { text: 'violations', type: 'bfo:Process' }
+    ],
+    expectedRoles: [
+      { entity: 'regulator', role: 'Agent' },
+      { entity: 'corporation', role: 'Patient' }
+    ]
+  },
+
+  // --- Academic (7) ---
+  {
+    id: 'gen-acad-001',
+    text: 'The researcher published the study in a peer-reviewed journal',
+    subset: 'general',
+    tags: ['academic', 'research'],
+    expectedEntities: [
+      { text: 'The researcher', type: 'cco:Person' },
+      { text: 'the study', type: 'cco:InformationContentEntity' },
+      { text: 'a peer-reviewed journal', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'researcher', role: 'Agent' },
+      { entity: 'study', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'gen-acad-002',
+    text: 'The professor presented the findings at the conference',
+    subset: 'general',
+    tags: ['academic', 'research'],
+    expectedEntities: [
+      { text: 'The professor', type: 'cco:Person' },
+      { text: 'the findings', type: 'cco:InformationContentEntity' },
+      { text: 'the conference', type: 'bfo:Process' }
+    ],
+    expectedRoles: [
+      { entity: 'professor', role: 'Agent' },
+      { entity: 'findings', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'gen-acad-003',
+    text: 'The committee awarded the grant to the laboratory',
+    subset: 'general',
+    tags: ['academic', 'funding'],
+    expectedEntities: [
+      { text: 'The committee', type: 'cco:Organization' },
+      { text: 'the grant', type: 'bfo:Entity' },
+      { text: 'the laboratory', type: 'cco:Organization' }
+    ],
+    expectedRoles: [
+      { entity: 'committee', role: 'Agent' },
+      { entity: 'grant', role: 'Patient' },
+      { entity: 'laboratory', role: 'Recipient' }
+    ]
+  },
+  {
+    id: 'gen-acad-004',
+    text: 'The student defended the dissertation',
+    subset: 'general',
+    tags: ['academic'],
+    expectedEntities: [
+      { text: 'The student', type: 'cco:Person' },
+      { text: 'the dissertation', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'student', role: 'Agent' },
+      { entity: 'dissertation', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'gen-acad-005',
+    text: 'The lab analyzed the samples with a spectrometer',
+    subset: 'general',
+    tags: ['academic', 'research'],
+    expectedEntities: [
+      { text: 'The lab', type: 'cco:Organization' },
+      { text: 'the samples', type: 'bfo:Entity' },
+      { text: 'a spectrometer', type: 'cco:Artifact' }
+    ],
+    expectedRoles: [
+      { entity: 'lab', role: 'Agent' },
+      { entity: 'samples', role: 'Patient' },
+      { entity: 'spectrometer', role: 'Instrument' }
+    ]
+  },
+  {
+    id: 'gen-acad-006',
+    text: 'The dean approved the new curriculum',
+    subset: 'general',
+    tags: ['academic', 'administration'],
+    expectedEntities: [
+      { text: 'The dean', type: 'cco:Person' },
+      { text: 'the new curriculum', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'dean', role: 'Agent' },
+      { entity: 'curriculum', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'gen-acad-007',
+    text: 'The team replicated the experiment',
+    subset: 'general',
+    tags: ['academic', 'research'],
+    expectedEntities: [
+      { text: 'The team', type: 'cco:Organization' },
+      { text: 'the experiment', type: 'bfo:Process' }
+    ],
+    expectedRoles: [
+      { entity: 'team', role: 'Agent' },
+      { entity: 'experiment', role: 'Patient' }
+    ]
+  },
+
+  // --- Medical (8) ---
+  {
+    id: 'gen-med-001',
+    text: 'The surgeon performed the operation',
+    subset: 'general',
+    tags: ['medical', 'treatment'],
+    expectedEntities: [
+      { text: 'The surgeon', type: 'cco:Person' },
+      { text: 'the operation', type: 'bfo:Process' }
+    ],
+    expectedRoles: [
+      { entity: 'surgeon', role: 'Agent' },
+      { entity: 'operation', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'gen-med-002',
+    text: 'The nurse administered the vaccine to the patient',
+    subset: 'general',
+    tags: ['medical', 'treatment'],
+    expectedEntities: [
+      { text: 'The nurse', type: 'cco:Person' },
+      { text: 'the vaccine', type: 'bfo:Entity' },
+      { text: 'the patient', type: 'cco:Person' }
+    ],
+    expectedRoles: [
+      { entity: 'nurse', role: 'Agent' },
+      { entity: 'vaccine', role: 'Patient' },
+      { entity: 'patient', role: 'Recipient' }
+    ]
+  },
+  {
+    id: 'gen-med-003',
+    text: 'The physician diagnosed the condition',
+    subset: 'general',
+    tags: ['medical', 'diagnosis'],
+    expectedEntities: [
+      { text: 'The physician', type: 'cco:Person' },
+      { text: 'the condition', type: 'bfo:Entity' }
+    ],
+    expectedRoles: [
+      { entity: 'physician', role: 'Agent' },
+      { entity: 'condition', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'gen-med-004',
+    text: 'The pharmacist dispensed the medication',
+    subset: 'general',
+    tags: ['medical', 'treatment'],
+    expectedEntities: [
+      { text: 'The pharmacist', type: 'cco:Person' },
+      { text: 'the medication', type: 'bfo:Entity' }
+    ],
+    expectedRoles: [
+      { entity: 'pharmacist', role: 'Agent' },
+      { entity: 'medication', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'gen-med-005',
+    text: 'The hospital admitted the patient to the intensive care unit',
+    subset: 'general',
+    tags: ['medical', 'treatment'],
+    expectedEntities: [
+      { text: 'The hospital', type: 'cco:Facility' },
+      { text: 'the patient', type: 'cco:Person' },
+      { text: 'the intensive care unit', type: 'cco:Facility' }
+    ],
+    expectedRoles: [
+      { entity: 'hospital', role: 'Agent' },
+      { entity: 'patient', role: 'Patient' },
+      { entity: 'intensive care unit', role: 'Goal' }
+    ]
+  },
+  {
+    id: 'gen-med-006',
+    text: 'The radiologist reviewed the imaging results',
+    subset: 'general',
+    tags: ['medical', 'diagnosis'],
+    expectedEntities: [
+      { text: 'The radiologist', type: 'cco:Person' },
+      { text: 'the imaging results', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'radiologist', role: 'Agent' },
+      { entity: 'imaging results', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'gen-med-007',
+    text: 'The therapist treated the injury with physical therapy',
+    subset: 'general',
+    tags: ['medical', 'treatment'],
+    expectedEntities: [
+      { text: 'The therapist', type: 'cco:Person' },
+      { text: 'the injury', type: 'bfo:Entity' },
+      { text: 'physical therapy', type: 'bfo:Process' }
+    ],
+    expectedRoles: [
+      { entity: 'therapist', role: 'Agent' },
+      { entity: 'injury', role: 'Patient' },
+      { entity: 'physical therapy', role: 'Instrument' }
+    ]
+  },
+  {
+    id: 'gen-med-008',
+    text: 'The board certified the new treatment protocol',
+    subset: 'general',
+    tags: ['medical', 'administration'],
+    expectedEntities: [
+      { text: 'The board', type: 'cco:Organization' },
+      { text: 'the new treatment protocol', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'board', role: 'Agent' },
+      { entity: 'treatment protocol', role: 'Patient' }
+    ]
+  },
+
+  // --- Legal (7) ---
+  {
+    id: 'gen-legal-001',
+    text: 'The attorney filed the motion with the court',
+    subset: 'general',
+    tags: ['legal'],
+    expectedEntities: [
+      { text: 'The attorney', type: 'cco:Person' },
+      { text: 'the motion', type: 'cco:InformationContentEntity' },
+      { text: 'the court', type: 'cco:Organization' }
+    ],
+    expectedRoles: [
+      { entity: 'attorney', role: 'Agent' },
+      { entity: 'motion', role: 'Patient' },
+      { entity: 'court', role: 'Recipient' }
+    ]
+  },
+  {
+    id: 'gen-legal-002',
+    text: 'The jury delivered the verdict',
+    subset: 'general',
+    tags: ['legal'],
+    expectedEntities: [
+      { text: 'The jury', type: 'cco:Organization' },
+      { text: 'the verdict', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'jury', role: 'Agent' },
+      { entity: 'verdict', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'gen-legal-003',
+    text: 'The plaintiff sued the defendant for damages',
+    subset: 'general',
+    tags: ['legal'],
+    expectedEntities: [
+      { text: 'The plaintiff', type: 'cco:Person' },
+      { text: 'the defendant', type: 'cco:Person' },
+      { text: 'damages', type: 'bfo:Entity' }
+    ],
+    expectedRoles: [
+      { entity: 'plaintiff', role: 'Agent' },
+      { entity: 'defendant', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'gen-legal-004',
+    text: 'The judge issued a restraining order',
+    subset: 'general',
+    tags: ['legal'],
+    expectedEntities: [
+      { text: 'The judge', type: 'cco:Person' },
+      { text: 'a restraining order', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'judge', role: 'Agent' },
+      { entity: 'restraining order', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'gen-legal-005',
+    text: 'The defense counsel cross-examined the witness',
+    subset: 'general',
+    tags: ['legal'],
+    expectedEntities: [
+      { text: 'The defense counsel', type: 'cco:Person' },
+      { text: 'the witness', type: 'cco:Person' }
+    ],
+    expectedRoles: [
+      { entity: 'defense counsel', role: 'Agent' },
+      { entity: 'witness', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'gen-legal-006',
+    text: 'The clerk recorded the proceedings',
+    subset: 'general',
+    tags: ['legal'],
+    expectedEntities: [
+      { text: 'The clerk', type: 'cco:Person' },
+      { text: 'the proceedings', type: 'bfo:Process' }
+    ],
+    expectedRoles: [
+      { entity: 'clerk', role: 'Agent' },
+      { entity: 'proceedings', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'gen-legal-007',
+    text: 'The magistrate granted bail to the accused',
+    subset: 'general',
+    tags: ['legal'],
+    expectedEntities: [
+      { text: 'The magistrate', type: 'cco:Person' },
+      { text: 'bail', type: 'bfo:Entity' },
+      { text: 'the accused', type: 'cco:Person' }
+    ],
+    expectedRoles: [
+      { entity: 'magistrate', role: 'Agent' },
+      { entity: 'bail', role: 'Patient' },
+      { entity: 'accused', role: 'Recipient' }
+    ]
+  },
+
+  // ==========================================================================
+  // Subset: adversarial — Stress Patterns (22 sentences)
+  // ==========================================================================
+
+  // --- Long NP subjects (6) ---
+  {
+    id: 'adv-long-001',
+    text: 'The senior intelligence analyst at the operations center reviewed the assessment',
+    subset: 'adversarial',
+    tags: ['long-np', 'cbp'],
+    expectedEntities: [
+      { text: 'The senior intelligence analyst', type: 'cco:Person' },
+      { text: 'the operations center', type: 'cco:Organization' },
+      { text: 'the assessment', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'intelligence analyst', role: 'Agent' },
+      { entity: 'assessment', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'adv-long-002',
+    text: 'The newly appointed deputy commissioner of field operations issued the memorandum',
+    subset: 'adversarial',
+    tags: ['long-np', 'cbp'],
+    expectedEntities: [
+      { text: 'The newly appointed deputy commissioner', type: 'cco:Person' },
+      { text: 'the memorandum', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'deputy commissioner', role: 'Agent' },
+      { entity: 'memorandum', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'adv-long-003',
+    text: 'The chief patrol agent of the Rio Grande Valley sector briefed the team',
+    subset: 'adversarial',
+    tags: ['long-np', 'cbp'],
+    expectedEntities: [
+      { text: 'The chief patrol agent', type: 'cco:Person' },
+      { text: 'the Rio Grande Valley sector', type: 'cco:Organization' },
+      { text: 'the team', type: 'cco:Organization' }
+    ],
+    expectedRoles: [
+      { entity: 'chief patrol agent', role: 'Agent' },
+      { entity: 'team', role: 'Recipient' }
+    ]
+  },
+  {
+    id: 'adv-long-004',
+    text: 'The experienced forensic laboratory technician analyzed the evidence',
+    subset: 'adversarial',
+    tags: ['long-np', 'forensics'],
+    expectedEntities: [
+      { text: 'The experienced forensic laboratory technician', type: 'cco:Person' },
+      { text: 'the evidence', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'technician', role: 'Agent' },
+      { entity: 'evidence', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'adv-long-005',
+    text: 'The assistant secretary for policy and planning approved the initiative',
+    subset: 'adversarial',
+    tags: ['long-np', 'government'],
+    expectedEntities: [
+      { text: 'The assistant secretary', type: 'cco:Person' },
+      { text: 'the initiative', type: 'bfo:Process' }
+    ],
+    expectedRoles: [
+      { entity: 'assistant secretary', role: 'Agent' },
+      { entity: 'initiative', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'adv-long-006',
+    text: 'The congressional oversight committee on homeland security held a hearing',
+    subset: 'adversarial',
+    tags: ['long-np', 'government'],
+    expectedEntities: [
+      { text: 'The congressional oversight committee', type: 'cco:Organization' },
+      { text: 'a hearing', type: 'bfo:Process' }
+    ],
+    expectedRoles: [
+      { entity: 'oversight committee', role: 'Agent' },
+      { entity: 'hearing', role: 'Patient' }
+    ]
+  },
+
+  // --- Nested PP chains (5) ---
+  {
+    id: 'adv-pp-001',
+    text: 'The agent filed the report at the office in the building on the campus',
+    subset: 'adversarial',
+    tags: ['nested-pp', 'cbp'],
+    expectedEntities: [
+      { text: 'The agent', type: 'cco:Person' },
+      { text: 'the report', type: 'cco:InformationContentEntity' },
+      { text: 'the office', type: 'cco:Organization' }
+    ],
+    expectedRoles: [
+      { entity: 'agent', role: 'Agent' },
+      { entity: 'report', role: 'Patient' },
+      { entity: 'office', role: 'Location' }
+    ]
+  },
+  {
+    id: 'adv-pp-002',
+    text: 'The director of the office of professional responsibility reviewed the complaint',
+    subset: 'adversarial',
+    tags: ['nested-pp', 'government'],
+    expectedEntities: [
+      { text: 'The director', type: 'cco:Person' },
+      { text: 'the office of professional responsibility', type: 'cco:Organization' },
+      { text: 'the complaint', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'director', role: 'Agent' },
+      { entity: 'complaint', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'adv-pp-003',
+    text: 'The officer transported the evidence from the scene to the lab for analysis',
+    subset: 'adversarial',
+    tags: ['nested-pp', 'forensics'],
+    expectedEntities: [
+      { text: 'The officer', type: 'cco:Person' },
+      { text: 'the evidence', type: 'cco:InformationContentEntity' },
+      { text: 'the scene', type: 'cco:Facility' },
+      { text: 'the lab', type: 'cco:Facility' }
+    ],
+    expectedRoles: [
+      { entity: 'officer', role: 'Agent' },
+      { entity: 'evidence', role: 'Patient' },
+      { entity: 'scene', role: 'Source' },
+      { entity: 'lab', role: 'Goal' }
+    ]
+  },
+  {
+    id: 'adv-pp-004',
+    text: 'The task force investigated the network of smugglers across the border',
+    subset: 'adversarial',
+    tags: ['nested-pp', 'cbp'],
+    expectedEntities: [
+      { text: 'The task force', type: 'cco:Organization' },
+      { text: 'the network', type: 'cco:Organization' },
+      { text: 'the border', type: 'cco:Facility' }
+    ],
+    expectedRoles: [
+      { entity: 'task force', role: 'Agent' },
+      { entity: 'network', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'adv-pp-005',
+    text: 'The inspector examined the cargo in the container at the port of entry',
+    subset: 'adversarial',
+    tags: ['nested-pp', 'cbp'],
+    expectedEntities: [
+      { text: 'The inspector', type: 'cco:Person' },
+      { text: 'the cargo', type: 'bfo:Entity' },
+      { text: 'the container', type: 'cco:Artifact' },
+      { text: 'the port of entry', type: 'cco:Facility' }
+    ],
+    expectedRoles: [
+      { entity: 'inspector', role: 'Agent' },
+      { entity: 'cargo', role: 'Patient' }
+    ]
+  },
+
+  // --- Relative clauses (5) ---
+  {
+    id: 'adv-rel-001',
+    text: 'The agent who discovered the tunnel filed the report',
+    subset: 'adversarial',
+    tags: ['relative-clause', 'cbp'],
+    expectedEntities: [
+      { text: 'The agent', type: 'cco:Person' },
+      { text: 'the tunnel', type: 'cco:Facility' },
+      { text: 'the report', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'agent', role: 'Agent' },
+      { entity: 'report', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'adv-rel-002',
+    text: 'The vehicle that crossed the border was intercepted',
+    subset: 'adversarial',
+    tags: ['relative-clause', 'cbp'],
+    expectedEntities: [
+      { text: 'The vehicle', type: 'cco:Artifact' },
+      { text: 'the border', type: 'cco:Facility' }
+    ],
+    expectedRoles: [
+      { entity: 'vehicle', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'adv-rel-003',
+    text: 'The officer who conducted the interview documented the findings',
+    subset: 'adversarial',
+    tags: ['relative-clause', 'cbp'],
+    expectedEntities: [
+      { text: 'The officer', type: 'cco:Person' },
+      { text: 'the interview', type: 'bfo:Process' },
+      { text: 'the findings', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'officer', role: 'Agent' },
+      { entity: 'findings', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'adv-rel-004',
+    text: 'The policy that the committee approved took effect immediately',
+    subset: 'adversarial',
+    tags: ['relative-clause', 'government'],
+    expectedEntities: [
+      { text: 'The policy', type: 'cco:InformationContentEntity' },
+      { text: 'the committee', type: 'cco:Organization' }
+    ],
+    expectedRoles: [
+      { entity: 'committee', role: 'Agent' },
+      { entity: 'policy', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'adv-rel-005',
+    text: 'The evidence which the team collected was analyzed',
+    subset: 'adversarial',
+    tags: ['relative-clause', 'forensics'],
+    expectedEntities: [
+      { text: 'The evidence', type: 'cco:InformationContentEntity' },
+      { text: 'the team', type: 'cco:Organization' }
+    ],
+    expectedRoles: [
+      { entity: 'team', role: 'Agent' },
+      { entity: 'evidence', role: 'Patient' }
+    ]
+  },
+
+  // --- Multi-clause (6) ---
+  {
+    id: 'adv-multi-001',
+    text: 'The agent arrested the suspect and the team secured the area',
+    subset: 'adversarial',
+    tags: ['multi-clause', 'cbp'],
+    expectedEntities: [
+      { text: 'The agent', type: 'cco:Person' },
+      { text: 'the suspect', type: 'cco:Person' },
+      { text: 'the team', type: 'cco:Organization' },
+      { text: 'the area', type: 'bfo:Entity' }
+    ],
+    expectedRoles: [
+      { entity: 'agent', role: 'Agent' },
+      { entity: 'suspect', role: 'Patient' },
+      { entity: 'team', role: 'Agent' },
+      { entity: 'area', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'adv-multi-002',
+    text: 'The director authorized the operation but the supervisor delayed the execution',
+    subset: 'adversarial',
+    tags: ['multi-clause', 'government'],
+    expectedEntities: [
+      { text: 'The director', type: 'cco:Person' },
+      { text: 'the operation', type: 'bfo:Process' },
+      { text: 'the supervisor', type: 'cco:Person' },
+      { text: 'the execution', type: 'bfo:Process' }
+    ],
+    expectedRoles: [
+      { entity: 'director', role: 'Agent' },
+      { entity: 'operation', role: 'Patient' },
+      { entity: 'supervisor', role: 'Agent' },
+      { entity: 'execution', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'adv-multi-003',
+    text: 'After the patrol spotted the vessel the coast guard intercepted it',
+    subset: 'adversarial',
+    tags: ['multi-clause', 'subordination', 'cbp'],
+    expectedEntities: [
+      { text: 'the patrol', type: 'cco:Organization' },
+      { text: 'the vessel', type: 'cco:Artifact' },
+      { text: 'the coast guard', type: 'cco:Organization' }
+    ],
+    expectedRoles: [
+      { entity: 'patrol', role: 'Agent' },
+      { entity: 'vessel', role: 'Patient' },
+      { entity: 'coast guard', role: 'Agent' }
+    ]
+  },
+  {
+    id: 'adv-multi-004',
+    text: 'The analyst identified the threat and recommended a response plan',
+    subset: 'adversarial',
+    tags: ['multi-clause', 'shared-subject', 'cbp'],
+    expectedEntities: [
+      { text: 'The analyst', type: 'cco:Person' },
+      { text: 'the threat', type: 'bfo:Entity' },
+      { text: 'a response plan', type: 'cco:InformationContentEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'analyst', role: 'Agent' },
+      { entity: 'threat', role: 'Patient' },
+      { entity: 'response plan', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'adv-multi-005',
+    text: 'When the alarm sounded the officers evacuated the building',
+    subset: 'adversarial',
+    tags: ['multi-clause', 'subordination', 'cbp'],
+    expectedEntities: [
+      { text: 'the alarm', type: 'cco:Artifact' },
+      { text: 'the officers', type: 'cco:Person' },
+      { text: 'the building', type: 'cco:Facility' }
+    ],
+    expectedRoles: [
+      { entity: 'officers', role: 'Agent' },
+      { entity: 'building', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'adv-multi-006',
+    text: 'The inspector examined the documents while the officer interviewed the driver',
+    subset: 'adversarial',
+    tags: ['multi-clause', 'cbp'],
+    expectedEntities: [
+      { text: 'The inspector', type: 'cco:Person' },
+      { text: 'the documents', type: 'cco:InformationContentEntity' },
+      { text: 'the officer', type: 'cco:Person' },
+      { text: 'the driver', type: 'cco:Person' }
+    ],
+    expectedRoles: [
+      { entity: 'inspector', role: 'Agent' },
+      { entity: 'documents', role: 'Patient' },
+      { entity: 'officer', role: 'Agent' },
+      { entity: 'driver', role: 'Patient' }
+    ]
+  },
+
+  // --- Additional adversarial: mixed patterns (10) ---
+  {
+    id: 'adv-long-007',
+    text: 'The joint interagency task force on narcotics trafficking seized the contraband',
+    subset: 'adversarial',
+    tags: ['long-np', 'government'],
+    expectedEntities: [
+      { text: 'The joint interagency task force', type: 'cco:Organization' },
+      { text: 'the contraband', type: 'bfo:Entity' }
+    ],
+    expectedRoles: [
+      { entity: 'task force', role: 'Agent' },
+      { entity: 'contraband', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'adv-long-008',
+    text: 'The acting deputy assistant secretary for international affairs attended the summit',
+    subset: 'adversarial',
+    tags: ['long-np', 'government'],
+    expectedEntities: [
+      { text: 'The acting deputy assistant secretary', type: 'cco:Person' },
+      { text: 'the summit', type: 'bfo:Process' }
+    ],
+    expectedRoles: [
+      { entity: 'assistant secretary', role: 'Agent' },
+      { entity: 'summit', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'adv-pp-006',
+    text: 'The team recovered the weapons from the vehicle near the checkpoint at the border',
+    subset: 'adversarial',
+    tags: ['nested-pp', 'cbp'],
+    expectedEntities: [
+      { text: 'The team', type: 'cco:Organization' },
+      { text: 'the weapons', type: 'cco:Artifact' },
+      { text: 'the vehicle', type: 'cco:Artifact' }
+    ],
+    expectedRoles: [
+      { entity: 'team', role: 'Agent' },
+      { entity: 'weapons', role: 'Patient' },
+      { entity: 'vehicle', role: 'Source' }
+    ]
+  },
+  {
+    id: 'adv-pp-007',
+    text: 'The analyst sent the findings to the director of the operations division at headquarters',
+    subset: 'adversarial',
+    tags: ['nested-pp', 'government'],
+    expectedEntities: [
+      { text: 'The analyst', type: 'cco:Person' },
+      { text: 'the findings', type: 'cco:InformationContentEntity' },
+      { text: 'the director', type: 'cco:Person' }
+    ],
+    expectedRoles: [
+      { entity: 'analyst', role: 'Agent' },
+      { entity: 'findings', role: 'Patient' },
+      { entity: 'director', role: 'Recipient' }
+    ]
+  },
+  {
+    id: 'adv-rel-006',
+    text: 'The suspect who fled the scene was apprehended by the patrol',
+    subset: 'adversarial',
+    tags: ['relative-clause', 'cbp'],
+    expectedEntities: [
+      { text: 'The suspect', type: 'cco:Person' },
+      { text: 'the scene', type: 'cco:Facility' },
+      { text: 'the patrol', type: 'cco:Organization' }
+    ],
+    expectedRoles: [
+      { entity: 'patrol', role: 'Agent' },
+      { entity: 'suspect', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'adv-rel-007',
+    text: 'The smugglers who operated the tunnel network were indicted',
+    subset: 'adversarial',
+    tags: ['relative-clause', 'cbp'],
+    expectedEntities: [
+      { text: 'The smugglers', type: 'cco:Person' },
+      { text: 'the tunnel network', type: 'cco:Facility' }
+    ],
+    expectedRoles: [
+      { entity: 'smugglers', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'adv-rel-008',
+    text: 'The report that the analyst compiled was forwarded to the director',
+    subset: 'adversarial',
+    tags: ['relative-clause', 'government'],
+    expectedEntities: [
+      { text: 'The report', type: 'cco:InformationContentEntity' },
+      { text: 'the analyst', type: 'cco:Person' },
+      { text: 'the director', type: 'cco:Person' }
+    ],
+    expectedRoles: [
+      { entity: 'analyst', role: 'Agent' },
+      { entity: 'report', role: 'Patient' },
+      { entity: 'director', role: 'Recipient' }
+    ]
+  },
+  {
+    id: 'adv-multi-007',
+    text: 'Because the sensors detected movement the patrol responded immediately',
+    subset: 'adversarial',
+    tags: ['multi-clause', 'subordination', 'cbp'],
+    expectedEntities: [
+      { text: 'the sensors', type: 'cco:Artifact' },
+      { text: 'movement', type: 'bfo:Process' },
+      { text: 'the patrol', type: 'cco:Organization' }
+    ],
+    expectedRoles: [
+      { entity: 'sensors', role: 'Agent' },
+      { entity: 'movement', role: 'Patient' },
+      { entity: 'patrol', role: 'Agent' }
+    ]
+  },
+  {
+    id: 'adv-multi-008',
+    text: 'The commander reviewed the plan and the team executed the mission at dawn',
+    subset: 'adversarial',
+    tags: ['multi-clause', 'cbp'],
+    expectedEntities: [
+      { text: 'The commander', type: 'cco:Person' },
+      { text: 'the plan', type: 'cco:InformationContentEntity' },
+      { text: 'the team', type: 'cco:Organization' },
+      { text: 'the mission', type: 'bfo:Process' }
+    ],
+    expectedRoles: [
+      { entity: 'commander', role: 'Agent' },
+      { entity: 'plan', role: 'Patient' },
+      { entity: 'team', role: 'Agent' },
+      { entity: 'mission', role: 'Patient' }
+    ]
+  },
+  {
+    id: 'adv-pp-008',
+    text: 'The liaison coordinated with the embassy in the capital of the neighboring country',
+    subset: 'adversarial',
+    tags: ['nested-pp', 'government'],
+    expectedEntities: [
+      { text: 'The liaison', type: 'cco:Person' },
+      { text: 'the embassy', type: 'cco:Facility' },
+      { text: 'the capital', type: 'cco:GeopoliticalEntity' }
+    ],
+    expectedRoles: [
+      { entity: 'liaison', role: 'Agent' }
     ]
   }
 ];

@@ -1,0 +1,216 @@
+{
+  "id": "cbp-svo-002",
+  "text": "The customs officer inspected the cargo",
+  "subset": "cbp-domain",
+  "tags": [
+    "svo",
+    "cbp",
+    "inspection"
+  ],
+  "generatedAt": "2026-02-18T02:11:43.662Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The customs officer",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the cargo",
+      "type": "bfo:Entity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "customs officer",
+      "role": "Agent"
+    },
+    {
+      "entity": "cargo",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The customs officer",
+      "type": "bfo:Entity",
+      "id": "inst:The_customs_officer"
+    },
+    {
+      "text": "the cargo",
+      "type": "bfo:Entity",
+      "id": "inst:the_cargo"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The customs officer",
+      "role": "Agent"
+    },
+    {
+      "entity": "the cargo",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_customs_officer",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The customs officer",
+        "tagteam:mentionId": "s0:h3:0-19",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Customs_Officer_61c3a031bb0e"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_c6281c2782d6"
+        }
+      },
+      {
+        "@id": "inst:the_cargo",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the cargo",
+        "tagteam:mentionId": "s0:h6:30-39",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Cargo_8565a503361d"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_c6281c2782d6"
+        }
+      },
+      {
+        "@id": "inst:Act_inspected",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "inspected",
+        "tagteam:lemma": "inspect",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_c6281c2782d6"
+        }
+      },
+      {
+        "@id": "inst:Role_The_customs_officer_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_customs_officer"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_inspected"
+        },
+        "rdfs:label": "The customs officer as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_cargo_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_cargo"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_inspected"
+        },
+        "rdfs:label": "the cargo as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Artifact_Customs_Officer_61c3a031bb0e",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "customs officer",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.662Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_c6281c2782d6",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Cargo_8565a503361d",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "cargo",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.662Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_c6281c2782d6",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_c6281c2782d6",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The customs officer inspected the cargo",
+        "tagteam:char_count": 39,
+        "tagteam:word_count": 6,
+        "tagteam:received_at": "2026-02-18T02:11:43.651Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_c6281c27",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_c6281c2782d6"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_customs_officer"
+          },
+          {
+            "@id": "inst:the_cargo"
+          },
+          {
+            "@id": "inst:Act_inspected"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.651Z"
+      }
+    ]
+  }
+}

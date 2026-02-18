@@ -1,0 +1,275 @@
+{
+  "id": "gen-legal-003",
+  "text": "The plaintiff sued the defendant for damages",
+  "subset": "general",
+  "tags": [
+    "legal"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.824Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The plaintiff",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the defendant",
+      "type": "cco:Person"
+    },
+    {
+      "text": "damages",
+      "type": "bfo:Entity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "plaintiff",
+      "role": "Agent"
+    },
+    {
+      "entity": "defendant",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The plaintiff",
+      "type": "bfo:Entity",
+      "id": "inst:The_plaintiff"
+    },
+    {
+      "text": "the defendant",
+      "type": "bfo:Entity",
+      "id": "inst:the_defendant"
+    },
+    {
+      "text": "damages",
+      "type": "bfo:Entity",
+      "id": "inst:damages"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The plaintiff",
+      "role": "Agent"
+    },
+    {
+      "entity": "the defendant",
+      "role": "Patient"
+    },
+    {
+      "entity": "damages",
+      "role": "Beneficiary"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_plaintiff",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The plaintiff",
+        "tagteam:mentionId": "s0:h2:0-13",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Plaintiff_095ce72ca23d"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_bac952cf5615"
+        }
+      },
+      {
+        "@id": "inst:the_defendant",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the defendant",
+        "tagteam:mentionId": "s0:h5:19-32",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Defendant_09d037463008"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_bac952cf5615"
+        }
+      },
+      {
+        "@id": "inst:damages",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "damages",
+        "tagteam:mentionId": "s0:h7:37-44",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Damages_93f01dc61b2a"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_bac952cf5615"
+        }
+      },
+      {
+        "@id": "inst:Act_sued",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "sued",
+        "tagteam:lemma": "su",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_bac952cf5615"
+        }
+      },
+      {
+        "@id": "inst:Role_The_plaintiff_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_plaintiff"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_sued"
+        },
+        "rdfs:label": "The plaintiff as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Role_the_defendant_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_defendant"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_sued"
+        },
+        "rdfs:label": "the defendant as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Role_damages_cco_BeneficiaryRole",
+        "@type": [
+          "cco:BeneficiaryRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:damages"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_sued"
+        },
+        "rdfs:label": "damages as BeneficiaryRole",
+        "tagteam:preposition": "for",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Artifact_Plaintiff_095ce72ca23d",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "plaintiff",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.824Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_bac952cf5615",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Defendant_09d037463008",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "defendant",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.824Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_bac952cf5615",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Damages_93f01dc61b2a",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "damages",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.824Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_bac952cf5615",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_bac952cf5615",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The plaintiff sued the defendant for damages",
+        "tagteam:char_count": 44,
+        "tagteam:word_count": 7,
+        "tagteam:received_at": "2026-02-18T02:11:44.817Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_bac952cf",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_bac952cf5615"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_plaintiff"
+          },
+          {
+            "@id": "inst:the_defendant"
+          },
+          {
+            "@id": "inst:damages"
+          },
+          {
+            "@id": "inst:Act_sued"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.817Z"
+      }
+    ]
+  }
+}

@@ -1,0 +1,166 @@
+{
+  "id": "cbp-cop-005",
+  "text": "The CBP Academy is a training facility in Georgia",
+  "subset": "cbp-domain",
+  "tags": [
+    "copular",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.003Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The CBP Academy",
+      "type": "cco:Facility"
+    },
+    {
+      "text": "a training facility",
+      "type": "cco:Facility"
+    },
+    {
+      "text": "Georgia",
+      "type": "cco:GeopoliticalEntity"
+    }
+  ],
+  "expectedRoles": [],
+  "extractedEntities": [
+    {
+      "text": "The CBP Academy",
+      "type": "bfo:Entity",
+      "id": "inst:The_CBP_Academy"
+    },
+    {
+      "text": "Georgia",
+      "type": "bfo:Entity",
+      "id": "inst:Georgia"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_CBP_Academy",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The CBP Academy",
+        "tagteam:mentionId": "s0:h3:0-15",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Cbp_Academy_2560bb9eb0b9"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_8c789bab23f6"
+        }
+      },
+      {
+        "@id": "inst:Georgia",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "Georgia",
+        "tagteam:mentionId": "s0:h9:42-49",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Georgia_fb7cda52b540"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_8c789bab23f6"
+        }
+      },
+      {
+        "@id": "inst:Assertion_The_CBP_Academy",
+        "@type": [
+          "tagteam:StructuralAssertion"
+        ],
+        "tagteam:subject": "The CBP Academy",
+        "tagteam:pattern": "predication",
+        "tagteam:object": "in Georgia",
+        "tagteam:copula": "is"
+      },
+      {
+        "@id": "inst:Artifact_Cbp_Academy_2560bb9eb0b9",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "cbp academy",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.003Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_8c789bab23f6",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Georgia_fb7cda52b540",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "georgia",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.003Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_8c789bab23f6",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_8c789bab23f6",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The CBP Academy is a training facility in Georgia",
+        "tagteam:char_count": 49,
+        "tagteam:word_count": 9,
+        "tagteam:received_at": "2026-02-18T02:11:43.991Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_8c789bab",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_8c789bab23f6"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_CBP_Academy"
+          },
+          {
+            "@id": "inst:Georgia"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.991Z"
+      }
+    ]
+  }
+}

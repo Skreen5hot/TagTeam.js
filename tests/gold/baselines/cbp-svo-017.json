@@ -1,0 +1,216 @@
+{
+  "id": "cbp-svo-017",
+  "text": "The liaison officer coordinated the response",
+  "subset": "cbp-domain",
+  "tags": [
+    "svo",
+    "cbp",
+    "operations"
+  ],
+  "generatedAt": "2026-02-18T02:11:43.885Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The liaison officer",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the response",
+      "type": "bfo:Process"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "liaison officer",
+      "role": "Agent"
+    },
+    {
+      "entity": "response",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The liaison officer",
+      "type": "bfo:Entity",
+      "id": "inst:The_liaison_officer"
+    },
+    {
+      "text": "the response",
+      "type": "bfo:Entity",
+      "id": "inst:the_response"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The liaison officer",
+      "role": "Agent"
+    },
+    {
+      "entity": "the response",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_liaison_officer",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The liaison officer",
+        "tagteam:mentionId": "s0:h3:0-19",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Liaison_Officer_933e98897638"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_4756c94a5bc8"
+        }
+      },
+      {
+        "@id": "inst:the_response",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the response",
+        "tagteam:mentionId": "s0:h6:32-44",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Response_da742781d757"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_4756c94a5bc8"
+        }
+      },
+      {
+        "@id": "inst:Act_coordinated",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "coordinated",
+        "tagteam:lemma": "coordinat",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_4756c94a5bc8"
+        }
+      },
+      {
+        "@id": "inst:Role_The_liaison_officer_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_liaison_officer"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_coordinated"
+        },
+        "rdfs:label": "The liaison officer as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_response_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_response"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_coordinated"
+        },
+        "rdfs:label": "the response as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Artifact_Liaison_Officer_933e98897638",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "liaison officer",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.885Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_4756c94a5bc8",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Response_da742781d757",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "response",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.885Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_4756c94a5bc8",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_4756c94a5bc8",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The liaison officer coordinated the response",
+        "tagteam:char_count": 44,
+        "tagteam:word_count": 6,
+        "tagteam:received_at": "2026-02-18T02:11:43.876Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_4756c94a",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_4756c94a5bc8"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_liaison_officer"
+          },
+          {
+            "@id": "inst:the_response"
+          },
+          {
+            "@id": "inst:Act_coordinated"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.876Z"
+      }
+    ]
+  }
+}

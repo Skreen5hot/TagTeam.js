@@ -1,0 +1,276 @@
+{
+  "id": "gen-news-008",
+  "text": "The regulator fined the corporation for violations",
+  "subset": "general",
+  "tags": [
+    "news",
+    "regulation"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.593Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The regulator",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the corporation",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "violations",
+      "type": "bfo:Process"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "regulator",
+      "role": "Agent"
+    },
+    {
+      "entity": "corporation",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The regulator",
+      "type": "bfo:Entity",
+      "id": "inst:The_regulator"
+    },
+    {
+      "text": "the corporation",
+      "type": "bfo:Entity",
+      "id": "inst:the_corporation"
+    },
+    {
+      "text": "violations",
+      "type": "bfo:Entity",
+      "id": "inst:violations"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The regulator",
+      "role": "Agent"
+    },
+    {
+      "entity": "the corporation",
+      "role": "Patient"
+    },
+    {
+      "entity": "violations",
+      "role": "Beneficiary"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_regulator",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The regulator",
+        "tagteam:mentionId": "s0:h2:0-13",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Regulator_7283da75f20e"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_673baeaced25"
+        }
+      },
+      {
+        "@id": "inst:the_corporation",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the corporation",
+        "tagteam:mentionId": "s0:h5:20-35",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Corporation_f5d05650532b"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_673baeaced25"
+        }
+      },
+      {
+        "@id": "inst:violations",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "violations",
+        "tagteam:mentionId": "s0:h7:40-50",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Violations_23577c0b07a2"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_673baeaced25"
+        }
+      },
+      {
+        "@id": "inst:Act_fined",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "fined",
+        "tagteam:lemma": "fin",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_673baeaced25"
+        }
+      },
+      {
+        "@id": "inst:Role_The_regulator_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_regulator"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_fined"
+        },
+        "rdfs:label": "The regulator as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_corporation_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_corporation"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_fined"
+        },
+        "rdfs:label": "the corporation as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Role_violations_cco_BeneficiaryRole",
+        "@type": [
+          "cco:BeneficiaryRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:violations"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_fined"
+        },
+        "rdfs:label": "violations as BeneficiaryRole",
+        "tagteam:preposition": "for",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Artifact_Regulator_7283da75f20e",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "regulator",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.593Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_673baeaced25",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Corporation_f5d05650532b",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "corporation",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.593Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_673baeaced25",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Violations_23577c0b07a2",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "violations",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.593Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_673baeaced25",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_673baeaced25",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The regulator fined the corporation for violations",
+        "tagteam:char_count": 50,
+        "tagteam:word_count": 7,
+        "tagteam:received_at": "2026-02-18T02:11:44.586Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_673baeac",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_673baeaced25"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_regulator"
+          },
+          {
+            "@id": "inst:the_corporation"
+          },
+          {
+            "@id": "inst:violations"
+          },
+          {
+            "@id": "inst:Act_fined"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.586Z"
+      }
+    ]
+  }
+}

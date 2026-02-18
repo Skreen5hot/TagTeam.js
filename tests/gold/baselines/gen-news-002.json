@@ -1,0 +1,276 @@
+{
+  "id": "gen-news-002",
+  "text": "The company announced a merger with its competitor",
+  "subset": "general",
+  "tags": [
+    "news",
+    "business"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.523Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The company",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "a merger",
+      "type": "bfo:Process"
+    },
+    {
+      "text": "its competitor",
+      "type": "cco:Organization"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "company",
+      "role": "Agent"
+    },
+    {
+      "entity": "merger",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The company",
+      "type": "bfo:Entity",
+      "id": "inst:The_company"
+    },
+    {
+      "text": "a merger",
+      "type": "bfo:Entity",
+      "id": "inst:a_merger"
+    },
+    {
+      "text": "its competitor",
+      "type": "bfo:Entity",
+      "id": "inst:its_competitor"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The company",
+      "role": "Agent"
+    },
+    {
+      "entity": "a merger",
+      "role": "Patient"
+    },
+    {
+      "entity": "its competitor",
+      "role": "Instrument"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_company",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The company",
+        "tagteam:mentionId": "s0:h2:0-11",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Organization_Company_c0d3098dc8d4"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_be291b49b5d2"
+        }
+      },
+      {
+        "@id": "inst:a_merger",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "a merger",
+        "tagteam:mentionId": "s0:h5:22-30",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Merger_020ea80aff83"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_be291b49b5d2"
+        }
+      },
+      {
+        "@id": "inst:its_competitor",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "its competitor",
+        "tagteam:mentionId": "s0:h8:36-50",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Its_Competitor_014dc61bb18c"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_be291b49b5d2"
+        }
+      },
+      {
+        "@id": "inst:Act_announced",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "announced",
+        "tagteam:lemma": "announc",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_be291b49b5d2"
+        }
+      },
+      {
+        "@id": "inst:Role_The_company_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_company"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_announced"
+        },
+        "rdfs:label": "The company as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Role_a_merger_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:a_merger"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_announced"
+        },
+        "rdfs:label": "a merger as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Role_its_competitor_cco_InstrumentRole",
+        "@type": [
+          "cco:InstrumentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:its_competitor"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_announced"
+        },
+        "rdfs:label": "its competitor as InstrumentRole",
+        "tagteam:preposition": "with",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Organization_Company_c0d3098dc8d4",
+        "@type": [
+          "cco:Organization",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "company",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.523Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_be291b49b5d2",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Merger_020ea80aff83",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "merger",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.523Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_be291b49b5d2",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Its_Competitor_014dc61bb18c",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "its competitor",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.523Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_be291b49b5d2",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_be291b49b5d2",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The company announced a merger with its competitor",
+        "tagteam:char_count": 50,
+        "tagteam:word_count": 8,
+        "tagteam:received_at": "2026-02-18T02:11:44.515Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_be291b49",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_be291b49b5d2"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_company"
+          },
+          {
+            "@id": "inst:a_merger"
+          },
+          {
+            "@id": "inst:its_competitor"
+          },
+          {
+            "@id": "inst:Act_announced"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.515Z"
+      }
+    ]
+  }
+}

@@ -1,0 +1,324 @@
+{
+  "id": "adv-multi-007",
+  "text": "Because the sensors detected movement the patrol responded immediately",
+  "subset": "adversarial",
+  "tags": [
+    "multi-clause",
+    "subordination",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:45.377Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "the sensors",
+      "type": "cco:Artifact"
+    },
+    {
+      "text": "movement",
+      "type": "bfo:Process"
+    },
+    {
+      "text": "the patrol",
+      "type": "cco:Organization"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "sensors",
+      "role": "Agent"
+    },
+    {
+      "entity": "movement",
+      "role": "Patient"
+    },
+    {
+      "entity": "patrol",
+      "role": "Agent"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "Because",
+      "type": "bfo:Entity",
+      "id": "inst:Because"
+    },
+    {
+      "text": "the sensors",
+      "type": "bfo:Entity",
+      "id": "inst:the_sensors"
+    },
+    {
+      "text": "detected movement",
+      "type": "bfo:Entity",
+      "id": "inst:detected_movement"
+    },
+    {
+      "text": "the patrol",
+      "type": "bfo:Entity",
+      "id": "inst:the_patrol"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "the patrol",
+      "role": "Agent"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:Because",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "Because",
+        "tagteam:mentionId": "s0:h1:0-7",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Because_8b83bace40c9"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_075984563370"
+        }
+      },
+      {
+        "@id": "inst:the_sensors",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the sensors",
+        "tagteam:mentionId": "s0:h3:8-19",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Sensors_9d80f730c8fe"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_075984563370"
+        }
+      },
+      {
+        "@id": "inst:detected_movement",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "detected movement",
+        "tagteam:mentionId": "s0:h5:20-37",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Detected_Movement_25299c20450b"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_075984563370"
+        }
+      },
+      {
+        "@id": "inst:the_patrol",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the patrol",
+        "tagteam:mentionId": "s0:h7:38-48",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Patrol_6dc1c76c6c88"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_075984563370"
+        }
+      },
+      {
+        "@id": "inst:Act_Because",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "Because",
+        "tagteam:lemma": "because",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_075984563370"
+        }
+      },
+      {
+        "@id": "inst:Act_sensors",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "sensors",
+        "tagteam:lemma": "sensors",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_075984563370"
+        }
+      },
+      {
+        "@id": "inst:Act_movement",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "movement",
+        "tagteam:lemma": "movement",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_075984563370"
+        }
+      },
+      {
+        "@id": "inst:Act_responded",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "responded",
+        "tagteam:lemma": "respond",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_075984563370"
+        }
+      },
+      {
+        "@id": "inst:Role_the_patrol_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_patrol"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_responded"
+        },
+        "rdfs:label": "the patrol as AgentRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:Artifact_Because_8b83bace40c9",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "because",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.377Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_075984563370",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Sensors_9d80f730c8fe",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "sensors",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.377Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_075984563370",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Detected_Movement_25299c20450b",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "detected movement",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.377Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_075984563370",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Patrol_6dc1c76c6c88",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "patrol",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.377Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_075984563370",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_075984563370",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "Because the sensors detected movement the patrol responded immediately",
+        "tagteam:char_count": 70,
+        "tagteam:word_count": 9,
+        "tagteam:received_at": "2026-02-18T02:11:45.367Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_07598456",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_075984563370"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:Because"
+          },
+          {
+            "@id": "inst:the_sensors"
+          },
+          {
+            "@id": "inst:detected_movement"
+          },
+          {
+            "@id": "inst:the_patrol"
+          },
+          {
+            "@id": "inst:Act_Because"
+          },
+          {
+            "@id": "inst:Act_sensors"
+          },
+          {
+            "@id": "inst:Act_movement"
+          },
+          {
+            "@id": "inst:Act_responded"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.367Z"
+      }
+    ]
+  }
+}

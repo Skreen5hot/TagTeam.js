@@ -1,0 +1,215 @@
+{
+  "id": "gen-med-008",
+  "text": "The board certified the new treatment protocol",
+  "subset": "general",
+  "tags": [
+    "medical",
+    "administration"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.788Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The board",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the new treatment protocol",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "board",
+      "role": "Agent"
+    },
+    {
+      "entity": "treatment protocol",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The board",
+      "type": "bfo:Entity",
+      "id": "inst:The_board"
+    },
+    {
+      "text": "the new treatment protocol",
+      "type": "bfo:Entity",
+      "id": "inst:the_new_treatment_protocol"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The board",
+      "role": "Agent"
+    },
+    {
+      "entity": "the new treatment protocol",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_board",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The board",
+        "tagteam:mentionId": "s0:h2:0-9",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Organization_Board_6ce7ee4478bf"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_2253a00e3aff"
+        }
+      },
+      {
+        "@id": "inst:the_new_treatment_protocol",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the new treatment protocol",
+        "tagteam:mentionId": "s0:h7:20-46",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_New_Treatment_Protocol_e2a1adcf497e"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_2253a00e3aff"
+        }
+      },
+      {
+        "@id": "inst:Act_certified",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "certified",
+        "tagteam:lemma": "certify",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_2253a00e3aff"
+        }
+      },
+      {
+        "@id": "inst:Role_The_board_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_board"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_certified"
+        },
+        "rdfs:label": "The board as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Role_the_new_treatment_protocol_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_new_treatment_protocol"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_certified"
+        },
+        "rdfs:label": "the new treatment protocol as PatientRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Organization_Board_6ce7ee4478bf",
+        "@type": [
+          "cco:Organization",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "board",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.787Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_2253a00e3aff",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_New_Treatment_Protocol_e2a1adcf497e",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "new treatment protocol",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.787Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_2253a00e3aff",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_2253a00e3aff",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The board certified the new treatment protocol",
+        "tagteam:char_count": 46,
+        "tagteam:word_count": 7,
+        "tagteam:received_at": "2026-02-18T02:11:44.777Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_2253a00e",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_2253a00e3aff"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_board"
+          },
+          {
+            "@id": "inst:the_new_treatment_protocol"
+          },
+          {
+            "@id": "inst:Act_certified"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.777Z"
+      }
+    ]
+  }
+}

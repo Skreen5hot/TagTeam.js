@@ -1,0 +1,276 @@
+{
+  "id": "cbp-pp-010",
+  "text": "The commander assigned the unit to the southern sector",
+  "subset": "cbp-domain",
+  "tags": [
+    "pp",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.440Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The commander",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the unit",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the southern sector",
+      "type": "cco:GeopoliticalEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "commander",
+      "role": "Agent"
+    },
+    {
+      "entity": "unit",
+      "role": "Patient"
+    },
+    {
+      "entity": "southern sector",
+      "role": "Goal"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The commander",
+      "type": "bfo:Entity",
+      "id": "inst:The_commander"
+    },
+    {
+      "text": "the unit",
+      "type": "bfo:Entity",
+      "id": "inst:the_unit"
+    },
+    {
+      "text": "the southern sector",
+      "type": "bfo:Entity",
+      "id": "inst:the_southern_sector"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "the unit",
+      "role": "Patient"
+    },
+    {
+      "entity": "the southern sector",
+      "role": "Goal"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_commander",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The commander",
+        "tagteam:mentionId": "s0:h2:0-13",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Commander_4f1e93f8aea5"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_4834e9ef436e"
+        }
+      },
+      {
+        "@id": "inst:the_unit",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the unit",
+        "tagteam:mentionId": "s0:h5:23-31",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Organization_Unit_5b48276de44c"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_4834e9ef436e"
+        }
+      },
+      {
+        "@id": "inst:the_southern_sector",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the southern sector",
+        "tagteam:mentionId": "s0:h9:35-54",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Southern_Sector_7a582ea4a8d1"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_4834e9ef436e"
+        }
+      },
+      {
+        "@id": "inst:Act_commander",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "commander",
+        "tagteam:lemma": "commander",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_4834e9ef436e"
+        }
+      },
+      {
+        "@id": "inst:Act_assigned",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "assigned",
+        "tagteam:lemma": "assign",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_4834e9ef436e"
+        }
+      },
+      {
+        "@id": "inst:Role_the_unit_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_unit"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_assigned"
+        },
+        "rdfs:label": "the unit as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:Role_the_southern_sector_cco_DestinationRole",
+        "@type": [
+          "cco:DestinationRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_southern_sector"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_assigned"
+        },
+        "rdfs:label": "the southern sector as DestinationRole",
+        "tagteam:preposition": "to",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:Artifact_Commander_4f1e93f8aea5",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "commander",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.439Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_4834e9ef436e",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Organization_Unit_5b48276de44c",
+        "@type": [
+          "cco:Organization",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "unit",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.439Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_4834e9ef436e",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Southern_Sector_7a582ea4a8d1",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "southern sector",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.439Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_4834e9ef436e",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_4834e9ef436e",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The commander assigned the unit to the southern sector",
+        "tagteam:char_count": 54,
+        "tagteam:word_count": 9,
+        "tagteam:received_at": "2026-02-18T02:11:44.429Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_4834e9ef",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_4834e9ef436e"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_commander"
+          },
+          {
+            "@id": "inst:the_unit"
+          },
+          {
+            "@id": "inst:the_southern_sector"
+          },
+          {
+            "@id": "inst:Act_commander"
+          },
+          {
+            "@id": "inst:Act_assigned"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.429Z"
+      }
+    ]
+  }
+}

@@ -1,0 +1,256 @@
+{
+  "id": "adv-rel-008",
+  "text": "The report that the analyst compiled was forwarded to the director",
+  "subset": "adversarial",
+  "tags": [
+    "relative-clause",
+    "government"
+  ],
+  "generatedAt": "2026-02-18T02:11:45.363Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The report",
+      "type": "cco:InformationContentEntity"
+    },
+    {
+      "text": "the analyst",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the director",
+      "type": "cco:Person"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "analyst",
+      "role": "Agent"
+    },
+    {
+      "entity": "report",
+      "role": "Patient"
+    },
+    {
+      "entity": "director",
+      "role": "Recipient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The report",
+      "type": "bfo:Entity",
+      "id": "inst:The_report"
+    },
+    {
+      "text": "the analyst",
+      "type": "bfo:Entity",
+      "id": "inst:the_analyst"
+    },
+    {
+      "text": "the director",
+      "type": "bfo:Entity",
+      "id": "inst:the_director"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "the analyst",
+      "role": "Agent"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_report",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The report",
+        "tagteam:mentionId": "s0:h2:0-10",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Report_87e9f96418ac"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_ffc6ed551e17"
+        }
+      },
+      {
+        "@id": "inst:the_analyst",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the analyst",
+        "tagteam:mentionId": "s0:h5:16-27",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Analyst_076eb7fbb244"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_ffc6ed551e17"
+        }
+      },
+      {
+        "@id": "inst:the_director",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the director",
+        "tagteam:mentionId": "s0:h11:54-66",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Director_927a758c30ae"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_ffc6ed551e17"
+        }
+      },
+      {
+        "@id": "inst:Act_report",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "report",
+        "tagteam:lemma": "report",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_ffc6ed551e17"
+        }
+      },
+      {
+        "@id": "inst:Act_compiled",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "compiled",
+        "tagteam:lemma": "compil",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_ffc6ed551e17"
+        }
+      },
+      {
+        "@id": "inst:Role_the_analyst_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_analyst"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_compiled"
+        },
+        "rdfs:label": "the analyst as AgentRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Artifact_Report_87e9f96418ac",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "report",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.363Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_ffc6ed551e17",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Analyst_076eb7fbb244",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "analyst",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.363Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_ffc6ed551e17",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Director_927a758c30ae",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "director",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.363Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_ffc6ed551e17",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_ffc6ed551e17",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The report that the analyst compiled was forwarded to the director",
+        "tagteam:char_count": 66,
+        "tagteam:word_count": 11,
+        "tagteam:received_at": "2026-02-18T02:11:45.353Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_ffc6ed55",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_ffc6ed551e17"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_report"
+          },
+          {
+            "@id": "inst:the_analyst"
+          },
+          {
+            "@id": "inst:the_director"
+          },
+          {
+            "@id": "inst:Act_report"
+          },
+          {
+            "@id": "inst:Act_compiled"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.353Z"
+      }
+    ]
+  }
+}

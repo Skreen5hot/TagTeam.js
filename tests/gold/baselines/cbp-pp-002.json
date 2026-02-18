@@ -1,0 +1,280 @@
+{
+  "id": "cbp-pp-002",
+  "text": "The officer scanned the passport with the reader",
+  "subset": "cbp-domain",
+  "tags": [
+    "pp",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.333Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The officer",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the passport",
+      "type": "cco:InformationContentEntity"
+    },
+    {
+      "text": "the reader",
+      "type": "cco:Artifact"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "officer",
+      "role": "Agent"
+    },
+    {
+      "entity": "passport",
+      "role": "Patient"
+    },
+    {
+      "entity": "reader",
+      "role": "Instrument"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The officer",
+      "type": "bfo:Entity",
+      "id": "inst:The_officer"
+    },
+    {
+      "text": "the passport",
+      "type": "bfo:Entity",
+      "id": "inst:the_passport"
+    },
+    {
+      "text": "the reader",
+      "type": "bfo:Entity",
+      "id": "inst:the_reader"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The officer",
+      "role": "Agent"
+    },
+    {
+      "entity": "the passport",
+      "role": "Patient"
+    },
+    {
+      "entity": "the reader",
+      "role": "Instrument"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_officer",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The officer",
+        "tagteam:mentionId": "s0:h2:0-11",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Officer_f659e63509f7"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_e2e7fbde9186"
+        }
+      },
+      {
+        "@id": "inst:the_passport",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the passport",
+        "tagteam:mentionId": "s0:h5:20-32",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Passport_07de1fb4022b"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_e2e7fbde9186"
+        }
+      },
+      {
+        "@id": "inst:the_reader",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the reader",
+        "tagteam:mentionId": "s0:h8:38-48",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Reader_2ad1206ac41a"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_e2e7fbde9186"
+        }
+      },
+      {
+        "@id": "inst:Act_scanned",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "scanned",
+        "tagteam:lemma": "scann",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_e2e7fbde9186"
+        }
+      },
+      {
+        "@id": "inst:Role_The_officer_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_officer"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_scanned"
+        },
+        "rdfs:label": "The officer as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_passport_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_passport"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_scanned"
+        },
+        "rdfs:label": "the passport as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Role_the_reader_cco_InstrumentRole",
+        "@type": [
+          "cco:InstrumentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_reader"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_scanned"
+        },
+        "rdfs:label": "the reader as InstrumentRole",
+        "tagteam:preposition": "with",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Artifact_Officer_f659e63509f7",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "officer",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.332Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_e2e7fbde9186",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Passport_07de1fb4022b",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "passport",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.332Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_e2e7fbde9186",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Reader_2ad1206ac41a",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "reader",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.332Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_e2e7fbde9186",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_e2e7fbde9186",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The officer scanned the passport with the reader",
+        "tagteam:char_count": 48,
+        "tagteam:word_count": 8,
+        "tagteam:received_at": "2026-02-18T02:11:44.324Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_e2e7fbde",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_e2e7fbde9186"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_officer"
+          },
+          {
+            "@id": "inst:the_passport"
+          },
+          {
+            "@id": "inst:the_reader"
+          },
+          {
+            "@id": "inst:Act_scanned"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.324Z"
+      }
+    ]
+  }
+}

@@ -1,0 +1,276 @@
+{
+  "id": "cbp-pp-003",
+  "text": "The team transported the detainee to the facility",
+  "subset": "cbp-domain",
+  "tags": [
+    "pp",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.344Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The team",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the detainee",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the facility",
+      "type": "cco:Facility"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "team",
+      "role": "Agent"
+    },
+    {
+      "entity": "detainee",
+      "role": "Patient"
+    },
+    {
+      "entity": "facility",
+      "role": "Goal"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The team",
+      "type": "bfo:Entity",
+      "id": "inst:The_team"
+    },
+    {
+      "text": "the detainee",
+      "type": "bfo:Entity",
+      "id": "inst:the_detainee"
+    },
+    {
+      "text": "the facility",
+      "type": "bfo:Entity",
+      "id": "inst:the_facility"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "the detainee",
+      "role": "Patient"
+    },
+    {
+      "entity": "the facility",
+      "role": "Goal"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_team",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The team",
+        "tagteam:mentionId": "s0:h2:0-8",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Organization_Team_bf4e23282e39"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_b533ad596cff"
+        }
+      },
+      {
+        "@id": "inst:the_detainee",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the detainee",
+        "tagteam:mentionId": "s0:h5:21-33",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Detainee_d64fc00c95f9"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_b533ad596cff"
+        }
+      },
+      {
+        "@id": "inst:the_facility",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the facility",
+        "tagteam:mentionId": "s0:h8:37-49",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Facility_d25a0570692d"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_b533ad596cff"
+        }
+      },
+      {
+        "@id": "inst:Act_team",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "team",
+        "tagteam:lemma": "team",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_b533ad596cff"
+        }
+      },
+      {
+        "@id": "inst:Act_transported",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "transported",
+        "tagteam:lemma": "transport",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_b533ad596cff"
+        }
+      },
+      {
+        "@id": "inst:Role_the_detainee_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_detainee"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_transported"
+        },
+        "rdfs:label": "the detainee as PatientRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Role_the_facility_cco_DestinationRole",
+        "@type": [
+          "cco:DestinationRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_facility"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_transported"
+        },
+        "rdfs:label": "the facility as DestinationRole",
+        "tagteam:preposition": "to",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Organization_Team_bf4e23282e39",
+        "@type": [
+          "cco:Organization",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "team",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.344Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_b533ad596cff",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Detainee_d64fc00c95f9",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "detainee",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.344Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_b533ad596cff",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Facility_d25a0570692d",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "facility",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.344Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_b533ad596cff",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_b533ad596cff",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The team transported the detainee to the facility",
+        "tagteam:char_count": 49,
+        "tagteam:word_count": 8,
+        "tagteam:received_at": "2026-02-18T02:11:44.337Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_b533ad59",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_b533ad596cff"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_team"
+          },
+          {
+            "@id": "inst:the_detainee"
+          },
+          {
+            "@id": "inst:the_facility"
+          },
+          {
+            "@id": "inst:Act_team"
+          },
+          {
+            "@id": "inst:Act_transported"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.337Z"
+      }
+    ]
+  }
+}

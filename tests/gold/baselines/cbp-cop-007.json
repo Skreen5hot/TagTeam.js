@@ -1,0 +1,124 @@
+{
+  "id": "cbp-cop-007",
+  "text": "Global Entry is a trusted traveler program",
+  "subset": "cbp-domain",
+  "tags": [
+    "copular",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.035Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "Global Entry",
+      "type": "bfo:Process"
+    },
+    {
+      "text": "a trusted traveler program",
+      "type": "bfo:Process"
+    }
+  ],
+  "expectedRoles": [],
+  "extractedEntities": [
+    {
+      "text": "Global Entry",
+      "type": "bfo:Entity",
+      "id": "inst:Global_Entry"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:Global_Entry",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "Global Entry",
+        "tagteam:mentionId": "s0:h1:0-12",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Global_Entry_44f200cf0415"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_d804a7592ad0"
+        }
+      },
+      {
+        "@id": "inst:Assertion_Global_Entry",
+        "@type": [
+          "tagteam:StructuralAssertion"
+        ],
+        "tagteam:subject": "Global Entry",
+        "tagteam:pattern": "predication",
+        "tagteam:copula": "is"
+      },
+      {
+        "@id": "inst:Artifact_Global_Entry_44f200cf0415",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "global entry",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.035Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_d804a7592ad0",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_d804a7592ad0",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "Global Entry is a trusted traveler program",
+        "tagteam:char_count": 42,
+        "tagteam:word_count": 7,
+        "tagteam:received_at": "2026-02-18T02:11:44.023Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_d804a759",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_d804a7592ad0"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:Global_Entry"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.023Z"
+      }
+    ]
+  }
+}

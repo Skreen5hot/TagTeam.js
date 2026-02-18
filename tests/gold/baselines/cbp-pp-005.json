@@ -1,0 +1,276 @@
+{
+  "id": "cbp-pp-005",
+  "text": "The supervisor briefed the team on the operation",
+  "subset": "cbp-domain",
+  "tags": [
+    "pp",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.369Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The supervisor",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the team",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the operation",
+      "type": "bfo:Process"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "supervisor",
+      "role": "Agent"
+    },
+    {
+      "entity": "team",
+      "role": "Recipient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The supervisor",
+      "type": "bfo:Entity",
+      "id": "inst:The_supervisor"
+    },
+    {
+      "text": "the team",
+      "type": "bfo:Entity",
+      "id": "inst:the_team"
+    },
+    {
+      "text": "the operation",
+      "type": "bfo:Entity",
+      "id": "inst:the_operation"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The supervisor",
+      "role": "Agent"
+    },
+    {
+      "entity": "the team",
+      "role": "Patient"
+    },
+    {
+      "entity": "the operation",
+      "role": "Location"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_supervisor",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The supervisor",
+        "tagteam:mentionId": "s0:h2:0-14",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Supervisor_7a609d85b6c8"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_a1199a59d28f"
+        }
+      },
+      {
+        "@id": "inst:the_team",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the team",
+        "tagteam:mentionId": "s0:h5:23-31",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Organization_Team_81ade5a61e89"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_a1199a59d28f"
+        }
+      },
+      {
+        "@id": "inst:the_operation",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the operation",
+        "tagteam:mentionId": "s0:h8:35-48",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9479,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Operation_e5033375661c"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_a1199a59d28f"
+        }
+      },
+      {
+        "@id": "inst:Act_briefed",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "briefed",
+        "tagteam:lemma": "brief",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_a1199a59d28f"
+        }
+      },
+      {
+        "@id": "inst:Role_The_supervisor_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_supervisor"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_briefed"
+        },
+        "rdfs:label": "The supervisor as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Role_the_team_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_team"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_briefed"
+        },
+        "rdfs:label": "the team as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Role_the_operation_cco_LocationRole",
+        "@type": [
+          "cco:LocationRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_operation"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_briefed"
+        },
+        "rdfs:label": "the operation as LocationRole",
+        "tagteam:preposition": "on",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Artifact_Supervisor_7a609d85b6c8",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "supervisor",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.369Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_a1199a59d28f",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Organization_Team_81ade5a61e89",
+        "@type": [
+          "cco:Organization",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "team",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.369Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_a1199a59d28f",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Operation_e5033375661c",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "operation",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.369Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_a1199a59d28f",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_a1199a59d28f",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The supervisor briefed the team on the operation",
+        "tagteam:char_count": 48,
+        "tagteam:word_count": 8,
+        "tagteam:received_at": "2026-02-18T02:11:44.360Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_a1199a59",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_a1199a59d28f"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_supervisor"
+          },
+          {
+            "@id": "inst:the_team"
+          },
+          {
+            "@id": "inst:the_operation"
+          },
+          {
+            "@id": "inst:Act_briefed"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.360Z"
+      }
+    ]
+  }
+}

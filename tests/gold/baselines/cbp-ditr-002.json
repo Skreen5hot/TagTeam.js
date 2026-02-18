@@ -1,0 +1,223 @@
+{
+  "id": "cbp-ditr-002",
+  "text": "The headquarters sent the sector updated guidelines",
+  "subset": "cbp-domain",
+  "tags": [
+    "ditransitive",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.463Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The headquarters",
+      "type": "cco:Facility"
+    },
+    {
+      "text": "the sector",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "updated guidelines",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "headquarters",
+      "role": "Agent"
+    },
+    {
+      "entity": "sector",
+      "role": "Recipient"
+    },
+    {
+      "entity": "guidelines",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The headquarters",
+      "type": "bfo:Entity",
+      "id": "inst:The_headquarters"
+    },
+    {
+      "text": "the sector",
+      "type": "bfo:Entity",
+      "id": "inst:the_sector"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The headquarters",
+      "role": "Agent"
+    },
+    {
+      "entity": "the sector",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_headquarters",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The headquarters",
+        "tagteam:mentionId": "s0:h2:0-16",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Headquarters_98f1a2feec64"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_208d3324efc8"
+        }
+      },
+      {
+        "@id": "inst:the_sector",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the sector",
+        "tagteam:mentionId": "s0:h5:22-32",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Sector_e08b85fca7f5"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_208d3324efc8"
+        }
+      },
+      {
+        "@id": "inst:Act_sent",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "sent",
+        "tagteam:lemma": "send",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_208d3324efc8"
+        }
+      },
+      {
+        "@id": "inst:Role_The_headquarters_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_headquarters"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_sent"
+        },
+        "rdfs:label": "The headquarters as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_sector_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_sector"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_sent"
+        },
+        "rdfs:label": "the sector as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:Artifact_Headquarters_98f1a2feec64",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "headquarters",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.463Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_208d3324efc8",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Sector_e08b85fca7f5",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "sector",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.463Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_208d3324efc8",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_208d3324efc8",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The headquarters sent the sector updated guidelines",
+        "tagteam:char_count": 51,
+        "tagteam:word_count": 7,
+        "tagteam:received_at": "2026-02-18T02:11:44.456Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_208d3324",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_208d3324efc8"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_headquarters"
+          },
+          {
+            "@id": "inst:the_sector"
+          },
+          {
+            "@id": "inst:Act_sent"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.456Z"
+      }
+    ]
+  }
+}

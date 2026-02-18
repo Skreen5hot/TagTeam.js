@@ -1,0 +1,162 @@
+{
+  "id": "cbp-cop-011",
+  "text": "The duty officer is the primary contact for emergencies",
+  "subset": "cbp-domain",
+  "tags": [
+    "copular",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.089Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The duty officer",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the primary contact",
+      "type": "cco:Person"
+    }
+  ],
+  "expectedRoles": [],
+  "extractedEntities": [
+    {
+      "text": "The duty officer",
+      "type": "bfo:Entity",
+      "id": "inst:The_duty_officer"
+    },
+    {
+      "text": "emergencies",
+      "type": "bfo:Entity",
+      "id": "inst:emergencies"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_duty_officer",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The duty officer",
+        "tagteam:mentionId": "s0:h3:0-16",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Duty_Officer_efdc5d915fb3"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_def8547a60fd"
+        }
+      },
+      {
+        "@id": "inst:emergencies",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "emergencies",
+        "tagteam:mentionId": "s0:h9:44-55",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Emergencies_f26d612231d2"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_def8547a60fd"
+        }
+      },
+      {
+        "@id": "inst:Assertion_The_duty_officer",
+        "@type": [
+          "tagteam:StructuralAssertion"
+        ],
+        "tagteam:subject": "The duty officer",
+        "tagteam:pattern": "predication",
+        "tagteam:object": "for emergencies",
+        "tagteam:copula": "is"
+      },
+      {
+        "@id": "inst:Artifact_Duty_Officer_efdc5d915fb3",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "duty officer",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.089Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_def8547a60fd",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Emergencies_f26d612231d2",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "emergencies",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.089Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_def8547a60fd",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_def8547a60fd",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The duty officer is the primary contact for emergencies",
+        "tagteam:char_count": 55,
+        "tagteam:word_count": 9,
+        "tagteam:received_at": "2026-02-18T02:11:44.077Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_def8547a",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_def8547a60fd"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_duty_officer"
+          },
+          {
+            "@id": "inst:emergencies"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.077Z"
+      }
+    ]
+  }
+}

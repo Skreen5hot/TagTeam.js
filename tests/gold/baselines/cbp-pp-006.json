@@ -1,0 +1,280 @@
+{
+  "id": "cbp-pp-006",
+  "text": "The inspector examined the vehicle with a sensor",
+  "subset": "cbp-domain",
+  "tags": [
+    "pp",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.380Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The inspector",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the vehicle",
+      "type": "cco:Artifact"
+    },
+    {
+      "text": "a sensor",
+      "type": "cco:Artifact"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "inspector",
+      "role": "Agent"
+    },
+    {
+      "entity": "vehicle",
+      "role": "Patient"
+    },
+    {
+      "entity": "sensor",
+      "role": "Instrument"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The inspector",
+      "type": "bfo:Entity",
+      "id": "inst:The_inspector"
+    },
+    {
+      "text": "the vehicle",
+      "type": "bfo:Entity",
+      "id": "inst:the_vehicle"
+    },
+    {
+      "text": "a sensor",
+      "type": "bfo:Entity",
+      "id": "inst:a_sensor"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The inspector",
+      "role": "Agent"
+    },
+    {
+      "entity": "the vehicle",
+      "role": "Patient"
+    },
+    {
+      "entity": "a sensor",
+      "role": "Instrument"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_inspector",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The inspector",
+        "tagteam:mentionId": "s0:h2:0-13",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Inspector_2f036dc64202"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_c74c312f0ba6"
+        }
+      },
+      {
+        "@id": "inst:the_vehicle",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the vehicle",
+        "tagteam:mentionId": "s0:h5:23-34",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Vehicle_7b8038e44d72"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_c74c312f0ba6"
+        }
+      },
+      {
+        "@id": "inst:a_sensor",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "a sensor",
+        "tagteam:mentionId": "s0:h8:40-48",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Sensor_90e651926c40"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_c74c312f0ba6"
+        }
+      },
+      {
+        "@id": "inst:Act_examined",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "examined",
+        "tagteam:lemma": "examin",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_c74c312f0ba6"
+        }
+      },
+      {
+        "@id": "inst:Role_The_inspector_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_inspector"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_examined"
+        },
+        "rdfs:label": "The inspector as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Role_the_vehicle_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_vehicle"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_examined"
+        },
+        "rdfs:label": "the vehicle as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804
+      },
+      {
+        "@id": "inst:Role_a_sensor_cco_InstrumentRole",
+        "@type": [
+          "cco:InstrumentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:a_sensor"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_examined"
+        },
+        "rdfs:label": "a sensor as InstrumentRole",
+        "tagteam:preposition": "with",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433
+      },
+      {
+        "@id": "inst:Artifact_Inspector_2f036dc64202",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "inspector",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.379Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_c74c312f0ba6",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Vehicle_7b8038e44d72",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "vehicle",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.379Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_c74c312f0ba6",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Sensor_90e651926c40",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "sensor",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.379Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_c74c312f0ba6",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_c74c312f0ba6",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The inspector examined the vehicle with a sensor",
+        "tagteam:char_count": 48,
+        "tagteam:word_count": 8,
+        "tagteam:received_at": "2026-02-18T02:11:44.372Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_c74c312f",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_c74c312f0ba6"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_inspector"
+          },
+          {
+            "@id": "inst:the_vehicle"
+          },
+          {
+            "@id": "inst:a_sensor"
+          },
+          {
+            "@id": "inst:Act_examined"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.372Z"
+      }
+    ]
+  }
+}

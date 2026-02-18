@@ -1,0 +1,244 @@
+{
+  "id": "adv-rel-002",
+  "text": "The vehicle that crossed the border was intercepted",
+  "subset": "adversarial",
+  "tags": [
+    "relative-clause",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:45.099Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The vehicle",
+      "type": "cco:Artifact"
+    },
+    {
+      "text": "the border",
+      "type": "cco:Facility"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "vehicle",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The vehicle",
+      "type": "bfo:Entity",
+      "id": "inst:The_vehicle"
+    },
+    {
+      "text": "that",
+      "type": "bfo:Entity",
+      "id": "inst:that"
+    },
+    {
+      "text": "the border",
+      "type": "bfo:Entity",
+      "id": "inst:the_border"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "that",
+      "role": "Agent"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_vehicle",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The vehicle",
+        "tagteam:mentionId": "s0:h2:0-11",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Vehicle_8df4497389e5"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_03a72b1781ed"
+        }
+      },
+      {
+        "@id": "inst:that",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "that",
+        "tagteam:mentionId": "s0:h3:12-16",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_That_1c54d64aea49"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_03a72b1781ed"
+        }
+      },
+      {
+        "@id": "inst:the_border",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the border",
+        "tagteam:mentionId": "s0:h6:25-35",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Border_122fb1b9e278"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_03a72b1781ed"
+        }
+      },
+      {
+        "@id": "inst:Act_vehicle",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "vehicle",
+        "tagteam:lemma": "vehicle",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_03a72b1781ed"
+        }
+      },
+      {
+        "@id": "inst:Act_crossed",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "crossed",
+        "tagteam:lemma": "cross",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_03a72b1781ed"
+        }
+      },
+      {
+        "@id": "inst:Role_that_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:that"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_crossed"
+        },
+        "rdfs:label": "that as AgentRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:Artifact_Vehicle_8df4497389e5",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "vehicle",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.099Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_03a72b1781ed",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_That_1c54d64aea49",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "that",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.099Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_03a72b1781ed",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Border_122fb1b9e278",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "border",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.099Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_03a72b1781ed",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_03a72b1781ed",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The vehicle that crossed the border was intercepted",
+        "tagteam:char_count": 51,
+        "tagteam:word_count": 8,
+        "tagteam:received_at": "2026-02-18T02:11:45.088Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_03a72b17",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_03a72b1781ed"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_vehicle"
+          },
+          {
+            "@id": "inst:that"
+          },
+          {
+            "@id": "inst:the_border"
+          },
+          {
+            "@id": "inst:Act_vehicle"
+          },
+          {
+            "@id": "inst:Act_crossed"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.088Z"
+      }
+    ]
+  }
+}

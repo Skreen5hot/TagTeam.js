@@ -1,0 +1,301 @@
+{
+  "id": "adv-multi-001",
+  "text": "The agent arrested the suspect and the team secured the area",
+  "subset": "adversarial",
+  "tags": [
+    "multi-clause",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:45.167Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The agent",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the suspect",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the team",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the area",
+      "type": "bfo:Entity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "agent",
+      "role": "Agent"
+    },
+    {
+      "entity": "suspect",
+      "role": "Patient"
+    },
+    {
+      "entity": "team",
+      "role": "Agent"
+    },
+    {
+      "entity": "area",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The agent",
+      "type": "bfo:Entity",
+      "id": "inst:The_agent"
+    },
+    {
+      "text": "the suspect",
+      "type": "bfo:Entity",
+      "id": "inst:the_suspect"
+    },
+    {
+      "text": "the team",
+      "type": "bfo:Entity",
+      "id": "inst:the_team"
+    },
+    {
+      "text": "the area",
+      "type": "bfo:Entity",
+      "id": "inst:the_area"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "the suspect",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_agent",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The agent",
+        "tagteam:mentionId": "s0:h2:0-9",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Agent_dda841b87247"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_24ce32ca9e10"
+        }
+      },
+      {
+        "@id": "inst:the_suspect",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the suspect",
+        "tagteam:mentionId": "s0:h5:19-30",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Suspect_5b2515d5e46f"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_24ce32ca9e10"
+        }
+      },
+      {
+        "@id": "inst:the_team",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the team",
+        "tagteam:mentionId": "s0:h8:35-43",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Organization_Team_29fadf38fdb3"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_24ce32ca9e10"
+        }
+      },
+      {
+        "@id": "inst:the_area",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the area",
+        "tagteam:mentionId": "s0:h11:52-60",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Area_719eba02e8ad"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_24ce32ca9e10"
+        }
+      },
+      {
+        "@id": "inst:Act_agent",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "agent",
+        "tagteam:lemma": "agent",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_24ce32ca9e10"
+        }
+      },
+      {
+        "@id": "inst:Act_arrested",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "arrested",
+        "tagteam:lemma": "arrest",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_24ce32ca9e10"
+        }
+      },
+      {
+        "@id": "inst:Role_the_suspect_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_suspect"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_arrested"
+        },
+        "rdfs:label": "the suspect as PatientRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Artifact_Agent_dda841b87247",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "agent",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.166Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_24ce32ca9e10",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Suspect_5b2515d5e46f",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "suspect",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.167Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_24ce32ca9e10",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Organization_Team_29fadf38fdb3",
+        "@type": [
+          "cco:Organization",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "team",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.167Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_24ce32ca9e10",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Area_719eba02e8ad",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "area",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.167Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_24ce32ca9e10",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_24ce32ca9e10",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The agent arrested the suspect and the team secured the area",
+        "tagteam:char_count": 60,
+        "tagteam:word_count": 11,
+        "tagteam:received_at": "2026-02-18T02:11:45.154Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_24ce32ca",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_24ce32ca9e10"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_agent"
+          },
+          {
+            "@id": "inst:the_suspect"
+          },
+          {
+            "@id": "inst:the_team"
+          },
+          {
+            "@id": "inst:the_area"
+          },
+          {
+            "@id": "inst:Act_agent"
+          },
+          {
+            "@id": "inst:Act_arrested"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.154Z"
+      }
+    ]
+  }
+}

@@ -1,0 +1,253 @@
+{
+  "id": "cbp-svo-005",
+  "text": "The field operations directorate managed the ports of entry",
+  "subset": "cbp-domain",
+  "tags": [
+    "svo",
+    "cbp",
+    "operations"
+  ],
+  "generatedAt": "2026-02-18T02:11:43.706Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The field operations directorate",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the ports of entry",
+      "type": "cco:Facility"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "field operations directorate",
+      "role": "Agent"
+    },
+    {
+      "entity": "ports of entry",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The field operations",
+      "type": "bfo:Entity",
+      "id": "inst:The_field_operations"
+    },
+    {
+      "text": "the ports of entry",
+      "type": "bfo:Entity",
+      "id": "inst:the_ports_of_entry"
+    },
+    {
+      "text": "entry",
+      "type": "bfo:Entity",
+      "id": "inst:entry"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The field operations",
+      "role": "Agent"
+    },
+    {
+      "entity": "the ports of entry",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_field_operations",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The field operations",
+        "tagteam:mentionId": "s0:h3:0-20",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Field_Operations_f9c676e8bb41"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_2189b3fcc3ba"
+        }
+      },
+      {
+        "@id": "inst:the_ports_of_entry",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the ports of entry",
+        "tagteam:mentionId": "s0:h7:41-59",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Ports_Of_Entry_67c1677a0bb6"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_2189b3fcc3ba"
+        }
+      },
+      {
+        "@id": "inst:entry",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "entry",
+        "tagteam:mentionId": "s0:h9:54-59",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Entry_ed8a4f01658b"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_2189b3fcc3ba"
+        }
+      },
+      {
+        "@id": "inst:Act_directorate",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "directorate",
+        "tagteam:lemma": "directorate",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_2189b3fcc3ba"
+        }
+      },
+      {
+        "@id": "inst:Role_The_field_operations_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_field_operations"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_directorate"
+        },
+        "rdfs:label": "The field operations as AgentRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Role_the_ports_of_entry_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_ports_of_entry"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_directorate"
+        },
+        "rdfs:label": "the ports of entry as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Artifact_Field_Operations_f9c676e8bb41",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "field operations",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.705Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_2189b3fcc3ba",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Ports_Of_Entry_67c1677a0bb6",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "ports of entry",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.705Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_2189b3fcc3ba",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Entry_ed8a4f01658b",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "entry",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.705Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_2189b3fcc3ba",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_2189b3fcc3ba",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The field operations directorate managed the ports of entry",
+        "tagteam:char_count": 59,
+        "tagteam:word_count": 9,
+        "tagteam:received_at": "2026-02-18T02:11:43.693Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_2189b3fc",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_2189b3fcc3ba"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_field_operations"
+          },
+          {
+            "@id": "inst:the_ports_of_entry"
+          },
+          {
+            "@id": "inst:entry"
+          },
+          {
+            "@id": "inst:Act_directorate"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.693Z"
+      }
+    ]
+  }
+}

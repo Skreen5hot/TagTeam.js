@@ -1,0 +1,217 @@
+{
+  "id": "cbp-svo-006",
+  "text": "The sector chief deployed additional resources",
+  "subset": "cbp-domain",
+  "tags": [
+    "svo",
+    "cbp",
+    "operations"
+  ],
+  "generatedAt": "2026-02-18T02:11:43.726Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The sector chief",
+      "type": "cco:Person"
+    },
+    {
+      "text": "additional resources",
+      "type": "bfo:Entity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "sector chief",
+      "role": "Agent"
+    },
+    {
+      "entity": "resources",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The sector chief",
+      "type": "bfo:Entity",
+      "id": "inst:The_sector_chief"
+    },
+    {
+      "text": "additional resources",
+      "type": "bfo:Entity",
+      "id": "inst:additional_resources"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The sector chief",
+      "role": "Patient"
+    },
+    {
+      "entity": "additional resources",
+      "role": "Agent"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_sector_chief",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The sector chief",
+        "tagteam:mentionId": "s0:h3:0-16",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Sector_Chief_87ef66cc6b33"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_e4400b4f4de2"
+        }
+      },
+      {
+        "@id": "inst:additional_resources",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "additional resources",
+        "tagteam:mentionId": "s0:h6:26-46",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Additional_Resources_3257de687966"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_e4400b4f4de2"
+        }
+      },
+      {
+        "@id": "inst:Act_deployed",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "deployed",
+        "tagteam:lemma": "deploy",
+        "tagteam:isPassive": true,
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_e4400b4f4de2"
+        }
+      },
+      {
+        "@id": "inst:Role_The_sector_chief_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_sector_chief"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_deployed"
+        },
+        "rdfs:label": "The sector chief as PatientRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Role_additional_resources_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:additional_resources"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_deployed"
+        },
+        "rdfs:label": "additional resources as AgentRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Artifact_Sector_Chief_87ef66cc6b33",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "sector chief",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.726Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_e4400b4f4de2",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Additional_Resources_3257de687966",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "additional resources",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.726Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_e4400b4f4de2",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_e4400b4f4de2",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The sector chief deployed additional resources",
+        "tagteam:char_count": 46,
+        "tagteam:word_count": 6,
+        "tagteam:received_at": "2026-02-18T02:11:43.709Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_e4400b4f",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_e4400b4f4de2"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_sector_chief"
+          },
+          {
+            "@id": "inst:additional_resources"
+          },
+          {
+            "@id": "inst:Act_deployed"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.709Z"
+      }
+    ]
+  }
+}

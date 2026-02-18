@@ -1,0 +1,124 @@
+{
+  "id": "cbp-cop-009",
+  "text": "The checkpoint is a fixed inspection station",
+  "subset": "cbp-domain",
+  "tags": [
+    "copular",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.061Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The checkpoint",
+      "type": "cco:Facility"
+    },
+    {
+      "text": "a fixed inspection station",
+      "type": "cco:Facility"
+    }
+  ],
+  "expectedRoles": [],
+  "extractedEntities": [
+    {
+      "text": "The checkpoint",
+      "type": "bfo:Entity",
+      "id": "inst:The_checkpoint"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_checkpoint",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The checkpoint",
+        "tagteam:mentionId": "s0:h2:0-14",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Checkpoint_dfa6fce7eb7f"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_0388adf8a5e3"
+        }
+      },
+      {
+        "@id": "inst:Assertion_The_checkpoint",
+        "@type": [
+          "tagteam:StructuralAssertion"
+        ],
+        "tagteam:subject": "The checkpoint",
+        "tagteam:pattern": "predication",
+        "tagteam:copula": "is"
+      },
+      {
+        "@id": "inst:Artifact_Checkpoint_dfa6fce7eb7f",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "checkpoint",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.061Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_0388adf8a5e3",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_0388adf8a5e3",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The checkpoint is a fixed inspection station",
+        "tagteam:char_count": 44,
+        "tagteam:word_count": 7,
+        "tagteam:received_at": "2026-02-18T02:11:44.053Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_0388adf8",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_0388adf8a5e3"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_checkpoint"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.053Z"
+      }
+    ]
+  }
+}

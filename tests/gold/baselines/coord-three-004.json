@@ -1,0 +1,230 @@
+{
+  "id": "coord-three-004",
+  "text": "Federal, state, and local agencies responded to the emergency",
+  "subset": "three-way-coord",
+  "tags": [
+    "three-way",
+    "coordination",
+    "government"
+  ],
+  "generatedAt": "2026-02-18T02:11:43.610Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "Federal",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "state",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "local agencies",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the emergency",
+      "type": "bfo:Process"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "Federal",
+      "role": "Agent"
+    },
+    {
+      "entity": "state",
+      "role": "Agent"
+    },
+    {
+      "entity": "local agencies",
+      "role": "Agent"
+    },
+    {
+      "entity": "emergency",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "Federal state and local agencies responded to the emergency",
+      "type": "bfo:Entity",
+      "id": "inst:Federal_state_and_local_agencies_responded_to_the_emergency"
+    },
+    {
+      "text": "local agencies",
+      "type": "bfo:Entity",
+      "id": "inst:local_agencies"
+    },
+    {
+      "text": "the emergency",
+      "type": "bfo:Entity",
+      "id": "inst:the_emergency"
+    }
+  ],
+  "extractedRoles": [],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:Federal_state_and_local_agencies_responded_to_the_emergency",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "Federal state and local agencies responded to the emergency",
+        "tagteam:mentionId": "s0:h3:0-63",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Federal_State_And_Local_Agencies_Responded_To_The_Emergency_57829dd12fe8"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_34abe0e90d94"
+        }
+      },
+      {
+        "@id": "inst:local_agencies",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "local agencies",
+        "tagteam:mentionId": "s0:h7:22-36",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Local_Agencies_33d967215ce5"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_34abe0e90d94"
+        }
+      },
+      {
+        "@id": "inst:the_emergency",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the emergency",
+        "tagteam:mentionId": "s0:h11:50-63",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Emergency_350553614c7e"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_34abe0e90d94"
+        }
+      },
+      {
+        "@id": "inst:Act_state",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "state",
+        "tagteam:lemma": "state",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_34abe0e90d94"
+        }
+      },
+      {
+        "@id": "inst:Artifact_Federal_State_And_Local_Agencies_Responded_To_The_Emergency_57829dd12fe8",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "federal state and local agencies responded to the emergency",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.610Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_34abe0e90d94",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Local_Agencies_33d967215ce5",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "local agencies",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.610Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_34abe0e90d94",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Emergency_350553614c7e",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "emergency",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.610Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_34abe0e90d94",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_34abe0e90d94",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "Federal, state, and local agencies responded to the emergency",
+        "tagteam:char_count": 61,
+        "tagteam:word_count": 9,
+        "tagteam:received_at": "2026-02-18T02:11:43.598Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_34abe0e9",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_34abe0e90d94"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:Federal_state_and_local_agencies_responded_to_the_emergency"
+          },
+          {
+            "@id": "inst:local_agencies"
+          },
+          {
+            "@id": "inst:the_emergency"
+          },
+          {
+            "@id": "inst:Act_state"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.598Z"
+      }
+    ]
+  }
+}

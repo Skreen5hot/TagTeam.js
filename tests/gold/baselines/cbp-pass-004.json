@@ -1,0 +1,269 @@
+{
+  "id": "cbp-pass-004",
+  "text": "The border wall was constructed by the Army Corps of Engineers",
+  "subset": "cbp-domain",
+  "tags": [
+    "passive",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:44.210Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The border wall",
+      "type": "cco:Facility"
+    },
+    {
+      "text": "the Army Corps of Engineers",
+      "type": "cco:Organization"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "Army Corps of Engineers",
+      "role": "Agent"
+    },
+    {
+      "entity": "border wall",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The border wall",
+      "type": "bfo:Entity",
+      "id": "inst:The_border_wall"
+    },
+    {
+      "text": "the Army Corps",
+      "type": "bfo:Entity",
+      "id": "inst:the_Army_Corps"
+    },
+    {
+      "text": "Engineers",
+      "type": "bfo:Entity",
+      "id": "inst:Engineers"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The border wall",
+      "role": "Patient"
+    },
+    {
+      "entity": "the Army Corps",
+      "role": "Agent"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_border_wall",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The border wall",
+        "tagteam:mentionId": "s0:h3:0-15",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Border_Wall_85ed017b5cfc"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_b903487052bc"
+        }
+      },
+      {
+        "@id": "inst:the_Army_Corps",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the Army Corps",
+        "tagteam:mentionId": "s0:h9:35-49",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Army_Corps_fea69f0fc1eb"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_b903487052bc"
+        }
+      },
+      {
+        "@id": "inst:Engineers",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "Engineers",
+        "tagteam:mentionId": "s0:h11:53-62",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Engineers_53e8543ad10a"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_b903487052bc"
+        }
+      },
+      {
+        "@id": "inst:Act_constructed",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "constructed",
+        "tagteam:lemma": "construct",
+        "tagteam:isPassive": true,
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_b903487052bc"
+        }
+      },
+      {
+        "@id": "inst:Role_The_border_wall_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_border_wall"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_constructed"
+        },
+        "rdfs:label": "The border wall as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804
+      },
+      {
+        "@id": "inst:Role_the_Army_Corps_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_Army_Corps"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_constructed"
+        },
+        "rdfs:label": "the Army Corps as AgentRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Role_Engineers_cco_ObliqueRole",
+        "@type": [
+          "cco:ObliqueRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:Engineers"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_constructed"
+        },
+        "rdfs:label": "Engineers as ObliqueRole",
+        "tagteam:preposition": "of",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Artifact_Border_Wall_85ed017b5cfc",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "border wall",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.209Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_b903487052bc",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Army_Corps_fea69f0fc1eb",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "army corps",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.209Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_b903487052bc",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Engineers_53e8543ad10a",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "engineers",
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.209Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_b903487052bc",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_b903487052bc",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The border wall was constructed by the Army Corps of Engineers",
+        "tagteam:char_count": 62,
+        "tagteam:word_count": 11,
+        "tagteam:received_at": "2026-02-18T02:11:44.198Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_b9034870",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_b903487052bc"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_border_wall"
+          },
+          {
+            "@id": "inst:the_Army_Corps"
+          },
+          {
+            "@id": "inst:Engineers"
+          },
+          {
+            "@id": "inst:Act_constructed"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:44.198Z"
+      }
+    ]
+  }
+}

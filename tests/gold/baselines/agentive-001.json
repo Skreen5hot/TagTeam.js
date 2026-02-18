@@ -1,0 +1,217 @@
+{
+  "id": "agentive-001",
+  "text": "The suspect was located by the tracking team",
+  "subset": "stative-passive",
+  "tags": [
+    "agentive",
+    "passive",
+    "government"
+  ],
+  "generatedAt": "2026-02-18T02:11:43.479Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The suspect",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the tracking team",
+      "type": "cco:Organization"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "tracking team",
+      "role": "Agent"
+    },
+    {
+      "entity": "suspect",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The suspect",
+      "type": "bfo:Entity",
+      "id": "inst:The_suspect"
+    },
+    {
+      "text": "the tracking team",
+      "type": "bfo:Entity",
+      "id": "inst:the_tracking_team"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The suspect",
+      "role": "Patient"
+    },
+    {
+      "entity": "the tracking team",
+      "role": "Agent"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_suspect",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The suspect",
+        "tagteam:mentionId": "s0:h2:0-11",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Suspect_6d74447b74a7"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_83d812c2cd7a"
+        }
+      },
+      {
+        "@id": "inst:the_tracking_team",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the tracking team",
+        "tagteam:mentionId": "s0:h8:27-44",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Organization_Tracking_Team_0a8967e24366"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_83d812c2cd7a"
+        }
+      },
+      {
+        "@id": "inst:Act_located",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "located",
+        "tagteam:lemma": "locate",
+        "tagteam:isPassive": true,
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_83d812c2cd7a"
+        }
+      },
+      {
+        "@id": "inst:Role_The_suspect_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_suspect"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_located"
+        },
+        "rdfs:label": "The suspect as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804
+      },
+      {
+        "@id": "inst:Role_the_tracking_team_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_tracking_team"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_located"
+        },
+        "rdfs:label": "the tracking team as AgentRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:Artifact_Suspect_6d74447b74a7",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "suspect",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.479Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_83d812c2cd7a",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Organization_Tracking_Team_0a8967e24366",
+        "@type": [
+          "cco:Organization",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "tracking team",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.479Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_83d812c2cd7a",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_83d812c2cd7a",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The suspect was located by the tracking team",
+        "tagteam:char_count": 44,
+        "tagteam:word_count": 8,
+        "tagteam:received_at": "2026-02-18T02:11:43.463Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_83d812c2",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_83d812c2cd7a"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_suspect"
+          },
+          {
+            "@id": "inst:the_tracking_team"
+          },
+          {
+            "@id": "inst:Act_located"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.463Z"
+      }
+    ]
+  }
+}

@@ -1,0 +1,216 @@
+{
+  "id": "cbp-svo-018",
+  "text": "The watch commander initiated the lockdown",
+  "subset": "cbp-domain",
+  "tags": [
+    "svo",
+    "cbp",
+    "operations"
+  ],
+  "generatedAt": "2026-02-18T02:11:43.896Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The watch commander",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the lockdown",
+      "type": "bfo:Process"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "watch commander",
+      "role": "Agent"
+    },
+    {
+      "entity": "lockdown",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The watch commander",
+      "type": "bfo:Entity",
+      "id": "inst:The_watch_commander"
+    },
+    {
+      "text": "the lockdown",
+      "type": "bfo:Entity",
+      "id": "inst:the_lockdown"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The watch commander",
+      "role": "Agent"
+    },
+    {
+      "entity": "the lockdown",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_watch_commander",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The watch commander",
+        "tagteam:mentionId": "s0:h3:0-19",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Watch_Commander_c56a79b78534"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_11221ca027fb"
+        }
+      },
+      {
+        "@id": "inst:the_lockdown",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the lockdown",
+        "tagteam:mentionId": "s0:h6:30-42",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Lockdown_dac43809ab06"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_11221ca027fb"
+        }
+      },
+      {
+        "@id": "inst:Act_initiated",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "initiated",
+        "tagteam:lemma": "initiat",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_11221ca027fb"
+        }
+      },
+      {
+        "@id": "inst:Role_The_watch_commander_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_watch_commander"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_initiated"
+        },
+        "rdfs:label": "The watch commander as AgentRole",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Role_the_lockdown_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_lockdown"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_initiated"
+        },
+        "rdfs:label": "the lockdown as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804
+      },
+      {
+        "@id": "inst:Artifact_Watch_Commander_c56a79b78534",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "watch commander",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.896Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_11221ca027fb",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Lockdown_dac43809ab06",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "lockdown",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.896Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_11221ca027fb",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_11221ca027fb",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The watch commander initiated the lockdown",
+        "tagteam:char_count": 42,
+        "tagteam:word_count": 6,
+        "tagteam:received_at": "2026-02-18T02:11:43.889Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_11221ca0",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_11221ca027fb"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_watch_commander"
+          },
+          {
+            "@id": "inst:the_lockdown"
+          },
+          {
+            "@id": "inst:Act_initiated"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.889Z"
+      }
+    ]
+  }
+}

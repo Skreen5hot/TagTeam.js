@@ -1,0 +1,305 @@
+{
+  "id": "adv-multi-002",
+  "text": "The director authorized the operation but the supervisor delayed the execution",
+  "subset": "adversarial",
+  "tags": [
+    "multi-clause",
+    "government"
+  ],
+  "generatedAt": "2026-02-18T02:11:45.185Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The director",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the operation",
+      "type": "bfo:Process"
+    },
+    {
+      "text": "the supervisor",
+      "type": "cco:Person"
+    },
+    {
+      "text": "the execution",
+      "type": "bfo:Process"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "director",
+      "role": "Agent"
+    },
+    {
+      "entity": "operation",
+      "role": "Patient"
+    },
+    {
+      "entity": "supervisor",
+      "role": "Agent"
+    },
+    {
+      "entity": "execution",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The director",
+      "type": "bfo:Entity",
+      "id": "inst:The_director"
+    },
+    {
+      "text": "the operation",
+      "type": "bfo:Entity",
+      "id": "inst:the_operation"
+    },
+    {
+      "text": "the supervisor",
+      "type": "bfo:Entity",
+      "id": "inst:the_supervisor"
+    },
+    {
+      "text": "the execution",
+      "type": "bfo:Entity",
+      "id": "inst:the_execution"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The director",
+      "role": "Agent"
+    },
+    {
+      "entity": "the operation",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_director",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The director",
+        "tagteam:mentionId": "s0:h2:0-12",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Director_2fd23161a6a3"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_c507cb076f74"
+        }
+      },
+      {
+        "@id": "inst:the_operation",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the operation",
+        "tagteam:mentionId": "s0:h5:24-37",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Operation_3aa83b18515b"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_c507cb076f74"
+        }
+      },
+      {
+        "@id": "inst:the_supervisor",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the supervisor",
+        "tagteam:mentionId": "s0:h8:42-56",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Supervisor_252d08099864"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_c507cb076f74"
+        }
+      },
+      {
+        "@id": "inst:the_execution",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the execution",
+        "tagteam:mentionId": "s0:h11:65-78",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Execution_b8d181eca918"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_c507cb076f74"
+        }
+      },
+      {
+        "@id": "inst:Act_authorized",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "authorized",
+        "tagteam:lemma": "authoriz",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_c507cb076f74"
+        }
+      },
+      {
+        "@id": "inst:Role_The_director_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_director"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_authorized"
+        },
+        "rdfs:label": "The director as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272
+      },
+      {
+        "@id": "inst:Role_the_operation_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_operation"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_authorized"
+        },
+        "rdfs:label": "the operation as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Artifact_Director_2fd23161a6a3",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "director",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.184Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_c507cb076f74",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Operation_3aa83b18515b",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "operation",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.184Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_c507cb076f74",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Supervisor_252d08099864",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "supervisor",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.185Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_c507cb076f74",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Execution_b8d181eca918",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "execution",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.185Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_c507cb076f74",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_c507cb076f74",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The director authorized the operation but the supervisor delayed the execution",
+        "tagteam:char_count": 78,
+        "tagteam:word_count": 11,
+        "tagteam:received_at": "2026-02-18T02:11:45.172Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_c507cb07",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_c507cb076f74"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_director"
+          },
+          {
+            "@id": "inst:the_operation"
+          },
+          {
+            "@id": "inst:the_supervisor"
+          },
+          {
+            "@id": "inst:the_execution"
+          },
+          {
+            "@id": "inst:Act_authorized"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.172Z"
+      }
+    ]
+  }
+}

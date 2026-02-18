@@ -1,0 +1,216 @@
+{
+  "id": "cbp-svo-019",
+  "text": "The training division developed the curriculum",
+  "subset": "cbp-domain",
+  "tags": [
+    "svo",
+    "cbp",
+    "training"
+  ],
+  "generatedAt": "2026-02-18T02:11:43.912Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "The training division",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the curriculum",
+      "type": "cco:InformationContentEntity"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "training division",
+      "role": "Agent"
+    },
+    {
+      "entity": "curriculum",
+      "role": "Patient"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "The training division",
+      "type": "bfo:Entity",
+      "id": "inst:The_training_division"
+    },
+    {
+      "text": "the curriculum",
+      "type": "bfo:Entity",
+      "id": "inst:the_curriculum"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "The training division",
+      "role": "Agent"
+    },
+    {
+      "entity": "the curriculum",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:The_training_division",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The training division",
+        "tagteam:mentionId": "s0:h3:0-21",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Training_Division_924253af1d00"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_6e60b40233e1"
+        }
+      },
+      {
+        "@id": "inst:the_curriculum",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the curriculum",
+        "tagteam:mentionId": "s0:h6:32-46",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Curriculum_7e97bbcdc4a4"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_6e60b40233e1"
+        }
+      },
+      {
+        "@id": "inst:Act_developed",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "developed",
+        "tagteam:lemma": "develop",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_6e60b40233e1"
+        }
+      },
+      {
+        "@id": "inst:Role_The_training_division_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:The_training_division"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_developed"
+        },
+        "rdfs:label": "The training division as AgentRole",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9479
+      },
+      {
+        "@id": "inst:Role_the_curriculum_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_curriculum"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_developed"
+        },
+        "rdfs:label": "the curriculum as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Artifact_Training_Division_924253af1d00",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "training division",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.911Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_6e60b40233e1",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Curriculum_7e97bbcdc4a4",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "curriculum",
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.911Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_6e60b40233e1",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_6e60b40233e1",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "The training division developed the curriculum",
+        "tagteam:char_count": 46,
+        "tagteam:word_count": 6,
+        "tagteam:received_at": "2026-02-18T02:11:43.902Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_6e60b402",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_6e60b40233e1"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:The_training_division"
+          },
+          {
+            "@id": "inst:the_curriculum"
+          },
+          {
+            "@id": "inst:Act_developed"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:43.902Z"
+      }
+    ]
+  }
+}

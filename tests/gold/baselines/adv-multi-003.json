@@ -1,0 +1,261 @@
+{
+  "id": "adv-multi-003",
+  "text": "After the patrol spotted the vessel the coast guard intercepted it",
+  "subset": "adversarial",
+  "tags": [
+    "multi-clause",
+    "subordination",
+    "cbp"
+  ],
+  "generatedAt": "2026-02-18T02:11:45.201Z",
+  "pipelineVersion": "3.1.0-alpha.1",
+  "expectedEntities": [
+    {
+      "text": "the patrol",
+      "type": "cco:Organization"
+    },
+    {
+      "text": "the vessel",
+      "type": "cco:Artifact"
+    },
+    {
+      "text": "the coast guard",
+      "type": "cco:Organization"
+    }
+  ],
+  "expectedRoles": [
+    {
+      "entity": "patrol",
+      "role": "Agent"
+    },
+    {
+      "entity": "vessel",
+      "role": "Patient"
+    },
+    {
+      "entity": "coast guard",
+      "role": "Agent"
+    }
+  ],
+  "extractedEntities": [
+    {
+      "text": "the patrol",
+      "type": "bfo:Entity",
+      "id": "inst:the_patrol"
+    },
+    {
+      "text": "the vessel",
+      "type": "bfo:Entity",
+      "id": "inst:the_vessel"
+    },
+    {
+      "text": "it",
+      "type": "bfo:Entity",
+      "id": "inst:it"
+    }
+  ],
+  "extractedRoles": [
+    {
+      "entity": "the patrol",
+      "role": "Agent"
+    },
+    {
+      "entity": "the vessel",
+      "role": "Patient"
+    }
+  ],
+  "graph": {
+    "@graph": [
+      {
+        "@id": "inst:the_patrol",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the patrol",
+        "tagteam:mentionId": "s0:h3:6-16",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Patrol_006c05b875f3"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_57d1bde0c7dc"
+        }
+      },
+      {
+        "@id": "inst:the_vessel",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the vessel",
+        "tagteam:mentionId": "s0:h6:25-35",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_Vessel_e02d9bb2a97e"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_57d1bde0c7dc"
+        }
+      },
+      {
+        "@id": "inst:it",
+        "@type": [
+          "bfo:Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "it",
+        "tagteam:mentionId": "s0:h11:64-66",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583,
+        "tagteam:denotesType": "bfo:Entity",
+        "cco:is_about": {
+          "@id": "inst:Artifact_It_96189ac6c8a5"
+        },
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_57d1bde0c7dc"
+        }
+      },
+      {
+        "@id": "inst:Act_spotted",
+        "@type": [
+          "cco:IntentionalAct",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "spotted",
+        "tagteam:lemma": "spott",
+        "cco:is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_57d1bde0c7dc"
+        }
+      },
+      {
+        "@id": "inst:Role_the_patrol_cco_AgentRole",
+        "@type": [
+          "cco:AgentRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_patrol"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_spotted"
+        },
+        "rdfs:label": "the patrol as AgentRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:Role_the_vessel_cco_PatientRole",
+        "@type": [
+          "cco:PatientRole"
+        ],
+        "tagteam:bearer": {
+          "@id": "inst:the_vessel"
+        },
+        "tagteam:realizedIn": {
+          "@id": "inst:Act_spotted"
+        },
+        "rdfs:label": "the vessel as PatientRole",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Artifact_Patrol_006c05b875f3",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "patrol",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.201Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_57d1bde0c7dc",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_Vessel_e02d9bb2a97e",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "vessel",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.201Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_57d1bde0c7dc",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Artifact_It_96189ac6c8a5",
+        "@type": [
+          "cco:Artifact",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "it",
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.201Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_57d1bde0c7dc",
+        "tagteam:denotesType": "bfo:Entity"
+      },
+      {
+        "@id": "inst:Input_Text_IBE_57d1bde0c7dc",
+        "@type": [
+          "cco:InformationBearingEntity",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Input text",
+        "cco:has_text_value": "After the patrol spotted the vessel the coast guard intercepted it",
+        "tagteam:char_count": 66,
+        "tagteam:word_count": 11,
+        "tagteam:received_at": "2026-02-18T02:11:45.189Z"
+      },
+      {
+        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@type": [
+          "cco:ArtificialAgent",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
+        "tagteam:version": "3.0.0-alpha.1",
+        "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
+        "tagteam:capabilities": [
+          "entity_extraction",
+          "act_extraction",
+          "role_detection",
+          "value_detection",
+          "context_analysis"
+        ]
+      },
+      {
+        "@id": "inst:ParsingAct_57d1bde0",
+        "@type": [
+          "cco:ActOfArtificialProcessing",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Semantic parsing act",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "cco:has_input": {
+          "@id": "inst:Input_Text_IBE_57d1bde0c7dc"
+        },
+        "cco:has_agent": {
+          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+        },
+        "cco:has_output": [
+          {
+            "@id": "inst:the_patrol"
+          },
+          {
+            "@id": "inst:the_vessel"
+          },
+          {
+            "@id": "inst:it"
+          },
+          {
+            "@id": "inst:Act_spotted"
+          }
+        ],
+        "tagteam:instantiated_at": "2026-02-18T02:11:45.189Z"
+      }
+    ]
+  }
+}
