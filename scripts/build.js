@@ -128,6 +128,9 @@ const dependencyParserPath = path.join(__dirname, '..', 'src', 'core', 'Dependen
 const depTreePath = path.join(__dirname, '..', 'src', 'core', 'DepTree.js');
 const binaryModelLoaderPath = path.join(__dirname, '..', 'src', 'core', 'BinaryModelLoader.js');
 
+// v2 Phase 4: Ditransitive arc corrector
+const depTreeCorrectorPath = path.join(__dirname, '..', 'src', 'core', 'DepTreeCorrector.js');
+
 // v2 Phase 0: Core contracts for tree pipeline browser support
 const unicodeNormalizerPath = path.join(__dirname, '..', 'src', 'core', 'UnicodeNormalizer.js');
 const roleMappingContractPath = path.join(__dirname, '..', 'src', 'core', 'RoleMappingContract.js');
@@ -247,6 +250,9 @@ let clauseSegmenter = fs.readFileSync(clauseSegmenterPath, 'utf8');
 let dependencyParser = fs.readFileSync(dependencyParserPath, 'utf8');
 let depTree = fs.readFileSync(depTreePath, 'utf8');
 let binaryModelLoader = fs.readFileSync(binaryModelLoaderPath, 'utf8');
+
+// v2 Phase 4: Ditransitive arc corrector
+let depTreeCorrector = fs.readFileSync(depTreeCorrectorPath, 'utf8');
 
 // v2 Phase 0: Core contracts for tree pipeline browser support
 let unicodeNormalizer = fs.readFileSync(unicodeNormalizerPath, 'utf8');
@@ -578,6 +584,9 @@ console.log('  ✓ Converted DepTree to browser format');
 
 binaryModelLoader = stripCommonJS(binaryModelLoader, 'BinaryModelLoader');
 console.log('  ✓ Converted BinaryModelLoader to browser format');
+
+depTreeCorrector = stripCommonJS(depTreeCorrector, 'DepTreeCorrector');
+console.log('  ✓ Converted DepTreeCorrector to browser format');
 
 unicodeNormalizer = stripCommonJS(unicodeNormalizer, 'UnicodeNormalizer');
 console.log('  ✓ Converted UnicodeNormalizer to browser format');
@@ -1081,6 +1090,16 @@ ${depTree}
 ${binaryModelLoader}
 
   // ============================================================================
+  // v2 PHASE 4: DITRANSITIVE ARC CORRECTOR
+  // ============================================================================
+
+${depTreeCorrector}
+
+  // Shim: after stripCommonJS, only the inner functions survive.
+  // SemanticGraphBuilder checks typeof DepTreeCorrector !== 'undefined'.
+  const DepTreeCorrector = { correctDitransitives, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
+
+  // ============================================================================
   // v2 PHASE 0: CORE CONTRACTS (for tree pipeline browser support)
   // ============================================================================
 
@@ -1389,6 +1408,9 @@ ${semanticGraphBuilder}
     DependencyParser: DependencyParser,
     DepTree: DepTree,
     BinaryModelLoader: BinaryModelLoader,
+
+    // v2 Phase 4: Ditransitive arc corrector
+    DepTreeCorrector: DepTreeCorrector,
 
     // v2 Phase 3A: Tree-based extractors
     TreeEntityExtractor: TreeEntityExtractor,
