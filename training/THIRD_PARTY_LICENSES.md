@@ -100,12 +100,43 @@ bundling is permitted provided that:
 
 ---
 
-## 7. Model Weight License
+## 7. Gazetteer Data Sources
+
+**Used for:** Named entity recognition via GazetteerNER (Phase 3)
+
+### 7a. Person Names Gazetteer
+
+- **File:** `src/data/gazetteers/names.json`
+- **Source:** US Census Bureau common names
+- **License:** CC0-1.0 (Public Domain)
+- **Note:** Common given names and full names used for person NER. US Census data
+  is a work of the US Government and in the public domain.
+
+### 7b. Organization Names Gazetteer
+
+- **File:** `src/data/gazetteers/organizations.json`
+- **Source:** US Government Manual
+- **License:** CC0-1.0 (Public Domain)
+- **Note:** US government agency names, acronyms, and organizational hierarchy.
+  The US Government Manual is a public domain publication of the US Government.
+
+### 7c. Place Names Gazetteer
+
+- **File:** `src/data/gazetteers/places.json`
+- **Source:** GeoNames geographical database
+- **License:** CC-BY-4.0
+- **URL:** https://www.geonames.org/
+- **Attribution:** GeoNames geographical data is licensed under CC-BY-4.0.
+  Country and city names used for place NER.
+
+---
+
+## 8. Model Weight License
 
 The trained model weight files distributed with TagTeam are documented separately
 in `src/data/MODEL_LICENSE.md`. They are:
-- `src/data/pos-weights-pruned.json` — POS tagger weights (trained on UD-EWT v2.14)
-- `src/data/dep-weights-pruned.json` — Dependency parser weights (trained on UD-EWT v2.14)
+- `src/data/pos-weights-pruned.json` / `.bin` — POS tagger weights (trained on UD-EWT v2.14)
+- `src/data/dep-weights-pruned.json` / `.bin` — Dependency parser weights (trained on UD-EWT v2.14)
 - `src/data/dep-calibration.json` — Parser calibration parameters
 
 ---
