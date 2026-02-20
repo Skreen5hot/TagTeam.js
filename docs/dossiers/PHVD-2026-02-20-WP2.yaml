@@ -1,0 +1,477 @@
+# ==============================================================================
+# PRE-DEMO HUMAN VALIDATION DOSSIER (PHVD)
+# Feature: GenericityDetector (Spec §9.5)
+# Date: 2026-02-20
+# Role: Product Owner
+# ==============================================================================
+
+metadata:
+  feature_name: "GenericityDetector — Kind-Referring vs. Instance-Referring Classification"
+  spec_reference: "§9.5 (spec-section-9.5-genericity-detection-final.md)"
+  implementation_date: "2026-02-19"
+  review_date: "2026-02-20"
+  reviewer_role: "Product Owner"
+  work_packages_implemented:
+    - "WP1: GenericityDetector core module (src/graph/GenericityDetector.js)"
+    - "WP2: Pipeline integration (SemanticGraphBuilder.js, Stage 7.5)"
+    - "WP3: RealWorldEntityFactory — owl:Class vs owl:NamedIndividual"
+    - "WP4: ConfidenceAnnotator — genericityConfidence() method"
+    - "WP5: Unit tests (20 tests, 41 assertions, 100% passing)"
+    - "WP6: Bundle integration (dist/tagteam.js, demos/tagteam.js)"
+  files_modified:
+    - path: "src/graph/GenericityDetector.js"
+      status: "new"
+      lines: 462
+    - path: "src/graph/SemanticGraphBuilder.js"
+      status: "modified"
+      changes: "Import + Stage 7.5 insertion + entity node annotation loop"
+    - path: "src/graph/RealWorldEntityFactory.js"
+      status: "modified"
+      changes: "owl:Class for GEN/UNIV in _createTier2Entity()"
+    - path: "src/graph/ConfidenceAnnotator.js"
+      status: "modified"
+      changes: "genericityConfidence() method added"
+    - path: "scripts/build.js"
+      status: "modified"
+      changes: "5 insertion points for UMD bundle"
+    - path: "tests/unit/phase5/genericity-detection.test.js"
+      status: "new"
+      lines: 528
+  test_status:
+    unit_tests: "41/41 passing"
+    ci_regression: "13/13 suites, 0 failures"
+    integration_verified: true
+
+# ==============================================================================
+# ORIGINAL USER STORY
+# ==============================================================================
+
+user_story:
+  title: "As a knowledge engineer, I need TagTeam to distinguish kind-referring expressions from instance-referring expressions so that the ontological output is correct."
+  acceptance_criteria:
+    - id: "AC-1"
+      description: "Bare plurals ('Dogs have fur') classified as GEN with confidence >= 0.9"
+      status: "PASS"
+      evidence: "Test GEN-1: category=GEN, confidence=0.95"
+    - id: "AC-2"
+      description: "Definite articles ('The dogs have fleas') classified as INST with confidence >= 0.85"
+      status: "PASS"
+      evidence: "Test INST-1: category=INST, confidence=0.9"
+    - id: "AC-3"
+      description: "Universal quantifiers ('All dogs bark') classified as UNIV with confidence >= 0.85"
+      status: "PASS"
+      evidence: "Test UNIV-1: category=UNIV, confidence=0.9"
+    - id: "AC-4"
+      description: "Ambiguous cases include structured uncertainty with alternative reading"
+      status: "PASS"
+      evidence: "Test CONF-2: AMB includes alternative.category='GEN' with confidence score"
+    - id: "AC-5"
+      description: "GEN/UNIV subjects produce owl:Class in Tier 2, not owl:NamedIndividual"
+      status: "PASS"
+      evidence: "Integration test: 'Dogs have fur' -> Tier 2 @type includes owl:Class"
+    - id: "AC-6"
+      description: "INST subjects produce owl:NamedIndividual in Tier 2 (unchanged behavior)"
+      status: "PASS"
+      evidence: "Integration test: 'The doctor treated the patient' -> owl:NamedIndividual"
+    - id: "AC-7"
+      description: "Deontic modals ('shall', 'must') resolve AMB toward GEN"
+      status: "PASS"
+      evidence: "Test GEN-4: 'An officer shall verify documentation' -> GEN/0.75"
+    - id: "AC-8"
+      description: "Epistemic modals ('might', 'could') produce AMB or low confidence"
+      status: "PASS"
+      evidence: "Test AMB-2: 'An officer might verify documentation' -> AMB/0.5"
+    - id: "AC-9"
+      description: "Object entities are NOT classified (deferred per §9.5.7)"
+      status: "PASS"
+      evidence: "Test SCOPE-1: object entity 'meat' not in results map"
+    - id: "AC-10"
+      description: "All existing Phase 0-4 tests still pass (regression gate)"
+      status: "PASS"
+      evidence: "CI: 13 suites, 0 failures after integration"
+
+# ==============================================================================
+# ASSUMPTION LEDGER
+# ==============================================================================
+
+assumption_ledger:
+
+  # --- Signal 1: Determiner Detection ---
+
+  - id: "A-001"
+    assumption: "The dependency parser correctly assigns 'det' label to determiners"
+    category: "pipeline_dependency"
+    risk: "HIGH"
+    evidence_for: "All 20 unit tests pass with mock DepTrees where det labels are manually set"
+    evidence_against: "Unit tests use hand-crafted DepTrees, NOT the actual DependencyParser output. The DependencyParser's accuracy on det labeling for real sentences has NOT been validated in these tests. The golden test corpus (semantic-roles) does not test genericity. No end-to-end test feeds raw text through POS tagger -> DependencyParser -> GenericityDetector to verify det label accuracy."
+    validation_needed: "Feed 20+ raw sentences through full pipeline (POSTagger -> DependencyParser -> GenericityDetector) and verify det labels match expectations. Priority: CRITICAL."
+    sme_question: "Can you provide 10 sentences from actual CBP policy documents where the determiner classification matters? We need to validate against real domain text, not synthetic examples."
+
+  - id: "A-002"
+    assumption: "The DET_TO_GENERICITY map covers all determiners encountered in the target domain"
+    category: "completeness"
+    risk: "MEDIUM"
+    evidence_for: "Map includes 28 determiners covering definite, indefinite, demonstrative, universal, possessive, and numeric categories per §9.5.3"
+    evidence_against: "No corpus analysis was performed to identify actual determiner distribution in CBP/DHS documents. Missing determiners: 'any' (ambiguous between existential and universal), 'another' (instance), 'certain' (ambiguous), 'such' (typically generic). These appear in legal/policy text."
+    validation_needed: "Run frequency analysis on a sample of 100 CBP policy sentences to identify determiner coverage gaps."
+    sme_question: "In your domain documents, how frequently do you encounter 'any', 'certain', 'such', or 'another' as determiners? Do they behave as instance-referring or kind-referring in your context?"
+
+  - id: "A-003"
+    assumption: "Bare plural nouns (NNS/NNPS without det) are always generic"
+    category: "linguistic_theory"
+    risk: "HIGH"
+    evidence_for: "Carlson (1977) establishes bare plurals as kind-referring in English. This is the standard analysis in formal semantics."
+    evidence_against: "Bare plurals in existential contexts are NOT generic: 'Dogs were barking outside' (instance, specific dogs). 'Experts were consulted' (instance, specific experts). The algorithm assigns GEN to ALL bare plurals regardless of context, then relies on tense signal to reduce confidence. But confidence reduction (0.9 -> 0.7) does NOT change the category from GEN. A sentence like 'Dogs attacked the mailman yesterday' will be classified GEN/0.7 — this is arguably wrong. The subject refers to specific dogs, not the kind."
+    validation_needed: "Present 5 bare-plural-in-episodic-context sentences to SME and verify whether GEN classification is acceptable or whether the category should flip to INST for past-tense bare plurals with dynamic verbs."
+    sme_question: "'Dogs attacked the mailman' — should this be classified as referring to Dogs-as-a-kind (generic) or to specific dogs (instance)? The system currently says Generic with reduced confidence (0.7). Is that acceptable for your use case?"
+
+  - id: "A-004"
+    assumption: "The MASS_NOUNS list (~50 entries) is sufficient for bare mass noun detection"
+    category: "completeness"
+    risk: "LOW"
+    evidence_for: "The list is deliberately conservative (§9.5.3). Unlisted bare singulars default to AMB, which is the safe fallback."
+    evidence_against: "Domain-specific mass nouns may be missing. CBP domain likely uses: 'ammunition', 'narcotics', 'contraband' (present), 'documentation' (absent — count or mass?), 'personnel' (mass-like), 'surveillance' (mass). The failure mode is benign (AMB instead of GEN) but reduces classification accuracy."
+    validation_needed: "Review CBP glossary for mass nouns not in the current list. Low priority since AMB is a safe default."
+    sme_question: "Are there domain-specific terms that function as mass nouns (non-countable) in your documents? For example, is 'documentation' used as countable ('a documentation') or mass ('documentation was reviewed')?"
+
+  # --- Signal 2: Tense and Modality ---
+
+  - id: "A-005"
+    assumption: "Deontic modals (shall/must/should) always signal generic/normative reading in CBP domain"
+    category: "domain_specificity"
+    risk: "MEDIUM"
+    evidence_for: "§9.5.3 explicitly states this for legal/policy text. 'An officer shall verify documentation' is kind-referring (any officer). The double-weighting of deontic modals in AMB resolution (genSupport += 1 extra) reflects this."
+    evidence_against: "Deontic 'must' in narrative context is NOT generic: 'The officer must have left already' (epistemic 'must', not deontic). The algorithm does not distinguish epistemic vs. deontic readings of 'must' — it always treats 'must' as GEN_SUPPORT. This is a known limitation acknowledged in the spec but NOT tested."
+    validation_needed: "Add test case: 'The officer must have verified the documents' (epistemic must + perfective) — should NOT be GEN."
+    sme_question: "In your documents, does 'must' always mean obligation ('The officer must verify') or can it mean inference ('The officer must have already verified')? The system currently treats all 'must' as obligation."
+
+  - id: "A-006"
+    assumption: "The POS tagger correctly assigns MD tag to modal verbs"
+    category: "pipeline_dependency"
+    risk: "MEDIUM"
+    evidence_for: "jsPOS handles standard modals (shall, must, should, can, may, will, would, could, might) correctly — these are high-frequency tokens in training data."
+    evidence_against: "The GenericityDetector finds modals by searching for MD-tagged children of the governing verb. If the POS tagger assigns a different tag (e.g., 'shall' tagged as VB in unusual contexts), the modal will be missed entirely. No test validates this with real POS tagger output."
+    validation_needed: "Run 10 sentences with modals through real POS tagger and verify MD tagging."
+
+  - id: "A-007"
+    assumption: "Past tense (VBD) is a reliable signal for instance reading"
+    category: "linguistic_theory"
+    risk: "MEDIUM"
+    evidence_for: "Standard analysis: past tense locates events in time, favoring episodic/instance readings."
+    evidence_against: "Past tense generics exist and are common: 'Dinosaurs roamed the earth' (generic about the kind Dinosaur). 'The Romans built roads' (generic about Roman civilization). The algorithm classifies these as GEN (from bare plural) with reduced confidence (0.7), which is defensible but the confidence reduction may not be appropriate for these clearly generic statements."
+    validation_needed: "Verify with SME whether past-tense generics are common in the target domain."
+
+  # --- Signal 3: Predicate Type ---
+
+  - id: "A-008"
+    assumption: "The STATIVE_VERBS list (~30 entries) captures the verbs that matter for genericity detection"
+    category: "completeness"
+    risk: "LOW"
+    evidence_for: "List covers high-frequency stative verbs from Vendler's classification (1957) and Dowty (1979). Default is dynamic (INST_SUPPORT), which is the safer classification."
+    evidence_against: "Missing stative verbs relevant to CBP domain: 'constitute' (legal), 'pertain' (policy), 'authorize' (normative), 'designate' (policy), 'encompass', 'entail', 'signify'. These are common in formal/legal register."
+    validation_needed: "Low priority. The miss produces INST_SUPPORT instead of GEN_SUPPORT, which only matters when resolving AMB determiners."
+
+  - id: "A-009"
+    assumption: "Copular constructions always support generic reading"
+    category: "linguistic_theory"
+    risk: "MEDIUM"
+    evidence_for: "Copular + taxonomic predicate is the canonical generic pattern: 'A dog is a mammal' (GEN). The spec references this in §9.5.3."
+    evidence_against: "Copular constructions in instance contexts: 'The meeting is at 3pm' (instance), 'The officer is tired' (instance, stage-level predicate). These are copular + adjective/PP, not copular + taxonomic. The algorithm returns GEN_SUPPORT for ALL copular constructions without distinguishing taxonomic from stage-level predicates. This means 'A man is tired' → GEN (copular + present tense) when it should likely be INST."
+    validation_needed: "CRITICAL: Test 'A man is tired' — does it classify as GEN? If so, this is a false positive. The spec discusses individual-level vs. stage-level predicates but the implementation does not distinguish them."
+    sme_question: "'An officer is tired' vs. 'An officer is a federal employee' — the system treats both copular patterns as supporting generic reading. The second is clearly generic (definitional). Is the first? Should we distinguish these?"
+
+  # --- Ontological Output ---
+
+  - id: "A-010"
+    assumption: "Swapping owl:NamedIndividual to owl:Class is sufficient for GEN/UNIV subjects"
+    category: "ontological_correctness"
+    risk: "HIGH"
+    evidence_for: "The minimal change (WP3) correctly signals class-level vs. instance-level to downstream consumers."
+    evidence_against: "The spec §9.5.5 defines FIVE output patterns (A-E) with full OWL restriction structures (owl:Restriction, owl:onProperty, owl:someValuesFrom/allValuesFrom, tagteam:GenericAssertion). The implementation produces NONE of these restriction structures. It only swaps the @type annotation. A consumer expecting Pattern A (owl:Restriction + owl:someValuesFrom) will not find it. The gap between spec and implementation is SIGNIFICANT."
+    validation_needed: "CRITICAL: Confirm with SME/architect whether the minimal change is acceptable for Phase 5 or whether full restriction patterns are required for the demo."
+    sme_question: "The spec calls for OWL restriction patterns (owl:someValuesFrom for generics, owl:allValuesFrom for universals). We implemented the minimal version: swapping owl:NamedIndividual to owl:Class. Is this sufficient for your evaluation, or do you need the full restriction structure?"
+
+  - id: "A-011"
+    assumption: "GenericityDetector output is consumed correctly by downstream pipeline stages"
+    category: "integration"
+    risk: "MEDIUM"
+    evidence_for: "Integration tests confirm: GEN -> owl:Class, INST -> owl:NamedIndividual. The genericityMap is passed from Stage 7.5 to entity node construction and to RealWorldEntityFactory."
+    evidence_against: "The ConfidenceAnnotator.genericityConfidence() method is defined but there is no evidence it is CALLED during pipeline execution. The method was added (WP4) but the wiring in SemanticGraphBuilder to invoke it on entity nodes has not been verified. If it's not called, genericity confidence buckets ('high'/'medium'/'low') won't appear in output."
+    validation_needed: "Verify that genericityConfidence() is actually invoked in the pipeline output, not just defined."
+
+  # --- Architectural Assumptions ---
+
+  - id: "A-012"
+    assumption: "Classifying only subject NPs is sufficient for this phase"
+    category: "scope"
+    risk: "LOW"
+    evidence_for: "§9.5.7 explicitly defers object genericity. Subject genericity captures the most important distinction (class assertions vs. individual assertions)."
+    evidence_against: "Object genericity affects downstream reasoning. 'I like dogs' (generic dogs) vs. 'I like the dogs' (specific dogs) produces different Tier 2 output. If the consumer expects object genericity, the INST default for all objects may produce incorrect output."
+    validation_needed: "Low priority. Confirm with SME that subject-only classification is acceptable for Phase 5 demo."
+
+  - id: "A-013"
+    assumption: "The registerHint parameter will be useful for domain-specific accuracy boosting"
+    category: "future_integration"
+    risk: "LOW"
+    evidence_for: "The parameter exists and is plumbed through classify() → _decide(). §9.5.3 describes legal register handling."
+    evidence_against: "No calling code sets registerHint. There is no ContextAnalyzer module (§11, preserved but not built). The parameter is dead code until a consumer actually passes it. This is acceptable as future-proofing but the SME should know it exists."
+    validation_needed: "None for Phase 5. Document as future capability."
+
+# ==============================================================================
+# HUMAN JOURNEYS (max 3)
+# ==============================================================================
+
+human_journeys:
+
+  - id: "HJ-1"
+    title: "Knowledge engineer processes CBP policy document"
+    persona: "Elena, Senior Knowledge Engineer at CBP"
+    scenario: |
+      Elena feeds a CBP Standard Operating Procedure (SOP) into TagTeam. The document
+      contains sentences like:
+        - "An officer shall verify the alien's documentation before admission."
+        - "The port director may waive secondary inspection requirements."
+        - "All travelers must present valid identification."
+    expected_behavior: |
+      1. "An officer shall verify..." → GEN (deontic modal "shall" + indefinite "An")
+         Tier 2: owl:Class reference to cco:Officer (kind-level assertion)
+      2. "The port director may waive..." → INST (definite "The" + epistemic "may")
+         Tier 2: owl:NamedIndividual (role-holder instance)
+      3. "All travelers must present..." → UNIV (universal "All" + deontic "must")
+         Tier 2: owl:Class reference with allValuesFrom semantics
+    critical_validation_points:
+      - "Does sentence 1 correctly resolve as generic despite the indefinite article?"
+      - "Does sentence 2 remain INST despite the modal? 'The port director' with definite article should override."
+      - "Does sentence 3 get UNIV (not GEN)? The distinction between 'all' (exceptionless) and bare plural (admits exceptions) matters for policy enforcement reasoning."
+    assumptions_tested:
+      - "A-001 (det label accuracy)"
+      - "A-005 (deontic modal signal)"
+      - "A-010 (owl:Class output)"
+    risk_if_wrong: |
+      If sentence 1 is classified INST, Elena's ontology will contain a spurious individual
+      named "officer" instead of a class-level policy assertion. Downstream reasoning
+      services will treat "officers shall verify" as a statement about one specific officer
+      rather than a normative requirement for all officers. This fundamentally misrepresents
+      the policy intent and could lead to incorrect compliance assessments.
+
+  - id: "HJ-2"
+    title: "Data scientist validates scientific text classification"
+    persona: "Marcus, Data Scientist evaluating TagTeam for biomedical NLP"
+    scenario: |
+      Marcus processes biomedical sentences:
+        - "Mammals contain hemoglobin."
+        - "The patient received chemotherapy."
+        - "Proteins fold into three-dimensional structures."
+        - "The electron has negative charge."
+    expected_behavior: |
+      1. "Mammals contain hemoglobin" → GEN/0.95 (bare plural + stative)
+      2. "The patient received chemotherapy" → INST/0.9 (definite + past)
+      3. "Proteins fold into..." → GEN/0.9 (bare plural + present)
+      4. "The electron has negative charge" → AMB/0.6 with GEN alternative
+         (Institutional The exception: definite singular + stative + present)
+    critical_validation_points:
+      - "Does sentence 4 trigger the Institutional The exception correctly?"
+      - "Is AMB/0.6 with GEN alternative (0.4) the right output, or should 'The electron' be GEN outright? Marcus may argue that in scientific text, definite singular + stative is always generic."
+      - "Does the confidence score help Marcus decide whether to trust the classification?"
+    assumptions_tested:
+      - "A-003 (bare plural = generic)"
+      - "A-009 (copular/stative = GEN_SUPPORT)"
+      - "A-010 (owl:Class minimal output)"
+    risk_if_wrong: |
+      If "Mammals contain hemoglobin" is classified INST, Marcus will see an owl:NamedIndividual
+      node for "mammals" — implying a specific group of mammals was observed containing
+      hemoglobin. This contradicts the scientific assertion that hemoglobin is a property of
+      the mammalian class. Marcus will conclude TagTeam cannot handle scientific generics
+      and reject the tool for biomedical NLP.
+
+  - id: "HJ-3"
+    title: "QA engineer stress-tests edge cases"
+    persona: "Priya, QA Engineer running adversarial inputs"
+    scenario: |
+      Priya feeds sentences designed to confuse the detector:
+        - "System failed." (bare count noun, headline English)
+        - "A dog bit me." (indefinite + past + dynamic = ambiguous)
+        - "The Romans built roads." (past tense generic)
+        - "An officer must have already verified the documents." (epistemic must)
+    expected_behavior: |
+      1. "System failed" → AMB or INST (NOT GEN; bare count noun, det-dropped)
+      2. "A dog bit me" → INST/0.65 with GEN alternative (past tense episodic)
+      3. "The Romans built roads" → INST/0.9 (definite "The" → INST; past tense
+         does not override determiner signal)
+      4. "An officer must have already verified..." → GEN/0.75 (INCORRECT —
+         "must" is epistemic here, but system treats all "must" as deontic)
+    critical_validation_points:
+      - "Sentence 1: Does the MASS_NOUNS list correctly exclude 'system'?"
+      - "Sentence 3: Is INST correct for 'The Romans'? Linguistically debatable — 'The Romans' can be kind-referring. But the algorithm's determiner-primary design mandates INST."
+      - "Sentence 4: This is a KNOWN BUG. The system will classify GEN because 'must' is always GEN_SUPPORT. Priya will flag this. What is the response plan?"
+    assumptions_tested:
+      - "A-003 (bare plural vs bare count)"
+      - "A-005 (deontic must vs epistemic must)"
+      - "A-007 (past tense signal)"
+    risk_if_wrong: |
+      Sentence 4 exposes a systematic false positive: every epistemic "must" in narrative
+      text will be classified as deontic, inflating GEN classifications. In a mixed-register
+      corpus (policy + narrative), this could produce a measurable error rate. The mitigation
+      is the registerHint parameter (not yet wired), but Priya will correctly identify that
+      this is a gap, not a feature.
+
+# ==============================================================================
+# ADVERSARIAL SME CHALLENGE QUESTIONS
+# ==============================================================================
+
+sme_challenge_questions:
+
+  - id: "CQ-1"
+    question: "Show me the output for 'The Secretary shall designate a Chief Privacy Officer.' What genericity category does 'The Secretary' receive?"
+    expected_answer: "INST (definite article 'The' → INST). The Institutional The exception requires NN (singular common noun) + stative predicate + present tense. 'Secretary' is NNP (proper noun pattern) and 'designate' is dynamic, so the exception does NOT trigger."
+    trap: "The SME may argue this is kind-referring ('whoever holds the Secretary role'). The system classifies INST. This is defensible (the determiner signal dominates) but the SME may request the registerHint:'legal' path, which downgrades INST confidence to 0.75 with GEN alternative."
+    assumptions_exposed:
+      - "A-001"
+      - "A-005"
+      - "A-013"
+
+  - id: "CQ-2"
+    question: "What happens when the same noun appears as both generic and instance in the same document? 'Dogs have fur. The dogs escaped the yard.' Does the system produce consistent ontological output?"
+    expected_answer: "Sentence 1: 'Dogs' → GEN, Tier 2 = owl:Class. Sentence 2: 'The dogs' → INST, Tier 2 = owl:NamedIndividual. These are SEPARATE Tier 2 nodes. The system does not perform cross-sentence coreference or consistency checking."
+    trap: "The SME may ask whether the class node from sentence 1 and the individual node from sentence 2 are linked (e.g., rdf:type or owl:ClassAssertion). They are NOT. The system produces independent assertions per sentence. Cross-sentence linking is a Phase 6 Interpretation Lattice concern."
+    assumptions_exposed:
+      - "A-010"
+      - "A-012"
+
+  - id: "CQ-3"
+    question: "Your confidence scores — what empirical basis do they have? Show me the calibration data."
+    expected_answer: "The confidence scores are NOT empirically calibrated. They are rule-based heuristic scores derived from signal counting (§9.5.4 decision algorithm). A score of 0.95 means 'bare plural + stative + present tense all agree' — it does NOT mean '95% accuracy on held-out data.' There is no calibration corpus."
+    trap: "This is the most damaging honest answer. The scores LOOK like probabilities (0.0-1.0 range) but are not. If the SME treats them as calibrated probabilities, they will make incorrect trust decisions. The response must frame them as 'confidence ordinals' (high/medium/low ranking) not as 'accuracy probabilities.'"
+    assumptions_exposed:
+      - "A-003"
+      - "A-007"
+
+  - id: "CQ-4"
+    question: "You claim GEN subjects get owl:Class. But the spec Pattern A shows a full owl:Restriction structure with owl:onProperty and owl:someValuesFrom. Where is that?"
+    expected_answer: "The implementation produces the MINIMAL change: @type swapped from owl:NamedIndividual to owl:Class, plus tagteam:genericityCategory annotation. The full OWL restriction patterns (Patterns A-E from §9.5.5) are NOT implemented. They require act/role context to determine the property and filler, which is a separate work package."
+    trap: "This is a spec-implementation gap that the developer flagged in the plan (WP3 note: 'full restriction patterns deferred'). The SME may consider this a BLOCKER if their downstream tooling expects owl:Restriction structures. The honest answer is: 'We implemented the classification engine and the minimal ontological signal. The full OWL output patterns require additional work.'"
+    assumptions_exposed:
+      - "A-010"
+
+  - id: "CQ-5"
+    question: "Run this through the system: 'Every student read a book.' Tell me what both NPs get classified as."
+    expected_answer: "'Every student' → UNIV/0.9 (universal quantifier). 'a book' → NOT CLASSIFIED (object NP; system only classifies subjects per §9.5.7). If the entity is present in the output, it will have no tagteam:genericityCategory annotation."
+    trap: "The SME will immediately ask about quantifier scope: 'Does every student read the SAME book or DIFFERENT books?' This is §9.5.7 quantifier scope — explicitly out of scope. But the question reveals that object genericity matters for real-world use. The response: 'Object genericity is deferred to Phase 6. The current system classifies the subject correctly; the object defaults to instance treatment.'"
+    assumptions_exposed:
+      - "A-012"
+
+  - id: "CQ-6"
+    question: "What is the false positive rate for GEN classification? How many sentences that should be INST are being classified as GEN?"
+    expected_answer: "Unknown. There is no evaluation corpus with gold-standard genericity annotations. The 20 unit tests use hand-crafted DepTrees and validate against spec expectations, not against human judgments on real text. The golden test corpus (semantic-roles) does not include genericity labels."
+    trap: "This exposes the fundamental validation gap. The feature has 100% pass rate on synthetic tests but ZERO empirical validation on real text. The response plan: 'We propose creating a 50-sentence genericity evaluation subset as a follow-up. The unit tests validate algorithmic correctness against the spec. Empirical accuracy against real text is the next validation step.'"
+    assumptions_exposed:
+      - "A-001"
+      - "A-003"
+
+# ==============================================================================
+# RISK MATRIX
+# ==============================================================================
+
+risk_matrix:
+  - id: "R-001"
+    risk: "Unit tests use mock DepTrees, not real parser output"
+    probability: "HIGH"
+    impact: "HIGH"
+    mitigation: "Create 10-sentence end-to-end test using raw text through full pipeline"
+    owner: "Developer"
+
+  - id: "R-002"
+    risk: "Confidence scores mistaken for calibrated probabilities"
+    probability: "HIGH"
+    impact: "MEDIUM"
+    mitigation: "Add disclaimer to output documentation; use confidence buckets (high/medium/low) in demos"
+    owner: "Product Owner"
+
+  - id: "R-003"
+    risk: "Spec-implementation gap on OWL restriction patterns (Patterns A-E)"
+    probability: "CERTAIN"
+    impact: "MEDIUM-to-HIGH (depends on consumer expectations)"
+    mitigation: "Frame as phased delivery; validate with SME whether minimal output is sufficient"
+    owner: "Product Owner + Architect"
+
+  - id: "R-004"
+    risk: "Epistemic 'must' misclassified as deontic in narrative text"
+    probability: "MEDIUM"
+    impact: "MEDIUM"
+    mitigation: "Document as known limitation; perfective aspect ('must have VBN') is a distinguishing signal not yet implemented"
+    owner: "Developer"
+
+  - id: "R-005"
+    risk: "Bare plural past-tense generics classified as GEN with only 0.7 confidence"
+    probability: "MEDIUM"
+    impact: "LOW"
+    mitigation: "Category is correct (GEN); confidence is conservative. Acceptable behavior."
+    owner: "N/A (accepted risk)"
+
+  - id: "R-006"
+    risk: "No empirical evaluation on real text — only synthetic unit tests"
+    probability: "CERTAIN"
+    impact: "HIGH"
+    mitigation: "Create gold evaluation subset with human-annotated genericity labels"
+    owner: "Developer + SME"
+
+# ==============================================================================
+# DEMO PREPARATION NOTES
+# ==============================================================================
+
+demo_preparation:
+  recommended_demo_sentences:
+    - sentence: "Dogs have fur."
+      expected: "GEN/0.95 → owl:Class"
+      confidence: "HIGH — strongest signal combination"
+    - sentence: "The officer verified the passport."
+      expected: "INST/0.9 → owl:NamedIndividual"
+      confidence: "HIGH — definite article, clear instance"
+    - sentence: "All employees must follow safety protocols."
+      expected: "UNIV/0.9 → owl:Class"
+      confidence: "HIGH — universal quantifier + deontic"
+    - sentence: "An officer shall verify documentation."
+      expected: "GEN/0.75 → owl:Class"
+      confidence: "MEDIUM — demonstrates deontic modal resolution"
+    - sentence: "The electron has negative charge."
+      expected: "AMB/0.6 with GEN alternative/0.4"
+      confidence: "MEDIUM — demonstrates Institutional The exception"
+
+  sentences_to_AVOID_in_demo:
+    - sentence: "An officer must have already verified the documents."
+      reason: "Exposes epistemic 'must' bug (A-005). System will say GEN; correct answer is INST."
+    - sentence: "A man is tired."
+      reason: "Exposes copular false positive (A-009). System will say GEN; correct answer is likely INST (stage-level predicate)."
+    - sentence: "The Romans built roads."
+      reason: "Generates debate about whether definite 'The Romans' is kind-referring. System says INST; linguists may disagree."
+
+  pre_demo_checklist:
+    - "Verify CI is green (13 suites, 0 failures)"
+    - "Run recommended demo sentences through actual pipeline (not just unit tests)"
+    - "Prepare response for CQ-3 (confidence calibration) and CQ-4 (OWL restriction gap)"
+    - "Have registerHint:'legal' demo ready in case SME asks about policy text handling"
+    - "Prepare slide showing 4-signal decision algorithm flowchart"
+
+# ==============================================================================
+# VERDICT
+# ==============================================================================
+
+verdict:
+  recommendation: "CONDITIONAL PASS — Ready for demo with caveats"
+  conditions:
+    - "Run 10+ sentences through FULL pipeline (raw text → JSON-LD) before demo to validate A-001"
+    - "Prepare honest framing for confidence scores (ordinal ranking, not calibrated probability)"
+    - "Acknowledge OWL restriction gap (CQ-4) upfront — frame as phased delivery"
+    - "Document epistemic 'must' limitation (CQ-1/A-005) in known issues"
+  strengths:
+    - "All 20 spec test cases pass (41/41 assertions)"
+    - "Clean integration — 0 regressions across 13 CI suites"
+    - "Structured uncertainty (AMB + alternative) is well-implemented"
+    - "Deontic modal double-weighting correctly handles CBP policy patterns"
+    - "Code is clean, well-documented, and follows existing project patterns"
+  weaknesses:
+    - "No empirical validation on real text (synthetic tests only)"
+    - "Confidence scores are heuristic, not calibrated"
+    - "OWL restriction patterns (spec §9.5.5 Patterns A-E) not implemented"
+    - "Copular constructions over-generate GEN (stage-level predicates)"
+    - "Epistemic 'must' conflated with deontic 'must'"

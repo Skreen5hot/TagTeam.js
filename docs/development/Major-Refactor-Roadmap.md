@@ -1377,23 +1377,23 @@ Phase 3A amendment — Gazetteer data sources:
 
 ### Phase 4 Exit Criteria (RELEASE GATE)
 
-- [ ] All AC-4.x tests pass (green)
-- [ ] End-to-end accuracy ≥ 85% on 200-sentence evaluation set
-- [ ] All 130 adversarial sentences produce valid output (no crashes)
-- [ ] All 6 security vectors tested and passing
-- [ ] Bundle ≤ 10 MB uncompressed, ≤ 4 MB gzipped
-- [ ] Binary model checksums validated
-- [ ] Desktop performance within targets
-- [ ] Mobile performance measured and documented
-- [ ] Legal sign-off obtained: written legal opinion on CC-BY-SA 4.0 derivative-work status of trained model weights, covering UD-EWT and any other copyleft-licensed training data
-- [ ] `THIRD_PARTY_LICENSES.md` finalized, included in distribution, and listing all training data sources with licenses (AC-4.21)
-- [ ] All Phase 0 + 1 + 2 + 3A + 3B tests still pass (full regression gate)
-- [ ] Golden tests show no regression vs pre-refactor baseline
-- [ ] Demo pages updated and working
-- [ ] Evaluation report published with confusion matrix
-- [ ] Performance report published
-- [ ] Two-tier ICE + provenance nodes present and correctly linked in all tree pipeline outputs (`npm run test:two-tier` → 23/23) *(Phase 3A amendment)*
-- [ ] Legacy demo side-by-side comparison shows acts and roles in both panels *(Phase 3A amendment — regression fixed in a020345)*
+- [x] All AC-4.x tests pass (green) — `npm run test:ci` 13 suites, 0 failures *(2026-02-18)*
+- [~] End-to-end accuracy ≥ 85% on 200-sentence evaluation set — Entity F1 **90.3%** ✅; Role F1 **59.3%** (baselined, gap analysis in EVALUATION_REPORT.md) *(2026-02-17)*
+- [x] All 130 adversarial sentences produce valid output (no crashes) — 130/130 *(2026-02-17)*
+- [x] All 6 security vectors tested and passing — 20/20 sanitization tests *(2026-02-17)*
+- [x] Bundle ≤ 10 MB uncompressed, ≤ 4 MB gzipped — 5.49 MB / 0.97 MB *(2026-02-18)*
+- [x] Binary model checksums validated — AC-4.13/4.14/4.14b tests passing *(2026-02-17)*
+- [~] Desktop performance within targets — p95 **27.44ms** ✅ (< 30ms); p50 **15.95ms** ❌ (> 10ms target, improvement paths identified) *(2026-02-17)*
+- [~] Mobile performance measured and documented — Advisory only, not tested (requires physical devices) *(deferred)*
+- [ ] Legal sign-off obtained — **External blocker**: CC-BY-SA 4.0 derivative-work determination pending
+- [~] `THIRD_PARTY_LICENSES.md` finalized, included in distribution, and listing all training data sources with licenses (AC-4.21) — Gazetteer attribution added; legal sign-off pending *(2026-02-17)*
+- [x] All Phase 0 + 1 + 2 + 3A + 3B tests still pass (full regression gate) — 357/357 *(2026-02-18)*
+- [x] Golden tests show no regression vs pre-refactor baseline *(2026-02-17)*
+- [x] Demo pages updated and working — Bundle rebuilt with DepTreeCorrector, demos verified *(2026-02-18)*
+- [x] Evaluation report published with confusion matrix — `docs/development/EVALUATION_REPORT.md` *(2026-02-17)*
+- [x] Performance report published — `docs/development/PERFORMANCE_REPORT.md` *(2026-02-17)*
+- [x] Two-tier ICE + provenance nodes present and correctly linked in all tree pipeline outputs (`npm run test:two-tier` → 23/23) *(Phase 3A amendment)* *(2026-02-17)*
+- [x] Legacy demo side-by-side comparison shows acts and roles in both panels *(Phase 3A amendment — regression fixed in a020345)* *(2026-02-18)*
 
 ---
 
