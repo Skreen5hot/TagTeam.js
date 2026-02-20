@@ -1059,11 +1059,25 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
         var _cachedGraph = null;
         var _cachedParse = null;
         var _currentText = '';
+        var _modelsLoaded = false;
 
-        // ── Hero version ──
-        window.addEventListener('load', function() {
+        // ── Load tree pipeline models ──
+        window.addEventListener('load', async function() {
             if (typeof TagTeam !== 'undefined' && TagTeam.version) {
                 document.getElementById('hero-version').textContent = 'v' + TagTeam.version;
+            }
+            // Load models for tree pipeline
+            try {
+                var modelBase = (window.location.hostname === 'localhost' || window.location.hostname === '')
+                    ? '../dist/models/' : 'models/';
+                var responses = await Promise.all([
+                    fetch(modelBase + 'pos-weights-pruned.json').then(function(r) { return r.json(); }),
+                    fetch(modelBase + 'dep-weights-pruned.json').then(function(r) { return r.json(); })
+                ]);
+                TagTeam.loadModels(responses[0], responses[1]);
+                _modelsLoaded = true;
+            } catch (e) {
+                console.warn('Model loading failed, using legacy pipeline:', e.message);
             }
             // Auto-analyze default text
             var input = document.getElementById('input');
@@ -1088,7 +1102,9 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
 
             // Run both APIs and cache
             _cachedParse = TagTeam.parse(text);
-            _cachedGraph = TagTeam.buildGraph(text, { detectAmbiguity: true, verbose: verbose });
+            var graphOpts = { detectAmbiguity: true, verbose: verbose };
+            if (!_modelsLoaded) graphOpts.useLegacy = true;
+            _cachedGraph = TagTeam.buildGraph(text, graphOpts);
 
             // Populate all tabs
             renderEntitiesTab(_cachedGraph, text);

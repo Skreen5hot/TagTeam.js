@@ -253,10 +253,10 @@
 </head>
 <body>
   <div class="header">
-    <h1>Tree Pipeline: Two-Tier ICE + Provenance
+    <h1>TagTeam.js &mdash; Semantic Graph Demo
       <span id="statusBadge" class="status-badge status-loading">Loading models...</span>
     </h1>
-    <p>Dependency-tree extractors with BFO/CCO two-tier entities and provenance triples</p>
+    <p>Two-Tier ICE with BFO/CCO entities, dependency parsing, and provenance triples</p>
   </div>
 
   <div class="container">
@@ -277,11 +277,14 @@
       <textarea id="inputText" rows="2">The patient was treated by the doctor.</textarea>
       <br>
       <button id="analyzeBtn" class="analyze-btn" disabled onclick="analyze()">Analyze</button>
+      <label style="margin-left:16px; font-size:0.9em; cursor:pointer; user-select:none;">
+        <input type="checkbox" id="showLegacy" onchange="toggleLegacy()"> Show Legacy Comparison
+      </label>
     </div>
 
-    <div id="resultsArea" class="results-grid" style="display:none;">
-      <!-- Legacy panel -->
-      <div class="panel panel-legacy">
+    <div id="resultsArea" class="results-grid" style="display:none; grid-template-columns:1fr;">
+      <!-- Legacy panel (hidden by default) -->
+      <div class="panel panel-legacy" id="legacyPanel" style="display:none;">
         <div class="panel-header">
           Legacy Pipeline <span class="badge badge-entity">linear scan</span>
           <span class="time" id="legacyTime"></span>
@@ -294,7 +297,7 @@
       <!-- Tree panel -->
       <div class="panel panel-tree">
         <div class="panel-header">
-          Tree Pipeline <span class="badge badge-act">Two-Tier ICE</span>
+          Semantic Graph <span class="badge badge-act">Two-Tier ICE</span>
           <span class="time" id="treeTime"></span>
         </div>
         <div class="panel-body" id="treeResults">
@@ -394,7 +397,7 @@
         } catch (e) { /* gazetteers are optional */ }
 
         status.textContent = 'Initializing tree pipeline...';
-        TagTeam.loadTreeModels(posJSON, depJSON, calJSON, gazetteers);
+        TagTeam.loadModels(posJSON, depJSON, calJSON, gazetteers);
 
         modelsReady = true;
         badge.className = 'status-badge status-ready';
@@ -417,6 +420,15 @@
     // =========================================================================
     // Analysis
     // =========================================================================
+    function toggleLegacy() {
+      const show = document.getElementById('showLegacy').checked;
+      document.getElementById('legacyPanel').style.display = show ? '' : 'none';
+      const area = document.getElementById('resultsArea');
+      area.style.gridTemplateColumns = show ? '1fr 1fr' : '1fr';
+      // Re-run analysis if results are visible
+      if (area.style.display !== 'none') analyze();
+    }
+
     function analyze() {
       const text = document.getElementById('inputText').value.trim();
       if (!text || !modelsReady) return;
@@ -424,30 +436,32 @@
       document.getElementById('resultsArea').style.display = 'grid';
       document.getElementById('depTreeSection').style.display = 'block';
 
-      // Run legacy pipeline
-      const legacyStart = performance.now();
-      let legacyGraph;
-      try {
-        legacyGraph = TagTeam.buildGraph(text);
-      } catch (e) {
-        legacyGraph = { error: e.message };
-      }
-      const legacyMs = (performance.now() - legacyStart).toFixed(1);
-      document.getElementById('legacyTime').textContent = legacyMs + ' ms';
-
-      // Run tree pipeline
+      // Run tree pipeline (default)
       const treeStart = performance.now();
       let treeGraph;
       try {
-        treeGraph = TagTeam.buildTreeGraph(text);
+        treeGraph = TagTeam.buildGraph(text);
       } catch (e) {
         treeGraph = { error: e.message };
       }
       const treeMs = (performance.now() - treeStart).toFixed(1);
       document.getElementById('treeTime').textContent = treeMs + ' ms';
 
+      // Conditionally run legacy pipeline
+      if (document.getElementById('showLegacy').checked) {
+        const legacyStart = performance.now();
+        let legacyGraph;
+        try {
+          legacyGraph = TagTeam.buildGraph(text, { useLegacy: true });
+        } catch (e) {
+          legacyGraph = { error: e.message };
+        }
+        const legacyMs = (performance.now() - legacyStart).toFixed(1);
+        document.getElementById('legacyTime').textContent = legacyMs + ' ms';
+        renderLegacy(legacyGraph);
+      }
+
       // Render results
-      renderLegacy(legacyGraph);
       renderTree(treeGraph);
       renderDepTable(treeGraph);
     }
