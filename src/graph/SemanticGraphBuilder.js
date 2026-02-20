@@ -1933,7 +1933,10 @@ class SemanticGraphBuilder {
       let genericityMap = null;
       if (_GenericityDetector) {
         stages.current = 'classifyGenericity';
-        const genericityDetector = new _GenericityDetector({ lemmatizer: this.lemmatizer });
+        const genericityDetector = new _GenericityDetector({
+          lemmatizer: this.lemmatizer,
+          gazetteerNER: this._treeGazetteerNER || null,
+        });
         genericityMap = genericityDetector.classify(entities, depTree, tags, buildOptions);
       }
 

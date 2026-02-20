@@ -140,6 +140,7 @@ class GenericityDetector {
   constructor(options = {}) {
     this.lemmatizer = options.lemmatizer || null;
     this.registerHint = options.registerHint || null;
+    this.gazetteerNER = options.gazetteerNER || null;
   }
 
   /**
@@ -164,7 +165,7 @@ class GenericityDetector {
       const headId = entity.headId;
       if (!headId || headId < 1 || headId > depTree.n) continue;
 
-      const result = this._classifyEntity(headId, depTree, tags, registerHint);
+      const result = this._classifyEntity(headId, entity, depTree, tags, registerHint);
       results.set(headId, result);
     }
 
@@ -187,12 +188,55 @@ class GenericityDetector {
   }
 
   /**
+   * Check if an entity is a known named entity (proper noun, acronym, or
+   * gazetteer match) that should always be classified as INST.
+   *
+   * This guard prevents POS tagger errors (e.g., CBP tagged NN instead of
+   * NNP) from causing misclassification of named entities as GEN.
+   * @private
+   */
+  _isKnownEntity(headId, entity, depTree) {
+    const headWord = depTree.tokens[headId - 1];
+
+    // 1. Gazetteer guard: explicit human knowledge overrides POS tags
+    if (this.gazetteerNER) {
+      const lookup = this.gazetteerNER.lookup(headWord);
+      if (lookup) return true;
+      // Also try full entity text
+      if (entity.fullText) {
+        const fullLookup = this.gazetteerNER.lookup(entity.fullText);
+        if (fullLookup) return true;
+      }
+    }
+
+    // 2. Acronym heuristic: all-uppercase tokens ≥2 chars are proper names
+    //    (CBP, DHS, DOD, FBI, etc.)
+    if (headWord.length >= 2 && headWord === headWord.toUpperCase() && /^[A-Z]+$/.test(headWord)) {
+      return true;
+    }
+
+    // 3. Entity metadata: gazetteer match flagged by TreeEntityExtractor
+    if (entity.resolvedVia === 'alias' || entity.gazetteerMatch) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
    * Classify a single subject entity.
    *
    * Implements the decision algorithm from §9.5.4.
    * @private
    */
-  _classifyEntity(headId, depTree, tags, registerHint) {
+  _classifyEntity(headId, entity, depTree, tags, registerHint) {
+    // Step 0: Proper noun / gazetteer guard
+    // Known named entities are always INST regardless of POS tag.
+    // This neutralizes POS tagger errors (e.g., CBP tagged NN instead of NNP).
+    if (this._isKnownEntity(headId, entity, depTree)) {
+      return { category: 'INST', confidence: 0.95 };
+    }
+
     // Step 1: Determiner signal
     const detSignal = this._getDeterminerSignal(headId, depTree, tags);
 

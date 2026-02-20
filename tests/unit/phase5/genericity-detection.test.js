@@ -369,6 +369,30 @@ section('Proper nouns');
   assert(gen && gen.confidence >= 0.9, 'INST-4: confidence ≥ 0.9');
 }
 
+// Test 14b: "CBP is a component of DHS" with POS tagger error (CBP tagged NN)
+// REGRESSION: This must still be INST because CBP is an all-caps acronym.
+// Without the acronym guard, bare NN + copular + present → GEN (wrong).
+{
+  const tokens = ['CBP', 'is', 'a', 'component', 'of', 'DHS'];
+  const tags   = ['NN',  'VBZ', 'DT', 'NN',      'IN', 'NNS'];  // Real POS tagger output
+  const arcs = [
+    { dep: 1, head: 4, label: 'nsubj' },
+    { dep: 2, head: 4, label: 'cop' },
+    { dep: 3, head: 4, label: 'det' },
+    { dep: 4, head: 0, label: 'root' },
+    { dep: 5, head: 6, label: 'case' },
+    { dep: 6, head: 4, label: 'nmod' },
+  ];
+  const depTree = makeDepTree(tokens, tags, arcs);
+  const entity = makeSubjectEntity(1);
+  const result = detector.classify([entity], depTree, tags);
+  const gen = result.get(1);
+  assert(gen && gen.category === 'INST',
+    'INST-4b: "CBP is a component of DHS" (CBP=NN) → INST via acronym guard (got ' + (gen ? gen.category : 'null') + ')');
+  assert(gen && gen.confidence >= 0.9,
+    'INST-4b: confidence ≥ 0.9 (got ' + (gen ? gen.confidence : 'null') + ')');
+}
+
 // ============================================================================
 // Institutional The (§9.5.7)
 // ============================================================================
