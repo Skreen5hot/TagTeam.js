@@ -691,7 +691,8 @@ class EntityExtractor {
     // Initialize RealWorldEntityFactory for Tier 2 creation
     this.tier2Factory = new RealWorldEntityFactory({
       graphBuilder: this.graphBuilder,
-      documentIRI: options.documentIRI
+      documentIRI: options.documentIRI,
+      lemmatizer: options.lemmatizer
     });
   }
 

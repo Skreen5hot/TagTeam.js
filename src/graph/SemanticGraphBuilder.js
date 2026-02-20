@@ -33,6 +33,7 @@
  */
 
 const crypto = require('crypto');
+const Lemmatizer = require('../core/Lemmatizer');
 const EntityExtractor = require('./EntityExtractor');
 const ComplexDesignatorDetector = require('./ComplexDesignatorDetector');
 const ActExtractor = require('./ActExtractor');
@@ -156,15 +157,18 @@ class SemanticGraphBuilder {
     this.nodes = [];
     this.nodeIndex = new Map(); // IRI -> node for deduplication
 
+    // Core NLP: Lemmatizer for morphological reduction
+    this.lemmatizer = new Lemmatizer();
+
     // Initialize extractors and factories
-    this.entityExtractor = new EntityExtractor({ graphBuilder: this });
+    this.entityExtractor = new EntityExtractor({ graphBuilder: this, lemmatizer: this.lemmatizer });
     this.actExtractor = new ActExtractor({ graphBuilder: this });
     this.roleDetector = new RoleDetector({ graphBuilder: this });
 
     // v2.3: New factories for proper ontological separation
     this.scarcityFactory = new ScarcityAssertionFactory({ graphBuilder: this });
     this.directiveExtractor = new DirectiveExtractor({ graphBuilder: this });
-    this.aggregateFactory = new ObjectAggregateFactory({ graphBuilder: this });
+    this.aggregateFactory = new ObjectAggregateFactory({ graphBuilder: this, lemmatizer: this.lemmatizer });
 
     // v2.4: Quality factory for entity qualifiers
     this.qualityFactory = new QualityFactory({ graphBuilder: this });

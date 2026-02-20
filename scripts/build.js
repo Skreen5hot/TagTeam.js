@@ -58,6 +58,9 @@ const valueScorerPath = path.join(__dirname, '..', 'src', 'analyzers', 'ValueSco
 const ethicalProfilerPath = path.join(__dirname, '..', 'src', 'analyzers', 'EthicalProfiler.js');
 const semanticExtractorPath = path.join(__dirname, '..', 'src', 'core', 'SemanticRoleExtractor.js');
 
+// Core NLP modules
+const lemmatizerPath = path.join(__dirname, '..', 'src', 'core', 'Lemmatizer.js');
+
 // Phase 4: Graph modules (Two-Tier Architecture v2.3)
 const tokenizerPath = path.join(__dirname, '..', 'src', 'graph', 'Tokenizer.js');
 const npChunkerPath = path.join(__dirname, '..', 'src', 'graph', 'NPChunker.js');
@@ -167,6 +170,7 @@ let valueMatcher = fs.readFileSync(valueMatcherPath, 'utf8');
 let valueScorer = fs.readFileSync(valueScorerPath, 'utf8');
 let ethicalProfiler = fs.readFileSync(ethicalProfilerPath, 'utf8');
 let semanticExtractor = fs.readFileSync(semanticExtractorPath, 'utf8');
+let lemmatizerSrc = fs.readFileSync(lemmatizerPath, 'utf8');
 
 console.log(`  ✓ lexicon.js (${(lexicon.length / 1024 / 1024).toFixed(2)} MB)`);
 console.log(`  ✓ POSTagger.js (${(posTagger.length / 1024).toFixed(2)} KB)`);
@@ -179,6 +183,7 @@ console.log(`  ✓ ValueMatcher.js (${(valueMatcher.length / 1024).toFixed(2)} K
 console.log(`  ✓ ValueScorer.js (${(valueScorer.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ EthicalProfiler.js (${(ethicalProfiler.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ SemanticRoleExtractor.js (${(semanticExtractor.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ Lemmatizer.js (${(lemmatizerSrc.length / 1024).toFixed(2)} KB)`);
 
 // Read Phase 4 graph modules (Two-Tier Architecture v2.3)
 console.log('\n📖 Reading Phase 4 graph modules (Two-Tier v2.3)...');
@@ -474,6 +479,9 @@ function stripCommonJS(code, className) {
   code = code.replace(/'use strict';\s*\n?/g, '');
   return code;
 }
+
+lemmatizerSrc = stripCommonJS(lemmatizerSrc, 'Lemmatizer');
+console.log('  ✓ Converted Lemmatizer to browser format');
 
 tokenizer = stripCommonJS(tokenizer, 'Tokenizer');
 console.log('  ✓ Converted Tokenizer to browser format');
@@ -893,6 +901,13 @@ ${semanticExtractor}
       };
     }
   };
+
+  // ============================================================================
+  // LEMMATIZER (Core NLP - Morphological reduction)
+  // Reduces inflected words to base/dictionary form (e.g., dogs → dog)
+  // ============================================================================
+
+${lemmatizerSrc}
 
   // ============================================================================
   // REAL WORLD ENTITY FACTORY (Phase 4 - Two-Tier v2.2)

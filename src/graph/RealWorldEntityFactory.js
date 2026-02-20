@@ -95,12 +95,14 @@ class RealWorldEntityFactory {
    * @param {Object} [options.graphBuilder] - SemanticGraphBuilder instance for IRI generation
    * @param {string} [options.documentIRI] - IRI of the source document/IBE for scoped IRIs
    * @param {string} [options.sessionId] - Session ID for scoped IRIs (alternative to documentIRI)
+   * @param {Object} [options.lemmatizer] - Lemmatizer instance for morphological reduction
    */
   constructor(options = {}) {
     this.options = options;
     this.graphBuilder = options.graphBuilder || null;
     this.documentIRI = options.documentIRI || null;
     this.sessionId = options.sessionId || null;
+    this.lemmatizer = options.lemmatizer || null;
 
     // Cache for deduplication within a parse session
     this.entityCache = new Map();
@@ -355,6 +357,11 @@ class RealWorldEntityFactory {
 
     // Remove trailing punctuation
     normalized = words.join(' ').replace(/[.,;:!?]+$/, '');
+
+    // Lemmatize the head noun (e.g., "safety reports" → "safety report")
+    if (this.lemmatizer) {
+      normalized = this.lemmatizer.lemmatizePhrase(normalized);
+    }
 
     return normalized;
   }

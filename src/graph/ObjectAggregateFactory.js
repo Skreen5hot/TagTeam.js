@@ -24,10 +24,12 @@ class ObjectAggregateFactory {
   /**
    * Create a new ObjectAggregateFactory
    * @param {Object} options - Configuration options
+   * @param {Object} [options.lemmatizer] - Lemmatizer instance for morphological reduction
    */
   constructor(options = {}) {
     this.options = options;
     this.graphBuilder = options.graphBuilder || null;
+    this.lemmatizer = options.lemmatizer || null;
   }
 
   /**
@@ -106,7 +108,10 @@ class ObjectAggregateFactory {
    */
   _createMembers(originalEntity, count, referent) {
     const members = [];
-    const baseLabel = originalEntity['rdfs:label'] || 'entity';
+    let baseLabel = originalEntity['rdfs:label'] || 'entity';
+    if (this.lemmatizer) {
+      baseLabel = this.lemmatizer.lemmatizePhrase(baseLabel);
+    }
 
     // Extract qualifiers from label (e.g., "critically ill" from "two critically ill patients")
     const qualifiers = this._extractQualifiers(referent);
@@ -141,7 +146,10 @@ class ObjectAggregateFactory {
    * @private
    */
   _createAggregate(originalEntity, members, referent) {
-    const label = referent?.['rdfs:label'] || originalEntity['rdfs:label'];
+    let label = referent?.['rdfs:label'] || originalEntity['rdfs:label'];
+    if (this.lemmatizer) {
+      label = this.lemmatizer.lemmatizePhrase(label);
+    }
 
     const aggregate = {
       '@id': this._generateAggregateIRI(originalEntity['@id']),
