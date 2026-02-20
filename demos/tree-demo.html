@@ -152,6 +152,12 @@
     .badge-tier2 { background: #fdf2f8; color: #831843; }
     .badge-provenance { background: #f0f9ff; color: #0c4a6e; }
     .badge-link { background: #ecfdf5; color: #064e3b; font-weight: 400; font-size: 0.72em; }
+    .badge-gen { background: #fef3c7; color: #92400e; }
+    .badge-inst { background: #dbeafe; color: #1e40af; }
+    .badge-univ { background: #ede9fe; color: #5b21b6; }
+    .badge-amb { background: #fee2e2; color: #991b1b; }
+    .badge-owl-class { background: #fef3c7; color: #92400e; border: 1px solid #f59e0b; }
+    .badge-owl-individual { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
 
     .tier-group { margin-bottom: 6px; }
     .tier-label {
@@ -264,6 +270,9 @@
         <button class="example-btn" onclick="setExample(4)">Negated copular</button>
         <button class="example-btn" onclick="setExample(5)">Coordination</button>
         <button class="example-btn" onclick="setExample(6)">Ditransitive</button>
+        <button class="example-btn" onclick="setExample(7)">Generic (bare plural)</button>
+        <button class="example-btn" onclick="setExample(8)">Universal quantifier</button>
+        <button class="example-btn" onclick="setExample(9)">Deontic modal</button>
       </div>
       <textarea id="inputText" rows="2">The patient was treated by the doctor.</textarea>
       <br>
@@ -330,7 +339,10 @@
       'The doctor treated the patient with antibiotics.',
       'CBP is not an agency of the DOD.',
       'Alice and Bob reviewed the proposal.',
-      'The nurse gave the patient medication.'
+      'The nurse gave the patient medication.',
+      'Dogs have fur.',
+      'All employees must follow safety protocols.',
+      'An officer shall verify documentation.'
     ];
 
     function setExample(idx) {
@@ -567,7 +579,7 @@
           structural.push(node);
         } else if (types.some(t => t.includes('InformationBearingEntity') || t.includes('ArtificialAgent'))) {
           provenance.push(node);
-        } else if (types.includes('owl:NamedIndividual') && !types.includes('tagteam:DiscourseReferent')) {
+        } else if ((types.includes('owl:NamedIndividual') || types.includes('owl:Class')) && !types.includes('tagteam:DiscourseReferent')) {
           tier2.push(node);
         } else if (node['rdfs:label']) {
           tier1.push(node);
@@ -590,13 +602,29 @@
         if (e['tagteam:depRole']) {
           html += ' <span class="badge badge-entity">' + escHtml(e['tagteam:depRole']) + '</span>';
         }
+        // Show genericity classification
+        if (e['tagteam:genericityCategory']) {
+          const genCat = e['tagteam:genericityCategory'];
+          const genConf = e['tagteam:genericityConfidence'];
+          const badgeClass = genCat === 'GEN' ? 'badge-gen' : genCat === 'UNIV' ? 'badge-univ' : genCat === 'AMB' ? 'badge-amb' : 'badge-inst';
+          html += ' <span class="badge ' + badgeClass + '">' + escHtml(genCat);
+          if (genConf != null) html += ' ' + (genConf * 100).toFixed(0) + '%';
+          html += '</span>';
+          if (e['tagteam:genericityAlternative']) {
+            const alt = e['tagteam:genericityAlternative'];
+            html += ' <span class="badge badge-amb" style="font-size:0.7em;">alt: ' + escHtml(alt['tagteam:category'] || '?') + '</span>';
+          }
+        }
         // Show Tier 2 link
         if (e['cco:is_about']) {
           const t2id = typeof e['cco:is_about'] === 'object' ? e['cco:is_about']['@id'] : e['cco:is_about'];
           const t2node = nodeById[t2id];
           if (t2node) {
+            const t2types = [].concat(t2node['@type'] || []);
+            const isClass = t2types.includes('owl:Class');
             html += '<br><span class="arrow">&rarr;</span>';
             html += '<span class="badge badge-tier2">' + escHtml(shortType(getType(t2node))) + '</span>';
+            html += ' <span class="badge ' + (isClass ? 'badge-owl-class' : 'badge-owl-individual') + '">' + (isClass ? 'owl:Class' : 'owl:NamedIndividual') + '</span>';
             html += ' <span style="font-size:0.82em;color:#64748b;">' + escHtml(t2id) + '</span>';
           }
         }

@@ -256,12 +256,20 @@ class RealWorldEntityFactory {
     const iri = this._generateTier2IRI(normalizedLabel, tier2Type, docIRI);
 
     // Build the Tier 2 node
+    // §9.5: GEN/UNIV subjects produce owl:Class, not owl:NamedIndividual
+    const genericityCategory = referent['tagteam:genericityCategory'];
+    const isClassLevel = genericityCategory === 'GEN' || genericityCategory === 'UNIV';
     const typeLabel = tier2Type.replace('cco:', '');
     const node = {
       '@id': iri,
-      '@type': [tier2Type, 'owl:NamedIndividual'],
+      '@type': [tier2Type, isClassLevel ? 'owl:Class' : 'owl:NamedIndividual'],
       'rdfs:label': normalizedLabel
     };
+
+    // Propagate genericity annotations to Tier 2
+    if (genericityCategory) {
+      node['tagteam:genericityCategory'] = genericityCategory;
+    }
 
     // Add provenance properties (v2.2)
     if (includeProvenance) {

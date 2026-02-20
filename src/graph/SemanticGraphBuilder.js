@@ -135,6 +135,9 @@ const _DepTreeCorrector = (typeof DepTreeCorrector !== 'undefined') ? DepTreeCor
 const _RealWorldEntityFactory = (typeof RealWorldEntityFactory !== 'undefined') ? RealWorldEntityFactory : (() => {
   try { return require('./RealWorldEntityFactory'); } catch (e) { return null; }
 })();
+const _GenericityDetector = (typeof GenericityDetector !== 'undefined') ? GenericityDetector : (() => {
+  try { return require('./GenericityDetector'); } catch (e) { return null; }
+})();
 
 /**
  * Main class for building semantic graphs in JSON-LD format
@@ -1925,6 +1928,15 @@ class SemanticGraphBuilder {
       const roleMapper = new _TreeRoleMapper();
       const roles = roleMapper.map(entities, acts, depTree);
 
+      // Stage 7.5: Genericity detection (§9.5)
+      // Classify subject NPs as GEN/INST/UNIV/AMB before graph assembly
+      let genericityMap = null;
+      if (_GenericityDetector) {
+        stages.current = 'classifyGenericity';
+        const genericityDetector = new _GenericityDetector({ lemmatizer: this.lemmatizer });
+        genericityMap = genericityDetector.classify(entities, depTree, tags, buildOptions);
+      }
+
       // Stage 8: Assign mention IDs (AC-3.22)
       // Format: "s{sentenceIdx}:h{headId}:{charStart}-{charEnd}"
       const sentenceIdx = 0; // Single-sentence pipeline for now
@@ -1976,6 +1988,20 @@ class SemanticGraphBuilder {
           const conf = confidenceAnnotator.entityConfidence(entity, annotatedArcs);
           entityNode['tagteam:parseConfidence'] = conf.confidence;
           entityNode['tagteam:parseProbability'] = conf.probability;
+        }
+        // Genericity annotations (§9.5)
+        if (genericityMap && entity.headId) {
+          const gen = genericityMap.get(entity.headId);
+          if (gen) {
+            entityNode['tagteam:genericityCategory'] = gen.category;
+            entityNode['tagteam:genericityConfidence'] = gen.confidence;
+            if (gen.alternative) {
+              entityNode['tagteam:genericityAlternative'] = {
+                'tagteam:category': gen.alternative.category,
+                'tagteam:confidence': gen.alternative.confidence
+              };
+            }
+          }
         }
         graphNodes.push(entityNode);
       }

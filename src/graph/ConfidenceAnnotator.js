@@ -183,6 +183,20 @@ class ConfidenceAnnotator {
       probability: minProb,
     };
   }
+  /**
+   * Map genericity classification confidence to standard confidence buckets.
+   * §9.5: Genericity confidence uses the same bucket thresholds as regular arcs.
+   *
+   * @param {{ category: string, confidence: number }} genericityResult
+   * @returns {{ confidence: string, probability: number }}
+   */
+  genericityConfidence(genericityResult) {
+    if (!genericityResult) return { confidence: 'low', probability: 0 };
+    return {
+      confidence: this._getBucket(genericityResult.confidence, false),
+      probability: genericityResult.confidence,
+    };
+  }
 }
 
 // Export for Node.js / CommonJS

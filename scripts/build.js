@@ -134,6 +134,9 @@ const binaryModelLoaderPath = path.join(__dirname, '..', 'src', 'core', 'BinaryM
 // v2 Phase 4: Ditransitive arc corrector
 const depTreeCorrectorPath = path.join(__dirname, '..', 'src', 'core', 'DepTreeCorrector.js');
 
+// §9.5: Genericity detector
+const genericityDetectorPath = path.join(__dirname, '..', 'src', 'graph', 'GenericityDetector.js');
+
 // v2 Phase 0: Core contracts for tree pipeline browser support
 const unicodeNormalizerPath = path.join(__dirname, '..', 'src', 'core', 'UnicodeNormalizer.js');
 const roleMappingContractPath = path.join(__dirname, '..', 'src', 'core', 'RoleMappingContract.js');
@@ -258,6 +261,9 @@ let binaryModelLoader = fs.readFileSync(binaryModelLoaderPath, 'utf8');
 
 // v2 Phase 4: Ditransitive arc corrector
 let depTreeCorrector = fs.readFileSync(depTreeCorrectorPath, 'utf8');
+
+// §9.5: Genericity detector
+let genericityDetector = fs.readFileSync(genericityDetectorPath, 'utf8');
 
 // v2 Phase 0: Core contracts for tree pipeline browser support
 let unicodeNormalizer = fs.readFileSync(unicodeNormalizerPath, 'utf8');
@@ -595,6 +601,9 @@ console.log('  ✓ Converted BinaryModelLoader to browser format');
 
 depTreeCorrector = stripCommonJS(depTreeCorrector, 'DepTreeCorrector');
 console.log('  ✓ Converted DepTreeCorrector to browser format');
+
+genericityDetector = stripCommonJS(genericityDetector, 'GenericityDetector');
+console.log('  ✓ Converted GenericityDetector to browser format');
 
 unicodeNormalizer = stripCommonJS(unicodeNormalizer, 'UnicodeNormalizer');
 console.log('  ✓ Converted UnicodeNormalizer to browser format');
@@ -1115,6 +1124,12 @@ ${depTreeCorrector}
   const DepTreeCorrector = { correctDitransitives, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
 
   // ============================================================================
+  // §9.5: GENERICITY DETECTOR
+  // ============================================================================
+
+${genericityDetector}
+
+  // ============================================================================
   // v2 PHASE 0: CORE CONTRACTS (for tree pipeline browser support)
   // ============================================================================
 
@@ -1426,6 +1441,9 @@ ${semanticGraphBuilder}
 
     // v2 Phase 4: Ditransitive arc corrector
     DepTreeCorrector: DepTreeCorrector,
+
+    // §9.5: Genericity detector
+    GenericityDetector: GenericityDetector,
 
     // v2 Phase 3A: Tree-based extractors
     TreeEntityExtractor: TreeEntityExtractor,
