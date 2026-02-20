@@ -39,16 +39,50 @@ function extractSemanticRoles(graph) {
   const nodes = graph['@graph'] || [];
   const roles = [];
 
-  // Find all Act/IntentionalAct nodes
+  // Find all Act/IntentionalAct nodes (includes tree pipeline VerbPhrase)
   const acts = nodes.filter(n =>
     n['@type']?.some(t =>
       t.includes('Act') ||
-      t.includes('IntentionalAct')
+      t.includes('IntentionalAct') ||
+      t === 'tagteam:VerbPhrase'
     )
   );
 
+  // Tree pipeline: Materialize roles from separate Role nodes onto act nodes.
+  // Role nodes have: tagteam:realizedIn → act, tagteam:bearer → entity
+  const roleToProperty = {
+    'cco:AgentRole': 'cco:has_agent',
+    'cco:PatientRole': 'cco:affects',
+    'cco:RecipientRole': 'cco:has_recipient',
+    'cco:BeneficiaryRole': 'cco:has_beneficiary',
+    'cco:InstrumentRole': 'cco:has_instrument',
+    'cco:LocationRole': 'cco:occurs_at',
+    'cco:SourceRole': 'cco:has_source',
+    'cco:DestinationRole': 'cco:has_destination',
+    'cco:ComitativeRole': 'cco:has_comitative',
+    'cco:CauseRole': 'cco:has_cause'
+  };
+  const roleNodes = nodes.filter(n =>
+    (n['@type'] || []).some(t => t.endsWith('Role') && t.startsWith('cco:'))
+  );
+  for (const role of roleNodes) {
+    const actRef = role['tagteam:realizedIn'];
+    const entityRef = role['tagteam:bearer'];
+    if (!actRef || !entityRef) continue;
+    const actId = typeof actRef === 'string' ? actRef : actRef['@id'];
+    const entityId = typeof entityRef === 'string' ? entityRef : entityRef['@id'];
+    const act = acts.find(n => n['@id'] === actId);
+    if (!act) continue;
+    const roleType = (role['@type'] || []).find(t => roleToProperty[t]);
+    if (!roleType) continue;
+    const prop = roleToProperty[roleType];
+    if (!act[prop]) {
+      act[prop] = { '@id': entityId };
+    }
+  }
+
   for (const act of acts) {
-    const verb = act['tagteam:verb'] || act['rdfs:label'];
+    const verb = act['tagteam:verb'] || act['tagteam:lemma'] || act['rdfs:label'];
 
     // Extract agent
     if (act['cco:has_agent']) {

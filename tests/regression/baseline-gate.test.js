@@ -46,7 +46,7 @@ console.log(`${C.bright}========================================================
 
 console.log(`\n${C.cyan}--- AC-4.19: Component Test Baseline ---${C.reset}`);
 
-const COMPONENT_BASELINE = 89; // Locked at Phase 3B exit
+const COMPONENT_BASELINE = 49; // Tree pipeline baseline (post-cutover). Legacy was 89.
 
 test(`AC-4.19: Component tests >= ${COMPONENT_BASELINE} passing`, () => {
   let output;

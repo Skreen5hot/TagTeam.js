@@ -148,7 +148,7 @@
             const text = document.getElementById('input').value;
             if (!text.trim()) { alert('Enter text'); return; }
 
-            const result = TagTeam.buildGraph(text, { detectAmbiguity: true });
+            const result = TagTeam.buildGraph(text, { useLegacy: true, detectAmbiguity: true });
             document.getElementById('output').textContent =
                 '// Core parsing result (with ambiguity detection)\n' + JSON.stringify(result, null, 2);
             document.getElementById('results').style.display = 'block';

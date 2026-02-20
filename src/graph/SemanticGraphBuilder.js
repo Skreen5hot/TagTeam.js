@@ -1806,7 +1806,7 @@ class SemanticGraphBuilder {
         tagger = this._treePosTagger;
       } else if (posModelPath) {
         if (typeof require === 'undefined') {
-          throw new Error('POS model not pre-loaded. Call loadTreeModels(posJSON, depJSON) before buildTreeGraph() in browser.');
+          throw new Error('Models not loaded. Call TagTeam.loadModels(posJSON, depJSON) before buildGraph() in browser.');
         }
         const fs = require('fs');
         const posModel = JSON.parse(fs.readFileSync(posModelPath, 'utf8'));
@@ -1814,7 +1814,7 @@ class SemanticGraphBuilder {
         this._treePosTagger = tagger;
       } else {
         if (typeof require === 'undefined') {
-          throw new Error('POS model not pre-loaded. Call loadTreeModels(posJSON, depJSON) before buildTreeGraph() in browser.');
+          throw new Error('Models not loaded. Call TagTeam.loadModels(posJSON, depJSON) before buildGraph() in browser.');
         }
         // Auto-load from default path (AC-3.20)
         autoLoaded = true;
@@ -1835,7 +1835,7 @@ class SemanticGraphBuilder {
         depParser = this._treeDepParser;
       } else if (buildOptions.depModel) {
         if (typeof require === 'undefined') {
-          throw new Error('Dep model not pre-loaded. Call loadTreeModels(posJSON, depJSON) before buildTreeGraph() in browser.');
+          throw new Error('Models not loaded. Call TagTeam.loadModels(posJSON, depJSON) before buildGraph() in browser.');
         }
         const fs = require('fs');
         const depModel = JSON.parse(fs.readFileSync(buildOptions.depModel, 'utf8'));
@@ -1843,7 +1843,7 @@ class SemanticGraphBuilder {
         this._treeDepParser = depParser;
       } else {
         if (typeof require === 'undefined') {
-          throw new Error('Dep model not pre-loaded. Call loadTreeModels(posJSON, depJSON) before buildTreeGraph() in browser.');
+          throw new Error('Models not loaded. Call TagTeam.loadModels(posJSON, depJSON) before buildGraph() in browser.');
         }
         // Auto-load from default path (AC-3.20 / AC-3.21)
         if (!autoLoaded) {

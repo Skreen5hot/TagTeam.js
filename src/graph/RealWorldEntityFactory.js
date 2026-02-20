@@ -72,9 +72,21 @@ const PROCESS_TYPE_MAPPINGS = {
  * Keywords that suggest person type
  */
 const PERSON_KEYWORDS = [
-  'doctor', 'physician', 'nurse', 'patient', 'person', 'man', 'woman',
-  'child', 'parent', 'mother', 'father', 'family', 'staff', 'worker',
-  'professional', 'specialist', 'surgeon', 'therapist', 'caregiver'
+  // Medical
+  'doctor', 'physician', 'nurse', 'patient', 'surgeon', 'therapist',
+  'pharmacist', 'paramedic', 'caregiver',
+  // General
+  'person', 'man', 'woman', 'child', 'parent', 'mother', 'father',
+  // Professional/occupational (synced from EntityExtractor ENTITY_TYPE_MAPPINGS)
+  'engineer', 'teacher', 'lawyer', 'architect', 'scientist', 'researcher',
+  'analyst', 'manager', 'director', 'officer', 'agent', 'inspector',
+  'technician', 'programmer', 'developer', 'designer', 'consultant',
+  'administrator', 'admin', 'supervisor', 'coordinator', 'specialist',
+  'professor', 'student', 'worker', 'employee', 'staff', 'member',
+  'user', 'client', 'customer', 'owner', 'author', 'editor',
+  'reviewer', 'auditor', 'judge', 'witness', 'suspect', 'victim',
+  'soldier', 'pilot', 'driver', 'chef', 'artist', 'musician',
+  'athlete', 'guard', 'professional'
 ];
 
 /**
@@ -82,7 +94,10 @@ const PERSON_KEYWORDS = [
  */
 const ORG_KEYWORDS = [
   'hospital', 'clinic', 'department', 'unit', 'organization', 'institution',
-  'company', 'firm', 'agency', 'board', 'committee', 'council', 'team'
+  'company', 'firm', 'agency', 'board', 'committee', 'council', 'team',
+  // Synced from EntityExtractor ENTITY_TYPE_MAPPINGS
+  'foundation', 'administration', 'association', 'corporation',
+  'commission', 'panel'
 ];
 
 /**

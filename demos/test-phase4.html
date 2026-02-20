@@ -16,36 +16,55 @@
             console.log(msg);
         }
 
-        try {
-            log('TagTeam version: ' + TagTeam.version);
-            log('Has buildGraph: ' + (typeof TagTeam.buildGraph));
-            log('Has EntityExtractor: ' + (typeof TagTeam.EntityExtractor));
+        (async function() {
+            try {
+                log('TagTeam version: ' + TagTeam.version);
+                log('Has buildGraph: ' + (typeof TagTeam.buildGraph));
+                log('Has EntityExtractor: ' + (typeof TagTeam.EntityExtractor));
 
-            // Check if nlp (Compromise) is available
-            log('window.nlp available: ' + (typeof window.nlp));
+                // Check if nlp (Compromise) is available
+                log('window.nlp available: ' + (typeof window.nlp));
 
-            // Try building a graph
-            const result = TagTeam.buildGraph('The doctor must allocate the ventilator');
-            log('Graph built successfully!');
-            log('Node count: ' + result['@graph'].length);
+                // Load tree models
+                log('Loading models...');
+                try {
+                    const [posRes, depRes] = await Promise.all([
+                        fetch('../dist/models/pos-weights-pruned.json'),
+                        fetch('../dist/models/dep-weights-pruned.json')
+                    ]);
+                    const posJSON = await posRes.json();
+                    const depJSON = await depRes.json();
+                    TagTeam.loadModels(posJSON, depJSON);
+                    log('Models loaded. areModelsLoaded: ' + TagTeam.areModelsLoaded());
+                } catch (e) {
+                    log('Model loading failed: ' + e.message + ' — falling back to legacy');
+                }
 
-            // Check for Tier 2 entities
-            const tier2 = result['@graph'].filter(n =>
-                n['@type'] && (n['@type'].includes('cco:Person') || n['@type'].includes('cco:Artifact'))
-            );
-            log('Tier 2 entities: ' + tier2.length);
+                // Try building a graph
+                var opts = {};
+                if (!TagTeam.areModelsLoaded()) opts.useLegacy = true;
+                const result = TagTeam.buildGraph('The doctor must allocate the ventilator', opts);
+                log('Graph built successfully!');
+                log('Node count: ' + result['@graph'].length);
 
-            // Check for is_about links
-            const hasIsAbout = result['@graph'].some(n => n['cco:is_about']);
-            log('Has cco:is_about links: ' + hasIsAbout);
+                // Check for Tier 2 entities
+                const tier2 = result['@graph'].filter(n =>
+                    n['@type'] && (n['@type'].includes('cco:Person') || n['@type'].includes('cco:Artifact'))
+                );
+                log('Tier 2 entities: ' + tier2.length);
 
-            // Show full JSON
-            log('<pre>' + JSON.stringify(result, null, 2) + '</pre>');
+                // Check for is_about links
+                const hasIsAbout = result['@graph'].some(n => n['cco:is_about']);
+                log('Has cco:is_about links: ' + hasIsAbout);
 
-        } catch (e) {
-            log('ERROR: ' + e.message);
-            log('<pre>' + e.stack + '</pre>');
-        }
+                // Show full JSON
+                log('<pre>' + JSON.stringify(result, null, 2) + '</pre>');
+
+            } catch (e) {
+                log('ERROR: ' + e.message);
+                log('<pre>' + e.stack + '</pre>');
+            }
+        })();
     </script>
 </body>
 </html>

@@ -1001,7 +1001,7 @@ ex:Concept a ex:MyType ;
 
         // Build the real Two-Tier JSON-LD graph via TagTeam.buildGraph
         var verbose = document.getElementById('verbose-toggle').checked;
-        var graphResult = TagTeam.buildGraph(text, { detectAmbiguity: true, verbose: verbose });
+        var graphResult = TagTeam.buildGraph(text, { useLegacy: true, detectAmbiguity: true, verbose: verbose });
         var jsonld = graphResult['@graph'] ? graphResult : { '@graph': graphResult };
 
         // Enrich Tier 2 nodes with ontology class types from tags

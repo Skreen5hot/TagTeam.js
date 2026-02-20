@@ -1184,6 +1184,23 @@ ${semanticGraphBuilder}
   let _cachedDepModel = null;
   let _cachedCalibration = null;
   let _cachedGazetteers = null;
+  let _buildTreeGraphWarned = false;
+
+  // Shared helper: inject cached models into a SemanticGraphBuilder instance
+  function _injectCachedModels(builder) {
+    if (_cachedPosModel) {
+      builder._treePosTagger = new PerceptronTagger(_cachedPosModel);
+    }
+    if (_cachedDepModel) {
+      builder._treeDepParser = new DependencyParser(_cachedDepModel);
+    }
+    if (_cachedCalibration) {
+      builder._calibration = _cachedCalibration;
+    }
+    if (_cachedGazetteers && typeof GazetteerNER !== 'undefined') {
+      builder._treeGazetteerNER = new GazetteerNER(_cachedGazetteers);
+    }
+  }
 
   /**
    * TagTeam - Unified API for semantic parsing
@@ -1280,11 +1297,16 @@ ${semanticGraphBuilder}
     },
 
     /**
-     * Build a JSON-LD semantic graph from text (Phase 4)
+     * Build a JSON-LD semantic graph from text.
+     * Uses the tree pipeline (PerceptronTagger + DependencyParser) by default.
+     * Pass { useLegacy: true } to use the legacy Compromise NLP pipeline.
+     *
+     * In browser, call loadModels() first to pre-load POS/dep models.
      *
      * @param {string} text - The text to analyze
      * @param {Object} options - Optional configuration
      * @param {string} options.context - Interpretation context (e.g., 'MedicalEthics')
+     * @param {boolean} options.useLegacy - Use legacy Compromise pipeline (default: false)
      * @param {boolean} options.extractEntities - Extract entities (default: true)
      * @param {boolean} options.extractActs - Extract acts (default: true)
      * @param {boolean} options.detectRoles - Detect roles (default: true)
@@ -1295,8 +1317,18 @@ ${semanticGraphBuilder}
      * console.log(graph['@graph']); // Array of nodes
      */
     buildGraph: function(text, options) {
+      options = options || {};
+
+      // Legacy escape hatch
+      if (options.useLegacy) {
+        const builder = new SemanticGraphBuilder(options);
+        return builder.build(text, options);
+      }
+
+      // Tree pipeline (default)
       const builder = new SemanticGraphBuilder(options);
-      return builder.build(text, options);
+      _injectCachedModels(builder);
+      return builder.build(text, Object.assign({}, options, { useTreeExtractors: true }));
     },
 
     /**
@@ -1319,14 +1351,15 @@ ${semanticGraphBuilder}
     },
 
     /**
-     * Pre-load tree pipeline models for browser use.
-     * Call once after fetching model JSON files, before buildTreeGraph().
+     * Pre-load pipeline models for browser use.
+     * Call once after fetching model JSON files, before buildGraph().
      *
      * @param {Object} posJSON - Parsed POS tagger weights (pos-weights-pruned.json)
      * @param {Object} depJSON - Parsed dependency parser weights (dep-weights-pruned.json)
      * @param {Object} [calibrationJSON] - Parsed calibration table (dep-calibration.json)
+     * @param {Object} [gazetteersJSON] - Parsed gazetteer data
      */
-    loadTreeModels: function(posJSON, depJSON, calibrationJSON, gazetteersJSON) {
+    loadModels: function(posJSON, depJSON, calibrationJSON, gazetteersJSON) {
       _cachedPosModel = posJSON;
       _cachedDepModel = depJSON;
       if (calibrationJSON) _cachedCalibration = calibrationJSON;
@@ -1334,29 +1367,37 @@ ${semanticGraphBuilder}
     },
 
     /**
-     * Build a JSON-LD semantic graph using tree-based extractors (Phase 3A).
-     * In browser, call loadTreeModels() first to pre-load models.
+     * Backward-compatible alias for loadModels().
+     * @deprecated Use loadModels() instead.
+     */
+    loadTreeModels: function(posJSON, depJSON, calibrationJSON, gazetteersJSON) {
+      return this.loadModels(posJSON, depJSON, calibrationJSON, gazetteersJSON);
+    },
+
+    /**
+     * Check whether pipeline models have been loaded.
+     * @returns {boolean} true if POS and dependency models are cached
+     */
+    areModelsLoaded: function() {
+      return !!_cachedPosModel && !!_cachedDepModel;
+    },
+
+    /**
+     * Build a JSON-LD semantic graph using tree-based extractors.
+     * @deprecated Use buildGraph() instead — it now uses the tree pipeline by default.
      *
      * @param {string} text - The text to analyze
      * @param {Object} [options] - Optional configuration
      * @returns {Object} Graph object with @graph array and _metadata
      */
     buildTreeGraph: function(text, options) {
+      if (!_buildTreeGraphWarned) {
+        console.warn('buildTreeGraph() is deprecated. Use buildGraph() instead. buildGraph() now uses the tree pipeline by default.');
+        _buildTreeGraphWarned = true;
+      }
       options = options || {};
       const builder = new SemanticGraphBuilder(options);
-      // Inject pre-loaded models if available
-      if (_cachedPosModel) {
-        builder._treePosTagger = new PerceptronTagger(_cachedPosModel);
-      }
-      if (_cachedDepModel) {
-        builder._treeDepParser = new DependencyParser(_cachedDepModel);
-      }
-      if (_cachedCalibration) {
-        builder._calibration = _cachedCalibration;
-      }
-      if (_cachedGazetteers && typeof GazetteerNER !== 'undefined') {
-        builder._treeGazetteerNER = new GazetteerNER(_cachedGazetteers);
-      }
+      _injectCachedModels(builder);
       return builder.build(text, Object.assign({}, options, { useTreeExtractors: true }));
     },
 

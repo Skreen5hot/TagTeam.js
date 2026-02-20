@@ -452,6 +452,25 @@
     if (e.key === 'ArrowLeft') prevSlide();
   });
 
+  // Load tree pipeline models (buildGraph defaults to tree pipeline)
+  let modelsLoaded = false;
+  (async function loadModels() {
+    try {
+      const modelBase = (window.location.hostname === 'localhost' || window.location.hostname === '')
+        ? '../dist/models/' : 'models/';
+      const [posJSON, depJSON] = await Promise.all([
+        fetch(modelBase + 'pos-weights-pruned.json').then(r => r.json()),
+        fetch(modelBase + 'dep-weights-pruned.json').then(r => r.json())
+      ]);
+      let calJSON = null;
+      try { calJSON = await fetch(modelBase + 'dep-calibration.json').then(r => r.json()); } catch(e) {}
+      TagTeam.loadModels(posJSON, depJSON, calJSON);
+      modelsLoaded = true;
+    } catch (e) {
+      console.warn('Model loading failed, falling back to legacy pipeline:', e.message);
+    }
+  })();
+
   // Demo function
   function runDemo() {
     const input = document.getElementById('demo-input').value;
@@ -463,9 +482,11 @@
     }
 
     try {
-      // Use TagTeam.buildGraph for rich Phase 4 output
+      // Use TagTeam.buildGraph (defaults to tree pipeline if models loaded)
       const verbose = document.getElementById('verbose-toggle').checked;
-      const graph = TagTeam.buildGraph(input, { verbose: verbose });
+      const opts = { verbose: verbose };
+      if (!modelsLoaded) opts.useLegacy = true;
+      const graph = TagTeam.buildGraph(input, opts);
       const nodes = graph['@graph'] || [];
 
       let html = '<h3>Analysis Results:</h3>';
@@ -559,7 +580,9 @@
       // Try to get lattice (Phase 6 feature)
       let lattice = null;
       try {
-        const graphWithLattice = TagTeam.buildGraph(input, { preserveAmbiguity: true });
+        const latticeOpts = { preserveAmbiguity: true };
+        if (!modelsLoaded) latticeOpts.useLegacy = true;
+        const graphWithLattice = TagTeam.buildGraph(input, latticeOpts);
         lattice = graphWithLattice._interpretationLattice;
       } catch (e) {
         // Lattice not available

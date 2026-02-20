@@ -240,6 +240,16 @@ let _cachedTagTeam = null;
 function getTagTeam() {
   if (!_cachedTagTeam) {
     _cachedTagTeam = require('../../dist/tagteam.js');
+    // Pre-load tree pipeline models (buildGraph() defaults to tree pipeline)
+    try {
+      const _fs = require('fs');
+      const _path = require('path');
+      const posJSON = JSON.parse(_fs.readFileSync(_path.join(__dirname, '../../src/data/pos-weights-pruned.json'), 'utf8'));
+      const depJSON = JSON.parse(_fs.readFileSync(_path.join(__dirname, '../../src/data/dep-weights-pruned.json'), 'utf8'));
+      _cachedTagTeam.loadModels(posJSON, depJSON);
+    } catch (e) {
+      console.warn('Could not pre-load tree models:', e.message);
+    }
   }
   return _cachedTagTeam;
 }

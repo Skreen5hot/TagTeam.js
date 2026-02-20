@@ -21,6 +21,15 @@ try {
   process.exit(1);
 }
 
+// Pre-load tree pipeline models (buildGraph() defaults to tree pipeline)
+try {
+  const posJSON = JSON.parse(fs.readFileSync(path.join(__dirname, '../../src/data/pos-weights-pruned.json'), 'utf8'));
+  const depJSON = JSON.parse(fs.readFileSync(path.join(__dirname, '../../src/data/dep-weights-pruned.json'), 'utf8'));
+  TagTeam.loadModels(posJSON, depJSON);
+} catch (e) {
+  console.warn('⚠️  Could not pre-load tree models, auto-load will be attempted:', e.message);
+}
+
 // ============================================================================
 // Configuration
 // ============================================================================
@@ -69,6 +78,138 @@ const CATEGORIES = {
 };
 
 // ============================================================================
+// Tree Format Normalization
+// ============================================================================
+
+/**
+ * Normalize tree pipeline output so act nodes have inline role properties.
+ *
+ * The tree pipeline uses separate Role nodes:
+ *   Role { tagteam:bearer → entity, tagteam:realizedIn → act }
+ *
+ * The legacy pipeline puts roles directly on acts:
+ *   Act { cco:has_agent → entity, cco:affects → entity }
+ *
+ * This function detects tree format and materializes role links onto act nodes,
+ * plus adds tagteam:verb from rdfs:label/tagteam:lemma for compatibility.
+ */
+function normalizeGraphForAnalysis(result) {
+  if (!result || !result['@graph']) return result;
+
+  const graph = result['@graph'];
+
+  // Detect tree format: acts typed as tagteam:VerbPhrase
+  const isTreeFormat = graph.some(n =>
+    (n['@type'] || []).includes('tagteam:VerbPhrase')
+  );
+
+  if (!isTreeFormat) return result; // Legacy format, no normalization needed
+
+  // Map from role type to property name
+  const roleToProperty = {
+    'cco:AgentRole': 'cco:has_agent',
+    'cco:PatientRole': 'cco:affects',
+    'cco:RecipientRole': 'cco:has_recipient',
+    'cco:BeneficiaryRole': 'cco:has_beneficiary',
+    'cco:InstrumentRole': 'cco:has_instrument',
+    'cco:LocationRole': 'cco:has_location',
+    'cco:SourceRole': 'cco:has_source',
+    'cco:DestinationRole': 'cco:has_destination',
+    'cco:ComitativeRole': 'cco:has_comitative',
+    'cco:CauseRole': 'cco:has_cause'
+  };
+
+  // Find all Role nodes and materialize them onto acts
+  const roleNodes = graph.filter(n =>
+    (n['@type'] || []).some(t => t.endsWith('Role') && t.startsWith('cco:'))
+  );
+
+  roleNodes.forEach(role => {
+    const actRef = role['tagteam:realizedIn'];
+    const entityRef = role['tagteam:bearer'];
+    if (!actRef || !entityRef) return;
+
+    const actId = typeof actRef === 'string' ? actRef : actRef['@id'];
+    const entityId = typeof entityRef === 'string' ? entityRef : entityRef['@id'];
+
+    const act = graph.find(n => n['@id'] === actId);
+    if (!act) return;
+
+    // Determine which property to set
+    const roleType = (role['@type'] || []).find(t => roleToProperty[t]);
+    if (!roleType) return;
+
+    const prop = roleToProperty[roleType];
+
+    // Resolve to Tier 2 entity if available (for tier-separation compatibility).
+    // Legacy format links acts to Tier 2 (owl:NamedIndividual) entities.
+    const bearerEntity = graph.find(n => n['@id'] === entityId);
+    let targetId = entityId;
+    if (bearerEntity && bearerEntity['cco:is_about']) {
+      const aboutRef = bearerEntity['cco:is_about'];
+      targetId = typeof aboutRef === 'string' ? aboutRef : aboutRef['@id'];
+    }
+
+    // Set or append the property on the act
+    if (act[prop]) {
+      // Already has this property — make array
+      if (!Array.isArray(act[prop])) act[prop] = [act[prop]];
+      act[prop].push({ '@id': targetId });
+    } else {
+      act[prop] = { '@id': targetId };
+    }
+
+    // Also add bfo:has_participant for participant collection tests
+    if (!act['bfo:has_participant']) act['bfo:has_participant'] = [];
+    if (!Array.isArray(act['bfo:has_participant'])) {
+      act['bfo:has_participant'] = [act['bfo:has_participant']];
+    }
+    const already = act['bfo:has_participant'].some(p =>
+      (typeof p === 'string' ? p : p['@id']) === targetId
+    );
+    if (!already) {
+      act['bfo:has_participant'].push({ '@id': targetId });
+    }
+  });
+
+  // Normalize act verb property: add tagteam:verb from rdfs:label (surface form).
+  // Use rdfs:label (e.g. "created") rather than tagteam:lemma (may be truncated, e.g. "creat")
+  // because component tests match via .includes() which handles inflected forms.
+  // Also store tagteam:verbLemma for exact matching with irregular verbs.
+  graph.forEach(node => {
+    if ((node['@type'] || []).includes('tagteam:VerbPhrase') && !node['tagteam:verb']) {
+      node['tagteam:verb'] = node['rdfs:label'] || node['tagteam:lemma'] || '';
+      if (node['tagteam:lemma']) {
+        node['tagteam:verbLemma'] = node['tagteam:lemma'];
+      }
+    }
+  });
+
+  // Promote Tier 2 domain types onto Tier 1 DiscourseReferent entities.
+  // Tree pipeline stores domain types (cco:Person, cco:Artifact) on Tier 2 nodes
+  // linked via cco:is_about. Component tests expect them on Tier 1.
+  graph.forEach(node => {
+    if (!(node['@type'] || []).includes('tagteam:DiscourseReferent')) return;
+    const aboutRef = node['cco:is_about'];
+    if (!aboutRef) return;
+
+    const aboutId = typeof aboutRef === 'string' ? aboutRef : aboutRef['@id'];
+    const tier2 = graph.find(n => n['@id'] === aboutId);
+    if (!tier2) return;
+
+    // Promote domain types (cco:*, bfo:*) from Tier 2 to Tier 1
+    (tier2['@type'] || []).forEach(t => {
+      if (t === 'owl:NamedIndividual' || t === 'owl:Class') return; // Skip OWL markers
+      if (!node['@type'].includes(t)) {
+        node['@type'].push(t);
+      }
+    });
+  });
+
+  return result;
+}
+
+// ============================================================================
 // Test Execution
 // ============================================================================
 
@@ -83,8 +224,11 @@ function runComponentTest(test) {
       returnJSON: true
     });
 
+    // Normalize tree format for analysis compatibility
+    const normalized = normalizeGraphForAnalysis(result);
+
     // Analyze result based on test category
-    const analysis = analyzeResult(result, test);
+    const analysis = analyzeResult(normalized, test);
 
     return {
       ...test,
@@ -116,9 +260,10 @@ function analyzeResult(result, test) {
   };
 
   // Extract acts from JSON-LD @graph
-  // Use tagteam:verb to identify acts (more reliable than @type filtering)
+  // Support both legacy (tagteam:verb) and tree (tagteam:VerbPhrase) formats
   const acts = result['@graph'] ? result['@graph'].filter(node =>
-    node['tagteam:verb']  // Any node with a verb is an act
+    node['tagteam:verb'] ||
+    (node['@type'] || []).includes('tagteam:VerbPhrase')
   ) : [];
 
   // Category-specific analysis
@@ -327,7 +472,8 @@ function analyzeRoleAssignment(acts, result, test) {
     // Find act with matching verb
     const matchingAct = acts.find(act => {
       const actVerb = (act['tagteam:verb'] || '').toLowerCase();
-      return actVerb === verb || actVerb.includes(verb);
+      const actLemma = (act['tagteam:verbLemma'] || '').toLowerCase();
+      return actVerb === verb || actVerb.includes(verb) || verb.includes(actVerb) || actLemma === verb || actLemma.includes(verb) || verb.includes(actLemma);
     });
 
     if (!matchingAct) {
@@ -396,7 +542,8 @@ function analyzeArgumentLinking(acts, result, test) {
     // Find act with matching verb
     const matchingAct = acts.find(act => {
       const actVerb = (act['tagteam:verb'] || '').toLowerCase();
-      return actVerb === verb || actVerb.includes(verb);
+      const actLemma = (act['tagteam:verbLemma'] || '').toLowerCase();
+      return actVerb === verb || actVerb.includes(verb) || verb.includes(actVerb) || actLemma === verb || actLemma.includes(verb) || verb.includes(actLemma);
     });
 
     if (!matchingAct) {
@@ -492,7 +639,8 @@ function analyzeArgumentLinking(acts, result, test) {
 
     const matchingAct = acts.find(act => {
       const actVerb = (act['tagteam:verb'] || '').toLowerCase();
-      return actVerb === verb || actVerb.includes(verb);
+      const actLemma = (act['tagteam:verbLemma'] || '').toLowerCase();
+      return actVerb === verb || actVerb.includes(verb) || verb.includes(actVerb) || actLemma === verb || actLemma.includes(verb) || verb.includes(actLemma);
     });
 
     if (matchingAct && matchingAct[property]) {
