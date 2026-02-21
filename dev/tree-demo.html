@@ -702,8 +702,8 @@
           html += '<span class="badge badge-provenance">' + escHtml(typeLabel) + '</span> ';
           html += '<span style="font-size:0.82em;color:#475569;">' + escHtml(p['@id'] || '') + '</span>';
           // Show has_output count for ParsingAct
-          if (p['cco:has_output']) {
-            const outputs = [].concat(p['cco:has_output']);
+          if (p['tagteam:has_output']) {
+            const outputs = [].concat(p['tagteam:has_output']);
             html += ' <span class="arrow">&rarr;</span> <span style="font-size:0.82em;color:#64748b;">' + outputs.length + ' ICE outputs</span>';
           }
           html += '</div>';

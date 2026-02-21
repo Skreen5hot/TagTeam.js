@@ -1061,22 +1061,20 @@ ex:Concept a ex:MyType ;
             var t = nodeTypes[ti];
             // Blacklist: infrastructure/non-entity types
             if (t === 'tagteam:DiscourseReferent' ||
-                t === 'cco:AgentRole' || t === 'cco:PatientRole' ||
-                t === 'cco:InstrumentRole' || t === 'cco:BeneficiaryRole' ||
+                t === 'bfo:Role' ||
                 t === 'bfo:BFO_0000023' ||
                 t === 'cco:IntentionalAct' ||
+                t === 'cco:ActOfCommunication' ||
                 t === 'cco:InformationBearingEntity' ||
-                t === 'cco:ArtificialAgent' ||
                 t === 'cco:InformationContentEntity' ||
-                t === 'cco:ActOfArtificialProcessing' ||
+                t === 'tagteam:VerbPhrase' ||
                 t === 'tagteam:DirectiveContent' ||
                 t === 'tagteam:Inference' || t === 'tagteam:ClinicalFinding' ||
                 t === 'tagteam:ScarcityAssertion' ||
                 t === 'tagteam:InterpretationContext' ||
                 t === 'tagteam:ValueAssertionEvent' ||
                 t === 'tagteam:ContextAssessmentEvent' ||
-                t === 'tagteam:AlternativeNode' ||
-                t.indexOf('cco:ActOf') === 0) {  // catch all ActOf* subtypes
+                t === 'tagteam:AlternativeNode') {
               isTier2Entity = false;
               break;
             }
