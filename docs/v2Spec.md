@@ -173,7 +173,7 @@ const WH_PSEUDO_ENTITIES = {
 │    "cco:is_about": {                                                         │
 │      "@type": "cco:IntentionalAct",                                          │
 │      "cco:has_agent": { "@id": "inst:Auditor_001" },                         │
-│      "cco:has_patient": { "@id": "inst:Report_001", "tagteam:isQuestionFocus": true }
+│      "cco:affects": { "@id": "inst:Report_001", "tagteam:isQuestionFocus": true }
 │    }                                                                         │
 │  }                                                                           │
 └─────────────────────────────────────────────────────────────────────────────┘
@@ -346,14 +346,14 @@ Clause 2:  "[The server] was verified by the administrator"
     {
       "@id": "inst:Reboot_Act_001",
       "@type": "cco:IntentionalAct",
-      "cco:has_patient": { "@id": "inst:Server_001" },
+      "cco:affects": { "@id": "inst:Server_001" },
       "tagteam:clauseIndex": 0
     },
     {
       "@id": "inst:Verify_Act_002",
       "@type": "cco:IntentionalAct",
       "cco:has_agent": { "@id": "inst:Administrator_001" },
-      "cco:has_patient": { "@id": "inst:Server_001" },
+      "cco:affects": { "@id": "inst:Server_001" },
       "tagteam:clauseIndex": 1,
       "tagteam:subjectSource": "ellipsis_injection"
     },
@@ -543,7 +543,7 @@ Clause 2:  "[The server] was verified by the administrator"
   "@type": "cco:MentalProcess",
   "@id": "inst:Worry_Process_001",
   "cco:has_agent": { "@id": "inst:Administrator_001" },
-  "cco:has_cause": { "@id": "inst:Failure_001" },
+  "tagteam:has_cause": { "@id": "inst:Failure_001" },
   "tagteam:verbClass": "psych_verb"
 }
 ```
@@ -832,7 +832,7 @@ salience = (recency × 0.4) + (grammaticalRole × 0.3) +
 ```turtle
 @prefix : <http://tagteam.fandaws.org/ontology/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix cco: <http://www.ontologyrepository.com/CommonCoreOntologies/> .
+@prefix cco: <https://www.commoncoreontologies.org/> .
 
 <http://tagteam.fandaws.org/ontology/v2/> a owl:Ontology ;
     owl:versionInfo "2.0.0" ;

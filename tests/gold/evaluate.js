@@ -139,16 +139,18 @@ function extractFromGraph(graph) {
     const types = [].concat(node['@type'] || []);
     const isAct = types.some(t =>
       t.includes('Act') || t.includes('IntentionalAct') ||
-      (t.includes('Process') && !t.includes('ActOfArtificialProcessing'))
+      t.includes('Process') || t === 'tagteam:VerbPhrase'
     );
     const isRole = types.some(t => t.includes('Role'));
     const isAssertion = types.some(t => t.includes('StructuralAssertion'));
 
     // Skip provenance and Tier 2 infrastructure nodes
     const isProvenance = types.some(t =>
-      t.includes('InformationBearingEntity') || t.includes('ArtificialAgent') ||
-      t.includes('ActOfArtificialProcessing')
-    );
+      t.includes('InformationBearingEntity')
+    ) || (node['rdfs:label'] && (
+      node['rdfs:label'] === 'ArtificialAgent' ||
+      node['rdfs:label'] === 'ActOfArtificialProcessing'
+    ));
     const isTier2 = types.includes('owl:NamedIndividual') &&
       !types.includes('tagteam:DiscourseReferent') &&
       !types.includes('tagteam:VerbPhrase');
@@ -168,12 +170,15 @@ function extractFromGraph(graph) {
       const bearerId = typeof bearerRef === 'string' ? bearerRef : (bearerRef['@id'] || bearerRef);
       const bearerLabel = idToLabel[bearerId] || bearerId;
 
-      // Determine role type from @type array
+      // Determine role type from rdfs:label (post-IRI cleanup) or @type array (legacy)
       let roleName = null;
-      for (const t of types) {
-        if (ROLE_TYPE_MAP[t]) {
-          roleName = ROLE_TYPE_MAP[t];
-          break;
+      const roleLabel = node['rdfs:label'] || node['tagteam:roleType'];
+      if (roleLabel && ROLE_TYPE_MAP[roleLabel]) {
+        roleName = ROLE_TYPE_MAP[roleLabel];
+      }
+      if (!roleName) {
+        for (const t of types) {
+          if (ROLE_TYPE_MAP[t]) { roleName = ROLE_TYPE_MAP[t]; break; }
         }
       }
       if (roleName) {
@@ -210,12 +215,12 @@ function extractFromGraph(graph) {
 
       for (const [prop, rn] of [
         ['tagteam:located_in', 'Location'],
-        ['cco:has_instrument', 'Instrument'],
+        ['tagteam:has_instrument', 'Instrument'],
         ['tagteam:instrument', 'Instrument'],
-        ['cco:has_destination', 'Goal'],
+        ['tagteam:has_destination', 'Goal'],
         ['tagteam:destination', 'Goal'],
-        ['cco:has_source', 'Source'],
-        ['cco:has_beneficiary', 'Beneficiary']
+        ['tagteam:has_source', 'Source'],
+        ['tagteam:has_beneficiary', 'Beneficiary']
       ]) {
         if (node[prop]) {
           const refs = [].concat(node[prop]);

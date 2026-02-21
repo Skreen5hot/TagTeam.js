@@ -16,7 +16,7 @@ The doctor treats the patient.
 {
   "@context": {
     "bfo": "http://purl.obolibrary.org/obo/",
-    "cco": "http://www.ontologyrepository.com/CommonCoreOntologies/",
+    "cco": "https://www.commoncoreontologies.org/",
     "tagteam": "http://tagteam.fandaws.org/ontology/",
     "inst": "http://tagteam.fandaws.org/instance/",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
@@ -67,15 +67,15 @@ The doctor treats the patient.
     },
     {
       "@id": "inst:Agent_Role_d5e2f6gh",
-      "@type": ["cco:AgentRole", "bfo:BFO_0000023", "owl:NamedIndividual"],
-      "rdfs:label": "Agent role of doctor in treats",
+      "@type": ["bfo:Role", "bfo:BFO_0000023", "owl:NamedIndividual"],
+      "rdfs:label": "AgentRole",
       "bfo:inheres_in": "inst:Doctor_Person_a8f3b2cd",
       "bfo:realized_in": "inst:Treat_IntentionalAct_c4d1e5fg"
     },
     {
       "@id": "inst:Patient_Role_e6f3g7hi",
-      "@type": ["cco:PatientRole", "bfo:BFO_0000023", "owl:NamedIndividual"],
-      "rdfs:label": "Patient role of patient in treats",
+      "@type": ["bfo:Role", "bfo:BFO_0000023", "owl:NamedIndividual"],
+      "rdfs:label": "PatientRole",
       "bfo:inheres_in": "inst:Patient_Person_b9e2c3df",
       "bfo:realized_in": "inst:Treat_IntentionalAct_c4d1e5fg"
     }
@@ -86,7 +86,7 @@ The doctor treats the patient.
 ### Key Points
 
 - **Two-Tier Architecture**: `DiscourseReferent` (Tier 1) links to `cco:Person` (Tier 2) via `cco:is_about`
-- **Roles**: `AgentRole` and `PatientRole` link bearers to acts
+- **Roles**: `bfo:Role` with `rdfs:label` "AgentRole"/"PatientRole" link bearers to acts
 - **`owl:NamedIndividual`**: All instances include this type
 
 ---
@@ -183,7 +183,8 @@ The doctor must allocate the last ventilator between two critically ill patients
     // Quality nodes (v2.4)
     {
       "@id": "inst:Quality_CriticallyIll_6f7g8h9i",
-      "@type": ["cco:DiseaseQuality", "bfo:BFO_0000019", "owl:NamedIndividual"],
+      "@type": ["bfo:Quality", "bfo:BFO_0000019", "owl:NamedIndividual"],
+      "rdfs:label": "DiseaseQuality",
       "rdfs:label": "critically ill quality",
       "tagteam:qualifierText": "critically ill",
       "tagteam:severity": "critical",
@@ -211,7 +212,7 @@ The doctor must allocate the last ventilator between two critically ill patients
     // Directive Content ICE (modal "must")
     {
       "@id": "inst:Directive_Must_8h9i0j1k",
-      "@type": ["tagteam:DirectiveContent", "cco:DirectiveInformationContentEntity", "owl:NamedIndividual"],
+      "@type": ["tagteam:DirectiveContent", "cco:InformationContentEntity", "owl:NamedIndividual"],
       "rdfs:label": "Directive: must allocate",
       "tagteam:modalType": "deontic",
       "tagteam:modalMarker": "must",
@@ -222,8 +223,8 @@ The doctor must allocate the last ventilator between two critically ill patients
     // Agent Role (realized in actual acts only)
     {
       "@id": "inst:Agent_Role_9i0j1k2l",
-      "@type": ["cco:AgentRole", "bfo:BFO_0000023", "owl:NamedIndividual"],
-      "rdfs:label": "Agent role of doctor",
+      "@type": ["bfo:Role", "bfo:BFO_0000023", "owl:NamedIndividual"],
+      "rdfs:label": "AgentRole",
       "bfo:inheres_in": "inst:Doctor_Person_0469b924",
       "tagteam:would_be_realized_in": "inst:Allocate_IntentionalAct_7g8h9i0j"
     },
@@ -231,8 +232,8 @@ The doctor must allocate the last ventilator between two critically ill patients
     // Patient Roles on aggregate members (v2.4)
     {
       "@id": "inst:Patient_Role_0j1k2l3m",
-      "@type": ["cco:PatientRole", "bfo:BFO_0000023", "owl:NamedIndividual"],
-      "rdfs:label": "Patient role of member 1",
+      "@type": ["bfo:Role", "bfo:BFO_0000023", "owl:NamedIndividual"],
+      "rdfs:label": "PatientRole",
       "bfo:inheres_in": "inst:Patient_Member_0_4d5e6f7g",
       "tagteam:would_be_realized_in": "inst:Allocate_IntentionalAct_7g8h9i0j"
     }
@@ -290,7 +291,8 @@ const graph = builder.build(text, {
     // Parser Agent
     {
       "@id": "inst:TagTeam_Parser_v4.0.0",
-      "@type": ["cco:ArtificialAgent", "owl:NamedIndividual"],
+      "@type": ["cco:Agent", "owl:NamedIndividual"],
+      "rdfs:label": "ArtificialAgent",
       "rdfs:label": "TagTeam Semantic Parser v4.0.0",
       "tagteam:version": "4.0.0-phase4-week2",
       "tagteam:algorithm": "Compromise NLP + Pattern Matching",

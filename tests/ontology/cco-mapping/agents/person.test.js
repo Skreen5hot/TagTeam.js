@@ -111,7 +111,7 @@ describe('CCO Person Mapping', function() {
 
   describe('Group of Persons', function() {
 
-    test('"family" maps to cco:GroupOfPersons', () => {
+    test('"family" maps to cco:Agent', () => {
       const graph = parseToGraph('The family must make the decision.');
 
       const family = semantic.findNode(graph, n =>
@@ -119,7 +119,7 @@ describe('CCO Person Mapping', function() {
       );
 
       expect(family).toBeTruthy();
-      expect(family['tagteam:denotesType']).toBe('cco:GroupOfPersons');
+      expect(family['tagteam:denotesType']).toBe('cco:Agent');
     });
 
     test('"patients" (plural) with count creates ObjectAggregate', () => {
@@ -145,7 +145,7 @@ describe('CCO Person Mapping', function() {
       expect(committee).toBeTruthy();
       // Committee is a group
       const denotesType = committee['tagteam:denotesType'];
-      expect(denotesType === 'cco:GroupOfPersons' || denotesType === 'cco:Organization').toBeTruthy();
+      expect(denotesType === 'cco:Agent' || denotesType === 'cco:Organization').toBeTruthy();
     });
 
   });
@@ -189,7 +189,7 @@ describe('CCO Person Mapping', function() {
       // Look for Quality node
       const quality = semantic.findNode(graph, n =>
         n['@type']?.includes('bfo:BFO_0000019') ||
-        n['@type']?.includes('cco:DiseaseQuality')
+        n['@type']?.includes('bfo:Quality')
       );
 
       if (quality) {

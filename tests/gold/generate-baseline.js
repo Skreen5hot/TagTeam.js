@@ -98,9 +98,11 @@ for (const sentence of sentences) {
 
       // Skip provenance and Tier 2 infrastructure nodes
       const isProvenance = types.some(t =>
-        t.includes('InformationBearingEntity') || t.includes('ArtificialAgent') ||
-        t.includes('ActOfArtificialProcessing')
-      );
+        t.includes('InformationBearingEntity')
+      ) || (node['rdfs:label'] && (
+        node['rdfs:label'] === 'ArtificialAgent' ||
+        node['rdfs:label'] === 'ActOfArtificialProcessing'
+      ));
       const isTier2 = types.includes('owl:NamedIndividual') &&
         !types.includes('tagteam:DiscourseReferent') &&
         !types.includes('tagteam:VerbPhrase');
@@ -119,8 +121,14 @@ for (const sentence of sentences) {
         const bearerId = typeof bearerRef === 'string' ? bearerRef : (bearerRef['@id'] || bearerRef);
         const bearerLabel = idToLabel[bearerId] || bearerId;
         let roleName = null;
-        for (const t of types) {
-          if (ROLE_TYPE_MAP[t]) { roleName = ROLE_TYPE_MAP[t]; break; }
+        const roleLabel = node['rdfs:label'] || node['tagteam:roleType'];
+        if (roleLabel && ROLE_TYPE_MAP[roleLabel]) {
+          roleName = ROLE_TYPE_MAP[roleLabel];
+        }
+        if (!roleName) {
+          for (const t of types) {
+            if (ROLE_TYPE_MAP[t]) { roleName = ROLE_TYPE_MAP[t]; break; }
+          }
         }
         if (roleName) {
           extractedRoles.push({ entity: bearerLabel, role: roleName });

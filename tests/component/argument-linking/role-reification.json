@@ -7,7 +7,7 @@
     "expected": {
       "roleInstances": [
         {
-          "type": "cco:AgentRole",
+          "type": "AgentRole",
           "bearer": "the engineer",
           "realizedIn": "fix"
         }
@@ -24,7 +24,7 @@
     "expected": {
       "roleInstances": [
         {
-          "type": "cco:PatientRole",
+          "type": "PatientRole",
           "bearer": "the bug",
           "realizedIn": "fix"
         }
@@ -41,12 +41,12 @@
     "expected": {
       "roleInstances": [
         {
-          "type": "cco:AgentRole",
+          "type": "AgentRole",
           "bearer": "the admin",
           "realizedIn": "deploy"
         },
         {
-          "type": "cco:PatientRole",
+          "type": "PatientRole",
           "bearer": "the patch",
           "realizedIn": "deploy"
         }

@@ -60,16 +60,11 @@ const KNOWN_CLASSES = new Set([
   'bfo:BFO_0000057', // has_participant
 
   // CCO Classes
-  'cco:Agent', 'cco:Person', 'cco:Organization', 'cco:Group',
-  'cco:Artifact', 'cco:Facility', 'cco:GeospatialRegion',
+  'cco:Agent', 'cco:Person', 'cco:Organization', 'cco:GeopoliticalOrganization',
+  'cco:Artifact', 'cco:Facility',
   'cco:Act', 'cco:IntentionalAct', 'cco:ActOfCommunication',
   'cco:InformationBearingEntity', 'cco:InformationContentEntity',
-  'cco:DesignativeInformationContentEntity', 'cco:DirectiveInformationContentEntity',
-  'cco:TemporalInterval', 'cco:TemporalInstant',
-  'cco:QualityMeasurement', 'cco:MeasurementUnit',
-  'cco:ArtificialAgent',
-  'cco:DiseaseQuality', 'cco:InjuryQuality', 'cco:AgeQuality',
-  'cco:Role', 'cco:AgentRole', 'cco:PatientRole',
+  'bfo:Role',
 
   // OWL
   'owl:NamedIndividual', 'owl:Thing', 'owl:Class',
@@ -100,15 +95,11 @@ const KNOWN_PREDICATES = new Set([
   'bfo:inheres_in', 'bfo:is_bearer_of', 'bfo:realized_in', 'bfo:realizes',
   'bfo:has_participant', 'bfo:has_member',
 
-  // CCO Relations
-  'cco:is_about', 'cco:prescribes', 'cco:prescribed_by',
+  // CCO Relations (verified)
+  'cco:is_about', 'cco:prescribes', 'cco:has_recipient',
   'cco:is_concretized_by', 'cco:concretizes',
-  'cco:has_text_value', 'cco:designates', 'cco:is_designated_by',
-  'cco:has_agent', 'cco:affects', 'cco:participates_in',
-  'cco:occurs_during', 'cco:has_start_time', 'cco:has_end_time',
-  'cco:has_measurement_value', 'cco:uses_measurement_unit', 'cco:is_measured_by',
-  'cco:is_part_of', 'cco:is_attribute_of', 'cco:is_made_of', 'cco:is_site_of',
-  'cco:is_bearer_of', 'cco:realized_in',
+  'cco:has_text_value',
+  'cco:has_agent', 'cco:affects',
 
   // RDF/RDFS/OWL
   'rdf:type', 'rdfs:label', 'rdfs:comment', 'rdfs:subClassOf',
@@ -864,7 +855,6 @@ class SHMLValidator {
         const targetIsAgent = target && (
           this._hasType(target, 'Agent') ||
           this._hasType(target, 'Person') ||
-          this._hasType(target, 'ArtificialAgent') ||
           this._hasType(target, 'Organization')
         );
 

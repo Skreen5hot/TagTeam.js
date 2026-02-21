@@ -89,7 +89,7 @@
         },
         {
           "text": "Seattle",
-          "type": "cco:GeopoliticalEntity",
+          "type": "cco:GeopoliticalOrganization",
           "definiteness": "definite",
           "number": "singular",
           "properNoun": true

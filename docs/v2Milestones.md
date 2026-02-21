@@ -268,7 +268,7 @@ Three non-standard verb classes produce correct semantic roles using CCO-complia
 
 ### In-Scope
 
-- **Psych-verbs** (ENH-012, §3.3.1): Act typed as `cco:MentalProcess`, Experiencer (object) mapped to `cco:has_agent`, Stimulus (subject) mapped to `cco:has_cause`, `tagteam:verbClass: "psych_verb"`
+- **Psych-verbs** (ENH-012, §3.3.1): Act typed as `cco:MentalProcess`, Experiencer (object) mapped to `cco:has_agent`, Stimulus (subject) mapped to `tagteam:has_cause`, `tagteam:verbClass: "psych_verb"`
 - **Raising verbs** (ENH-017): No act for raising verb, infinitive is primary act, epistemic qualifier attached
 - **Causatives** (ENH-013): Two linked acts with separate agents, causative "had" distinguished from past-perfect "had"
 
@@ -283,7 +283,7 @@ Three non-standard verb classes produce correct semantic roles using CCO-complia
 1. **Psych-verb (CCO-compliant)**: Build `"The failure worried the administrator."`
    - Show: act typed as `cco:MentalProcess` (NOT `cco:IntentionalAct`)
    - Show: `cco:has_agent` → administrator (Experiencer IS the agent of the mental process)
-   - Show: `cco:has_cause` → failure (Stimulus causes the process)
+   - Show: `tagteam:has_cause` → failure (Stimulus causes the process)
    - Show: `tagteam:verbClass: "psych_verb"`
 2. **Raising verb**: Build `"The engineer seems to understand the problem."`
    - Show: single act node for "understand" (no act for "seems")
@@ -298,7 +298,7 @@ Three non-standard verb classes produce correct semantic roles using CCO-complia
 ### Evidence Artifacts
 
 - Test suites: `tests/unit/psych-verbs-cco.test.js`, `tests/unit/raising-verbs.test.js`, `tests/unit/causatives.test.js` — all green
-- JSON-LD showing `cco:MentalProcess` with `cco:has_agent` (Experiencer) and `cco:has_cause` (Stimulus)
+- JSON-LD showing `cco:MentalProcess` with `cco:has_agent` (Experiencer) and `tagteam:has_cause` (Stimulus)
 - v1 regression suite: no failures
 
 ### Traceability
@@ -572,7 +572,7 @@ Legal and business domain configurations load and correctly type domain-specific
 1. Load legal config, build: `"The plaintiff filed a motion against the defendant."`
    - Show: "plaintiff" and "defendant" typed to legal person roles, "motion" typed to legal document ICE
 2. Load business config, build: `"The board approved the acquisition of the subsidiary."`
-   - Show: "board" typed as `cco:GroupOfPersons`, "acquisition" typed correctly
+   - Show: "board" typed as `cco:Agent` (rdfs:label: "GroupOfPersons"), "acquisition" typed correctly
 3. Switch back to medical config, build: `"The surgeon performed the operation."`
    - Show: medical types, no legal/business leakage
 4. Load business config, re-run the medical sentence

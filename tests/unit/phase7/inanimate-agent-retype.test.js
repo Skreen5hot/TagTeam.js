@@ -182,8 +182,7 @@ test('Non-inference verb with any subject remains IntentionalAct', () => {
   const graph = buildGraph('The doctor treats the patient');
   const node = findActByVerb(graph, 'treat');
   assert.ok(node, 'Should find node for verb "treat"');
-  assert.ok(node['@type'].includes('cco:ActOfMedicalTreatment') ||
-            node['@type'].includes('cco:IntentionalAct'),
+  assert.ok(node['@type'].includes('cco:IntentionalAct'),
     'Non-inference verb should produce standard act type');
 });
 

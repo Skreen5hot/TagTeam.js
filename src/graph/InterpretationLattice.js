@@ -203,7 +203,7 @@ class InterpretationLattice {
       '@context': {
         'tagteam': 'http://purl.org/tagteam#',
         'bfo': 'http://purl.obolibrary.org/obo/BFO_',
-        'cco': 'http://www.ontologyrepository.com/CommonCoreOntologies/'
+        'cco': 'https://www.commoncoreontologies.org/'
       },
       '@type': 'tagteam:InterpretationLattice',
       'tagteam:defaultReading': this.defaultReading,

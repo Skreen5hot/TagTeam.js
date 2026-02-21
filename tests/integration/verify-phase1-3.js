@@ -32,8 +32,8 @@ assert(acts1.length >= 1, "Extracts at least one act");
 
 const treatAct = acts1.find(a => a['tagteam:verb'] === 'treat');
 assert(treatAct, "Found treat act");
-assert(treatAct['@type'].includes('cco:ActOfMedicalTreatment'),
-  "'treat' maps to cco:ActOfMedicalTreatment");
+assert(treatAct['@type'].includes('cco:IntentionalAct'),
+  "'treat' maps to cco:IntentionalAct");
 assert(treatAct['tagteam:modality'] === 'obligation',
   "'must' detected as obligation modality");
 

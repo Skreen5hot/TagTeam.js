@@ -30,7 +30,7 @@ describe('Deontic Obligation Modality', function() {
 
       const directive = semantic.findNode(graph, n =>
         n['@type']?.includes('tagteam:DirectiveContent') ||
-        n['@type']?.includes('cco:DirectiveInformationContentEntity')
+        n['@type']?.includes('cco:InformationContentEntity')
       );
 
       expect(directive).toBeTruthy();

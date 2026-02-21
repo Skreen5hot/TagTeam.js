@@ -104,20 +104,22 @@ TagTeam uses real BFO and CCO IRIs, not approximations. The table below shows th
 
 | Text Pattern | CCO Act Type |
 |---|---|
-| allocate, distribute, ration | `cco:ActOfAllocation` |
-| treat, prescribe, diagnose | `cco:ActOfMedicalTreatment` |
+| allocate, distribute, ration | `cco:IntentionalAct` (rdfs:label: "ActOfAllocation") |
+| treat, prescribe, diagnose | `cco:IntentionalAct` (rdfs:label: "ActOfMedicalTreatment") |
 | tell, inform, report | `cco:ActOfCommunication` |
-| decide, choose | `cco:ActOfDecision` |
+| decide, choose | `cco:IntentionalAct` (rdfs:label: "ActOfDecision") |
 | Default verb | `cco:IntentionalAct` |
 
 ### Roles (Specifically Dependent Continuants)
 
 | Role | BFO Class | Constraint |
 |---|---|---|
-| Agent (performer) | `cco:AgentRole` | Bearer must be `cco:Person` or `cco:Organization` |
-| Patient (affected) | `cco:PatientRole` | Bearer must be `cco:Person` — not artifacts |
-| Recipient | `cco:RecipientRole` | Transfer target |
-| Instrument | `cco:InstrumentRole` | Tool used in act |
+| Agent (performer) | `bfo:Role` (rdfs:label: "AgentRole") | Bearer must be `cco:Person` or `cco:Organization` |
+| Patient (affected) | `bfo:Role` (rdfs:label: "PatientRole") | Bearer must be `cco:Person` — not artifacts |
+| Recipient | `bfo:Role` (rdfs:label: "RecipientRole") | Transfer target |
+| Instrument | `bfo:Role` (rdfs:label: "InstrumentRole") | Tool used in act |
+
+> **Note:** After the IRI cleanup, all semantic roles use `bfo:Role` (BFO_0000023) as their `@type` with `rdfs:label` providing the role subtype name. The former fabricated `cco:*Role` IRIs (e.g., `cco:AgentRole`) did not exist in the published CCO ontology.
 
 All roles are linked to their bearers via `bfo:inheres_in` (BFO_0000052) and to acts via `bfo:realized_in` (BFO_0000054).
 
@@ -162,15 +164,15 @@ graph TB
     ICE1["DiscourseReferent<br/>'the doctor'"]
     ICE2["DiscourseReferent<br/>'the ventilator'"]
     ACT_ICE["VerbPhrase<br/>'must allocate'"]
-    PA["ActOfArtificialProcessing<br/>TagTeam Parser v6.5"]
-    AGENT["cco:ArtificialAgent<br/>TagTeam.js Parser"]
+    PA["cco:IntentionalAct<br/>(ActOfArtificialProcessing)<br/>TagTeam Parser v6.5"]
+    AGENT["cco:Agent<br/>(ArtificialAgent)<br/>TagTeam.js Parser"]
 
     IBE -->|"cco:is_concretized_by"| ICE1
     IBE -->|"cco:is_concretized_by"| ICE2
     IBE -->|"cco:is_concretized_by"| ACT_ICE
-    PA -->|"cco:has_input"| IBE
-    PA -->|"cco:has_output"| ICE1
-    PA -->|"cco:has_output"| ICE2
+    PA -->|"tagteam:has_input"| IBE
+    PA -->|"tagteam:has_output"| ICE1
+    PA -->|"tagteam:has_output"| ICE2
     PA -->|"cco:has_agent"| AGENT
 
     style IBE fill:#fef3c7,stroke:#d97706
@@ -181,7 +183,7 @@ graph TB
     style AGENT fill:#f3e8ff,stroke:#9333ea
 ```
 
-The parser itself is modeled as a `cco:ArtificialAgent` performing an `cco:ActOfArtificialProcessing`, with the input text as IBE and the extracted ICEs as outputs. This makes the parsing act itself a first-class citizen in the ontology.
+The parser itself is modeled as a `cco:Agent` (with `rdfs:label: "ArtificialAgent"`) performing a `cco:IntentionalAct` (with `rdfs:label: "ActOfArtificialProcessing"`), with the input text as IBE and the extracted ICEs as outputs. This makes the parsing act itself a first-class citizen in the ontology.
 
 ---
 
@@ -243,7 +245,7 @@ High-confidence resolutions (selectional evidence > 0.7) collapse to a single re
 ```json
 {
   "bfo":     "http://purl.obolibrary.org/obo/",
-  "cco":     "http://www.ontologyrepository.com/CommonCoreOntologies/",
+  "cco":     "https://www.commoncoreontologies.org/",
   "tagteam": "http://tagteam.fandaws.org/ontology/",
   "inst":    "http://tagteam.fandaws.org/instance/",
   "rdf":     "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
@@ -276,7 +278,7 @@ For the sentence *"The doctor must allocate the last ventilator"*:
 
 ```json
 {
-  "@context": { "bfo": "http://purl.obolibrary.org/obo/", "cco": "http://www.ontologyrepository.com/CommonCoreOntologies/", "...": "..." },
+  "@context": { "bfo": "http://purl.obolibrary.org/obo/", "cco": "https://www.commoncoreontologies.org/", "...": "..." },
   "@graph": [
     {
       "@id": "inst:DiscourseReferent_doctor_a8f3",
@@ -293,7 +295,8 @@ For the sentence *"The doctor must allocate the last ventilator"*:
     },
     {
       "@id": "inst:Act_allocate_b3c7",
-      "@type": ["cco:ActOfAllocation", "bfo:BFO_0000015", "owl:NamedIndividual"],
+      "@type": ["cco:IntentionalAct", "bfo:BFO_0000015", "owl:NamedIndividual"],
+      "rdfs:label": "allocate",
       "tagteam:verb": "allocate",
       "tagteam:actualityStatus": { "@id": "tagteam:Prescribed" },
       "cco:has_agent": { "@id": "inst:Person_Doctor_f2a9" },
@@ -301,7 +304,8 @@ For the sentence *"The doctor must allocate the last ventilator"*:
     },
     {
       "@id": "inst:AgentRole_doctor_d4e1",
-      "@type": ["bfo:BFO_0000023", "cco:AgentRole", "owl:NamedIndividual"],
+      "@type": ["bfo:BFO_0000023", "bfo:Role", "owl:NamedIndividual"],
+      "rdfs:label": "AgentRole",
       "bfo:BFO_0000052": { "@id": "inst:Person_Doctor_f2a9" },
       "tagteam:would_be_realized_in": { "@id": "inst:Act_allocate_b3c7" }
     }

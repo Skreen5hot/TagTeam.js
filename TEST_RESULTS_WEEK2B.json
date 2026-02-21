@@ -1,11 +1,11 @@
 {
-  "timestamp": "2026-02-12T17:13:32.936Z",
+  "timestamp": "2026-02-20T08:11:01.072Z",
   "summary": {
     "total": 20,
     "withProfile": 20,
     "withoutProfile": 0,
     "avgValuesPerScenario": 1.2,
-    "avgParseTime": 13.44,
+    "avgParseTime": 17.42,
     "polarityAccuracy": "4.4%",
     "salienceAccuracy": "2.9%"
   },

@@ -8,7 +8,7 @@
       "inverseLinks": [
         {
           "entity": "the engineer",
-          "property": "cco:agent_in",
+          "property": "tagteam:agent_in",
           "target": "fix"
         }
       ]
@@ -25,7 +25,7 @@
       "inverseLinks": [
         {
           "entity": "the bug",
-          "property": "cco:patient_in",
+          "property": "tagteam:patient_in",
           "target": "fix"
         }
       ]
@@ -47,7 +47,7 @@
         },
         {
           "subject": "the admin",
-          "property": "cco:agent_in",
+          "property": "tagteam:agent_in",
           "object": "deploy"
         },
         {
@@ -57,7 +57,7 @@
         },
         {
           "subject": "the patch",
-          "property": "cco:patient_in",
+          "property": "tagteam:patient_in",
           "object": "deploy"
         }
       ]
@@ -96,7 +96,7 @@
       "inverseLinks": [
         {
           "entity": "the engineer",
-          "property": "cco:agent_in",
+          "property": "tagteam:agent_in",
           "targets": ["fix", "deploy"]
         }
       ]

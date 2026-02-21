@@ -93,7 +93,7 @@ test('extracts family as group entity', () => {
 
   const family = entities.find(e => e['rdfs:label'].toLowerCase().includes('family'));
   assert(family, 'Found family entity');
-  assert(family['tagteam:denotesType'] === 'cco:GroupOfPersons', 'denotesType is cco:GroupOfPersons');
+  assert(family['tagteam:denotesType'] === 'cco:Agent', 'denotesType is cco:Agent');
 });
 
 // Test Suite 3: Definiteness Detection (AC-1.2.1)

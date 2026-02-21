@@ -155,12 +155,12 @@ Per the **v1/v2 Scope Contract** (2026-01-28), each enhancement is classified:
 
 **Source:** Test 1.1.9 `linguistic.sentence-complexity.embedded-clauses`
 **Input:** "The fact that the server failed worried the administrator."
-**Issue:** Psychological verbs like "worry", "surprise", "frighten", "concern", "alarm", "disturb" have reversed thematic roles: the grammatical subject is the Stimulus/Cause and the grammatical object is the Experiencer. Currently "worry" is treated as an IntentionalAct with a standard agent. Instead, the subject should be a `cco:is_cause_of` link and the object should be the Experiencer (bearing a `cco:ExperiencerRole` or similar).
+**Issue:** Psychological verbs like "worry", "surprise", "frighten", "concern", "alarm", "disturb" have reversed thematic roles: the grammatical subject is the Stimulus/Cause and the grammatical object is the Experiencer. Currently "worry" is treated as an IntentionalAct with a standard agent. Instead, the subject should be a `cco:is_cause_of` link and the object should be the Experiencer (bearing a `bfo:Role` with rdfs:label "ExperiencerRole", or similar).
 **Proposed Fix:**
 1. Create a PSYCH_VERBS set: worry, surprise, frighten, concern, alarm, disturb, shock, confuse, puzzle, annoy, irritate, please, delight, amuse, bore, interest, fascinate, terrify, horrify, embarrass.
 2. For psych-verbs, allow ICE or Process entities as the Cause (not agent).
 3. Map the grammatical object as the Experiencer rather than Patient.
-4. Optionally use `cco:is_cause_of` rather than `cco:has_agent` for the subject link.
+4. Optionally use `tagteam:has_cause` rather than `cco:has_agent` for the subject link.
 **Priority:** Medium
 **Complexity:** High — requires new verb class, reversed thematic role mapping, and causal linking.
 
@@ -210,14 +210,14 @@ Per the **v1/v2 Scope Contract** (2026-01-28), each enhancement is classified:
 
 **Source:** Test 1.1.19 `linguistic.argument-structure.oblique-arguments`
 **Input:** "The technician repaired the device with the tool for the client."
-**Issue:** The client (introduced by "for the client") is assigned a `cco:PatientRole`, implying the technician performed repairs *on* the client. The client is actually a **Beneficiary** — the person for whom the act was performed. Currently all Person entities linked via `bfo:has_participant` get `PatientRole` by default regardless of the preposition that introduced them.
+**Issue:** The client (introduced by "for the client") is assigned a `bfo:Role` (rdfs:label: "PatientRole"), implying the technician performed repairs *on* the client. The client is actually a **Beneficiary** — the person for whom the act was performed. Currently all Person entities linked via `bfo:has_participant` get PatientRole by default regardless of the preposition that introduced them.
 **Proposed Fix:**
 1. Track the introducing preposition for each entity during extraction (e.g., "with" → instrument, "for" → beneficiary, "to" → recipient, "from" → source, "by" → agent in passive).
 2. Map prepositions to semantic roles:
-   - "with" → `cco:InstrumentRole` (already partially working as participant)
-   - "for" → `cco:BeneficiaryRole` (new, or generic `bfo:BFO_0000023` with label "beneficiary role")
-   - "to" → `cco:RecipientRole` or participant
-   - "by" → `cco:AgentRole` (passive voice, already handled)
+   - "with" → `bfo:Role` (rdfs:label: "InstrumentRole") (already partially working as participant)
+   - "for" → `bfo:Role` (rdfs:label: "BeneficiaryRole") (new, or generic `bfo:BFO_0000023` with label "beneficiary role")
+   - "to" → `bfo:Role` (rdfs:label: "RecipientRole") or participant
+   - "by" → `bfo:Role` (rdfs:label: "AgentRole") (passive voice, already handled)
    - "from" → participant (source)
 3. In RoleDetector, use the preposition metadata to assign the correct role type instead of defaulting Person participants to PatientRole.
 **Priority:** Medium

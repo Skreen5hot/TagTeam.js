@@ -42,7 +42,7 @@ const COMMON_PREFIXES = {
   'xsd': 'http://www.w3.org/2001/XMLSchema#',
   'bfo': 'http://purl.obolibrary.org/obo/BFO_',
   'obo': 'http://purl.obolibrary.org/obo/',
-  'cco': 'http://www.ontologyrepository.com/CommonCoreOntologies/',
+  'cco': 'https://www.commoncoreontologies.org/',
   'tagteam': 'http://purl.org/tagteam#'
 };
 

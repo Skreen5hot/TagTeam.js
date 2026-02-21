@@ -48,7 +48,7 @@ test('extracts verb/act from simple declarative', () => {
   );
 
   expect(act).toBeTruthy();
-  semantic.hasType(act, 'cco:ActOfMedicalTreatment');
+  semantic.hasType(act, 'cco:IntentionalAct');
 });
 
 test('links act to agent via has_agent', () => {

@@ -101,7 +101,7 @@ Three deliverables:
 ```turtle
 @prefix : <http://tagteam.fandaws.org/ontology/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix cco: <http://www.ontologyrepository.com/CommonCoreOntologies/> .
+@prefix cco: <https://www.commoncoreontologies.org/> .
 
 <http://tagteam.fandaws.org/ontology/v2/> a owl:Ontology ;
     owl:versionInfo "2.0.0" ;
@@ -451,7 +451,7 @@ A `StructuralNormalizer.js` that rewrites Wh-questions and expletive-subject con
 |---------|-------|-----------|
 | P5-Q-1 | `"Did the committee approve the budget?"` | `tagteam:Inquiry` node with `cco:is_about` → approve act |
 | P5-Q-2 | `"Did the committee approve the budget?"` | Act retains `tagteam:actualityStatus: "tagteam:Interrogative"` |
-| P5-Q-3 | `"Which report did the auditor review?"` | Inquiry node; act has `cco:has_patient` with `tagteam:isQuestionFocus: true` (Wh-focus) |
+| P5-Q-3 | `"Which report did the auditor review?"` | Inquiry node; act has `cco:affects` with `tagteam:isQuestionFocus: true` (Wh-focus) |
 | P5-Q-4 | `"Who approved the budget?"` | Inquiry node (subject Wh) |
 | P5-Q-5 | `"Is the patient stable?"` | Inquiry node (yes/no, stative) |
 | P5-Q-6 | `"They approved, didn't they?"` | Inquiry node (tag question per v1.3 §3.2.1) |
@@ -513,7 +513,7 @@ A `StructuralNormalizer.js` that rewrites Wh-questions and expletive-subject con
 
 ### 7.1 What Gets Built
 
-`VerbClassRegistry.js` and psych-verb routing in `ActExtractor`. Per v1.3 spec, psych-verbs produce `cco:MentalProcess` (not `cco:IntentionalAct`). The Experiencer IS the agent (CCO requires MentalProcess to have an agent). The Stimulus is linked via `cco:has_cause`.
+`VerbClassRegistry.js` and psych-verb routing in `ActExtractor`. Per v1.3 spec, psych-verbs produce `cco:MentalProcess` (not `cco:IntentionalAct`). The Experiencer IS the agent (CCO requires MentalProcess to have an agent). The Stimulus is linked via `tagteam:has_cause`.
 
 ### 7.2 Files to Create
 
@@ -536,7 +536,7 @@ A `StructuralNormalizer.js` that rewrites Wh-questions and expletive-subject con
 |---------|-------|-----------|
 | P7-PSY-1 | `"The failure worried the administrator."` | Act `@type: "cco:MentalProcess"` (not IntentionalAct) |
 | P7-PSY-2 | `"The failure worried the administrator."` | `cco:has_agent` → administrator (Experiencer IS agent per CCO) |
-| P7-PSY-3 | `"The failure worried the administrator."` | `cco:has_cause` → failure (Stimulus, NOT has_agent) |
+| P7-PSY-3 | `"The failure worried the administrator."` | `tagteam:has_cause` → failure (Stimulus, NOT has_agent) |
 | P7-PSY-4 | `"The failure worried the administrator."` | `tagteam:verbClass: "psych_verb"` |
 | P7-PSY-5 | `"The news surprised the team."` | Same pattern: team = agent, news = cause |
 | P7-PSY-6 | `"The doctor treated the patient."` | Normal IntentionalAct (non-psych verb unaffected) |
@@ -550,7 +550,7 @@ A `StructuralNormalizer.js` that rewrites Wh-questions and expletive-subject con
   "@type": "cco:MentalProcess",
   "@id": "inst:Worry_Process_001",
   "cco:has_agent": { "@id": "inst:Administrator_001" },
-  "cco:has_cause": { "@id": "inst:Failure_001" },
+  "tagteam:has_cause": { "@id": "inst:Failure_001" },
   "tagteam:verbClass": "psych_verb"
 }
 ```
@@ -741,7 +741,7 @@ tests/unit/v2/clausal-subjects.test.js
 | Test ID | Input | Assertion |
 |---------|-------|-----------|
 | P13-CS-1 | `"The fact that the server failed worried the administrator."` | "server" = agent of "failed", NOT of "worried" |
-| P13-CS-2 | `"The fact that the server failed worried the administrator."` | "failed" process = `cco:has_cause` of "worried" (psych-verb integration) |
+| P13-CS-2 | `"The fact that the server failed worried the administrator."` | "failed" process = `tagteam:has_cause` of "worried" (psych-verb integration) |
 | P13-CS-3 | `"The fact that the server failed worried the administrator."` | "administrator" = `cco:has_agent` of "worried" (Experiencer is agent per CCO) |
 | P13-CS-4 | `"The idea that costs would rise concerned the board."` | Correct parsing |
 

@@ -50,7 +50,7 @@ test('ActExtractor: _getOntologicalCategory returns correct categories', () => {
 
   // Occurrents
   assert.strictEqual(extractor._getOntologicalCategory('bfo:BFO_0000015'), 'occurrent');
-  assert.strictEqual(extractor._getOntologicalCategory('cco:ActOfCare'), 'occurrent');
+  assert.strictEqual(extractor._getOntologicalCategory('cco:IntentionalAct'), 'occurrent');
   assert.strictEqual(extractor._getOntologicalCategory('cco:ActOfService'), 'occurrent');
 
   // Continuants
@@ -69,7 +69,7 @@ test('ActExtractor: _applySelectionalRestrictions for "provide"', () => {
   const extractor = new ActExtractor();
 
   // provide + occurrent → ActOfService
-  const careResult = extractor._applySelectionalRestrictions('provide', 'cco:ActOfCare');
+  const careResult = extractor._applySelectionalRestrictions('provide', 'cco:IntentionalAct');
   assert.strictEqual(careResult, 'cco:ActOfService');
 
   // provide + continuant → ActOfTransferOfPossession
@@ -80,9 +80,9 @@ test('ActExtractor: _applySelectionalRestrictions for "provide"', () => {
   const gdcResult = extractor._applySelectionalRestrictions('provide', 'bfo:BFO_0000031');
   assert.strictEqual(gdcResult, 'cco:ActOfCommunication');
 
-  // provide + person → ActOfAssistance
+  // provide + person → IntentionalAct
   const personResult = extractor._applySelectionalRestrictions('provide', 'cco:Person');
-  assert.strictEqual(personResult, 'cco:ActOfAssistance');
+  assert.strictEqual(personResult, 'cco:IntentionalAct');
 });
 
 test('ActExtractor: _applySelectionalRestrictions for "give"', () => {
@@ -119,7 +119,7 @@ test('ActExtractor: _determineActType uses selectional restrictions when context
 
   // With context
   const withContext = extractor._determineActType('provide', {
-    directObjectType: 'cco:ActOfCare'
+    directObjectType: 'cco:IntentionalAct'
   });
   assert.strictEqual(withContext, 'cco:ActOfService');
 
@@ -220,7 +220,7 @@ test('AC-3.4: Unmapped verb uses VERB_TO_CCO_MAPPINGS fallback', () => {
   assert(act, 'Found treat act');
   // "treat" has no selectional restrictions, should use VERB_TO_CCO_MAPPINGS
   assert(
-    act['@type'].includes('cco:ActOfMedicalTreatment'),
+    act['@type'].includes('cco:IntentionalAct'),
     `treat should use VERB_TO_CCO_MAPPINGS fallback, got: ${act['@type'].join(', ')}`
   );
 });

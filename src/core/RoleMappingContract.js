@@ -17,12 +17,12 @@
 // =============================================================================
 
 const UD_TO_BFO_ROLE = Object.freeze({
-  'nsubj':      Object.freeze({ role: 'cco:AgentRole',     bfo: 'bfo:BFO_0000023', note: 'Active voice subject' }),
-  'obj':        Object.freeze({ role: 'cco:PatientRole',   bfo: 'bfo:BFO_0000023', note: 'Direct object' }),
-  'iobj':       Object.freeze({ role: 'cco:RecipientRole', bfo: 'bfo:BFO_0000023', note: 'Indirect object' }),
-  'nsubj:pass': Object.freeze({ role: 'cco:PatientRole',   bfo: 'bfo:BFO_0000023', note: 'Passive subject = patient' }),
-  'obl:agent':  Object.freeze({ role: 'cco:AgentRole',     bfo: 'bfo:BFO_0000023', note: 'Passive "by" phrase = agent' }),
-  'obl':        Object.freeze({ role: 'cco:ObliqueRole',   bfo: 'bfo:BFO_0000023', note: 'Subtyped by case child' }),
+  'nsubj':      Object.freeze({ role: 'bfo:Role', label: 'AgentRole',     bfo: 'bfo:BFO_0000023', note: 'Active voice subject' }),
+  'obj':        Object.freeze({ role: 'bfo:Role', label: 'PatientRole',   bfo: 'bfo:BFO_0000023', note: 'Direct object' }),
+  'iobj':       Object.freeze({ role: 'bfo:Role', label: 'RecipientRole', bfo: 'bfo:BFO_0000023', note: 'Indirect object' }),
+  'nsubj:pass': Object.freeze({ role: 'bfo:Role', label: 'PatientRole',   bfo: 'bfo:BFO_0000023', note: 'Passive subject = patient' }),
+  'obl:agent':  Object.freeze({ role: 'bfo:Role', label: 'AgentRole',     bfo: 'bfo:BFO_0000023', note: 'Passive "by" phrase = agent' }),
+  'obl':        Object.freeze({ role: 'bfo:Role', label: 'ObliqueRole',   bfo: 'bfo:BFO_0000023', note: 'Subtyped by case child' }),
 });
 
 // =============================================================================
@@ -30,16 +30,16 @@ const UD_TO_BFO_ROLE = Object.freeze({
 // =============================================================================
 
 const CASE_TO_OBLIQUE_ROLE = Object.freeze({
-  'for':     'cco:BeneficiaryRole',
-  'with':    'cco:InstrumentRole',
-  'at':      'cco:LocationRole',
-  'in':      'cco:LocationRole',
-  'on':      'cco:LocationRole',
-  'from':    'cco:SourceRole',
-  'to':      'cco:DestinationRole',
-  'by':      'cco:AgentRole',
-  'about':   'cco:TopicRole',
-  'against': 'cco:OpponentRole',
+  'for':     'BeneficiaryRole',
+  'with':    'InstrumentRole',
+  'at':      'LocationRole',
+  'in':      'LocationRole',
+  'on':      'LocationRole',
+  'from':    'SourceRole',
+  'to':      'DestinationRole',
+  'by':      'AgentRole',
+  'about':   'TopicRole',
+  'against': 'OpponentRole',
 });
 
 // =============================================================================

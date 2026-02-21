@@ -355,15 +355,15 @@ mapping layer. All role assignment code MUST implement this mapping.
  * This mapping is the single source of truth for role assignment.
  */
 const UD_TO_BFO_ROLE = {
-  // Core argument roles
-  'nsubj':      { role: 'cco:AgentRole',     bfo: 'bfo:BFO_0000023', note: 'Active voice subject' },
-  'obj':        { role: 'cco:PatientRole',   bfo: 'bfo:BFO_0000023', note: 'Direct object' },
-  'iobj':       { role: 'cco:RecipientRole', bfo: 'bfo:BFO_0000023', note: 'Indirect object' },
-  'nsubj:pass': { role: 'cco:PatientRole',   bfo: 'bfo:BFO_0000023', note: 'Passive subject = patient' },
-  'obl:agent':  { role: 'cco:AgentRole',     bfo: 'bfo:BFO_0000023', note: 'Passive "by" phrase = agent' },
+  // Core argument roles (all roles are bfo:Role with rdfs:label for distinction)
+  'nsubj':      { role: 'bfo:Role', label: 'AgentRole',     bfo: 'bfo:BFO_0000023', note: 'Active voice subject' },
+  'obj':        { role: 'bfo:Role', label: 'PatientRole',   bfo: 'bfo:BFO_0000023', note: 'Direct object' },
+  'iobj':       { role: 'bfo:Role', label: 'RecipientRole', bfo: 'bfo:BFO_0000023', note: 'Indirect object' },
+  'nsubj:pass': { role: 'bfo:Role', label: 'PatientRole',   bfo: 'bfo:BFO_0000023', note: 'Passive subject = patient' },
+  'obl:agent':  { role: 'bfo:Role', label: 'AgentRole',     bfo: 'bfo:BFO_0000023', note: 'Passive "by" phrase = agent' },
 
   // Oblique roles (subtyped by preposition via `case` dependent)
-  'obl':        { role: 'cco:ObliqueRole',   bfo: 'bfo:BFO_0000023', note: 'Subtyped by case child' },
+  'obl':        { role: 'bfo:Role', label: 'ObliqueRole',   bfo: 'bfo:BFO_0000023', note: 'Subtyped by case child' },
 };
 
 /**
@@ -371,16 +371,17 @@ const UD_TO_BFO_ROLE = {
  * Applied when the `obl` argument has a `case` dependent.
  */
 const CASE_TO_OBLIQUE_ROLE = {
-  'for':   'cco:BeneficiaryRole',
-  'with':  'cco:InstrumentRole',
-  'at':    'cco:LocationRole',
-  'in':    'cco:LocationRole',
-  'on':    'cco:LocationRole',
-  'from':  'cco:SourceRole',
-  'to':    'cco:DestinationRole',
-  'by':    'cco:AgentRole',           // Passive agent (also captured via obl:agent)
-  'about': 'cco:TopicRole',
-  'against': 'cco:OpponentRole',
+  // All oblique roles use bfo:Role with rdfs:label for subtype distinction
+  'for':   { role: 'bfo:Role', label: 'BeneficiaryRole' },
+  'with':  { role: 'bfo:Role', label: 'InstrumentRole' },
+  'at':    { role: 'bfo:Role', label: 'LocationRole' },
+  'in':    { role: 'bfo:Role', label: 'LocationRole' },
+  'on':    { role: 'bfo:Role', label: 'LocationRole' },
+  'from':  { role: 'bfo:Role', label: 'SourceRole' },
+  'to':    { role: 'bfo:Role', label: 'DestinationRole' },
+  'by':    { role: 'bfo:Role', label: 'AgentRole' },           // Passive agent (also captured via obl:agent)
+  'about': { role: 'bfo:Role', label: 'TopicRole' },
+  'against': { role: 'bfo:Role', label: 'OpponentRole' },
 };
 ```
 
@@ -1475,7 +1476,8 @@ The GIT-Minimal provenance output MUST include gazetteer version references:
 ```json
 {
   "@id": "inst:Processing_abc123",
-  "@type": "cco:ActOfArtificialProcessing",
+  "@type": "cco:IntentionalAct",
+  "rdfs:label": "ActOfArtificialProcessing",
   "tagteam:gazetteerVersions": [
     { "id": "us-government-agencies", "version": "2026.02.1" },
     { "id": "geonames-places", "version": "2026.01.1" }
@@ -1749,7 +1751,8 @@ a confidence annotation:
 ```json
 {
   "@id": "inst:Agent_Role_abc",
-  "@type": "cco:AgentRole",
+  "@type": "bfo:Role",
+  "rdfs:label": "AgentRole",
   "bfo:BFO_0000052": { "@id": "inst:Person_Doctor" },
   "tagteam:parseConfidence": "low",
   "tagteam:parseMargin": 0.32

@@ -89,7 +89,8 @@ Role → (bfo:realized_in) → Process
 ```json
 {
   "@id": "inst:Agent_Role",
-  "@type": "cco:AgentRole",
+  "@type": "bfo:Role",
+  "rdfs:label": "AgentRole",
   "bfo:inheres_in": "inst:Doctor_Person",
   "bfo:realized_in": "inst:Treat_Act"
 }
@@ -99,7 +100,8 @@ Role → (bfo:realized_in) → Process
 ```json
 {
   "@id": "inst:Agent_Role",
-  "@type": "cco:AgentRole"
+  "@type": "bfo:Role",
+  "rdfs:label": "AgentRole"
   // Missing inheres_in → VIOLATION
 }
 ```
@@ -154,7 +156,8 @@ DesignativeICE → (cco:has_text_value) → name string
 ```json
 {
   "@id": "inst:DrSmith_Designation",
-  "@type": "cco:DesignativeInformationContentEntity",
+  "@type": "cco:InformationContentEntity",
+  "rdfs:label": "DesignativeICE",
   "cco:has_text_value": "Dr. Smith",
   "cco:designates": "inst:DrSmith_Person"
 }
@@ -440,10 +443,10 @@ report.info        // Array of INFO issues (if verbose)
 ### "Role has no bearer"
 ```javascript
 // Bad
-{ "@id": "inst:Role", "@type": "cco:AgentRole" }
+{ "@id": "inst:Role", "@type": "bfo:Role", "rdfs:label": "AgentRole" }
 
 // Good - add inheres_in
-{ "@id": "inst:Role", "@type": "cco:AgentRole",
+{ "@id": "inst:Role", "@type": "bfo:Role", "rdfs:label": "AgentRole",
   "bfo:inheres_in": "inst:Person" }
 ```
 

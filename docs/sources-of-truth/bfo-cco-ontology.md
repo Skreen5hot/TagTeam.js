@@ -118,7 +118,7 @@ BFO:0000001 Entity
 
 **Why This Authority:**
 - Extends BFO with domain-specific classes (Person, Artifact, IntentionalAct)
-- Defines semantic role properties (`cco:has_agent`, `cco:has_patient`, etc.)
+- Defines semantic role properties (`cco:has_agent`, `cco:affects`, etc.)
 - Official CCO is target schema for TagTeam output
 
 ---
@@ -177,8 +177,8 @@ BFO:0000001 Entity
 **Definition:** Generically dependent continuant that encodes information
 
 **Subclasses:**
-- **cco:DirectiveInformationContentEntity** - Commands, requests, instructions
-- **cco:DescriptiveInformationContentEntity** - Descriptions, assertions, reports
+- **cco:InformationContentEntity** (rdfs:label: "DirectiveInformationContentEntity") - Commands, requests, instructions
+- **cco:InformationContentEntity** (rdfs:label: "DescriptiveInformationContentEntity") - Descriptions, assertions, reports
 
 **Examples:**
 ```
@@ -202,7 +202,7 @@ BFO:0000001 Entity
 
 **Key Properties:**
 - **cco:has_agent** (Domain: cco:IntentionalAct, Range: cco:Agent)
-- **cco:has_patient** (Domain: cco:Act, Range: bfo:Continuant)
+- **cco:affects** (Domain: cco:Act, Range: bfo:Continuant)
 - **cco:affects** (Domain: cco:Act, Range: bfo:Continuant)
 
 **Examples:**
@@ -210,12 +210,12 @@ BFO:0000001 Entity
 "The engineer designed the system"
   → cco:IntentionalAct (subclass: cco:ActOfDesigning)
   → cco:has_agent: engineer (cco:Person)
-  → cco:has_patient: system (cco:Artifact)
+  → cco:affects: system (cco:Artifact)
 
 "The admin receives an alert"
   → cco:IntentionalAct (subclass: cco:ActOfReceiving)
   → cco:has_agent: admin (cco:Person)
-  → cco:has_patient: alert (cco:InformationBearingArtifact)
+  → cco:affects: alert (cco:InformationBearingArtifact)
 ```
 
 **TagTeam Test Coverage:**
@@ -234,12 +234,12 @@ BFO:0000001 Entity
 ```
 "The server fails"
   → cco:Act (non-intentional process)
-  → cco:has_patient: server (undergoes change)
+  → cco:affects: server (undergoes change)
   → NO cco:has_agent (failure is not volitional)
 
 "The alarm sounded"
   → cco:Act (non-intentional process)
-  → cco:has_patient: alarm (undergoes change)
+  → cco:affects: alarm (undergoes change)
 ```
 
 **Critical Distinction:**
@@ -261,17 +261,17 @@ BFO:0000001 Entity
 | Property | Domain | Range | Semantics |
 |----------|--------|-------|-----------|
 | `cco:has_agent` | cco:IntentionalAct | cco:Agent | Volitional performer |
-| `cco:has_patient` | cco:Act | bfo:Continuant | Entity undergoing change |
+| `cco:affects` | cco:Act | bfo:Continuant | Entity undergoing change |
 | `cco:affects` | cco:Act | bfo:Continuant | Entity causally affected (no intrinsic change) |
-| `cco:uses_instrument` | cco:IntentionalAct | cco:Artifact | Tool used in act |
-| `cco:has_input` | cco:Act | bfo:Continuant | Entity consumed/transformed |
-| `cco:has_output` | cco:Act | bfo:Continuant | Entity produced |
-| `cco:occurs_at` | bfo:Occurrent | bfo:SpatialRegion | Location of occurrence |
+| `tagteam:has_instrument` | cco:IntentionalAct | cco:Artifact | Tool used in act |
+| `tagteam:has_input` | cco:Act | bfo:Continuant | Entity consumed/transformed |
+| `tagteam:has_output` | cco:Act | bfo:Continuant | Entity produced |
+| `tagteam:occurs_at` | bfo:Occurrent | bfo:SpatialRegion | Location of occurrence |
 | `cco:occurs_on` | bfo:Occurrent | bfo:TemporalInstant | Time of occurrence |
 
 **TagTeam Usage:**
 - Use `cco:has_agent` for subjects of intentional verbs (design, receive, approve)
-- Use `cco:has_patient` for direct objects (what is affected)
+- Use `cco:affects` for direct objects (what is affected)
 - Use `cco:affects` when entity is causally relevant but doesn't change intrinsically
 
 **Source:** CCO Relation Ontology v1.5
@@ -379,7 +379,7 @@ inst:Fail_Act cco:has_agent inst:Server_Artifact
 
 **Correct:**
 ```
-inst:Fail_Act cco:has_patient inst:Server_Artifact
+inst:Fail_Act cco:affects inst:Server_Artifact
 ```
 
 **Source:** CCO:has_agent range is cco:Agent; servers are cco:Artifact, not cco:Agent.

@@ -579,24 +579,25 @@ The mapping from UD dependency labels to BFO/CCO roles becomes a clean lookup ta
 
 ```javascript
 const DEP_TO_BFO_ROLE = {
-  'nsubj':     { role: 'cco:AgentRole',     bfo: 'bfo:BFO_0000023' },
-  'dobj':      { role: 'cco:PatientRole',   bfo: 'bfo:BFO_0000023' },
-  'obj':       { role: 'cco:PatientRole',   bfo: 'bfo:BFO_0000023' },
-  'iobj':      { role: 'cco:RecipientRole', bfo: 'bfo:BFO_0000023' },
-  'nsubjpass': { role: 'cco:PatientRole',   bfo: 'bfo:BFO_0000023' },
-  'obl':       { role: 'cco:ObliqueRole',   bfo: 'bfo:BFO_0000023' },  // Subtyped by prep
+  // Post-cleanup: all roles are bfo:Role (BFO_0000023) with rdfs:label for distinction
+  'nsubj':     { role: 'bfo:Role', label: 'AgentRole',     bfo: 'bfo:BFO_0000023' },
+  'dobj':      { role: 'bfo:Role', label: 'PatientRole',   bfo: 'bfo:BFO_0000023' },
+  'obj':       { role: 'bfo:Role', label: 'PatientRole',   bfo: 'bfo:BFO_0000023' },
+  'iobj':      { role: 'bfo:Role', label: 'RecipientRole', bfo: 'bfo:BFO_0000023' },
+  'nsubjpass': { role: 'bfo:Role', label: 'PatientRole',   bfo: 'bfo:BFO_0000023' },
+  'obl':       { role: 'bfo:Role', label: 'ObliqueRole',   bfo: 'bfo:BFO_0000023' },  // Subtyped by prep
 };
 
-// Oblique subtypes by preposition
+// Oblique subtypes by preposition (all bfo:Role with rdfs:label)
 const PREP_TO_ROLE = {
-  'for':   'cco:BeneficiaryRole',
-  'with':  'cco:InstrumentRole',
-  'at':    'cco:LocationRole',
-  'in':    'cco:LocationRole',
-  'on':    'cco:LocationRole',
-  'from':  'cco:SourceRole',
-  'to':    'cco:DestinationRole',
-  'by':    'cco:AgentRole',         // Passive agent
+  'for':   { role: 'bfo:Role', label: 'BeneficiaryRole' },
+  'with':  { role: 'bfo:Role', label: 'InstrumentRole' },
+  'at':    { role: 'bfo:Role', label: 'LocationRole' },
+  'in':    { role: 'bfo:Role', label: 'LocationRole' },
+  'on':    { role: 'bfo:Role', label: 'LocationRole' },
+  'from':  { role: 'bfo:Role', label: 'SourceRole' },
+  'to':    { role: 'bfo:Role', label: 'DestinationRole' },
+  'by':    { role: 'bfo:Role', label: 'AgentRole' },         // Passive agent
 };
 ```
 
@@ -742,7 +743,7 @@ The gazetteer entries include type annotations:
 {
   "Customs and Border Protection": { "type": "cco:Organization", "aliases": ["CBP"] },
   "Department of Homeland Security": { "type": "cco:Organization", "aliases": ["DHS"] },
-  "United States": { "type": "cco:Nation", "aliases": ["US", "USA"] },
+  "United States": { "type": "cco:GeopoliticalOrganization", "rdfs:label": "Nation", "aliases": ["US", "USA"] },
   ...
 }
 ```

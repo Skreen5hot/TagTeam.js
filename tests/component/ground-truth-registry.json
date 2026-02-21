@@ -222,7 +222,7 @@
               "description": "Links act to the agent who performs it (subject role)"
             },
             {
-              "property": "cco:has_patient",
+              "property": "tagteam:has_patient",
               "domain": "cco:Act",
               "range": "BFO:0000002 Continuant",
               "description": "Links act to the entity that undergoes change (direct object role)"
@@ -240,7 +240,7 @@
               "description": "Links act to entity that serves as input to the act"
             },
             {
-              "property": "cco:has_output",
+              "property": "tagteam:has_output",
               "domain": "cco:Act",
               "range": "BFO:0000002 Continuant",
               "description": "Links act to entity that is produced by the act"

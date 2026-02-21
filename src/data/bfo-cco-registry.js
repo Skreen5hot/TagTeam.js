@@ -21,7 +21,11 @@ const BFO_CCO_REGISTRY = {
   // ==================== Namespace Prefixes ====================
   prefixes: {
     bfo: 'http://purl.obolibrary.org/obo/BFO_',
-    cco: 'http://www.ontologyrepository.com/CommonCoreOntologies/',
+    // NOTE: Published CCO uses https://www.commoncoreontologies.org/ as namespace.
+    // The old URI below is retained for backward compatibility with existing graphs.
+    // TODO: Migrate to correct namespace when TypeClassifier module is built.
+    cco: 'https://www.commoncoreontologies.org/',
+    cco_published: 'https://www.commoncoreontologies.org/',
     obo: 'http://purl.obolibrary.org/obo/',
     tagteam: 'http://purl.org/tagteam#'
   },
@@ -82,61 +86,39 @@ const BFO_CCO_REGISTRY = {
 
   // ==================== CCO Core Types ====================
   // Common Core Ontologies - Mid-Level Concepts
+  //
+  // AUDIT STATUS (2026-02-21): Verified against published CCO OWL at
+  // https://github.com/CommonCoreOntology/CommonCoreOntologies (develop branch)
+  //
+  // NOTE: Published CCO uses namespace https://www.commoncoreontologies.org/
+  // and opaque numeric IRIs (e.g., cco:ont00000005 for Act). Our human-readable
+  // CURIEs (cco:Act, cco:Person) are convenience aliases, not resolvable IRIs.
+  //
+  // Entries marked verified: true are confirmed in published CCO OWL files.
+  // Entries marked verified: false are TagTeam inventions using the cco: prefix.
+  // These should migrate to tagteam: namespace in the TypeClassifier module.
+  // ==================== CCO Verified Types Only ====================
+  // Only entries confirmed in published CCO v1.5 OWL files.
+  // All fabricated entries removed. TagTeam extensions are in the tagteam section.
   cco: {
-    // Agents
-    'Agent': { label: 'Agent', parent: 'BFO_0000040', namespace: 'cco' },
-    'Person': { label: 'Person', parent: 'Agent', namespace: 'cco' },
-    'Organization': { label: 'Organization', parent: 'Agent', namespace: 'cco' },
-    'GroupOfAgents': { label: 'Group of Agents', parent: 'Agent', namespace: 'cco' },
+    // Agents — VERIFIED in AgentOntology.ttl
+    'Agent': { label: 'Agent', parent: 'BFO_0000040', namespace: 'cco', ccoIRI: 'ont00001017' },
+    'Person': { label: 'Person', parent: 'Agent', namespace: 'cco', ccoIRI: 'ont00001262' },
+    'Organization': { label: 'Organization', parent: 'Agent', namespace: 'cco', ccoIRI: 'ont00001180' },
+    'GeopoliticalOrganization': { label: 'Geopolitical Organization', parent: 'Organization', namespace: 'cco', ccoIRI: 'ont00000176' },
+    'Facility': { label: 'Facility', parent: 'BFO_0000029', namespace: 'cco', ccoIRI: 'ont00000583' },
 
-    // Acts and Actions
-    'Act': { label: 'Act', parent: 'BFO_0000015', namespace: 'cco' },
-    'IntentionalAct': { label: 'Intentional Act', parent: 'Act', namespace: 'cco' },
-    'ActOfCommunication': { label: 'Act of Communication', parent: 'IntentionalAct', namespace: 'cco' },
-    'ActOfDeclaration': { label: 'Act of Declaration', parent: 'ActOfCommunication', namespace: 'cco' },
-    'ActOfCommand': { label: 'Act of Command', parent: 'ActOfCommunication', namespace: 'cco' },
-    'ActOfPromise': { label: 'Act of Promise', parent: 'ActOfCommunication', namespace: 'cco' },
-    'ActOfAssent': { label: 'Act of Assent', parent: 'ActOfCommunication', namespace: 'cco' },
+    // Acts — VERIFIED in EventOntology.ttl
+    'Act': { label: 'Act', parent: 'BFO_0000015', namespace: 'cco', ccoIRI: 'ont00000005' },
+    'IntentionalAct': { label: 'Planned Act', parent: 'Act', namespace: 'cco', ccoIRI: 'ont00000228', note: 'CCO primary label is "Planned Act"; "Intentional Act" is altLabel' },
+    'ActOfCommunication': { label: 'Act of Communication', parent: 'IntentionalAct', namespace: 'cco', ccoIRI: 'ont00000402' },
 
-    // Medical Acts
-    'ActOfMedicalTreatment': { label: 'Act of Medical Treatment', parent: 'IntentionalAct', namespace: 'cco' },
-    'ActOfSurgery': { label: 'Act of Surgery', parent: 'ActOfMedicalTreatment', namespace: 'cco' },
-    'ActOfDiagnosis': { label: 'Act of Diagnosis', parent: 'IntentionalAct', namespace: 'cco' },
-    'ActOfCare': { label: 'Act of Care', parent: 'IntentionalAct', namespace: 'cco' },
-    'ActOfService': { label: 'Act of Service', parent: 'IntentionalAct', namespace: 'cco' },
-    'ActOfTransferOfPossession': { label: 'Act of Transfer of Possession', parent: 'IntentionalAct', namespace: 'cco' },
-    'ActOfAssistance': { label: 'Act of Assistance', parent: 'IntentionalAct', namespace: 'cco' },
+    // Information Entities — VERIFIED in InformationEntityOntology.ttl
+    'InformationContentEntity': { label: 'Information Content Entity', parent: 'BFO_0000031', namespace: 'cco', ccoIRI: 'ont00000958' },
+    'InformationBearingEntity': { label: 'Information Bearing Entity', parent: 'BFO_0000030', namespace: 'cco', ccoIRI: 'ont00000253' },
 
-    // Information Entities
-    'InformationContentEntity': { label: 'Information Content Entity', parent: 'BFO_0000031', namespace: 'cco' },
-    'DescriptiveInformationContentEntity': { label: 'Descriptive ICE', parent: 'InformationContentEntity', namespace: 'cco' },
-    'DirectiveInformationContentEntity': { label: 'Directive ICE', parent: 'InformationContentEntity', namespace: 'cco' },
-    'Document': { label: 'Document', parent: 'InformationContentEntity', namespace: 'cco' },
-
-    // Artifacts
-    'Artifact': { label: 'Artifact', parent: 'BFO_0000040', namespace: 'cco' },
-    'InformationBearingArtifact': { label: 'Information Bearing Artifact', parent: 'Artifact', namespace: 'cco' },
-
-    // Roles
-    'AgentRole': { label: 'Agent Role', parent: 'BFO_0000023', namespace: 'cco' },
-    'OccupationRole': { label: 'Occupation Role', parent: 'AgentRole', namespace: 'cco' },
-    'SocialRole': { label: 'Social Role', parent: 'AgentRole', namespace: 'cco' },
-
-    // Dispositions
-    'AgentDisposition': { label: 'Agent Disposition', parent: 'BFO_0000016', namespace: 'cco' },
-    'Capability': { label: 'Capability', parent: 'AgentDisposition', namespace: 'cco' },
-
-    // Qualities
-    'Quality': { label: 'Quality', parent: 'BFO_0000019', namespace: 'cco' },
-    'InformationQuality': { label: 'Information Quality', parent: 'BFO_0000019', namespace: 'cco' },
-
-    // Events and States
-    'Stasis': { label: 'Stasis', parent: 'BFO_0000015', namespace: 'cco' },
-    'Change': { label: 'Change', parent: 'BFO_0000015', namespace: 'cco' },
-
-    // Temporal concepts
-    'TemporalInterval': { label: 'Temporal Interval', parent: 'BFO_0000038', namespace: 'cco' },
-    'TemporalInstant': { label: 'Temporal Instant', parent: 'BFO_0000148', namespace: 'cco' }
+    // Artifacts — VERIFIED in ArtifactOntology.ttl
+    'Artifact': { label: 'Material Artifact', parent: 'BFO_0000040', namespace: 'cco', ccoIRI: 'ont00000995', note: 'CCO label is "Material Artifact"' }
   },
 
   // ==================== TagTeam Extensions ====================

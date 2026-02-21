@@ -46,30 +46,22 @@ function extractIRIs(values) {
  * IMPORTANT: PatientRole is ONLY for cco:Person entities (BFO/CCO constraint)
  * Artifacts do not bear PatientRole - they are affected but not patients
  */
+/**
+ * Role type mappings — all roles are bfo:Role (BFO_0000023, verified).
+ * The role label carries the semantic distinction (AgentRole, PatientRole, etc.)
+ * via rdfs:label on the role node.
+ */
 const ROLE_TYPE_MAPPINGS = {
-  // Agent roles (subject performing the act) - ONLY for Persons
-  'agent': 'cco:AgentRole',
-  'performer': 'cco:AgentRole',
-  'actor': 'cco:AgentRole',
-
-  // Patient roles (ONLY for Persons receiving care/treatment)
-  'patient': 'cco:PatientRole',
-
-  // ENH-015: Recipient role (for "to NP" prepositional phrases)
-  'recipient': 'cco:RecipientRole',
-
-  // Instrument roles (for artifacts used in acts)
-  'instrument': 'cco:InstrumentRole',
-  'tool': 'cco:InstrumentRole',
-
-  // Beneficiary roles (for "for NP" prepositional phrases)
-  'beneficiary': 'cco:BeneficiaryRole',
-
-  // Participant (generic role for other participants)
-  'participant': 'bfo:BFO_0000023',
-
-  // Default
-  '_default': 'bfo:BFO_0000023' // Generic BFO Role
+  'agent': 'AgentRole',
+  'performer': 'AgentRole',
+  'actor': 'AgentRole',
+  'patient': 'PatientRole',
+  'recipient': 'RecipientRole',
+  'instrument': 'InstrumentRole',
+  'tool': 'InstrumentRole',
+  'beneficiary': 'BeneficiaryRole',
+  'participant': 'Role',
+  '_default': 'Role'
 };
 
 /**
@@ -78,7 +70,7 @@ const ROLE_TYPE_MAPPINGS = {
  */
 const PATIENT_ROLE_ELIGIBLE_TYPES = [
   'cco:Person',
-  'cco:GroupOfPersons'
+  'cco:Agent'
 ];
 
 /**
@@ -286,7 +278,7 @@ class RoleDetector {
     return types.some(type =>
       type.includes('cco:Person') ||
       type.includes('cco:Organization') ||
-      type.includes('cco:GroupOfPersons')
+      type.includes('cco:Agent')
     );
   }
 
@@ -338,20 +330,14 @@ class RoleDetector {
     const { roleType, bearerIRI, bearer, actEntries } = entry;
 
     const iri = this._generateRoleIRI(roleType, bearerIRI);
-    const specificType = ROLE_TYPE_MAPPINGS[roleType] || ROLE_TYPE_MAPPINGS['_default'];
-
-    // Build @type array, avoiding duplicates
-    const types = [specificType];
-    if (specificType !== 'bfo:BFO_0000023') {
-      types.push('bfo:BFO_0000023');
-    }
-    types.push('owl:NamedIndividual');
+    const roleLabel = ROLE_TYPE_MAPPINGS[roleType] || ROLE_TYPE_MAPPINGS['_default'];
 
     const role = {
       '@id': iri,
-      '@type': types,
-      'rdfs:label': this._generateRoleLabel(roleType, bearer),
+      '@type': ['bfo:Role', 'owl:NamedIndividual'],
+      'rdfs:label': roleLabel,
       'tagteam:roleType': roleType,
+      'tagteam:syntacticBasis': roleType,
       'bfo:inheres_in': { '@id': bearerIRI }
     };
 

@@ -105,23 +105,23 @@ function normalizeGraphForAnalysis(result) {
 
   if (!isTreeFormat) return result; // Legacy format, no normalization needed
 
-  // Map from role type to property name
+  // Map from role rdfs:label to property name (post-IRI cleanup: roles are bfo:Role)
   const roleToProperty = {
-    'cco:AgentRole': 'cco:has_agent',
-    'cco:PatientRole': 'cco:affects',
-    'cco:RecipientRole': 'cco:has_recipient',
-    'cco:BeneficiaryRole': 'cco:has_beneficiary',
-    'cco:InstrumentRole': 'cco:has_instrument',
-    'cco:LocationRole': 'cco:has_location',
-    'cco:SourceRole': 'cco:has_source',
-    'cco:DestinationRole': 'cco:has_destination',
-    'cco:ComitativeRole': 'cco:has_comitative',
-    'cco:CauseRole': 'cco:has_cause'
+    'AgentRole': 'cco:has_agent',
+    'PatientRole': 'cco:affects',
+    'RecipientRole': 'cco:has_recipient',
+    'BeneficiaryRole': 'tagteam:has_beneficiary',
+    'InstrumentRole': 'tagteam:has_instrument',
+    'LocationRole': 'tagteam:has_location',
+    'SourceRole': 'tagteam:has_source',
+    'DestinationRole': 'tagteam:has_destination',
+    'ComitativeRole': 'tagteam:has_comitative',
+    'CauseRole': 'tagteam:has_cause'
   };
 
-  // Find all Role nodes and materialize them onto acts
+  // Find all Role nodes (bfo:Role after IRI cleanup) and materialize them onto acts
   const roleNodes = graph.filter(n =>
-    (n['@type'] || []).some(t => t.endsWith('Role') && t.startsWith('cco:'))
+    (n['@type'] || []).includes('bfo:Role')
   );
 
   roleNodes.forEach(role => {
@@ -135,11 +135,11 @@ function normalizeGraphForAnalysis(result) {
     const act = graph.find(n => n['@id'] === actId);
     if (!act) return;
 
-    // Determine which property to set
-    const roleType = (role['@type'] || []).find(t => roleToProperty[t]);
-    if (!roleType) return;
+    // Determine which property to set from role's rdfs:label
+    const roleLabel = role['rdfs:label'] || role['tagteam:roleType'];
+    if (!roleLabel || !roleToProperty[roleLabel]) return;
 
-    const prop = roleToProperty[roleType];
+    const prop = roleToProperty[roleLabel];
 
     // Resolve to Tier 2 entity if available (for tier-separation compatibility).
     // Legacy format links acts to Tier 2 (owl:NamedIndividual) entities.
@@ -320,7 +320,6 @@ function analyzePrefixSubordination(acts, result, test) {
         // This act should only reference entities from BEFORE comma
         const args = [];
         if (act['cco:has_agent']) args.push({ role: 'agent', value: act['cco:has_agent'] });
-        if (act['cco:has_patient']) args.push({ role: 'patient', value: act['cco:has_patient'] });
         if (act['cco:affects']) args.push({ role: 'affects', value: act['cco:affects'] });
 
         // Check if any argument references text from AFTER comma
@@ -449,18 +448,18 @@ function analyzeRoleAssignment(acts, result, test) {
 
   analysis.observations.push(`Expected ${expectedRoles.length} role assignments`);
 
-  // Mapping from test role names to actual CCO property names
+  // Mapping from role label to property names (post-IRI cleanup)
   const rolePropertyMap = {
-    'cco:AgentRole': ['cco:has_agent', 'cco:agent_in'],
-    'cco:PatientRole': ['cco:has_patient', 'cco:affects', 'cco:patient_in'],
-    'cco:RecipientRole': ['cco:has_recipient', 'tagteam:recipient'],
-    'cco:BeneficiaryRole': ['cco:has_beneficiary', 'tagteam:beneficiary'],
-    'cco:InstrumentRole': ['cco:has_instrument', 'tagteam:instrument'],
-    'cco:LocationRole': ['cco:has_location', 'tagteam:located_in'],
-    'cco:SourceRole': ['cco:has_source', 'tagteam:source'],
-    'cco:DestinationRole': ['cco:has_destination', 'tagteam:destination'],
-    'cco:ComitativeRole': ['cco:has_comitative', 'tagteam:comitative'],
-    'cco:CauseRole': ['cco:has_cause', 'tagteam:cause']
+    'AgentRole': ['cco:has_agent', 'tagteam:agent_in'],
+    'PatientRole': ['cco:affects', 'tagteam:patient_in'],
+    'RecipientRole': ['cco:has_recipient', 'tagteam:recipient'],
+    'BeneficiaryRole': ['tagteam:has_beneficiary', 'tagteam:beneficiary'],
+    'InstrumentRole': ['tagteam:has_instrument', 'tagteam:instrument'],
+    'LocationRole': ['tagteam:has_location', 'tagteam:located_in'],
+    'SourceRole': ['tagteam:has_source', 'tagteam:source'],
+    'DestinationRole': ['tagteam:has_destination', 'tagteam:destination'],
+    'ComitativeRole': ['tagteam:has_comitative', 'tagteam:comitative'],
+    'CauseRole': ['tagteam:has_cause', 'tagteam:cause']
   };
 
   // For each expected role assignment

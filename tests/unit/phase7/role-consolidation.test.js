@@ -64,7 +64,10 @@ function findRoleNodes(graph, roleType) {
 }
 
 function findAgentRoles(graph) {
-  return findRoleNodes(graph, 'cco:AgentRole');
+  return getNodes(graph).filter(n =>
+    n['@type'] && n['@type'].includes('bfo:Role') &&
+    (n['rdfs:label'] === 'AgentRole' || (typeof n['rdfs:label'] === 'string' && n['rdfs:label'].startsWith('agent role')))
+  );
 }
 
 function findNodeByLabel(graph, labelIncludes) {

@@ -102,21 +102,21 @@ Test: tokenizer-alignment.test.js
 ```
 Test: role-mapping-contract.test.js
 - GIVEN the normative UD_TO_BFO_ROLE mapping (§5.3)
-- WHEN 'nsubj' is mapped → THEN result is cco:AgentRole
-- WHEN 'obj' is mapped → THEN result is cco:PatientRole
-- WHEN 'iobj' is mapped → THEN result is cco:RecipientRole
-- WHEN 'nsubj:pass' is mapped → THEN result is cco:PatientRole
-- WHEN 'obl:agent' is mapped → THEN result is cco:AgentRole
-- WHEN 'obl' is mapped → THEN result is cco:ObliqueRole (subtyped by case)
+- WHEN 'nsubj' is mapped → THEN result is bfo:Role with rdfs:label "AgentRole"
+- WHEN 'obj' is mapped → THEN result is bfo:Role with rdfs:label "PatientRole"
+- WHEN 'iobj' is mapped → THEN result is bfo:Role with rdfs:label "RecipientRole"
+- WHEN 'nsubj:pass' is mapped → THEN result is bfo:Role with rdfs:label "PatientRole"
+- WHEN 'obl:agent' is mapped → THEN result is bfo:Role with rdfs:label "AgentRole"
+- WHEN 'obl' is mapped → THEN result is bfo:Role with rdfs:label "ObliqueRole" (subtyped by case)
 
 - GIVEN the CASE_TO_OBLIQUE_ROLE mapping
-- WHEN case='for' → THEN result is cco:BeneficiaryRole
-- WHEN case='with' → THEN result is cco:InstrumentRole
-- WHEN case='at' → THEN result is cco:LocationRole
-- WHEN case='from' → THEN result is cco:SourceRole
-- WHEN case='to' → THEN result is cco:DestinationRole
-- WHEN case='by' → THEN result is cco:AgentRole
-- WHEN case='about' → THEN result is cco:TopicRole
+- WHEN case='for' → THEN result is bfo:Role with rdfs:label "BeneficiaryRole"
+- WHEN case='with' → THEN result is bfo:Role with rdfs:label "InstrumentRole"
+- WHEN case='at' → THEN result is bfo:Role with rdfs:label "LocationRole"
+- WHEN case='from' → THEN result is bfo:Role with rdfs:label "SourceRole"
+- WHEN case='to' → THEN result is bfo:Role with rdfs:label "DestinationRole"
+- WHEN case='by' → THEN result is bfo:Role with rdfs:label "AgentRole"
+- WHEN case='about' → THEN result is bfo:Role with rdfs:label "TopicRole"
 ```
 
 ### 0.3 Exit Criteria
@@ -819,14 +819,14 @@ Test: tree-extraction.test.js
 Test: tree-extraction.test.js
 - GIVEN parsed "The doctor treated the patient"
 - WHEN TreeRoleMapper.map() runs
-- THEN "doctor" gets cco:AgentRole (from nsubj)
-- AND "patient" gets cco:PatientRole (from obj)
+- THEN "doctor" gets bfo:Role (rdfs:label "AgentRole") (from nsubj)
+- AND "patient" gets bfo:Role (rdfs:label "PatientRole") (from obj)
 
 - GIVEN parsed "The nurse gave the patient medication"
 - WHEN mapped
-- THEN "nurse" gets cco:AgentRole (nsubj)
-- AND "patient" gets cco:RecipientRole (iobj)
-- AND "medication" gets cco:PatientRole (obj)
+- THEN "nurse" gets bfo:Role (rdfs:label "AgentRole") (nsubj)
+- AND "patient" gets bfo:Role (rdfs:label "RecipientRole") (iobj)
+- AND "medication" gets bfo:Role (rdfs:label "PatientRole") (obj)
 ```
 
 ##### AC-3.13: Oblique Role Subtyping by Preposition
@@ -834,11 +834,11 @@ Test: tree-extraction.test.js
 Test: tree-extraction.test.js
 - GIVEN "The doctor treated the patient with antibiotics"
 - WHEN mapped, "antibiotics" has obl label with case child "with"
-- THEN "antibiotics" gets cco:InstrumentRole
+- THEN "antibiotics" gets bfo:Role (rdfs:label "InstrumentRole")
 
 - GIVEN "The nurse worked at the hospital"
 - WHEN mapped, "hospital" has obl label with case child "at"
-- THEN "hospital" gets cco:LocationRole
+- THEN "hospital" gets bfo:Role (rdfs:label "LocationRole")
 ```
 
 ### Phase 3A Exit Criteria
@@ -872,8 +872,8 @@ Test: tree-extraction.test.js
 | AC-3.10 (Existential) | ✅ "There is" detected |
 | AC-3.11 (Possessive) | ✅ "has" + obj detected |
 | AC-3.11b (Locative copular) | ✅ bfo:located_in for "X is in Y" |
-| AC-3.12 (Role mapping) | ✅ nsubj→Agent, obj→Patient, iobj→Recipient |
-| AC-3.13 (Oblique subtyping) | ✅ "with"→Instrument, "at"→Location |
+| AC-3.12 (Role mapping) | ✅ nsubj→AgentRole, obj→PatientRole, iobj→RecipientRole (all as bfo:Role + rdfs:label) |
+| AC-3.13 (Oblique subtyping) | ✅ "with"→InstrumentRole, "at"→LocationRole (all as bfo:Role + rdfs:label) |
 | Regression Gate | Phase 0-2 all green, Component 89%, Golden 3.2% |
 
 **Files created:**

@@ -8,17 +8,17 @@
       "roles": [
         {
           "entity": "the engineer",
-          "role": "cco:AgentRole",
+          "role": "AgentRole",
           "verb": "deploy"
         },
         {
           "entity": "the admin",
-          "role": "cco:AgentRole",
+          "role": "AgentRole",
           "verb": "deploy"
         },
         {
           "entity": "the patch",
-          "role": "cco:PatientRole",
+          "role": "PatientRole",
           "verb": "deploy"
         }
       ]
@@ -35,17 +35,17 @@
       "roles": [
         {
           "entity": "the admin",
-          "role": "cco:AgentRole",
+          "role": "AgentRole",
           "verb": "configure"
         },
         {
           "entity": "the server",
-          "role": "cco:PatientRole",
+          "role": "PatientRole",
           "verb": "configure"
         },
         {
           "entity": "the database",
-          "role": "cco:PatientRole",
+          "role": "PatientRole",
           "verb": "configure"
         }
       ]
@@ -62,12 +62,12 @@
       "roles": [
         {
           "entity": "the system",
-          "role": "cco:AgentRole",
+          "role": "AgentRole",
           "verb": "update"
         },
         {
           "entity": "itself",
-          "role": "cco:PatientRole",
+          "role": "PatientRole",
           "verb": "update",
           "coreferent": "the system"
         }
@@ -85,22 +85,22 @@
       "roles": [
         {
           "entity": "the engineer",
-          "role": "cco:AgentRole",
+          "role": "AgentRole",
           "verb": "fix"
         },
         {
           "entity": "the bug",
-          "role": "cco:PatientRole",
+          "role": "PatientRole",
           "verb": "fix"
         },
         {
           "entity": "the engineer",
-          "role": "cco:AgentRole",
+          "role": "AgentRole",
           "verb": "deploy"
         },
         {
           "entity": "the patch",
-          "role": "cco:PatientRole",
+          "role": "PatientRole",
           "verb": "deploy"
         }
       ]
@@ -117,22 +117,22 @@
       "roles": [
         {
           "entity": "the admin",
-          "role": "cco:AgentRole",
+          "role": "AgentRole",
           "verb": "send"
         },
         {
           "entity": "the engineer",
-          "role": "cco:RecipientRole",
+          "role": "RecipientRole",
           "verb": "send"
         },
         {
           "entity": "the file",
-          "role": "cco:PatientRole",
+          "role": "PatientRole",
           "verb": "send"
         },
         {
           "entity": "the server",
-          "role": "cco:SourceRole",
+          "role": "SourceRole",
           "verb": "send"
         }
       ]
@@ -149,12 +149,12 @@
       "roles": [
         {
           "entity": "the bug",
-          "role": "cco:CauseRole",
+          "role": "CauseRole",
           "verb": "cause"
         },
         {
           "entity": "the server",
-          "role": "cco:PatientRole",
+          "role": "PatientRole",
           "verb": "crash"
         }
       ]

@@ -23,7 +23,7 @@ const sampleDefaultGraph = {
   '@graph': [
     {
       '@id': 'inst:Act_123',
-      '@type': 'cco:ActOfDeciding',
+      '@type': 'cco:IntentionalAct',
       'tagteam:modality': 'obligation',
       'tagteam:actualityStatus': 'tagteam:Prescribed'
     }

@@ -109,7 +109,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
         },
         verbOverrides: {
           'treat': {
-            default: 'cco:ActOfMedicalTreatment'
+            default: 'cco:IntentionalAct'
           }
         }
       };
@@ -192,7 +192,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
         version: '1.0',
         verbOverrides: {
           'treat': {
-            objectIsOccurrent: 'cco:ActOfCare'
+            objectIsOccurrent: 'cco:IntentionalAct'
             // Missing 'default' key
           }
         }
@@ -318,7 +318,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
     it('BH-002: Occurrent mapped to Continuant base returns error', () => {
       const issues = validator.validateBFOHierarchy({
         term: 'treatment',
-        mappedType: 'cco:ActOfMedicalTreatment', // Occurrent
+        mappedType: 'cco:IntentionalAct', // Occurrent
         baseType: 'bfo:Object' // Continuant
       });
       expect(issues.length).toBeGreaterThan(0);
@@ -368,7 +368,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
     it('BH-007: Process specialization returns valid', () => {
       const issues = validator.validateBFOHierarchy({
         term: 'surgery',
-        mappedType: 'cco:ActOfSurgery',
+        mappedType: 'cco:IntentionalAct',
         baseType: 'bfo:Process'
       });
       expect(issues.length).toBe(0);
@@ -398,8 +398,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
       const types = [
         { mappedType: 'cco:Person', baseType: 'bfo:Object' },
         { mappedType: 'cco:Organization', baseType: 'bfo:Object' },
-        { mappedType: 'cco:IntentionalAct', baseType: 'bfo:Process' },
-        { mappedType: 'cco:ActOfMedicalTreatment', baseType: 'bfo:Process' }
+        { mappedType: 'cco:IntentionalAct', baseType: 'bfo:Process' }
       ];
 
       for (const t of types) {
@@ -518,12 +517,12 @@ describe('Phase 6.4.5: OntologyValidator', () => {
         {
           domain: 'new',
           version: '1.0',
-          verbOverrides: { 'treat': { default: 'cco:ActOfCare' } }
+          verbOverrides: { 'treat': { default: 'cco:IntentionalAct' } }
         },
         [{
           domain: 'existing',
           version: '1.0',
-          verbOverrides: { 'treat': { default: 'cco:ActOfMedicalTreatment' } }
+          verbOverrides: { 'treat': { default: 'cco:IntentionalAct' } }
         }]
       );
       // Should at least inform about the override
@@ -579,14 +578,14 @@ describe('Phase 6.4.5: OntologyValidator', () => {
   describe('Category 6: Verb Override Validation', () => {
     it('VO-001: Valid verb override returns valid', () => {
       const issues = validator.validateVerbOverrides({
-        'treat': { default: 'cco:ActOfMedicalTreatment' }
+        'treat': { default: 'cco:IntentionalAct' }
       });
       expect(issues.filter(i => i.severity === 'error').length).toBe(0);
     });
 
     it('VO-002: Missing default key returns warning', () => {
       const issues = validator.validateVerbOverrides({
-        'treat': { objectIsOccurrent: 'cco:ActOfCare' }
+        'treat': { objectIsOccurrent: 'cco:IntentionalAct' }
       });
       expect(issues.some(i => i.code === 'INVALID_VERB_STRUCTURE')).toBe(true);
     });
@@ -594,7 +593,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
     it('VO-003: Unknown override key returns info', () => {
       const issues = validator.validateVerbOverrides({
         'treat': {
-          default: 'cco:ActOfMedicalTreatment',
+          default: 'cco:IntentionalAct',
           unknownKey: 'value'
         }
       });
@@ -612,8 +611,8 @@ describe('Phase 6.4.5: OntologyValidator', () => {
 
     it('VO-005: Valid medical-style verb overrides return valid', () => {
       const issues = validator.validateVerbOverrides({
-        'treat': { default: 'cco:ActOfMedicalTreatment' },
-        'diagnose': { default: 'cco:ActOfDiagnosis' },
+        'treat': { default: 'cco:IntentionalAct' },
+        'diagnose': { default: 'cco:IntentionalAct' },
         'provide': {
           default: 'cco:ActOfTransferOfPossession',
           objectIsOccurrent: 'cco:ActOfService'
@@ -636,7 +635,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
           objectIsOccurrent: 'cco:ActOfService',
           objectIsContinuant: 'cco:ActOfTransferOfPossession',
           objectIsGDC: 'cco:ActOfCommunication',
-          objectIsPerson: 'cco:ActOfAssistance'
+          objectIsPerson: 'cco:IntentionalAct'
         }
       });
       expect(issues.filter(i => i.severity === 'error').length).toBe(0);
@@ -790,10 +789,10 @@ describe('Phase 6.4.5: OntologyValidator', () => {
         },
         verbOverrides: {
           'treat': {
-            default: 'cco:ActOfMedicalTreatment'
+            default: 'cco:IntentionalAct'
           },
           'diagnose': {
-            default: 'cco:ActOfDiagnosis'
+            default: 'cco:IntentionalAct'
           }
         }
       };

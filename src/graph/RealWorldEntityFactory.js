@@ -21,11 +21,10 @@ const crypto = require('crypto');
 const TIER2_TYPE_MAPPINGS = {
   // Maps from denotesType value to Tier 2 class
   'cco:Person': 'cco:Person',
-  'cco:GroupOfPersons': 'cco:Person', // Individual persons from group
+  'cco:Agent': 'cco:Agent', // Agent (groups, collectives)
   'cco:Artifact': 'cco:Artifact',
-  'cco:BodyPart': 'cco:Artifact', // Organs treated as artifacts in allocation context
   'cco:Organization': 'cco:Organization',
-  'cco:GeopoliticalEntity': 'cco:GeopoliticalEntity', // Cities, countries, states
+  'cco:GeopoliticalOrganization': 'cco:GeopoliticalOrganization', // Cities, countries, states
   'cco:Facility': 'cco:Facility', // Buildings, datacenters, offices
   'bfo:BFO_0000040': 'cco:Artifact', // Material entity defaults to artifact
 
@@ -49,23 +48,14 @@ const TIER2_TYPE_MAPPINGS = {
 };
 
 /**
- * Process type mappings - these create Process nodes instead of Artifacts
- * Processes are occurrents (things that happen) not continuants (things that exist)
+ * Process type mappings — all processes map to bfo:Process (BFO_0000015, verified).
+ * Specific act sub-typing is the knowledge graph's responsibility, not the parser's.
  */
 const PROCESS_TYPE_MAPPINGS = {
-  'cco:ActOfCare': 'cco:ActOfCare',
-  'cco:ActOfMedicalTreatment': 'cco:ActOfMedicalTreatment',
-  'cco:ActOfSurgery': 'cco:ActOfSurgery',
-  'cco:ActOfMedicalProcedure': 'cco:ActOfMedicalProcedure',
-  'cco:ActOfExamination': 'cco:ActOfExamination',
-  'cco:ActOfDiagnosis': 'cco:ActOfDiagnosis',
-  'cco:ActOfService': 'cco:ActOfService',
-  'cco:ActOfAssistance': 'cco:ActOfAssistance',
-  'cco:ActOfIntervention': 'cco:ActOfIntervention',
-  'cco:ActOfCommunication': 'cco:ActOfCommunication',
-  'cco:ActOfRehabilitation': 'cco:ActOfRehabilitation',
-  'cco:ActOfResuscitation': 'cco:ActOfResuscitation',
-  'bfo:BFO_0000015': 'bfo:BFO_0000015' // Generic BFO Process
+  'bfo:Process': 'bfo:Process',
+  'bfo:BFO_0000015': 'bfo:BFO_0000015',
+  'cco:ActOfCommunication': 'cco:ActOfCommunication',  // VERIFIED (ont00000402)
+  'cco:IntentionalAct': 'cco:IntentionalAct'           // VERIFIED (ont00000228)
 };
 
 /**
@@ -249,8 +239,9 @@ class RealWorldEntityFactory {
       }
     }
 
-    // Default to Artifact for physical entities
-    return 'cco:Artifact';
+    // Default to bfo:Entity (BFO root) — honest admission of incomplete classification.
+    // cco:Artifact was incorrectly specific; bfo:Entity is maximally general and safe.
+    return 'bfo:BFO_0000001';
   }
 
   /**

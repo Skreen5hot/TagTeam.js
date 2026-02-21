@@ -183,8 +183,8 @@ test('EC-011: getEntityCategories({}) returns unknown', (prefs) => {
   assert(result.includes('unknown'), `Expected 'unknown' in ${JSON.stringify(result)}`);
 }, 'P2');
 
-test('EC-012: getEntityCategories({ type: "cco:GroupOfPersons" }) includes organization and collective', (prefs) => {
-  const result = prefs.getEntityCategories({ type: 'cco:GroupOfPersons' });
+test('EC-012: getEntityCategories({ type: "cco:Agent" }) includes organization and collective', (prefs) => {
+  const result = prefs.getEntityCategories({ type: 'cco:Agent' });
   assert(result.includes('organization'), `Expected 'organization' in ${JSON.stringify(result)}`);
   assert(result.includes('collective'), `Expected 'collective' in ${JSON.stringify(result)}`);
 }, 'P1');

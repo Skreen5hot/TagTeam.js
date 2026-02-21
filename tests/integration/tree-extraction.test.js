@@ -579,11 +579,11 @@ if (pipelineReady) {
 
     // Roles: patient = PatientRole (nsubj:pass), doctor = AgentRole (obl:agent / obl+by)
     const patientRole = result.roles.find(r =>
-      r.role === 'cco:PatientRole' &&
+      (r.role === 'bfo:Role' && r.label === 'PatientRole') &&
       (r.entity || '').toLowerCase().includes('patient')
     );
     const agentRole = result.roles.find(r =>
-      r.role === 'cco:AgentRole' &&
+      (r.role === 'bfo:Role' && r.label === 'AgentRole') &&
       (r.entity || '').toLowerCase().includes('doctor')
     );
     assert(patientRole, '"patient" should have PatientRole');
@@ -845,11 +845,11 @@ if (pipelineReady) {
     const roles = result.roles;
 
     const agentRole = roles.find(r =>
-      r.role === 'cco:AgentRole' &&
+      (r.role === 'bfo:Role' && r.label === 'AgentRole') &&
       (r.entity || '').toLowerCase().includes('doctor')
     );
     const patientRole = roles.find(r =>
-      r.role === 'cco:PatientRole' &&
+      (r.role === 'bfo:Role' && r.label === 'PatientRole') &&
       (r.entity || '').toLowerCase().includes('patient')
     );
 
@@ -865,7 +865,7 @@ if (pipelineReady) {
     const roles = result.roles;
 
     const agentRole = roles.find(r =>
-      r.role === 'cco:AgentRole' &&
+      (r.role === 'bfo:Role' && r.label === 'AgentRole') &&
       (r.entity || '').toLowerCase().includes('nurse')
     );
 
@@ -873,7 +873,7 @@ if (pipelineReady) {
 
     // The parser may produce obj (not iobj) for "patient medication"
     // Check that at least one patient-like role exists
-    const anyPatient = roles.find(r => r.role === 'cco:PatientRole');
+    const anyPatient = roles.find(r => r.role === 'bfo:Role' && r.label === 'PatientRole');
     assert(anyPatient, 'Should have at least one PatientRole');
   });
 } else {
@@ -893,7 +893,7 @@ if (pipelineReady) {
     const roles = result.roles;
 
     const instrumentRole = roles.find(r =>
-      r.role === 'cco:InstrumentRole' &&
+      (r.role === 'bfo:Role' && r.label === 'InstrumentRole') &&
       (r.entity || '').toLowerCase().includes('antibiotics')
     );
     assert(instrumentRole, '"antibiotics" should have InstrumentRole (obl + case "with")');
@@ -904,7 +904,7 @@ if (pipelineReady) {
     const roles = result.roles;
 
     const locationRole = roles.find(r =>
-      r.role === 'cco:LocationRole' &&
+      (r.role === 'bfo:Role' && r.label === 'LocationRole') &&
       (r.entity || '').toLowerCase().includes('hospital')
     );
     assert(locationRole, '"hospital" should have LocationRole (obl + case "at")');

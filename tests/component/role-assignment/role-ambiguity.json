@@ -8,17 +8,17 @@
       "roles": [
         {
           "entity": "the engineer",
-          "role": "cco:AgentRole",
+          "role": "AgentRole",
           "verb": "fix"
         },
         {
           "entity": "the bug",
-          "role": "cco:PatientRole",
+          "role": "PatientRole",
           "verb": "fix"
         },
         {
           "entity": "the patch",
-          "role": "cco:InstrumentRole",
+          "role": "InstrumentRole",
           "verb": "fix"
         }
       ]
@@ -35,7 +35,7 @@
       "roles": [
         {
           "entity": "the server",
-          "role": "cco:PatientRole",
+          "role": "PatientRole",
           "verb": "fail"
         }
       ],
@@ -58,12 +58,12 @@
       "roles": [
         {
           "entity": "the engineer",
-          "role": "cco:AgentRole",
+          "role": "AgentRole",
           "verb": "fix"
         },
         {
           "entity": "the bug",
-          "role": "cco:PatientRole",
+          "role": "PatientRole",
           "verb": "fix"
         }
       ],
@@ -86,7 +86,7 @@
       "roles": [
         {
           "entity": "the door",
-          "role": "cco:PatientRole",
+          "role": "PatientRole",
           "verb": "open"
         }
       ]
@@ -103,7 +103,7 @@
       "roles": [
         {
           "entity": "the admin's script",
-          "role": "cco:PatientRole",
+          "role": "PatientRole",
           "verb": "fail"
         }
       ],

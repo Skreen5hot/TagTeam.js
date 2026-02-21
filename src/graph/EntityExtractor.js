@@ -277,7 +277,7 @@ const ENTITY_TYPE_MAPPINGS = {
   'therapist': 'cco:Person',
   'pharmacist': 'cco:Person',
   'paramedic': 'cco:Person',
-  'family': 'cco:GroupOfPersons',
+  'family': 'cco:Agent',
   'person': 'cco:Person',
   'man': 'cco:Person',
   'woman': 'cco:Person',
@@ -343,7 +343,7 @@ const ENTITY_TYPE_MAPPINGS = {
   'equipment': 'cco:Artifact',
   'bed': 'cco:Artifact',
   'resource': 'cco:Artifact',
-  'organ': 'cco:BodyPart',
+  'organ': 'bfo:MaterialEntity',
 
   // V7-006: Technical/IT artifacts
   'server': 'cco:Artifact',
@@ -540,18 +540,19 @@ const ONTOLOGICAL_VOCABULARY = {
  * After Phase 2: This constant will be removed and replaced by DomainConfigLoader.
  */
 const DOMAIN_PROCESS_WORDS = {
-  // Medical services - TO BE MOVED TO config/medical.json
-  'care': 'cco:ActOfCare',
-  'treatment': 'cco:ActOfMedicalTreatment',
-  'therapy': 'cco:ActOfMedicalTreatment',
-  'surgery': 'cco:ActOfSurgery',
-  'procedure': 'cco:ActOfMedicalProcedure',
-  'examination': 'cco:ActOfExamination',
-  'diagnosis': 'cco:ActOfDiagnosis',
-  'consultation': 'cco:ActOfCommunication',
-  'counseling': 'cco:ActOfCommunication',
-  'rehabilitation': 'cco:ActOfRehabilitation',
-  'resuscitation': 'cco:ActOfResuscitation'
+  // Medical services — all map to bfo:Process (verified BFO_0000015).
+  // Specific act sub-typing is the knowledge graph's responsibility.
+  'care': 'bfo:Process',
+  'treatment': 'bfo:Process',
+  'therapy': 'bfo:Process',
+  'surgery': 'bfo:Process',
+  'procedure': 'bfo:Process',
+  'examination': 'bfo:Process',
+  'diagnosis': 'bfo:Process',
+  'consultation': 'bfo:Process',
+  'counseling': 'bfo:Process',
+  'rehabilitation': 'bfo:Process',
+  'resuscitation': 'bfo:Process'
 };
 
 /**
@@ -1147,11 +1148,11 @@ class EntityExtractor {
       if (existingEntity) {
         // Update type if it was extracted by NPChunker with default type
         if (existingEntity['tagteam:denotesType'] === 'bfo:BFO_0000040') {
-          existingEntity['tagteam:denotesType'] = 'cco:GeopoliticalEntity';
+          existingEntity['tagteam:denotesType'] = 'cco:GeopoliticalOrganization';
           // Also update @type array
           const typeIndex = existingEntity['@type'].indexOf('bfo:BFO_0000040');
           if (typeIndex !== -1) {
-            existingEntity['@type'][typeIndex] = 'cco:GeopoliticalEntity';
+            existingEntity['@type'][typeIndex] = 'cco:GeopoliticalOrganization';
           }
         }
         return;
@@ -1164,7 +1165,7 @@ class EntityExtractor {
         text: placeText,
         rootNoun: placeText,
         offset,
-        entityType: 'cco:GeopoliticalEntity',
+        entityType: 'cco:GeopoliticalOrganization',
         definiteness: 'definite',
         referentialStatus: 'introduced',
         scarcity: { isScarce: false },
@@ -1651,11 +1652,11 @@ class EntityExtractor {
       if (existingEntity) {
         // Update type if it was extracted by NPChunker with default type
         if (existingEntity['tagteam:denotesType'] === 'bfo:BFO_0000040') {
-          existingEntity['tagteam:denotesType'] = 'cco:GeopoliticalEntity';
+          existingEntity['tagteam:denotesType'] = 'cco:GeopoliticalOrganization';
           // Also update @type array
           const typeIndex = existingEntity['@type'].indexOf('bfo:BFO_0000040');
           if (typeIndex !== -1) {
-            existingEntity['@type'][typeIndex] = 'cco:GeopoliticalEntity';
+            existingEntity['@type'][typeIndex] = 'cco:GeopoliticalOrganization';
           }
         }
         return;
@@ -1667,7 +1668,7 @@ class EntityExtractor {
         text: placeText,
         rootNoun: placeText,
         offset,
-        entityType: 'cco:GeopoliticalEntity',
+        entityType: 'cco:GeopoliticalOrganization',
         definiteness: 'definite',
         referentialStatus: 'introduced',
         scarcity: { isScarce: false },
@@ -2079,7 +2080,7 @@ class EntityExtractor {
       if (pronounText === 'himself' || pronounText === 'herself' || pronounText === 'myself' || pronounText === 'yourself') {
         entityType = 'cco:Person';
       } else if (pronounText === 'themselves' || pronounText === 'ourselves' || pronounText === 'yourselves') {
-        entityType = 'cco:GroupOfPersons';
+        entityType = 'cco:Agent';
       }
 
       // Create DiscourseReferent for reflexive pronoun

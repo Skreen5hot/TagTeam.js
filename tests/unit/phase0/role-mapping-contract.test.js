@@ -90,129 +90,141 @@ test('exports mapCaseToOblique() function', () => {
 
 console.log('\n  \x1b[36mCore Argument Mappings:\x1b[0m');
 
-test("'nsubj' → cco:AgentRole", () => {
+test("'nsubj' → bfo:Role with label AgentRole", () => {
   assert(RoleMappingContract, 'Module not loaded');
   const result = RoleMappingContract.mapUDToRole('nsubj');
-  assertEqual(result.role, 'cco:AgentRole',
-    "'nsubj' should map to AgentRole");
+  assertEqual(result.role, 'bfo:Role',
+    "'nsubj' should map to bfo:Role");
+  assertEqual(result.label, 'AgentRole',
+    "'nsubj' label should be AgentRole");
 });
 
-test("'obj' → cco:PatientRole", () => {
+test("'obj' → bfo:Role with label PatientRole", () => {
   assert(RoleMappingContract, 'Module not loaded');
   const result = RoleMappingContract.mapUDToRole('obj');
-  assertEqual(result.role, 'cco:PatientRole',
-    "'obj' should map to PatientRole");
+  assertEqual(result.role, 'bfo:Role',
+    "'obj' should map to bfo:Role");
+  assertEqual(result.label, 'PatientRole',
+    "'obj' label should be PatientRole");
 });
 
-test("'iobj' → cco:RecipientRole", () => {
+test("'iobj' → bfo:Role with label RecipientRole", () => {
   assert(RoleMappingContract, 'Module not loaded');
   const result = RoleMappingContract.mapUDToRole('iobj');
-  assertEqual(result.role, 'cco:RecipientRole',
-    "'iobj' should map to RecipientRole");
+  assertEqual(result.role, 'bfo:Role',
+    "'iobj' should map to bfo:Role");
+  assertEqual(result.label, 'RecipientRole',
+    "'iobj' label should be RecipientRole");
 });
 
-test("'nsubj:pass' → cco:PatientRole", () => {
+test("'nsubj:pass' → bfo:Role with label PatientRole", () => {
   assert(RoleMappingContract, 'Module not loaded');
   const result = RoleMappingContract.mapUDToRole('nsubj:pass');
-  assertEqual(result.role, 'cco:PatientRole',
-    "'nsubj:pass' should map to PatientRole (passive subject = patient)");
+  assertEqual(result.role, 'bfo:Role',
+    "'nsubj:pass' should map to bfo:Role (passive subject = patient)");
+  assertEqual(result.label, 'PatientRole',
+    "'nsubj:pass' label should be PatientRole");
 });
 
-test("'obl:agent' → cco:AgentRole", () => {
+test("'obl:agent' → bfo:Role with label AgentRole", () => {
   assert(RoleMappingContract, 'Module not loaded');
   const result = RoleMappingContract.mapUDToRole('obl:agent');
-  assertEqual(result.role, 'cco:AgentRole',
-    "'obl:agent' should map to AgentRole (passive 'by' phrase)");
+  assertEqual(result.role, 'bfo:Role',
+    "'obl:agent' should map to bfo:Role (passive 'by' phrase)");
+  assertEqual(result.label, 'AgentRole',
+    "'obl:agent' label should be AgentRole");
 });
 
-test("'obl' → cco:ObliqueRole (subtyped by case)", () => {
+test("'obl' → bfo:Role with label ObliqueRole (subtyped by case)", () => {
   assert(RoleMappingContract, 'Module not loaded');
   const result = RoleMappingContract.mapUDToRole('obl');
-  assertEqual(result.role, 'cco:ObliqueRole',
-    "'obl' should map to ObliqueRole");
+  assertEqual(result.role, 'bfo:Role',
+    "'obl' should map to bfo:Role");
+  assertEqual(result.label, 'ObliqueRole',
+    "'obl' label should be ObliqueRole");
 });
 
 // --- Oblique role subtyping by preposition ---
 
 console.log('\n  \x1b[36mOblique Role Subtyping (CASE_TO_OBLIQUE_ROLE):\x1b[0m');
 
-test("case='for' → cco:BeneficiaryRole", () => {
+test("case='for' → 'BeneficiaryRole'", () => {
   assert(RoleMappingContract, 'Module not loaded');
   assertEqual(
     RoleMappingContract.mapCaseToOblique('for'),
-    'cco:BeneficiaryRole'
+    'BeneficiaryRole'
   );
 });
 
-test("case='with' → cco:InstrumentRole", () => {
+test("case='with' → 'InstrumentRole'", () => {
   assert(RoleMappingContract, 'Module not loaded');
   assertEqual(
     RoleMappingContract.mapCaseToOblique('with'),
-    'cco:InstrumentRole'
+    'InstrumentRole'
   );
 });
 
-test("case='at' → cco:LocationRole", () => {
+test("case='at' → 'LocationRole'", () => {
   assert(RoleMappingContract, 'Module not loaded');
   assertEqual(
     RoleMappingContract.mapCaseToOblique('at'),
-    'cco:LocationRole'
+    'LocationRole'
   );
 });
 
-test("case='in' → cco:LocationRole", () => {
+test("case='in' → 'LocationRole'", () => {
   assert(RoleMappingContract, 'Module not loaded');
   assertEqual(
     RoleMappingContract.mapCaseToOblique('in'),
-    'cco:LocationRole'
+    'LocationRole'
   );
 });
 
-test("case='on' → cco:LocationRole", () => {
+test("case='on' → 'LocationRole'", () => {
   assert(RoleMappingContract, 'Module not loaded');
   assertEqual(
     RoleMappingContract.mapCaseToOblique('on'),
-    'cco:LocationRole'
+    'LocationRole'
   );
 });
 
-test("case='from' → cco:SourceRole", () => {
+test("case='from' → 'SourceRole'", () => {
   assert(RoleMappingContract, 'Module not loaded');
   assertEqual(
     RoleMappingContract.mapCaseToOblique('from'),
-    'cco:SourceRole'
+    'SourceRole'
   );
 });
 
-test("case='to' → cco:DestinationRole", () => {
+test("case='to' → 'DestinationRole'", () => {
   assert(RoleMappingContract, 'Module not loaded');
   assertEqual(
     RoleMappingContract.mapCaseToOblique('to'),
-    'cco:DestinationRole'
+    'DestinationRole'
   );
 });
 
-test("case='by' → cco:AgentRole", () => {
+test("case='by' → 'AgentRole'", () => {
   assert(RoleMappingContract, 'Module not loaded');
   assertEqual(
     RoleMappingContract.mapCaseToOblique('by'),
-    'cco:AgentRole'
+    'AgentRole'
   );
 });
 
-test("case='about' → cco:TopicRole", () => {
+test("case='about' → 'TopicRole'", () => {
   assert(RoleMappingContract, 'Module not loaded');
   assertEqual(
     RoleMappingContract.mapCaseToOblique('about'),
-    'cco:TopicRole'
+    'TopicRole'
   );
 });
 
-test("case='against' → cco:OpponentRole", () => {
+test("case='against' → 'OpponentRole'", () => {
   assert(RoleMappingContract, 'Module not loaded');
   assertEqual(
     RoleMappingContract.mapCaseToOblique('against'),
-    'cco:OpponentRole'
+    'OpponentRole'
   );
 });
 

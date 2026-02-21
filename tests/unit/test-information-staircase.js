@@ -111,7 +111,7 @@ test('creates parser agent with correct @type', () => {
   builder.reset();
   const agent = builder.createParserAgent();
 
-  assert(agent['@type'].includes('cco:ArtificialAgent'),
+  assert(agent['@type'].includes('cco:Agent'),
     'Should have ArtificialAgent type');
   assert(agent['@type'].includes('owl:NamedIndividual'),
     'Should have NamedIndividual type');
@@ -200,7 +200,7 @@ test('SemanticGraphBuilder creates parser agent', () => {
   const graph = graphBuilder.build(TEST_TEXT);
 
   const agentNodes = graph['@graph'].filter(n =>
-    n['@type']?.includes('cco:ArtificialAgent')
+    n['@type']?.includes('cco:Agent')
   );
 
   assert(agentNodes.length === 1, 'Should create exactly one parser agent');
@@ -265,7 +265,7 @@ test('value assertion events link to parser via detected_by', () => {
   const graph = graphBuilder.build(TEST_TEXT, { scoredValues });
 
   const agent = graph['@graph'].find(n =>
-    n['@type']?.includes('cco:ArtificialAgent')
+    n['@type']?.includes('cco:Agent')
   );
   const assertions = graph['@graph'].filter(n =>
     n['@type']?.includes('tagteam:ValueAssertionEvent')

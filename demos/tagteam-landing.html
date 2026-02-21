@@ -1224,7 +1224,8 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
                     var status = statusStr ? ' <span style="background: #8b5cf6; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em;">' + statusStr.replace('tagteam:', '') + '</span>' : '';
                     var agentStr = strId(a['cco:has_agent']);
                     var agent = agentStr ? ' <span style="color: #059669; font-size: 0.9em;">agent: ' + agentStr.split('_').slice(1,2).join('') + '</span>' : '';
-                    html += '<div class="act-item"><strong>' + a['tagteam:verb'] + '</strong> (' + actType + ')' + modality + status + agent + '</div>';
+                    var verbLabel = a['tagteam:verb'] || a['tagteam:lemma'] || a['rdfs:label'] || 'Act';
+                    html += '<div class="act-item"><strong>' + verbLabel + '</strong> (' + actType + ')' + modality + status + agent + '</div>';
                 });
             }
 
@@ -1362,7 +1363,7 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
                     }
 
                     var agentId = strId(a['cco:has_agent']);
-                    var patientId = strId(a['cco:has_patient']);
+                    var patientId = strId(a['cco:affects']);
                     if (agentId) html += '<br><span style="color: #059669; font-size: 0.9em;">Agent: ' + agentId.split('_').slice(0, 2).join(' ') + '</span>';
                     if (patientId) html += '<br><span style="color: #b45309; font-size: 0.9em;">Patient: ' + patientId.split('_').slice(0, 2).join(' ') + '</span>';
 

@@ -50,20 +50,21 @@ function extractSemanticRoles(graph) {
 
   // Tree pipeline: Materialize roles from separate Role nodes onto act nodes.
   // Role nodes have: tagteam:realizedIn → act, tagteam:bearer → entity
+  // Map from role rdfs:label to property name (post-IRI cleanup: roles are bfo:Role)
   const roleToProperty = {
-    'cco:AgentRole': 'cco:has_agent',
-    'cco:PatientRole': 'cco:affects',
-    'cco:RecipientRole': 'cco:has_recipient',
-    'cco:BeneficiaryRole': 'cco:has_beneficiary',
-    'cco:InstrumentRole': 'cco:has_instrument',
-    'cco:LocationRole': 'cco:occurs_at',
-    'cco:SourceRole': 'cco:has_source',
-    'cco:DestinationRole': 'cco:has_destination',
-    'cco:ComitativeRole': 'cco:has_comitative',
-    'cco:CauseRole': 'cco:has_cause'
+    'AgentRole': 'cco:has_agent',
+    'PatientRole': 'cco:affects',
+    'RecipientRole': 'cco:has_recipient',
+    'BeneficiaryRole': 'tagteam:has_beneficiary',
+    'InstrumentRole': 'tagteam:has_instrument',
+    'LocationRole': 'tagteam:occurs_at',
+    'SourceRole': 'tagteam:has_source',
+    'DestinationRole': 'tagteam:has_destination',
+    'ComitativeRole': 'tagteam:has_comitative',
+    'CauseRole': 'tagteam:has_cause'
   };
   const roleNodes = nodes.filter(n =>
-    (n['@type'] || []).some(t => t.endsWith('Role') && t.startsWith('cco:'))
+    (n['@type'] || []).includes('bfo:Role')
   );
   for (const role of roleNodes) {
     const actRef = role['tagteam:realizedIn'];
@@ -73,9 +74,9 @@ function extractSemanticRoles(graph) {
     const entityId = typeof entityRef === 'string' ? entityRef : entityRef['@id'];
     const act = acts.find(n => n['@id'] === actId);
     if (!act) continue;
-    const roleType = (role['@type'] || []).find(t => roleToProperty[t]);
-    if (!roleType) continue;
-    const prop = roleToProperty[roleType];
+    const roleLabel = role['rdfs:label'] || role['tagteam:roleType'];
+    if (!roleLabel || !roleToProperty[roleLabel]) continue;
+    const prop = roleToProperty[roleLabel];
     if (!act[prop]) {
       act[prop] = { '@id': entityId };
     }
@@ -145,13 +146,13 @@ function extractSemanticRoles(graph) {
 
     // Extract oblique roles (beneficiary, instrument, location, etc.)
     const obliqueProps = [
-      { prop: 'cco:has_beneficiary', role: 'Beneficiary' },
-      { prop: 'cco:has_instrument', role: 'Instrument' },
-      { prop: 'tagteam:instrument', role: 'Instrument' },  // V7.4: TagTeam uses tagteam:instrument
-      { prop: 'cco:occurs_at', role: 'Location' },
-      { prop: 'cco:has_source', role: 'Source' },
-      { prop: 'cco:has_destination', role: 'Goal' },
-      { prop: 'tagteam:destination', role: 'Goal' },  // V7.3: TagTeam uses tagteam:destination
+      { prop: 'tagteam:has_beneficiary', role: 'Beneficiary' },
+      { prop: 'tagteam:has_instrument', role: 'Instrument' },
+      { prop: 'tagteam:instrument', role: 'Instrument' },
+      { prop: 'tagteam:occurs_at', role: 'Location' },
+      { prop: 'tagteam:has_source', role: 'Source' },
+      { prop: 'tagteam:has_destination', role: 'Goal' },
+      { prop: 'tagteam:destination', role: 'Goal' },
       { prop: 'tagteam:located_in', role: 'Location' }
     ];
 

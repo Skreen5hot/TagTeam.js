@@ -9,7 +9,7 @@
  *
  * Phase 4 Week 2 Implementation:
  * - IBE node for input text with cco:has_text_value
- * - Parser agent as cco:ArtificialAgent
+ * - Parser agent as cco:Agent
  * - Deterministic IRI generation for reproducibility
  *
  * @module graph/InformationStaircaseBuilder
@@ -79,7 +79,7 @@ class InformationStaircaseBuilder {
 
     this._parserAgentNode = {
       '@id': iri,
-      '@type': ['cco:ArtificialAgent', 'owl:NamedIndividual'],
+      '@type': ['cco:Agent', 'owl:NamedIndividual'],
       'rdfs:label': `TagTeam.js Parser v${this.options.version}`,
       'tagteam:version': this.options.version,
       'tagteam:algorithm': 'BFO-aware NLP with CCO mapping',

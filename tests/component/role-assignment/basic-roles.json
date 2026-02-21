@@ -8,12 +8,12 @@
       "roles": [
         {
           "entity": "the engineer",
-          "role": "cco:AgentRole",
+          "role": "AgentRole",
           "verb": "fix"
         },
         {
           "entity": "the bug",
-          "role": "cco:PatientRole",
+          "role": "PatientRole",
           "verb": "fix"
         }
       ]
@@ -30,12 +30,12 @@
       "roles": [
         {
           "entity": "the admin",
-          "role": "cco:AgentRole",
+          "role": "AgentRole",
           "verb": "deploy"
         },
         {
           "entity": "the patch",
-          "role": "cco:PatientRole",
+          "role": "PatientRole",
           "verb": "deploy"
         }
       ]
@@ -52,7 +52,7 @@
       "roles": [
         {
           "entity": "the server",
-          "role": "cco:PatientRole",
+          "role": "PatientRole",
           "verb": "fail"
         }
       ]
@@ -69,12 +69,12 @@
       "roles": [
         {
           "entity": "the developer",
-          "role": "cco:AgentRole",
+          "role": "AgentRole",
           "verb": "create"
         },
         {
           "entity": "the function",
-          "role": "cco:PatientRole",
+          "role": "PatientRole",
           "verb": "create"
         }
       ]
@@ -91,12 +91,12 @@
       "roles": [
         {
           "entity": "the administrator",
-          "role": "cco:AgentRole",
+          "role": "AgentRole",
           "verb": "delete"
         },
         {
           "entity": "the file",
-          "role": "cco:PatientRole",
+          "role": "PatientRole",
           "verb": "delete"
         }
       ]
@@ -113,12 +113,12 @@
       "roles": [
         {
           "entity": "the admin",
-          "role": "cco:AgentRole",
+          "role": "AgentRole",
           "verb": "deploy"
         },
         {
           "entity": "the patch",
-          "role": "cco:PatientRole",
+          "role": "PatientRole",
           "verb": "deploy"
         }
       ]
@@ -135,12 +135,12 @@
       "roles": [
         {
           "entity": "the user",
-          "role": "cco:RecipientRole",
+          "role": "RecipientRole",
           "verb": "receive"
         },
         {
           "entity": "an alert",
-          "role": "cco:PatientRole",
+          "role": "PatientRole",
           "verb": "receive"
         }
       ]
@@ -157,7 +157,7 @@
       "roles": [
         {
           "entity": "the system",
-          "role": "cco:PatientRole",
+          "role": "PatientRole",
           "verb": "crash"
         }
       ]

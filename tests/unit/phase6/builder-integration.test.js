@@ -282,7 +282,7 @@ describe('Phase 6.4: Builder Integration + Deontic Enhancement', () => {
 
       const acts = result['@graph'].filter(node =>
         node['@type']?.includes('cco:IntentionalAct') ||
-        node['@type']?.includes('cco:ActOfHealthcareProvision')
+        node['@type']?.includes('cco:IntentionalAct')
       );
 
       if (acts.length > 0) {

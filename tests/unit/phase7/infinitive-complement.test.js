@@ -60,7 +60,7 @@ function getNodes(graph) {
 function findActs(graph) {
   return getNodes(graph).filter(n =>
     n['tagteam:verb'] && n['@type'] &&
-    !n['@type'].includes('cco:ActOfArtificialProcessing')
+    !n['@type'].includes('cco:IntentionalAct')
   );
 }
 

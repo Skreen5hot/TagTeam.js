@@ -63,8 +63,10 @@ function assert(condition, message) {
 function getActs(graph) {
   return (graph['@graph'] || []).filter(n => {
     const types = n['@type'] || [];
+    const id = n['@id'] || '';
     return types.some(t => t.includes('Act') || t.includes('Process') || t === 'tagteam:VerbPhrase') &&
-           !types.some(t => t.includes('InformationBearingEntity') || t.includes('ArtificialAgent') || t.includes('ActOfArtificialProcessing'));
+           !types.some(t => t.includes('InformationBearingEntity')) &&
+           !id.includes('Parser') && !id.includes('ParsingAct');
   });
 }
 
@@ -374,10 +376,12 @@ test('toJSONLD() output contains Tier 2 entities', () => {
 
 test('toJSONLD() output contains provenance node', () => {
   const parsed = JSON.parse(TagTeam.toJSONLD('The doctor treated the patient'));
-  const provenance = (parsed['@graph'] || []).filter(n =>
-    (n['@type'] || []).some(t => t.includes('ActOfArtificialProcessing'))
-  );
-  assert(provenance.length > 0, 'toJSONLD output should contain ActOfArtificialProcessing provenance node');
+  const provenance = (parsed['@graph'] || []).filter(n => {
+    const id = n['@id'] || '';
+    const types = [].concat(n['@type'] || []);
+    return id.includes('ParsingAct') && types.includes('cco:IntentionalAct');
+  });
+  assert(provenance.length > 0, 'toJSONLD output should contain ParsingAct provenance node');
 });
 
 // ---- Security API ----

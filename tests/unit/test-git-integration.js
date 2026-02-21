@@ -142,7 +142,7 @@ test('build() creates parser agent node', () => {
   const graph = builder.build(TEST_TEXT);
 
   const agentNodes = graph['@graph'].filter(n =>
-    n['@type']?.includes('cco:ArtificialAgent')
+    n['@type']?.includes('cco:Agent')
   );
 
   assert(agentNodes.length === 1, 'Should create one parser agent');

@@ -75,7 +75,7 @@ test('PatientRole only inheres in Person types', () => {
     const bearerTypes = bearer ? bearer['@type'] : [];
 
     const isPerson = bearerTypes.some(t =>
-      t.includes('cco:Person') || t.includes('cco:GroupOfPersons')
+      t.includes('cco:Person') || t.includes('cco:Agent')
     );
     // Note: aggregate members may not have the role directly
   });
@@ -96,7 +96,8 @@ test('ventilator does not bear PatientRole', () => {
     bearerArray.forEach(roleIRI => {
       const role = findNodeById(roleIRI);
       if (role) {
-        const isPatientRole = role['@type']?.includes('cco:PatientRole');
+        const isPatientRole = role['@type']?.includes('bfo:Role') &&
+          role['rdfs:label'] === 'PatientRole';
         assert(!isPatientRole, 'Ventilator should not bear PatientRole');
       }
     });

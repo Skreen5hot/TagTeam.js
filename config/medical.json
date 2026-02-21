@@ -1,151 +1,140 @@
 {
   "domain": "medical",
-  "version": "1.0.0",
-  "description": "Medical domain configuration for TagTeam parser. Specializes BFO types to CCO medical types.",
+  "version": "2.0.0",
+  "description": "Medical domain configuration for TagTeam parser. Uses only verified BFO/CCO IRIs.",
 
   "typeSpecializations": {
     "bfo:BFO_0000015": {
-      "care": "cco:ActOfCare",
-      "treatment": "cco:ActOfMedicalTreatment",
-      "therapy": "cco:ActOfMedicalTreatment",
-      "surgery": "cco:ActOfSurgery",
-      "procedure": "cco:ActOfMedicalProcedure",
-      "examination": "cco:ActOfExamination",
-      "diagnosis": "cco:ActOfDiagnosis",
-      "rehabilitation": "cco:ActOfRehabilitation",
-      "resuscitation": "cco:ActOfResuscitation",
-      "intervention": "cco:ActOfIntervention",
-      "consultation": "cco:ActOfHealthcareConsultation",
-      "screening": "cco:ActOfScreening",
-      "immunization": "cco:ActOfImmunization",
-      "vaccination": "cco:ActOfImmunization",
-      "triage": "cco:ActOfTriage",
-      "nursing": "cco:ActOfNursingCare",
-      "monitoring": "cco:ActOfPatientMonitoring",
-      "assessment": "cco:ActOfClinicalAssessment"
+      "care": "bfo:Process",
+      "treatment": "bfo:Process",
+      "therapy": "bfo:Process",
+      "surgery": "bfo:Process",
+      "procedure": "bfo:Process",
+      "examination": "bfo:Process",
+      "diagnosis": "bfo:Process",
+      "rehabilitation": "bfo:Process",
+      "resuscitation": "bfo:Process",
+      "intervention": "bfo:Process",
+      "consultation": "bfo:Process",
+      "screening": "bfo:Process",
+      "immunization": "bfo:Process",
+      "vaccination": "bfo:Process",
+      "triage": "bfo:Process",
+      "nursing": "bfo:Process",
+      "monitoring": "bfo:Process",
+      "assessment": "bfo:Process"
     },
     "cco:Artifact": {
-      "medication": "cco:DrugProduct",
-      "medicine": "cco:DrugProduct",
-      "drug": "cco:DrugProduct",
-      "pharmaceutical": "cco:DrugProduct",
-      "ventilator": "cco:MedicalDevice",
-      "defibrillator": "cco:MedicalDevice",
-      "stethoscope": "cco:MedicalDevice",
-      "syringe": "cco:MedicalDevice",
-      "scalpel": "cco:MedicalDevice",
-      "prosthesis": "cco:MedicalDevice",
-      "implant": "cco:MedicalImplant",
-      "pacemaker": "cco:MedicalImplant",
-      "catheter": "cco:MedicalDevice",
-      "bandage": "cco:MedicalSupply",
-      "dressing": "cco:MedicalSupply",
-      "suture": "cco:MedicalSupply",
-      "organ": "cco:BodyPart",
-      "heart": "cco:BodyPart",
-      "kidney": "cco:BodyPart",
-      "liver": "cco:BodyPart",
-      "lung": "cco:BodyPart"
+      "medication": "cco:Artifact",
+      "medicine": "cco:Artifact",
+      "drug": "cco:Artifact",
+      "pharmaceutical": "cco:Artifact",
+      "ventilator": "cco:Artifact",
+      "defibrillator": "cco:Artifact",
+      "stethoscope": "cco:Artifact",
+      "syringe": "cco:Artifact",
+      "scalpel": "cco:Artifact",
+      "prosthesis": "cco:Artifact",
+      "implant": "cco:Artifact",
+      "pacemaker": "cco:Artifact",
+      "catheter": "cco:Artifact",
+      "bandage": "cco:Artifact",
+      "dressing": "cco:Artifact",
+      "suture": "cco:Artifact",
+      "organ": "bfo:MaterialEntity",
+      "heart": "bfo:MaterialEntity",
+      "kidney": "bfo:MaterialEntity",
+      "liver": "bfo:MaterialEntity",
+      "lung": "bfo:MaterialEntity"
     },
     "cco:Person": {
-      "patient": "cco:Patient",
-      "doctor": "cco:Physician",
-      "physician": "cco:Physician",
-      "nurse": "cco:Nurse",
-      "surgeon": "cco:Surgeon",
-      "specialist": "cco:MedicalSpecialist",
-      "therapist": "cco:Therapist",
-      "pharmacist": "cco:Pharmacist",
-      "paramedic": "cco:Paramedic",
-      "caregiver": "cco:Caregiver",
-      "clinician": "cco:Clinician"
+      "patient": "cco:Person",
+      "doctor": "cco:Person",
+      "physician": "cco:Person",
+      "nurse": "cco:Person",
+      "surgeon": "cco:Person",
+      "specialist": "cco:Person",
+      "therapist": "cco:Person",
+      "pharmacist": "cco:Person",
+      "paramedic": "cco:Person",
+      "caregiver": "cco:Person",
+      "clinician": "cco:Person"
     },
     "cco:Organization": {
-      "hospital": "cco:Hospital",
-      "clinic": "cco:Clinic",
-      "ward": "cco:HospitalWard",
-      "department": "cco:HospitalDepartment",
-      "icu": "cco:IntensiveCareUnit",
-      "emergency room": "cco:EmergencyRoom",
-      "pharmacy": "cco:Pharmacy",
-      "laboratory": "cco:MedicalLaboratory"
+      "hospital": "cco:Facility",
+      "clinic": "cco:Facility",
+      "ward": "cco:Facility",
+      "department": "cco:Organization",
+      "icu": "cco:Facility",
+      "emergency room": "cco:Facility",
+      "pharmacy": "cco:Facility",
+      "laboratory": "cco:Facility"
     }
   },
 
   "processRootWords": {
-    "care": "cco:ActOfCare",
-    "treatment": "cco:ActOfMedicalTreatment",
-    "therapy": "cco:ActOfMedicalTreatment",
-    "surgery": "cco:ActOfSurgery",
-    "procedure": "cco:ActOfMedicalProcedure",
-    "examination": "cco:ActOfExamination",
-    "diagnosis": "cco:ActOfDiagnosis",
-    "rehabilitation": "cco:ActOfRehabilitation",
-    "resuscitation": "cco:ActOfResuscitation",
-    "intervention": "cco:ActOfIntervention",
-    "consultation": "cco:ActOfHealthcareConsultation",
-    "screening": "cco:ActOfScreening",
-    "immunization": "cco:ActOfImmunization",
-    "vaccination": "cco:ActOfImmunization",
-    "triage": "cco:ActOfTriage",
-    "nursing": "cco:ActOfNursingCare",
-    "monitoring": "cco:ActOfPatientMonitoring",
-    "assessment": "cco:ActOfClinicalAssessment"
+    "care": "bfo:Process",
+    "treatment": "bfo:Process",
+    "therapy": "bfo:Process",
+    "surgery": "bfo:Process",
+    "procedure": "bfo:Process",
+    "examination": "bfo:Process",
+    "diagnosis": "bfo:Process",
+    "rehabilitation": "bfo:Process",
+    "resuscitation": "bfo:Process",
+    "intervention": "bfo:Process",
+    "consultation": "bfo:Process",
+    "screening": "bfo:Process",
+    "immunization": "bfo:Process",
+    "vaccination": "bfo:Process",
+    "triage": "bfo:Process",
+    "nursing": "bfo:Process",
+    "monitoring": "bfo:Process",
+    "assessment": "bfo:Process"
   },
 
   "verbOverrides": {
     "provide": {
-      "objectIsOccurrent": "cco:ActOfHealthcareProvision",
-      "objectIsContinuant": "cco:ActOfTransferOfPossession",
-      "objectIsGDC": "cco:ActOfCommunication",
       "default": "cco:IntentionalAct"
     },
     "administer": {
-      "objectIsOccurrent": "cco:ActOfMedicalTreatment",
-      "objectIsContinuant": "cco:ActOfDrugAdministration",
-      "default": "cco:ActOfDrugAdministration"
+      "default": "cco:IntentionalAct"
     },
     "prescribe": {
-      "objectIsOccurrent": "cco:ActOfPrescribing",
-      "objectIsContinuant": "cco:ActOfPrescribing",
-      "default": "cco:ActOfPrescribing"
+      "default": "cco:IntentionalAct"
     },
     "diagnose": {
-      "default": "cco:ActOfDiagnosis"
+      "default": "cco:IntentionalAct"
     },
     "treat": {
-      "objectIsOccurrent": "cco:ActOfMedicalTreatment",
-      "objectIsContinuant": "cco:ActOfMedicalTreatment",
-      "default": "cco:ActOfMedicalTreatment"
+      "default": "cco:IntentionalAct"
     },
     "examine": {
-      "default": "cco:ActOfExamination"
+      "default": "cco:IntentionalAct"
     },
     "operate": {
-      "default": "cco:ActOfSurgery"
+      "default": "cco:IntentionalAct"
     },
     "allocate": {
-      "objectIsOccurrent": "cco:ActOfResourceAllocation",
-      "objectIsContinuant": "cco:ActOfResourceAllocation",
-      "default": "cco:ActOfResourceAllocation"
+      "default": "cco:IntentionalAct"
     },
     "triage": {
-      "default": "cco:ActOfTriage"
+      "default": "cco:IntentionalAct"
     },
     "monitor": {
-      "default": "cco:ActOfPatientMonitoring"
+      "default": "cco:IntentionalAct"
     },
     "assess": {
-      "default": "cco:ActOfClinicalAssessment"
+      "default": "cco:IntentionalAct"
     },
     "refer": {
-      "default": "cco:ActOfPatientReferral"
+      "default": "cco:IntentionalAct"
     },
     "discharge": {
-      "default": "cco:ActOfPatientDischarge"
+      "default": "cco:IntentionalAct"
     },
     "admit": {
-      "default": "cco:ActOfPatientAdmission"
+      "default": "cco:IntentionalAct"
     }
   }
 }

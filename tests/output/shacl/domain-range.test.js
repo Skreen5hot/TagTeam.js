@@ -104,7 +104,7 @@ describe('Domain/Range SHACL Validation', function() {
 
       const quality = semantic.findNode(graph, n =>
         n['@type']?.includes('bfo:BFO_0000019') ||
-        n['@type']?.includes('cco:DiseaseQuality')
+        n['@type']?.includes('bfo:Quality')
       );
 
       if (quality) {

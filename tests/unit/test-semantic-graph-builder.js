@@ -424,7 +424,7 @@ test('@context includes cross-tier relations (v2.2)', () => {
   const context = parsed['@context'];
   assert(context.is_about['@id'] === 'cco:is_about');
   assert(context.prescribes['@id'] === 'cco:prescribes');
-  assert(context.prescribed_by['@id'] === 'cco:prescribed_by');
+  assert(context.prescribed_by['@id'] === 'tagteam:prescribed_by');
 });
 
 test('@context includes Tier 1 relations (v2.2)', () => {

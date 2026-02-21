@@ -20,32 +20,32 @@ const crypto = require('crypto');
  */
 const QUALITY_TYPE_MAPPINGS = {
   'critically ill': {
-    type: 'cco:DiseaseQuality',
+    type: 'bfo:Quality',
     label: 'Critical Illness Quality',
     severity: 'critical'
   },
   'terminally ill': {
-    type: 'cco:DiseaseQuality',
+    type: 'bfo:Quality',
     label: 'Terminal Illness Quality',
     severity: 'terminal'
   },
   'severely injured': {
-    type: 'cco:InjuryQuality',
+    type: 'bfo:Quality',
     label: 'Severe Injury Quality',
     severity: 'severe'
   },
   'elderly': {
-    type: 'cco:AgeQuality',
+    type: 'bfo:Quality',
     label: 'Elderly Age Quality',
     ageCategory: 'elderly'
   },
   'young': {
-    type: 'cco:AgeQuality',
+    type: 'bfo:Quality',
     label: 'Young Age Quality',
     ageCategory: 'young'
   },
   'pediatric': {
-    type: 'cco:AgeQuality',
+    type: 'bfo:Quality',
     label: 'Pediatric Age Quality',
     ageCategory: 'pediatric'
   }

@@ -67,7 +67,7 @@ class JSONLDSerializer {
     return {
       // ===== Namespace Prefixes =====
       bfo: 'http://purl.obolibrary.org/obo/',
-      cco: 'http://www.ontologyrepository.com/CommonCoreOntologies/',
+      cco: 'https://www.commoncoreontologies.org/',
       tagteam: 'http://tagteam.fandaws.org/ontology/',
       inst: 'http://tagteam.fandaws.org/instance/',
       rdf: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
@@ -93,8 +93,8 @@ class JSONLDSerializer {
       // ===== Week 2: Information Staircase Classes =====
       InformationBearingEntity: 'cco:InformationBearingEntity',
       InformationContentEntity: 'cco:InformationContentEntity',
-      ArtificialAgent: 'cco:ArtificialAgent',
-      ActOfArtificialProcessing: 'cco:ActOfArtificialProcessing',
+      ArtificialAgent: 'cco:Agent',
+      ActOfArtificialProcessing: 'cco:IntentionalAct',
 
       // ===== GIT-Minimal Classes =====
       AutomatedDetection: 'tagteam:AutomatedDetection',
@@ -119,7 +119,7 @@ class JSONLDSerializer {
       // ===== Cross-Tier Relations =====
       is_about: { '@id': 'cco:is_about', '@type': '@id' },
       prescribes: { '@id': 'cco:prescribes', '@type': '@id' },
-      prescribed_by: { '@id': 'cco:prescribed_by', '@type': '@id' },
+      prescribed_by: { '@id': 'tagteam:prescribed_by', '@type': '@id' },
 
       // ===== Week 2: ICE Concretization (Information Staircase) =====
       is_concretized_by: { '@id': 'cco:is_concretized_by', '@type': '@id' },
@@ -144,8 +144,8 @@ class JSONLDSerializer {
 
       // ===== Tier 2 Relations (CCO) =====
       has_agent: { '@id': 'cco:has_agent', '@type': '@id' },
-      has_input: { '@id': 'cco:has_input', '@type': '@id' },
-      has_output: { '@id': 'cco:has_output', '@type': '@id' },
+      has_input: { '@id': 'tagteam:has_input', '@type': '@id' },
+      has_output: { '@id': 'tagteam:has_output', '@type': '@id' },
       affects: { '@id': 'cco:affects', '@type': '@id' },
 
       // ===== GIT-Minimal Properties =====
@@ -189,9 +189,6 @@ class JSONLDSerializer {
       member_index: { '@id': 'tagteam:member_index', '@type': 'xsd:integer' },
 
       // ===== Quality Properties (v2.4) =====
-      DiseaseQuality: 'cco:DiseaseQuality',
-      InjuryQuality: 'cco:InjuryQuality',
-      AgeQuality: 'cco:AgeQuality',
       qualifierText: 'tagteam:qualifierText',
       severity: 'tagteam:severity',
       ageCategory: 'tagteam:ageCategory',

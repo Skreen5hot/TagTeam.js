@@ -148,7 +148,8 @@ test('role with bearer passes', () => {
       },
       {
         '@id': 'inst:AgentRole_0',
-        '@type': ['bfo:BFO_0000023', 'cco:AgentRole'],
+        '@type': ['bfo:BFO_0000023', 'bfo:Role'],
+        'rdfs:label': 'AgentRole',
         'cco:realized_in': 'inst:Allocation_Act_0'
       },
       {
@@ -638,7 +639,7 @@ test('validates realistic TagTeam graph', () => {
       // Parser Agent
       {
         '@id': 'inst:TagTeam_Parser_v4_0_0',
-        '@type': ['cco:ArtificialAgent', 'owl:NamedIndividual'],
+        '@type': ['cco:Agent', 'owl:NamedIndividual'],
         'tagteam:version': '4.0.0-phase4-week3'
       },
       // Value ICE

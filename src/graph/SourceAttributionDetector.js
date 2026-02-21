@@ -93,12 +93,12 @@ const INSTITUTIONAL_PATTERNS = [
  * Person role patterns for source identification
  */
 const PERSON_ROLE_PATTERNS = {
-  'doctor': 'cco:Physician',
-  'dr': 'cco:Physician',
-  'physician': 'cco:Physician',
-  'surgeon': 'cco:Physician',
-  'nurse': 'cco:Nurse',
-  'patient': 'cco:Patient',
+  'doctor': 'cco:Person',
+  'dr': 'cco:Person',
+  'physician': 'cco:Person',
+  'surgeon': 'cco:Person',
+  'nurse': 'cco:Person',
+  'patient': 'cco:Person',
   'family': 'cco:FamilyMember',
   'relative': 'cco:FamilyMember',
   'researcher': 'cco:Researcher',

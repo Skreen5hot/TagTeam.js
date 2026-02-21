@@ -138,35 +138,35 @@ isValidUDLabel('dobj');       // false (legacy)
 
 | UD Label | CCO Role | Note |
 |----------|----------|------|
-| nsubj | cco:AgentRole | Active voice subject |
-| obj | cco:PatientRole | Direct object |
-| iobj | cco:RecipientRole | Indirect object |
-| nsubj:pass | cco:PatientRole | Passive subject = patient |
-| obl:agent | cco:AgentRole | Passive "by" phrase |
-| obl | cco:ObliqueRole | Subtyped by case child |
+| nsubj | bfo:Role (rdfs:label: "AgentRole") | Active voice subject |
+| obj | bfo:Role (rdfs:label: "PatientRole") | Direct object |
+| iobj | bfo:Role (rdfs:label: "RecipientRole") | Indirect object |
+| nsubj:pass | bfo:Role (rdfs:label: "PatientRole") | Passive subject = patient |
+| obl:agent | bfo:Role (rdfs:label: "AgentRole") | Passive "by" phrase |
+| obl | bfo:Role (rdfs:label: "ObliqueRole") | Subtyped by case child |
 
 ### Oblique Role Subtyping (by preposition)
 
 | Preposition | CCO Role |
 |-------------|----------|
-| for | cco:BeneficiaryRole |
-| with | cco:InstrumentRole |
-| at | cco:LocationRole |
-| in | cco:LocationRole |
-| on | cco:LocationRole |
-| from | cco:SourceRole |
-| to | cco:DestinationRole |
-| by | cco:AgentRole |
-| about | cco:TopicRole |
-| against | cco:OpponentRole |
+| for | bfo:Role (rdfs:label: "BeneficiaryRole") |
+| with | bfo:Role (rdfs:label: "InstrumentRole") |
+| at | bfo:Role (rdfs:label: "LocationRole") |
+| in | bfo:Role (rdfs:label: "LocationRole") |
+| on | bfo:Role (rdfs:label: "LocationRole") |
+| from | bfo:Role (rdfs:label: "SourceRole") |
+| to | bfo:Role (rdfs:label: "DestinationRole") |
+| by | bfo:Role (rdfs:label: "AgentRole") |
+| about | bfo:Role (rdfs:label: "TopicRole") |
+| against | bfo:Role (rdfs:label: "OpponentRole") |
 
 ### Usage
 
 ```javascript
 const { mapUDToRole, mapCaseToOblique } = require('./src/core/RoleMappingContract');
 
-mapUDToRole('nsubj');        // { role: 'cco:AgentRole', bfo: 'bfo:BFO_0000023', note: '...' }
+mapUDToRole('nsubj');        // { role: 'bfo:Role', label: 'AgentRole', bfo: 'bfo:BFO_0000023', note: '...' }
 mapUDToRole('punct');        // null (not a role-bearing relation)
-mapCaseToOblique('with');    // 'cco:InstrumentRole'
+mapCaseToOblique('with');    // { role: 'bfo:Role', label: 'InstrumentRole' }
 mapCaseToOblique('during');  // null (unmapped)
 ```

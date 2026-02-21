@@ -2,7 +2,7 @@
  * Phase 1: Domain-Neutral Foundation - Unit Tests
  *
  * Tests acceptance criteria from DOMAIN_NEUTRAL_IMPLEMENTATION_PLAN.md Phase 1:
- * - AC-1.1: "palliative care" typed as process (with medical config: cco:ActOfCare)
+ * - AC-1.1: "palliative care" typed as process (with medical config: cco:IntentionalAct)
  * - AC-1.2: "consulting services" typed as bfo:BFO_0000015
  * - AC-1.3: "instruction" typed as bfo:BFO_0000015 (suffix detection)
  * - AC-1.4: "medication" typed as cco:Artifact (result noun exception)
@@ -46,22 +46,22 @@ const builder = new SemanticGraphBuilder();
 // ==================================
 console.log('--- AC-1.1: Process Detection (medical domain) ---');
 
-test('AC-1.1: "palliative care" typed as cco:ActOfCare', () => {
+test('AC-1.1: "palliative care" typed as cco:IntentionalAct', () => {
   const graph = builder.build('The nurse provides palliative care to the patient.');
   const referent = findReferent(graph, 'palliative care');
   assert(referent, 'Found palliative care referent');
-  assert.strictEqual(referent['tagteam:denotesType'], 'cco:ActOfCare',
-    'palliative care should be typed as cco:ActOfCare');
+  assert.strictEqual(referent['tagteam:denotesType'], 'cco:IntentionalAct',
+    'palliative care should be typed as cco:IntentionalAct');
 });
 
-test('AC-1.1b: "patient care" typed as cco:ActOfCare', () => {
+test('AC-1.1b: "patient care" typed as cco:IntentionalAct', () => {
   // Note: "The patient needs care" parses "care" as verb in Compromise
   // Using noun phrase "patient care" instead
   const graph = builder.build('The hospital provides excellent patient care.');
   const referent = findReferent(graph, 'patient care');
   assert(referent, 'Found patient care referent');
-  assert.strictEqual(referent['tagteam:denotesType'], 'cco:ActOfCare',
-    'patient care should be typed as cco:ActOfCare');
+  assert.strictEqual(referent['tagteam:denotesType'], 'cco:IntentionalAct',
+    'patient care should be typed as cco:IntentionalAct');
 });
 
 // ==================================

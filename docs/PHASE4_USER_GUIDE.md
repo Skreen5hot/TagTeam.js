@@ -89,8 +89,8 @@ Every JSON-LD output contains:
 - Links: `cco:has_agent`, `cco:affects`, `bfo:has_participant`
 
 **Roles**
-- `cco:AgentRole` - Entity performing an act
-- `cco:PatientRole` - Entity receiving care (persons only)
+- `bfo:Role` (rdfs:label: "AgentRole") - Entity performing an act
+- `bfo:Role` (rdfs:label: "PatientRole") - Entity receiving care (persons only)
 - `bfo:BFO_0000023` - Generic BFO Role
 
 ---

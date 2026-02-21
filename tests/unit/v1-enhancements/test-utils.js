@@ -77,13 +77,14 @@ function findActByVerb(graph, verb) {
 }
 
 /**
- * Find all acts
+ * Find all semantic acts (excluding system-internal parsing acts)
  */
 function findAllActs(graph) {
   return getNodes(graph).filter(n =>
     n['tagteam:verb'] &&
     n['@type'] &&
-    !n['@type'].includes('cco:ActOfArtificialProcessing')
+    n['@type'].some(t => t.includes('IntentionalAct') || t.startsWith('cco:ActOf')) &&
+    !n['tagteam:isSystemAct']
   );
 }
 

@@ -74,6 +74,26 @@ function findByType(nodes, typeFragment) {
   });
 }
 
+function findByLabel(nodes, label) {
+  return nodes.filter(n => n['rdfs:label'] === label);
+}
+
+function findParsingAgent(nodes) {
+  return nodes.filter(n => {
+    const id = n['@id'] || '';
+    const types = [].concat(n['@type'] || []);
+    return id.includes('Parser') && types.includes('cco:Agent');
+  });
+}
+
+function findParsingAct(nodes) {
+  return nodes.filter(n => {
+    const id = n['@id'] || '';
+    const types = [].concat(n['@type'] || []);
+    return id.includes('ParsingAct') && types.includes('cco:IntentionalAct');
+  });
+}
+
 function findTier1(nodes) {
   return nodes.filter(n => {
     const types = [].concat(n['@type'] || []);
@@ -84,11 +104,12 @@ function findTier1(nodes) {
 function findTier2(nodes) {
   return nodes.filter(n => {
     const types = [].concat(n['@type'] || []);
+    const id = n['@id'] || '';
     return types.includes('owl:NamedIndividual') &&
       !types.includes('tagteam:DiscourseReferent') &&
       !types.includes('tagteam:VerbPhrase') &&
-      !types.some(t => t.includes('InformationBearingEntity') ||
-        t.includes('ArtificialAgent') || t.includes('ActOfArtificialProcessing'));
+      !types.some(t => t.includes('InformationBearingEntity')) &&
+      !id.includes('Parser') && !id.includes('ParsingAct');
   });
 }
 
@@ -207,8 +228,10 @@ console.log(`\n${C.cyan}--- VerbPhrase ICE ---${C.reset}`);
 
 test('Act nodes have tagteam:VerbPhrase in @type', () => {
   const graph = buildTreeGraph(SENTENCES.svo);
-  const acts = findByType(getNodes(graph), 'IntentionalAct');
-  assert(acts.length >= 1, 'No acts found');
+  const nodes = getNodes(graph);
+  // Exclude provenance ParsingAct — it's cco:IntentionalAct but not a text-extracted VerbPhrase
+  const acts = findByType(nodes, 'IntentionalAct').filter(a => !(a['@id'] || '').includes('ParsingAct'));
+  assert(acts.length >= 1, 'No text-extracted acts found');
   for (const act of acts) {
     const types = [].concat(act['@type'] || []);
     assert(types.includes('tagteam:VerbPhrase'), `Act ${act['@id']} missing tagteam:VerbPhrase`);
@@ -243,7 +266,8 @@ test('ICE nodes (entities + acts) link to IBE via cco:is_concretized_by', () => 
       `Expected is_concretized_by → ${ibe['@id']}, got ${iri}`);
   }
 
-  const acts = findByType(nodes, 'IntentionalAct');
+  // Text-extracted acts (exclude provenance ParsingAct — it IS the act of processing, not an extracted ICE)
+  const acts = findByType(nodes, 'IntentionalAct').filter(a => !(a['@id'] || '').includes('ParsingAct'));
   for (const act of acts) {
     assert(act['cco:is_concretized_by'],
       `Act ${act['@id']} missing cco:is_concretized_by`);
@@ -258,13 +282,13 @@ console.log(`\n${C.cyan}--- Provenance: ArtificialAgent ---${C.reset}`);
 
 test('ArtificialAgent node exists', () => {
   const graph = buildTreeGraph(SENTENCES.svo);
-  const agents = findByType(getNodes(graph), 'ArtificialAgent');
+  const agents = findParsingAgent(getNodes(graph));
   assert(agents.length === 1, `Expected exactly 1 ArtificialAgent, got ${agents.length}`);
 });
 
 test('ArtificialAgent has rdfs:label', () => {
   const graph = buildTreeGraph(SENTENCES.svo);
-  const agent = findByType(getNodes(graph), 'ArtificialAgent')[0];
+  const agent = findParsingAgent(getNodes(graph))[0];
   assert(agent['rdfs:label'], 'ArtificialAgent missing rdfs:label');
 });
 
@@ -276,36 +300,36 @@ console.log(`\n${C.cyan}--- Provenance: ParsingAct ---${C.reset}`);
 
 test('ActOfArtificialProcessing node exists', () => {
   const graph = buildTreeGraph(SENTENCES.svo);
-  const parsingActs = findByType(getNodes(graph), 'ActOfArtificialProcessing');
+  const parsingActs = findParsingAct(getNodes(graph));
   assert(parsingActs.length === 1, `Expected exactly 1 ParsingAct, got ${parsingActs.length}`);
 });
 
-test('ParsingAct has cco:has_input pointing to IBE', () => {
+test('ParsingAct has tagteam:has_input pointing to IBE', () => {
   const graph = buildTreeGraph(SENTENCES.svo);
   const nodes = getNodes(graph);
-  const pa = findByType(nodes, 'ActOfArtificialProcessing')[0];
+  const pa = findParsingAct(nodes)[0];
   const ibe = findByType(nodes, 'InformationBearingEntity')[0];
-  assert(pa['cco:has_input'], 'ParsingAct missing cco:has_input');
-  const inputIRI = typeof pa['cco:has_input'] === 'object' ? pa['cco:has_input']['@id'] : pa['cco:has_input'];
+  assert(pa['tagteam:has_input'], 'ParsingAct missing tagteam:has_input');
+  const inputIRI = typeof pa['tagteam:has_input'] === 'object' ? pa['tagteam:has_input']['@id'] : pa['tagteam:has_input'];
   assert(inputIRI === ibe['@id'], `has_input should point to IBE (${ibe['@id']}), got ${inputIRI}`);
 });
 
 test('ParsingAct has cco:has_agent pointing to ArtificialAgent', () => {
   const graph = buildTreeGraph(SENTENCES.svo);
   const nodes = getNodes(graph);
-  const pa = findByType(nodes, 'ActOfArtificialProcessing')[0];
-  const agent = findByType(nodes, 'ArtificialAgent')[0];
+  const pa = findParsingAct(nodes)[0];
+  const agent = findParsingAgent(nodes)[0];
   assert(pa['cco:has_agent'], 'ParsingAct missing cco:has_agent');
   const agentIRI = typeof pa['cco:has_agent'] === 'object' ? pa['cco:has_agent']['@id'] : pa['cco:has_agent'];
   assert(agentIRI === agent['@id'], `has_agent should point to Agent (${agent['@id']}), got ${agentIRI}`);
 });
 
-test('ParsingAct has cco:has_output listing all ICE nodes', () => {
+test('ParsingAct has tagteam:has_output listing all ICE nodes', () => {
   const graph = buildTreeGraph(SENTENCES.svo);
   const nodes = getNodes(graph);
-  const pa = findByType(nodes, 'ActOfArtificialProcessing')[0];
-  assert(pa['cco:has_output'], 'ParsingAct missing cco:has_output');
-  const outputs = [].concat(pa['cco:has_output']);
+  const pa = findParsingAct(nodes)[0];
+  assert(pa['tagteam:has_output'], 'ParsingAct missing tagteam:has_output');
+  const outputs = [].concat(pa['tagteam:has_output']);
   assert(outputs.length >= 2, `Expected >= 2 ICE outputs, got ${outputs.length}`);
 });
 
@@ -349,7 +373,7 @@ test('Copular sentence: structural assertions preserved alongside provenance', (
   const graph = buildTreeGraph(SENTENCES.copular);
   const nodes = getNodes(graph);
   const structural = findByType(nodes, 'StructuralAssertion');
-  const prov = findByType(nodes, 'ActOfArtificialProcessing');
+  const prov = findParsingAct(nodes);
   assert(structural.length >= 1, 'Copular should produce StructuralAssertion');
   assert(prov.length === 1, 'Should still have ParsingAct');
 });

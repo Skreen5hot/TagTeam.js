@@ -29,14 +29,14 @@
 | VerbNet Role | CCO Mapping | Definition | Example |
 |--------------|-------------|------------|---------|
 | **Agent** | `cco:has_agent` | Volitional causer of event | "The engineer designed the system" |
-| **Patient** | `cco:has_patient` | Entity undergoing change | "The admin received the alert" |
-| **Theme** | `cco:has_patient` | Entity in motion or being located | "The server stores the data" |
+| **Patient** | `cco:affects` | Entity undergoing change | "The admin received the alert" |
+| **Theme** | `cco:affects` | Entity in motion or being located | "The server stores the data" |
 | **Experiencer** | `cco:has_agent` | Entity experiencing mental state | "The user noticed the bug" |
-| **Instrument** | `cco:uses_instrument` | Tool used to perform action | "The script automated the task" |
-| **Beneficiary** | `cco:has_beneficiary` | Entity for whose benefit action occurs | "The team built the feature for the client" |
-| **Location** | `cco:occurs_at` | Spatial location of event | "The server runs in the datacenter" |
-| **Source** | `cco:has_source` | Origin of motion or transfer | "The data migrated from the old system" |
-| **Destination** | `cco:has_destination` | Goal of motion or transfer | "The request goes to the API" |
+| **Instrument** | `tagteam:has_instrument` | Tool used to perform action | "The script automated the task" |
+| **Beneficiary** | `tagteam:has_beneficiary` | Entity for whose benefit action occurs | "The team built the feature for the client" |
+| **Location** | `tagteam:occurs_at` | Spatial location of event | "The server runs in the datacenter" |
+| **Source** | `tagteam:has_source` | Origin of motion or transfer | "The data migrated from the old system" |
+| **Destination** | `tagteam:has_destination` | Goal of motion or transfer | "The request goes to the API" |
 
 ---
 
@@ -198,11 +198,11 @@ VerbNet specifies animacy for many roles:
 | CCO Property | VerbNet Equivalent | Domain | Range |
 |--------------|-------------------|---------|-------|
 | `cco:has_agent` | Agent | `cco:IntentionalAct` | `cco:Agent` |
-| `cco:has_patient` | Patient / Theme | `cco:Act` | `bfo:Continuant` |
+| `cco:affects` | Patient / Theme | `cco:Act` | `bfo:Continuant` |
 | `cco:affects` | Theme (non-change) | `cco:Act` | `bfo:Continuant` |
-| `cco:uses_instrument` | Instrument | `cco:IntentionalAct` | `cco:Artifact` |
-| `cco:has_input` | Source / Material | `cco:Act` | `bfo:Continuant` |
-| `cco:has_output` | Product / Result | `cco:Act` | `bfo:Continuant` |
+| `tagteam:has_instrument` | Instrument | `cco:IntentionalAct` | `cco:Artifact` |
+| `tagteam:has_input` | Source / Material | `cco:Act` | `bfo:Continuant` |
+| `tagteam:has_output` | Product / Result | `cco:Act` | `bfo:Continuant` |
 
 **Ambiguity Resolution:**
 - **Theme vs. Patient:** Use Patient if entity undergoes intrinsic change; Theme if just location/possession changes
@@ -267,7 +267,7 @@ VerbNet specifies animacy for many roles:
   },
   "expected": {
     "roles": [
-      { "entity": "the server", "role": "theme", "cco_property": "cco:has_patient" }
+      { "entity": "the server", "role": "theme", "cco_property": "cco:affects" }
     ],
     "forbiddenRoles": [
       { "entity": "*", "role": "patient", "reason": "Intransitive verb - no patient" }

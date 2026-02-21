@@ -23,7 +23,7 @@ const bfoCcoRegistry = require('../data/bfo-cco-registry.js');
 // Known prefixes for IRI validation
 const KNOWN_PREFIXES = {
   'bfo': 'http://purl.obolibrary.org/obo/BFO_',
-  'cco': 'http://www.ontologyrepository.com/CommonCoreOntologies/',
+  'cco': 'https://www.commoncoreontologies.org/',
   'obo': 'http://purl.obolibrary.org/obo/',
   'tagteam': 'http://purl.org/tagteam#',
   'rdf': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',

@@ -717,10 +717,10 @@ class SemanticGraphBuilder {
     const parsingActIRI = `inst:ParsingAct_${this._hashText(text).substring(0, 8)}`;
     const parsingAct = {
       '@id': parsingActIRI,
-      '@type': ['cco:ActOfArtificialProcessing', 'owl:NamedIndividual'],
+      '@type': ['cco:IntentionalAct', 'owl:NamedIndividual'],
       'rdfs:label': 'Semantic parsing act',
       'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
-      'cco:has_input': { '@id': ibeNode['@id'] },
+      'tagteam:has_input': { '@id': ibeNode['@id'] },
       'cco:has_agent': { '@id': parserAgentNode['@id'] },
       'tagteam:instantiated_at': this.buildTimestamp
     };
@@ -775,7 +775,7 @@ class SemanticGraphBuilder {
     if (outputICEs.length > 0) {
       const parsingActNode = this.nodeIndex.get(parsingActIRI);
       if (parsingActNode) {
-        parsingActNode['cco:has_output'] = outputICEs.map(ice => ({ '@id': ice['@id'] }));
+        parsingActNode['tagteam:has_output'] = outputICEs.map(ice => ({ '@id': ice['@id'] }));
       }
     }
 
@@ -1630,7 +1630,7 @@ class SemanticGraphBuilder {
       if (!clause) continue;
 
       for (const act of actsInClause) {
-        const argumentProperties = ['cco:has_agent', 'cco:has_patient', 'cco:affects', 'bfo:has_participant'];
+        const argumentProperties = ['cco:has_agent', 'cco:affects', 'cco:has_recipient', 'bfo:has_participant'];
 
         argumentProperties.forEach(prop => {
           const argValue = act[prop];
@@ -2040,12 +2040,14 @@ class SemanticGraphBuilder {
 
       // Convert roles to JSON-LD nodes
       for (const role of roles) {
+        const roleLabel = role.label || role.role;
         const roleNode = {
-          '@id': `${this.options.namespace}:Role_${this._sanitizeId(role.entity)}_${this._sanitizeId(role.role)}`,
+          '@id': `${this.options.namespace}:Role_${this._sanitizeId(role.entity)}_${this._sanitizeId(roleLabel)}`,
           '@type': [role.role],
+          'rdfs:label': roleLabel,
+          'tagteam:roleType': roleLabel,
           'tagteam:bearer': { '@id': `${this.options.namespace}:${this._sanitizeId(role.entity)}` },
           'tagteam:realizedIn': { '@id': `${this.options.namespace}:Act_${this._sanitizeId(role.act)}` },
-          'rdfs:label': `${role.entity} as ${role.role.split(':')[1]}`,
         };
         if (role.preposition) roleNode['tagteam:preposition'] = role.preposition;
         // Confidence annotations on roles (AC-3.16)
@@ -2102,7 +2104,7 @@ class SemanticGraphBuilder {
         }
       }
 
-      // --- Provenance: IBE + ArtificialAgent + ActOfArtificialProcessing ---
+      // --- Provenance: IBE + Agent + IntentionalAct (parsing) ---
       const ibeNode = this.informationStaircaseBuilder.createInputIBE(text, this.buildTimestamp);
       const parserAgentNode = this.informationStaircaseBuilder.createParserAgent();
       graphNodes.push(ibeNode);
@@ -2125,12 +2127,12 @@ class SemanticGraphBuilder {
       });
       const parsingAct = {
         '@id': parsingActIRI,
-        '@type': ['cco:ActOfArtificialProcessing', 'owl:NamedIndividual'],
+        '@type': ['cco:IntentionalAct', 'owl:NamedIndividual'],
         'rdfs:label': 'Semantic parsing act',
         'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
-        'cco:has_input': { '@id': ibeNode['@id'] },
+        'tagteam:has_input': { '@id': ibeNode['@id'] },
         'cco:has_agent': { '@id': parserAgentNode['@id'] },
-        'cco:has_output': iceNodes.map(n => ({ '@id': n['@id'] })),
+        'tagteam:has_output': iceNodes.map(n => ({ '@id': n['@id'] })),
         'tagteam:instantiated_at': this.buildTimestamp
       };
       graphNodes.push(parsingAct);

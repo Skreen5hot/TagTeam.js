@@ -8,17 +8,17 @@
       "roles": [
         {
           "entity": "the admin",
-          "role": "cco:AgentRole",
+          "role": "AgentRole",
           "verb": "send"
         },
         {
           "entity": "the user",
-          "role": "cco:RecipientRole",
+          "role": "RecipientRole",
           "verb": "send"
         },
         {
           "entity": "an alert",
-          "role": "cco:PatientRole",
+          "role": "PatientRole",
           "verb": "send"
         }
       ]
@@ -35,17 +35,17 @@
       "roles": [
         {
           "entity": "the engineer",
-          "role": "cco:AgentRole",
+          "role": "AgentRole",
           "verb": "fix"
         },
         {
           "entity": "the bug",
-          "role": "cco:PatientRole",
+          "role": "PatientRole",
           "verb": "fix"
         },
         {
           "entity": "the team",
-          "role": "cco:BeneficiaryRole",
+          "role": "BeneficiaryRole",
           "verb": "fix"
         }
       ]
@@ -62,17 +62,17 @@
       "roles": [
         {
           "entity": "the admin",
-          "role": "cco:AgentRole",
+          "role": "AgentRole",
           "verb": "configure"
         },
         {
           "entity": "the server",
-          "role": "cco:PatientRole",
+          "role": "PatientRole",
           "verb": "configure"
         },
         {
           "entity": "the script",
-          "role": "cco:InstrumentRole",
+          "role": "InstrumentRole",
           "verb": "configure"
         }
       ]
@@ -89,17 +89,17 @@
       "roles": [
         {
           "entity": "the engineer",
-          "role": "cco:AgentRole",
+          "role": "AgentRole",
           "verb": "install"
         },
         {
           "entity": "the patch",
-          "role": "cco:PatientRole",
+          "role": "PatientRole",
           "verb": "install"
         },
         {
           "entity": "the server",
-          "role": "cco:LocationRole",
+          "role": "LocationRole",
           "verb": "install"
         }
       ]
@@ -116,17 +116,17 @@
       "roles": [
         {
           "entity": "the user",
-          "role": "cco:AgentRole",
+          "role": "AgentRole",
           "verb": "download"
         },
         {
           "entity": "the file",
-          "role": "cco:PatientRole",
+          "role": "PatientRole",
           "verb": "download"
         },
         {
           "entity": "the server",
-          "role": "cco:SourceRole",
+          "role": "SourceRole",
           "verb": "download"
         }
       ]
@@ -143,17 +143,17 @@
       "roles": [
         {
           "entity": "the admin",
-          "role": "cco:AgentRole",
+          "role": "AgentRole",
           "verb": "upload"
         },
         {
           "entity": "the file",
-          "role": "cco:PatientRole",
+          "role": "PatientRole",
           "verb": "upload"
         },
         {
           "entity": "the server",
-          "role": "cco:DestinationRole",
+          "role": "DestinationRole",
           "verb": "upload"
         }
       ]
@@ -170,12 +170,12 @@
       "roles": [
         {
           "entity": "the engineer",
-          "role": "cco:AgentRole",
+          "role": "AgentRole",
           "verb": "work"
         },
         {
           "entity": "the admin",
-          "role": "cco:ComitativeRole",
+          "role": "ComitativeRole",
           "verb": "work"
         }
       ]

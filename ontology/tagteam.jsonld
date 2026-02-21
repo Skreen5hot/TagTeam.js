@@ -7,7 +7,7 @@
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "bfo": "http://purl.obolibrary.org/obo/",
-    "cco": "http://www.ontologyrepository.com/CommonCoreOntologies/",
+    "cco": "https://www.commoncoreontologies.org/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "dc": "http://purl.org/dc/elements/1.1/",
     "dcterms": "http://purl.org/dc/terms/"
@@ -63,12 +63,12 @@
       "@type": "owl:Class",
       "rdfs:subClassOf": [
         { "@id": "tagteam:DeonticContent" },
-        { "@id": "cco:DirectiveInformationContentEntity" }
+        { "@id": "cco:InformationContentEntity" }
       ],
       "rdfs:label": { "@value": "Directive Content", "@language": "en" },
       "skos:prefLabel": { "@value": "Directive Content", "@language": "en" },
       "skos:definition": { "@value": "A deontic information content entity that denotes a mandate, instruction, or prohibition requiring specific actions.", "@language": "en" },
-      "rdfs:comment": { "@value": "Subclass of DeonticContent for explicit directives. Also aligned with cco:DirectiveInformationContentEntity for CCO compatibility.", "@language": "en" }
+      "rdfs:comment": { "@value": "Subclass of DeonticContent for explicit directives. Also aligned with cco:InformationContentEntity for CCO compatibility.", "@language": "en" }
     },
 
     {
@@ -315,7 +315,7 @@
       "rdfs:label": { "@value": "describes quality", "@language": "en" },
       "skos:prefLabel": { "@value": "describes quality", "@language": "en" },
       "skos:definition": { "@value": "An object property that relates a discourse referent to a BFO qualitative characteristic that the discourse referent linguistically denotes.", "@language": "en" },
-      "rdfs:comment": { "@value": "Phase 5 Addition (per CCO Expert Review):\nThis property enables mapping from linguistic qualifiers to formal BFO qualities.\nFor example, 'critically ill patient' would have:\n  - DiscourseReferent for 'patient' with :describes_quality linking to\n  - bfo:Quality (specifically cco:DiseaseQuality) that inheres in the Patient\n\nThis is essential for reasoning about the physical states described by adjectives,\nnot just recording them as text strings in :qualifierText.", "@language": "en" },
+      "rdfs:comment": { "@value": "Phase 5 Addition (per CCO Expert Review):\nThis property enables mapping from linguistic qualifiers to formal BFO qualities.\nFor example, 'critically ill patient' would have:\n  - DiscourseReferent for 'patient' with :describes_quality linking to\n  - bfo:Quality that inheres in the Patient\n\nThis is essential for reasoning about the physical states described by adjectives,\nnot just recording them as text strings in :qualifierText.", "@language": "en" },
       "rdfs:domain": { "@id": "tagteam:DiscourseReferent" },
       "rdfs:range": { "@id": "bfo:BFO_0000019" }
     },

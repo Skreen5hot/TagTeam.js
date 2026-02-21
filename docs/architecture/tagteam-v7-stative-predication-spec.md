@@ -85,7 +85,8 @@ Following the Ontological Definition Style Guide v3.1:
 ```turtle
 tagteam:StructuralAssertion
     a owl:Class ;
-    rdfs:subClassOf cco:DescriptiveInformationContentEntity ;
+    rdfs:subClassOf cco:InformationContentEntity ;  # was cco:DescriptiveInformationContentEntity (fabricated; replaced with verified superclass + rdfs:label)
+    rdfs:label "DescriptiveInformationContentEntity"@en ;
     rdfs:label "Structural Assertion"@en ;
     skos:definition """An information content entity that is about a structural 
         relation between continuants as introduced in discourse, and which 
@@ -147,7 +148,8 @@ tagteam:StructuralAssertion
 ```turtle
 tagteam:ComplexDesignator
     a owl:Class ;
-    rdfs:subClassOf cco:DesignativeInformationContentEntity ;
+    rdfs:subClassOf cco:InformationContentEntity ;  # was cco:DesignativeInformationContentEntity (fabricated; replaced with verified superclass + rdfs:label)
+    rdfs:label "DesignativeInformationContentEntity"@en ;
     rdfs:label "Complex Designator"@en ;
     skos:definition """An information content entity that is about a particular 
         as introduced in discourse through a multi-word proper name, and which 
@@ -357,7 +359,7 @@ verb_taxonomy:
         eventive_example: "She represents my interests in the negotiation"
         eventive_output: "IntentionalAct of representation"
         disambiguation_rule: |
-          IF object.denotedType IN [cco:Nation, cco:Organization, cco:GeopoliticalEntity]
+          IF object.denotedType IN [cco:GeopoliticalOrganization, cco:Organization]
             THEN STRUCTURAL_MODE (Role assertion)
           ELSE NARRATIVE_MODE (IntentionalAct)
       

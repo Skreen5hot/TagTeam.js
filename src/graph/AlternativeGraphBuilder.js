@@ -521,7 +521,7 @@ class AlternativeGraphBuilder {
   _getNounCategoryModifications(reading) {
     const typeMap = {
       'organization': ['cco:Organization'],
-      'role': ['cco:OccupationRole'],
+      'role': ['bfo:Role'],
       'quality': ['bfo:Quality'],
       'process': ['bfo:Process'],
       'agent': ['cco:Agent'],

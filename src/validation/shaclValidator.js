@@ -21,7 +21,7 @@ import { isCCOIri, normalizeCCOIri, extractLocalPart, CCO_NAMESPACE_VARIANTS } f
 import { CCO_CLASS_SET, CCO_PREDICATE_SET, isValidCCOClass, isValidCCOPredicate, normalizeCCOTerm } from '../../ontologies/cco-classes.generated.js';
 
 // CCO/BFO IRIs
-const CCO = 'http://www.ontologyrepository.com/CommonCoreOntologies/';
+const CCO = 'https://www.commoncoreontologies.org/';
 const BFO = 'http://purl.obolibrary.org/obo/';
 const RDF_TYPE = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type';
 const SUBCLASS_OF = 'http://www.w3.org/2000/01/rdf-schema#subClassOf';
@@ -197,7 +197,7 @@ const PREDICATE_CONSTRAINTS = {
 // Known namespaces for vocabulary validation
 // CCO has multiple valid namespace URIs depending on version/source
 const KNOWN_NAMESPACES = {
-  CCO: 'http://www.ontologyrepository.com/CommonCoreOntologies/',
+  CCO: 'https://www.commoncoreontologies.org/',
   CCO_ALT: 'https://www.commoncoreontologies.org/',  // Alternative CCO namespace
   CCO_ALT_HTTP: 'http://www.commoncoreontologies.org/',  // HTTP variant
   BFO: 'http://purl.obolibrary.org/obo/',
@@ -1335,7 +1335,7 @@ export const shaclValidator = {
           rule: 'Invalid IRI',
           message: `"${iri}" is not a valid IRI format`,
           explanation: 'The IRI could not be parsed. It should be a full URL like http://example.org/ClassName.',
-          fix: 'Use a valid IRI format (e.g., "http://www.ontologyrepository.com/CommonCoreOntologies/Person")',
+          fix: 'Use a valid IRI format (e.g., "https://www.commoncoreontologies.org/Person")',
         };
       }
 

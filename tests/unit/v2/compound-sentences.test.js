@@ -187,7 +187,7 @@ describe('P2-BOUNDARY: Hard Entity Boundaries at Clause Edges', () => {
 
     // "application" must NOT appear as patient/affects of reboot
     const affects = rebootAct['cco:affects'];
-    const hasPatient = rebootAct['cco:has_patient'];
+    const hasPatient = rebootAct['cco:affects'];
     expect(iriContains(affects, 'application')).toBe(false);
     expect(iriContains(hasPatient, 'application')).toBe(false);
   });
@@ -203,7 +203,7 @@ describe('P2-BOUNDARY: Hard Entity Boundaries at Clause Edges', () => {
 
     // Check all participants of examine — nurse must not be among them
     const affects = examineAct['cco:affects'];
-    const hasPatient = examineAct['cco:has_patient'];
+    const hasPatient = examineAct['cco:affects'];
     const participants = examineAct['tagteam:participants'] || [];
     expect(iriContains(affects, 'nurse')).toBe(false);
     expect(iriContains(hasPatient, 'nurse')).toBe(false);
@@ -228,8 +228,8 @@ describe('P2-BOUNDARY: Hard Entity Boundaries at Clause Edges', () => {
     if (clause0Act) {
       expect(iriContains(clause0Act['cco:affects'], 'user')).toBe(false);
       expect(iriContains(clause0Act['cco:affects'], 'page')).toBe(false);
-      expect(iriContains(clause0Act['cco:has_patient'], 'user')).toBe(false);
-      expect(iriContains(clause0Act['cco:has_patient'], 'page')).toBe(false);
+      expect(iriContains(clause0Act['cco:affects'], 'user')).toBe(false);
+      expect(iriContains(clause0Act['cco:affects'], 'page')).toBe(false);
     }
   });
 });

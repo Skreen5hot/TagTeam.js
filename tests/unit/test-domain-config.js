@@ -92,13 +92,13 @@ test('DomainConfigLoader: getProcessRootWord returns type for loaded terms', () 
     domain: 'medical',
     version: '1.0',
     processRootWords: {
-      'care': 'cco:ActOfCare',
-      'surgery': 'cco:ActOfSurgery'
+      'care': 'cco:IntentionalAct',
+      'surgery': 'cco:IntentionalAct'
     }
   });
 
-  assert.strictEqual(loader.getProcessRootWord('care'), 'cco:ActOfCare');
-  assert.strictEqual(loader.getProcessRootWord('surgery'), 'cco:ActOfSurgery');
+  assert.strictEqual(loader.getProcessRootWord('care'), 'cco:IntentionalAct');
+  assert.strictEqual(loader.getProcessRootWord('surgery'), 'cco:IntentionalAct');
   assert.strictEqual(loader.getProcessRootWord('unknown'), null);
 });
 
@@ -109,8 +109,8 @@ test('DomainConfigLoader: getTypeSpecialization returns specialized types', () =
     version: '1.0',
     typeSpecializations: {
       'bfo:BFO_0000015': {
-        'care': 'cco:ActOfCare',
-        'treatment': 'cco:ActOfMedicalTreatment'
+        'care': 'cco:IntentionalAct',
+        'treatment': 'cco:IntentionalAct'
       },
       'cco:Person': {
         'doctor': 'cco:Physician',
@@ -121,7 +121,7 @@ test('DomainConfigLoader: getTypeSpecialization returns specialized types', () =
 
   assert.strictEqual(
     loader.getTypeSpecialization('bfo:BFO_0000015', 'care'),
-    'cco:ActOfCare'
+    'cco:IntentionalAct'
   );
   assert.strictEqual(
     loader.getTypeSpecialization('cco:Person', 'doctor'),
@@ -156,7 +156,7 @@ test('DomainConfigLoader: multiple configs load additively', () => {
   loader.loadConfigObject({
     domain: 'medical',
     version: '1.0',
-    processRootWords: { 'care': 'cco:ActOfCare' }
+    processRootWords: { 'care': 'cco:IntentionalAct' }
   });
 
   loader.loadConfigObject({
@@ -166,7 +166,7 @@ test('DomainConfigLoader: multiple configs load additively', () => {
   });
 
   assert.deepStrictEqual(loader.getLoadedDomains(), ['medical', 'legal']);
-  assert.strictEqual(loader.getProcessRootWord('care'), 'cco:ActOfCare');
+  assert.strictEqual(loader.getProcessRootWord('care'), 'cco:IntentionalAct');
   assert.strictEqual(loader.getProcessRootWord('hearing'), 'legal:LegalHearing');
 });
 
@@ -220,7 +220,7 @@ test('AC-2.2: loadDomainConfig succeeds with medical.json', () => {
   assert(builder.getLoadedDomains().includes('medical'), 'Should include medical domain');
 });
 
-test('AC-2.3: After loading medical config, "care" → cco:ActOfCare', () => {
+test('AC-2.3: After loading medical config, "care" → bfo:Process', () => {
   const builder = new SemanticGraphBuilder();
   const configPath = path.join(__dirname, '../../config/medical.json');
   builder.loadDomainConfig(configPath);
@@ -231,12 +231,12 @@ test('AC-2.3: After loading medical config, "care" → cco:ActOfCare', () => {
   assert(referent, 'Found palliative care referent');
   assert.strictEqual(
     referent['tagteam:denotesType'],
-    'cco:ActOfCare',
-    'care should be typed as cco:ActOfCare with medical config'
+    'bfo:Process',
+    'care should be typed as bfo:Process with medical config'
   );
 });
 
-test('AC-2.3b: After loading medical config, "surgery" → cco:ActOfSurgery', () => {
+test('AC-2.3b: After loading medical config, "surgery" → bfo:Process', () => {
   const builder = new SemanticGraphBuilder();
   const configPath = path.join(__dirname, '../../config/medical.json');
   builder.loadDomainConfig(configPath);
@@ -247,8 +247,8 @@ test('AC-2.3b: After loading medical config, "surgery" → cco:ActOfSurgery', ()
   assert(referent, 'Found surgery referent');
   assert.strictEqual(
     referent['tagteam:denotesType'],
-    'cco:ActOfSurgery',
-    'surgery should be typed as cco:ActOfSurgery'
+    'bfo:Process',
+    'surgery should be typed as bfo:Process'
   );
 });
 

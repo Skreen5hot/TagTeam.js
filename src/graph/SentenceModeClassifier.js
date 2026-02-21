@@ -58,7 +58,7 @@ const STATIVE_AMBIGUOUS = {
     stativeRelation: 'tagteam:bears_role_for',
     eventiveActType: 'cco:IntentionalAct',
     // Stative if object is Nation, Organization, GeopoliticalEntity
-    stativeObjectTypes: ['cco:Nation', 'cco:Organization', 'cco:GeopoliticalEntity',
+    stativeObjectTypes: ['cco:GeopoliticalOrganization', 'cco:Organization', 'cco:GeopoliticalOrganization',
                          'cco:GovernmentOrganization', 'cco:Country']
   },
   'support': {

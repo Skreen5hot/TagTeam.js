@@ -937,7 +937,7 @@ const sentences = [
     tags: ['stative', 'passive', 'government'],
     expectedEntities: [
       { text: 'The headquarters', type: 'cco:Facility' },
-      { text: 'Washington', type: 'cco:GeopoliticalEntity' }
+      { text: 'Washington', type: 'cco:GeopoliticalOrganization' }
     ],
     expectedRoles: [
       { entity: 'Washington', role: 'Location' }
@@ -971,7 +971,7 @@ const sentences = [
     subset: 'stative-passive',
     tags: ['stative', 'passive', 'government'],
     expectedEntities: [
-      { text: 'The region', type: 'cco:GeopoliticalEntity' },
+      { text: 'The region', type: 'cco:GeopoliticalOrganization' },
       { text: 'five operational sectors', type: 'cco:Organization' }
     ],
     expectedRoles: []
@@ -1036,7 +1036,7 @@ const sentences = [
     subset: 'stative-passive',
     tags: ['agentive', 'passive', 'government'],
     expectedEntities: [
-      { text: 'The territory', type: 'cco:GeopoliticalEntity' },
+      { text: 'The territory', type: 'cco:GeopoliticalOrganization' },
       { text: 'the planning committee', type: 'cco:Organization' }
     ],
     expectedRoles: [
@@ -1487,7 +1487,7 @@ const sentences = [
     expectedEntities: [
       { text: 'The CBP Academy', type: 'cco:Facility' },
       { text: 'a training facility', type: 'cco:Facility' },
-      { text: 'Georgia', type: 'cco:GeopoliticalEntity' }
+      { text: 'Georgia', type: 'cco:GeopoliticalOrganization' }
     ],
     expectedRoles: []
   },
@@ -1520,7 +1520,7 @@ const sentences = [
     tags: ['copular', 'cbp'],
     expectedEntities: [
       { text: 'The sector', type: 'cco:Organization' },
-      { text: 'a geographic area of responsibility', type: 'cco:GeopoliticalEntity' }
+      { text: 'a geographic area of responsibility', type: 'cco:GeopoliticalOrganization' }
     ],
     expectedRoles: []
   },
@@ -1893,7 +1893,7 @@ const sentences = [
     expectedEntities: [
       { text: 'The commander', type: 'cco:Person' },
       { text: 'the unit', type: 'cco:Organization' },
-      { text: 'the southern sector', type: 'cco:GeopoliticalEntity' }
+      { text: 'the southern sector', type: 'cco:GeopoliticalOrganization' }
     ],
     expectedRoles: [
       { entity: 'commander', role: 'Agent' },
@@ -2932,7 +2932,7 @@ const sentences = [
     expectedEntities: [
       { text: 'The liaison', type: 'cco:Person' },
       { text: 'the embassy', type: 'cco:Facility' },
-      { text: 'the capital', type: 'cco:GeopoliticalEntity' }
+      { text: 'the capital', type: 'cco:GeopoliticalOrganization' }
     ],
     expectedRoles: [
       { entity: 'liaison', role: 'Agent' }

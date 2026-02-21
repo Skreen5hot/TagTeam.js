@@ -344,7 +344,57 @@ Currently, GenericityDetector classifies entities as GEN/INST/UNIV/AMB and RealW
 
 ---
 
-### 3.4 Post-Phase 5: Domain Fine-Tuning
+### 3.5 TypeClassifier Module — Ontology-Grounded Entity Classification
+
+**Priority:** HIGH — Blocks ontological correctness (see §5.2 Fabricated IRIs)
+**Dependencies:** CCO OWL audit (§5.2, done), Tier 2 default fix (done)
+**Roadmap:** NOT in roadmap — inter-phase tech debt
+
+**Problem:** Entity type classification currently uses scattered keyword lists (`PERSON_KEYWORDS`, `ORG_KEYWORDS` in RealWorldEntityFactory.js, `ENTITY_TYPE_MAPPINGS` in EntityExtractor.js) that grow ad-hoc and produce fabricated CCO IRIs. Deverbal nouns ("treatment", "surgery", "assessment") cross the BFO continuant/occurrent boundary and cannot be enumerated.
+
+**Solution (3 layers):**
+
+**Layer 1 (immediate — done):** Default changed from `cco:Artifact` to `bfo:BFO_0000001` (Entity). Wrong-but-general is safer than wrong-and-specific.
+
+**Layer 2 (this module):** Single `TypeClassifier` backed by `src/data/type-classifications.json`:
+```json
+{
+  "treatment": {
+    "primary": "bfo:BFO_0000015",
+    "morphological_hint": "deverbal_noun",
+    "source_verb": "treat",
+    "note": "Ambiguous: process vs. continuant depending on context. Default to Process."
+  },
+  "doctor": {
+    "primary": "cco:Person",
+    "verified": true,
+    "ccoIRI": "ont00001262"
+  }
+}
+```
+
+Properties:
+- Derived from published CCO OWL, not invented
+- `morphological_hint` field for deverbal nouns
+- `verified` field tracks ontology provenance
+- Single source of truth — replaces all keyword lists
+- Explicit disambiguation notes for ambiguous terms
+
+**Layer 3 (Fandaws integration):** Knowledge graph resolves classification at query time. TypeClassifier JSON becomes offline fallback.
+
+**Deliverables:**
+- `src/graph/TypeClassifier.js` — single classification module
+- `src/data/type-classifications.json` — ontology-derived lookup
+- Remove: `PERSON_KEYWORDS`, `ORG_KEYWORDS` from RealWorldEntityFactory.js
+- Remove: `ENTITY_TYPE_MAPPINGS` from EntityExtractor.js
+- Migrate fabricated `cco:*Role` IRIs to `tagteam:*Role`
+- Tests: classification accuracy against gold corpus
+
+**Exit criteria:** Zero fabricated CCO IRIs in output graphs. All entity types traceable to published OWL or explicitly marked as `tagteam:` extensions.
+
+---
+
+### 3.6 Post-Phase 5: Domain Fine-Tuning
 
 **Priority:** LOW — Optional quality improvement
 **Dependencies:** Phase 5 complete
@@ -400,7 +450,35 @@ Currently, GenericityDetector classifies entities as GEN/INST/UNIV/AMB and RealW
 - Passive voice: obl:agent detection works but some edge cases fail
 - Improvement path: targeted fixes per pattern type, not architectural change
 
-### 5.2 Architectural Limitations (V7)
+### 5.2 Fabricated Ontology IRIs (CCO Audit — 2026-02-21)
+
+**Severity:** HIGH — Ontological correctness
+**Impact:** False assertions in output graphs; downstream systems cannot resolve fabricated IRIs
+
+**Audit result:** Of the CCO IRIs used in the codebase, only **8 classes** and **6 properties** are verified in published CCO OWL files. **22 act classes**, **5 role classes**, and **2 properties** are fabricated with the `cco:` prefix.
+
+| Category | Verified | Fabricated | Details |
+|----------|----------|------------|---------|
+| Act classes | 3 (Act, IntentionalAct, ActOfCommunication) | 22 (all medical, domain-specific acts) | None of the medical act taxonomy exists in CCO |
+| Entity classes | 5 (Person, Organization, Agent, Facility, ICE) | 2 (GeopoliticalEntity, GroupOfPersons) | Close CCO equivalents exist with different names |
+| Role classes | 0 | 5 (AgentRole, PatientRole, RecipientRole, BeneficiaryRole, InstrumentRole) | CCO has social/institutional roles, not thematic roles |
+| Properties | 6 (has_agent, affects, has_recipient, is_about, has_text_value, prescribes) | 2 (has_instrument, has_beneficiary) | |
+
+**Additional issues:**
+- CCO namespace URI wrong: codebase uses `http://www.ontologyrepository.com/CommonCoreOntologies/`, published CCO uses `https://www.commoncoreontologies.org/`
+- CCO uses opaque numeric IRIs (`cco:ont00000005` for Act), not human-readable CURIEs
+- Thematic roles (AgentRole, PatientRole, etc.) should be `tagteam:` namespace
+
+**Immediate mitigations applied (2026-02-21):**
+1. Tier 2 default changed from `cco:Artifact` to `bfo:BFO_0000001` (Entity)
+2. `bfo-cco-registry.js` annotated with `verified: true/false` and `note` fields
+
+**RESOLVED (2026-02-21):** Full IRI cleanup completed. All 94 fabricated IRIs removed from source, tests, and docs. Namespace corrected to `https://www.commoncoreontologies.org/`. Fabricated properties moved to `tagteam:` namespace. All role classes unified to `bfo:Role` with `rdfs:label` distinction. See plan file `cryptic-foraging-planet.md` for full details.
+3. `PROCESS_TYPE_MAPPINGS` in RealWorldEntityFactory.js annotated as fabricated
+
+**Resolution:** TypeClassifier module (see §3.5) replaces keyword lists with ontology-grounded JSON lookup, migrates fabricated IRIs to `tagteam:` namespace.
+
+### 5.3 Architectural Limitations (V7)
 
 These are **known and accepted** limitations that require major architectural work:
 
@@ -413,7 +491,7 @@ These are **known and accepted** limitations that require major architectural wo
 
 **Component test ceiling:** 89/100 (89%) — 11 failures are architectural, not fixable without new clause boundary infrastructure.
 
-### 5.3 Roadmap Gaps
+### 5.4 Roadmap Gaps
 
 | Item | Issue | Resolution |
 |------|-------|------------|

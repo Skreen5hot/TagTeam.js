@@ -111,7 +111,7 @@ test('detects agent role from has_agent link', () => {
   assert(agentRole, 'Found agent role');
 });
 
-test('agent role has cco:AgentRole type', () => {
+test('agent role has bfo:Role type with AgentRole label', () => {
   const builder = new SemanticGraphBuilder();
   const graph = builder.build('The doctor treats the patient');
 
@@ -120,7 +120,10 @@ test('agent role has cco:AgentRole type', () => {
 
   const agentRole = roles.find(r =>
     r['tagteam:roleType'] === 'agent');
-  assert(agentRole['@type'].includes('cco:AgentRole'), 'Has AgentRole type');
+  assert(agentRole['@type'].includes('bfo:Role'), 'Has bfo:Role type');
+  assert(agentRole['rdfs:label'] === 'AgentRole' ||
+    (typeof agentRole['rdfs:label'] === 'string' && agentRole['rdfs:label'].includes('agent')),
+    'Has AgentRole label');
 });
 
 test('agent role has rdfs:label', () => {
@@ -150,7 +153,7 @@ test('detects patient role from affects link', () => {
   assert(patientRole, 'Found patient role');
 });
 
-test('patient role has cco:PatientRole type', () => {
+test('patient role has bfo:Role type with PatientRole label', () => {
   const builder = new SemanticGraphBuilder();
   const graph = builder.build('The doctor treats the patient');
 
@@ -159,7 +162,10 @@ test('patient role has cco:PatientRole type', () => {
 
   const patientRole = roles.find(r =>
     r['tagteam:roleType'] === 'patient');
-  assert(patientRole['@type'].includes('cco:PatientRole'), 'Has PatientRole type');
+  assert(patientRole['@type'].includes('bfo:Role'), 'Has bfo:Role type');
+  assert(patientRole['rdfs:label'] === 'PatientRole' ||
+    (typeof patientRole['rdfs:label'] === 'string' && patientRole['rdfs:label'].includes('patient')),
+    'Has PatientRole label');
 });
 
 // Test Suite 4: Role Bearer Link (AC-1.4.2)

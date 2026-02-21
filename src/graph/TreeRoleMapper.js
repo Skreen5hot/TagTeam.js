@@ -109,6 +109,7 @@ class TreeRoleMapper {
 
     return {
       role: mapping.role,
+      label: mapping.label || mapping.role,
       entity: entity.fullText || entity.text,
       entityId: entity.headId,
       act: act.verb,
@@ -141,7 +142,8 @@ class TreeRoleMapper {
     // Special case: "by" in passive → AgentRole
     if (preposition === 'by' && act.isPassive) {
       return {
-        role: 'cco:AgentRole',
+        role: 'bfo:Role',
+        label: 'AgentRole',
         entity: entity.fullText || entity.text,
         entityId: entity.headId,
         act: act.verb,
@@ -152,7 +154,7 @@ class TreeRoleMapper {
     }
 
     // Oblique subtyping by preposition
-    let role = 'cco:ObliqueRole';
+    let role = 'ObliqueRole';
     let note = 'Oblique argument';
 
     if (preposition && RoleMappingContract) {
@@ -168,7 +170,8 @@ class TreeRoleMapper {
     }
 
     return {
-      role,
+      role: 'bfo:Role',
+      label: role,
       entity: entity.fullText || entity.text,
       entityId: entity.headId,
       act: act.verb,
@@ -209,6 +212,7 @@ class TreeRoleMapper {
       if (conjEntity && conjEntity !== sourceEntity) {
         roles.push({
           role: sourceRole.role,
+          label: sourceRole.label,
           entity: conjEntity.fullText || conjEntity.text,
           entityId: conjEntity.headId,
           act: act.verb,
@@ -234,11 +238,11 @@ class TreeRoleMapper {
    */
   _fallbackMapping(label) {
     const map = {
-      'nsubj': { role: 'cco:AgentRole', note: 'Active voice subject' },
-      'obj': { role: 'cco:PatientRole', note: 'Direct object' },
-      'iobj': { role: 'cco:RecipientRole', note: 'Indirect object' },
-      'nsubj:pass': { role: 'cco:PatientRole', note: 'Passive subject = patient' },
-      'obl:agent': { role: 'cco:AgentRole', note: 'Passive "by" phrase = agent' },
+      'nsubj': { role: 'bfo:Role', label: 'AgentRole', note: 'Active voice subject' },
+      'obj': { role: 'bfo:Role', label: 'PatientRole', note: 'Direct object' },
+      'iobj': { role: 'bfo:Role', label: 'RecipientRole', note: 'Indirect object' },
+      'nsubj:pass': { role: 'bfo:Role', label: 'PatientRole', note: 'Passive subject = patient' },
+      'obl:agent': { role: 'bfo:Role', label: 'AgentRole', note: 'Passive "by" phrase = agent' },
     };
     return map[label] || null;
   }
@@ -248,18 +252,18 @@ class TreeRoleMapper {
    */
   _fallbackObliqueMapping(preposition) {
     const map = {
-      'for': 'cco:BeneficiaryRole',
-      'with': 'cco:InstrumentRole',
-      'at': 'cco:LocationRole',
-      'in': 'cco:LocationRole',
-      'on': 'cco:LocationRole',
-      'from': 'cco:SourceRole',
-      'to': 'cco:DestinationRole',
-      'by': 'cco:AgentRole',
-      'about': 'cco:TopicRole',
-      'against': 'cco:OpponentRole',
+      'for': 'BeneficiaryRole',
+      'with': 'InstrumentRole',
+      'at': 'LocationRole',
+      'in': 'LocationRole',
+      'on': 'LocationRole',
+      'from': 'SourceRole',
+      'to': 'DestinationRole',
+      'by': 'AgentRole',
+      'about': 'TopicRole',
+      'against': 'OpponentRole',
     };
-    return map[preposition] || 'cco:ObliqueRole';
+    return map[preposition] || 'ObliqueRole';
   }
 }
 
