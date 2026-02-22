@@ -299535,22 +299535,22 @@ if (typeof window !== 'undefined') {
  * (BFO_0000001 → Entity, not bfo:BFO_0000001 which contains invalid colons).
  */
 const BFO_IRI_LABELS = {
-  'bfo:BFO_0000001': 'Entity',
-  'bfo:BFO_0000004': 'IndependentContinuant',
-  'bfo:BFO_0000008': 'TemporalRegion',
-  'bfo:BFO_0000015': 'Process',
-  'bfo:BFO_0000016': 'Disposition',
-  'bfo:BFO_0000019': 'Quality',
-  'bfo:BFO_0000023': 'Role',
-  'bfo:BFO_0000027': 'ObjectAggregate',
-  'bfo:BFO_0000038': 'OneDimTemporalRegion',
-  'bfo:BFO_0000040': 'MaterialEntity',
+  'Entity': 'Entity',
+  'IndependentContinuant': 'IndependentContinuant',
+  'TemporalRegion': 'TemporalRegion',
+  'Process': 'Process',
+  'Disposition': 'Disposition',
+  'Quality': 'Quality',
+  'Role': 'Role',
+  'ObjectAggregate': 'ObjectAggregate',
+  'OneDimensionalTemporalRegion': 'OneDimTemporalRegion',
+  'MaterialEntity': 'MaterialEntity',
 };
 
 /**
  * Convert a tier2Type IRI to a human-readable label for use in instance IRIs.
  * Handles BFO opaque IRIs via lookup table, strips namespace prefix for CCO/other types.
- * @param {string} tier2Type - The type IRI (e.g., 'bfo:BFO_0000001', 'Person')
+ * @param {string} tier2Type - The type IRI (e.g., 'Entity', 'Person')
  * @returns {string} Human-readable label (e.g., 'Entity', 'Person')
  */
 function _typeToLabel(tier2Type) {
@@ -299570,22 +299570,22 @@ const TIER2_TYPE_MAPPINGS = {
   'Organization': 'Organization',
   'GeopoliticalOrganization': 'GeopoliticalOrganization', // Cities, countries, states
   'Facility': 'Facility', // Buildings, datacenters, offices
-  'bfo:BFO_0000040': 'Artifact', // Material entity defaults to artifact
+  'MaterialEntity': 'Artifact', // Material entity defaults to artifact
 
   // Temporal Regions (Phase 7.0 — not artifacts)
-  'bfo:BFO_0000038': 'bfo:BFO_0000038', // One-Dimensional Temporal Region (durations)
-  'bfo:BFO_0000008': 'bfo:BFO_0000008', // Temporal Region (relative expressions)
+  'OneDimensionalTemporalRegion': 'OneDimensionalTemporalRegion', // One-Dimensional Temporal Region (durations)
+  'TemporalRegion': 'TemporalRegion', // Temporal Region (relative expressions)
 
   // Qualities (Phase 7.0 — symptoms, not artifacts)
-  'bfo:BFO_0000019': 'bfo:BFO_0000019',  // Quality (symptoms, physiological states)
+  'Quality': 'Quality',  // Quality (symptoms, physiological states)
 
   // Dispositions (Phase 7.1 — diseases per OGMS/BFO)
-  'bfo:BFO_0000016': 'bfo:BFO_0000016',  // Disposition (diseases)
+  'Disposition': 'Disposition',  // Disposition (diseases)
 
   // Pronoun-derived types (Phase 7.1 — IEE pronoun mapping)
-  'bfo:BFO_0000004': 'bfo:BFO_0000004',  // Independent Continuant (for "it")
-  'bfo:BFO_0000027': 'bfo:BFO_0000027',  // Object Aggregate (for plural "they")
-  'bfo:BFO_0000001': 'bfo:BFO_0000001',  // Entity (for demonstratives "this/that")
+  'IndependentContinuant': 'IndependentContinuant',  // Independent Continuant (for "it")
+  'ObjectAggregate': 'ObjectAggregate',  // Object Aggregate (for plural "they")
+  'Entity': 'Entity',  // Entity (for demonstratives "this/that")
   // NOTE: bfo:Entity (prefixed form) intentionally NOT mapped here.
   // When denotesType is bfo:Entity (generic/unclassified), we want keyword
   // fallback to refine the type (e.g., "doctor" → Person). The default
@@ -299600,8 +299600,8 @@ const TIER2_TYPE_MAPPINGS = {
  * Specific act sub-typing is the knowledge graph's responsibility, not the parser's.
  */
 const PROCESS_TYPE_MAPPINGS = {
-  'bfo:Process': 'bfo:Process',
-  'bfo:BFO_0000015': 'bfo:BFO_0000015',
+  'Process': 'Process',
+  'Process': 'Process',
   'ActOfCommunication': 'ActOfCommunication',  // VERIFIED (ont00000402)
   'IntentionalAct': 'IntentionalAct'           // VERIFIED (ont00000228)
 };
@@ -299790,7 +299790,7 @@ class RealWorldEntityFactory {
 
     // Default to bfo:Entity (BFO root) — honest admission of incomplete classification.
     // Artifact was incorrectly specific; bfo:Entity is maximally general and safe.
-    return { type: 'bfo:BFO_0000001', basis: 'default' };
+    return { type: 'Entity', basis: 'default' };
   }
 
   /**
@@ -300123,10 +300123,10 @@ const RELATIVE_TEMPORAL_PREFIXES = ['last', 'next', 'past', 'previous', 'this', 
 const WH_PSEUDO_ENTITIES = {
   'who':   { type: 'Person', definiteness: 'interrogative' },
   'whom':  { type: 'Person', definiteness: 'interrogative' },
-  'what':  { type: 'bfo:Entity', definiteness: 'interrogative' },
-  'which': { type: 'bfo:Entity', definiteness: 'interrogative_selective' },
-  'where': { type: 'bfo:Site', definiteness: 'interrogative' },
-  'when':  { type: 'bfo:TemporalRegion', definiteness: 'interrogative' }
+  'what':  { type: 'Entity', definiteness: 'interrogative' },
+  'which': { type: 'Entity', definiteness: 'interrogative_selective' },
+  'where': { type: 'Site', definiteness: 'interrogative' },
+  'when':  { type: 'TemporalRegion', definiteness: 'interrogative' }
 };
 
 /**
@@ -300356,7 +300356,7 @@ const ENTITY_TYPE_MAPPINGS = {
   'equipment': 'Artifact',
   'bed': 'Artifact',
   'resource': 'Artifact',
-  'organ': 'bfo:MaterialEntity',
+  'organ': 'MaterialEntity',
 
   // V7-006: Technical/IT artifacts
   'server': 'Artifact',
@@ -300392,21 +300392,21 @@ const ENTITY_TYPE_MAPPINGS = {
 
   // V7-Priority4: Abstract nouns → bfo:Quality (BFO specifically dependent continuants)
   // Qualities inhere in material entities but are not material themselves
-  'power': 'bfo:Quality',
-  'memory': 'bfo:Quality',
-  'speed': 'bfo:Quality',
-  'temperature': 'bfo:Quality',
-  'pressure': 'bfo:Quality',
-  'weight': 'bfo:Quality',
-  'size': 'bfo:Quality',
-  'color': 'bfo:Quality',
-  'brightness': 'bfo:Quality',
-  'capacity': 'bfo:Quality',
-  'bandwidth': 'bfo:Quality',
-  'latency': 'bfo:Quality',
+  'power': 'Quality',
+  'memory': 'Quality',
+  'speed': 'Quality',
+  'temperature': 'Quality',
+  'pressure': 'Quality',
+  'weight': 'Quality',
+  'size': 'Quality',
+  'color': 'Quality',
+  'brightness': 'Quality',
+  'capacity': 'Quality',
+  'bandwidth': 'Quality',
+  'latency': 'Quality',
 
   // Default
-  '_default': 'bfo:BFO_0000040' // Material Entity
+  '_default': 'MaterialEntity' // Material Entity
 };
 
 /**
@@ -300448,21 +300448,21 @@ const PRONOUN_TYPE_MAPPINGS = {
   'yourselves': 'Person',
 
   // 3rd person plural → Object Aggregate (group)
-  'they': 'bfo:BFO_0000027',
-  'them': 'bfo:BFO_0000027',
-  'their': 'bfo:BFO_0000027',
-  'themselves': 'bfo:BFO_0000027',
+  'they': 'ObjectAggregate',
+  'them': 'ObjectAggregate',
+  'their': 'ObjectAggregate',
+  'themselves': 'ObjectAggregate',
 
   // 3rd person neuter → Independent Continuant (non-person)
-  'it': 'bfo:BFO_0000004',
-  'its': 'bfo:BFO_0000004',
-  'itself': 'bfo:BFO_0000004',
+  'it': 'IndependentContinuant',
+  'its': 'IndependentContinuant',
+  'itself': 'IndependentContinuant',
 
   // Demonstratives → Entity (maximally general)
-  'this': 'bfo:BFO_0000001',
-  'that': 'bfo:BFO_0000001',
-  'these': 'bfo:BFO_0000001',
-  'those': 'bfo:BFO_0000001'
+  'this': 'Entity',
+  'that': 'Entity',
+  'these': 'Entity',
+  'those': 'Entity'
 };
 
 /**
@@ -300476,47 +300476,47 @@ const PRONOUN_TYPE_MAPPINGS = {
  */
 const ONTOLOGICAL_VOCABULARY = {
   // Occurrents (processes/events)
-  'process': 'bfo:BFO_0000015',
-  'event': 'bfo:BFO_0000015',
-  'activity': 'bfo:BFO_0000015',
-  'action': 'bfo:BFO_0000015',
-  'service': 'bfo:BFO_0000015',      // Generic service (domain config specializes)
-  'assistance': 'bfo:BFO_0000015',
-  'intervention': 'bfo:BFO_0000015',
+  'process': 'Process',
+  'event': 'Process',
+  'activity': 'Process',
+  'action': 'Process',
+  'service': 'Process',      // Generic service (domain config specializes)
+  'assistance': 'Process',
+  'intervention': 'Process',
   // Zero-derivation nominalizations (verb→noun without suffix)
-  'launch': 'bfo:BFO_0000015',
-  'attack': 'bfo:BFO_0000015',
-  'attempt': 'bfo:BFO_0000015',
-  'collapse': 'bfo:BFO_0000015',
-  'crash': 'bfo:BFO_0000015',
-  'escape': 'bfo:BFO_0000015',
-  'fight': 'bfo:BFO_0000015',
-  'release': 'bfo:BFO_0000015',
-  'search': 'bfo:BFO_0000015',
-  'strike': 'bfo:BFO_0000015',
-  'struggle': 'bfo:BFO_0000015',
-  'surge': 'bfo:BFO_0000015',
+  'launch': 'Process',
+  'attack': 'Process',
+  'attempt': 'Process',
+  'collapse': 'Process',
+  'crash': 'Process',
+  'escape': 'Process',
+  'fight': 'Process',
+  'release': 'Process',
+  'search': 'Process',
+  'strike': 'Process',
+  'struggle': 'Process',
+  'surge': 'Process',
 
   // Independent Continuants (objects)
   'person': 'Person',
   'people': 'Person',
   'human': 'Person',
   'individual': 'Person',
-  'thing': 'bfo:BFO_0000040',
-  'object': 'bfo:BFO_0000040',
-  'item': 'bfo:BFO_0000040',
+  'thing': 'MaterialEntity',
+  'object': 'MaterialEntity',
+  'item': 'MaterialEntity',
   'artifact': 'Artifact',
   'device': 'Artifact',
   'tool': 'Artifact',
   'machine': 'Artifact',
 
   // Generically Dependent Continuants (information entities)
-  'document': 'bfo:BFO_0000031',
-  'information': 'bfo:BFO_0000031',
-  'data': 'bfo:BFO_0000031',
-  'plan': 'bfo:BFO_0000031',
-  'record': 'bfo:BFO_0000031',
-  'report': 'bfo:BFO_0000031',
+  'document': 'GenericallyDependentContinuant',
+  'information': 'GenericallyDependentContinuant',
+  'data': 'GenericallyDependentContinuant',
+  'plan': 'GenericallyDependentContinuant',
+  'record': 'GenericallyDependentContinuant',
+  'report': 'GenericallyDependentContinuant',
 
   // Information Content Entities (abstract propositional content)
   'fact': 'InformationContentEntity',
@@ -300555,17 +300555,17 @@ const ONTOLOGICAL_VOCABULARY = {
 const DOMAIN_PROCESS_WORDS = {
   // Medical services — all map to bfo:Process (verified BFO_0000015).
   // Specific act sub-typing is the knowledge graph's responsibility.
-  'care': 'bfo:Process',
-  'treatment': 'bfo:Process',
-  'therapy': 'bfo:Process',
-  'surgery': 'bfo:Process',
-  'procedure': 'bfo:Process',
-  'examination': 'bfo:Process',
-  'diagnosis': 'bfo:Process',
-  'consultation': 'bfo:Process',
-  'counseling': 'bfo:Process',
-  'rehabilitation': 'bfo:Process',
-  'resuscitation': 'bfo:Process'
+  'care': 'Process',
+  'treatment': 'Process',
+  'therapy': 'Process',
+  'surgery': 'Process',
+  'procedure': 'Process',
+  'examination': 'Process',
+  'diagnosis': 'Process',
+  'consultation': 'Process',
+  'counseling': 'Process',
+  'rehabilitation': 'Process',
+  'resuscitation': 'Process'
 };
 
 /**
@@ -300612,22 +300612,22 @@ const UNAMBIGUOUS_RESULT_NOUNS = {
   'feature': 'Artifact',         // Software feature (thing), not featuring (act)
 
   // Documents (GDC) - always the document, never the process
-  'documentation': 'bfo:BFO_0000031',
-  'registration': 'bfo:BFO_0000031',
-  'certification': 'bfo:BFO_0000031',
-  'specification': 'bfo:BFO_0000031',
-  'notification': 'bfo:BFO_0000031',
-  'recommendation': 'bfo:BFO_0000031',
-  'regulation': 'bfo:BFO_0000031',     // The rule document
-  'legislation': 'bfo:BFO_0000031',
+  'documentation': 'GenericallyDependentContinuant',
+  'registration': 'GenericallyDependentContinuant',
+  'certification': 'GenericallyDependentContinuant',
+  'specification': 'GenericallyDependentContinuant',
+  'notification': 'GenericallyDependentContinuant',
+  'recommendation': 'GenericallyDependentContinuant',
+  'regulation': 'GenericallyDependentContinuant',     // The rule document
+  'legislation': 'GenericallyDependentContinuant',
 
   // V7-006: IT information content entities (not processes)
   'configuration': 'InformationContentEntity',  // Config data, not configuring act
 
   // Locations (IC) - always the place, never the process
-  'location': 'bfo:BFO_0000040',
-  'station': 'bfo:BFO_0000040',
-  'position': 'bfo:BFO_0000040'        // Spatial position
+  'location': 'MaterialEntity',
+  'station': 'MaterialEntity',
+  'position': 'MaterialEntity'        // Spatial position
 };
 
 /**
@@ -301117,10 +301117,10 @@ class EntityExtractor {
 
       if (existingEntity) {
         // Update type if it was extracted by NPChunker with default type
-        if (existingEntity['tagteam:denotesType'] === 'bfo:BFO_0000040') {
+        if (existingEntity['tagteam:denotesType'] === 'MaterialEntity') {
           existingEntity['tagteam:denotesType'] = 'Organization';
           // Also update @type array
-          const typeIndex = existingEntity['@type'].indexOf('bfo:BFO_0000040');
+          const typeIndex = existingEntity['@type'].indexOf('MaterialEntity');
           if (typeIndex !== -1) {
             existingEntity['@type'][typeIndex] = 'Organization';
           }
@@ -301160,10 +301160,10 @@ class EntityExtractor {
 
       if (existingEntity) {
         // Update type if it was extracted by NPChunker with default type
-        if (existingEntity['tagteam:denotesType'] === 'bfo:BFO_0000040') {
+        if (existingEntity['tagteam:denotesType'] === 'MaterialEntity') {
           existingEntity['tagteam:denotesType'] = 'GeopoliticalOrganization';
           // Also update @type array
-          const typeIndex = existingEntity['@type'].indexOf('bfo:BFO_0000040');
+          const typeIndex = existingEntity['@type'].indexOf('MaterialEntity');
           if (typeIndex !== -1) {
             existingEntity['@type'][typeIndex] = 'GeopoliticalOrganization';
           }
@@ -301578,10 +301578,10 @@ class EntityExtractor {
 
       if (existingEntity) {
         // Update type if it was extracted by NPChunker with default type
-        if (existingEntity['tagteam:denotesType'] === 'bfo:BFO_0000040') {
+        if (existingEntity['tagteam:denotesType'] === 'MaterialEntity') {
           existingEntity['tagteam:denotesType'] = 'Person';
           // Also update @type array
-          const typeIndex = existingEntity['@type'].indexOf('bfo:BFO_0000040');
+          const typeIndex = existingEntity['@type'].indexOf('MaterialEntity');
           if (typeIndex !== -1) {
             existingEntity['@type'][typeIndex] = 'Person';
           }
@@ -301621,10 +301621,10 @@ class EntityExtractor {
 
       if (existingEntity) {
         // Update type if it was extracted by NPChunker with default type
-        if (existingEntity['tagteam:denotesType'] === 'bfo:BFO_0000040') {
+        if (existingEntity['tagteam:denotesType'] === 'MaterialEntity') {
           existingEntity['tagteam:denotesType'] = 'Organization';
           // Also update @type array
-          const typeIndex = existingEntity['@type'].indexOf('bfo:BFO_0000040');
+          const typeIndex = existingEntity['@type'].indexOf('MaterialEntity');
           if (typeIndex !== -1) {
             existingEntity['@type'][typeIndex] = 'Organization';
           }
@@ -301664,10 +301664,10 @@ class EntityExtractor {
 
       if (existingEntity) {
         // Update type if it was extracted by NPChunker with default type
-        if (existingEntity['tagteam:denotesType'] === 'bfo:BFO_0000040') {
+        if (existingEntity['tagteam:denotesType'] === 'MaterialEntity') {
           existingEntity['tagteam:denotesType'] = 'GeopoliticalOrganization';
           // Also update @type array
-          const typeIndex = existingEntity['@type'].indexOf('bfo:BFO_0000040');
+          const typeIndex = existingEntity['@type'].indexOf('MaterialEntity');
           if (typeIndex !== -1) {
             existingEntity['@type'][typeIndex] = 'GeopoliticalOrganization';
           }
@@ -302089,7 +302089,7 @@ class EntityExtractor {
       // "itself" → generic entity (could be artifact, system, etc.)
       // "himself/herself" → person
       // "themselves/ourselves" → group
-      let entityType = 'bfo:Entity';  // Default for "itself"
+      let entityType = 'Entity';  // Default for "itself"
       if (pronounText === 'himself' || pronounText === 'herself' || pronounText === 'myself' || pronounText === 'yourself') {
         entityType = 'Person';
       } else if (pronounText === 'themselves' || pronounText === 'ourselves' || pronounText === 'yourselves') {
@@ -302128,7 +302128,7 @@ class EntityExtractor {
    * @param {Array} tier1Entities - Entities to upgrade (modified in place)
    */
   _upgradeCapitalizedDefaultEntities(tier1Entities) {
-    const DEFAULT_TYPE = 'bfo:BFO_0000040';
+    const DEFAULT_TYPE = 'MaterialEntity';
 
     tier1Entities.forEach(entity => {
       // Only upgrade if it has default type
@@ -302704,9 +302704,9 @@ class EntityExtractor {
 
       if (matchesTerm) {
         // Check if it's an occurrent type
-        if (type === 'bfo:BFO_0000015' || type === 'bfo:Process') {
+        if (type === 'Process' || type === 'Process') {
           // V7-008: Accept both full IRI and compact form
-          return { isProcess: true, type: 'bfo:Process' };
+          return { isProcess: true, type: 'Process' };
         }
         // Not a process (person, artifact, GDC) - return null to use other classification
         return null;
@@ -302751,7 +302751,7 @@ class EntityExtractor {
       const cleanSuffix = suffix.replace('-', '');
       if (lastWord.endsWith(cleanSuffix) && lastWord.length > cleanSuffix.length + 2) {
         // Has process suffix and not in exception list → Process
-        return { isProcess: true, type: 'bfo:Process' }; // V7-008: Use compact form instead of bfo:BFO_0000015
+        return { isProcess: true, type: 'Process' }; // V7-008: Use compact form instead of bfo:BFO_0000015
       }
     }
 
@@ -302801,20 +302801,20 @@ class EntityExtractor {
     if (words.length >= 2 && TEMPORAL_UNITS[lastWord]) {
       const firstWord = words[0];
       if (QUANTITY_WORDS[firstWord] !== undefined || /^\d+$/.test(firstWord)) {
-        return 'bfo:BFO_0000038'; // One-Dimensional Temporal Region
+        return 'OneDimensionalTemporalRegion'; // One-Dimensional Temporal Region
       }
     }
 
     // Rule 3: relative prefix + temporal unit → Temporal Region (unspecified)
     if (words.length >= 2 && TEMPORAL_UNITS[lastWord]) {
       if (RELATIVE_TEMPORAL_PREFIXES.includes(words[0])) {
-        return 'bfo:BFO_0000008'; // Temporal Region
+        return 'TemporalRegion'; // Temporal Region
       }
     }
 
     // Rule 4: standalone relative temporal term
     if (words.length === 1 && RELATIVE_TEMPORAL_TERMS.includes(lastWord)) {
-      return 'bfo:BFO_0000008'; // Temporal Region
+      return 'TemporalRegion'; // Temporal Region
     }
 
     return null;
@@ -302843,45 +302843,45 @@ class EntityExtractor {
    *
    * @param {string} fullNounLower - Full noun phrase, lowercased
    * @param {string} rootNounLower - Root/head noun, lowercased
-   * @returns {string|null} 'bfo:BFO_0000019' (Quality) or null
+   * @returns {string|null} 'Quality' (Quality) or null
    */
   _checkForSymptomType(fullNounLower, rootNounLower) {
     // Rule 0: Disease terms → Disposition, NOT Quality
     // Per OGMS/BFO, diseases are dispositions to undergo pathological processes
     if (DISEASE_TERMS.has(rootNounLower)) {
-      return 'bfo:Disposition'; // V7-008: Use compact form instead of bfo:BFO_0000016
+      return 'Disposition'; // V7-008: Use compact form instead of bfo:BFO_0000016
     }
     // Check head word of multi-word root for diseases
     const rootWordsForDisease = rootNounLower.split(/\s+/);
     if (rootWordsForDisease.length > 1) {
       const headForDisease = rootWordsForDisease[rootWordsForDisease.length - 1];
       if (DISEASE_TERMS.has(headForDisease)) {
-        return 'bfo:Disposition';
+        return 'Disposition';
       }
     }
 
     // Rule 0b: Disposition/capability terms → Disposition
     // "capacity", "capability", "ability" etc. are realizable entities, not artifacts
     if (DISPOSITION_TERMS.has(rootNounLower)) {
-      return 'bfo:Disposition'; // V7-008: Use compact form
+      return 'Disposition'; // V7-008: Use compact form
     }
 
     // Rule 0c: Evaluative quality terms → Quality
     // "disaster", "success", "failure", "demand" etc. are evaluative attributes, not artifacts
     if (EVALUATIVE_QUALITY_TERMS.has(rootNounLower)) {
-      return 'bfo:Quality'; // V7-008: Use compact form instead of bfo:BFO_0000019
+      return 'Quality'; // V7-008: Use compact form instead of bfo:BFO_0000019
     }
 
     // Rule 1: Multi-word phrase match (symptoms only)
     for (const phrase of SYMPTOM_PHRASES) {
       if (fullNounLower.includes(phrase)) {
-        return 'bfo:Quality'; // V7-008: Use compact form
+        return 'Quality'; // V7-008: Use compact form
       }
     }
 
     // Rule 2: Single-word root noun match
     if (SYMPTOM_SINGLE_WORDS.has(rootNounLower)) {
-      return 'bfo:Quality';
+      return 'Quality';
     }
 
     // Rule 3: Strip adjective modifiers and re-check root
@@ -302889,7 +302889,7 @@ class EntityExtractor {
     if (rootWords.length > 1) {
       const headWord = rootWords[rootWords.length - 1];
       if (SYMPTOM_SINGLE_WORDS.has(headWord)) {
-        return 'bfo:Quality';
+        return 'Quality';
       }
     }
 
@@ -302918,7 +302918,7 @@ class EntityExtractor {
           const head = c.trim().split(/\s+/).pop();
           return DISEASE_TERMS.has(head);
         });
-        return anyDisease ? 'bfo:Disposition' : 'bfo:Quality';
+        return anyDisease ? 'Disposition' : 'Quality';
       }
     }
 
@@ -303229,7 +303229,7 @@ class EntityExtractor {
         if (UNAMBIGUOUS_RESULT_NOUNS[modifier] ||
             ENTITY_TYPE_MAPPINGS[modifier] ||
             ['patient', 'file', 'data', 'drug', 'medication', 'document'].includes(modifier)) {
-          return 'bfo:BFO_0000015'; // Process reading for compound
+          return 'Process'; // Process reading for compound
         }
       }
     }
@@ -303251,7 +303251,7 @@ class EntityExtractor {
 
       if (nounContext.favorsProcess && nounContext.reason === 'of-complement') {
         // "organization of files" → process reading
-        return 'bfo:BFO_0000015';
+        return 'Process';
       }
 
       if (nounContext.favorsEntity) {
@@ -303304,7 +303304,7 @@ class EntityExtractor {
       || (lastWord.endsWith('ses') || lastWord.endsWith('zes') || lastWord.endsWith('xes') || lastWord.endsWith('ches') || lastWord.endsWith('shes')
           ? ONTOLOGICAL_VOCABULARY[lastWord.slice(0, -2)] : null)
       || (lastWord.endsWith('s') && !lastWord.endsWith('ss') ? ONTOLOGICAL_VOCABULARY[lastWord.slice(0, -1)] : null);
-    if (vocabType && vocabType !== 'bfo:BFO_0000015') {
+    if (vocabType && vocabType !== 'Process') {
       return vocabType;
     }
 
@@ -303885,13 +303885,13 @@ const MODALITY_TO_DEONTIC_TYPE = {
  */
 const TYPE_TO_CATEGORY = {
   // Occurrents (processes)
-  'bfo:BFO_0000015': 'occurrent',
+  'Process': 'occurrent',
   'IntentionalAct': 'occurrent',
   'ActOfCommunication': 'occurrent',
 
   // Independent Continuants (physical things)
-  'bfo:BFO_0000040': 'continuant',
-  'bfo:MaterialEntity': 'continuant',
+  'MaterialEntity': 'continuant',
+  'MaterialEntity': 'continuant',
   'Artifact': 'continuant',
   'Facility': 'continuant',
 
@@ -303904,7 +303904,7 @@ const TYPE_TO_CATEGORY = {
   'GeopoliticalOrganization': 'continuant',
 
   // Generically Dependent Continuants (information)
-  'bfo:BFO_0000031': 'gdc',
+  'GenericallyDependentContinuant': 'gdc',
   'InformationContentEntity': 'gdc'
 };
 
@@ -305350,7 +305350,7 @@ class ActExtractor {
     const linkMap = this.options.linkToTier2 ? this._buildTier2LinkMap(entities) : new Map();
 
     // Temporal regions and qualities cannot be agents or patients
-    const NON_PARTICIPANT_TYPES = ['bfo:BFO_0000038', 'bfo:BFO_0000008', 'bfo:BFO_0000019', 'bfo:BFO_0000016'];
+    const NON_PARTICIPANT_TYPES = ['OneDimensionalTemporalRegion', 'TemporalRegion', 'Quality', 'Disposition'];
     // Types that cannot be agents but CAN be patients (objects of actions)
     const NON_AGENT_TYPES = [...NON_PARTICIPANT_TYPES, 'InformationContentEntity'];
 
@@ -306388,7 +306388,7 @@ class RoleDetector {
 
     const role = {
       '@id': iri,
-      '@type': ['bfo:Role', 'owl:NamedIndividual'],
+      '@type': ['Role', 'owl:NamedIndividual'],
       'rdfs:label': roleLabel,
       'tagteam:roleType': roleType,
       'tagteam:syntacticBasis': roleType,
@@ -306576,6 +306576,23 @@ class JSONLDSerializer {
       Organization: 'cco:ont00001180',
       Person: 'cco:ont00001262',
 
+      // ===== BFO Verified Classes (opaque IRIs from BFO 2020) =====
+      Entity: 'bfo:BFO_0000001',
+      Continuant: 'bfo:BFO_0000002',
+      IndependentContinuant: 'bfo:BFO_0000004',
+      TemporalRegion: 'bfo:BFO_0000008',
+      Process: 'bfo:BFO_0000015',
+      Disposition: 'bfo:BFO_0000016',
+      Quality: 'bfo:BFO_0000019',
+      Role: 'bfo:BFO_0000023',
+      ObjectAggregate: 'bfo:BFO_0000027',
+      Site: 'bfo:BFO_0000029',
+      Object: 'bfo:BFO_0000030',
+      GenericallyDependentContinuant: 'bfo:BFO_0000031',
+      OneDimensionalTemporalRegion: 'bfo:BFO_0000038',
+      MaterialEntity: 'bfo:BFO_0000040',
+      RelationalQuality: 'bfo:BFO_0000145',
+
       // ===== GIT-Minimal Classes =====
       AutomatedDetection: 'tagteam:AutomatedDetection',
       HumanValidation: 'tagteam:HumanValidation',
@@ -306596,9 +306613,9 @@ class JSONLDSerializer {
       Empowered: 'tagteam:Empowered',    // Authority/Power status
       Protected: 'tagteam:Protected',    // Immunity/Protection status
 
-      // ===== Cross-Tier Relations =====
-      is_about: { '@id': 'cco:is_about', '@type': '@id' },
-      prescribes: { '@id': 'cco:prescribes', '@type': '@id' },
+      // ===== Cross-Tier Relations (CCO verified — opaque IRIs) =====
+      is_about: { '@id': 'cco:ont00001808', '@type': '@id' },
+      prescribes: { '@id': 'cco:ont00001942', '@type': '@id' },
       prescribed_by: { '@id': 'tagteam:prescribed_by', '@type': '@id' },
 
       // ===== ICE Concretization (BFO 2020) =====
@@ -306622,24 +306639,40 @@ class JSONLDSerializer {
       // v2.3: Role realization (for Prescribed acts where role is not yet realized)
       would_be_realized_in: { '@id': 'tagteam:would_be_realized_in', '@type': '@id' },
 
-      // ===== Tier 2 Relations (CCO) =====
-      has_agent: { '@id': 'cco:has_agent', '@type': '@id' },
-      has_recipient: { '@id': 'cco:has_recipient', '@type': '@id' },
+      // ===== Tier 2 Relations (CCO verified — opaque IRIs) =====
+      has_agent: { '@id': 'cco:ont00001833', '@type': '@id' },
+      has_recipient: { '@id': 'cco:ont00001922', '@type': '@id' },
       has_input: { '@id': 'tagteam:has_input', '@type': '@id' },
       has_output: { '@id': 'tagteam:has_output', '@type': '@id' },
-      affects: { '@id': 'cco:affects', '@type': '@id' },
-      occupies_temporal_region: { '@id': 'cco:occupies_temporal_region', '@type': '@id' },
-      participates_in: { '@id': 'cco:participates_in', '@type': '@id' },
-      is_part_of: { '@id': 'cco:is_part_of', '@type': '@id' },
-      occurs_during: { '@id': 'cco:occurs_during', '@type': '@id' },
-      designates: { '@id': 'cco:designates', '@type': '@id' },
-      is_designated_by: { '@id': 'cco:is_designated_by', '@type': '@id' },
-      is_measured_by: { '@id': 'cco:is_measured_by', '@type': '@id' },
-      measures: { '@id': 'cco:measures', '@type': '@id' },
-      has_measurement_value: { '@id': 'cco:has_measurement_value', '@type': '@id' },
-      uses_measurement_unit: { '@id': 'cco:uses_measurement_unit', '@type': '@id' },
-      has_start_time: { '@id': 'cco:has_start_time', '@type': '@id' },
-      has_end_time: { '@id': 'cco:has_end_time', '@type': '@id' },
+      affects: { '@id': 'cco:ont00001834', '@type': '@id' },
+      designates: { '@id': 'cco:ont00001916', '@type': '@id' },
+      is_designated_by: { '@id': 'cco:ont00001879', '@type': '@id' },
+      is_measured_by: { '@id': 'cco:ont00001904', '@type': '@id' },
+      measures: { '@id': 'cco:ont00001966', '@type': '@id' },
+      uses_measurement_unit: { '@id': 'cco:ont00001863', '@type': '@id' },
+
+      // ===== Tier 2 Relations (BFO re-exports — opaque IRIs) =====
+      occupies_temporal_region: { '@id': 'bfo:BFO_0000199', '@type': '@id' },
+      participates_in: { '@id': 'bfo:BFO_0000056', '@type': '@id' },
+      is_part_of: { '@id': 'bfo:BFO_0000176', '@type': '@id' },
+
+      // ===== Structural Assertion Relations (BFO verified) =====
+      located_in: { '@id': 'bfo:BFO_0000171', '@type': '@id' },
+      has_continuant_part: { '@id': 'bfo:BFO_0000178', '@type': '@id' },
+      continuant_part_of: { '@id': 'bfo:BFO_0000176', '@type': '@id' },
+      member_part_of: { '@id': 'bfo:BFO_0000129', '@type': '@id' },
+
+      // ===== Structural Assertion Relations (TagTeam-defined — not in CCO/BFO) =====
+      has_possession: { '@id': 'tagteam:has_possession', '@type': '@id' },
+      has_function: { '@id': 'tagteam:has_function', '@type': '@id' },
+      has_spatial_extent: { '@id': 'tagteam:has_spatial_extent', '@type': '@id' },
+      bears_role_for: { '@id': 'tagteam:bears_role_for', '@type': '@id' },
+
+      // ===== Aspirational Properties (not yet in use — tagteam namespace) =====
+      occurs_during: { '@id': 'tagteam:occurs_during', '@type': '@id' },
+      has_measurement_value: { '@id': 'tagteam:has_measurement_value', '@type': '@id' },
+      has_start_time: { '@id': 'tagteam:has_start_time', '@type': '@id' },
+      has_end_time: { '@id': 'tagteam:has_end_time', '@type': '@id' },
 
       // ===== GIT-Minimal Properties =====
       assertionType: { '@id': 'tagteam:assertionType', '@type': '@id' },
@@ -306706,7 +306739,7 @@ class JSONLDSerializer {
       hasModalMarker: 'tagteam:hasModalMarker',
 
       // ===== IBE Properties =====
-      has_text_value: 'cco:has_text_value',
+      has_text_value: 'cco:ont00001765',
       char_count: { '@id': 'tagteam:char_count', '@type': 'xsd:integer' },
       word_count: { '@id': 'tagteam:word_count', '@type': 'xsd:integer' },
       received_at: { '@id': 'tagteam:received_at', '@type': 'xsd:dateTime' },
@@ -307266,7 +307299,7 @@ class ObjectAggregateFactory {
 
     const aggregate = {
       '@id': this._generateAggregateIRI(originalEntity['@id']),
-      '@type': ['bfo:BFO_0000027', 'owl:NamedIndividual'], // Object Aggregate
+      '@type': ['ObjectAggregate', 'owl:NamedIndividual'], // Object Aggregate
       'rdfs:label': `Aggregate of ${label}`,
       // Use object notation with @id for JSON-LD compliance
       'has_member_part': members.map(m => ({ '@id': m['@id'] })),
@@ -307372,32 +307405,32 @@ class ObjectAggregateFactory {
  */
 const QUALITY_TYPE_MAPPINGS = {
   'critically ill': {
-    type: 'bfo:Quality',
+    type: 'Quality',
     label: 'Critical Illness Quality',
     severity: 'critical'
   },
   'terminally ill': {
-    type: 'bfo:Quality',
+    type: 'Quality',
     label: 'Terminal Illness Quality',
     severity: 'terminal'
   },
   'severely injured': {
-    type: 'bfo:Quality',
+    type: 'Quality',
     label: 'Severe Injury Quality',
     severity: 'severe'
   },
   'elderly': {
-    type: 'bfo:Quality',
+    type: 'Quality',
     label: 'Elderly Age Quality',
     ageCategory: 'elderly'
   },
   'young': {
-    type: 'bfo:Quality',
+    type: 'Quality',
     label: 'Young Age Quality',
     ageCategory: 'young'
   },
   'pediatric': {
-    type: 'bfo:Quality',
+    type: 'Quality',
     label: 'Pediatric Age Quality',
     ageCategory: 'pediatric'
   }
@@ -307475,7 +307508,7 @@ class QualityFactory {
 
     const quality = {
       '@id': iri,
-      '@type': [mapping.type, 'bfo:BFO_0000019', 'owl:NamedIndividual'],
+      '@type': [mapping.type, 'Quality', 'owl:NamedIndividual'],
       'rdfs:label': `${mapping.label} of ${bearer['rdfs:label']}`,
       // Use object notation with @id for JSON-LD compliance
       'inheres_in': { '@id': bearer['@id'] },
@@ -307507,7 +307540,7 @@ class QualityFactory {
 
     return {
       '@id': iri,
-      '@type': ['bfo:BFO_0000019', 'owl:NamedIndividual'],
+      '@type': ['Quality', 'owl:NamedIndividual'],
       'rdfs:label': `${qualifier} quality of ${bearer['rdfs:label']}`,
       // Use object notation with @id for JSON-LD compliance
       'inheres_in': { '@id': bearer['@id'] },
@@ -307971,7 +308004,7 @@ const KNOWN_CLASSES = new Set([
   'Artifact', 'Facility',
   'Act', 'IntentionalAct', 'ActOfCommunication',
   'InformationBearingEntity', 'InformationContentEntity',
-  'bfo:Role',
+  'Role',
 
   // OWL
   'owl:NamedIndividual', 'owl:Thing', 'owl:Class',
@@ -309603,7 +309636,7 @@ ComplexityBudget.BudgetError = BudgetError;
  * @example
  * const loader = new DomainConfigLoader();
  * loader.loadConfig('config/medical.json');
- * const type = loader.getTypeSpecialization('bfo:BFO_0000015', 'care');
+ * const type = loader.getTypeSpecialization('Process', 'care');
  * // Returns: 'cco:ActOfCare'
  */
 class DomainConfigLoader {
@@ -309669,7 +309702,7 @@ class DomainConfigLoader {
    *   domain: 'medical',
    *   version: '1.0',
    *   typeSpecializations: {
-   *     'bfo:BFO_0000015': {
+   *     'Process': {
    *       'care': 'cco:ActOfCare'
    *     }
    *   }
@@ -309753,12 +309786,12 @@ class DomainConfigLoader {
   /**
    * Get specialized type for a term given its BFO base type
    *
-   * @param {string} bfoType - BFO base type (e.g., 'bfo:BFO_0000015')
+   * @param {string} bfoType - BFO base type (e.g., 'Process')
    * @param {string} term - The term to specialize (e.g., 'care')
    * @returns {string|null} Specialized type or null if no specialization found
    *
    * @example
-   * loader.getTypeSpecialization('bfo:BFO_0000015', 'care')
+   * loader.getTypeSpecialization('Process', 'care')
    * // Returns: 'cco:ActOfCare' (if medical config loaded)
    */
   getTypeSpecialization(bfoType, term) {
@@ -310297,9 +310330,9 @@ class SemanticGraphBuilder {
       tier2Entities = extractedEntities.filter(e =>
         e['@type']?.some(t =>
           t.includes('Person') || t.includes('Artifact') || t.includes('Organization') ||
-          t === 'bfo:BFO_0000038' || t === 'bfo:BFO_0000008' || t === 'bfo:BFO_0000019' || t === 'bfo:BFO_0000016' ||
-          t === 'bfo:BFO_0000004' || t === 'bfo:BFO_0000027' || t === 'bfo:BFO_0000001' ||
-          t === 'bfo:BFO_0000015' ||
+          t === 'OneDimensionalTemporalRegion' || t === 'TemporalRegion' || t === 'Quality' || t === 'Disposition' ||
+          t === 'IndependentContinuant' || t === 'ObjectAggregate' || t === 'Entity' ||
+          t === 'Process' ||
           t === 'InformationContentEntity'
         )
       );
@@ -311142,7 +311175,7 @@ class SemanticGraphBuilder {
    * @private
    */
   _linkTemporalRegions(sourceText) {
-    const TEMPORAL_TYPES = ['bfo:BFO_0000038', 'bfo:BFO_0000008'];
+    const TEMPORAL_TYPES = ['OneDimensionalTemporalRegion', 'TemporalRegion'];
 
     // Tier 2 nodes don't have position info; Tier 1 DiscourseReferents do.
     // Strategy: use Tier 1 positions, then link the corresponding Tier 2 entities.
@@ -311867,7 +311900,7 @@ class SemanticGraphBuilder {
       for (const entity of entities) {
         const entityNode = {
           '@id': `${this.options.namespace}:${this._sanitizeId(entity.fullText)}`,
-          '@type': [entity.type || 'bfo:Entity'],
+          '@type': [entity.type || 'Entity'],
           'rdfs:label': entity.fullText,
         };
         if (entity.alias) {

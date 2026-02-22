@@ -94,17 +94,17 @@
       "placeType": "region"
     },
     "Pacific Ocean": {
-      "type": "bfo:Site",
+      "type": "Site",
       "aliases": ["the Pacific"],
       "placeType": "ocean"
     },
     "Atlantic Ocean": {
-      "type": "bfo:Site",
+      "type": "Site",
       "aliases": ["the Atlantic"],
       "placeType": "ocean"
     },
     "Gulf of Mexico": {
-      "type": "bfo:Site",
+      "type": "Site",
       "aliases": [],
       "placeType": "body_of_water"
     }
