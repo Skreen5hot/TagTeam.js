@@ -7,7 +7,7 @@
     "cbp",
     "operations"
   ],
-  "generatedAt": "2026-02-22T14:56:03.644Z",
+  "generatedAt": "2026-02-22T19:07:16.988Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -144,7 +144,7 @@
         "rdfs:label": "watch commander",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.644Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.988Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_11221ca027fb",
         "tagteam:denotesType": "Entity"
       },
@@ -156,7 +156,7 @@
         ],
         "rdfs:label": "lockdown",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.644Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.988Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_11221ca027fb",
         "tagteam:denotesType": "Entity"
       },
@@ -170,7 +170,7 @@
         "has_text_value": "The watch commander initiated the lockdown",
         "tagteam:char_count": 42,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T14:56:03.636Z"
+        "tagteam:received_at": "2026-02-22T19:07:16.978Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_initiated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.636Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.978Z"
       }
     ]
   }

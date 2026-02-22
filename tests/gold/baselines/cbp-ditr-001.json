@@ -6,7 +6,7 @@
     "ditransitive",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T14:56:04.170Z",
+  "generatedAt": "2026-02-22T19:07:17.459Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -39,12 +39,12 @@
   "extractedEntities": [
     {
       "text": "The supervisor",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:The_supervisor"
     },
     {
       "text": "the agent",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:the_agent"
     },
     {
@@ -72,7 +72,7 @@
       {
         "@id": "inst:The_supervisor",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The supervisor",
@@ -81,9 +81,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Supervisor_b9d84c001056"
+          "@id": "inst:Person_Supervisor_f3c396f80fec"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d885f31da205"
@@ -92,16 +92,16 @@
       {
         "@id": "inst:the_agent",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the agent",
         "tagteam:mentionId": "s0:h5:20-29",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Agent_654a5b2eb5be"
+          "@id": "inst:Person_Agent_796a2cb24d12"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d885f31da205"
@@ -186,29 +186,29 @@
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Entity_Supervisor_b9d84c001056",
+        "@id": "inst:Person_Supervisor_f3c396f80fec",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "supervisor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.170Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.459Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d885f31da205",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
-        "@id": "inst:Entity_Agent_654a5b2eb5be",
+        "@id": "inst:Person_Agent_796a2cb24d12",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "agent",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.170Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.459Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d885f31da205",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Entity_New_Credential_44c6fbb99bb7",
@@ -218,7 +218,7 @@
         ],
         "rdfs:label": "new credential",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.170Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.459Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d885f31da205",
         "tagteam:denotesType": "Entity"
       },
@@ -232,7 +232,7 @@
         "has_text_value": "The supervisor gave the agent new credentials",
         "tagteam:char_count": 45,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T14:56:04.159Z"
+        "tagteam:received_at": "2026-02-22T19:07:17.453Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -281,7 +281,7 @@
             "@id": "inst:Act_gave"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.159Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.453Z"
       }
     ]
   }

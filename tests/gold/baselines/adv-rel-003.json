@@ -6,7 +6,7 @@
     "relative-clause",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T14:56:04.743Z",
+  "generatedAt": "2026-02-22T19:07:18.040Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -35,7 +35,7 @@
   "extractedEntities": [
     {
       "text": "The officer",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:The_officer"
     },
     {
@@ -65,16 +65,16 @@
       {
         "@id": "inst:The_officer",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The officer",
         "tagteam:mentionId": "s0:h2:0-11",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Officer_5c2cd7e25fad"
+          "@id": "inst:Person_Officer_b2d5f259ed73"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0abd0485984a"
@@ -180,16 +180,16 @@
         "tagteam:parseProbability": 0.7804
       },
       {
-        "@id": "inst:Entity_Officer_5c2cd7e25fad",
+        "@id": "inst:Person_Officer_b2d5f259ed73",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "officer",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.743Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:18.040Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0abd0485984a",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Organization_Who_53233a9382b0",
@@ -200,7 +200,7 @@
         "rdfs:label": "who",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.743Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:18.040Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0abd0485984a",
         "tagteam:denotesType": "Organization"
       },
@@ -213,7 +213,7 @@
         "rdfs:label": "interview",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.743Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:18.040Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0abd0485984a",
         "tagteam:denotesType": "Entity"
       },
@@ -225,7 +225,7 @@
         ],
         "rdfs:label": "finding",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.743Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:18.040Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0abd0485984a",
         "tagteam:denotesType": "Entity"
       },
@@ -239,7 +239,7 @@
         "has_text_value": "The officer who conducted the interview documented the findings",
         "tagteam:char_count": 63,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-22T14:56:04.734Z"
+        "tagteam:received_at": "2026-02-22T19:07:18.032Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -294,7 +294,7 @@
             "@id": "inst:Act_conducted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.734Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:18.032Z"
       }
     ]
   }

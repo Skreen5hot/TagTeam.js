@@ -7,7 +7,7 @@
     "keep",
     "government"
   ],
-  "generatedAt": "2026-02-22T14:56:02.966Z",
+  "generatedAt": "2026-02-22T19:07:16.369Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,7 +32,7 @@
   "extractedEntities": [
     {
       "text": "The Department of Homeland Security",
-      "type": "Entity",
+      "type": "Organization",
       "id": "inst:The_Department_of_Homeland_Security"
     },
     {
@@ -61,7 +61,7 @@
       {
         "@id": "inst:The_Department_of_Homeland_Security",
         "@type": [
-          "Entity",
+          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The Department of Homeland Security",
@@ -70,9 +70,9 @@
         "tagteam:parseProbability": 0.3683,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Entity_Department_Of_Homeland_Security_80338ddc797a"
+          "@id": "inst:Organization_Department_Of_Homeland_Security_161cdb1056ee"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5d18eb0ca86c"
@@ -159,17 +159,17 @@
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Entity_Department_Of_Homeland_Security_80338ddc797a",
+        "@id": "inst:Organization_Department_Of_Homeland_Security_161cdb1056ee",
         "@type": [
-          "Entity",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "department of homeland security",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.965Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.369Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5d18eb0ca86c",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Organization"
       },
       {
         "@id": "inst:Organization_Homeland_Security_215587f2e1f6",
@@ -179,7 +179,7 @@
         ],
         "rdfs:label": "homeland security",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.965Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.369Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5d18eb0ca86c",
         "tagteam:denotesType": "Organization"
       },
@@ -191,7 +191,7 @@
         ],
         "rdfs:label": "directive",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.965Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.369Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5d18eb0ca86c",
         "tagteam:denotesType": "Entity"
       },
@@ -205,7 +205,7 @@
         "has_text_value": "The Department of Homeland Security issued the directive",
         "tagteam:char_count": 56,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T14:56:02.954Z"
+        "tagteam:received_at": "2026-02-22T19:07:16.361Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -254,7 +254,7 @@
             "@id": "inst:Act_issued"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.954Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.361Z"
       }
     ]
   }

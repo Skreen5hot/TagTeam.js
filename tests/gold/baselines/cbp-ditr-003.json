@@ -6,7 +6,7 @@
     "ditransitive",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T14:56:04.195Z",
+  "generatedAt": "2026-02-22T19:07:17.483Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -39,7 +39,7 @@
   "extractedEntities": [
     {
       "text": "The director",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:The_director"
     },
     {
@@ -63,7 +63,7 @@
       {
         "@id": "inst:The_director",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The director",
@@ -72,9 +72,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Director_de631c6c8139"
+          "@id": "inst:Person_Director_92160cf42539"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_8ddeb4663bec"
@@ -143,17 +143,17 @@
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Entity_Director_de631c6c8139",
+        "@id": "inst:Person_Director_92160cf42539",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "director",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.195Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.482Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_8ddeb4663bec",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Entity_Officers_Additional_Train_1651d225636f",
@@ -163,7 +163,7 @@
         ],
         "rdfs:label": "officers additional train",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.195Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.482Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_8ddeb4663bec",
         "tagteam:denotesType": "Entity"
       },
@@ -177,7 +177,7 @@
         "has_text_value": "The director offered the officers additional training",
         "tagteam:char_count": 53,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T14:56:04.188Z"
+        "tagteam:received_at": "2026-02-22T19:07:17.475Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -223,7 +223,7 @@
             "@id": "inst:Act_offered"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.188Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.475Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T14:56:03.979Z",
+  "generatedAt": "2026-02-22T19:07:17.301Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -27,7 +27,7 @@
   "extractedEntities": [
     {
       "text": "The suspect",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:The_suspect"
     },
     {
@@ -51,7 +51,7 @@
       {
         "@id": "inst:The_suspect",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The suspect",
@@ -60,9 +60,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Suspect_261a380417cb"
+          "@id": "inst:Person_Suspect_380b62766e30"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_635a40f0651d"
@@ -133,17 +133,17 @@
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Entity_Suspect_261a380417cb",
+        "@id": "inst:Person_Suspect_380b62766e30",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "suspect",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.979Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.300Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_635a40f0651d",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Entity_Federal_Custody_5efa3a816411",
@@ -153,7 +153,7 @@
         ],
         "rdfs:label": "federal custody",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.979Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.300Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_635a40f0651d",
         "tagteam:denotesType": "Entity"
       },
@@ -167,7 +167,7 @@
         "has_text_value": "The suspect was transferred to federal custody",
         "tagteam:char_count": 46,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T14:56:03.970Z"
+        "tagteam:received_at": "2026-02-22T19:07:17.292Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -213,7 +213,7 @@
             "@id": "inst:Act_transferred"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.970Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.292Z"
       }
     ]
   }

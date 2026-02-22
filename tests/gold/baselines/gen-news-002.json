@@ -6,7 +6,7 @@
     "news",
     "business"
   ],
-  "generatedAt": "2026-02-22T14:56:04.242Z",
+  "generatedAt": "2026-02-22T19:07:17.521Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -35,7 +35,7 @@
   "extractedEntities": [
     {
       "text": "The company",
-      "type": "Entity",
+      "type": "Organization",
       "id": "inst:The_company"
     },
     {
@@ -68,7 +68,7 @@
       {
         "@id": "inst:The_company",
         "@type": [
-          "Entity",
+          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The company",
@@ -77,9 +77,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Entity_Company_dd0c3ab6fc40"
+          "@id": "inst:Organization_Company_2d4500acf6e4"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_be291b49b5d2"
@@ -183,17 +183,17 @@
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Entity_Company_dd0c3ab6fc40",
+        "@id": "inst:Organization_Company_2d4500acf6e4",
         "@type": [
-          "Entity",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "company",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.242Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.521Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be291b49b5d2",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Organization"
       },
       {
         "@id": "inst:Entity_Merger_a86f33ae2083",
@@ -203,7 +203,7 @@
         ],
         "rdfs:label": "merger",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.242Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.521Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be291b49b5d2",
         "tagteam:denotesType": "Entity"
       },
@@ -215,7 +215,7 @@
         ],
         "rdfs:label": "its competitor",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.242Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.521Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be291b49b5d2",
         "tagteam:denotesType": "Entity"
       },
@@ -229,7 +229,7 @@
         "has_text_value": "The company announced a merger with its competitor",
         "tagteam:char_count": 50,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T14:56:04.234Z"
+        "tagteam:received_at": "2026-02-22T19:07:17.515Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -278,7 +278,7 @@
             "@id": "inst:Act_announced"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.234Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.515Z"
       }
     ]
   }

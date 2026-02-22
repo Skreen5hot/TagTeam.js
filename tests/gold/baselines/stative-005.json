@@ -7,7 +7,7 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-22T14:56:03.288Z",
+  "generatedAt": "2026-02-22T19:07:16.632Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -97,7 +97,7 @@
         "rdfs:label": "substance",
         "tagteam:genericityCategory": "AMB",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.288Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.632Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9db8f8815e7c",
         "tagteam:denotesType": "Entity"
       },
@@ -109,7 +109,7 @@
         ],
         "rdfs:label": "controlled material",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.288Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.632Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9db8f8815e7c",
         "tagteam:denotesType": "Entity"
       },
@@ -123,7 +123,7 @@
         "has_text_value": "The substance is classified as a controlled material",
         "tagteam:char_count": 52,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T14:56:03.278Z"
+        "tagteam:received_at": "2026-02-22T19:07:16.621Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -166,7 +166,7 @@
             "@id": "inst:a_controlled_material"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.278Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.621Z"
       }
     ]
   }

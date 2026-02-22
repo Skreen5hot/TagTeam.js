@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T14:56:02.665Z",
+  "generatedAt": "2026-02-22T19:07:16.126Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,7 +32,7 @@
   "extractedEntities": [
     {
       "text": "The agency",
-      "type": "Entity",
+      "type": "Organization",
       "id": "inst:The_agency"
     },
     {
@@ -56,7 +56,7 @@
       {
         "@id": "inst:The_agency",
         "@type": [
-          "Entity",
+          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The agency",
@@ -65,9 +65,9 @@
         "tagteam:parseProbability": 0.9272,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Entity_Agency_300300c46b32"
+          "@id": "inst:Organization_Agency_a24708564956"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_48aebb4bb95e"
@@ -136,17 +136,17 @@
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Entity_Agency_300300c46b32",
+        "@id": "inst:Organization_Agency_a24708564956",
         "@type": [
-          "Entity",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "agency",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.665Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.126Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_48aebb4bb95e",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Organization"
       },
       {
         "@id": "inst:Entity_Additional_Personnel_1980740ffd51",
@@ -156,7 +156,7 @@
         ],
         "rdfs:label": "additional personnel",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.665Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.126Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_48aebb4bb95e",
         "tagteam:denotesType": "Entity"
       },
@@ -170,7 +170,7 @@
         "has_text_value": "The agency deployed additional personnel",
         "tagteam:char_count": 40,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-22T14:56:02.657Z"
+        "tagteam:received_at": "2026-02-22T19:07:16.120Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_deployed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.657Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.120Z"
       }
     ]
   }

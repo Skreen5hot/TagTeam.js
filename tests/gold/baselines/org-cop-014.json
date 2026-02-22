@@ -6,7 +6,7 @@
     "copular",
     "definitional"
   ],
-  "generatedAt": "2026-02-22T14:56:02.501Z",
+  "generatedAt": "2026-02-22T19:07:15.989Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -22,13 +22,13 @@
   "extractedEntities": [
     {
       "text": "A field office",
-      "type": "Entity",
+      "type": "Facility",
       "id": "inst:A_field_office"
     },
     {
       "text": "field office",
-      "type": "Entity",
-      "id": "inst:Entity_Field_Office_5550595eadac"
+      "type": "Facility",
+      "id": "inst:Facility_Field_Office_d8bc4f4d77b2"
     }
   ],
   "extractedRoles": [],
@@ -37,7 +37,7 @@
       {
         "@id": "inst:A_field_office",
         "@type": [
-          "Entity",
+          "Facility",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "A field office",
@@ -46,9 +46,9 @@
         "tagteam:parseProbability": 0.8492,
         "tagteam:genericityCategory": "GEN",
         "tagteam:genericityConfidence": 0.75,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Facility",
         "is_about": {
-          "@id": "inst:Entity_Field_Office_5550595eadac"
+          "@id": "inst:Facility_Field_Office_d8bc4f4d77b2"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7836a7e31d07"
@@ -64,9 +64,9 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Entity_Field_Office_5550595eadac",
+        "@id": "inst:Facility_Field_Office_d8bc4f4d77b2",
         "@type": [
-          "Entity",
+          "Facility",
           "owl:Class"
         ],
         "rdfs:label": "field office",
@@ -76,9 +76,9 @@
         "tagteam:nominatedClassLabel": "Field Office",
         "tagteam:nominationBasis": "unknown",
         "tagteam:requiresOntologyResolution": true,
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.501Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:15.989Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7836a7e31d07",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Facility"
       },
       {
         "@id": "inst:Input_Text_IBE_7836a7e31d07",
@@ -90,7 +90,7 @@
         "has_text_value": "A field office is a regional operational unit",
         "tagteam:char_count": 45,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T14:56:02.489Z"
+        "tagteam:received_at": "2026-02-22T19:07:15.978Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -130,7 +130,7 @@
             "@id": "inst:A_field_office"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.489Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:15.978Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "multi-clause",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T14:56:04.780Z",
+  "generatedAt": "2026-02-22T19:07:18.079Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -47,17 +47,17 @@
   "extractedEntities": [
     {
       "text": "The agent",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:The_agent"
     },
     {
       "text": "the suspect",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:the_suspect"
     },
     {
       "text": "the team",
-      "type": "Entity",
+      "type": "Organization",
       "id": "inst:the_team"
     },
     {
@@ -77,16 +77,16 @@
       {
         "@id": "inst:The_agent",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The agent",
         "tagteam:mentionId": "s0:h2:0-9",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Agent_c2441b75e712"
+          "@id": "inst:Person_Agent_657ddeda8e47"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_24ce32ca9e10"
@@ -95,16 +95,16 @@
       {
         "@id": "inst:the_suspect",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the suspect",
         "tagteam:mentionId": "s0:h5:19-30",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Suspect_167a10291bbb"
+          "@id": "inst:Person_Suspect_94993546dfa0"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_24ce32ca9e10"
@@ -113,7 +113,7 @@
       {
         "@id": "inst:the_team",
         "@type": [
-          "Entity",
+          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the team",
@@ -122,9 +122,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Entity_Team_3c0ef7c367c8"
+          "@id": "inst:Organization_Team_655590434b3b"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_24ce32ca9e10"
@@ -189,41 +189,41 @@
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Entity_Agent_c2441b75e712",
+        "@id": "inst:Person_Agent_657ddeda8e47",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "agent",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.780Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:18.079Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_24ce32ca9e10",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
-        "@id": "inst:Entity_Suspect_167a10291bbb",
+        "@id": "inst:Person_Suspect_94993546dfa0",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "suspect",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.780Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:18.079Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_24ce32ca9e10",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
-        "@id": "inst:Entity_Team_3c0ef7c367c8",
+        "@id": "inst:Organization_Team_655590434b3b",
         "@type": [
-          "Entity",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "team",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.780Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:18.079Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_24ce32ca9e10",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Organization"
       },
       {
         "@id": "inst:Entity_Area_34ea5af96630",
@@ -233,7 +233,7 @@
         ],
         "rdfs:label": "area",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.780Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:18.079Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_24ce32ca9e10",
         "tagteam:denotesType": "Entity"
       },
@@ -247,7 +247,7 @@
         "has_text_value": "The agent arrested the suspect and the team secured the area",
         "tagteam:char_count": 60,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-22T14:56:04.770Z"
+        "tagteam:received_at": "2026-02-22T19:07:18.070Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -302,7 +302,7 @@
             "@id": "inst:Act_arrested"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.770Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:18.070Z"
       }
     ]
   }

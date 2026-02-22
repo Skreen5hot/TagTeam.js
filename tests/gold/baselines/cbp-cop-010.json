@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T14:56:03.796Z",
+  "generatedAt": "2026-02-22T19:07:17.132Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -67,7 +67,7 @@
         "rdfs:label": "national targeting center",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.796Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.132Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_08772ce93de7",
         "tagteam:denotesType": "Entity"
       },
@@ -81,7 +81,7 @@
         "has_text_value": "The National Targeting Center is a counterterrorism facility",
         "tagteam:char_count": 60,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T14:56:03.788Z"
+        "tagteam:received_at": "2026-02-22T19:07:17.124Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -121,7 +121,7 @@
             "@id": "inst:The_National_Targeting_Center"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.788Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.124Z"
       }
     ]
   }

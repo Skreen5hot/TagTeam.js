@@ -326368,6 +326368,47 @@ const ENTITY_BEARING_LABELS = new Set([
 ]);
 
 /**
+ * Head-noun → ontological type mappings for common nouns.
+ * Mirrors EntityExtractor.ENTITY_TYPE_MAPPINGS for the tree pipeline.
+ * Enables correct Tier 2 typing without gazetteer dependency.
+ */
+const HEAD_NOUN_TYPE_MAP = {
+  // Persons (medical + professional + general)
+  'doctor': 'Person', 'physician': 'Person', 'surgeon': 'Person',
+  'nurse': 'Person', 'patient': 'Person', 'therapist': 'Person',
+  'pharmacist': 'Person', 'paramedic': 'Person', 'caregiver': 'Person',
+  'person': 'Person', 'man': 'Person', 'woman': 'Person',
+  'child': 'Person', 'parent': 'Person', 'mother': 'Person', 'father': 'Person',
+  'engineer': 'Person', 'teacher': 'Person', 'lawyer': 'Person',
+  'scientist': 'Person', 'researcher': 'Person', 'analyst': 'Person',
+  'manager': 'Person', 'director': 'Person', 'officer': 'Person',
+  'agent': 'Person', 'inspector': 'Person', 'technician': 'Person',
+  'programmer': 'Person', 'developer': 'Person', 'designer': 'Person',
+  'consultant': 'Person', 'administrator': 'Person', 'admin': 'Person',
+  'supervisor': 'Person', 'specialist': 'Person', 'professor': 'Person',
+  'student': 'Person', 'worker': 'Person', 'employee': 'Person',
+  'member': 'Person', 'user': 'Person', 'client': 'Person',
+  'customer': 'Person', 'owner': 'Person', 'author': 'Person',
+  'judge': 'Person', 'witness': 'Person', 'suspect': 'Person',
+  'victim': 'Person', 'soldier': 'Person', 'pilot': 'Person',
+  'driver': 'Person', 'chef': 'Person', 'artist': 'Person',
+  'guard': 'Person', 'family': 'Agent',
+  // Artifacts
+  'ventilator': 'Artifact', 'medication': 'Artifact', 'drug': 'Artifact',
+  'medicine': 'Artifact', 'equipment': 'Artifact', 'server': 'Artifact',
+  'database': 'Artifact', 'system': 'Artifact', 'application': 'Artifact',
+  // ICE
+  'alert': 'InformationContentEntity', 'log': 'InformationContentEntity',
+  'credential': 'InformationContentEntity', 'data': 'InformationContentEntity',
+  // Facilities
+  'datacenter': 'Facility', 'facility': 'Facility', 'building': 'Facility',
+  'office': 'Facility',
+  // Organizations
+  'hospital': 'Organization', 'department': 'Organization',
+  'agency': 'Organization', 'company': 'Organization', 'team': 'Organization',
+};
+
+/**
  * POS tags that indicate a proper noun (relevant for coordination split).
  */
 const PROPER_NOUN_TAGS = new Set(['NNP', 'NNPS']);
@@ -326745,6 +326786,12 @@ class TreeEntityExtractor {
       // Try head word only
       const headLookup = this.gazetteerNER.lookup(headWord);
       if (headLookup) return headLookup.type;
+    }
+
+    // Head-noun type lookup (common nouns)
+    const headLower = (headWord || '').toLowerCase();
+    if (HEAD_NOUN_TYPE_MAP[headLower]) {
+      return HEAD_NOUN_TYPE_MAP[headLower];
     }
 
     // POS tag heuristics
@@ -330239,7 +330286,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '3.0.0-alpha.1',
-    BUILD: 'build 217 | 9ed8311 | 2026-02-22T18:58:59.084Z',
+    BUILD: 'build 218 | 0fd2248 | 2026-02-22T19:05:27.131Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,

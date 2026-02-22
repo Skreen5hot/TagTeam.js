@@ -6,7 +6,7 @@
     "academic",
     "research"
   ],
-  "generatedAt": "2026-02-22T14:56:04.390Z",
+  "generatedAt": "2026-02-22T19:07:17.670Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -31,7 +31,7 @@
   "extractedEntities": [
     {
       "text": "The team",
-      "type": "Entity",
+      "type": "Organization",
       "id": "inst:The_team"
     },
     {
@@ -55,7 +55,7 @@
       {
         "@id": "inst:The_team",
         "@type": [
-          "Entity",
+          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The team",
@@ -64,9 +64,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Entity_Team_3533a97d6d5c"
+          "@id": "inst:Organization_Team_abff526f57a4"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b21af55d2390"
@@ -135,17 +135,17 @@
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Entity_Team_3533a97d6d5c",
+        "@id": "inst:Organization_Team_abff526f57a4",
         "@type": [
-          "Entity",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "team",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.390Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.669Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b21af55d2390",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Organization"
       },
       {
         "@id": "inst:Entity_Experiment_04b8e8223b9d",
@@ -155,7 +155,7 @@
         ],
         "rdfs:label": "experiment",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.390Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.670Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b21af55d2390",
         "tagteam:denotesType": "Entity"
       },
@@ -169,7 +169,7 @@
         "has_text_value": "The team replicated the experiment",
         "tagteam:char_count": 34,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-22T14:56:04.380Z"
+        "tagteam:received_at": "2026-02-22T19:07:17.664Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -215,7 +215,7 @@
             "@id": "inst:Act_replicated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.380Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.664Z"
       }
     ]
   }

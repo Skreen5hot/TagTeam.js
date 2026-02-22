@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T14:56:02.830Z",
+  "generatedAt": "2026-02-22T19:07:16.256Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -37,7 +37,7 @@
     },
     {
       "text": "the director",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:the_director"
     }
   ],
@@ -76,16 +76,16 @@
       {
         "@id": "inst:the_director",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the director",
         "tagteam:mentionId": "s0:h7:28-40",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Director_a014b2bc9384"
+          "@id": "inst:Person_Director_cbf548b22332"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e3dc274e948f"
@@ -145,21 +145,21 @@
         "rdfs:label": "report",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.830Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.256Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e3dc274e948f",
         "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Director_a014b2bc9384",
+        "@id": "inst:Person_Director_cbf548b22332",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "director",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.830Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.256Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e3dc274e948f",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Input_Text_IBE_e3dc274e948f",
@@ -171,7 +171,7 @@
         "has_text_value": "The report was submitted to the director",
         "tagteam:char_count": 40,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T14:56:02.819Z"
+        "tagteam:received_at": "2026-02-22T19:07:16.245Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -217,7 +217,7 @@
             "@id": "inst:Act_submitted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.819Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.245Z"
       }
     ]
   }

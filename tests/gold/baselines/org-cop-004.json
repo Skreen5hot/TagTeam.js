@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-22T14:56:02.336Z",
+  "generatedAt": "2026-02-22T19:07:15.845Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -94,7 +94,7 @@
         "rdfs:label": "fema",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.336Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:15.845Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_661547ea796b",
         "tagteam:denotesType": "Organization"
       },
@@ -106,7 +106,7 @@
         ],
         "rdfs:label": "disaster relief",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.336Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:15.845Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_661547ea796b",
         "tagteam:denotesType": "Entity"
       },
@@ -120,7 +120,7 @@
         "has_text_value": "FEMA is responsible for disaster relief",
         "tagteam:char_count": 39,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T14:56:02.321Z"
+        "tagteam:received_at": "2026-02-22T19:07:15.836Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -163,7 +163,7 @@
             "@id": "inst:disaster_relief"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.321Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:15.836Z"
       }
     ]
   }

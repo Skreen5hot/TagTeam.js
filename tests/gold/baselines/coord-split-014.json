@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-22T14:56:03.142Z",
+  "generatedAt": "2026-02-22T19:07:16.517Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -108,7 +108,7 @@
         ],
         "rdfs:label": "senator and the representative sponsored the bill",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.142Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.516Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_feb82c570d57",
         "tagteam:denotesType": "Entity"
       },
@@ -120,7 +120,7 @@
         ],
         "rdfs:label": "bill",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.142Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.516Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_feb82c570d57",
         "tagteam:denotesType": "Person"
       },
@@ -134,7 +134,7 @@
         "has_text_value": "The senator and the representative sponsored the bill",
         "tagteam:char_count": 53,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T14:56:03.133Z"
+        "tagteam:received_at": "2026-02-22T19:07:16.507Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -180,7 +180,7 @@
             "@id": "inst:Act_senator"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.133Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.507Z"
       }
     ]
   }

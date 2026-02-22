@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T14:56:04.133Z",
+  "generatedAt": "2026-02-22T19:07:17.435Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -39,7 +39,7 @@
   "extractedEntities": [
     {
       "text": "The specialist",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:The_specialist"
     },
     {
@@ -68,16 +68,16 @@
       {
         "@id": "inst:The_specialist",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The specialist",
         "tagteam:mentionId": "s0:h2:0-14",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Specialist_8f6e346edad9"
+          "@id": "inst:Person_Specialist_00f6b3debf4d"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_be0610f95ed1"
@@ -177,16 +177,16 @@
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Entity_Specialist_8f6e346edad9",
+        "@id": "inst:Person_Specialist_00f6b3debf4d",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "specialist",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.132Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.435Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be0610f95ed1",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Entity_Sample_a7a0134a3c93",
@@ -196,7 +196,7 @@
         ],
         "rdfs:label": "sample",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.132Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.435Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be0610f95ed1",
         "tagteam:denotesType": "Entity"
       },
@@ -208,7 +208,7 @@
         ],
         "rdfs:label": "shipment",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.132Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.435Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be0610f95ed1",
         "tagteam:denotesType": "Entity"
       },
@@ -222,7 +222,7 @@
         "has_text_value": "The specialist collected samples from the shipment",
         "tagteam:char_count": 50,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T14:56:04.121Z"
+        "tagteam:received_at": "2026-02-22T19:07:17.426Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -274,7 +274,7 @@
             "@id": "inst:Act_collected"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.121Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.426Z"
       }
     ]
   }

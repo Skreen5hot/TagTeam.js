@@ -6,7 +6,7 @@
     "academic",
     "research"
   ],
-  "generatedAt": "2026-02-22T14:56:04.314Z",
+  "generatedAt": "2026-02-22T19:07:17.600Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -35,7 +35,7 @@
   "extractedEntities": [
     {
       "text": "The researcher",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:The_researcher"
     },
     {
@@ -68,7 +68,7 @@
       {
         "@id": "inst:The_researcher",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The researcher",
@@ -77,9 +77,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Researcher_fb8c765b4ecb"
+          "@id": "inst:Person_Researcher_a7221ef0cb80"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7a16aeae2afb"
@@ -183,17 +183,17 @@
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Entity_Researcher_fb8c765b4ecb",
+        "@id": "inst:Person_Researcher_a7221ef0cb80",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "researcher",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.314Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.600Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7a16aeae2afb",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Entity_Study_0c60247bf889",
@@ -203,7 +203,7 @@
         ],
         "rdfs:label": "study",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.314Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.600Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7a16aeae2afb",
         "tagteam:denotesType": "Entity"
       },
@@ -215,7 +215,7 @@
         ],
         "rdfs:label": "peer reviewed journal",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.314Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.600Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7a16aeae2afb",
         "tagteam:denotesType": "Entity"
       },
@@ -229,7 +229,7 @@
         "has_text_value": "The researcher published the study in a peer-reviewed journal",
         "tagteam:char_count": 61,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-22T14:56:04.304Z"
+        "tagteam:received_at": "2026-02-22T19:07:17.589Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -278,7 +278,7 @@
             "@id": "inst:Act_published"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.304Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.589Z"
       }
     ]
   }

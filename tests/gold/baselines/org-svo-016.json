@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T14:56:02.739Z",
+  "generatedAt": "2026-02-22T19:07:16.183Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -144,7 +144,7 @@
         "rdfs:label": "patrol unit",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.739Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.183Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_f4a24093cff1",
         "tagteam:denotesType": "Entity"
       },
@@ -156,7 +156,7 @@
         ],
         "rdfs:label": "perimeter",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.739Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.183Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_f4a24093cff1",
         "tagteam:denotesType": "Entity"
       },
@@ -170,7 +170,7 @@
         "has_text_value": "The patrol unit secured the perimeter",
         "tagteam:char_count": 37,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T14:56:02.728Z"
+        "tagteam:received_at": "2026-02-22T19:07:16.176Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_secured"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.728Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.176Z"
       }
     ]
   }

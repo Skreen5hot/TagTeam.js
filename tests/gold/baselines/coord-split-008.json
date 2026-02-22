@@ -7,7 +7,7 @@
     "split",
     "object"
   ],
-  "generatedAt": "2026-02-22T14:56:03.037Z",
+  "generatedAt": "2026-02-22T19:07:16.423Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -40,7 +40,7 @@
   "extractedEntities": [
     {
       "text": "The inspector",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:The_inspector"
     },
     {
@@ -64,7 +64,7 @@
       {
         "@id": "inst:The_inspector",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The inspector",
@@ -73,9 +73,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Inspector_8210d9a5be69"
+          "@id": "inst:Person_Inspector_3c49e6ca46af"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_754e50158ed3"
@@ -144,17 +144,17 @@
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Entity_Inspector_8210d9a5be69",
+        "@id": "inst:Person_Inspector_3c49e6ca46af",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "inspector",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.037Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.423Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_754e50158ed3",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Entity_Document_acef2de8da3e",
@@ -164,7 +164,7 @@
         ],
         "rdfs:label": "document",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.037Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.423Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_754e50158ed3",
         "tagteam:denotesType": "Entity"
       },
@@ -178,7 +178,7 @@
         "has_text_value": "The inspector reviewed the documents and the photographs",
         "tagteam:char_count": 56,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T14:56:03.027Z"
+        "tagteam:received_at": "2026-02-22T19:07:16.415Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -224,7 +224,7 @@
             "@id": "inst:Act_reviewed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.027Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.415Z"
       }
     ]
   }

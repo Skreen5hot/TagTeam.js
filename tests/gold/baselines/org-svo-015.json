@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T14:56:02.723Z",
+  "generatedAt": "2026-02-22T19:07:16.172Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,7 +32,7 @@
   "extractedEntities": [
     {
       "text": "The witness",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:The_witness"
     },
     {
@@ -56,7 +56,7 @@
       {
         "@id": "inst:The_witness",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The witness",
@@ -65,9 +65,9 @@
         "tagteam:parseProbability": 0.3683,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Witness_5279c9a0ef61"
+          "@id": "inst:Person_Witness_ebe134d58b81"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_775791190ffd"
@@ -137,17 +137,17 @@
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Entity_Witness_5279c9a0ef61",
+        "@id": "inst:Person_Witness_ebe134d58b81",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "witness",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.723Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.172Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_775791190ffd",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Entity_Testimony_244efc1915c2",
@@ -157,7 +157,7 @@
         ],
         "rdfs:label": "testimony",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.723Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.172Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_775791190ffd",
         "tagteam:denotesType": "Entity"
       },
@@ -171,7 +171,7 @@
         "has_text_value": "The witness provided testimony",
         "tagteam:char_count": 30,
         "tagteam:word_count": 4,
-        "tagteam:received_at": "2026-02-22T14:56:02.715Z"
+        "tagteam:received_at": "2026-02-22T19:07:16.165Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -217,7 +217,7 @@
             "@id": "inst:Act_provided"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.715Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.165Z"
       }
     ]
   }

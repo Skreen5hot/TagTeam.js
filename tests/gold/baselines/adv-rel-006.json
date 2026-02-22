@@ -6,7 +6,7 @@
     "relative-clause",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T14:56:04.916Z",
+  "generatedAt": "2026-02-22T19:07:18.214Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -35,7 +35,7 @@
   "extractedEntities": [
     {
       "text": "The suspect",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:The_suspect"
     },
     {
@@ -65,16 +65,16 @@
       {
         "@id": "inst:The_suspect",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The suspect",
         "tagteam:mentionId": "s0:h2:0-11",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Suspect_48ddf1dc9aab"
+          "@id": "inst:Person_Suspect_49097baf71fa"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ea1319c8181c"
@@ -180,16 +180,16 @@
         "tagteam:parseProbability": 0.7804
       },
       {
-        "@id": "inst:Entity_Suspect_48ddf1dc9aab",
+        "@id": "inst:Person_Suspect_49097baf71fa",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "suspect",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.916Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:18.213Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ea1319c8181c",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Organization_Who_b4977e3c4530",
@@ -200,7 +200,7 @@
         "rdfs:label": "who",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.916Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:18.213Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ea1319c8181c",
         "tagteam:denotesType": "Organization"
       },
@@ -213,7 +213,7 @@
         "rdfs:label": "scene",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.916Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:18.213Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ea1319c8181c",
         "tagteam:denotesType": "Entity"
       },
@@ -225,7 +225,7 @@
         ],
         "rdfs:label": "patrol",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.916Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:18.213Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ea1319c8181c",
         "tagteam:denotesType": "Entity"
       },
@@ -239,7 +239,7 @@
         "has_text_value": "The suspect who fled the scene was apprehended by the patrol",
         "tagteam:char_count": 60,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-22T14:56:04.907Z"
+        "tagteam:received_at": "2026-02-22T19:07:18.203Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -294,7 +294,7 @@
             "@id": "inst:Act_fled"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.907Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:18.203Z"
       }
     ]
   }

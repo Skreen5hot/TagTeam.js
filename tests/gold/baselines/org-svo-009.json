@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T14:56:02.637Z",
+  "generatedAt": "2026-02-22T19:07:16.106Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,7 +32,7 @@
   "extractedEntities": [
     {
       "text": "The inspector",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:The_inspector"
     },
     {
@@ -56,7 +56,7 @@
       {
         "@id": "inst:The_inspector",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The inspector",
@@ -65,9 +65,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Inspector_3b3e5995d186"
+          "@id": "inst:Person_Inspector_b84e457481fc"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_2bea5c342a3b"
@@ -136,17 +136,17 @@
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Entity_Inspector_3b3e5995d186",
+        "@id": "inst:Person_Inspector_b84e457481fc",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "inspector",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.637Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.106Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2bea5c342a3b",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Entity_Evidence_142de5fccee0",
@@ -156,7 +156,7 @@
         ],
         "rdfs:label": "evidence",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.637Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.106Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2bea5c342a3b",
         "tagteam:denotesType": "Entity"
       },
@@ -170,7 +170,7 @@
         "has_text_value": "The inspector examined the evidence",
         "tagteam:char_count": 35,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-22T14:56:02.627Z"
+        "tagteam:received_at": "2026-02-22T19:07:16.098Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_examined"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.627Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.098Z"
       }
     ]
   }

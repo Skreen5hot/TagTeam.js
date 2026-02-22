@@ -7,7 +7,7 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-22T14:56:03.334Z",
+  "generatedAt": "2026-02-22T19:07:16.672Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -37,7 +37,7 @@
     },
     {
       "text": "the senior analyst",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:the_senior_analyst"
     }
   ],
@@ -76,16 +76,16 @@
       {
         "@id": "inst:the_senior_analyst",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the senior analyst",
         "tagteam:mentionId": "s0:h8:27-45",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Senior_Analyst_1072eac7f03d"
+          "@id": "inst:Person_Senior_Analyst_a7952a22303e"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_dbd2a8fd498f"
@@ -145,21 +145,21 @@
         "rdfs:label": "report",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.333Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.672Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_dbd2a8fd498f",
         "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Senior_Analyst_1072eac7f03d",
+        "@id": "inst:Person_Senior_Analyst_a7952a22303e",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "senior analyst",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.333Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.672Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_dbd2a8fd498f",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Input_Text_IBE_dbd2a8fd498f",
@@ -171,7 +171,7 @@
         "has_text_value": "The report was composed by the senior analyst",
         "tagteam:char_count": 45,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T14:56:03.322Z"
+        "tagteam:received_at": "2026-02-22T19:07:16.661Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -217,7 +217,7 @@
             "@id": "inst:Act_composed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.322Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.661Z"
       }
     ]
   }

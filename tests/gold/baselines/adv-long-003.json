@@ -6,7 +6,7 @@
     "long-np",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T14:56:04.604Z",
+  "generatedAt": "2026-02-22T19:07:17.885Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -35,7 +35,7 @@
   "extractedEntities": [
     {
       "text": "The chief patrol agent of the Rio Grande Valley sector",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:The_chief_patrol_agent_of_the_Rio_Grande_Valley_sector"
     },
     {
@@ -45,7 +45,7 @@
     },
     {
       "text": "the team",
-      "type": "Entity",
+      "type": "Organization",
       "id": "inst:the_team"
     }
   ],
@@ -64,7 +64,7 @@
       {
         "@id": "inst:The_chief_patrol_agent_of_the_Rio_Grande_Valley_sector",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The chief patrol agent of the Rio Grande Valley sector",
@@ -73,9 +73,9 @@
         "tagteam:parseProbability": 0.6583,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Chief_Patrol_Agent_Of_The_Rio_Grande_Valley_Sector_df100d0eaddc"
+          "@id": "inst:Person_Chief_Patrol_Agent_Of_The_Rio_Grande_Valley_Sector_d2c3dc60e40a"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0ea5cf1748b8"
@@ -102,16 +102,16 @@
       {
         "@id": "inst:the_team",
         "@type": [
-          "Entity",
+          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the team",
         "tagteam:mentionId": "s0:h13:63-71",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Entity_Team_d1eaaeb7cfd7"
+          "@id": "inst:Organization_Team_530f0206ca59"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0ea5cf1748b8"
@@ -162,17 +162,17 @@
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Entity_Chief_Patrol_Agent_Of_The_Rio_Grande_Valley_Sector_df100d0eaddc",
+        "@id": "inst:Person_Chief_Patrol_Agent_Of_The_Rio_Grande_Valley_Sector_d2c3dc60e40a",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "chief patrol agent of the rio grande valley sector",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.603Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.885Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0ea5cf1748b8",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Entity_Rio_Grande_Valley_Sector_057d97f7db3a",
@@ -182,21 +182,21 @@
         ],
         "rdfs:label": "rio grande valley sector",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.603Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.885Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0ea5cf1748b8",
         "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Team_d1eaaeb7cfd7",
+        "@id": "inst:Organization_Team_530f0206ca59",
         "@type": [
-          "Entity",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "team",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.603Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.885Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0ea5cf1748b8",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Organization"
       },
       {
         "@id": "inst:Input_Text_IBE_0ea5cf1748b8",
@@ -208,7 +208,7 @@
         "has_text_value": "The chief patrol agent of the Rio Grande Valley sector briefed the team",
         "tagteam:char_count": 71,
         "tagteam:word_count": 13,
-        "tagteam:received_at": "2026-02-22T14:56:04.595Z"
+        "tagteam:received_at": "2026-02-22T19:07:17.873Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -257,7 +257,7 @@
             "@id": "inst:Act_briefed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.595Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.873Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-22T14:56:03.366Z",
+  "generatedAt": "2026-02-22T19:07:16.697Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -37,7 +37,7 @@
     },
     {
       "text": "the customs inspector",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:the_customs_inspector"
     }
   ],
@@ -76,16 +76,16 @@
       {
         "@id": "inst:the_customs_inspector",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the customs inspector",
         "tagteam:mentionId": "s0:h8:31-52",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Customs_Inspector_87bdef3a7490"
+          "@id": "inst:Person_Customs_Inspector_7a7bb4212384"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_62f9fb95d513"
@@ -145,21 +145,21 @@
         "rdfs:label": "shipment",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.365Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.697Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_62f9fb95d513",
         "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Customs_Inspector_87bdef3a7490",
+        "@id": "inst:Person_Customs_Inspector_7a7bb4212384",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "customs inspector",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.365Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.697Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_62f9fb95d513",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Input_Text_IBE_62f9fb95d513",
@@ -171,7 +171,7 @@
         "has_text_value": "The shipment was classified by the customs inspector",
         "tagteam:char_count": 52,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T14:56:03.355Z"
+        "tagteam:received_at": "2026-02-22T19:07:16.688Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -217,7 +217,7 @@
             "@id": "inst:Act_classified"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.355Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.688Z"
       }
     ]
   }

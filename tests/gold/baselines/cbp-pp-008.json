@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T14:56:04.116Z",
+  "generatedAt": "2026-02-22T19:07:17.421Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -191,7 +191,7 @@
         "rdfs:label": "patrol",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.116Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.420Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d6c44624a76b",
         "tagteam:denotesType": "Entity"
       },
@@ -203,7 +203,7 @@
         ],
         "rdfs:label": "group",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.116Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.420Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d6c44624a76b",
         "tagteam:denotesType": "Entity"
       },
@@ -215,7 +215,7 @@
         ],
         "rdfs:label": "river",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.116Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.420Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d6c44624a76b",
         "tagteam:denotesType": "Entity"
       },
@@ -229,7 +229,7 @@
         "has_text_value": "The patrol apprehended the group near the river",
         "tagteam:char_count": 47,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T14:56:04.108Z"
+        "tagteam:received_at": "2026-02-22T19:07:17.409Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -278,7 +278,7 @@
             "@id": "inst:Act_apprehended"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.108Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.409Z"
       }
     ]
   }

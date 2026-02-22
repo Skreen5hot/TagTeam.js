@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-22T14:56:02.465Z",
+  "generatedAt": "2026-02-22T19:07:15.962Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -93,7 +93,7 @@
         "rdfs:label": "nasa",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.465Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:15.961Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6a98fd9c5a58",
         "tagteam:denotesType": "Entity"
       },
@@ -105,7 +105,7 @@
         ],
         "rdfs:label": "federal government",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.465Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:15.962Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6a98fd9c5a58",
         "tagteam:denotesType": "Entity"
       },
@@ -119,7 +119,7 @@
         "has_text_value": "NASA is an independent agency of the federal government",
         "tagteam:char_count": 55,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-22T14:56:02.451Z"
+        "tagteam:received_at": "2026-02-22T19:07:15.951Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -162,7 +162,7 @@
             "@id": "inst:the_federal_government"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.451Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:15.951Z"
       }
     ]
   }

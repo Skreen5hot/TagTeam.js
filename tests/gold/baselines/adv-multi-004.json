@@ -7,7 +7,7 @@
     "shared-subject",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T14:56:04.819Z",
+  "generatedAt": "2026-02-22T19:07:18.118Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -40,7 +40,7 @@
   "extractedEntities": [
     {
       "text": "The analyst",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:The_analyst"
     },
     {
@@ -69,7 +69,7 @@
       {
         "@id": "inst:The_analyst",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The analyst",
@@ -78,9 +78,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Analyst_2a3cc6a76dca"
+          "@id": "inst:Person_Analyst_6a9f7b760a6e"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c2deb9cd5398"
@@ -167,17 +167,17 @@
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Entity_Analyst_2a3cc6a76dca",
+        "@id": "inst:Person_Analyst_6a9f7b760a6e",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "analyst",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.819Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:18.118Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c2deb9cd5398",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Entity_Threat_49a84ab9910b",
@@ -187,7 +187,7 @@
         ],
         "rdfs:label": "threat",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.819Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:18.118Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c2deb9cd5398",
         "tagteam:denotesType": "Entity"
       },
@@ -199,7 +199,7 @@
         ],
         "rdfs:label": "response plan",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.819Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:18.118Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c2deb9cd5398",
         "tagteam:denotesType": "Entity"
       },
@@ -213,7 +213,7 @@
         "has_text_value": "The analyst identified the threat and recommended a response plan",
         "tagteam:char_count": 65,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-22T14:56:04.809Z"
+        "tagteam:received_at": "2026-02-22T19:07:18.109Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -262,7 +262,7 @@
             "@id": "inst:Act_identified"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.809Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:18.109Z"
       }
     ]
   }

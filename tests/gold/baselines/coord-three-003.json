@@ -7,7 +7,7 @@
     "coordination",
     "government"
   ],
-  "generatedAt": "2026-02-22T14:56:03.413Z",
+  "generatedAt": "2026-02-22T19:07:16.744Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -48,12 +48,12 @@
   "extractedEntities": [
     {
       "text": "The agent",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:The_agent"
     },
     {
       "text": "the supervisor",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:the_supervisor"
     },
     {
@@ -73,7 +73,7 @@
       {
         "@id": "inst:The_agent",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The agent",
@@ -82,9 +82,9 @@
         "tagteam:parseProbability": 0.3683,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Agent_e15eff2385f4"
+          "@id": "inst:Person_Agent_2847831ed3c9"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_76c378938573"
@@ -93,7 +93,7 @@
       {
         "@id": "inst:the_supervisor",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the supervisor",
@@ -102,9 +102,9 @@
         "tagteam:parseProbability": 0.889,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Supervisor_9c0bbeea1306"
+          "@id": "inst:Person_Supervisor_2a78bb925ab2"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_76c378938573"
@@ -157,30 +157,30 @@
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Entity_Agent_e15eff2385f4",
+        "@id": "inst:Person_Agent_2847831ed3c9",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "agent",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.413Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.743Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_76c378938573",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
-        "@id": "inst:Entity_Supervisor_9c0bbeea1306",
+        "@id": "inst:Person_Supervisor_2a78bb925ab2",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "supervisor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.413Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.743Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_76c378938573",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Entity_Case_7f0ed85782d4",
@@ -190,7 +190,7 @@
         ],
         "rdfs:label": "case",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.413Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.743Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_76c378938573",
         "tagteam:denotesType": "Entity"
       },
@@ -204,7 +204,7 @@
         "has_text_value": "The agent, the analyst, and the supervisor reviewed the case",
         "tagteam:char_count": 60,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-22T14:56:03.402Z"
+        "tagteam:received_at": "2026-02-22T19:07:16.733Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -253,7 +253,7 @@
             "@id": "inst:Act_analyst"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.402Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.733Z"
       }
     ]
   }

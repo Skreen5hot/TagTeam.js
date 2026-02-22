@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T14:56:04.059Z",
+  "generatedAt": "2026-02-22T19:07:17.373Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -39,7 +39,7 @@
   "extractedEntities": [
     {
       "text": "The analyst",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:The_analyst"
     },
     {
@@ -72,7 +72,7 @@
       {
         "@id": "inst:The_analyst",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The analyst",
@@ -81,9 +81,9 @@
         "tagteam:parseProbability": 0.889,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Analyst_c3599c6465e0"
+          "@id": "inst:Person_Analyst_c2268b798096"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_052be27bb329"
@@ -187,17 +187,17 @@
         "tagteam:parseProbability": 0.7804
       },
       {
-        "@id": "inst:Entity_Analyst_c3599c6465e0",
+        "@id": "inst:Person_Analyst_c2268b798096",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "analyst",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.059Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.373Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_052be27bb329",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Entity_Intelligence_0a3815f4392e",
@@ -207,7 +207,7 @@
         ],
         "rdfs:label": "intelligence",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.059Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.373Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_052be27bb329",
         "tagteam:denotesType": "Entity"
       },
@@ -219,7 +219,7 @@
         ],
         "rdfs:label": "multiple source",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.059Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.373Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_052be27bb329",
         "tagteam:denotesType": "Entity"
       },
@@ -233,7 +233,7 @@
         "has_text_value": "The analyst gathered intelligence from multiple sources",
         "tagteam:char_count": 55,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T14:56:04.051Z"
+        "tagteam:received_at": "2026-02-22T19:07:17.366Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -282,7 +282,7 @@
             "@id": "inst:Act_gathered"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.051Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.366Z"
       }
     ]
   }

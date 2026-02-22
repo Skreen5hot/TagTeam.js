@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T14:56:04.076Z",
+  "generatedAt": "2026-02-22T19:07:17.383Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -35,12 +35,12 @@
   "extractedEntities": [
     {
       "text": "The supervisor",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:The_supervisor"
     },
     {
       "text": "the team",
-      "type": "Entity",
+      "type": "Organization",
       "id": "inst:the_team"
     },
     {
@@ -68,7 +68,7 @@
       {
         "@id": "inst:The_supervisor",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The supervisor",
@@ -77,9 +77,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Supervisor_04c2a51d47a1"
+          "@id": "inst:Person_Supervisor_487af051fef4"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a1199a59d28f"
@@ -88,16 +88,16 @@
       {
         "@id": "inst:the_team",
         "@type": [
-          "Entity",
+          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the team",
         "tagteam:mentionId": "s0:h5:23-31",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Entity_Team_a5100541ffa0"
+          "@id": "inst:Organization_Team_d9c56c4d1f53"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a1199a59d28f"
@@ -183,29 +183,29 @@
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Entity_Supervisor_04c2a51d47a1",
+        "@id": "inst:Person_Supervisor_487af051fef4",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "supervisor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.076Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.383Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a1199a59d28f",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
-        "@id": "inst:Entity_Team_a5100541ffa0",
+        "@id": "inst:Organization_Team_d9c56c4d1f53",
         "@type": [
-          "Entity",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "team",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.076Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.383Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a1199a59d28f",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Organization"
       },
       {
         "@id": "inst:Entity_Operation_697fd1f6fb14",
@@ -215,7 +215,7 @@
         ],
         "rdfs:label": "operation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.076Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.383Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a1199a59d28f",
         "tagteam:denotesType": "Entity"
       },
@@ -229,7 +229,7 @@
         "has_text_value": "The supervisor briefed the team on the operation",
         "tagteam:char_count": 48,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T14:56:04.064Z"
+        "tagteam:received_at": "2026-02-22T19:07:17.376Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -278,7 +278,7 @@
             "@id": "inst:Act_briefed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.064Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.376Z"
       }
     ]
   }

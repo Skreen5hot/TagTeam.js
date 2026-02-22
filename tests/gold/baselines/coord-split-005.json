@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-22T14:56:02.950Z",
+  "generatedAt": "2026-02-22T19:07:16.358Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -198,7 +198,7 @@
         "rdfs:label": "fema",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.950Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.358Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a2e2db536cca",
         "tagteam:denotesType": "Organization"
       },
@@ -211,7 +211,7 @@
         "rdfs:label": "red cross",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.950Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.358Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a2e2db536cca",
         "tagteam:denotesType": "Entity"
       },
@@ -223,7 +223,7 @@
         ],
         "rdfs:label": "disaster",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.950Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.358Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a2e2db536cca",
         "tagteam:denotesType": "Entity"
       },
@@ -237,7 +237,7 @@
         "has_text_value": "FEMA and the Red Cross provided disaster relief",
         "tagteam:char_count": 47,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T14:56:02.936Z"
+        "tagteam:received_at": "2026-02-22T19:07:16.350Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -286,7 +286,7 @@
             "@id": "inst:Act_provided"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.936Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.350Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "long-np",
     "government"
   ],
-  "generatedAt": "2026-02-22T14:56:04.635Z",
+  "generatedAt": "2026-02-22T19:07:17.922Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -166,7 +166,7 @@
         "rdfs:label": "congressional oversight committee on homeland security",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.635Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.922Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d9c769f6a06d",
         "tagteam:denotesType": "Entity"
       },
@@ -178,7 +178,7 @@
         ],
         "rdfs:label": "homeland security",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.635Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.922Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d9c769f6a06d",
         "tagteam:denotesType": "Organization"
       },
@@ -190,7 +190,7 @@
         ],
         "rdfs:label": "hear",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.635Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.922Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d9c769f6a06d",
         "tagteam:denotesType": "Entity"
       },
@@ -204,7 +204,7 @@
         "has_text_value": "The congressional oversight committee on homeland security held a hearing",
         "tagteam:char_count": 73,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-22T14:56:04.627Z"
+        "tagteam:received_at": "2026-02-22T19:07:17.911Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -253,7 +253,7 @@
             "@id": "inst:Act_held"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.627Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.911Z"
       }
     ]
   }

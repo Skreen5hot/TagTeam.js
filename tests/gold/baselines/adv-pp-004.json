@@ -6,7 +6,7 @@
     "nested-pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T14:56:04.687Z",
+  "generatedAt": "2026-02-22T19:07:17.987Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -210,7 +210,7 @@
         "rdfs:label": "task force",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.687Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.987Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d2e6a30f1301",
         "tagteam:denotesType": "Entity"
       },
@@ -222,7 +222,7 @@
         ],
         "rdfs:label": "network of smugglers",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.687Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.987Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d2e6a30f1301",
         "tagteam:denotesType": "Entity"
       },
@@ -234,7 +234,7 @@
         ],
         "rdfs:label": "smugglers",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.687Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.987Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d2e6a30f1301",
         "tagteam:denotesType": "Entity"
       },
@@ -246,7 +246,7 @@
         ],
         "rdfs:label": "border",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.687Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.987Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d2e6a30f1301",
         "tagteam:denotesType": "Entity"
       },
@@ -260,7 +260,7 @@
         "has_text_value": "The task force investigated the network of smugglers across the border",
         "tagteam:char_count": 70,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-22T14:56:04.676Z"
+        "tagteam:received_at": "2026-02-22T19:07:17.978Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -312,7 +312,7 @@
             "@id": "inst:Act_investigated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.676Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.978Z"
       }
     ]
   }

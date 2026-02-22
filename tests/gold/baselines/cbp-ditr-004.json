@@ -6,7 +6,7 @@
     "ditransitive",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T14:56:04.208Z",
+  "generatedAt": "2026-02-22T19:07:17.492Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -151,7 +151,7 @@
         "rdfs:label": "instructor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.208Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.491Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_412cc0d5f18c",
         "tagteam:denotesType": "Entity"
       },
@@ -163,7 +163,7 @@
         ],
         "rdfs:label": "class",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.208Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.492Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_412cc0d5f18c",
         "tagteam:denotesType": "Entity"
       },
@@ -177,7 +177,7 @@
         "has_text_value": "The instructor showed the class the new procedure",
         "tagteam:char_count": 49,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T14:56:04.199Z"
+        "tagteam:received_at": "2026-02-22T19:07:17.485Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -223,7 +223,7 @@
             "@id": "inst:Act_showed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.199Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.485Z"
       }
     ]
   }

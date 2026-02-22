@@ -5,7 +5,7 @@
   "tags": [
     "legal"
   ],
-  "generatedAt": "2026-02-22T14:56:04.532Z",
+  "generatedAt": "2026-02-22T19:07:17.815Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -40,7 +40,7 @@
     },
     {
       "text": "the witness",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:the_witness"
     }
   ],
@@ -101,16 +101,16 @@
       {
         "@id": "inst:the_witness",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the witness",
         "tagteam:mentionId": "s0:h8:37-48",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Witness_c26fd12a48fd"
+          "@id": "inst:Person_Witness_4f44df2cc2cc"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3a1007365039"
@@ -180,7 +180,7 @@
         ],
         "rdfs:label": "the",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.532Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.815Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3a1007365039",
         "tagteam:denotesType": "Entity"
       },
@@ -193,21 +193,21 @@
         "rdfs:label": "defense counsel",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.532Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.815Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3a1007365039",
         "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Witness_c26fd12a48fd",
+        "@id": "inst:Person_Witness_4f44df2cc2cc",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "witness",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.532Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.815Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3a1007365039",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Input_Text_IBE_3a1007365039",
@@ -219,7 +219,7 @@
         "has_text_value": "The defense counsel cross-examined the witness",
         "tagteam:char_count": 46,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T14:56:04.522Z"
+        "tagteam:received_at": "2026-02-22T19:07:17.807Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -271,7 +271,7 @@
             "@id": "inst:Act_examined"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.522Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.807Z"
       }
     ]
   }

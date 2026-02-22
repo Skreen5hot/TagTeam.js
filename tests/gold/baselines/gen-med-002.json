@@ -6,7 +6,7 @@
     "medical",
     "treatment"
   ],
-  "generatedAt": "2026-02-22T14:56:04.411Z",
+  "generatedAt": "2026-02-22T19:07:17.694Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -39,7 +39,7 @@
   "extractedEntities": [
     {
       "text": "The nurse",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:The_nurse"
     },
     {
@@ -49,7 +49,7 @@
     },
     {
       "text": "the patient",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:the_patient"
     }
   ],
@@ -72,7 +72,7 @@
       {
         "@id": "inst:The_nurse",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The nurse",
@@ -81,9 +81,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Nurse_c9d1bc0df0ee"
+          "@id": "inst:Person_Nurse_fd935005be8c"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_2ff14dc170e0"
@@ -110,16 +110,16 @@
       {
         "@id": "inst:the_patient",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the patient",
         "tagteam:mentionId": "s0:h8:38-49",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Patient_bf87ea9c3598"
+          "@id": "inst:Person_Patient_4e93620bb5fa"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_2ff14dc170e0"
@@ -187,17 +187,17 @@
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Entity_Nurse_c9d1bc0df0ee",
+        "@id": "inst:Person_Nurse_fd935005be8c",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "nurse",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.411Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.694Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2ff14dc170e0",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Entity_Vaccine_370aec140dfb",
@@ -207,21 +207,21 @@
         ],
         "rdfs:label": "vaccine",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.411Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.694Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2ff14dc170e0",
         "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Patient_bf87ea9c3598",
+        "@id": "inst:Person_Patient_4e93620bb5fa",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "patient",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.411Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.694Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2ff14dc170e0",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Input_Text_IBE_2ff14dc170e0",
@@ -233,7 +233,7 @@
         "has_text_value": "The nurse administered the vaccine to the patient",
         "tagteam:char_count": 49,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T14:56:04.403Z"
+        "tagteam:received_at": "2026-02-22T19:07:17.688Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -282,7 +282,7 @@
             "@id": "inst:Act_administered"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.403Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.688Z"
       }
     ]
   }

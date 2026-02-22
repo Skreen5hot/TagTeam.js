@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-22T14:56:02.316Z",
+  "generatedAt": "2026-02-22T19:07:15.832Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -93,7 +93,7 @@
         "rdfs:label": "border patrol",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.315Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:15.832Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_cdf9fc9ce709",
         "tagteam:denotesType": "Entity"
       },
@@ -105,7 +105,7 @@
         ],
         "rdfs:label": "cbp",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.315Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:15.832Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_cdf9fc9ce709",
         "tagteam:denotesType": "Organization"
       },
@@ -119,7 +119,7 @@
         "has_text_value": "Border Patrol is the enforcement arm of CBP",
         "tagteam:char_count": 43,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T14:56:02.212Z"
+        "tagteam:received_at": "2026-02-22T19:07:15.752Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -162,7 +162,7 @@
             "@id": "inst:CBP"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.212Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:15.752Z"
       }
     ]
   }

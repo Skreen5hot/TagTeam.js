@@ -6,7 +6,7 @@
     "ditransitive",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T14:56:04.220Z",
+  "generatedAt": "2026-02-22T19:07:17.502Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -44,7 +44,7 @@
     },
     {
       "text": "the team",
-      "type": "Entity",
+      "type": "Organization",
       "id": "inst:the_team"
     }
   ],
@@ -83,16 +83,16 @@
       {
         "@id": "inst:the_team",
         "@type": [
-          "Entity",
+          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the team",
         "tagteam:mentionId": "s0:h5:17-25",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Entity_Team_7b9667fd6f29"
+          "@id": "inst:Organization_Team_2297213bf695"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3a158b03938b"
@@ -151,21 +151,21 @@
         "rdfs:label": "chief",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.220Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.502Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3a158b03938b",
         "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Team_7b9667fd6f29",
+        "@id": "inst:Organization_Team_2297213bf695",
         "@type": [
-          "Entity",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "team",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.220Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.502Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3a158b03938b",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Organization"
       },
       {
         "@id": "inst:Input_Text_IBE_3a158b03938b",
@@ -177,7 +177,7 @@
         "has_text_value": "The chief passed the team the intelligence briefing",
         "tagteam:char_count": 51,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T14:56:04.212Z"
+        "tagteam:received_at": "2026-02-22T19:07:17.494Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -223,7 +223,7 @@
             "@id": "inst:Act_passed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.212Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.494Z"
       }
     ]
   }

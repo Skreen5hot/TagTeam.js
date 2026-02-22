@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T14:56:03.166Z",
+  "generatedAt": "2026-02-22T19:07:16.542Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -40,12 +40,12 @@
   "extractedEntities": [
     {
       "text": "The director",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:The_director"
     },
     {
       "text": "the field office",
-      "type": "Entity",
+      "type": "Facility",
       "id": "inst:the_field_office"
     },
     {
@@ -69,7 +69,7 @@
       {
         "@id": "inst:The_director",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The director",
@@ -78,9 +78,9 @@
         "tagteam:parseProbability": 0.3683,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Director_f7928befd121"
+          "@id": "inst:Person_Director_e9f40ae5af9f"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_985b2c0d6976"
@@ -89,16 +89,16 @@
       {
         "@id": "inst:the_field_office",
         "@type": [
-          "Entity",
+          "Facility",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the field office",
         "tagteam:mentionId": "s0:h6:18-34",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Facility",
         "is_about": {
-          "@id": "inst:Entity_Field_Office_ea8f2bc82612"
+          "@id": "inst:Facility_Field_Office_de8a34e9d07b"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_985b2c0d6976"
@@ -167,29 +167,29 @@
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Entity_Director_f7928befd121",
+        "@id": "inst:Person_Director_e9f40ae5af9f",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "director",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.166Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.542Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_985b2c0d6976",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
-        "@id": "inst:Entity_Field_Office_ea8f2bc82612",
+        "@id": "inst:Facility_Field_Office_de8a34e9d07b",
         "@type": [
-          "Entity",
+          "Facility",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "field office",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.166Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.542Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_985b2c0d6976",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Facility"
       },
       {
         "@id": "inst:Entity_Instructions_fac2f08ee18e",
@@ -199,7 +199,7 @@
         ],
         "rdfs:label": "instructions",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.166Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.542Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_985b2c0d6976",
         "tagteam:denotesType": "Entity"
       },
@@ -213,7 +213,7 @@
         "has_text_value": "The director sent the field office updated instructions",
         "tagteam:char_count": 55,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T14:56:03.158Z"
+        "tagteam:received_at": "2026-02-22T19:07:16.535Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -262,7 +262,7 @@
             "@id": "inst:Act_updated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.158Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.535Z"
       }
     ]
   }

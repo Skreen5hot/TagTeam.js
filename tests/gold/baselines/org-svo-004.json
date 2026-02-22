@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T14:56:02.568Z",
+  "generatedAt": "2026-02-22T19:07:16.050Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -36,7 +36,7 @@
   "extractedEntities": [
     {
       "text": "The agent",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:The_agent"
     },
     {
@@ -46,7 +46,7 @@
     },
     {
       "text": "the office",
-      "type": "Entity",
+      "type": "Facility",
       "id": "inst:the_office"
     }
   ],
@@ -69,7 +69,7 @@
       {
         "@id": "inst:The_agent",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The agent",
@@ -78,9 +78,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Agent_2ece16966db1"
+          "@id": "inst:Person_Agent_ec273697626a"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_484423e3cd48"
@@ -107,16 +107,16 @@
       {
         "@id": "inst:the_office",
         "@type": [
-          "Entity",
+          "Facility",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the office",
         "tagteam:mentionId": "s0:h8:30-40",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Facility",
         "is_about": {
-          "@id": "inst:Entity_Office_78b354b662a1"
+          "@id": "inst:Facility_Office_d1bcafc7e22b"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_484423e3cd48"
@@ -184,17 +184,17 @@
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Entity_Agent_2ece16966db1",
+        "@id": "inst:Person_Agent_ec273697626a",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "agent",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.568Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.049Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_484423e3cd48",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Entity_Report_0fcd6257abc0",
@@ -204,21 +204,21 @@
         ],
         "rdfs:label": "report",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.568Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.049Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_484423e3cd48",
         "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Office_78b354b662a1",
+        "@id": "inst:Facility_Office_d1bcafc7e22b",
         "@type": [
-          "Entity",
+          "Facility",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "office",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.568Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.050Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_484423e3cd48",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Facility"
       },
       {
         "@id": "inst:Input_Text_IBE_484423e3cd48",
@@ -230,7 +230,7 @@
         "has_text_value": "The agent filed a report with the office",
         "tagteam:char_count": 40,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T14:56:02.557Z"
+        "tagteam:received_at": "2026-02-22T19:07:16.042Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -279,7 +279,7 @@
             "@id": "inst:Act_filed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.557Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.042Z"
       }
     ]
   }

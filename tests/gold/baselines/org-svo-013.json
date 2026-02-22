@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T14:56:02.696Z",
+  "generatedAt": "2026-02-22T19:07:16.151Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,7 +32,7 @@
   "extractedEntities": [
     {
       "text": "The forensic team",
-      "type": "Entity",
+      "type": "Organization",
       "id": "inst:The_forensic_team"
     },
     {
@@ -56,7 +56,7 @@
       {
         "@id": "inst:The_forensic_team",
         "@type": [
-          "Entity",
+          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The forensic team",
@@ -65,9 +65,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Entity_Forensic_Team_d4018f3abf8f"
+          "@id": "inst:Organization_Forensic_Team_f17d3140cec4"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_dbe65aa31683"
@@ -136,17 +136,17 @@
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Entity_Forensic_Team_d4018f3abf8f",
+        "@id": "inst:Organization_Forensic_Team_f17d3140cec4",
         "@type": [
-          "Entity",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "forensic team",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.696Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.151Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_dbe65aa31683",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Organization"
       },
       {
         "@id": "inst:Entity_Sample_ac4d505e8853",
@@ -156,7 +156,7 @@
         ],
         "rdfs:label": "sample",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.696Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.151Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_dbe65aa31683",
         "tagteam:denotesType": "Entity"
       },
@@ -170,7 +170,7 @@
         "has_text_value": "The forensic team analyzed the samples",
         "tagteam:char_count": 38,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T14:56:02.685Z"
+        "tagteam:received_at": "2026-02-22T19:07:16.143Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_analyzed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.685Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.143Z"
       }
     ]
   }

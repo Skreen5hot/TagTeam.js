@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-22T14:56:02.933Z",
+  "generatedAt": "2026-02-22T19:07:16.345Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -40,7 +40,7 @@
   "extractedEntities": [
     {
       "text": "The director and the deputy",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:The_director_and_the_deputy"
     },
     {
@@ -64,7 +64,7 @@
       {
         "@id": "inst:The_director_and_the_deputy",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The director and the deputy",
@@ -73,9 +73,9 @@
         "tagteam:parseProbability": 0.6583,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Director_And_The_Deputy_5506684e142f"
+          "@id": "inst:Person_Director_And_The_Deputy_c82b672de631"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_fd3482a97e5f"
@@ -144,17 +144,17 @@
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Entity_Director_And_The_Deputy_5506684e142f",
+        "@id": "inst:Person_Director_And_The_Deputy_c82b672de631",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "director and the deputy",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.933Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.345Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_fd3482a97e5f",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Entity_Mission_30d3ed41ba96",
@@ -164,7 +164,7 @@
         ],
         "rdfs:label": "mission",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.933Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.345Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_fd3482a97e5f",
         "tagteam:denotesType": "Entity"
       },
@@ -178,7 +178,7 @@
         "has_text_value": "The director and the deputy authorized the mission",
         "tagteam:char_count": 50,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T14:56:02.922Z"
+        "tagteam:received_at": "2026-02-22T19:07:16.338Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -224,7 +224,7 @@
             "@id": "inst:Act_authorized"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.922Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.338Z"
       }
     ]
   }

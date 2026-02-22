@@ -7,7 +7,7 @@
     "cbp",
     "agriculture"
   ],
-  "generatedAt": "2026-02-22T14:56:03.601Z",
+  "generatedAt": "2026-02-22T19:07:16.947Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,7 +32,7 @@
   "extractedEntities": [
     {
       "text": "The agriculture specialist",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:The_agriculture_specialist"
     },
     {
@@ -56,7 +56,7 @@
       {
         "@id": "inst:The_agriculture_specialist",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The agriculture specialist",
@@ -65,9 +65,9 @@
         "tagteam:parseProbability": 0.8492,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Agriculture_Specialist_8c0085aad872"
+          "@id": "inst:Person_Agriculture_Specialist_2bd16d2574af"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b4965e1834cc"
@@ -136,17 +136,17 @@
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Entity_Agriculture_Specialist_8c0085aad872",
+        "@id": "inst:Person_Agriculture_Specialist_2bd16d2574af",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "agriculture specialist",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.601Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.947Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b4965e1834cc",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Entity_Produce_44082a088643",
@@ -156,7 +156,7 @@
         ],
         "rdfs:label": "produce",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.601Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.947Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b4965e1834cc",
         "tagteam:denotesType": "Entity"
       },
@@ -170,7 +170,7 @@
         "has_text_value": "The agriculture specialist quarantined the produce",
         "tagteam:char_count": 50,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T14:56:03.592Z"
+        "tagteam:received_at": "2026-02-22T19:07:16.941Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_quarantined"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.592Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.941Z"
       }
     ]
   }

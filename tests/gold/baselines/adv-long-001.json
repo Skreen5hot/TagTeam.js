@@ -6,7 +6,7 @@
     "long-np",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T14:56:04.576Z",
+  "generatedAt": "2026-02-22T19:07:17.854Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -35,7 +35,7 @@
   "extractedEntities": [
     {
       "text": "The senior intelligence analyst at the operations center",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:The_senior_intelligence_analyst_at_the_operations_center"
     },
     {
@@ -64,7 +64,7 @@
       {
         "@id": "inst:The_senior_intelligence_analyst_at_the_operations_center",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The senior intelligence analyst at the operations center",
@@ -73,9 +73,9 @@
         "tagteam:parseProbability": 0.8492,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Senior_Intelligence_Analyst_At_The_Operations_Center_57b1fc3aef68"
+          "@id": "inst:Person_Senior_Intelligence_Analyst_At_The_Operations_Center_7699692c18f0"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ba2ae99ec82f"
@@ -162,17 +162,17 @@
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Entity_Senior_Intelligence_Analyst_At_The_Operations_Center_57b1fc3aef68",
+        "@id": "inst:Person_Senior_Intelligence_Analyst_At_The_Operations_Center_7699692c18f0",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "senior intelligence analyst at the operations center",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.574Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.853Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ba2ae99ec82f",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Entity_Operations_Center_41e07d4d50b0",
@@ -182,7 +182,7 @@
         ],
         "rdfs:label": "operations center",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.574Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.854Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ba2ae99ec82f",
         "tagteam:denotesType": "Entity"
       },
@@ -194,7 +194,7 @@
         ],
         "rdfs:label": "assessment",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.574Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.854Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ba2ae99ec82f",
         "tagteam:denotesType": "Entity"
       },
@@ -208,7 +208,7 @@
         "has_text_value": "The senior intelligence analyst at the operations center reviewed the assessment",
         "tagteam:char_count": 80,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-22T14:56:04.563Z"
+        "tagteam:received_at": "2026-02-22T19:07:17.842Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -257,7 +257,7 @@
             "@id": "inst:Act_reviewed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.563Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.842Z"
       }
     ]
   }

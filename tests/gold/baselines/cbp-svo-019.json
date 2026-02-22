@@ -7,7 +7,7 @@
     "cbp",
     "training"
   ],
-  "generatedAt": "2026-02-22T14:56:03.655Z",
+  "generatedAt": "2026-02-22T19:07:16.998Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -144,7 +144,7 @@
         "rdfs:label": "training division",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.654Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.998Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6e60b40233e1",
         "tagteam:denotesType": "Entity"
       },
@@ -156,7 +156,7 @@
         ],
         "rdfs:label": "curriculum",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.654Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.998Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6e60b40233e1",
         "tagteam:denotesType": "Entity"
       },
@@ -170,7 +170,7 @@
         "has_text_value": "The training division developed the curriculum",
         "tagteam:char_count": 46,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T14:56:03.648Z"
+        "tagteam:received_at": "2026-02-22T19:07:16.992Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_developed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.648Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.992Z"
       }
     ]
   }

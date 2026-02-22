@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T14:56:04.103Z",
+  "generatedAt": "2026-02-22T19:07:17.405Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -39,12 +39,12 @@
   "extractedEntities": [
     {
       "text": "The office",
-      "type": "Entity",
+      "type": "Facility",
       "id": "inst:The_office"
     },
     {
       "text": "the data",
-      "type": "Entity",
+      "type": "InformationContentEntity",
       "id": "inst:the_data"
     },
     {
@@ -72,7 +72,7 @@
       {
         "@id": "inst:The_office",
         "@type": [
-          "Entity",
+          "Facility",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The office",
@@ -81,9 +81,9 @@
         "tagteam:parseProbability": 0.3683,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Facility",
         "is_about": {
-          "@id": "inst:Entity_Office_51228f6e0c0a"
+          "@id": "inst:Facility_Office_b6bdd9a4d894"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c18f302a5480"
@@ -92,16 +92,16 @@
       {
         "@id": "inst:the_data",
         "@type": [
-          "Entity",
+          "InformationContentEntity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the data",
         "tagteam:mentionId": "s0:h5:23-31",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "InformationContentEntity",
         "is_about": {
-          "@id": "inst:Entity_Datum_6d886f75ad0a"
+          "@id": "inst:InformationContentEntity_Datum_5a9bfd617625"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c18f302a5480"
@@ -187,29 +187,29 @@
         "tagteam:parseProbability": 0.7804
       },
       {
-        "@id": "inst:Entity_Office_51228f6e0c0a",
+        "@id": "inst:Facility_Office_b6bdd9a4d894",
         "@type": [
-          "Entity",
+          "Facility",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "office",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.102Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.405Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c18f302a5480",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Facility"
       },
       {
-        "@id": "inst:Entity_Datum_6d886f75ad0a",
+        "@id": "inst:InformationContentEntity_Datum_5a9bfd617625",
         "@type": [
-          "Entity",
+          "InformationContentEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "datum",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.102Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.405Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c18f302a5480",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "InformationContentEntity"
       },
       {
         "@id": "inst:Entity_Headquarter_c6c00384c632",
@@ -219,7 +219,7 @@
         ],
         "rdfs:label": "headquarter",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.102Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.405Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c18f302a5480",
         "tagteam:denotesType": "Entity"
       },
@@ -233,7 +233,7 @@
         "has_text_value": "The office transmitted the data to headquarters",
         "tagteam:char_count": 47,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T14:56:04.092Z"
+        "tagteam:received_at": "2026-02-22T19:07:17.397Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -282,7 +282,7 @@
             "@id": "inst:Act_transmitted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.092Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.397Z"
       }
     ]
   }

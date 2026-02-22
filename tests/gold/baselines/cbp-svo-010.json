@@ -7,7 +7,7 @@
     "cbp",
     "leadership"
   ],
-  "generatedAt": "2026-02-22T14:56:03.554Z",
+  "generatedAt": "2026-02-22T19:07:16.895Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -133,7 +133,7 @@
         ],
         "rdfs:label": "commissioner",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.554Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.895Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_591c3ce46791",
         "tagteam:denotesType": "Entity"
       },
@@ -145,7 +145,7 @@
         ],
         "rdfs:label": "directive",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.554Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.895Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_591c3ce46791",
         "tagteam:denotesType": "Entity"
       },
@@ -159,7 +159,7 @@
         "has_text_value": "The commissioner issued a directive",
         "tagteam:char_count": 35,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-22T14:56:03.547Z"
+        "tagteam:received_at": "2026-02-22T19:07:16.887Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -208,7 +208,7 @@
             "@id": "inst:Act_issued"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.547Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.887Z"
       }
     ]
   }

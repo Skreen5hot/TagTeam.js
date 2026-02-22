@@ -7,7 +7,7 @@
     "subordination",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T14:56:04.951Z",
+  "generatedAt": "2026-02-22T19:07:18.258Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -213,7 +213,7 @@
         ],
         "rdfs:label": "because",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.951Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:18.257Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_075984563370",
         "tagteam:denotesType": "Entity"
       },
@@ -225,7 +225,7 @@
         ],
         "rdfs:label": "sensors",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.951Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:18.257Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_075984563370",
         "tagteam:denotesType": "Entity"
       },
@@ -237,7 +237,7 @@
         ],
         "rdfs:label": "detected movement",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.951Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:18.257Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_075984563370",
         "tagteam:denotesType": "Entity"
       },
@@ -250,7 +250,7 @@
         "rdfs:label": "patrol",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.951Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:18.257Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_075984563370",
         "tagteam:denotesType": "Entity"
       },
@@ -264,7 +264,7 @@
         "has_text_value": "Because the sensors detected movement the patrol responded immediately",
         "tagteam:char_count": 70,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-22T14:56:04.942Z"
+        "tagteam:received_at": "2026-02-22T19:07:18.245Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -325,7 +325,7 @@
             "@id": "inst:Act_responded"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:04.942Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:18.245Z"
       }
     ]
   }

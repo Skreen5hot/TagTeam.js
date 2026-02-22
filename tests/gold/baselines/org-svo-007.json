@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T14:56:02.608Z",
+  "generatedAt": "2026-02-22T19:07:16.080Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,7 +32,7 @@
   "extractedEntities": [
     {
       "text": "The analyst",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:The_analyst"
     },
     {
@@ -56,7 +56,7 @@
       {
         "@id": "inst:The_analyst",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The analyst",
@@ -65,9 +65,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Analyst_4f6cc3370b70"
+          "@id": "inst:Person_Analyst_fa2a9f228cd0"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5d7e68cf95fa"
@@ -136,17 +136,17 @@
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Entity_Analyst_4f6cc3370b70",
+        "@id": "inst:Person_Analyst_fa2a9f228cd0",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "analyst",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.608Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.080Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5d7e68cf95fa",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Entity_Intelligence_Brief_1c551671f14a",
@@ -156,7 +156,7 @@
         ],
         "rdfs:label": "intelligence brief",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.608Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.080Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5d7e68cf95fa",
         "tagteam:denotesType": "Entity"
       },
@@ -170,7 +170,7 @@
         "has_text_value": "The analyst prepared the intelligence briefing",
         "tagteam:char_count": 46,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T14:56:02.598Z"
+        "tagteam:received_at": "2026-02-22T19:07:16.072Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_prepared"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.598Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.072Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "split",
     "object"
   ],
-  "generatedAt": "2026-02-22T14:56:03.102Z",
+  "generatedAt": "2026-02-22T19:07:16.477Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -45,7 +45,7 @@
     },
     {
       "text": "the building",
-      "type": "Entity",
+      "type": "Facility",
       "id": "inst:the_building"
     }
   ],
@@ -84,16 +84,16 @@
       {
         "@id": "inst:the_building",
         "@type": [
-          "Entity",
+          "Facility",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the building",
         "tagteam:mentionId": "s0:h5:20-32",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Facility",
         "is_about": {
-          "@id": "inst:Entity_Build_7594d09cb3c3"
+          "@id": "inst:Facility_Build_3c533582f4b4"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_2f2da8cea89e"
@@ -152,21 +152,21 @@
         "rdfs:label": "agent",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.101Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.477Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2f2da8cea89e",
         "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Build_7594d09cb3c3",
+        "@id": "inst:Facility_Build_3c533582f4b4",
         "@type": [
-          "Entity",
+          "Facility",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "build",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.102Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.477Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2f2da8cea89e",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Facility"
       },
       {
         "@id": "inst:Input_Text_IBE_2f2da8cea89e",
@@ -178,7 +178,7 @@
         "has_text_value": "The agents searched the building and the vehicle",
         "tagteam:char_count": 48,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T14:56:03.094Z"
+        "tagteam:received_at": "2026-02-22T19:07:16.470Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -224,7 +224,7 @@
             "@id": "inst:Act_searched"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.094Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.470Z"
       }
     ]
   }

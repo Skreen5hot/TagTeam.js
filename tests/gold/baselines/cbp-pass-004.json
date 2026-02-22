@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T14:56:03.927Z",
+  "generatedAt": "2026-02-22T19:07:17.253Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -184,7 +184,7 @@
         "rdfs:label": "border wall",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.927Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.253Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b903487052bc",
         "tagteam:denotesType": "Entity"
       },
@@ -196,7 +196,7 @@
         ],
         "rdfs:label": "army corp",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.927Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.253Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b903487052bc",
         "tagteam:denotesType": "Entity"
       },
@@ -208,7 +208,7 @@
         ],
         "rdfs:label": "engineer",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.927Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.253Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b903487052bc",
         "tagteam:denotesType": "Entity"
       },
@@ -222,7 +222,7 @@
         "has_text_value": "The border wall was constructed by the Army Corps of Engineers",
         "tagteam:char_count": 62,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-22T14:56:03.909Z"
+        "tagteam:received_at": "2026-02-22T19:07:17.243Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -271,7 +271,7 @@
             "@id": "inst:Act_constructed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.909Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:17.243Z"
       }
     ]
   }

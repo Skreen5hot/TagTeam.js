@@ -7,7 +7,7 @@
     "keep",
     "government"
   ],
-  "generatedAt": "2026-02-22T14:56:03.091Z",
+  "generatedAt": "2026-02-22T19:07:16.467Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -126,7 +126,7 @@
         ],
         "rdfs:label": "immigration and customs enforcement deported the individual",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.090Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.467Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_627b40b5c203",
         "tagteam:denotesType": "Entity"
       },
@@ -139,7 +139,7 @@
         "rdfs:label": "enforcement",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.090Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.467Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_627b40b5c203",
         "tagteam:denotesType": "Entity"
       },
@@ -151,7 +151,7 @@
         ],
         "rdfs:label": "individual",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.090Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.467Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_627b40b5c203",
         "tagteam:denotesType": "Entity"
       },
@@ -165,7 +165,7 @@
         "has_text_value": "Immigration and Customs Enforcement deported the individual",
         "tagteam:char_count": 59,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T14:56:03.082Z"
+        "tagteam:received_at": "2026-02-22T19:07:16.460Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -214,7 +214,7 @@
             "@id": "inst:Act_Immigration"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:03.082Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.460Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T14:56:02.544Z",
+  "generatedAt": "2026-02-22T19:07:16.029Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -45,7 +45,7 @@
     },
     {
       "text": "the suspect",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:the_suspect"
     },
     {
@@ -94,16 +94,16 @@
       {
         "@id": "inst:the_suspect",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the suspect",
         "tagteam:mentionId": "s0:h4:16-27",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Suspect_3ffe9d79c74a"
+          "@id": "inst:Person_Suspect_6281039006d8"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_fd4cf6ffec2e"
@@ -197,21 +197,21 @@
         "rdfs:label": "cbp",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.543Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.028Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_fd4cf6ffec2e",
         "tagteam:denotesType": "Organization"
       },
       {
-        "@id": "inst:Entity_Suspect_3ffe9d79c74a",
+        "@id": "inst:Person_Suspect_6281039006d8",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "suspect",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.543Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.028Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_fd4cf6ffec2e",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Entity_Border_b409f35e568a",
@@ -221,7 +221,7 @@
         ],
         "rdfs:label": "border",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.544Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.028Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_fd4cf6ffec2e",
         "tagteam:denotesType": "Entity"
       },
@@ -235,7 +235,7 @@
         "has_text_value": "CBP apprehended the suspect at the border",
         "tagteam:char_count": 41,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T14:56:02.534Z"
+        "tagteam:received_at": "2026-02-22T19:07:16.017Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -284,7 +284,7 @@
             "@id": "inst:Act_apprehended"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.534Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.017Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T14:56:02.873Z",
+  "generatedAt": "2026-02-22T19:07:16.293Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -40,12 +40,12 @@
   "extractedEntities": [
     {
       "text": "The supervisor",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:The_supervisor"
     },
     {
       "text": "the officer",
-      "type": "Entity",
+      "type": "Person",
       "id": "inst:the_officer"
     },
     {
@@ -69,16 +69,16 @@
       {
         "@id": "inst:The_supervisor",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The supervisor",
         "tagteam:mentionId": "s0:h2:0-14",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Supervisor_1f4cafb6cfad"
+          "@id": "inst:Person_Supervisor_5438a77b3094"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ec52282eb233"
@@ -87,16 +87,16 @@
       {
         "@id": "inst:the_officer",
         "@type": [
-          "Entity",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the officer",
         "tagteam:mentionId": "s0:h5:24-35",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Entity_Officer_118918798b2d"
+          "@id": "inst:Person_Officer_7da3766439ec"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ec52282eb233"
@@ -177,28 +177,28 @@
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Entity_Supervisor_1f4cafb6cfad",
+        "@id": "inst:Person_Supervisor_5438a77b3094",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "supervisor",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.873Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.293Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ec52282eb233",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
-        "@id": "inst:Entity_Officer_118918798b2d",
+        "@id": "inst:Person_Officer_7da3766439ec",
         "@type": [
-          "Entity",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "officer",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.873Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.293Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ec52282eb233",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Entity_New_Case_771c5d1502a3",
@@ -208,7 +208,7 @@
         ],
         "rdfs:label": "new case",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.873Z",
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.293Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ec52282eb233",
         "tagteam:denotesType": "Entity"
       },
@@ -222,7 +222,7 @@
         "has_text_value": "The supervisor assigned the officer a new case",
         "tagteam:char_count": 46,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T14:56:02.864Z"
+        "tagteam:received_at": "2026-02-22T19:07:16.285Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -274,7 +274,7 @@
             "@id": "inst:Act_assigned"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T14:56:02.864Z"
+        "tagteam:instantiated_at": "2026-02-22T19:07:16.285Z"
       }
     ]
   }
