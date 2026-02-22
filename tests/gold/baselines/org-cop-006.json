@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-22T12:26:15.692Z",
+  "generatedAt": "2026-02-22T14:56:02.370Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -93,7 +93,7 @@
         "rdfs:label": "ice",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T12:26:15.692Z",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.370Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_58542db56a45",
         "tagteam:denotesType": "Organization"
       },
@@ -105,7 +105,7 @@
         ],
         "rdfs:label": "dhs",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T12:26:15.692Z",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.370Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_58542db56a45",
         "tagteam:denotesType": "Organization"
       },
@@ -119,7 +119,7 @@
         "has_text_value": "ICE is an agency within DHS",
         "tagteam:char_count": 27,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T12:26:15.684Z"
+        "tagteam:received_at": "2026-02-22T14:56:02.360Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -162,7 +162,7 @@
             "@id": "inst:DHS"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:15.684Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.360Z"
       }
     ]
   }

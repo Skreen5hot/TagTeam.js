@@ -8,7 +8,7 @@
     "action",
     "pp"
   ],
-  "generatedAt": "2026-02-22T12:26:16.010Z",
+  "generatedAt": "2026-02-22T14:56:02.711Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -41,17 +41,17 @@
   "extractedEntities": [
     {
       "text": "The prosecutor",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_prosecutor"
     },
     {
       "text": "the evidence",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_evidence"
     },
     {
       "text": "the jury",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_jury"
     }
   ],
@@ -74,7 +74,7 @@
       {
         "@id": "inst:The_prosecutor",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The prosecutor",
@@ -83,9 +83,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Prosecutor_f6ebc90e1a25"
+          "@id": "inst:Entity_Prosecutor_4dc651afadca"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_4251d8e86419"
@@ -94,16 +94,16 @@
       {
         "@id": "inst:the_evidence",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the evidence",
         "tagteam:mentionId": "s0:h5:25-37",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Evidence_a8382cc9649b"
+          "@id": "inst:Entity_Evidence_e496c8e202df"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_4251d8e86419"
@@ -112,16 +112,16 @@
       {
         "@id": "inst:the_jury",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the jury",
         "tagteam:mentionId": "s0:h8:41-49",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9479,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Jury_9650cf6fbbd3"
+          "@id": "inst:Entity_Jury_6dde737f75c9"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_4251d8e86419"
@@ -142,7 +142,7 @@
       {
         "@id": "inst:Role_The_prosecutor_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -158,7 +158,7 @@
       {
         "@id": "inst:Role_the_evidence_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -174,7 +174,7 @@
       {
         "@id": "inst:Role_the_jury_DestinationRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "DestinationRole",
         "tagteam:roleType": "DestinationRole",
@@ -189,41 +189,41 @@
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Entity_Prosecutor_f6ebc90e1a25",
+        "@id": "inst:Entity_Prosecutor_4dc651afadca",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "prosecutor",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.009Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.710Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4251d8e86419",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Evidence_a8382cc9649b",
+        "@id": "inst:Entity_Evidence_e496c8e202df",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "evidence",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.010Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.710Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4251d8e86419",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Jury_9650cf6fbbd3",
+        "@id": "inst:Entity_Jury_6dde737f75c9",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "jury",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.010Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.710Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4251d8e86419",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_4251d8e86419",
@@ -235,7 +235,7 @@
         "has_text_value": "The prosecutor presented the evidence to the jury",
         "tagteam:char_count": 49,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T12:26:16.000Z"
+        "tagteam:received_at": "2026-02-22T14:56:02.700Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -284,7 +284,7 @@
             "@id": "inst:Act_presented"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.000Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.700Z"
       }
     ]
   }

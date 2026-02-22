@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T12:26:16.158Z",
+  "generatedAt": "2026-02-22T14:56:02.873Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -40,17 +40,17 @@
   "extractedEntities": [
     {
       "text": "The supervisor",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_supervisor"
     },
     {
       "text": "the officer",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_officer"
     },
     {
       "text": "a new case",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:a_new_case"
     }
   ],
@@ -69,16 +69,16 @@
       {
         "@id": "inst:The_supervisor",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The supervisor",
         "tagteam:mentionId": "s0:h2:0-14",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Person_Supervisor_5438a77b3094"
+          "@id": "inst:Entity_Supervisor_1f4cafb6cfad"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ec52282eb233"
@@ -87,16 +87,16 @@
       {
         "@id": "inst:the_officer",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the officer",
         "tagteam:mentionId": "s0:h5:24-35",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Person_Officer_7da3766439ec"
+          "@id": "inst:Entity_Officer_118918798b2d"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ec52282eb233"
@@ -105,16 +105,16 @@
       {
         "@id": "inst:a_new_case",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "a new case",
         "tagteam:mentionId": "s0:h8:36-46",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_New_Case_5f7dcba405d6"
+          "@id": "inst:Entity_New_Case_771c5d1502a3"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ec52282eb233"
@@ -147,7 +147,7 @@
       {
         "@id": "inst:Role_the_officer_RecipientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "RecipientRole",
         "tagteam:roleType": "RecipientRole",
@@ -163,7 +163,7 @@
       {
         "@id": "inst:Role_a_new_case_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -177,40 +177,40 @@
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Person_Supervisor_5438a77b3094",
+        "@id": "inst:Entity_Supervisor_1f4cafb6cfad",
         "@type": [
-          "Person",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "supervisor",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.158Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.873Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ec52282eb233",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Person_Officer_7da3766439ec",
+        "@id": "inst:Entity_Officer_118918798b2d",
         "@type": [
-          "Person",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "officer",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.158Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.873Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ec52282eb233",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_New_Case_5f7dcba405d6",
+        "@id": "inst:Entity_New_Case_771c5d1502a3",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "new case",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.158Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.873Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ec52282eb233",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_ec52282eb233",
@@ -222,7 +222,7 @@
         "has_text_value": "The supervisor assigned the officer a new case",
         "tagteam:char_count": 46,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T12:26:16.149Z"
+        "tagteam:received_at": "2026-02-22T14:56:02.864Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -274,7 +274,7 @@
             "@id": "inst:Act_assigned"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.149Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.864Z"
       }
     ]
   }

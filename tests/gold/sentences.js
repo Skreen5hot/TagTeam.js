@@ -75,7 +75,7 @@ const sentences = [
     tags: ['copular', 'definitional', 'government'],
     expectedEntities: [
       { text: 'FEMA', type: 'Organization' },
-      { text: 'disaster relief', type: 'bfo:Process' }
+      { text: 'disaster relief', type: 'Process' }
     ],
     expectedRoles: []
   },
@@ -119,7 +119,7 @@ const sentences = [
     tags: ['copular', 'definitional', 'government'],
     expectedEntities: [
       { text: 'TSA', type: 'Organization' },
-      { text: 'transportation security', type: 'bfo:Process' }
+      { text: 'transportation security', type: 'Process' }
     ],
     expectedRoles: []
   },
@@ -270,7 +270,7 @@ const sentences = [
     tags: ['svo', 'government', 'action'],
     expectedEntities: [
       { text: 'The director', type: 'Person' },
-      { text: 'the operation', type: 'bfo:Process' }
+      { text: 'the operation', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'director', role: 'Agent' },
@@ -312,7 +312,7 @@ const sentences = [
     tags: ['svo', 'government', 'action'],
     expectedEntities: [
       { text: 'The task force', type: 'Organization' },
-      { text: 'the response', type: 'bfo:Process' }
+      { text: 'the response', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'task force', role: 'Agent' },
@@ -384,7 +384,7 @@ const sentences = [
     tags: ['svo', 'government', 'action'],
     expectedEntities: [
       { text: 'The forensic team', type: 'Organization' },
-      { text: 'the samples', type: 'bfo:Entity' }
+      { text: 'the samples', type: 'Entity' }
     ],
     expectedRoles: [
       { entity: 'forensic team', role: 'Agent' },
@@ -428,7 +428,7 @@ const sentences = [
     tags: ['svo', 'government', 'action'],
     expectedEntities: [
       { text: 'The patrol unit', type: 'Organization' },
-      { text: 'the perimeter', type: 'bfo:Entity' }
+      { text: 'the perimeter', type: 'Entity' }
     ],
     expectedRoles: [
       { entity: 'patrol unit', role: 'Agent' },
@@ -456,7 +456,7 @@ const sentences = [
     tags: ['svo', 'government', 'action', 'pp'],
     expectedEntities: [
       { text: 'The auditor', type: 'Person' },
-      { text: 'discrepancies', type: 'bfo:Entity' },
+      { text: 'discrepancies', type: 'Entity' },
       { text: 'the records', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
@@ -485,7 +485,7 @@ const sentences = [
     tags: ['svo', 'government', 'action'],
     expectedEntities: [
       { text: 'The bureau', type: 'Organization' },
-      { text: 'an investigation', type: 'bfo:Process' }
+      { text: 'an investigation', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'bureau', role: 'Agent' },
@@ -578,7 +578,7 @@ const sentences = [
     expectedEntities: [
       { text: 'The FBI', type: 'Organization' },
       { text: 'CIA', type: 'Organization' },
-      { text: 'the operation', type: 'bfo:Process' }
+      { text: 'the operation', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'FBI', role: 'Agent' },
@@ -622,7 +622,7 @@ const sentences = [
     expectedEntities: [
       { text: 'The director', type: 'Person' },
       { text: 'the deputy', type: 'Person' },
-      { text: 'the mission', type: 'bfo:Process' }
+      { text: 'the mission', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'director', role: 'Agent' },
@@ -638,7 +638,7 @@ const sentences = [
     expectedEntities: [
       { text: 'FEMA', type: 'Organization' },
       { text: 'the Red Cross', type: 'Organization' },
-      { text: 'disaster relief', type: 'bfo:Process' }
+      { text: 'disaster relief', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'FEMA', role: 'Agent' },
@@ -696,7 +696,7 @@ const sentences = [
     expectedEntities: [
       { text: 'Agents', type: 'Person' },
       { text: 'officers', type: 'Person' },
-      { text: 'the raid', type: 'bfo:Process' }
+      { text: 'the raid', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'Agents', role: 'Agent' },
@@ -742,7 +742,7 @@ const sentences = [
     expectedEntities: [
       { text: 'TSA', type: 'Organization' },
       { text: 'CBP', type: 'Organization' },
-      { text: 'new screening procedures', type: 'bfo:Process' }
+      { text: 'new screening procedures', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'TSA', role: 'Agent' },
@@ -818,7 +818,7 @@ const sentences = [
     expectedEntities: [
       { text: 'DEA', type: 'Organization' },
       { text: 'FBI', type: 'Organization' },
-      { text: 'a joint investigation', type: 'bfo:Process' }
+      { text: 'a joint investigation', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'DEA', role: 'Agent' },
@@ -866,7 +866,7 @@ const sentences = [
     expectedEntities: [
       { text: 'State', type: 'Organization' },
       { text: 'local authorities', type: 'Organization' },
-      { text: 'the search', type: 'bfo:Process' }
+      { text: 'the search', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'State', role: 'Agent' },
@@ -901,7 +901,7 @@ const sentences = [
     expectedEntities: [
       { text: 'The instructor', type: 'Person' },
       { text: 'the recruits', type: 'Person' },
-      { text: 'defensive tactics', type: 'bfo:Process' }
+      { text: 'defensive tactics', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'instructor', role: 'Agent' },
@@ -982,8 +982,8 @@ const sentences = [
     subset: 'stative-passive',
     tags: ['stative', 'passive', 'government'],
     expectedEntities: [
-      { text: 'The substance', type: 'bfo:Entity' },
-      { text: 'a controlled material', type: 'bfo:Entity' }
+      { text: 'The substance', type: 'Entity' },
+      { text: 'a controlled material', type: 'Entity' }
     ],
     expectedRoles: []
   },
@@ -1008,7 +1008,7 @@ const sentences = [
     subset: 'stative-passive',
     tags: ['agentive', 'passive', 'government'],
     expectedEntities: [
-      { text: 'The contraband', type: 'bfo:Entity' },
+      { text: 'The contraband', type: 'Entity' },
       { text: 'the canine unit', type: 'Organization' }
     ],
     expectedRoles: [
@@ -1050,7 +1050,7 @@ const sentences = [
     subset: 'stative-passive',
     tags: ['agentive', 'passive', 'government'],
     expectedEntities: [
-      { text: 'The shipment', type: 'bfo:Entity' },
+      { text: 'The shipment', type: 'Entity' },
       { text: 'the customs inspector', type: 'Person' }
     ],
     expectedRoles: [
@@ -1071,7 +1071,7 @@ const sentences = [
       { text: 'The FBI', type: 'Organization' },
       { text: 'DEA', type: 'Organization' },
       { text: 'ATF', type: 'Organization' },
-      { text: 'the joint operation', type: 'bfo:Process' }
+      { text: 'the joint operation', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'FBI', role: 'Agent' },
@@ -1120,7 +1120,7 @@ const sentences = [
       { text: 'Federal', type: 'Organization' },
       { text: 'state', type: 'Organization' },
       { text: 'local agencies', type: 'Organization' },
-      { text: 'the emergency', type: 'bfo:Process' }
+      { text: 'the emergency', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'Federal', role: 'Agent' },
@@ -1160,7 +1160,7 @@ const sentences = [
     tags: ['svo', 'cbp', 'enforcement'],
     expectedEntities: [
       { text: 'The border agent', type: 'Person' },
-      { text: 'the shipment', type: 'bfo:Entity' }
+      { text: 'the shipment', type: 'Entity' }
     ],
     expectedRoles: [
       { entity: 'border agent', role: 'Agent' },
@@ -1174,7 +1174,7 @@ const sentences = [
     tags: ['svo', 'cbp', 'inspection'],
     expectedEntities: [
       { text: 'The customs officer', type: 'Person' },
-      { text: 'the cargo', type: 'bfo:Entity' }
+      { text: 'the cargo', type: 'Entity' }
     ],
     expectedRoles: [
       { entity: 'customs officer', role: 'Agent' },
@@ -1202,7 +1202,7 @@ const sentences = [
     tags: ['svo', 'cbp', 'intelligence'],
     expectedEntities: [
       { text: 'The intelligence analyst', type: 'Person' },
-      { text: 'the threat', type: 'bfo:Entity' }
+      { text: 'the threat', type: 'Entity' }
     ],
     expectedRoles: [
       { entity: 'intelligence analyst', role: 'Agent' },
@@ -1230,7 +1230,7 @@ const sentences = [
     tags: ['svo', 'cbp', 'operations'],
     expectedEntities: [
       { text: 'The sector chief', type: 'Person' },
-      { text: 'additional resources', type: 'bfo:Entity' }
+      { text: 'additional resources', type: 'Entity' }
     ],
     expectedRoles: [
       { entity: 'sector chief', role: 'Agent' },
@@ -1258,7 +1258,7 @@ const sentences = [
     tags: ['svo', 'cbp', 'enforcement'],
     expectedEntities: [
       { text: 'The K-9 handler', type: 'Person' },
-      { text: 'narcotics', type: 'bfo:Entity' }
+      { text: 'narcotics', type: 'Entity' }
     ],
     expectedRoles: [
       { entity: 'K-9 handler', role: 'Agent' },
@@ -1272,7 +1272,7 @@ const sentences = [
     tags: ['svo', 'cbp', 'processing'],
     expectedEntities: [
       { text: 'The processing center', type: 'Facility' },
-      { text: 'the encounter', type: 'bfo:Process' }
+      { text: 'the encounter', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'processing center', role: 'Agent' },
@@ -1328,7 +1328,7 @@ const sentences = [
     tags: ['svo', 'cbp', 'operations'],
     expectedEntities: [
       { text: 'The station commander', type: 'Person' },
-      { text: 'overtime', type: 'bfo:Entity' }
+      { text: 'overtime', type: 'Entity' }
     ],
     expectedRoles: [
       { entity: 'station commander', role: 'Agent' },
@@ -1342,7 +1342,7 @@ const sentences = [
     tags: ['svo', 'cbp', 'agriculture'],
     expectedEntities: [
       { text: 'The agriculture specialist', type: 'Person' },
-      { text: 'the produce', type: 'bfo:Entity' }
+      { text: 'the produce', type: 'Entity' }
     ],
     expectedRoles: [
       { entity: 'agriculture specialist', role: 'Agent' },
@@ -1370,7 +1370,7 @@ const sentences = [
     tags: ['svo', 'cbp', 'forensics'],
     expectedEntities: [
       { text: 'The lab technician', type: 'Person' },
-      { text: 'the sample', type: 'bfo:Entity' }
+      { text: 'the sample', type: 'Entity' }
     ],
     expectedRoles: [
       { entity: 'lab technician', role: 'Agent' },
@@ -1384,7 +1384,7 @@ const sentences = [
     tags: ['svo', 'cbp', 'operations'],
     expectedEntities: [
       { text: 'The liaison officer', type: 'Person' },
-      { text: 'the response', type: 'bfo:Process' }
+      { text: 'the response', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'liaison officer', role: 'Agent' },
@@ -1398,7 +1398,7 @@ const sentences = [
     tags: ['svo', 'cbp', 'operations'],
     expectedEntities: [
       { text: 'The watch commander', type: 'Person' },
-      { text: 'the lockdown', type: 'bfo:Process' }
+      { text: 'the lockdown', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'watch commander', role: 'Agent' },
@@ -1497,8 +1497,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['copular', 'cbp'],
     expectedEntities: [
-      { text: 'Preclearance', type: 'bfo:Process' },
-      { text: 'a CBP program', type: 'bfo:Process' }
+      { text: 'Preclearance', type: 'Process' },
+      { text: 'a CBP program', type: 'Process' }
     ],
     expectedRoles: []
   },
@@ -1508,8 +1508,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['copular', 'cbp'],
     expectedEntities: [
-      { text: 'Global Entry', type: 'bfo:Process' },
-      { text: 'a trusted traveler program', type: 'bfo:Process' }
+      { text: 'Global Entry', type: 'Process' },
+      { text: 'a trusted traveler program', type: 'Process' }
     ],
     expectedRoles: []
   },
@@ -1574,8 +1574,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['copular', 'cbp', 'trade'],
     expectedEntities: [
-      { text: 'C-TPAT', type: 'bfo:Process' },
-      { text: 'a voluntary trade partnership program', type: 'bfo:Process' }
+      { text: 'C-TPAT', type: 'Process' },
+      { text: 'a voluntary trade partnership program', type: 'Process' }
     ],
     expectedRoles: []
   },
@@ -1596,8 +1596,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['copular', 'cbp'],
     expectedEntities: [
-      { text: 'SENTRI', type: 'bfo:Process' },
-      { text: 'a border crossing program', type: 'bfo:Process' }
+      { text: 'SENTRI', type: 'Process' },
+      { text: 'a border crossing program', type: 'Process' }
     ],
     expectedRoles: []
   },
@@ -1609,7 +1609,7 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['passive', 'cbp'],
     expectedEntities: [
-      { text: 'The cargo', type: 'bfo:Entity' },
+      { text: 'The cargo', type: 'Entity' },
       { text: 'customs officers', type: 'Person' }
     ],
     expectedRoles: [
@@ -1638,7 +1638,7 @@ const sentences = [
     tags: ['passive', 'cbp'],
     expectedEntities: [
       { text: 'The traveler', type: 'Person' },
-      { text: 'secondary inspection', type: 'bfo:Process' }
+      { text: 'secondary inspection', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'traveler', role: 'Patient' }
@@ -1691,7 +1691,7 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['passive', 'cbp'],
     expectedEntities: [
-      { text: 'The narcotics', type: 'bfo:Entity' },
+      { text: 'The narcotics', type: 'Entity' },
       { text: 'a hidden compartment', type: 'Artifact' }
     ],
     expectedRoles: [
@@ -1706,7 +1706,7 @@ const sentences = [
     tags: ['passive', 'cbp'],
     expectedEntities: [
       { text: 'The suspect', type: 'Person' },
-      { text: 'federal custody', type: 'bfo:Entity' }
+      { text: 'federal custody', type: 'Entity' }
     ],
     expectedRoles: [
       { entity: 'suspect', role: 'Patient' }
@@ -1798,7 +1798,7 @@ const sentences = [
     expectedEntities: [
       { text: 'The analyst', type: 'Person' },
       { text: 'intelligence', type: 'InformationContentEntity' },
-      { text: 'multiple sources', type: 'bfo:Entity' }
+      { text: 'multiple sources', type: 'Entity' }
     ],
     expectedRoles: [
       { entity: 'analyst', role: 'Agent' },
@@ -1814,7 +1814,7 @@ const sentences = [
     expectedEntities: [
       { text: 'The supervisor', type: 'Person' },
       { text: 'the team', type: 'Organization' },
-      { text: 'the operation', type: 'bfo:Process' }
+      { text: 'the operation', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'supervisor', role: 'Agent' },
@@ -1861,7 +1861,7 @@ const sentences = [
     expectedEntities: [
       { text: 'The patrol', type: 'Organization' },
       { text: 'the group', type: 'Person' },
-      { text: 'the river', type: 'bfo:Entity' }
+      { text: 'the river', type: 'Entity' }
     ],
     expectedRoles: [
       { entity: 'patrol', role: 'Agent' },
@@ -1876,8 +1876,8 @@ const sentences = [
     tags: ['pp', 'cbp'],
     expectedEntities: [
       { text: 'The specialist', type: 'Person' },
-      { text: 'samples', type: 'bfo:Entity' },
-      { text: 'the shipment', type: 'bfo:Entity' }
+      { text: 'samples', type: 'Entity' },
+      { text: 'the shipment', type: 'Entity' }
     ],
     expectedRoles: [
       { entity: 'specialist', role: 'Agent' },
@@ -1943,7 +1943,7 @@ const sentences = [
     expectedEntities: [
       { text: 'The director', type: 'Person' },
       { text: 'the officers', type: 'Person' },
-      { text: 'additional training', type: 'bfo:Process' }
+      { text: 'additional training', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'director', role: 'Agent' },
@@ -1959,7 +1959,7 @@ const sentences = [
     expectedEntities: [
       { text: 'The instructor', type: 'Person' },
       { text: 'the class', type: 'Organization' },
-      { text: 'the new procedure', type: 'bfo:Process' }
+      { text: 'the new procedure', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'instructor', role: 'Agent' },
@@ -2010,7 +2010,7 @@ const sentences = [
     tags: ['news', 'business'],
     expectedEntities: [
       { text: 'The company', type: 'Organization' },
-      { text: 'a merger', type: 'bfo:Process' },
+      { text: 'a merger', type: 'Process' },
       { text: 'its competitor', type: 'Organization' }
     ],
     expectedRoles: [
@@ -2053,7 +2053,7 @@ const sentences = [
     tags: ['news', 'government'],
     expectedEntities: [
       { text: 'The governor', type: 'Person' },
-      { text: 'a state of emergency', type: 'bfo:Process' }
+      { text: 'a state of emergency', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'governor', role: 'Agent' },
@@ -2067,7 +2067,7 @@ const sentences = [
     tags: ['news', 'legal'],
     expectedEntities: [
       { text: 'The court', type: 'Organization' },
-      { text: 'the conviction', type: 'bfo:Process' }
+      { text: 'the conviction', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'court', role: 'Agent' },
@@ -2096,7 +2096,7 @@ const sentences = [
     expectedEntities: [
       { text: 'The regulator', type: 'Person' },
       { text: 'the corporation', type: 'Organization' },
-      { text: 'violations', type: 'bfo:Process' }
+      { text: 'violations', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'regulator', role: 'Agent' },
@@ -2128,7 +2128,7 @@ const sentences = [
     expectedEntities: [
       { text: 'The professor', type: 'Person' },
       { text: 'the findings', type: 'InformationContentEntity' },
-      { text: 'the conference', type: 'bfo:Process' }
+      { text: 'the conference', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'professor', role: 'Agent' },
@@ -2142,7 +2142,7 @@ const sentences = [
     tags: ['academic', 'funding'],
     expectedEntities: [
       { text: 'The committee', type: 'Organization' },
-      { text: 'the grant', type: 'bfo:Entity' },
+      { text: 'the grant', type: 'Entity' },
       { text: 'the laboratory', type: 'Organization' }
     ],
     expectedRoles: [
@@ -2172,7 +2172,7 @@ const sentences = [
     tags: ['academic', 'research'],
     expectedEntities: [
       { text: 'The lab', type: 'Organization' },
-      { text: 'the samples', type: 'bfo:Entity' },
+      { text: 'the samples', type: 'Entity' },
       { text: 'a spectrometer', type: 'Artifact' }
     ],
     expectedRoles: [
@@ -2202,7 +2202,7 @@ const sentences = [
     tags: ['academic', 'research'],
     expectedEntities: [
       { text: 'The team', type: 'Organization' },
-      { text: 'the experiment', type: 'bfo:Process' }
+      { text: 'the experiment', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'team', role: 'Agent' },
@@ -2218,7 +2218,7 @@ const sentences = [
     tags: ['medical', 'treatment'],
     expectedEntities: [
       { text: 'The surgeon', type: 'Person' },
-      { text: 'the operation', type: 'bfo:Process' }
+      { text: 'the operation', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'surgeon', role: 'Agent' },
@@ -2232,7 +2232,7 @@ const sentences = [
     tags: ['medical', 'treatment'],
     expectedEntities: [
       { text: 'The nurse', type: 'Person' },
-      { text: 'the vaccine', type: 'bfo:Entity' },
+      { text: 'the vaccine', type: 'Entity' },
       { text: 'the patient', type: 'Person' }
     ],
     expectedRoles: [
@@ -2248,7 +2248,7 @@ const sentences = [
     tags: ['medical', 'diagnosis'],
     expectedEntities: [
       { text: 'The physician', type: 'Person' },
-      { text: 'the condition', type: 'bfo:Entity' }
+      { text: 'the condition', type: 'Entity' }
     ],
     expectedRoles: [
       { entity: 'physician', role: 'Agent' },
@@ -2262,7 +2262,7 @@ const sentences = [
     tags: ['medical', 'treatment'],
     expectedEntities: [
       { text: 'The pharmacist', type: 'Person' },
-      { text: 'the medication', type: 'bfo:Entity' }
+      { text: 'the medication', type: 'Entity' }
     ],
     expectedRoles: [
       { entity: 'pharmacist', role: 'Agent' },
@@ -2306,8 +2306,8 @@ const sentences = [
     tags: ['medical', 'treatment'],
     expectedEntities: [
       { text: 'The therapist', type: 'Person' },
-      { text: 'the injury', type: 'bfo:Entity' },
-      { text: 'physical therapy', type: 'bfo:Process' }
+      { text: 'the injury', type: 'Entity' },
+      { text: 'physical therapy', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'therapist', role: 'Agent' },
@@ -2369,7 +2369,7 @@ const sentences = [
     expectedEntities: [
       { text: 'The plaintiff', type: 'Person' },
       { text: 'the defendant', type: 'Person' },
-      { text: 'damages', type: 'bfo:Entity' }
+      { text: 'damages', type: 'Entity' }
     ],
     expectedRoles: [
       { entity: 'plaintiff', role: 'Agent' },
@@ -2411,7 +2411,7 @@ const sentences = [
     tags: ['legal'],
     expectedEntities: [
       { text: 'The clerk', type: 'Person' },
-      { text: 'the proceedings', type: 'bfo:Process' }
+      { text: 'the proceedings', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'clerk', role: 'Agent' },
@@ -2425,7 +2425,7 @@ const sentences = [
     tags: ['legal'],
     expectedEntities: [
       { text: 'The magistrate', type: 'Person' },
-      { text: 'bail', type: 'bfo:Entity' },
+      { text: 'bail', type: 'Entity' },
       { text: 'the accused', type: 'Person' }
     ],
     expectedRoles: [
@@ -2505,7 +2505,7 @@ const sentences = [
     tags: ['long-np', 'government'],
     expectedEntities: [
       { text: 'The assistant secretary', type: 'Person' },
-      { text: 'the initiative', type: 'bfo:Process' }
+      { text: 'the initiative', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'assistant secretary', role: 'Agent' },
@@ -2519,7 +2519,7 @@ const sentences = [
     tags: ['long-np', 'government'],
     expectedEntities: [
       { text: 'The congressional oversight committee', type: 'Organization' },
-      { text: 'a hearing', type: 'bfo:Process' }
+      { text: 'a hearing', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'oversight committee', role: 'Agent' },
@@ -2599,7 +2599,7 @@ const sentences = [
     tags: ['nested-pp', 'cbp'],
     expectedEntities: [
       { text: 'The inspector', type: 'Person' },
-      { text: 'the cargo', type: 'bfo:Entity' },
+      { text: 'the cargo', type: 'Entity' },
       { text: 'the container', type: 'Artifact' },
       { text: 'the port of entry', type: 'Facility' }
     ],
@@ -2645,7 +2645,7 @@ const sentences = [
     tags: ['relative-clause', 'cbp'],
     expectedEntities: [
       { text: 'The officer', type: 'Person' },
-      { text: 'the interview', type: 'bfo:Process' },
+      { text: 'the interview', type: 'Process' },
       { text: 'the findings', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
@@ -2692,7 +2692,7 @@ const sentences = [
       { text: 'The agent', type: 'Person' },
       { text: 'the suspect', type: 'Person' },
       { text: 'the team', type: 'Organization' },
-      { text: 'the area', type: 'bfo:Entity' }
+      { text: 'the area', type: 'Entity' }
     ],
     expectedRoles: [
       { entity: 'agent', role: 'Agent' },
@@ -2708,9 +2708,9 @@ const sentences = [
     tags: ['multi-clause', 'government'],
     expectedEntities: [
       { text: 'The director', type: 'Person' },
-      { text: 'the operation', type: 'bfo:Process' },
+      { text: 'the operation', type: 'Process' },
       { text: 'the supervisor', type: 'Person' },
-      { text: 'the execution', type: 'bfo:Process' }
+      { text: 'the execution', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'director', role: 'Agent' },
@@ -2742,7 +2742,7 @@ const sentences = [
     tags: ['multi-clause', 'shared-subject', 'cbp'],
     expectedEntities: [
       { text: 'The analyst', type: 'Person' },
-      { text: 'the threat', type: 'bfo:Entity' },
+      { text: 'the threat', type: 'Entity' },
       { text: 'a response plan', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
@@ -2793,7 +2793,7 @@ const sentences = [
     tags: ['long-np', 'government'],
     expectedEntities: [
       { text: 'The joint interagency task force', type: 'Organization' },
-      { text: 'the contraband', type: 'bfo:Entity' }
+      { text: 'the contraband', type: 'Entity' }
     ],
     expectedRoles: [
       { entity: 'task force', role: 'Agent' },
@@ -2807,7 +2807,7 @@ const sentences = [
     tags: ['long-np', 'government'],
     expectedEntities: [
       { text: 'The acting deputy assistant secretary', type: 'Person' },
-      { text: 'the summit', type: 'bfo:Process' }
+      { text: 'the summit', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'assistant secretary', role: 'Agent' },
@@ -2897,7 +2897,7 @@ const sentences = [
     tags: ['multi-clause', 'subordination', 'cbp'],
     expectedEntities: [
       { text: 'the sensors', type: 'Artifact' },
-      { text: 'movement', type: 'bfo:Process' },
+      { text: 'movement', type: 'Process' },
       { text: 'the patrol', type: 'Organization' }
     ],
     expectedRoles: [
@@ -2915,7 +2915,7 @@ const sentences = [
       { text: 'The commander', type: 'Person' },
       { text: 'the plan', type: 'InformationContentEntity' },
       { text: 'the team', type: 'Organization' },
-      { text: 'the mission', type: 'bfo:Process' }
+      { text: 'the mission', type: 'Process' }
     ],
     expectedRoles: [
       { entity: 'commander', role: 'Agent' },

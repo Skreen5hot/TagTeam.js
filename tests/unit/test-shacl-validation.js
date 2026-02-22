@@ -148,7 +148,7 @@ test('role with bearer passes', () => {
       },
       {
         '@id': 'inst:AgentRole_0',
-        '@type': ['bfo:BFO_0000023', 'bfo:Role'],
+        '@type': ['Role', 'Role'],
         'rdfs:label': 'AgentRole',
         'cco:realized_in': 'inst:Allocation_Act_0'
       },
@@ -171,7 +171,7 @@ test('role without bearer is VIOLATION', () => {
     '@graph': [
       {
         '@id': 'inst:OrphanRole_0',
-        '@type': ['bfo:BFO_0000023', 'cco:Role']
+        '@type': ['Role', 'cco:Role']
         // No bearer
       }
     ]
@@ -195,7 +195,7 @@ test('unrealized role generates warning', () => {
       },
       {
         '@id': 'inst:DormantRole_0',
-        '@type': ['bfo:BFO_0000023']
+        '@type': ['Role']
         // No realized_in
       }
     ]
@@ -322,7 +322,7 @@ test('valid measurement passes', () => {
     '@graph': [
       {
         '@id': 'inst:Urgency_Quality',
-        '@type': ['bfo:BFO_0000019'],
+        '@type': ['Quality'],
         'cco:is_measured_by': 'inst:Urgency_Measurement'
       },
       {
@@ -464,7 +464,7 @@ test('is_part_of linking Continuant to Process is VIOLATION', () => {
       },
       {
         '@id': 'inst:Act_0',
-        '@type': ['IntentionalAct', 'bfo:BFO_0000015']
+        '@type': ['IntentionalAct', 'Process']
       }
     ]
   };
@@ -564,7 +564,7 @@ test('violations reduce compliance score', () => {
     '@graph': [
       {
         '@id': 'inst:OrphanRole_0',
-        '@type': ['bfo:BFO_0000023'] // Role without bearer
+        '@type': ['Role'] // Role without bearer
       }
     ]
   };

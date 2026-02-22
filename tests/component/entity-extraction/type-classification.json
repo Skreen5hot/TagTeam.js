@@ -76,7 +76,7 @@
         },
         {
           "text": "power",
-          "type": "bfo:Quality",
+          "type": "Quality",
           "definiteness": "bare",
           "number": "singular"
         }
@@ -100,7 +100,7 @@
         },
         {
           "text": "100GB of memory",
-          "type": "bfo:Quality",
+          "type": "Quality",
           "definiteness": "indefinite",
           "measurement": true,
           "value": "100GB",
@@ -128,7 +128,7 @@
       "temporalModifiers": [
         {
           "text": "yesterday",
-          "type": "bfo:TemporalRegion"
+          "type": "TemporalRegion"
         }
       ]
     },

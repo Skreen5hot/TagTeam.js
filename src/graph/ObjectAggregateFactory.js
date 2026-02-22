@@ -153,7 +153,7 @@ class ObjectAggregateFactory {
 
     const aggregate = {
       '@id': this._generateAggregateIRI(originalEntity['@id']),
-      '@type': ['bfo:BFO_0000027', 'owl:NamedIndividual'], // Object Aggregate
+      '@type': ['ObjectAggregate', 'owl:NamedIndividual'], // Object Aggregate
       'rdfs:label': `Aggregate of ${label}`,
       // Use object notation with @id for JSON-LD compliance
       'has_member_part': members.map(m => ({ '@id': m['@id'] })),

@@ -32,7 +32,7 @@ export interface DiscourseReferent extends JSONLDNode {
  * BFO Role
  */
 export interface Role extends JSONLDNode {
-  '@type': 'bfo:BFO_0000023' | ['bfo:BFO_0000023', 'owl:NamedIndividual'];
+  '@type': 'Role' | ['Role', 'owl:NamedIndividual'];
   'inheres_in': string; // IRI of bearer (REQUIRED per SHACL)
   'realized_in'?: string; // IRI of process (optional - dormant roles valid)
 }

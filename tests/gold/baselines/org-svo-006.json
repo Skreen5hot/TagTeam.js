@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T12:26:15.914Z",
+  "generatedAt": "2026-02-22T14:56:02.594Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,12 +32,12 @@
   "extractedEntities": [
     {
       "text": "The officer",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_officer"
     },
     {
       "text": "the individual",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_individual"
     }
   ],
@@ -56,7 +56,7 @@
       {
         "@id": "inst:The_officer",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The officer",
@@ -65,9 +65,9 @@
         "tagteam:parseProbability": 0.9272,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Person_Officer_3f5d9f2f7ad0"
+          "@id": "inst:Entity_Officer_0e1e8760589e"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_6e24e7fb5edc"
@@ -76,16 +76,16 @@
       {
         "@id": "inst:the_individual",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the individual",
         "tagteam:mentionId": "s0:h5:21-35",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Individual_ec02c4298aae"
+          "@id": "inst:Entity_Individual_43d1002f3a3a"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_6e24e7fb5edc"
@@ -106,7 +106,7 @@
       {
         "@id": "inst:Role_The_officer_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -122,7 +122,7 @@
       {
         "@id": "inst:Role_the_individual_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -136,29 +136,29 @@
         "tagteam:parseProbability": 0.7804
       },
       {
-        "@id": "inst:Person_Officer_3f5d9f2f7ad0",
+        "@id": "inst:Entity_Officer_0e1e8760589e",
         "@type": [
-          "Person",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "officer",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:15.914Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.594Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6e24e7fb5edc",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Individual_ec02c4298aae",
+        "@id": "inst:Entity_Individual_43d1002f3a3a",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "individual",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:15.914Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.594Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6e24e7fb5edc",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_6e24e7fb5edc",
@@ -170,7 +170,7 @@
         "has_text_value": "The officer detained the individual",
         "tagteam:char_count": 35,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-22T12:26:15.906Z"
+        "tagteam:received_at": "2026-02-22T14:56:02.585Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_detained"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:15.906Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.585Z"
       }
     ]
   }

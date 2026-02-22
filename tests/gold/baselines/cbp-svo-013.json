@@ -7,7 +7,7 @@
     "cbp",
     "operations"
   ],
-  "generatedAt": "2026-02-22T12:26:16.827Z",
+  "generatedAt": "2026-02-22T14:56:03.588Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -16,7 +16,7 @@
     },
     {
       "text": "overtime",
-      "type": "bfo:Entity"
+      "type": "Entity"
     }
   ],
   "expectedRoles": [
@@ -32,7 +32,7 @@
   "extractedEntities": [
     {
       "text": "The station commander",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_station_commander"
     }
   ],
@@ -47,7 +47,7 @@
       {
         "@id": "inst:The_station_commander",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The station commander",
@@ -56,9 +56,9 @@
         "tagteam:parseProbability": 0.3683,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Station_Commander_e96d2390c3ad"
+          "@id": "inst:Entity_Station_Commander_911ca6eb2444"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_1739823fda8d"
@@ -80,7 +80,7 @@
       {
         "@id": "inst:Role_The_station_commander_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -94,17 +94,17 @@
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Entity_Station_Commander_e96d2390c3ad",
+        "@id": "inst:Entity_Station_Commander_911ca6eb2444",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "station commander",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.827Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.588Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1739823fda8d",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_1739823fda8d",
@@ -116,7 +116,7 @@
         "has_text_value": "The station commander authorized overtime",
         "tagteam:char_count": 41,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-22T12:26:16.820Z"
+        "tagteam:received_at": "2026-02-22T14:56:03.582Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -159,7 +159,7 @@
             "@id": "inst:Act_authorized"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.820Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.582Z"
       }
     ]
   }

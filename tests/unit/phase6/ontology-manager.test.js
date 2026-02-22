@@ -219,7 +219,7 @@ describe('Phase 6.5.2: OntologyManager', () => {
       domain: 'test',
       version: '1.0',
       typeSpecializations: {
-        'bfo:BFO_0000015': {
+        'Process': {
           'care': 'IntentionalAct',
           'treatment': 'IntentionalAct'
         }
@@ -249,7 +249,7 @@ describe('Phase 6.5.2: OntologyManager', () => {
 
     it('JL-004: Type specializations are queryable', () => {
       manager.loadFromObject(sampleJSON);
-      const type = manager.getTypeSpecialization('bfo:BFO_0000015', 'care');
+      const type = manager.getTypeSpecialization('Process', 'care');
       expect(type).toBe('IntentionalAct');
     });
 
@@ -434,7 +434,7 @@ describe('Phase 6.5.2: OntologyManager', () => {
       const json = {
         domain: 'test',
         version: '1.0',
-        typeSpecializations: { 'bfo:BFO_0000015': { 'care': 'IntentionalAct' } }
+        typeSpecializations: { 'Process': { 'care': 'IntentionalAct' } }
       };
 
       manager.loadFromString(ttl1, { format: 'turtle', namespace: 'vn' });
@@ -636,7 +636,7 @@ describe('Phase 6.5.2: OntologyManager', () => {
         domain: 'medical',
         version: '1.0',
         typeSpecializations: {
-          'bfo:BFO_0000015': { 'care': 'IntentionalAct' }
+          'Process': { 'care': 'IntentionalAct' }
         }
       };
 
@@ -653,7 +653,7 @@ describe('Phase 6.5.2: OntologyManager', () => {
       expect(manager.getLoadedOntologies().length).toBe(2);
 
       // JSON specialization works
-      expect(manager.getTypeSpecialization('bfo:BFO_0000015', 'care')).toBe('IntentionalAct');
+      expect(manager.getTypeSpecialization('Process', 'care')).toBe('IntentionalAct');
 
       // TTL value works
       expect(manager.getValueDefinition('BeneficenceDisposition')).toBeDefined();

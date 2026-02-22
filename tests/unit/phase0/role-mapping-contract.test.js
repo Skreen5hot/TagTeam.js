@@ -93,7 +93,7 @@ console.log('\n  \x1b[36mCore Argument Mappings:\x1b[0m');
 test("'nsubj' → bfo:Role with label AgentRole", () => {
   assert(RoleMappingContract, 'Module not loaded');
   const result = RoleMappingContract.mapUDToRole('nsubj');
-  assertEqual(result.role, 'bfo:Role',
+  assertEqual(result.role, 'Role',
     "'nsubj' should map to bfo:Role");
   assertEqual(result.label, 'AgentRole',
     "'nsubj' label should be AgentRole");
@@ -102,7 +102,7 @@ test("'nsubj' → bfo:Role with label AgentRole", () => {
 test("'obj' → bfo:Role with label PatientRole", () => {
   assert(RoleMappingContract, 'Module not loaded');
   const result = RoleMappingContract.mapUDToRole('obj');
-  assertEqual(result.role, 'bfo:Role',
+  assertEqual(result.role, 'Role',
     "'obj' should map to bfo:Role");
   assertEqual(result.label, 'PatientRole',
     "'obj' label should be PatientRole");
@@ -111,7 +111,7 @@ test("'obj' → bfo:Role with label PatientRole", () => {
 test("'iobj' → bfo:Role with label RecipientRole", () => {
   assert(RoleMappingContract, 'Module not loaded');
   const result = RoleMappingContract.mapUDToRole('iobj');
-  assertEqual(result.role, 'bfo:Role',
+  assertEqual(result.role, 'Role',
     "'iobj' should map to bfo:Role");
   assertEqual(result.label, 'RecipientRole',
     "'iobj' label should be RecipientRole");
@@ -120,7 +120,7 @@ test("'iobj' → bfo:Role with label RecipientRole", () => {
 test("'nsubj:pass' → bfo:Role with label PatientRole", () => {
   assert(RoleMappingContract, 'Module not loaded');
   const result = RoleMappingContract.mapUDToRole('nsubj:pass');
-  assertEqual(result.role, 'bfo:Role',
+  assertEqual(result.role, 'Role',
     "'nsubj:pass' should map to bfo:Role (passive subject = patient)");
   assertEqual(result.label, 'PatientRole',
     "'nsubj:pass' label should be PatientRole");
@@ -129,7 +129,7 @@ test("'nsubj:pass' → bfo:Role with label PatientRole", () => {
 test("'obl:agent' → bfo:Role with label AgentRole", () => {
   assert(RoleMappingContract, 'Module not loaded');
   const result = RoleMappingContract.mapUDToRole('obl:agent');
-  assertEqual(result.role, 'bfo:Role',
+  assertEqual(result.role, 'Role',
     "'obl:agent' should map to bfo:Role (passive 'by' phrase)");
   assertEqual(result.label, 'AgentRole',
     "'obl:agent' label should be AgentRole");
@@ -138,7 +138,7 @@ test("'obl:agent' → bfo:Role with label AgentRole", () => {
 test("'obl' → bfo:Role with label ObliqueRole (subtyped by case)", () => {
   assert(RoleMappingContract, 'Module not loaded');
   const result = RoleMappingContract.mapUDToRole('obl');
-  assertEqual(result.role, 'bfo:Role',
+  assertEqual(result.role, 'Role',
     "'obl' should map to bfo:Role");
   assertEqual(result.label, 'ObliqueRole',
     "'obl' label should be ObliqueRole");

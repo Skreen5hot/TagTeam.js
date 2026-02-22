@@ -7,7 +7,7 @@
     "split",
     "military"
   ],
-  "generatedAt": "2026-02-22T12:26:16.379Z",
+  "generatedAt": "2026-02-22T14:56:03.130Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -40,12 +40,12 @@
   "extractedEntities": [
     {
       "text": "The captain and the lieutenant",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_captain_and_the_lieutenant"
     },
     {
       "text": "the team",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_team"
     }
   ],
@@ -64,7 +64,7 @@
       {
         "@id": "inst:The_captain_and_the_lieutenant",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The captain and the lieutenant",
@@ -73,9 +73,9 @@
         "tagteam:parseProbability": 0.6583,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Captain_And_The_Lieutenant_9f73375b40d1"
+          "@id": "inst:Entity_Captain_And_The_Lieutenant_814731b4d0b1"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b507a2e3cebb"
@@ -84,16 +84,16 @@
       {
         "@id": "inst:the_team",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the team",
         "tagteam:mentionId": "s0:h8:39-47",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Organization_Team_98d3651976cd"
+          "@id": "inst:Entity_Team_08d6ad4f54e5"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b507a2e3cebb"
@@ -114,7 +114,7 @@
       {
         "@id": "inst:Role_The_captain_and_the_lieutenant_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -130,7 +130,7 @@
       {
         "@id": "inst:Role_the_team_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -144,29 +144,29 @@
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Entity_Captain_And_The_Lieutenant_9f73375b40d1",
+        "@id": "inst:Entity_Captain_And_The_Lieutenant_814731b4d0b1",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "captain and the lieutenant",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.378Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.129Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b507a2e3cebb",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Organization_Team_98d3651976cd",
+        "@id": "inst:Entity_Team_08d6ad4f54e5",
         "@type": [
-          "Organization",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "team",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.378Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.130Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b507a2e3cebb",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_b507a2e3cebb",
@@ -178,7 +178,7 @@
         "has_text_value": "The captain and the lieutenant briefed the team",
         "tagteam:char_count": 47,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T12:26:16.369Z"
+        "tagteam:received_at": "2026-02-22T14:56:03.119Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -224,7 +224,7 @@
             "@id": "inst:Act_briefed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.369Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.119Z"
       }
     ]
   }

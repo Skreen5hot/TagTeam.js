@@ -49,12 +49,12 @@ test('ActExtractor: _getOntologicalCategory returns correct categories', () => {
   const extractor = new ActExtractor();
 
   // Occurrents
-  assert.strictEqual(extractor._getOntologicalCategory('bfo:BFO_0000015'), 'occurrent');
+  assert.strictEqual(extractor._getOntologicalCategory('Process'), 'occurrent');
   assert.strictEqual(extractor._getOntologicalCategory('IntentionalAct'), 'occurrent');
   assert.strictEqual(extractor._getOntologicalCategory('cco:ActOfService'), 'occurrent');
 
   // Continuants
-  assert.strictEqual(extractor._getOntologicalCategory('bfo:BFO_0000040'), 'continuant');
+  assert.strictEqual(extractor._getOntologicalCategory('MaterialEntity'), 'continuant');
   assert.strictEqual(extractor._getOntologicalCategory('Artifact'), 'continuant');
 
   // Persons

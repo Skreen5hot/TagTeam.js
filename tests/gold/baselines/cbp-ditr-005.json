@@ -6,7 +6,7 @@
     "ditransitive",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T12:26:17.421Z",
+  "generatedAt": "2026-02-22T14:56:04.220Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -39,12 +39,12 @@
   "extractedEntities": [
     {
       "text": "The chief",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_chief"
     },
     {
       "text": "the team",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_team"
     }
   ],
@@ -63,7 +63,7 @@
       {
         "@id": "inst:The_chief",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The chief",
@@ -72,9 +72,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Chief_f1f5550016cd"
+          "@id": "inst:Entity_Chief_a940943603d2"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3a158b03938b"
@@ -83,16 +83,16 @@
       {
         "@id": "inst:the_team",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the team",
         "tagteam:mentionId": "s0:h5:17-25",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Organization_Team_2297213bf695"
+          "@id": "inst:Entity_Team_7b9667fd6f29"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3a158b03938b"
@@ -113,7 +113,7 @@
       {
         "@id": "inst:Role_The_chief_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -129,7 +129,7 @@
       {
         "@id": "inst:Role_the_team_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -143,29 +143,29 @@
         "tagteam:parseProbability": 0.7804
       },
       {
-        "@id": "inst:Entity_Chief_f1f5550016cd",
+        "@id": "inst:Entity_Chief_a940943603d2",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "chief",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.421Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.220Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3a158b03938b",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Organization_Team_2297213bf695",
+        "@id": "inst:Entity_Team_7b9667fd6f29",
         "@type": [
-          "Organization",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "team",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.421Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.220Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3a158b03938b",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_3a158b03938b",
@@ -177,7 +177,7 @@
         "has_text_value": "The chief passed the team the intelligence briefing",
         "tagteam:char_count": 51,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T12:26:17.411Z"
+        "tagteam:received_at": "2026-02-22T14:56:04.212Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -223,7 +223,7 @@
             "@id": "inst:Act_passed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.411Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.212Z"
       }
     ]
   }

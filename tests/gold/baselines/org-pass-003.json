@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T12:26:16.134Z",
+  "generatedAt": "2026-02-22T14:56:02.846Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,12 +32,12 @@
   "extractedEntities": [
     {
       "text": "The policy",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_policy"
     },
     {
       "text": "the committee",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_committee"
     }
   ],
@@ -56,7 +56,7 @@
       {
         "@id": "inst:The_policy",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The policy",
@@ -65,9 +65,9 @@
         "tagteam:parseProbability": 0.889,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Policy_e3878a2b78e2"
+          "@id": "inst:Entity_Policy_436c6620d8ac"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_85ce02b56051"
@@ -76,16 +76,16 @@
       {
         "@id": "inst:the_committee",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the committee",
         "tagteam:mentionId": "s0:h7:27-40",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Organization_Committee_c9aab32a4a54"
+          "@id": "inst:Entity_Committee_8859766e5b7f"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_85ce02b56051"
@@ -107,7 +107,7 @@
       {
         "@id": "inst:Role_The_policy_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -123,7 +123,7 @@
       {
         "@id": "inst:Role_the_committee_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -137,29 +137,29 @@
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Entity_Policy_e3878a2b78e2",
+        "@id": "inst:Entity_Policy_436c6620d8ac",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "policy",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.134Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.846Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_85ce02b56051",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Organization_Committee_c9aab32a4a54",
+        "@id": "inst:Entity_Committee_8859766e5b7f",
         "@type": [
-          "Organization",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "committee",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.134Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.846Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_85ce02b56051",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_85ce02b56051",
@@ -171,7 +171,7 @@
         "has_text_value": "The policy was approved by the committee",
         "tagteam:char_count": 40,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T12:26:16.125Z"
+        "tagteam:received_at": "2026-02-22T14:56:02.834Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -217,7 +217,7 @@
             "@id": "inst:Act_approved"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.125Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.834Z"
       }
     ]
   }

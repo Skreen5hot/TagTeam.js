@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T12:26:16.092Z",
+  "generatedAt": "2026-02-22T14:56:02.798Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -16,7 +16,7 @@
     },
     {
       "text": "an investigation",
-      "type": "bfo:Process"
+      "type": "Process"
     }
   ],
   "expectedRoles": [
@@ -32,12 +32,12 @@
   "extractedEntities": [
     {
       "text": "The bureau",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_bureau"
     },
     {
       "text": "an investigation",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:an_investigation"
     }
   ],
@@ -56,7 +56,7 @@
       {
         "@id": "inst:The_bureau",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The bureau",
@@ -65,9 +65,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Bureau_c890880bffcd"
+          "@id": "inst:Entity_Bureau_0aa5307f0c7b"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_62a0e7609c2c"
@@ -76,16 +76,16 @@
       {
         "@id": "inst:an_investigation",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "an investigation",
         "tagteam:mentionId": "s0:h5:21-37",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Investigation_eb13dcb1b5f7"
+          "@id": "inst:Entity_Investigation_e76be0f8b651"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_62a0e7609c2c"
@@ -106,7 +106,7 @@
       {
         "@id": "inst:Role_The_bureau_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -122,7 +122,7 @@
       {
         "@id": "inst:Role_an_investigation_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -136,29 +136,29 @@
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Entity_Bureau_c890880bffcd",
+        "@id": "inst:Entity_Bureau_0aa5307f0c7b",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "bureau",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.092Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.798Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_62a0e7609c2c",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Investigation_eb13dcb1b5f7",
+        "@id": "inst:Entity_Investigation_e76be0f8b651",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "investigation",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.092Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.798Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_62a0e7609c2c",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_62a0e7609c2c",
@@ -170,7 +170,7 @@
         "has_text_value": "The bureau conducted an investigation",
         "tagteam:char_count": 37,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-22T12:26:16.083Z"
+        "tagteam:received_at": "2026-02-22T14:56:02.789Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_conducted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.083Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.789Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T12:26:17.360Z",
+  "generatedAt": "2026-02-22T14:56:04.154Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -39,17 +39,17 @@
   "extractedEntities": [
     {
       "text": "The commander",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_commander"
     },
     {
       "text": "the unit",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_unit"
     },
     {
       "text": "the southern sector",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_southern_sector"
     }
   ],
@@ -68,16 +68,16 @@
       {
         "@id": "inst:The_commander",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The commander",
         "tagteam:mentionId": "s0:h2:0-13",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Commander_bd3853f7459c"
+          "@id": "inst:Entity_Commander_18f600ad8302"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_4834e9ef436e"
@@ -86,16 +86,16 @@
       {
         "@id": "inst:the_unit",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the unit",
         "tagteam:mentionId": "s0:h5:23-31",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Organization_Unit_a522c50c4286"
+          "@id": "inst:Entity_Unit_ab9ec0d4d50d"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_4834e9ef436e"
@@ -104,16 +104,16 @@
       {
         "@id": "inst:the_southern_sector",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the southern sector",
         "tagteam:mentionId": "s0:h9:35-54",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Southern_Sector_1a6247379c3a"
+          "@id": "inst:Entity_Southern_Sector_209bb9246ac5"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_4834e9ef436e"
@@ -146,7 +146,7 @@
       {
         "@id": "inst:Role_the_unit_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -162,7 +162,7 @@
       {
         "@id": "inst:Role_the_southern_sector_DestinationRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "DestinationRole",
         "tagteam:roleType": "DestinationRole",
@@ -177,40 +177,40 @@
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Entity_Commander_bd3853f7459c",
+        "@id": "inst:Entity_Commander_18f600ad8302",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "commander",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.360Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.153Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4834e9ef436e",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Organization_Unit_a522c50c4286",
+        "@id": "inst:Entity_Unit_ab9ec0d4d50d",
         "@type": [
-          "Organization",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "unit",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.360Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.153Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4834e9ef436e",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Southern_Sector_1a6247379c3a",
+        "@id": "inst:Entity_Southern_Sector_209bb9246ac5",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "southern sector",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.360Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.153Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4834e9ef436e",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_4834e9ef436e",
@@ -222,7 +222,7 @@
         "has_text_value": "The commander assigned the unit to the southern sector",
         "tagteam:char_count": 54,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-22T12:26:17.350Z"
+        "tagteam:received_at": "2026-02-22T14:56:04.138Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -274,7 +274,7 @@
             "@id": "inst:Act_assigned"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.350Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.138Z"
       }
     ]
   }

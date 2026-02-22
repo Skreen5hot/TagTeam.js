@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T12:26:17.334Z",
+  "generatedAt": "2026-02-22T14:56:04.116Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -19,7 +19,7 @@
     },
     {
       "text": "the river",
-      "type": "bfo:Entity"
+      "type": "Entity"
     }
   ],
   "expectedRoles": [
@@ -39,17 +39,17 @@
   "extractedEntities": [
     {
       "text": "The patrol",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_patrol"
     },
     {
       "text": "the group",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_group"
     },
     {
       "text": "the river",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_river"
     }
   ],
@@ -68,7 +68,7 @@
       {
         "@id": "inst:The_patrol",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The patrol",
@@ -77,9 +77,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Patrol_b626cb6920e3"
+          "@id": "inst:Entity_Patrol_0f3cbda5e4d6"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d6c44624a76b"
@@ -88,16 +88,16 @@
       {
         "@id": "inst:the_group",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the group",
         "tagteam:mentionId": "s0:h5:23-32",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Group_3e43c38e3284"
+          "@id": "inst:Entity_Group_cb36334750d0"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d6c44624a76b"
@@ -106,16 +106,16 @@
       {
         "@id": "inst:the_river",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the river",
         "tagteam:mentionId": "s0:h8:38-47",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_River_378ae5b77c5b"
+          "@id": "inst:Entity_River_9917ba7b6218"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d6c44624a76b"
@@ -136,7 +136,7 @@
       {
         "@id": "inst:Role_The_patrol_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -152,7 +152,7 @@
       {
         "@id": "inst:Role_the_group_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -168,7 +168,7 @@
       {
         "@id": "inst:Role_the_river_ObliqueRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "ObliqueRole",
         "tagteam:roleType": "ObliqueRole",
@@ -183,41 +183,41 @@
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Entity_Patrol_b626cb6920e3",
+        "@id": "inst:Entity_Patrol_0f3cbda5e4d6",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "patrol",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.334Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.116Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d6c44624a76b",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Group_3e43c38e3284",
+        "@id": "inst:Entity_Group_cb36334750d0",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "group",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.334Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.116Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d6c44624a76b",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_River_378ae5b77c5b",
+        "@id": "inst:Entity_River_9917ba7b6218",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "river",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.334Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.116Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d6c44624a76b",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_d6c44624a76b",
@@ -229,7 +229,7 @@
         "has_text_value": "The patrol apprehended the group near the river",
         "tagteam:char_count": 47,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T12:26:17.325Z"
+        "tagteam:received_at": "2026-02-22T14:56:04.108Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -278,7 +278,7 @@
             "@id": "inst:Act_apprehended"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.325Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.108Z"
       }
     ]
   }

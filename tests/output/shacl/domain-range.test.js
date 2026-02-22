@@ -103,8 +103,8 @@ describe('Domain/Range SHACL Validation', function() {
       const graph = parseToGraph('The critically ill patient needs help.');
 
       const quality = semantic.findNode(graph, n =>
-        n['@type']?.includes('bfo:BFO_0000019') ||
-        n['@type']?.includes('bfo:Quality')
+        n['@type']?.includes('Quality') ||
+        n['@type']?.includes('Quality')
       );
 
       if (quality) {

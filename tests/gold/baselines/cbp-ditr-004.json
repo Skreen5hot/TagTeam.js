@@ -6,7 +6,7 @@
     "ditransitive",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T12:26:17.408Z",
+  "generatedAt": "2026-02-22T14:56:04.208Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -19,7 +19,7 @@
     },
     {
       "text": "the new procedure",
-      "type": "bfo:Process"
+      "type": "Process"
     }
   ],
   "expectedRoles": [
@@ -39,12 +39,12 @@
   "extractedEntities": [
     {
       "text": "The instructor",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_instructor"
     },
     {
       "text": "the class",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_class"
     }
   ],
@@ -63,7 +63,7 @@
       {
         "@id": "inst:The_instructor",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The instructor",
@@ -72,9 +72,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Instructor_923207d4bea4"
+          "@id": "inst:Entity_Instructor_2cacf9a4ac15"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_412cc0d5f18c"
@@ -83,16 +83,16 @@
       {
         "@id": "inst:the_class",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the class",
         "tagteam:mentionId": "s0:h5:22-31",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Class_43ce02f3369b"
+          "@id": "inst:Entity_Class_ef5cb822d3d3"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_412cc0d5f18c"
@@ -113,7 +113,7 @@
       {
         "@id": "inst:Role_The_instructor_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -129,7 +129,7 @@
       {
         "@id": "inst:Role_the_class_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -143,29 +143,29 @@
         "tagteam:parseProbability": 0.7804
       },
       {
-        "@id": "inst:Entity_Instructor_923207d4bea4",
+        "@id": "inst:Entity_Instructor_2cacf9a4ac15",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "instructor",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.408Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.208Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_412cc0d5f18c",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Class_43ce02f3369b",
+        "@id": "inst:Entity_Class_ef5cb822d3d3",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "class",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.408Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.208Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_412cc0d5f18c",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_412cc0d5f18c",
@@ -177,7 +177,7 @@
         "has_text_value": "The instructor showed the class the new procedure",
         "tagteam:char_count": 49,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T12:26:17.399Z"
+        "tagteam:received_at": "2026-02-22T14:56:04.199Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -223,7 +223,7 @@
             "@id": "inst:Act_showed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.399Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.199Z"
       }
     ]
   }

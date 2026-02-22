@@ -7,7 +7,7 @@
     "cbp",
     "inspection"
   ],
-  "generatedAt": "2026-02-22T12:26:16.682Z",
+  "generatedAt": "2026-02-22T14:56:03.468Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -16,7 +16,7 @@
     },
     {
       "text": "the cargo",
-      "type": "bfo:Entity"
+      "type": "Entity"
     }
   ],
   "expectedRoles": [
@@ -32,12 +32,12 @@
   "extractedEntities": [
     {
       "text": "The customs officer",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_customs_officer"
     },
     {
       "text": "the cargo",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_cargo"
     }
   ],
@@ -56,7 +56,7 @@
       {
         "@id": "inst:The_customs_officer",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The customs officer",
@@ -65,9 +65,9 @@
         "tagteam:parseProbability": 0.8492,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Person_Customs_Officer_5d50b312b1f9"
+          "@id": "inst:Entity_Customs_Officer_39493beeaae0"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c6281c2782d6"
@@ -76,16 +76,16 @@
       {
         "@id": "inst:the_cargo",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the cargo",
         "tagteam:mentionId": "s0:h6:30-39",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Cargo_f87a77572410"
+          "@id": "inst:Entity_Cargo_6a25ee55243b"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c6281c2782d6"
@@ -106,7 +106,7 @@
       {
         "@id": "inst:Role_The_customs_officer_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -122,7 +122,7 @@
       {
         "@id": "inst:Role_the_cargo_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -136,29 +136,29 @@
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Person_Customs_Officer_5d50b312b1f9",
+        "@id": "inst:Entity_Customs_Officer_39493beeaae0",
         "@type": [
-          "Person",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "customs officer",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.682Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.468Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c6281c2782d6",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Cargo_f87a77572410",
+        "@id": "inst:Entity_Cargo_6a25ee55243b",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "cargo",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.682Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.468Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c6281c2782d6",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_c6281c2782d6",
@@ -170,7 +170,7 @@
         "has_text_value": "The customs officer inspected the cargo",
         "tagteam:char_count": 39,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T12:26:16.675Z"
+        "tagteam:received_at": "2026-02-22T14:56:03.460Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_inspected"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.675Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.460Z"
       }
     ]
   }

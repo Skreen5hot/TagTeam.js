@@ -7,7 +7,7 @@
     "cbp",
     "trade"
   ],
-  "generatedAt": "2026-02-22T12:26:16.748Z",
+  "generatedAt": "2026-02-22T14:56:03.519Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,12 +32,12 @@
   "extractedEntities": [
     {
       "text": "The trade compliance officer",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_trade_compliance_officer"
     },
     {
       "text": "the tariff schedule",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_tariff_schedule"
     }
   ],
@@ -56,7 +56,7 @@
       {
         "@id": "inst:The_trade_compliance_officer",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The trade compliance officer",
@@ -65,9 +65,9 @@
         "tagteam:parseProbability": 0.7804,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Person_Trade_Compliance_Officer_2bdb57dd30b2"
+          "@id": "inst:Entity_Trade_Compliance_Officer_6cbf23c84d23"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_19c2b0cebaae"
@@ -76,16 +76,16 @@
       {
         "@id": "inst:the_tariff_schedule",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the tariff schedule",
         "tagteam:mentionId": "s0:h8:38-57",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Tariff_Schedule_c39f009b05fd"
+          "@id": "inst:Entity_Tariff_Schedule_5d3c526ff742"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_19c2b0cebaae"
@@ -106,7 +106,7 @@
       {
         "@id": "inst:Role_The_trade_compliance_officer_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -122,7 +122,7 @@
       {
         "@id": "inst:Role_the_tariff_schedule_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -136,29 +136,29 @@
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Person_Trade_Compliance_Officer_2bdb57dd30b2",
+        "@id": "inst:Entity_Trade_Compliance_Officer_6cbf23c84d23",
         "@type": [
-          "Person",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "trade compliance officer",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.747Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.518Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_19c2b0cebaae",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Tariff_Schedule_c39f009b05fd",
+        "@id": "inst:Entity_Tariff_Schedule_5d3c526ff742",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "tariff schedule",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.747Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.519Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_19c2b0cebaae",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_19c2b0cebaae",
@@ -170,7 +170,7 @@
         "has_text_value": "The trade compliance officer assessed the tariff schedule",
         "tagteam:char_count": 57,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T12:26:16.739Z"
+        "tagteam:received_at": "2026-02-22T14:56:03.512Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_assessed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.739Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.512Z"
       }
     ]
   }

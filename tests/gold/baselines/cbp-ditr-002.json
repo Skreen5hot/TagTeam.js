@@ -6,7 +6,7 @@
     "ditransitive",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T12:26:17.386Z",
+  "generatedAt": "2026-02-22T14:56:04.184Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -39,12 +39,12 @@
   "extractedEntities": [
     {
       "text": "The headquarters",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_headquarters"
     },
     {
       "text": "the sector",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_sector"
     }
   ],
@@ -63,7 +63,7 @@
       {
         "@id": "inst:The_headquarters",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The headquarters",
@@ -72,9 +72,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Headquarter_6006e2cb261d"
+          "@id": "inst:Entity_Headquarter_997263a49aa6"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_208d3324efc8"
@@ -83,16 +83,16 @@
       {
         "@id": "inst:the_sector",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the sector",
         "tagteam:mentionId": "s0:h5:22-32",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Sector_d89b5ba2022b"
+          "@id": "inst:Entity_Sector_21a4c1ac8347"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_208d3324efc8"
@@ -113,7 +113,7 @@
       {
         "@id": "inst:Role_The_headquarters_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -129,7 +129,7 @@
       {
         "@id": "inst:Role_the_sector_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -143,29 +143,29 @@
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Entity_Headquarter_6006e2cb261d",
+        "@id": "inst:Entity_Headquarter_997263a49aa6",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "headquarter",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.386Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.184Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_208d3324efc8",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Sector_d89b5ba2022b",
+        "@id": "inst:Entity_Sector_21a4c1ac8347",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "sector",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.386Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.184Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_208d3324efc8",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_208d3324efc8",
@@ -177,7 +177,7 @@
         "has_text_value": "The headquarters sent the sector updated guidelines",
         "tagteam:char_count": 51,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T12:26:17.377Z"
+        "tagteam:received_at": "2026-02-22T14:56:04.176Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -223,7 +223,7 @@
             "@id": "inst:Act_sent"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.377Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.176Z"
       }
     ]
   }

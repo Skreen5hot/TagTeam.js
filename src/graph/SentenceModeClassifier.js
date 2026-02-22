@@ -22,20 +22,20 @@
  */
 const STATIVE_DEFINITE = {
   // Membership relations
-  'include': { relation: 'cco:has_member', inverse: 'cco:member_of', group: 'membership' },
-  'encompass': { relation: 'cco:has_member', inverse: 'cco:member_of', group: 'membership' },
+  'include': { relation: 'has_member_part', inverse: 'member_part_of', group: 'membership' },
+  'encompass': { relation: 'has_member_part', inverse: 'member_part_of', group: 'membership' },
 
   // Composition / containment
-  'contain': { relation: 'cco:has_part', inverse: 'cco:part_of', group: 'composition' },
-  'comprise': { relation: 'cco:has_member', inverse: 'cco:member_of', group: 'composition' },
-  'consist': { relation: 'cco:has_part', inverse: 'cco:part_of', group: 'composition' },
+  'contain': { relation: 'has_continuant_part', inverse: 'continuant_part_of', group: 'composition' },
+  'comprise': { relation: 'has_member_part', inverse: 'member_part_of', group: 'composition' },
+  'consist': { relation: 'has_continuant_part', inverse: 'continuant_part_of', group: 'composition' },
 
   // Possession
-  'possess': { relation: 'cco:has_possession', inverse: null, group: 'possession' },
-  'own': { relation: 'cco:has_possession', inverse: null, group: 'possession' },
+  'possess': { relation: 'has_possession', inverse: null, group: 'possession' },
+  'own': { relation: 'has_possession', inverse: null, group: 'possession' },
 
   // Location (stative sense)
-  'reside': { relation: 'cco:located_in', inverse: null, group: 'location' },
+  'reside': { relation: 'located_in', inverse: null, group: 'location' },
 };
 
 /**
@@ -43,7 +43,7 @@ const STATIVE_DEFINITE = {
  * We handle it separately: stative only when NOT followed by "to" (modal).
  */
 const HAVE_VERB = {
-  relation: 'cco:has_possession',
+  relation: 'has_possession',
   inverse: null,
   group: 'possession',
   condition: 'possessive_sense'
@@ -55,20 +55,20 @@ const HAVE_VERB = {
 const STATIVE_AMBIGUOUS = {
   'represent': {
     stativeCondition: 'object_is_organization_or_nation',
-    stativeRelation: 'tagteam:bears_role_for',
+    stativeRelation: 'bears_role_for',
     eventiveActType: 'IntentionalAct',
     // Stative if object is Nation, Organization, GeopoliticalEntity
     stativeObjectTypes: ['GeopoliticalOrganization', 'Organization', 'Country']
   },
   'support': {
     stativeCondition: 'subject_is_artifact',
-    stativeRelation: 'cco:has_part',
+    stativeRelation: 'has_continuant_part',
     eventiveActType: 'IntentionalAct',
     stativeSubjectTypes: ['Artifact']
   },
   'cover': {
     stativeCondition: 'object_is_measurement',
-    stativeRelation: 'cco:has_spatial_extent',
+    stativeRelation: 'has_spatial_extent',
     eventiveActType: 'IntentionalAct',
     stativeObjectTypes: []
   }

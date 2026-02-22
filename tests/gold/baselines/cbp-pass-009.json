@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T12:26:17.232Z",
+  "generatedAt": "2026-02-22T14:56:03.991Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -31,18 +31,18 @@
   "extractedEntities": [
     {
       "text": "Additional agents",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:Additional_agents"
     },
     {
       "text": "the sector chief",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_sector_chief"
     },
     {
       "text": "additional agent",
-      "type": "bfo:BFO_0000001",
-      "id": "inst:Entity_Additional_Agent_4165e9ce115b"
+      "type": "Entity",
+      "id": "inst:Entity_Additional_Agent_4a583cc070ce"
     }
   ],
   "extractedRoles": [
@@ -60,7 +60,7 @@
       {
         "@id": "inst:Additional_agents",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "Additional agents",
@@ -70,9 +70,9 @@
         "tagteam:genericityCategory": "GEN",
         "tagteam:genericityConfidence": 0.7,
         "tagteam:genericityBasis": "bare_plural",
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Additional_Agent_4165e9ce115b"
+          "@id": "inst:Entity_Additional_Agent_4a583cc070ce"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3dddf7de5304"
@@ -81,16 +81,16 @@
       {
         "@id": "inst:the_sector_chief",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the sector chief",
         "tagteam:mentionId": "s0:h8:35-51",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Sector_Chief_db1bc9197d8a"
+          "@id": "inst:Entity_Sector_Chief_8e771fb76562"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3dddf7de5304"
@@ -112,7 +112,7 @@
       {
         "@id": "inst:Role_Additional_agents_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -128,7 +128,7 @@
       {
         "@id": "inst:Role_the_sector_chief_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -142,33 +142,33 @@
         "tagteam:parseProbability": 0.7804
       },
       {
-        "@id": "inst:Entity_Additional_Agent_4165e9ce115b",
+        "@id": "inst:Entity_Additional_Agent_4a583cc070ce",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:Class"
         ],
         "rdfs:label": "additional agent",
         "tagteam:genericityCategory": "GEN",
-        "tagteam:typeBasis": "default",
+        "tagteam:typeBasis": "type-mapping",
         "tagteam:classNominationStatus": "unresolved",
         "tagteam:nominatedClassLabel": "Additional Agent",
         "tagteam:nominationBasis": "bare_plural",
         "tagteam:requiresOntologyResolution": true,
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.232Z",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.991Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3dddf7de5304",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Sector_Chief_db1bc9197d8a",
+        "@id": "inst:Entity_Sector_Chief_8e771fb76562",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "sector chief",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.232Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.991Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3dddf7de5304",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_3dddf7de5304",
@@ -180,7 +180,7 @@
         "has_text_value": "Additional agents were deployed by the sector chief",
         "tagteam:char_count": 51,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T12:26:17.218Z"
+        "tagteam:received_at": "2026-02-22T14:56:03.982Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -226,7 +226,7 @@
             "@id": "inst:Act_deployed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.218Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.982Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T12:26:16.050Z",
+  "generatedAt": "2026-02-22T14:56:02.754Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,12 +32,12 @@
   "extractedEntities": [
     {
       "text": "The department",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_department"
     },
     {
       "text": "new regulations",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:new_regulations"
     }
   ],
@@ -56,7 +56,7 @@
       {
         "@id": "inst:The_department",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The department",
@@ -65,9 +65,9 @@
         "tagteam:parseProbability": 0.3683,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Organization_Department_767ff5397eec"
+          "@id": "inst:Entity_Department_f2c47837d2b5"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7d317d866425"
@@ -76,16 +76,16 @@
       {
         "@id": "inst:new_regulations",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "new regulations",
         "tagteam:mentionId": "s0:h5:27-42",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_New_Regulation_2bcbd714199b"
+          "@id": "inst:Entity_New_Regulation_204d5f7113f9"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7d317d866425"
@@ -107,7 +107,7 @@
       {
         "@id": "inst:Role_The_department_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -123,7 +123,7 @@
       {
         "@id": "inst:Role_new_regulations_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -137,29 +137,29 @@
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Organization_Department_767ff5397eec",
+        "@id": "inst:Entity_Department_f2c47837d2b5",
         "@type": [
-          "Organization",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "department",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.049Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.754Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7d317d866425",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_New_Regulation_2bcbd714199b",
+        "@id": "inst:Entity_New_Regulation_204d5f7113f9",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "new regulation",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.049Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.754Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7d317d866425",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_7d317d866425",
@@ -171,7 +171,7 @@
         "has_text_value": "The department implemented new regulations",
         "tagteam:char_count": 42,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-22T12:26:16.041Z"
+        "tagteam:received_at": "2026-02-22T14:56:02.744Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -217,7 +217,7 @@
             "@id": "inst:Act_implemented"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.041Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.744Z"
       }
     ]
   }

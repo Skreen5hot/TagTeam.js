@@ -6,7 +6,7 @@
     "nested-pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T12:26:18.068Z",
+  "generatedAt": "2026-02-22T14:56:04.701Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -15,7 +15,7 @@
     },
     {
       "text": "the cargo",
-      "type": "bfo:Entity"
+      "type": "Entity"
     },
     {
       "text": "the container",
@@ -39,27 +39,27 @@
   "extractedEntities": [
     {
       "text": "The inspector",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_inspector"
     },
     {
       "text": "the cargo",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_cargo"
     },
     {
       "text": "the container",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_container"
     },
     {
       "text": "the port of entry",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_port_of_entry"
     },
     {
       "text": "entry",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:entry"
     }
   ],
@@ -86,7 +86,7 @@
       {
         "@id": "inst:The_inspector",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The inspector",
@@ -95,9 +95,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Person_Inspector_e4ece74adf7d"
+          "@id": "inst:Entity_Inspector_3c9d2be6a0e0"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_49fea0f990d9"
@@ -106,16 +106,16 @@
       {
         "@id": "inst:the_cargo",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the cargo",
         "tagteam:mentionId": "s0:h5:23-32",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Cargo_d92efb989db1"
+          "@id": "inst:Entity_Cargo_961a8e4ad7d2"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_49fea0f990d9"
@@ -124,16 +124,16 @@
       {
         "@id": "inst:the_container",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the container",
         "tagteam:mentionId": "s0:h8:36-49",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Container_b9c0f3096c07"
+          "@id": "inst:Entity_Container_8c7aa7947543"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_49fea0f990d9"
@@ -142,16 +142,16 @@
       {
         "@id": "inst:the_port_of_entry",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the port of entry",
         "tagteam:mentionId": "s0:h11:53-70",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Port_Of_Entry_e966842e38f9"
+          "@id": "inst:Entity_Port_Of_Entry_1815d2d7a993"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_49fea0f990d9"
@@ -160,16 +160,16 @@
       {
         "@id": "inst:entry",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "entry",
         "tagteam:mentionId": "s0:h13:65-70",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Entry_c5cd3671b606"
+          "@id": "inst:Entity_Entry_39e03f55c977"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_49fea0f990d9"
@@ -190,7 +190,7 @@
       {
         "@id": "inst:Role_The_inspector_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -206,7 +206,7 @@
       {
         "@id": "inst:Role_the_cargo_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -222,7 +222,7 @@
       {
         "@id": "inst:Role_the_container_LocationRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "LocationRole",
         "tagteam:roleType": "LocationRole",
@@ -239,7 +239,7 @@
       {
         "@id": "inst:Role_the_port_of_entry_LocationRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "LocationRole",
         "tagteam:roleType": "LocationRole",
@@ -254,65 +254,65 @@
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Person_Inspector_e4ece74adf7d",
+        "@id": "inst:Entity_Inspector_3c9d2be6a0e0",
         "@type": [
-          "Person",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "inspector",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:18.067Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.701Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_49fea0f990d9",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Cargo_d92efb989db1",
+        "@id": "inst:Entity_Cargo_961a8e4ad7d2",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "cargo",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:18.067Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.701Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_49fea0f990d9",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Container_b9c0f3096c07",
+        "@id": "inst:Entity_Container_8c7aa7947543",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "container",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:18.067Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.701Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_49fea0f990d9",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Port_Of_Entry_e966842e38f9",
+        "@id": "inst:Entity_Port_Of_Entry_1815d2d7a993",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "port of entry",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:18.067Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.701Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_49fea0f990d9",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Entry_c5cd3671b606",
+        "@id": "inst:Entity_Entry_39e03f55c977",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "entry",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:18.067Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.701Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_49fea0f990d9",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_49fea0f990d9",
@@ -324,7 +324,7 @@
         "has_text_value": "The inspector examined the cargo in the container at the port of entry",
         "tagteam:char_count": 70,
         "tagteam:word_count": 13,
-        "tagteam:received_at": "2026-02-22T12:26:18.055Z"
+        "tagteam:received_at": "2026-02-22T14:56:04.691Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -379,7 +379,7 @@
             "@id": "inst:Act_examined"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:18.055Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.691Z"
       }
     ]
   }

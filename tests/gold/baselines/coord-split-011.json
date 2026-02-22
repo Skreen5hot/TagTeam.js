@@ -7,7 +7,7 @@
     "split",
     "object"
   ],
-  "generatedAt": "2026-02-22T12:26:16.353Z",
+  "generatedAt": "2026-02-22T14:56:03.102Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -40,12 +40,12 @@
   "extractedEntities": [
     {
       "text": "The agents",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_agents"
     },
     {
       "text": "the building",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_building"
     }
   ],
@@ -64,7 +64,7 @@
       {
         "@id": "inst:The_agents",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The agents",
@@ -73,9 +73,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Agent_3b224d0f6310"
+          "@id": "inst:Entity_Agent_acb87dfdddd1"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_2f2da8cea89e"
@@ -84,16 +84,16 @@
       {
         "@id": "inst:the_building",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the building",
         "tagteam:mentionId": "s0:h5:20-32",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Build_14681366ab86"
+          "@id": "inst:Entity_Build_7594d09cb3c3"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_2f2da8cea89e"
@@ -114,7 +114,7 @@
       {
         "@id": "inst:Role_The_agents_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -130,7 +130,7 @@
       {
         "@id": "inst:Role_the_building_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -144,29 +144,29 @@
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Entity_Agent_3b224d0f6310",
+        "@id": "inst:Entity_Agent_acb87dfdddd1",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "agent",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.352Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.101Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2f2da8cea89e",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Build_14681366ab86",
+        "@id": "inst:Entity_Build_7594d09cb3c3",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "build",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.352Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.102Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2f2da8cea89e",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_2f2da8cea89e",
@@ -178,7 +178,7 @@
         "has_text_value": "The agents searched the building and the vehicle",
         "tagteam:char_count": 48,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T12:26:16.344Z"
+        "tagteam:received_at": "2026-02-22T14:56:03.094Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -224,7 +224,7 @@
             "@id": "inst:Act_searched"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.344Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.094Z"
       }
     ]
   }

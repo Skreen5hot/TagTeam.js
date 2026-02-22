@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T12:26:17.013Z",
+  "generatedAt": "2026-02-22T14:56:03.775Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -22,12 +22,12 @@
   "extractedEntities": [
     {
       "text": "The sector",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_sector"
     },
     {
       "text": "responsibility",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:responsibility"
     }
   ],
@@ -37,7 +37,7 @@
       {
         "@id": "inst:The_sector",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The sector",
@@ -51,9 +51,9 @@
           "tagteam:category": "GEN",
           "tagteam:confidence": 0.4
         },
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Sector_1a8d5a5e43ca"
+          "@id": "inst:Entity_Sector_0674b22d94ba"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_80cdc9eae006"
@@ -62,16 +62,16 @@
       {
         "@id": "inst:responsibility",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "responsibility",
         "tagteam:mentionId": "s0:h8:35-49",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Responsibility_0c5dcfc03f27"
+          "@id": "inst:Entity_Responsibility_08828b3afabf"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_80cdc9eae006"
@@ -88,29 +88,29 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Entity_Sector_1a8d5a5e43ca",
+        "@id": "inst:Entity_Sector_0674b22d94ba",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "sector",
         "tagteam:genericityCategory": "AMB",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.012Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.774Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_80cdc9eae006",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Responsibility_0c5dcfc03f27",
+        "@id": "inst:Entity_Responsibility_08828b3afabf",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "responsibility",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.012Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.774Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_80cdc9eae006",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_80cdc9eae006",
@@ -122,7 +122,7 @@
         "has_text_value": "The sector is a geographic area of responsibility",
         "tagteam:char_count": 49,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T12:26:17.003Z"
+        "tagteam:received_at": "2026-02-22T14:56:03.767Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -165,7 +165,7 @@
             "@id": "inst:responsibility"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.003Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.767Z"
       }
     ]
   }

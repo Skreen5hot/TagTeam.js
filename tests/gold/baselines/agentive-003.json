@@ -7,7 +7,7 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-22T12:26:16.563Z",
+  "generatedAt": "2026-02-22T14:56:03.334Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,12 +32,12 @@
   "extractedEntities": [
     {
       "text": "The report",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_report"
     },
     {
       "text": "the senior analyst",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_senior_analyst"
     }
   ],
@@ -56,7 +56,7 @@
       {
         "@id": "inst:The_report",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The report",
@@ -65,9 +65,9 @@
         "tagteam:parseProbability": 0.889,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Report_32d7b4e8b5cd"
+          "@id": "inst:Entity_Report_13dd6c197b67"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_dbd2a8fd498f"
@@ -76,16 +76,16 @@
       {
         "@id": "inst:the_senior_analyst",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the senior analyst",
         "tagteam:mentionId": "s0:h8:27-45",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Person_Senior_Analyst_a7952a22303e"
+          "@id": "inst:Entity_Senior_Analyst_1072eac7f03d"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_dbd2a8fd498f"
@@ -107,7 +107,7 @@
       {
         "@id": "inst:Role_The_report_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -123,7 +123,7 @@
       {
         "@id": "inst:Role_the_senior_analyst_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -137,29 +137,29 @@
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Entity_Report_32d7b4e8b5cd",
+        "@id": "inst:Entity_Report_13dd6c197b67",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "report",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.562Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.333Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_dbd2a8fd498f",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Person_Senior_Analyst_a7952a22303e",
+        "@id": "inst:Entity_Senior_Analyst_1072eac7f03d",
         "@type": [
-          "Person",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "senior analyst",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.562Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.333Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_dbd2a8fd498f",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_dbd2a8fd498f",
@@ -171,7 +171,7 @@
         "has_text_value": "The report was composed by the senior analyst",
         "tagteam:char_count": 45,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T12:26:16.554Z"
+        "tagteam:received_at": "2026-02-22T14:56:03.322Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -217,7 +217,7 @@
             "@id": "inst:Act_composed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.554Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.322Z"
       }
     ]
   }

@@ -393,9 +393,9 @@ class SemanticGraphBuilder {
       tier2Entities = extractedEntities.filter(e =>
         e['@type']?.some(t =>
           t.includes('Person') || t.includes('Artifact') || t.includes('Organization') ||
-          t === 'bfo:BFO_0000038' || t === 'bfo:BFO_0000008' || t === 'bfo:BFO_0000019' || t === 'bfo:BFO_0000016' ||
-          t === 'bfo:BFO_0000004' || t === 'bfo:BFO_0000027' || t === 'bfo:BFO_0000001' ||
-          t === 'bfo:BFO_0000015' ||
+          t === 'OneDimensionalTemporalRegion' || t === 'TemporalRegion' || t === 'Quality' || t === 'Disposition' ||
+          t === 'IndependentContinuant' || t === 'ObjectAggregate' || t === 'Entity' ||
+          t === 'Process' ||
           t === 'InformationContentEntity'
         )
       );
@@ -1238,7 +1238,7 @@ class SemanticGraphBuilder {
    * @private
    */
   _linkTemporalRegions(sourceText) {
-    const TEMPORAL_TYPES = ['bfo:BFO_0000038', 'bfo:BFO_0000008'];
+    const TEMPORAL_TYPES = ['OneDimensionalTemporalRegion', 'TemporalRegion'];
 
     // Tier 2 nodes don't have position info; Tier 1 DiscourseReferents do.
     // Strategy: use Tier 1 positions, then link the corresponding Tier 2 entities.
@@ -1973,7 +1973,7 @@ class SemanticGraphBuilder {
       for (const entity of entities) {
         const entityNode = {
           '@id': `${this.options.namespace}:${this._sanitizeId(entity.fullText)}`,
-          '@type': [entity.type || 'bfo:Entity'],
+          '@type': [entity.type || 'Entity'],
           'rdfs:label': entity.fullText,
         };
         if (entity.alias) {

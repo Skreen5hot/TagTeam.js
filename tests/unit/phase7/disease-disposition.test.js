@@ -128,28 +128,28 @@ test('"chest pain" remains BFO_0000019 (Quality)', () => {
   const entities = extractEntities('Patient reports chest pain');
   const entity = findEntity(entities, 'chest pain');
   assert.ok(entity, 'Should find "chest pain" entity');
-  assert.strictEqual(entity['tagteam:denotesType'], 'bfo:BFO_0000019');
+  assert.strictEqual(entity['tagteam:denotesType'], 'Quality');
 });
 
 test('"fever" remains BFO_0000019 (Quality)', () => {
   const entities = extractEntities('The patient has a fever');
   const entity = findEntity(entities, 'fever');
   assert.ok(entity, 'Should find "fever" entity');
-  assert.strictEqual(entity['tagteam:denotesType'], 'bfo:BFO_0000019');
+  assert.strictEqual(entity['tagteam:denotesType'], 'Quality');
 });
 
 test('"cough" remains BFO_0000019 (Quality)', () => {
   const entities = extractEntities('Patient presents with cough');
   const entity = findEntity(entities, 'cough');
   assert.ok(entity, 'Should find "cough" entity');
-  assert.strictEqual(entity['tagteam:denotesType'], 'bfo:BFO_0000019');
+  assert.strictEqual(entity['tagteam:denotesType'], 'Quality');
 });
 
 test('"blood sugar levels" remains BFO_0000019 (Quality)', () => {
   const entities = extractEntities('Blood sugar levels are elevated');
   const entity = findEntity(entities, 'blood sugar');
   assert.ok(entity, 'Should find "blood sugar" entity');
-  assert.strictEqual(entity['tagteam:denotesType'], 'bfo:BFO_0000019');
+  assert.strictEqual(entity['tagteam:denotesType'], 'Quality');
 });
 
 // ═══════════════════════════════════════════════════════════════
@@ -182,7 +182,7 @@ test('Tier 2 node for "diabetes" typed BFO_0000016 (not Artifact)', () => {
     '@type should include bfo:BFO_0000016, got: ' + JSON.stringify(tier2['@type']));
   assert.ok(!tier2['@type'].includes('Artifact'),
     '@type should NOT include Artifact');
-  assert.ok(!tier2['@type'].includes('bfo:BFO_0000019'),
+  assert.ok(!tier2['@type'].includes('Quality'),
     '@type should NOT include bfo:BFO_0000019 (Quality)');
 });
 
@@ -215,7 +215,7 @@ test('_checkForSymptomType returns BFO_0000016 for "diabetes"', () => {
 test('_checkForSymptomType returns BFO_0000019 for "fever"', () => {
   const ext = new EntityExtractor();
   const result = ext._checkForSymptomType('fever', 'fever');
-  assert.strictEqual(result, 'bfo:BFO_0000019');
+  assert.strictEqual(result, 'Quality');
 });
 
 test('_checkForSymptomType returns null for "ventilator"', () => {

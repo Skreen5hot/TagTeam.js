@@ -82,7 +82,7 @@ test('"fever" → BFO_0000019 (Quality)', () => {
   const entities = extractEntities('The patient has a fever');
   const symptom = findEntity(entities, 'fever');
   assert.ok(symptom, 'Should find "fever" entity');
-  assert.strictEqual(symptom['tagteam:denotesType'], 'bfo:BFO_0000019',
+  assert.strictEqual(symptom['tagteam:denotesType'], 'Quality',
     'denotesType should be bfo:BFO_0000019 (Quality)');
 });
 
@@ -90,21 +90,21 @@ test('"cough" → BFO_0000019', () => {
   const entities = extractEntities('Patient presents with cough');
   const symptom = findEntity(entities, 'cough');
   assert.ok(symptom, 'Should find "cough" entity');
-  assert.strictEqual(symptom['tagteam:denotesType'], 'bfo:BFO_0000019');
+  assert.strictEqual(symptom['tagteam:denotesType'], 'Quality');
 });
 
 test('"nausea" → BFO_0000019', () => {
   const entities = extractEntities('She experienced nausea');
   const symptom = findEntity(entities, 'nausea');
   assert.ok(symptom, 'Should find "nausea" entity');
-  assert.strictEqual(symptom['tagteam:denotesType'], 'bfo:BFO_0000019');
+  assert.strictEqual(symptom['tagteam:denotesType'], 'Quality');
 });
 
 test('"headache" → BFO_0000019', () => {
   const entities = extractEntities('The headache persisted');
   const symptom = findEntity(entities, 'headache');
   assert.ok(symptom, 'Should find "headache" entity');
-  assert.strictEqual(symptom['tagteam:denotesType'], 'bfo:BFO_0000019');
+  assert.strictEqual(symptom['tagteam:denotesType'], 'Quality');
 });
 
 // ═══════════════════════════════════════════════════════════════
@@ -115,21 +115,21 @@ test('"chest pain" → BFO_0000019', () => {
   const entities = extractEntities('Patient reports chest pain');
   const symptom = findEntity(entities, 'chest pain');
   assert.ok(symptom, 'Should find "chest pain" entity');
-  assert.strictEqual(symptom['tagteam:denotesType'], 'bfo:BFO_0000019');
+  assert.strictEqual(symptom['tagteam:denotesType'], 'Quality');
 });
 
 test('"shortness of breath" → BFO_0000019', () => {
   const entities = extractEntities('Patient has shortness of breath');
   const symptom = findEntity(entities, 'shortness of breath');
   assert.ok(symptom, 'Should find "shortness of breath" entity');
-  assert.strictEqual(symptom['tagteam:denotesType'], 'bfo:BFO_0000019');
+  assert.strictEqual(symptom['tagteam:denotesType'], 'Quality');
 });
 
 test('"sore throat" → BFO_0000019', () => {
   const entities = extractEntities('She complains of a sore throat');
   const symptom = findEntity(entities, 'sore throat');
   assert.ok(symptom, 'Should find "sore throat" entity');
-  assert.strictEqual(symptom['tagteam:denotesType'], 'bfo:BFO_0000019');
+  assert.strictEqual(symptom['tagteam:denotesType'], 'Quality');
 });
 
 // ═══════════════════════════════════════════════════════════════
@@ -140,14 +140,14 @@ test('"persistent cough" → BFO_0000019', () => {
   const entities = extractEntities('Patient reports persistent cough');
   const symptom = findEntity(entities, 'persistent cough') || findEntity(entities, 'cough');
   assert.ok(symptom, 'Should find "persistent cough" entity');
-  assert.strictEqual(symptom['tagteam:denotesType'], 'bfo:BFO_0000019');
+  assert.strictEqual(symptom['tagteam:denotesType'], 'Quality');
 });
 
 test('"chronic fatigue" → BFO_0000019', () => {
   const entities = extractEntities('Diagnosed with chronic fatigue');
   const symptom = findEntity(entities, 'chronic fatigue') || findEntity(entities, 'fatigue');
   assert.ok(symptom, 'Should find "chronic fatigue" entity');
-  assert.strictEqual(symptom['tagteam:denotesType'], 'bfo:BFO_0000019');
+  assert.strictEqual(symptom['tagteam:denotesType'], 'Quality');
 });
 
 // ═══════════════════════════════════════════════════════════════
@@ -158,7 +158,7 @@ test('Tier 2 node for "fever" typed BFO_0000019 (not Artifact)', () => {
   const graph = buildGraph('Patient has a high fever');
   const tier2 = findTier2Node(graph, 'fever');
   assert.ok(tier2, 'Should find Tier 2 node for "fever"');
-  assert.ok(tier2['@type'].includes('bfo:BFO_0000019'),
+  assert.ok(tier2['@type'].includes('Quality'),
     '@type should include bfo:BFO_0000019');
   assert.ok(!tier2['@type'].includes('Artifact'),
     '@type should NOT include Artifact');
@@ -209,7 +209,7 @@ test('Symptom entity not assigned as agent in full graph', () => {
 test('_checkForSymptomType recognizes "blood sugar" phrase', () => {
   const ext = new EntityExtractor();
   const result = ext._checkForSymptomType('blood sugar', 'sugar');
-  assert.strictEqual(result, 'bfo:BFO_0000019',
+  assert.strictEqual(result, 'Quality',
     '_checkForSymptomType should recognize "blood sugar"');
 });
 

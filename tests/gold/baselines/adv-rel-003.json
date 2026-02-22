@@ -6,7 +6,7 @@
     "relative-clause",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T12:26:18.121Z",
+  "generatedAt": "2026-02-22T14:56:04.743Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -15,7 +15,7 @@
     },
     {
       "text": "the interview",
-      "type": "bfo:Process"
+      "type": "Process"
     },
     {
       "text": "the findings",
@@ -35,7 +35,7 @@
   "extractedEntities": [
     {
       "text": "The officer",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_officer"
     },
     {
@@ -45,12 +45,12 @@
     },
     {
       "text": "the interview",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_interview"
     },
     {
       "text": "the findings",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_findings"
     }
   ],
@@ -65,16 +65,16 @@
       {
         "@id": "inst:The_officer",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The officer",
         "tagteam:mentionId": "s0:h2:0-11",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Person_Officer_b2d5f259ed73"
+          "@id": "inst:Entity_Officer_5c2cd7e25fad"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0abd0485984a"
@@ -104,7 +104,7 @@
       {
         "@id": "inst:the_interview",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the interview",
@@ -113,9 +113,9 @@
         "tagteam:parseProbability": 0.889,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Interview_cbe7946fcbe0"
+          "@id": "inst:Entity_Interview_6f9cc5a8efea"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0abd0485984a"
@@ -124,16 +124,16 @@
       {
         "@id": "inst:the_findings",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the findings",
         "tagteam:mentionId": "s0:h9:51-63",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Finding_b96676b06884"
+          "@id": "inst:Entity_Finding_c218c53c66e5"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0abd0485984a"
@@ -166,7 +166,7 @@
       {
         "@id": "inst:Role_who_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -180,16 +180,16 @@
         "tagteam:parseProbability": 0.7804
       },
       {
-        "@id": "inst:Person_Officer_b2d5f259ed73",
+        "@id": "inst:Entity_Officer_5c2cd7e25fad",
         "@type": [
-          "Person",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "officer",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:18.121Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.743Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0abd0485984a",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Organization_Who_53233a9382b0",
@@ -200,34 +200,34 @@
         "rdfs:label": "who",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T12:26:18.121Z",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.743Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0abd0485984a",
         "tagteam:denotesType": "Organization"
       },
       {
-        "@id": "inst:Entity_Interview_cbe7946fcbe0",
+        "@id": "inst:Entity_Interview_6f9cc5a8efea",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "interview",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:18.121Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.743Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0abd0485984a",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Finding_b96676b06884",
+        "@id": "inst:Entity_Finding_c218c53c66e5",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "finding",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:18.121Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.743Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0abd0485984a",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_0abd0485984a",
@@ -239,7 +239,7 @@
         "has_text_value": "The officer who conducted the interview documented the findings",
         "tagteam:char_count": 63,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-22T12:26:18.109Z"
+        "tagteam:received_at": "2026-02-22T14:56:04.734Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -294,7 +294,7 @@
             "@id": "inst:Act_conducted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:18.109Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.734Z"
       }
     ]
   }

@@ -67,7 +67,7 @@ const KNOWN_CLASSES = new Set([
   'Artifact', 'Facility',
   'Act', 'IntentionalAct', 'ActOfCommunication',
   'InformationBearingEntity', 'InformationContentEntity',
-  'bfo:Role',
+  'Role',
 
   // OWL
   'owl:NamedIndividual', 'owl:Thing', 'owl:Class',

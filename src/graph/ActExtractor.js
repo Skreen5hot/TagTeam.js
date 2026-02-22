@@ -342,13 +342,13 @@ const MODALITY_TO_DEONTIC_TYPE = {
  */
 const TYPE_TO_CATEGORY = {
   // Occurrents (processes)
-  'bfo:BFO_0000015': 'occurrent',
+  'Process': 'occurrent',
   'IntentionalAct': 'occurrent',
   'ActOfCommunication': 'occurrent',
 
   // Independent Continuants (physical things)
-  'bfo:BFO_0000040': 'continuant',
-  'bfo:MaterialEntity': 'continuant',
+  'MaterialEntity': 'continuant',
+  'MaterialEntity': 'continuant',
   'Artifact': 'continuant',
   'Facility': 'continuant',
 
@@ -361,7 +361,7 @@ const TYPE_TO_CATEGORY = {
   'GeopoliticalOrganization': 'continuant',
 
   // Generically Dependent Continuants (information)
-  'bfo:BFO_0000031': 'gdc',
+  'GenericallyDependentContinuant': 'gdc',
   'InformationContentEntity': 'gdc'
 };
 
@@ -1807,7 +1807,7 @@ class ActExtractor {
     const linkMap = this.options.linkToTier2 ? this._buildTier2LinkMap(entities) : new Map();
 
     // Temporal regions and qualities cannot be agents or patients
-    const NON_PARTICIPANT_TYPES = ['bfo:BFO_0000038', 'bfo:BFO_0000008', 'bfo:BFO_0000019', 'bfo:BFO_0000016'];
+    const NON_PARTICIPANT_TYPES = ['OneDimensionalTemporalRegion', 'TemporalRegion', 'Quality', 'Disposition'];
     // Types that cannot be agents but CAN be patients (objects of actions)
     const NON_AGENT_TYPES = [...NON_PARTICIPANT_TYPES, 'InformationContentEntity'];
 

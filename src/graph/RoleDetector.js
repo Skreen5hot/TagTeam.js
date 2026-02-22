@@ -334,7 +334,7 @@ class RoleDetector {
 
     const role = {
       '@id': iri,
-      '@type': ['bfo:Role', 'owl:NamedIndividual'],
+      '@type': ['Role', 'owl:NamedIndividual'],
       'rdfs:label': roleLabel,
       'tagteam:roleType': roleType,
       'tagteam:syntacticBasis': roleType,

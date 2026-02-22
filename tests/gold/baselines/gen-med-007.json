@@ -6,7 +6,7 @@
     "medical",
     "treatment"
   ],
-  "generatedAt": "2026-02-22T12:26:17.708Z",
+  "generatedAt": "2026-02-22T14:56:04.467Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -15,11 +15,11 @@
     },
     {
       "text": "the injury",
-      "type": "bfo:Entity"
+      "type": "Entity"
     },
     {
       "text": "physical therapy",
-      "type": "bfo:Process"
+      "type": "Process"
     }
   ],
   "expectedRoles": [
@@ -39,17 +39,17 @@
   "extractedEntities": [
     {
       "text": "The therapist",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_therapist"
     },
     {
       "text": "the injury",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_injury"
     },
     {
       "text": "physical therapy",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:physical_therapy"
     }
   ],
@@ -72,7 +72,7 @@
       {
         "@id": "inst:The_therapist",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The therapist",
@@ -81,9 +81,9 @@
         "tagteam:parseProbability": 0.9272,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Person_Therapist_33b6b26ced0c"
+          "@id": "inst:Entity_Therapist_0cfc45cb471e"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5f37a0817b26"
@@ -92,16 +92,16 @@
       {
         "@id": "inst:the_injury",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the injury",
         "tagteam:mentionId": "s0:h5:22-32",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Injury_335fa0f05b61"
+          "@id": "inst:Entity_Injury_3e338aa8b8a0"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5f37a0817b26"
@@ -110,16 +110,16 @@
       {
         "@id": "inst:physical_therapy",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "physical therapy",
         "tagteam:mentionId": "s0:h8:38-54",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Physical_Therapy_34a923b273e2"
+          "@id": "inst:Entity_Physical_Therapy_4ffe2c0082e6"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5f37a0817b26"
@@ -140,7 +140,7 @@
       {
         "@id": "inst:Role_The_therapist_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -156,7 +156,7 @@
       {
         "@id": "inst:Role_the_injury_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -172,7 +172,7 @@
       {
         "@id": "inst:Role_physical_therapy_InstrumentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "InstrumentRole",
         "tagteam:roleType": "InstrumentRole",
@@ -187,41 +187,41 @@
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Person_Therapist_33b6b26ced0c",
+        "@id": "inst:Entity_Therapist_0cfc45cb471e",
         "@type": [
-          "Person",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "therapist",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.708Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.467Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5f37a0817b26",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Injury_335fa0f05b61",
+        "@id": "inst:Entity_Injury_3e338aa8b8a0",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "injury",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.708Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.467Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5f37a0817b26",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Physical_Therapy_34a923b273e2",
+        "@id": "inst:Entity_Physical_Therapy_4ffe2c0082e6",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "physical therapy",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.708Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.467Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5f37a0817b26",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_5f37a0817b26",
@@ -233,7 +233,7 @@
         "has_text_value": "The therapist treated the injury with physical therapy",
         "tagteam:char_count": 54,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T12:26:17.696Z"
+        "tagteam:received_at": "2026-02-22T14:56:04.458Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -282,7 +282,7 @@
             "@id": "inst:Act_treated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.696Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.458Z"
       }
     ]
   }

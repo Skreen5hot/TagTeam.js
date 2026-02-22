@@ -55,8 +55,8 @@ describe('Prescribed Actuality Status', function() {
 
       // Find agent role
       const role = semantic.findNode(graph, n =>
-        (n['@type']?.includes('bfo:Role') && n['rdfs:label'] === 'AgentRole') ||
-        n['@type']?.includes('bfo:BFO_0000023')
+        (n['@type']?.includes('Role') && n['rdfs:label'] === 'AgentRole') ||
+        n['@type']?.includes('Role')
       );
 
       if (role) {
@@ -70,7 +70,7 @@ describe('Prescribed Actuality Status', function() {
       const graph = parseToGraph('The doctor allocated the resource.');
 
       const role = semantic.findNode(graph, n =>
-        n['@type']?.includes('bfo:Role') && n['rdfs:label'] === 'AgentRole'
+        n['@type']?.includes('Role') && n['rdfs:label'] === 'AgentRole'
       );
 
       if (role) {

@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T12:26:16.946Z",
+  "generatedAt": "2026-02-22T14:56:03.720Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -22,7 +22,7 @@
   "extractedEntities": [
     {
       "text": "TECS",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:TECS"
     }
   ],
@@ -32,7 +32,7 @@
       {
         "@id": "inst:TECS",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "TECS",
@@ -42,9 +42,9 @@
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.95,
         "tagteam:genericityBasis": "named_entity",
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Tecs_0b09dbe476b3"
+          "@id": "inst:Entity_Tecs_da28760ecc5a"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e27204699a1a"
@@ -60,17 +60,17 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Entity_Tecs_0b09dbe476b3",
+        "@id": "inst:Entity_Tecs_da28760ecc5a",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "tecs",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.946Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.719Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e27204699a1a",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_e27204699a1a",
@@ -82,7 +82,7 @@
         "has_text_value": "TECS is the primary law enforcement database",
         "tagteam:char_count": 44,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T12:26:16.939Z"
+        "tagteam:received_at": "2026-02-22T14:56:03.711Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -122,7 +122,7 @@
             "@id": "inst:TECS"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.939Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.711Z"
       }
     ]
   }

@@ -96,7 +96,7 @@ test('ventilator does not bear PatientRole', () => {
     bearerArray.forEach(roleIRI => {
       const role = findNodeById(roleIRI);
       if (role) {
-        const isPatientRole = role['@type']?.includes('bfo:Role') &&
+        const isPatientRole = role['@type']?.includes('Role') &&
           role['rdfs:label'] === 'PatientRole';
         assert(!isPatientRole, 'Ventilator should not bear PatientRole');
       }

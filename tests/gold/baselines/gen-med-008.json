@@ -6,7 +6,7 @@
     "medical",
     "administration"
   ],
-  "generatedAt": "2026-02-22T12:26:17.729Z",
+  "generatedAt": "2026-02-22T14:56:04.478Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -31,12 +31,12 @@
   "extractedEntities": [
     {
       "text": "The board",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_board"
     },
     {
       "text": "the new treatment protocol",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_new_treatment_protocol"
     }
   ],
@@ -55,7 +55,7 @@
       {
         "@id": "inst:The_board",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The board",
@@ -64,9 +64,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Organization_Board_2e259ad19202"
+          "@id": "inst:Entity_Board_98af73e08863"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_2253a00e3aff"
@@ -75,16 +75,16 @@
       {
         "@id": "inst:the_new_treatment_protocol",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the new treatment protocol",
         "tagteam:mentionId": "s0:h7:20-46",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_New_Treatment_Protocol_aa07ba741c02"
+          "@id": "inst:Entity_New_Treatment_Protocol_9c66ee463311"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_2253a00e3aff"
@@ -105,7 +105,7 @@
       {
         "@id": "inst:Role_The_board_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -121,7 +121,7 @@
       {
         "@id": "inst:Role_the_new_treatment_protocol_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -135,29 +135,29 @@
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Organization_Board_2e259ad19202",
+        "@id": "inst:Entity_Board_98af73e08863",
         "@type": [
-          "Organization",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "board",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.729Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.478Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2253a00e3aff",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_New_Treatment_Protocol_aa07ba741c02",
+        "@id": "inst:Entity_New_Treatment_Protocol_9c66ee463311",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "new treatment protocol",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.729Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.478Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2253a00e3aff",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_2253a00e3aff",
@@ -169,7 +169,7 @@
         "has_text_value": "The board certified the new treatment protocol",
         "tagteam:char_count": 46,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T12:26:17.713Z"
+        "tagteam:received_at": "2026-02-22T14:56:04.470Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -215,7 +215,7 @@
             "@id": "inst:Act_certified"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.713Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.470Z"
       }
     ]
   }

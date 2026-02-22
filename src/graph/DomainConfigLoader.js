@@ -23,7 +23,7 @@ const path = require('path');
  * @example
  * const loader = new DomainConfigLoader();
  * loader.loadConfig('config/medical.json');
- * const type = loader.getTypeSpecialization('bfo:BFO_0000015', 'care');
+ * const type = loader.getTypeSpecialization('Process', 'care');
  * // Returns: 'cco:ActOfCare'
  */
 class DomainConfigLoader {
@@ -89,7 +89,7 @@ class DomainConfigLoader {
    *   domain: 'medical',
    *   version: '1.0',
    *   typeSpecializations: {
-   *     'bfo:BFO_0000015': {
+   *     'Process': {
    *       'care': 'cco:ActOfCare'
    *     }
    *   }
@@ -173,12 +173,12 @@ class DomainConfigLoader {
   /**
    * Get specialized type for a term given its BFO base type
    *
-   * @param {string} bfoType - BFO base type (e.g., 'bfo:BFO_0000015')
+   * @param {string} bfoType - BFO base type (e.g., 'Process')
    * @param {string} term - The term to specialize (e.g., 'care')
    * @returns {string|null} Specialized type or null if no specialization found
    *
    * @example
-   * loader.getTypeSpecialization('bfo:BFO_0000015', 'care')
+   * loader.getTypeSpecialization('Process', 'care')
    * // Returns: 'cco:ActOfCare' (if medical config loaded)
    */
   getTypeSpecialization(bfoType, term) {

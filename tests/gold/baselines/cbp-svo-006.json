@@ -7,7 +7,7 @@
     "cbp",
     "operations"
   ],
-  "generatedAt": "2026-02-22T12:26:16.735Z",
+  "generatedAt": "2026-02-22T14:56:03.509Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -16,7 +16,7 @@
     },
     {
       "text": "additional resources",
-      "type": "bfo:Entity"
+      "type": "Entity"
     }
   ],
   "expectedRoles": [
@@ -32,12 +32,12 @@
   "extractedEntities": [
     {
       "text": "The sector chief",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_sector_chief"
     },
     {
       "text": "additional resources",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:additional_resources"
     }
   ],
@@ -56,7 +56,7 @@
       {
         "@id": "inst:The_sector_chief",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The sector chief",
@@ -65,9 +65,9 @@
         "tagteam:parseProbability": 0.3683,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Sector_Chief_4f662379a18a"
+          "@id": "inst:Entity_Sector_Chief_48b489c406e8"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e4400b4f4de2"
@@ -76,16 +76,16 @@
       {
         "@id": "inst:additional_resources",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "additional resources",
         "tagteam:mentionId": "s0:h6:26-46",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Additional_Resources_cafe0fe050a4"
+          "@id": "inst:Entity_Additional_Resources_ba6490374395"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e4400b4f4de2"
@@ -107,7 +107,7 @@
       {
         "@id": "inst:Role_The_sector_chief_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -123,7 +123,7 @@
       {
         "@id": "inst:Role_additional_resources_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -137,29 +137,29 @@
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Entity_Sector_Chief_4f662379a18a",
+        "@id": "inst:Entity_Sector_Chief_48b489c406e8",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "sector chief",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.735Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.509Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e4400b4f4de2",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Additional_Resources_cafe0fe050a4",
+        "@id": "inst:Entity_Additional_Resources_ba6490374395",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "additional resources",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.735Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.509Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e4400b4f4de2",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_e4400b4f4de2",
@@ -171,7 +171,7 @@
         "has_text_value": "The sector chief deployed additional resources",
         "tagteam:char_count": 46,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T12:26:16.726Z"
+        "tagteam:received_at": "2026-02-22T14:56:03.502Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -217,7 +217,7 @@
             "@id": "inst:Act_deployed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.726Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.502Z"
       }
     ]
   }

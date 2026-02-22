@@ -6,7 +6,7 @@
     "news",
     "government"
   ],
-  "generatedAt": "2026-02-22T12:26:17.453Z",
+  "generatedAt": "2026-02-22T14:56:04.252Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -31,12 +31,12 @@
   "extractedEntities": [
     {
       "text": "The mayor",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_mayor"
     },
     {
       "text": "the budget proposal",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_budget_proposal"
     }
   ],
@@ -55,7 +55,7 @@
       {
         "@id": "inst:The_mayor",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The mayor",
@@ -64,9 +64,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Mayor_c5b561dc0267"
+          "@id": "inst:Entity_Mayor_ed59316b59da"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ca8bdea948c7"
@@ -75,16 +75,16 @@
       {
         "@id": "inst:the_budget_proposal",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the budget proposal",
         "tagteam:mentionId": "s0:h6:17-36",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Budget_Proposal_abc29312034a"
+          "@id": "inst:Entity_Budget_Proposal_e6840489f22a"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ca8bdea948c7"
@@ -105,7 +105,7 @@
       {
         "@id": "inst:Role_The_mayor_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -121,7 +121,7 @@
       {
         "@id": "inst:Role_the_budget_proposal_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -135,29 +135,29 @@
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Entity_Mayor_c5b561dc0267",
+        "@id": "inst:Entity_Mayor_ed59316b59da",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "mayor",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.452Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.251Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ca8bdea948c7",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Budget_Proposal_abc29312034a",
+        "@id": "inst:Entity_Budget_Proposal_e6840489f22a",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "budget proposal",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.452Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.251Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ca8bdea948c7",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_ca8bdea948c7",
@@ -169,7 +169,7 @@
         "has_text_value": "The mayor vetoed the budget proposal",
         "tagteam:char_count": 36,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T12:26:17.445Z"
+        "tagteam:received_at": "2026-02-22T14:56:04.245Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -215,7 +215,7 @@
             "@id": "inst:Act_vetoed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.445Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.245Z"
       }
     ]
   }

@@ -128,7 +128,7 @@ function findRoleByBearer(graph, bearerLabel) {
     if (!inheres) return false;
     const inheresId = inheres['@id'] || inheres;
     // Check for role types (includes named roles AND BFO generic role bfo:BFO_0000023)
-    const isRole = n['@type']?.some(t => t.includes('Role') || t === 'bfo:BFO_0000023');
+    const isRole = n['@type']?.some(t => t.includes('Role') || t === 'Role');
     return inheresId === bearer['@id'] && isRole;
   });
 }

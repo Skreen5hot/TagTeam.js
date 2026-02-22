@@ -7,7 +7,7 @@
     "shared-subject",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T12:26:18.222Z",
+  "generatedAt": "2026-02-22T14:56:04.819Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -16,7 +16,7 @@
     },
     {
       "text": "the threat",
-      "type": "bfo:Entity"
+      "type": "Entity"
     },
     {
       "text": "a response plan",
@@ -40,17 +40,17 @@
   "extractedEntities": [
     {
       "text": "The analyst",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_analyst"
     },
     {
       "text": "the threat",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_threat"
     },
     {
       "text": "a response plan",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:a_response_plan"
     }
   ],
@@ -69,7 +69,7 @@
       {
         "@id": "inst:The_analyst",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The analyst",
@@ -78,9 +78,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Person_Analyst_6a9f7b760a6e"
+          "@id": "inst:Entity_Analyst_2a3cc6a76dca"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c2deb9cd5398"
@@ -89,16 +89,16 @@
       {
         "@id": "inst:the_threat",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the threat",
         "tagteam:mentionId": "s0:h5:23-33",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Threat_9a2f80edf2ad"
+          "@id": "inst:Entity_Threat_49a84ab9910b"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c2deb9cd5398"
@@ -107,16 +107,16 @@
       {
         "@id": "inst:a_response_plan",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "a response plan",
         "tagteam:mentionId": "s0:h10:50-65",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Response_Plan_bc92a5c6d245"
+          "@id": "inst:Entity_Response_Plan_f4d3970400b6"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c2deb9cd5398"
@@ -137,7 +137,7 @@
       {
         "@id": "inst:Role_The_analyst_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -153,7 +153,7 @@
       {
         "@id": "inst:Role_the_threat_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -167,41 +167,41 @@
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Person_Analyst_6a9f7b760a6e",
+        "@id": "inst:Entity_Analyst_2a3cc6a76dca",
         "@type": [
-          "Person",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "analyst",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:18.221Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.819Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c2deb9cd5398",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Threat_9a2f80edf2ad",
+        "@id": "inst:Entity_Threat_49a84ab9910b",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "threat",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:18.222Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.819Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c2deb9cd5398",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Response_Plan_bc92a5c6d245",
+        "@id": "inst:Entity_Response_Plan_f4d3970400b6",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "response plan",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:18.222Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.819Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c2deb9cd5398",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_c2deb9cd5398",
@@ -213,7 +213,7 @@
         "has_text_value": "The analyst identified the threat and recommended a response plan",
         "tagteam:char_count": 65,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-22T12:26:18.210Z"
+        "tagteam:received_at": "2026-02-22T14:56:04.809Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -262,7 +262,7 @@
             "@id": "inst:Act_identified"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:18.210Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.809Z"
       }
     ]
   }

@@ -108,7 +108,7 @@ test('DomainConfigLoader: getTypeSpecialization returns specialized types', () =
     domain: 'medical',
     version: '1.0',
     typeSpecializations: {
-      'bfo:BFO_0000015': {
+      'Process': {
         'care': 'IntentionalAct',
         'treatment': 'IntentionalAct'
       },
@@ -120,7 +120,7 @@ test('DomainConfigLoader: getTypeSpecialization returns specialized types', () =
   });
 
   assert.strictEqual(
-    loader.getTypeSpecialization('bfo:BFO_0000015', 'care'),
+    loader.getTypeSpecialization('Process', 'care'),
     'IntentionalAct'
   );
   assert.strictEqual(
@@ -128,7 +128,7 @@ test('DomainConfigLoader: getTypeSpecialization returns specialized types', () =
     'Physician'
   );
   assert.strictEqual(
-    loader.getTypeSpecialization('bfo:BFO_0000015', 'unknown'),
+    loader.getTypeSpecialization('Process', 'unknown'),
     null
   );
 });
@@ -187,7 +187,7 @@ test('AC-2.1: Parser produces BFO types with no config loaded', () => {
   // Should be BFO Process type, not CCO medical type
   assert.strictEqual(
     referent['tagteam:denotesType'],
-    'bfo:BFO_0000015',
+    'Process',
     'maintenance should be typed as BFO Process (not CCO)'
   );
 });
@@ -200,7 +200,7 @@ test('AC-2.1b: "services" typed as bfo:BFO_0000015 without config', () => {
   assert(referent, 'Found services referent');
   assert.strictEqual(
     referent['tagteam:denotesType'],
-    'bfo:BFO_0000015',
+    'Process',
     'services should be BFO Process'
   );
 });
@@ -231,7 +231,7 @@ test('AC-2.3: After loading medical config, "care" → bfo:Process', () => {
   assert(referent, 'Found palliative care referent');
   assert.strictEqual(
     referent['tagteam:denotesType'],
-    'bfo:Process',
+    'Process',
     'care should be typed as bfo:Process with medical config'
   );
 });
@@ -247,7 +247,7 @@ test('AC-2.3b: After loading medical config, "surgery" → bfo:Process', () => {
   assert(referent, 'Found surgery referent');
   assert.strictEqual(
     referent['tagteam:denotesType'],
-    'bfo:Process',
+    'Process',
     'surgery should be typed as bfo:Process'
   );
 });
@@ -320,7 +320,7 @@ test('Cross-domain: "instruction" typed as BFO Process without config', () => {
   assert(referent, 'Found instruction referent');
   assert.strictEqual(
     referent['tagteam:denotesType'],
-    'bfo:BFO_0000015',
+    'Process',
     'instruction should be BFO Process via suffix detection'
   );
 });
@@ -333,7 +333,7 @@ test('Cross-domain: "assistance" typed as BFO Process without config', () => {
   assert(referent, 'Found assistance referent');
   assert.strictEqual(
     referent['tagteam:denotesType'],
-    'bfo:BFO_0000015',
+    'Process',
     'assistance should be BFO Process via ontological vocabulary'
   );
 });

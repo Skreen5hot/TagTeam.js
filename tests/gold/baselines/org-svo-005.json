@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T12:26:15.903Z",
+  "generatedAt": "2026-02-22T14:56:02.581Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -16,7 +16,7 @@
     },
     {
       "text": "the operation",
-      "type": "bfo:Process"
+      "type": "Process"
     }
   ],
   "expectedRoles": [
@@ -32,12 +32,12 @@
   "extractedEntities": [
     {
       "text": "The director",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_director"
     },
     {
       "text": "the operation",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_operation"
     }
   ],
@@ -56,7 +56,7 @@
       {
         "@id": "inst:The_director",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The director",
@@ -65,9 +65,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Person_Director_57189d58e186"
+          "@id": "inst:Entity_Director_32ac81c2b1c2"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c25f005f9259"
@@ -76,16 +76,16 @@
       {
         "@id": "inst:the_operation",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the operation",
         "tagteam:mentionId": "s0:h5:24-37",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Operation_65c071bf42a7"
+          "@id": "inst:Entity_Operation_58f6e4cf8f3a"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c25f005f9259"
@@ -106,7 +106,7 @@
       {
         "@id": "inst:Role_The_director_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -122,7 +122,7 @@
       {
         "@id": "inst:Role_the_operation_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -136,29 +136,29 @@
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Person_Director_57189d58e186",
+        "@id": "inst:Entity_Director_32ac81c2b1c2",
         "@type": [
-          "Person",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "director",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:15.903Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.581Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c25f005f9259",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Operation_65c071bf42a7",
+        "@id": "inst:Entity_Operation_58f6e4cf8f3a",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "operation",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:15.903Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.581Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c25f005f9259",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_c25f005f9259",
@@ -170,7 +170,7 @@
         "has_text_value": "The director authorized the operation",
         "tagteam:char_count": 37,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-22T12:26:15.892Z"
+        "tagteam:received_at": "2026-02-22T14:56:02.571Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_authorized"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:15.892Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.571Z"
       }
     ]
   }

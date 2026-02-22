@@ -141,7 +141,7 @@ const VERB_CLASSES = {
     subjectRequirement: null,  // Any subject allowed (storms can cause)
     subjectForbidden: [],
     objectRequirement: null,
-    ontologyType: 'bfo:Process'
+    ontologyType: 'Process'
   },
 
   // Stative/relational (broad subject requirements)
@@ -155,7 +155,7 @@ const VERB_CLASSES = {
     subjectRequirement: null, // Any subject allowed
     subjectForbidden: [],
     objectRequirement: null,
-    ontologyType: 'bfo:RelationalQuality'
+    ontologyType: 'RelationalQuality'
   }
 };
 

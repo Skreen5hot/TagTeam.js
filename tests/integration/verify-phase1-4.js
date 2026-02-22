@@ -26,7 +26,7 @@ const graph = builder.build(text);
 
 // Find roles
 const roles = graph['@graph'].filter(n =>
-  n['@type'].includes('bfo:BFO_0000023'));
+  n['@type'].includes('Role'));
 
 console.log(`  Found ${roles.length} Role nodes`);
 
@@ -117,7 +117,7 @@ console.log('Verifying Type Consistency');
 
 roles.forEach(role => {
   // All roles should have bfo:BFO_0000023
-  assert(role['@type'].includes('bfo:BFO_0000023'),
+  assert(role['@type'].includes('Role'),
     `${role['rdfs:label']} has BFO Role type`);
 
   // All roles should have owl:NamedIndividual
@@ -158,7 +158,7 @@ const referents = complexGraph['@graph'].filter(n =>
 const acts = complexGraph['@graph'].filter(n =>
   n['@type'].some(t => t.includes('IntentionalAct') || t.includes('ActOf')));
 const complexRoles = complexGraph['@graph'].filter(n =>
-  n['@type'].includes('bfo:BFO_0000023'));
+  n['@type'].includes('Role'));
 
 console.log(`  DiscourseReferents: ${referents.length}`);
 console.log(`  IntentionalActs: ${acts.length}`);

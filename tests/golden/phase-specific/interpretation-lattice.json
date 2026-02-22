@@ -266,7 +266,7 @@
         },
         "alternativeReadings": [
           {
-            "entityType": "bfo:Continuant",
+            "entityType": "Continuant",
             "interpretation": "organizational structure",
             "category": "structure",
             "plausibility": 0.4
@@ -292,7 +292,7 @@
         },
         "alternativeReadings": [
           {
-            "entityType": "bfo:Continuant",
+            "entityType": "Continuant",
             "interpretation": "medical substance/intervention",
             "category": "object",
             "plausibility": 0.3
@@ -335,7 +335,7 @@
         },
         "alternativeReadings": [
           {
-            "entityType": "bfo:Continuant",
+            "entityType": "Continuant",
             "interpretation": "decision outcome/result",
             "category": "abstract-object",
             "plausibility": 0.5
@@ -372,7 +372,7 @@
       "input": "The committee is an organization",
       "expectedOutput": {
         "defaultReading": {
-          "entityType": "bfo:Continuant",
+          "entityType": "Continuant",
           "interpretation": "organizational entity",
           "category": "structure"
         },
@@ -414,7 +414,7 @@
         },
         "alternativeReadings": [
           {
-            "entityType": "bfo:Continuant",
+            "entityType": "Continuant",
             "interpretation": "diagnostic result/classification",
             "category": "abstract-object",
             "plausibility": 0.6

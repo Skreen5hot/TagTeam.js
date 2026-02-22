@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T12:26:17.140Z",
+  "generatedAt": "2026-02-22T14:56:03.903Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -15,7 +15,7 @@
     },
     {
       "text": "secondary inspection",
-      "type": "bfo:Process"
+      "type": "Process"
     }
   ],
   "expectedRoles": [
@@ -27,12 +27,12 @@
   "extractedEntities": [
     {
       "text": "The traveler",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_traveler"
     },
     {
       "text": "secondary inspection",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:secondary_inspection"
     }
   ],
@@ -51,7 +51,7 @@
       {
         "@id": "inst:The_traveler",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The traveler",
@@ -60,9 +60,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Traveler_b2be88eb062e"
+          "@id": "inst:Entity_Traveler_6d219b32f72f"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e01a3da3904b"
@@ -71,16 +71,16 @@
       {
         "@id": "inst:secondary_inspection",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "secondary inspection",
         "tagteam:mentionId": "s0:h7:29-49",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Secondary_Inspection_0ec5c0d280d1"
+          "@id": "inst:Entity_Secondary_Inspection_ce9a3abfb8de"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e01a3da3904b"
@@ -102,7 +102,7 @@
       {
         "@id": "inst:Role_The_traveler_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -118,7 +118,7 @@
       {
         "@id": "inst:Role_secondary_inspection_DestinationRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "DestinationRole",
         "tagteam:roleType": "DestinationRole",
@@ -133,29 +133,29 @@
         "tagteam:parseProbability": 0.7804
       },
       {
-        "@id": "inst:Entity_Traveler_b2be88eb062e",
+        "@id": "inst:Entity_Traveler_6d219b32f72f",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "traveler",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.140Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.902Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e01a3da3904b",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Secondary_Inspection_0ec5c0d280d1",
+        "@id": "inst:Entity_Secondary_Inspection_ce9a3abfb8de",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "secondary inspection",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.140Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.903Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e01a3da3904b",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_e01a3da3904b",
@@ -167,7 +167,7 @@
         "has_text_value": "The traveler was referred to secondary inspection",
         "tagteam:char_count": 49,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T12:26:17.130Z"
+        "tagteam:received_at": "2026-02-22T14:56:03.891Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -213,7 +213,7 @@
             "@id": "inst:Act_referred"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.130Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.891Z"
       }
     ]
   }

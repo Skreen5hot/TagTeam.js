@@ -388,7 +388,7 @@ class AlternativeGraphBuilder {
     }
 
     const modifications = {
-      '@type': ['Organization', 'bfo:Object', 'tagteam:AlternativeNode'],
+      '@type': ['Organization', 'Object', 'tagteam:AlternativeNode'],
       'tagteam:metonymicSource': ambiguity.span || node['rdfs:label'],
       'tagteam:literalType': 'Artifact',
       'tagteam:metonymyType': 'location_for_institution'
@@ -521,11 +521,11 @@ class AlternativeGraphBuilder {
   _getNounCategoryModifications(reading) {
     const typeMap = {
       'organization': ['Organization'],
-      'role': ['bfo:Role'],
-      'quality': ['bfo:Quality'],
-      'process': ['bfo:Process'],
+      'role': ['Role'],
+      'quality': ['Quality'],
+      'process': ['Process'],
       'agent': ['Agent'],
-      'continuant': ['bfo:Continuant']
+      'continuant': ['Continuant']
     };
 
     return {

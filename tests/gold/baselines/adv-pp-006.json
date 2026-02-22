@@ -6,7 +6,7 @@
     "nested-pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T12:26:18.295Z",
+  "generatedAt": "2026-02-22T14:56:04.884Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -39,22 +39,22 @@
   "extractedEntities": [
     {
       "text": "The team",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_team"
     },
     {
       "text": "the weapons",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_weapons"
     },
     {
       "text": "the vehicle near the checkpoint",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_vehicle_near_the_checkpoint"
     },
     {
       "text": "the border",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_border"
     }
   ],
@@ -81,7 +81,7 @@
       {
         "@id": "inst:The_team",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The team",
@@ -90,9 +90,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Organization_Team_9bc38f6fda57"
+          "@id": "inst:Entity_Team_0b10e5ca9708"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5cc8383356e0"
@@ -101,16 +101,16 @@
       {
         "@id": "inst:the_weapons",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the weapons",
         "tagteam:mentionId": "s0:h5:19-30",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Weapon_7da4bff7205d"
+          "@id": "inst:Entity_Weapon_c5bf7e46fee8"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5cc8383356e0"
@@ -119,16 +119,16 @@
       {
         "@id": "inst:the_vehicle_near_the_checkpoint",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the vehicle near the checkpoint",
         "tagteam:mentionId": "s0:h8:36-67",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Vehicle_Near_The_Checkpoint_d144dc912bfb"
+          "@id": "inst:Entity_Vehicle_Near_The_Checkpoint_f6cc9070dc94"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5cc8383356e0"
@@ -137,16 +137,16 @@
       {
         "@id": "inst:the_border",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the border",
         "tagteam:mentionId": "s0:h14:71-81",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Border_2d474073b6e7"
+          "@id": "inst:Entity_Border_09bc5e0b6f39"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5cc8383356e0"
@@ -167,7 +167,7 @@
       {
         "@id": "inst:Role_The_team_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -183,7 +183,7 @@
       {
         "@id": "inst:Role_the_weapons_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -199,7 +199,7 @@
       {
         "@id": "inst:Role_the_vehicle_near_the_checkpoint_SourceRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "SourceRole",
         "tagteam:roleType": "SourceRole",
@@ -216,7 +216,7 @@
       {
         "@id": "inst:Role_the_border_LocationRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "LocationRole",
         "tagteam:roleType": "LocationRole",
@@ -231,53 +231,53 @@
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Organization_Team_9bc38f6fda57",
+        "@id": "inst:Entity_Team_0b10e5ca9708",
         "@type": [
-          "Organization",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "team",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:18.295Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.883Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5cc8383356e0",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Weapon_7da4bff7205d",
+        "@id": "inst:Entity_Weapon_c5bf7e46fee8",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "weapon",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:18.295Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.883Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5cc8383356e0",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Vehicle_Near_The_Checkpoint_d144dc912bfb",
+        "@id": "inst:Entity_Vehicle_Near_The_Checkpoint_f6cc9070dc94",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "vehicle near the checkpoint",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:18.295Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.883Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5cc8383356e0",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Border_2d474073b6e7",
+        "@id": "inst:Entity_Border_09bc5e0b6f39",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "border",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:18.295Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.883Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5cc8383356e0",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_5cc8383356e0",
@@ -289,7 +289,7 @@
         "has_text_value": "The team recovered the weapons from the vehicle near the checkpoint at the border",
         "tagteam:char_count": 81,
         "tagteam:word_count": 14,
-        "tagteam:received_at": "2026-02-22T12:26:18.284Z"
+        "tagteam:received_at": "2026-02-22T14:56:04.870Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -341,7 +341,7 @@
             "@id": "inst:Act_recovered"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:18.284Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.870Z"
       }
     ]
   }

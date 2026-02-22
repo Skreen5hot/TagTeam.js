@@ -152,8 +152,8 @@ test('EC-005: getEntityCategories({ label: "patient" }) includes animate', (pref
   assert(result.includes('animate'), `Expected 'animate' in ${JSON.stringify(result)}`);
 }, 'P0');
 
-test('EC-006: getEntityCategories({ type: "bfo:MaterialEntity", label: "ventilator" }) includes inanimate', (prefs) => {
-  const result = prefs.getEntityCategories({ type: 'bfo:MaterialEntity', label: 'ventilator' });
+test('EC-006: getEntityCategories({ type: "MaterialEntity", label: "ventilator" }) includes inanimate', (prefs) => {
+  const result = prefs.getEntityCategories({ type: 'MaterialEntity', label: 'ventilator' });
   assert(result.includes('inanimate'), `Expected 'inanimate' in ${JSON.stringify(result)}`);
 }, 'P0');
 
@@ -168,8 +168,8 @@ test('EC-008: getEntityCategories({ label: "family" }) includes animate and coll
   assert(result.includes('collective'), `Expected 'collective' in ${JSON.stringify(result)}`);
 }, 'P1');
 
-test('EC-009: getEntityCategories({ type: "bfo:Quality" }) includes abstract', (prefs) => {
-  const result = prefs.getEntityCategories({ type: 'bfo:Quality' });
+test('EC-009: getEntityCategories({ type: "Quality" }) includes abstract', (prefs) => {
+  const result = prefs.getEntityCategories({ type: 'Quality' });
   assert(result.includes('abstract'), `Expected 'abstract' in ${JSON.stringify(result)}`);
 }, 'P1');
 
@@ -354,8 +354,8 @@ test('OV-007: checkObject("allocate", { label: "resources" }) is valid', (prefs)
   assert.strictEqual(result.valid, true, `Expected valid=true, got ${result.valid}`);
 }, 'P1');
 
-test('OV-008: checkObject("throw", { type: "bfo:MaterialEntity" }) is valid', (prefs) => {
-  const result = prefs.checkObject('throw', { type: 'bfo:MaterialEntity' });
+test('OV-008: checkObject("throw", { type: "MaterialEntity" }) is valid', (prefs) => {
+  const result = prefs.checkObject('throw', { type: 'MaterialEntity' });
   assert.strictEqual(result.valid, true, `Expected valid=true, got ${result.valid}`);
 }, 'P1');
 

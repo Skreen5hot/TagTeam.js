@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T12:26:16.036Z",
+  "generatedAt": "2026-02-22T14:56:02.739Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -16,7 +16,7 @@
     },
     {
       "text": "the perimeter",
-      "type": "bfo:Entity"
+      "type": "Entity"
     }
   ],
   "expectedRoles": [
@@ -32,12 +32,12 @@
   "extractedEntities": [
     {
       "text": "The patrol unit",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_patrol_unit"
     },
     {
       "text": "the perimeter",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_perimeter"
     }
   ],
@@ -56,7 +56,7 @@
       {
         "@id": "inst:The_patrol_unit",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The patrol unit",
@@ -65,9 +65,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Organization_Patrol_Unit_99e46df25553"
+          "@id": "inst:Entity_Patrol_Unit_38c546bc6d25"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_f4a24093cff1"
@@ -76,16 +76,16 @@
       {
         "@id": "inst:the_perimeter",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the perimeter",
         "tagteam:mentionId": "s0:h6:24-37",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Perimeter_6a42c6108da9"
+          "@id": "inst:Entity_Perimeter_4cf41bdd66e2"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_f4a24093cff1"
@@ -106,7 +106,7 @@
       {
         "@id": "inst:Role_The_patrol_unit_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -122,7 +122,7 @@
       {
         "@id": "inst:Role_the_perimeter_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -136,29 +136,29 @@
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Organization_Patrol_Unit_99e46df25553",
+        "@id": "inst:Entity_Patrol_Unit_38c546bc6d25",
         "@type": [
-          "Organization",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "patrol unit",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.036Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.739Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_f4a24093cff1",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Perimeter_6a42c6108da9",
+        "@id": "inst:Entity_Perimeter_4cf41bdd66e2",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "perimeter",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.036Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.739Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_f4a24093cff1",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_f4a24093cff1",
@@ -170,7 +170,7 @@
         "has_text_value": "The patrol unit secured the perimeter",
         "tagteam:char_count": 37,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T12:26:16.025Z"
+        "tagteam:received_at": "2026-02-22T14:56:02.728Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_secured"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.025Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.728Z"
       }
     ]
   }

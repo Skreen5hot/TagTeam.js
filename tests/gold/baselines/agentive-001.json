@@ -7,7 +7,7 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-22T12:26:16.539Z",
+  "generatedAt": "2026-02-22T14:56:03.301Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,12 +32,12 @@
   "extractedEntities": [
     {
       "text": "The suspect",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_suspect"
     },
     {
       "text": "the tracking team",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_tracking_team"
     }
   ],
@@ -56,7 +56,7 @@
       {
         "@id": "inst:The_suspect",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The suspect",
@@ -65,9 +65,9 @@
         "tagteam:parseProbability": 0.889,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Person_Suspect_9d9fd82a28e2"
+          "@id": "inst:Entity_Suspect_ecf7e89e9371"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_83d812c2cd7a"
@@ -76,16 +76,16 @@
       {
         "@id": "inst:the_tracking_team",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the tracking team",
         "tagteam:mentionId": "s0:h8:27-44",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Organization_Tracking_Team_83e0388a9959"
+          "@id": "inst:Entity_Tracking_Team_a7cb6c639909"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_83d812c2cd7a"
@@ -107,7 +107,7 @@
       {
         "@id": "inst:Role_The_suspect_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -123,7 +123,7 @@
       {
         "@id": "inst:Role_the_tracking_team_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -137,29 +137,29 @@
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Person_Suspect_9d9fd82a28e2",
+        "@id": "inst:Entity_Suspect_ecf7e89e9371",
         "@type": [
-          "Person",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "suspect",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.539Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.301Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_83d812c2cd7a",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Organization_Tracking_Team_83e0388a9959",
+        "@id": "inst:Entity_Tracking_Team_a7cb6c639909",
         "@type": [
-          "Organization",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "tracking team",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.539Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.301Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_83d812c2cd7a",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_83d812c2cd7a",
@@ -171,7 +171,7 @@
         "has_text_value": "The suspect was located by the tracking team",
         "tagteam:char_count": 44,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T12:26:16.528Z"
+        "tagteam:received_at": "2026-02-22T14:56:03.291Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -217,7 +217,7 @@
             "@id": "inst:Act_located"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.528Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.291Z"
       }
     ]
   }

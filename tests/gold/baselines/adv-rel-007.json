@@ -6,7 +6,7 @@
     "relative-clause",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T12:26:18.341Z",
+  "generatedAt": "2026-02-22T14:56:04.927Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -27,7 +27,7 @@
   "extractedEntities": [
     {
       "text": "The smugglers",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_smugglers"
     },
     {
@@ -37,7 +37,7 @@
     },
     {
       "text": "the tunnel network",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_tunnel_network"
     }
   ],
@@ -52,7 +52,7 @@
       {
         "@id": "inst:The_smugglers",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The smugglers",
@@ -61,9 +61,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Smugglers_5931c97eab12"
+          "@id": "inst:Entity_Smugglers_bf68a3a7181f"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_57d88cbba13c"
@@ -93,16 +93,16 @@
       {
         "@id": "inst:the_tunnel_network",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the tunnel network",
         "tagteam:mentionId": "s0:h7:27-45",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Tunnel_Network_a8ebb2768d6a"
+          "@id": "inst:Entity_Tunnel_Network_be593f108fd3"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_57d88cbba13c"
@@ -124,7 +124,7 @@
       {
         "@id": "inst:Role_The_smugglers_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -138,17 +138,17 @@
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Entity_Smugglers_5931c97eab12",
+        "@id": "inst:Entity_Smugglers_bf68a3a7181f",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "smugglers",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:18.341Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.927Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_57d88cbba13c",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Organization_Who_1e3a2c8c03e7",
@@ -159,21 +159,21 @@
         "rdfs:label": "who",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T12:26:18.341Z",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.927Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_57d88cbba13c",
         "tagteam:denotesType": "Organization"
       },
       {
-        "@id": "inst:Entity_Tunnel_Network_a8ebb2768d6a",
+        "@id": "inst:Entity_Tunnel_Network_be593f108fd3",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "tunnel network",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:18.341Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.927Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_57d88cbba13c",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_57d88cbba13c",
@@ -185,7 +185,7 @@
         "has_text_value": "The smugglers who operated the tunnel network were indicted",
         "tagteam:char_count": 59,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-22T12:26:18.329Z"
+        "tagteam:received_at": "2026-02-22T14:56:04.919Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -234,7 +234,7 @@
             "@id": "inst:Act_indicted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:18.329Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.919Z"
       }
     ]
   }

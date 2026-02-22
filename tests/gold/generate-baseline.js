@@ -110,7 +110,7 @@ for (const sentence of sentences) {
       if (!isAct && !isRole && !isAssertion && !isProvenance && !isTier2 && node['rdfs:label']) {
         extractedEntities.push({
           text: node['rdfs:label'],
-          type: types[0] || 'bfo:Entity',
+          type: types[0] || 'Entity',
           id: node['@id']
         });
       }

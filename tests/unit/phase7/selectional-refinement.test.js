@@ -107,7 +107,7 @@ test('Integration: "chest pain" → bfo:BFO_0000019 (Quality)', () => {
   // May be combined with "shortness of breath" as a coordinated phrase
   const node = findTier2ByLabel(medicalGraph, 'chest pain');
   if (node) {
-    assert.ok(node['@type'].includes('bfo:BFO_0000019'),
+    assert.ok(node['@type'].includes('Quality'),
       'chest pain should be Quality, got: ' + JSON.stringify(node['@type']));
     assert.ok(!node['@type'].includes('Artifact'),
       'chest pain should NOT be Artifact');
@@ -115,7 +115,7 @@ test('Integration: "chest pain" → bfo:BFO_0000019 (Quality)', () => {
     // Compromise NLP may combine "chest pain and shortness of breath"
     const combined = findTier2ByLabel(medicalGraph, 'chest pain and shortness of breath');
     assert.ok(combined, 'Should find either "chest pain" or combined phrase');
-    assert.ok(combined['@type'].includes('bfo:BFO_0000019'),
+    assert.ok(combined['@type'].includes('Quality'),
       'combined symptom phrase should be Quality');
   }
 });
@@ -123,7 +123,7 @@ test('Integration: "chest pain" → bfo:BFO_0000019 (Quality)', () => {
 test('Integration: "blood sugar levels" → bfo:BFO_0000019 (Quality)', () => {
   const node = findTier2ByLabel(medicalGraph, 'blood sugar');
   assert.ok(node, 'Should find Tier 2 node for "blood sugar levels"');
-  assert.ok(node['@type'].includes('bfo:BFO_0000019'),
+  assert.ok(node['@type'].includes('Quality'),
     'blood sugar levels should be Quality, got: ' + JSON.stringify(node['@type']));
   assert.ok(!node['@type'].includes('Artifact'),
     'blood sugar levels should NOT be Artifact');

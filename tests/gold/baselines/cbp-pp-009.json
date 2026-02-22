@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T12:26:17.345Z",
+  "generatedAt": "2026-02-22T14:56:04.133Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -15,11 +15,11 @@
     },
     {
       "text": "samples",
-      "type": "bfo:Entity"
+      "type": "Entity"
     },
     {
       "text": "the shipment",
-      "type": "bfo:Entity"
+      "type": "Entity"
     }
   ],
   "expectedRoles": [
@@ -39,17 +39,17 @@
   "extractedEntities": [
     {
       "text": "The specialist",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_specialist"
     },
     {
       "text": "samples",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:samples"
     },
     {
       "text": "the shipment",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_shipment"
     }
   ],
@@ -68,16 +68,16 @@
       {
         "@id": "inst:The_specialist",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The specialist",
         "tagteam:mentionId": "s0:h2:0-14",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Person_Specialist_00f6b3debf4d"
+          "@id": "inst:Entity_Specialist_8f6e346edad9"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_be0610f95ed1"
@@ -86,16 +86,16 @@
       {
         "@id": "inst:samples",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "samples",
         "tagteam:mentionId": "s0:h4:25-32",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Sample_9d6c6fb3abf1"
+          "@id": "inst:Entity_Sample_a7a0134a3c93"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_be0610f95ed1"
@@ -104,16 +104,16 @@
       {
         "@id": "inst:the_shipment",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the shipment",
         "tagteam:mentionId": "s0:h7:38-50",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Shipment_e0e4cb47df4e"
+          "@id": "inst:Entity_Shipment_11bcc3c3cb9c"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_be0610f95ed1"
@@ -146,7 +146,7 @@
       {
         "@id": "inst:Role_samples_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -162,7 +162,7 @@
       {
         "@id": "inst:Role_the_shipment_SourceRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "SourceRole",
         "tagteam:roleType": "SourceRole",
@@ -177,40 +177,40 @@
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Person_Specialist_00f6b3debf4d",
+        "@id": "inst:Entity_Specialist_8f6e346edad9",
         "@type": [
-          "Person",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "specialist",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.345Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.132Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be0610f95ed1",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Sample_9d6c6fb3abf1",
+        "@id": "inst:Entity_Sample_a7a0134a3c93",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "sample",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.345Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.132Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be0610f95ed1",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Shipment_e0e4cb47df4e",
+        "@id": "inst:Entity_Shipment_11bcc3c3cb9c",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "shipment",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.345Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.132Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be0610f95ed1",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_be0610f95ed1",
@@ -222,7 +222,7 @@
         "has_text_value": "The specialist collected samples from the shipment",
         "tagteam:char_count": 50,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T12:26:17.338Z"
+        "tagteam:received_at": "2026-02-22T14:56:04.121Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -274,7 +274,7 @@
             "@id": "inst:Act_collected"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.338Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.121Z"
       }
     ]
   }

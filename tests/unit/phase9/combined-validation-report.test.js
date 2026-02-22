@@ -82,7 +82,7 @@ function mockGraph(nodeCount, options = {}) {
   for (let i = 0; i < (options.roles || 1); i++) {
     nodes.push({
       '@id': `inst:Role_${i}`,
-      '@type': ['bfo:Role', 'owl:NamedIndividual'],
+      '@type': ['Role', 'owl:NamedIndividual'],
       'rdfs:label': 'AgentRole'
     });
   }

@@ -7,7 +7,7 @@
     "cbp",
     "trade"
   ],
-  "generatedAt": "2026-02-22T12:26:16.817Z",
+  "generatedAt": "2026-02-22T14:56:03.579Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,12 +32,12 @@
   "extractedEntities": [
     {
       "text": "The import specialist",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_import_specialist"
     },
     {
       "text": "the declaration",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_declaration"
     }
   ],
@@ -56,7 +56,7 @@
       {
         "@id": "inst:The_import_specialist",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The import specialist",
@@ -65,9 +65,9 @@
         "tagteam:parseProbability": 0.8492,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Person_Import_Specialist_4c3018a8915c"
+          "@id": "inst:Entity_Import_Specialist_4e4879e08685"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e6194180de4c"
@@ -76,16 +76,16 @@
       {
         "@id": "inst:the_declaration",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the declaration",
         "tagteam:mentionId": "s0:h6:31-46",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Declaration_99f45f2e8842"
+          "@id": "inst:Entity_Declaration_d2f33e25a516"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e6194180de4c"
@@ -106,7 +106,7 @@
       {
         "@id": "inst:Role_The_import_specialist_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -122,7 +122,7 @@
       {
         "@id": "inst:Role_the_declaration_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -136,29 +136,29 @@
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Person_Import_Specialist_4c3018a8915c",
+        "@id": "inst:Entity_Import_Specialist_4e4879e08685",
         "@type": [
-          "Person",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "import specialist",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.816Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.579Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e6194180de4c",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Declaration_99f45f2e8842",
+        "@id": "inst:Entity_Declaration_d2f33e25a516",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "declaration",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.816Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.579Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e6194180de4c",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_e6194180de4c",
@@ -170,7 +170,7 @@
         "has_text_value": "The import specialist verified the declaration",
         "tagteam:char_count": 46,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T12:26:16.808Z"
+        "tagteam:received_at": "2026-02-22T14:56:03.570Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_verified"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.808Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.570Z"
       }
     ]
   }

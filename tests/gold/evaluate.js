@@ -159,7 +159,7 @@ function extractFromGraph(graph) {
     if (!isAct && !isRole && !isAssertion && !isProvenance && !isTier2 && node['rdfs:label']) {
       entities.push({
         text: node['rdfs:label'],
-        type: types[0] || 'bfo:Entity',
+        type: types[0] || 'Entity',
         id: node['@id']
       });
     }

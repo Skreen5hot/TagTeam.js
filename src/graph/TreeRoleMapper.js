@@ -142,7 +142,7 @@ class TreeRoleMapper {
     // Special case: "by" in passive → AgentRole
     if (preposition === 'by' && act.isPassive) {
       return {
-        role: 'bfo:Role',
+        role: 'Role',
         label: 'AgentRole',
         entity: entity.fullText || entity.text,
         entityId: entity.headId,
@@ -170,7 +170,7 @@ class TreeRoleMapper {
     }
 
     return {
-      role: 'bfo:Role',
+      role: 'Role',
       label: role,
       entity: entity.fullText || entity.text,
       entityId: entity.headId,
@@ -238,11 +238,11 @@ class TreeRoleMapper {
    */
   _fallbackMapping(label) {
     const map = {
-      'nsubj': { role: 'bfo:Role', label: 'AgentRole', note: 'Active voice subject' },
-      'obj': { role: 'bfo:Role', label: 'PatientRole', note: 'Direct object' },
-      'iobj': { role: 'bfo:Role', label: 'RecipientRole', note: 'Indirect object' },
-      'nsubj:pass': { role: 'bfo:Role', label: 'PatientRole', note: 'Passive subject = patient' },
-      'obl:agent': { role: 'bfo:Role', label: 'AgentRole', note: 'Passive "by" phrase = agent' },
+      'nsubj': { role: 'Role', label: 'AgentRole', note: 'Active voice subject' },
+      'obj': { role: 'Role', label: 'PatientRole', note: 'Direct object' },
+      'iobj': { role: 'Role', label: 'RecipientRole', note: 'Indirect object' },
+      'nsubj:pass': { role: 'Role', label: 'PatientRole', note: 'Passive subject = patient' },
+      'obl:agent': { role: 'Role', label: 'AgentRole', note: 'Passive "by" phrase = agent' },
     };
     return map[label] || null;
   }

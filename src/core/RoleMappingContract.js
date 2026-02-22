@@ -17,12 +17,12 @@
 // =============================================================================
 
 const UD_TO_BFO_ROLE = Object.freeze({
-  'nsubj':      Object.freeze({ role: 'bfo:Role', label: 'AgentRole',     bfo: 'bfo:BFO_0000023', note: 'Active voice subject' }),
-  'obj':        Object.freeze({ role: 'bfo:Role', label: 'PatientRole',   bfo: 'bfo:BFO_0000023', note: 'Direct object' }),
-  'iobj':       Object.freeze({ role: 'bfo:Role', label: 'RecipientRole', bfo: 'bfo:BFO_0000023', note: 'Indirect object' }),
-  'nsubj:pass': Object.freeze({ role: 'bfo:Role', label: 'PatientRole',   bfo: 'bfo:BFO_0000023', note: 'Passive subject = patient' }),
-  'obl:agent':  Object.freeze({ role: 'bfo:Role', label: 'AgentRole',     bfo: 'bfo:BFO_0000023', note: 'Passive "by" phrase = agent' }),
-  'obl':        Object.freeze({ role: 'bfo:Role', label: 'ObliqueRole',   bfo: 'bfo:BFO_0000023', note: 'Subtyped by case child' }),
+  'nsubj':      Object.freeze({ role: 'Role', label: 'AgentRole',     bfo: 'Role', note: 'Active voice subject' }),
+  'obj':        Object.freeze({ role: 'Role', label: 'PatientRole',   bfo: 'Role', note: 'Direct object' }),
+  'iobj':       Object.freeze({ role: 'Role', label: 'RecipientRole', bfo: 'Role', note: 'Indirect object' }),
+  'nsubj:pass': Object.freeze({ role: 'Role', label: 'PatientRole',   bfo: 'Role', note: 'Passive subject = patient' }),
+  'obl:agent':  Object.freeze({ role: 'Role', label: 'AgentRole',     bfo: 'Role', note: 'Passive "by" phrase = agent' }),
+  'obl':        Object.freeze({ role: 'Role', label: 'ObliqueRole',   bfo: 'Role', note: 'Subtyped by case child' }),
 });
 
 // =============================================================================

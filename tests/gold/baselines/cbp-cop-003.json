@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T12:26:16.936Z",
+  "generatedAt": "2026-02-22T14:56:03.708Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -22,7 +22,7 @@
   "extractedEntities": [
     {
       "text": "The Border Patrol",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_Border_Patrol"
     },
     {
@@ -37,7 +37,7 @@
       {
         "@id": "inst:The_Border_Patrol",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The Border Patrol",
@@ -51,9 +51,9 @@
           "tagteam:category": "GEN",
           "tagteam:confidence": 0.4
         },
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Border_Patrol_a88112f527ec"
+          "@id": "inst:Entity_Border_Patrol_c11c3801547a"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_8bb25944146c"
@@ -88,17 +88,17 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Entity_Border_Patrol_a88112f527ec",
+        "@id": "inst:Entity_Border_Patrol_c11c3801547a",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "border patrol",
         "tagteam:genericityCategory": "AMB",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.936Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.708Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_8bb25944146c",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Organization_Cbp_27df34882a16",
@@ -108,7 +108,7 @@
         ],
         "rdfs:label": "cbp",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.936Z",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.708Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_8bb25944146c",
         "tagteam:denotesType": "Organization"
       },
@@ -122,7 +122,7 @@
         "has_text_value": "The Border Patrol is the mobile enforcement arm of CBP",
         "tagteam:char_count": 54,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-22T12:26:16.927Z"
+        "tagteam:received_at": "2026-02-22T14:56:03.699Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -165,7 +165,7 @@
             "@id": "inst:CBP"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.927Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.699Z"
       }
     ]
   }

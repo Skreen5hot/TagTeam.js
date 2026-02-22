@@ -6,7 +6,7 @@
     "academic",
     "funding"
   ],
-  "generatedAt": "2026-02-22T12:26:17.554Z",
+  "generatedAt": "2026-02-22T14:56:04.340Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -15,7 +15,7 @@
     },
     {
       "text": "the grant",
-      "type": "bfo:Entity"
+      "type": "Entity"
     },
     {
       "text": "the laboratory",
@@ -39,17 +39,17 @@
   "extractedEntities": [
     {
       "text": "The committee",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_committee"
     },
     {
       "text": "the grant",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_grant"
     },
     {
       "text": "the laboratory",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_laboratory"
     }
   ],
@@ -68,16 +68,16 @@
       {
         "@id": "inst:The_committee",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The committee",
         "tagteam:mentionId": "s0:h2:0-13",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Organization_Committee_657230a9c69f"
+          "@id": "inst:Entity_Committee_0a9377293378"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ef416c4d629f"
@@ -86,16 +86,16 @@
       {
         "@id": "inst:the_grant",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the grant",
         "tagteam:mentionId": "s0:h5:22-31",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Grant_0380ecd8a9a7"
+          "@id": "inst:Entity_Grant_0461efb8d58f"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ef416c4d629f"
@@ -104,16 +104,16 @@
       {
         "@id": "inst:the_laboratory",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the laboratory",
         "tagteam:mentionId": "s0:h8:35-49",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Laboratory_9d5427c6f2aa"
+          "@id": "inst:Entity_Laboratory_19a74cffe026"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ef416c4d629f"
@@ -146,7 +146,7 @@
       {
         "@id": "inst:Role_the_grant_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -162,7 +162,7 @@
       {
         "@id": "inst:Role_the_laboratory_DestinationRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "DestinationRole",
         "tagteam:roleType": "DestinationRole",
@@ -177,40 +177,40 @@
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Organization_Committee_657230a9c69f",
+        "@id": "inst:Entity_Committee_0a9377293378",
         "@type": [
-          "Organization",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "committee",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.553Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.340Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ef416c4d629f",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Grant_0380ecd8a9a7",
+        "@id": "inst:Entity_Grant_0461efb8d58f",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "grant",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.553Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.340Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ef416c4d629f",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Laboratory_9d5427c6f2aa",
+        "@id": "inst:Entity_Laboratory_19a74cffe026",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "laboratory",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.553Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.340Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ef416c4d629f",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_ef416c4d629f",
@@ -222,7 +222,7 @@
         "has_text_value": "The committee awarded the grant to the laboratory",
         "tagteam:char_count": 49,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T12:26:17.544Z"
+        "tagteam:received_at": "2026-02-22T14:56:04.331Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -274,7 +274,7 @@
             "@id": "inst:Act_awarded"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.544Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.331Z"
       }
     ]
   }

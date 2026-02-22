@@ -411,11 +411,11 @@ class TreeEntityExtractor {
 
     // POS tag heuristics
     if (PROPER_NOUN_TAGS.has(headTag)) {
-      return 'bfo:Entity'; // Proper noun, type unknown without gazetteer
+      return 'Entity'; // Proper noun, type unknown without gazetteer
     }
 
     // Default: generic entity
-    return 'bfo:Entity';
+    return 'Entity';
   }
 }
 

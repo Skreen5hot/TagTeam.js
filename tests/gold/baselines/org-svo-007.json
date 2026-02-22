@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T12:26:15.927Z",
+  "generatedAt": "2026-02-22T14:56:02.608Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,12 +32,12 @@
   "extractedEntities": [
     {
       "text": "The analyst",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_analyst"
     },
     {
       "text": "the intelligence briefing",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_intelligence_briefing"
     }
   ],
@@ -56,7 +56,7 @@
       {
         "@id": "inst:The_analyst",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The analyst",
@@ -65,9 +65,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Person_Analyst_fa2a9f228cd0"
+          "@id": "inst:Entity_Analyst_4f6cc3370b70"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5d7e68cf95fa"
@@ -76,16 +76,16 @@
       {
         "@id": "inst:the_intelligence_briefing",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the intelligence briefing",
         "tagteam:mentionId": "s0:h6:21-46",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Intelligence_Brief_0f0813d33dd0"
+          "@id": "inst:Entity_Intelligence_Brief_1c551671f14a"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5d7e68cf95fa"
@@ -106,7 +106,7 @@
       {
         "@id": "inst:Role_The_analyst_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -122,7 +122,7 @@
       {
         "@id": "inst:Role_the_intelligence_briefing_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -136,29 +136,29 @@
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Person_Analyst_fa2a9f228cd0",
+        "@id": "inst:Entity_Analyst_4f6cc3370b70",
         "@type": [
-          "Person",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "analyst",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:15.927Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.608Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5d7e68cf95fa",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Intelligence_Brief_0f0813d33dd0",
+        "@id": "inst:Entity_Intelligence_Brief_1c551671f14a",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "intelligence brief",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:15.927Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.608Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5d7e68cf95fa",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_5d7e68cf95fa",
@@ -170,7 +170,7 @@
         "has_text_value": "The analyst prepared the intelligence briefing",
         "tagteam:char_count": 46,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T12:26:15.917Z"
+        "tagteam:received_at": "2026-02-22T14:56:02.598Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_prepared"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:15.917Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.598Z"
       }
     ]
   }

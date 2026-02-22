@@ -121,7 +121,7 @@ function normalizeGraphForAnalysis(result) {
 
   // Find all Role nodes (bfo:Role after IRI cleanup) and materialize them onto acts
   const roleNodes = graph.filter(n =>
-    (n['@type'] || []).includes('bfo:Role')
+    (n['@type'] || []).includes('Role')
   );
 
   roleNodes.forEach(role => {

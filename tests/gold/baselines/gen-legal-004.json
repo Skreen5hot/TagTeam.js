@@ -5,7 +5,7 @@
   "tags": [
     "legal"
   ],
-  "generatedAt": "2026-02-22T12:26:17.803Z",
+  "generatedAt": "2026-02-22T14:56:04.519Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -30,12 +30,12 @@
   "extractedEntities": [
     {
       "text": "The judge",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_judge"
     },
     {
       "text": "a restraining order",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:a_restraining_order"
     }
   ],
@@ -54,7 +54,7 @@
       {
         "@id": "inst:The_judge",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The judge",
@@ -63,9 +63,9 @@
         "tagteam:parseProbability": 0.6583,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Person_Judge_e1eb7958b65d"
+          "@id": "inst:Entity_Judge_6374621c6075"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e4fda6cfb5f4"
@@ -74,16 +74,16 @@
       {
         "@id": "inst:a_restraining_order",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "a restraining order",
         "tagteam:mentionId": "s0:h6:17-36",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Restraining_Order_db58b9b3f94c"
+          "@id": "inst:Entity_Restraining_Order_885c5f4edb40"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e4fda6cfb5f4"
@@ -104,7 +104,7 @@
       {
         "@id": "inst:Role_The_judge_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -120,7 +120,7 @@
       {
         "@id": "inst:Role_a_restraining_order_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -134,29 +134,29 @@
         "tagteam:parseProbability": 0.7804
       },
       {
-        "@id": "inst:Person_Judge_e1eb7958b65d",
+        "@id": "inst:Entity_Judge_6374621c6075",
         "@type": [
-          "Person",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "judge",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.802Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.519Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e4fda6cfb5f4",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Restraining_Order_db58b9b3f94c",
+        "@id": "inst:Entity_Restraining_Order_885c5f4edb40",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "restraining order",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.802Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.519Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e4fda6cfb5f4",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_e4fda6cfb5f4",
@@ -168,7 +168,7 @@
         "has_text_value": "The judge issued a restraining order",
         "tagteam:char_count": 36,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T12:26:17.791Z"
+        "tagteam:received_at": "2026-02-22T14:56:04.512Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -214,7 +214,7 @@
             "@id": "inst:Act_issued"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.791Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.512Z"
       }
     ]
   }

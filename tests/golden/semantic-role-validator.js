@@ -64,7 +64,7 @@ function extractSemanticRoles(graph) {
     'CauseRole': 'tagteam:has_cause'
   };
   const roleNodes = nodes.filter(n =>
-    (n['@type'] || []).includes('bfo:Role')
+    (n['@type'] || []).includes('Role')
   );
   for (const role of roleNodes) {
     const actRef = role['tagteam:realizedIn'];
@@ -184,7 +184,7 @@ function extractEntityType(entity) {
   if (types.includes('cco:Act') || types.includes('IntentionalAct')) return 'event';
   if (types.includes('Artifact')) return 'artifact';
   if (types.includes('Facility')) return 'location';
-  if (types.includes('bfo:Quality')) return 'quality';
+  if (types.includes('Quality')) return 'quality';
 
   return 'unknown';
 }

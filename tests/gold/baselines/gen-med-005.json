@@ -6,7 +6,7 @@
     "medical",
     "treatment"
   ],
-  "generatedAt": "2026-02-22T12:26:17.675Z",
+  "generatedAt": "2026-02-22T14:56:04.443Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -39,17 +39,17 @@
   "extractedEntities": [
     {
       "text": "The hospital",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_hospital"
     },
     {
       "text": "the patient",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_patient"
     },
     {
       "text": "the intensive care unit",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_intensive_care_unit"
     }
   ],
@@ -72,7 +72,7 @@
       {
         "@id": "inst:The_hospital",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The hospital",
@@ -81,9 +81,9 @@
         "tagteam:parseProbability": 0.9272,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Organization_Hospital_2e487f5a18dc"
+          "@id": "inst:Entity_Hospital_119982531e08"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_bdc26060bf87"
@@ -92,16 +92,16 @@
       {
         "@id": "inst:the_patient",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the patient",
         "tagteam:mentionId": "s0:h5:22-33",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Person_Patient_8ad6062c2b2d"
+          "@id": "inst:Entity_Patient_eecd5d16a84e"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_bdc26060bf87"
@@ -110,16 +110,16 @@
       {
         "@id": "inst:the_intensive_care_unit",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the intensive care unit",
         "tagteam:mentionId": "s0:h10:37-60",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Organization_Intensive_Care_Unit_9aeb6df1c06c"
+          "@id": "inst:Entity_Intensive_Care_Unit_28634a31e671"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_bdc26060bf87"
@@ -140,7 +140,7 @@
       {
         "@id": "inst:Role_The_hospital_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -156,7 +156,7 @@
       {
         "@id": "inst:Role_the_patient_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -172,7 +172,7 @@
       {
         "@id": "inst:Role_the_intensive_care_unit_DestinationRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "DestinationRole",
         "tagteam:roleType": "DestinationRole",
@@ -187,41 +187,41 @@
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Organization_Hospital_2e487f5a18dc",
+        "@id": "inst:Entity_Hospital_119982531e08",
         "@type": [
-          "Organization",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "hospital",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.674Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.443Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdc26060bf87",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Person_Patient_8ad6062c2b2d",
+        "@id": "inst:Entity_Patient_eecd5d16a84e",
         "@type": [
-          "Person",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "patient",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.675Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.443Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdc26060bf87",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Organization_Intensive_Care_Unit_9aeb6df1c06c",
+        "@id": "inst:Entity_Intensive_Care_Unit_28634a31e671",
         "@type": [
-          "Organization",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "intensive care unit",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.675Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.443Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdc26060bf87",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_bdc26060bf87",
@@ -233,7 +233,7 @@
         "has_text_value": "The hospital admitted the patient to the intensive care unit",
         "tagteam:char_count": 60,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-22T12:26:17.660Z"
+        "tagteam:received_at": "2026-02-22T14:56:04.434Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -282,7 +282,7 @@
             "@id": "inst:Act_admitted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.660Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.434Z"
       }
     ]
   }

@@ -310,7 +310,7 @@ describe('AlternativeGraphBuilder', () => {
       };
 
       const alternatives = builder.build(mockGraph, ambiguity);
-      expect(alternatives[0].node['@type']).toContain('bfo:Process');
+      expect(alternatives[0].node['@type']).toContain('Process');
     })) passed++; else failed++;
 
     if (it('adds nominalizationReading annotation', () => {

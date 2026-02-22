@@ -8,7 +8,7 @@
     "action",
     "pp"
   ],
-  "generatedAt": "2026-02-22T12:26:16.064Z",
+  "generatedAt": "2026-02-22T14:56:02.771Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -17,7 +17,7 @@
     },
     {
       "text": "discrepancies",
-      "type": "bfo:Entity"
+      "type": "Entity"
     },
     {
       "text": "the records",
@@ -37,17 +37,17 @@
   "extractedEntities": [
     {
       "text": "The auditor",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_auditor"
     },
     {
       "text": "discrepancies",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:discrepancies"
     },
     {
       "text": "the records",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_records"
     }
   ],
@@ -66,16 +66,16 @@
       {
         "@id": "inst:The_auditor",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The auditor",
         "tagteam:mentionId": "s0:h2:0-11",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Person_Auditor_39e397632440"
+          "@id": "inst:Entity_Auditor_19e2b27c635a"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_111e711f71dc"
@@ -84,16 +84,16 @@
       {
         "@id": "inst:discrepancies",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "discrepancies",
         "tagteam:mentionId": "s0:h4:23-36",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Discrepancy_df019374a4d0"
+          "@id": "inst:Entity_Discrepancy_2736ca0ab5cf"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_111e711f71dc"
@@ -102,16 +102,16 @@
       {
         "@id": "inst:the_records",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the records",
         "tagteam:mentionId": "s0:h7:40-51",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Record_4ac286aaa657"
+          "@id": "inst:Entity_Record_f8356b35bc0f"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_111e711f71dc"
@@ -144,7 +144,7 @@
       {
         "@id": "inst:Role_discrepancies_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -160,7 +160,7 @@
       {
         "@id": "inst:Role_the_records_LocationRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "LocationRole",
         "tagteam:roleType": "LocationRole",
@@ -175,40 +175,40 @@
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Person_Auditor_39e397632440",
+        "@id": "inst:Entity_Auditor_19e2b27c635a",
         "@type": [
-          "Person",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "auditor",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.064Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.770Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_111e711f71dc",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Discrepancy_df019374a4d0",
+        "@id": "inst:Entity_Discrepancy_2736ca0ab5cf",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "discrepancy",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.064Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.770Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_111e711f71dc",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Record_4ac286aaa657",
+        "@id": "inst:Entity_Record_f8356b35bc0f",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "record",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.064Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.770Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_111e711f71dc",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_111e711f71dc",
@@ -220,7 +220,7 @@
         "has_text_value": "The auditor discovered discrepancies in the records",
         "tagteam:char_count": 51,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T12:26:16.054Z"
+        "tagteam:received_at": "2026-02-22T14:56:02.759Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -272,7 +272,7 @@
             "@id": "inst:Act_discovered"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.054Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.759Z"
       }
     ]
   }

@@ -136,7 +136,7 @@ test('AC-001.3b: "The doctor analyzed the medication" → medication remains Art
   // Medication is explicitly a physical thing, not refinable to ICE
   assert.ok(
     medication['tagteam:denotesType'] === 'Artifact' ||
-    medication['tagteam:denotesType'] === 'bfo:BFO_0000040',
+    medication['tagteam:denotesType'] === 'MaterialEntity',
     `Medication should remain Artifact or MaterialEntity, got: ${medication['tagteam:denotesType']}`
   );
 });

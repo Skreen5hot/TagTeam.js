@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T12:26:17.051Z",
+  "generatedAt": "2026-02-22T14:56:03.808Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -22,12 +22,12 @@
   "extractedEntities": [
     {
       "text": "The duty officer",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_duty_officer"
     },
     {
       "text": "emergencies",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:emergencies"
     }
   ],
@@ -37,7 +37,7 @@
       {
         "@id": "inst:The_duty_officer",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The duty officer",
@@ -51,9 +51,9 @@
           "tagteam:category": "GEN",
           "tagteam:confidence": 0.4
         },
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Person_Duty_Officer_6072fed75244"
+          "@id": "inst:Entity_Duty_Officer_39180b1de483"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_def8547a60fd"
@@ -62,16 +62,16 @@
       {
         "@id": "inst:emergencies",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "emergencies",
         "tagteam:mentionId": "s0:h9:44-55",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Emergency_96af7ae89cd4"
+          "@id": "inst:Entity_Emergency_be9f88e13198"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_def8547a60fd"
@@ -88,29 +88,29 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Person_Duty_Officer_6072fed75244",
+        "@id": "inst:Entity_Duty_Officer_39180b1de483",
         "@type": [
-          "Person",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "duty officer",
         "tagteam:genericityCategory": "AMB",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.051Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.808Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_def8547a60fd",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Emergency_96af7ae89cd4",
+        "@id": "inst:Entity_Emergency_be9f88e13198",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "emergency",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.051Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.808Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_def8547a60fd",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_def8547a60fd",
@@ -122,7 +122,7 @@
         "has_text_value": "The duty officer is the primary contact for emergencies",
         "tagteam:char_count": 55,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-22T12:26:17.043Z"
+        "tagteam:received_at": "2026-02-22T14:56:03.800Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -165,7 +165,7 @@
             "@id": "inst:emergencies"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.043Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.800Z"
       }
     ]
   }

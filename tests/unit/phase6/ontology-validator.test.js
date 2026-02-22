@@ -249,7 +249,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
     });
 
     it('IR-002: Valid bfo: prefix returns valid', () => {
-      const issue = validator.validateIRI('bfo:Object');
+      const issue = validator.validateIRI('Object');
       expect(issue).toBeNull();
     });
 
@@ -310,7 +310,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
       const issues = validator.validateBFOHierarchy({
         term: 'patient',
         mappedType: 'Person',
-        baseType: 'bfo:Object'
+        baseType: 'Object'
       });
       expect(issues.length).toBe(0);
     });
@@ -319,7 +319,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
       const issues = validator.validateBFOHierarchy({
         term: 'treatment',
         mappedType: 'IntentionalAct', // Occurrent
-        baseType: 'bfo:Object' // Continuant
+        baseType: 'Object' // Continuant
       });
       expect(issues.length).toBeGreaterThan(0);
       expect(issues.some(i => i.code === 'HIERARCHY_VIOLATION')).toBe(true);
@@ -329,7 +329,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
       const issues = validator.validateBFOHierarchy({
         term: 'doctor',
         mappedType: 'Person', // Continuant
-        baseType: 'bfo:Process' // Occurrent
+        baseType: 'Process' // Occurrent
       });
       expect(issues.length).toBeGreaterThan(0);
       expect(issues.some(i => i.code === 'HIERARCHY_VIOLATION')).toBe(true);
@@ -360,7 +360,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
       const issues = validator.validateBFOHierarchy({
         term: 'organization',
         mappedType: 'Organization',
-        baseType: 'bfo:Object'
+        baseType: 'Object'
       });
       expect(issues.length).toBe(0);
     });
@@ -369,7 +369,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
       const issues = validator.validateBFOHierarchy({
         term: 'surgery',
         mappedType: 'IntentionalAct',
-        baseType: 'bfo:Process'
+        baseType: 'Process'
       });
       expect(issues.length).toBe(0);
     });
@@ -378,7 +378,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
       const issues = validator.validateBFOHierarchy({
         term: 'physician-role',
         mappedType: 'cco:PhysicianRole',
-        baseType: 'bfo:Role'
+        baseType: 'Role'
       });
       // Unknown type but valid hierarchy concept
       expect(issues.every(i => i.code !== 'HIERARCHY_VIOLATION')).toBe(true);
@@ -388,7 +388,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
       const issues = validator.validateBFOHierarchy({
         term: 'health-status',
         mappedType: 'cco:Quality',
-        baseType: 'bfo:Quality'
+        baseType: 'Quality'
       });
       expect(issues.length).toBe(0);
     });
@@ -396,9 +396,9 @@ describe('Phase 6.4.5: OntologyValidator', () => {
     it('BH-010: Check known medical.json types are all valid', () => {
       // Test common medical domain types
       const types = [
-        { mappedType: 'Person', baseType: 'bfo:Object' },
-        { mappedType: 'Organization', baseType: 'bfo:Object' },
-        { mappedType: 'IntentionalAct', baseType: 'bfo:Process' }
+        { mappedType: 'Person', baseType: 'Object' },
+        { mappedType: 'Organization', baseType: 'Object' },
+        { mappedType: 'IntentionalAct', baseType: 'Process' }
       ];
 
       for (const t of types) {

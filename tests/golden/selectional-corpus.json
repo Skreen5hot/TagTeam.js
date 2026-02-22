@@ -120,7 +120,7 @@
         "verb": "decide",
         "subject": {
           "label": "ventilator",
-          "type": "bfo:MaterialEntity"
+          "type": "MaterialEntity"
         },
         "subjectValid": false,
         "subjectConfidence": 0.9,

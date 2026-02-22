@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T12:26:16.078Z",
+  "generatedAt": "2026-02-22T14:56:02.784Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,12 +32,12 @@
   "extractedEntities": [
     {
       "text": "The judge",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_judge"
     },
     {
       "text": "the defendant",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_defendant"
     }
   ],
@@ -56,7 +56,7 @@
       {
         "@id": "inst:The_judge",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The judge",
@@ -65,9 +65,9 @@
         "tagteam:parseProbability": 0.9479,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Person_Judge_0e4e1ac12ffa"
+          "@id": "inst:Entity_Judge_ff368335f282"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b33178564168"
@@ -76,16 +76,16 @@
       {
         "@id": "inst:the_defendant",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the defendant",
         "tagteam:mentionId": "s0:h5:20-33",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Defendant_2aa3d8d6907b"
+          "@id": "inst:Entity_Defendant_46b139a1e870"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b33178564168"
@@ -106,7 +106,7 @@
       {
         "@id": "inst:Role_The_judge_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -122,7 +122,7 @@
       {
         "@id": "inst:Role_the_defendant_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -136,29 +136,29 @@
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Person_Judge_0e4e1ac12ffa",
+        "@id": "inst:Entity_Judge_ff368335f282",
         "@type": [
-          "Person",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "judge",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.078Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.784Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b33178564168",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Defendant_2aa3d8d6907b",
+        "@id": "inst:Entity_Defendant_46b139a1e870",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "defendant",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.078Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.784Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b33178564168",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_b33178564168",
@@ -170,7 +170,7 @@
         "has_text_value": "The judge sentenced the defendant",
         "tagteam:char_count": 33,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-22T12:26:16.070Z"
+        "tagteam:received_at": "2026-02-22T14:56:02.775Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_sentenced"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.070Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.775Z"
       }
     ]
   }

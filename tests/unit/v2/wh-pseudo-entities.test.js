@@ -58,7 +58,7 @@ describe('P0-WH: Wh-Word Pseudo-Entity Recognition', () => {
 
     expect(entity).toBeDefined();
     expect(entity['tagteam:definiteness']).toBe('interrogative');
-    expect(entity['tagteam:denotesType']).toBe('bfo:Entity');
+    expect(entity['tagteam:denotesType']).toBe('Entity');
   });
 
   test('P0-WH-4: Wh pseudo-entity type mapping (who→Person, what→Entity, which→Entity, where→Site, when→TemporalRegion)', () => {
@@ -73,20 +73,20 @@ describe('P0-WH: Wh-Word Pseudo-Entity Recognition', () => {
 
     // what → bfo:Entity
     const what = buildAndFind('the team decide what', 'what');
-    expect(what['tagteam:denotesType']).toBe('bfo:Entity');
+    expect(what['tagteam:denotesType']).toBe('Entity');
 
     // which → bfo:Entity (interrogative_selective)
     const which = buildAndFind('the auditor review which item', 'which');
-    expect(which['tagteam:denotesType']).toBe('bfo:Entity');
+    expect(which['tagteam:denotesType']).toBe('Entity');
     expect(which['tagteam:definiteness']).toBe('interrogative_selective');
 
     // where → bfo:Site
     const where = buildAndFind('the team meet where', 'where');
-    expect(where['tagteam:denotesType']).toBe('bfo:Site');
+    expect(where['tagteam:denotesType']).toBe('Site');
 
     // when → bfo:TemporalRegion
     const when = buildAndFind('the meeting start when', 'when');
-    expect(when['tagteam:denotesType']).toBe('bfo:TemporalRegion');
+    expect(when['tagteam:denotesType']).toBe('TemporalRegion');
   });
 });
 

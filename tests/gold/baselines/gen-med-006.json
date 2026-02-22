@@ -6,7 +6,7 @@
     "medical",
     "diagnosis"
   ],
-  "generatedAt": "2026-02-22T12:26:17.691Z",
+  "generatedAt": "2026-02-22T14:56:04.455Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -31,12 +31,12 @@
   "extractedEntities": [
     {
       "text": "The radiologist",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_radiologist"
     },
     {
       "text": "the imaging results",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_imaging_results"
     }
   ],
@@ -55,7 +55,7 @@
       {
         "@id": "inst:The_radiologist",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The radiologist",
@@ -64,9 +64,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Radiologist_53a97491c603"
+          "@id": "inst:Entity_Radiologist_f6b5218da82d"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7a1c7a55ec96"
@@ -75,16 +75,16 @@
       {
         "@id": "inst:the_imaging_results",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the imaging results",
         "tagteam:mentionId": "s0:h6:25-44",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Imaging_Results_c10eb407164f"
+          "@id": "inst:Entity_Imaging_Results_7574dba3ec1e"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7a1c7a55ec96"
@@ -105,7 +105,7 @@
       {
         "@id": "inst:Role_The_radiologist_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -121,7 +121,7 @@
       {
         "@id": "inst:Role_the_imaging_results_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -135,29 +135,29 @@
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Entity_Radiologist_53a97491c603",
+        "@id": "inst:Entity_Radiologist_f6b5218da82d",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "radiologist",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.691Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.455Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7a1c7a55ec96",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Imaging_Results_c10eb407164f",
+        "@id": "inst:Entity_Imaging_Results_7574dba3ec1e",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "imaging results",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.691Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.455Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7a1c7a55ec96",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_7a1c7a55ec96",
@@ -169,7 +169,7 @@
         "has_text_value": "The radiologist reviewed the imaging results",
         "tagteam:char_count": 44,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T12:26:17.680Z"
+        "tagteam:received_at": "2026-02-22T14:56:04.447Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -215,7 +215,7 @@
             "@id": "inst:Act_reviewed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.680Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.447Z"
       }
     ]
   }

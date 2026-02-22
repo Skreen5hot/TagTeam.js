@@ -7,7 +7,7 @@
     "cbp",
     "intelligence"
   ],
-  "generatedAt": "2026-02-22T12:26:16.851Z",
+  "generatedAt": "2026-02-22T14:56:03.611Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,12 +32,12 @@
   "extractedEntities": [
     {
       "text": "The targeting center",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_targeting_center"
     },
     {
       "text": "the container",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_container"
     }
   ],
@@ -56,7 +56,7 @@
       {
         "@id": "inst:The_targeting_center",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The targeting center",
@@ -65,9 +65,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Targeting_Center_3e28596ba437"
+          "@id": "inst:Entity_Targeting_Center_7f55116e1d07"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_73134fecb475"
@@ -76,16 +76,16 @@
       {
         "@id": "inst:the_container",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the container",
         "tagteam:mentionId": "s0:h6:29-42",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Container_8d1d160f4969"
+          "@id": "inst:Entity_Container_7b81b9c63456"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_73134fecb475"
@@ -106,7 +106,7 @@
       {
         "@id": "inst:Role_The_targeting_center_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -122,7 +122,7 @@
       {
         "@id": "inst:Role_the_container_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -136,29 +136,29 @@
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Entity_Targeting_Center_3e28596ba437",
+        "@id": "inst:Entity_Targeting_Center_7f55116e1d07",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "targeting center",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.851Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.611Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_73134fecb475",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Container_8d1d160f4969",
+        "@id": "inst:Entity_Container_7b81b9c63456",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "container",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.851Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.611Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_73134fecb475",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_73134fecb475",
@@ -170,7 +170,7 @@
         "has_text_value": "The targeting center flagged the container",
         "tagteam:char_count": 42,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T12:26:16.844Z"
+        "tagteam:received_at": "2026-02-22T14:56:03.604Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_flagged"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.844Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.604Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "coordination",
     "government"
   ],
-  "generatedAt": "2026-02-22T12:26:16.607Z",
+  "generatedAt": "2026-02-22T14:56:03.384Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -24,7 +24,7 @@
     },
     {
       "text": "the joint operation",
-      "type": "bfo:Process"
+      "type": "Process"
     }
   ],
   "expectedRoles": [
@@ -53,12 +53,12 @@
     },
     {
       "text": "ATF",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:ATF"
     },
     {
       "text": "the joint operation",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_joint_operation"
     }
   ],
@@ -86,7 +86,7 @@
       {
         "@id": "inst:ATF",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "ATF",
@@ -96,9 +96,9 @@
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.95,
         "tagteam:genericityBasis": "named_entity",
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Atf_b882685ceb93"
+          "@id": "inst:Entity_Atf_35e4e710fb93"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7ef1c425b7be"
@@ -107,16 +107,16 @@
       {
         "@id": "inst:the_joint_operation",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the joint operation",
         "tagteam:mentionId": "s0:h11:36-55",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Joint_Operation_cd331c76546e"
+          "@id": "inst:Entity_Joint_Operation_3ddfae1396c5"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7ef1c425b7be"
@@ -142,34 +142,34 @@
         ],
         "rdfs:label": "fbi dea and atf coordinated the joint operation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.606Z",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.384Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7ef1c425b7be",
         "tagteam:denotesType": "Organization"
       },
       {
-        "@id": "inst:Entity_Atf_b882685ceb93",
+        "@id": "inst:Entity_Atf_35e4e710fb93",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "atf",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.607Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.384Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7ef1c425b7be",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Joint_Operation_cd331c76546e",
+        "@id": "inst:Entity_Joint_Operation_3ddfae1396c5",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "joint operation",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.607Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.384Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7ef1c425b7be",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_7ef1c425b7be",
@@ -181,7 +181,7 @@
         "has_text_value": "The FBI, DEA, and ATF coordinated the joint operation",
         "tagteam:char_count": 53,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-22T12:26:16.595Z"
+        "tagteam:received_at": "2026-02-22T14:56:03.371Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -230,7 +230,7 @@
             "@id": "inst:Act_FBI"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.595Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.371Z"
       }
     ]
   }

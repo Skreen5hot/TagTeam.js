@@ -21,7 +21,7 @@
         "determiner": "the",
         "modifiers": ["last"],
         "scarcityMarker": "last",
-        "entityType": "bfo:MaterialEntity"
+        "entityType": "MaterialEntity"
       },
       "tags": ["definite", "scarcity", "medical", "phase-8"],
       "priority": "P0",

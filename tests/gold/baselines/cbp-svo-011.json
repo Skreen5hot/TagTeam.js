@@ -7,7 +7,7 @@
     "cbp",
     "surveillance"
   ],
-  "generatedAt": "2026-02-22T12:26:16.805Z",
+  "generatedAt": "2026-02-22T14:56:03.568Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,12 +32,12 @@
   "extractedEntities": [
     {
       "text": "The air and marine operations center",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_air_and_marine_operations_center"
     },
     {
       "text": "the aircraft",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_aircraft"
     }
   ],
@@ -56,7 +56,7 @@
       {
         "@id": "inst:The_air_and_marine_operations_center",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The air and marine operations center",
@@ -69,9 +69,9 @@
           "tagteam:category": "GEN",
           "tagteam:confidence": 0.25
         },
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Air_And_Marine_Operations_Center_cf60a029506a"
+          "@id": "inst:Entity_Air_And_Marine_Operations_Center_e55f222e7ed6"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_9cb5e554a2fa"
@@ -80,16 +80,16 @@
       {
         "@id": "inst:the_aircraft",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the aircraft",
         "tagteam:mentionId": "s0:h9:45-57",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Aircraft_841ef221740a"
+          "@id": "inst:Entity_Aircraft_75cdfa657df9"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_9cb5e554a2fa"
@@ -110,7 +110,7 @@
       {
         "@id": "inst:Role_The_air_and_marine_operations_center_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -126,7 +126,7 @@
       {
         "@id": "inst:Role_the_aircraft_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -140,29 +140,29 @@
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Entity_Air_And_Marine_Operations_Center_cf60a029506a",
+        "@id": "inst:Entity_Air_And_Marine_Operations_Center_e55f222e7ed6",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "air and marine operations center",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.804Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.567Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9cb5e554a2fa",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Aircraft_841ef221740a",
+        "@id": "inst:Entity_Aircraft_75cdfa657df9",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "aircraft",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.804Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.568Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9cb5e554a2fa",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_9cb5e554a2fa",
@@ -174,7 +174,7 @@
         "has_text_value": "The air and marine operations center tracked the aircraft",
         "tagteam:char_count": 57,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-22T12:26:16.793Z"
+        "tagteam:received_at": "2026-02-22T14:56:03.557Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -220,7 +220,7 @@
             "@id": "inst:Act_tracked"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.793Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.557Z"
       }
     ]
   }

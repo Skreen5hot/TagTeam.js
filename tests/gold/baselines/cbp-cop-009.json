@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T12:26:17.027Z",
+  "generatedAt": "2026-02-22T14:56:03.785Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -22,7 +22,7 @@
   "extractedEntities": [
     {
       "text": "The checkpoint",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_checkpoint"
     }
   ],
@@ -32,7 +32,7 @@
       {
         "@id": "inst:The_checkpoint",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The checkpoint",
@@ -46,9 +46,9 @@
           "tagteam:category": "GEN",
           "tagteam:confidence": 0.4
         },
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Checkpoint_c476d2ccb750"
+          "@id": "inst:Entity_Checkpoint_b2f2ff4a2431"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0388adf8a5e3"
@@ -64,17 +64,17 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Entity_Checkpoint_c476d2ccb750",
+        "@id": "inst:Entity_Checkpoint_b2f2ff4a2431",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "checkpoint",
         "tagteam:genericityCategory": "AMB",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.026Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.785Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0388adf8a5e3",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_0388adf8a5e3",
@@ -86,7 +86,7 @@
         "has_text_value": "The checkpoint is a fixed inspection station",
         "tagteam:char_count": 44,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T12:26:17.016Z"
+        "tagteam:received_at": "2026-02-22T14:56:03.777Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -126,7 +126,7 @@
             "@id": "inst:The_checkpoint"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.016Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.777Z"
       }
     ]
   }

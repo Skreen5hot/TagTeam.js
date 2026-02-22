@@ -104,6 +104,23 @@ class JSONLDSerializer {
       Organization: 'cco:ont00001180',
       Person: 'cco:ont00001262',
 
+      // ===== BFO Verified Classes (opaque IRIs from BFO 2020) =====
+      Entity: 'bfo:BFO_0000001',
+      Continuant: 'bfo:BFO_0000002',
+      IndependentContinuant: 'bfo:BFO_0000004',
+      TemporalRegion: 'bfo:BFO_0000008',
+      Process: 'bfo:BFO_0000015',
+      Disposition: 'bfo:BFO_0000016',
+      Quality: 'bfo:BFO_0000019',
+      Role: 'bfo:BFO_0000023',
+      ObjectAggregate: 'bfo:BFO_0000027',
+      Site: 'bfo:BFO_0000029',
+      Object: 'bfo:BFO_0000030',
+      GenericallyDependentContinuant: 'bfo:BFO_0000031',
+      OneDimensionalTemporalRegion: 'bfo:BFO_0000038',
+      MaterialEntity: 'bfo:BFO_0000040',
+      RelationalQuality: 'bfo:BFO_0000145',
+
       // ===== GIT-Minimal Classes =====
       AutomatedDetection: 'tagteam:AutomatedDetection',
       HumanValidation: 'tagteam:HumanValidation',
@@ -124,9 +141,9 @@ class JSONLDSerializer {
       Empowered: 'tagteam:Empowered',    // Authority/Power status
       Protected: 'tagteam:Protected',    // Immunity/Protection status
 
-      // ===== Cross-Tier Relations =====
-      is_about: { '@id': 'cco:is_about', '@type': '@id' },
-      prescribes: { '@id': 'cco:prescribes', '@type': '@id' },
+      // ===== Cross-Tier Relations (CCO verified — opaque IRIs) =====
+      is_about: { '@id': 'cco:ont00001808', '@type': '@id' },
+      prescribes: { '@id': 'cco:ont00001942', '@type': '@id' },
       prescribed_by: { '@id': 'tagteam:prescribed_by', '@type': '@id' },
 
       // ===== ICE Concretization (BFO 2020) =====
@@ -150,24 +167,40 @@ class JSONLDSerializer {
       // v2.3: Role realization (for Prescribed acts where role is not yet realized)
       would_be_realized_in: { '@id': 'tagteam:would_be_realized_in', '@type': '@id' },
 
-      // ===== Tier 2 Relations (CCO) =====
-      has_agent: { '@id': 'cco:has_agent', '@type': '@id' },
-      has_recipient: { '@id': 'cco:has_recipient', '@type': '@id' },
+      // ===== Tier 2 Relations (CCO verified — opaque IRIs) =====
+      has_agent: { '@id': 'cco:ont00001833', '@type': '@id' },
+      has_recipient: { '@id': 'cco:ont00001922', '@type': '@id' },
       has_input: { '@id': 'tagteam:has_input', '@type': '@id' },
       has_output: { '@id': 'tagteam:has_output', '@type': '@id' },
-      affects: { '@id': 'cco:affects', '@type': '@id' },
-      occupies_temporal_region: { '@id': 'cco:occupies_temporal_region', '@type': '@id' },
-      participates_in: { '@id': 'cco:participates_in', '@type': '@id' },
-      is_part_of: { '@id': 'cco:is_part_of', '@type': '@id' },
-      occurs_during: { '@id': 'cco:occurs_during', '@type': '@id' },
-      designates: { '@id': 'cco:designates', '@type': '@id' },
-      is_designated_by: { '@id': 'cco:is_designated_by', '@type': '@id' },
-      is_measured_by: { '@id': 'cco:is_measured_by', '@type': '@id' },
-      measures: { '@id': 'cco:measures', '@type': '@id' },
-      has_measurement_value: { '@id': 'cco:has_measurement_value', '@type': '@id' },
-      uses_measurement_unit: { '@id': 'cco:uses_measurement_unit', '@type': '@id' },
-      has_start_time: { '@id': 'cco:has_start_time', '@type': '@id' },
-      has_end_time: { '@id': 'cco:has_end_time', '@type': '@id' },
+      affects: { '@id': 'cco:ont00001834', '@type': '@id' },
+      designates: { '@id': 'cco:ont00001916', '@type': '@id' },
+      is_designated_by: { '@id': 'cco:ont00001879', '@type': '@id' },
+      is_measured_by: { '@id': 'cco:ont00001904', '@type': '@id' },
+      measures: { '@id': 'cco:ont00001966', '@type': '@id' },
+      uses_measurement_unit: { '@id': 'cco:ont00001863', '@type': '@id' },
+
+      // ===== Tier 2 Relations (BFO re-exports — opaque IRIs) =====
+      occupies_temporal_region: { '@id': 'bfo:BFO_0000199', '@type': '@id' },
+      participates_in: { '@id': 'bfo:BFO_0000056', '@type': '@id' },
+      is_part_of: { '@id': 'bfo:BFO_0000176', '@type': '@id' },
+
+      // ===== Structural Assertion Relations (BFO verified) =====
+      located_in: { '@id': 'bfo:BFO_0000171', '@type': '@id' },
+      has_continuant_part: { '@id': 'bfo:BFO_0000178', '@type': '@id' },
+      continuant_part_of: { '@id': 'bfo:BFO_0000176', '@type': '@id' },
+      member_part_of: { '@id': 'bfo:BFO_0000129', '@type': '@id' },
+
+      // ===== Structural Assertion Relations (TagTeam-defined — not in CCO/BFO) =====
+      has_possession: { '@id': 'tagteam:has_possession', '@type': '@id' },
+      has_function: { '@id': 'tagteam:has_function', '@type': '@id' },
+      has_spatial_extent: { '@id': 'tagteam:has_spatial_extent', '@type': '@id' },
+      bears_role_for: { '@id': 'tagteam:bears_role_for', '@type': '@id' },
+
+      // ===== Aspirational Properties (not yet in use — tagteam namespace) =====
+      occurs_during: { '@id': 'tagteam:occurs_during', '@type': '@id' },
+      has_measurement_value: { '@id': 'tagteam:has_measurement_value', '@type': '@id' },
+      has_start_time: { '@id': 'tagteam:has_start_time', '@type': '@id' },
+      has_end_time: { '@id': 'tagteam:has_end_time', '@type': '@id' },
 
       // ===== GIT-Minimal Properties =====
       assertionType: { '@id': 'tagteam:assertionType', '@type': '@id' },
@@ -234,7 +267,7 @@ class JSONLDSerializer {
       hasModalMarker: 'tagteam:hasModalMarker',
 
       // ===== IBE Properties =====
-      has_text_value: 'cco:has_text_value',
+      has_text_value: 'cco:ont00001765',
       char_count: { '@id': 'tagteam:char_count', '@type': 'xsd:integer' },
       word_count: { '@id': 'tagteam:word_count', '@type': 'xsd:integer' },
       received_at: { '@id': 'tagteam:received_at', '@type': 'xsd:dateTime' },

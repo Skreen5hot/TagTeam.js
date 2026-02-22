@@ -5,7 +5,7 @@
   "tags": [
     "legal"
   ],
-  "generatedAt": "2026-02-22T12:26:17.785Z",
+  "generatedAt": "2026-02-22T14:56:04.510Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -18,7 +18,7 @@
     },
     {
       "text": "damages",
-      "type": "bfo:Entity"
+      "type": "Entity"
     }
   ],
   "expectedRoles": [
@@ -34,17 +34,17 @@
   "extractedEntities": [
     {
       "text": "The plaintiff",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_plaintiff"
     },
     {
       "text": "the defendant",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_defendant"
     },
     {
       "text": "damages",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:damages"
     }
   ],
@@ -67,7 +67,7 @@
       {
         "@id": "inst:The_plaintiff",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The plaintiff",
@@ -76,9 +76,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Plaintiff_9ae7cc8ca149"
+          "@id": "inst:Entity_Plaintiff_9d9efe332c96"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_bac952cf5615"
@@ -87,16 +87,16 @@
       {
         "@id": "inst:the_defendant",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the defendant",
         "tagteam:mentionId": "s0:h5:19-32",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Defendant_765837247b44"
+          "@id": "inst:Entity_Defendant_cf9d79c8bc7d"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_bac952cf5615"
@@ -105,16 +105,16 @@
       {
         "@id": "inst:damages",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "damages",
         "tagteam:mentionId": "s0:h7:37-44",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Damage_bb2bfd32618e"
+          "@id": "inst:Entity_Damage_241ad40d8743"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_bac952cf5615"
@@ -135,7 +135,7 @@
       {
         "@id": "inst:Role_The_plaintiff_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -151,7 +151,7 @@
       {
         "@id": "inst:Role_the_defendant_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -167,7 +167,7 @@
       {
         "@id": "inst:Role_damages_BeneficiaryRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "BeneficiaryRole",
         "tagteam:roleType": "BeneficiaryRole",
@@ -182,41 +182,41 @@
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Entity_Plaintiff_9ae7cc8ca149",
+        "@id": "inst:Entity_Plaintiff_9d9efe332c96",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "plaintiff",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.784Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.509Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bac952cf5615",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Defendant_765837247b44",
+        "@id": "inst:Entity_Defendant_cf9d79c8bc7d",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "defendant",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.784Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.509Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bac952cf5615",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Damage_bb2bfd32618e",
+        "@id": "inst:Entity_Damage_241ad40d8743",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "damage",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.784Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.509Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bac952cf5615",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_bac952cf5615",
@@ -228,7 +228,7 @@
         "has_text_value": "The plaintiff sued the defendant for damages",
         "tagteam:char_count": 44,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T12:26:17.774Z"
+        "tagteam:received_at": "2026-02-22T14:56:04.502Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -277,7 +277,7 @@
             "@id": "inst:Act_sued"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.774Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.502Z"
       }
     ]
   }

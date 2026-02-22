@@ -20,32 +20,32 @@ const crypto = require('crypto');
  */
 const QUALITY_TYPE_MAPPINGS = {
   'critically ill': {
-    type: 'bfo:Quality',
+    type: 'Quality',
     label: 'Critical Illness Quality',
     severity: 'critical'
   },
   'terminally ill': {
-    type: 'bfo:Quality',
+    type: 'Quality',
     label: 'Terminal Illness Quality',
     severity: 'terminal'
   },
   'severely injured': {
-    type: 'bfo:Quality',
+    type: 'Quality',
     label: 'Severe Injury Quality',
     severity: 'severe'
   },
   'elderly': {
-    type: 'bfo:Quality',
+    type: 'Quality',
     label: 'Elderly Age Quality',
     ageCategory: 'elderly'
   },
   'young': {
-    type: 'bfo:Quality',
+    type: 'Quality',
     label: 'Young Age Quality',
     ageCategory: 'young'
   },
   'pediatric': {
-    type: 'bfo:Quality',
+    type: 'Quality',
     label: 'Pediatric Age Quality',
     ageCategory: 'pediatric'
   }
@@ -123,7 +123,7 @@ class QualityFactory {
 
     const quality = {
       '@id': iri,
-      '@type': [mapping.type, 'bfo:BFO_0000019', 'owl:NamedIndividual'],
+      '@type': [mapping.type, 'Quality', 'owl:NamedIndividual'],
       'rdfs:label': `${mapping.label} of ${bearer['rdfs:label']}`,
       // Use object notation with @id for JSON-LD compliance
       'inheres_in': { '@id': bearer['@id'] },
@@ -155,7 +155,7 @@ class QualityFactory {
 
     return {
       '@id': iri,
-      '@type': ['bfo:BFO_0000019', 'owl:NamedIndividual'],
+      '@type': ['Quality', 'owl:NamedIndividual'],
       'rdfs:label': `${qualifier} quality of ${bearer['rdfs:label']}`,
       // Use object notation with @id for JSON-LD compliance
       'inheres_in': { '@id': bearer['@id'] },

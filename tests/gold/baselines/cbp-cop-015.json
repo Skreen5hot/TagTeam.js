@@ -6,28 +6,28 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T12:26:17.105Z",
+  "generatedAt": "2026-02-22T14:56:03.862Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "SENTRI",
-      "type": "bfo:Process"
+      "type": "Process"
     },
     {
       "text": "a border crossing program",
-      "type": "bfo:Process"
+      "type": "Process"
     }
   ],
   "expectedRoles": [],
   "extractedEntities": [
     {
       "text": "SENTRI",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:SENTRI"
     },
     {
       "text": "low risk travelers",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:low_risk_travelers"
     }
   ],
@@ -37,7 +37,7 @@
       {
         "@id": "inst:SENTRI",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "SENTRI",
@@ -47,9 +47,9 @@
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.95,
         "tagteam:genericityBasis": "named_entity",
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Sentri_cb4555f0b2b4"
+          "@id": "inst:Entity_Sentri_b57340aacf61"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d3178ba20d7b"
@@ -58,16 +58,16 @@
       {
         "@id": "inst:low_risk_travelers",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "low risk travelers",
         "tagteam:mentionId": "s0:h11:40-60",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Low_Risk_Traveler_8191f6a57503"
+          "@id": "inst:Entity_Low_Risk_Traveler_0f96fca6d06a"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d3178ba20d7b"
@@ -84,29 +84,29 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Entity_Sentri_cb4555f0b2b4",
+        "@id": "inst:Entity_Sentri_b57340aacf61",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "sentri",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.105Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.862Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d3178ba20d7b",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Low_Risk_Traveler_8191f6a57503",
+        "@id": "inst:Entity_Low_Risk_Traveler_0f96fca6d06a",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "low risk traveler",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.105Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.862Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d3178ba20d7b",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_d3178ba20d7b",
@@ -118,7 +118,7 @@
         "has_text_value": "SENTRI is a border crossing program for low-risk travelers",
         "tagteam:char_count": 58,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-22T12:26:17.095Z"
+        "tagteam:received_at": "2026-02-22T14:56:03.848Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -161,7 +161,7 @@
             "@id": "inst:low_risk_travelers"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.095Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.848Z"
       }
     ]
   }

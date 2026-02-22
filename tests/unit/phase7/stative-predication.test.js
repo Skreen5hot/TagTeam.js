@@ -57,7 +57,7 @@ test('AC-A1: "The group includes five members" produces StructuralAssertion', ()
   const assertions = findNodesByType(graph, 'StructuralAssertion');
 
   assert.ok(assertions.length > 0, 'Should create at least one StructuralAssertion');
-  assert.strictEqual(assertions[0]['tagteam:assertsRelation'], 'cco:has_member');
+  assert.strictEqual(assertions[0]['tagteam:assertsRelation'], 'has_member_part');
   assert.ok(assertions[0]['tagteam:hasSubject'], 'Should have subject');
   assert.ok(assertions[0]['tagteam:hasObject'], 'Should have object(s)');
 
@@ -82,28 +82,28 @@ test('AC-A2: "contain" maps to cco:has_part', () => {
   const graph = buildGraph('The box contains three items');
   const assertions = findNodesByType(graph, 'StructuralAssertion');
   assert.ok(assertions.length > 0, 'Should create StructuralAssertion');
-  assert.strictEqual(assertions[0]['tagteam:assertsRelation'], 'cco:has_part');
+  assert.strictEqual(assertions[0]['tagteam:assertsRelation'], 'has_continuant_part');
 });
 
 test('AC-A2: "comprise" maps to cco:has_member', () => {
   const graph = buildGraph('The committee comprises four members');
   const assertions = findNodesByType(graph, 'StructuralAssertion');
   assert.ok(assertions.length > 0, 'Should create StructuralAssertion');
-  assert.strictEqual(assertions[0]['tagteam:assertsRelation'], 'cco:has_member');
+  assert.strictEqual(assertions[0]['tagteam:assertsRelation'], 'has_member_part');
 });
 
 test('AC-A2: "have" (possessive) maps to cco:has_possession', () => {
   const graph = buildGraph('The hospital has two ventilators');
   const assertions = findNodesByType(graph, 'StructuralAssertion');
   assert.ok(assertions.length > 0, 'Should create StructuralAssertion');
-  assert.strictEqual(assertions[0]['tagteam:assertsRelation'], 'cco:has_possession');
+  assert.strictEqual(assertions[0]['tagteam:assertsRelation'], 'has_possession');
 });
 
 test('AC-A2: "own" maps to cco:has_possession', () => {
   const graph = buildGraph('She owns the building');
   const assertions = findNodesByType(graph, 'StructuralAssertion');
   assert.ok(assertions.length > 0, 'Should create StructuralAssertion');
-  assert.strictEqual(assertions[0]['tagteam:assertsRelation'], 'cco:has_possession');
+  assert.strictEqual(assertions[0]['tagteam:assertsRelation'], 'has_possession');
 });
 
 // NOTE: "encompass" test skipped — Compromise NLP does not recognize "encompasses" as a verb

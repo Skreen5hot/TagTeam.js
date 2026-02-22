@@ -72,16 +72,16 @@ const IRREGULAR_LEMMAS = {
  * Maps predicate patterns to ontological relations.
  */
 const RELATION_INFERENCE_TABLE = [
-  { pattern: 'component of', relation: 'cco:has_part' },
-  { pattern: 'member of', relation: 'cco:member_of' },
+  { pattern: 'component of', relation: 'has_continuant_part' },
+  { pattern: 'member of', relation: 'member_part_of' },
   { pattern: 'type of', relation: 'rdfs:subClassOf' },
   { pattern: 'kind of', relation: 'rdfs:subClassOf' },
-  { pattern: 'part of', relation: 'bfo:part_of' },
+  { pattern: 'part of', relation: 'continuant_part_of' },
   { pattern: 'example of', relation: 'rdf:type' },
   { pattern: 'instance of', relation: 'rdf:type' },
-  { pattern: 'located in', relation: 'bfo:located_in' },
-  { pattern: 'based in', relation: 'bfo:located_in' },
-  { pattern: 'responsible for', relation: 'cco:has_function' },
+  { pattern: 'located in', relation: 'located_in' },
+  { pattern: 'based in', relation: 'located_in' },
+  { pattern: 'responsible for', relation: 'has_function' },
 ];
 
 // ============================================================================
@@ -229,7 +229,7 @@ class TreeActExtractor {
           object: predicateWord,
           copula: copulaWord,
           negated: isNegated,
-          relation: 'bfo:located_in',
+          relation: 'located_in',
           predicateId,
           subjectId: subjectChild.dependent,
         };
@@ -393,7 +393,7 @@ class TreeActExtractor {
               object: objectSubtree.tokens.join(' '),
               copula: depTree.tokens[verbId - 1],
               negated: act.isNegated,
-              relation: 'bfo:located_in',
+              relation: 'located_in',
               subjectId: subjectChild.dependent,
               objectId: oblChild.dependent,
             };

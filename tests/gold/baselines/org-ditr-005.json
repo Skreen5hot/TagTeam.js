@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T12:26:16.445Z",
+  "generatedAt": "2026-02-22T14:56:03.199Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -40,12 +40,12 @@
   "extractedEntities": [
     {
       "text": "The administrator",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_administrator"
     },
     {
       "text": "the officer",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_officer"
     }
   ],
@@ -64,7 +64,7 @@
       {
         "@id": "inst:The_administrator",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The administrator",
@@ -73,9 +73,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Person_Administrator_b38375b57d9f"
+          "@id": "inst:Entity_Administrator_65cb27896b3d"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7ee7f9f503de"
@@ -84,16 +84,16 @@
       {
         "@id": "inst:the_officer",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the officer",
         "tagteam:mentionId": "s0:h5:25-36",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Person_Officer_204feb66fe49"
+          "@id": "inst:Entity_Officer_48ef5f92e80e"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7ee7f9f503de"
@@ -114,7 +114,7 @@
       {
         "@id": "inst:Role_The_administrator_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -130,7 +130,7 @@
       {
         "@id": "inst:Role_the_officer_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -144,29 +144,29 @@
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Person_Administrator_b38375b57d9f",
+        "@id": "inst:Entity_Administrator_65cb27896b3d",
         "@type": [
-          "Person",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "administrator",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.444Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.198Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7ee7f9f503de",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Person_Officer_204feb66fe49",
+        "@id": "inst:Entity_Officer_48ef5f92e80e",
         "@type": [
-          "Person",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "officer",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.445Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.198Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7ee7f9f503de",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_7ee7f9f503de",
@@ -178,7 +178,7 @@
         "has_text_value": "The administrator handed the officer a new badge",
         "tagteam:char_count": 48,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T12:26:16.435Z"
+        "tagteam:received_at": "2026-02-22T14:56:03.185Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -224,7 +224,7 @@
             "@id": "inst:Act_handed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.435Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.185Z"
       }
     ]
   }

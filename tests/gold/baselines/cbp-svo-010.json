@@ -7,7 +7,7 @@
     "cbp",
     "leadership"
   ],
-  "generatedAt": "2026-02-22T12:26:16.788Z",
+  "generatedAt": "2026-02-22T14:56:03.554Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,12 +32,12 @@
   "extractedEntities": [
     {
       "text": "The commissioner",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_commissioner"
     },
     {
       "text": "a directive",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:a_directive"
     }
   ],
@@ -52,16 +52,16 @@
       {
         "@id": "inst:The_commissioner",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The commissioner",
         "tagteam:mentionId": "s0:h2:0-16",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Commissioner_7686fa2b3fbd"
+          "@id": "inst:Entity_Commissioner_15ebb5ef9d1f"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_591c3ce46791"
@@ -70,16 +70,16 @@
       {
         "@id": "inst:a_directive",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "a directive",
         "tagteam:mentionId": "s0:h5:24-35",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Directive_a429cca8b940"
+          "@id": "inst:Entity_Directive_02e5c793520c"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_591c3ce46791"
@@ -112,7 +112,7 @@
       {
         "@id": "inst:Role_a_directive_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -126,28 +126,28 @@
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Entity_Commissioner_7686fa2b3fbd",
+        "@id": "inst:Entity_Commissioner_15ebb5ef9d1f",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "commissioner",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.788Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.554Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_591c3ce46791",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Directive_a429cca8b940",
+        "@id": "inst:Entity_Directive_02e5c793520c",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "directive",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.788Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.554Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_591c3ce46791",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_591c3ce46791",
@@ -159,7 +159,7 @@
         "has_text_value": "The commissioner issued a directive",
         "tagteam:char_count": 35,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-22T12:26:16.781Z"
+        "tagteam:received_at": "2026-02-22T14:56:03.547Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -208,7 +208,7 @@
             "@id": "inst:Act_issued"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.781Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.547Z"
       }
     ]
   }

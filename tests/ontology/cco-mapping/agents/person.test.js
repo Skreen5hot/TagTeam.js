@@ -127,7 +127,7 @@ describe('CCO Person Mapping', function() {
 
       // Look for aggregate or group
       const aggregate = semantic.findNode(graph, n =>
-        n['@type']?.includes('bfo:BFO_0000027') ||
+        n['@type']?.includes('ObjectAggregate') ||
         n['rdfs:label']?.toLowerCase().includes('aggregate')
       );
 
@@ -188,8 +188,8 @@ describe('CCO Person Mapping', function() {
 
       // Look for Quality node
       const quality = semantic.findNode(graph, n =>
-        n['@type']?.includes('bfo:BFO_0000019') ||
-        n['@type']?.includes('bfo:Quality')
+        n['@type']?.includes('Quality') ||
+        n['@type']?.includes('Quality')
       );
 
       if (quality) {
@@ -202,7 +202,7 @@ describe('CCO Person Mapping', function() {
       const graph = parseToGraph('The nurse helps the elderly patient.');
 
       const quality = semantic.findNode(graph, n =>
-        n['@type']?.includes('bfo:BFO_0000019')
+        n['@type']?.includes('Quality')
       );
 
       if (quality) {

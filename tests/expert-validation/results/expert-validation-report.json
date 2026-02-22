@@ -46,7 +46,7 @@
             "tagteam:endPosition": 13,
             "tagteam:definiteness": "definite",
             "tagteam:referentialStatus": "hypothetical",
-            "tagteam:denotesType": "bfo:BFO_0000040",
+            "tagteam:denotesType": "MaterialEntity",
             "cco:is_about": {
               "@id": "inst:Artifact_Server_e8e00d5673b6"
             },
@@ -66,7 +66,7 @@
             "tagteam:endPosition": 30,
             "tagteam:definiteness": "definite",
             "tagteam:referentialStatus": "hypothetical",
-            "tagteam:denotesType": "bfo:BFO_0000040",
+            "tagteam:denotesType": "MaterialEntity",
             "cco:is_about": {
               "@id": "inst:Artifact_Admin_0ad23e88ee81"
             },
@@ -86,7 +86,7 @@
             "tagteam:endPosition": 48,
             "tagteam:definiteness": "indefinite",
             "tagteam:referentialStatus": "hypothetical",
-            "tagteam:denotesType": "bfo:BFO_0000040",
+            "tagteam:denotesType": "MaterialEntity",
             "cco:is_about": {
               "@id": "inst:Artifact_Alert_ae357417423d"
             },
@@ -102,7 +102,7 @@
             ],
             "rdfs:label": "server",
             "tagteam:instantiated_at": "2026-02-10T12:18:59.027Z",
-            "tagteam:denotesType": "bfo:BFO_0000040",
+            "tagteam:denotesType": "MaterialEntity",
             "bfo:is_bearer_of": [
               {
                 "@id": "inst:Participant_Role_00c7bb0e"
@@ -117,7 +117,7 @@
             ],
             "rdfs:label": "admin",
             "tagteam:instantiated_at": "2026-02-10T12:18:59.027Z",
-            "tagteam:denotesType": "bfo:BFO_0000040",
+            "tagteam:denotesType": "MaterialEntity",
             "bfo:is_bearer_of": [
               {
                 "@id": "inst:Patient_Role_e3ee7645"
@@ -132,7 +132,7 @@
             ],
             "rdfs:label": "alert",
             "tagteam:instantiated_at": "2026-02-10T12:18:59.027Z",
-            "tagteam:denotesType": "bfo:BFO_0000040",
+            "tagteam:denotesType": "MaterialEntity",
             "bfo:is_bearer_of": [
               {
                 "@id": "inst:Participant_Role_7f59f4fa"
@@ -199,7 +199,7 @@
             "@id": "inst:Patient_Role_e3ee7645",
             "@type": [
               "cco:PatientRole",
-              "bfo:BFO_0000023",
+              "Role",
               "owl:NamedIndividual"
             ],
             "rdfs:label": "patient role of admin",
@@ -214,7 +214,7 @@
           {
             "@id": "inst:Participant_Role_7f59f4fa",
             "@type": [
-              "bfo:BFO_0000023",
+              "Role",
               "owl:NamedIndividual"
             ],
             "rdfs:label": "participant role of alert",
@@ -229,7 +229,7 @@
           {
             "@id": "inst:Participant_Role_00c7bb0e",
             "@type": [
-              "bfo:BFO_0000023",
+              "Role",
               "owl:NamedIndividual"
             ],
             "rdfs:label": "participant role of server",
@@ -245,7 +245,7 @@
             "@id": "inst:Patient_Role_2a2f92d0",
             "@type": [
               "cco:PatientRole",
-              "bfo:BFO_0000023",
+              "Role",
               "owl:NamedIndividual"
             ],
             "rdfs:label": "patient role of alert",
@@ -351,7 +351,7 @@
                 "tagteam:endPosition": 13,
                 "tagteam:definiteness": "definite",
                 "tagteam:referentialStatus": "hypothetical",
-                "tagteam:denotesType": "bfo:BFO_0000040",
+                "tagteam:denotesType": "MaterialEntity",
                 "cco:is_about": {
                   "@id": "inst:Artifact_Server_e8e00d5673b6"
                 },
@@ -371,7 +371,7 @@
                 "tagteam:endPosition": 30,
                 "tagteam:definiteness": "definite",
                 "tagteam:referentialStatus": "hypothetical",
-                "tagteam:denotesType": "bfo:BFO_0000040",
+                "tagteam:denotesType": "MaterialEntity",
                 "cco:is_about": {
                   "@id": "inst:Artifact_Admin_0ad23e88ee81"
                 },
@@ -391,7 +391,7 @@
                 "tagteam:endPosition": 48,
                 "tagteam:definiteness": "indefinite",
                 "tagteam:referentialStatus": "hypothetical",
-                "tagteam:denotesType": "bfo:BFO_0000040",
+                "tagteam:denotesType": "MaterialEntity",
                 "cco:is_about": {
                   "@id": "inst:Artifact_Alert_ae357417423d"
                 },
@@ -407,7 +407,7 @@
                 ],
                 "rdfs:label": "server",
                 "tagteam:instantiated_at": "2026-02-10T12:18:59.027Z",
-                "tagteam:denotesType": "bfo:BFO_0000040",
+                "tagteam:denotesType": "MaterialEntity",
                 "bfo:is_bearer_of": [
                   {
                     "@id": "inst:Participant_Role_00c7bb0e"
@@ -422,7 +422,7 @@
                 ],
                 "rdfs:label": "admin",
                 "tagteam:instantiated_at": "2026-02-10T12:18:59.027Z",
-                "tagteam:denotesType": "bfo:BFO_0000040",
+                "tagteam:denotesType": "MaterialEntity",
                 "bfo:is_bearer_of": [
                   {
                     "@id": "inst:Patient_Role_e3ee7645"
@@ -437,7 +437,7 @@
                 ],
                 "rdfs:label": "alert",
                 "tagteam:instantiated_at": "2026-02-10T12:18:59.027Z",
-                "tagteam:denotesType": "bfo:BFO_0000040",
+                "tagteam:denotesType": "MaterialEntity",
                 "bfo:is_bearer_of": [
                   {
                     "@id": "inst:Participant_Role_7f59f4fa"
@@ -504,7 +504,7 @@
                 "@id": "inst:Patient_Role_e3ee7645",
                 "@type": [
                   "cco:PatientRole",
-                  "bfo:BFO_0000023",
+                  "Role",
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "patient role of admin",
@@ -519,7 +519,7 @@
               {
                 "@id": "inst:Participant_Role_7f59f4fa",
                 "@type": [
-                  "bfo:BFO_0000023",
+                  "Role",
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "participant role of alert",
@@ -534,7 +534,7 @@
               {
                 "@id": "inst:Participant_Role_00c7bb0e",
                 "@type": [
-                  "bfo:BFO_0000023",
+                  "Role",
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "participant role of server",
@@ -550,7 +550,7 @@
                 "@id": "inst:Patient_Role_2a2f92d0",
                 "@type": [
                   "cco:PatientRole",
-                  "bfo:BFO_0000023",
+                  "Role",
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "patient role of alert",
@@ -701,7 +701,7 @@
             "tagteam:endPosition": 36,
             "tagteam:definiteness": "definite",
             "tagteam:referentialStatus": "presupposed",
-            "tagteam:denotesType": "bfo:BFO_0000040",
+            "tagteam:denotesType": "MaterialEntity",
             "cco:is_about": {
               "@id": "inst:Artifact_System_687dfc046cd6"
             },
@@ -747,7 +747,7 @@
             ],
             "rdfs:label": "system",
             "tagteam:instantiated_at": "2026-02-10T12:18:59.076Z",
-            "tagteam:denotesType": "bfo:BFO_0000040",
+            "tagteam:denotesType": "MaterialEntity",
             "bfo:is_bearer_of": [
               {
                 "@id": "inst:Patient_Role_6207de68"
@@ -819,7 +819,7 @@
             "@id": "inst:Agent_Role_9e8aa3aa",
             "@type": [
               "cco:AgentRole",
-              "bfo:BFO_0000023",
+              "Role",
               "owl:NamedIndividual"
             ],
             "rdfs:label": "agent role of who",
@@ -835,7 +835,7 @@
             "@id": "inst:Patient_Role_6207de68",
             "@type": [
               "cco:PatientRole",
-              "bfo:BFO_0000023",
+              "Role",
               "owl:NamedIndividual"
             ],
             "rdfs:label": "patient role of system",
@@ -975,7 +975,7 @@
                 "tagteam:endPosition": 36,
                 "tagteam:definiteness": "definite",
                 "tagteam:referentialStatus": "presupposed",
-                "tagteam:denotesType": "bfo:BFO_0000040",
+                "tagteam:denotesType": "MaterialEntity",
                 "cco:is_about": {
                   "@id": "inst:Artifact_System_687dfc046cd6"
                 },
@@ -1021,7 +1021,7 @@
                 ],
                 "rdfs:label": "system",
                 "tagteam:instantiated_at": "2026-02-10T12:18:59.076Z",
-                "tagteam:denotesType": "bfo:BFO_0000040",
+                "tagteam:denotesType": "MaterialEntity",
                 "bfo:is_bearer_of": [
                   {
                     "@id": "inst:Patient_Role_6207de68"
@@ -1093,7 +1093,7 @@
                 "@id": "inst:Agent_Role_9e8aa3aa",
                 "@type": [
                   "cco:AgentRole",
-                  "bfo:BFO_0000023",
+                  "Role",
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "agent role of who",
@@ -1109,7 +1109,7 @@
                 "@id": "inst:Patient_Role_6207de68",
                 "@type": [
                   "cco:PatientRole",
-                  "bfo:BFO_0000023",
+                  "Role",
                   "owl:NamedIndividual"
                 ],
                 "rdfs:label": "patient role of system",

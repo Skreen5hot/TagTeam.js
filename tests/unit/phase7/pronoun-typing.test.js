@@ -124,7 +124,7 @@ test('"they" → denotesType = bfo:BFO_0000027 (Object Aggregate)', () => {
   const entities = extractEntities('They arrived at the hospital');
   const they = findEntity(entities, 'they');
   assert.ok(they, 'Should find entity for "they"');
-  assert.strictEqual(they['tagteam:denotesType'], 'bfo:BFO_0000027',
+  assert.strictEqual(they['tagteam:denotesType'], 'ObjectAggregate',
     'They should denote Object Aggregate, got: ' + they['tagteam:denotesType']);
 });
 
@@ -136,7 +136,7 @@ test('"this" → denotesType = bfo:BFO_0000001 if extracted', () => {
   const entities = extractEntities('This requires immediate attention');
   const thisEntity = findEntity(entities, 'this');
   if (thisEntity) {
-    assert.strictEqual(thisEntity['tagteam:denotesType'], 'bfo:BFO_0000001',
+    assert.strictEqual(thisEntity['tagteam:denotesType'], 'Entity',
       'This should denote Entity, got: ' + thisEntity['tagteam:denotesType']);
   }
   // Demonstratives may not be extracted as entities — that's acceptable
@@ -193,7 +193,7 @@ test('"hand gun" still typed Artifact (not affected by pronoun logic)', () => {
   const gun = findEntity(entities, 'gun') || findEntity(entities, 'hand gun');
   assert.ok(gun, 'Should find entity for "hand gun"');
   assert.ok(
-    gun['tagteam:denotesType'] === 'Artifact' || gun['tagteam:denotesType'] === 'bfo:BFO_0000040',
+    gun['tagteam:denotesType'] === 'Artifact' || gun['tagteam:denotesType'] === 'MaterialEntity',
     'hand gun should be Artifact or Material Entity, got: ' + gun['tagteam:denotesType']
   );
 });

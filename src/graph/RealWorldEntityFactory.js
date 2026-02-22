@@ -20,22 +20,22 @@ const crypto = require('crypto');
  * (BFO_0000001 → Entity, not bfo:BFO_0000001 which contains invalid colons).
  */
 const BFO_IRI_LABELS = {
-  'bfo:BFO_0000001': 'Entity',
-  'bfo:BFO_0000004': 'IndependentContinuant',
-  'bfo:BFO_0000008': 'TemporalRegion',
-  'bfo:BFO_0000015': 'Process',
-  'bfo:BFO_0000016': 'Disposition',
-  'bfo:BFO_0000019': 'Quality',
-  'bfo:BFO_0000023': 'Role',
-  'bfo:BFO_0000027': 'ObjectAggregate',
-  'bfo:BFO_0000038': 'OneDimTemporalRegion',
-  'bfo:BFO_0000040': 'MaterialEntity',
+  'Entity': 'Entity',
+  'IndependentContinuant': 'IndependentContinuant',
+  'TemporalRegion': 'TemporalRegion',
+  'Process': 'Process',
+  'Disposition': 'Disposition',
+  'Quality': 'Quality',
+  'Role': 'Role',
+  'ObjectAggregate': 'ObjectAggregate',
+  'OneDimensionalTemporalRegion': 'OneDimTemporalRegion',
+  'MaterialEntity': 'MaterialEntity',
 };
 
 /**
  * Convert a tier2Type IRI to a human-readable label for use in instance IRIs.
  * Handles BFO opaque IRIs via lookup table, strips namespace prefix for CCO/other types.
- * @param {string} tier2Type - The type IRI (e.g., 'bfo:BFO_0000001', 'Person')
+ * @param {string} tier2Type - The type IRI (e.g., 'Entity', 'Person')
  * @returns {string} Human-readable label (e.g., 'Entity', 'Person')
  */
 function _typeToLabel(tier2Type) {
@@ -55,22 +55,22 @@ const TIER2_TYPE_MAPPINGS = {
   'Organization': 'Organization',
   'GeopoliticalOrganization': 'GeopoliticalOrganization', // Cities, countries, states
   'Facility': 'Facility', // Buildings, datacenters, offices
-  'bfo:BFO_0000040': 'Artifact', // Material entity defaults to artifact
+  'MaterialEntity': 'Artifact', // Material entity defaults to artifact
 
   // Temporal Regions (Phase 7.0 — not artifacts)
-  'bfo:BFO_0000038': 'bfo:BFO_0000038', // One-Dimensional Temporal Region (durations)
-  'bfo:BFO_0000008': 'bfo:BFO_0000008', // Temporal Region (relative expressions)
+  'OneDimensionalTemporalRegion': 'OneDimensionalTemporalRegion', // One-Dimensional Temporal Region (durations)
+  'TemporalRegion': 'TemporalRegion', // Temporal Region (relative expressions)
 
   // Qualities (Phase 7.0 — symptoms, not artifacts)
-  'bfo:BFO_0000019': 'bfo:BFO_0000019',  // Quality (symptoms, physiological states)
+  'Quality': 'Quality',  // Quality (symptoms, physiological states)
 
   // Dispositions (Phase 7.1 — diseases per OGMS/BFO)
-  'bfo:BFO_0000016': 'bfo:BFO_0000016',  // Disposition (diseases)
+  'Disposition': 'Disposition',  // Disposition (diseases)
 
   // Pronoun-derived types (Phase 7.1 — IEE pronoun mapping)
-  'bfo:BFO_0000004': 'bfo:BFO_0000004',  // Independent Continuant (for "it")
-  'bfo:BFO_0000027': 'bfo:BFO_0000027',  // Object Aggregate (for plural "they")
-  'bfo:BFO_0000001': 'bfo:BFO_0000001',  // Entity (for demonstratives "this/that")
+  'IndependentContinuant': 'IndependentContinuant',  // Independent Continuant (for "it")
+  'ObjectAggregate': 'ObjectAggregate',  // Object Aggregate (for plural "they")
+  'Entity': 'Entity',  // Entity (for demonstratives "this/that")
   // NOTE: bfo:Entity (prefixed form) intentionally NOT mapped here.
   // When denotesType is bfo:Entity (generic/unclassified), we want keyword
   // fallback to refine the type (e.g., "doctor" → Person). The default
@@ -85,8 +85,8 @@ const TIER2_TYPE_MAPPINGS = {
  * Specific act sub-typing is the knowledge graph's responsibility, not the parser's.
  */
 const PROCESS_TYPE_MAPPINGS = {
-  'bfo:Process': 'bfo:Process',
-  'bfo:BFO_0000015': 'bfo:BFO_0000015',
+  'Process': 'Process',
+  'Process': 'Process',
   'ActOfCommunication': 'ActOfCommunication',  // VERIFIED (ont00000402)
   'IntentionalAct': 'IntentionalAct'           // VERIFIED (ont00000228)
 };
@@ -275,7 +275,7 @@ class RealWorldEntityFactory {
 
     // Default to bfo:Entity (BFO root) — honest admission of incomplete classification.
     // Artifact was incorrectly specific; bfo:Entity is maximally general and safe.
-    return { type: 'bfo:BFO_0000001', basis: 'default' };
+    return { type: 'Entity', basis: 'default' };
   }
 
   /**

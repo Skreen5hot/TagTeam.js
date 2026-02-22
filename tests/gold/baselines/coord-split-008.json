@@ -7,7 +7,7 @@
     "split",
     "object"
   ],
-  "generatedAt": "2026-02-22T12:26:16.295Z",
+  "generatedAt": "2026-02-22T14:56:03.037Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -40,12 +40,12 @@
   "extractedEntities": [
     {
       "text": "The inspector",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_inspector"
     },
     {
       "text": "the documents",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_documents"
     }
   ],
@@ -64,7 +64,7 @@
       {
         "@id": "inst:The_inspector",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The inspector",
@@ -73,9 +73,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Person_Inspector_3c49e6ca46af"
+          "@id": "inst:Entity_Inspector_8210d9a5be69"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_754e50158ed3"
@@ -84,16 +84,16 @@
       {
         "@id": "inst:the_documents",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the documents",
         "tagteam:mentionId": "s0:h5:23-36",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Document_a41452f74696"
+          "@id": "inst:Entity_Document_acef2de8da3e"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_754e50158ed3"
@@ -114,7 +114,7 @@
       {
         "@id": "inst:Role_The_inspector_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -130,7 +130,7 @@
       {
         "@id": "inst:Role_the_documents_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -144,29 +144,29 @@
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Person_Inspector_3c49e6ca46af",
+        "@id": "inst:Entity_Inspector_8210d9a5be69",
         "@type": [
-          "Person",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "inspector",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.295Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.037Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_754e50158ed3",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Document_a41452f74696",
+        "@id": "inst:Entity_Document_acef2de8da3e",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "document",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.295Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.037Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_754e50158ed3",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_754e50158ed3",
@@ -178,7 +178,7 @@
         "has_text_value": "The inspector reviewed the documents and the photographs",
         "tagteam:char_count": 56,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T12:26:16.287Z"
+        "tagteam:received_at": "2026-02-22T14:56:03.027Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -224,7 +224,7 @@
             "@id": "inst:Act_reviewed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.287Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.027Z"
       }
     ]
   }

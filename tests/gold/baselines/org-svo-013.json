@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T12:26:15.997Z",
+  "generatedAt": "2026-02-22T14:56:02.696Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -16,7 +16,7 @@
     },
     {
       "text": "the samples",
-      "type": "bfo:Entity"
+      "type": "Entity"
     }
   ],
   "expectedRoles": [
@@ -32,12 +32,12 @@
   "extractedEntities": [
     {
       "text": "The forensic team",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_forensic_team"
     },
     {
       "text": "the samples",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_samples"
     }
   ],
@@ -56,7 +56,7 @@
       {
         "@id": "inst:The_forensic_team",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The forensic team",
@@ -65,9 +65,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Organization_Forensic_Team_f17d3140cec4"
+          "@id": "inst:Entity_Forensic_Team_d4018f3abf8f"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_dbe65aa31683"
@@ -76,16 +76,16 @@
       {
         "@id": "inst:the_samples",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the samples",
         "tagteam:mentionId": "s0:h6:27-38",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Sample_bc79fcfcedb6"
+          "@id": "inst:Entity_Sample_ac4d505e8853"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_dbe65aa31683"
@@ -106,7 +106,7 @@
       {
         "@id": "inst:Role_The_forensic_team_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -122,7 +122,7 @@
       {
         "@id": "inst:Role_the_samples_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -136,29 +136,29 @@
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Organization_Forensic_Team_f17d3140cec4",
+        "@id": "inst:Entity_Forensic_Team_d4018f3abf8f",
         "@type": [
-          "Organization",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "forensic team",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:15.997Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.696Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_dbe65aa31683",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Sample_bc79fcfcedb6",
+        "@id": "inst:Entity_Sample_ac4d505e8853",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "sample",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:15.997Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.696Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_dbe65aa31683",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_dbe65aa31683",
@@ -170,7 +170,7 @@
         "has_text_value": "The forensic team analyzed the samples",
         "tagteam:char_count": 38,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T12:26:15.990Z"
+        "tagteam:received_at": "2026-02-22T14:56:02.685Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_analyzed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:15.990Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.685Z"
       }
     ]
   }

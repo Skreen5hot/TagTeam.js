@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T12:26:16.022Z",
+  "generatedAt": "2026-02-22T14:56:02.723Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,12 +32,12 @@
   "extractedEntities": [
     {
       "text": "The witness",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_witness"
     },
     {
       "text": "testimony",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:testimony"
     }
   ],
@@ -56,7 +56,7 @@
       {
         "@id": "inst:The_witness",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The witness",
@@ -65,9 +65,9 @@
         "tagteam:parseProbability": 0.3683,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Person_Witness_ebe134d58b81"
+          "@id": "inst:Entity_Witness_5279c9a0ef61"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_775791190ffd"
@@ -76,16 +76,16 @@
       {
         "@id": "inst:testimony",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "testimony",
         "tagteam:mentionId": "s0:h4:21-30",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Testimony_4bf8d5c28c2c"
+          "@id": "inst:Entity_Testimony_244efc1915c2"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_775791190ffd"
@@ -107,7 +107,7 @@
       {
         "@id": "inst:Role_The_witness_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -123,7 +123,7 @@
       {
         "@id": "inst:Role_testimony_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -137,29 +137,29 @@
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Person_Witness_ebe134d58b81",
+        "@id": "inst:Entity_Witness_5279c9a0ef61",
         "@type": [
-          "Person",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "witness",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.022Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.723Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_775791190ffd",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Testimony_4bf8d5c28c2c",
+        "@id": "inst:Entity_Testimony_244efc1915c2",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "testimony",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.022Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.723Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_775791190ffd",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_775791190ffd",
@@ -171,7 +171,7 @@
         "has_text_value": "The witness provided testimony",
         "tagteam:char_count": 30,
         "tagteam:word_count": 4,
-        "tagteam:received_at": "2026-02-22T12:26:16.013Z"
+        "tagteam:received_at": "2026-02-22T14:56:02.715Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -217,7 +217,7 @@
             "@id": "inst:Act_provided"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.013Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:02.715Z"
       }
     ]
   }

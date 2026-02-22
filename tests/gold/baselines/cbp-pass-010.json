@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T12:26:17.244Z",
+  "generatedAt": "2026-02-22T14:56:04.007Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -31,12 +31,12 @@
   "extractedEntities": [
     {
       "text": "The counterfeit goods",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_counterfeit_goods"
     },
     {
       "text": "the port",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_port"
     }
   ],
@@ -55,7 +55,7 @@
       {
         "@id": "inst:The_counterfeit_goods",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The counterfeit goods",
@@ -64,9 +64,9 @@
         "tagteam:parseProbability": 0.9272,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Counterfeit_Good_6142f46443bc"
+          "@id": "inst:Entity_Counterfeit_Good_39cb21b7b427"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_bd201335bcee"
@@ -75,16 +75,16 @@
       {
         "@id": "inst:the_port",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the port",
         "tagteam:mentionId": "s0:h8:42-50",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Port_941ffc19c8ca"
+          "@id": "inst:Entity_Port_27c971031df5"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_bd201335bcee"
@@ -106,7 +106,7 @@
       {
         "@id": "inst:Role_The_counterfeit_goods_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -122,7 +122,7 @@
       {
         "@id": "inst:Role_the_port_LocationRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "LocationRole",
         "tagteam:roleType": "LocationRole",
@@ -137,29 +137,29 @@
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Entity_Counterfeit_Good_6142f46443bc",
+        "@id": "inst:Entity_Counterfeit_Good_39cb21b7b427",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "counterfeit good",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.244Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.007Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bd201335bcee",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Port_941ffc19c8ca",
+        "@id": "inst:Entity_Port_27c971031df5",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "port",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.244Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.007Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bd201335bcee",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_bd201335bcee",
@@ -171,7 +171,7 @@
         "has_text_value": "The counterfeit goods were confiscated at the port",
         "tagteam:char_count": 50,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T12:26:17.236Z"
+        "tagteam:received_at": "2026-02-22T14:56:03.996Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -217,7 +217,7 @@
             "@id": "inst:Act_confiscated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.236Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.996Z"
       }
     ]
   }

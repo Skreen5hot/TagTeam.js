@@ -6,7 +6,7 @@
     "nested-pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T12:26:17.991Z",
+  "generatedAt": "2026-02-22T14:56:04.647Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -39,27 +39,27 @@
   "extractedEntities": [
     {
       "text": "The agent",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_agent"
     },
     {
       "text": "the report",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_report"
     },
     {
       "text": "the office",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_office"
     },
     {
       "text": "the building",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_building"
     },
     {
       "text": "the campus",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_campus"
     }
   ],
@@ -90,7 +90,7 @@
       {
         "@id": "inst:The_agent",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The agent",
@@ -99,9 +99,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Person_Agent_9b5daa26fe78"
+          "@id": "inst:Entity_Agent_3a57d2e5e614"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_885cdc14aee1"
@@ -110,16 +110,16 @@
       {
         "@id": "inst:the_report",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the report",
         "tagteam:mentionId": "s0:h5:16-26",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Report_a32d2ba61c33"
+          "@id": "inst:Entity_Report_8a61663bb4d0"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_885cdc14aee1"
@@ -128,16 +128,16 @@
       {
         "@id": "inst:the_office",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the office",
         "tagteam:mentionId": "s0:h8:30-40",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Office_dcbb59e10803"
+          "@id": "inst:Entity_Office_2f324e2ee1e6"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_885cdc14aee1"
@@ -146,16 +146,16 @@
       {
         "@id": "inst:the_building",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the building",
         "tagteam:mentionId": "s0:h11:44-56",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Build_6637908f81d0"
+          "@id": "inst:Entity_Build_13b3eb404e5a"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_885cdc14aee1"
@@ -164,16 +164,16 @@
       {
         "@id": "inst:the_campus",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the campus",
         "tagteam:mentionId": "s0:h14:60-70",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Campu_beef09399838"
+          "@id": "inst:Entity_Campu_a815216d2c05"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_885cdc14aee1"
@@ -194,7 +194,7 @@
       {
         "@id": "inst:Role_The_agent_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -210,7 +210,7 @@
       {
         "@id": "inst:Role_the_report_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -226,7 +226,7 @@
       {
         "@id": "inst:Role_the_office_LocationRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "LocationRole",
         "tagteam:roleType": "LocationRole",
@@ -243,7 +243,7 @@
       {
         "@id": "inst:Role_the_building_LocationRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "LocationRole",
         "tagteam:roleType": "LocationRole",
@@ -260,7 +260,7 @@
       {
         "@id": "inst:Role_the_campus_LocationRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "LocationRole",
         "tagteam:roleType": "LocationRole",
@@ -275,65 +275,65 @@
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Person_Agent_9b5daa26fe78",
+        "@id": "inst:Entity_Agent_3a57d2e5e614",
         "@type": [
-          "Person",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "agent",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.990Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.647Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Report_a32d2ba61c33",
+        "@id": "inst:Entity_Report_8a61663bb4d0",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "report",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.990Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.647Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Office_dcbb59e10803",
+        "@id": "inst:Entity_Office_2f324e2ee1e6",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "office",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.990Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.647Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Build_6637908f81d0",
+        "@id": "inst:Entity_Build_13b3eb404e5a",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "build",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.990Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.647Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Campu_beef09399838",
+        "@id": "inst:Entity_Campu_a815216d2c05",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "campu",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.990Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.647Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_885cdc14aee1",
@@ -345,7 +345,7 @@
         "has_text_value": "The agent filed the report at the office in the building on the campus",
         "tagteam:char_count": 70,
         "tagteam:word_count": 14,
-        "tagteam:received_at": "2026-02-22T12:26:17.975Z"
+        "tagteam:received_at": "2026-02-22T14:56:04.637Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -400,7 +400,7 @@
             "@id": "inst:Act_filed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.975Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.637Z"
       }
     ]
   }

@@ -73,7 +73,7 @@ test('AC-1.2: "consulting services" typed as bfo:BFO_0000015', () => {
   const graph = builder.build('The company provides consulting services.');
   const referent = findReferent(graph, 'services');
   assert(referent, 'Found services referent');
-  assert.strictEqual(referent['tagteam:denotesType'], 'bfo:BFO_0000015',
+  assert.strictEqual(referent['tagteam:denotesType'], 'Process',
     'services should be typed as bfo:BFO_0000015 (generic Process)');
 });
 
@@ -81,7 +81,7 @@ test('AC-1.2b: "maintenance" typed as bfo:BFO_0000015 (suffix detection)', () =>
   const graph = builder.build('The contractor provides maintenance.');
   const referent = findReferent(graph, 'maintenance');
   assert(referent, 'Found maintenance referent');
-  assert.strictEqual(referent['tagteam:denotesType'], 'bfo:BFO_0000015',
+  assert.strictEqual(referent['tagteam:denotesType'], 'Process',
     'maintenance should be typed as bfo:BFO_0000015');
 });
 
@@ -94,7 +94,7 @@ test('AC-1.3: "instruction" typed as bfo:BFO_0000015', () => {
   const graph = builder.build('The teacher provides instruction.');
   const referent = findReferent(graph, 'instruction');
   assert(referent, 'Found instruction referent');
-  assert.strictEqual(referent['tagteam:denotesType'], 'bfo:BFO_0000015',
+  assert.strictEqual(referent['tagteam:denotesType'], 'Process',
     'instruction should be typed as bfo:BFO_0000015 (suffix: -tion)');
 });
 
@@ -102,7 +102,7 @@ test('AC-1.3b: "assistance" typed as bfo:BFO_0000015', () => {
   const graph = builder.build('The government provides assistance.');
   const referent = findReferent(graph, 'assistance');
   assert(referent, 'Found assistance referent');
-  assert.strictEqual(referent['tagteam:denotesType'], 'bfo:BFO_0000015',
+  assert.strictEqual(referent['tagteam:denotesType'], 'Process',
     'assistance should be typed as bfo:BFO_0000015 (suffix: -ance)');
 });
 
@@ -149,7 +149,7 @@ test('AC-1.4d: "location" typed as bfo:BFO_0000040 (IC)', () => {
   const graph = builder.build('The store is at this location.');
   const referent = findReferent(graph, 'location');
   assert(referent, 'Found location referent');
-  assert.strictEqual(referent['tagteam:denotesType'], 'bfo:BFO_0000040',
+  assert.strictEqual(referent['tagteam:denotesType'], 'MaterialEntity',
     'location should be typed as bfo:BFO_0000040 (material entity)');
 });
 
@@ -188,7 +188,7 @@ test('Business: "The company provides consulting services" → process', () => {
   const graph = builder.build('The company provides consulting services.');
   const referent = findReferent(graph, 'services');
   assert(referent, 'Found services referent');
-  assert.strictEqual(referent['tagteam:denotesType'], 'bfo:BFO_0000015',
+  assert.strictEqual(referent['tagteam:denotesType'], 'Process',
     'services should be a process');
 });
 
@@ -196,7 +196,7 @@ test('Education: "The school offers education" → process', () => {
   const graph = builder.build('The school offers education.');
   const referent = findReferent(graph, 'education');
   assert(referent, 'Found education referent');
-  assert.strictEqual(referent['tagteam:denotesType'], 'bfo:BFO_0000015',
+  assert.strictEqual(referent['tagteam:denotesType'], 'Process',
     'education should be a process (suffix: -tion)');
 });
 

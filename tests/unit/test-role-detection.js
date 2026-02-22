@@ -68,7 +68,7 @@ test('detect() returns array of roles', () => {
   const graph = builder.build('The doctor treats the patient');
 
   const roles = graph['@graph'].filter(n =>
-    n['@type'].includes('bfo:BFO_0000023'));
+    n['@type'].includes('Role'));
   assert(Array.isArray(roles), 'Returns array');
   assert(roles.length > 0, 'Has roles');
 });
@@ -78,11 +78,11 @@ test('detect() creates BFO Role nodes', () => {
   const graph = builder.build('The doctor treats the patient');
 
   const roles = graph['@graph'].filter(n =>
-    n['@type'].includes('bfo:BFO_0000023'));
+    n['@type'].includes('Role'));
 
   assert(roles.length >= 1, 'Has at least one role');
   const role = roles[0];
-  assert(role['@type'].includes('bfo:BFO_0000023'), 'Has BFO Role type');
+  assert(role['@type'].includes('Role'), 'Has BFO Role type');
 });
 
 test('detect() includes owl:NamedIndividual in type array', () => {
@@ -90,7 +90,7 @@ test('detect() includes owl:NamedIndividual in type array', () => {
   const graph = builder.build('The doctor treats the patient');
 
   const roles = graph['@graph'].filter(n =>
-    n['@type'].includes('bfo:BFO_0000023'));
+    n['@type'].includes('Role'));
 
   const role = roles[0];
   assert(role['@type'].includes('owl:NamedIndividual'), 'Has owl:NamedIndividual');
@@ -104,7 +104,7 @@ test('detects agent role from has_agent link', () => {
   const graph = builder.build('The doctor treats the patient');
 
   const roles = graph['@graph'].filter(n =>
-    n['@type'].includes('bfo:BFO_0000023'));
+    n['@type'].includes('Role'));
 
   const agentRole = roles.find(r =>
     r['tagteam:roleType'] === 'agent');
@@ -116,11 +116,11 @@ test('agent role has bfo:Role type with AgentRole label', () => {
   const graph = builder.build('The doctor treats the patient');
 
   const roles = graph['@graph'].filter(n =>
-    n['@type'].includes('bfo:BFO_0000023'));
+    n['@type'].includes('Role'));
 
   const agentRole = roles.find(r =>
     r['tagteam:roleType'] === 'agent');
-  assert(agentRole['@type'].includes('bfo:Role'), 'Has bfo:Role type');
+  assert(agentRole['@type'].includes('Role'), 'Has bfo:Role type');
   assert(agentRole['rdfs:label'] === 'AgentRole' ||
     (typeof agentRole['rdfs:label'] === 'string' && agentRole['rdfs:label'].includes('agent')),
     'Has AgentRole label');
@@ -146,7 +146,7 @@ test('detects patient role from affects link', () => {
   const graph = builder.build('The doctor treats the patient');
 
   const roles = graph['@graph'].filter(n =>
-    n['@type'].includes('bfo:BFO_0000023'));
+    n['@type'].includes('Role'));
 
   const patientRole = roles.find(r =>
     r['tagteam:roleType'] === 'patient');
@@ -158,11 +158,11 @@ test('patient role has bfo:Role type with PatientRole label', () => {
   const graph = builder.build('The doctor treats the patient');
 
   const roles = graph['@graph'].filter(n =>
-    n['@type'].includes('bfo:BFO_0000023'));
+    n['@type'].includes('Role'));
 
   const patientRole = roles.find(r =>
     r['tagteam:roleType'] === 'patient');
-  assert(patientRole['@type'].includes('bfo:Role'), 'Has bfo:Role type');
+  assert(patientRole['@type'].includes('Role'), 'Has bfo:Role type');
   assert(patientRole['rdfs:label'] === 'PatientRole' ||
     (typeof patientRole['rdfs:label'] === 'string' && patientRole['rdfs:label'].includes('patient')),
     'Has PatientRole label');
@@ -176,7 +176,7 @@ test('every role has inheres_in (bearer link)', () => {
   const graph = builder.build('The doctor treats the patient');
 
   const roles = graph['@graph'].filter(n =>
-    n['@type'].includes('bfo:BFO_0000023'));
+    n['@type'].includes('Role'));
 
   roles.forEach(role => {
     assert(extractIRI(role['inheres_in']), `${role['rdfs:label']} has bearer`);
@@ -188,7 +188,7 @@ test('bearer link points to Tier 2 entity (Person/Artifact)', () => {
   const graph = builder.build('The doctor treats the patient');
 
   const roles = graph['@graph'].filter(n =>
-    n['@type'].includes('bfo:BFO_0000023'));
+    n['@type'].includes('Role'));
 
   roles.forEach(role => {
     const bearerIRI = extractIRI(role['inheres_in']);
@@ -231,7 +231,7 @@ test('roles have realized_in (realization link)', () => {
   const graph = builder.build('The doctor treats the patient');
 
   const roles = graph['@graph'].filter(n =>
-    n['@type'].includes('bfo:BFO_0000023'));
+    n['@type'].includes('Role'));
 
   const realizedRoles = roles.filter(r => extractIRI(r['realized_in']));
   assert(realizedRoles.length > 0, 'Has realized roles');
@@ -242,7 +242,7 @@ test('realization link points to IntentionalAct', () => {
   const graph = builder.build('The doctor treats the patient');
 
   const roles = graph['@graph'].filter(n =>
-    n['@type'].includes('bfo:BFO_0000023'));
+    n['@type'].includes('Role'));
 
   roles.forEach(role => {
     const actIRI = extractIRI(role['realized_in']);
@@ -263,7 +263,7 @@ test('bearers have is_bearer_of inverse relation', () => {
   const graph = builder.build('The doctor treats the patient');
 
   const roles = graph['@graph'].filter(n =>
-    n['@type'].includes('bfo:BFO_0000023'));
+    n['@type'].includes('Role'));
 
   roles.forEach(role => {
     const bearerIRI = extractIRI(role['inheres_in']);
@@ -278,7 +278,7 @@ test('is_bearer_of contains role IRI', () => {
   const graph = builder.build('The doctor treats the patient');
 
   const roles = graph['@graph'].filter(n =>
-    n['@type'].includes('bfo:BFO_0000023'));
+    n['@type'].includes('Role'));
 
   roles.forEach(role => {
     const bearerIRI = extractIRI(role['inheres_in']);
@@ -299,7 +299,7 @@ test('SemanticGraphBuilder detects roles automatically', () => {
   const graph = builder.build('The doctor treats the patient');
 
   const roles = graph['@graph'].filter(n =>
-    n['@type'].includes('bfo:BFO_0000023'));
+    n['@type'].includes('Role'));
 
   assert(roles.length >= 1, 'Has at least 1 role');
 });
@@ -313,7 +313,7 @@ test('graph contains entities, acts, and roles', () => {
   const acts = graph['@graph'].filter(n =>
     n['@type'].some(t => t.includes('IntentionalAct') || t.includes('ActOf')));
   const roles = graph['@graph'].filter(n =>
-    n['@type'].includes('bfo:BFO_0000023'));
+    n['@type'].includes('Role'));
 
   assert(entities.length >= 2, 'Has entities');
   assert(acts.length >= 1, 'Has acts');
@@ -325,7 +325,7 @@ test('can disable role detection', () => {
   const graph = builder.build('The doctor treats the patient', { detectRoles: false });
 
   const roles = graph['@graph'].filter(n =>
-    n['@type'].includes('bfo:BFO_0000023'));
+    n['@type'].includes('Role'));
 
   assert(roles.length === 0, 'No roles when disabled');
 });
@@ -338,7 +338,7 @@ test('roles use inst: namespace', () => {
   const graph = builder.build('The doctor treats the patient');
 
   const roles = graph['@graph'].filter(n =>
-    n['@type'].includes('bfo:BFO_0000023'));
+    n['@type'].includes('Role'));
 
   const role = roles[0];
   assert(role['@id'].startsWith('inst:'), 'IRI starts with inst:');
@@ -359,12 +359,12 @@ test('role IRIs are deterministic', () => {
   const builder1 = new SemanticGraphBuilder();
   const graph1 = builder1.build('The doctor treats the patient');
   const roles1 = graph1['@graph'].filter(n =>
-    n['@type'].includes('bfo:BFO_0000023'));
+    n['@type'].includes('Role'));
 
   const builder2 = new SemanticGraphBuilder();
   const graph2 = builder2.build('The doctor treats the patient');
   const roles2 = graph2['@graph'].filter(n =>
-    n['@type'].includes('bfo:BFO_0000023'));
+    n['@type'].includes('Role'));
 
   // Same role type should have same IRI
   const agent1 = roles1.find(r => r['tagteam:roleType'] === 'agent');
@@ -381,7 +381,7 @@ test('complex: "The doctor must allocate the ventilator"', () => {
 
   // AC-1.4.1: Role creation
   const roles = graph['@graph'].filter(n =>
-    n['@type'].includes('bfo:BFO_0000023'));
+    n['@type'].includes('Role'));
   assert(roles.length >= 1, 'Extracted roles');
 
   // Find agent role

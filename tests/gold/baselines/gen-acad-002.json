@@ -6,7 +6,7 @@
     "academic",
     "research"
   ],
-  "generatedAt": "2026-02-22T12:26:17.541Z",
+  "generatedAt": "2026-02-22T14:56:04.326Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -19,7 +19,7 @@
     },
     {
       "text": "the conference",
-      "type": "bfo:Process"
+      "type": "Process"
     }
   ],
   "expectedRoles": [
@@ -35,17 +35,17 @@
   "extractedEntities": [
     {
       "text": "The professor",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_professor"
     },
     {
       "text": "the findings",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_findings"
     },
     {
       "text": "the conference",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_conference"
     }
   ],
@@ -68,7 +68,7 @@
       {
         "@id": "inst:The_professor",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The professor",
@@ -77,9 +77,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Person_Professor_15e053659bfe"
+          "@id": "inst:Entity_Professor_3e5c12304a06"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a6cb54c22a1e"
@@ -88,16 +88,16 @@
       {
         "@id": "inst:the_findings",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the findings",
         "tagteam:mentionId": "s0:h5:24-36",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Finding_e44c78d43e5b"
+          "@id": "inst:Entity_Finding_e5da19c509d7"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a6cb54c22a1e"
@@ -106,16 +106,16 @@
       {
         "@id": "inst:the_conference",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the conference",
         "tagteam:mentionId": "s0:h8:40-54",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9479,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Conference_fa2d0c53adb8"
+          "@id": "inst:Entity_Conference_d5c3c97b26ac"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a6cb54c22a1e"
@@ -136,7 +136,7 @@
       {
         "@id": "inst:Role_The_professor_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -152,7 +152,7 @@
       {
         "@id": "inst:Role_the_findings_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -168,7 +168,7 @@
       {
         "@id": "inst:Role_the_conference_LocationRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "LocationRole",
         "tagteam:roleType": "LocationRole",
@@ -183,41 +183,41 @@
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Person_Professor_15e053659bfe",
+        "@id": "inst:Entity_Professor_3e5c12304a06",
         "@type": [
-          "Person",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "professor",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.541Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.326Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a6cb54c22a1e",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Finding_e44c78d43e5b",
+        "@id": "inst:Entity_Finding_e5da19c509d7",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "finding",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.541Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.326Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a6cb54c22a1e",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Conference_fa2d0c53adb8",
+        "@id": "inst:Entity_Conference_d5c3c97b26ac",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "conference",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.541Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.326Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a6cb54c22a1e",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_a6cb54c22a1e",
@@ -229,7 +229,7 @@
         "has_text_value": "The professor presented the findings at the conference",
         "tagteam:char_count": 54,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T12:26:17.532Z"
+        "tagteam:received_at": "2026-02-22T14:56:04.318Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -278,7 +278,7 @@
             "@id": "inst:Act_presented"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.532Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.318Z"
       }
     ]
   }

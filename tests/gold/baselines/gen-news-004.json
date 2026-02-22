@@ -6,7 +6,7 @@
     "news",
     "media"
   ],
-  "generatedAt": "2026-02-22T12:26:17.464Z",
+  "generatedAt": "2026-02-22T14:56:04.261Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -31,12 +31,12 @@
   "extractedEntities": [
     {
       "text": "The journalist",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_journalist"
     },
     {
       "text": "the investigation findings",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:the_investigation_findings"
     }
   ],
@@ -55,7 +55,7 @@
       {
         "@id": "inst:The_journalist",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The journalist",
@@ -64,9 +64,9 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Journalist_5f33076d4457"
+          "@id": "inst:Entity_Journalist_07567bf1560b"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ab454fbb5672"
@@ -75,16 +75,16 @@
       {
         "@id": "inst:the_investigation_findings",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the investigation findings",
         "tagteam:mentionId": "s0:h6:25-51",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Investigation_Finding_39c319b5ae52"
+          "@id": "inst:Entity_Investigation_Finding_4a97276f2dcd"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ab454fbb5672"
@@ -105,7 +105,7 @@
       {
         "@id": "inst:Role_The_journalist_AgentRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
@@ -121,7 +121,7 @@
       {
         "@id": "inst:Role_the_investigation_findings_PatientRole",
         "@type": [
-          "bfo:Role"
+          "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
@@ -135,29 +135,29 @@
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Entity_Journalist_5f33076d4457",
+        "@id": "inst:Entity_Journalist_07567bf1560b",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "journalist",
         "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.464Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.261Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ab454fbb5672",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Investigation_Finding_39c319b5ae52",
+        "@id": "inst:Entity_Investigation_Finding_4a97276f2dcd",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "investigation finding",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.464Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.261Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ab454fbb5672",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_ab454fbb5672",
@@ -169,7 +169,7 @@
         "has_text_value": "The journalist published the investigation findings",
         "tagteam:char_count": 51,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T12:26:17.456Z"
+        "tagteam:received_at": "2026-02-22T14:56:04.254Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -215,7 +215,7 @@
             "@id": "inst:Act_published"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:17.456Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:04.254Z"
       }
     ]
   }

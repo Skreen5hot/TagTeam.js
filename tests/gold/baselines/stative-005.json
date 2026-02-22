@@ -7,28 +7,28 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-22T12:26:16.525Z",
+  "generatedAt": "2026-02-22T14:56:03.288Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The substance",
-      "type": "bfo:Entity"
+      "type": "Entity"
     },
     {
       "text": "a controlled material",
-      "type": "bfo:Entity"
+      "type": "Entity"
     }
   ],
   "expectedRoles": [],
   "extractedEntities": [
     {
       "text": "The substance",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:The_substance"
     },
     {
       "text": "a controlled material",
-      "type": "bfo:Entity",
+      "type": "Entity",
       "id": "inst:a_controlled_material"
     }
   ],
@@ -38,7 +38,7 @@
       {
         "@id": "inst:The_substance",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The substance",
@@ -52,9 +52,9 @@
           "tagteam:category": "GEN",
           "tagteam:confidence": 0.4
         },
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Substance_7afa02cc7f29"
+          "@id": "inst:Entity_Substance_7085c9490e7b"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_9db8f8815e7c"
@@ -63,16 +63,16 @@
       {
         "@id": "inst:a_controlled_material",
         "@type": [
-          "bfo:Entity",
+          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "a controlled material",
         "tagteam:mentionId": "s0:h8:31-52",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
-        "tagteam:denotesType": "bfo:Entity",
+        "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Controlled_Material_905c3b61a62a"
+          "@id": "inst:Entity_Controlled_Material_a193fda545d4"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_9db8f8815e7c"
@@ -89,29 +89,29 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Entity_Substance_7afa02cc7f29",
+        "@id": "inst:Entity_Substance_7085c9490e7b",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "substance",
         "tagteam:genericityCategory": "AMB",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.525Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.288Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9db8f8815e7c",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
-        "@id": "inst:Entity_Controlled_Material_905c3b61a62a",
+        "@id": "inst:Entity_Controlled_Material_a193fda545d4",
         "@type": [
-          "bfo:BFO_0000001",
+          "Entity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "controlled material",
-        "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.525Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.288Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9db8f8815e7c",
-        "tagteam:denotesType": "bfo:Entity"
+        "tagteam:denotesType": "Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_9db8f8815e7c",
@@ -123,7 +123,7 @@
         "has_text_value": "The substance is classified as a controlled material",
         "tagteam:char_count": 52,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T12:26:16.514Z"
+        "tagteam:received_at": "2026-02-22T14:56:03.278Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
@@ -166,7 +166,7 @@
             "@id": "inst:a_controlled_material"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T12:26:16.514Z"
+        "tagteam:instantiated_at": "2026-02-22T14:56:03.278Z"
       }
     ]
   }
