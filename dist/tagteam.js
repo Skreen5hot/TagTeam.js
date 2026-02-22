@@ -325877,12 +325877,12 @@ function normalizeUnicode(text) {
 // =============================================================================
 
 const UD_TO_BFO_ROLE = Object.freeze({
-  'nsubj':      Object.freeze({ role: 'Role', label: 'AgentRole',     bfo: 'Role', note: 'Active voice subject' }),
-  'obj':        Object.freeze({ role: 'Role', label: 'PatientRole',   bfo: 'Role', note: 'Direct object' }),
-  'iobj':       Object.freeze({ role: 'Role', label: 'RecipientRole', bfo: 'Role', note: 'Indirect object' }),
-  'nsubj:pass': Object.freeze({ role: 'Role', label: 'PatientRole',   bfo: 'Role', note: 'Passive subject = patient' }),
-  'obl:agent':  Object.freeze({ role: 'Role', label: 'AgentRole',     bfo: 'Role', note: 'Passive "by" phrase = agent' }),
-  'obl':        Object.freeze({ role: 'Role', label: 'ObliqueRole',   bfo: 'Role', note: 'Subtyped by case child' }),
+  'nsubj':      Object.freeze({ role: 'Role', label: 'AgentRole',     bfo: 'bfo:BFO_0000023', note: 'Active voice subject' }),
+  'obj':        Object.freeze({ role: 'Role', label: 'PatientRole',   bfo: 'bfo:BFO_0000023', note: 'Direct object' }),
+  'iobj':       Object.freeze({ role: 'Role', label: 'RecipientRole', bfo: 'bfo:BFO_0000023', note: 'Indirect object' }),
+  'nsubj:pass': Object.freeze({ role: 'Role', label: 'PatientRole',   bfo: 'bfo:BFO_0000023', note: 'Passive subject = patient' }),
+  'obl:agent':  Object.freeze({ role: 'Role', label: 'AgentRole',     bfo: 'bfo:BFO_0000023', note: 'Passive "by" phrase = agent' }),
+  'obl':        Object.freeze({ role: 'Role', label: 'ObliqueRole',   bfo: 'bfo:BFO_0000023', note: 'Subtyped by case child' }),
 });
 
 // =============================================================================
@@ -330239,7 +330239,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '3.0.0-alpha.1',
-    BUILD: 'build 216 | 1724fde | 2026-02-22T14:55:14.625Z',
+    BUILD: 'build 217 | 9ed8311 | 2026-02-22T18:58:59.084Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
