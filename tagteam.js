@@ -1,7 +1,7 @@
 /*!
  * TagTeam.js - Two-Tier Semantic Graph Architecture for Ethical Context Analysis
- * Version: 6.6 (Phase 6.6: OntologyTextTagger)
- * Date: 2026-02-14
+ * Version: 7.0 (v2 Phase 2: Dependency Parser)
+ * Date: 2026-02-22
  *
  * A client-side JavaScript library for extracting semantic roles from natural language text
  *
@@ -299517,26 +299517,26 @@ const INSTITUTIONAL_PATTERNS = [
  * Person role patterns for source identification
  */
 const PERSON_ROLE_PATTERNS = {
-  'doctor': 'cco:Physician',
-  'dr': 'cco:Physician',
-  'physician': 'cco:Physician',
-  'surgeon': 'cco:Physician',
-  'nurse': 'cco:Nurse',
-  'patient': 'cco:Patient',
-  'family': 'cco:FamilyMember',
-  'relative': 'cco:FamilyMember',
-  'researcher': 'cco:Researcher',
-  'scientist': 'cco:Researcher',
-  'expert': 'cco:Expert',
-  'specialist': 'cco:Specialist',
-  'lawyer': 'cco:LegalProfessional',
-  'attorney': 'cco:LegalProfessional',
-  'judge': 'cco:Judge',
-  'official': 'cco:Official',
-  'spokesperson': 'cco:Spokesperson',
-  'witness': 'cco:Witness',
-  'professor': 'cco:AcademicProfessional',
-  'administrator': 'cco:Administrator'
+  'doctor': 'Person',
+  'dr': 'Person',
+  'physician': 'Person',
+  'surgeon': 'Person',
+  'nurse': 'Person',
+  'patient': 'Person',
+  'family': 'FamilyMember',
+  'relative': 'FamilyMember',
+  'researcher': 'Researcher',
+  'scientist': 'Researcher',
+  'expert': 'Expert',
+  'specialist': 'Specialist',
+  'lawyer': 'LegalProfessional',
+  'attorney': 'LegalProfessional',
+  'judge': 'Judge',
+  'official': 'Official',
+  'spokesperson': 'Spokesperson',
+  'witness': 'Witness',
+  'professor': 'AcademicProfessional',
+  'administrator': 'Administrator'
 };
 
 /**
@@ -299771,7 +299771,7 @@ class SourceAttributionDetector {
           type: 'institutional',
           institutionalType: type,
           source: match[0],
-          sourceType: 'cco:Organization',
+          sourceType: 'Organization',
           confidence: 0.85,
           evidence: match[0],
           position: this.options.includePositions ? match.index : undefined
@@ -299828,17 +299828,17 @@ class SourceAttributionDetector {
 
     // Check for organizational patterns
     if (/(?:hospital|clinic|agency|organization|institution|committee|board|panel|council)/i.test(lower)) {
-      return 'cco:Organization';
+      return 'Organization';
     }
 
     // Check for document patterns
     if (/(?:report|study|document|record|policy|guideline|protocol)/i.test(lower)) {
-      return 'cco:InformationContentEntity';
+      return 'InformationContentEntity';
     }
 
     // Default: assume person if starts with capital (likely a name)
     if (/^[A-Z]/.test(source)) {
-      return 'cco:Person';
+      return 'Person';
     }
 
     return null;
@@ -299968,20 +299968,20 @@ class SourceAttributionDetector {
  */
 const STATIVE_DEFINITE = {
   // Membership relations
-  'include': { relation: 'cco:has_member', inverse: 'cco:member_of', group: 'membership' },
-  'encompass': { relation: 'cco:has_member', inverse: 'cco:member_of', group: 'membership' },
+  'include': { relation: 'has_member_part', inverse: 'member_part_of', group: 'membership' },
+  'encompass': { relation: 'has_member_part', inverse: 'member_part_of', group: 'membership' },
 
   // Composition / containment
-  'contain': { relation: 'cco:has_part', inverse: 'cco:part_of', group: 'composition' },
-  'comprise': { relation: 'cco:has_member', inverse: 'cco:member_of', group: 'composition' },
-  'consist': { relation: 'cco:has_part', inverse: 'cco:part_of', group: 'composition' },
+  'contain': { relation: 'has_continuant_part', inverse: 'continuant_part_of', group: 'composition' },
+  'comprise': { relation: 'has_member_part', inverse: 'member_part_of', group: 'composition' },
+  'consist': { relation: 'has_continuant_part', inverse: 'continuant_part_of', group: 'composition' },
 
   // Possession
-  'possess': { relation: 'cco:has_possession', inverse: null, group: 'possession' },
-  'own': { relation: 'cco:has_possession', inverse: null, group: 'possession' },
+  'possess': { relation: 'has_possession', inverse: null, group: 'possession' },
+  'own': { relation: 'has_possession', inverse: null, group: 'possession' },
 
   // Location (stative sense)
-  'reside': { relation: 'cco:located_in', inverse: null, group: 'location' },
+  'reside': { relation: 'located_in', inverse: null, group: 'location' },
 };
 
 /**
@@ -299989,7 +299989,7 @@ const STATIVE_DEFINITE = {
  * We handle it separately: stative only when NOT followed by "to" (modal).
  */
 const HAVE_VERB = {
-  relation: 'cco:has_possession',
+  relation: 'has_possession',
   inverse: null,
   group: 'possession',
   condition: 'possessive_sense'
@@ -300001,23 +300001,22 @@ const HAVE_VERB = {
 const STATIVE_AMBIGUOUS = {
   'represent': {
     stativeCondition: 'object_is_organization_or_nation',
-    stativeRelation: 'tagteam:bears_role_for',
-    eventiveActType: 'cco:IntentionalAct',
+    stativeRelation: 'bears_role_for',
+    eventiveActType: 'IntentionalAct',
     // Stative if object is Nation, Organization, GeopoliticalEntity
-    stativeObjectTypes: ['cco:Nation', 'cco:Organization', 'cco:GeopoliticalEntity',
-                         'cco:GovernmentOrganization', 'cco:Country']
+    stativeObjectTypes: ['GeopoliticalOrganization', 'Organization', 'Country']
   },
   'support': {
     stativeCondition: 'subject_is_artifact',
-    stativeRelation: 'cco:has_part',
-    eventiveActType: 'cco:IntentionalAct',
-    stativeSubjectTypes: ['cco:Artifact', 'cco:Structure']
+    stativeRelation: 'has_continuant_part',
+    eventiveActType: 'IntentionalAct',
+    stativeSubjectTypes: ['Artifact']
   },
   'cover': {
     stativeCondition: 'object_is_measurement',
-    stativeRelation: 'cco:has_spatial_extent',
-    eventiveActType: 'cco:IntentionalAct',
-    stativeObjectTypes: ['cco:Measurement', 'cco:Area']
+    stativeRelation: 'has_spatial_extent',
+    eventiveActType: 'IntentionalAct',
+    stativeObjectTypes: []
   }
 };
 
@@ -300293,7 +300292,7 @@ class ComplexDesignatorDetector {
         '@type': ['tagteam:ComplexDesignator'],
         'tagteam:fullName': span.text,
         'tagteam:nameComponents': span.components,
-        'tagteam:denotedType': 'cco:Organization',
+        'tagteam:denotedType': 'Organization',
         'tagteam:startPosition': span.start,
         'tagteam:endPosition': span.end
       };
@@ -300749,7 +300748,7 @@ class CombinedValidationReport {
 
     const actCount = nodesArray.filter(n => {
       const types = n['@type'] || [];
-      return types.some(t => t.startsWith('cco:ActOf') || t === 'cco:IntentionalAct');
+      return types.some(t => t.startsWith('ActOf') || t === 'IntentionalAct');
     }).length;
 
     const roleCount = nodesArray.filter(n => {
@@ -300948,9 +300947,9 @@ class CombinedValidationReport {
     // Check: Acts should have agents
     const acts = nodesArray.filter(n => {
       const types = n['@type'] || [];
-      return types.some(t => t.startsWith('cco:ActOf') || t === 'cco:IntentionalAct');
+      return types.some(t => t.startsWith('ActOf') || t === 'IntentionalAct');
     });
-    const actsWithoutAgent = acts.filter(a => !a['cco:has_agent']);
+    const actsWithoutAgent = acts.filter(a => !a['has_agent']);
     if (actsWithoutAgent.length > 0) {
       issues.push({
         type: 'missing_agent',
@@ -300976,7 +300975,7 @@ class CombinedValidationReport {
     // Check: IBE node should exist
     const hasIBE = nodesArray.some(n => {
       const types = n['@type'] || [];
-      return types.includes('cco:InformationBearingEntity');
+      return types.includes('InformationBearingEntity');
     });
     if (!hasIBE && nodesArray.length > 0) {
       issues.push({
@@ -301375,14 +301374,28 @@ const ALLOWED = [
 ];
 
 /**
+ * Escape HTML special characters to prevent XSS (AC-4.8).
+ * @param {string} str
+ * @returns {string}
+ */
+function escapeHtml(str) {
+  if (typeof str !== 'string') return str;
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+/**
  * Strip an ICE object to only allowed properties.
+ * String values are HTML-escaped to prevent XSS.
  * @param {Object} ice
  * @returns {Object}
  */
 function sanitize(ice) {
   const result = {};
   for (const prop of ALLOWED) {
-    if (ice[prop] !== undefined) result[prop] = ice[prop];
+    if (ice[prop] !== undefined) {
+      result[prop] = typeof ice[prop] === 'string' ? escapeHtml(ice[prop]) : ice[prop];
+    }
   }
   return result;
 }
@@ -305275,6 +305288,501 @@ class SecurityAuditLogger {
   };
 
   // ============================================================================
+  // LEMMATIZER (Core NLP - Morphological reduction)
+  // Reduces inflected words to base/dictionary form (e.g., dogs → dog)
+  // ============================================================================
+
+/**
+ * Lemmatizer - Phase 5.1
+ *
+ * Reduces inflected word forms to their base/dictionary form (lemma).
+ * Handles irregular verbs, irregular nouns, and regular morphological patterns.
+ * Extracted and enhanced from archive/POS Graph POC/js/POSTaggerGraph.js
+ *
+ * @example
+ * const lemmatizer = new Lemmatizer();
+ * lemmatizer.lemmatize("running", "VBG")  // => { lemma: "run", category: "verb" }
+ * lemmatizer.lemmatize("children", "NNS") // => { lemma: "child", category: "noun" }
+ * lemmatizer.lemmatize("saw", "VBD")      // => { lemma: "see", category: "verb" }
+ * lemmatizer.lemmatize("saw", "NN")       // => { lemma: "saw", category: "noun" }
+ */
+class Lemmatizer {
+  constructor(customIrregulars = {}) {
+    // Invariable nouns (same in singular and plural)
+    this.invariableNouns = new Set([
+      'aircraft', 'barracks', 'billiards', 'bison', 'chinese',
+      'cod', 'crossroads', 'deer', 'fish', 'gallows',
+      'headquarters', 'hovercraft', 'japanese', 'mathematics', 'means',
+      'moose', 'news', 'physics', 'portuguese', 'salmon',
+      'series', 'sheep', 'shrimp', 'spacecraft', 'species',
+      'squid', 'swiss', 'trout', 'vietnamese', 'watercraft',
+      'offspring', 'swine', 'chassis', 'corps', 'premises'
+    ]);
+
+    // Irregular noun plurals -> singular
+    this.irregularNouns = Object.assign({
+      // Vowel change
+      'men': 'man',
+      'women': 'woman',
+      'feet': 'foot',
+      'teeth': 'tooth',
+      'geese': 'goose',
+      'mice': 'mouse',
+      'lice': 'louse',
+
+      // Ending change
+      'children': 'child',
+      'oxen': 'ox',
+      'people': 'person',
+      'brethren': 'brother',
+
+      // Latin/Greek plurals
+      'cacti': 'cactus',
+      'fungi': 'fungus',
+      'stimuli': 'stimulus',
+      'syllabi': 'syllabus',
+      'alumni': 'alumnus',
+      'algae': 'alga',
+      'larvae': 'larva',
+      'vertebrae': 'vertebra',
+      'antennae': 'antenna',
+      'formulae': 'formula',
+      'criteria': 'criterion',
+      'phenomena': 'phenomenon',
+      'appendices': 'appendix',
+      'indices': 'index',
+      'matrices': 'matrix',
+      'analyses': 'analysis',
+      'axes': 'axis',
+      'bases': 'basis',
+      'crises': 'crisis',
+      'diagnoses': 'diagnosis',
+      'ellipses': 'ellipsis',
+      'hypotheses': 'hypothesis',
+      'oases': 'oasis',
+      'parentheses': 'parenthesis',
+      'prognoses': 'prognosis',
+      'synopses': 'synopsis',
+      'theses': 'thesis',
+      'metastases': 'metastasis',
+      'neuroses': 'neurosis',
+      'psychoses': 'psychosis',
+
+      // -um -> -a
+      'data': 'datum',
+      'media': 'medium',
+      'curricula': 'curriculum',
+      'memoranda': 'memorandum',
+      'millennia': 'millennium',
+      'symposia': 'symposium',
+      'bacteria': 'bacterium',
+      'strata': 'stratum',
+
+      // -ex/-ix -> -ices
+      'vertices': 'vertex',
+      'cortices': 'cortex',
+      'apices': 'apex',
+
+      // Miscellaneous
+      'dice': 'die',
+      'pennies': 'penny',
+      'pence': 'penny'
+    }, customIrregulars.nouns || {});
+
+    // Irregular verb forms -> base form
+    this.irregularVerbs = Object.assign({
+      // A
+      'arisen': 'arise', 'arose': 'arise', 'ate': 'eat', 'awoke': 'awake', 'awoken': 'awake',
+
+      // B
+      'was': 'be', 'were': 'be', 'been': 'be', 'am': 'be', 'is': 'be', 'are': 'be',
+      'began': 'begin', 'begun': 'begin',
+      'bent': 'bend', 'bet': 'bet',
+      'bit': 'bite', 'bitten': 'bite',
+      'blew': 'blow', 'blown': 'blow',
+      'broke': 'break', 'broken': 'break',
+      'brought': 'bring', 'built': 'build', 'burnt': 'burn', 'burst': 'burst', 'bought': 'buy',
+
+      // C
+      'cast': 'cast', 'caught': 'catch',
+      'chose': 'choose', 'chosen': 'choose',
+      'came': 'come', 'cost': 'cost', 'crept': 'creep', 'cut': 'cut',
+
+      // D
+      'dealt': 'deal',
+      'did': 'do', 'done': 'do', 'does': 'do',
+      'drew': 'draw', 'drawn': 'draw',
+      'dreamt': 'dream', 'drank': 'drink', 'drunk': 'drink',
+      'drove': 'drive', 'driven': 'drive',
+      'dug': 'dig', 'dwelt': 'dwell',
+
+      // E-F
+      'eaten': 'eat',
+      'fell': 'fall', 'fallen': 'fall',
+      'fed': 'feed', 'felt': 'feel',
+      'fit': 'fit', 'fled': 'flee',
+      'flew': 'fly', 'flown': 'fly',
+      'flung': 'fling',
+      'forbade': 'forbid', 'forbidden': 'forbid',
+      'forgot': 'forget', 'forgotten': 'forget',
+      'forgave': 'forgive', 'forgiven': 'forgive',
+      'forsook': 'forsake', 'forsaken': 'forsake',
+      'fought': 'fight', 'found': 'find',
+      'froze': 'freeze', 'frozen': 'freeze',
+
+      // G
+      'gave': 'give', 'given': 'give',
+      'got': 'get', 'gotten': 'get',
+      'went': 'go', 'gone': 'go', 'goes': 'go',
+      'ground': 'grind',
+      'grew': 'grow', 'grown': 'grow',
+
+      // H
+      'had': 'have', 'has': 'have',
+      'heard': 'hear', 'held': 'hold',
+      'hid': 'hide', 'hidden': 'hide',
+      'hit': 'hit', 'hung': 'hang', 'hurt': 'hurt',
+
+      // K-L
+      'kept': 'keep', 'knelt': 'kneel', 'knew': 'know', 'known': 'know',
+      'laid': 'lay', 'led': 'lead', 'leant': 'lean', 'leapt': 'leap',
+      'learnt': 'learn', 'left': 'leave', 'lent': 'lend', 'let': 'let',
+      'lit': 'light', 'lost': 'lose',
+
+      // M
+      'made': 'make', 'meant': 'mean', 'met': 'meet', 'mistook': 'mistake',
+
+      // O-P
+      'overcame': 'overcome', 'overtook': 'overtake',
+      'paid': 'pay', 'put': 'put',
+
+      // Q-R
+      'quit': 'quit',
+      'ran': 'run', 'rang': 'ring', 'rung': 'ring',
+      'read': 'read', // same spelling, different pronunciation
+      'rid': 'rid', 'rode': 'ride', 'ridden': 'ride',
+      'rose': 'rise', 'risen': 'rise',
+
+      // S
+      'said': 'say', 'sang': 'sing', 'sung': 'sing',
+      'sank': 'sink', 'sunk': 'sink',
+      'sat': 'sit',
+      'saw': 'see', 'seen': 'see',
+      'sent': 'send', 'set': 'set',
+      'shook': 'shake', 'shaken': 'shake',
+      'shed': 'shed', 'shone': 'shine',
+      'shot': 'shoot', 'showed': 'show', 'shown': 'show',
+      'shrank': 'shrink', 'shrunk': 'shrink',
+      'shut': 'shut', 'slept': 'sleep', 'slid': 'slide',
+      'slit': 'slit', 'smelt': 'smell',
+      'sold': 'sell', 'sought': 'seek',
+      'sowed': 'sow', 'sown': 'sow',
+      'spoke': 'speak', 'spoken': 'speak',
+      'sped': 'speed', 'spelt': 'spell', 'spent': 'spend',
+      'spilt': 'spill', 'spun': 'spin',
+      'split': 'split', 'spoilt': 'spoil',
+      'spread': 'spread', 'sprang': 'spring', 'sprung': 'spring',
+      'stood': 'stand',
+      'stole': 'steal', 'stolen': 'steal',
+      'stuck': 'stick', 'stung': 'sting',
+      'stank': 'stink', 'stunk': 'stink',
+      'strode': 'stride', 'struck': 'strike', 'striven': 'strive', 'strove': 'strive',
+      'swam': 'swim', 'swum': 'swim',
+      'swept': 'sweep', 'swore': 'swear', 'sworn': 'swear',
+      'swung': 'swing',
+
+      // T
+      'took': 'take', 'taken': 'take',
+      'taught': 'teach', 'tore': 'tear', 'torn': 'tear',
+      'told': 'tell', 'thought': 'think', 'threw': 'throw', 'thrown': 'throw',
+      'thrust': 'thrust', 'trod': 'tread', 'trodden': 'tread',
+
+      // U-W
+      'understood': 'understand', 'underwent': 'undergo', 'undertaken': 'undertake', 'undertook': 'undertake',
+      'woke': 'wake', 'woken': 'wake',
+      'wore': 'wear', 'worn': 'wear',
+      'wove': 'weave', 'woven': 'weave',
+      'wept': 'weep', 'wet': 'wet',
+      'won': 'win', 'wound': 'wind',
+      'withdrew': 'withdraw', 'withdrawn': 'withdraw',
+      'withheld': 'withhold', 'withstood': 'withstand',
+      'wrung': 'wring', 'wrote': 'write', 'written': 'write'
+    }, customIrregulars.verbs || {});
+
+    // POS tags that indicate verbs vs nouns
+    this.verbTags = new Set(['VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ']);
+    this.nounTags = new Set(['NN', 'NNS', 'NNP', 'NNPS']);
+  }
+
+  /**
+   * Lemmatize a word with optional POS tag context
+   * @param {string} word - Word to lemmatize
+   * @param {string} [posTag] - POS tag for disambiguation
+   * @returns {{ lemma: string, category: string }} - Lemma and category
+   */
+  lemmatize(word, posTag) {
+    if (!word || typeof word !== 'string') {
+      return { lemma: '', category: 'unknown' };
+    }
+
+    const w = word.toLowerCase().trim();
+
+    // Determine category from POS tag
+    let category = 'unknown';
+    if (posTag) {
+      if (this.verbTags.has(posTag)) {
+        category = 'verb';
+      } else if (this.nounTags.has(posTag)) {
+        category = 'noun';
+      } else if (posTag === 'JJ' || posTag === 'JJR' || posTag === 'JJS') {
+        // Adjectives: return as-is, don't lemmatize
+        return { lemma: w, category: 'adjective' };
+      } else if (posTag === 'RB' || posTag === 'RBR' || posTag === 'RBS') {
+        // Adverbs: return as-is
+        return { lemma: w, category: 'adverb' };
+      }
+    }
+
+    // Handle POS-dependent disambiguation
+    if (category === 'verb') {
+      return { lemma: this._lemmatizeVerb(w), category: 'verb' };
+    } else if (category === 'noun') {
+      return { lemma: this._lemmatizeNoun(w), category: 'noun' };
+    }
+
+    // No POS tag - try verb first, then noun
+    const verbLemma = this._lemmatizeVerb(w);
+    if (verbLemma !== w) {
+      return { lemma: verbLemma, category: 'verb' };
+    }
+
+    const nounLemma = this._lemmatizeNoun(w);
+    if (nounLemma !== w) {
+      return { lemma: nounLemma, category: 'noun' };
+    }
+
+    // Return original word
+    return { lemma: w, category: 'unknown' };
+  }
+
+  /**
+   * Lemmatize a phrase (lemmatizes the head word)
+   * @param {string} phrase - Phrase to lemmatize
+   * @returns {string} - Lemmatized phrase
+   */
+  lemmatizePhrase(phrase) {
+    if (!phrase || typeof phrase !== 'string') return '';
+    const words = phrase.trim().split(/\s+/);
+    if (words.length === 0) return '';
+
+    const lastIdx = words.length - 1;
+    const lastWord = words[lastIdx];
+    // Skip lemmatization for acronyms (all-uppercase, e.g. DHS, CBP, FBI)
+    if (/^[A-Z]{2,}$/.test(lastWord)) {
+      words[lastIdx] = lastWord.toLowerCase();
+    } else {
+      const { lemma } = this.lemmatize(lastWord.toLowerCase());
+      words[lastIdx] = lemma;
+    }
+    return words.join(' ');
+  }
+
+  /**
+   * Lemmatize a verb form
+   * @param {string} word - Verb form
+   * @returns {string} - Base form
+   * @private
+   */
+  _lemmatizeVerb(word) {
+    // Check irregular verbs first
+    if (this.irregularVerbs[word]) {
+      return this.irregularVerbs[word];
+    }
+
+    const vowels = 'aeiou';
+
+    // Handle -ing forms (VBG)
+    if (word.endsWith('ing') && word.length > 4) {
+      const stem = word.slice(0, -3);
+
+      // Too short stems are probably base forms like "bring", "sing"
+      if (stem.length < 3) return word;
+
+      // Check for doubled consonant: running -> run
+      if (
+        stem.length > 2 &&
+        stem.charAt(stem.length - 1) === stem.charAt(stem.length - 2) &&
+        !vowels.includes(stem.charAt(stem.length - 1)) &&
+        vowels.includes(stem.charAt(stem.length - 3))
+      ) {
+        return stem.slice(0, -1);
+      }
+
+      // Handle i -> y: studying -> study
+      if (stem.endsWith('i')) {
+        return stem.slice(0, -1) + 'y';
+      }
+
+      // Check for silent 'e': making -> make
+      if (this._needsSilentE(stem)) {
+        return stem + 'e';
+      }
+
+      return stem;
+    }
+
+    // Handle -ed forms (VBD, VBN)
+    if (word.endsWith('ed') && word.length > 3) {
+      // Handle -ied: studied -> study
+      if (word.endsWith('ied')) {
+        return word.slice(0, -3) + 'y';
+      }
+
+      // Handle -ered, -ened patterns: administered -> administer, threatened -> threaten
+      if (word.endsWith('ered') && word.length > 5) {
+        return word.slice(0, -2); // remove -ed, keep -er
+      }
+      if (word.endsWith('ened') && word.length > 5) {
+        return word.slice(0, -2); // remove -ed, keep -en
+      }
+
+      const stem = word.slice(0, -2);
+
+      // Too short
+      if (stem.length < 2) return word;
+
+      // Check for doubled consonant: stopped -> stop
+      if (
+        stem.length > 2 &&
+        stem.charAt(stem.length - 1) === stem.charAt(stem.length - 2) &&
+        !vowels.includes(stem.charAt(stem.length - 1)) &&
+        vowels.includes(stem.charAt(stem.length - 3))
+      ) {
+        return stem.slice(0, -1);
+      }
+
+      // Check for silent 'e': hoped -> hope (stem ends in consonant)
+      // But NOT for words ending in -er (like administer)
+      if (this._needsSilentE(stem) && !stem.endsWith('er') && !stem.endsWith('en')) {
+        return stem + 'e';
+      }
+
+      // Just remove -ed
+      return stem;
+    }
+
+    // Handle 3rd person singular -s/-es (VBZ)
+    if (word.endsWith('ies') && word.length > 4) {
+      return word.slice(0, -3) + 'y'; // carries -> carry
+    }
+    if (word.endsWith('es') && word.length > 3) {
+      // Check for sibilants: watches -> watch, pushes -> push
+      const stem = word.slice(0, -2);
+      if (/(ch|sh|ss|x|z)$/.test(stem)) {
+        return stem;
+      }
+      // Otherwise just -s: makes -> make
+      return word.slice(0, -1);
+    }
+    if (word.endsWith('s') && word.length > 2 && !word.endsWith('ss')) {
+      return word.slice(0, -1);
+    }
+
+    return word;
+  }
+
+  /**
+   * Lemmatize a noun form
+   * @param {string} word - Noun form
+   * @returns {string} - Singular form
+   * @private
+   */
+  _lemmatizeNoun(word) {
+    // Check invariable nouns
+    if (this.invariableNouns.has(word)) {
+      return word;
+    }
+
+    // Check irregular nouns
+    if (this.irregularNouns[word]) {
+      return this.irregularNouns[word];
+    }
+
+    // Handle -ies plurals: policies -> policy
+    if (word.endsWith('ies') && word.length > 4) {
+      return word.slice(0, -3) + 'y';
+    }
+
+    // Handle -ves plurals: leaves -> leaf
+    if (word.endsWith('ves') && word.length > 4) {
+      const stem = word.slice(0, -3);
+      // Check if original ends in -f or -fe
+      // leaves -> leaf, knives -> knife
+      if (['lea', 'li', 'loa', 'shea', 'thie', 'wi', 'wol', 'kni', 'hal', 'shel', 'sel', 'cal'].some(s => stem.endsWith(s))) {
+        return stem + 'f';
+      }
+      return stem + 'fe';
+    }
+
+    // Handle -es plurals after sibilants: boxes -> box, watches -> watch
+    if (word.endsWith('es') && word.length > 3) {
+      const stem = word.slice(0, -2);
+      if (/(s|x|z|ch|sh)$/.test(stem)) {
+        return stem;
+      }
+    }
+
+    // Handle regular -s plurals: cats -> cat
+    if (word.endsWith('s') && word.length > 2 && !word.endsWith('ss')) {
+      return word.slice(0, -1);
+    }
+
+    return word;
+  }
+
+  /**
+   * Check if a stem needs silent 'e' restoration
+   * @param {string} stem - Word stem
+   * @returns {boolean} - True if silent 'e' should be added
+   * @private
+   */
+  _needsSilentE(stem) {
+    if (stem.length < 2) return false;
+
+    const vowels = 'aeiou';
+    const lastChar = stem.slice(-1);
+    const secondLast = stem.slice(-2, -1);
+    const thirdLast = stem.length > 2 ? stem.slice(-3, -2) : '';
+
+    // CVC pattern where C is not w, x, y
+    if (
+      !vowels.includes(lastChar) &&       // ends in consonant
+      vowels.includes(secondLast) &&       // preceded by vowel
+      thirdLast && !vowels.includes(thirdLast) &&  // preceded by consonant
+      !['w', 'x', 'y'].includes(lastChar)  // not w, x, y
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Get the base form regardless of POS (convenience method)
+   * @param {string} word - Word to lemmatize
+   * @returns {string} - Lemma
+   */
+  getBaseForm(word) {
+    return this.lemmatize(word).lemma;
+  }
+}
+
+// Export for both Node.js and browser
+if (typeof module !== 'undefined' && module.exports) {
+  }
+
+
+  // ============================================================================
   // REAL WORLD ENTITY FACTORY (Phase 4 - Two-Tier v2.2)
   // Creates Tier 2 entities (cco:Person, cco:Artifact) from Tier 1 referents
   // ============================================================================
@@ -305282,7 +305790,7 @@ class SecurityAuditLogger {
 /**
  * RealWorldEntityFactory.js
  *
- * Creates Tier 2 "Real-World" entities (cco:Person, cco:Artifact, cco:Organization)
+ * Creates Tier 2 "Real-World" entities (Person, Artifact, Organization)
  * from Tier 1 DiscourseReferent nodes.
  *
  * Phase 4 Two-Tier Architecture (v2.2 spec):
@@ -305294,64 +305802,101 @@ class SecurityAuditLogger {
  */
 
 /**
+ * BFO opaque IRI → human-readable label mapping.
+ * Used to generate valid IRI local names from BFO types
+ * (BFO_0000001 → Entity, not bfo:BFO_0000001 which contains invalid colons).
+ */
+const BFO_IRI_LABELS = {
+  'Entity': 'Entity',
+  'IndependentContinuant': 'IndependentContinuant',
+  'TemporalRegion': 'TemporalRegion',
+  'Process': 'Process',
+  'Disposition': 'Disposition',
+  'Quality': 'Quality',
+  'Role': 'Role',
+  'ObjectAggregate': 'ObjectAggregate',
+  'OneDimensionalTemporalRegion': 'OneDimTemporalRegion',
+  'MaterialEntity': 'MaterialEntity',
+};
+
+/**
+ * Convert a tier2Type IRI to a human-readable label for use in instance IRIs.
+ * Handles BFO opaque IRIs via lookup table, strips namespace prefix for CCO/other types.
+ * @param {string} tier2Type - The type IRI (e.g., 'Entity', 'Person')
+ * @returns {string} Human-readable label (e.g., 'Entity', 'Person')
+ */
+function _typeToLabel(tier2Type) {
+  if (BFO_IRI_LABELS[tier2Type]) return BFO_IRI_LABELS[tier2Type];
+  return tier2Type.replace(/^[a-z]+:/, '');
+}
+
+/**
  * Entity type mappings from keywords to CCO types
  * Used to determine the appropriate Tier 2 type
  */
 const TIER2_TYPE_MAPPINGS = {
   // Maps from denotesType value to Tier 2 class
-  'cco:Person': 'cco:Person',
-  'cco:GroupOfPersons': 'cco:Person', // Individual persons from group
-  'cco:Artifact': 'cco:Artifact',
-  'cco:BodyPart': 'cco:Artifact', // Organs treated as artifacts in allocation context
-  'cco:Organization': 'cco:Organization',
-  'bfo:BFO_0000040': 'cco:Artifact', // Material entity defaults to artifact
+  'Person': 'Person',
+  'Agent': 'Agent', // Agent (groups, collectives)
+  'Artifact': 'Artifact',
+  'Organization': 'Organization',
+  'GeopoliticalOrganization': 'GeopoliticalOrganization', // Cities, countries, states
+  'Facility': 'Facility', // Buildings, datacenters, offices
+  'MaterialEntity': 'Artifact', // Material entity defaults to artifact
 
   // Temporal Regions (Phase 7.0 — not artifacts)
-  'bfo:BFO_0000038': 'bfo:BFO_0000038', // One-Dimensional Temporal Region (durations)
-  'bfo:BFO_0000008': 'bfo:BFO_0000008', // Temporal Region (relative expressions)
+  'OneDimensionalTemporalRegion': 'OneDimensionalTemporalRegion', // One-Dimensional Temporal Region (durations)
+  'TemporalRegion': 'TemporalRegion', // Temporal Region (relative expressions)
 
   // Qualities (Phase 7.0 — symptoms, not artifacts)
-  'bfo:BFO_0000019': 'bfo:BFO_0000019',  // Quality (symptoms, physiological states)
+  'Quality': 'Quality',  // Quality (symptoms, physiological states)
 
   // Dispositions (Phase 7.1 — diseases per OGMS/BFO)
-  'bfo:BFO_0000016': 'bfo:BFO_0000016',  // Disposition (diseases)
+  'Disposition': 'Disposition',  // Disposition (diseases)
 
   // Pronoun-derived types (Phase 7.1 — IEE pronoun mapping)
-  'bfo:BFO_0000004': 'bfo:BFO_0000004',  // Independent Continuant (for "it")
-  'bfo:BFO_0000027': 'bfo:BFO_0000027',  // Object Aggregate (for plural "they")
-  'bfo:BFO_0000001': 'bfo:BFO_0000001',  // Entity (for demonstratives "this/that")
+  'IndependentContinuant': 'IndependentContinuant',  // Independent Continuant (for "it")
+  'ObjectAggregate': 'ObjectAggregate',  // Object Aggregate (for plural "they")
+  'Entity': 'Entity',  // Entity (for demonstratives "this/that")
+  // NOTE: bfo:Entity (prefixed form) intentionally NOT mapped here.
+  // When denotesType is bfo:Entity (generic/unclassified), we want keyword
+  // fallback to refine the type (e.g., "doctor" → Person). The default
+  // at the end of _determineTier2Type() already returns bfo:BFO_0000001.
 
   // Information Content Entities (abstract propositional content)
-  'cco:InformationContentEntity': 'cco:InformationContentEntity'
+  'InformationContentEntity': 'InformationContentEntity'
 };
 
 /**
- * Process type mappings - these create Process nodes instead of Artifacts
- * Processes are occurrents (things that happen) not continuants (things that exist)
+ * Process type mappings — all processes map to bfo:Process (BFO_0000015, verified).
+ * Specific act sub-typing is the knowledge graph's responsibility, not the parser's.
  */
 const PROCESS_TYPE_MAPPINGS = {
-  'cco:ActOfCare': 'cco:ActOfCare',
-  'cco:ActOfMedicalTreatment': 'cco:ActOfMedicalTreatment',
-  'cco:ActOfSurgery': 'cco:ActOfSurgery',
-  'cco:ActOfMedicalProcedure': 'cco:ActOfMedicalProcedure',
-  'cco:ActOfExamination': 'cco:ActOfExamination',
-  'cco:ActOfDiagnosis': 'cco:ActOfDiagnosis',
-  'cco:ActOfService': 'cco:ActOfService',
-  'cco:ActOfAssistance': 'cco:ActOfAssistance',
-  'cco:ActOfIntervention': 'cco:ActOfIntervention',
-  'cco:ActOfCommunication': 'cco:ActOfCommunication',
-  'cco:ActOfRehabilitation': 'cco:ActOfRehabilitation',
-  'cco:ActOfResuscitation': 'cco:ActOfResuscitation',
-  'bfo:BFO_0000015': 'bfo:BFO_0000015' // Generic BFO Process
+  'Process': 'Process',
+  'Process': 'Process',
+  'ActOfCommunication': 'ActOfCommunication',  // VERIFIED (ont00000402)
+  'IntentionalAct': 'IntentionalAct'           // VERIFIED (ont00000228)
 };
 
 /**
  * Keywords that suggest person type
  */
 const PERSON_KEYWORDS = [
-  'doctor', 'physician', 'nurse', 'patient', 'person', 'man', 'woman',
-  'child', 'parent', 'mother', 'father', 'family', 'staff', 'worker',
-  'professional', 'specialist', 'surgeon', 'therapist', 'caregiver'
+  // Medical
+  'doctor', 'physician', 'nurse', 'patient', 'surgeon', 'therapist',
+  'pharmacist', 'paramedic', 'caregiver',
+  // General
+  'person', 'man', 'woman', 'child', 'parent', 'mother', 'father',
+  // Professional/occupational (synced from EntityExtractor ENTITY_TYPE_MAPPINGS)
+  'engineer', 'teacher', 'lawyer', 'architect', 'scientist', 'researcher',
+  'analyst', 'manager', 'director', 'officer', 'agent', 'inspector',
+  'technician', 'programmer', 'developer', 'designer', 'consultant',
+  'administrator', 'admin', 'supervisor', 'coordinator', 'specialist',
+  'professor', 'student', 'worker', 'employee', 'staff', 'member',
+  'user', 'client', 'customer', 'owner', 'author', 'editor',
+  'reviewer', 'auditor', 'judge', 'witness', 'suspect', 'victim',
+  'soldier', 'pilot', 'driver', 'chef', 'artist', 'musician',
+  'athlete', 'guard', 'professional'
 ];
 
 /**
@@ -305359,7 +305904,10 @@ const PERSON_KEYWORDS = [
  */
 const ORG_KEYWORDS = [
   'hospital', 'clinic', 'department', 'unit', 'organization', 'institution',
-  'company', 'firm', 'agency', 'board', 'committee', 'council', 'team'
+  'company', 'firm', 'agency', 'board', 'committee', 'council', 'team',
+  // Synced from EntityExtractor ENTITY_TYPE_MAPPINGS
+  'foundation', 'administration', 'association', 'corporation',
+  'commission', 'panel'
 ];
 
 /**
@@ -305372,12 +305920,14 @@ class RealWorldEntityFactory {
    * @param {Object} [options.graphBuilder] - SemanticGraphBuilder instance for IRI generation
    * @param {string} [options.documentIRI] - IRI of the source document/IBE for scoped IRIs
    * @param {string} [options.sessionId] - Session ID for scoped IRIs (alternative to documentIRI)
+   * @param {Object} [options.lemmatizer] - Lemmatizer instance for morphological reduction
    */
   constructor(options = {}) {
     this.options = options;
     this.graphBuilder = options.graphBuilder || null;
     this.documentIRI = options.documentIRI || null;
     this.sessionId = options.sessionId || null;
+    this.lemmatizer = options.lemmatizer || null;
 
     // Cache for deduplication within a parse session
     this.entityCache = new Map();
@@ -305407,7 +305957,7 @@ class RealWorldEntityFactory {
 
     for (const referent of referents) {
       // Determine Tier 2 type
-      const tier2Type = this._determineTier2Type(referent);
+      const { type: tier2Type, basis: typeBasis } = this._determineTier2Type(referent);
 
       if (!tier2Type) {
         // Skip if we can't determine a valid Tier 2 type
@@ -305417,7 +305967,8 @@ class RealWorldEntityFactory {
       // Generate Tier 2 entity
       const tier2Entity = this._createTier2Entity(referent, tier2Type, {
         documentIRI: docIRI,
-        includeProvenance
+        includeProvenance,
+        typeBasis
       });
 
       // Check cache for existing entity with same IRI
@@ -305444,13 +305995,13 @@ class RealWorldEntityFactory {
    * @returns {Object|null} Tier 2 entity node or null if cannot create
    */
   createFromReferent(referent, options = {}) {
-    const tier2Type = this._determineTier2Type(referent);
+    const { type: tier2Type, basis: typeBasis } = this._determineTier2Type(referent);
 
     if (!tier2Type) {
       return null;
     }
 
-    return this._createTier2Entity(referent, tier2Type, options);
+    return this._createTier2Entity(referent, tier2Type, { ...options, typeBasis });
   }
 
   /**
@@ -305467,7 +306018,7 @@ class RealWorldEntityFactory {
    * Determine the Tier 2 type for a referent
    *
    * BFO/CCO compliance: Distinguishes between:
-   * - Continuants (objects that persist): cco:Person, cco:Artifact, cco:Organization
+   * - Continuants (objects that persist): Person, Artifact, Organization
    * - Occurrents (processes that happen): cco:ActOfCare, cco:ActOfMedicalTreatment, etc.
    *
    * @param {Object} referent - DiscourseReferent node
@@ -305480,39 +306031,44 @@ class RealWorldEntityFactory {
 
     // Check if it's a process type (pass through as-is)
     if (denotesType && this._isProcessType(denotesType)) {
-      return PROCESS_TYPE_MAPPINGS[denotesType];
+      return { type: PROCESS_TYPE_MAPPINGS[denotesType], basis: 'type-mapping' };
     }
 
     // Check continuant type mappings
     if (denotesType && TIER2_TYPE_MAPPINGS[denotesType]) {
-      return TIER2_TYPE_MAPPINGS[denotesType];
+      return { type: TIER2_TYPE_MAPPINGS[denotesType], basis: 'type-mapping' };
     }
 
-    // Fall back to label-based detection
+    // Fall back to label-based detection using head noun (last content word).
+    // This prevents modifiers from triggering false positives, e.g.,
+    // "patient medication" should NOT match Person via "patient".
     const label = (referent['rdfs:label'] || '').toLowerCase();
+    const words = label.replace(/^(the|a|an)\s+/i, '').split(/\s+/).filter(w => w.length > 1);
+    const headNoun = words.length > 0 ? words[words.length - 1] : label;
 
-    // Check for person keywords
+    // Check head noun for person keywords
     for (const keyword of PERSON_KEYWORDS) {
-      if (label.includes(keyword)) {
-        return 'cco:Person';
+      if (headNoun === keyword) {
+        return { type: 'Person', basis: 'keyword' };
       }
     }
 
-    // Check for organization keywords
+    // Check head noun for organization keywords
     for (const keyword of ORG_KEYWORDS) {
-      if (label.includes(keyword)) {
-        return 'cco:Organization';
+      if (headNoun === keyword) {
+        return { type: 'Organization', basis: 'keyword' };
       }
     }
 
-    // Default to Artifact for physical entities
-    return 'cco:Artifact';
+    // Default to bfo:Entity (BFO root) — honest admission of incomplete classification.
+    // Artifact was incorrectly specific; bfo:Entity is maximally general and safe.
+    return { type: 'Entity', basis: 'default' };
   }
 
   /**
    * Create a Tier 2 entity node
    * @param {Object} referent - Source DiscourseReferent
-   * @param {string} tier2Type - The Tier 2 type (cco:Person, etc.)
+   * @param {string} tier2Type - The Tier 2 type (Person, etc.)
    * @param {Object} options - Creation options
    * @returns {Object} Tier 2 entity node
    * @private
@@ -305527,12 +306083,32 @@ class RealWorldEntityFactory {
     const iri = this._generateTier2IRI(normalizedLabel, tier2Type, docIRI);
 
     // Build the Tier 2 node
-    const typeLabel = tier2Type.replace('cco:', '');
+    // §9.5: GEN/UNIV subjects produce owl:Class, not owl:NamedIndividual
+    const genericityCategory = referent['tagteam:genericityCategory'];
+    const isClassLevel = genericityCategory === 'GEN' || genericityCategory === 'UNIV';
     const node = {
       '@id': iri,
-      '@type': [tier2Type, 'owl:NamedIndividual'],
+      '@type': [tier2Type, isClassLevel ? 'owl:Class' : 'owl:NamedIndividual'],
       'rdfs:label': normalizedLabel
     };
+
+    // Propagate genericity annotations to Tier 2
+    if (genericityCategory) {
+      node['tagteam:genericityCategory'] = genericityCategory;
+    }
+
+    // Type resolution basis (how the Tier 2 type was determined)
+    if (options.typeBasis) {
+      node['tagteam:typeBasis'] = options.typeBasis;
+    }
+
+    // Class nomination pattern: GEN/UNIV entities signal unresolved class references
+    if (isClassLevel) {
+      node['tagteam:classNominationStatus'] = 'unresolved';
+      node['tagteam:nominatedClassLabel'] = this._canonicalClassLabel(normalizedLabel);
+      node['tagteam:nominationBasis'] = referent['tagteam:genericityBasis'] || 'unknown';
+      node['tagteam:requiresOntologyResolution'] = true;
+    }
 
     // Add provenance properties (v2.2)
     if (includeProvenance) {
@@ -305591,8 +306167,8 @@ class RealWorldEntityFactory {
       .join('_')
       .replace(/[^a-zA-Z0-9_]/g, '');
 
-    // Extract type name without namespace
-    const typeLabel = tier2Type.replace('cco:', '');
+    // Extract type name without namespace (handles both cco: and bfo: prefixes)
+    const typeLabel = _typeToLabel(tier2Type);
 
     return `inst:${typeLabel}_${cleanLabel}_${hashSuffix}`;
   }
@@ -305613,6 +306189,11 @@ class RealWorldEntityFactory {
       'presumed', 'apparent', 'alleged', 'uncertain', 'questionable'
     ];
 
+    // Detect if the head word is an acronym BEFORE lowercasing
+    const origWords = label.trim().split(/\s+/);
+    const origLastWord = origWords[origWords.length - 1];
+    const headIsAcronym = /^[A-Z]{2,}$/.test(origLastWord);
+
     let normalized = label.toLowerCase().trim();
 
     // Remove leading determiner
@@ -305629,7 +306210,43 @@ class RealWorldEntityFactory {
     // Remove trailing punctuation
     normalized = words.join(' ').replace(/[.,;:!?]+$/, '');
 
+    // Lemmatize the head noun (e.g., "safety reports" → "safety report")
+    // Skip acronyms — "DHS" is not a plural of "DH"
+    if (this.lemmatizer && !headIsAcronym) {
+      normalized = this.lemmatizer.lemmatizePhrase(normalized);
+    }
+
     return normalized;
+  }
+
+  /**
+   * Create a singular, capitalized canonical class label from a normalized label.
+   * "doctors" → "Doctor", "safety reports" → "Safety Report"
+   * @param {string} label - Normalized label (already lowercased, determiner-stripped)
+   * @returns {string} Canonical class label
+   * @private
+   */
+  _canonicalClassLabel(label) {
+    let words = label.trim().split(/\s+/);
+    if (words.length === 0) return label;
+
+    // Strip leading quantifiers — "all employees" → "employees", not "All Employee"
+    const quantifiers = ['all', 'every', 'each', 'no', 'some', 'any', 'most'];
+    while (words.length > 1 && quantifiers.includes(words[0])) {
+      words.shift();
+    }
+
+    // Lemmatize the last word (head noun) to singular form
+    const lastWord = words[words.length - 1];
+    if (this.lemmatizer) {
+      const lemma = this.lemmatizer.lemmatize(lastWord, 'NNS').lemma;
+      words[words.length - 1] = lemma;
+    }
+
+    // Capitalize each word
+    return words
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' ');
   }
 
   /**
@@ -305645,7 +306262,7 @@ class RealWorldEntityFactory {
       if (tier2IRI) {
         return {
           ...referent,
-          'cco:is_about': { '@id': tier2IRI }
+          'is_about': { '@id': tier2IRI }
         };
       }
       return referent;
@@ -306268,12 +306885,12 @@ const RELATIVE_TEMPORAL_PREFIXES = ['last', 'next', 'past', 'previous', 'this', 
  * These are recognized as entities when v2 normalizes Wh-questions into SVO order.
  */
 const WH_PSEUDO_ENTITIES = {
-  'who':   { type: 'cco:Person', definiteness: 'interrogative' },
-  'whom':  { type: 'cco:Person', definiteness: 'interrogative' },
-  'what':  { type: 'bfo:Entity', definiteness: 'interrogative' },
-  'which': { type: 'bfo:Entity', definiteness: 'interrogative_selective' },
-  'where': { type: 'bfo:Site', definiteness: 'interrogative' },
-  'when':  { type: 'bfo:TemporalRegion', definiteness: 'interrogative' }
+  'who':   { type: 'Person', definiteness: 'interrogative' },
+  'whom':  { type: 'Person', definiteness: 'interrogative' },
+  'what':  { type: 'Entity', definiteness: 'interrogative' },
+  'which': { type: 'Entity', definiteness: 'interrogative_selective' },
+  'where': { type: 'Site', definiteness: 'interrogative' },
+  'when':  { type: 'TemporalRegion', definiteness: 'interrogative' }
 };
 
 /**
@@ -306429,187 +307046,187 @@ const SYMPTOM_ADJECTIVE_MODIFIERS = new Set([
  */
 const ENTITY_TYPE_MAPPINGS = {
   // Persons/Roles (Medical)
-  'doctor': 'cco:Person',
-  'physician': 'cco:Person',
-  'surgeon': 'cco:Person',
-  'nurse': 'cco:Person',
-  'patient': 'cco:Person',
-  'therapist': 'cco:Person',
-  'pharmacist': 'cco:Person',
-  'paramedic': 'cco:Person',
-  'family': 'cco:GroupOfPersons',
-  'person': 'cco:Person',
-  'man': 'cco:Person',
-  'woman': 'cco:Person',
-  'child': 'cco:Person',
-  'parent': 'cco:Person',
-  'mother': 'cco:Person',
-  'father': 'cco:Person',
+  'doctor': 'Person',
+  'physician': 'Person',
+  'surgeon': 'Person',
+  'nurse': 'Person',
+  'patient': 'Person',
+  'therapist': 'Person',
+  'pharmacist': 'Person',
+  'paramedic': 'Person',
+  'family': 'Agent',
+  'person': 'Person',
+  'man': 'Person',
+  'woman': 'Person',
+  'child': 'Person',
+  'parent': 'Person',
+  'mother': 'Person',
+  'father': 'Person',
   // Professional/occupational roles (the person bearing the role)
-  'engineer': 'cco:Person',
-  'teacher': 'cco:Person',
-  'lawyer': 'cco:Person',
-  'architect': 'cco:Person',
-  'scientist': 'cco:Person',
-  'researcher': 'cco:Person',
-  'analyst': 'cco:Person',
-  'manager': 'cco:Person',
-  'director': 'cco:Person',
-  'officer': 'cco:Person',
-  'agent': 'cco:Person',
-  'inspector': 'cco:Person',
-  'technician': 'cco:Person',
-  'programmer': 'cco:Person',
-  'developer': 'cco:Person',
-  'designer': 'cco:Person',
-  'consultant': 'cco:Person',
-  'administrator': 'cco:Person',
-  'admin': 'cco:Person',  // V7-006: Common abbreviation
-  'supervisor': 'cco:Person',
-  'coordinator': 'cco:Person',
-  'specialist': 'cco:Person',
-  'professor': 'cco:Person',
-  'student': 'cco:Person',
-  'worker': 'cco:Person',
-  'employee': 'cco:Person',
-  'staff': 'cco:Person',
-  'member': 'cco:Person',
-  'user': 'cco:Person',
-  'client': 'cco:Person',
-  'customer': 'cco:Person',
-  'owner': 'cco:Person',
-  'author': 'cco:Person',
-  'editor': 'cco:Person',
-  'reviewer': 'cco:Person',
-  'auditor': 'cco:Person',
-  'judge': 'cco:Person',
-  'witness': 'cco:Person',
-  'suspect': 'cco:Person',
-  'victim': 'cco:Person',
-  'soldier': 'cco:Person',
-  'pilot': 'cco:Person',
-  'driver': 'cco:Person',
-  'chef': 'cco:Person',
-  'artist': 'cco:Person',
-  'musician': 'cco:Person',
-  'athlete': 'cco:Person',
-  'guard': 'cco:Person',
+  'engineer': 'Person',
+  'teacher': 'Person',
+  'lawyer': 'Person',
+  'architect': 'Person',
+  'scientist': 'Person',
+  'researcher': 'Person',
+  'analyst': 'Person',
+  'manager': 'Person',
+  'director': 'Person',
+  'officer': 'Person',
+  'agent': 'Person',
+  'inspector': 'Person',
+  'technician': 'Person',
+  'programmer': 'Person',
+  'developer': 'Person',
+  'designer': 'Person',
+  'consultant': 'Person',
+  'administrator': 'Person',
+  'admin': 'Person',  // V7-006: Common abbreviation
+  'supervisor': 'Person',
+  'coordinator': 'Person',
+  'specialist': 'Person',
+  'professor': 'Person',
+  'student': 'Person',
+  'worker': 'Person',
+  'employee': 'Person',
+  'staff': 'Person',
+  'member': 'Person',
+  'user': 'Person',
+  'client': 'Person',
+  'customer': 'Person',
+  'owner': 'Person',
+  'author': 'Person',
+  'editor': 'Person',
+  'reviewer': 'Person',
+  'auditor': 'Person',
+  'judge': 'Person',
+  'witness': 'Person',
+  'suspect': 'Person',
+  'victim': 'Person',
+  'soldier': 'Person',
+  'pilot': 'Person',
+  'driver': 'Person',
+  'chef': 'Person',
+  'artist': 'Person',
+  'musician': 'Person',
+  'athlete': 'Person',
+  'guard': 'Person',
 
   // Medical Equipment/Artifacts (physical objects)
-  'ventilator': 'cco:Artifact',
-  'medication': 'cco:Artifact',
-  'drug': 'cco:Artifact',
-  'medicine': 'cco:Artifact',
-  'equipment': 'cco:Artifact',
-  'bed': 'cco:Artifact',
-  'resource': 'cco:Artifact',
-  'organ': 'cco:BodyPart',
+  'ventilator': 'Artifact',
+  'medication': 'Artifact',
+  'drug': 'Artifact',
+  'medicine': 'Artifact',
+  'equipment': 'Artifact',
+  'bed': 'Artifact',
+  'resource': 'Artifact',
+  'organ': 'MaterialEntity',
 
   // V7-006: Technical/IT artifacts
-  'server': 'cco:Artifact',
-  'database': 'cco:Artifact',
-  'system': 'cco:Artifact',
-  'application': 'cco:Artifact',
-  'patch': 'cco:Artifact',
-  'bug': 'cco:Artifact',
-  'alert': 'cco:InformationContentEntity',
-  'log': 'cco:InformationContentEntity',
-  'credential': 'cco:InformationContentEntity',
-  'data': 'cco:InformationContentEntity',
-  'configuration': 'cco:InformationContentEntity',
-  'feature': 'cco:Artifact',
+  'server': 'Artifact',
+  'database': 'Artifact',
+  'system': 'Artifact',
+  'application': 'Artifact',
+  'patch': 'Artifact',
+  'bug': 'Artifact',
+  'alert': 'InformationContentEntity',
+  'log': 'InformationContentEntity',
+  'credential': 'InformationContentEntity',
+  'data': 'InformationContentEntity',
+  'configuration': 'InformationContentEntity',
+  'feature': 'Artifact',
 
-  // V7-Priority5: Software/hardware product names → cco:Artifact
+  // V7-Priority5: Software/hardware product names → Artifact
   // Case-insensitive matching handles "Windows", "windows", etc.
-  'windows': 'cco:Artifact',
-  'linux': 'cco:Artifact',
-  'macos': 'cco:Artifact',
-  'ios': 'cco:Artifact',
-  'android': 'cco:Artifact',
-  'chrome': 'cco:Artifact',
-  'firefox': 'cco:Artifact',
-  'safari': 'cco:Artifact',
-  'edge': 'cco:Artifact',
+  'windows': 'Artifact',
+  'linux': 'Artifact',
+  'macos': 'Artifact',
+  'ios': 'Artifact',
+  'android': 'Artifact',
+  'chrome': 'Artifact',
+  'firefox': 'Artifact',
+  'safari': 'Artifact',
+  'edge': 'Artifact',
 
   // V7-006: Facilities and locations
-  'datacenter': 'cco:Facility',
-  'facility': 'cco:Facility',
-  'building': 'cco:Facility',
-  'office': 'cco:Facility',
+  'datacenter': 'Facility',
+  'facility': 'Facility',
+  'building': 'Facility',
+  'office': 'Facility',
 
   // V7-Priority4: Abstract nouns → bfo:Quality (BFO specifically dependent continuants)
   // Qualities inhere in material entities but are not material themselves
-  'power': 'bfo:Quality',
-  'memory': 'bfo:Quality',
-  'speed': 'bfo:Quality',
-  'temperature': 'bfo:Quality',
-  'pressure': 'bfo:Quality',
-  'weight': 'bfo:Quality',
-  'size': 'bfo:Quality',
-  'color': 'bfo:Quality',
-  'brightness': 'bfo:Quality',
-  'capacity': 'bfo:Quality',
-  'bandwidth': 'bfo:Quality',
-  'latency': 'bfo:Quality',
+  'power': 'Quality',
+  'memory': 'Quality',
+  'speed': 'Quality',
+  'temperature': 'Quality',
+  'pressure': 'Quality',
+  'weight': 'Quality',
+  'size': 'Quality',
+  'color': 'Quality',
+  'brightness': 'Quality',
+  'capacity': 'Quality',
+  'bandwidth': 'Quality',
+  'latency': 'Quality',
 
   // Default
-  '_default': 'bfo:BFO_0000040' // Material Entity
+  '_default': 'MaterialEntity' // Material Entity
 };
 
 /**
  * Pronoun → BFO/CCO type mappings (IEE realist specification)
  *
  * Pronouns carry selectional presuppositions about their antecedent's ontological category:
- * - he/she/him/her/his → cco:Person (gendered personal pronouns presuppose person)
- * - I/me/my/we/us/our → cco:Person (1st person always human)
- * - you/your → cco:Person (2nd person always human)
+ * - he/she/him/her/his → Person (gendered personal pronouns presuppose person)
+ * - I/me/my/we/us/our → Person (1st person always human)
+ * - you/your → Person (2nd person always human)
  * - they/them/their → bfo:BFO_0000027 (Object Aggregate) when plural,
- *                      cco:Person when singular (context-dependent; default plural)
+ *                      Person when singular (context-dependent; default plural)
  * - it/its → bfo:BFO_0000004 (Independent Continuant — could be anything non-person)
  * - this/that/these/those → bfo:BFO_0000001 (Entity — maximally general demonstrative)
  */
 const PRONOUN_TYPE_MAPPINGS = {
   // Gendered personal → Person
-  'he': 'cco:Person',
-  'she': 'cco:Person',
-  'him': 'cco:Person',
-  'her': 'cco:Person',
-  'his': 'cco:Person',
-  'himself': 'cco:Person',
-  'herself': 'cco:Person',
+  'he': 'Person',
+  'she': 'Person',
+  'him': 'Person',
+  'her': 'Person',
+  'his': 'Person',
+  'himself': 'Person',
+  'herself': 'Person',
 
   // 1st person → Person
-  'i': 'cco:Person',
-  'me': 'cco:Person',
-  'my': 'cco:Person',
-  'myself': 'cco:Person',
-  'we': 'cco:Person',
-  'us': 'cco:Person',
-  'our': 'cco:Person',
-  'ourselves': 'cco:Person',
+  'i': 'Person',
+  'me': 'Person',
+  'my': 'Person',
+  'myself': 'Person',
+  'we': 'Person',
+  'us': 'Person',
+  'our': 'Person',
+  'ourselves': 'Person',
 
   // 2nd person → Person
-  'you': 'cco:Person',
-  'your': 'cco:Person',
-  'yourself': 'cco:Person',
-  'yourselves': 'cco:Person',
+  'you': 'Person',
+  'your': 'Person',
+  'yourself': 'Person',
+  'yourselves': 'Person',
 
   // 3rd person plural → Object Aggregate (group)
-  'they': 'bfo:BFO_0000027',
-  'them': 'bfo:BFO_0000027',
-  'their': 'bfo:BFO_0000027',
-  'themselves': 'bfo:BFO_0000027',
+  'they': 'ObjectAggregate',
+  'them': 'ObjectAggregate',
+  'their': 'ObjectAggregate',
+  'themselves': 'ObjectAggregate',
 
   // 3rd person neuter → Independent Continuant (non-person)
-  'it': 'bfo:BFO_0000004',
-  'its': 'bfo:BFO_0000004',
-  'itself': 'bfo:BFO_0000004',
+  'it': 'IndependentContinuant',
+  'its': 'IndependentContinuant',
+  'itself': 'IndependentContinuant',
 
   // Demonstratives → Entity (maximally general)
-  'this': 'bfo:BFO_0000001',
-  'that': 'bfo:BFO_0000001',
-  'these': 'bfo:BFO_0000001',
-  'those': 'bfo:BFO_0000001'
+  'this': 'Entity',
+  'that': 'Entity',
+  'these': 'Entity',
+  'those': 'Entity'
 };
 
 /**
@@ -306623,71 +307240,71 @@ const PRONOUN_TYPE_MAPPINGS = {
  */
 const ONTOLOGICAL_VOCABULARY = {
   // Occurrents (processes/events)
-  'process': 'bfo:BFO_0000015',
-  'event': 'bfo:BFO_0000015',
-  'activity': 'bfo:BFO_0000015',
-  'action': 'bfo:BFO_0000015',
-  'service': 'bfo:BFO_0000015',      // Generic service (domain config specializes)
-  'assistance': 'bfo:BFO_0000015',
-  'intervention': 'bfo:BFO_0000015',
+  'process': 'Process',
+  'event': 'Process',
+  'activity': 'Process',
+  'action': 'Process',
+  'service': 'Process',      // Generic service (domain config specializes)
+  'assistance': 'Process',
+  'intervention': 'Process',
   // Zero-derivation nominalizations (verb→noun without suffix)
-  'launch': 'bfo:BFO_0000015',
-  'attack': 'bfo:BFO_0000015',
-  'attempt': 'bfo:BFO_0000015',
-  'collapse': 'bfo:BFO_0000015',
-  'crash': 'bfo:BFO_0000015',
-  'escape': 'bfo:BFO_0000015',
-  'fight': 'bfo:BFO_0000015',
-  'release': 'bfo:BFO_0000015',
-  'search': 'bfo:BFO_0000015',
-  'strike': 'bfo:BFO_0000015',
-  'struggle': 'bfo:BFO_0000015',
-  'surge': 'bfo:BFO_0000015',
+  'launch': 'Process',
+  'attack': 'Process',
+  'attempt': 'Process',
+  'collapse': 'Process',
+  'crash': 'Process',
+  'escape': 'Process',
+  'fight': 'Process',
+  'release': 'Process',
+  'search': 'Process',
+  'strike': 'Process',
+  'struggle': 'Process',
+  'surge': 'Process',
 
   // Independent Continuants (objects)
-  'person': 'cco:Person',
-  'people': 'cco:Person',
-  'human': 'cco:Person',
-  'individual': 'cco:Person',
-  'thing': 'bfo:BFO_0000040',
-  'object': 'bfo:BFO_0000040',
-  'item': 'bfo:BFO_0000040',
-  'artifact': 'cco:Artifact',
-  'device': 'cco:Artifact',
-  'tool': 'cco:Artifact',
-  'machine': 'cco:Artifact',
+  'person': 'Person',
+  'people': 'Person',
+  'human': 'Person',
+  'individual': 'Person',
+  'thing': 'MaterialEntity',
+  'object': 'MaterialEntity',
+  'item': 'MaterialEntity',
+  'artifact': 'Artifact',
+  'device': 'Artifact',
+  'tool': 'Artifact',
+  'machine': 'Artifact',
 
   // Generically Dependent Continuants (information entities)
-  'document': 'bfo:BFO_0000031',
-  'information': 'bfo:BFO_0000031',
-  'data': 'bfo:BFO_0000031',
-  'plan': 'bfo:BFO_0000031',
-  'record': 'bfo:BFO_0000031',
-  'report': 'bfo:BFO_0000031',
+  'document': 'GenericallyDependentContinuant',
+  'information': 'GenericallyDependentContinuant',
+  'data': 'GenericallyDependentContinuant',
+  'plan': 'GenericallyDependentContinuant',
+  'record': 'GenericallyDependentContinuant',
+  'report': 'GenericallyDependentContinuant',
 
   // Information Content Entities (abstract propositional content)
-  'fact': 'cco:InformationContentEntity',
-  'idea': 'cco:InformationContentEntity',
-  'proposal': 'cco:InformationContentEntity',
-  'theory': 'cco:InformationContentEntity',
-  'claim': 'cco:InformationContentEntity',
-  'belief': 'cco:InformationContentEntity',
-  'assumption': 'cco:InformationContentEntity',
-  'hypothesis': 'cco:InformationContentEntity',
-  'conclusion': 'cco:InformationContentEntity',
-  'finding': 'cco:InformationContentEntity',
-  'observation': 'cco:InformationContentEntity',
-  'opinion': 'cco:InformationContentEntity',
-  'reason': 'cco:InformationContentEntity',
-  'evidence': 'cco:InformationContentEntity',
-  'truth': 'cco:InformationContentEntity',
-  'notion': 'cco:InformationContentEntity',
-  'discrepancy': 'cco:InformationContentEntity',
-  'error': 'cco:InformationContentEntity',
-  'difference': 'cco:InformationContentEntity',
-  'inconsistency': 'cco:InformationContentEntity',
-  'anomaly': 'cco:InformationContentEntity',
-  'variance': 'cco:InformationContentEntity'
+  'fact': 'InformationContentEntity',
+  'idea': 'InformationContentEntity',
+  'proposal': 'InformationContentEntity',
+  'theory': 'InformationContentEntity',
+  'claim': 'InformationContentEntity',
+  'belief': 'InformationContentEntity',
+  'assumption': 'InformationContentEntity',
+  'hypothesis': 'InformationContentEntity',
+  'conclusion': 'InformationContentEntity',
+  'finding': 'InformationContentEntity',
+  'observation': 'InformationContentEntity',
+  'opinion': 'InformationContentEntity',
+  'reason': 'InformationContentEntity',
+  'evidence': 'InformationContentEntity',
+  'truth': 'InformationContentEntity',
+  'notion': 'InformationContentEntity',
+  'discrepancy': 'InformationContentEntity',
+  'error': 'InformationContentEntity',
+  'difference': 'InformationContentEntity',
+  'inconsistency': 'InformationContentEntity',
+  'anomaly': 'InformationContentEntity',
+  'variance': 'InformationContentEntity'
 };
 
 /**
@@ -306700,18 +307317,19 @@ const ONTOLOGICAL_VOCABULARY = {
  * After Phase 2: This constant will be removed and replaced by DomainConfigLoader.
  */
 const DOMAIN_PROCESS_WORDS = {
-  // Medical services - TO BE MOVED TO config/medical.json
-  'care': 'cco:ActOfCare',
-  'treatment': 'cco:ActOfMedicalTreatment',
-  'therapy': 'cco:ActOfMedicalTreatment',
-  'surgery': 'cco:ActOfSurgery',
-  'procedure': 'cco:ActOfMedicalProcedure',
-  'examination': 'cco:ActOfExamination',
-  'diagnosis': 'cco:ActOfDiagnosis',
-  'consultation': 'cco:ActOfCommunication',
-  'counseling': 'cco:ActOfCommunication',
-  'rehabilitation': 'cco:ActOfRehabilitation',
-  'resuscitation': 'cco:ActOfResuscitation'
+  // Medical services — all map to bfo:Process (verified BFO_0000015).
+  // Specific act sub-typing is the knowledge graph's responsibility.
+  'care': 'Process',
+  'treatment': 'Process',
+  'therapy': 'Process',
+  'surgery': 'Process',
+  'procedure': 'Process',
+  'examination': 'Process',
+  'diagnosis': 'Process',
+  'consultation': 'Process',
+  'counseling': 'Process',
+  'rehabilitation': 'Process',
+  'resuscitation': 'Process'
 };
 
 /**
@@ -306742,38 +307360,38 @@ const PHYSICAL_OBJECT_INDICATORS = [
  */
 const UNAMBIGUOUS_RESULT_NOUNS = {
   // Physical products (IC - Artifact) - always the product, never the process
-  'medication': 'cco:Artifact',
-  'publication': 'cco:Artifact',
-  'invention': 'cco:Artifact',
-  'decoration': 'cco:Artifact',
-  'illustration': 'cco:Artifact',
-  'equipment': 'cco:Artifact',       // Physical tools/devices
-  'instrument': 'cco:Artifact',      // Medical/scientific instrument
-  'garment': 'cco:Artifact',         // Clothing item
-  'pavement': 'cco:Artifact',        // Physical surface
-  'monument': 'cco:Artifact',        // Physical structure
-  'compartment': 'cco:Artifact',     // Physical container/section
+  'medication': 'Artifact',
+  'publication': 'Artifact',
+  'invention': 'Artifact',
+  'decoration': 'Artifact',
+  'illustration': 'Artifact',
+  'equipment': 'Artifact',       // Physical tools/devices
+  'instrument': 'Artifact',      // Medical/scientific instrument
+  'garment': 'Artifact',         // Clothing item
+  'pavement': 'Artifact',        // Physical surface
+  'monument': 'Artifact',        // Physical structure
+  'compartment': 'Artifact',     // Physical container/section
 
   // V7-006: Technical/IT result nouns (artifacts, not processes)
-  'feature': 'cco:Artifact',         // Software feature (thing), not featuring (act)
+  'feature': 'Artifact',         // Software feature (thing), not featuring (act)
 
   // Documents (GDC) - always the document, never the process
-  'documentation': 'bfo:BFO_0000031',
-  'registration': 'bfo:BFO_0000031',
-  'certification': 'bfo:BFO_0000031',
-  'specification': 'bfo:BFO_0000031',
-  'notification': 'bfo:BFO_0000031',
-  'recommendation': 'bfo:BFO_0000031',
-  'regulation': 'bfo:BFO_0000031',     // The rule document
-  'legislation': 'bfo:BFO_0000031',
+  'documentation': 'GenericallyDependentContinuant',
+  'registration': 'GenericallyDependentContinuant',
+  'certification': 'GenericallyDependentContinuant',
+  'specification': 'GenericallyDependentContinuant',
+  'notification': 'GenericallyDependentContinuant',
+  'recommendation': 'GenericallyDependentContinuant',
+  'regulation': 'GenericallyDependentContinuant',     // The rule document
+  'legislation': 'GenericallyDependentContinuant',
 
   // V7-006: IT information content entities (not processes)
-  'configuration': 'cco:InformationContentEntity',  // Config data, not configuring act
+  'configuration': 'InformationContentEntity',  // Config data, not configuring act
 
   // Locations (IC) - always the place, never the process
-  'location': 'bfo:BFO_0000040',
-  'station': 'bfo:BFO_0000040',
-  'position': 'bfo:BFO_0000040'        // Spatial position
+  'location': 'MaterialEntity',
+  'station': 'MaterialEntity',
+  'position': 'MaterialEntity'        // Spatial position
 };
 
 /**
@@ -306790,30 +307408,30 @@ const UNAMBIGUOUS_RESULT_NOUNS = {
  */
 const AMBIGUOUS_NOMINALIZATIONS = {
   // Can be organization (entity) or organizing (process)
-  'organization': 'cco:Organization',
-  'foundation': 'cco:Organization',
-  'administration': 'cco:Organization',
-  'association': 'cco:Organization',
-  'corporation': 'cco:Organization',
-  'institution': 'cco:Organization',
+  'organization': 'Organization',
+  'foundation': 'Organization',
+  'administration': 'Organization',
+  'association': 'Organization',
+  'corporation': 'Organization',
+  'institution': 'Organization',
 
   // Phase 5.3.1: Collective decision-making bodies (always Organizations when agents)
   // These are social entities that can perform intentional acts
-  'committee': 'cco:Organization',
-  'board': 'cco:Organization',
-  'council': 'cco:Organization',
-  'commission': 'cco:Organization',
-  'panel': 'cco:Organization',
-  'team': 'cco:Organization',
+  'committee': 'Organization',
+  'board': 'Organization',
+  'council': 'Organization',
+  'commission': 'Organization',
+  'panel': 'Organization',
+  'team': 'Organization',
 
   // Can be software (entity) or applying (process)
-  'application': 'cco:Artifact',
+  'application': 'Artifact',
 
   // Can be the building (entity) or the act of building (process)
-  'construction': 'cco:Artifact',
-  'creation': 'cco:Artifact',
-  'production': 'cco:Artifact',
-  'installation': 'cco:Artifact'
+  'construction': 'Artifact',
+  'creation': 'Artifact',
+  'production': 'Artifact',
+  'installation': 'Artifact'
 };
 
 /**
@@ -306851,7 +307469,8 @@ class EntityExtractor {
     // Initialize RealWorldEntityFactory for Tier 2 creation
     this.tier2Factory = new RealWorldEntityFactory({
       graphBuilder: this.graphBuilder,
-      documentIRI: options.documentIRI
+      documentIRI: options.documentIRI,
+      lemmatizer: options.lemmatizer
     });
   }
 
@@ -306872,7 +307491,7 @@ class EntityExtractor {
    * @example
    * const extractor = new EntityExtractor();
    * const entities = extractor.extract("The doctor treats the patient");
-   * // Returns array of DiscourseReferent nodes + cco:Person nodes
+   * // Returns array of DiscourseReferent nodes + Person nodes
    */
   extract(text, options = {}) {
     const tier1Entities = [];
@@ -307236,7 +307855,7 @@ class EntityExtractor {
         text: personText,
         rootNoun: personText,
         offset,
-        entityType: 'cco:Person',
+        entityType: 'Person',
         definiteness: 'definite',  // Proper names are inherently definite
         referentialStatus: 'introduced',
         scarcity: { isScarce: false },
@@ -307262,12 +307881,12 @@ class EntityExtractor {
 
       if (existingEntity) {
         // Update type if it was extracted by NPChunker with default type
-        if (existingEntity['tagteam:denotesType'] === 'bfo:BFO_0000040') {
-          existingEntity['tagteam:denotesType'] = 'cco:Organization';
+        if (existingEntity['tagteam:denotesType'] === 'MaterialEntity') {
+          existingEntity['tagteam:denotesType'] = 'Organization';
           // Also update @type array
-          const typeIndex = existingEntity['@type'].indexOf('bfo:BFO_0000040');
+          const typeIndex = existingEntity['@type'].indexOf('MaterialEntity');
           if (typeIndex !== -1) {
-            existingEntity['@type'][typeIndex] = 'cco:Organization';
+            existingEntity['@type'][typeIndex] = 'Organization';
           }
         }
         return;
@@ -307279,7 +307898,7 @@ class EntityExtractor {
         text: orgText,
         rootNoun: orgText,
         offset,
-        entityType: 'cco:Organization',
+        entityType: 'Organization',
         definiteness: 'definite',
         referentialStatus: 'introduced',
         scarcity: { isScarce: false },
@@ -307305,12 +307924,12 @@ class EntityExtractor {
 
       if (existingEntity) {
         // Update type if it was extracted by NPChunker with default type
-        if (existingEntity['tagteam:denotesType'] === 'bfo:BFO_0000040') {
-          existingEntity['tagteam:denotesType'] = 'cco:GeopoliticalEntity';
+        if (existingEntity['tagteam:denotesType'] === 'MaterialEntity') {
+          existingEntity['tagteam:denotesType'] = 'GeopoliticalOrganization';
           // Also update @type array
-          const typeIndex = existingEntity['@type'].indexOf('bfo:BFO_0000040');
+          const typeIndex = existingEntity['@type'].indexOf('MaterialEntity');
           if (typeIndex !== -1) {
-            existingEntity['@type'][typeIndex] = 'cco:GeopoliticalEntity';
+            existingEntity['@type'][typeIndex] = 'GeopoliticalOrganization';
           }
         }
         return;
@@ -307323,7 +307942,7 @@ class EntityExtractor {
         text: placeText,
         rootNoun: placeText,
         offset,
-        entityType: 'cco:GeopoliticalEntity',
+        entityType: 'GeopoliticalOrganization',
         definiteness: 'definite',
         referentialStatus: 'introduced',
         scarcity: { isScarce: false },
@@ -307723,12 +308342,12 @@ class EntityExtractor {
 
       if (existingEntity) {
         // Update type if it was extracted by NPChunker with default type
-        if (existingEntity['tagteam:denotesType'] === 'bfo:BFO_0000040') {
-          existingEntity['tagteam:denotesType'] = 'cco:Person';
+        if (existingEntity['tagteam:denotesType'] === 'MaterialEntity') {
+          existingEntity['tagteam:denotesType'] = 'Person';
           // Also update @type array
-          const typeIndex = existingEntity['@type'].indexOf('bfo:BFO_0000040');
+          const typeIndex = existingEntity['@type'].indexOf('MaterialEntity');
           if (typeIndex !== -1) {
-            existingEntity['@type'][typeIndex] = 'cco:Person';
+            existingEntity['@type'][typeIndex] = 'Person';
           }
         }
         return;
@@ -307740,7 +308359,7 @@ class EntityExtractor {
         text: personText,
         rootNoun: personText,
         offset,
-        entityType: 'cco:Person',
+        entityType: 'Person',
         definiteness: 'definite',
         referentialStatus: 'introduced',
         scarcity: { isScarce: false },
@@ -307766,12 +308385,12 @@ class EntityExtractor {
 
       if (existingEntity) {
         // Update type if it was extracted by NPChunker with default type
-        if (existingEntity['tagteam:denotesType'] === 'bfo:BFO_0000040') {
-          existingEntity['tagteam:denotesType'] = 'cco:Organization';
+        if (existingEntity['tagteam:denotesType'] === 'MaterialEntity') {
+          existingEntity['tagteam:denotesType'] = 'Organization';
           // Also update @type array
-          const typeIndex = existingEntity['@type'].indexOf('bfo:BFO_0000040');
+          const typeIndex = existingEntity['@type'].indexOf('MaterialEntity');
           if (typeIndex !== -1) {
-            existingEntity['@type'][typeIndex] = 'cco:Organization';
+            existingEntity['@type'][typeIndex] = 'Organization';
           }
         }
         return;
@@ -307783,7 +308402,7 @@ class EntityExtractor {
         text: orgText,
         rootNoun: orgText,
         offset,
-        entityType: 'cco:Organization',
+        entityType: 'Organization',
         definiteness: 'definite',
         referentialStatus: 'introduced',
         scarcity: { isScarce: false },
@@ -307809,12 +308428,12 @@ class EntityExtractor {
 
       if (existingEntity) {
         // Update type if it was extracted by NPChunker with default type
-        if (existingEntity['tagteam:denotesType'] === 'bfo:BFO_0000040') {
-          existingEntity['tagteam:denotesType'] = 'cco:GeopoliticalEntity';
+        if (existingEntity['tagteam:denotesType'] === 'MaterialEntity') {
+          existingEntity['tagteam:denotesType'] = 'GeopoliticalOrganization';
           // Also update @type array
-          const typeIndex = existingEntity['@type'].indexOf('bfo:BFO_0000040');
+          const typeIndex = existingEntity['@type'].indexOf('MaterialEntity');
           if (typeIndex !== -1) {
-            existingEntity['@type'][typeIndex] = 'cco:GeopoliticalEntity';
+            existingEntity['@type'][typeIndex] = 'GeopoliticalOrganization';
           }
         }
         return;
@@ -307826,7 +308445,7 @@ class EntityExtractor {
         text: placeText,
         rootNoun: placeText,
         offset,
-        entityType: 'cco:GeopoliticalEntity',
+        entityType: 'GeopoliticalOrganization',
         definiteness: 'definite',
         referentialStatus: 'introduced',
         scarcity: { isScarce: false },
@@ -308234,11 +308853,11 @@ class EntityExtractor {
       // "itself" → generic entity (could be artifact, system, etc.)
       // "himself/herself" → person
       // "themselves/ourselves" → group
-      let entityType = 'bfo:Entity';  // Default for "itself"
+      let entityType = 'Entity';  // Default for "itself"
       if (pronounText === 'himself' || pronounText === 'herself' || pronounText === 'myself' || pronounText === 'yourself') {
-        entityType = 'cco:Person';
+        entityType = 'Person';
       } else if (pronounText === 'themselves' || pronounText === 'ourselves' || pronounText === 'yourselves') {
-        entityType = 'cco:GroupOfPersons';
+        entityType = 'Agent';
       }
 
       // Create DiscourseReferent for reflexive pronoun
@@ -308273,7 +308892,7 @@ class EntityExtractor {
    * @param {Array} tier1Entities - Entities to upgrade (modified in place)
    */
   _upgradeCapitalizedDefaultEntities(tier1Entities) {
-    const DEFAULT_TYPE = 'bfo:BFO_0000040';
+    const DEFAULT_TYPE = 'MaterialEntity';
 
     tier1Entities.forEach(entity => {
       // Only upgrade if it has default type
@@ -308311,32 +308930,32 @@ class EntityExtractor {
       if (cleanWords.length === 1) {
         // Single capitalized word
         if (techCompanies.has(firstWord)) {
-          newType = 'cco:Organization';
+          newType = 'Organization';
         } else if (techProducts.has(firstWord)) {
-          newType = 'cco:Artifact';  // Product names are artifacts
+          newType = 'Artifact';  // Product names are artifacts
         } else if (totalLength >= 3 && totalLength <= 8) {
           // Short word - likely person name (John, Mary, Smith)
-          newType = 'cco:Person';
+          newType = 'Person';
         } else if (totalLength >= 9) {
           // Longer single word - likely organization (Microsoft = 9 chars)
-          newType = 'cco:Organization';
+          newType = 'Organization';
         }
       } else if (cleanWords.length === 2) {
         // Two capitalized words
         // Check if second word is a common name suffix (indicates person)
         const nameSuffixes = new Set(['Jr', 'Sr', 'II', 'III']);
         if (nameSuffixes.has(cleanWords[1])) {
-          newType = 'cco:Person';
+          newType = 'Person';
         } else if (totalLength <= 20) {
           // Likely "FirstName LastName"
-          newType = 'cco:Person';
+          newType = 'Person';
         } else {
           // Long two-word phrase - likely organization
-          newType = 'cco:Organization';
+          newType = 'Organization';
         }
       } else {
         // Multiple words - likely organization
-        newType = 'cco:Organization';
+        newType = 'Organization';
       }
 
       if (newType) {
@@ -308420,19 +309039,19 @@ class EntityExtractor {
         // Multi-word capitalized phrase
         if (phrase.split(/\s+/).length === 2 && phraseLength <= 20) {
           // Likely "FirstName LastName"
-          entityType = 'cco:Person';
+          entityType = 'Person';
         } else {
           // Longer phrase - likely Organization
-          entityType = 'cco:Organization';
+          entityType = 'Organization';
         }
       } else {
         // Single capitalized word
         if (phraseLength >= 3 && phraseLength <= 10) {
           // Short word - likely person name
-          entityType = 'cco:Person';
+          entityType = 'Person';
         } else if (phraseLength > 10) {
           // Longer word - likely organization or product
-          entityType = 'cco:Organization';
+          entityType = 'Organization';
         } else {
           // Very short - skip (might be abbreviation)
           i++;
@@ -308849,9 +309468,9 @@ class EntityExtractor {
 
       if (matchesTerm) {
         // Check if it's an occurrent type
-        if (type === 'bfo:BFO_0000015' || type === 'bfo:Process') {
+        if (type === 'Process' || type === 'Process') {
           // V7-008: Accept both full IRI and compact form
-          return { isProcess: true, type: 'bfo:Process' };
+          return { isProcess: true, type: 'Process' };
         }
         // Not a process (person, artifact, GDC) - return null to use other classification
         return null;
@@ -308866,7 +309485,7 @@ class EntityExtractor {
 
     // Priority 4: Domain-specific words from config loader (Phase 2)
     // Config loader takes precedence over suffix detection to allow domain-specific
-    // type specialization (e.g., "surgery" → cco:ActOfSurgery instead of bfo:BFO_0000015)
+    // type specialization (e.g., "surgery" → ActOfSurgery instead of bfo:BFO_0000015)
     if (this.configLoader && this.configLoader.isConfigLoaded()) {
       const configType = this.configLoader.getProcessRootWord(lastWord);
       if (configType) {
@@ -308880,14 +309499,14 @@ class EntityExtractor {
       }
     }
 
-    // Priority 4.5: V7-008 Action nominalizations → cco:Act
+    // Priority 4.5: V7-008 Action nominalizations → Act
     // These are nominalized intentional acts, not generic processes
     const actionNominalizations = new Set([
       'deployment', 'implementation', 'installation', 'configuration',
       'execution', 'operation', 'deployment', 'migration', 'upgrade'
     ]);
     if (actionNominalizations.has(lastWord)) {
-      return { isProcess: true, type: 'cco:Act' };
+      return { isProcess: true, type: 'Act' };
     }
 
     // Priority 5: Nominalization suffixes - domain-neutral detection mechanism
@@ -308896,7 +309515,7 @@ class EntityExtractor {
       const cleanSuffix = suffix.replace('-', '');
       if (lastWord.endsWith(cleanSuffix) && lastWord.length > cleanSuffix.length + 2) {
         // Has process suffix and not in exception list → Process
-        return { isProcess: true, type: 'bfo:Process' }; // V7-008: Use compact form instead of bfo:BFO_0000015
+        return { isProcess: true, type: 'Process' }; // V7-008: Use compact form instead of bfo:BFO_0000015
       }
     }
 
@@ -308946,20 +309565,20 @@ class EntityExtractor {
     if (words.length >= 2 && TEMPORAL_UNITS[lastWord]) {
       const firstWord = words[0];
       if (QUANTITY_WORDS[firstWord] !== undefined || /^\d+$/.test(firstWord)) {
-        return 'bfo:BFO_0000038'; // One-Dimensional Temporal Region
+        return 'OneDimensionalTemporalRegion'; // One-Dimensional Temporal Region
       }
     }
 
     // Rule 3: relative prefix + temporal unit → Temporal Region (unspecified)
     if (words.length >= 2 && TEMPORAL_UNITS[lastWord]) {
       if (RELATIVE_TEMPORAL_PREFIXES.includes(words[0])) {
-        return 'bfo:BFO_0000008'; // Temporal Region
+        return 'TemporalRegion'; // Temporal Region
       }
     }
 
     // Rule 4: standalone relative temporal term
     if (words.length === 1 && RELATIVE_TEMPORAL_TERMS.includes(lastWord)) {
-      return 'bfo:BFO_0000008'; // Temporal Region
+      return 'TemporalRegion'; // Temporal Region
     }
 
     return null;
@@ -308988,45 +309607,45 @@ class EntityExtractor {
    *
    * @param {string} fullNounLower - Full noun phrase, lowercased
    * @param {string} rootNounLower - Root/head noun, lowercased
-   * @returns {string|null} 'bfo:BFO_0000019' (Quality) or null
+   * @returns {string|null} 'Quality' (Quality) or null
    */
   _checkForSymptomType(fullNounLower, rootNounLower) {
     // Rule 0: Disease terms → Disposition, NOT Quality
     // Per OGMS/BFO, diseases are dispositions to undergo pathological processes
     if (DISEASE_TERMS.has(rootNounLower)) {
-      return 'bfo:Disposition'; // V7-008: Use compact form instead of bfo:BFO_0000016
+      return 'Disposition'; // V7-008: Use compact form instead of bfo:BFO_0000016
     }
     // Check head word of multi-word root for diseases
     const rootWordsForDisease = rootNounLower.split(/\s+/);
     if (rootWordsForDisease.length > 1) {
       const headForDisease = rootWordsForDisease[rootWordsForDisease.length - 1];
       if (DISEASE_TERMS.has(headForDisease)) {
-        return 'bfo:Disposition';
+        return 'Disposition';
       }
     }
 
     // Rule 0b: Disposition/capability terms → Disposition
     // "capacity", "capability", "ability" etc. are realizable entities, not artifacts
     if (DISPOSITION_TERMS.has(rootNounLower)) {
-      return 'bfo:Disposition'; // V7-008: Use compact form
+      return 'Disposition'; // V7-008: Use compact form
     }
 
     // Rule 0c: Evaluative quality terms → Quality
     // "disaster", "success", "failure", "demand" etc. are evaluative attributes, not artifacts
     if (EVALUATIVE_QUALITY_TERMS.has(rootNounLower)) {
-      return 'bfo:Quality'; // V7-008: Use compact form instead of bfo:BFO_0000019
+      return 'Quality'; // V7-008: Use compact form instead of bfo:BFO_0000019
     }
 
     // Rule 1: Multi-word phrase match (symptoms only)
     for (const phrase of SYMPTOM_PHRASES) {
       if (fullNounLower.includes(phrase)) {
-        return 'bfo:Quality'; // V7-008: Use compact form
+        return 'Quality'; // V7-008: Use compact form
       }
     }
 
     // Rule 2: Single-word root noun match
     if (SYMPTOM_SINGLE_WORDS.has(rootNounLower)) {
-      return 'bfo:Quality';
+      return 'Quality';
     }
 
     // Rule 3: Strip adjective modifiers and re-check root
@@ -309034,7 +309653,7 @@ class EntityExtractor {
     if (rootWords.length > 1) {
       const headWord = rootWords[rootWords.length - 1];
       if (SYMPTOM_SINGLE_WORDS.has(headWord)) {
-        return 'bfo:Quality';
+        return 'Quality';
       }
     }
 
@@ -309063,7 +309682,7 @@ class EntityExtractor {
           const head = c.trim().split(/\s+/).pop();
           return DISEASE_TERMS.has(head);
         });
-        return anyDisease ? 'bfo:Disposition' : 'bfo:Quality';
+        return anyDisease ? 'Disposition' : 'Quality';
       }
     }
 
@@ -309107,10 +309726,10 @@ class EntityExtractor {
 
     // Refine based on verb class
     if (COGNITIVE_VERBS.has(governingVerb)) {
-      result.refinedType = 'cco:InformationContentEntity';
+      result.refinedType = 'InformationContentEntity';
       result.governingVerb = governingVerb;
     } else if (PHYSICAL_VERBS.has(governingVerb)) {
-      result.refinedType = 'cco:Artifact';
+      result.refinedType = 'Artifact';
       result.governingVerb = governingVerb;
     }
 
@@ -309287,8 +309906,8 @@ class EntityExtractor {
    * Determine entity type for denotesType property
    *
    * BFO/CCO compliance: Distinguishes between:
-   * - Continuants (objects): cco:Person, cco:Artifact
-   * - Occurrents (processes): cco:ActOfCare, cco:ActOfMedicalTreatment, etc.
+   * - Continuants (objects): Person, Artifact
+   * - Occurrents (processes): ActOfCare, ActOfMedicalTreatment, etc.
    *
    * Uses determiner-sensitive disambiguation for ambiguous nominalizations.
    *
@@ -309312,7 +309931,7 @@ class EntityExtractor {
       // Titles indicate person
       const titles = ['Dr', 'Dr.', 'Mr', 'Mr.', 'Mrs', 'Mrs.', 'Ms', 'Ms.', 'Prof', 'Prof.'];
       if (titles.some(t => firstWord.startsWith(t))) {
-        return 'cco:Person';
+        return 'Person';
       }
 
       // Multi-word capitalized names are usually persons or organizations
@@ -309322,7 +309941,7 @@ class EntityExtractor {
       const hasOrgIndicator = orgIndicators.some(ind => originalNoun.includes(ind));
 
       if (hasOrgIndicator) {
-        return 'cco:Organization';
+        return 'Organization';
       }
 
       // V7-Priority5: Product names (software, hardware)
@@ -309337,19 +309956,19 @@ class EntityExtractor {
         'AWS', 'Azure', 'GCP'
       ];
       if (productNames.includes(originalNoun)) {
-        return 'cco:Artifact';
+        return 'Artifact';
       }
 
       // Single capitalized word: could be person name, product name, or location
       // Default to Person for short single words (common first names)
       // This is a heuristic - proper classification needs context
       if (words.length === 1 && originalNoun.length <= 8) {
-        return 'cco:Person';  // Likely a first name
+        return 'Person';  // Likely a first name
       }
 
       // Multi-word (2-3 words) all capitalized → Person
       if (words.length >= 2 && words.length <= 3) {
-        return 'cco:Person';  // Likely "FirstName LastName"
+        return 'Person';  // Likely "FirstName LastName"
       }
 
       // Fall through to other detection for proper nouns we can't classify
@@ -309374,7 +309993,7 @@ class EntityExtractor {
         if (UNAMBIGUOUS_RESULT_NOUNS[modifier] ||
             ENTITY_TYPE_MAPPINGS[modifier] ||
             ['patient', 'file', 'data', 'drug', 'medication', 'document'].includes(modifier)) {
-          return 'bfo:BFO_0000015'; // Process reading for compound
+          return 'Process'; // Process reading for compound
         }
       }
     }
@@ -309396,7 +310015,7 @@ class EntityExtractor {
 
       if (nounContext.favorsProcess && nounContext.reason === 'of-complement') {
         // "organization of files" → process reading
-        return 'bfo:BFO_0000015';
+        return 'Process';
       }
 
       if (nounContext.favorsEntity) {
@@ -309449,7 +310068,7 @@ class EntityExtractor {
       || (lastWord.endsWith('ses') || lastWord.endsWith('zes') || lastWord.endsWith('xes') || lastWord.endsWith('ches') || lastWord.endsWith('shes')
           ? ONTOLOGICAL_VOCABULARY[lastWord.slice(0, -2)] : null)
       || (lastWord.endsWith('s') && !lastWord.endsWith('ss') ? ONTOLOGICAL_VOCABULARY[lastWord.slice(0, -1)] : null);
-    if (vocabType && vocabType !== 'bfo:BFO_0000015') {
+    if (vocabType && vocabType !== 'Process') {
       return vocabType;
     }
 
@@ -309566,7 +310185,7 @@ class EntityExtractor {
     // Similar to RoleDetector's multi-type pattern
     const types = [];
 
-    // Add specific CCO/BFO type first (e.g., cco:Person, cco:Artifact)
+    // Add specific CCO/BFO type first (e.g., Person, Artifact)
     if (entityInfo.entityType) {
       types.push(entityInfo.entityType);
     }
@@ -309698,10 +310317,10 @@ class EntityExtractor {
  * ActExtractor.js
  *
  * Extracts intentional acts from verb phrases and creates
- * cco:IntentionalAct nodes for the semantic graph.
+ * IntentionalAct nodes for the semantic graph.
  *
  * Phase 4 Two-Tier Architecture (v2.2 spec):
- * - Acts link to Tier 2 entities (cco:Person, cco:Artifact) via has_agent/affects
+ * - Acts link to Tier 2 entities (Person, Artifact) via has_agent/affects
  * - All acts have actualityStatus (Prescribed, Actual, Negated, etc.)
  * - Supports negation detection for Negated status
  *
@@ -309715,58 +310334,13 @@ class EntityExtractor {
  */
 
 /**
- * Verb-to-CCO Act Type mappings
- * Maps verb infinitives to CCO act classes
+ * Default act type for all extracted verb phrases.
+ * All acts are IntentionalAct (verified, ont00000228).
+ * The verb lemma (tagteam:lemma) and rdfs:label provide classification
+ * breadcrumbs for downstream consumers. Sub-typing is the knowledge
+ * graph's responsibility, not the parser's.
  */
-const VERB_TO_CCO_MAPPINGS = {
-  // Resource Allocation Acts
-  'allocate': 'cco:ActOfAllocation',
-  'distribute': 'cco:ActOfAllocation',
-  'assign': 'cco:ActOfAllocation',
-  'give': 'cco:ActOfTransferOfPossession',
-  'provide': 'cco:ActOfTransferOfPossession',
-
-  // Medical Acts
-  'treat': 'cco:ActOfMedicalTreatment',
-  'diagnose': 'cco:ActOfDiagnosis',
-  'prescribe': 'cco:ActOfPrescription',
-  'administer': 'cco:ActOfAdministration',
-  'operate': 'cco:ActOfSurgery',
-  'examine': 'cco:ActOfExamination',
-  'withdraw': 'cco:ActOfWithdrawal',
-  'discontinue': 'cco:ActOfWithdrawal',
-
-  // Communication Acts
-  'tell': 'cco:ActOfCommunication',
-  'inform': 'cco:ActOfCommunication',
-  'disclose': 'cco:ActOfCommunication',
-  'report': 'cco:ActOfCommunication',
-  'say': 'cco:ActOfCommunication',
-  'ask': 'cco:ActOfCommunication',
-
-  // Decision Acts
-  'decide': 'cco:ActOfDecision',
-  'choose': 'cco:ActOfDecision',
-  'select': 'cco:ActOfDecision',
-  'determine': 'cco:ActOfDecision',
-
-  // Care Acts
-  'help': 'cco:ActOfAssistance',
-  'assist': 'cco:ActOfAssistance',
-  'support': 'cco:ActOfAssistance',
-  'care': 'cco:ActOfCare',
-  'protect': 'cco:ActOfProtection',
-  'save': 'cco:ActOfProtection',
-
-  // Harm/Risk Acts
-  'harm': 'cco:ActOfHarming',
-  'injure': 'cco:ActOfHarming',
-  'endanger': 'cco:ActOfEndangering',
-  'risk': 'cco:ActOfEndangering',
-
-  // Default
-  '_default': 'cco:IntentionalAct'
-};
+const DEFAULT_ACT_TYPE = 'IntentionalAct';
 
 /**
  * Verb infinitive corrections
@@ -310068,129 +310642,39 @@ const MODALITY_TO_DEONTIC_TYPE = {
   'hypothetical': null
 };
 
-/**
- * Selectional Restrictions - Phase 3
- *
- * Maps verb + direct object ontological category to specialized act types.
- * This allows verb sense disambiguation based on what type of thing is being
- * acted upon.
- *
- * Ontological categories:
- * - objectIsOccurrent: Direct object is a process/event (care, treatment, service)
- * - objectIsContinuant: Direct object is a physical thing (medication, equipment)
- * - objectIsGDC: Direct object is information content (advice, data, instructions)
- * - objectIsPerson: Direct object is a person
- * - default: Fallback when category cannot be determined
- *
- * Based on ONTOLOGICAL_ISSUES_2026_01_19.md v3.1 analysis.
- */
-const SELECTIONAL_RESTRICTIONS = {
-  'provide': {
-    objectIsOccurrent: 'cco:ActOfService',
-    objectIsContinuant: 'cco:ActOfTransferOfPossession',
-    objectIsGDC: 'cco:ActOfCommunication',
-    objectIsPerson: 'cco:ActOfAssistance',
-    default: 'cco:IntentionalAct'
-  },
-  'give': {
-    objectIsOccurrent: 'cco:ActOfCommunication', // "give a presentation"
-    objectIsContinuant: 'cco:ActOfTransferOfPossession',
-    objectIsGDC: 'cco:ActOfCommunication', // "give advice"
-    objectIsPerson: 'cco:ActOfTransferOfPossession', // "give the patient to..."
-    default: 'cco:ActOfTransferOfPossession'
-  },
-  'offer': {
-    objectIsOccurrent: 'cco:ActOfService',
-    objectIsContinuant: 'cco:ActOfTransferOfPossession',
-    objectIsGDC: 'cco:ActOfCommunication',
-    default: 'cco:ActOfService'
-  },
-  'deliver': {
-    objectIsOccurrent: 'cco:ActOfService', // "deliver care"
-    objectIsContinuant: 'cco:ActOfTransferOfPossession', // "deliver medication"
-    objectIsGDC: 'cco:ActOfCommunication', // "deliver a message"
-    default: 'cco:ActOfTransferOfPossession'
-  },
-  'administer': {
-    objectIsOccurrent: 'cco:ActOfAdministration', // "administer treatment"
-    objectIsContinuant: 'cco:ActOfDrugAdministration', // "administer medication"
-    objectIsGDC: 'cco:ActOfAdministration',
-    default: 'cco:ActOfAdministration'
-  },
-  'allocate': {
-    objectIsOccurrent: 'cco:ActOfAllocation',
-    objectIsContinuant: 'cco:ActOfAllocation',
-    objectIsPerson: 'cco:ActOfAssignment', // "allocate staff"
-    default: 'cco:ActOfAllocation'
-  },
-  'assign': {
-    objectIsOccurrent: 'cco:ActOfAssignment',
-    objectIsContinuant: 'cco:ActOfAssignment',
-    objectIsPerson: 'cco:ActOfAssignment',
-    default: 'cco:ActOfAssignment'
-  },
-  'send': {
-    objectIsOccurrent: 'cco:ActOfCommunication',
-    objectIsContinuant: 'cco:ActOfTransferOfPossession',
-    objectIsGDC: 'cco:ActOfCommunication', // "send information"
-    objectIsPerson: 'cco:ActOfDirecting', // "send the patient"
-    default: 'cco:ActOfCommunication'
-  },
-  'receive': {
-    objectIsOccurrent: 'cco:ActOfReceiving',
-    objectIsContinuant: 'cco:ActOfReceiving',
-    objectIsGDC: 'cco:ActOfReceiving',
-    default: 'cco:ActOfReceiving'
-  },
-  'transfer': {
-    objectIsOccurrent: 'cco:ActOfTransfer',
-    objectIsContinuant: 'cco:ActOfTransferOfPossession',
-    objectIsPerson: 'cco:ActOfPatientTransfer',
-    default: 'cco:ActOfTransfer'
-  }
-};
+// Selectional Restrictions removed — all acts are IntentionalAct.
+// Verb sense disambiguation (ditransitive, communication, transfer) is
+// handled by verb class sets (COMMUNICATION_VERBS, TRANSFER_VERBS, etc.)
+// for NLP behavior, not for @type emission.
 
 /**
- * BFO type categories for selectional restriction matching
- * Maps denotesType values to ontological categories
+ * BFO type categories for ontological classification
+ * Maps denotesType values to ontological categories.
+ * Only verified BFO/CCO IRIs.
  */
 const TYPE_TO_CATEGORY = {
   // Occurrents (processes)
-  'bfo:BFO_0000015': 'occurrent',
-  'cco:ActOfCare': 'occurrent',
-  'cco:ActOfMedicalTreatment': 'occurrent',
-  'cco:ActOfSurgery': 'occurrent',
-  'cco:ActOfMedicalProcedure': 'occurrent',
-  'cco:ActOfExamination': 'occurrent',
-  'cco:ActOfDiagnosis': 'occurrent',
-  'cco:ActOfService': 'occurrent',
-  'cco:ActOfAssistance': 'occurrent',
-  'cco:ActOfIntervention': 'occurrent',
-  'cco:ActOfCommunication': 'occurrent',
-  'cco:ActOfRehabilitation': 'occurrent',
-  'cco:ActOfResuscitation': 'occurrent',
+  'Process': 'occurrent',
+  'IntentionalAct': 'occurrent',
+  'ActOfCommunication': 'occurrent',
 
   // Independent Continuants (physical things)
-  'bfo:BFO_0000040': 'continuant',
-  'cco:Artifact': 'continuant',
-  'cco:BodyPart': 'continuant',
-  'cco:DrugProduct': 'continuant',
-  'cco:MedicalDevice': 'continuant',
+  'MaterialEntity': 'continuant',
+  'MaterialEntity': 'continuant',
+  'Artifact': 'continuant',
+  'Facility': 'continuant',
 
   // Persons
-  'cco:Person': 'person',
-  'cco:GroupOfPersons': 'person',
-  'cco:Patient': 'person',
-  'cco:Physician': 'person',
-  'cco:Nurse': 'person',
+  'Person': 'person',
+  'Agent': 'person',
 
   // Organizations (treated as continuant for selectional purposes)
-  'cco:Organization': 'continuant',
-  'cco:Hospital': 'continuant',
+  'Organization': 'continuant',
+  'GeopoliticalOrganization': 'continuant',
 
   // Generically Dependent Continuants (information)
-  'bfo:BFO_0000031': 'gdc',
-  'cco:InformationContentEntity': 'gdc'
+  'GenericallyDependentContinuant': 'gdc',
+  'InformationContentEntity': 'gdc'
 };
 
 /**
@@ -310935,76 +311419,9 @@ class ActExtractor {
    * @returns {string} CCO act type IRI
    */
   _determineActType(infinitive, context = {}) {
-    const lowerInf = infinitive.toLowerCase().trim();
-
-    // Phase 3: Apply selectional restrictions if direct object type available
-    if (context.directObjectType) {
-      const restrictedType = this._applySelectionalRestrictions(
-        lowerInf,
-        context.directObjectType
-      );
-      if (restrictedType) {
-        return restrictedType;
-      }
-    }
-
-    // Check for known mappings
-    if (VERB_TO_CCO_MAPPINGS[lowerInf]) {
-      return VERB_TO_CCO_MAPPINGS[lowerInf];
-    }
-
-    return VERB_TO_CCO_MAPPINGS['_default'];
-  }
-
-  /**
-   * Apply selectional restrictions based on verb and direct object type
-   *
-   * Phase 3: Verb sense disambiguation based on what type of thing is
-   * being acted upon.
-   *
-   * @param {string} verb - Verb infinitive (lowercase)
-   * @param {string} objectType - BFO/CCO type of direct object
-   * @returns {string|null} Specialized act type or null if no restriction applies
-   * @private
-   */
-  _applySelectionalRestrictions(verb, objectType) {
-    // First check config loader for domain-specific overrides
-    if (this.configLoader && this.configLoader.isConfigLoaded()) {
-      const category = this._getOntologicalCategory(objectType);
-      const configOverride = this.configLoader.getVerbOverride(verb, category);
-      if (configOverride) {
-        return configOverride;
-      }
-    }
-
-    // Check core selectional restrictions
-    const restrictions = SELECTIONAL_RESTRICTIONS[verb];
-    if (!restrictions) {
-      return null; // No restrictions for this verb
-    }
-
-    // Determine ontological category of direct object
-    const category = this._getOntologicalCategory(objectType);
-
-    // Map category to restriction key
-    const categoryToKey = {
-      'occurrent': 'objectIsOccurrent',
-      'continuant': 'objectIsContinuant',
-      'gdc': 'objectIsGDC',
-      'person': 'objectIsPerson'
-    };
-
-    const restrictionKey = categoryToKey[category];
-    if (restrictionKey && restrictions[restrictionKey]) {
-      return restrictions[restrictionKey];
-    }
-
-    // TD-007: Return default if available, otherwise null
-    if (restrictions.default) {
-      return restrictions.default;
-    }
-
-    return null;
+    // All acts are IntentionalAct. Verb identity is preserved in
+    // tagteam:lemma and rdfs:label for downstream consumers.
+    return DEFAULT_ACT_TYPE;
   }
 
   /**
@@ -311377,9 +311794,9 @@ class ActExtractor {
 
     // Find all referents with is_about links
     entities.forEach(entity => {
-      if (entity['cco:is_about']) {
+      if (entity['is_about']) {
         // Handle both object notation { '@id': iri } and plain string
-        const isAbout = entity['cco:is_about'];
+        const isAbout = entity['is_about'];
         const iri = typeof isAbout === 'object' ? isAbout['@id'] : isAbout;
         linkMap.set(entity['@id'], iri);
       }
@@ -311660,7 +312077,7 @@ class ActExtractor {
   /**
    * Link act to discourse referents (Tier 1) or real-world entities (Tier 2)
    *
-   * v2.2 spec: Acts should link to Tier 2 entities (cco:Person, cco:Artifact)
+   * v2.2 spec: Acts should link to Tier 2 entities (Person, Artifact)
    * via has_agent/affects. When linkToTier2 is enabled, resolves Tier 1
    * referents to their Tier 2 entities via cco:is_about.
    *
@@ -311702,9 +312119,9 @@ class ActExtractor {
     const linkMap = this.options.linkToTier2 ? this._buildTier2LinkMap(entities) : new Map();
 
     // Temporal regions and qualities cannot be agents or patients
-    const NON_PARTICIPANT_TYPES = ['bfo:BFO_0000038', 'bfo:BFO_0000008', 'bfo:BFO_0000019', 'bfo:BFO_0000016'];
+    const NON_PARTICIPANT_TYPES = ['OneDimensionalTemporalRegion', 'TemporalRegion', 'Quality', 'Disposition'];
     // Types that cannot be agents but CAN be patients (objects of actions)
-    const NON_AGENT_TYPES = [...NON_PARTICIPANT_TYPES, 'cco:InformationContentEntity'];
+    const NON_AGENT_TYPES = [...NON_PARTICIPANT_TYPES, 'InformationContentEntity'];
 
     // V7.3: Get verb infinitive to check for causation verbs
     // Causation verbs allow ICE agents (e.g., "The error caused harm")
@@ -311718,7 +312135,7 @@ class ActExtractor {
 
       // V7.3: Allow ICE agents for causation verbs
       // "The error caused harm" - error (ICE) can be causal agent
-      if (dt === 'cco:InformationContentEntity' && CAUSATION_VERBS_LOCAL.has(currentVerbInfinitive)) {
+      if (dt === 'InformationContentEntity' && CAUSATION_VERBS_LOCAL.has(currentVerbInfinitive)) {
         return false; // Not filtered - allow as agent
       }
 
@@ -312085,24 +312502,24 @@ class ActExtractor {
     // V7-010: Handle coordinated agents ("The engineer and the admin deployed")
     if (actInfo.links.coordinatedAgents && actInfo.links.coordinatedAgents.length > 0) {
       // Multiple agents: assign agent role to all coordinated entities
-      node['cco:has_agent'] = actInfo.links.coordinatedAgents.map(a => ({ '@id': a.iri }));
+      node['has_agent'] = actInfo.links.coordinatedAgents.map(a => ({ '@id': a.iri }));
     } else if (actInfo.links.agent) {
       // Single agent
-      node['cco:has_agent'] = { '@id': actInfo.links.agent };
+      node['has_agent'] = { '@id': actInfo.links.agent };
     }
 
     // V7-010: Handle coordinated patients ("configured the server and the database")
     if (actInfo.links.coordinatedPatients && actInfo.links.coordinatedPatients.length > 0) {
       // Multiple patients: assign patient role to all coordinated entities
-      node['cco:affects'] = actInfo.links.coordinatedPatients.map(p => ({ '@id': p.iri }));
+      node['affects'] = actInfo.links.coordinatedPatients.map(p => ({ '@id': p.iri }));
     } else if (actInfo.links.patient) {
       // Single patient
-      node['cco:affects'] = { '@id': actInfo.links.patient };
+      node['affects'] = { '@id': actInfo.links.patient };
     }
 
     // V7-009c: Add recipient role for ditransitive verbs
     if (actInfo.links.recipient) {
-      node['cco:has_recipient'] = { '@id': actInfo.links.recipient };
+      node['has_recipient'] = { '@id': actInfo.links.recipient };
     }
 
     // V7-009b: Add oblique role properties (beneficiary, instrument, location, etc.)
@@ -312130,7 +312547,7 @@ class ActExtractor {
       node['tagteam:comitative'] = { '@id': actInfo.links.comitative };
     }
 
-    // V7-009: Auto-populate bfo:has_participant as superproperty
+    // V7-009: Auto-populate has_participant (BFO_0000057) as superproperty
     // has_participant aggregates all semantic participants (agent, patient, oblique roles, etc.)
     const participants = [];
 
@@ -312178,7 +312595,7 @@ class ActExtractor {
     }
 
     if (participants.length > 0) {
-      node['bfo:has_participant'] = participants.map(p => ({ '@id': p }));
+      node['has_participant'] = participants.map(p => ({ '@id': p }));
     }
 
     return node;
@@ -312207,7 +312624,7 @@ class ActExtractor {
 
     const node = {
       '@id': iri,
-      '@type': ['cco:InformationContentEntity', subtype, 'owl:NamedIndividual'],
+      '@type': ['InformationContentEntity', subtype, 'owl:NamedIndividual'],
       'rdfs:label': `Inference from ${actInfo.links.agentEntity
         ? (actInfo.links.agentEntity['rdfs:label'] || 'source')
         : 'source'}`,
@@ -312220,7 +312637,7 @@ class ActExtractor {
 
     // Link to the inanimate entity (the measurement/quality that "suggests")
     if (actInfo.links.agent) {
-      node['cco:is_about'] = { '@id': actInfo.links.agent };
+      node['is_about'] = { '@id': actInfo.links.agent };
     }
 
     // Link to the inferred entity (what is being suggested)
@@ -312243,7 +312660,7 @@ class ActExtractor {
     if (!entity) return false;
     const dt = entity['tagteam:denotesType'];
     // Persons and organizations are animate agents
-    if (dt === 'cco:Person' || dt === 'cco:GroupOfPersons' || dt === 'cco:Organization') {
+    if (dt === 'Person' || dt === 'Agent' || dt === 'Organization') {
       return false;
     }
     // Artifacts, qualities, material entities are inanimate
@@ -312278,9 +312695,9 @@ class ActExtractor {
     // ENH-003: Include all required properties for a proper Tier 2 entity
     this._implicitYouEntity = {
       '@id': iri,
-      '@type': ['cco:Person', 'owl:NamedIndividual'],
+      '@type': ['Person', 'owl:NamedIndividual'],
       'rdfs:label': 'you',
-      'tagteam:denotesType': 'cco:Person',
+      'tagteam:denotesType': 'Person',
       'tagteam:referentialStatus': 'deictic',  // "you" refers deictically to addressee
       'tagteam:isImplicit': true,
       'tagteam:implicitReason': 'imperative_addressee'
@@ -312391,7 +312808,7 @@ class ActExtractor {
           text: match[0],
           infinitive: verb || match[0],
           offset,
-          actType: 'cco:IntentionalAct',
+          actType: 'IntentionalAct',
           modality: p.modality,
           deonticType: MODALITY_TO_DEONTIC_TYPE[p.modality] || null,
           negation: false,
@@ -312418,7 +312835,7 @@ class ActExtractor {
  * Roles link entities (bearers) to acts (realizations).
  *
  * Phase 4 Two-Tier Architecture v2.4:
- * - PatientRole ONLY inheres in cco:Person (not artifacts)
+ * - PatientRole ONLY inheres in Person (not artifacts)
  * - Artifacts use AffectedEntityRole or no role
  * - Roles only realize in Actual acts (not Prescribed/Planned)
  * - PatientRole assigned to ObjectAggregate members (v2.4)
@@ -312454,33 +312871,25 @@ function extractIRIs(values) {
  * Role type mappings based on relationship to act
  * Maps role positions to CCO/BFO role types
  *
- * IMPORTANT: PatientRole is ONLY for cco:Person entities (BFO/CCO constraint)
+ * IMPORTANT: PatientRole is ONLY for Person entities (BFO/CCO constraint)
  * Artifacts do not bear PatientRole - they are affected but not patients
  */
+/**
+ * Role type mappings — all roles are bfo:Role (BFO_0000023, verified).
+ * The role label carries the semantic distinction (AgentRole, PatientRole, etc.)
+ * via rdfs:label on the role node.
+ */
 const ROLE_TYPE_MAPPINGS = {
-  // Agent roles (subject performing the act) - ONLY for Persons
-  'agent': 'cco:AgentRole',
-  'performer': 'cco:AgentRole',
-  'actor': 'cco:AgentRole',
-
-  // Patient roles (ONLY for Persons receiving care/treatment)
-  'patient': 'cco:PatientRole',
-
-  // ENH-015: Recipient role (for "to NP" prepositional phrases)
-  'recipient': 'cco:RecipientRole',
-
-  // Instrument roles (for artifacts used in acts)
-  'instrument': 'cco:InstrumentRole',
-  'tool': 'cco:InstrumentRole',
-
-  // Beneficiary roles (for "for NP" prepositional phrases)
-  'beneficiary': 'cco:BeneficiaryRole',
-
-  // Participant (generic role for other participants)
-  'participant': 'bfo:BFO_0000023',
-
-  // Default
-  '_default': 'bfo:BFO_0000023' // Generic BFO Role
+  'agent': 'AgentRole',
+  'performer': 'AgentRole',
+  'actor': 'AgentRole',
+  'patient': 'PatientRole',
+  'recipient': 'RecipientRole',
+  'instrument': 'InstrumentRole',
+  'tool': 'InstrumentRole',
+  'beneficiary': 'BeneficiaryRole',
+  'participant': 'Role',
+  '_default': 'Role'
 };
 
 /**
@@ -312488,8 +312897,8 @@ const ROLE_TYPE_MAPPINGS = {
  * PatientRole is a specific medical/care role that only inheres in persons
  */
 const PATIENT_ROLE_ELIGIBLE_TYPES = [
-  'cco:Person',
-  'cco:GroupOfPersons'
+  'Person',
+  'Agent'
 ];
 
 /**
@@ -312518,7 +312927,7 @@ class RoleDetector {
    * Detect roles from acts and entities
    *
    * v2.3 changes:
-   * - PatientRole ONLY for cco:Person entities (not artifacts)
+   * - PatientRole ONLY for Person entities (not artifacts)
    * - Roles only realize in Actual acts (not Prescribed/Planned)
    *
    * @param {Array} acts - Array of IntentionalAct nodes from ActExtractor
@@ -312563,7 +312972,7 @@ class RoleDetector {
       const canRealize = REALIZABLE_STATUSES.includes(actualityStatus);
 
       // Detect agent role (from has_agent)
-      const agentIRI = extractIRI(act['cco:has_agent']);
+      const agentIRI = extractIRI(act['has_agent']);
       if (agentIRI) {
         const bearer = entityIndex.get(agentIRI);
         if (bearer && this._canBearAgentRole(bearer)) {
@@ -312573,7 +312982,7 @@ class RoleDetector {
 
       // Detect patient/affected role (from affects)
       // ENH-015: Use preposition to determine specific role type
-      const affectedIRI = extractIRI(act['cco:affects']);
+      const affectedIRI = extractIRI(act['affects']);
       if (affectedIRI) {
         const bearer = entityIndex.get(affectedIRI);
         if (bearer) {
@@ -312592,7 +313001,7 @@ class RoleDetector {
 
       // Detect participant roles (from has_participant)
       // ENH-015: Use preposition to determine specific role type
-      const participantIRIs = extractIRIs(act['bfo:has_participant']);
+      const participantIRIs = extractIRIs(act['has_participant']);
       if (participantIRIs.length > 0) {
         participantIRIs.forEach(participantIRI => {
           if (participantIRI === agentIRI || participantIRI === affectedIRI) return;
@@ -312600,7 +313009,7 @@ class RoleDetector {
           const bearer = entityIndex.get(participantIRI);
           if (bearer) {
             if (this._isObjectAggregate(bearer)) {
-              const members = extractIRIs(bearer['bfo:has_member']);
+              const members = extractIRIs(bearer['has_member_part']);
               members.forEach(memberIRI => {
                 const member = entityIndex.get(memberIRI);
                 if (member && this._isPersonEntity(member)) {
@@ -312695,9 +313104,9 @@ class RoleDetector {
     // AgentRole is primarily for persons, but could extend to organizations
     const types = entity['@type'] || [];
     return types.some(type =>
-      type.includes('cco:Person') ||
-      type.includes('cco:Organization') ||
-      type.includes('cco:GroupOfPersons')
+      type.includes('Person') ||
+      type.includes('Organization') ||
+      type.includes('Agent')
     );
   }
 
@@ -312717,25 +313126,25 @@ class RoleDetector {
    * @param {string} roleIRI - Role IRI
    */
   _addBearerLink(bearer, roleIRI) {
-    if (!bearer['bfo:is_bearer_of']) {
-      bearer['bfo:is_bearer_of'] = [];
+    if (!bearer['is_bearer_of']) {
+      bearer['is_bearer_of'] = [];
     }
-    if (!Array.isArray(bearer['bfo:is_bearer_of'])) {
-      bearer['bfo:is_bearer_of'] = [bearer['bfo:is_bearer_of']];
+    if (!Array.isArray(bearer['is_bearer_of'])) {
+      bearer['is_bearer_of'] = [bearer['is_bearer_of']];
     }
     // Deduplicate: don't add the same role IRI twice
-    const existing = bearer['bfo:is_bearer_of'].some(ref =>
+    const existing = bearer['is_bearer_of'].some(ref =>
       (typeof ref === 'object' ? ref['@id'] : ref) === roleIRI
     );
     if (!existing) {
-      bearer['bfo:is_bearer_of'].push({ '@id': roleIRI });
+      bearer['is_bearer_of'].push({ '@id': roleIRI });
     }
   }
 
   /**
    * Create a Role node
    *
-   * v2.3: Roles only have bfo:realized_in for Actual acts
+   * v2.3: Roles only have realized_in for Actual acts
    * For Prescribed/Planned acts, role exists but is not yet realized
    *
    * @param {Object} roleInfo - Role information
@@ -312749,21 +313158,15 @@ class RoleDetector {
     const { roleType, bearerIRI, bearer, actEntries } = entry;
 
     const iri = this._generateRoleIRI(roleType, bearerIRI);
-    const specificType = ROLE_TYPE_MAPPINGS[roleType] || ROLE_TYPE_MAPPINGS['_default'];
-
-    // Build @type array, avoiding duplicates
-    const types = [specificType];
-    if (specificType !== 'bfo:BFO_0000023') {
-      types.push('bfo:BFO_0000023');
-    }
-    types.push('owl:NamedIndividual');
+    const roleLabel = ROLE_TYPE_MAPPINGS[roleType] || ROLE_TYPE_MAPPINGS['_default'];
 
     const role = {
       '@id': iri,
-      '@type': types,
-      'rdfs:label': this._generateRoleLabel(roleType, bearer),
+      '@type': ['Role', 'owl:NamedIndividual'],
+      'rdfs:label': roleLabel,
       'tagteam:roleType': roleType,
-      'bfo:inheres_in': { '@id': bearerIRI }
+      'tagteam:syntacticBasis': roleType,
+      'inheres_in': { '@id': bearerIRI }
     };
 
     // Separate actual vs non-actual acts
@@ -312771,9 +313174,9 @@ class RoleDetector {
     const wouldRealizeActs = actEntries.filter(e => !e.canRealize).map(e => ({ '@id': e.actIRI }));
 
     if (realizedActs.length === 1) {
-      role['bfo:realized_in'] = realizedActs[0];
+      role['realized_in'] = realizedActs[0];
     } else if (realizedActs.length > 1) {
-      role['bfo:realized_in'] = realizedActs;
+      role['realized_in'] = realizedActs;
     }
 
     if (wouldRealizeActs.length === 1) {
@@ -312915,7 +313318,7 @@ class JSONLDSerializer {
     return {
       // ===== Namespace Prefixes =====
       bfo: 'http://purl.obolibrary.org/obo/',
-      cco: 'http://www.ontologyrepository.com/CommonCoreOntologies/',
+      cco: 'https://www.commoncoreontologies.org/',
       tagteam: 'http://tagteam.fandaws.org/ontology/',
       inst: 'http://tagteam.fandaws.org/instance/',
       rdf: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
@@ -312938,11 +313341,36 @@ class JSONLDSerializer {
       EthicalValueICE: 'tagteam:EthicalValueICE',
       ContextDimensionICE: 'tagteam:ContextDimensionICE',
 
-      // ===== Week 2: Information Staircase Classes =====
-      InformationBearingEntity: 'cco:InformationBearingEntity',
-      InformationContentEntity: 'cco:InformationContentEntity',
-      ArtificialAgent: 'cco:ArtificialAgent',
-      ActOfArtificialProcessing: 'cco:ActOfArtificialProcessing',
+      // ===== CCO Verified Classes (opaque IRIs from CCO 2.0) =====
+      Act: 'cco:ont00000005',
+      ActOfCommunication: 'cco:ont00000402',
+      Agent: 'cco:ont00001017',
+      Artifact: 'cco:ont00000995',
+      Country: 'cco:ont00000139',
+      Facility: 'cco:ont00000192',
+      GeopoliticalOrganization: 'cco:ont00000176',
+      InformationBearingEntity: 'cco:ont00000253',
+      InformationContentEntity: 'cco:ont00000958',
+      IntentionalAct: 'cco:ont00000228',
+      Organization: 'cco:ont00001180',
+      Person: 'cco:ont00001262',
+
+      // ===== BFO Verified Classes (opaque IRIs from BFO 2020) =====
+      Entity: 'bfo:BFO_0000001',
+      Continuant: 'bfo:BFO_0000002',
+      IndependentContinuant: 'bfo:BFO_0000004',
+      TemporalRegion: 'bfo:BFO_0000008',
+      Process: 'bfo:BFO_0000015',
+      Disposition: 'bfo:BFO_0000016',
+      Quality: 'bfo:BFO_0000019',
+      Role: 'bfo:BFO_0000023',
+      ObjectAggregate: 'bfo:BFO_0000027',
+      Site: 'bfo:BFO_0000029',
+      Object: 'bfo:BFO_0000030',
+      GenericallyDependentContinuant: 'bfo:BFO_0000031',
+      OneDimensionalTemporalRegion: 'bfo:BFO_0000038',
+      MaterialEntity: 'bfo:BFO_0000040',
+      RelationalQuality: 'bfo:BFO_0000145',
 
       // ===== GIT-Minimal Classes =====
       AutomatedDetection: 'tagteam:AutomatedDetection',
@@ -312964,14 +313392,14 @@ class JSONLDSerializer {
       Empowered: 'tagteam:Empowered',    // Authority/Power status
       Protected: 'tagteam:Protected',    // Immunity/Protection status
 
-      // ===== Cross-Tier Relations =====
-      is_about: { '@id': 'cco:is_about', '@type': '@id' },
-      prescribes: { '@id': 'cco:prescribes', '@type': '@id' },
-      prescribed_by: { '@id': 'cco:prescribed_by', '@type': '@id' },
+      // ===== Cross-Tier Relations (CCO verified — opaque IRIs) =====
+      is_about: { '@id': 'cco:ont00001808', '@type': '@id' },
+      prescribes: { '@id': 'cco:ont00001942', '@type': '@id' },
+      prescribed_by: { '@id': 'tagteam:prescribed_by', '@type': '@id' },
 
-      // ===== Week 2: ICE Concretization (Information Staircase) =====
-      is_concretized_by: { '@id': 'cco:is_concretized_by', '@type': '@id' },
-      concretizes: { '@id': 'cco:concretizes', '@type': '@id' },
+      // ===== ICE Concretization (BFO 2020) =====
+      is_concretized_by: { '@id': 'bfo:BFO_0000058', '@type': '@id' },
+      concretizes: { '@id': 'bfo:BFO_0000059', '@type': '@id' },
 
       // ===== Tier 1 Relations =====
       has_component: { '@id': 'tagteam:has_component', '@type': '@id' },
@@ -312979,22 +313407,51 @@ class JSONLDSerializer {
       corefersWith: { '@id': 'tagteam:corefersWith', '@type': '@id' },
       describes_quality: { '@id': 'tagteam:describes_quality', '@type': '@id' },
 
-      // ===== Tier 2 Relations (BFO) =====
-      inheres_in: { '@id': 'bfo:BFO_0000052', '@type': '@id' },
-      is_bearer_of: { '@id': 'bfo:BFO_0000053', '@type': '@id' },
+      // ===== Tier 2 Relations (BFO 2020) =====
+      inheres_in: { '@id': 'bfo:BFO_0000197', '@type': '@id' },
+      is_bearer_of: { '@id': 'bfo:BFO_0000196', '@type': '@id' },
       realized_in: { '@id': 'bfo:BFO_0000054', '@type': '@id' },
       realizes: { '@id': 'bfo:BFO_0000055', '@type': '@id' },
       has_participant: { '@id': 'bfo:BFO_0000057', '@type': '@id' },
-      has_member: { '@id': 'bfo:BFO_0000051', '@type': '@id' },
+      has_member_part: { '@id': 'bfo:BFO_0000115', '@type': '@id' },
 
       // v2.3: Role realization (for Prescribed acts where role is not yet realized)
       would_be_realized_in: { '@id': 'tagteam:would_be_realized_in', '@type': '@id' },
 
-      // ===== Tier 2 Relations (CCO) =====
-      has_agent: { '@id': 'cco:has_agent', '@type': '@id' },
-      has_input: { '@id': 'cco:has_input', '@type': '@id' },
-      has_output: { '@id': 'cco:has_output', '@type': '@id' },
-      affects: { '@id': 'cco:affects', '@type': '@id' },
+      // ===== Tier 2 Relations (CCO verified — opaque IRIs) =====
+      has_agent: { '@id': 'cco:ont00001833', '@type': '@id' },
+      has_recipient: { '@id': 'cco:ont00001922', '@type': '@id' },
+      has_input: { '@id': 'tagteam:has_input', '@type': '@id' },
+      has_output: { '@id': 'tagteam:has_output', '@type': '@id' },
+      affects: { '@id': 'cco:ont00001834', '@type': '@id' },
+      designates: { '@id': 'cco:ont00001916', '@type': '@id' },
+      is_designated_by: { '@id': 'cco:ont00001879', '@type': '@id' },
+      is_measured_by: { '@id': 'cco:ont00001904', '@type': '@id' },
+      measures: { '@id': 'cco:ont00001966', '@type': '@id' },
+      uses_measurement_unit: { '@id': 'cco:ont00001863', '@type': '@id' },
+
+      // ===== Tier 2 Relations (BFO re-exports — opaque IRIs) =====
+      occupies_temporal_region: { '@id': 'bfo:BFO_0000199', '@type': '@id' },
+      participates_in: { '@id': 'bfo:BFO_0000056', '@type': '@id' },
+      is_part_of: { '@id': 'bfo:BFO_0000176', '@type': '@id' },
+
+      // ===== Structural Assertion Relations (BFO verified) =====
+      located_in: { '@id': 'bfo:BFO_0000171', '@type': '@id' },
+      has_continuant_part: { '@id': 'bfo:BFO_0000178', '@type': '@id' },
+      continuant_part_of: { '@id': 'bfo:BFO_0000176', '@type': '@id' },
+      member_part_of: { '@id': 'bfo:BFO_0000129', '@type': '@id' },
+
+      // ===== Structural Assertion Relations (TagTeam-defined — not in CCO/BFO) =====
+      has_possession: { '@id': 'tagteam:has_possession', '@type': '@id' },
+      has_function: { '@id': 'tagteam:has_function', '@type': '@id' },
+      has_spatial_extent: { '@id': 'tagteam:has_spatial_extent', '@type': '@id' },
+      bears_role_for: { '@id': 'tagteam:bears_role_for', '@type': '@id' },
+
+      // ===== Aspirational Properties (not yet in use — tagteam namespace) =====
+      occurs_during: { '@id': 'tagteam:occurs_during', '@type': '@id' },
+      has_measurement_value: { '@id': 'tagteam:has_measurement_value', '@type': '@id' },
+      has_start_time: { '@id': 'tagteam:has_start_time', '@type': '@id' },
+      has_end_time: { '@id': 'tagteam:has_end_time', '@type': '@id' },
 
       // ===== GIT-Minimal Properties =====
       assertionType: { '@id': 'tagteam:assertionType', '@type': '@id' },
@@ -313036,10 +313493,11 @@ class JSONLDSerializer {
       member_count: { '@id': 'tagteam:member_count', '@type': 'xsd:integer' },
       member_index: { '@id': 'tagteam:member_index', '@type': 'xsd:integer' },
 
+      // ===== Classification Properties (nomination pattern) =====
+      classificationLabel: 'tagteam:classificationLabel',
+      classificationBasis: 'tagteam:classificationBasis',
+
       // ===== Quality Properties (v2.4) =====
-      DiseaseQuality: 'cco:DiseaseQuality',
-      InjuryQuality: 'cco:InjuryQuality',
-      AgeQuality: 'cco:AgeQuality',
       qualifierText: 'tagteam:qualifierText',
       severity: 'tagteam:severity',
       ageCategory: 'tagteam:ageCategory',
@@ -313060,7 +313518,7 @@ class JSONLDSerializer {
       hasModalMarker: 'tagteam:hasModalMarker',
 
       // ===== IBE Properties =====
-      has_text_value: 'cco:has_text_value',
+      has_text_value: 'cco:ont00001765',
       char_count: { '@id': 'tagteam:char_count', '@type': 'xsd:integer' },
       word_count: { '@id': 'tagteam:word_count', '@type': 'xsd:integer' },
       received_at: { '@id': 'tagteam:received_at', '@type': 'xsd:dateTime' },
@@ -313124,7 +313582,7 @@ class JSONLDSerializer {
  * Phase 4 Two-Tier Architecture v2.3:
  * - Scarcity info belongs in Tier 1 (ICE layer)
  * - ScarcityAssertion is_about the Tier 2 resource
- * - Tier 2 entities (cco:Person, cco:Artifact) stay clean
+ * - Tier 2 entities (Person, Artifact) stay clean
  *
  * @module graph/ScarcityAssertionFactory
  * @version 4.0.0-phase4-v2.3
@@ -313213,7 +313671,7 @@ class ScarcityAssertionFactory {
 
     const assertion = {
       '@id': iri,
-      '@type': ['tagteam:ScarcityAssertion', 'cco:InformationContentEntity', 'owl:NamedIndividual'],
+      '@type': ['tagteam:ScarcityAssertion', 'InformationContentEntity', 'owl:NamedIndividual'],
       'rdfs:label': `Resource Scarcity: ${sourceText}`,
       'tagteam:evidenceText': sourceText
     };
@@ -313230,7 +313688,7 @@ class ScarcityAssertionFactory {
 
     // Link to the Tier 2 resource this is about
     if (resourceIRI) {
-      assertion['cco:is_about'] = { '@id': resourceIRI };
+      assertion['is_about'] = { '@id': resourceIRI };
     }
 
     // Link to the source referent
@@ -313426,15 +313884,15 @@ class DirectiveExtractor {
 
     const directive = {
       '@id': iri,
-      // Per ontology: DirectiveContent is subclass of both DeonticContent and cco:DirectiveInformationContentEntity
-      '@type': ['tagteam:DirectiveContent', 'cco:DirectiveInformationContentEntity', 'owl:NamedIndividual'],
+      // Per ontology: DirectiveContent is subclass of both DeonticContent and InformationContentEntity
+      '@type': ['tagteam:DirectiveContent', 'InformationContentEntity', 'owl:NamedIndividual'],
       'rdfs:label': `${modalType.charAt(0).toUpperCase() + modalType.slice(1)} Directive: ${modalMarker}`,
       'tagteam:modalMarker': modalMarker,
       'tagteam:modalType': modalType,
       'tagteam:modalStrength': modalStrength,
 
       // Link to the act this directive prescribes
-      'cco:prescribes': { '@id': actIRI }
+      'prescribes': { '@id': actIRI }
     };
 
     if (sourceText) {
@@ -313490,7 +313948,7 @@ class DirectiveExtractor {
  *
  * Creates BFO Object Aggregate nodes for plural entities.
  * When text mentions "two patients", this creates:
- * - Two individual cco:Person nodes
+ * - Two individual Person nodes
  * - One bfo:BFO_0000027 (Object Aggregate) containing them
  *
  * Phase 4 Two-Tier Architecture v2.3:
@@ -313509,10 +313967,12 @@ class ObjectAggregateFactory {
   /**
    * Create a new ObjectAggregateFactory
    * @param {Object} options - Configuration options
+   * @param {Object} [options.lemmatizer] - Lemmatizer instance for morphological reduction
    */
   constructor(options = {}) {
     this.options = options;
     this.graphBuilder = options.graphBuilder || null;
+    this.lemmatizer = options.lemmatizer || null;
   }
 
   /**
@@ -313577,7 +314037,7 @@ class ObjectAggregateFactory {
    */
   _isPersonEntity(entity) {
     const types = entity['@type'] || [];
-    return types.some(t => t.includes('cco:Person'));
+    return types.some(t => t.includes('Person'));
   }
 
   /**
@@ -313591,7 +314051,10 @@ class ObjectAggregateFactory {
    */
   _createMembers(originalEntity, count, referent) {
     const members = [];
-    const baseLabel = originalEntity['rdfs:label'] || 'entity';
+    let baseLabel = originalEntity['rdfs:label'] || 'entity';
+    if (this.lemmatizer) {
+      baseLabel = this.lemmatizer.lemmatizePhrase(baseLabel);
+    }
 
     // Extract qualifiers from label (e.g., "critically ill" from "two critically ill patients")
     const qualifiers = this._extractQualifiers(referent);
@@ -313626,14 +314089,17 @@ class ObjectAggregateFactory {
    * @private
    */
   _createAggregate(originalEntity, members, referent) {
-    const label = referent?.['rdfs:label'] || originalEntity['rdfs:label'];
+    let label = referent?.['rdfs:label'] || originalEntity['rdfs:label'];
+    if (this.lemmatizer) {
+      label = this.lemmatizer.lemmatizePhrase(label);
+    }
 
     const aggregate = {
       '@id': this._generateAggregateIRI(originalEntity['@id']),
-      '@type': ['bfo:BFO_0000027', 'owl:NamedIndividual'], // Object Aggregate
+      '@type': ['ObjectAggregate', 'owl:NamedIndividual'], // Object Aggregate
       'rdfs:label': `Aggregate of ${label}`,
       // Use object notation with @id for JSON-LD compliance
-      'bfo:has_member': members.map(m => ({ '@id': m['@id'] })),
+      'has_member_part': members.map(m => ({ '@id': m['@id'] })),
       'tagteam:member_count': members.length,
       'tagteam:instantiated_at': new Date().toISOString()
     };
@@ -313731,7 +314197,7 @@ class ObjectAggregateFactory {
  *
  * Phase 4 Two-Tier Architecture v2.4:
  * - "critically ill" → Quality inhering in Person
- * - Links qualities to bearers via bfo:inheres_in
+ * - Links qualities to bearers via inheres_in (BFO_0000197)
  *
  * @module graph/QualityFactory
  * @version 4.0.0-phase4-v2.4
@@ -313742,32 +314208,32 @@ class ObjectAggregateFactory {
  */
 const QUALITY_TYPE_MAPPINGS = {
   'critically ill': {
-    type: 'cco:DiseaseQuality',
+    type: 'Quality',
     label: 'Critical Illness Quality',
     severity: 'critical'
   },
   'terminally ill': {
-    type: 'cco:DiseaseQuality',
+    type: 'Quality',
     label: 'Terminal Illness Quality',
     severity: 'terminal'
   },
   'severely injured': {
-    type: 'cco:InjuryQuality',
+    type: 'Quality',
     label: 'Severe Injury Quality',
     severity: 'severe'
   },
   'elderly': {
-    type: 'cco:AgeQuality',
+    type: 'Quality',
     label: 'Elderly Age Quality',
     ageCategory: 'elderly'
   },
   'young': {
-    type: 'cco:AgeQuality',
+    type: 'Quality',
     label: 'Young Age Quality',
     ageCategory: 'young'
   },
   'pediatric': {
-    type: 'cco:AgeQuality',
+    type: 'Quality',
     label: 'Pediatric Age Quality',
     ageCategory: 'pediatric'
   }
@@ -313813,8 +314279,8 @@ class QualityFactory {
       // Update entity with quality bearer links
       const updatedEntity = { ...entity };
       if (entityQualities.length > 0) {
-        updatedEntity['bfo:is_bearer_of'] = [
-          ...(updatedEntity['bfo:is_bearer_of'] || []),
+        updatedEntity['is_bearer_of'] = [
+          ...(updatedEntity['is_bearer_of'] || []),
           ...entityQualities
         ];
       }
@@ -313845,10 +314311,10 @@ class QualityFactory {
 
     const quality = {
       '@id': iri,
-      '@type': [mapping.type, 'bfo:BFO_0000019', 'owl:NamedIndividual'],
+      '@type': [mapping.type, 'Quality', 'owl:NamedIndividual'],
       'rdfs:label': `${mapping.label} of ${bearer['rdfs:label']}`,
       // Use object notation with @id for JSON-LD compliance
-      'bfo:inheres_in': { '@id': bearer['@id'] },
+      'inheres_in': { '@id': bearer['@id'] },
       'tagteam:qualifierText': qualifier,
       'tagteam:instantiated_at': new Date().toISOString()
     };
@@ -313877,10 +314343,10 @@ class QualityFactory {
 
     return {
       '@id': iri,
-      '@type': ['bfo:BFO_0000019', 'owl:NamedIndividual'],
+      '@type': ['Quality', 'owl:NamedIndividual'],
       'rdfs:label': `${qualifier} quality of ${bearer['rdfs:label']}`,
       // Use object notation with @id for JSON-LD compliance
-      'bfo:inheres_in': { '@id': bearer['@id'] },
+      'inheres_in': { '@id': bearer['@id'] },
       'tagteam:qualifierText': qualifier,
       'tagteam:instantiated_at': new Date().toISOString()
     };
@@ -314113,10 +314579,10 @@ class AssertionEventBuilder {
 
     return {
       '@id': iri,
-      '@type': ['tagteam:EthicalValueICE', 'cco:InformationContentEntity', 'owl:NamedIndividual'],
+      '@type': ['tagteam:EthicalValueICE', 'InformationContentEntity', 'owl:NamedIndividual'],
       'rdfs:label': `${valueName} Value Content`,
-      'cco:is_about': { '@id': `tagteam:${valueName}` },
-      'cco:is_concretized_by': { '@id': context.ibeIRI },
+      'is_about': { '@id': `tagteam:${valueName}` },
+      'is_concretized_by': { '@id': context.ibeIRI },
       'tagteam:valueName': valueName,
       'tagteam:valueCategory': scoredValue.category || 'ethical',
       'tagteam:instantiated_at': new Date().toISOString()
@@ -314191,9 +314657,9 @@ class AssertionEventBuilder {
 
     return {
       '@id': iri,
-      '@type': ['tagteam:ContextDimensionICE', 'cco:InformationContentEntity', 'owl:NamedIndividual'],
+      '@type': ['tagteam:ContextDimensionICE', 'InformationContentEntity', 'owl:NamedIndividual'],
       'rdfs:label': `${meta.label} Dimension Content`,
-      'cco:is_concretized_by': context.ibeIRI,
+      'is_concretized_by': context.ibeIRI,
       'tagteam:dimension': dimension,
       'tagteam:category': meta.category,
       'tagteam:score': this._roundConfidence(score),
@@ -314506,7 +314972,7 @@ class ContextManager {
  *
  * Phase 4 Week 2 Implementation:
  * - IBE node for input text with cco:has_text_value
- * - Parser agent as cco:ArtificialAgent
+ * - Parser agent as Agent
  * - Deterministic IRI generation for reproducibility
  *
  * @module graph/InformationStaircaseBuilder
@@ -314547,9 +315013,9 @@ class InformationStaircaseBuilder {
 
     return {
       '@id': iri,
-      '@type': ['cco:InformationBearingEntity', 'owl:NamedIndividual'],
+      '@type': ['InformationBearingEntity', 'owl:NamedIndividual'],
       'rdfs:label': 'Input text',
-      'cco:has_text_value': inputText,
+      'has_text_value': inputText,
       'tagteam:char_count': inputText.length,
       'tagteam:word_count': this._countWords(inputText),
       'tagteam:received_at': timestamp
@@ -314562,7 +315028,7 @@ class InformationStaircaseBuilder {
    * The parser agent represents TagTeam as an intentional agent
    * performing detection acts. Used in detected_by relations.
    *
-   * @returns {Object} ArtificialAgent node for @graph
+   * @returns {Object} Agent node for @graph
    */
   createParserAgent() {
     // Return cached node if already created
@@ -314574,7 +315040,7 @@ class InformationStaircaseBuilder {
 
     this._parserAgentNode = {
       '@id': iri,
-      '@type': ['cco:ArtificialAgent', 'owl:NamedIndividual'],
+      '@type': ['Agent', 'owl:NamedIndividual'],
       'rdfs:label': `TagTeam.js Parser v${this.options.version}`,
       'tagteam:version': this.options.version,
       'tagteam:algorithm': 'BFO-aware NLP with CCO mapping',
@@ -314718,23 +315184,21 @@ const KNOWN_CLASSES = new Set([
   'bfo:BFO_0000027', // ObjectAggregate
   'bfo:BFO_0000031', // GenericallyDependentContinuant
   'bfo:BFO_0000040', // MaterialEntity
-  'bfo:BFO_0000052', // inheres_in
-  'bfo:BFO_0000053', // is_bearer_of
+  'bfo:BFO_0000115', // has_member_part
+  'bfo:BFO_0000197', // inheres_in
+  'bfo:BFO_0000196', // is_bearer_of
   'bfo:BFO_0000054', // realized_in
   'bfo:BFO_0000055', // realizes
   'bfo:BFO_0000057', // has_participant
+  'bfo:BFO_0000058', // is_concretized_by
+  'bfo:BFO_0000059', // concretizes
 
   // CCO Classes
-  'cco:Agent', 'cco:Person', 'cco:Organization', 'cco:Group',
-  'cco:Artifact', 'cco:Facility', 'cco:GeospatialRegion',
-  'cco:Act', 'cco:IntentionalAct', 'cco:ActOfCommunication',
-  'cco:InformationBearingEntity', 'cco:InformationContentEntity',
-  'cco:DesignativeInformationContentEntity', 'cco:DirectiveInformationContentEntity',
-  'cco:TemporalInterval', 'cco:TemporalInstant',
-  'cco:QualityMeasurement', 'cco:MeasurementUnit',
-  'cco:ArtificialAgent',
-  'cco:DiseaseQuality', 'cco:InjuryQuality', 'cco:AgeQuality',
-  'cco:Role', 'cco:AgentRole', 'cco:PatientRole',
+  'Agent', 'Person', 'Organization', 'GeopoliticalOrganization',
+  'Artifact', 'Facility',
+  'Act', 'IntentionalAct', 'ActOfCommunication',
+  'InformationBearingEntity', 'InformationContentEntity',
+  'Role',
 
   // OWL
   'owl:NamedIndividual', 'owl:Thing', 'owl:Class',
@@ -314755,25 +315219,19 @@ const KNOWN_CLASSES = new Set([
  * Known predicates for vocabulary validation
  */
 const KNOWN_PREDICATES = new Set([
-  // BFO Relations
-  'bfo:BFO_0000051', // has_member
-  'bfo:BFO_0000052', // inheres_in
-  'bfo:BFO_0000053', // is_bearer_of
-  'bfo:BFO_0000054', // realized_in
-  'bfo:BFO_0000055', // realizes
-  'bfo:BFO_0000057', // has_participant
-  'bfo:inheres_in', 'bfo:is_bearer_of', 'bfo:realized_in', 'bfo:realizes',
-  'bfo:has_participant', 'bfo:has_member',
+  // BFO Relations (bare aliases — resolved via @context to opaque IRIs)
+  'inheres_in', 'is_bearer_of', 'realized_in', 'realizes',
+  'has_participant', 'has_member_part',
+  'is_concretized_by', 'concretizes',
 
-  // CCO Relations
-  'cco:is_about', 'cco:prescribes', 'cco:prescribed_by',
-  'cco:is_concretized_by', 'cco:concretizes',
-  'cco:has_text_value', 'cco:designates', 'cco:is_designated_by',
-  'cco:has_agent', 'cco:affects', 'cco:participates_in',
-  'cco:occurs_during', 'cco:has_start_time', 'cco:has_end_time',
-  'cco:has_measurement_value', 'cco:uses_measurement_unit', 'cco:is_measured_by',
-  'cco:is_part_of', 'cco:is_attribute_of', 'cco:is_made_of', 'cco:is_site_of',
-  'cco:is_bearer_of', 'cco:realized_in',
+  // CCO Relations (bare aliases — resolved via @context)
+  'is_about', 'prescribes', 'has_recipient',
+  'has_text_value',
+  'has_agent', 'affects',
+  'occupies_temporal_region', 'participates_in', 'is_part_of',
+  'occurs_during', 'designates', 'is_designated_by',
+  'is_measured_by', 'measures', 'has_measurement_value',
+  'uses_measurement_unit', 'has_start_time', 'has_end_time',
 
   // RDF/RDFS/OWL
   'rdf:type', 'rdfs:label', 'rdfs:comment', 'rdfs:subClassOf',
@@ -314984,7 +315442,7 @@ class SHMLValidator {
     // Rule 1: ICE should have is_concretized_by
     for (const ice of iceNodes) {
       total++;
-      if (ice['cco:is_concretized_by']) {
+      if (ice['is_concretized_by']) {
         passed++;
       } else {
         this._addIssue(
@@ -314992,7 +315450,7 @@ class SHMLValidator {
           'InformationStaircase',
           `ICE node ${ice['@id']} has no is_concretized_by link to IBE`,
           ice['@id'],
-          'Add cco:is_concretized_by property pointing to the IBE'
+          'Add is_concretized_by property pointing to the IBE'
         );
       }
     }
@@ -315000,7 +315458,7 @@ class SHMLValidator {
     // Rule 2: IBE should have has_text_value
     for (const ibe of ibeNodes) {
       total++;
-      if (ibe['cco:has_text_value']) {
+      if (ibe['has_text_value']) {
         passed++;
       } else {
         this._addIssue(
@@ -315018,10 +315476,10 @@ class SHMLValidator {
       total++;
       // Check if any ICE links to this IBE
       const hasConcretization = iceNodes.some(ice =>
-        extractIRI(ice['cco:is_concretized_by']) === ibe['@id']
+        extractIRI(ice['is_concretized_by']) === ibe['@id']
       );
 
-      if (hasConcretization || extractIRI(ibe['cco:concretizes'])) {
+      if (hasConcretization || extractIRI(ibe['concretizes'])) {
         passed++;
       } else {
         this._addIssue(
@@ -315064,7 +315522,7 @@ class SHMLValidator {
     // Build reverse map: role ID -> bearer (from is_bearer_of on entities)
     const roleBearers = new Map();
     for (const node of nodes) {
-      const bearerOf = node['cco:is_bearer_of'] || node['bfo:is_bearer_of'] || node['bfo:BFO_0000053'];
+      const bearerOf = node['is_bearer_of'];
       if (bearerOf) {
         const roles = Array.isArray(bearerOf) ? bearerOf : [bearerOf];
         for (const roleId of roles) {
@@ -315078,7 +315536,7 @@ class SHMLValidator {
       // Check: (1) reverse link via is_bearer_of, OR (2) direct link via inheres_in
       total++;
       const hasReverseLink = roleBearers.has(role['@id']);
-      const inheresIn = extractIRI(role['bfo:inheres_in']) || extractIRI(role['bfo:BFO_0000052']);
+      const inheresIn = extractIRI(role['inheres_in']);
       const hasDirectLink = inheresIn && nodeMap.has(inheresIn);
 
       if (hasReverseLink || hasDirectLink) {
@@ -315093,18 +315551,18 @@ class SHMLValidator {
           'RolePattern',
           `Role ${role['@id']} has no bearer - ontologically impossible`,
           role['@id'],
-          'Add bfo:inheres_in on role or bfo:is_bearer_of on bearer entity'
+          'Add inheres_in on role or is_bearer_of on bearer entity'
         );
       }
 
       // Rule 3: Role SHOULD be realized (WARNING)
       total++;
-      const isRealized = extractIRI(role['cco:realized_in']) || extractIRI(role['bfo:BFO_0000054']) ||
+      const isRealized = extractIRI(role['realized_in']) ||
         extractIRI(role['tagteam:would_be_realized_in']);
 
       // Also check if any process realizes this role
       const processRealizes = nodes.some(n =>
-        (extractIRI(n['cco:realizes']) === role['@id'] || extractIRI(n['bfo:BFO_0000055']) === role['@id'])
+        extractIRI(n['realizes']) === role['@id']
       );
 
       if (isRealized || processRealizes) {
@@ -315142,7 +315600,7 @@ class SHMLValidator {
             'RolePattern',
             `Role bearer ${bearerId} should be an IndependentContinuant`,
             bearerId,
-            'Bearer should be cco:Person, cco:Agent, cco:Artifact or similar'
+            'Bearer should be Person, Agent, Artifact or similar'
           );
         }
       }
@@ -315176,7 +315634,7 @@ class SHMLValidator {
       total++;
 
       // Rule 1: Must designate something (VIOLATION)
-      if (designative['cco:designates'] || designative['cco:is_designated_by']) {
+      if (designative['designates'] || designative['is_designated_by']) {
         passed++;
       } else {
         this._addIssue(
@@ -315214,8 +315672,8 @@ class SHMLValidator {
     );
 
     for (const interval of temporalNodes) {
-      const hasStart = interval['cco:has_start_time'];
-      const hasEnd = interval['cco:has_end_time'];
+      const hasStart = interval['has_start_time'];
+      const hasEnd = interval['has_end_time'];
 
       // Rule 1: Should have start time (WARNING)
       total++;
@@ -315293,10 +315751,10 @@ class SHMLValidator {
       // Rule 1: Must be linked to a Quality (VIOLATION)
       total++;
       const qualityLinks = nodes.some(n =>
-        extractIRI(n['cco:is_measured_by']) === measurement['@id']
+        extractIRI(n['is_measured_by']) === measurement['@id']
       );
 
-      if (qualityLinks || extractIRI(measurement['cco:measures'])) {
+      if (qualityLinks || extractIRI(measurement['measures'])) {
         passed++;
       } else {
         this._addIssue(
@@ -315310,7 +315768,7 @@ class SHMLValidator {
 
       // Rule 2: Must have measurement value (VIOLATION)
       total++;
-      if (measurement['cco:has_measurement_value'] !== undefined) {
+      if (measurement['has_measurement_value'] !== undefined) {
         passed++;
       } else {
         this._addIssue(
@@ -315324,7 +315782,7 @@ class SHMLValidator {
 
       // Rule 3: Must have measurement unit (VIOLATION)
       total++;
-      if (measurement['cco:uses_measurement_unit']) {
+      if (measurement['uses_measurement_unit']) {
         passed++;
       } else {
         this._addIssue(
@@ -315367,7 +315825,7 @@ class SHMLValidator {
     for (const act of actNodes) {
       // Rule 1: Act should have temporal grounding (WARNING)
       total++;
-      if (act['cco:occurs_during'] || act['tagteam:temporal_extent']) {
+      if (act['occurs_during'] || act['tagteam:temporal_extent']) {
         passed++;
       } else {
         this._addIssue(
@@ -315381,13 +315839,12 @@ class SHMLValidator {
 
       // Rule 2: Act should have participant (WARNING)
       total++;
-      const hasParticipant = extractIRI(act['cco:has_participant']) ||
-        extractIRI(act['bfo:BFO_0000057']) ||
-        extractIRI(act['cco:has_agent']);
+      const hasParticipant = extractIRI(act['has_participant']) ||
+        extractIRI(act['has_agent']);
 
       // Also check if any agent participates in this act
       const agentParticipates = nodes.some(n =>
-        extractIRI(n['cco:participates_in']) === act['@id']
+        extractIRI(n['participates_in']) === act['@id']
       );
 
       if (hasParticipant || agentParticipates) {
@@ -315423,8 +315880,8 @@ class SHMLValidator {
     let total = 0;
 
     for (const node of nodes) {
-      // is_concretized_by: ICE → IBE
-      const concretizedBy = extractIRI(node['cco:is_concretized_by']);
+      // is_concretized_by: ICE → IBE (BFO_0000058)
+      const concretizedBy = extractIRI(node['is_concretized_by']);
       if (concretizedBy) {
         total++;
         const target = nodeMap.get(concretizedBy);
@@ -315437,13 +315894,13 @@ class SHMLValidator {
             'DomainRangeValidation',
             `is_concretized_by target ${concretizedBy} is not an IBE`,
             node['@id'],
-            'Target of is_concretized_by should be cco:InformationBearingEntity'
+            'Target of is_concretized_by should be InformationBearingEntity'
           );
         }
       }
 
-      // is_bearer_of: IndependentContinuant → Role
-      const bearerOfRaw = node['cco:is_bearer_of'] || node['bfo:BFO_0000053'];
+      // is_bearer_of: IndependentContinuant → Role (BFO_0000196)
+      const bearerOfRaw = node['is_bearer_of'];
       if (bearerOfRaw) {
         const roleIds = Array.isArray(bearerOfRaw)
           ? bearerOfRaw.map(r => extractIRI(r)).filter(Boolean)
@@ -315468,7 +315925,7 @@ class SHMLValidator {
       }
 
       // is_part_of: Continuant → Continuant (NOT Process)
-      const partOf = extractIRI(node['cco:is_part_of']);
+      const partOf = extractIRI(node['is_part_of']);
       if (partOf) {
         total++;
         const target = nodeMap.get(partOf);
@@ -315517,8 +315974,8 @@ class SHMLValidator {
         }
       }
 
-      // CCO Expert Checklist Rule: has_agent - Domain: bfo:Process, Range: cco:Agent
-      const hasAgent = extractIRI(node['cco:has_agent']);
+      // CCO Expert Checklist Rule: has_agent - Domain: bfo:Process, Range: Agent
+      const hasAgent = extractIRI(node['has_agent']);
       if (hasAgent) {
         total++;
         const nodeIsProcess = this._hasType(node, 'Process') ||
@@ -315529,7 +315986,6 @@ class SHMLValidator {
         const targetIsAgent = target && (
           this._hasType(target, 'Agent') ||
           this._hasType(target, 'Person') ||
-          this._hasType(target, 'ArtificialAgent') ||
           this._hasType(target, 'Organization')
         );
 
@@ -315551,14 +316007,14 @@ class SHMLValidator {
               'DomainRangeValidation',
               `has_agent target ${hasAgent} is not an Agent`,
               node['@id'],
-              'has_agent range must be cco:Agent (CCO Expert Checklist)'
+              'has_agent range must be Agent (CCO Expert Checklist)'
             );
           }
         }
       }
 
       // CCO Expert Checklist Rule: prescribes - Domain: DirectiveContent, Range: bfo:Process
-      const prescribes = extractIRI(node['cco:prescribes']) || extractIRI(node['tagteam:prescribes']);
+      const prescribes = extractIRI(node['prescribes']) || extractIRI(node['tagteam:prescribes']);
       if (prescribes) {
         total++;
         const nodeIsDirective = this._hasType(node, 'DirectiveContent') ||
@@ -315597,7 +316053,7 @@ class SHMLValidator {
       }
 
       // CCO Expert Checklist Rule: inheres_in - Domain: Role/Quality, Range: IndependentContinuant
-      const inheresIn = extractIRI(node['bfo:inheres_in']) || extractIRI(node['bfo:BFO_0000052']);
+      const inheresIn = extractIRI(node['inheres_in']);
       if (inheresIn) {
         total++;
         const nodeIsRoleOrQuality = this._hasType(node, 'Role') ||
@@ -316386,7 +316842,7 @@ ComplexityBudget.BudgetError = BudgetError;
  * @example
  * const loader = new DomainConfigLoader();
  * loader.loadConfig('config/medical.json');
- * const type = loader.getTypeSpecialization('bfo:BFO_0000015', 'care');
+ * const type = loader.getTypeSpecialization('Process', 'care');
  * // Returns: 'cco:ActOfCare'
  */
 class DomainConfigLoader {
@@ -316452,7 +316908,7 @@ class DomainConfigLoader {
    *   domain: 'medical',
    *   version: '1.0',
    *   typeSpecializations: {
-   *     'bfo:BFO_0000015': {
+   *     'Process': {
    *       'care': 'cco:ActOfCare'
    *     }
    *   }
@@ -316536,12 +316992,12 @@ class DomainConfigLoader {
   /**
    * Get specialized type for a term given its BFO base type
    *
-   * @param {string} bfoType - BFO base type (e.g., 'bfo:BFO_0000015')
+   * @param {string} bfoType - BFO base type (e.g., 'Process')
    * @param {string} term - The term to specialize (e.g., 'care')
    * @returns {string|null} Specialized type or null if no specialization found
    *
    * @example
-   * loader.getTypeSpecialization('bfo:BFO_0000015', 'care')
+   * loader.getTypeSpecialization('Process', 'care')
    * // Returns: 'cco:ActOfCare' (if medical config loaded)
    */
   getTypeSpecialization(bfoType, term) {
@@ -317510,7 +317966,7 @@ class AmbiguityDetector {
     }
 
     // SemanticGraphBuilder format: cco:has_agent
-    const hasAgent = act['cco:has_agent'];
+    const hasAgent = act['has_agent'];
     if (hasAgent) {
       const agentIRI = typeof hasAgent === 'object' ? hasAgent['@id'] : hasAgent;
       return entities.find(e => e['@id'] === agentIRI);
@@ -317757,7 +318213,7 @@ const VERB_CLASSES = {
     subjectRequirement: ['animate', 'organization', 'collective'],
     subjectForbidden: ['inanimate', 'abstract'],
     objectRequirement: null,  // Mental verbs have loose object constraints
-    ontologyType: 'cco:MentalAct'
+    ontologyType: 'MentalAct'
   },
 
   // Physical acts requiring animate agents (NOT organizations)
@@ -317774,7 +318230,7 @@ const VERB_CLASSES = {
     subjectForbidden: ['inanimate', 'abstract', 'organization'],
     objectRequirement: ['material_entity', 'inanimate'],  // Physical objects
     objectForbidden: ['abstract'],
-    ontologyType: 'cco:PhysicalAct'
+    ontologyType: 'PhysicalAct'
   },
 
   // Communication acts (organizations can communicate)
@@ -317791,7 +318247,7 @@ const VERB_CLASSES = {
     subjectRequirement: ['animate', 'organization', 'collective'],
     subjectForbidden: ['inanimate'],
     objectRequirement: null,  // Can announce anything
-    ontologyType: 'cco:CommunicativeAct'
+    ontologyType: 'CommunicativeAct'
   },
 
   // Transfer acts (organizations can transfer)
@@ -317805,7 +318261,7 @@ const VERB_CLASSES = {
     subjectRequirement: ['animate', 'organization', 'collective'],
     subjectForbidden: ['inanimate', 'abstract'],
     objectRequirement: null,  // Can transfer many things - be permissive
-    ontologyType: 'cco:TransferAct'
+    ontologyType: 'TransferAct'
   },
 
   // Employment/organizational acts
@@ -317817,7 +318273,7 @@ const VERB_CLASSES = {
     ]),
     subjectRequirement: ['animate', 'organization'],
     objectRequirement: ['animate'],
-    ontologyType: 'cco:OrganizationalAct'
+    ontologyType: 'OrganizationalAct'
   },
 
   // Governance/policy acts
@@ -317830,7 +318286,7 @@ const VERB_CLASSES = {
     ]),
     subjectRequirement: ['animate', 'organization'],
     objectRequirement: null,
-    ontologyType: 'cco:GovernanceAct'
+    ontologyType: 'GovernanceAct'
   },
 
   // Creation/production acts
@@ -317843,7 +318299,7 @@ const VERB_CLASSES = {
     ]),
     subjectRequirement: ['animate', 'organization'],
     objectRequirement: ['continuant'],
-    ontologyType: 'cco:CreationAct'
+    ontologyType: 'CreationAct'
   },
 
   // Perception acts (animate only, not organizations)
@@ -317855,7 +318311,7 @@ const VERB_CLASSES = {
     ]),
     subjectRequirement: ['animate'],
     objectRequirement: null,
-    ontologyType: 'cco:PerceptionAct'
+    ontologyType: 'PerceptionAct'
   },
 
   // Causation (any subject can cause - even inanimate)
@@ -317868,7 +318324,7 @@ const VERB_CLASSES = {
     subjectRequirement: null,  // Any subject allowed (storms can cause)
     subjectForbidden: [],
     objectRequirement: null,
-    ontologyType: 'bfo:Process'
+    ontologyType: 'Process'
   },
 
   // Stative/relational (broad subject requirements)
@@ -317882,7 +318338,7 @@ const VERB_CLASSES = {
     subjectRequirement: null, // Any subject allowed
     subjectForbidden: [],
     objectRequirement: null,
-    ontologyType: 'bfo:RelationalQuality'
+    ontologyType: 'RelationalQuality'
   }
 };
 
@@ -318625,16 +319081,16 @@ class SelectionalPreferences {
    */
   _getOntologyConstraint(verbClass, agentCategory) {
     if (agentCategory === 'inanimate' || agentCategory === 'material_entity') {
-      return 'bfo:Agent requires bfo:MaterialEntity with cco:has_function capability';
+      return 'bfo:Agent requires bfo:MaterialEntity with has_function capability';
     }
     if (agentCategory === 'abstract') {
-      return 'bfo:Agent requires cco:Agent (animate or organizational entity)';
+      return 'bfo:Agent requires Agent (animate or organizational entity)';
     }
     if (verbClass === 'intentional_physical') {
-      return 'cco:PhysicalAct requires animate agent with physical capability';
+      return 'PhysicalAct requires animate agent with physical capability';
     }
     if (verbClass === 'perception') {
-      return 'cco:PerceptionAct requires animate agent with sensory capability';
+      return 'PerceptionAct requires animate agent with sensory capability';
     }
     return 'Selectional constraint violation';
   }
@@ -319242,7 +319698,7 @@ class InterpretationLattice {
       '@context': {
         'tagteam': 'http://purl.org/tagteam#',
         'bfo': 'http://purl.obolibrary.org/obo/BFO_',
-        'cco': 'http://www.ontologyrepository.com/CommonCoreOntologies/'
+        'cco': 'https://www.commoncoreontologies.org/'
       },
       '@type': 'tagteam:InterpretationLattice',
       'tagteam:defaultReading': this.defaultReading,
@@ -319685,7 +320141,7 @@ class AlternativeGraphBuilder {
 
   /**
    * Build metonymic bridge alternative (re-type location as organization)
-   * Per critique: Create alternative node typed as cco:Organization
+   * Per critique: Create alternative node typed as Organization
    * while preserving original source text
    * @private
    */
@@ -319698,9 +320154,9 @@ class AlternativeGraphBuilder {
     }
 
     const modifications = {
-      '@type': ['cco:Organization', 'bfo:Object', 'tagteam:AlternativeNode'],
+      '@type': ['Organization', 'Object', 'tagteam:AlternativeNode'],
       'tagteam:metonymicSource': ambiguity.span || node['rdfs:label'],
-      'tagteam:literalType': 'cco:Artifact',
+      'tagteam:literalType': 'Artifact',
       'tagteam:metonymyType': 'location_for_institution'
     };
 
@@ -319830,12 +320286,12 @@ class AlternativeGraphBuilder {
    */
   _getNounCategoryModifications(reading) {
     const typeMap = {
-      'organization': ['cco:Organization'],
-      'role': ['cco:OccupationRole'],
-      'quality': ['bfo:Quality'],
-      'process': ['bfo:Process'],
-      'agent': ['cco:Agent'],
-      'continuant': ['bfo:Continuant']
+      'organization': ['Organization'],
+      'role': ['Role'],
+      'quality': ['Quality'],
+      'process': ['Process'],
+      'agent': ['Agent'],
+      'continuant': ['Continuant']
     };
 
     return {
@@ -319962,7 +320418,7 @@ const COMMON_PREFIXES = {
   'xsd': 'http://www.w3.org/2001/XMLSchema#',
   'bfo': 'http://purl.obolibrary.org/obo/BFO_',
   'obo': 'http://purl.obolibrary.org/obo/',
-  'cco': 'http://www.ontologyrepository.com/CommonCoreOntologies/',
+  'cco': 'https://www.commoncoreontologies.org/',
   'tagteam': 'http://purl.org/tagteam#'
 };
 
@@ -323709,6 +324165,3692 @@ class ClauseSegmenter {
 
 
   // ============================================================================
+  // v2 DEPENDENCY PARSER (Phase 2)
+  // ============================================================================
+
+/**
+ * DependencyParser.js — Arc-Eager Transition-Based Dependency Parser (Inference)
+ *
+ * Source: TagTeam-Major-Refactor-v2.2.md §7
+ * Authority: Nivre 2003 (arc-eager), Goldberg & Nivre 2012 (dynamic oracle)
+ *
+ * Greedy left-to-right arc-eager parsing with averaged perceptron scoring.
+ * Produces UD v2 labeled dependency arcs with score margins for confidence
+ * propagation (§13).
+ *
+ * Transition system (4 transitions):
+ *   SHIFT:           Move buffer[0] → top of stack
+ *   LEFT-ARC(label): Arc from buffer[0] → stack[-1], pop stack[-1]
+ *   RIGHT-ARC(label): Arc from stack[-1] → buffer[0], push buffer[0] to stack
+ *   REDUCE:          Pop stack[-1] (must already have a head)
+ *
+ * @example
+ * * const parser = new DependencyParser(model);
+ * const result = parser.parse(['The', 'doctor', 'treated'], ['DT', 'NN', 'VBD']);
+ * // result.arcs = [{ dependent, head, label, scoreMargin }, ...]
+ */
+
+class DependencyParser {
+  /**
+   * @param {Object} model - Trained model with weights, labels, transitions, provenance
+   */
+  constructor(model) {
+    this.weights = model.weights;           // bucket_id → transition → weight (or feature → transition → weight)
+    this.labels = model.labels;             // UD v2 label list
+    this.transitions = model.transitions;   // valid transition strings
+    this.provenance = model.provenance;     // training metadata
+    this.numBuckets = model.numBuckets || 0; // 0 = no hashing (feature strings as keys)
+
+    // Pre-compute transition → {type, label} lookup for fast application
+    this._transitionMap = new Map();
+    for (const t of this.transitions) {
+      if (t === 'SHIFT') {
+        this._transitionMap.set(t, { type: 'SHIFT', label: null });
+      } else if (t === 'REDUCE') {
+        this._transitionMap.set(t, { type: 'REDUCE', label: null });
+      } else if (t.startsWith('LEFT-')) {
+        this._transitionMap.set(t, { type: 'LEFT', label: t.slice(5) });
+      } else if (t.startsWith('RIGHT-')) {
+        this._transitionMap.set(t, { type: 'RIGHT', label: t.slice(6) });
+      }
+    }
+  }
+
+  /**
+   * Parse a sentence, producing UD v2 labeled dependency arcs.
+   *
+   * @param {string[]} tokens - Word tokens (1-indexed internally, 0 = ROOT)
+   * @param {string[]} tags - POS tags (same length as tokens)
+   * @returns {{ arcs: Array<{dependent: number, head: number, label: string, scoreMargin: number}> }}
+   */
+  parse(tokens, tags) {
+    const n = tokens.length;
+
+    // Parser state: stack holds indices (0 = ROOT sentinel), buffer holds indices 1..n
+    const stack = [0]; // ROOT
+    const buffer = [];
+    for (let i = 1; i <= n; i++) buffer.push(i);
+
+    // Arc storage: heads[i] = head index, labels[i] = label, margins[i] = score margin
+    const heads = new Array(n + 1).fill(-1);
+    const depLabels = new Array(n + 1).fill(null);
+    const margins = new Array(n + 1).fill(0);
+
+    // Token data indexed 0..n (0 = ROOT)
+    const words = ['ROOT', ...tokens];
+    const posTags = ['ROOT', ...tags];
+
+    // Left/right children tracking for features
+    const leftChildren = new Array(n + 1).fill(null);  // leftmost child label
+    const rightChildren = new Array(n + 1).fill(null); // rightmost child label
+    const leftDepCount = new Array(n + 1).fill(0);     // number of left dependents
+    const rightDepCount = new Array(n + 1).fill(0);    // number of right dependents
+
+    // Main parsing loop
+    while (buffer.length > 0 || stack.length > 1) {
+      const validTransitions = this._getValidTransitions(stack, buffer, heads);
+      if (validTransitions.length === 0) break; // should not happen in correct input
+
+      // Extract features from current configuration
+      const features = this._getFeatures(stack, buffer, words, posTags, heads, depLabels, leftChildren, rightChildren, leftDepCount, rightDepCount);
+
+      // Score all valid transitions
+      const scores = this._scoreTransitions(features, validTransitions);
+
+      // Pick best transition and compute score margin
+      let bestIdx = 0;
+      for (let i = 1; i < scores.length; i++) {
+        if (scores[i].score > scores[bestIdx].score) bestIdx = i;
+      }
+
+      const bestScore = scores[bestIdx].score;
+      let secondBest = -Infinity;
+      for (let i = 0; i < scores.length; i++) {
+        if (i !== bestIdx && scores[i].score > secondBest) {
+          secondBest = scores[i].score;
+        }
+      }
+      const scoreMargin = scores.length > 1 ? bestScore - secondBest : bestScore;
+
+      const bestTransition = scores[bestIdx].transition;
+      const parsed = this._transitionMap.get(bestTransition);
+
+      // Apply transition
+      this._applyTransition(parsed, stack, buffer, heads, depLabels, margins, scoreMargin, leftChildren, rightChildren, leftDepCount, rightDepCount);
+    }
+
+    // Final sweep: assign any remaining stack items (except ROOT) as root dependents
+    while (stack.length > 1) {
+      const idx = stack.pop();
+      if (heads[idx] === -1) {
+        heads[idx] = 0;
+        depLabels[idx] = 'root';
+        margins[idx] = 0; // low confidence for forced root
+      }
+    }
+
+    // Build arcs array
+    const arcs = [];
+    for (let i = 1; i <= n; i++) {
+      arcs.push({
+        dependent: i,
+        head: heads[i],
+        label: depLabels[i] || 'dep',
+        scoreMargin: margins[i]
+      });
+    }
+
+    return { arcs };
+  }
+
+  /**
+   * Get valid transitions for current parser state.
+   *
+   * Validity constraints (Nivre 2003):
+   *   SHIFT:     buffer non-empty
+   *   LEFT-ARC:  buffer non-empty, stack[-1] ≠ ROOT (0), stack[-1] has no head yet
+   *   RIGHT-ARC: buffer non-empty
+   *   REDUCE:    stack[-1] ≠ ROOT (0), stack[-1] already has a head
+   *
+   * @param {number[]} stack
+   * @param {number[]} buffer
+   * @param {number[]} heads
+   * @returns {string[]} Valid transition names
+   */
+  _getValidTransitions(stack, buffer, heads) {
+    const valid = [];
+    const s0 = stack.length > 0 ? stack[stack.length - 1] : -1;
+
+    // SHIFT: buffer must be non-empty
+    if (buffer.length > 0) {
+      valid.push('SHIFT');
+    }
+
+    // REDUCE: stack top is not ROOT, and already has a head
+    if (s0 > 0 && heads[s0] !== -1) {
+      valid.push('REDUCE');
+    }
+
+    // LEFT-ARC(label): buffer non-empty, stack top is not ROOT, and has no head yet
+    if (buffer.length > 0 && s0 > 0 && heads[s0] === -1) {
+      for (const t of this.transitions) {
+        if (t.startsWith('LEFT-')) valid.push(t);
+      }
+    }
+
+    // RIGHT-ARC(label): buffer must be non-empty
+    if (buffer.length > 0) {
+      for (const t of this.transitions) {
+        if (t.startsWith('RIGHT-')) valid.push(t);
+      }
+    }
+
+    return valid;
+  }
+
+  /**
+   * Apply a transition to the parser state.
+   *
+   * @param {{type: string, label: string|null}} parsed - Parsed transition
+   * @param {number[]} stack
+   * @param {number[]} buffer
+   * @param {number[]} heads
+   * @param {string[]} depLabels
+   * @param {number[]} margins
+   * @param {number} scoreMargin
+   * @param {string[]} leftChildren
+   * @param {string[]} rightChildren
+   * @param {number[]} leftDepCount
+   * @param {number[]} rightDepCount
+   */
+  _applyTransition(parsed, stack, buffer, heads, depLabels, margins, scoreMargin, leftChildren, rightChildren, leftDepCount, rightDepCount) {
+    const s0 = stack[stack.length - 1];
+
+    switch (parsed.type) {
+      case 'SHIFT':
+        stack.push(buffer.shift());
+        break;
+
+      case 'LEFT': {
+        // Arc: head = buffer[0], dependent = stack[-1]
+        const dep = stack.pop();
+        const head = buffer[0];
+        heads[dep] = head;
+        depLabels[dep] = parsed.label;
+        margins[dep] = scoreMargin;
+        // Update child tracking
+        if (dep < head) {
+          leftChildren[head] = parsed.label;
+          leftDepCount[head]++;
+        } else {
+          rightChildren[head] = parsed.label;
+          rightDepCount[head]++;
+        }
+        break;
+      }
+
+      case 'RIGHT': {
+        // Arc: head = stack[-1], dependent = buffer[0]
+        const dep = buffer.shift();
+        const head = s0;
+        heads[dep] = head;
+        depLabels[dep] = parsed.label;
+        margins[dep] = scoreMargin;
+        stack.push(dep);
+        // Update child tracking
+        if (dep < head) {
+          leftChildren[head] = parsed.label;
+          leftDepCount[head]++;
+        } else {
+          rightChildren[head] = parsed.label;
+          rightDepCount[head]++;
+        }
+        break;
+      }
+
+      case 'REDUCE':
+        stack.pop();
+        break;
+    }
+  }
+
+  /**
+   * Extract features from current parser configuration.
+   *
+   * ~40-60 features per state (§7.1):
+   *   - Stack/buffer word and tag features
+   *   - Child label features
+   *   - Combined features (bigrams, trigrams)
+   *
+   * @returns {string[]} Feature strings
+   */
+  _getFeatures(stack, buffer, words, tags, heads, depLabels, leftChildren, rightChildren, leftDepCount, rightDepCount) {
+    const features = ['bias'];
+
+    // Stack positions
+    const s0 = stack.length > 0 ? stack[stack.length - 1] : -1;
+    const s1 = stack.length > 1 ? stack[stack.length - 2] : -1;
+
+    // Buffer positions
+    const b0 = buffer.length > 0 ? buffer[0] : -1;
+    const b1 = buffer.length > 1 ? buffer[1] : -1;
+    const b2 = buffer.length > 2 ? buffer[2] : -1;
+
+    // Helper to get word/tag/label safely
+    const w = (i) => i >= 0 ? words[i] : '_NULL_';
+    const t = (i) => i >= 0 ? tags[i] : '_NULL_';
+    const wl = (i) => i >= 0 ? words[i].toLowerCase() : '_null_';
+    const dl = (i) => i >= 0 ? (depLabels[i] || '_NONE_') : '_NULL_';
+    const lc = (i) => i >= 0 ? (leftChildren[i] || '_NONE_') : '_NULL_';
+    const rc = (i) => i >= 0 ? (rightChildren[i] || '_NONE_') : '_NULL_';
+    const nld = (i) => i >= 0 ? String(Math.min(leftDepCount[i], 3)) : '0';
+    const nrd = (i) => i >= 0 ? String(Math.min(rightDepCount[i], 3)) : '0';
+
+    // === Single features (§7.1 feature template) ===
+
+    // Stack[0]
+    if (s0 >= 0) {
+      features.push('s0_word=' + w(s0));
+      features.push('s0_word_lower=' + wl(s0));
+      features.push('s0_tag=' + t(s0));
+      features.push('s0_deprel=' + dl(s0));
+      features.push('s0_lc=' + lc(s0));
+      features.push('s0_rc=' + rc(s0));
+    }
+
+    // Stack[1]
+    if (s1 >= 0) {
+      features.push('s1_word=' + w(s1));
+      features.push('s1_tag=' + t(s1));
+    }
+
+    // Buffer[0]
+    if (b0 >= 0) {
+      features.push('b0_word=' + w(b0));
+      features.push('b0_word_lower=' + wl(b0));
+      features.push('b0_tag=' + t(b0));
+      features.push('b0_lc=' + lc(b0));
+    }
+
+    // Buffer[1]
+    if (b1 >= 0) {
+      features.push('b1_word=' + w(b1));
+      features.push('b1_tag=' + t(b1));
+    }
+
+    // Buffer[2]
+    if (b2 >= 0) {
+      features.push('b2_tag=' + t(b2));
+    }
+
+    // === Combined features ===
+
+    // s0 + b0 combinations (most informative)
+    if (s0 >= 0 && b0 >= 0) {
+      features.push('s0_tag+b0_tag=' + t(s0) + '+' + t(b0));
+      features.push('s0_word+b0_tag=' + w(s0) + '+' + t(b0));
+      features.push('s0_tag+b0_word=' + t(s0) + '+' + w(b0));
+      features.push('s0_word+b0_word=' + w(s0) + '+' + w(b0));
+      features.push('s0_word_lower+b0_word_lower=' + wl(s0) + '+' + wl(b0));
+      features.push('b0_tag+s0_tag+s0_word_lower=' + t(b0) + '+' + t(s0) + '+' + wl(s0));
+    }
+
+    // s0 + b0 + specific features
+    if (s0 >= 0 && b0 >= 0) {
+      features.push('s0_tag+b0_tag+s0_word_lower=' + t(s0) + '+' + t(b0) + '+' + wl(s0));
+      features.push('s0_tag+b0_tag+b0_word_lower=' + t(s0) + '+' + t(b0) + '+' + wl(b0));
+      features.push('s0_word+b0_tag+b0_word_lower=' + w(s0) + '+' + t(b0) + '+' + wl(b0));
+    }
+
+    // s1 + s0 + b0 trigram
+    if (s1 >= 0 && s0 >= 0 && b0 >= 0) {
+      features.push('s1_tag+s0_tag+b0_tag=' + t(s1) + '+' + t(s0) + '+' + t(b0));
+    }
+
+    // s0 + b0 + b1 trigram
+    if (s0 >= 0 && b0 >= 0 && b1 >= 0) {
+      features.push('s0_tag+b0_tag+b1_tag=' + t(s0) + '+' + t(b0) + '+' + t(b1));
+    }
+
+    // s0 has head indicator
+    if (s0 > 0 && heads[s0] !== -1) {
+      features.push('s0_has_head');
+    }
+
+    // Buffer empty indicator
+    if (buffer.length === 0) {
+      features.push('b_empty');
+    }
+
+    // Combined state indicators
+    if (s0 > 0 && heads[s0] !== -1 && buffer.length === 0) {
+      features.push('s0_has_head+b_empty');
+    }
+
+    // Suffix features for b0 (helps with label prediction)
+    if (b0 >= 0) {
+      const bword = words[b0];
+      const blen = bword.length;
+      if (blen >= 3) features.push('b0_suf3=' + bword.slice(-3).toLowerCase());
+      if (blen >= 2) features.push('b0_suf2=' + bword.slice(-2).toLowerCase());
+    }
+
+    // Suffix features for s0
+    if (s0 > 0) {
+      const sword = words[s0];
+      const slen = sword.length;
+      if (slen >= 3) features.push('s0_suf3=' + sword.slice(-3).toLowerCase());
+      if (slen >= 2) features.push('s0_suf2=' + sword.slice(-2).toLowerCase());
+    }
+
+    // === Distance features (Zhang & Nivre 2011) ===
+    if (s0 >= 0 && b0 >= 0) {
+      const dist = Math.min(Math.abs(s0 - b0), 10);
+      features.push('dist=' + dist);
+      features.push('s0_tag+b0_tag+dist=' + t(s0) + '+' + t(b0) + '+' + dist);
+      features.push('s0_word_lower+dist=' + wl(s0) + '+' + dist);
+      features.push('b0_word_lower+dist=' + wl(b0) + '+' + dist);
+    }
+
+    // === Valency features (number of left/right dependents) ===
+    if (s0 >= 0) {
+      features.push('s0_n_ldeps=' + nld(s0));
+      features.push('s0_n_rdeps=' + nrd(s0));
+      features.push('s0_tag+s0_n_ldeps=' + t(s0) + '+' + nld(s0));
+      features.push('s0_tag+s0_n_rdeps=' + t(s0) + '+' + nrd(s0));
+    }
+
+    if (b0 >= 0) {
+      features.push('b0_n_ldeps=' + nld(b0));
+      features.push('b0_tag+b0_n_ldeps=' + t(b0) + '+' + nld(b0));
+    }
+
+    // === Head features for s0 (if assigned) ===
+    if (s0 > 0 && heads[s0] !== -1) {
+      const h = heads[s0];
+      features.push('s0_head_tag=' + t(h));
+      features.push('s0_head_word_lower=' + wl(h));
+      if (b0 >= 0) {
+        features.push('s0_head_tag+b0_tag=' + t(h) + '+' + t(b0));
+      }
+    }
+
+    // === Additional combined features ===
+    if (s0 >= 0 && b0 >= 0) {
+      features.push('s0_tag+s0_lc+b0_tag=' + t(s0) + '+' + lc(s0) + '+' + t(b0));
+      features.push('s0_tag+s0_rc+b0_tag=' + t(s0) + '+' + rc(s0) + '+' + t(b0));
+    }
+
+    if (s1 >= 0 && s0 >= 0) {
+      features.push('s1_tag+s0_tag=' + t(s1) + '+' + t(s0));
+      features.push('s1_tag+s0_word_lower=' + t(s1) + '+' + wl(s0));
+    }
+
+    if (b0 >= 0 && b1 >= 0) {
+      features.push('b0_tag+b1_tag=' + t(b0) + '+' + t(b1));
+      features.push('b0_word_lower+b1_tag=' + wl(b0) + '+' + t(b1));
+    }
+
+    // Stack depth indicator
+    const slen2 = Math.min(stack.length, 5);
+    features.push('stack_depth=' + slen2);
+
+    // Buffer length indicator (binned)
+    const blen2 = Math.min(buffer.length, 5);
+    features.push('buffer_len=' + blen2);
+
+    // === Word shape features (helps with rare/unseen words) ===
+    if (s0 > 0) {
+      features.push('s0_shape=' + DependencyParser._wordShape(words[s0]));
+    }
+    if (b0 >= 0) {
+      features.push('b0_shape=' + DependencyParser._wordShape(words[b0]));
+    }
+    if (s0 >= 0 && b0 >= 0) {
+      features.push('s0_shape+b0_shape=' + DependencyParser._wordShape(s0 > 0 ? words[s0] : 'ROOT') + '+' + DependencyParser._wordShape(words[b0]));
+    }
+
+    // === Prefix features (first 3 chars — helps with morphology) ===
+    if (s0 > 0) {
+      features.push('s0_pre3=' + words[s0].slice(0, 3).toLowerCase());
+    }
+    if (b0 >= 0) {
+      features.push('b0_pre3=' + words[b0].slice(0, 3).toLowerCase());
+    }
+
+    // === Second-order features (s0 deprel context) ===
+    if (s0 > 0 && heads[s0] !== -1 && b0 >= 0) {
+      features.push('s0_deprel+b0_tag=' + dl(s0) + '+' + t(b0));
+      features.push('s0_deprel+s0_tag+b0_tag=' + dl(s0) + '+' + t(s0) + '+' + t(b0));
+    }
+
+    // Valency + distance combined
+    if (s0 >= 0 && b0 >= 0) {
+      features.push('s0_n_rdeps+dist=' + nrd(s0) + '+' + Math.min(Math.abs(s0 - b0), 10));
+    }
+
+    return features;
+  }
+
+  /**
+   * Compute word shape: X=upper, x=lower, d=digit, -=hyphen, .=punct.
+   * Runs are collapsed (e.g., "Obama" → "Xx", "2024" → "d").
+   * @param {string} word
+   * @returns {string} Shape string
+   */
+  static _wordShape(word) {
+    let shape = '';
+    let prev = '';
+    for (let i = 0; i < word.length; i++) {
+      const ch = word[i];
+      let c;
+      if (ch >= 'A' && ch <= 'Z') c = 'X';
+      else if (ch >= 'a' && ch <= 'z') c = 'x';
+      else if (ch >= '0' && ch <= '9') c = 'd';
+      else if (ch === '-') c = '-';
+      else c = '.';
+      if (c !== prev) {
+        shape += c;
+        prev = c;
+      }
+    }
+    return shape || 'x';
+  }
+
+  /**
+   * FNV-1a hash function for feature hashing (Weinberger et al. 2009).
+   * Maps feature string to bucket index for compact model storage.
+   *
+   * @param {string} str - Feature string to hash
+   * @param {number} numBuckets - Number of hash buckets
+   * @returns {number} Bucket index [0, numBuckets)
+   */
+  static _fnv1a(str, numBuckets) {
+    let hash = 0x811c9dc5; // FNV offset basis (32-bit)
+    for (let i = 0; i < str.length; i++) {
+      hash ^= str.charCodeAt(i);
+      hash = Math.imul(hash, 0x01000193); // FNV prime
+    }
+    return (hash >>> 0) % numBuckets;
+  }
+
+  /**
+   * Score valid transitions using perceptron weights.
+   *
+   * @param {string[]} features
+   * @param {string[]} validTransitions
+   * @returns {Array<{transition: string, score: number}>}
+   */
+  _scoreTransitions(features, validTransitions) {
+    const scores = validTransitions.map(t => ({ transition: t, score: 0 }));
+
+    // Build a quick lookup for valid transitions
+    const scoreMap = new Map();
+    for (let i = 0; i < scores.length; i++) {
+      scoreMap.set(scores[i].transition, i);
+    }
+
+    // Accumulate weights (support both hashed and string-keyed models)
+    const useHash = this.numBuckets > 0;
+    for (const feat of features) {
+      const key = useHash ? String(DependencyParser._fnv1a(feat, this.numBuckets)) : feat;
+      const w = this.weights[key];
+      if (!w) continue;
+      for (const t in w) {
+        const idx = scoreMap.get(t);
+        if (idx !== undefined) {
+          scores[idx].score += w[t];
+        }
+      }
+    }
+
+    return scores;
+  }
+
+  /**
+   * Look up calibrated probability for a score margin.
+   * Uses isotonic regression bins from calibration table.
+   *
+   * @param {number} margin - Score margin value
+   * @param {Object} calibration - Calibration table with bins array
+   * @returns {number} Calibrated probability [0, 1]
+   */
+  getCalibratedProbability(margin, calibration) {
+    if (!calibration || !calibration.bins || calibration.bins.length === 0) return 0.5;
+
+    const bins = calibration.bins;
+
+    // Find the bin containing this margin (bins sorted by margin threshold)
+    for (let i = bins.length - 1; i >= 0; i--) {
+      if (margin >= bins[i].margin) {
+        return bins[i].probability;
+      }
+    }
+
+    return bins[0].probability;
+  }
+}
+
+// Export for Node.js / CommonJS
+if (typeof module !== 'undefined' && module.exports) {
+  }
+// Export for browser
+
+
+/**
+ * DepTree.js — Dependency Tree Utility
+ *
+ * Source: TagTeam-Major-Refactor-v2.2.md §7
+ * Authority: UD v2 (Nivre et al. 2020)
+ *
+ * Provides tree traversal utilities over parsed dependency arcs:
+ *   - getEntitySubtree(headId): extract entity span, stopping at clause boundaries
+ *   - getAppositions(headId): extract appositive aliases
+ *   - getChildren(headId): get direct children
+ *   - getHead(depId): get head and label
+ *
+ * Entity subtree extraction excludes clause-level dependents (acl:relcl, acl,
+ * advcl, cop, punct) to prevent over-extraction into embedded clauses.
+ * This is the regression gate for Phase 3A entity extraction (AC-2.6).
+ */
+
+/**
+ * Labels excluded from entity subtree traversal.
+ * These represent clause boundaries or non-entity dependents.
+ * Per AC-2.6 and Cambridge Grammar of the English Language.
+ */
+const ENTITY_SUBTREE_EXCLUDED_LABELS = new Set([
+  'acl:relcl',  // relative clause ("the doctor who treated")
+  'acl',        // clausal modifier ("the decision to leave")
+  'advcl',      // adverbial clause ("he left because...")
+  'cop',        // copula ("is" in "CBP is a component")
+  'punct',      // punctuation
+]);
+
+/**
+ * Labels that indicate appositive relationships.
+ */
+const APPOSITION_LABELS = new Set([
+  'appos',      // appositive ("Customs and Border Protection (CBP)")
+]);
+
+class DepTree {
+  /**
+   * @param {Array<{dependent: number, head: number, label: string, scoreMargin: number}>} arcs
+   * @param {string[]} tokens - Word tokens (0-indexed array, but arcs use 1-indexed)
+   * @param {string[]} tags - POS tags
+   */
+  constructor(arcs, tokens, tags) {
+    this.arcs = arcs;
+    this.tokens = tokens;   // 0-indexed: tokens[0] = first word
+    this.tags = tags;
+    this.n = tokens.length;
+
+    // Build index: head → [child arcs]
+    this._children = new Map();
+    // Build index: dependent → arc
+    this._headOf = new Map();
+
+    for (const arc of arcs) {
+      this._headOf.set(arc.dependent, arc);
+      if (!this._children.has(arc.head)) {
+        this._children.set(arc.head, []);
+      }
+      this._children.get(arc.head).push(arc);
+    }
+  }
+
+  /**
+   * Get entity subtree rooted at headId.
+   * Traverses children recursively, stopping at excluded labels.
+   * Returns tokens and their 1-indexed positions.
+   *
+   * @param {number} headId - 1-indexed head token ID
+   * @returns {{ tokens: string[], indices: number[] }}
+   */
+  getEntitySubtree(headId) {
+    const indices = [];
+    this._collectSubtree(headId, indices);
+    indices.sort((a, b) => a - b);
+
+    const tokens = indices.map(i => this.tokens[i - 1]); // Convert 1-indexed to 0-indexed
+    return { tokens, indices };
+  }
+
+  /**
+   * Recursively collect token indices for entity subtree.
+   * Stops at excluded labels (acl:relcl, acl, advcl, cop, punct)
+   * and apposition labels (appos).
+   *
+   * @param {number} nodeId - 1-indexed node ID
+   * @param {number[]} indices - Accumulator
+   * @private
+   */
+  _collectSubtree(nodeId, indices) {
+    indices.push(nodeId);
+
+    const children = this._children.get(nodeId) || [];
+    for (const child of children) {
+      // Skip excluded labels — these are clause boundaries
+      if (ENTITY_SUBTREE_EXCLUDED_LABELS.has(child.label)) continue;
+      // Skip appositions — these are separate entities
+      if (APPOSITION_LABELS.has(child.label)) continue;
+      this._collectSubtree(child.dependent, indices);
+    }
+  }
+
+  /**
+   * Get appositive aliases for a head token.
+   * Returns the text of appositive dependents (e.g., "CBP" from "(CBP)").
+   *
+   * @param {number} headId - 1-indexed head token ID
+   * @returns {string[]} Appositive alias strings
+   */
+  getAppositions(headId) {
+    const children = this._children.get(headId) || [];
+    const aliases = [];
+
+    for (const child of children) {
+      if (APPOSITION_LABELS.has(child.label)) {
+        // Get the appositive subtree text (excluding punct)
+        const subIndices = [];
+        this._collectAppositionTokens(child.dependent, subIndices);
+        subIndices.sort((a, b) => a - b);
+
+        // Filter out punctuation tokens from appositive span
+        const apposTokens = subIndices
+          .filter(i => {
+            const tag = this.tags[i - 1];
+            const word = this.tokens[i - 1];
+            // Exclude punctuation: -LRB-, -RRB-, and actual parens/commas
+            return !tag.match(/^-[LR]RB-$/) &&
+                   !['(', ')', ',', '.', ':', ';'].includes(word);
+          })
+          .map(i => this.tokens[i - 1]);
+
+        if (apposTokens.length > 0) {
+          aliases.push(apposTokens.join(' '));
+        }
+      }
+    }
+
+    return aliases;
+  }
+
+  /**
+   * Collect tokens for an appositive subtree (including its own children,
+   * but not punct of its parent).
+   *
+   * @param {number} nodeId
+   * @param {number[]} indices
+   * @private
+   */
+  _collectAppositionTokens(nodeId, indices) {
+    indices.push(nodeId);
+    const children = this._children.get(nodeId) || [];
+    for (const child of children) {
+      // Include everything in the appositive span (even punct children)
+      this._collectAppositionTokens(child.dependent, indices);
+    }
+  }
+
+  /**
+   * Get direct children of a node.
+   *
+   * @param {number} headId - 1-indexed head token ID
+   * @returns {Array<{dependent: number, label: string, word: string, tag: string}>}
+   */
+  getChildren(headId) {
+    const children = this._children.get(headId) || [];
+    return children.map(c => ({
+      dependent: c.dependent,
+      label: c.label,
+      word: this.tokens[c.dependent - 1],
+      tag: this.tags[c.dependent - 1]
+    }));
+  }
+
+  /**
+   * Get the head arc for a dependent.
+   *
+   * @param {number} depId - 1-indexed dependent token ID
+   * @returns {{head: number, label: string, scoreMargin: number} | null}
+   */
+  getHead(depId) {
+    return this._headOf.get(depId) || null;
+  }
+
+  /**
+   * Find the root token(s) of the tree.
+   *
+   * @returns {number[]} 1-indexed IDs of root tokens
+   */
+  getRoots() {
+    return this.arcs
+      .filter(a => a.head === 0)
+      .map(a => a.dependent);
+  }
+}
+
+// Static property: exposed for testing (AC-2.6b)
+DepTree.ENTITY_SUBTREE_EXCLUDED_LABELS = ENTITY_SUBTREE_EXCLUDED_LABELS;
+
+// Export for Node.js / CommonJS
+if (typeof module !== 'undefined' && module.exports) {
+  }
+// Export for browser
+
+
+/**
+ * BinaryModelLoader.js — Binary Model File Loader
+ *
+ * Source: TagTeam-Major-Refactor-v2.2.md §20
+ * Authority: Custom binary format specification
+ *
+ * Loads TagTeam binary model files (.bin) with format:
+ *   Fixed Header (64 bytes):
+ *     bytes 0-3:    Magic "TT01" (0x54 0x54 0x30 0x31)
+ *     bytes 4-5:    Header version major/minor (currently 1.0)
+ *     byte  6:      Endianness flag (0x00 = little-endian, REQUIRED)
+ *     byte  7:      Model type (0x01 = POS, 0x02 = dependency parser)
+ *     bytes 8-11:   Feature count (uint32 LE)
+ *     bytes 12-15:  Class/transition count (uint32 LE)
+ *     bytes 16-19:  Reserved (uint32 LE)
+ *     bytes 20-23:  Metadata JSON block length (uint32 LE)
+ *     bytes 24-27:  Feature index length (uint32 LE)
+ *     bytes 28-31:  Weight matrix length (uint32 LE)
+ *     bytes 32-63:  SHA-256 checksum of bytes after header
+ *
+ * NOTE: Full loading and checksum validation tested in Phase 4 (AC-4.13, AC-4.14).
+ * This module provides the format specification and checksum verification utility.
+ */
+
+const MAGIC = 'TT01';
+const HEADER_SIZE = 64;
+const SUPPORTED_MAJOR = 1;
+const SUPPORTED_MINOR_MIN = 0;
+const SUPPORTED_MINOR_MAX = 1;
+
+class ModelLoadError extends Error {
+  constructor(message, reason) {
+    super(message);
+    this.name = 'ModelLoadError';
+    this.reason = reason;
+  }
+}
+
+class BinaryModelLoader {
+  /**
+   * Verify the SHA-256 checksum of a binary model buffer.
+   *
+   * @param {Buffer} buf - Binary model file contents
+   * @returns {boolean} true if checksum matches
+   */
+  static verifyChecksum(buf) {
+    if (buf.length < HEADER_SIZE) return false;
+
+    // Magic check
+    if (buf.slice(0, 4).toString('ascii') !== MAGIC) return false;
+
+    // Extract stored checksum (bytes 32-63)
+    const storedChecksum = buf.slice(32, 64);
+
+    // Compute checksum of payload (everything after header)
+    const payload = buf.slice(HEADER_SIZE);
+
+    try {
+      const computed = crypto.createHash('sha256').update(payload).digest();
+      return storedChecksum.equals(computed);
+    } catch (e) {
+      // crypto not available (browser without polyfill)
+      return false;
+    }
+  }
+
+  /**
+   * Parse a binary model buffer into a model object.
+   * NOTE: Full implementation deferred to Phase 4 (AC-4.13).
+   *
+   * @param {Buffer} buf - Binary model file contents
+   * @returns {Object} Model object compatible with DependencyParser/PerceptronTagger
+   */
+  static load(buf) {
+    if (buf.length < HEADER_SIZE) {
+      throw new ModelLoadError('BinaryModelLoader: file too small', 'invalid_format');
+    }
+
+    // Verify magic
+    if (buf.slice(0, 4).toString('ascii') !== MAGIC) {
+      throw new ModelLoadError('BinaryModelLoader: invalid magic number', 'invalid_format');
+    }
+
+    // Read header fields
+    const versionMajor = buf[4];
+    const versionMinor = buf[5];
+    const endianness = buf[6]; // 0x00 = little-endian
+    const modelType = buf[7];  // 0x01 = POS, 0x02 = dep
+    const featureCount = buf.readUInt32LE(8);
+    const classCount = buf.readUInt32LE(12);
+    const reserved = buf.readUInt32LE(16);
+    const metadataLen = buf.readUInt32LE(20);
+    const featureIndexLen = buf.readUInt32LE(24);
+    const weightMatrixLen = buf.readUInt32LE(28);
+
+    // Version check (AC-4.14b)
+    if (versionMajor !== SUPPORTED_MAJOR ||
+        versionMinor < SUPPORTED_MINOR_MIN ||
+        versionMinor > SUPPORTED_MINOR_MAX) {
+      throw new ModelLoadError(
+        `BinaryModelLoader: unsupported version ${versionMajor}.${versionMinor} ` +
+        `(expected ${SUPPORTED_MAJOR}.${SUPPORTED_MINOR_MIN}-${SUPPORTED_MAJOR}.${SUPPORTED_MINOR_MAX})`,
+        'version_incompatible'
+      );
+    }
+
+    // Verify checksum (AC-4.14)
+    if (!this.verifyChecksum(buf)) {
+      throw new ModelLoadError('BinaryModelLoader: SHA-256 checksum mismatch', 'checksum_mismatch');
+    }
+
+    // Parse metadata JSON
+    let offset = HEADER_SIZE;
+    const metadataJson = buf.slice(offset, offset + metadataLen).toString('utf8');
+    const metadata = JSON.parse(metadataJson);
+    offset += metadataLen;
+
+    // Parse feature index (null-terminated strings)
+    const featureIndexBuf = buf.slice(offset, offset + featureIndexLen);
+    const features = featureIndexBuf.toString('utf8').split('\0').filter(s => s.length > 0);
+    offset += featureIndexLen;
+
+    // Parse weight data
+    const classes = metadata.classes || metadata.transitions || [];
+    const weights = {};
+
+    if (versionMinor >= 1) {
+      // v1.1 sparse format: for each feature, uint16 count + count × (uint16 col, float32 weight)
+      const weightBuf = buf.slice(offset, offset + weightMatrixLen);
+      let wOff = 0;
+      for (let i = 0; i < features.length; i++) {
+        const count = weightBuf.readUInt16LE(wOff);
+        wOff += 2;
+        if (count > 0) {
+          const row = {};
+          for (let j = 0; j < count; j++) {
+            const colIdx = weightBuf.readUInt16LE(wOff);
+            wOff += 2;
+            const w = weightBuf.readFloatLE(wOff);
+            wOff += 4;
+            row[classes[colIdx]] = w;
+          }
+          weights[features[i]] = row;
+        }
+      }
+    } else {
+      // v1.0 dense format: Float32Array, row-major, feature_count × class_count
+      const weightBuf = buf.slice(offset, offset + weightMatrixLen);
+      const weightArray = new Float32Array(weightBuf.buffer, weightBuf.byteOffset, featureCount * classCount);
+      for (let i = 0; i < features.length; i++) {
+        const row = {};
+        let hasNonZero = false;
+        for (let j = 0; j < classCount; j++) {
+          const w = weightArray[i * classCount + j];
+          if (w !== 0) {
+            row[classes[j]] = w;
+            hasNonZero = true;
+          }
+        }
+        if (hasNonZero) {
+          weights[features[i]] = row;
+        }
+      }
+    }
+
+    return {
+      version: `${versionMajor}.${versionMinor}`,
+      modelType: modelType === 0x01 ? 'pos' : modelType === 0x02 ? 'dep' : 'unknown',
+      weights,
+      ...metadata,
+      provenance: metadata.provenance || {}
+    };
+  }
+}
+
+// Constants and classes exposed for testing
+BinaryModelLoader.MAGIC = MAGIC;
+BinaryModelLoader.HEADER_SIZE = HEADER_SIZE;
+BinaryModelLoader.ModelLoadError = ModelLoadError;
+
+// Export for Node.js / CommonJS
+if (typeof module !== 'undefined' && module.exports) {
+  }
+// Export for browser
+
+
+  // ============================================================================
+  // v2 PHASE 4: DITRANSITIVE ARC CORRECTOR
+  // ============================================================================
+
+/**
+ * DepTreeCorrector.js — Post-parse dependency arc corrections
+ *
+ * Source: Major-Refactor-Roadmap.md §Phase 4, AC-4.3b
+ * Authority: English ditransitive verb frame (Levin 1993 §2.1)
+ *
+ * Applies targeted arc rewrites to fix known parser errors:
+ *   1. Ditransitive compound→iobj rewrite:
+ *      "gave the patient medication" → patient is iobj, not compound of medication
+ *
+ * Operates on raw arc arrays BEFORE DepTree construction.
+ */
+
+/**
+ * Ditransitive verbs that take double-object constructions (V NP NP).
+ * When the parser produces compound instead of iobj for these verbs,
+ * the arc may need rewriting.
+ */
+const DITRANSITIVE_VERBS = new Set([
+  'give', 'send', 'hand', 'show', 'tell', 'offer',
+  'teach', 'bring', 'pass', 'award'
+]);
+
+/**
+ * Animate/recipient-capable nouns. The compound child must match one
+ * of these to be rewritten — this prevents false positives like
+ * "homework assignment" where "homework" is a genuine compound modifier.
+ */
+const RECIPIENT_NOUNS = new Set([
+  // Medical/healthcare
+  'patient', 'doctor', 'nurse', 'surgeon', 'therapist', 'caregiver',
+  // General persons
+  'person', 'man', 'woman', 'child', 'boy', 'girl', 'baby',
+  'parent', 'mother', 'father',
+  // Professional
+  'student', 'teacher', 'professor', 'manager', 'director',
+  'officer', 'agent', 'employee', 'worker', 'staff', 'member',
+  'client', 'customer', 'user', 'colleague',
+  // Groups (can receive in English)
+  'committee', 'board', 'team', 'group', 'audience', 'class', 'jury',
+  // Organizational
+  'secretary', 'administrator', 'supervisor', 'commander', 'inspector'
+]);
+
+/**
+ * Irregular verb → infinitive mappings for ditransitive verbs.
+ */
+const VERB_LEMMA = {
+  'gave': 'give', 'given': 'give', 'giving': 'give',
+  'sent': 'send', 'sending': 'send',
+  'handed': 'hand', 'handing': 'hand',
+  'showed': 'show', 'shown': 'show', 'showing': 'show',
+  'told': 'tell', 'telling': 'tell',
+  'offered': 'offer', 'offering': 'offer',
+  'taught': 'teach', 'teaching': 'teach',
+  'brought': 'bring', 'bringing': 'bring',
+  'passed': 'pass', 'passing': 'pass',
+  'awarded': 'award', 'awarding': 'award'
+};
+
+/**
+ * Get lemma for a verb form.
+ * @param {string} form - Surface form
+ * @returns {string} Lemma
+ */
+function getLemma(form) {
+  const lower = form.toLowerCase();
+  return VERB_LEMMA[lower] || lower;
+}
+
+/**
+ * Apply ditransitive corrections to a raw arc array.
+ *
+ * Pattern detected: verb has obj child, and obj has compound child that:
+ *   1. Precedes the obj head in linear order (English iobj precedes obj)
+ *   2. Is tagged NN or NNP (noun, not adjective or other modifier)
+ *   3. Matches RECIPIENT_NOUNS (animate/recipient-capable)
+ *   OR is tagged NNP (proper noun — always a potential recipient)
+ *
+ * Rewrite: compound→iobj, reassign preceding det to new iobj
+ *
+ * @param {Array<{dependent: number, head: number, label: string, scoreMargin: number}>} arcs
+ * @param {string[]} tokens - 0-indexed token array
+ * @param {string[]} tags - 0-indexed POS tag array
+ * @returns {Array} Modified arcs (same array, mutated in place)
+ */
+function correctDitransitives(arcs, tokens, tags) {
+  // Build head→children index
+  const childrenOf = new Map();
+  const arcOf = new Map();
+  for (const arc of arcs) {
+    arcOf.set(arc.dependent, arc);
+    if (!childrenOf.has(arc.head)) childrenOf.set(arc.head, []);
+    childrenOf.get(arc.head).push(arc);
+  }
+
+  // Find verb roots and their obj children
+  for (const arc of arcs) {
+    if (arc.head === 0) continue; // skip root arcs for verb detection
+    // We care about arcs that point to a verb (head is a verb)
+  }
+
+  // For each arc that is a root or verb, check for ditransitive pattern
+  for (const arc of arcs) {
+    const verbId = arc.dependent;
+    const verbTag = tags[verbId - 1];
+    if (!verbTag || !verbTag.startsWith('VB')) continue;
+
+    const lemma = getLemma(tokens[verbId - 1]);
+    if (!DITRANSITIVE_VERBS.has(lemma)) continue;
+
+    // Find obj child of this verb
+    const verbChildren = childrenOf.get(verbId) || [];
+    const objArc = verbChildren.find(c => c.label === 'obj');
+    if (!objArc) continue;
+
+    const objId = objArc.dependent;
+    // Find compound child of obj
+    const objChildren = childrenOf.get(objId) || [];
+    const compoundArc = objChildren.find(c => c.label === 'compound');
+    if (!compoundArc) continue;
+
+    const compId = compoundArc.dependent;
+    const compToken = tokens[compId - 1].toLowerCase();
+    const compTag = tags[compId - 1];
+
+    // Condition: compound precedes obj head in linear order
+    if (compId >= objId) continue;
+
+    // Condition: compound is NN or NNP
+    if (compTag !== 'NN' && compTag !== 'NNP') continue;
+
+    // Condition: compound is animate/recipient-capable OR is a proper noun
+    if (compTag !== 'NNP' && !RECIPIENT_NOUNS.has(compToken)) continue;
+
+    // All conditions met — rewrite compound→iobj
+    compoundArc.label = 'iobj';
+    compoundArc.head = verbId;
+
+    // Reassign det: if there's a det→objId that precedes the compound,
+    // it should become det→compId (it was "the patient", not "the medication")
+    const detArc = objChildren.find(c =>
+      c.label === 'det' && c.dependent < compId
+    );
+    if (detArc) {
+      detArc.head = compId;
+      // Update children index
+      const objKids = childrenOf.get(objId);
+      if (objKids) {
+        const detIdx = objKids.indexOf(detArc);
+        if (detIdx >= 0) objKids.splice(detIdx, 1);
+      }
+      if (!childrenOf.has(compId)) childrenOf.set(compId, []);
+      childrenOf.get(compId).push(detArc);
+    }
+
+    // Move compound from obj's children to verb's children in index
+    const objKids2 = childrenOf.get(objId);
+    if (objKids2) {
+      const compIdx = objKids2.indexOf(compoundArc);
+      if (compIdx >= 0) objKids2.splice(compIdx, 1);
+    }
+    verbChildren.push(compoundArc);
+  }
+
+  return arcs;
+}
+
+
+
+  // Shim: after stripCommonJS, only the inner functions survive.
+  // SemanticGraphBuilder checks typeof DepTreeCorrector !== 'undefined'.
+  const DepTreeCorrector = { correctDitransitives, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
+
+  // ============================================================================
+  // §9.5: GENERICITY DETECTOR
+  // ============================================================================
+
+/**
+ * GenericityDetector.js — Kind-Referring vs. Instance-Referring Classification
+ *
+ * Source: TagTeam Spec §9.5
+ * Authority: Carlson (1977) "Reference to Kinds in English",
+ *            Krifka et al. (1995) "Genericity: An Introduction",
+ *            BFO 2.0 (owl:Class vs owl:NamedIndividual distinction)
+ *
+ * Classifies subject NPs into four categories:
+ *   GEN  — Generic (owl:Class restriction, someValuesFrom)
+ *   INST — Instance (owl:NamedIndividual assertion)
+ *   UNIV — Universal quantification (owl:Class restriction, allValuesFrom)
+ *   AMB  — Ambiguous (instance + structured uncertainty)
+ *
+ * Uses four signals in priority order:
+ *   Signal 1: Determiner status of subject NP (primary)
+ *   Signal 2: Tense, aspect, and modality of main predicate (secondary)
+ *   Signal 3: Predicate type — stative vs. dynamic (tertiary)
+ *   Signal 4: Domain register override (quaternary — advisory)
+ */
+
+// --- Signal 1: Determiner → genericity mapping (§9.5.3) ---
+
+const DET_TO_GENERICITY = {
+  // Definite / demonstrative → instance
+  'the':    'INST',
+  'this':   'INST',
+  'that':   'INST',
+  'these':  'INST',
+  'those':  'INST',
+
+  // Indefinite singular → ambiguous
+  'a':      'AMB',
+  'an':     'AMB',
+
+  // Universal quantifiers → universal
+  'all':    'UNIV',
+  'every':  'UNIV',
+  'each':   'UNIV',
+
+  // Possessives → instance
+  'my':     'INST',
+  'your':   'INST',
+  'his':    'INST',
+  'her':    'INST',
+  'its':    'INST',
+  'our':    'INST',
+  'their':  'INST',
+
+  // Numeric / proportional
+  'two':    'INST',
+  'three':  'INST',
+  'many':   'INST',
+  'several':'INST',
+  'some':   'AMB',
+  'most':   'AMB',
+  'no':     'UNIV',
+};
+
+// --- Signal 1: Mass nouns for bare-noun disambiguation (§9.5.3) ---
+
+const MASS_NOUNS = new Set([
+  // Substances & materials
+  'water', 'air', 'gold', 'silver', 'iron', 'steel', 'oil', 'gas',
+  'wood', 'plastic', 'glass', 'concrete', 'sand', 'dirt', 'dust',
+  'fuel', 'ink', 'paint',
+
+  // Abstract / uncountable
+  'information', 'evidence', 'data', 'knowledge', 'intelligence',
+  'research', 'feedback', 'advice', 'guidance', 'oversight',
+  'legislation', 'policy', 'compliance', 'enforcement',
+  'traffic', 'commerce', 'trade', 'cargo', 'contraband',
+  'equipment', 'software', 'hardware', 'infrastructure',
+  'money', 'currency', 'funding',
+
+  // Natural phenomena
+  'weather', 'electricity', 'gravity', 'light', 'heat', 'pressure',
+]);
+
+// --- Signal 2: Tense/aspect → genericity signal (§9.5.3) ---
+
+const TENSE_GENERICITY_SIGNAL = {
+  'VBP': 'GEN_SUPPORT',      // Simple present plural — "Dogs have..."
+  'VBZ': 'GEN_SUPPORT',      // Simple present singular — "A dog has..."
+  'VBD': 'INST_SUPPORT',     // Simple past — "Dogs had..."
+  'VBG': 'INST_SUPPORT',     // Progressive — "Dogs are having..."
+  'VBN': 'INST_SUPPORT',     // Perfective — "Dogs have had..."
+  'MD':  'MODAL',            // Modal — requires subclassification
+};
+
+// --- Signal 2b: Modal → genericity signal (§9.5.3) ---
+
+const MODAL_GENERICITY_SIGNAL = {
+  // Deontic modals → support generic/universal
+  'shall':  'GEN_SUPPORT',
+  'must':   'GEN_SUPPORT',
+  'should': 'GEN_SUPPORT',
+
+  // Ability/permission → weak generic support
+  'can':    'WEAK_GEN_SUPPORT',
+  'may':    'AMB_SUPPORT',
+
+  // Epistemic/volitional → ambiguous
+  'will':   'AMB_SUPPORT',
+  'would':  'AMB_SUPPORT',
+  'could':  'AMB_SUPPORT',
+  'might':  'AMB_SUPPORT',
+};
+
+// --- Signal 3: Stative verbs (§9.5.3) ---
+
+const STATIVE_VERBS = new Set([
+  // Possession / inclusion
+  'have', 'contain', 'include', 'comprise', 'consist',
+  // Cognition / perception
+  'know', 'believe', 'understand', 'recognize', 'perceive',
+  // Relational
+  'belong', 'depend', 'require', 'need', 'involve',
+  // Existential / identity
+  'exist', 'remain', 'resemble', 'equal', 'represent',
+  // Measurement
+  'weigh', 'cost', 'measure', 'last',
+]);
+
+/**
+ * Subject dependency labels that identify subject NPs.
+ */
+const SUBJECT_LABELS = new Set([
+  'nsubj', 'nsubj:pass',
+]);
+
+class GenericityDetector {
+  /**
+   * @param {Object} [options]
+   * @param {Object} [options.lemmatizer] - Lemmatizer instance for verb normalization
+   * @param {string} [options.registerHint] - Domain register hint ('legal', etc.)
+   */
+  constructor(options = {}) {
+    this.lemmatizer = options.lemmatizer || null;
+    this.registerHint = options.registerHint || null;
+    this.gazetteerNER = options.gazetteerNER || null;
+  }
+
+  /**
+   * Classify genericity of subject entities.
+   *
+   * @param {Array} entities - Extracted entities with headId, role properties
+   * @param {Object} depTree - DepTree instance
+   * @param {string[]} tags - POS tags (0-indexed)
+   * @param {Object} [options] - Per-call options
+   * @param {string} [options.registerHint] - Domain register override
+   * @returns {Map<number, {category: string, confidence: number, alternative?: {category: string, confidence: number}}>}
+   *   Map from entity headId → genericity classification
+   */
+  classify(entities, depTree, tags, options = {}) {
+    const results = new Map();
+    const registerHint = options.registerHint || this.registerHint;
+
+    for (const entity of entities) {
+      // Only classify subject entities (§9.5.7: object genericity deferred)
+      if (!this._isSubject(entity, depTree)) continue;
+
+      const headId = entity.headId;
+      if (!headId || headId < 1 || headId > depTree.n) continue;
+
+      const result = this._classifyEntity(headId, entity, depTree, tags, registerHint);
+      results.set(headId, result);
+    }
+
+    return results;
+  }
+
+  /**
+   * Check if an entity is a subject NP.
+   * @private
+   */
+  _isSubject(entity, depTree) {
+    // Check entity's own role property
+    if (entity.role && SUBJECT_LABELS.has(entity.role)) return true;
+
+    // Check dep tree for the head's label
+    const headArc = depTree.getHead(entity.headId);
+    if (headArc && SUBJECT_LABELS.has(headArc.label)) return true;
+
+    return false;
+  }
+
+  /**
+   * Check if an entity is a known named entity (proper noun, acronym, or
+   * gazetteer match) that should always be classified as INST.
+   *
+   * This guard prevents POS tagger errors (e.g., CBP tagged NN instead of
+   * NNP) from causing misclassification of named entities as GEN.
+   * @private
+   */
+  _isKnownEntity(headId, entity, depTree) {
+    const headWord = depTree.tokens[headId - 1];
+
+    // 1. Gazetteer guard: explicit human knowledge overrides POS tags
+    if (this.gazetteerNER) {
+      const lookup = this.gazetteerNER.lookup(headWord);
+      if (lookup) return true;
+      // Also try full entity text
+      if (entity.fullText) {
+        const fullLookup = this.gazetteerNER.lookup(entity.fullText);
+        if (fullLookup) return true;
+      }
+    }
+
+    // 2. Acronym heuristic: all-uppercase tokens ≥2 chars are proper names
+    //    (CBP, DHS, DOD, FBI, etc.)
+    if (headWord.length >= 2 && headWord === headWord.toUpperCase() && /^[A-Z]+$/.test(headWord)) {
+      return true;
+    }
+
+    // 3. Entity metadata: gazetteer match flagged by TreeEntityExtractor
+    if (entity.resolvedVia === 'alias' || entity.gazetteerMatch) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Classify a single subject entity.
+   *
+   * Implements the decision algorithm from §9.5.4.
+   * @private
+   */
+  _classifyEntity(headId, entity, depTree, tags, registerHint) {
+    // Step 0: Proper noun / gazetteer guard
+    // Known named entities are always INST regardless of POS tag.
+    // This neutralizes POS tagger errors (e.g., CBP tagged NN instead of NNP).
+    if (this._isKnownEntity(headId, entity, depTree)) {
+      return { category: 'INST', confidence: 0.95, basis: 'named_entity' };
+    }
+
+    // Step 1: Determiner signal
+    const { signal: detSignal, basis: detBasis } = this._getDeterminerSignal(headId, depTree, tags);
+
+    // Step 2: Tense/aspect/modal signal
+    const verbInfo = this._getGoverningVerb(headId, depTree);
+    const { signal: tenseSignal, isModal } = this._getTenseSignal(verbInfo, depTree, tags);
+
+    // Step 3: Predicate type signal
+    const predicateSignal = this._getPredicateSignal(verbInfo, depTree, tags);
+
+    // Step 4: Decision logic
+    return this._decide(detSignal, tenseSignal, predicateSignal, headId, depTree, tags, registerHint, isModal, detBasis);
+  }
+
+  /**
+   * Signal 1: Determiner status of subject NP.
+   * @private
+   */
+  _getDeterminerSignal(headId, depTree, tags) {
+    const children = depTree.getChildren(headId);
+    const detChild = children.find(c => c.label === 'det');
+
+    if (!detChild) {
+      // Bare noun — classify by POS tag
+      const headTag = tags[headId - 1];
+
+      if (headTag === 'NNS' || headTag === 'NNPS') {
+        return { signal: 'GEN', basis: 'bare_plural' };
+      }
+      if (headTag === 'NNP') {
+        return { signal: 'INST', basis: 'proper_noun' };
+      }
+      if (headTag === 'NN') {
+        const headWord = depTree.tokens[headId - 1].toLowerCase();
+        const lemma = this.lemmatizer
+          ? this.lemmatizer.lemmatize(headWord, headTag).lemma
+          : headWord;
+        if (MASS_NOUNS.has(lemma)) {
+          return { signal: 'GEN', basis: 'mass_noun' };
+        }
+        return { signal: 'AMB', basis: null }; // bare count noun (possibly det-dropped)
+      }
+      return { signal: 'AMB', basis: null };
+    }
+
+    // Has determiner — look it up
+    const detWord = detChild.word.toLowerCase();
+    const detCategory = DET_TO_GENERICITY[detWord] || 'AMB';
+    const detBasis = detCategory === 'UNIV' ? 'universal_quantifier' : null;
+    return { signal: detCategory, basis: detBasis };
+  }
+
+  /**
+   * Find the governing verb for a subject token.
+   * @private
+   * @returns {{ verbId: number, verbTag: string, verbWord: string } | null}
+   */
+  _getGoverningVerb(headId, depTree) {
+    const headArc = depTree.getHead(headId);
+    if (!headArc) return null;
+
+    const verbId = headArc.head;
+    if (verbId < 1 || verbId > depTree.n) return null;
+
+    return {
+      verbId,
+      verbTag: depTree.tags[verbId - 1],
+      verbWord: depTree.tokens[verbId - 1],
+    };
+  }
+
+  /**
+   * Signal 2: Tense, aspect, and modality of main predicate.
+   * Returns { signal, isModal } — isModal is true when an MD auxiliary
+   * was detected (needed for decision logic: deontic modals outweigh
+   * predicate type in AMB resolution per §9.5.5 Pattern E).
+   * @private
+   */
+  _getTenseSignal(verbInfo, depTree, tags) {
+    if (!verbInfo) return { signal: 'AMB_SUPPORT', isModal: false };
+
+    const children = depTree.getChildren(verbInfo.verbId);
+
+    // First check for modal auxiliary (MD) among children — handles
+    // "shall verify", "might verify" where root verb is VB/VBP
+    const modalChild = children.find(c => c.tag === 'MD');
+    let tenseSignal;
+
+    if (modalChild) {
+      // Modal present — use modal subclassification (Signal 2b)
+      tenseSignal = MODAL_GENERICITY_SIGNAL[modalChild.word.toLowerCase()] || 'AMB_SUPPORT';
+      return { signal: tenseSignal, isModal: true };
+    }
+
+    tenseSignal = TENSE_GENERICITY_SIGNAL[verbInfo.verbTag] || 'AMB_SUPPORT';
+
+    // Check for copular verbs — the actual verb may be the predicate,
+    // and the copula may be an aux/cop child
+    if (tenseSignal === 'AMB_SUPPORT') {
+      const copChild = children.find(c => c.label === 'cop');
+      if (copChild) {
+        const copTag = tags[copChild.dependent - 1];
+        tenseSignal = TENSE_GENERICITY_SIGNAL[copTag] || 'AMB_SUPPORT';
+      }
+    }
+
+    // Also check if the verb's own tag is MD (verb itself is modal)
+    if (tenseSignal === 'MODAL') {
+      tenseSignal = MODAL_GENERICITY_SIGNAL[verbInfo.verbWord.toLowerCase()] || 'AMB_SUPPORT';
+      return { signal: tenseSignal, isModal: true };
+    }
+
+    return { signal: tenseSignal, isModal: false };
+  }
+
+  /**
+   * Signal 3: Predicate type — stative vs. dynamic.
+   * @private
+   */
+  _getPredicateSignal(verbInfo, depTree, tags) {
+    if (!verbInfo) return 'INST_SUPPORT';
+
+    // Check for copular construction
+    const children = depTree.getChildren(verbInfo.verbId);
+    const hasCop = children.some(c => c.label === 'cop');
+    if (hasCop) return 'GEN_SUPPORT'; // copular predicates support generic
+
+    // Lemmatize the verb and check stative list
+    const verbWord = verbInfo.verbWord.toLowerCase();
+    let lemma = verbWord;
+    if (this.lemmatizer) {
+      lemma = this.lemmatizer.lemmatize(verbWord, verbInfo.verbTag).lemma;
+    }
+
+    if (STATIVE_VERBS.has(lemma)) return 'GEN_SUPPORT';
+
+    // Check for progressive aspect (aux + VBG) → instance support
+    const hasProgressiveAux = children.some(c =>
+      c.label === 'aux' && tags[c.dependent - 1] === 'VBG'
+    );
+    if (hasProgressiveAux) return 'INST_SUPPORT';
+
+    // Default: dynamic verb
+    return 'INST_SUPPORT';
+  }
+
+  /**
+   * Decision logic from §9.5.4.
+   * @private
+   */
+  _decide(detSignal, tenseSignal, predicateSignal, headId, depTree, tags, registerHint, isModal, detBasis) {
+    // Strong GEN or UNIV from determiner
+    if (detSignal === 'GEN' || detSignal === 'UNIV') {
+      let confidence = 0.9;
+      if (tenseSignal === 'INST_SUPPORT') {
+        // Past tense reduces confidence for bare plurals (GEN)
+        // but explicit quantifiers (UNIV) remain strong — the universality
+        // comes from the determiner, not the tense
+        confidence = detSignal === 'UNIV' ? 0.85 : 0.7;
+      }
+      if (detSignal === 'GEN' && predicateSignal === 'GEN_SUPPORT') {
+        confidence = 0.95; // Bare plural + stative/copular = very high
+      }
+      return { category: detSignal, confidence, basis: detBasis };
+    }
+
+    // Strong INST from determiner
+    if (detSignal === 'INST') {
+      let confidence = 0.9;
+
+      // Check for "Institutional The" exception (§9.5.7)
+      const children = depTree.getChildren(headId);
+      const detChild = children.find(c => c.label === 'det');
+      if (detChild) {
+        const detWord = detChild.word.toLowerCase();
+        const headTag = tags[headId - 1];
+
+        if (detWord === 'the'
+          && headTag === 'NN'
+          && predicateSignal === 'GEN_SUPPORT'
+          && (tenseSignal === 'GEN_SUPPORT' || tenseSignal === 'WEAK_GEN_SUPPORT')) {
+          // "The electron has negative charge" — possible kind-referring definite
+          return {
+            category: 'AMB',
+            confidence: 0.6,
+            basis: 'institutional_the',
+            alternative: { category: 'GEN', confidence: 0.4 }
+          };
+        }
+      }
+
+      // Domain register hint boost
+      if (registerHint === 'legal'
+        && (tenseSignal === 'GEN_SUPPORT' || tenseSignal === 'WEAK_GEN_SUPPORT')) {
+        return {
+          category: 'INST',
+          confidence: 0.75,
+          basis: detBasis,
+          alternative: { category: 'GEN', confidence: 0.25 }
+        };
+      }
+
+      return { category: 'INST', confidence, basis: detBasis };
+    }
+
+    // Step 5: Resolve AMB using tense + predicate type
+    let genSupport = 0;
+    let instSupport = 0;
+
+    if (tenseSignal === 'GEN_SUPPORT' || tenseSignal === 'WEAK_GEN_SUPPORT') genSupport += 1;
+    if (tenseSignal === 'INST_SUPPORT') instSupport += 1;
+    if (predicateSignal === 'GEN_SUPPORT') genSupport += 1;
+    if (predicateSignal === 'INST_SUPPORT') instSupport += 1;
+
+    // §9.5.5 Pattern E: Deontic modals (shall/must/should) provide strong
+    // normative-generic evidence that outweighs dynamic verb INST_SUPPORT.
+    // "An officer shall verify documentation" → GEN despite dynamic "verify".
+    if (isModal && tenseSignal === 'GEN_SUPPORT') {
+      genSupport += 1; // Double-weight: deontic modal is a strong generic signal
+    }
+
+    // Epistemic modals (might/could/would) with AMB_SUPPORT create genuine
+    // uncertainty about the event structure → dampen INST evidence.
+    if (isModal && tenseSignal === 'AMB_SUPPORT' && instSupport > 0) {
+      instSupport -= 1; // Modal hedging undermines instance reading
+    }
+
+    // Determine basis for AMB-resolved decisions
+    const resolvedBasis = (isModal && tenseSignal === 'GEN_SUPPORT') ? 'deontic_modal' : detBasis;
+
+    if (genSupport >= 2) {
+      return { category: 'GEN', confidence: 0.75, basis: resolvedBasis };
+    }
+    if (genSupport === 1 && instSupport === 0) {
+      return { category: 'GEN', confidence: 0.65, basis: resolvedBasis };
+    }
+    if (instSupport >= 2) {
+      return {
+        category: 'INST',
+        confidence: 0.75,
+        basis: detBasis,
+        alternative: { category: 'GEN', confidence: 0.25 }
+      };
+    }
+    if (instSupport === 1 && genSupport === 0) {
+      return {
+        category: 'INST',
+        confidence: 0.65,
+        basis: detBasis,
+        alternative: { category: 'GEN', confidence: 0.35 }
+      };
+    }
+
+    // Step 6: Irreducible ambiguity
+    return {
+      category: 'AMB',
+      confidence: 0.5,
+      basis: detBasis,
+      alternative: { category: 'GEN', confidence: 0.5 }
+    };
+  }
+}
+
+// Static exports for testing and external access
+GenericityDetector.DET_TO_GENERICITY = DET_TO_GENERICITY;
+GenericityDetector.MASS_NOUNS = MASS_NOUNS;
+GenericityDetector.STATIVE_VERBS = STATIVE_VERBS;
+GenericityDetector.TENSE_GENERICITY_SIGNAL = TENSE_GENERICITY_SIGNAL;
+GenericityDetector.MODAL_GENERICITY_SIGNAL = MODAL_GENERICITY_SIGNAL;
+
+if (typeof module !== 'undefined' && module.exports) {
+  }
+
+
+  // ============================================================================
+  // v2 PHASE 0: CORE CONTRACTS (for tree pipeline browser support)
+  // ============================================================================
+
+/**
+ * UnicodeNormalizer.js — Unicode Text Normalization
+ *
+ * AC-0.3: Unicode Normalization
+ *
+ * Source: TagTeam-Major-Refactor-v2.2.md §5.5.1
+ * Authority: Unicode Consortium, UD-EWT tokenization conventions
+ *
+ * Converts Unicode variants to their ASCII equivalents before tokenization.
+ * Runs FIRST in the pipeline, before ContractionExpander and Tokenizer.
+ */
+
+/**
+ * Normalize Unicode text to ASCII-compatible form for UD-aligned processing.
+ *
+ * @param {string} text - Raw input text (may contain Unicode variants)
+ * @returns {string} Normalized text with ASCII punctuation
+ */
+function normalizeUnicode(text) {
+  return text
+    .replace(/[\u2018\u2019\u201B]/g, "'")        // Smart single quotes → ASCII apostrophe
+    .replace(/[\u201C\u201D\u201F]/g, '"')         // Smart double quotes → ASCII double quote
+    .replace(/[\u00A0\u202F]/g, ' ')               // Non-breaking spaces → regular space
+    .replace(/[\u200B\u200C\u200D\uFEFF]/g, '')    // Zero-width chars + BOM → remove
+    .replace(/\s*\u2014\s*/g, ' -- ')                 // Em dash → space-padded double hyphen
+    .replace(/\u2013/g, '-')                        // En dash → hyphen
+    .replace(/\u2026/g, '...')                       // Ellipsis → three periods
+    .replace(/\u00AD/g, '');                         // Soft hyphen → remove
+}
+
+
+
+  // Shim: after stripCommonJS, only function normalizeUnicode survives.
+  // SemanticGraphBuilder checks typeof UnicodeNormalizer !== 'undefined'.
+  const UnicodeNormalizer = { normalizeUnicode };
+
+/**
+ * RoleMappingContract.js — UD v2 → BFO/CCO Role Mapping
+ *
+ * AC-0.5: UD v2 → BFO/CCO Role Mapping Contract
+ *
+ * Source: TagTeam-Major-Refactor-v2.2.md §5.3
+ * Authority: Universal Dependencies v2, BFO 2.0, CCO v1.5
+ *
+ * This mapping is the single source of truth for all role assignment.
+ * All role assignment code MUST implement this mapping.
+ */
+
+// =============================================================================
+// Core Argument Roles (UD v2 label → BFO/CCO semantic role)
+// =============================================================================
+
+const UD_TO_BFO_ROLE = Object.freeze({
+  'nsubj':      Object.freeze({ role: 'Role', label: 'AgentRole',     bfo: 'bfo:BFO_0000023', note: 'Active voice subject' }),
+  'obj':        Object.freeze({ role: 'Role', label: 'PatientRole',   bfo: 'bfo:BFO_0000023', note: 'Direct object' }),
+  'iobj':       Object.freeze({ role: 'Role', label: 'RecipientRole', bfo: 'bfo:BFO_0000023', note: 'Indirect object' }),
+  'nsubj:pass': Object.freeze({ role: 'Role', label: 'PatientRole',   bfo: 'bfo:BFO_0000023', note: 'Passive subject = patient' }),
+  'obl:agent':  Object.freeze({ role: 'Role', label: 'AgentRole',     bfo: 'bfo:BFO_0000023', note: 'Passive "by" phrase = agent' }),
+  'obl':        Object.freeze({ role: 'Role', label: 'ObliqueRole',   bfo: 'bfo:BFO_0000023', note: 'Subtyped by case child' }),
+});
+
+// =============================================================================
+// Oblique Role Subtyping (preposition → role subtype)
+// =============================================================================
+
+const CASE_TO_OBLIQUE_ROLE = Object.freeze({
+  'for':     'BeneficiaryRole',
+  'with':    'InstrumentRole',
+  'at':      'LocationRole',
+  'in':      'LocationRole',
+  'on':      'LocationRole',
+  'from':    'SourceRole',
+  'to':      'DestinationRole',
+  'by':      'AgentRole',
+  'about':   'TopicRole',
+  'against': 'OpponentRole',
+});
+
+// =============================================================================
+// Mapping functions
+// =============================================================================
+
+/**
+ * Map a UD v2 dependency label to its BFO/CCO role.
+ *
+ * @param {string} udLabel - A UD v2 dependency label (e.g., 'nsubj', 'obj')
+ * @returns {{ role: string, bfo: string, note: string } | null} The role mapping, or null if unmapped
+ */
+function mapUDToRole(udLabel) {
+  return UD_TO_BFO_ROLE[udLabel] || null;
+}
+
+/**
+ * Map a preposition (case dependent value) to its oblique role subtype.
+ *
+ * @param {string} preposition - A lowercase preposition (e.g., 'for', 'with')
+ * @returns {string | null} The oblique role (e.g., 'cco:BeneficiaryRole'), or null if unmapped
+ */
+function mapCaseToOblique(preposition) {
+  return CASE_TO_OBLIQUE_ROLE[preposition] || null;
+}
+
+// =============================================================================
+// Exports
+// =============================================================================
+
+
+
+  // Shim: after stripCommonJS, only inner constants/functions survive.
+  // TreeRoleMapper references RoleMappingContract.mapUDToRole() etc.
+  const RoleMappingContract = { UD_TO_BFO_ROLE, CASE_TO_OBLIQUE_ROLE, mapUDToRole, mapCaseToOblique };
+
+  // ============================================================================
+  // v2 PHASE 1: PERCEPTRON TAGGER (for tree pipeline browser support)
+  // ============================================================================
+
+/**
+ * PerceptronTagger.js — Averaged Perceptron POS Tagger (Inference)
+ *
+ * Source: TagTeam-Major-Refactor-v2.2.md §6
+ * Authority: Honnibal 2013, Penn Treebank tagset, UD-EWT XPOS
+ *
+ * Left-to-right greedy decoding with 18-feature template.
+ * Trained model weights loaded from JSON (see training/scripts/train_pos_tagger.py).
+ *
+ * @example
+ * * const tagger = new PerceptronTagger(model);
+ * tagger.tag(['The', 'doctor', 'treated', 'the', 'patient']);
+ * // → ['DT', 'NN', 'VBD', 'DT', 'NN']
+ * tagger.tagFormatted(['The', 'doctor']);
+ * // → [['The', 'DT'], ['doctor', 'NN']]
+ */
+
+class PerceptronTagger {
+  /**
+   * @param {Object} model - Trained model with weights, tagdict, classes, provenance
+   */
+  constructor(model) {
+    this.weights = model.weights;       // feature → tag → weight
+    this.classes = model.classes;        // list of all PTB tags
+    this.provenance = model.provenance;  // training metadata
+
+    // TagDict: compile-time optimization for unambiguous words
+    // Frozen to prevent runtime mutation (AC-1A.3)
+    this.tagdict = Object.freeze(Object.assign({}, model.tagdict || {}));
+  }
+
+  /**
+   * Tag tokens, returning array of PTB tags.
+   * Left-to-right greedy decoding with tagdict fast path.
+   *
+   * @param {string[]} tokens - Array of word tokens
+   * @returns {string[]} Array of PTB POS tags
+   */
+  tag(tokens) {
+    const tags = [];
+    let prev = '-START-';
+    let prev2 = '-START2-';
+
+    for (let i = 0; i < tokens.length; i++) {
+      // Fast path: unambiguous words from tagdict (AC-1A.3)
+      const dictTag = this.tagdict[tokens[i]];
+      if (dictTag) {
+        tags.push(dictTag);
+        prev2 = prev;
+        prev = dictTag;
+        continue;
+      }
+
+      // Extract features (18 features per spec §6)
+      const features = this._getFeatures(tokens, i, prev, prev2);
+
+      // Score each tag
+      const scores = {};
+      for (const cls of this.classes) scores[cls] = 0;
+
+      for (const feat of features) {
+        const w = this.weights[feat];
+        if (!w) continue;
+        for (const tag in w) {
+          if (scores[tag] !== undefined) {
+            scores[tag] += w[tag];
+          }
+        }
+      }
+
+      // Pick highest-scoring tag
+      let bestTag = this.classes[0];
+      let bestScore = scores[bestTag];
+      for (let c = 1; c < this.classes.length; c++) {
+        if (scores[this.classes[c]] > bestScore) {
+          bestScore = scores[this.classes[c]];
+          bestTag = this.classes[c];
+        }
+      }
+
+      tags.push(bestTag);
+      prev2 = prev;
+      prev = bestTag;
+    }
+
+    return tags;
+  }
+
+  /**
+   * Tag tokens, returning [["word", "TAG"], ...] format for backward
+   * compatibility with POSTagger.tag() and NPChunker (AC-1A.6).
+   *
+   * @param {string[]} tokens - Array of word tokens
+   * @returns {Array<[string, string]>} Array of [word, tag] pairs
+   */
+  tagFormatted(tokens) {
+    const tags = this.tag(tokens);
+    const result = [];
+    for (let i = 0; i < tokens.length; i++) {
+      result.push([tokens[i], tags[i]]);
+    }
+    return result;
+  }
+
+  /**
+   * Compute collapsed word shape: generalizes capitalization patterns.
+   * E.g., "Hello" → "Xx", "USA" → "X", "42nd" → "dx"
+   *
+   * @param {string} word
+   * @returns {string}
+   */
+  _wordShape(word) {
+    let shape = '';
+    let prev = '';
+    for (let j = 0; j < word.length; j++) {
+      const ch = word[j];
+      let s;
+      if (ch >= 'A' && ch <= 'Z') s = 'X';
+      else if (ch >= 'a' && ch <= 'z') s = 'x';
+      else if (ch >= '0' && ch <= '9') s = 'd';
+      else s = ch;
+      // Collapse consecutive same-class chars
+      if (s !== prev) {
+        shape += s;
+        prev = s;
+      }
+    }
+    return shape;
+  }
+
+  /**
+   * Extract features for a token at position i.
+   * ~20-feature template from spec §6 (Honnibal 2013).
+   *
+   * JS Performance Advisory (§6): All suffix/prefix features are pre-computed
+   * once per token to avoid repeated String.slice() in scoring loops.
+   *
+   * @param {string[]} tokens - All tokens in the sentence
+   * @param {number} i - Index of current token
+   * @param {string} prev - Predicted tag of previous token
+   * @param {string} prev2 - Predicted tag of token before that
+   * @returns {string[]} Array of feature strings
+   */
+  _getFeatures(tokens, i, prev, prev2) {
+    const word = tokens[i];
+    const len = word.length;
+
+    // Pre-compute all string-derived features once (§6 JS Performance Advisory)
+    const lower = word.toLowerCase();
+    const suf3 = len >= 3 ? lower.slice(-3) : lower;
+    const suf2 = len >= 2 ? lower.slice(-2) : lower;
+    const suf1 = lower.slice(-1);
+    const pre1 = word[0];
+    const shape = this._wordShape(word);
+
+    // Boolean features
+    const isUpper = word === word.toUpperCase() && /[A-Z]/.test(word);
+    const isTitle = /^[A-Z][a-z]/.test(word);
+    const isDigit = /^\d+$/.test(word);
+    const hasDigit = !isDigit && /\d/.test(word);
+    const isHyphen = word.includes('-');
+
+    // Context
+    const prevWord = i > 0 ? tokens[i - 1] : '-START-';
+    const nextWord = i < tokens.length - 1 ? tokens[i + 1] : '-END-';
+    const nextLower = nextWord.toLowerCase();
+    const nextSuf3 = nextLower.length >= 3 ? nextLower.slice(-3) : nextLower;
+    const prevLower = prevWord !== '-START-' ? prevWord.toLowerCase() : prevWord;
+
+    // Build feature array
+    const features = [
+      'bias',
+      'word=' + word,
+      'word_lower=' + lower,
+      'suffix_3=' + suf3,
+      'suffix_2=' + suf2,
+      'suffix_1=' + suf1,
+      'prefix_1=' + pre1,
+      'word_shape=' + shape,
+      'prev_word=' + prevWord,
+      'prev_word_lower=' + prevLower,
+      'prev_tag=' + prev,
+      'prev_prev_tag=' + prev2,
+      'prev_word+tag=' + prevWord + '+' + prev,
+      'prev_tag+word=' + prev + '+' + word,
+      'prev_prev_tag+prev_tag=' + prev2 + '+' + prev,
+      'next_word=' + nextWord,
+      'next_word_lower=' + nextLower,
+      'next_suffix_3=' + nextSuf3,
+    ];
+
+    // Boolean features: only add when true (sparse representation)
+    if (isUpper) features.push('is_upper');
+    if (isTitle) features.push('is_title');
+    if (isDigit) features.push('is_digit');
+    if (hasDigit) features.push('has_digit');
+    if (isHyphen) features.push('is_hyphen');
+    if (i === 0) features.push('is_first');
+
+    return features;
+  }
+}
+
+// Export for Node.js / CommonJS
+if (typeof module !== 'undefined' && module.exports) {
+  }
+// Export for browser
+
+
+  // ============================================================================
+  // v2 PHASE 3A: TREE-BASED EXTRACTORS
+  // ============================================================================
+
+/**
+ * GazetteerNER — Named Entity Recognition via gazetteer lookup.
+ *
+ * Source: TagTeam-Major-Refactor-v2.2.md §8.5 (AC-1B)
+ * Authority: BFO 2.0, CCO v1.5 entity types
+ *
+ * Match precedence (spec AC-1B.5):
+ *   1. Exact raw match (canonical name)
+ *   2. Alias raw match
+ *   3. Exact normalized match (case-insensitive, abbreviation expansion)
+ *   4. null (no match)
+ */
+
+// Common abbreviation expansions for normalization
+const ABBREVIATIONS = {
+  'dept': 'department',
+  'dept.': 'department',
+  'gov': 'government',
+  'gov.': 'government',
+  'govt': 'government',
+  'govt.': 'government',
+  'natl': 'national',
+  'natl.': 'national',
+  'intl': 'international',
+  'intl.': 'international',
+  'org': 'organization',
+  'org.': 'organization',
+  'assn': 'association',
+  'assn.': 'association',
+  'admin': 'administration',
+  'admin.': 'administration',
+  'sec': 'secretary',
+  'sec.': 'secretary',
+  'gen': 'general',
+  'gen.': 'general',
+  'sgt': 'sergeant',
+  'sgt.': 'sergeant',
+  'st': 'saint',
+  'st.': 'saint',
+  'mt': 'mount',
+  'mt.': 'mount',
+  'ft': 'fort',
+  'ft.': 'fort',
+};
+
+class GazetteerNER {
+  /**
+   * @param {Array<Object>} gazetteers - Array of gazetteer JSON objects
+   */
+  constructor(gazetteers) {
+    // Index: exact canonical name → { entry, canonicalName, gazetteerId, version }
+    this._exactIndex = new Map();
+    // Index: alias → { entry, canonicalName, gazetteerId, version }
+    this._aliasIndex = new Map();
+    // Index: normalized text → { entry, canonicalName, gazetteerId, version }
+    this._normalizedIndex = new Map();
+
+    for (const gaz of gazetteers) {
+      this._buildIndex(gaz);
+    }
+  }
+
+  /**
+   * Look up a text string against all loaded gazetteers.
+   * Returns match result or null.
+   *
+   * @param {string} text - The entity text to look up
+   * @returns {{ type: string, canonicalName: string, matchType: string, gazetteerId: string, version: string } | null}
+   */
+  lookup(text) {
+    if (!text) return null;
+
+    // Precedence 1: Exact canonical name match
+    const exactMatch = this._exactIndex.get(text);
+    if (exactMatch) {
+      return this._makeResult(exactMatch, 'exact');
+    }
+
+    // Precedence 2: Alias raw match
+    const aliasMatch = this._aliasIndex.get(text);
+    if (aliasMatch) {
+      return this._makeResult(aliasMatch, 'alias');
+    }
+
+    // Precedence 3: Normalized match (case-insensitive + abbreviation expansion)
+    const normalized = this._normalize(text);
+    const normalizedMatch = this._normalizedIndex.get(normalized);
+    if (normalizedMatch) {
+      return this._makeResult(normalizedMatch, 'normalized');
+    }
+
+    return null;
+  }
+
+  /**
+   * Build lookup indices from a single gazetteer file.
+   * @param {Object} gazetteer
+   */
+  _buildIndex(gazetteer) {
+    const meta = gazetteer._meta;
+    const gazetteerId = meta.gazetteerId;
+    const version = meta.version;
+
+    for (const [name, entry] of Object.entries(gazetteer.entities)) {
+      const record = { entry, canonicalName: name, gazetteerId, version };
+
+      // Exact index (canonical name)
+      if (!this._exactIndex.has(name)) {
+        this._exactIndex.set(name, record);
+      }
+
+      // Normalized index (canonical name normalized)
+      const normalizedName = this._normalize(name);
+      if (!this._normalizedIndex.has(normalizedName)) {
+        this._normalizedIndex.set(normalizedName, record);
+      }
+
+      // Alias index
+      if (entry.aliases) {
+        for (const alias of entry.aliases) {
+          if (!this._aliasIndex.has(alias)) {
+            this._aliasIndex.set(alias, record);
+          }
+          // Also add normalized aliases to normalized index
+          const normalizedAlias = this._normalize(alias);
+          if (!this._normalizedIndex.has(normalizedAlias)) {
+            this._normalizedIndex.set(normalizedAlias, record);
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * Normalize text for fuzzy matching:
+   *   - Lowercase
+   *   - Expand common abbreviations
+   *   - Strip trailing periods
+   *
+   * @param {string} text
+   * @returns {string}
+   */
+  _normalize(text) {
+    // Lowercase
+    let normalized = text.toLowerCase();
+
+    // Expand abbreviations word by word
+    const words = normalized.split(/\s+/);
+    const expanded = words.map(w => {
+      const key = w.replace(/\.$/, ''); // strip trailing period for lookup
+      // Check both with and without period
+      return ABBREVIATIONS[w] || ABBREVIATIONS[key] || w;
+    });
+    normalized = expanded.join(' ');
+
+    // Strip remaining isolated periods (but not abbreviation periods like U.S.)
+    normalized = normalized.replace(/\s*\.\s*$/, '');
+
+    return normalized;
+  }
+
+  /**
+   * Construct a result object from an index record.
+   * @param {{ entry: Object, canonicalName: string, gazetteerId: string, version: string }} record
+   * @param {string} matchType - 'exact' | 'alias' | 'normalized'
+   * @returns {{ type: string, canonicalName: string, matchType: string, gazetteerId: string, version: string }}
+   */
+  _makeResult(record, matchType) {
+    return {
+      type: record.entry.type,
+      canonicalName: record.canonicalName,
+      matchType,
+      gazetteerId: record.gazetteerId,
+      version: record.version,
+    };
+  }
+}
+
+// Export for Node.js / CommonJS
+if (typeof module !== 'undefined' && module.exports) {
+  }
+
+// Export for browser
+
+
+/**
+ * TreeEntityExtractor.js — Tree-Based Entity Extraction
+ *
+ * Source: TagTeam-Major-Refactor-v2.2.md §Phase 3A (AC-3.1 through AC-3.4b)
+ * Authority: UD v2, BFO 2.0, CCO v1.5, Cambridge Grammar
+ *
+ * Extracts entities from a DepTree by walking dependency arcs instead of
+ * linear NP scanning. Uses getEntitySubtree() to determine entity boundaries,
+ * with conservative coordination splitting and alias extraction from appositions.
+ */
+
+// ============================================================================
+// Constants
+// ============================================================================
+
+/**
+ * UD dependency labels that indicate an entity-bearing position.
+ * Tokens with these labels (as dependents) are entity heads.
+ */
+const ENTITY_BEARING_LABELS = new Set([
+  'nsubj',       // Active voice subject
+  'nsubj:pass',  // Passive voice subject
+  'obj',         // Direct object
+  'iobj',        // Indirect object
+  'obl',         // Oblique argument (prepositional phrases)
+  'obl:agent',   // Passive "by" agent
+  'nmod',        // Nominal modifier (e.g., "of DHS")
+]);
+
+/**
+ * Head-noun → ontological type mappings for common nouns.
+ * Mirrors EntityExtractor.ENTITY_TYPE_MAPPINGS for the tree pipeline.
+ * Enables correct Tier 2 typing without gazetteer dependency.
+ */
+const HEAD_NOUN_TYPE_MAP = {
+  // Persons (medical + professional + general)
+  'doctor': 'Person', 'physician': 'Person', 'surgeon': 'Person',
+  'nurse': 'Person', 'patient': 'Person', 'therapist': 'Person',
+  'pharmacist': 'Person', 'paramedic': 'Person', 'caregiver': 'Person',
+  'person': 'Person', 'man': 'Person', 'woman': 'Person',
+  'child': 'Person', 'parent': 'Person', 'mother': 'Person', 'father': 'Person',
+  'engineer': 'Person', 'teacher': 'Person', 'lawyer': 'Person',
+  'scientist': 'Person', 'researcher': 'Person', 'analyst': 'Person',
+  'manager': 'Person', 'director': 'Person', 'officer': 'Person',
+  'agent': 'Person', 'inspector': 'Person', 'technician': 'Person',
+  'programmer': 'Person', 'developer': 'Person', 'designer': 'Person',
+  'consultant': 'Person', 'administrator': 'Person', 'admin': 'Person',
+  'supervisor': 'Person', 'specialist': 'Person', 'professor': 'Person',
+  'student': 'Person', 'worker': 'Person', 'employee': 'Person',
+  'member': 'Person', 'user': 'Person', 'client': 'Person',
+  'customer': 'Person', 'owner': 'Person', 'author': 'Person',
+  'judge': 'Person', 'witness': 'Person', 'suspect': 'Person',
+  'victim': 'Person', 'soldier': 'Person', 'pilot': 'Person',
+  'driver': 'Person', 'chef': 'Person', 'artist': 'Person',
+  'guard': 'Person', 'family': 'Agent',
+  // Artifacts
+  'ventilator': 'Artifact', 'medication': 'Artifact', 'drug': 'Artifact',
+  'medicine': 'Artifact', 'equipment': 'Artifact', 'server': 'Artifact',
+  'database': 'Artifact', 'system': 'Artifact', 'application': 'Artifact',
+  // ICE
+  'alert': 'InformationContentEntity', 'log': 'InformationContentEntity',
+  'credential': 'InformationContentEntity', 'data': 'InformationContentEntity',
+  // Facilities
+  'datacenter': 'Facility', 'facility': 'Facility', 'building': 'Facility',
+  'office': 'Facility',
+  // Organizations
+  'hospital': 'Organization', 'department': 'Organization',
+  'agency': 'Organization', 'company': 'Organization', 'team': 'Organization',
+};
+
+/**
+ * POS tags that indicate a proper noun (relevant for coordination split).
+ */
+const PROPER_NOUN_TAGS = new Set(['NNP', 'NNPS']);
+
+/**
+ * POS tags that indicate a verb (used to identify verb roots vs noun predicates).
+ */
+const TEE_VERB_TAGS = new Set(['VB', 'VBD', 'VBZ', 'VBP', 'VBN', 'VBG']);
+
+// ============================================================================
+// TreeEntityExtractor
+// ============================================================================
+
+class TreeEntityExtractor {
+  /**
+   * @param {Object} options
+   * @param {Object} [options.gazetteerNER] - GazetteerNER instance for type lookup
+   */
+  constructor(options = {}) {
+    this.gazetteerNER = options.gazetteerNER || null;
+  }
+
+  /**
+   * Extract entities from a dependency tree.
+   *
+   * @param {DepTree} depTree - Parsed dependency tree
+   * @returns {{ entities: Entity[], aliasMap: Map<string, string> }}
+   */
+  extract(depTree) {
+    const entities = [];
+    const aliasMap = new Map();
+    const seenHeads = new Set(); // Prevent duplicate entity extraction
+
+    // Step 0: Extract root nouns as entities (roots that are not verbs
+    // may be copular predicates or standalone noun phrases)
+    const roots = depTree.getRoots();
+    for (const rootId of roots) {
+      const rootTag = depTree.tags[rootId - 1];
+      const children = depTree.getChildren(rootId);
+      const hasCop = children.some(c => c.label === 'cop');
+      // Root nouns that are copular predicates — don't extract as entities
+      // Root nouns without cop that have nsubj children — they're predicates in verb-less parses
+      // But root nouns in relative clause parses (e.g., "The doctor who ... left") — extract as entity
+      if (!TEE_VERB_TAGS.has(rootTag) && !hasCop) {
+        const hasNsubj = children.some(c => c.label === 'nsubj' || c.label === 'nsubj:pass');
+        if (!hasNsubj && !seenHeads.has(rootId)) {
+          seenHeads.add(rootId);
+          const entity = this._buildEntity(depTree, rootId, 'root');
+          if (entity) {
+            this._extractAliases(depTree, entity, aliasMap);
+            entities.push(entity);
+          }
+        }
+      }
+    }
+
+    // Step 1: Find all entity-bearing positions
+    for (const arc of depTree.arcs) {
+      if (!ENTITY_BEARING_LABELS.has(arc.label)) continue;
+      if (seenHeads.has(arc.dependent)) continue;
+
+      const entityHead = arc.dependent;
+      seenHeads.add(entityHead);
+
+      // Step 2: Check for coordination — may need to split
+      const coordResult = this._handleCoordination(depTree, entityHead, arc.label, seenHeads);
+      if (coordResult) {
+        // Coordination was split into multiple entities
+        for (const entity of coordResult) {
+          this._extractAliases(depTree, entity, aliasMap);
+          entities.push(entity);
+        }
+        continue;
+      }
+
+      // Step 3: Build entity span from subtree
+      const entity = this._buildEntity(depTree, entityHead, arc.label);
+      if (!entity) continue;
+
+      // Step 4: Extract aliases from appositions
+      this._extractAliases(depTree, entity, aliasMap);
+
+      entities.push(entity);
+    }
+
+    // Step 5: Alias promotion — resolve later mentions via aliasMap
+    this._promoteAliases(entities, aliasMap);
+
+    return { entities, aliasMap };
+  }
+
+  /**
+   * Build a single entity from its head token's subtree.
+   *
+   * @param {DepTree} depTree
+   * @param {number} headId - 1-indexed head token ID
+   * @param {string} role - UD dependency label
+   * @returns {Entity|null}
+   */
+  _buildEntity(depTree, headId, role, options = {}) {
+    const subtree = this._getEntitySpan(depTree, headId, options);
+    if (!subtree.tokens || subtree.tokens.length === 0) return null;
+
+    const fullText = subtree.tokens.join(' ');
+    const headWord = depTree.tokens[headId - 1];
+    const headTag = depTree.tags[headId - 1];
+
+    // Type classification
+    const type = this._classifyType(fullText, headWord, headTag);
+
+    return {
+      fullText,
+      text: fullText,
+      label: fullText,
+      headWord,
+      headTag,
+      headId,
+      role,
+      type,
+      indices: subtree.indices,
+    };
+  }
+
+  /**
+   * Handle coordination within an entity subtree.
+   * Returns null if no split needed, or array of entities if split.
+   *
+   * Conservative rules (AC-3.3):
+   *   SPLIT: both conjuncts NNP AND both in gazetteer
+   *   KEEP: compound edges cross conjunction
+   *   KEEP: common nouns (NN, not NNP)
+   *   KEEP: partial gazetteer miss
+   *
+   * @param {DepTree} depTree
+   * @param {number} headId
+   * @param {string} role
+   * @param {Set<number>} seenHeads
+   * @returns {Entity[]|null}
+   */
+  _handleCoordination(depTree, headId, role, seenHeads) {
+    const children = depTree.getChildren(headId);
+    const conjChildren = children.filter(c => c.label === 'conj');
+    if (conjChildren.length === 0) return null;
+
+    // Check if compound edges cross the conjunction boundary.
+    // A compound crosses if any conjunct has compound children,
+    // indicating a multi-word name like "Customs and Border Protection"
+    // where "Border" is compound of "Protection" (a conjunct).
+    for (const conj of conjChildren) {
+      const conjSubChildren = depTree.getChildren(conj.dependent);
+      const hasCompound = conjSubChildren.some(c => c.label === 'compound');
+      if (hasCompound) {
+        return null; // Conjunct has compounds → multi-word name → KEEP
+      }
+    }
+    // Also check if head has compound children
+    const headCompounds = children.filter(c => c.label === 'compound');
+    if (headCompounds.length > 0) {
+      return null; // Head has compounds → multi-word name → KEEP
+    }
+
+    // Check if ALL conjuncts (including head) are NNP
+    const headTag = depTree.tags[headId - 1];
+    const allProperNouns = PROPER_NOUN_TAGS.has(headTag) &&
+      conjChildren.every(c => PROPER_NOUN_TAGS.has(c.tag));
+
+    if (!allProperNouns) {
+      return null; // Common nouns → KEEP
+    }
+
+    // Gazetteer check removed: the compound-crossing check above (lines 181-192)
+    // is the authoritative guard against splitting multi-word names like
+    // "Customs and Border Protection". The gazetteer partial-miss heuristic
+    // was redundant and caused false KEEPs when one conjunct happened to be
+    // a gazetteer alias (e.g., "Bob" → Robert) but the other wasn't.
+
+    // All checks passed → SPLIT
+    const result = [];
+
+    // Mark conj children as seen
+    for (const conj of conjChildren) {
+      seenHeads.add(conj.dependent);
+    }
+
+    // Build head entity (without conj children)
+    const headEntity = this._buildEntityWithoutConj(depTree, headId, role);
+    if (headEntity) result.push(headEntity);
+
+    // Build entity for each conjunct (skip cc in case parser attached it to conjunct)
+    for (const conj of conjChildren) {
+      const conjEntity = this._buildEntity(depTree, conj.dependent, role, { skipLabels: ['cc'] });
+      if (conjEntity) result.push(conjEntity);
+    }
+
+    return result.length > 0 ? result : null;
+  }
+
+  /**
+   * Build entity span excluding conj children (for split coordination head).
+   */
+  _buildEntityWithoutConj(depTree, headId, role) {
+    // Manually collect subtree, skipping conj and cc children
+    const indices = [];
+    this._collectSubtreeWithoutConj(depTree, headId, indices);
+    indices.sort((a, b) => a - b);
+
+    const tokens = indices.map(i => depTree.tokens[i - 1]);
+    const fullText = tokens.join(' ');
+    const headWord = depTree.tokens[headId - 1];
+    const headTag = depTree.tags[headId - 1];
+    const type = this._classifyType(fullText, headWord, headTag);
+
+    return {
+      fullText,
+      text: fullText,
+      label: fullText,
+      headWord,
+      headTag,
+      headId,
+      role,
+      type,
+      indices,
+    };
+  }
+
+  /**
+   * Custom entity span extraction that extends DepTree's traversal with
+   * additional exclusions for copular predicates in conj arcs.
+   *
+   * When the parser produces "Customs(conj→component(cop→is))",
+   * the conj child "component" is a copular predicate, not a coordination
+   * partner. We exclude such conj children.
+   *
+   * @param {DepTree} depTree
+   * @param {number} headId
+   * @returns {{ tokens: string[], indices: number[] }}
+   */
+  _getEntitySpan(depTree, headId, options = {}) {
+    const indices = [];
+    this._collectEntitySpan(depTree, headId, indices, true, options.skipLabels || []);
+    indices.sort((a, b) => a - b);
+    const tokens = indices.map(i => depTree.tokens[i - 1]);
+    return { tokens, indices };
+  }
+
+  /**
+   * Recursively collect entity span indices with enhanced exclusions.
+   *
+   * @param {DepTree} depTree
+   * @param {number} nodeId
+   * @param {number[]} indices - Accumulator
+   * @param {boolean} isHead - True for entity head node, false for interior nodes.
+   *   At entity head level, case children (prepositions) are excluded because they
+   *   mark semantic roles ("by", "in", "with"), not entity text. At interior levels,
+   *   case children are included to preserve compound names ("Department of Homeland Security").
+   * @param {string[]} skipLabels - Additional labels to exclude (e.g., ['cc'] for split conjuncts)
+   */
+  _collectEntitySpan(depTree, nodeId, indices, isHead = true, skipLabels = []) {
+    indices.push(nodeId);
+    const children = depTree._children.get(nodeId) || [];
+    for (const child of children) {
+      // Standard DepTree exclusions
+      if (['acl:relcl', 'acl', 'advcl', 'cop', 'punct'].includes(child.label)) continue;
+      // Skip appositions (extracted as aliases separately)
+      if (child.label === 'appos') continue;
+      // At entity head level, exclude case children (role-marking prepositions)
+      if (isHead && child.label === 'case') continue;
+      // Skip additional labels (e.g., 'cc' for split conjunct entities)
+      if (skipLabels.length > 0 && skipLabels.includes(child.label)) continue;
+      // Skip conj children that have cop dependents (copular predicates, not coordination)
+      if (child.label === 'conj') {
+        const conjChildren = depTree._children.get(child.dependent) || [];
+        const hasCop = conjChildren.some(c => c.label === 'cop');
+        if (hasCop) continue; // This conj is a copular predicate → skip
+      }
+      this._collectEntitySpan(depTree, child.dependent, indices, false, skipLabels);
+    }
+  }
+
+  /**
+   * Collect subtree indices, skipping conj and cc children.
+   * Used for building the head entity when coordination is split.
+   */
+  _collectSubtreeWithoutConj(depTree, nodeId, indices, isHead = true) {
+    indices.push(nodeId);
+    const children = depTree._children.get(nodeId) || [];
+    for (const child of children) {
+      if (child.label === 'conj' || child.label === 'cc') continue;
+      if (child.label === 'punct') continue;
+      if (['acl:relcl', 'acl', 'advcl', 'cop'].includes(child.label)) continue;
+      if (child.label === 'appos') continue;
+      if (isHead && child.label === 'case') continue;
+      this._collectSubtreeWithoutConj(depTree, child.dependent, indices, false);
+    }
+  }
+
+  /**
+   * Extract appositive aliases from an entity's head token.
+   * Sets tagteam:alias on the entity and populates aliasMap.
+   *
+   * @param {DepTree} depTree
+   * @param {Entity} entity
+   * @param {Map<string, string>} aliasMap
+   */
+  _extractAliases(depTree, entity, aliasMap) {
+    // Check all tokens in the entity span for appositions, not just the head
+    const allAliases = [];
+    const indicesToCheck = entity.indices || [entity.headId];
+
+    for (const idx of indicesToCheck) {
+      const aliases = depTree.getAppositions(idx);
+      for (const alias of aliases) {
+        if (!allAliases.includes(alias)) allAliases.push(alias);
+      }
+    }
+
+    if (allAliases.length > 0) {
+      entity['tagteam:alias'] = allAliases.length === 1 ? allAliases[0] : allAliases;
+      entity.alias = entity['tagteam:alias'];
+
+      // Populate aliasMap: alias → canonical entity text
+      for (const alias of allAliases) {
+        aliasMap.set(alias, entity.fullText);
+      }
+    }
+  }
+
+  /**
+   * Promote alias references: resolve later mentions via aliasMap.
+   * If an entity's text matches an alias, mark it as resolved.
+   *
+   * @param {Entity[]} entities
+   * @param {Map<string, string>} aliasMap
+   */
+  _promoteAliases(entities, aliasMap) {
+    if (aliasMap.size === 0) return;
+
+    // Track which entity texts have been seen (for second-mention detection)
+    const canonicalTexts = new Set();
+    const aliasTexts = new Set(aliasMap.keys());
+
+    for (const entity of entities) {
+      const text = entity.fullText;
+
+      // If this entity's text is an alias AND we've already seen the canonical form
+      if (aliasTexts.has(text)) {
+        const canonical = aliasMap.get(text);
+        if (canonicalTexts.has(canonical)) {
+          // This is a second mention — resolve via alias
+          entity['tagteam:resolvedVia'] = 'alias';
+          entity.resolvedVia = 'alias';
+          entity['tagteam:canonicalForm'] = canonical;
+        }
+      }
+
+      // Track canonical texts (including aliases pointing to them)
+      canonicalTexts.add(text);
+    }
+  }
+
+  /**
+   * Classify entity type using gazetteer lookup and POS tag heuristics.
+   *
+   * @param {string} fullText - Full entity text
+   * @param {string} headWord - Head word of the entity
+   * @param {string} headTag - POS tag of the head word
+   * @returns {string} Entity type IRI
+   */
+  _classifyType(fullText, headWord, headTag) {
+    // Try gazetteer lookup first
+    if (this.gazetteerNER) {
+      const lookup = this.gazetteerNER.lookup(fullText);
+      if (lookup) return lookup.type;
+
+      // Try head word only
+      const headLookup = this.gazetteerNER.lookup(headWord);
+      if (headLookup) return headLookup.type;
+    }
+
+    // Head-noun type lookup (common nouns)
+    const headLower = (headWord || '').toLowerCase();
+    if (HEAD_NOUN_TYPE_MAP[headLower]) {
+      return HEAD_NOUN_TYPE_MAP[headLower];
+    }
+
+    // POS tag heuristics
+    if (PROPER_NOUN_TAGS.has(headTag)) {
+      return 'Entity'; // Proper noun, type unknown without gazetteer
+    }
+
+    // Default: generic entity
+    return 'Entity';
+  }
+}
+
+// ============================================================================
+// Exports
+// ============================================================================
+
+if (typeof module !== 'undefined' && module.exports) {
+  }
+
+
+/**
+ * TreeActExtractor.js — Tree-Based Act and Copular Extraction
+ *
+ * Source: TagTeam-Major-Refactor-v2.2.md §Phase 3A (AC-3.5 through AC-3.11b)
+ * Authority: UD v2, BFO 2.0, CCO v1.5, Cambridge Grammar
+ *
+ * Extracts acts (events/verbs) and copular/stative structures (StructuralAssertions)
+ * from a DepTree. Handles:
+ *   - Root verb identification (AC-3.5)
+ *   - Passive voice detection (AC-3.6)
+ *   - Negation detection (AC-3.7)
+ *   - 5 copular patterns (AC-3.8 through AC-3.11b)
+ *   - 7 relation inference mappings (AC-3.8b)
+ */
+
+// ============================================================================
+// Constants
+// ============================================================================
+
+/**
+ * POS tags that indicate a verb token.
+ */
+const VERB_TAGS = new Set(['VB', 'VBD', 'VBZ', 'VBP', 'VBN', 'VBG']);
+
+/**
+ * POS tags for adjectives (for copular predication like "X is responsible for Y").
+ */
+const ADJ_TAGS = new Set(['JJ', 'JJR', 'JJS']);
+
+/**
+ * Common English verb lemmatization.
+ * Irregular forms that can't be handled by simple suffix stripping.
+ */
+const IRREGULAR_LEMMAS = {
+  'treated': 'treat',
+  'gave': 'give',
+  'given': 'give',
+  'was': 'be',
+  'were': 'be',
+  'is': 'be',
+  'are': 'be',
+  'been': 'be',
+  'being': 'be',
+  'has': 'have',
+  'had': 'have',
+  'having': 'have',
+  'did': 'do',
+  'done': 'do',
+  'went': 'go',
+  'gone': 'go',
+  'said': 'say',
+  'made': 'make',
+  'took': 'take',
+  'taken': 'take',
+  'came': 'come',
+  'worked': 'work',
+  'left': 'leave',
+  'sent': 'send',
+  'brought': 'bring',
+  'operated': 'operate',
+  'explained': 'explain',
+  'caused': 'cause',
+  'transported': 'transport',
+  'located': 'locate',
+  'based': 'base',
+};
+
+/**
+ * Relation inference table (AC-3.8b).
+ * Maps predicate patterns to ontological relations.
+ */
+const RELATION_INFERENCE_TABLE = [
+  { pattern: 'component of', relation: 'has_continuant_part' },
+  { pattern: 'member of', relation: 'member_part_of' },
+  { pattern: 'type of', relation: 'rdfs:subClassOf' },
+  { pattern: 'kind of', relation: 'rdfs:subClassOf' },
+  { pattern: 'part of', relation: 'continuant_part_of' },
+  { pattern: 'example of', relation: 'rdf:type' },
+  { pattern: 'instance of', relation: 'rdf:type' },
+  { pattern: 'located in', relation: 'located_in' },
+  { pattern: 'based in', relation: 'located_in' },
+  { pattern: 'responsible for', relation: 'has_function' },
+];
+
+// ============================================================================
+// TreeActExtractor
+// ============================================================================
+
+class TreeActExtractor {
+  constructor() {}
+
+  /**
+   * Extract acts and structural assertions from a dependency tree.
+   *
+   * @param {DepTree} depTree - Parsed dependency tree
+   * @returns {{ acts: Act[], structuralAssertions: StructuralAssertion[] }}
+   */
+  extract(depTree) {
+    const acts = [];
+    const structuralAssertions = [];
+
+    const roots = depTree.getRoots();
+
+    for (const rootId of roots) {
+      const rootTag = depTree.tags[rootId - 1];
+      const rootWord = depTree.tokens[rootId - 1];
+      const children = depTree.getChildren(rootId);
+
+      // Check for copular structure: root has a `cop` child
+      const copChild = children.find(c => c.label === 'cop');
+      // Check for existential: root has an `expl` child
+      const explChild = children.find(c => c.label === 'expl');
+
+      if (copChild) {
+        // Copular construction: root is the PREDICATE, cop is the copula verb
+        const assertion = this._handleCopular(depTree, rootId, copChild, children);
+        if (assertion) structuralAssertions.push(assertion);
+      } else if (explChild && VERB_TAGS.has(rootTag)) {
+        // Existential: "There is X" — root is the verb "is" with expl "There"
+        const assertion = this._handleExistential(depTree, rootId, children);
+        if (assertion) structuralAssertions.push(assertion);
+      } else if (this._isPossessive(rootWord, rootTag, children)) {
+        // Possessive: "X has Y" — verb lemma "have" + obj, no aux
+        const assertion = this._handlePossessive(depTree, rootId, children);
+        if (assertion) structuralAssertions.push(assertion);
+        // Also create an act for "has"
+        const act = this._buildAct(depTree, rootId, children);
+        if (act) {
+          act.type = 'possessive';
+          act.pattern = 'possessive';
+          acts.push(act);
+        }
+      } else {
+        // Regular verb act
+        const act = this._buildAct(depTree, rootId, children);
+
+        // Check for verb-based relation patterns (e.g., "is located in X")
+        // If a structural assertion is found, it replaces the act (not both)
+        const verbRelation = this._checkVerbRelation(depTree, rootId, children, act);
+        if (verbRelation) {
+          structuralAssertions.push(verbRelation);
+        } else if (act) {
+          acts.push(act);
+        }
+      }
+
+      // Also extract acts from embedded clauses (advcl, acl:relcl)
+      this._extractEmbeddedActs(depTree, rootId, acts, structuralAssertions);
+    }
+
+    return { acts, structuralAssertions };
+  }
+
+  /**
+   * Build an Act from a verb token.
+   *
+   * @param {DepTree} depTree
+   * @param {number} verbId - 1-indexed verb token ID
+   * @param {Array} children - Direct children of this verb
+   * @returns {Act|null}
+   */
+  _buildAct(depTree, verbId, children) {
+    const word = depTree.tokens[verbId - 1];
+    const tag = depTree.tags[verbId - 1];
+
+    // Must be a verb (or accept root position even if mistagged)
+    const isRoot = depTree.arcs.some(a => a.dependent === verbId && a.head === 0);
+
+    const lemma = this._lemmatize(word, tag);
+    const isPassive = this._detectPassive(children);
+    const isNegated = this._detectNegation(children);
+    const isCopular = false;
+
+    return {
+      verb: word,
+      lemma,
+      tag,
+      verbId,
+      isCopular,
+      isPassive,
+      isNegated,
+    };
+  }
+
+  /**
+   * Handle copular construction: root is the predicate with a `cop` child.
+   *
+   * In UD v2, copular sentences have the predicate as root:
+   *   "CBP is a component of DHS" → root=component, cop=is, nsubj=CBP, nmod=DHS
+   *   "The headquarters is in Washington" → root=Washington, cop=is, nsubj=headquarters
+   *   "CBP is not ..." → root=predicate, cop=is, advmod=not
+   *
+   * @param {DepTree} depTree
+   * @param {number} predicateId - 1-indexed predicate token ID (root)
+   * @param {Object} copChild - The cop child arc
+   * @param {Array} children - All children of the predicate
+   * @returns {StructuralAssertion|null}
+   */
+  _handleCopular(depTree, predicateId, copChild, children) {
+    const predicateWord = depTree.tokens[predicateId - 1];
+    const predicateTag = depTree.tags[predicateId - 1];
+    const copulaWord = copChild.word;
+
+    // Find subject
+    const subjectChild = children.find(c =>
+      c.label === 'nsubj' || c.label === 'nsubj:pass'
+    );
+    if (!subjectChild) return null;
+
+    // Get subject text from subtree
+    const subjectSubtree = depTree.getEntitySubtree(subjectChild.dependent);
+    const subjectText = subjectSubtree.tokens.join(' ');
+
+    // Check for negation
+    const isNegated = this._detectNegation(children);
+
+    // Check for locative pattern: predicate has a `case` child (preposition)
+    const caseChild = children.find(c => c.label === 'case');
+    if (caseChild) {
+      const prep = caseChild.word.toLowerCase();
+      if (['in', 'at', 'on', 'near', 'by', 'under', 'above', 'behind'].includes(prep)) {
+        // Locative copular: "X is in Y"
+        return {
+          type: 'copular',
+          pattern: 'locative',
+          subject: subjectText,
+          object: predicateWord,
+          copula: copulaWord,
+          negated: isNegated,
+          relation: 'located_in',
+          predicateId,
+          subjectId: subjectChild.dependent,
+        };
+      }
+    }
+
+    // Get predicate subtree text for relation inference
+    const predicateSubtree = depTree.getEntitySubtree(predicateId);
+    const predicateText = predicateSubtree.tokens.join(' ').toLowerCase();
+
+    // Find nmod children for "X of Y" patterns
+    const nmodChild = children.find(c => c.label === 'nmod');
+    let objectText = null;
+    let objectId = null;
+    if (nmodChild) {
+      const objectSubtree = depTree.getEntitySubtree(nmodChild.dependent);
+      objectText = objectSubtree.tokens.join(' ');
+      objectId = nmodChild.dependent;
+    }
+
+    // Find obl children for "responsible for X" patterns
+    const oblChild = children.find(c => c.label === 'obl');
+    if (!objectText && oblChild) {
+      const oblSubtree = depTree.getEntitySubtree(oblChild.dependent);
+      objectText = oblSubtree.tokens.join(' ');
+      objectId = oblChild.dependent;
+    }
+
+    // Infer relation from predicate pattern
+    const relation = this._inferRelation(depTree, predicateId, predicateText, children);
+
+    return {
+      type: 'copular',
+      pattern: isNegated ? 'negated_predication' : 'predication',
+      subject: subjectText,
+      object: objectText,
+      copula: copulaWord,
+      negated: isNegated,
+      relation,
+      predicateId,
+      subjectId: subjectChild.dependent,
+      objectId,
+      predicateText: predicateWord,
+    };
+  }
+
+  /**
+   * Handle existential construction: "There is X"
+   * Root is the verb "is" with expl "There" and nsubj for the entity.
+   *
+   * @param {DepTree} depTree
+   * @param {number} verbId
+   * @param {Array} children
+   * @returns {StructuralAssertion|null}
+   */
+  _handleExistential(depTree, verbId, children) {
+    const subjectChild = children.find(c => c.label === 'nsubj');
+    if (!subjectChild) return null;
+
+    const subjectSubtree = depTree.getEntitySubtree(subjectChild.dependent);
+    const subjectText = subjectSubtree.tokens.join(' ');
+
+    return {
+      type: 'existential',
+      pattern: 'existential',
+      subject: subjectText,
+      object: null,
+      copula: depTree.tokens[verbId - 1],
+      negated: this._detectNegation(children),
+      relation: null,
+      subjectId: subjectChild.dependent,
+    };
+  }
+
+  /**
+   * Check if a verb is a possessive construction.
+   * Possessive = verb lemma "have" + obj child + no aux child.
+   */
+  _isPossessive(word, tag, children) {
+    const lemma = this._lemmatize(word, tag);
+    if (lemma !== 'have') return false;
+
+    const hasObj = children.some(c => c.label === 'obj');
+    const hasAux = children.some(c => c.label === 'aux' || c.label === 'aux:pass');
+    return hasObj && !hasAux;
+  }
+
+  /**
+   * Handle possessive construction: "X has Y"
+   */
+  _handlePossessive(depTree, verbId, children) {
+    const subjectChild = children.find(c => c.label === 'nsubj');
+    const objectChild = children.find(c => c.label === 'obj');
+
+    if (!subjectChild || !objectChild) return null;
+
+    const subjectSubtree = depTree.getEntitySubtree(subjectChild.dependent);
+    const objectSubtree = depTree.getEntitySubtree(objectChild.dependent);
+
+    return {
+      type: 'possessive',
+      pattern: 'possessive',
+      subject: subjectSubtree.tokens.join(' '),
+      object: objectSubtree.tokens.join(' '),
+      copula: depTree.tokens[verbId - 1],
+      negated: this._detectNegation(children),
+      relation: null,
+      subjectId: subjectChild.dependent,
+      objectId: objectChild.dependent,
+    };
+  }
+
+  /**
+   * Check if a verb implies a relation pattern.
+   * E.g., "is located in X" → bfo:located_in (passive form of "locate").
+   *
+   * @param {DepTree} depTree
+   * @param {number} verbId
+   * @param {Array} children
+   * @param {Act} act
+   * @returns {StructuralAssertion|null}
+   */
+  _checkVerbRelation(depTree, verbId, children, act) {
+    if (!act) return null;
+
+    const lemma = act.lemma || this._lemmatize(depTree.tokens[verbId - 1], depTree.tags[verbId - 1]);
+
+    // "located in X" → bfo:located_in
+    // "based in X" → bfo:located_in
+    // GUARD: "The building was located BY the surveyor" is agentive passive,
+    // not stative-locative. If obl has case child "by" (agent marker), this
+    // is eventive — keep as Act. Only treat as StructuralAssertion when
+    // obl has locative case child ("in", "at", "on").
+    if ((lemma === 'locate' || lemma === 'base') && act.isPassive) {
+      const hasAgentMarker = children.some(c => {
+        if (c.label !== 'obl') return false;
+        const oblChildren = depTree.getChildren(c.dependent);
+        return oblChildren.some(oc => oc.label === 'case' &&
+          depTree.tokens[oc.dependent - 1].toLowerCase() === 'by');
+      });
+      if (hasAgentMarker) return null; // Eventive, not stative
+    }
+    if (lemma === 'locate' || lemma === 'base') {
+      const oblChild = children.find(c => c.label === 'obl');
+      if (oblChild) {
+        const oblChildren = depTree.getChildren(oblChild.dependent);
+        const caseChild = oblChildren.find(c => c.label === 'case');
+        const prep = caseChild ? caseChild.word.toLowerCase() : '';
+        if (prep === 'in' || prep === 'at') {
+          // Find subject
+          const subjectChild = children.find(c =>
+            c.label === 'nsubj' || c.label === 'nsubj:pass'
+          );
+          if (subjectChild) {
+            const subjectSubtree = depTree.getEntitySubtree(subjectChild.dependent);
+            const objectSubtree = depTree.getEntitySubtree(oblChild.dependent);
+            return {
+              type: 'copular',
+              pattern: 'locative',
+              subject: subjectSubtree.tokens.join(' '),
+              object: objectSubtree.tokens.join(' '),
+              copula: depTree.tokens[verbId - 1],
+              negated: act.isNegated,
+              relation: 'located_in',
+              subjectId: subjectChild.dependent,
+              objectId: oblChild.dependent,
+            };
+          }
+        }
+      }
+    }
+
+    return null;
+  }
+
+  /**
+   * Extract acts from embedded clauses (advcl, acl:relcl).
+   */
+  _extractEmbeddedActs(depTree, parentId, acts, structuralAssertions) {
+    const children = depTree.getChildren(parentId);
+
+    for (const child of children) {
+      if (child.label === 'advcl' || child.label === 'acl:relcl' || child.label === 'acl') {
+        const embeddedTag = depTree.tags[child.dependent - 1];
+        if (VERB_TAGS.has(embeddedTag)) {
+          const embeddedChildren = depTree.getChildren(child.dependent);
+          const act = this._buildAct(depTree, child.dependent, embeddedChildren);
+          if (act) acts.push(act);
+        }
+      }
+    }
+  }
+
+  /**
+   * Detect passive voice from children.
+   * Passive if: nsubj:pass child exists OR aux:pass child exists.
+   */
+  _detectPassive(children) {
+    return children.some(c =>
+      c.label === 'nsubj:pass' || c.label === 'aux:pass'
+    );
+  }
+
+  /**
+   * Detect negation from children.
+   * Negated if: advmod child with word "not"/"n't" or neg child.
+   */
+  _detectNegation(children) {
+    return children.some(c => {
+      if (c.label === 'advmod') {
+        const word = c.word.toLowerCase();
+        return word === 'not' || word === "n't" || word === 'never' || word === 'no';
+      }
+      if (c.label === 'neg') return true;
+      return false;
+    });
+  }
+
+  /**
+   * Infer relation from copular predicate.
+   * Uses the relation inference table (AC-3.8b).
+   *
+   * @param {DepTree} depTree
+   * @param {number} predicateId
+   * @param {string} predicateText - Lowercased predicate subtree text
+   * @param {Array} children
+   * @returns {string|null} Relation IRI
+   */
+  _inferRelation(depTree, predicateId, predicateText, children) {
+    const predicateWord = depTree.tokens[predicateId - 1].toLowerCase();
+
+    // Check nmod children for "X of Y" patterns
+    const nmodChild = children.find(c => c.label === 'nmod');
+    if (nmodChild) {
+      // Get the case child of the nmod to find the preposition
+      const nmodChildren = depTree.getChildren(nmodChild.dependent);
+      const caseChild = nmodChildren.find(c => c.label === 'case');
+      const prep = caseChild ? caseChild.word.toLowerCase() : '';
+
+      // Build "predicate prep" pattern for matching
+      const pattern = `${predicateWord} ${prep}`.trim();
+
+      for (const entry of RELATION_INFERENCE_TABLE) {
+        if (pattern === entry.pattern || predicateText.includes(entry.pattern)) {
+          return entry.relation;
+        }
+      }
+    }
+
+    // Check obl children for "responsible for X" pattern
+    const oblChild = children.find(c => c.label === 'obl');
+    if (oblChild) {
+      const oblChildren = depTree.getChildren(oblChild.dependent);
+      const caseChild = oblChildren.find(c => c.label === 'case');
+      const prep = caseChild ? caseChild.word.toLowerCase() : '';
+      const pattern = `${predicateWord} ${prep}`.trim();
+
+      for (const entry of RELATION_INFERENCE_TABLE) {
+        if (pattern === entry.pattern || predicateText.includes(entry.pattern)) {
+          return entry.relation;
+        }
+      }
+    }
+
+    // Check acl children for "type of herding dog" pattern where
+    // "of" is mark of acl child, not case of nmod
+    const aclChild = children.find(c => c.label === 'acl');
+    if (aclChild) {
+      const aclChildren = depTree.getChildren(aclChild.dependent);
+      const markChild = aclChildren.find(c => c.label === 'mark');
+      if (markChild) {
+        const prep = markChild.word.toLowerCase();
+        const pattern = `${predicateWord} ${prep}`.trim();
+        for (const entry of RELATION_INFERENCE_TABLE) {
+          if (pattern === entry.pattern) {
+            return entry.relation;
+          }
+        }
+      }
+    }
+
+    // Also check the full predicate text for patterns
+    for (const entry of RELATION_INFERENCE_TABLE) {
+      if (predicateText.includes(entry.pattern)) {
+        return entry.relation;
+      }
+    }
+
+    return null;
+  }
+
+  /**
+   * Simple verb lemmatization.
+   *
+   * @param {string} word
+   * @param {string} tag
+   * @returns {string}
+   */
+  _lemmatize(word, tag) {
+    const lower = word.toLowerCase();
+
+    // Check irregular forms first
+    if (IRREGULAR_LEMMAS[lower]) return IRREGULAR_LEMMAS[lower];
+
+    // Simple suffix-based lemmatization
+    if (tag === 'VBD' || tag === 'VBN') {
+      if (lower.endsWith('ied')) return lower.slice(0, -3) + 'y';
+      if (lower.endsWith('ed')) return lower.slice(0, -2);
+      if (lower.endsWith('d')) return lower.slice(0, -1);
+    }
+    if (tag === 'VBG') {
+      if (lower.endsWith('ing')) return lower.slice(0, -3);
+    }
+    if (tag === 'VBZ') {
+      if (lower.endsWith('ies')) return lower.slice(0, -3) + 'y';
+      if (lower.endsWith('es')) return lower.slice(0, -2);
+      if (lower.endsWith('s')) return lower.slice(0, -1);
+    }
+
+    return lower;
+  }
+}
+
+// ============================================================================
+// Exports
+// ============================================================================
+
+if (typeof module !== 'undefined' && module.exports) {
+  }
+
+
+/**
+ * TreeRoleMapper.js — UD v2 → BFO/CCO Role Mapping
+ *
+ * Source: TagTeam-Major-Refactor-v2.2.md §Phase 3A (AC-3.12, AC-3.13)
+ * Authority: UD v2, BFO 2.0, CCO v1.5
+ *
+ * Maps entities to semantic roles using UD dependency labels.
+ * Consumes RoleMappingContract as single source of truth.
+ *
+ * Handles:
+ *   - Core argument roles: nsubj→Agent, obj→Patient, iobj→Recipient (AC-3.12)
+ *   - Passive role inversion: nsubj:pass→Patient, obl+by→Agent (AC-3.12)
+ *   - Oblique role subtyping by preposition (AC-3.13)
+ */
+
+// ============================================================================
+// TreeRoleMapper
+// ============================================================================
+
+class TreeRoleMapper {
+  constructor() {}
+
+  /**
+   * Map entities to semantic roles based on their positions in the dep tree.
+   *
+   * For each act's verb token, iterate its children in the DepTree and assign
+   * roles based on the UD dependency labels using RoleMappingContract.
+   *
+   * @param {Entity[]} entities - Extracted entities with headId and role properties
+   * @param {Act[]} acts - Extracted acts with verbId property
+   * @param {DepTree} depTree - Dependency tree
+   * @returns {Role[]} Array of role assignments
+   */
+  map(entities, acts, depTree) {
+    const roles = [];
+
+    // Build entity lookup by headId for fast matching
+    const entityByHead = new Map();
+    for (const entity of entities) {
+      entityByHead.set(entity.headId, entity);
+      // Also index by all indices in the entity span
+      if (entity.indices) {
+        for (const idx of entity.indices) {
+          if (!entityByHead.has(idx)) {
+            entityByHead.set(idx, entity);
+          }
+        }
+      }
+    }
+
+    for (const act of acts) {
+      const verbId = act.verbId;
+      if (!verbId) continue;
+
+      const children = depTree.getChildren(verbId);
+
+      for (const child of children) {
+        const role = this._mapChildToRole(child, depTree, entityByHead, act);
+        if (role) {
+          roles.push(role);
+          // Propagate role to coordinated conjuncts (UD: conj children inherit parent role)
+          this._propagateToConjuncts(child, depTree, entityByHead, act, role, roles);
+        }
+      }
+    }
+
+    return roles;
+  }
+
+  /**
+   * Map a single verb child to its semantic role.
+   *
+   * @param {Object} child - { dependent, label, word, tag }
+   * @param {DepTree} depTree
+   * @param {Map<number, Entity>} entityByHead
+   * @param {Act} act
+   * @returns {Role|null}
+   */
+  _mapChildToRole(child, depTree, entityByHead, act) {
+    const label = child.label;
+
+    // Skip non-entity-bearing labels
+    if (!this._isEntityBearing(label)) return null;
+
+    // Find the matching entity
+    const entity = entityByHead.get(child.dependent);
+    if (!entity) return null;
+
+    // Special handling for obl: check for passive "by" agent and oblique subtyping
+    if (label === 'obl') {
+      return this._handleOblique(child, depTree, entity, act);
+    }
+
+    // Use RoleMappingContract for standard label mapping
+    const mapping = RoleMappingContract
+      ? RoleMappingContract.mapUDToRole(label)
+      : this._fallbackMapping(label);
+
+    if (!mapping) return null;
+
+    return {
+      role: mapping.role,
+      label: mapping.label || mapping.role,
+      entity: entity.fullText || entity.text,
+      entityId: entity.headId,
+      act: act.verb,
+      actId: act.verbId,
+      udLabel: label,
+      note: mapping.note,
+    };
+  }
+
+  /**
+   * Handle oblique arguments with preposition-based subtyping.
+   *
+   * For obl dependents:
+   *   1. Find the `case` child to get the preposition
+   *   2. If "by" → AgentRole (passive agent)
+   *   3. Otherwise → subtype via RoleMappingContract.mapCaseToOblique()
+   *
+   * @param {Object} child - The obl child
+   * @param {DepTree} depTree
+   * @param {Entity} entity
+   * @param {Act} act
+   * @returns {Role|null}
+   */
+  _handleOblique(child, depTree, entity, act) {
+    // Find the case child of this obl token to get the preposition
+    const oblChildren = depTree.getChildren(child.dependent);
+    const caseChild = oblChildren.find(c => c.label === 'case');
+    const preposition = caseChild ? caseChild.word.toLowerCase() : null;
+
+    // Special case: "by" in passive → AgentRole
+    if (preposition === 'by' && act.isPassive) {
+      return {
+        role: 'Role',
+        label: 'AgentRole',
+        entity: entity.fullText || entity.text,
+        entityId: entity.headId,
+        act: act.verb,
+        actId: act.verbId,
+        udLabel: 'obl:agent',
+        note: 'Passive "by" phrase = agent',
+      };
+    }
+
+    // Oblique subtyping by preposition
+    let role = 'ObliqueRole';
+    let note = 'Oblique argument';
+
+    if (preposition && RoleMappingContract) {
+      const obliqueRole = RoleMappingContract.mapCaseToOblique(preposition);
+      if (obliqueRole) {
+        role = obliqueRole;
+        note = `Oblique subtyped by "${preposition}"`;
+      }
+    } else if (preposition) {
+      // Fallback oblique mapping without contract
+      role = this._fallbackObliqueMapping(preposition);
+      note = `Oblique subtyped by "${preposition}" (fallback)`;
+    }
+
+    return {
+      role: 'Role',
+      label: role,
+      entity: entity.fullText || entity.text,
+      entityId: entity.headId,
+      act: act.verb,
+      actId: act.verbId,
+      udLabel: 'obl',
+      preposition,
+      note,
+    };
+  }
+
+  /**
+   * Propagate a semantic role to coordinated conjuncts.
+   * In UD, "Alice and Bob treated..." has Alice as nsubj of "treated"
+   * and Bob as conj of Alice. Bob inherits Alice's AgentRole.
+   *
+   * @param {Object} child - The verb child that received the original role
+   * @param {DepTree} depTree
+   * @param {Map<number, Entity>} entityByHead
+   * @param {Act} act
+   * @param {Role} sourceRole - The role assigned to the source child
+   * @param {Role[]} roles - Accumulator
+   */
+  _propagateToConjuncts(child, depTree, entityByHead, act, sourceRole, roles) {
+    const sourceEntity = entityByHead.get(child.dependent);
+    this._propagateToConjunctsRecursive(child.dependent, sourceEntity, depTree, entityByHead, act, sourceRole, roles);
+  }
+
+  /**
+   * Recursively propagate roles through coordination chains.
+   * Handles 3+ element coordination (e.g., "Alice, Bob, and Carol reviewed")
+   * where UD may produce chains: Carol → conj of Bob → conj of Alice → nsubj of reviewed.
+   */
+  _propagateToConjunctsRecursive(headId, sourceEntity, depTree, entityByHead, act, sourceRole, roles) {
+    const children = depTree.getChildren(headId);
+    for (const child of children) {
+      if (child.label !== 'conj') continue;
+      const conjEntity = entityByHead.get(child.dependent);
+      if (conjEntity && conjEntity !== sourceEntity) {
+        roles.push({
+          role: sourceRole.role,
+          label: sourceRole.label,
+          entity: conjEntity.fullText || conjEntity.text,
+          entityId: conjEntity.headId,
+          act: act.verb,
+          actId: act.verbId,
+          udLabel: sourceRole.udLabel,
+          note: `Propagated from coordination (conj of ${sourceRole.entity})`,
+        });
+      }
+      // Recurse into nested conjuncts (3+ element coordination chains)
+      this._propagateToConjunctsRecursive(child.dependent, sourceEntity, depTree, entityByHead, act, sourceRole, roles);
+    }
+  }
+
+  /**
+   * Check if a UD label is entity-bearing.
+   */
+  _isEntityBearing(label) {
+    return ['nsubj', 'nsubj:pass', 'obj', 'iobj', 'obl', 'obl:agent'].includes(label);
+  }
+
+  /**
+   * Fallback role mapping when RoleMappingContract is unavailable.
+   */
+  _fallbackMapping(label) {
+    const map = {
+      'nsubj': { role: 'Role', label: 'AgentRole', note: 'Active voice subject' },
+      'obj': { role: 'Role', label: 'PatientRole', note: 'Direct object' },
+      'iobj': { role: 'Role', label: 'RecipientRole', note: 'Indirect object' },
+      'nsubj:pass': { role: 'Role', label: 'PatientRole', note: 'Passive subject = patient' },
+      'obl:agent': { role: 'Role', label: 'AgentRole', note: 'Passive "by" phrase = agent' },
+    };
+    return map[label] || null;
+  }
+
+  /**
+   * Fallback oblique subtyping when RoleMappingContract is unavailable.
+   */
+  _fallbackObliqueMapping(preposition) {
+    const map = {
+      'for': 'BeneficiaryRole',
+      'with': 'InstrumentRole',
+      'at': 'LocationRole',
+      'in': 'LocationRole',
+      'on': 'LocationRole',
+      'from': 'SourceRole',
+      'to': 'DestinationRole',
+      'by': 'AgentRole',
+      'about': 'TopicRole',
+      'against': 'OpponentRole',
+    };
+    return map[preposition] || 'ObliqueRole';
+  }
+}
+
+// ============================================================================
+// Exports
+// ============================================================================
+
+if (typeof module !== 'undefined' && module.exports) {
+  }
+
+
+  // ============================================================================
+  // v2 PHASE 3B: CONFIDENCE ANNOTATOR
+  // ============================================================================
+
+/**
+ * ConfidenceAnnotator — Phase 3B
+ *
+ * Maps raw parser score margins to calibrated confidence buckets and
+ * emits ambiguity signals for low-confidence arcs.
+ *
+ * Confidence buckets are derived from calibrated probability:
+ *   - "high":   calibrated probability >= 0.9
+ *   - "medium": calibrated probability >= 0.6 and < 0.9
+ *   - "low":    calibrated probability < 0.6
+ *
+ * PP-attachment arcs (obl, nmod) use tighter thresholds:
+ *   - "high":   calibrated probability >= 0.95
+ *   - "medium": calibrated probability >= 0.7 and < 0.95
+ *   - "low":    calibrated probability < 0.7
+ *
+ * Authority: Major-Refactor-Roadmap.md AC-3.14 through AC-3.17
+ */
+
+// Labels that indicate PP-attachment (use tighter confidence thresholds)
+const PP_LABELS = new Set(['obl', 'nmod']);
+
+// Common alternative labels for ambiguity signals
+const ALTERNATIVE_LABELS = {
+  nsubj: 'obj',
+  obj: 'nsubj',
+  nsubj_pass: 'obj',
+  obl: 'nmod',
+  nmod: 'obl',
+  iobj: 'obj',
+  det: 'amod',
+  amod: 'advmod',
+  advcl: 'acl',
+  acl: 'advcl',
+};
+
+class ConfidenceAnnotator {
+  /**
+   * @param {Object|null} calibration - Calibration table with bins array
+   *   { bins: [{ margin: number, probability: number, count: number }] }
+   */
+  constructor(calibration) {
+    this._calibration = calibration;
+  }
+
+  /**
+   * Look up calibrated probability for a score margin.
+   * @param {number} margin - Raw score margin from parser
+   * @returns {number} Calibrated probability in [0, 1]
+   */
+  getCalibratedProbability(margin) {
+    if (!this._calibration || !this._calibration.bins || this._calibration.bins.length === 0) {
+      return 0.5;
+    }
+    const bins = this._calibration.bins;
+    for (let i = bins.length - 1; i >= 0; i--) {
+      if (margin >= bins[i].margin) {
+        return bins[i].probability;
+      }
+    }
+    return bins[0].probability;
+  }
+
+  /**
+   * Determine confidence bucket from calibrated probability.
+   * PP-attachment arcs use tighter thresholds.
+   *
+   * @param {number} probability - Calibrated probability
+   * @param {boolean} isPP - Whether this is a PP-attachment arc
+   * @returns {string} "high", "medium", or "low"
+   */
+  _getBucket(probability, isPP) {
+    if (isPP) {
+      if (probability >= 0.95) return 'high';
+      if (probability >= 0.7) return 'medium';
+      return 'low';
+    }
+    if (probability >= 0.9) return 'high';
+    if (probability >= 0.6) return 'medium';
+    return 'low';
+  }
+
+  /**
+   * Annotate a single arc with confidence information.
+   *
+   * @param {Object} arc - { dependent, head, label, scoreMargin }
+   * @returns {Object} Arc with added confidence annotations
+   */
+  annotateArc(arc) {
+    const probability = this.getCalibratedProbability(arc.scoreMargin);
+    const isPP = PP_LABELS.has(arc.label);
+    const confidence = this._getBucket(probability, isPP);
+
+    const result = {
+      ...arc,
+      parseConfidence: confidence,
+      parseMargin: arc.scoreMargin,
+      parseProbability: probability,
+      confidence,
+    };
+
+    // PP-attachment: include alternative attachment analysis
+    if (isPP) {
+      const altLabel = arc.label === 'obl' ? 'nmod' : 'obl';
+      result.alternativeAttachment = {
+        ppHead: arc.head,
+        ppNoun: arc.dependent,
+        currentLabel: arc.label,
+        alternativeLabel: altLabel,
+      };
+    }
+
+    // Low confidence: emit ambiguity signal
+    if (confidence === 'low') {
+      const altLabel = ALTERNATIVE_LABELS[arc.label] ||
+                       ALTERNATIVE_LABELS[arc.label.replace(':', '_')] ||
+                       'dep';
+      result.ambiguitySignal = {
+        type: 'parse_uncertainty',
+        affectedArc: { label: arc.label, dependent: arc.dependent, head: arc.head },
+        alternativeLabel: altLabel,
+        calibratedProbability: probability,
+      };
+    }
+
+    return result;
+  }
+
+  /**
+   * Annotate an array of arcs with confidence information.
+   *
+   * @param {Array} arcs - Array of { dependent, head, label, scoreMargin }
+   * @returns {Array} Annotated arcs
+   */
+  annotateArcs(arcs) {
+    return arcs.map(arc => this.annotateArc(arc));
+  }
+
+  /**
+   * Compute aggregate confidence for an entity based on its constituent arcs.
+   * Uses the minimum probability of all arcs in the entity's span.
+   *
+   * @param {Object} entity - Entity with headId and indices
+   * @param {Array} annotatedArcs - Annotated arcs from annotateArcs()
+   * @returns {Object} { confidence, probability, margin }
+   */
+  entityConfidence(entity, annotatedArcs) {
+    const entityArcs = annotatedArcs.filter(a =>
+      entity.indices && entity.indices.includes(a.dependent)
+    );
+
+    if (entityArcs.length === 0) {
+      return { confidence: 'medium', probability: 0.5, margin: 0 };
+    }
+
+    const minProb = Math.min(...entityArcs.map(a => a.parseProbability));
+    const minMargin = Math.min(...entityArcs.map(a => a.parseMargin));
+    const confidence = this._getBucket(minProb, false);
+
+    return { confidence, probability: minProb, margin: minMargin };
+  }
+
+  /**
+   * Compute confidence for a role assignment.
+   * Uses the minimum of entity confidence and act confidence.
+   *
+   * @param {Object} role - Role with entityId and actId
+   * @param {Array} annotatedArcs - Annotated arcs
+   * @returns {Object} { confidence, probability }
+   */
+  roleConfidence(role, annotatedArcs) {
+    const entityArc = annotatedArcs.find(a => a.dependent === role.entityId);
+    const actArc = annotatedArcs.find(a => a.dependent === role.actId);
+
+    const entityProb = entityArc ? entityArc.parseProbability : 0.5;
+    const actProb = actArc ? actArc.parseProbability : 0.5;
+    const minProb = Math.min(entityProb, actProb);
+
+    return {
+      confidence: this._getBucket(minProb, false),
+      probability: minProb,
+    };
+  }
+  /**
+   * Map genericity classification confidence to standard confidence buckets.
+   * §9.5: Genericity confidence uses the same bucket thresholds as regular arcs.
+   *
+   * @param {{ category: string, confidence: number }} genericityResult
+   * @returns {{ confidence: string, probability: number }}
+   */
+  genericityConfidence(genericityResult) {
+    if (!genericityResult) return { confidence: 'low', probability: 0 };
+    return {
+      confidence: this._getBucket(genericityResult.confidence, false),
+      probability: genericityResult.confidence,
+    };
+  }
+}
+
+// Export for Node.js / CommonJS
+if (typeof module !== 'undefined' && module.exports) {
+  }
+// Export for browser
+
+
+  // ============================================================================
   // SEMANTIC GRAPH BUILDER (Phase 4 - Week 1 + Week 2 + Phase 6)
   // ============================================================================
 
@@ -323722,7 +327864,7 @@ class ClauseSegmenter {
  * - ScarcityAssertion ICE (not on Tier 2 entities)
  * - DirectiveContent ICE (modal markers)
  * - ObjectAggregate for plural persons
- * - PatientRole only on cco:Person
+ * - PatientRole only on Person
  * - Roles realize only in Actual acts
  * - Quality nodes for qualifiers (v2.4)
  * - PatientRole on aggregate members (v2.4)
@@ -323743,7 +327885,7 @@ class ClauseSegmenter {
  * - options.preserveAmbiguity enables lattice generation
  *
  * @module graph/SemanticGraphBuilder
- * @version 3.0.0-alpha.1
+ * @version 3.0.0
  */
 
 // Core infrastructure modules
@@ -323796,6 +327938,47 @@ const _nlp = (typeof nlp !== 'undefined') ? nlp : (() => {
   try { return require('compromise'); } catch (e) { return null; }
 })();
 
+// Phase 3A: Tree-based extractors (optional — activated via useTreeExtractors option)
+const _TreeEntityExtractor = (typeof TreeEntityExtractor !== 'undefined') ? TreeEntityExtractor : (() => {
+  try { return require('./TreeEntityExtractor'); } catch (e) { return null; }
+})();
+const _TreeActExtractor = (typeof TreeActExtractor !== 'undefined') ? TreeActExtractor : (() => {
+  try { return require('./TreeActExtractor'); } catch (e) { return null; }
+})();
+const _TreeRoleMapper = (typeof TreeRoleMapper !== 'undefined') ? TreeRoleMapper : (() => {
+  try { return require('./TreeRoleMapper'); } catch (e) { return null; }
+})();
+const _UnicodeNormalizer = (typeof UnicodeNormalizer !== 'undefined') ? UnicodeNormalizer : (() => {
+  try { return require('../core/UnicodeNormalizer'); } catch (e) { return null; }
+})();
+const _Tokenizer = (typeof Tokenizer !== 'undefined') ? Tokenizer : (() => {
+  try { return require('./Tokenizer'); } catch (e) { return null; }
+})();
+const _PerceptronTagger = (typeof PerceptronTagger !== 'undefined') ? PerceptronTagger : (() => {
+  try { return require('../core/PerceptronTagger'); } catch (e) { return null; }
+})();
+const _DependencyParser = (typeof DependencyParser !== 'undefined') ? DependencyParser : (() => {
+  try { return require('../core/DependencyParser'); } catch (e) { return null; }
+})();
+const _DepTree = (typeof DepTree !== 'undefined') ? DepTree : (() => {
+  try { return require('../core/DepTree'); } catch (e) { return null; }
+})();
+const _GazetteerNER = (typeof GazetteerNER !== 'undefined') ? GazetteerNER : (() => {
+  try { return require('./GazetteerNER'); } catch (e) { return null; }
+})();
+const _ConfidenceAnnotator = (typeof ConfidenceAnnotator !== 'undefined') ? ConfidenceAnnotator : (() => {
+  try { return require('./ConfidenceAnnotator'); } catch (e) { return null; }
+})();
+const _DepTreeCorrector = (typeof DepTreeCorrector !== 'undefined') ? DepTreeCorrector : (() => {
+  try { return require('../core/DepTreeCorrector'); } catch (e) { return null; }
+})();
+const _RealWorldEntityFactory = (typeof RealWorldEntityFactory !== 'undefined') ? RealWorldEntityFactory : (() => {
+  try { return require('./RealWorldEntityFactory'); } catch (e) { return null; }
+})();
+const _GenericityDetector = (typeof GenericityDetector !== 'undefined') ? GenericityDetector : (() => {
+  try { return require('./GenericityDetector'); } catch (e) { return null; }
+})();
+
 /**
  * Main class for building semantic graphs in JSON-LD format
  */
@@ -323817,15 +328000,18 @@ class SemanticGraphBuilder {
     this.nodes = [];
     this.nodeIndex = new Map(); // IRI -> node for deduplication
 
+    // Core NLP: Lemmatizer for morphological reduction
+    this.lemmatizer = new Lemmatizer();
+
     // Initialize extractors and factories
-    this.entityExtractor = new EntityExtractor({ graphBuilder: this });
+    this.entityExtractor = new EntityExtractor({ graphBuilder: this, lemmatizer: this.lemmatizer });
     this.actExtractor = new ActExtractor({ graphBuilder: this });
     this.roleDetector = new RoleDetector({ graphBuilder: this });
 
     // v2.3: New factories for proper ontological separation
     this.scarcityFactory = new ScarcityAssertionFactory({ graphBuilder: this });
     this.directiveExtractor = new DirectiveExtractor({ graphBuilder: this });
-    this.aggregateFactory = new ObjectAggregateFactory({ graphBuilder: this });
+    this.aggregateFactory = new ObjectAggregateFactory({ graphBuilder: this, lemmatizer: this.lemmatizer });
 
     // v2.4: Quality factory for entity qualifiers
     this.qualityFactory = new QualityFactory({ graphBuilder: this });
@@ -323850,7 +328036,7 @@ class SemanticGraphBuilder {
     // Core infrastructure
     this.contextManager = new ContextManager({ graphBuilder: this });
     this.informationStaircaseBuilder = new InformationStaircaseBuilder({
-      version: '3.0.0-alpha.1'
+      version: '3.0.0'
     });
 
     // Phase 2: Domain configuration loader for type specialization
@@ -324018,6 +328204,13 @@ class SemanticGraphBuilder {
       buildOptions._clauseRelation = segResult.relation;
     }
 
+    // ================================================================
+    // Phase 3A: Tree-based pipeline (opt-in via useTreeExtractors)
+    // ================================================================
+    if (buildOptions.useTreeExtractors && _TreeEntityExtractor && _TreeActExtractor && _TreeRoleMapper) {
+      return this._buildWithTreeExtractors(text, buildOptions);
+    }
+
     // Phase 1.2: Extract entities as DiscourseReferent + Tier 2 nodes
     let extractedEntities = [];
     let tier1Referents = [];
@@ -324039,19 +328232,19 @@ class SemanticGraphBuilder {
       );
       tier2Entities = extractedEntities.filter(e =>
         e['@type']?.some(t =>
-          t.includes('cco:Person') || t.includes('cco:Artifact') || t.includes('cco:Organization') ||
-          t === 'bfo:BFO_0000038' || t === 'bfo:BFO_0000008' || t === 'bfo:BFO_0000019' || t === 'bfo:BFO_0000016' ||
-          t === 'bfo:BFO_0000004' || t === 'bfo:BFO_0000027' || t === 'bfo:BFO_0000001' ||
-          t === 'bfo:BFO_0000015' ||
-          t === 'cco:InformationContentEntity'
+          t.includes('Person') || t.includes('Artifact') || t.includes('Organization') ||
+          t === 'OneDimensionalTemporalRegion' || t === 'TemporalRegion' || t === 'Quality' || t === 'Disposition' ||
+          t === 'IndependentContinuant' || t === 'ObjectAggregate' || t === 'Entity' ||
+          t === 'Process' ||
+          t === 'InformationContentEntity'
         )
       );
 
       // Build link map from Tier 1 to Tier 2
       tier1Referents.forEach(ref => {
-        if (ref['cco:is_about']) {
+        if (ref['is_about']) {
           // Handle both object notation { '@id': iri } and plain string
-          const isAbout = ref['cco:is_about'];
+          const isAbout = ref['is_about'];
           const iri = typeof isAbout === 'object' ? isAbout['@id'] : isAbout;
           linkMap.set(ref['@id'], iri);
         }
@@ -324075,7 +328268,7 @@ class SemanticGraphBuilder {
         // Update referent is_about links to point to aggregates
         tier1Referents.forEach(ref => {
           if (linkMap.has(ref['@id'])) {
-            ref['cco:is_about'] = { '@id': linkMap.get(ref['@id']) };
+            ref['is_about'] = { '@id': linkMap.get(ref['@id']) };
           }
         });
       }
@@ -324160,8 +328353,8 @@ class SemanticGraphBuilder {
           // Check if any shadow referent pointed to this entity
           for (const ref of [...tier1Referents]) {
             if (shadowIRIs.has(ref['@id'])) {
-              const aboutId = typeof ref['cco:is_about'] === 'object'
-                ? ref['cco:is_about']['@id'] : ref['cco:is_about'];
+              const aboutId = typeof ref['is_about'] === 'object'
+                ? ref['is_about']['@id'] : ref['is_about'];
               if (aboutId === id) {
                 shadowIRIs.add(id);
                 return false;
@@ -324330,7 +328523,7 @@ class SemanticGraphBuilder {
     this.addNode(ibeNode);
     this.addNode(parserAgentNode);
 
-    // Phase 2.1b: Link all ICE nodes to IBE via cco:is_concretized_by
+    // Phase 2.1b: Link all ICE nodes to IBE via is_concretized_by (BFO_0000058)
     // ICE types: DiscourseReferent, VerbPhrase, DirectiveContent, ScarcityAssertion, DeonticContent
     const iceTypes = [
       'tagteam:DiscourseReferent',
@@ -324342,8 +328535,8 @@ class SemanticGraphBuilder {
     this.nodes.forEach(node => {
       const types = node['@type'] || [];
       const isICE = iceTypes.some(iceType => types.includes(iceType));
-      if (isICE && !node['cco:is_concretized_by']) {
-        node['cco:is_concretized_by'] = { '@id': ibeNode['@id'] };
+      if (isICE && !node['is_concretized_by']) {
+        node['is_concretized_by'] = { '@id': ibeNode['@id'] };
       }
     });
 
@@ -324364,11 +328557,11 @@ class SemanticGraphBuilder {
     const parsingActIRI = `inst:ParsingAct_${this._hashText(text).substring(0, 8)}`;
     const parsingAct = {
       '@id': parsingActIRI,
-      '@type': ['cco:ActOfArtificialProcessing', 'owl:NamedIndividual'],
+      '@type': ['IntentionalAct', 'owl:NamedIndividual'],
       'rdfs:label': 'Semantic parsing act',
       'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
-      'cco:has_input': { '@id': ibeNode['@id'] },
-      'cco:has_agent': { '@id': parserAgentNode['@id'] },
+      'tagteam:has_input': { '@id': ibeNode['@id'] },
+      'has_agent': { '@id': parserAgentNode['@id'] },
       'tagteam:instantiated_at': this.buildTimestamp
     };
     this.addNode(parsingAct);
@@ -324422,7 +328615,7 @@ class SemanticGraphBuilder {
     if (outputICEs.length > 0) {
       const parsingActNode = this.nodeIndex.get(parsingActIRI);
       if (parsingActNode) {
-        parsingActNode['cco:has_output'] = outputICEs.map(ice => ({ '@id': ice['@id'] }));
+        parsingActNode['tagteam:has_output'] = outputICEs.map(ice => ({ '@id': ice['@id'] }));
       }
     }
 
@@ -324438,7 +328631,7 @@ class SemanticGraphBuilder {
       );
       const roles = roleNodes.map(r => ({
         act: r['bfo:is_realized_by']?.['@id'] || r['bfo:role_of']?.['@id'],
-        entity: r['bfo:inheres_in']?.['@id'],
+        entity: r['inheres_in']?.['@id'],
         type: r['@type']?.some(t => t.includes('AgentRole')) ? 'agent' : 'patient'
       }));
 
@@ -324500,7 +328693,7 @@ class SemanticGraphBuilder {
         buildTimestamp: this.buildTimestamp,
         inputLength: text.length,
         nodeCount: this.nodes.length,
-        version: '3.0.0-alpha.1',
+        version: '3.0.0',
         contextIRI,
         ibeIRI: ibeNode['@id'],
         parserAgentIRI: parserAgentNode['@id'],
@@ -324740,8 +328933,8 @@ class SemanticGraphBuilder {
 
     // Node types that should have certainty analysis
     const targetTypes = [
-      'cco:IntentionalAct',
-      'cco:ActOfCommunication',
+      'IntentionalAct',
+      'ActOfCommunication',
       'tagteam:DirectiveContent',
       'tagteam:DeonticContent',
       'tagteam:ScarcityAssertion',
@@ -324754,7 +328947,7 @@ class SemanticGraphBuilder {
 
       // Check if this node type should have certainty analysis
       const shouldAnalyze = targetTypes.some(t =>
-        types.includes(t) || types.some(nt => nt.startsWith('cco:ActOf'))
+        types.includes(t) || types.some(nt => nt.startsWith('ActOf'))
       );
 
       if (!shouldAnalyze) continue;
@@ -324885,7 +329078,7 @@ class SemanticGraphBuilder {
    * @private
    */
   _linkTemporalRegions(sourceText) {
-    const TEMPORAL_TYPES = ['bfo:BFO_0000038', 'bfo:BFO_0000008'];
+    const TEMPORAL_TYPES = ['OneDimensionalTemporalRegion', 'TemporalRegion'];
 
     // Tier 2 nodes don't have position info; Tier 1 DiscourseReferents do.
     // Strategy: use Tier 1 positions, then link the corresponding Tier 2 entities.
@@ -324896,7 +329089,7 @@ class SemanticGraphBuilder {
     // Build Tier 1 → Tier 2 IRI map
     const tier1ToTier2 = new Map();
     for (const t1 of tier1Nodes) {
-      const about = t1['cco:is_about'];
+      const about = t1['is_about'];
       if (about) {
         tier1ToTier2.set(t1['@id'], typeof about === 'object' ? about['@id'] : about);
       }
@@ -324919,7 +329112,7 @@ class SemanticGraphBuilder {
       if (tier2['@type'].some(t => TEMPORAL_TYPES.includes(t))) {
         temporalTier1.push(t1);
       } else if (tier2['@type'].includes('owl:NamedIndividual') &&
-                 !tier2['@type'].includes('cco:Person')) {
+                 !tier2['@type'].includes('Person')) {
         // Link qualities, dispositions, artifacts — not persons
         entityTier1.push(t1);
       }
@@ -324948,7 +329141,7 @@ class SemanticGraphBuilder {
           const entTier2IRI = tier1ToTier2.get(entT1['@id']);
           const entTier2 = entTier2IRI ? nodeIndex.get(entTier2IRI) : null;
           if (entTier2) {
-            entTier2['cco:occupies_temporal_region'] = { '@id': tempTier2IRI };
+            entTier2['occupies_temporal_region'] = { '@id': tempTier2IRI };
           }
         }
       }
@@ -325052,10 +329245,10 @@ class SemanticGraphBuilder {
    * @private
    */
   _linkReferentsToQualities(referents, entities, qualities, linkMap) {
-    // Build a map from entity IRI to its qualities (via bfo:inheres_in)
+    // Build a map from entity IRI to its qualities (via inheres_in / BFO_0000197)
     const entityToQualities = new Map();
     qualities.forEach(quality => {
-      const inheresIn = quality['bfo:inheres_in'];
+      const inheresIn = quality['inheres_in'];
       const bearerIRI = typeof inheresIn === 'object' ? inheresIn['@id'] : inheresIn;
       if (bearerIRI) {
         if (!entityToQualities.has(bearerIRI)) {
@@ -325070,7 +329263,7 @@ class SemanticGraphBuilder {
     entities.forEach(entity => {
       const types = entity['@type'] || [];
       if (types.some(t => t.includes('BFO_0000027'))) { // Object Aggregate
-        const members = entity['bfo:has_member'] || [];
+        const members = entity['has_member_part'] || [];
         const memberIRIs = members.map(m => typeof m === 'object' ? m['@id'] : m);
         aggregateToMembers.set(entity['@id'], memberIRIs);
       }
@@ -325081,7 +329274,7 @@ class SemanticGraphBuilder {
       const describedQualities = [];
 
       // Get the Tier 2 entity this referent is about
-      const isAbout = referent['cco:is_about'];
+      const isAbout = referent['is_about'];
       const tier2IRI = typeof isAbout === 'object' ? isAbout['@id'] : isAbout;
 
       if (tier2IRI) {
@@ -325277,7 +329470,7 @@ class SemanticGraphBuilder {
       if (!clause) continue;
 
       for (const act of actsInClause) {
-        const argumentProperties = ['cco:has_agent', 'cco:has_patient', 'cco:affects', 'bfo:has_participant'];
+        const argumentProperties = ['has_agent', 'affects', 'has_recipient', 'has_participant'];
 
         argumentProperties.forEach(prop => {
           const argValue = act[prop];
@@ -325396,6 +329589,469 @@ class SemanticGraphBuilder {
       score: Math.round(score * 100) / 100
     };
   }
+
+  /**
+   * Phase 3A: Build graph using tree-based extractors.
+   *
+   * Pipeline order (AC-3.0):
+   *   1. normalizeUnicode(text)
+   *   2. tokenize(normalizedText)
+   *   3. perceptronTag(tokens)
+   *   4. dependencyParse(tokens, tags)
+   *   5. extractEntities(depTree)     [TreeEntityExtractor]
+   *   6. extractActs(depTree)          [TreeActExtractor]
+   *   7. mapRoles(entities, acts)      [TreeRoleMapper]
+   *
+   * @param {string} text - Raw input text
+   * @param {Object} buildOptions - Build options
+   * @returns {Object} JSON-LD graph
+   */
+  _buildWithTreeExtractors(text, buildOptions) {
+    const stages = {};
+    let autoLoaded = false;
+
+    // Stage 0: Input validation (AC-4.10, AC-4.11)
+    let _inputValidator;
+    try { _inputValidator = require('../security/input-validator'); } catch(e) { /* browser */ }
+    if (_inputValidator) {
+      const validation = _inputValidator.validateInput(text);
+      if (!validation.valid) {
+        return {
+          '@graph': [],
+          _metadata: { error: validation.issues[0].code, inputValidationFailed: true }
+        };
+      }
+      text = validation.normalized;
+    }
+
+    try {
+      // Stage 1: Unicode normalization
+      stages.current = 'normalizeUnicode';
+      const normalizeUnicode = typeof _UnicodeNormalizer === 'function'
+        ? _UnicodeNormalizer
+        : (_UnicodeNormalizer && _UnicodeNormalizer.normalizeUnicode) || (t => t);
+      const normalized = normalizeUnicode(text);
+
+      // Stage 2: Tokenization
+      stages.current = 'tokenize';
+      const tokenizer = new _Tokenizer();
+      const tokenObjs = tokenizer.tokenize(normalized);
+      const tokens = tokenObjs.map(t => typeof t === 'string' ? t : t.text);
+
+      // Stage 3: POS tagging
+      stages.current = 'perceptronTag';
+      const posModelPath = buildOptions.posModel || null;
+      let tagger;
+      if (this._treePosTagger) {
+        tagger = this._treePosTagger;
+      } else if (posModelPath) {
+        if (typeof require === 'undefined') {
+          throw new Error('Models not loaded. Call TagTeam.loadModels(posJSON, depJSON) before buildGraph() in browser.');
+        }
+        const posModel = JSON.parse(fs.readFileSync(posModelPath, 'utf8'));
+        tagger = new _PerceptronTagger(posModel);
+        this._treePosTagger = tagger;
+      } else {
+        if (typeof require === 'undefined') {
+          throw new Error('Models not loaded. Call TagTeam.loadModels(posJSON, depJSON) before buildGraph() in browser.');
+        }
+        // Auto-load from default path (AC-3.20)
+        autoLoaded = true;
+        console.warn('[TagTeam] Auto-loading POS model from default path. For better performance, pre-load models with loadModels() or loadTreeModels().');
+        const defaultPath = path.join(__dirname, '../data/pos-weights-pruned.json');
+        const posModel = JSON.parse(fs.readFileSync(defaultPath, 'utf8'));
+        tagger = new _PerceptronTagger(posModel);
+        this._treePosTagger = tagger;
+      }
+      const tags = tagger.tag(tokens);
+
+      // Stage 4: Dependency parsing
+      stages.current = 'dependencyParse';
+      let depParser;
+      if (this._treeDepParser) {
+        depParser = this._treeDepParser;
+      } else if (buildOptions.depModel) {
+        if (typeof require === 'undefined') {
+          throw new Error('Models not loaded. Call TagTeam.loadModels(posJSON, depJSON) before buildGraph() in browser.');
+        }
+        const depModel = JSON.parse(fs.readFileSync(buildOptions.depModel, 'utf8'));
+        depParser = new _DependencyParser(depModel);
+        this._treeDepParser = depParser;
+      } else {
+        if (typeof require === 'undefined') {
+          throw new Error('Models not loaded. Call TagTeam.loadModels(posJSON, depJSON) before buildGraph() in browser.');
+        }
+        // Auto-load from default path (AC-3.20 / AC-3.21)
+        if (!autoLoaded) {
+          autoLoaded = true;
+          console.warn('[TagTeam] Auto-loading dep model from default path. For better performance, pre-load models with loadModels() or loadTreeModels().');
+        }
+        const defaultPath = path.join(__dirname, '../data/dep-weights-pruned.json');
+        const depModel = JSON.parse(fs.readFileSync(defaultPath, 'utf8'));
+        depParser = new _DependencyParser(depModel);
+        this._treeDepParser = depParser;
+      }
+      const parseResult = depParser.parse(tokens, tags);
+
+      // Stage 4.1: Ditransitive arc correction (AC-4.3b)
+      // Rewrites compound→iobj for ditransitive verbs before tree construction
+      if (_DepTreeCorrector) {
+        _DepTreeCorrector.correctDitransitives(parseResult.arcs, tokens, tags);
+      }
+
+      const depTree = new _DepTree(parseResult.arcs, tokens, tags);
+
+      // Stage 4.5: Calibration table loading (lazy-load, cached)
+      if (!this._calibration && typeof require !== 'undefined') {
+        try {
+          const defaultCalPath = calPath.join(__dirname, '../data/dep-calibration.json');
+          if (fs.existsSync(defaultCalPath)) {
+            this._calibration = JSON.parse(fs.readFileSync(defaultCalPath, 'utf8'));
+          }
+        } catch (e) {
+          // Calibration loading is non-blocking
+        }
+      }
+
+      // Stage 4.6: Confidence annotation (AC-3.14 through AC-3.17)
+      let annotatedArcs = parseResult.arcs;
+      let confidenceAnnotator = null;
+      if (_ConfidenceAnnotator) {
+        confidenceAnnotator = new _ConfidenceAnnotator(this._calibration || null);
+        annotatedArcs = confidenceAnnotator.annotateArcs(parseResult.arcs);
+      }
+
+      // Stage 4.7: Gazetteer initialization (lazy-load, cached like POS tagger/dep parser)
+      if (!this._treeGazetteerNER && _GazetteerNER) {
+        if (typeof require !== 'undefined') {
+          try {
+            const gazetteersDir = gazPath.join(__dirname, '../data/gazetteers');
+            if (fs.existsSync(gazetteersDir)) {
+              const files = fs.readdirSync(gazetteersDir).filter(f => f.endsWith('.json'));
+              const gazetteers = files.map(f =>
+                JSON.parse(fs.readFileSync(gazPath.join(gazetteersDir, f), 'utf8'))
+              );
+              if (gazetteers.length > 0) {
+                this._treeGazetteerNER = new _GazetteerNER(gazetteers);
+              }
+            }
+          } catch (e) {
+            // Gazetteer loading is non-blocking — tree pipeline works without it
+          }
+        }
+      }
+
+      // Stage 5: Tree-based entity extraction
+      stages.current = 'extractEntities';
+      const entityExtractor = new _TreeEntityExtractor({
+        gazetteerNER: this._treeGazetteerNER || null
+      });
+      const { entities, aliasMap } = entityExtractor.extract(depTree);
+
+      // Stage 6: Tree-based act extraction
+      stages.current = 'extractActs';
+      const actExtractor = new _TreeActExtractor();
+      const { acts, structuralAssertions } = actExtractor.extract(depTree);
+
+      // Stage 7: Tree-based role mapping
+      stages.current = 'mapRoles';
+      const roleMapper = new _TreeRoleMapper();
+      const roles = roleMapper.map(entities, acts, depTree);
+
+      // Stage 7.5: Genericity detection (§9.5)
+      // Classify subject NPs as GEN/INST/UNIV/AMB before graph assembly
+      let genericityMap = null;
+      if (_GenericityDetector) {
+        stages.current = 'classifyGenericity';
+        const genericityDetector = new _GenericityDetector({
+          lemmatizer: this.lemmatizer,
+          gazetteerNER: this._treeGazetteerNER || null,
+        });
+        genericityMap = genericityDetector.classify(entities, depTree, tags, buildOptions);
+      }
+
+      // Stage 8: Assign mention IDs (AC-3.22)
+      // Format: "s{sentenceIdx}:h{headId}:{charStart}-{charEnd}"
+      const sentenceIdx = 0; // Single-sentence pipeline for now
+      for (const entity of entities) {
+        const headId = entity.headId || 0;
+        // Compute character offsets from token positions
+        let charStart = 0;
+        let charEnd = 0;
+        if (entity.indices && entity.indices.length > 0) {
+          // Token indices are 1-based; compute char offsets from token positions in text
+          const minIdx = Math.min(...entity.indices);
+          const maxIdx = Math.max(...entity.indices);
+          // Approximate char offsets from token positions
+          charStart = 0;
+          for (let i = 0; i < minIdx - 1 && i < tokens.length; i++) {
+            charStart += tokens[i].length + 1; // +1 for space
+          }
+          charEnd = charStart;
+          for (let i = minIdx - 1; i <= maxIdx - 1 && i < tokens.length; i++) {
+            charEnd += tokens[i].length + (i < maxIdx - 1 ? 1 : 0);
+          }
+        }
+        entity.mentionId = `s${sentenceIdx}:h${headId}:${charStart}-${charEnd}`;
+      }
+
+      // Build JSON-LD graph from extracted data
+      stages.current = 'buildGraph';
+      const graphNodes = [];
+
+      // Convert entities to JSON-LD nodes
+      for (const entity of entities) {
+        const entityNode = {
+          '@id': `${this.options.namespace}:${this._sanitizeId(entity.fullText)}`,
+          '@type': [entity.type || 'Entity'],
+          'rdfs:label': entity.fullText,
+        };
+        if (entity.alias) {
+          entityNode['tagteam:alias'] = entity.alias;
+        }
+        if (entity.resolvedVia) {
+          entityNode['tagteam:resolvedVia'] = entity.resolvedVia;
+        }
+        // Mention ID (AC-3.22)
+        if (entity.mentionId) {
+          entityNode['tagteam:mentionId'] = entity.mentionId;
+        }
+        // Confidence annotations (AC-3.16)
+        if (confidenceAnnotator) {
+          const conf = confidenceAnnotator.entityConfidence(entity, annotatedArcs);
+          entityNode['tagteam:parseConfidence'] = conf.confidence;
+          entityNode['tagteam:parseProbability'] = conf.probability;
+        }
+        // Genericity annotations (§9.5)
+        if (genericityMap && entity.headId) {
+          const gen = genericityMap.get(entity.headId);
+          if (gen) {
+            entityNode['tagteam:genericityCategory'] = gen.category;
+            entityNode['tagteam:genericityConfidence'] = gen.confidence;
+            if (gen.basis) {
+              entityNode['tagteam:genericityBasis'] = gen.basis;
+            }
+            if (gen.alternative) {
+              entityNode['tagteam:genericityAlternative'] = {
+                'tagteam:category': gen.alternative.category,
+                'tagteam:confidence': gen.alternative.confidence
+              };
+            }
+          }
+        }
+        graphNodes.push(entityNode);
+      }
+
+      // Convert acts to JSON-LD nodes
+      for (const act of acts) {
+        const actNode = {
+          '@id': `${this.options.namespace}:Act_${this._sanitizeId(act.verb)}`,
+          '@type': ['IntentionalAct'],
+          'rdfs:label': act.verb,
+          'tagteam:lemma': act.lemma,
+        };
+        if (act.isPassive) actNode['tagteam:isPassive'] = true;
+        if (act.isNegated) actNode['tagteam:isNegated'] = true;
+        if (act.isCopular) actNode['tagteam:isCopular'] = true;
+        graphNodes.push(actNode);
+      }
+
+      // Convert structural assertions to JSON-LD nodes
+      for (const sa of structuralAssertions) {
+        const assertionNode = {
+          '@id': `${this.options.namespace}:Assertion_${this._sanitizeId(sa.subject || 'unknown')}`,
+          '@type': [sa.negated ? 'tagteam:NegatedStructuralAssertion' : 'tagteam:StructuralAssertion'],
+          'tagteam:subject': sa.subject,
+          'tagteam:pattern': sa.pattern,
+        };
+        if (sa.relation) assertionNode['tagteam:relation'] = sa.relation;
+        if (sa.object) assertionNode['tagteam:object'] = sa.object;
+        if (sa.copula) assertionNode['tagteam:copula'] = sa.copula;
+        if (sa.negated) assertionNode['tagteam:negated'] = true;
+        graphNodes.push(assertionNode);
+      }
+
+      // Convert roles to JSON-LD nodes
+      for (const role of roles) {
+        const roleLabel = role.label || role.role;
+        const roleNode = {
+          '@id': `${this.options.namespace}:Role_${this._sanitizeId(role.entity)}_${this._sanitizeId(roleLabel)}`,
+          '@type': [role.role],
+          'rdfs:label': roleLabel,
+          'tagteam:roleType': roleLabel,
+          'tagteam:bearer': { '@id': `${this.options.namespace}:${this._sanitizeId(role.entity)}` },
+          'tagteam:realizedIn': { '@id': `${this.options.namespace}:Act_${this._sanitizeId(role.act)}` },
+        };
+        if (role.preposition) roleNode['tagteam:preposition'] = role.preposition;
+        // Confidence annotations on roles (AC-3.16)
+        if (confidenceAnnotator) {
+          const conf = confidenceAnnotator.roleConfidence(role, annotatedArcs);
+          roleNode['tagteam:parseConfidence'] = conf.confidence;
+          roleNode['tagteam:parseProbability'] = conf.probability;
+        }
+        graphNodes.push(roleNode);
+      }
+
+      // --- Two-Tier ICE: Create Tier 2 real-world entities ---
+      if (_RealWorldEntityFactory) {
+        const entityFactory = new _RealWorldEntityFactory({
+          graphBuilder: this,
+          documentIRI: `inst:Input_Text_IBE_${this._hashText(text)}`,
+          lemmatizer: this.lemmatizer
+        });
+
+        // Filter entity nodes (exclude Acts, Roles, Assertions)
+        const referentNodes = graphNodes.filter(n => {
+          const t = [].concat(n['@type'] || []);
+          return !t.some(x => x.includes('Act') || x.includes('Role') || x.includes('Assertion'));
+        });
+
+        // Bootstrap tagteam:denotesType from @type[0] and mark as DiscourseReferent
+        for (const node of referentNodes) {
+          const types = [].concat(node['@type'] || []);
+          if (!node['tagteam:denotesType'] && types[0]) {
+            node['tagteam:denotesType'] = types[0];
+          }
+          if (!types.includes('tagteam:DiscourseReferent')) {
+            node['@type'].push('tagteam:DiscourseReferent');
+          }
+        }
+
+        // Create Tier 2 entities and link via cco:is_about
+        const { tier2Entities, linkMap } = entityFactory.createFromReferents(referentNodes);
+        for (const node of referentNodes) {
+          const tier2IRI = linkMap.get(node['@id']);
+          if (tier2IRI) {
+            node['is_about'] = { '@id': tier2IRI };
+          }
+        }
+        for (const t2 of tier2Entities) {
+          graphNodes.push(t2);
+        }
+      }
+
+      // Mark act nodes as VerbPhrase ICE
+      for (const node of graphNodes) {
+        const types = [].concat(node['@type'] || []);
+        if (types.includes('IntentionalAct') && !types.includes('tagteam:VerbPhrase')) {
+          node['@type'].push('tagteam:VerbPhrase');
+        }
+      }
+
+      // --- Provenance: IBE + Agent + IntentionalAct (parsing) ---
+      const ibeNode = this.informationStaircaseBuilder.createInputIBE(text, this.buildTimestamp);
+      const parserAgentNode = this.informationStaircaseBuilder.createParserAgent();
+      graphNodes.push(ibeNode);
+      graphNodes.push(parserAgentNode);
+
+      // Link all ICE nodes to IBE via is_concretized_by (BFO_0000058)
+      const iceTypes = ['tagteam:DiscourseReferent', 'tagteam:VerbPhrase'];
+      for (const node of graphNodes) {
+        const types = [].concat(node['@type'] || []);
+        if (iceTypes.some(t => types.includes(t)) && !node['is_concretized_by']) {
+          node['is_concretized_by'] = { '@id': ibeNode['@id'] };
+        }
+      }
+
+      // Create ParsingAct
+      const parsingActIRI = `inst:ParsingAct_${this._hashText(text).substring(0, 8)}`;
+      const iceNodes = graphNodes.filter(n => {
+        const types = [].concat(n['@type'] || []);
+        return iceTypes.some(t => types.includes(t));
+      });
+      const parsingAct = {
+        '@id': parsingActIRI,
+        '@type': ['IntentionalAct', 'owl:NamedIndividual'],
+        'rdfs:label': 'Semantic parsing act',
+        'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
+        'tagteam:has_input': { '@id': ibeNode['@id'] },
+        'has_agent': { '@id': parserAgentNode['@id'] },
+        'tagteam:has_output': iceNodes.map(n => ({ '@id': n['@id'] })),
+        'tagteam:instantiated_at': this.buildTimestamp
+      };
+      graphNodes.push(parsingAct);
+
+      // AC-4.8: Sanitize all string values in graph nodes to prevent XSS
+      for (const node of graphNodes) {
+        for (const key of Object.keys(node)) {
+          if (typeof node[key] === 'string' && key !== '@id' && key !== '@type') {
+            node[key] = node[key].replace(/&/g, '&amp;').replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+          }
+        }
+      }
+
+      const result = {
+        '@graph': graphNodes,
+        _metadata: {
+          pipeline: 'tree-based',
+          version: '3.1.0-alpha.1',
+          inputText: text,
+          buildTimestamp: this.buildTimestamp,
+          tokens,
+          tags,
+          arcs: annotatedArcs,
+          entities: entities.length,
+          acts: acts.length,
+          structuralAssertions: structuralAssertions.length,
+          roles: roles.length,
+        }
+      };
+
+      // Debug output (AC-3.18): only when verbose: true
+      if (buildOptions.verbose) {
+        // Gazetteer match tracking
+        const gazMatched = [];
+        const gazUnmatched = [];
+        if (this._treeGazetteerNER) {
+          for (const entity of entities) {
+            if (entity.resolvedVia === 'alias' || entity.gazetteerMatch) {
+              gazMatched.push(entity.fullText);
+            } else {
+              gazUnmatched.push(entity.fullText);
+            }
+          }
+        }
+
+        result._debug = {
+          dependencyTree: annotatedArcs.map((arc, idx) => ({
+            id: arc.dependent,
+            word: tokens[arc.dependent - 1] || '',
+            tag: tags[arc.dependent - 1] || '',
+            head: arc.head,
+            deprel: arc.label,
+            margin: arc.scoreMargin || arc.parseMargin || 0,
+          })),
+          tokens: tokens.map((t, i) => ({ text: t, tag: tags[i] || '' })),
+          entitySpans: entities.map(e => ({
+            head: e.headId || 0,
+            span: e.indices || [],
+            fullText: e.fullText,
+            role: e.role || '',
+          })),
+          gazetteers: {
+            matched: gazMatched,
+            unmatched: gazUnmatched,
+          },
+        };
+      }
+
+      return result;
+
+    } catch (error) {
+      throw new Error(`Tree pipeline failed at stage "${stages.current}": ${error.message}`);
+    }
+  }
+
+  /**
+   * Sanitize a string for use as an IRI local name.
+   * @param {string} str
+   * @returns {string}
+   */
+  _sanitizeId(str) {
+    if (!str) return 'unknown';
+    return str.replace(/[^a-zA-Z0-9_-]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
+  }
 }
 
 
@@ -325403,6 +330059,29 @@ class SemanticGraphBuilder {
   // ============================================================================
   // UNIFIED API
   // ============================================================================
+
+  // Cache for pre-loaded tree pipeline models (browser use)
+  let _cachedPosModel = null;
+  let _cachedDepModel = null;
+  let _cachedCalibration = null;
+  let _cachedGazetteers = null;
+  let _buildTreeGraphWarned = false;
+
+  // Shared helper: inject cached models into a SemanticGraphBuilder instance
+  function _injectCachedModels(builder) {
+    if (_cachedPosModel) {
+      builder._treePosTagger = new PerceptronTagger(_cachedPosModel);
+    }
+    if (_cachedDepModel) {
+      builder._treeDepParser = new DependencyParser(_cachedDepModel);
+    }
+    if (_cachedCalibration) {
+      builder._calibration = _cachedCalibration;
+    }
+    if (_cachedGazetteers && typeof GazetteerNER !== 'undefined') {
+      builder._treeGazetteerNER = new GazetteerNER(_cachedGazetteers);
+    }
+  }
 
   /**
    * TagTeam - Unified API for semantic parsing
@@ -325499,11 +330178,16 @@ class SemanticGraphBuilder {
     },
 
     /**
-     * Build a JSON-LD semantic graph from text (Phase 4)
+     * Build a JSON-LD semantic graph from text.
+     * Uses the tree pipeline (PerceptronTagger + DependencyParser) by default.
+     * Pass { useLegacy: true } to use the legacy Compromise NLP pipeline.
+     *
+     * In browser, call loadModels() first to pre-load POS/dep models.
      *
      * @param {string} text - The text to analyze
      * @param {Object} options - Optional configuration
      * @param {string} options.context - Interpretation context (e.g., 'MedicalEthics')
+     * @param {boolean} options.useLegacy - Use legacy Compromise pipeline (default: false)
      * @param {boolean} options.extractEntities - Extract entities (default: true)
      * @param {boolean} options.extractActs - Extract acts (default: true)
      * @param {boolean} options.detectRoles - Detect roles (default: true)
@@ -325514,8 +330198,18 @@ class SemanticGraphBuilder {
      * console.log(graph['@graph']); // Array of nodes
      */
     buildGraph: function(text, options) {
+      options = options || {};
+
+      // Legacy escape hatch
+      if (options.useLegacy) {
+        const builder = new SemanticGraphBuilder(options);
+        return builder.build(text, options);
+      }
+
+      // Tree pipeline (default)
       const builder = new SemanticGraphBuilder(options);
-      return builder.build(text, options);
+      _injectCachedModels(builder);
+      return builder.build(text, Object.assign({}, options, { useTreeExtractors: true }));
     },
 
     /**
@@ -325538,10 +330232,61 @@ class SemanticGraphBuilder {
     },
 
     /**
+     * Pre-load pipeline models for browser use.
+     * Call once after fetching model JSON files, before buildGraph().
+     *
+     * @param {Object} posJSON - Parsed POS tagger weights (pos-weights-pruned.json)
+     * @param {Object} depJSON - Parsed dependency parser weights (dep-weights-pruned.json)
+     * @param {Object} [calibrationJSON] - Parsed calibration table (dep-calibration.json)
+     * @param {Object} [gazetteersJSON] - Parsed gazetteer data
+     */
+    loadModels: function(posJSON, depJSON, calibrationJSON, gazetteersJSON) {
+      _cachedPosModel = posJSON;
+      _cachedDepModel = depJSON;
+      if (calibrationJSON) _cachedCalibration = calibrationJSON;
+      if (gazetteersJSON) _cachedGazetteers = gazetteersJSON;
+    },
+
+    /**
+     * Backward-compatible alias for loadModels().
+     * @deprecated Use loadModels() instead.
+     */
+    loadTreeModels: function(posJSON, depJSON, calibrationJSON, gazetteersJSON) {
+      return this.loadModels(posJSON, depJSON, calibrationJSON, gazetteersJSON);
+    },
+
+    /**
+     * Check whether pipeline models have been loaded.
+     * @returns {boolean} true if POS and dependency models are cached
+     */
+    areModelsLoaded: function() {
+      return !!_cachedPosModel && !!_cachedDepModel;
+    },
+
+    /**
+     * Build a JSON-LD semantic graph using tree-based extractors.
+     * @deprecated Use buildGraph() instead — it now uses the tree pipeline by default.
+     *
+     * @param {string} text - The text to analyze
+     * @param {Object} [options] - Optional configuration
+     * @returns {Object} Graph object with @graph array and _metadata
+     */
+    buildTreeGraph: function(text, options) {
+      if (!_buildTreeGraphWarned) {
+        console.warn('buildTreeGraph() is deprecated. Use buildGraph() instead. buildGraph() now uses the tree pipeline by default.');
+        _buildTreeGraphWarned = true;
+      }
+      options = options || {};
+      const builder = new SemanticGraphBuilder(options);
+      _injectCachedModels(builder);
+      return builder.build(text, Object.assign({}, options, { useTreeExtractors: true }));
+    },
+
+    /**
      * Version information
      */
-    version: '3.0.0-alpha.1',
-    BUILD: 'build 170 | bb2d3e9 | 2026-02-14T18:39:03.516Z',
+    version: '3.0.0',
+    BUILD: 'build 222 | 0c5451f | 2026-02-22T20:11:18.452Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
@@ -325610,6 +330355,25 @@ class SemanticGraphBuilder {
 
     // v2 Phase 1: Clause segmenter
     ClauseSegmenter: ClauseSegmenter,
+
+    // v2 Phase 2: Dependency parser
+    DependencyParser: DependencyParser,
+    DepTree: DepTree,
+    BinaryModelLoader: BinaryModelLoader,
+
+    // v2 Phase 4: Ditransitive arc corrector
+    DepTreeCorrector: DepTreeCorrector,
+
+    // §9.5: Genericity detector
+    GenericityDetector: GenericityDetector,
+
+    // v2 Phase 3A: Tree-based extractors
+    TreeEntityExtractor: TreeEntityExtractor,
+    TreeActExtractor: TreeActExtractor,
+    TreeRoleMapper: TreeRoleMapper,
+
+    // v2 Phase 3B: Confidence annotator
+    ConfidenceAnnotator: ConfidenceAnnotator,
 
     // Security modules
     validateInput: validateInput,

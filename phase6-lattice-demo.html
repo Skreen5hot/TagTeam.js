@@ -572,6 +572,7 @@
       // Build graph with lattice preservation
       const verbose = document.getElementById('verbose-toggle').checked;
       const result = TagTeam.buildGraph(input, {
+        useLegacy: true,
         preserveAmbiguity: true,
         detectAmbiguity: true,
         verbose: verbose

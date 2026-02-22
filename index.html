@@ -694,6 +694,10 @@
                     <span class="stat-number">BFO/CCO</span>
                     <span class="stat-label">Ontology Aligned</span>
                 </div>
+                <div class="stat">
+                    <span class="stat-number">85% UAS</span>
+                    <span class="stat-label">Dependency Parser</span>
+                </div>
             </div>
             <div class="hero-links">
                 <a href="https://github.com/Skreen5hot/TagTeam.js" target="_blank" rel="noopener">GitHub</a>
@@ -835,32 +839,87 @@
             <!-- ════════════════════════════════════════ -->
             <section class="section">
                 <h2>How It Works</h2>
-                <p>A deterministic 4-step pipeline &mdash; no neural networks, no API calls, fully reproducible results:</p>
+                <p>A deterministic 5-step pipeline &mdash; no neural networks, no API calls, fully reproducible results:</p>
                 <div class="pipeline">
                     <div class="pipeline-step">
                         <div class="step-num">1</div>
-                        <h4>Parse Text</h4>
-                        <p>Compromise NLP + jsPOS tagging</p>
+                        <h4>Tokenize &amp; Tag</h4>
+                        <p>POS tagging + NER gazetteer</p>
                     </div>
                     <div class="pipeline-arrow">&#x2192;</div>
                     <div class="pipeline-step">
                         <div class="step-num">2</div>
+                        <h4>Dep Parse</h4>
+                        <p>Arc-eager transition parser (85% UAS)</p>
+                    </div>
+                    <div class="pipeline-arrow">&#x2192;</div>
+                    <div class="pipeline-step">
+                        <div class="step-num">3</div>
                         <h4>Extract Entities</h4>
                         <p>NPChunker with Penn Treebank tags</p>
                     </div>
                     <div class="pipeline-arrow">&#x2192;</div>
                     <div class="pipeline-step">
-                        <div class="step-num">3</div>
+                        <div class="step-num">4</div>
                         <h4>Assign Roles</h4>
                         <p>VerbNet semantic role mapping</p>
                     </div>
                     <div class="pipeline-arrow">&#x2192;</div>
                     <div class="pipeline-step">
-                        <div class="step-num">4</div>
+                        <div class="step-num">5</div>
                         <h4>Build Graph</h4>
                         <p>BFO/CCO-aligned JSON-LD output</p>
                     </div>
                 </div>
+            </section>
+
+            <!-- ════════════════════════════════════════ -->
+            <!-- Section 3b: Development Progress          -->
+            <!-- ════════════════════════════════════════ -->
+            <section class="section">
+                <h2>Development Progress</h2>
+                <p>NLP pipeline phases with test coverage:</p>
+                <table class="bundle-table" style="margin-top: 12px;">
+                    <thead>
+                        <tr>
+                            <th>Phase</th>
+                            <th>Component</th>
+                            <th>Tests</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Phase 0</strong></td>
+                            <td>Label conventions, unicode normalization, role mapping</td>
+                            <td>135 / 135</td>
+                            <td><span style="background: #d1fae5; color: #065f46; padding: 2px 10px; border-radius: 10px; font-size: 0.85em; font-weight: 600;">100%</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase 1</strong></td>
+                            <td>Averaged perceptron POS tagger, gazetteer NER</td>
+                            <td>87 / 88</td>
+                            <td><span style="background: #d1fae5; color: #065f46; padding: 2px 10px; border-radius: 10px; font-size: 0.85em; font-weight: 600;">99%</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase 2</strong></td>
+                            <td>Arc-eager dependency parser (UD-EWT, 85% UAS, 1.6 MB)</td>
+                            <td>65 / 69</td>
+                            <td><span style="background: #dbeafe; color: #1e40af; padding: 2px 10px; border-radius: 10px; font-size: 0.85em; font-weight: 600;">94%</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Component</strong></td>
+                            <td>Entity extraction, role assignment, graph building</td>
+                            <td>89 / 100</td>
+                            <td><span style="background: #dbeafe; color: #1e40af; padding: 2px 10px; border-radius: 10px; font-size: 0.85em; font-weight: 600;">89%</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="margin-top: 10px; color: #6b7280; font-size: 0.85em;">
+                    Phase 2 dependency parser: Averaged perceptron with dynamic oracle (Goldberg &amp; Nivre 2012),
+                    trained on UD_English-EWT v2.14 (12,544 sentences). FNV-1a feature hashing compresses
+                    741K features to 1.6 MB binary model for browser deployment.
+                </p>
             </section>
 
             <!-- ════════════════════════════════════════ -->
@@ -968,6 +1027,10 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
                         <h4>Semantic Role Demo</h4>
                         <p>Detailed view of agent/patient/recipient role assignment</p>
                     </a>
+                    <a href="tree-demo.html" class="link-card">
+                        <h4>Tree-Based Extraction (Phase 3A)</h4>
+                        <p>Dependency-tree extractors with confidence annotations — side-by-side comparison</p>
+                    </a>
                 </div>
             </section>
 
@@ -996,11 +1059,36 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
         var _cachedGraph = null;
         var _cachedParse = null;
         var _currentText = '';
+        var _modelsLoaded = false;
 
-        // ── Hero version ──
-        window.addEventListener('load', function() {
+        // ── Load tree pipeline models ──
+        window.addEventListener('load', async function() {
             if (typeof TagTeam !== 'undefined' && TagTeam.version) {
                 document.getElementById('hero-version').textContent = 'v' + TagTeam.version;
+            }
+            // Load models for tree pipeline
+            try {
+                var modelBase = (window.location.hostname === 'localhost' || window.location.hostname === '')
+                    ? '../dist/models/' : 'models/';
+                var responses = await Promise.all([
+                    fetch(modelBase + 'pos-weights-pruned.json').then(function(r) { return r.json(); }),
+                    fetch(modelBase + 'dep-weights-pruned.json').then(function(r) { return r.json(); })
+                ]);
+                var calJSON = null;
+                try { calJSON = await fetch(modelBase + 'dep-calibration.json').then(function(r) { return r.json(); }); } catch(e) {}
+                var gazetteers = null;
+                try {
+                    var gazFiles = ['names.json', 'organizations.json', 'places.json'];
+                    gazetteers = await Promise.all(
+                        gazFiles.map(function(f) { return fetch(modelBase + 'gazetteers/' + f).then(function(r) { return r.ok ? r.json() : null; }); })
+                    );
+                    gazetteers = gazetteers.filter(function(g) { return g !== null; });
+                    if (gazetteers.length === 0) gazetteers = null;
+                } catch(e) { /* gazetteers are optional */ }
+                TagTeam.loadModels(responses[0], responses[1], calJSON, gazetteers);
+                _modelsLoaded = true;
+            } catch (e) {
+                console.warn('Model loading failed, using legacy pipeline:', e.message);
             }
             // Auto-analyze default text
             var input = document.getElementById('input');
@@ -1025,7 +1113,9 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
 
             // Run both APIs and cache
             _cachedParse = TagTeam.parse(text);
-            _cachedGraph = TagTeam.buildGraph(text, { detectAmbiguity: true, verbose: verbose });
+            var graphOpts = { detectAmbiguity: true, verbose: verbose };
+            if (!_modelsLoaded) graphOpts.useLegacy = true;
+            _cachedGraph = TagTeam.buildGraph(text, graphOpts);
 
             // Populate all tabs
             renderEntitiesTab(_cachedGraph, text);
@@ -1085,9 +1175,8 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
                 return n['@type'] && n['@type'].indexOf('tagteam:DiscourseReferent') !== -1;
             });
             var tier2 = nodes.filter(function(n) {
-                return n['@type'] && (n['@type'].indexOf('cco:Person') !== -1 ||
-                    n['@type'].indexOf('cco:Artifact') !== -1 ||
-                    n['@type'].indexOf('cco:Organization') !== -1);
+                return n['@type'] && (n['@type'].indexOf('owl:NamedIndividual') !== -1 ||
+                    n['@type'].indexOf('owl:Class') !== -1);
             });
             var acts = nodes.filter(function(n) {
                 return n['@type'] && n['@type'].some(function(t) {
@@ -1095,7 +1184,7 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
                 });
             });
             var roles = nodes.filter(function(n) {
-                return n['@type'] && n['@type'].indexOf('bfo:BFO_0000023') !== -1;
+                return n['@type'] && (n['@type'].indexOf('Role') !== -1 || n['@type'].indexOf('bfo:BFO_0000023') !== -1);
             });
 
             var html = '';
@@ -1114,7 +1203,7 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
                 tier1.forEach(function(r) {
                     var extras = '';
                     if (r['tagteam:is_scarce']) extras += ' <strong style="color: #dc2626;">SCARCE</strong>';
-                    var aboutStr = strId(r['cco:is_about']);
+                    var aboutStr = strId(r['is_about']);
                     var isAbout = aboutStr ? ' &rarr; <em style="color: #059669;">' + aboutStr.split('_').slice(0,2).join('_') + '</em>' : '';
                     html += '<div class="entity-item"><strong>' + r['rdfs:label'] + '</strong>' + isAbout + extras + '</div>';
                 });
@@ -1126,7 +1215,7 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
                 tier2.forEach(function(e) {
                     var entityType = 'Entity';
                     for (var i = 0; i < e['@type'].length; i++) {
-                        if (e['@type'][i].indexOf('cco:') === 0) { entityType = e['@type'][i]; break; }
+                        if (e['@type'][i] !== 'owl:NamedIndividual' && e['@type'][i] !== 'Entity') { entityType = e['@type'][i]; break; }
                     }
                     html += '<div class="entity-item" style="border-left-color: #059669;"><strong>' + e['rdfs:label'] + '</strong> (' + entityType + ')</div>';
                 });
@@ -1138,14 +1227,15 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
                 acts.forEach(function(a) {
                     var actType = 'IntentionalAct';
                     for (var i = 0; i < a['@type'].length; i++) {
-                        if (a['@type'][i].indexOf('cco:') !== -1) { actType = a['@type'][i]; break; }
+                        if (a['@type'][i] !== 'owl:NamedIndividual' && a['@type'][i].indexOf('Act') !== -1) { actType = a['@type'][i]; break; }
                     }
                     var modality = a['tagteam:modality'] ? ' <em>[' + a['tagteam:modality'] + ']</em>' : '';
                     var statusStr = strId(a['tagteam:actualityStatus']);
                     var status = statusStr ? ' <span style="background: #8b5cf6; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em;">' + statusStr.replace('tagteam:', '') + '</span>' : '';
-                    var agentStr = strId(a['cco:has_agent']);
+                    var agentStr = strId(a['has_agent']);
                     var agent = agentStr ? ' <span style="color: #059669; font-size: 0.9em;">agent: ' + agentStr.split('_').slice(1,2).join('') + '</span>' : '';
-                    html += '<div class="act-item"><strong>' + a['tagteam:verb'] + '</strong> (' + actType + ')' + modality + status + agent + '</div>';
+                    var verbLabel = a['tagteam:verb'] || a['tagteam:lemma'] || a['rdfs:label'] || 'Act';
+                    html += '<div class="act-item"><strong>' + verbLabel + '</strong> (' + actType + ')' + modality + status + agent + '</div>';
                 });
             }
 
@@ -1282,8 +1372,8 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
                         html += ' <span style="background: #8b5cf6; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em;">' + statusStr2.replace('tagteam:', '') + '</span>';
                     }
 
-                    var agentId = strId(a['cco:has_agent']);
-                    var patientId = strId(a['cco:has_patient']);
+                    var agentId = strId(a['has_agent']);
+                    var patientId = strId(a['affects']);
                     if (agentId) html += '<br><span style="color: #059669; font-size: 0.9em;">Agent: ' + agentId.split('_').slice(0, 2).join(' ') + '</span>';
                     if (patientId) html += '<br><span style="color: #b45309; font-size: 0.9em;">Patient: ' + patientId.split('_').slice(0, 2).join(' ') + '</span>';
 
@@ -1317,19 +1407,19 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
                     '@prefix bfo: <http://purl.obolibrary.org/obo/> .',
                     '@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .',
                     '',
-                    'med:CardiovascularDisease a bfo:0000016 ;',
+                    'med:CardiovascularDisease a bfo:BFO_0000016 ;',
                     '    rdfs:label "Cardiovascular Disease" ;',
                     '    med:indicators "chest pain, shortness of breath, heart attack, stroke, hypertension" .',
                     '',
-                    'med:RespiratoryInfection a bfo:0000016 ;',
+                    'med:RespiratoryInfection a bfo:BFO_0000016 ;',
                     '    rdfs:label "Respiratory Infection" ;',
                     '    med:indicators "cough, fever, congestion, pneumonia, bronchitis" .',
                     '',
-                    'med:Diabetes a bfo:0000016 ;',
+                    'med:Diabetes a bfo:BFO_0000016 ;',
                     '    rdfs:label "Diabetes" ;',
                     '    med:indicators "blood sugar, insulin, glucose, thirst, fatigue" .',
                     '',
-                    'med:MentalHealth a bfo:0000016 ;',
+                    'med:MentalHealth a bfo:BFO_0000016 ;',
                     '    rdfs:label "Mental Health Disorder" ;',
                     '    med:indicators "anxiety, depression, insomnia, mood changes, panic" .'
                 ].join('\n'),

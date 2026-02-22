@@ -1,7 +1,7 @@
 /*!
  * TagTeam IEE Values - Ethical Value Detection Add-on
  * Version: 1.0.0
- * Date: 2026-02-14
+ * Date: 2026-02-22
  *
  * IEE ethical value detection for TagTeam semantic graphs.
  * REQUIRES: tagteam-core.js to be loaded first!
@@ -3633,10 +3633,10 @@ class AssertionEventBuilder {
 
     return {
       '@id': iri,
-      '@type': ['tagteam:EthicalValueICE', 'cco:InformationContentEntity', 'owl:NamedIndividual'],
+      '@type': ['tagteam:EthicalValueICE', 'InformationContentEntity', 'owl:NamedIndividual'],
       'rdfs:label': `${valueName} Value Content`,
-      'cco:is_about': { '@id': `tagteam:${valueName}` },
-      'cco:is_concretized_by': { '@id': context.ibeIRI },
+      'is_about': { '@id': `tagteam:${valueName}` },
+      'is_concretized_by': { '@id': context.ibeIRI },
       'tagteam:valueName': valueName,
       'tagteam:valueCategory': scoredValue.category || 'ethical',
       'tagteam:instantiated_at': new Date().toISOString()
@@ -3711,9 +3711,9 @@ class AssertionEventBuilder {
 
     return {
       '@id': iri,
-      '@type': ['tagteam:ContextDimensionICE', 'cco:InformationContentEntity', 'owl:NamedIndividual'],
+      '@type': ['tagteam:ContextDimensionICE', 'InformationContentEntity', 'owl:NamedIndividual'],
       'rdfs:label': `${meta.label} Dimension Content`,
-      'cco:is_concretized_by': context.ibeIRI,
+      'is_concretized_by': context.ibeIRI,
       'tagteam:dimension': dimension,
       'tagteam:category': meta.category,
       'tagteam:score': this._roundConfidence(score),
