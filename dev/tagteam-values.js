@@ -3636,7 +3636,7 @@ class AssertionEventBuilder {
       '@type': ['tagteam:EthicalValueICE', 'cco:InformationContentEntity', 'owl:NamedIndividual'],
       'rdfs:label': `${valueName} Value Content`,
       'cco:is_about': { '@id': `tagteam:${valueName}` },
-      'cco:is_concretized_by': { '@id': context.ibeIRI },
+      'is_concretized_by': { '@id': context.ibeIRI },
       'tagteam:valueName': valueName,
       'tagteam:valueCategory': scoredValue.category || 'ethical',
       'tagteam:instantiated_at': new Date().toISOString()
@@ -3713,7 +3713,7 @@ class AssertionEventBuilder {
       '@id': iri,
       '@type': ['tagteam:ContextDimensionICE', 'cco:InformationContentEntity', 'owl:NamedIndividual'],
       'rdfs:label': `${meta.label} Dimension Content`,
-      'cco:is_concretized_by': context.ibeIRI,
+      'is_concretized_by': context.ibeIRI,
       'tagteam:dimension': dimension,
       'tagteam:category': meta.category,
       'tagteam:score': this._roundConfidence(score),
