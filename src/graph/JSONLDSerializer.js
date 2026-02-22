@@ -144,9 +144,22 @@ class JSONLDSerializer {
 
       // ===== Tier 2 Relations (CCO) =====
       has_agent: { '@id': 'cco:has_agent', '@type': '@id' },
+      has_recipient: { '@id': 'cco:has_recipient', '@type': '@id' },
       has_input: { '@id': 'tagteam:has_input', '@type': '@id' },
       has_output: { '@id': 'tagteam:has_output', '@type': '@id' },
       affects: { '@id': 'cco:affects', '@type': '@id' },
+      occupies_temporal_region: { '@id': 'cco:occupies_temporal_region', '@type': '@id' },
+      participates_in: { '@id': 'cco:participates_in', '@type': '@id' },
+      is_part_of: { '@id': 'cco:is_part_of', '@type': '@id' },
+      occurs_during: { '@id': 'cco:occurs_during', '@type': '@id' },
+      designates: { '@id': 'cco:designates', '@type': '@id' },
+      is_designated_by: { '@id': 'cco:is_designated_by', '@type': '@id' },
+      is_measured_by: { '@id': 'cco:is_measured_by', '@type': '@id' },
+      measures: { '@id': 'cco:measures', '@type': '@id' },
+      has_measurement_value: { '@id': 'cco:has_measurement_value', '@type': '@id' },
+      uses_measurement_unit: { '@id': 'cco:uses_measurement_unit', '@type': '@id' },
+      has_start_time: { '@id': 'cco:has_start_time', '@type': '@id' },
+      has_end_time: { '@id': 'cco:has_end_time', '@type': '@id' },
 
       // ===== GIT-Minimal Properties =====
       assertionType: { '@id': 'tagteam:assertionType', '@type': '@id' },

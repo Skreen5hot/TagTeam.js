@@ -57,7 +57,7 @@ test('links act to agent via has_agent', () => {
   const act = semantic.findNode(graph, n => n['tagteam:verb'] === 'treat');
   expect(act).toBeTruthy();
 
-  const hasAgent = act['cco:has_agent'];
+  const hasAgent = act['has_agent'];
   expect(hasAgent).toBeTruthy();
   expect(hasAgent['@id']).toBeDefined();
 });

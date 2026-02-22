@@ -107,9 +107,9 @@ function normalizeGraphForAnalysis(result) {
 
   // Map from role rdfs:label to property name (post-IRI cleanup: roles are bfo:Role)
   const roleToProperty = {
-    'AgentRole': 'cco:has_agent',
-    'PatientRole': 'cco:affects',
-    'RecipientRole': 'cco:has_recipient',
+    'AgentRole': 'has_agent',
+    'PatientRole': 'affects',
+    'RecipientRole': 'has_recipient',
     'BeneficiaryRole': 'tagteam:has_beneficiary',
     'InstrumentRole': 'tagteam:has_instrument',
     'LocationRole': 'tagteam:has_location',
@@ -145,8 +145,8 @@ function normalizeGraphForAnalysis(result) {
     // Legacy format links acts to Tier 2 (owl:NamedIndividual) entities.
     const bearerEntity = graph.find(n => n['@id'] === entityId);
     let targetId = entityId;
-    if (bearerEntity && bearerEntity['cco:is_about']) {
-      const aboutRef = bearerEntity['cco:is_about'];
+    if (bearerEntity && bearerEntity['is_about']) {
+      const aboutRef = bearerEntity['is_about'];
       targetId = typeof aboutRef === 'string' ? aboutRef : aboutRef['@id'];
     }
 
@@ -190,7 +190,7 @@ function normalizeGraphForAnalysis(result) {
   // linked via cco:is_about. Component tests expect them on Tier 1.
   graph.forEach(node => {
     if (!(node['@type'] || []).includes('tagteam:DiscourseReferent')) return;
-    const aboutRef = node['cco:is_about'];
+    const aboutRef = node['is_about'];
     if (!aboutRef) return;
 
     const aboutId = typeof aboutRef === 'string' ? aboutRef : aboutRef['@id'];
@@ -319,8 +319,8 @@ function analyzePrefixSubordination(acts, result, test) {
       if (actStart !== undefined && actStart < commaPos) {
         // This act should only reference entities from BEFORE comma
         const args = [];
-        if (act['cco:has_agent']) args.push({ role: 'agent', value: act['cco:has_agent'] });
-        if (act['cco:affects']) args.push({ role: 'affects', value: act['cco:affects'] });
+        if (act['has_agent']) args.push({ role: 'agent', value: act['has_agent'] });
+        if (act['affects']) args.push({ role: 'affects', value: act['affects'] });
 
         // Check if any argument references text from AFTER comma
         args.forEach(arg => {
@@ -410,10 +410,10 @@ function analyzeRelativeClause(acts, result, test) {
     const mainAct = acts[acts.length - 1]; // Assume last act is main clause verb
     const expectedSubject = test.expected.clauses[0].mainClause.subject.toLowerCase();
 
-    if (mainAct['cco:has_agent']) {
-      const agentId = typeof mainAct['cco:has_agent'] === 'string'
-        ? mainAct['cco:has_agent']
-        : mainAct['cco:has_agent']['@id'];
+    if (mainAct['has_agent']) {
+      const agentId = typeof mainAct['has_agent'] === 'string'
+        ? mainAct['has_agent']
+        : mainAct['has_agent']['@id'];
 
       const agent = result['@graph'].find(node => node['@id'] === agentId);
       if (agent && agent['rdfs:label']) {
@@ -450,9 +450,9 @@ function analyzeRoleAssignment(acts, result, test) {
 
   // Mapping from role label to property names (post-IRI cleanup)
   const rolePropertyMap = {
-    'AgentRole': ['cco:has_agent', 'tagteam:agent_in'],
-    'PatientRole': ['cco:affects', 'tagteam:patient_in'],
-    'RecipientRole': ['cco:has_recipient', 'tagteam:recipient'],
+    'AgentRole': ['has_agent', 'tagteam:agent_in'],
+    'PatientRole': ['affects', 'tagteam:patient_in'],
+    'RecipientRole': ['has_recipient', 'tagteam:recipient'],
     'BeneficiaryRole': ['tagteam:has_beneficiary', 'tagteam:beneficiary'],
     'InstrumentRole': ['tagteam:has_instrument', 'tagteam:instrument'],
     'LocationRole': ['tagteam:has_location', 'tagteam:located_in'],

@@ -93,10 +93,14 @@ const KNOWN_PREDICATES = new Set([
   'has_participant', 'has_member_part',
   'is_concretized_by', 'concretizes',
 
-  // CCO Relations (verified)
-  'cco:is_about', 'cco:prescribes', 'cco:has_recipient',
-  'cco:has_text_value',
-  'cco:has_agent', 'cco:affects',
+  // CCO Relations (bare aliases — resolved via @context)
+  'is_about', 'prescribes', 'has_recipient',
+  'has_text_value',
+  'has_agent', 'affects',
+  'occupies_temporal_region', 'participates_in', 'is_part_of',
+  'occurs_during', 'designates', 'is_designated_by',
+  'is_measured_by', 'measures', 'has_measurement_value',
+  'uses_measurement_unit', 'has_start_time', 'has_end_time',
 
   // RDF/RDFS/OWL
   'rdf:type', 'rdfs:label', 'rdfs:comment', 'rdfs:subClassOf',
@@ -323,7 +327,7 @@ class SHMLValidator {
     // Rule 2: IBE should have has_text_value
     for (const ibe of ibeNodes) {
       total++;
-      if (ibe['cco:has_text_value']) {
+      if (ibe['has_text_value']) {
         passed++;
       } else {
         this._addIssue(
@@ -427,7 +431,7 @@ class SHMLValidator {
 
       // Also check if any process realizes this role
       const processRealizes = nodes.some(n =>
-        (extractIRI(n['cco:realizes']) === role['@id'] || extractIRI(n['bfo:BFO_0000055']) === role['@id'])
+        extractIRI(n['realizes']) === role['@id']
       );
 
       if (isRealized || processRealizes) {
@@ -499,7 +503,7 @@ class SHMLValidator {
       total++;
 
       // Rule 1: Must designate something (VIOLATION)
-      if (designative['cco:designates'] || designative['cco:is_designated_by']) {
+      if (designative['designates'] || designative['is_designated_by']) {
         passed++;
       } else {
         this._addIssue(
@@ -537,8 +541,8 @@ class SHMLValidator {
     );
 
     for (const interval of temporalNodes) {
-      const hasStart = interval['cco:has_start_time'];
-      const hasEnd = interval['cco:has_end_time'];
+      const hasStart = interval['has_start_time'];
+      const hasEnd = interval['has_end_time'];
 
       // Rule 1: Should have start time (WARNING)
       total++;
@@ -616,10 +620,10 @@ class SHMLValidator {
       // Rule 1: Must be linked to a Quality (VIOLATION)
       total++;
       const qualityLinks = nodes.some(n =>
-        extractIRI(n['cco:is_measured_by']) === measurement['@id']
+        extractIRI(n['is_measured_by']) === measurement['@id']
       );
 
-      if (qualityLinks || extractIRI(measurement['cco:measures'])) {
+      if (qualityLinks || extractIRI(measurement['measures'])) {
         passed++;
       } else {
         this._addIssue(
@@ -633,7 +637,7 @@ class SHMLValidator {
 
       // Rule 2: Must have measurement value (VIOLATION)
       total++;
-      if (measurement['cco:has_measurement_value'] !== undefined) {
+      if (measurement['has_measurement_value'] !== undefined) {
         passed++;
       } else {
         this._addIssue(
@@ -647,7 +651,7 @@ class SHMLValidator {
 
       // Rule 3: Must have measurement unit (VIOLATION)
       total++;
-      if (measurement['cco:uses_measurement_unit']) {
+      if (measurement['uses_measurement_unit']) {
         passed++;
       } else {
         this._addIssue(
@@ -690,7 +694,7 @@ class SHMLValidator {
     for (const act of actNodes) {
       // Rule 1: Act should have temporal grounding (WARNING)
       total++;
-      if (act['cco:occurs_during'] || act['tagteam:temporal_extent']) {
+      if (act['occurs_during'] || act['tagteam:temporal_extent']) {
         passed++;
       } else {
         this._addIssue(
@@ -704,13 +708,12 @@ class SHMLValidator {
 
       // Rule 2: Act should have participant (WARNING)
       total++;
-      const hasParticipant = extractIRI(act['cco:has_participant']) ||
-        extractIRI(act['bfo:BFO_0000057']) ||
-        extractIRI(act['cco:has_agent']);
+      const hasParticipant = extractIRI(act['has_participant']) ||
+        extractIRI(act['has_agent']);
 
       // Also check if any agent participates in this act
       const agentParticipates = nodes.some(n =>
-        extractIRI(n['cco:participates_in']) === act['@id']
+        extractIRI(n['participates_in']) === act['@id']
       );
 
       if (hasParticipant || agentParticipates) {
@@ -791,7 +794,7 @@ class SHMLValidator {
       }
 
       // is_part_of: Continuant → Continuant (NOT Process)
-      const partOf = extractIRI(node['cco:is_part_of']);
+      const partOf = extractIRI(node['is_part_of']);
       if (partOf) {
         total++;
         const target = nodeMap.get(partOf);
@@ -841,7 +844,7 @@ class SHMLValidator {
       }
 
       // CCO Expert Checklist Rule: has_agent - Domain: bfo:Process, Range: cco:Agent
-      const hasAgent = extractIRI(node['cco:has_agent']);
+      const hasAgent = extractIRI(node['has_agent']);
       if (hasAgent) {
         total++;
         const nodeIsProcess = this._hasType(node, 'Process') ||
@@ -880,7 +883,7 @@ class SHMLValidator {
       }
 
       // CCO Expert Checklist Rule: prescribes - Domain: DirectiveContent, Range: bfo:Process
-      const prescribes = extractIRI(node['cco:prescribes']) || extractIRI(node['tagteam:prescribes']);
+      const prescribes = extractIRI(node['prescribes']) || extractIRI(node['tagteam:prescribes']);
       if (prescribes) {
         total++;
         const nodeIsDirective = this._hasType(node, 'DirectiveContent') ||

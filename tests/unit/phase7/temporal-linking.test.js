@@ -80,10 +80,10 @@ test('"cough for three days" → cough has occupies_temporal_region', () => {
   const threeDays = findTemporalNode(graph, 'three days');
   assert.ok(threeDays, 'Should find temporal node "three days"');
   if (cough) {
-    assert.ok(cough['cco:occupies_temporal_region'],
+    assert.ok(cough['occupies_temporal_region'],
       'Cough should have cco:occupies_temporal_region');
     assert.strictEqual(
-      cough['cco:occupies_temporal_region']['@id'],
+      cough['occupies_temporal_region']['@id'],
       threeDays['@id'],
       'occupies_temporal_region should point to three days node'
     );
@@ -96,7 +96,7 @@ test('"fever for two weeks" → fever linked to temporal region', () => {
   const twoWeeks = findTemporalNode(graph, 'two weeks');
   assert.ok(twoWeeks, 'Should find temporal node "two weeks"');
   if (fever) {
-    assert.ok(fever['cco:occupies_temporal_region'],
+    assert.ok(fever['occupies_temporal_region'],
       'Fever should have cco:occupies_temporal_region');
   }
 });
@@ -111,7 +111,7 @@ test('Temporal in second sentence does not link to first sentence entities', () 
   if (doctor) {
     // Doctor is in the first sentence, three days in the second
     // They should NOT be linked
-    assert.ok(!doctor['cco:occupies_temporal_region'],
+    assert.ok(!doctor['occupies_temporal_region'],
       'Doctor (first sentence) should NOT be linked to temporal in second sentence');
   }
 });
@@ -124,7 +124,7 @@ test('Temporal node does not have occupies_temporal_region on itself', () => {
   const graph = buildGraph('Patient reports cough for three days');
   const threeDays = findTemporalNode(graph, 'three days');
   assert.ok(threeDays, 'Should find temporal node');
-  assert.ok(!threeDays['cco:occupies_temporal_region'],
+  assert.ok(!threeDays['occupies_temporal_region'],
     'Temporal node should not link to itself');
 });
 
@@ -140,7 +140,7 @@ test('Act nodes do not receive occupies_temporal_region', () => {
                    n['@type'].includes('cco:ActOfCommunication'))
   );
   for (const act of acts) {
-    assert.ok(!act['cco:occupies_temporal_region'],
+    assert.ok(!act['occupies_temporal_region'],
       `Act "${act['rdfs:label']}" should NOT have occupies_temporal_region`);
   }
 });

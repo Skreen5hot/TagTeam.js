@@ -216,7 +216,7 @@
           "status": "SECONDARY AUTHORITY (for CCO property mapping)",
           "relevantPrinciples": [
             {
-              "property": "cco:has_agent",
+              "property": "has_agent",
               "domain": "cco:IntentionalAct",
               "range": "cco:Agent",
               "description": "Links act to the agent who performs it (subject role)"
@@ -228,7 +228,7 @@
               "description": "Links act to the entity that undergoes change (direct object role)"
             },
             {
-              "property": "cco:affects",
+              "property": "affects",
               "domain": "cco:Act",
               "range": "BFO:0000002 Continuant",
               "description": "Links act to entity that is causally affected but may not undergo intrinsic change"

@@ -416,8 +416,8 @@ test('Tier 1 referents have is_about link to Tier 2', () => {
   const referents = entities.filter(e => e['@type'].includes('tagteam:DiscourseReferent'));
 
   referents.forEach(ref => {
-    assert(ref['cco:is_about'], `Referent ${ref['rdfs:label']} has is_about`);
-    assert(ref['cco:is_about'].startsWith('inst:'), 'is_about points to inst: IRI');
+    assert(ref['is_about'], `Referent ${ref['rdfs:label']} has is_about`);
+    assert(ref['is_about'].startsWith('inst:'), 'is_about points to inst: IRI');
   });
 });
 
@@ -485,7 +485,7 @@ test('is_about links are valid (point to existing Tier 2 IRI)', () => {
   const entities = extractor.extract('The doctor');
 
   const referent = entities.find(e => e['@type'].includes('tagteam:DiscourseReferent'));
-  const tier2IRI = referent['cco:is_about'];
+  const tier2IRI = referent['is_about'];
 
   // Find the Tier 2 entity with that IRI
   const tier2Entity = entities.find(e => e['@id'] === tier2IRI);
@@ -525,7 +525,7 @@ test('linkReferentsToTier2 adds is_about property', () => {
   const { linkMap } = factory.createFromReferents(referents);
   const linked = factory.linkReferentsToTier2(referents, linkMap);
 
-  assert(linked[0]['cco:is_about'], 'Referent has is_about');
+  assert(linked[0]['is_about'], 'Referent has is_about');
 });
 
 // Summary

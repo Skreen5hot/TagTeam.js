@@ -125,7 +125,7 @@ test('ScarcityAssertion is an ICE', () => {
 test('ScarcityAssertion has is_about link to resource', () => {
   const scarcityAssertions = findNodes('ScarcityAssertion');
   scarcityAssertions.forEach(sa => {
-    assert(sa['cco:is_about'], 'ScarcityAssertion should have is_about');
+    assert(sa['is_about'], 'ScarcityAssertion should have is_about');
   });
 });
 
@@ -228,7 +228,7 @@ test('DirectiveContent has modalType and modalMarker', () => {
 test('DirectiveContent prescribes the act', () => {
   const directives = findNodes('Directive');
   directives.forEach(d => {
-    assert(d['cco:prescribes'], 'Directive should prescribe an act');
+    assert(d['prescribes'], 'Directive should prescribe an act');
   });
 });
 

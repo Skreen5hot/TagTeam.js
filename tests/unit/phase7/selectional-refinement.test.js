@@ -166,8 +166,8 @@ test('Integration: no temporal entity appears as cco:has_agent', () => {
   const nodes = getNodes(medicalGraph);
   const temporalLabels = ['three days'];
   for (const n of nodes) {
-    if (n['cco:has_agent']) {
-      const agentId = (n['cco:has_agent']['@id'] || '').toLowerCase();
+    if (n['has_agent']) {
+      const agentId = (n['has_agent']['@id'] || '').toLowerCase();
       for (const tl of temporalLabels) {
         const clean = tl.replace(/\s+/g, '_').toLowerCase();
         assert.ok(!agentId.includes(clean),
@@ -181,8 +181,8 @@ test('Integration: no quality/symptom entity appears as cco:has_agent', () => {
   const nodes = getNodes(medicalGraph);
   const symptomLabels = ['chest pain', 'blood sugar', 'cough', 'fever'];
   for (const n of nodes) {
-    if (n['cco:has_agent']) {
-      const agentId = (n['cco:has_agent']['@id'] || '').toLowerCase();
+    if (n['has_agent']) {
+      const agentId = (n['has_agent']['@id'] || '').toLowerCase();
       for (const sl of symptomLabels) {
         const clean = sl.replace(/\s+/g, '_').toLowerCase();
         assert.ok(!agentId.includes(clean),
@@ -216,7 +216,7 @@ test('Integration: medical sentence has no Artifact-typed Tier 2 nodes', () => {
 test('Integration: Inference node has is_about and supports_inference', () => {
   const node = findActByVerb(medicalGraph, 'suggest');
   assert.ok(node, 'Should find inference node');
-  assert.ok(node['cco:is_about'], 'Inference should have cco:is_about');
+  assert.ok(node['is_about'], 'Inference should have cco:is_about');
   assert.ok(node['tagteam:supports_inference'],
     'Inference should have tagteam:supports_inference');
   assert.strictEqual(node['tagteam:detection_method'], 'selectional_retype');

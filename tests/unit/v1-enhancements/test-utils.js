@@ -95,7 +95,7 @@ function getAgentOfAct(graph, verb) {
   const act = findActByVerb(graph, verb);
   if (!act) return null;
 
-  const agentRef = act['cco:has_agent'];
+  const agentRef = act['has_agent'];
   if (!agentRef) return null;
 
   const agentId = agentRef['@id'] || agentRef;
@@ -109,7 +109,7 @@ function getPatientOfAct(graph, verb) {
   const act = findActByVerb(graph, verb);
   if (!act) return null;
 
-  const patientRef = act['cco:affects'];
+  const patientRef = act['affects'];
   if (!patientRef) return null;
 
   const patientId = patientRef['@id'] || patientRef;

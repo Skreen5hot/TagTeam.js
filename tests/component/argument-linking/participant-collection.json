@@ -25,12 +25,12 @@
       "assertions": [
         {
           "act": "deploy",
-          "property": "cco:has_agent",
+          "property": "has_agent",
           "target": "the admin"
         },
         {
           "act": "deploy",
-          "property": "cco:affects",
+          "property": "affects",
           "target": "the patch"
         },
         {

@@ -42,7 +42,7 @@
       "assertions": [
         {
           "subject": "deploy",
-          "property": "cco:has_agent",
+          "property": "has_agent",
           "object": "the admin"
         },
         {
@@ -52,7 +52,7 @@
         },
         {
           "subject": "deploy",
-          "property": "cco:affects",
+          "property": "affects",
           "object": "the patch"
         },
         {

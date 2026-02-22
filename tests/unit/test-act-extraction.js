@@ -223,8 +223,8 @@ test('links agent from entity before verb', () => {
 
   assert(acts.length >= 1, 'Has acts');
   const act = acts[0];
-  assert(act['cco:has_agent'], 'Has agent link');
-  assert(act['cco:has_agent'].includes('Doctor'), 'Agent is doctor');
+  assert(act['has_agent'], 'Has agent link');
+  assert(act['has_agent'].includes('Doctor'), 'Agent is doctor');
 });
 
 test('links patient/affects from entity after verb', () => {
@@ -235,8 +235,8 @@ test('links patient/affects from entity after verb', () => {
     n['@type'].some(t => t.includes('IntentionalAct') || t.includes('ActOf')));
 
   const act = acts[0];
-  assert(act['cco:affects'], 'Has affects link');
-  assert(act['cco:affects'].includes('Patient'), 'Affects is patient');
+  assert(act['affects'], 'Has affects link');
+  assert(act['affects'].includes('Patient'), 'Affects is patient');
 });
 
 test('links participants array', () => {
@@ -407,8 +407,8 @@ test('acts link to Tier 2 entities when available', () => {
   if (tier2Persons.length > 0) {
     const act = acts[0];
     // Agent should be a Tier 2 Person IRI
-    if (act['cco:has_agent']) {
-      const agentIsTier2 = tier2Persons.some(p => p['@id'] === act['cco:has_agent']);
+    if (act['has_agent']) {
+      const agentIsTier2 = tier2Persons.some(p => p['@id'] === act['has_agent']);
       assert(agentIsTier2, 'Agent links to Tier 2 Person entity');
     }
   }
@@ -429,9 +429,9 @@ test('acts link to Tier 1 referents when linkToTier2 disabled', () => {
   const acts = actExtractor.extract(text, { entities });
 
   const act = acts[0];
-  if (act && act['cco:has_agent']) {
+  if (act && act['has_agent']) {
     // Agent should be a Tier 1 referent (contains Referent)
-    assert(act['cco:has_agent'].includes('Referent'),
+    assert(act['has_agent'].includes('Referent'),
       'With linkToTier2=false, links to Tier 1 referents');
   }
 });
@@ -443,7 +443,7 @@ test('Tier 2 linking uses is_about resolution', () => {
   // Find Tier 1 referents with is_about links
   const referents = graph['@graph'].filter(n =>
     n['@type'] && n['@type'].includes('tagteam:DiscourseReferent') &&
-    n['cco:is_about']);
+    n['is_about']);
 
   // Find Tier 2 persons
   const tier2 = graph['@graph'].filter(n =>
@@ -452,7 +452,7 @@ test('Tier 2 linking uses is_about resolution', () => {
 
   // Verify is_about links resolve to Tier 2
   referents.forEach(ref => {
-    const linkedTier2 = tier2.find(t => t['@id'] === ref['cco:is_about']);
+    const linkedTier2 = tier2.find(t => t['@id'] === ref['is_about']);
     assert(linkedTier2, `Referent ${ref['@id']} links to valid Tier 2 entity`);
   });
 });
@@ -477,10 +477,10 @@ test('complex: "The doctor must allocate the last ventilator between two patient
   assert(allocAct['@type'].includes('cco:IntentionalAct'), 'Type is IntentionalAct');
 
   // AC-1.3.2: Links to entities (Tier 2 in v2.2)
-  assert(allocAct['cco:has_agent'], 'Has agent');
+  assert(allocAct['has_agent'], 'Has agent');
   // Agent should be Tier 2 Person (contains Person_ prefix)
-  assert(allocAct['cco:has_agent'].includes('Person') ||
-         allocAct['cco:has_agent'].includes('Doctor'),
+  assert(allocAct['has_agent'].includes('Person') ||
+         allocAct['has_agent'].includes('Doctor'),
     'Agent links to entity');
   assert(allocAct['has_participant'], 'Has participants');
   assert(Array.isArray(allocAct['has_participant']), 'Participants is array');
@@ -511,12 +511,12 @@ test('complex: full Two-Tier graph structure', () => {
 
   // Acts link to Tier 2
   const act = acts[0];
-  if (act['cco:has_agent']) {
-    const agentIsTier2 = tier2Entities.some(e => e['@id'] === act['cco:has_agent']);
+  if (act['has_agent']) {
+    const agentIsTier2 = tier2Entities.some(e => e['@id'] === act['has_agent']);
     assert(agentIsTier2, 'Act agent is Tier 2 entity');
   }
-  if (act['cco:affects']) {
-    const affectsTier2 = tier2Entities.some(e => e['@id'] === act['cco:affects']);
+  if (act['affects']) {
+    const affectsTier2 = tier2Entities.some(e => e['@id'] === act['affects']);
     assert(affectsTier2, 'Act affects is Tier 2 entity');
   }
 });

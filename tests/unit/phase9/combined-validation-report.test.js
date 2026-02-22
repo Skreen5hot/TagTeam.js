@@ -74,7 +74,7 @@ function mockGraph(nodeCount, options = {}) {
       '@id': `inst:Act_${i}`,
       '@type': ['cco:IntentionalAct', 'owl:NamedIndividual'],
       'rdfs:label': `act_${i}`,
-      'cco:has_agent': options.missingAgents ? undefined : { '@id': 'inst:Entity_0' }
+      'has_agent': options.missingAgents ? undefined : { '@id': 'inst:Entity_0' }
     });
   }
 

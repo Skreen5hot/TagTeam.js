@@ -186,8 +186,8 @@ describe('P2-BOUNDARY: Hard Entity Boundaries at Clause Edges', () => {
     expect(rebootAct).toBeDefined();
 
     // "application" must NOT appear as patient/affects of reboot
-    const affects = rebootAct['cco:affects'];
-    const hasPatient = rebootAct['cco:affects'];
+    const affects = rebootAct['affects'];
+    const hasPatient = rebootAct['affects'];
     expect(iriContains(affects, 'application')).toBe(false);
     expect(iriContains(hasPatient, 'application')).toBe(false);
   });
@@ -202,8 +202,8 @@ describe('P2-BOUNDARY: Hard Entity Boundaries at Clause Edges', () => {
     expect(examineAct).toBeDefined();
 
     // Check all participants of examine — nurse must not be among them
-    const affects = examineAct['cco:affects'];
-    const hasPatient = examineAct['cco:affects'];
+    const affects = examineAct['affects'];
+    const hasPatient = examineAct['affects'];
     const participants = examineAct['tagteam:participants'] || [];
     expect(iriContains(affects, 'nurse')).toBe(false);
     expect(iriContains(hasPatient, 'nurse')).toBe(false);
@@ -226,10 +226,10 @@ describe('P2-BOUNDARY: Hard Entity Boundaries at Clause Edges', () => {
     // Clause 0 act should not link to user or page
     const clause0Act = acts.find(a => (a['tagteam:clauseIndex'] === 0));
     if (clause0Act) {
-      expect(iriContains(clause0Act['cco:affects'], 'user')).toBe(false);
-      expect(iriContains(clause0Act['cco:affects'], 'page')).toBe(false);
-      expect(iriContains(clause0Act['cco:affects'], 'user')).toBe(false);
-      expect(iriContains(clause0Act['cco:affects'], 'page')).toBe(false);
+      expect(iriContains(clause0Act['affects'], 'user')).toBe(false);
+      expect(iriContains(clause0Act['affects'], 'page')).toBe(false);
+      expect(iriContains(clause0Act['affects'], 'user')).toBe(false);
+      expect(iriContains(clause0Act['affects'], 'page')).toBe(false);
     }
   });
 });

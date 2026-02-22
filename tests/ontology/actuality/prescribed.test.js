@@ -108,7 +108,7 @@ describe('Prescribed Actuality Status', function() {
       );
 
       if (directive && act) {
-        const prescribes = directive['cco:prescribes'];
+        const prescribes = directive['prescribes'];
         expect(prescribes).toBeTruthy();
       }
     });

@@ -121,14 +121,14 @@ test('"He needs to drop the hand gun" → drop has agent (He)', () => {
   const graph = buildGraph('He needs to drop the hand gun.');
   const drop = findActByVerb(graph, 'drop');
   assert.ok(drop, 'Should find act with verb "drop"');
-  assert.ok(drop['cco:has_agent'], 'Drop should have an agent');
+  assert.ok(drop['has_agent'], 'Drop should have an agent');
 });
 
 test('"He needs to drop the hand gun" → drop affects hand gun', () => {
   const graph = buildGraph('He needs to drop the hand gun.');
   const drop = findActByVerb(graph, 'drop');
   assert.ok(drop, 'Should find act with verb "drop"');
-  assert.ok(drop['cco:affects'] || drop['has_participant'],
+  assert.ok(drop['affects'] || drop['has_participant'],
     'Drop should affect hand gun');
 });
 

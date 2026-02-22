@@ -194,8 +194,8 @@ test('Symptom entity not assigned as agent in full graph', () => {
     n['@type'].includes('cco:ActOfCommunication')
   ));
   for (const act of acts) {
-    if (act['cco:has_agent']) {
-      const agentId = act['cco:has_agent']['@id'] || act['cco:has_agent'];
+    if (act['has_agent']) {
+      const agentId = act['has_agent']['@id'] || act['has_agent'];
       assert.ok(!agentId.toLowerCase().includes('chest_pain'),
         `Act should not have "chest pain" as agent`);
     }

@@ -31,7 +31,7 @@ describe('Domain/Range SHACL Validation', function() {
     test('graph with has_agent linking to Person passes', () => {
       const graph = parseToGraph('The nurse administers the medication.');
 
-      const act = semantic.findNode(graph, n => n['cco:has_agent']);
+      const act = semantic.findNode(graph, n => n['has_agent']);
       expect(act).toBeTruthy();
 
       const result = semantic.passesSHACLValidation(graph);
@@ -63,11 +63,11 @@ describe('Domain/Range SHACL Validation', function() {
       const graph = parseToGraph('The committee must approve the proposal.');
 
       const directive = semantic.findNode(graph, n =>
-        n['cco:prescribes']
+        n['prescribes']
       );
 
       if (directive) {
-        const prescribesId = directive['cco:prescribes']?.['@id'] || directive['cco:prescribes'];
+        const prescribesId = directive['prescribes']?.['@id'] || directive['prescribes'];
         const act = semantic.findNode(graph, n => n['@id'] === prescribesId);
 
         // If we can find the act, verify it's a process type
@@ -124,11 +124,11 @@ describe('Domain/Range SHACL Validation', function() {
 
       const referent = semantic.findNode(graph, n =>
         n['@type']?.includes('tagteam:DiscourseReferent') &&
-        n['cco:is_about']
+        n['is_about']
       );
 
       if (referent) {
-        const aboutId = referent['cco:is_about']?.['@id'] || referent['cco:is_about'];
+        const aboutId = referent['is_about']?.['@id'] || referent['is_about'];
         const tier2 = semantic.findNode(graph, n => n['@id'] === aboutId);
 
         if (tier2) {

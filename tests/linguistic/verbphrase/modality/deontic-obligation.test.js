@@ -45,7 +45,7 @@ describe('Deontic Obligation Modality', function() {
       );
       expect(directive).toBeTruthy();
 
-      const prescribes = directive['cco:prescribes'];
+      const prescribes = directive['prescribes'];
       expect(prescribes).toBeTruthy();
     });
 
@@ -114,7 +114,7 @@ describe('Deontic Obligation Modality', function() {
       const act = semantic.findNode(graph, n => n['tagteam:verb'] === 'disclose');
       expect(act).toBeTruthy();
 
-      const hasAgent = act['cco:has_agent'];
+      const hasAgent = act['has_agent'];
       expect(hasAgent).toBeTruthy();
     });
 

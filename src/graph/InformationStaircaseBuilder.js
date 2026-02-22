@@ -54,7 +54,7 @@ class InformationStaircaseBuilder {
       '@id': iri,
       '@type': ['cco:InformationBearingEntity', 'owl:NamedIndividual'],
       'rdfs:label': 'Input text',
-      'cco:has_text_value': inputText,
+      'has_text_value': inputText,
       'tagteam:char_count': inputText.length,
       'tagteam:word_count': this._countWords(inputText),
       'tagteam:received_at': timestamp

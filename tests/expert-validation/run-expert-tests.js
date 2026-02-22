@@ -125,7 +125,7 @@ function analyzeResult(result, test) {
   if (result.acts) {
     result.acts.forEach((act, idx) => {
       // Check if act has too many arguments (possible bleeding)
-      const argCount = (act['cco:affects'] ? 1 : 0) +
+      const argCount = (act['affects'] ? 1 : 0) +
                        (act['cco:has_participant'] ? 1 : 0) +
                        (act['cco:uses_tool'] ? 1 : 0);
 

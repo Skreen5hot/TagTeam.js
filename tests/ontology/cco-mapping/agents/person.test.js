@@ -96,10 +96,10 @@ describe('CCO Person Mapping', function() {
       );
 
       expect(referent).toBeTruthy();
-      expect(referent['cco:is_about']).toBeTruthy();
+      expect(referent['is_about']).toBeTruthy();
 
       // Find the Tier 2 entity
-      const tier2Id = referent['cco:is_about']?.['@id'] || referent['cco:is_about'];
+      const tier2Id = referent['is_about']?.['@id'] || referent['is_about'];
       const tier2 = semantic.findNode(graph, n => n['@id'] === tier2Id);
 
       if (tier2) {
@@ -158,7 +158,7 @@ describe('CCO Person Mapping', function() {
       const act = semantic.findNode(graph, n => n['tagteam:verb'] === 'treat');
       expect(act).toBeTruthy();
 
-      const agentRef = act['cco:has_agent'];
+      const agentRef = act['has_agent'];
       expect(agentRef).toBeTruthy();
 
       const agentId = agentRef['@id'] || agentRef;
@@ -175,7 +175,7 @@ describe('CCO Person Mapping', function() {
       const act = semantic.findNode(graph, n => n['tagteam:verb'] === 'help');
       expect(act).toBeTruthy();
 
-      const affectsRef = act['cco:affects'];
+      const affectsRef = act['affects'];
       expect(affectsRef).toBeTruthy();
     });
 

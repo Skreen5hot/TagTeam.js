@@ -188,8 +188,8 @@ function extractFromGraph(graph) {
 
     // Legacy pipeline: Act nodes with cco:has_agent, cco:affects, etc.
     if (isAct) {
-      if (node['cco:has_agent']) {
-        const refs = [].concat(node['cco:has_agent']);
+      if (node['has_agent']) {
+        const refs = [].concat(node['has_agent']);
         for (const agentRef of refs) {
           const agentId = typeof agentRef === 'string' ? agentRef : (agentRef['@id'] || agentRef);
           const label = idToLabel[agentId] || agentId;
@@ -197,15 +197,15 @@ function extractFromGraph(graph) {
         }
       }
 
-      const affects = [].concat(node['cco:affects'] || []);
+      const affects = [].concat(node['affects'] || []);
       for (const patientRef of affects) {
         const patientId = typeof patientRef === 'string' ? patientRef : (patientRef['@id'] || patientRef);
         const label = idToLabel[patientId] || patientId;
         roles.push({ entity: label, role: 'Patient' });
       }
 
-      if (node['cco:has_recipient']) {
-        const refs = [].concat(node['cco:has_recipient']);
+      if (node['has_recipient']) {
+        const refs = [].concat(node['has_recipient']);
         for (const ref of refs) {
           const id = typeof ref === 'string' ? ref : (ref['@id'] || ref);
           const label = idToLabel[id] || id;

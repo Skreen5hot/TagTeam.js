@@ -86,7 +86,7 @@ test('ICE with is_concretized_by passes', () => {
       {
         '@id': 'inst:Input_IBE_456',
         '@type': ['cco:InformationBearingEntity'],
-        'cco:has_text_value': 'The doctor must decide...'
+        'has_text_value': 'The doctor must decide...'
       }
     ]
   };
@@ -549,7 +549,7 @@ test('perfect graph has high compliance score', () => {
       {
         '@id': 'inst:IBE_0',
         '@type': ['cco:InformationBearingEntity'],
-        'cco:has_text_value': 'Some text'
+        'has_text_value': 'Some text'
       }
     ]
   };
@@ -633,7 +633,7 @@ test('validates realistic TagTeam graph', () => {
       {
         '@id': 'inst:Input_Text_IBE_abc123',
         '@type': ['cco:InformationBearingEntity', 'owl:NamedIndividual'],
-        'cco:has_text_value': 'The doctor must allocate the last ventilator',
+        'has_text_value': 'The doctor must allocate the last ventilator',
         'tagteam:received_at': '2026-01-19T10:00:00Z'
       },
       // Parser Agent

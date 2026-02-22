@@ -52,9 +52,9 @@ function extractSemanticRoles(graph) {
   // Role nodes have: tagteam:realizedIn → act, tagteam:bearer → entity
   // Map from role rdfs:label to property name (post-IRI cleanup: roles are bfo:Role)
   const roleToProperty = {
-    'AgentRole': 'cco:has_agent',
-    'PatientRole': 'cco:affects',
-    'RecipientRole': 'cco:has_recipient',
+    'AgentRole': 'has_agent',
+    'PatientRole': 'affects',
+    'RecipientRole': 'has_recipient',
     'BeneficiaryRole': 'tagteam:has_beneficiary',
     'InstrumentRole': 'tagteam:has_instrument',
     'LocationRole': 'tagteam:occurs_at',
@@ -86,8 +86,8 @@ function extractSemanticRoles(graph) {
     const verb = act['tagteam:verb'] || act['tagteam:lemma'] || act['rdfs:label'];
 
     // Extract agent
-    if (act['cco:has_agent']) {
-      const agentId = act['cco:has_agent']['@id'] || act['cco:has_agent'];
+    if (act['has_agent']) {
+      const agentId = act['has_agent']['@id'] || act['has_agent'];
       const agent = nodes.find(n => n['@id'] === agentId);
       if (agent && !isSpuriousEntity(agent)) {
         roles.push({
@@ -100,8 +100,8 @@ function extractSemanticRoles(graph) {
     }
 
     // Extract patient
-    if (act['cco:affects']) {
-      const patients = Array.isArray(act['cco:affects']) ? act['cco:affects'] : [act['cco:affects']];
+    if (act['affects']) {
+      const patients = Array.isArray(act['affects']) ? act['affects'] : [act['affects']];
       for (const patientRef of patients) {
         const patientId = patientRef['@id'] || patientRef;
         const patient = nodes.find(n => n['@id'] === patientId);
@@ -117,8 +117,8 @@ function extractSemanticRoles(graph) {
     }
 
     // Extract recipient
-    if (act['cco:has_recipient']) {
-      const recipientId = act['cco:has_recipient']['@id'] || act['cco:has_recipient'];
+    if (act['has_recipient']) {
+      const recipientId = act['has_recipient']['@id'] || act['has_recipient'];
       const recipient = nodes.find(n => n['@id'] === recipientId);
       if (recipient && !isSpuriousEntity(recipient)) {
         roles.push({

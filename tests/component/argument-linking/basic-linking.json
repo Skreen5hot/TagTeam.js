@@ -8,7 +8,7 @@
       "links": [
         {
           "act": "fix",
-          "property": "cco:has_agent",
+          "property": "has_agent",
           "target": "the engineer"
         }
       ]
@@ -25,7 +25,7 @@
       "links": [
         {
           "act": "fix",
-          "property": "cco:affects",
+          "property": "affects",
           "target": "the bug"
         }
       ]
@@ -42,12 +42,12 @@
       "links": [
         {
           "act": "deploy",
-          "property": "cco:has_agent",
+          "property": "has_agent",
           "target": "the admin"
         },
         {
           "act": "deploy",
-          "property": "cco:affects",
+          "property": "affects",
           "target": "the patch"
         }
       ]
@@ -64,14 +64,14 @@
       "links": [
         {
           "act": "fail",
-          "property": "cco:affects",
+          "property": "affects",
           "target": "the server"
         }
       ],
       "absentLinks": [
         {
           "act": "fail",
-          "property": "cco:has_agent",
+          "property": "has_agent",
           "reason": "intransitive verb has no agent"
         }
       ]
@@ -88,13 +88,13 @@
       "links": [
         {
           "act": "fix",
-          "property": "cco:has_agent",
+          "property": "has_agent",
           "target": "the engineer",
           "targetType": "cco:Person"
         },
         {
           "act": "fix",
-          "property": "cco:affects",
+          "property": "affects",
           "target": "the bug",
           "targetType": "cco:Artifact"
         }

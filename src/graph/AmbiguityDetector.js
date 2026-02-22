@@ -556,7 +556,7 @@ class AmbiguityDetector {
     }
 
     // SemanticGraphBuilder format: cco:has_agent
-    const hasAgent = act['cco:has_agent'];
+    const hasAgent = act['has_agent'];
     if (hasAgent) {
       const agentIRI = typeof hasAgent === 'object' ? hasAgent['@id'] : hasAgent;
       return entities.find(e => e['@id'] === agentIRI);

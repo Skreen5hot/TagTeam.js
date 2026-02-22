@@ -52,7 +52,7 @@ test('creates IBE node with correct @type', () => {
 test('IBE has has_text_value with full input text', () => {
   const ibe = builder.createInputIBE(TEST_TEXT, timestamp);
 
-  assert(ibe['cco:has_text_value'] === TEST_TEXT,
+  assert(ibe['has_text_value'] === TEST_TEXT,
     'Should contain full input text');
 });
 
@@ -214,7 +214,7 @@ test('IBE contains full input text', () => {
     n['@type']?.includes('cco:InformationBearingEntity')
   );
 
-  assert(ibe['cco:has_text_value'] === TEST_TEXT,
+  assert(ibe['has_text_value'] === TEST_TEXT,
     'IBE should contain exact input text');
 });
 
@@ -305,7 +305,7 @@ test('complete chain: Literal → IBE → ICE → Assertion', () => {
   assert(assertion, 'Assertion should exist');
 
   // IBE contains literal text
-  assert(ibe['cco:has_text_value'] === TEST_TEXT,
+  assert(ibe['has_text_value'] === TEST_TEXT,
     'IBE contains literal');
 
   // ICE is concretized by IBE

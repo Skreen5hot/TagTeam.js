@@ -137,8 +137,8 @@ test('ICE node has cco:is_about linking to inanimate source', () => {
   const graph = buildGraph('Blood sugar levels suggest diabetes');
   const node = findActByVerb(graph, 'suggest');
   assert.ok(node, 'Should find inference node');
-  assert.ok(node['cco:is_about'], 'Should have cco:is_about property');
-  assert.ok(node['cco:is_about']['@id'], 'cco:is_about should have @id');
+  assert.ok(node['is_about'], 'Should have cco:is_about property');
+  assert.ok(node['is_about']['@id'], 'cco:is_about should have @id');
 });
 
 test('ICE node has tagteam:supports_inference linking to inferred entity', () => {

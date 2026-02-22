@@ -354,7 +354,7 @@ class CombinedValidationReport {
       const types = n['@type'] || [];
       return types.some(t => t.startsWith('cco:ActOf') || t === 'cco:IntentionalAct');
     });
-    const actsWithoutAgent = acts.filter(a => !a['cco:has_agent']);
+    const actsWithoutAgent = acts.filter(a => !a['has_agent']);
     if (actsWithoutAgent.length > 0) {
       issues.push({
         type: 'missing_agent',

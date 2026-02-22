@@ -194,8 +194,8 @@ test('Disease entity not assigned as agent in full graph', () => {
   const graph = buildGraph('The results indicate infection');
   const nodes = graph['@graph'] || [];
   for (const n of nodes) {
-    if (n['cco:has_agent']) {
-      const agentId = (n['cco:has_agent']['@id'] || '').toLowerCase();
+    if (n['has_agent']) {
+      const agentId = (n['has_agent']['@id'] || '').toLowerCase();
       assert.ok(!agentId.includes('infection'),
         'Infection (disease) should not be agent');
     }

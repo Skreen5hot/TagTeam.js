@@ -475,7 +475,7 @@ class RealWorldEntityFactory {
       if (tier2IRI) {
         return {
           ...referent,
-          'cco:is_about': { '@id': tier2IRI }
+          'is_about': { '@id': tier2IRI }
         };
       }
       return referent;

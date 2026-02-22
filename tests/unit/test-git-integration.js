@@ -133,7 +133,7 @@ test('build() creates IBE node', () => {
   );
 
   assert(ibeNodes.length === 1, 'Should create one IBE node');
-  assert(ibeNodes[0]['cco:has_text_value'] === TEST_TEXT,
+  assert(ibeNodes[0]['has_text_value'] === TEST_TEXT,
     'IBE should contain input text');
 });
 

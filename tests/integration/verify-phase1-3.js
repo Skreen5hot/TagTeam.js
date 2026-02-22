@@ -57,20 +57,20 @@ const acts2 = graph2['@graph'].filter(n =>
   n['@type'].some(t => t.includes('ActOf')));
 
 const act2 = acts2[0];
-assert(act2['cco:has_agent'], "Act has cco:has_agent");
-assert(act2['cco:affects'], "Act has cco:affects");
+assert(act2['has_agent'], "Act has cco:has_agent");
+assert(act2['affects'], "Act has cco:affects");
 
 // Verify agent is Tier 2 entity
-const agentIsTier2 = tier2Persons.some(p => p['@id'] === act2['cco:has_agent']);
+const agentIsTier2 = tier2Persons.some(p => p['@id'] === act2['has_agent']);
 assert(agentIsTier2, "Agent (has_agent) links to Tier 2 Person entity");
 
 // Verify affects is Tier 2 entity
-const affectsTier2 = tier2Persons.some(p => p['@id'] === act2['cco:affects']);
+const affectsTier2 = tier2Persons.some(p => p['@id'] === act2['affects']);
 assert(affectsTier2, "Patient (affects) links to Tier 2 Person entity");
 
 console.log('✓ AC-1.3.2: Act Links to Tier 2 Entities - PASSED');
-console.log(`  Agent IRI: ${act2['cco:has_agent']}`);
-console.log(`  Affects IRI: ${act2['cco:affects']}\n`);
+console.log(`  Agent IRI: ${act2['has_agent']}`);
+console.log(`  Affects IRI: ${act2['affects']}\n`);
 
 // AC-1.3.3: ActualityStatus on All Acts
 console.log('Verifying AC-1.3.3: ActualityStatus on All Acts (v2.2)');

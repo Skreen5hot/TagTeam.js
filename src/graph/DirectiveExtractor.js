@@ -146,7 +146,7 @@ class DirectiveExtractor {
       'tagteam:modalStrength': modalStrength,
 
       // Link to the act this directive prescribes
-      'cco:prescribes': { '@id': actIRI }
+      'prescribes': { '@id': actIRI }
     };
 
     if (sourceText) {

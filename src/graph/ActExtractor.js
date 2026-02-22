@@ -1482,9 +1482,9 @@ class ActExtractor {
 
     // Find all referents with is_about links
     entities.forEach(entity => {
-      if (entity['cco:is_about']) {
+      if (entity['is_about']) {
         // Handle both object notation { '@id': iri } and plain string
-        const isAbout = entity['cco:is_about'];
+        const isAbout = entity['is_about'];
         const iri = typeof isAbout === 'object' ? isAbout['@id'] : isAbout;
         linkMap.set(entity['@id'], iri);
       }
@@ -2190,24 +2190,24 @@ class ActExtractor {
     // V7-010: Handle coordinated agents ("The engineer and the admin deployed")
     if (actInfo.links.coordinatedAgents && actInfo.links.coordinatedAgents.length > 0) {
       // Multiple agents: assign agent role to all coordinated entities
-      node['cco:has_agent'] = actInfo.links.coordinatedAgents.map(a => ({ '@id': a.iri }));
+      node['has_agent'] = actInfo.links.coordinatedAgents.map(a => ({ '@id': a.iri }));
     } else if (actInfo.links.agent) {
       // Single agent
-      node['cco:has_agent'] = { '@id': actInfo.links.agent };
+      node['has_agent'] = { '@id': actInfo.links.agent };
     }
 
     // V7-010: Handle coordinated patients ("configured the server and the database")
     if (actInfo.links.coordinatedPatients && actInfo.links.coordinatedPatients.length > 0) {
       // Multiple patients: assign patient role to all coordinated entities
-      node['cco:affects'] = actInfo.links.coordinatedPatients.map(p => ({ '@id': p.iri }));
+      node['affects'] = actInfo.links.coordinatedPatients.map(p => ({ '@id': p.iri }));
     } else if (actInfo.links.patient) {
       // Single patient
-      node['cco:affects'] = { '@id': actInfo.links.patient };
+      node['affects'] = { '@id': actInfo.links.patient };
     }
 
     // V7-009c: Add recipient role for ditransitive verbs
     if (actInfo.links.recipient) {
-      node['cco:has_recipient'] = { '@id': actInfo.links.recipient };
+      node['has_recipient'] = { '@id': actInfo.links.recipient };
     }
 
     // V7-009b: Add oblique role properties (beneficiary, instrument, location, etc.)
@@ -2325,7 +2325,7 @@ class ActExtractor {
 
     // Link to the inanimate entity (the measurement/quality that "suggests")
     if (actInfo.links.agent) {
-      node['cco:is_about'] = { '@id': actInfo.links.agent };
+      node['is_about'] = { '@id': actInfo.links.agent };
     }
 
     // Link to the inferred entity (what is being suggested)

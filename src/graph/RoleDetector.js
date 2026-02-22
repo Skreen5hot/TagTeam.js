@@ -144,7 +144,7 @@ class RoleDetector {
       const canRealize = REALIZABLE_STATUSES.includes(actualityStatus);
 
       // Detect agent role (from has_agent)
-      const agentIRI = extractIRI(act['cco:has_agent']);
+      const agentIRI = extractIRI(act['has_agent']);
       if (agentIRI) {
         const bearer = entityIndex.get(agentIRI);
         if (bearer && this._canBearAgentRole(bearer)) {
@@ -154,7 +154,7 @@ class RoleDetector {
 
       // Detect patient/affected role (from affects)
       // ENH-015: Use preposition to determine specific role type
-      const affectedIRI = extractIRI(act['cco:affects']);
+      const affectedIRI = extractIRI(act['affects']);
       if (affectedIRI) {
         const bearer = entityIndex.get(affectedIRI);
         if (bearer) {

@@ -150,8 +150,8 @@ test('AC-A4: StructuralAssertion has required properties', () => {
   assert.ok(sa['tagteam:sourceText'], 'Should have sourceText');
 
   // Should NOT have act-specific properties
-  assert.strictEqual(sa['cco:has_agent'], undefined, 'Should not have cco:has_agent');
-  assert.strictEqual(sa['cco:affects'], undefined, 'Should not have cco:affects');
+  assert.strictEqual(sa['has_agent'], undefined, 'Should not have cco:has_agent');
+  assert.strictEqual(sa['affects'], undefined, 'Should not have cco:affects');
 });
 
 // ============================================================

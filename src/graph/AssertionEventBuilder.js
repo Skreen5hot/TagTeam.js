@@ -193,7 +193,7 @@ class AssertionEventBuilder {
       '@id': iri,
       '@type': ['tagteam:EthicalValueICE', 'cco:InformationContentEntity', 'owl:NamedIndividual'],
       'rdfs:label': `${valueName} Value Content`,
-      'cco:is_about': { '@id': `tagteam:${valueName}` },
+      'is_about': { '@id': `tagteam:${valueName}` },
       'is_concretized_by': { '@id': context.ibeIRI },
       'tagteam:valueName': valueName,
       'tagteam:valueCategory': scoredValue.category || 'ethical',

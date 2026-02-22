@@ -402,9 +402,9 @@ class SemanticGraphBuilder {
 
       // Build link map from Tier 1 to Tier 2
       tier1Referents.forEach(ref => {
-        if (ref['cco:is_about']) {
+        if (ref['is_about']) {
           // Handle both object notation { '@id': iri } and plain string
-          const isAbout = ref['cco:is_about'];
+          const isAbout = ref['is_about'];
           const iri = typeof isAbout === 'object' ? isAbout['@id'] : isAbout;
           linkMap.set(ref['@id'], iri);
         }
@@ -428,7 +428,7 @@ class SemanticGraphBuilder {
         // Update referent is_about links to point to aggregates
         tier1Referents.forEach(ref => {
           if (linkMap.has(ref['@id'])) {
-            ref['cco:is_about'] = { '@id': linkMap.get(ref['@id']) };
+            ref['is_about'] = { '@id': linkMap.get(ref['@id']) };
           }
         });
       }
@@ -513,8 +513,8 @@ class SemanticGraphBuilder {
           // Check if any shadow referent pointed to this entity
           for (const ref of [...tier1Referents]) {
             if (shadowIRIs.has(ref['@id'])) {
-              const aboutId = typeof ref['cco:is_about'] === 'object'
-                ? ref['cco:is_about']['@id'] : ref['cco:is_about'];
+              const aboutId = typeof ref['is_about'] === 'object'
+                ? ref['is_about']['@id'] : ref['is_about'];
               if (aboutId === id) {
                 shadowIRIs.add(id);
                 return false;
@@ -721,7 +721,7 @@ class SemanticGraphBuilder {
       'rdfs:label': 'Semantic parsing act',
       'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
       'tagteam:has_input': { '@id': ibeNode['@id'] },
-      'cco:has_agent': { '@id': parserAgentNode['@id'] },
+      'has_agent': { '@id': parserAgentNode['@id'] },
       'tagteam:instantiated_at': this.buildTimestamp
     };
     this.addNode(parsingAct);
@@ -1249,7 +1249,7 @@ class SemanticGraphBuilder {
     // Build Tier 1 → Tier 2 IRI map
     const tier1ToTier2 = new Map();
     for (const t1 of tier1Nodes) {
-      const about = t1['cco:is_about'];
+      const about = t1['is_about'];
       if (about) {
         tier1ToTier2.set(t1['@id'], typeof about === 'object' ? about['@id'] : about);
       }
@@ -1301,7 +1301,7 @@ class SemanticGraphBuilder {
           const entTier2IRI = tier1ToTier2.get(entT1['@id']);
           const entTier2 = entTier2IRI ? nodeIndex.get(entTier2IRI) : null;
           if (entTier2) {
-            entTier2['cco:occupies_temporal_region'] = { '@id': tempTier2IRI };
+            entTier2['occupies_temporal_region'] = { '@id': tempTier2IRI };
           }
         }
       }
@@ -1434,7 +1434,7 @@ class SemanticGraphBuilder {
       const describedQualities = [];
 
       // Get the Tier 2 entity this referent is about
-      const isAbout = referent['cco:is_about'];
+      const isAbout = referent['is_about'];
       const tier2IRI = typeof isAbout === 'object' ? isAbout['@id'] : isAbout;
 
       if (tier2IRI) {
@@ -1630,7 +1630,7 @@ class SemanticGraphBuilder {
       if (!clause) continue;
 
       for (const act of actsInClause) {
-        const argumentProperties = ['cco:has_agent', 'cco:affects', 'cco:has_recipient', 'has_participant'];
+        const argumentProperties = ['has_agent', 'affects', 'has_recipient', 'has_participant'];
 
         argumentProperties.forEach(prop => {
           const argValue = act[prop];
@@ -2092,7 +2092,7 @@ class SemanticGraphBuilder {
         for (const node of referentNodes) {
           const tier2IRI = linkMap.get(node['@id']);
           if (tier2IRI) {
-            node['cco:is_about'] = { '@id': tier2IRI };
+            node['is_about'] = { '@id': tier2IRI };
           }
         }
         for (const t2 of tier2Entities) {
@@ -2135,7 +2135,7 @@ class SemanticGraphBuilder {
         'rdfs:label': 'Semantic parsing act',
         'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
         'tagteam:has_input': { '@id': ibeNode['@id'] },
-        'cco:has_agent': { '@id': parserAgentNode['@id'] },
+        'has_agent': { '@id': parserAgentNode['@id'] },
         'tagteam:has_output': iceNodes.map(n => ({ '@id': n['@id'] })),
         'tagteam:instantiated_at': this.buildTimestamp
       };
