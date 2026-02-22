@@ -9,87 +9,87 @@
   },
   "entities": {
     "United States": {
-      "type": "cco:GeopoliticalOrganization",
+      "type": "GeopoliticalOrganization",
       "aliases": ["US", "U.S.", "USA", "U.S.A.", "United States of America"],
       "placeType": "country"
     },
     "United Kingdom": {
-      "type": "cco:GeopoliticalOrganization",
+      "type": "GeopoliticalOrganization",
       "aliases": ["UK", "U.K.", "Britain", "Great Britain"],
       "placeType": "country"
     },
     "Canada": {
-      "type": "cco:GeopoliticalOrganization",
+      "type": "GeopoliticalOrganization",
       "aliases": [],
       "placeType": "country"
     },
     "Mexico": {
-      "type": "cco:GeopoliticalOrganization",
+      "type": "GeopoliticalOrganization",
       "aliases": [],
       "placeType": "country"
     },
     "China": {
-      "type": "cco:GeopoliticalOrganization",
+      "type": "GeopoliticalOrganization",
       "aliases": ["PRC", "People's Republic of China"],
       "placeType": "country"
     },
     "Russia": {
-      "type": "cco:GeopoliticalOrganization",
+      "type": "GeopoliticalOrganization",
       "aliases": ["Russian Federation"],
       "placeType": "country"
     },
     "Washington": {
-      "type": "cco:GeopoliticalOrganization",
+      "type": "GeopoliticalOrganization",
       "aliases": ["Washington, D.C.", "Washington DC", "D.C."],
       "placeType": "city"
     },
     "New York": {
-      "type": "cco:GeopoliticalOrganization",
+      "type": "GeopoliticalOrganization",
       "aliases": ["NYC", "New York City"],
       "placeType": "city"
     },
     "Los Angeles": {
-      "type": "cco:GeopoliticalOrganization",
+      "type": "GeopoliticalOrganization",
       "aliases": ["LA", "L.A."],
       "placeType": "city"
     },
     "Chicago": {
-      "type": "cco:GeopoliticalOrganization",
+      "type": "GeopoliticalOrganization",
       "aliases": [],
       "placeType": "city"
     },
     "Texas": {
-      "type": "cco:GeopoliticalOrganization",
+      "type": "GeopoliticalOrganization",
       "aliases": ["TX"],
       "placeType": "state"
     },
     "California": {
-      "type": "cco:GeopoliticalOrganization",
+      "type": "GeopoliticalOrganization",
       "aliases": ["CA", "Calif."],
       "placeType": "state"
     },
     "Florida": {
-      "type": "cco:GeopoliticalOrganization",
+      "type": "GeopoliticalOrganization",
       "aliases": ["FL", "Fla."],
       "placeType": "state"
     },
     "Virginia": {
-      "type": "cco:GeopoliticalOrganization",
+      "type": "GeopoliticalOrganization",
       "aliases": ["VA"],
       "placeType": "state"
     },
     "Arizona": {
-      "type": "cco:GeopoliticalOrganization",
+      "type": "GeopoliticalOrganization",
       "aliases": ["AZ"],
       "placeType": "state"
     },
     "European Union": {
-      "type": "cco:GeopoliticalOrganization",
+      "type": "GeopoliticalOrganization",
       "aliases": ["EU", "E.U."],
       "placeType": "supranational"
     },
     "Middle East": {
-      "type": "cco:GeopoliticalOrganization",
+      "type": "GeopoliticalOrganization",
       "aliases": [],
       "placeType": "region"
     },

@@ -9,107 +9,107 @@
   },
   "entities": {
     "John Smith": {
-      "type": "cco:Person",
+      "type": "Person",
       "aliases": ["J. Smith"],
       "nameType": "full"
     },
     "Jane Doe": {
-      "type": "cco:Person",
+      "type": "Person",
       "aliases": ["J. Doe"],
       "nameType": "full"
     },
     "Alice": {
-      "type": "cco:Person",
+      "type": "Person",
       "aliases": [],
       "nameType": "given"
     },
     "James": {
-      "type": "cco:Person",
+      "type": "Person",
       "aliases": ["Jim", "Jimmy"],
       "nameType": "given"
     },
     "Robert": {
-      "type": "cco:Person",
+      "type": "Person",
       "aliases": ["Bob", "Bobby", "Rob"],
       "nameType": "given"
     },
     "William": {
-      "type": "cco:Person",
+      "type": "Person",
       "aliases": ["Bill", "Will", "Billy"],
       "nameType": "given"
     },
     "Mary": {
-      "type": "cco:Person",
+      "type": "Person",
       "aliases": [],
       "nameType": "given"
     },
     "Elizabeth": {
-      "type": "cco:Person",
+      "type": "Person",
       "aliases": ["Liz", "Beth", "Eliza"],
       "nameType": "given"
     },
     "Michael": {
-      "type": "cco:Person",
+      "type": "Person",
       "aliases": ["Mike"],
       "nameType": "given"
     },
     "David": {
-      "type": "cco:Person",
+      "type": "Person",
       "aliases": ["Dave"],
       "nameType": "given"
     },
     "Richard": {
-      "type": "cco:Person",
+      "type": "Person",
       "aliases": ["Rick", "Dick"],
       "nameType": "given"
     },
     "Jennifer": {
-      "type": "cco:Person",
+      "type": "Person",
       "aliases": ["Jen", "Jenny"],
       "nameType": "given"
     },
     "Sarah": {
-      "type": "cco:Person",
+      "type": "Person",
       "aliases": ["Sara"],
       "nameType": "given"
     },
     "Thomas": {
-      "type": "cco:Person",
+      "type": "Person",
       "aliases": ["Tom", "Tommy"],
       "nameType": "given"
     },
     "Charles": {
-      "type": "cco:Person",
+      "type": "Person",
       "aliases": ["Charlie", "Chuck"],
       "nameType": "given"
     },
     "Daniel": {
-      "type": "cco:Person",
+      "type": "Person",
       "aliases": ["Dan", "Danny"],
       "nameType": "given"
     },
     "Smith": {
-      "type": "cco:Person",
+      "type": "Person",
       "aliases": [],
       "nameType": "surname"
     },
     "Johnson": {
-      "type": "cco:Person",
+      "type": "Person",
       "aliases": [],
       "nameType": "surname"
     },
     "Williams": {
-      "type": "cco:Person",
+      "type": "Person",
       "aliases": [],
       "nameType": "surname"
     },
     "Brown": {
-      "type": "cco:Person",
+      "type": "Person",
       "aliases": [],
       "nameType": "surname"
     },
     "Jones": {
-      "type": "cco:Person",
+      "type": "Person",
       "aliases": [],
       "nameType": "surname"
     }
