@@ -171,7 +171,7 @@ test('patient role has bfo:Role type with PatientRole label', () => {
 // Test Suite 4: Role Bearer Link (AC-1.4.2)
 console.log('\nTest Suite 4: Role Bearer Link (AC-1.4.2)');
 
-test('every role has bfo:inheres_in (bearer link)', () => {
+test('every role has inheres_in (bearer link)', () => {
   const builder = new SemanticGraphBuilder();
   const graph = builder.build('The doctor treats the patient');
 
@@ -179,7 +179,7 @@ test('every role has bfo:inheres_in (bearer link)', () => {
     n['@type'].includes('bfo:BFO_0000023'));
 
   roles.forEach(role => {
-    assert(extractIRI(role['bfo:inheres_in']), `${role['rdfs:label']} has bearer`);
+    assert(extractIRI(role['inheres_in']), `${role['rdfs:label']} has bearer`);
   });
 });
 
@@ -191,7 +191,7 @@ test('bearer link points to Tier 2 entity (Person/Artifact)', () => {
     n['@type'].includes('bfo:BFO_0000023'));
 
   roles.forEach(role => {
-    const bearerIRI = extractIRI(role['bfo:inheres_in']);
+    const bearerIRI = extractIRI(role['inheres_in']);
     const bearer = graph['@graph'].find(n => n['@id'] === bearerIRI);
     assert(bearer, `Found bearer for ${role['rdfs:label']}`);
     // In Two-Tier architecture, roles point to Tier 2 entities (cco:Person, cco:Artifact)
@@ -208,7 +208,7 @@ test('agent role bearer is doctor referent', () => {
   const agentRole = graph['@graph'].find(n =>
     n['tagteam:roleType'] === 'agent');
 
-  assert(extractIRI(agentRole['bfo:inheres_in']).includes('Doctor'),
+  assert(extractIRI(agentRole['inheres_in']).includes('Doctor'),
     'Agent bearer is doctor');
 });
 
@@ -219,21 +219,21 @@ test('patient role bearer is patient referent', () => {
   const patientRole = graph['@graph'].find(n =>
     n['tagteam:roleType'] === 'patient');
 
-  assert(extractIRI(patientRole['bfo:inheres_in']).includes('Patient'),
+  assert(extractIRI(patientRole['inheres_in']).includes('Patient'),
     'Patient bearer is patient');
 });
 
 // Test Suite 5: Role Realization Link (AC-1.4.3)
 console.log('\nTest Suite 5: Role Realization Link (AC-1.4.3)');
 
-test('roles have bfo:realized_in (realization link)', () => {
+test('roles have realized_in (realization link)', () => {
   const builder = new SemanticGraphBuilder();
   const graph = builder.build('The doctor treats the patient');
 
   const roles = graph['@graph'].filter(n =>
     n['@type'].includes('bfo:BFO_0000023'));
 
-  const realizedRoles = roles.filter(r => extractIRI(r['bfo:realized_in']));
+  const realizedRoles = roles.filter(r => extractIRI(r['realized_in']));
   assert(realizedRoles.length > 0, 'Has realized roles');
 });
 
@@ -245,7 +245,7 @@ test('realization link points to IntentionalAct', () => {
     n['@type'].includes('bfo:BFO_0000023'));
 
   roles.forEach(role => {
-    const actIRI = extractIRI(role['bfo:realized_in']);
+    const actIRI = extractIRI(role['realized_in']);
     if (actIRI) {
       const act = graph['@graph'].find(n => n['@id'] === actIRI);
       assert(act, `Found act for ${role['rdfs:label']}`);
@@ -258,7 +258,7 @@ test('realization link points to IntentionalAct', () => {
 // Test Suite 6: Inverse Relations (AC-1.4.4)
 console.log('\nTest Suite 6: Inverse Relations (AC-1.4.4)');
 
-test('bearers have bfo:is_bearer_of inverse relation', () => {
+test('bearers have is_bearer_of inverse relation', () => {
   const builder = new SemanticGraphBuilder();
   const graph = builder.build('The doctor treats the patient');
 
@@ -266,10 +266,10 @@ test('bearers have bfo:is_bearer_of inverse relation', () => {
     n['@type'].includes('bfo:BFO_0000023'));
 
   roles.forEach(role => {
-    const bearerIRI = extractIRI(role['bfo:inheres_in']);
+    const bearerIRI = extractIRI(role['inheres_in']);
     const bearer = graph['@graph'].find(n => n['@id'] === bearerIRI);
 
-    assert(bearer['bfo:is_bearer_of'], 'Bearer has is_bearer_of');
+    assert(bearer['is_bearer_of'], 'Bearer has is_bearer_of');
   });
 });
 
@@ -281,10 +281,10 @@ test('is_bearer_of contains role IRI', () => {
     n['@type'].includes('bfo:BFO_0000023'));
 
   roles.forEach(role => {
-    const bearerIRI = extractIRI(role['bfo:inheres_in']);
+    const bearerIRI = extractIRI(role['inheres_in']);
     const bearer = graph['@graph'].find(n => n['@id'] === bearerIRI);
 
-    const bearerOf = extractIRIs(bearer['bfo:is_bearer_of']);
+    const bearerOf = extractIRIs(bearer['is_bearer_of']);
 
     assert(bearerOf.includes(role['@id']),
       `Bearer's is_bearer_of includes ${role['@id']}`);
@@ -389,20 +389,20 @@ test('complex: "The doctor must allocate the ventilator"', () => {
   assert(agentRole, 'Agent role exists');
 
   // AC-1.4.2: Bearer link (points to Tier 2 entity in two-tier architecture)
-  const bearerIRI = extractIRI(agentRole['bfo:inheres_in']);
+  const bearerIRI = extractIRI(agentRole['inheres_in']);
   assert(bearerIRI, 'Has bearer');
   const bearer = graph['@graph'].find(n => n['@id'] === bearerIRI);
   const isTier2Entity = bearer['@type'].some(t => t.includes('cco:'));
   assert(isTier2Entity, 'Bearer is Tier 2 entity');
 
   // AC-1.4.3: Realization link (may be would_be_realized_in for "must" modal)
-  const realizationIRI = extractIRI(agentRole['bfo:realized_in']) || extractIRI(agentRole['tagteam:would_be_realized_in']);
+  const realizationIRI = extractIRI(agentRole['realized_in']) || extractIRI(agentRole['tagteam:would_be_realized_in']);
   assert(realizationIRI, 'Has realization or would-be realization');
   const act = graph['@graph'].find(n => n['@id'] === realizationIRI);
   assert(act, 'Act exists');
 
   // AC-1.4.4: Inverse consistency
-  const bearerOf = extractIRIs(bearer['bfo:is_bearer_of']);
+  const bearerOf = extractIRIs(bearer['is_bearer_of']);
   assert(bearerOf.includes(agentRole['@id']), 'Inverse relation consistent');
 });
 

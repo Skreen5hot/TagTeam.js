@@ -250,7 +250,7 @@ test('IBE node exists with cco:InformationBearingEntity type', () => {
   assert(ibes.length === 1, `Expected exactly 1 IBE, got ${ibes.length}`);
 });
 
-test('ICE nodes (entities + acts) link to IBE via cco:is_concretized_by', () => {
+test('ICE nodes (entities + acts) link to IBE via is_concretized_by', () => {
   const graph = buildTreeGraph(SENTENCES.svo);
   const nodes = getNodes(graph);
   const ibe = findByType(nodes, 'InformationBearingEntity')[0];
@@ -258,9 +258,9 @@ test('ICE nodes (entities + acts) link to IBE via cco:is_concretized_by', () => 
 
   const tier1 = findTier1(nodes);
   for (const node of tier1) {
-    assert(node['cco:is_concretized_by'],
-      `Tier 1 node ${node['@id']} missing cco:is_concretized_by`);
-    const ref = node['cco:is_concretized_by'];
+    assert(node['is_concretized_by'],
+      `Tier 1 node ${node['@id']} missing is_concretized_by`);
+    const ref = node['is_concretized_by'];
     const iri = typeof ref === 'object' ? ref['@id'] : ref;
     assert(iri === ibe['@id'],
       `Expected is_concretized_by → ${ibe['@id']}, got ${iri}`);
@@ -269,8 +269,8 @@ test('ICE nodes (entities + acts) link to IBE via cco:is_concretized_by', () => 
   // Text-extracted acts (exclude provenance ParsingAct — it IS the act of processing, not an extracted ICE)
   const acts = findByType(nodes, 'IntentionalAct').filter(a => !(a['@id'] || '').includes('ParsingAct'));
   for (const act of acts) {
-    assert(act['cco:is_concretized_by'],
-      `Act ${act['@id']} missing cco:is_concretized_by`);
+    assert(act['is_concretized_by'],
+      `Act ${act['@id']} missing is_concretized_by`);
   }
 });
 

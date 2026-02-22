@@ -208,7 +208,7 @@ test('ICE node has is_concretized_by link to IBE', () => {
   const result = builder.createValueAssertions(mockScoredValues, mockContext);
   const ice = result.iceNodes[0];
 
-  assert(ice['cco:is_concretized_by'] === mockContext.ibeIRI,
+  assert(ice['is_concretized_by'] === mockContext.ibeIRI,
     'ICE should be concretized by IBE');
 });
 
@@ -303,7 +303,7 @@ test('context dimension ICE has is_concretized_by', () => {
   const result = builder.createContextAssessments(mockContextIntensity, mockContext);
   const ice = result.iceNodes[0];
 
-  assert(ice['cco:is_concretized_by'] === mockContext.ibeIRI,
+  assert(ice['is_concretized_by'] === mockContext.ibeIRI,
     'Context ICE should be concretized by IBE');
 });
 

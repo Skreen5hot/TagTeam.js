@@ -124,7 +124,7 @@ function findRoleByBearer(graph, bearerLabel) {
   if (!bearer) return null;
 
   return getNodes(graph).find(n => {
-    const inheres = n['bfo:inheres_in'];
+    const inheres = n['inheres_in'];
     if (!inheres) return false;
     const inheresId = inheres['@id'] || inheres;
     // Check for role types (includes named roles AND BFO generic role bfo:BFO_0000023)

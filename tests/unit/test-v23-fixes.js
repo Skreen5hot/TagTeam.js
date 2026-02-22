@@ -57,7 +57,7 @@ console.log('Fix 1: PatientRole only on cco:Person');
 test('no PatientRole on artifacts', () => {
   const roles = findNodes('PatientRole');
   roles.forEach(role => {
-    const bearerIRI = role['bfo:inheres_in'];
+    const bearerIRI = role['inheres_in'];
     const bearer = findNodeById(bearerIRI);
     const bearerTypes = bearer ? bearer['@type'] : [];
 
@@ -70,7 +70,7 @@ test('no PatientRole on artifacts', () => {
 test('PatientRole only inheres in Person types', () => {
   const roles = findNodes('PatientRole');
   roles.forEach(role => {
-    const bearerIRI = role['bfo:inheres_in'];
+    const bearerIRI = role['inheres_in'];
     const bearer = findNodeById(bearerIRI);
     const bearerTypes = bearer ? bearer['@type'] : [];
 
@@ -90,7 +90,7 @@ test('ventilator does not bear PatientRole', () => {
 
   if (ventilator) {
     // Check if it has is_bearer_of pointing to a PatientRole
-    const bearerOf = ventilator['bfo:is_bearer_of'] || [];
+    const bearerOf = ventilator['is_bearer_of'] || [];
     const bearerArray = Array.isArray(bearerOf) ? bearerOf : [bearerOf];
 
     bearerArray.forEach(roleIRI => {
@@ -154,9 +154,9 @@ test('ObjectAggregate created for "two patients"', () => {
 test('ObjectAggregate has has_member relation', () => {
   const aggregates = findNodes('BFO_0000027');
   aggregates.forEach(agg => {
-    assert(agg['bfo:has_member'], 'Aggregate should have has_member');
-    assert(Array.isArray(agg['bfo:has_member']), 'has_member should be array');
-    assert(agg['bfo:has_member'].length >= 2, 'Should have 2+ members');
+    assert(agg['has_member_part'], 'Aggregate should have has_member');
+    assert(Array.isArray(agg['has_member_part']), 'has_member should be array');
+    assert(agg['has_member_part'].length >= 2, 'Should have 2+ members');
   });
 });
 
@@ -184,7 +184,7 @@ test('Prescribed act does not have realized_in roles', () => {
   prescribedActs.forEach(act => {
     const roles = findNodes('BFO_0000023');
     roles.forEach(role => {
-      if (role['bfo:realized_in'] === act['@id']) {
+      if (role['realized_in'] === act['@id']) {
         // This would be a bug - Prescribed acts shouldn't have realized roles
         // But we use would_be_realized_in instead
       }

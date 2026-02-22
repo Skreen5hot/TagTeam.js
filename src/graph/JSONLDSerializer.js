@@ -93,8 +93,8 @@ class JSONLDSerializer {
       // ===== Week 2: Information Staircase Classes =====
       InformationBearingEntity: 'cco:InformationBearingEntity',
       InformationContentEntity: 'cco:InformationContentEntity',
-      ArtificialAgent: 'cco:Agent',
-      ActOfArtificialProcessing: 'cco:IntentionalAct',
+      // ArtificialAgent and ActOfArtificialProcessing removed — dead aliases,
+      // code emits cco:Agent and cco:IntentionalAct directly
 
       // ===== GIT-Minimal Classes =====
       AutomatedDetection: 'tagteam:AutomatedDetection',
@@ -121,9 +121,9 @@ class JSONLDSerializer {
       prescribes: { '@id': 'cco:prescribes', '@type': '@id' },
       prescribed_by: { '@id': 'tagteam:prescribed_by', '@type': '@id' },
 
-      // ===== Week 2: ICE Concretization (Information Staircase) =====
-      is_concretized_by: { '@id': 'cco:is_concretized_by', '@type': '@id' },
-      concretizes: { '@id': 'cco:concretizes', '@type': '@id' },
+      // ===== ICE Concretization (BFO 2020) =====
+      is_concretized_by: { '@id': 'bfo:BFO_0000058', '@type': '@id' },
+      concretizes: { '@id': 'bfo:BFO_0000059', '@type': '@id' },
 
       // ===== Tier 1 Relations =====
       has_component: { '@id': 'tagteam:has_component', '@type': '@id' },
@@ -131,13 +131,13 @@ class JSONLDSerializer {
       corefersWith: { '@id': 'tagteam:corefersWith', '@type': '@id' },
       describes_quality: { '@id': 'tagteam:describes_quality', '@type': '@id' },
 
-      // ===== Tier 2 Relations (BFO) =====
-      inheres_in: { '@id': 'bfo:BFO_0000052', '@type': '@id' },
-      is_bearer_of: { '@id': 'bfo:BFO_0000053', '@type': '@id' },
+      // ===== Tier 2 Relations (BFO 2020) =====
+      inheres_in: { '@id': 'bfo:BFO_0000197', '@type': '@id' },
+      is_bearer_of: { '@id': 'bfo:BFO_0000196', '@type': '@id' },
       realized_in: { '@id': 'bfo:BFO_0000054', '@type': '@id' },
       realizes: { '@id': 'bfo:BFO_0000055', '@type': '@id' },
       has_participant: { '@id': 'bfo:BFO_0000057', '@type': '@id' },
-      has_member: { '@id': 'bfo:BFO_0000051', '@type': '@id' },
+      has_member_part: { '@id': 'bfo:BFO_0000115', '@type': '@id' },
 
       // v2.3: Role realization (for Prescribed acts where role is not yet realized)
       would_be_realized_in: { '@id': 'tagteam:would_be_realized_in', '@type': '@id' },

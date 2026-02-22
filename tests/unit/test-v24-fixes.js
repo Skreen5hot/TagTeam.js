@@ -69,7 +69,7 @@ test('aggregate members have PatientRole', () => {
   // Each person member should have a PatientRole that inheres in it
   members.forEach(member => {
     const hasPatientRole = patientRoles.some(role =>
-      role['bfo:inheres_in'] === member['@id']
+      role['inheres_in'] === member['@id']
     );
     assert(hasPatientRole, `Member ${member['@id']} should have PatientRole`);
   });
@@ -80,7 +80,7 @@ test('PatientRoles inhere in Person members (not aggregate)', () => {
   const aggregates = findNodes('BFO_0000027');
 
   patientRoles.forEach(role => {
-    const bearer = findNodeById(role['bfo:inheres_in']);
+    const bearer = findNodeById(role['inheres_in']);
     if (bearer) {
       // Should NOT be an aggregate
       const isAggregate = bearer['@type']?.some(t => t.includes('BFO_0000027'));
@@ -93,14 +93,14 @@ test('PatientRoles inhere in Person members (not aggregate)', () => {
   });
 });
 
-test('member bfo:is_bearer_of links to PatientRole', () => {
+test('member is_bearer_of links to PatientRole', () => {
   const members = graph['@graph'].filter(n =>
     n['tagteam:member_index'] !== undefined &&
     n['@type']?.includes('cco:Person')
   );
 
   members.forEach(member => {
-    const bearerOf = member['bfo:is_bearer_of'] || [];
+    const bearerOf = member['is_bearer_of'] || [];
     const bearerArray = Array.isArray(bearerOf) ? bearerOf : [bearerOf];
 
     // Should have at least one role (PatientRole or Quality)
@@ -135,9 +135,9 @@ test('Quality nodes have inheres_in link to Person', () => {
   const qualities = findNodes('BFO_0000019');
 
   qualities.forEach(quality => {
-    assert(quality['bfo:inheres_in'], 'Quality should have inheres_in');
+    assert(quality['inheres_in'], 'Quality should have inheres_in');
 
-    const bearer = findNodeById(quality['bfo:inheres_in']);
+    const bearer = findNodeById(quality['inheres_in']);
     assert(bearer, 'Quality bearer should exist');
 
     const isPerson = bearer['@type']?.some(t => t.includes('cco:Person'));
@@ -170,7 +170,7 @@ test('Person members bear both PatientRole and Quality', () => {
   );
 
   members.forEach(member => {
-    const bearerOf = member['bfo:is_bearer_of'] || [];
+    const bearerOf = member['is_bearer_of'] || [];
     const bearerArray = Array.isArray(bearerOf) ? bearerOf : [bearerOf];
 
     // Check for PatientRole
@@ -214,7 +214,7 @@ test('AgentRole uses would_be_realized_in (not realized_in) for Prescribed', () 
   const agentRoles = findNodes('AgentRole');
   agentRoles.forEach(role => {
     // For Prescribed acts, should use would_be_realized_in
-    assert(role['tagteam:would_be_realized_in'] || role['bfo:realized_in'],
+    assert(role['tagteam:would_be_realized_in'] || role['realized_in'],
       'Role should have realization link');
   });
 });

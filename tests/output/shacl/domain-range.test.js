@@ -90,7 +90,7 @@ describe('Domain/Range SHACL Validation', function() {
       const graph = parseToGraph('The doctor treats the patient.');
 
       const role = semantic.findNode(graph, n =>
-        n['bfo:inheres_in'] && n['@type']?.some(t => t.includes('Role'))
+        n['inheres_in'] && n['@type']?.some(t => t.includes('Role'))
       );
 
       if (role) {
@@ -108,7 +108,7 @@ describe('Domain/Range SHACL Validation', function() {
       );
 
       if (quality) {
-        expect(quality['bfo:inheres_in']).toBeTruthy();
+        expect(quality['inheres_in']).toBeTruthy();
         const result = semantic.passesSHACLValidation(graph);
         expect(result.valid).toBe(true);
       }

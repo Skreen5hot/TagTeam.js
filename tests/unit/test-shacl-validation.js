@@ -81,7 +81,7 @@ test('ICE with is_concretized_by passes', () => {
       {
         '@id': 'inst:Autonomy_ICE_123',
         '@type': ['tagteam:EthicalValueICE', 'cco:InformationContentEntity'],
-        'cco:is_concretized_by': 'inst:Input_IBE_456'
+        'is_concretized_by': 'inst:Input_IBE_456'
       },
       {
         '@id': 'inst:Input_IBE_456',
@@ -438,7 +438,7 @@ test('is_concretized_by with valid target passes', () => {
       {
         '@id': 'inst:ICE_0',
         '@type': ['cco:InformationContentEntity'],
-        'cco:is_concretized_by': 'inst:IBE_0'
+        'is_concretized_by': 'inst:IBE_0'
       },
       {
         '@id': 'inst:IBE_0',
@@ -544,7 +544,7 @@ test('perfect graph has high compliance score', () => {
       {
         '@id': 'inst:ICE_0',
         '@type': ['cco:InformationContentEntity'],
-        'cco:is_concretized_by': 'inst:IBE_0'
+        'is_concretized_by': 'inst:IBE_0'
       },
       {
         '@id': 'inst:IBE_0',
@@ -646,7 +646,7 @@ test('validates realistic TagTeam graph', () => {
       {
         '@id': 'inst:Autonomy_ICE_def456',
         '@type': ['tagteam:EthicalValueICE', 'cco:InformationContentEntity', 'owl:NamedIndividual'],
-        'cco:is_concretized_by': 'inst:Input_Text_IBE_abc123',
+        'is_concretized_by': 'inst:Input_Text_IBE_abc123',
         'tagteam:valueName': 'Autonomy'
       },
       // Value Assertion

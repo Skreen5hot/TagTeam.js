@@ -33,8 +33,8 @@ export interface DiscourseReferent extends JSONLDNode {
  */
 export interface Role extends JSONLDNode {
   '@type': 'bfo:BFO_0000023' | ['bfo:BFO_0000023', 'owl:NamedIndividual'];
-  'bfo:inheres_in': string; // IRI of bearer (REQUIRED per SHACL)
-  'bfo:realized_in'?: string; // IRI of process (optional - dormant roles valid)
+  'inheres_in': string; // IRI of bearer (REQUIRED per SHACL)
+  'realized_in'?: string; // IRI of process (optional - dormant roles valid)
 }
 
 /**
@@ -43,7 +43,7 @@ export interface Role extends JSONLDNode {
 export interface IntentionalAct extends JSONLDNode {
   '@type': 'cco:IntentionalAct' | ['cco:IntentionalAct', 'owl:NamedIndividual'];
   'cco:has_agent'?: string; // IRI of agent discourse referent
-  'bfo:has_participant'?: string | string[];
+  'has_participant'?: string | string[];
   'cco:affects'?: string;
   'tagteam:verb'?: string;
   'tagteam:modality'?: 'obligation' | 'permission' | 'prohibition';
@@ -99,7 +99,7 @@ export interface ContextAssessmentEvent extends AssertionEvent {
 export interface InformationContentEntity extends JSONLDNode {
   '@type': 'cco:InformationContentEntity' | ['cco:InformationContentEntity', 'owl:NamedIndividual'];
   'cco:is_about'?: string; // IRI of act/entity
-  'cco:is_concretized_by'?: string; // IRI of IBE (REQUIRED per SHACL)
+  'is_concretized_by'?: string; // IRI of IBE (REQUIRED per SHACL)
   'tagteam:polarity'?: number;
   'tagteam:salience'?: number;
 }
@@ -110,7 +110,7 @@ export interface InformationContentEntity extends JSONLDNode {
 export interface InformationBearingEntity extends JSONLDNode {
   '@type': 'cco:InformationBearingEntity' | ['cco:InformationBearingEntity', 'owl:NamedIndividual'];
   'cco:has_text_value': string; // Full input text
-  'cco:concretizes'?: string | string[]; // IRIs of ICEs
+  'concretizes'?: string | string[]; // IRIs of ICEs
   'tagteam:received_at'?: string; // ISO 8601 datetime
 }
 

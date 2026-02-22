@@ -67,7 +67,7 @@ class InformationStaircaseBuilder {
    * The parser agent represents TagTeam as an intentional agent
    * performing detection acts. Used in detected_by relations.
    *
-   * @returns {Object} ArtificialAgent node for @graph
+   * @returns {Object} cco:Agent node for @graph
    */
   createParserAgent() {
     // Return cached node if already created

@@ -48,13 +48,13 @@ console.log('Verifying AC-1.4.2: Role Bearer Link');
 console.log('  CRITICAL: Every Role MUST have a bearer (BFO principle: Bearer Necessity)');
 
 roles.forEach(role => {
-  assert(role['bfo:inheres_in'], `${role['rdfs:label']} has bearer`);
-  const bearer = graph['@graph'].find(n => n['@id'] === role['bfo:inheres_in']);
+  assert(role['inheres_in'], `${role['rdfs:label']} has bearer`);
+  const bearer = graph['@graph'].find(n => n['@id'] === role['inheres_in']);
   assert(bearer, `Bearer exists for ${role['rdfs:label']}`);
   assert(bearer['@type'].includes('tagteam:DiscourseReferent'),
     `Bearer is DiscourseReferent for ${role['rdfs:label']}`);
 
-  console.log(`  ✓ ${role['rdfs:label']}: bearer = ${role['bfo:inheres_in']}`);
+  console.log(`  ✓ ${role['rdfs:label']}: bearer = ${role['inheres_in']}`);
 });
 
 console.log('✓ AC-1.4.2: Role Bearer Link - PASSED\n');
@@ -62,20 +62,20 @@ console.log('✓ AC-1.4.2: Role Bearer Link - PASSED\n');
 // AC-1.4.3: Role Realization Link (WARNING if missing - dormant roles valid)
 console.log('Verifying AC-1.4.3: Role Realization Link');
 
-const realizedRoles = roles.filter(r => r['bfo:realized_in']);
-const dormantRoles = roles.filter(r => !r['bfo:realized_in']);
+const realizedRoles = roles.filter(r => r['realized_in']);
+const dormantRoles = roles.filter(r => !r['realized_in']);
 
 console.log(`  Realized roles: ${realizedRoles.length}`);
 console.log(`  Dormant roles: ${dormantRoles.length} (ontologically valid)`);
 
 // Realized roles should link to acts
 realizedRoles.forEach(role => {
-  const act = graph['@graph'].find(n => n['@id'] === role['bfo:realized_in']);
+  const act = graph['@graph'].find(n => n['@id'] === role['realized_in']);
   assert(act, `Act exists for realization of ${role['rdfs:label']}`);
   assert(act['@type'].some(t => t.includes('IntentionalAct') || t.includes('ActOf')),
     `Realization is IntentionalAct for ${role['rdfs:label']}`);
 
-  console.log(`  ✓ ${role['rdfs:label']}: realized_in = ${role['bfo:realized_in']}`);
+  console.log(`  ✓ ${role['rdfs:label']}: realized_in = ${role['realized_in']}`);
 });
 
 if (dormantRoles.length > 0) {
@@ -90,16 +90,16 @@ console.log('Verifying AC-1.4.4: Inverse Relations Consistency');
 console.log('  Verifying: if A inheres_in B, then B is_bearer_of A');
 
 roles.forEach(role => {
-  const bearerIRI = role['bfo:inheres_in'];
+  const bearerIRI = role['inheres_in'];
   const bearer = graph['@graph'].find(n => n['@id'] === bearerIRI);
 
   assert(bearer, `Bearer exists for ${role['rdfs:label']}`);
 
   // Check inverse relation exists
-  if (bearer['bfo:is_bearer_of']) {
-    const bearerOfArray = Array.isArray(bearer['bfo:is_bearer_of'])
-      ? bearer['bfo:is_bearer_of']
-      : [bearer['bfo:is_bearer_of']];
+  if (bearer['is_bearer_of']) {
+    const bearerOfArray = Array.isArray(bearer['is_bearer_of'])
+      ? bearer['is_bearer_of']
+      : [bearer['is_bearer_of']];
 
     assert(bearerOfArray.includes(role['@id']),
       `Inverse relation consistent for ${role['rdfs:label']}`);

@@ -2235,7 +2235,7 @@ class ActExtractor {
       node['tagteam:comitative'] = { '@id': actInfo.links.comitative };
     }
 
-    // V7-009: Auto-populate bfo:has_participant as superproperty
+    // V7-009: Auto-populate has_participant (BFO_0000057) as superproperty
     // has_participant aggregates all semantic participants (agent, patient, oblique roles, etc.)
     const participants = [];
 
@@ -2283,7 +2283,7 @@ class ActExtractor {
     }
 
     if (participants.length > 0) {
-      node['bfo:has_participant'] = participants.map(p => ({ '@id': p }));
+      node['has_participant'] = participants.map(p => ({ '@id': p }));
     }
 
     return node;

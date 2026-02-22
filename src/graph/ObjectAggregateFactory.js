@@ -156,7 +156,7 @@ class ObjectAggregateFactory {
       '@type': ['bfo:BFO_0000027', 'owl:NamedIndividual'], // Object Aggregate
       'rdfs:label': `Aggregate of ${label}`,
       // Use object notation with @id for JSON-LD compliance
-      'bfo:has_member': members.map(m => ({ '@id': m['@id'] })),
+      'has_member_part': members.map(m => ({ '@id': m['@id'] })),
       'tagteam:member_count': members.length,
       'tagteam:instantiated_at': new Date().toISOString()
     };

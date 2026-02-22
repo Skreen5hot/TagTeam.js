@@ -159,16 +159,16 @@ function normalizeGraphForAnalysis(result) {
       act[prop] = { '@id': targetId };
     }
 
-    // Also add bfo:has_participant for participant collection tests
-    if (!act['bfo:has_participant']) act['bfo:has_participant'] = [];
-    if (!Array.isArray(act['bfo:has_participant'])) {
-      act['bfo:has_participant'] = [act['bfo:has_participant']];
+    // Also add has_participant for participant collection tests
+    if (!act['has_participant']) act['has_participant'] = [];
+    if (!Array.isArray(act['has_participant'])) {
+      act['has_participant'] = [act['has_participant']];
     }
-    const already = act['bfo:has_participant'].some(p =>
+    const already = act['has_participant'].some(p =>
       (typeof p === 'string' ? p : p['@id']) === targetId
     );
     if (!already) {
-      act['bfo:has_participant'].push({ '@id': targetId });
+      act['has_participant'].push({ '@id': targetId });
     }
   });
 

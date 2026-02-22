@@ -683,7 +683,7 @@ class SemanticGraphBuilder {
     this.addNode(ibeNode);
     this.addNode(parserAgentNode);
 
-    // Phase 2.1b: Link all ICE nodes to IBE via cco:is_concretized_by
+    // Phase 2.1b: Link all ICE nodes to IBE via is_concretized_by (BFO_0000058)
     // ICE types: DiscourseReferent, VerbPhrase, DirectiveContent, ScarcityAssertion, DeonticContent
     const iceTypes = [
       'tagteam:DiscourseReferent',
@@ -695,8 +695,8 @@ class SemanticGraphBuilder {
     this.nodes.forEach(node => {
       const types = node['@type'] || [];
       const isICE = iceTypes.some(iceType => types.includes(iceType));
-      if (isICE && !node['cco:is_concretized_by']) {
-        node['cco:is_concretized_by'] = { '@id': ibeNode['@id'] };
+      if (isICE && !node['is_concretized_by']) {
+        node['is_concretized_by'] = { '@id': ibeNode['@id'] };
       }
     });
 
@@ -791,7 +791,7 @@ class SemanticGraphBuilder {
       );
       const roles = roleNodes.map(r => ({
         act: r['bfo:is_realized_by']?.['@id'] || r['bfo:role_of']?.['@id'],
-        entity: r['bfo:inheres_in']?.['@id'],
+        entity: r['inheres_in']?.['@id'],
         type: r['@type']?.some(t => t.includes('AgentRole')) ? 'agent' : 'patient'
       }));
 
@@ -1405,10 +1405,10 @@ class SemanticGraphBuilder {
    * @private
    */
   _linkReferentsToQualities(referents, entities, qualities, linkMap) {
-    // Build a map from entity IRI to its qualities (via bfo:inheres_in)
+    // Build a map from entity IRI to its qualities (via inheres_in / BFO_0000197)
     const entityToQualities = new Map();
     qualities.forEach(quality => {
-      const inheresIn = quality['bfo:inheres_in'];
+      const inheresIn = quality['inheres_in'];
       const bearerIRI = typeof inheresIn === 'object' ? inheresIn['@id'] : inheresIn;
       if (bearerIRI) {
         if (!entityToQualities.has(bearerIRI)) {
@@ -1423,7 +1423,7 @@ class SemanticGraphBuilder {
     entities.forEach(entity => {
       const types = entity['@type'] || [];
       if (types.some(t => t.includes('BFO_0000027'))) { // Object Aggregate
-        const members = entity['bfo:has_member'] || [];
+        const members = entity['has_member_part'] || [];
         const memberIRIs = members.map(m => typeof m === 'object' ? m['@id'] : m);
         aggregateToMembers.set(entity['@id'], memberIRIs);
       }
@@ -1630,7 +1630,7 @@ class SemanticGraphBuilder {
       if (!clause) continue;
 
       for (const act of actsInClause) {
-        const argumentProperties = ['cco:has_agent', 'cco:affects', 'cco:has_recipient', 'bfo:has_participant'];
+        const argumentProperties = ['cco:has_agent', 'cco:affects', 'cco:has_recipient', 'has_participant'];
 
         argumentProperties.forEach(prop => {
           const argValue = act[prop];
@@ -2114,12 +2114,12 @@ class SemanticGraphBuilder {
       graphNodes.push(ibeNode);
       graphNodes.push(parserAgentNode);
 
-      // Link all ICE nodes to IBE via cco:is_concretized_by
+      // Link all ICE nodes to IBE via is_concretized_by (BFO_0000058)
       const iceTypes = ['tagteam:DiscourseReferent', 'tagteam:VerbPhrase'];
       for (const node of graphNodes) {
         const types = [].concat(node['@type'] || []);
-        if (iceTypes.some(t => types.includes(t)) && !node['cco:is_concretized_by']) {
-          node['cco:is_concretized_by'] = { '@id': ibeNode['@id'] };
+        if (iceTypes.some(t => types.includes(t)) && !node['is_concretized_by']) {
+          node['is_concretized_by'] = { '@id': ibeNode['@id'] };
         }
       }
 

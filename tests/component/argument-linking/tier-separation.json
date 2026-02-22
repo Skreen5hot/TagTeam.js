@@ -80,7 +80,7 @@
       "assertions": [
         {
           "roleType": "AgentRole",
-          "property": "bfo:is_bearer_of",
+          "property": "is_bearer_of",
           "sourcePattern": "inst:Person_",
           "note": "Role borne by Tier 2 entity, not DiscourseReferent"
         }

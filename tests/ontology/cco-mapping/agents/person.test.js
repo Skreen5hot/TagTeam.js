@@ -194,7 +194,7 @@ describe('CCO Person Mapping', function() {
 
       if (quality) {
         // Quality should inhere in the patient
-        expect(quality['bfo:inheres_in']).toBeTruthy();
+        expect(quality['inheres_in']).toBeTruthy();
       }
     });
 
@@ -206,7 +206,7 @@ describe('CCO Person Mapping', function() {
       );
 
       if (quality) {
-        const inheresIn = quality['bfo:inheres_in'];
+        const inheresIn = quality['inheres_in'];
         expect(inheresIn).toBeTruthy();
 
         const bearerId = inheresIn['@id'] || inheresIn;

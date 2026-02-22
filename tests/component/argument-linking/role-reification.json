@@ -13,7 +13,7 @@
         }
       ]
     },
-    "sourceOfTruth": "CCO AgentRole reification via bfo:is_bearer_of",
+    "sourceOfTruth": "CCO AgentRole reification via is_bearer_of",
     "description": "AgentRole instance with bearer and realized_in"
   },
   {
@@ -30,7 +30,7 @@
         }
       ]
     },
-    "sourceOfTruth": "CCO PatientRole reification via bfo:is_bearer_of",
+    "sourceOfTruth": "CCO PatientRole reification via is_bearer_of",
     "description": "PatientRole instance with bearer and realized_in"
   },
   {
@@ -64,7 +64,7 @@
       "assertions": [
         {
           "entity": "the engineer",
-          "property": "bfo:is_bearer_of",
+          "property": "is_bearer_of",
           "target": "AgentRole"
         },
         {

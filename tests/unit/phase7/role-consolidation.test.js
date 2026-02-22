@@ -96,7 +96,7 @@ test('Only one AgentRole node for "patient" across multiple acts', () => {
   const agentRoles = findAgentRoles(multiActGraph);
   // Filter to roles that inhere in patient
   const patientRoles = agentRoles.filter(r => {
-    const inheres = r['bfo:inheres_in'];
+    const inheres = r['inheres_in'];
     const iri = inheres ? (inheres['@id'] || inheres) : '';
     return iri.toLowerCase().includes('patient');
   });
@@ -107,7 +107,7 @@ test('Only one AgentRole node for "patient" across multiple acts', () => {
 test('Consolidated role has array realized_in when multiple acts', () => {
   const agentRoles = findAgentRoles(multiActGraph);
   const patientRole = agentRoles.find(r => {
-    const inheres = r['bfo:inheres_in'];
+    const inheres = r['inheres_in'];
     const iri = inheres ? (inheres['@id'] || inheres) : '';
     return iri.toLowerCase().includes('patient');
   });
@@ -116,7 +116,7 @@ test('Consolidated role has array realized_in when multiple acts', () => {
     return;
   }
 
-  const realized = patientRole['bfo:realized_in'];
+  const realized = patientRole['realized_in'];
   if (Array.isArray(realized)) {
     assert.ok(realized.length >= 2,
       `Expected 2+ acts in realized_in array, got ${realized.length}`);
@@ -129,7 +129,7 @@ test('Consolidated role has array realized_in when multiple acts', () => {
 test('Role label is bearer-only (no act verb)', () => {
   const agentRoles = findAgentRoles(multiActGraph);
   const patientRole = agentRoles.find(r => {
-    const inheres = r['bfo:inheres_in'];
+    const inheres = r['inheres_in'];
     const iri = inheres ? (inheres['@id'] || inheres) : '';
     return iri.toLowerCase().includes('patient');
   });
@@ -145,7 +145,7 @@ test('Role label is bearer-only (no act verb)', () => {
     `Label should NOT contain " in <verb>", got: "${label}"`);
 });
 
-test('Bearer has exactly one bfo:is_bearer_of reference', () => {
+test('Bearer has exactly one is_bearer_of reference', () => {
   const nodes = getNodes(multiActGraph);
   const patientNode = nodes.find(n =>
     (n['rdfs:label'] || '').toLowerCase().includes('patient') &&
@@ -156,7 +156,7 @@ test('Bearer has exactly one bfo:is_bearer_of reference', () => {
     return;
   }
 
-  const bearerOf = patientNode['bfo:is_bearer_of'];
+  const bearerOf = patientNode['is_bearer_of'];
   if (bearerOf) {
     const refs = Array.isArray(bearerOf) ? bearerOf : [bearerOf];
     // Deduplicate by IRI
@@ -176,12 +176,12 @@ test('Single-act sentence produces one role with single realized_in', () => {
   assert.ok(agentRoles.length >= 1, 'Should have at least one agent role');
 
   const doctorRole = agentRoles.find(r => {
-    const inheres = r['bfo:inheres_in'];
+    const inheres = r['inheres_in'];
     const iri = inheres ? (inheres['@id'] || inheres) : '';
     return iri.toLowerCase().includes('doctor');
   });
   if (doctorRole) {
-    const realized = doctorRole['bfo:realized_in'];
+    const realized = doctorRole['realized_in'];
     // Single act: should be object, not array
     assert.ok(!Array.isArray(realized),
       'Single-act role should have object realized_in, not array');

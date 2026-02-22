@@ -8,7 +8,7 @@
       "links": [
         {
           "act": "fix",
-          "property": "bfo:has_participant",
+          "property": "has_participant",
           "targets": ["the engineer", "the bug"]
         }
       ]
@@ -35,12 +35,12 @@
         },
         {
           "act": "deploy",
-          "property": "bfo:has_participant",
+          "property": "has_participant",
           "target": "the admin"
         },
         {
           "act": "deploy",
-          "property": "bfo:has_participant",
+          "property": "has_participant",
           "target": "the patch"
         }
       ]
@@ -57,7 +57,7 @@
       "links": [
         {
           "act": "download",
-          "property": "bfo:has_participant",
+          "property": "has_participant",
           "minCount": 2,
           "maxCount": 3,
           "note": "Agent + patient required, source optional"
@@ -76,7 +76,7 @@
       "links": [
         {
           "act": "fail",
-          "property": "bfo:has_participant",
+          "property": "has_participant",
           "targets": ["the server"]
         }
       ]

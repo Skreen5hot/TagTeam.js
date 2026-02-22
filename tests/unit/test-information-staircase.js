@@ -233,7 +233,7 @@ test('value assertion ICE links to IBE via is_concretized_by', () => {
 
   assert(ices.length > 0, 'Should create ICE nodes');
   ices.forEach(ice => {
-    assert(ice['cco:is_concretized_by'] === ibe['@id'],
+    assert(ice['is_concretized_by'] === ibe['@id'],
       'ICE should be concretized by IBE');
   });
 });
@@ -309,7 +309,7 @@ test('complete chain: Literal → IBE → ICE → Assertion', () => {
     'IBE contains literal');
 
   // ICE is concretized by IBE
-  assert(ice['cco:is_concretized_by'] === ibe['@id'],
+  assert(ice['is_concretized_by'] === ibe['@id'],
     'ICE is concretized by IBE');
 
   // Assertion asserts ICE

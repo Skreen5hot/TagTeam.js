@@ -7,7 +7,7 @@
  *
  * Phase 4 Two-Tier Architecture v2.4:
  * - "critically ill" → Quality inhering in Person
- * - Links qualities to bearers via bfo:inheres_in
+ * - Links qualities to bearers via inheres_in (BFO_0000197)
  *
  * @module graph/QualityFactory
  * @version 4.0.0-phase4-v2.4
@@ -91,8 +91,8 @@ class QualityFactory {
       // Update entity with quality bearer links
       const updatedEntity = { ...entity };
       if (entityQualities.length > 0) {
-        updatedEntity['bfo:is_bearer_of'] = [
-          ...(updatedEntity['bfo:is_bearer_of'] || []),
+        updatedEntity['is_bearer_of'] = [
+          ...(updatedEntity['is_bearer_of'] || []),
           ...entityQualities
         ];
       }
@@ -126,7 +126,7 @@ class QualityFactory {
       '@type': [mapping.type, 'bfo:BFO_0000019', 'owl:NamedIndividual'],
       'rdfs:label': `${mapping.label} of ${bearer['rdfs:label']}`,
       // Use object notation with @id for JSON-LD compliance
-      'bfo:inheres_in': { '@id': bearer['@id'] },
+      'inheres_in': { '@id': bearer['@id'] },
       'tagteam:qualifierText': qualifier,
       'tagteam:instantiated_at': new Date().toISOString()
     };
@@ -158,7 +158,7 @@ class QualityFactory {
       '@type': ['bfo:BFO_0000019', 'owl:NamedIndividual'],
       'rdfs:label': `${qualifier} quality of ${bearer['rdfs:label']}`,
       // Use object notation with @id for JSON-LD compliance
-      'bfo:inheres_in': { '@id': bearer['@id'] },
+      'inheres_in': { '@id': bearer['@id'] },
       'tagteam:qualifierText': qualifier,
       'tagteam:instantiated_at': new Date().toISOString()
     };

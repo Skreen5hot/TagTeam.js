@@ -173,7 +173,7 @@ class RoleDetector {
 
       // Detect participant roles (from has_participant)
       // ENH-015: Use preposition to determine specific role type
-      const participantIRIs = extractIRIs(act['bfo:has_participant']);
+      const participantIRIs = extractIRIs(act['has_participant']);
       if (participantIRIs.length > 0) {
         participantIRIs.forEach(participantIRI => {
           if (participantIRI === agentIRI || participantIRI === affectedIRI) return;
@@ -181,7 +181,7 @@ class RoleDetector {
           const bearer = entityIndex.get(participantIRI);
           if (bearer) {
             if (this._isObjectAggregate(bearer)) {
-              const members = extractIRIs(bearer['bfo:has_member']);
+              const members = extractIRIs(bearer['has_member_part']);
               members.forEach(memberIRI => {
                 const member = entityIndex.get(memberIRI);
                 if (member && this._isPersonEntity(member)) {
@@ -298,25 +298,25 @@ class RoleDetector {
    * @param {string} roleIRI - Role IRI
    */
   _addBearerLink(bearer, roleIRI) {
-    if (!bearer['bfo:is_bearer_of']) {
-      bearer['bfo:is_bearer_of'] = [];
+    if (!bearer['is_bearer_of']) {
+      bearer['is_bearer_of'] = [];
     }
-    if (!Array.isArray(bearer['bfo:is_bearer_of'])) {
-      bearer['bfo:is_bearer_of'] = [bearer['bfo:is_bearer_of']];
+    if (!Array.isArray(bearer['is_bearer_of'])) {
+      bearer['is_bearer_of'] = [bearer['is_bearer_of']];
     }
     // Deduplicate: don't add the same role IRI twice
-    const existing = bearer['bfo:is_bearer_of'].some(ref =>
+    const existing = bearer['is_bearer_of'].some(ref =>
       (typeof ref === 'object' ? ref['@id'] : ref) === roleIRI
     );
     if (!existing) {
-      bearer['bfo:is_bearer_of'].push({ '@id': roleIRI });
+      bearer['is_bearer_of'].push({ '@id': roleIRI });
     }
   }
 
   /**
    * Create a Role node
    *
-   * v2.3: Roles only have bfo:realized_in for Actual acts
+   * v2.3: Roles only have realized_in for Actual acts
    * For Prescribed/Planned acts, role exists but is not yet realized
    *
    * @param {Object} roleInfo - Role information
@@ -338,7 +338,7 @@ class RoleDetector {
       'rdfs:label': roleLabel,
       'tagteam:roleType': roleType,
       'tagteam:syntacticBasis': roleType,
-      'bfo:inheres_in': { '@id': bearerIRI }
+      'inheres_in': { '@id': bearerIRI }
     };
 
     // Separate actual vs non-actual acts
@@ -346,9 +346,9 @@ class RoleDetector {
     const wouldRealizeActs = actEntries.filter(e => !e.canRealize).map(e => ({ '@id': e.actIRI }));
 
     if (realizedActs.length === 1) {
-      role['bfo:realized_in'] = realizedActs[0];
+      role['realized_in'] = realizedActs[0];
     } else if (realizedActs.length > 1) {
-      role['bfo:realized_in'] = realizedActs;
+      role['realized_in'] = realizedActs;
     }
 
     if (wouldRealizeActs.length === 1) {

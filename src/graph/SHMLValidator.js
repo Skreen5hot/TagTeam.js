@@ -53,11 +53,14 @@ const KNOWN_CLASSES = new Set([
   'bfo:BFO_0000027', // ObjectAggregate
   'bfo:BFO_0000031', // GenericallyDependentContinuant
   'bfo:BFO_0000040', // MaterialEntity
-  'bfo:BFO_0000052', // inheres_in
-  'bfo:BFO_0000053', // is_bearer_of
+  'bfo:BFO_0000115', // has_member_part
+  'bfo:BFO_0000197', // inheres_in
+  'bfo:BFO_0000196', // is_bearer_of
   'bfo:BFO_0000054', // realized_in
   'bfo:BFO_0000055', // realizes
   'bfo:BFO_0000057', // has_participant
+  'bfo:BFO_0000058', // is_concretized_by
+  'bfo:BFO_0000059', // concretizes
 
   // CCO Classes
   'cco:Agent', 'cco:Person', 'cco:Organization', 'cco:GeopoliticalOrganization',
@@ -85,19 +88,13 @@ const KNOWN_CLASSES = new Set([
  * Known predicates for vocabulary validation
  */
 const KNOWN_PREDICATES = new Set([
-  // BFO Relations
-  'bfo:BFO_0000051', // has_member
-  'bfo:BFO_0000052', // inheres_in
-  'bfo:BFO_0000053', // is_bearer_of
-  'bfo:BFO_0000054', // realized_in
-  'bfo:BFO_0000055', // realizes
-  'bfo:BFO_0000057', // has_participant
-  'bfo:inheres_in', 'bfo:is_bearer_of', 'bfo:realized_in', 'bfo:realizes',
-  'bfo:has_participant', 'bfo:has_member',
+  // BFO Relations (bare aliases — resolved via @context to opaque IRIs)
+  'inheres_in', 'is_bearer_of', 'realized_in', 'realizes',
+  'has_participant', 'has_member_part',
+  'is_concretized_by', 'concretizes',
 
   // CCO Relations (verified)
   'cco:is_about', 'cco:prescribes', 'cco:has_recipient',
-  'cco:is_concretized_by', 'cco:concretizes',
   'cco:has_text_value',
   'cco:has_agent', 'cco:affects',
 
@@ -310,7 +307,7 @@ class SHMLValidator {
     // Rule 1: ICE should have is_concretized_by
     for (const ice of iceNodes) {
       total++;
-      if (ice['cco:is_concretized_by']) {
+      if (ice['is_concretized_by']) {
         passed++;
       } else {
         this._addIssue(
@@ -318,7 +315,7 @@ class SHMLValidator {
           'InformationStaircase',
           `ICE node ${ice['@id']} has no is_concretized_by link to IBE`,
           ice['@id'],
-          'Add cco:is_concretized_by property pointing to the IBE'
+          'Add is_concretized_by property pointing to the IBE'
         );
       }
     }
@@ -344,10 +341,10 @@ class SHMLValidator {
       total++;
       // Check if any ICE links to this IBE
       const hasConcretization = iceNodes.some(ice =>
-        extractIRI(ice['cco:is_concretized_by']) === ibe['@id']
+        extractIRI(ice['is_concretized_by']) === ibe['@id']
       );
 
-      if (hasConcretization || extractIRI(ibe['cco:concretizes'])) {
+      if (hasConcretization || extractIRI(ibe['concretizes'])) {
         passed++;
       } else {
         this._addIssue(
@@ -390,7 +387,7 @@ class SHMLValidator {
     // Build reverse map: role ID -> bearer (from is_bearer_of on entities)
     const roleBearers = new Map();
     for (const node of nodes) {
-      const bearerOf = node['cco:is_bearer_of'] || node['bfo:is_bearer_of'] || node['bfo:BFO_0000053'];
+      const bearerOf = node['is_bearer_of'];
       if (bearerOf) {
         const roles = Array.isArray(bearerOf) ? bearerOf : [bearerOf];
         for (const roleId of roles) {
@@ -404,7 +401,7 @@ class SHMLValidator {
       // Check: (1) reverse link via is_bearer_of, OR (2) direct link via inheres_in
       total++;
       const hasReverseLink = roleBearers.has(role['@id']);
-      const inheresIn = extractIRI(role['bfo:inheres_in']) || extractIRI(role['bfo:BFO_0000052']);
+      const inheresIn = extractIRI(role['inheres_in']);
       const hasDirectLink = inheresIn && nodeMap.has(inheresIn);
 
       if (hasReverseLink || hasDirectLink) {
@@ -419,13 +416,13 @@ class SHMLValidator {
           'RolePattern',
           `Role ${role['@id']} has no bearer - ontologically impossible`,
           role['@id'],
-          'Add bfo:inheres_in on role or bfo:is_bearer_of on bearer entity'
+          'Add inheres_in on role or is_bearer_of on bearer entity'
         );
       }
 
       // Rule 3: Role SHOULD be realized (WARNING)
       total++;
-      const isRealized = extractIRI(role['cco:realized_in']) || extractIRI(role['bfo:BFO_0000054']) ||
+      const isRealized = extractIRI(role['realized_in']) ||
         extractIRI(role['tagteam:would_be_realized_in']);
 
       // Also check if any process realizes this role
@@ -749,8 +746,8 @@ class SHMLValidator {
     let total = 0;
 
     for (const node of nodes) {
-      // is_concretized_by: ICE → IBE
-      const concretizedBy = extractIRI(node['cco:is_concretized_by']);
+      // is_concretized_by: ICE → IBE (BFO_0000058)
+      const concretizedBy = extractIRI(node['is_concretized_by']);
       if (concretizedBy) {
         total++;
         const target = nodeMap.get(concretizedBy);
@@ -768,8 +765,8 @@ class SHMLValidator {
         }
       }
 
-      // is_bearer_of: IndependentContinuant → Role
-      const bearerOfRaw = node['cco:is_bearer_of'] || node['bfo:BFO_0000053'];
+      // is_bearer_of: IndependentContinuant → Role (BFO_0000196)
+      const bearerOfRaw = node['is_bearer_of'];
       if (bearerOfRaw) {
         const roleIds = Array.isArray(bearerOfRaw)
           ? bearerOfRaw.map(r => extractIRI(r)).filter(Boolean)
@@ -922,7 +919,7 @@ class SHMLValidator {
       }
 
       // CCO Expert Checklist Rule: inheres_in - Domain: Role/Quality, Range: IndependentContinuant
-      const inheresIn = extractIRI(node['bfo:inheres_in']) || extractIRI(node['bfo:BFO_0000052']);
+      const inheresIn = extractIRI(node['inheres_in']);
       if (inheresIn) {
         total++;
         const nodeIsRoleOrQuality = this._hasType(node, 'Role') ||

@@ -61,7 +61,7 @@ describe('Prescribed Actuality Status', function() {
 
       if (role) {
         // Per ontology constraints, non-Actual acts use would_be_realized_in
-        const realization = role['tagteam:would_be_realized_in'] || role['bfo:realized_in'];
+        const realization = role['tagteam:would_be_realized_in'] || role['realized_in'];
         expect(realization).toBeTruthy();
       }
     });
@@ -75,7 +75,7 @@ describe('Prescribed Actuality Status', function() {
 
       if (role) {
         // Actual acts use realized_in
-        const realization = role['bfo:realized_in'];
+        const realization = role['realized_in'];
         if (realization) {
           expect(realization['@id']).toBeDefined();
         }

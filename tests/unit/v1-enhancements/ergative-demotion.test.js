@@ -88,7 +88,7 @@ test('AC-008.1b: "The server rebooted" → server is participant/patient', () =>
 
   // Server should be patient or participant
   const patient = getPatientOfAct(graph, 'reboot');
-  const hasParticipant = act['bfo:has_participant'];
+  const hasParticipant = act['has_participant'];
 
   assert.ok(patient || hasParticipant,
     'Server should be patient or participant');

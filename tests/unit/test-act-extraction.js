@@ -248,8 +248,8 @@ test('links participants array', () => {
 
   const allocAct = acts.find(a => a['tagteam:verb'] === 'allocate');
   if (allocAct) {
-    assert(allocAct['bfo:has_participant'], 'Has participants');
-    assert(Array.isArray(allocAct['bfo:has_participant']), 'Participants is array');
+    assert(allocAct['has_participant'], 'Has participants');
+    assert(Array.isArray(allocAct['has_participant']), 'Participants is array');
   }
 });
 
@@ -482,8 +482,8 @@ test('complex: "The doctor must allocate the last ventilator between two patient
   assert(allocAct['cco:has_agent'].includes('Person') ||
          allocAct['cco:has_agent'].includes('Doctor'),
     'Agent links to entity');
-  assert(allocAct['bfo:has_participant'], 'Has participants');
-  assert(Array.isArray(allocAct['bfo:has_participant']), 'Participants is array');
+  assert(allocAct['has_participant'], 'Has participants');
+  assert(Array.isArray(allocAct['has_participant']), 'Participants is array');
 
   // AC-1.3.3: ActualityStatus (v2.2)
   assert(allocAct['tagteam:actualityStatus'] === 'tagteam:Prescribed',
