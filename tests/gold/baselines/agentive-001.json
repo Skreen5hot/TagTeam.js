@@ -7,7 +7,7 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-22T19:07:16.644Z",
+  "generatedAt": "2026-02-22T19:35:06.939Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -145,7 +145,7 @@
         "rdfs:label": "suspect",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.644Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.939Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_83d812c2cd7a",
         "tagteam:denotesType": "Person"
       },
@@ -157,7 +157,7 @@
         ],
         "rdfs:label": "tracking team",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.644Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.939Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_83d812c2cd7a",
         "tagteam:denotesType": "Organization"
       },
@@ -171,16 +171,16 @@
         "has_text_value": "The suspect was located by the tracking team",
         "tagteam:char_count": 44,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T19:07:16.636Z"
+        "tagteam:received_at": "2026-02-22T19:35:06.923Z"
       },
       {
-        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@id": "inst:TagTeam_Parser_v3_0_0",
         "@type": [
           "Agent",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
-        "tagteam:version": "3.0.0-alpha.1",
+        "rdfs:label": "TagTeam.js Parser v3.0.0",
+        "tagteam:version": "3.0.0",
         "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
         "tagteam:capabilities": [
           "entity_extraction",
@@ -204,7 +204,7 @@
           "@id": "inst:Input_Text_IBE_83d812c2cd7a"
         },
         "has_agent": {
-          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+          "@id": "inst:TagTeam_Parser_v3_0_0"
         },
         "tagteam:has_output": [
           {
@@ -217,7 +217,7 @@
             "@id": "inst:Act_located"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.636Z"
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.923Z"
       }
     ]
   }

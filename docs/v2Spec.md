@@ -3,7 +3,7 @@
 **Version**: 2.0.0-spec-v1.3  
 **Date**: 2026-01-31  
 **Status**: Draft Specification  
-**Prerequisite**: TagTeam.js v1 (3.0.0-alpha.1) stable release
+**Prerequisite**: TagTeam.js v1 (3.0.0) stable release
 
 ---
 

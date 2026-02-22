@@ -7,7 +7,7 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-22T19:07:16.604Z",
+  "generatedAt": "2026-02-22T19:35:06.860Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -133,7 +133,7 @@
         "rdfs:label": "department",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.603Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.860Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a85a47690bea",
         "tagteam:denotesType": "Organization"
       },
@@ -145,7 +145,7 @@
         ],
         "rdfs:label": "several divisions",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.603Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.860Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a85a47690bea",
         "tagteam:denotesType": "Entity"
       },
@@ -159,16 +159,16 @@
         "has_text_value": "The department is composed of several divisions",
         "tagteam:char_count": 47,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T19:07:16.595Z"
+        "tagteam:received_at": "2026-02-22T19:35:06.845Z"
       },
       {
-        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@id": "inst:TagTeam_Parser_v3_0_0",
         "@type": [
           "Agent",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
-        "tagteam:version": "3.0.0-alpha.1",
+        "rdfs:label": "TagTeam.js Parser v3.0.0",
+        "tagteam:version": "3.0.0",
         "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
         "tagteam:capabilities": [
           "entity_extraction",
@@ -192,7 +192,7 @@
           "@id": "inst:Input_Text_IBE_a85a47690bea"
         },
         "has_agent": {
-          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+          "@id": "inst:TagTeam_Parser_v3_0_0"
         },
         "tagteam:has_output": [
           {
@@ -205,7 +205,7 @@
             "@id": "inst:Act_composed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.595Z"
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.845Z"
       }
     ]
   }

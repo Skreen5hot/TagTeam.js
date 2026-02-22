@@ -6,7 +6,7 @@
     "medical",
     "treatment"
   ],
-  "generatedAt": "2026-02-22T19:07:17.731Z",
+  "generatedAt": "2026-02-22T19:35:08.688Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -195,7 +195,7 @@
         "rdfs:label": "hospital",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:17.731Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:08.687Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdc26060bf87",
         "tagteam:denotesType": "Organization"
       },
@@ -207,7 +207,7 @@
         ],
         "rdfs:label": "patient",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:17.731Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:08.687Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdc26060bf87",
         "tagteam:denotesType": "Person"
       },
@@ -219,7 +219,7 @@
         ],
         "rdfs:label": "intensive care unit",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:17.731Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:08.688Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdc26060bf87",
         "tagteam:denotesType": "Entity"
       },
@@ -233,16 +233,16 @@
         "has_text_value": "The hospital admitted the patient to the intensive care unit",
         "tagteam:char_count": 60,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-22T19:07:17.722Z"
+        "tagteam:received_at": "2026-02-22T19:35:08.677Z"
       },
       {
-        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@id": "inst:TagTeam_Parser_v3_0_0",
         "@type": [
           "Agent",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
-        "tagteam:version": "3.0.0-alpha.1",
+        "rdfs:label": "TagTeam.js Parser v3.0.0",
+        "tagteam:version": "3.0.0",
         "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
         "tagteam:capabilities": [
           "entity_extraction",
@@ -266,7 +266,7 @@
           "@id": "inst:Input_Text_IBE_bdc26060bf87"
         },
         "has_agent": {
-          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+          "@id": "inst:TagTeam_Parser_v3_0_0"
         },
         "tagteam:has_output": [
           {
@@ -282,7 +282,7 @@
             "@id": "inst:Act_admitted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:07:17.722Z"
+        "tagteam:instantiated_at": "2026-02-22T19:35:08.677Z"
       }
     ]
   }

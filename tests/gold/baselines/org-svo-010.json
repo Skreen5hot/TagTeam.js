@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T19:07:16.117Z",
+  "generatedAt": "2026-02-22T19:35:06.016Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -133,7 +133,7 @@
         ],
         "rdfs:label": "secretary",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.117Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.016Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c2b4c510415a",
         "tagteam:denotesType": "Entity"
       },
@@ -145,7 +145,7 @@
         ],
         "rdfs:label": "statement",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.117Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.016Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c2b4c510415a",
         "tagteam:denotesType": "Entity"
       },
@@ -159,16 +159,16 @@
         "has_text_value": "The secretary issued a statement",
         "tagteam:char_count": 32,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-22T19:07:16.110Z"
+        "tagteam:received_at": "2026-02-22T19:35:06.005Z"
       },
       {
-        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@id": "inst:TagTeam_Parser_v3_0_0",
         "@type": [
           "Agent",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
-        "tagteam:version": "3.0.0-alpha.1",
+        "rdfs:label": "TagTeam.js Parser v3.0.0",
+        "tagteam:version": "3.0.0",
         "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
         "tagteam:capabilities": [
           "entity_extraction",
@@ -192,7 +192,7 @@
           "@id": "inst:Input_Text_IBE_c2b4c510415a"
         },
         "has_agent": {
-          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+          "@id": "inst:TagTeam_Parser_v3_0_0"
         },
         "tagteam:has_output": [
           {
@@ -208,7 +208,7 @@
             "@id": "inst:Act_issued"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.110Z"
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.005Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T19:07:17.021Z",
+  "generatedAt": "2026-02-22T19:35:07.583Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -115,7 +115,7 @@
         "rdfs:label": "office of field operation",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:17.021Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:07.583Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a8f0a8fb8925",
         "tagteam:denotesType": "Facility"
       },
@@ -127,7 +127,7 @@
         ],
         "rdfs:label": "field operation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:17.021Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:07.583Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a8f0a8fb8925",
         "tagteam:denotesType": "Entity"
       },
@@ -139,7 +139,7 @@
         ],
         "rdfs:label": "cbp",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:17.021Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:07.583Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a8f0a8fb8925",
         "tagteam:denotesType": "Organization"
       },
@@ -153,16 +153,16 @@
         "has_text_value": "The Office of Field Operations is the largest component of CBP",
         "tagteam:char_count": 62,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-22T19:07:17.013Z"
+        "tagteam:received_at": "2026-02-22T19:35:07.569Z"
       },
       {
-        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@id": "inst:TagTeam_Parser_v3_0_0",
         "@type": [
           "Agent",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
-        "tagteam:version": "3.0.0-alpha.1",
+        "rdfs:label": "TagTeam.js Parser v3.0.0",
+        "tagteam:version": "3.0.0",
         "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
         "tagteam:capabilities": [
           "entity_extraction",
@@ -186,7 +186,7 @@
           "@id": "inst:Input_Text_IBE_a8f0a8fb8925"
         },
         "has_agent": {
-          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+          "@id": "inst:TagTeam_Parser_v3_0_0"
         },
         "tagteam:has_output": [
           {
@@ -199,7 +199,7 @@
             "@id": "inst:CBP"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:07:17.013Z"
+        "tagteam:instantiated_at": "2026-02-22T19:35:07.569Z"
       }
     ]
   }

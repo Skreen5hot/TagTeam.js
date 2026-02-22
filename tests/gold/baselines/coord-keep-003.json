@@ -7,7 +7,7 @@
     "keep",
     "government"
   ],
-  "generatedAt": "2026-02-22T19:07:16.392Z",
+  "generatedAt": "2026-02-22T19:35:06.477Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -213,7 +213,7 @@
         "rdfs:label": "bureau of alcohol tobacco",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.392Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.476Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_8033fe818429",
         "tagteam:denotesType": "Entity"
       },
@@ -226,7 +226,7 @@
         "rdfs:label": "firearm",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.392Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.476Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_8033fe818429",
         "tagteam:denotesType": "Entity"
       },
@@ -238,7 +238,7 @@
         ],
         "rdfs:label": "alcohol tobacco",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.392Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.477Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_8033fe818429",
         "tagteam:denotesType": "Entity"
       },
@@ -250,7 +250,7 @@
         ],
         "rdfs:label": "case",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.392Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.477Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_8033fe818429",
         "tagteam:denotesType": "Entity"
       },
@@ -264,16 +264,16 @@
         "has_text_value": "The Bureau of Alcohol Tobacco and Firearms investigated the case",
         "tagteam:char_count": 64,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-22T19:07:16.384Z"
+        "tagteam:received_at": "2026-02-22T19:35:06.456Z"
       },
       {
-        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@id": "inst:TagTeam_Parser_v3_0_0",
         "@type": [
           "Agent",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
-        "tagteam:version": "3.0.0-alpha.1",
+        "rdfs:label": "TagTeam.js Parser v3.0.0",
+        "tagteam:version": "3.0.0",
         "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
         "tagteam:capabilities": [
           "entity_extraction",
@@ -297,7 +297,7 @@
           "@id": "inst:Input_Text_IBE_8033fe818429"
         },
         "has_agent": {
-          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+          "@id": "inst:TagTeam_Parser_v3_0_0"
         },
         "tagteam:has_output": [
           {
@@ -316,7 +316,7 @@
             "@id": "inst:Act_investigated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.384Z"
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.456Z"
       }
     ]
   }

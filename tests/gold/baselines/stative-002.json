@@ -7,7 +7,7 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-22T19:07:16.592Z",
+  "generatedAt": "2026-02-22T19:35:06.837Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -133,7 +133,7 @@
         "rdfs:label": "agency",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.591Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.836Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_15961e405c23",
         "tagteam:denotesType": "Organization"
       },
@@ -145,7 +145,7 @@
         ],
         "rdfs:label": "lead federal enforcement body",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.591Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.836Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_15961e405c23",
         "tagteam:denotesType": "Entity"
       },
@@ -159,16 +159,16 @@
         "has_text_value": "The agency is known as the lead federal enforcement body",
         "tagteam:char_count": 56,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-22T19:07:16.580Z"
+        "tagteam:received_at": "2026-02-22T19:35:06.821Z"
       },
       {
-        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@id": "inst:TagTeam_Parser_v3_0_0",
         "@type": [
           "Agent",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
-        "tagteam:version": "3.0.0-alpha.1",
+        "rdfs:label": "TagTeam.js Parser v3.0.0",
+        "tagteam:version": "3.0.0",
         "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
         "tagteam:capabilities": [
           "entity_extraction",
@@ -192,7 +192,7 @@
           "@id": "inst:Input_Text_IBE_15961e405c23"
         },
         "has_agent": {
-          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+          "@id": "inst:TagTeam_Parser_v3_0_0"
         },
         "tagteam:has_output": [
           {
@@ -205,7 +205,7 @@
             "@id": "inst:Act_known"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.580Z"
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.821Z"
       }
     ]
   }

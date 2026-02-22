@@ -7,7 +7,7 @@
     "cbp",
     "processing"
   ],
-  "generatedAt": "2026-02-22T19:07:16.882Z",
+  "generatedAt": "2026-02-22T19:35:07.344Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -144,7 +144,7 @@
         "rdfs:label": "processing center",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.882Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:07.344Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6e0c8dbd1a80",
         "tagteam:denotesType": "Entity"
       },
@@ -156,7 +156,7 @@
         ],
         "rdfs:label": "encounter",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.882Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:07.344Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6e0c8dbd1a80",
         "tagteam:denotesType": "Entity"
       },
@@ -170,16 +170,16 @@
         "has_text_value": "The processing center documented the encounter",
         "tagteam:char_count": 46,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T19:07:16.873Z"
+        "tagteam:received_at": "2026-02-22T19:35:07.331Z"
       },
       {
-        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@id": "inst:TagTeam_Parser_v3_0_0",
         "@type": [
           "Agent",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
-        "tagteam:version": "3.0.0-alpha.1",
+        "rdfs:label": "TagTeam.js Parser v3.0.0",
+        "tagteam:version": "3.0.0",
         "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
         "tagteam:capabilities": [
           "entity_extraction",
@@ -203,7 +203,7 @@
           "@id": "inst:Input_Text_IBE_6e0c8dbd1a80"
         },
         "has_agent": {
-          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+          "@id": "inst:TagTeam_Parser_v3_0_0"
         },
         "tagteam:has_output": [
           {
@@ -216,7 +216,7 @@
             "@id": "inst:Act_documented"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.873Z"
+        "tagteam:instantiated_at": "2026-02-22T19:35:07.331Z"
       }
     ]
   }

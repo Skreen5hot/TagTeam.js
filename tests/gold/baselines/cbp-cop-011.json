@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T19:07:17.142Z",
+  "generatedAt": "2026-02-22T19:35:07.809Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -96,7 +96,7 @@
         "rdfs:label": "duty officer",
         "tagteam:genericityCategory": "AMB",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:17.142Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:07.808Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_def8547a60fd",
         "tagteam:denotesType": "Person"
       },
@@ -108,7 +108,7 @@
         ],
         "rdfs:label": "emergency",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:17.142Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:07.808Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_def8547a60fd",
         "tagteam:denotesType": "Entity"
       },
@@ -122,16 +122,16 @@
         "has_text_value": "The duty officer is the primary contact for emergencies",
         "tagteam:char_count": 55,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-22T19:07:17.135Z"
+        "tagteam:received_at": "2026-02-22T19:35:07.793Z"
       },
       {
-        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@id": "inst:TagTeam_Parser_v3_0_0",
         "@type": [
           "Agent",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
-        "tagteam:version": "3.0.0-alpha.1",
+        "rdfs:label": "TagTeam.js Parser v3.0.0",
+        "tagteam:version": "3.0.0",
         "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
         "tagteam:capabilities": [
           "entity_extraction",
@@ -155,7 +155,7 @@
           "@id": "inst:Input_Text_IBE_def8547a60fd"
         },
         "has_agent": {
-          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+          "@id": "inst:TagTeam_Parser_v3_0_0"
         },
         "tagteam:has_output": [
           {
@@ -165,7 +165,7 @@
             "@id": "inst:emergencies"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:07:17.135Z"
+        "tagteam:instantiated_at": "2026-02-22T19:35:07.793Z"
       }
     ]
   }

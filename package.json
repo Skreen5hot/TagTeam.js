@@ -1,6 +1,6 @@
 {
   "name": "tagteam-js",
-  "version": "3.0.0-alpha.1",
+  "version": "3.0.0",
   "description": "Deterministic semantic parser with ethical value detection - BFO-compatible ontology system",
   "main": "dist/tagteam.js",
   "bin": {

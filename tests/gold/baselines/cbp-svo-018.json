@@ -7,7 +7,7 @@
     "cbp",
     "operations"
   ],
-  "generatedAt": "2026-02-22T19:07:16.988Z",
+  "generatedAt": "2026-02-22T19:35:07.530Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -144,7 +144,7 @@
         "rdfs:label": "watch commander",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.988Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:07.530Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_11221ca027fb",
         "tagteam:denotesType": "Entity"
       },
@@ -156,7 +156,7 @@
         ],
         "rdfs:label": "lockdown",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.988Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:07.530Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_11221ca027fb",
         "tagteam:denotesType": "Entity"
       },
@@ -170,16 +170,16 @@
         "has_text_value": "The watch commander initiated the lockdown",
         "tagteam:char_count": 42,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T19:07:16.978Z"
+        "tagteam:received_at": "2026-02-22T19:35:07.517Z"
       },
       {
-        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@id": "inst:TagTeam_Parser_v3_0_0",
         "@type": [
           "Agent",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
-        "tagteam:version": "3.0.0-alpha.1",
+        "rdfs:label": "TagTeam.js Parser v3.0.0",
+        "tagteam:version": "3.0.0",
         "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
         "tagteam:capabilities": [
           "entity_extraction",
@@ -203,7 +203,7 @@
           "@id": "inst:Input_Text_IBE_11221ca027fb"
         },
         "has_agent": {
-          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+          "@id": "inst:TagTeam_Parser_v3_0_0"
         },
         "tagteam:has_output": [
           {
@@ -216,7 +216,7 @@
             "@id": "inst:Act_initiated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.978Z"
+        "tagteam:instantiated_at": "2026-02-22T19:35:07.517Z"
       }
     ]
   }

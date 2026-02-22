@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-22T19:07:15.832Z",
+  "generatedAt": "2026-02-22T19:35:05.488Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -93,7 +93,7 @@
         "rdfs:label": "border patrol",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:15.832Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:05.487Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_cdf9fc9ce709",
         "tagteam:denotesType": "Entity"
       },
@@ -105,7 +105,7 @@
         ],
         "rdfs:label": "cbp",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:15.832Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:05.487Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_cdf9fc9ce709",
         "tagteam:denotesType": "Organization"
       },
@@ -119,16 +119,16 @@
         "has_text_value": "Border Patrol is the enforcement arm of CBP",
         "tagteam:char_count": 43,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T19:07:15.752Z"
+        "tagteam:received_at": "2026-02-22T19:35:05.351Z"
       },
       {
-        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@id": "inst:TagTeam_Parser_v3_0_0",
         "@type": [
           "Agent",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
-        "tagteam:version": "3.0.0-alpha.1",
+        "rdfs:label": "TagTeam.js Parser v3.0.0",
+        "tagteam:version": "3.0.0",
         "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
         "tagteam:capabilities": [
           "entity_extraction",
@@ -152,7 +152,7 @@
           "@id": "inst:Input_Text_IBE_cdf9fc9ce709"
         },
         "has_agent": {
-          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+          "@id": "inst:TagTeam_Parser_v3_0_0"
         },
         "tagteam:has_output": [
           {
@@ -162,7 +162,7 @@
             "@id": "inst:CBP"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:07:15.752Z"
+        "tagteam:instantiated_at": "2026-02-22T19:35:05.351Z"
       }
     ]
   }

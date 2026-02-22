@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T19:07:16.172Z",
+  "generatedAt": "2026-02-22T19:35:06.115Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -145,7 +145,7 @@
         "rdfs:label": "witness",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.172Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.115Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_775791190ffd",
         "tagteam:denotesType": "Person"
       },
@@ -157,7 +157,7 @@
         ],
         "rdfs:label": "testimony",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.172Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.115Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_775791190ffd",
         "tagteam:denotesType": "Entity"
       },
@@ -171,16 +171,16 @@
         "has_text_value": "The witness provided testimony",
         "tagteam:char_count": 30,
         "tagteam:word_count": 4,
-        "tagteam:received_at": "2026-02-22T19:07:16.165Z"
+        "tagteam:received_at": "2026-02-22T19:35:06.107Z"
       },
       {
-        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@id": "inst:TagTeam_Parser_v3_0_0",
         "@type": [
           "Agent",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
-        "tagteam:version": "3.0.0-alpha.1",
+        "rdfs:label": "TagTeam.js Parser v3.0.0",
+        "tagteam:version": "3.0.0",
         "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
         "tagteam:capabilities": [
           "entity_extraction",
@@ -204,7 +204,7 @@
           "@id": "inst:Input_Text_IBE_775791190ffd"
         },
         "has_agent": {
-          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+          "@id": "inst:TagTeam_Parser_v3_0_0"
         },
         "tagteam:has_output": [
           {
@@ -217,7 +217,7 @@
             "@id": "inst:Act_provided"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.165Z"
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.107Z"
       }
     ]
   }

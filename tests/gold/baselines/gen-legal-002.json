@@ -5,7 +5,7 @@
   "tags": [
     "legal"
   ],
-  "generatedAt": "2026-02-22T19:07:17.785Z",
+  "generatedAt": "2026-02-22T19:35:08.764Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -142,7 +142,7 @@
         "rdfs:label": "jury",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:17.785Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:08.764Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdf10feb9b2b",
         "tagteam:denotesType": "Entity"
       },
@@ -154,7 +154,7 @@
         ],
         "rdfs:label": "verdict",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:17.785Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:08.764Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdf10feb9b2b",
         "tagteam:denotesType": "Entity"
       },
@@ -168,16 +168,16 @@
         "has_text_value": "The jury delivered the verdict",
         "tagteam:char_count": 30,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-22T19:07:17.778Z"
+        "tagteam:received_at": "2026-02-22T19:35:08.756Z"
       },
       {
-        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@id": "inst:TagTeam_Parser_v3_0_0",
         "@type": [
           "Agent",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
-        "tagteam:version": "3.0.0-alpha.1",
+        "rdfs:label": "TagTeam.js Parser v3.0.0",
+        "tagteam:version": "3.0.0",
         "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
         "tagteam:capabilities": [
           "entity_extraction",
@@ -201,7 +201,7 @@
           "@id": "inst:Input_Text_IBE_bdf10feb9b2b"
         },
         "has_agent": {
-          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+          "@id": "inst:TagTeam_Parser_v3_0_0"
         },
         "tagteam:has_output": [
           {
@@ -214,7 +214,7 @@
             "@id": "inst:Act_delivered"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:07:17.778Z"
+        "tagteam:instantiated_at": "2026-02-22T19:35:08.756Z"
       }
     ]
   }

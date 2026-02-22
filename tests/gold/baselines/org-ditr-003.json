@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T19:07:16.542Z",
+  "generatedAt": "2026-02-22T19:35:06.751Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -175,7 +175,7 @@
         "rdfs:label": "director",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.542Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.750Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_985b2c0d6976",
         "tagteam:denotesType": "Person"
       },
@@ -187,7 +187,7 @@
         ],
         "rdfs:label": "field office",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.542Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.750Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_985b2c0d6976",
         "tagteam:denotesType": "Facility"
       },
@@ -199,7 +199,7 @@
         ],
         "rdfs:label": "instructions",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.542Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.750Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_985b2c0d6976",
         "tagteam:denotesType": "Entity"
       },
@@ -213,16 +213,16 @@
         "has_text_value": "The director sent the field office updated instructions",
         "tagteam:char_count": 55,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T19:07:16.535Z"
+        "tagteam:received_at": "2026-02-22T19:35:06.734Z"
       },
       {
-        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@id": "inst:TagTeam_Parser_v3_0_0",
         "@type": [
           "Agent",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
-        "tagteam:version": "3.0.0-alpha.1",
+        "rdfs:label": "TagTeam.js Parser v3.0.0",
+        "tagteam:version": "3.0.0",
         "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
         "tagteam:capabilities": [
           "entity_extraction",
@@ -246,7 +246,7 @@
           "@id": "inst:Input_Text_IBE_985b2c0d6976"
         },
         "has_agent": {
-          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+          "@id": "inst:TagTeam_Parser_v3_0_0"
         },
         "tagteam:has_output": [
           {
@@ -262,7 +262,7 @@
             "@id": "inst:Act_updated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.535Z"
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.734Z"
       }
     ]
   }

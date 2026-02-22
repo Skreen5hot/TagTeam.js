@@ -3,7 +3,7 @@
 **A client-side JavaScript library for extracting semantic roles and detecting ethical values in natural language text**
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-3.0.0--alpha.1-success)](package.json)
+[![Version](https://img.shields.io/badge/version-3.0.0-success)](package.json)
 [![Status](https://img.shields.io/badge/status-Phase%207%20Complete-success)](deliverables/)
 
 ---

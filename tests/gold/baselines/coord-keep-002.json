@@ -7,7 +7,7 @@
     "keep",
     "government"
   ],
-  "generatedAt": "2026-02-22T19:07:16.382Z",
+  "generatedAt": "2026-02-22T19:35:06.450Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -77,7 +77,7 @@
         ],
         "rdfs:label": "customs and border protection enforces trade law",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.382Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.450Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_930054f1010a",
         "tagteam:denotesType": "Entity"
       },
@@ -91,16 +91,16 @@
         "has_text_value": "Customs and Border Protection enforces trade laws",
         "tagteam:char_count": 49,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T19:07:16.374Z"
+        "tagteam:received_at": "2026-02-22T19:35:06.438Z"
       },
       {
-        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@id": "inst:TagTeam_Parser_v3_0_0",
         "@type": [
           "Agent",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
-        "tagteam:version": "3.0.0-alpha.1",
+        "rdfs:label": "TagTeam.js Parser v3.0.0",
+        "tagteam:version": "3.0.0",
         "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
         "tagteam:capabilities": [
           "entity_extraction",
@@ -124,7 +124,7 @@
           "@id": "inst:Input_Text_IBE_930054f1010a"
         },
         "has_agent": {
-          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+          "@id": "inst:TagTeam_Parser_v3_0_0"
         },
         "tagteam:has_output": [
           {
@@ -134,7 +134,7 @@
             "@id": "inst:Act_laws"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.374Z"
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.438Z"
       }
     ]
   }

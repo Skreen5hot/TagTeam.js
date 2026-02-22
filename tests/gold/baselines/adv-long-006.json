@@ -6,7 +6,7 @@
     "long-np",
     "government"
   ],
-  "generatedAt": "2026-02-22T19:07:17.922Z",
+  "generatedAt": "2026-02-22T19:35:08.983Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -166,7 +166,7 @@
         "rdfs:label": "congressional oversight committee on homeland security",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:17.922Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:08.983Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d9c769f6a06d",
         "tagteam:denotesType": "Entity"
       },
@@ -178,7 +178,7 @@
         ],
         "rdfs:label": "homeland security",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:17.922Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:08.983Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d9c769f6a06d",
         "tagteam:denotesType": "Organization"
       },
@@ -190,7 +190,7 @@
         ],
         "rdfs:label": "hear",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:17.922Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:08.983Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d9c769f6a06d",
         "tagteam:denotesType": "Entity"
       },
@@ -204,16 +204,16 @@
         "has_text_value": "The congressional oversight committee on homeland security held a hearing",
         "tagteam:char_count": 73,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-22T19:07:17.911Z"
+        "tagteam:received_at": "2026-02-22T19:35:08.965Z"
       },
       {
-        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@id": "inst:TagTeam_Parser_v3_0_0",
         "@type": [
           "Agent",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
-        "tagteam:version": "3.0.0-alpha.1",
+        "rdfs:label": "TagTeam.js Parser v3.0.0",
+        "tagteam:version": "3.0.0",
         "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
         "tagteam:capabilities": [
           "entity_extraction",
@@ -237,7 +237,7 @@
           "@id": "inst:Input_Text_IBE_d9c769f6a06d"
         },
         "has_agent": {
-          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+          "@id": "inst:TagTeam_Parser_v3_0_0"
         },
         "tagteam:has_output": [
           {
@@ -253,7 +253,7 @@
             "@id": "inst:Act_held"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:07:17.911Z"
+        "tagteam:instantiated_at": "2026-02-22T19:35:08.965Z"
       }
     ]
   }

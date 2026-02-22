@@ -7,7 +7,7 @@
     "coordination",
     "government"
   ],
-  "generatedAt": "2026-02-22T19:07:16.757Z",
+  "generatedAt": "2026-02-22T19:35:07.129Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -147,7 +147,7 @@
         ],
         "rdfs:label": "federal state and local agencies responded to the emergency",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.757Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:07.129Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_34abe0e90d94",
         "tagteam:denotesType": "Entity"
       },
@@ -164,7 +164,7 @@
         "tagteam:nominatedClassLabel": "Local Agency",
         "tagteam:nominationBasis": "bare_plural",
         "tagteam:requiresOntologyResolution": true,
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.757Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:07.129Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_34abe0e90d94",
         "tagteam:denotesType": "Entity"
       },
@@ -176,7 +176,7 @@
         ],
         "rdfs:label": "emergency",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.757Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:07.129Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_34abe0e90d94",
         "tagteam:denotesType": "Entity"
       },
@@ -190,16 +190,16 @@
         "has_text_value": "Federal, state, and local agencies responded to the emergency",
         "tagteam:char_count": 61,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-22T19:07:16.747Z"
+        "tagteam:received_at": "2026-02-22T19:35:07.112Z"
       },
       {
-        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@id": "inst:TagTeam_Parser_v3_0_0",
         "@type": [
           "Agent",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
-        "tagteam:version": "3.0.0-alpha.1",
+        "rdfs:label": "TagTeam.js Parser v3.0.0",
+        "tagteam:version": "3.0.0",
         "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
         "tagteam:capabilities": [
           "entity_extraction",
@@ -223,7 +223,7 @@
           "@id": "inst:Input_Text_IBE_34abe0e90d94"
         },
         "has_agent": {
-          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+          "@id": "inst:TagTeam_Parser_v3_0_0"
         },
         "tagteam:has_output": [
           {
@@ -239,7 +239,7 @@
             "@id": "inst:Act_state"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.747Z"
+        "tagteam:instantiated_at": "2026-02-22T19:35:07.112Z"
       }
     ]
   }

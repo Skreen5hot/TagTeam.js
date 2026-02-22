@@ -8,7 +8,7 @@
     "action",
     "pp"
   ],
-  "generatedAt": "2026-02-22T19:07:16.205Z",
+  "generatedAt": "2026-02-22T19:35:06.173Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -182,7 +182,7 @@
         ],
         "rdfs:label": "auditor",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.205Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.173Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_111e711f71dc",
         "tagteam:denotesType": "Entity"
       },
@@ -194,7 +194,7 @@
         ],
         "rdfs:label": "discrepancy",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.205Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.173Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_111e711f71dc",
         "tagteam:denotesType": "Entity"
       },
@@ -206,7 +206,7 @@
         ],
         "rdfs:label": "record",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.205Z",
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.173Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_111e711f71dc",
         "tagteam:denotesType": "Entity"
       },
@@ -220,16 +220,16 @@
         "has_text_value": "The auditor discovered discrepancies in the records",
         "tagteam:char_count": 51,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T19:07:16.196Z"
+        "tagteam:received_at": "2026-02-22T19:35:06.160Z"
       },
       {
-        "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
+        "@id": "inst:TagTeam_Parser_v3_0_0",
         "@type": [
           "Agent",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
-        "tagteam:version": "3.0.0-alpha.1",
+        "rdfs:label": "TagTeam.js Parser v3.0.0",
+        "tagteam:version": "3.0.0",
         "tagteam:algorithm": "BFO-aware NLP with CCO mapping",
         "tagteam:capabilities": [
           "entity_extraction",
@@ -253,7 +253,7 @@
           "@id": "inst:Input_Text_IBE_111e711f71dc"
         },
         "has_agent": {
-          "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
+          "@id": "inst:TagTeam_Parser_v3_0_0"
         },
         "tagteam:has_output": [
           {
@@ -272,7 +272,7 @@
             "@id": "inst:Act_discovered"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:07:16.196Z"
+        "tagteam:instantiated_at": "2026-02-22T19:35:06.160Z"
       }
     ]
   }
