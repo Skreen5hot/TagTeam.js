@@ -1074,7 +1074,18 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
                     fetch(modelBase + 'pos-weights-pruned.json').then(function(r) { return r.json(); }),
                     fetch(modelBase + 'dep-weights-pruned.json').then(function(r) { return r.json(); })
                 ]);
-                TagTeam.loadModels(responses[0], responses[1]);
+                var calJSON = null;
+                try { calJSON = await fetch(modelBase + 'dep-calibration.json').then(function(r) { return r.json(); }); } catch(e) {}
+                var gazetteers = null;
+                try {
+                    var gazFiles = ['names.json', 'organizations.json', 'places.json'];
+                    gazetteers = await Promise.all(
+                        gazFiles.map(function(f) { return fetch(modelBase + 'gazetteers/' + f).then(function(r) { return r.ok ? r.json() : null; }); })
+                    );
+                    gazetteers = gazetteers.filter(function(g) { return g !== null; });
+                    if (gazetteers.length === 0) gazetteers = null;
+                } catch(e) { /* gazetteers are optional */ }
+                TagTeam.loadModels(responses[0], responses[1], calJSON, gazetteers);
                 _modelsLoaded = true;
             } catch (e) {
                 console.warn('Model loading failed, using legacy pipeline:', e.message);
@@ -1164,9 +1175,8 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
                 return n['@type'] && n['@type'].indexOf('tagteam:DiscourseReferent') !== -1;
             });
             var tier2 = nodes.filter(function(n) {
-                return n['@type'] && (n['@type'].indexOf('cco:Person') !== -1 ||
-                    n['@type'].indexOf('cco:Artifact') !== -1 ||
-                    n['@type'].indexOf('cco:Organization') !== -1);
+                return n['@type'] && (n['@type'].indexOf('owl:NamedIndividual') !== -1 ||
+                    n['@type'].indexOf('owl:Class') !== -1);
             });
             var acts = nodes.filter(function(n) {
                 return n['@type'] && n['@type'].some(function(t) {

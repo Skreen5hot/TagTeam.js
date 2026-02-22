@@ -464,7 +464,16 @@
       ]);
       let calJSON = null;
       try { calJSON = await fetch(modelBase + 'dep-calibration.json').then(r => r.json()); } catch(e) {}
-      TagTeam.loadModels(posJSON, depJSON, calJSON);
+      let gazetteers = null;
+      try {
+        const gazFiles = ['names.json', 'organizations.json', 'places.json'];
+        gazetteers = await Promise.all(
+          gazFiles.map(f => fetch(modelBase + 'gazetteers/' + f).then(r => r.ok ? r.json() : null))
+        );
+        gazetteers = gazetteers.filter(g => g !== null);
+        if (gazetteers.length === 0) gazetteers = null;
+      } catch(e) { /* gazetteers are optional */ }
+      TagTeam.loadModels(posJSON, depJSON, calJSON, gazetteers);
       modelsLoaded = true;
     } catch (e) {
       console.warn('Model loading failed, falling back to legacy pipeline:', e.message);
