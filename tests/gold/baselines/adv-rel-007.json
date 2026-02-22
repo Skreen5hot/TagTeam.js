@@ -6,16 +6,16 @@
     "relative-clause",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T11:48:44.612Z",
+  "generatedAt": "2026-02-22T12:26:18.341Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The smugglers",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the tunnel network",
-      "type": "cco:Facility"
+      "type": "Facility"
     }
   ],
   "expectedRoles": [
@@ -32,7 +32,7 @@
     },
     {
       "text": "who",
-      "type": "cco:Organization",
+      "type": "Organization",
       "id": "inst:who"
     },
     {
@@ -72,7 +72,7 @@
       {
         "@id": "inst:who",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "who",
@@ -82,9 +82,9 @@
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.95,
         "tagteam:genericityBasis": "named_entity",
-        "tagteam:denotesType": "cco:Organization",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Organization_Who_6e5a525a89e0"
+          "@id": "inst:Organization_Who_1e3a2c8c03e7"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_57d88cbba13c"
@@ -111,7 +111,7 @@
       {
         "@id": "inst:Act_indicted",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "indicted",
@@ -146,22 +146,22 @@
         "rdfs:label": "smugglers",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.612Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.341Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_57d88cbba13c",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Organization_Who_6e5a525a89e0",
+        "@id": "inst:Organization_Who_1e3a2c8c03e7",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "who",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.612Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.341Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_57d88cbba13c",
-        "tagteam:denotesType": "cco:Organization"
+        "tagteam:denotesType": "Organization"
       },
       {
         "@id": "inst:Entity_Tunnel_Network_a8ebb2768d6a",
@@ -171,26 +171,26 @@
         ],
         "rdfs:label": "tunnel network",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.612Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.341Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_57d88cbba13c",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_57d88cbba13c",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The smugglers who operated the tunnel network were indicted",
         "tagteam:char_count": 59,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-22T11:48:44.600Z"
+        "tagteam:received_at": "2026-02-22T12:26:18.329Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -207,7 +207,7 @@
       {
         "@id": "inst:ParsingAct_57d88cbb",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -234,7 +234,7 @@
             "@id": "inst:Act_indicted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.600Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.329Z"
       }
     ]
   }

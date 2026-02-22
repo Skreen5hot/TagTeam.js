@@ -7,16 +7,16 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-22T11:48:43.056Z",
+  "generatedAt": "2026-02-22T12:26:16.539Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The suspect",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the tracking team",
-      "type": "cco:Organization"
+      "type": "Organization"
     }
   ],
   "expectedRoles": [
@@ -67,7 +67,7 @@
         "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Person_Suspect_fc8ad111dad4"
+          "@id": "inst:Person_Suspect_9d9fd82a28e2"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_83d812c2cd7a"
@@ -85,7 +85,7 @@
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Organization_Tracking_Team_0a8967e24366"
+          "@id": "inst:Organization_Tracking_Team_83e0388a9959"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_83d812c2cd7a"
@@ -94,7 +94,7 @@
       {
         "@id": "inst:Act_located",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "located",
@@ -137,46 +137,46 @@
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Person_Suspect_fc8ad111dad4",
+        "@id": "inst:Person_Suspect_9d9fd82a28e2",
         "@type": [
-          "cco:Person",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "suspect",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.055Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.539Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_83d812c2cd7a",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Organization_Tracking_Team_0a8967e24366",
+        "@id": "inst:Organization_Tracking_Team_83e0388a9959",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "tracking team",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.055Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.539Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_83d812c2cd7a",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_83d812c2cd7a",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The suspect was located by the tracking team",
         "tagteam:char_count": 44,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T11:48:43.046Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.528Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -193,7 +193,7 @@
       {
         "@id": "inst:ParsingAct_83d812c2",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -217,7 +217,7 @@
             "@id": "inst:Act_located"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.046Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.528Z"
       }
     ]
   }

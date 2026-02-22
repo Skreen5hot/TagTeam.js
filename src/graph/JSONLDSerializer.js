@@ -90,11 +90,19 @@ class JSONLDSerializer {
       EthicalValueICE: 'tagteam:EthicalValueICE',
       ContextDimensionICE: 'tagteam:ContextDimensionICE',
 
-      // ===== Week 2: Information Staircase Classes =====
-      InformationBearingEntity: 'cco:InformationBearingEntity',
-      InformationContentEntity: 'cco:InformationContentEntity',
-      // ArtificialAgent and ActOfArtificialProcessing removed — dead aliases,
-      // code emits cco:Agent and cco:IntentionalAct directly
+      // ===== CCO Verified Classes (opaque IRIs from CCO 2.0) =====
+      Act: 'cco:ont00000005',
+      ActOfCommunication: 'cco:ont00000402',
+      Agent: 'cco:ont00001017',
+      Artifact: 'cco:ont00000995',
+      Country: 'cco:ont00000139',
+      Facility: 'cco:ont00000192',
+      GeopoliticalOrganization: 'cco:ont00000176',
+      InformationBearingEntity: 'cco:ont00000253',
+      InformationContentEntity: 'cco:ont00000958',
+      IntentionalAct: 'cco:ont00000228',
+      Organization: 'cco:ont00001180',
+      Person: 'cco:ont00001262',
 
       // ===== GIT-Minimal Classes =====
       AutomatedDetection: 'tagteam:AutomatedDetection',
@@ -200,6 +208,10 @@ class JSONLDSerializer {
       // ===== Object Aggregate Properties (v2.3) =====
       member_count: { '@id': 'tagteam:member_count', '@type': 'xsd:integer' },
       member_index: { '@id': 'tagteam:member_index', '@type': 'xsd:integer' },
+
+      // ===== Classification Properties (nomination pattern) =====
+      classificationLabel: 'tagteam:classificationLabel',
+      classificationBasis: 'tagteam:classificationBasis',
 
       // ===== Quality Properties (v2.4) =====
       qualifierText: 'tagteam:qualifierText',

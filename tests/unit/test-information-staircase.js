@@ -43,7 +43,7 @@ const timestamp = new Date().toISOString();
 test('creates IBE node with correct @type', () => {
   const ibe = builder.createInputIBE(TEST_TEXT, timestamp);
 
-  assert(ibe['@type'].includes('cco:InformationBearingEntity'),
+  assert(ibe['@type'].includes('InformationBearingEntity'),
     'Should have InformationBearingEntity type');
   assert(ibe['@type'].includes('owl:NamedIndividual'),
     'Should have NamedIndividual type');
@@ -111,7 +111,7 @@ test('creates parser agent with correct @type', () => {
   builder.reset();
   const agent = builder.createParserAgent();
 
-  assert(agent['@type'].includes('cco:Agent'),
+  assert(agent['@type'].includes('Agent'),
     'Should have ArtificialAgent type');
   assert(agent['@type'].includes('owl:NamedIndividual'),
     'Should have NamedIndividual type');
@@ -189,7 +189,7 @@ test('SemanticGraphBuilder creates IBE node', () => {
   const graph = graphBuilder.build(TEST_TEXT);
 
   const ibeNodes = graph['@graph'].filter(n =>
-    n['@type']?.includes('cco:InformationBearingEntity')
+    n['@type']?.includes('InformationBearingEntity')
   );
 
   assert(ibeNodes.length === 1, 'Should create exactly one IBE node');
@@ -200,7 +200,7 @@ test('SemanticGraphBuilder creates parser agent', () => {
   const graph = graphBuilder.build(TEST_TEXT);
 
   const agentNodes = graph['@graph'].filter(n =>
-    n['@type']?.includes('cco:Agent')
+    n['@type']?.includes('Agent')
   );
 
   assert(agentNodes.length === 1, 'Should create exactly one parser agent');
@@ -211,7 +211,7 @@ test('IBE contains full input text', () => {
   const graph = graphBuilder.build(TEST_TEXT);
 
   const ibe = graph['@graph'].find(n =>
-    n['@type']?.includes('cco:InformationBearingEntity')
+    n['@type']?.includes('InformationBearingEntity')
   );
 
   assert(ibe['has_text_value'] === TEST_TEXT,
@@ -225,7 +225,7 @@ test('value assertion ICE links to IBE via is_concretized_by', () => {
   const graph = graphBuilder.build(TEST_TEXT, { scoredValues });
 
   const ibe = graph['@graph'].find(n =>
-    n['@type']?.includes('cco:InformationBearingEntity')
+    n['@type']?.includes('InformationBearingEntity')
   );
   const ices = graph['@graph'].filter(n =>
     n['@type']?.includes('tagteam:EthicalValueICE')
@@ -245,7 +245,7 @@ test('value assertion events link to IBE via based_on', () => {
   const graph = graphBuilder.build(TEST_TEXT, { scoredValues });
 
   const ibe = graph['@graph'].find(n =>
-    n['@type']?.includes('cco:InformationBearingEntity')
+    n['@type']?.includes('InformationBearingEntity')
   );
   const assertions = graph['@graph'].filter(n =>
     n['@type']?.includes('tagteam:ValueAssertionEvent')
@@ -265,7 +265,7 @@ test('value assertion events link to parser via detected_by', () => {
   const graph = graphBuilder.build(TEST_TEXT, { scoredValues });
 
   const agent = graph['@graph'].find(n =>
-    n['@type']?.includes('cco:Agent')
+    n['@type']?.includes('Agent')
   );
   const assertions = graph['@graph'].filter(n =>
     n['@type']?.includes('tagteam:ValueAssertionEvent')
@@ -290,7 +290,7 @@ test('complete chain: Literal → IBE → ICE → Assertion', () => {
 
   // Find nodes
   const ibe = graph['@graph'].find(n =>
-    n['@type']?.includes('cco:InformationBearingEntity')
+    n['@type']?.includes('InformationBearingEntity')
   );
   const ice = graph['@graph'].find(n =>
     n['@type']?.includes('tagteam:EthicalValueICE')

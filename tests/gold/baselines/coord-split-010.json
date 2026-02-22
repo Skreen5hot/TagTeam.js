@@ -7,20 +7,20 @@
     "split",
     "legal"
   ],
-  "generatedAt": "2026-02-22T11:48:42.860Z",
+  "generatedAt": "2026-02-22T12:26:16.317Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The prosecutor",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the defense attorney",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the court",
-      "type": "cco:Organization"
+      "type": "Organization"
     }
   ],
   "expectedRoles": [
@@ -102,7 +102,7 @@
       {
         "@id": "inst:Act_addressed",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "addressed",
@@ -152,7 +152,7 @@
         "rdfs:label": "prosecutor and the defense attorney",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.860Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.317Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7cd57943d605",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -164,26 +164,26 @@
         ],
         "rdfs:label": "court",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.860Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.317Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7cd57943d605",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_7cd57943d605",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The prosecutor and the defense attorney addressed the court",
         "tagteam:char_count": 59,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-22T11:48:42.849Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.309Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -200,7 +200,7 @@
       {
         "@id": "inst:ParsingAct_7cd57943",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -224,7 +224,7 @@
             "@id": "inst:Act_addressed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.849Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.309Z"
       }
     ]
   }

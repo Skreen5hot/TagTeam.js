@@ -220,12 +220,12 @@ describe('Phase 6.5.2: OntologyManager', () => {
       version: '1.0',
       typeSpecializations: {
         'bfo:BFO_0000015': {
-          'care': 'cco:IntentionalAct',
-          'treatment': 'cco:IntentionalAct'
+          'care': 'IntentionalAct',
+          'treatment': 'IntentionalAct'
         }
       },
       processRootWords: {
-        'care': 'cco:IntentionalAct'
+        'care': 'IntentionalAct'
       }
     };
 
@@ -250,13 +250,13 @@ describe('Phase 6.5.2: OntologyManager', () => {
     it('JL-004: Type specializations are queryable', () => {
       manager.loadFromObject(sampleJSON);
       const type = manager.getTypeSpecialization('bfo:BFO_0000015', 'care');
-      expect(type).toBe('cco:IntentionalAct');
+      expect(type).toBe('IntentionalAct');
     });
 
     it('JL-005: Process root words are queryable', () => {
       manager.loadFromObject(sampleJSON);
       const type = manager.getProcessRootType('care');
-      expect(type).toBe('cco:IntentionalAct');
+      expect(type).toBe('IntentionalAct');
     });
 
     it('JL-006: Missing domain field throws error', () => {
@@ -434,7 +434,7 @@ describe('Phase 6.5.2: OntologyManager', () => {
       const json = {
         domain: 'test',
         version: '1.0',
-        typeSpecializations: { 'bfo:BFO_0000015': { 'care': 'cco:IntentionalAct' } }
+        typeSpecializations: { 'bfo:BFO_0000015': { 'care': 'IntentionalAct' } }
       };
 
       manager.loadFromString(ttl1, { format: 'turtle', namespace: 'vn' });
@@ -636,7 +636,7 @@ describe('Phase 6.5.2: OntologyManager', () => {
         domain: 'medical',
         version: '1.0',
         typeSpecializations: {
-          'bfo:BFO_0000015': { 'care': 'cco:IntentionalAct' }
+          'bfo:BFO_0000015': { 'care': 'IntentionalAct' }
         }
       };
 
@@ -653,7 +653,7 @@ describe('Phase 6.5.2: OntologyManager', () => {
       expect(manager.getLoadedOntologies().length).toBe(2);
 
       // JSON specialization works
-      expect(manager.getTypeSpecialization('bfo:BFO_0000015', 'care')).toBe('cco:IntentionalAct');
+      expect(manager.getTypeSpecialization('bfo:BFO_0000015', 'care')).toBe('IntentionalAct');
 
       // TTL value works
       expect(manager.getValueDefinition('BeneficenceDisposition')).toBeDefined();

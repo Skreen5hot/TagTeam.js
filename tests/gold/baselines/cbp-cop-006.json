@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T11:48:43.480Z",
+  "generatedAt": "2026-02-22T12:26:16.981Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -85,7 +85,7 @@
       {
         "@id": "inst:Act_inspecting",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "inspecting",
@@ -132,7 +132,7 @@
         "tagteam:nominatedClassLabel": "Preclearance",
         "tagteam:nominationBasis": "unknown",
         "tagteam:requiresOntologyResolution": true,
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.480Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.981Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c74835b2caa5",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -144,26 +144,26 @@
         ],
         "rdfs:label": "traveler",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.480Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.981Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c74835b2caa5",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_c74835b2caa5",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "Preclearance is a CBP program for inspecting travelers abroad",
         "tagteam:char_count": 61,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-22T11:48:43.470Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.970Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -180,7 +180,7 @@
       {
         "@id": "inst:ParsingAct_c74835b2",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -204,7 +204,7 @@
             "@id": "inst:Act_inspecting"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.470Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.970Z"
       }
     ]
   }

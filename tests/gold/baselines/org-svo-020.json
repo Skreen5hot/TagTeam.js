@@ -7,12 +7,12 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T11:48:42.636Z",
+  "generatedAt": "2026-02-22T12:26:16.092Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The bureau",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "an investigation",
@@ -94,7 +94,7 @@
       {
         "@id": "inst:Act_conducted",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "conducted",
@@ -144,7 +144,7 @@
         "rdfs:label": "bureau",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.636Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.092Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_62a0e7609c2c",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -156,26 +156,26 @@
         ],
         "rdfs:label": "investigation",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.636Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.092Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_62a0e7609c2c",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_62a0e7609c2c",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The bureau conducted an investigation",
         "tagteam:char_count": 37,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-22T11:48:42.629Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.083Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -192,7 +192,7 @@
       {
         "@id": "inst:ParsingAct_62a0e760",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_conducted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.629Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.083Z"
       }
     ]
   }

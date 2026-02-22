@@ -7,12 +7,12 @@
     "cbp",
     "operations"
   ],
-  "generatedAt": "2026-02-22T11:48:43.329Z",
+  "generatedAt": "2026-02-22T12:26:16.827Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The station commander",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "overtime",
@@ -67,7 +67,7 @@
       {
         "@id": "inst:Act_authorized",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "authorized",
@@ -102,26 +102,26 @@
         "rdfs:label": "station commander",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.329Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.827Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1739823fda8d",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_1739823fda8d",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The station commander authorized overtime",
         "tagteam:char_count": 41,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-22T11:48:43.322Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.820Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -138,7 +138,7 @@
       {
         "@id": "inst:ParsingAct_1739823f",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -159,7 +159,7 @@
             "@id": "inst:Act_authorized"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.322Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.820Z"
       }
     ]
   }

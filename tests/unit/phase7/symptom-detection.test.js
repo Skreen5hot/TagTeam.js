@@ -2,7 +2,7 @@
  * Symptom & Quality Detection Test Suite
  * Phase 7.0 Story 2: Symptoms → BFO Quality (bfo:BFO_0000019)
  *
- * Ensures "chest pain" becomes bfo:BFO_0000019 (not cco:Artifact)
+ * Ensures "chest pain" becomes bfo:BFO_0000019 (not Artifact)
  */
 
 const assert = require('assert');
@@ -160,8 +160,8 @@ test('Tier 2 node for "fever" typed BFO_0000019 (not Artifact)', () => {
   assert.ok(tier2, 'Should find Tier 2 node for "fever"');
   assert.ok(tier2['@type'].includes('bfo:BFO_0000019'),
     '@type should include bfo:BFO_0000019');
-  assert.ok(!tier2['@type'].includes('cco:Artifact'),
-    '@type should NOT include cco:Artifact');
+  assert.ok(!tier2['@type'].includes('Artifact'),
+    '@type should NOT include Artifact');
 });
 
 // ═══════════════════════════════════════════════════════════════
@@ -172,14 +172,14 @@ test('"ventilator" still classified as Artifact', () => {
   const entities = extractEntities('The doctor used the ventilator');
   const vent = findEntity(entities, 'ventilator');
   assert.ok(vent, 'Should find "ventilator" entity');
-  assert.strictEqual(vent['tagteam:denotesType'], 'cco:Artifact');
+  assert.strictEqual(vent['tagteam:denotesType'], 'Artifact');
 });
 
 test('"patient" still classified as Person', () => {
   const entities = extractEntities('The patient has chest pain');
   const patient = findEntity(entities, 'patient');
   assert.ok(patient, 'Should find "patient" entity');
-  assert.strictEqual(patient['tagteam:denotesType'], 'cco:Person');
+  assert.strictEqual(patient['tagteam:denotesType'], 'Person');
 });
 
 // ═══════════════════════════════════════════════════════════════
@@ -190,8 +190,8 @@ test('Symptom entity not assigned as agent in full graph', () => {
   const graph = buildGraph('Patient reports chest pain');
   const nodes = graph['@graph'] || [];
   const acts = nodes.filter(n => n['@type'] && (
-    n['@type'].includes('cco:IntentionalAct') ||
-    n['@type'].includes('cco:ActOfCommunication')
+    n['@type'].includes('IntentionalAct') ||
+    n['@type'].includes('ActOfCommunication')
   ));
   for (const act of acts) {
     if (act['has_agent']) {

@@ -7,16 +7,16 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T11:48:42.473Z",
+  "generatedAt": "2026-02-22T12:26:15.914Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The officer",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the individual",
-      "type": "cco:Person"
+      "type": "Person"
     }
   ],
   "expectedRoles": [
@@ -67,7 +67,7 @@
         "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Person_Officer_f4a0ee1a5e69"
+          "@id": "inst:Person_Officer_3f5d9f2f7ad0"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_6e24e7fb5edc"
@@ -94,7 +94,7 @@
       {
         "@id": "inst:Act_detained",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "detained",
@@ -136,15 +136,15 @@
         "tagteam:parseProbability": 0.7804
       },
       {
-        "@id": "inst:Person_Officer_f4a0ee1a5e69",
+        "@id": "inst:Person_Officer_3f5d9f2f7ad0",
         "@type": [
-          "cco:Person",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "officer",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.473Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.914Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6e24e7fb5edc",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -156,26 +156,26 @@
         ],
         "rdfs:label": "individual",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.473Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.914Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6e24e7fb5edc",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_6e24e7fb5edc",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The officer detained the individual",
         "tagteam:char_count": 35,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-22T11:48:42.465Z"
+        "tagteam:received_at": "2026-02-22T12:26:15.906Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -192,7 +192,7 @@
       {
         "@id": "inst:ParsingAct_6e24e7fb",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_detained"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.465Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.906Z"
       }
     ]
   }

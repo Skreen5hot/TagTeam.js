@@ -80,12 +80,12 @@ test('ICE with is_concretized_by passes', () => {
     '@graph': [
       {
         '@id': 'inst:Autonomy_ICE_123',
-        '@type': ['tagteam:EthicalValueICE', 'cco:InformationContentEntity'],
+        '@type': ['tagteam:EthicalValueICE', 'InformationContentEntity'],
         'is_concretized_by': 'inst:Input_IBE_456'
       },
       {
         '@id': 'inst:Input_IBE_456',
-        '@type': ['cco:InformationBearingEntity'],
+        '@type': ['InformationBearingEntity'],
         'has_text_value': 'The doctor must decide...'
       }
     ]
@@ -102,7 +102,7 @@ test('ICE without is_concretized_by generates warning', () => {
     '@graph': [
       {
         '@id': 'inst:Orphan_ICE_123',
-        '@type': ['cco:InformationContentEntity']
+        '@type': ['InformationContentEntity']
         // Missing is_concretized_by
       }
     ]
@@ -120,7 +120,7 @@ test('IBE without has_text_value generates warning', () => {
     '@graph': [
       {
         '@id': 'inst:Empty_IBE_123',
-        '@type': ['cco:InformationBearingEntity']
+        '@type': ['InformationBearingEntity']
         // Missing has_text_value
       }
     ]
@@ -143,7 +143,7 @@ test('role with bearer passes', () => {
     '@graph': [
       {
         '@id': 'inst:Doctor_0',
-        '@type': ['cco:Agent', 'tagteam:DiscourseReferent'],
+        '@type': ['Agent', 'tagteam:DiscourseReferent'],
         'cco:is_bearer_of': 'inst:AgentRole_0'
       },
       {
@@ -154,7 +154,7 @@ test('role with bearer passes', () => {
       },
       {
         '@id': 'inst:Allocation_Act_0',
-        '@type': ['cco:IntentionalAct']
+        '@type': ['IntentionalAct']
       }
     ]
   };
@@ -190,7 +190,7 @@ test('unrealized role generates warning', () => {
     '@graph': [
       {
         '@id': 'inst:Doctor_0',
-        '@type': ['cco:Agent'],
+        '@type': ['Agent'],
         'cco:is_bearer_of': 'inst:DormantRole_0'
       },
       {
@@ -223,7 +223,7 @@ test('designative ICE with designates passes', () => {
       },
       {
         '@id': 'inst:Doctor_0',
-        '@type': ['cco:Person']
+        '@type': ['Person']
       }
     ]
   };
@@ -388,13 +388,13 @@ test('act with participant and temporal grounding passes', () => {
     '@graph': [
       {
         '@id': 'inst:Allocation_Act_0',
-        '@type': ['cco:IntentionalAct'],
+        '@type': ['IntentionalAct'],
         'cco:occurs_during': 'inst:TimeInterval_0',
         'cco:has_participant': 'inst:Doctor_0'
       },
       {
         '@id': 'inst:Doctor_0',
-        '@type': ['cco:Agent']
+        '@type': ['Agent']
       },
       {
         '@id': 'inst:TimeInterval_0',
@@ -414,7 +414,7 @@ test('act without participant generates warning', () => {
     '@graph': [
       {
         '@id': 'inst:Lonely_Act_0',
-        '@type': ['cco:IntentionalAct']
+        '@type': ['IntentionalAct']
         // No participant
       }
     ]
@@ -437,12 +437,12 @@ test('is_concretized_by with valid target passes', () => {
     '@graph': [
       {
         '@id': 'inst:ICE_0',
-        '@type': ['cco:InformationContentEntity'],
+        '@type': ['InformationContentEntity'],
         'is_concretized_by': 'inst:IBE_0'
       },
       {
         '@id': 'inst:IBE_0',
-        '@type': ['cco:InformationBearingEntity']
+        '@type': ['InformationBearingEntity']
       }
     ]
   };
@@ -459,12 +459,12 @@ test('is_part_of linking Continuant to Process is VIOLATION', () => {
     '@graph': [
       {
         '@id': 'inst:Person_0',
-        '@type': ['cco:Person'],
+        '@type': ['Person'],
         'cco:is_part_of': 'inst:Act_0'
       },
       {
         '@id': 'inst:Act_0',
-        '@type': ['cco:IntentionalAct', 'bfo:BFO_0000015']
+        '@type': ['IntentionalAct', 'bfo:BFO_0000015']
       }
     ]
   };
@@ -486,7 +486,7 @@ test('known classes pass validation', () => {
     '@graph': [
       {
         '@id': 'inst:Person_0',
-        '@type': ['cco:Person', 'owl:NamedIndividual']
+        '@type': ['Person', 'owl:NamedIndividual']
       }
     ]
   };
@@ -494,7 +494,7 @@ test('known classes pass validation', () => {
   const result = validator.validate(graph);
 
   assert(!result.warnings.some(w =>
-    w.pattern === 'VocabularyValidation' && w.message.includes('cco:Person')
+    w.pattern === 'VocabularyValidation' && w.message.includes('Person')
   ), 'Known class should not generate warning');
 });
 
@@ -543,12 +543,12 @@ test('perfect graph has high compliance score', () => {
     '@graph': [
       {
         '@id': 'inst:ICE_0',
-        '@type': ['cco:InformationContentEntity'],
+        '@type': ['InformationContentEntity'],
         'is_concretized_by': 'inst:IBE_0'
       },
       {
         '@id': 'inst:IBE_0',
-        '@type': ['cco:InformationBearingEntity'],
+        '@type': ['InformationBearingEntity'],
         'has_text_value': 'Some text'
       }
     ]
@@ -586,7 +586,7 @@ test('strict mode treats warnings as violations', () => {
     '@graph': [
       {
         '@id': 'inst:ICE_0',
-        '@type': ['cco:InformationContentEntity']
+        '@type': ['InformationContentEntity']
         // Missing is_concretized_by (normally a warning)
       }
     ]
@@ -632,20 +632,20 @@ test('validates realistic TagTeam graph', () => {
       // IBE
       {
         '@id': 'inst:Input_Text_IBE_abc123',
-        '@type': ['cco:InformationBearingEntity', 'owl:NamedIndividual'],
+        '@type': ['InformationBearingEntity', 'owl:NamedIndividual'],
         'has_text_value': 'The doctor must allocate the last ventilator',
         'tagteam:received_at': '2026-01-19T10:00:00Z'
       },
       // Parser Agent
       {
         '@id': 'inst:TagTeam_Parser_v4_0_0',
-        '@type': ['cco:Agent', 'owl:NamedIndividual'],
+        '@type': ['Agent', 'owl:NamedIndividual'],
         'tagteam:version': '4.0.0-phase4-week3'
       },
       // Value ICE
       {
         '@id': 'inst:Autonomy_ICE_def456',
-        '@type': ['tagteam:EthicalValueICE', 'cco:InformationContentEntity', 'owl:NamedIndividual'],
+        '@type': ['tagteam:EthicalValueICE', 'InformationContentEntity', 'owl:NamedIndividual'],
         'is_concretized_by': 'inst:Input_Text_IBE_abc123',
         'tagteam:valueName': 'Autonomy'
       },

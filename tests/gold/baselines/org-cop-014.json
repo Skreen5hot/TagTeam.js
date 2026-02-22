@@ -6,16 +6,16 @@
     "copular",
     "definitional"
   ],
-  "generatedAt": "2026-02-22T11:48:42.387Z",
+  "generatedAt": "2026-02-22T12:26:15.829Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "A field office",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "a regional operational unit",
-      "type": "cco:Organization"
+      "type": "Organization"
     }
   ],
   "expectedRoles": [],
@@ -76,26 +76,26 @@
         "tagteam:nominatedClassLabel": "Field Office",
         "tagteam:nominationBasis": "unknown",
         "tagteam:requiresOntologyResolution": true,
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.387Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.828Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7836a7e31d07",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_7836a7e31d07",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "A field office is a regional operational unit",
         "tagteam:char_count": 45,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T11:48:42.373Z"
+        "tagteam:received_at": "2026-02-22T12:26:15.815Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -112,7 +112,7 @@
       {
         "@id": "inst:ParsingAct_7836a7e3",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -130,7 +130,7 @@
             "@id": "inst:A_field_office"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.373Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.815Z"
       }
     ]
   }

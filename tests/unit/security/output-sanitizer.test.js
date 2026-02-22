@@ -94,7 +94,7 @@ test('AC-OS-4: All allowed properties are preserved', () => {
     label: 'includes',
     fullName: 'International Centre',
     nameComponents: ['International', 'Centre'],
-    denotedType: 'cco:Organization',
+    denotedType: 'Organization',
     candidateType: 'bfo:Entity',
     expression: 'the group includes',
     assertedRelation: 'cco:has_member',
@@ -118,7 +118,7 @@ test('AC-OS-4: All allowed properties are preserved', () => {
   assert.strictEqual(result.label, 'includes');
   assert.strictEqual(result.fullName, 'International Centre');
   assert.deepStrictEqual(result.nameComponents, ['International', 'Centre']);
-  assert.strictEqual(result.denotedType, 'cco:Organization');
+  assert.strictEqual(result.denotedType, 'Organization');
   assert.strictEqual(result.candidateType, 'bfo:Entity');
   assert.strictEqual(result.expression, 'the group includes');
   assert.strictEqual(result.assertedRelation, 'cco:has_member');

@@ -41,7 +41,7 @@ function findEntityByLabel(graph, label) {
            nodeLabel.toLowerCase().includes(labelLower);
   });
 
-  // Prefer Tier 2 entities (cco:Person, cco:Artifact, etc.) over Tier 1 DiscourseReferents
+  // Prefer Tier 2 entities (Person, Artifact, etc.) over Tier 1 DiscourseReferents
   const tier2 = matches.find(n => {
     const types = n['@type'] || [];
     return types.some(t => t.startsWith('cco:') || t.startsWith('bfo:BFO_000001') || t.startsWith('bfo:BFO_0000038'));
@@ -71,7 +71,7 @@ function findActByVerb(graph, verb) {
   return getNodes(graph).find(n =>
     n['tagteam:verb']?.toLowerCase() === verbLower &&
     n['@type'] &&
-    (n['@type'].includes('cco:IntentionalAct') ||
+    (n['@type'].includes('IntentionalAct') ||
      n['@type'].some(t => t.startsWith('cco:ActOf')))
   );
 }

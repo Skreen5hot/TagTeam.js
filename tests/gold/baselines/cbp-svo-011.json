@@ -7,16 +7,16 @@
     "cbp",
     "surveillance"
   ],
-  "generatedAt": "2026-02-22T11:48:43.307Z",
+  "generatedAt": "2026-02-22T12:26:16.805Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The air and marine operations center",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "the aircraft",
-      "type": "cco:Artifact"
+      "type": "Artifact"
     }
   ],
   "expectedRoles": [
@@ -98,7 +98,7 @@
       {
         "@id": "inst:Act_tracked",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "tracked",
@@ -148,7 +148,7 @@
         "rdfs:label": "air and marine operations center",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.306Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.804Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9cb5e554a2fa",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -160,26 +160,26 @@
         ],
         "rdfs:label": "aircraft",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.306Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.804Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9cb5e554a2fa",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_9cb5e554a2fa",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The air and marine operations center tracked the aircraft",
         "tagteam:char_count": 57,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-22T11:48:43.296Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.793Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -196,7 +196,7 @@
       {
         "@id": "inst:ParsingAct_9cb5e554",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -220,7 +220,7 @@
             "@id": "inst:Act_tracked"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.296Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.793Z"
       }
     ]
   }

@@ -7,23 +7,23 @@
     "definitional",
     "intelligence"
   ],
-  "generatedAt": "2026-02-22T11:48:42.335Z",
+  "generatedAt": "2026-02-22T12:26:15.774Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The CIA",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "an intelligence agency",
-      "type": "cco:Organization"
+      "type": "Organization"
     }
   ],
   "expectedRoles": [],
   "extractedEntities": [
     {
       "text": "The CIA",
-      "type": "cco:Organization",
+      "type": "Organization",
       "id": "inst:The_CIA"
     }
   ],
@@ -33,7 +33,7 @@
       {
         "@id": "inst:The_CIA",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The CIA",
@@ -43,9 +43,9 @@
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.95,
         "tagteam:genericityBasis": "named_entity",
-        "tagteam:denotesType": "cco:Organization",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Organization_Cia_4300ae87dbba"
+          "@id": "inst:Organization_Cia_b61bfc2ec448"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_bf96c6493def"
@@ -61,34 +61,34 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Organization_Cia_4300ae87dbba",
+        "@id": "inst:Organization_Cia_b61bfc2ec448",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "cia",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.335Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.774Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bf96c6493def",
-        "tagteam:denotesType": "cco:Organization"
+        "tagteam:denotesType": "Organization"
       },
       {
         "@id": "inst:Input_Text_IBE_bf96c6493def",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The CIA is an intelligence agency",
         "tagteam:char_count": 33,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T11:48:42.326Z"
+        "tagteam:received_at": "2026-02-22T12:26:15.761Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -105,7 +105,7 @@
       {
         "@id": "inst:ParsingAct_bf96c649",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -123,7 +123,7 @@
             "@id": "inst:The_CIA"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.326Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.761Z"
       }
     ]
   }

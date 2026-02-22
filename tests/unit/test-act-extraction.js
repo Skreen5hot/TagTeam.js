@@ -54,7 +54,7 @@ test('extract() creates IntentionalAct nodes', () => {
 
   assert(acts.length >= 1, 'Has at least one act');
   const act = acts[0];
-  assert(act['@type'].includes('cco:IntentionalAct'), 'Has IntentionalAct type');
+  assert(act['@type'].includes('IntentionalAct'), 'Has IntentionalAct type');
 });
 
 test('extract() includes owl:NamedIndividual in type array', () => {
@@ -68,49 +68,49 @@ test('extract() includes owl:NamedIndividual in type array', () => {
 // Test Suite 2: Verb-to-CCO Mapping (AC-1.3.1)
 console.log('\nTest Suite 2: Verb-to-CCO Mapping (AC-1.3.1)');
 
-test('maps "treat" to cco:IntentionalAct', () => {
+test('maps "treat" to IntentionalAct', () => {
   const extractor = new ActExtractor();
   const acts = extractor.extract('The doctor treats the patient');
 
   const treatAct = acts.find(a => a['tagteam:verb'] === 'treat');
   assert(treatAct, 'Found treat act');
-  assert(treatAct['@type'].includes('cco:IntentionalAct'), 'Correct CCO type');
+  assert(treatAct['@type'].includes('IntentionalAct'), 'Correct CCO type');
 });
 
-test('maps "distribute" to cco:IntentionalAct', () => {
+test('maps "distribute" to IntentionalAct', () => {
   const extractor = new ActExtractor();
   const acts = extractor.extract('The doctor distributes the resources');
 
   const distAct = acts.find(a => a['tagteam:verb'] === 'distribute');
   assert(distAct, 'Found distribute act');
-  assert(distAct['@type'].includes('cco:IntentionalAct'), 'Correct CCO type');
+  assert(distAct['@type'].includes('IntentionalAct'), 'Correct CCO type');
 });
 
-test('maps "decide" to cco:IntentionalAct', () => {
+test('maps "decide" to IntentionalAct', () => {
   const extractor = new ActExtractor();
   const acts = extractor.extract('The family decides the outcome');
 
   const decideAct = acts.find(a => a['tagteam:verb'] === 'decide');
   assert(decideAct, 'Found decide act');
-  assert(decideAct['@type'].includes('cco:IntentionalAct'), 'Correct CCO type');
+  assert(decideAct['@type'].includes('IntentionalAct'), 'Correct CCO type');
 });
 
-test('maps "help" to cco:IntentionalAct', () => {
+test('maps "help" to IntentionalAct', () => {
   const extractor = new ActExtractor();
   const acts = extractor.extract('The nurse helps the patient');
 
   const helpAct = acts.find(a => a['tagteam:verb'] === 'help');
   assert(helpAct, 'Found help act');
-  assert(helpAct['@type'].includes('cco:IntentionalAct'), 'Correct CCO type');
+  assert(helpAct['@type'].includes('IntentionalAct'), 'Correct CCO type');
 });
 
-test('maps unknown verbs to cco:IntentionalAct', () => {
+test('maps unknown verbs to IntentionalAct', () => {
   const extractor = new ActExtractor();
   const acts = extractor.extract('The person walks the path');
 
   const walkAct = acts.find(a => a['tagteam:verb'] === 'walk');
   assert(walkAct, 'Found walk act');
-  assert(walkAct['@type'].includes('cco:IntentionalAct'), 'Fallback to IntentionalAct');
+  assert(walkAct['@type'].includes('IntentionalAct'), 'Fallback to IntentionalAct');
 });
 
 // Test Suite 3: Modality Detection (AC-1.3.1)
@@ -398,7 +398,7 @@ test('acts link to Tier 2 entities when available', () => {
 
   // Find Tier 2 Person entities
   const tier2Persons = graph['@graph'].filter(n =>
-    n['@type'] && n['@type'].includes('cco:Person'));
+    n['@type'] && n['@type'].includes('Person'));
 
   // Find acts
   const acts = graph['@graph'].filter(n =>
@@ -447,8 +447,8 @@ test('Tier 2 linking uses is_about resolution', () => {
 
   // Find Tier 2 persons
   const tier2 = graph['@graph'].filter(n =>
-    n['@type'] && (n['@type'].includes('cco:Person') ||
-                   n['@type'].includes('cco:Artifact')));
+    n['@type'] && (n['@type'].includes('Person') ||
+                   n['@type'].includes('Artifact')));
 
   // Verify is_about links resolve to Tier 2
   referents.forEach(ref => {
@@ -474,7 +474,7 @@ test('complex: "The doctor must allocate the last ventilator between two patient
   // AC-1.3.1: Verb and modality
   assert(allocAct['tagteam:verb'] === 'allocate', 'Verb is allocate');
   assert(allocAct['tagteam:modality'] === 'obligation', 'Modality is obligation');
-  assert(allocAct['@type'].includes('cco:IntentionalAct'), 'Type is IntentionalAct');
+  assert(allocAct['@type'].includes('IntentionalAct'), 'Type is IntentionalAct');
 
   // AC-1.3.2: Links to entities (Tier 2 in v2.2)
   assert(allocAct['has_agent'], 'Has agent');
@@ -498,9 +498,9 @@ test('complex: full Two-Tier graph structure', () => {
   const tier1Referents = graph['@graph'].filter(n =>
     n['@type'] && n['@type'].includes('tagteam:DiscourseReferent'));
   const tier2Entities = graph['@graph'].filter(n =>
-    n['@type'] && (n['@type'].includes('cco:Person') ||
-                   n['@type'].includes('cco:Artifact') ||
-                   n['@type'].includes('cco:Organization')));
+    n['@type'] && (n['@type'].includes('Person') ||
+                   n['@type'].includes('Artifact') ||
+                   n['@type'].includes('Organization')));
   const acts = graph['@graph'].filter(n =>
     n['@type'].some(t => t.includes('ActOf')));
 

@@ -3,7 +3,7 @@
  * Phase 7.1: IEE Realist Pronoun → BFO/CCO Type Mapping
  *
  * Pronouns carry selectional presuppositions about their antecedent's
- * ontological category. "He" presupposes cco:Person, "it" presupposes
+ * ontological category. "He" presupposes Person, "it" presupposes
  * bfo:BFO_0000004 (Independent Continuant), etc.
  */
 
@@ -79,29 +79,29 @@ function findTier2ByLabel(graph, labelIncludes) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// Gendered pronouns → cco:Person
+// Gendered pronouns → Person
 // ═══════════════════════════════════════════════════════════════
 
-test('"He" → denotesType = cco:Person', () => {
+test('"He" → denotesType = Person', () => {
   const entities = extractEntities('He needs to drop the hand gun');
   const he = findEntity(entities, 'he');
   assert.ok(he, 'Should find entity for "He"');
-  assert.strictEqual(he['tagteam:denotesType'], 'cco:Person',
-    'He should denote cco:Person, got: ' + he['tagteam:denotesType']);
+  assert.strictEqual(he['tagteam:denotesType'], 'Person',
+    'He should denote Person, got: ' + he['tagteam:denotesType']);
 });
 
-test('"She" → denotesType = cco:Person', () => {
+test('"She" → denotesType = Person', () => {
   const entities = extractEntities('She prescribes the medication');
   const she = findEntity(entities, 'she');
   assert.ok(she, 'Should find entity for "She"');
-  assert.strictEqual(she['tagteam:denotesType'], 'cco:Person');
+  assert.strictEqual(she['tagteam:denotesType'], 'Person');
 });
 
-test('"Him" → denotesType = cco:Person', () => {
+test('"Him" → denotesType = Person', () => {
   const entities = extractEntities('The doctor treats him');
   const him = findEntity(entities, 'him');
   assert.ok(him, 'Should find entity for "him"');
-  assert.strictEqual(him['tagteam:denotesType'], 'cco:Person');
+  assert.strictEqual(him['tagteam:denotesType'], 'Person');
 });
 
 // ═══════════════════════════════════════════════════════════════
@@ -144,15 +144,15 @@ test('"this" → denotesType = bfo:BFO_0000001 if extracted', () => {
 });
 
 // ═══════════════════════════════════════════════════════════════
-// Tier 2 typing: "He" → cco:Person Tier 2 node
+// Tier 2 typing: "He" → Person Tier 2 node
 // ═══════════════════════════════════════════════════════════════
 
-test('Tier 2 for "He" is typed cco:Person', () => {
+test('Tier 2 for "He" is typed Person', () => {
   const graph = buildGraph('He needs to drop the hand gun');
   const he = findTier2ByLabel(graph, 'he');
   if (he) {
-    assert.ok(he['@type'].includes('cco:Person'),
-      'Tier 2 for "He" should include cco:Person, got: ' + JSON.stringify(he['@type']));
+    assert.ok(he['@type'].includes('Person'),
+      'Tier 2 for "He" should include Person, got: ' + JSON.stringify(he['@type']));
   }
 });
 
@@ -181,19 +181,19 @@ test('Pronoun referentialStatus is still "anaphoric"', () => {
 // Non-pronoun entities remain unchanged
 // ═══════════════════════════════════════════════════════════════
 
-test('"doctor" still typed cco:Person (not affected by pronoun logic)', () => {
+test('"doctor" still typed Person (not affected by pronoun logic)', () => {
   const entities = extractEntities('The doctor examines the patient');
   const doctor = findEntity(entities, 'doctor');
   assert.ok(doctor, 'Should find entity for "doctor"');
-  assert.strictEqual(doctor['tagteam:denotesType'], 'cco:Person');
+  assert.strictEqual(doctor['tagteam:denotesType'], 'Person');
 });
 
-test('"hand gun" still typed cco:Artifact (not affected by pronoun logic)', () => {
+test('"hand gun" still typed Artifact (not affected by pronoun logic)', () => {
   const entities = extractEntities('He needs to drop the hand gun');
   const gun = findEntity(entities, 'gun') || findEntity(entities, 'hand gun');
   assert.ok(gun, 'Should find entity for "hand gun"');
   assert.ok(
-    gun['tagteam:denotesType'] === 'cco:Artifact' || gun['tagteam:denotesType'] === 'bfo:BFO_0000040',
+    gun['tagteam:denotesType'] === 'Artifact' || gun['tagteam:denotesType'] === 'bfo:BFO_0000040',
     'hand gun should be Artifact or Material Entity, got: ' + gun['tagteam:denotesType']
   );
 });

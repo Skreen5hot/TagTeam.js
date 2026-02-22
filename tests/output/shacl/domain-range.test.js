@@ -16,7 +16,7 @@ const SHMLValidator = require('../../../src/graph/SHMLValidator');
 describe('Domain/Range SHACL Validation', function() {
 
   describe('has_agent Constraint (CCO Expert Rule)', function() {
-    // Domain: bfo:Process, Range: cco:Agent
+    // Domain: bfo:Process, Range: Agent
 
     test('has_agent on Process node passes validation', () => {
       const graph = parseToGraph('The doctor treats the patient.');

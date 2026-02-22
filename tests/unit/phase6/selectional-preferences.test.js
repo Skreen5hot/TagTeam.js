@@ -127,13 +127,13 @@ test('VC-010: getVerbClass("believe") returns intentional_mental', (prefs) => {
 // Category 2: Entity Categorization (15 tests)
 // ============================================================================
 
-test('EC-001: getEntityCategories({ type: "cco:Person" }) includes animate', (prefs) => {
-  const result = prefs.getEntityCategories({ type: 'cco:Person' });
+test('EC-001: getEntityCategories({ type: "Person" }) includes animate', (prefs) => {
+  const result = prefs.getEntityCategories({ type: 'Person' });
   assert(result.includes('animate'), `Expected 'animate' in ${JSON.stringify(result)}`);
 }, 'P0');
 
-test('EC-002: getEntityCategories({ type: "cco:Organization" }) includes organization', (prefs) => {
-  const result = prefs.getEntityCategories({ type: 'cco:Organization' });
+test('EC-002: getEntityCategories({ type: "Organization" }) includes organization', (prefs) => {
+  const result = prefs.getEntityCategories({ type: 'Organization' });
   assert(result.includes('organization'), `Expected 'organization' in ${JSON.stringify(result)}`);
 }, 'P0');
 
@@ -157,8 +157,8 @@ test('EC-006: getEntityCategories({ type: "bfo:MaterialEntity", label: "ventilat
   assert(result.includes('inanimate'), `Expected 'inanimate' in ${JSON.stringify(result)}`);
 }, 'P0');
 
-test('EC-007: getEntityCategories({ type: "cco:Person", label: "doctor" }) includes animate', (prefs) => {
-  const result = prefs.getEntityCategories({ type: 'cco:Person', label: 'doctor' });
+test('EC-007: getEntityCategories({ type: "Person", label: "doctor" }) includes animate', (prefs) => {
+  const result = prefs.getEntityCategories({ type: 'Person', label: 'doctor' });
   assert(result.includes('animate'), `Expected 'animate' in ${JSON.stringify(result)}`);
 }, 'P1');
 
@@ -183,8 +183,8 @@ test('EC-011: getEntityCategories({}) returns unknown', (prefs) => {
   assert(result.includes('unknown'), `Expected 'unknown' in ${JSON.stringify(result)}`);
 }, 'P2');
 
-test('EC-012: getEntityCategories({ type: "cco:Agent" }) includes organization and collective', (prefs) => {
-  const result = prefs.getEntityCategories({ type: 'cco:Agent' });
+test('EC-012: getEntityCategories({ type: "Agent" }) includes organization and collective', (prefs) => {
+  const result = prefs.getEntityCategories({ type: 'Agent' });
   assert(result.includes('organization'), `Expected 'organization' in ${JSON.stringify(result)}`);
   assert(result.includes('collective'), `Expected 'collective' in ${JSON.stringify(result)}`);
 }, 'P1');
@@ -208,8 +208,8 @@ test('EC-015: getEntityCategories({ label: "board" }) includes organization', (p
 // Category 3: Subject Validation (20 tests)
 // ============================================================================
 
-test('SV-001: checkSubject("decide", { type: "cco:Person" }) is valid', (prefs) => {
-  const result = prefs.checkSubject('decide', { type: 'cco:Person' });
+test('SV-001: checkSubject("decide", { type: "Person" }) is valid', (prefs) => {
+  const result = prefs.checkSubject('decide', { type: 'Person' });
   assert.strictEqual(result.valid, true, `Expected valid=true, got ${result.valid}`);
   assert(result.confidence >= 0.9, `Expected confidence >= 0.9, got ${result.confidence}`);
 }, 'P0');
@@ -226,8 +226,8 @@ test('SV-003: checkSubject("decide", { label: "committee" }) is valid (organizat
   assert(result.confidence >= 0.85, `Expected confidence >= 0.85, got ${result.confidence}`);
 }, 'P0');
 
-test('SV-004: checkSubject("lift", { type: "cco:Person" }) is valid', (prefs) => {
-  const result = prefs.checkSubject('lift', { type: 'cco:Person' });
+test('SV-004: checkSubject("lift", { type: "Person" }) is valid', (prefs) => {
+  const result = prefs.checkSubject('lift', { type: 'Person' });
   assert.strictEqual(result.valid, true, `Expected valid=true, got ${result.valid}`);
   assert(result.confidence >= 0.9, `Expected confidence >= 0.9, got ${result.confidence}`);
 }, 'P0');
@@ -253,8 +253,8 @@ test('SV-008: checkSubject("cause", { label: "storm" }) is valid (causation allo
   assert.strictEqual(result.valid, true, `Expected valid=true, got ${result.valid}`);
 }, 'P1');
 
-test('SV-009: checkSubject("give", { type: "cco:Person" }) is valid', (prefs) => {
-  const result = prefs.checkSubject('give', { type: 'cco:Person' });
+test('SV-009: checkSubject("give", { type: "Person" }) is valid', (prefs) => {
+  const result = prefs.checkSubject('give', { type: 'Person' });
   assert.strictEqual(result.valid, true, `Expected valid=true, got ${result.valid}`);
   assert(result.confidence >= 0.9, `Expected confidence >= 0.9, got ${result.confidence}`);
 }, 'P0');
@@ -279,8 +279,8 @@ test('SV-013: checkSubject("think", { label: "policy" }) is invalid', (prefs) =>
   assert.strictEqual(result.valid, false, `Expected valid=false, got ${result.valid}`);
 }, 'P1');
 
-test('SV-014: checkSubject("walk", { type: "cco:Person" }) returns valid with low confidence (unknown verb)', (prefs) => {
-  const result = prefs.checkSubject('walk', { type: 'cco:Person' });
+test('SV-014: checkSubject("walk", { type: "Person" }) returns valid with low confidence (unknown verb)', (prefs) => {
+  const result = prefs.checkSubject('walk', { type: 'Person' });
   assert.strictEqual(result.valid, true, `Expected valid=true for unknown verb, got ${result.valid}`);
   assert(result.confidence <= 0.6, `Expected low confidence for unknown verb, got ${result.confidence}`);
 }, 'P1');
@@ -305,8 +305,8 @@ test('SV-018: checkSubject("allocate", { label: "board" }) is valid', (prefs) =>
   assert.strictEqual(result.valid, true, `Expected valid=true, got ${result.valid}`);
 }, 'P1');
 
-test('SV-019: checkSubject("prefer", { type: "cco:Person" }) is valid', (prefs) => {
-  const result = prefs.checkSubject('prefer', { type: 'cco:Person' });
+test('SV-019: checkSubject("prefer", { type: "Person" }) is valid', (prefs) => {
+  const result = prefs.checkSubject('prefer', { type: 'Person' });
   assert.strictEqual(result.valid, true, `Expected valid=true, got ${result.valid}`);
 }, 'P1');
 
@@ -374,7 +374,7 @@ test('OV-010: checkObject("provide", { label: "care" }) is valid', (prefs) => {
 // ============================================================================
 
 test('EDGE-001: Unknown verb with known entity returns valid with low confidence', (prefs) => {
-  const result = prefs.checkSubject('flibbertigibbet', { type: 'cco:Person' });
+  const result = prefs.checkSubject('flibbertigibbet', { type: 'Person' });
   assert.strictEqual(result.valid, true, `Expected valid=true for unknown verb`);
   assert(result.confidence <= 0.6, `Expected low confidence, got ${result.confidence}`);
 }, 'P1');
@@ -386,7 +386,7 @@ test('EDGE-002: Known verb with empty entity returns valid with low confidence',
 }, 'P1');
 
 test('EDGE-003: Empty verb returns valid with zero confidence', (prefs) => {
-  const result = prefs.checkSubject('', { type: 'cco:Person' });
+  const result = prefs.checkSubject('', { type: 'Person' });
   assert.strictEqual(result.valid, true, `Expected valid=true for empty verb`);
   assert(result.confidence === 0 || result.confidence <= 0.1, `Expected ~0 confidence, got ${result.confidence}`);
 }, 'P2');

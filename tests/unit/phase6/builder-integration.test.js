@@ -281,8 +281,8 @@ describe('Phase 6.4: Builder Integration + Deontic Enhancement', () => {
       const result = builder.build('The doctor must provide care.');
 
       const acts = result['@graph'].filter(node =>
-        node['@type']?.includes('cco:IntentionalAct') ||
-        node['@type']?.includes('cco:IntentionalAct')
+        node['@type']?.includes('IntentionalAct') ||
+        node['@type']?.includes('IntentionalAct')
       );
 
       if (acts.length > 0) {
@@ -299,7 +299,7 @@ describe('Phase 6.4: Builder Integration + Deontic Enhancement', () => {
 
       const acts = result['@graph'].filter(node =>
         node['@type'] && (
-          node['@type'].includes('cco:IntentionalAct') ||
+          node['@type'].includes('IntentionalAct') ||
           node['tagteam:modality'] === 'prohibition'
         )
       );

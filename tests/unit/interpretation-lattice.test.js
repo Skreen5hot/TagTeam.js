@@ -77,7 +77,7 @@ let failed = 0;
 // Mock data
 const mockDefaultGraph = {
   '@graph': [
-    { '@id': 'act_1', '@type': 'cco:IntentionalAct', 'rdfs:label': 'allocate' }
+    { '@id': 'act_1', '@type': 'IntentionalAct', 'rdfs:label': 'allocate' }
   ]
 };
 
@@ -127,7 +127,7 @@ const mockAlternative = {
   plausibility: 0.3,
   derivedFrom: 'act_1',
   ambiguityType: 'modal_force',
-  node: { '@id': 'act_1_alt_expectation', '@type': 'cco:IntentionalAct' }
+  node: { '@id': 'act_1_alt_expectation', '@type': 'IntentionalAct' }
 };
 
 describe('InterpretationLattice', () => {

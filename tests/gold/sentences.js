@@ -41,8 +41,8 @@ const sentences = [
     subset: 'organizational',
     tags: ['copular', 'definitional', 'government'],
     expectedEntities: [
-      { text: 'CBP', type: 'cco:Organization' },
-      { text: 'DHS', type: 'cco:Organization' }
+      { text: 'CBP', type: 'Organization' },
+      { text: 'DHS', type: 'Organization' }
     ],
     expectedRoles: []
   },
@@ -52,8 +52,8 @@ const sentences = [
     subset: 'organizational',
     tags: ['copular', 'definitional', 'government'],
     expectedEntities: [
-      { text: 'The FBI', type: 'cco:Organization' },
-      { text: 'a federal law enforcement agency', type: 'cco:Organization' }
+      { text: 'The FBI', type: 'Organization' },
+      { text: 'a federal law enforcement agency', type: 'Organization' }
     ],
     expectedRoles: []
   },
@@ -63,8 +63,8 @@ const sentences = [
     subset: 'organizational',
     tags: ['copular', 'definitional', 'government'],
     expectedEntities: [
-      { text: 'Border Patrol', type: 'cco:Organization' },
-      { text: 'CBP', type: 'cco:Organization' }
+      { text: 'Border Patrol', type: 'Organization' },
+      { text: 'CBP', type: 'Organization' }
     ],
     expectedRoles: []
   },
@@ -74,7 +74,7 @@ const sentences = [
     subset: 'organizational',
     tags: ['copular', 'definitional', 'government'],
     expectedEntities: [
-      { text: 'FEMA', type: 'cco:Organization' },
+      { text: 'FEMA', type: 'Organization' },
       { text: 'disaster relief', type: 'bfo:Process' }
     ],
     expectedRoles: []
@@ -85,8 +85,8 @@ const sentences = [
     subset: 'organizational',
     tags: ['copular', 'definitional', 'government'],
     expectedEntities: [
-      { text: 'The Department of Justice', type: 'cco:Organization' },
-      { text: 'a cabinet-level department', type: 'cco:Organization' }
+      { text: 'The Department of Justice', type: 'Organization' },
+      { text: 'a cabinet-level department', type: 'Organization' }
     ],
     expectedRoles: []
   },
@@ -96,8 +96,8 @@ const sentences = [
     subset: 'organizational',
     tags: ['copular', 'definitional', 'government'],
     expectedEntities: [
-      { text: 'ICE', type: 'cco:Organization' },
-      { text: 'DHS', type: 'cco:Organization' }
+      { text: 'ICE', type: 'Organization' },
+      { text: 'DHS', type: 'Organization' }
     ],
     expectedRoles: []
   },
@@ -107,8 +107,8 @@ const sentences = [
     subset: 'organizational',
     tags: ['copular', 'definitional', 'government'],
     expectedEntities: [
-      { text: 'The Secret Service', type: 'cco:Organization' },
-      { text: 'a federal agency', type: 'cco:Organization' }
+      { text: 'The Secret Service', type: 'Organization' },
+      { text: 'a federal agency', type: 'Organization' }
     ],
     expectedRoles: []
   },
@@ -118,7 +118,7 @@ const sentences = [
     subset: 'organizational',
     tags: ['copular', 'definitional', 'government'],
     expectedEntities: [
-      { text: 'TSA', type: 'cco:Organization' },
+      { text: 'TSA', type: 'Organization' },
       { text: 'transportation security', type: 'bfo:Process' }
     ],
     expectedRoles: []
@@ -129,8 +129,8 @@ const sentences = [
     subset: 'organizational',
     tags: ['copular', 'definitional', 'military'],
     expectedEntities: [
-      { text: 'The Coast Guard', type: 'cco:Organization' },
-      { text: 'the armed forces', type: 'cco:Organization' }
+      { text: 'The Coast Guard', type: 'Organization' },
+      { text: 'the armed forces', type: 'Organization' }
     ],
     expectedRoles: []
   },
@@ -140,8 +140,8 @@ const sentences = [
     subset: 'organizational',
     tags: ['copular', 'definitional', 'government'],
     expectedEntities: [
-      { text: 'DEA', type: 'cco:Organization' },
-      { text: 'the primary federal drug enforcement agency', type: 'cco:Organization' }
+      { text: 'DEA', type: 'Organization' },
+      { text: 'the primary federal drug enforcement agency', type: 'Organization' }
     ],
     expectedRoles: []
   },
@@ -151,8 +151,8 @@ const sentences = [
     subset: 'organizational',
     tags: ['copular', 'definitional', 'intelligence'],
     expectedEntities: [
-      { text: 'The CIA', type: 'cco:Organization' },
-      { text: 'an intelligence agency', type: 'cco:Organization' }
+      { text: 'The CIA', type: 'Organization' },
+      { text: 'an intelligence agency', type: 'Organization' }
     ],
     expectedRoles: []
   },
@@ -162,8 +162,8 @@ const sentences = [
     subset: 'organizational',
     tags: ['copular', 'definitional', 'government'],
     expectedEntities: [
-      { text: 'NASA', type: 'cco:Organization' },
-      { text: 'the federal government', type: 'cco:Organization' }
+      { text: 'NASA', type: 'Organization' },
+      { text: 'the federal government', type: 'Organization' }
     ],
     expectedRoles: []
   },
@@ -173,8 +173,8 @@ const sentences = [
     subset: 'organizational',
     tags: ['copular', 'definitional', 'government'],
     expectedEntities: [
-      { text: 'The attorney general', type: 'cco:Person' },
-      { text: 'the Department of Justice', type: 'cco:Organization' }
+      { text: 'The attorney general', type: 'Person' },
+      { text: 'the Department of Justice', type: 'Organization' }
     ],
     expectedRoles: []
   },
@@ -184,8 +184,8 @@ const sentences = [
     subset: 'organizational',
     tags: ['copular', 'definitional'],
     expectedEntities: [
-      { text: 'A field office', type: 'cco:Organization' },
-      { text: 'a regional operational unit', type: 'cco:Organization' }
+      { text: 'A field office', type: 'Organization' },
+      { text: 'a regional operational unit', type: 'Organization' }
     ],
     expectedRoles: []
   },
@@ -195,8 +195,8 @@ const sentences = [
     subset: 'organizational',
     tags: ['copular', 'definitional', 'government'],
     expectedEntities: [
-      { text: 'The inspector general', type: 'cco:Person' },
-      { text: 'an independent oversight official', type: 'cco:Person' }
+      { text: 'The inspector general', type: 'Person' },
+      { text: 'an independent oversight official', type: 'Person' }
     ],
     expectedRoles: []
   },
@@ -210,8 +210,8 @@ const sentences = [
     subset: 'organizational',
     tags: ['svo', 'government', 'action'],
     expectedEntities: [
-      { text: 'The FBI', type: 'cco:Organization' },
-      { text: 'the case', type: 'cco:InformationContentEntity' }
+      { text: 'The FBI', type: 'Organization' },
+      { text: 'the case', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'FBI', role: 'Agent' },
@@ -224,9 +224,9 @@ const sentences = [
     subset: 'organizational',
     tags: ['svo', 'government', 'action'],
     expectedEntities: [
-      { text: 'CBP', type: 'cco:Organization' },
-      { text: 'the suspect', type: 'cco:Person' },
-      { text: 'the border', type: 'cco:Facility' }
+      { text: 'CBP', type: 'Organization' },
+      { text: 'the suspect', type: 'Person' },
+      { text: 'the border', type: 'Facility' }
     ],
     expectedRoles: [
       { entity: 'CBP', role: 'Agent' },
@@ -240,8 +240,8 @@ const sentences = [
     subset: 'organizational',
     tags: ['svo', 'government', 'action'],
     expectedEntities: [
-      { text: 'The committee', type: 'cco:Organization' },
-      { text: 'the proposal', type: 'cco:InformationContentEntity' }
+      { text: 'The committee', type: 'Organization' },
+      { text: 'the proposal', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'committee', role: 'Agent' },
@@ -254,9 +254,9 @@ const sentences = [
     subset: 'organizational',
     tags: ['svo', 'government', 'action'],
     expectedEntities: [
-      { text: 'The agent', type: 'cco:Person' },
-      { text: 'a report', type: 'cco:InformationContentEntity' },
-      { text: 'the office', type: 'cco:Organization' }
+      { text: 'The agent', type: 'Person' },
+      { text: 'a report', type: 'InformationContentEntity' },
+      { text: 'the office', type: 'Organization' }
     ],
     expectedRoles: [
       { entity: 'agent', role: 'Agent' },
@@ -269,7 +269,7 @@ const sentences = [
     subset: 'organizational',
     tags: ['svo', 'government', 'action'],
     expectedEntities: [
-      { text: 'The director', type: 'cco:Person' },
+      { text: 'The director', type: 'Person' },
       { text: 'the operation', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -283,8 +283,8 @@ const sentences = [
     subset: 'organizational',
     tags: ['svo', 'government', 'action'],
     expectedEntities: [
-      { text: 'The officer', type: 'cco:Person' },
-      { text: 'the individual', type: 'cco:Person' }
+      { text: 'The officer', type: 'Person' },
+      { text: 'the individual', type: 'Person' }
     ],
     expectedRoles: [
       { entity: 'officer', role: 'Agent' },
@@ -297,8 +297,8 @@ const sentences = [
     subset: 'organizational',
     tags: ['svo', 'government', 'action'],
     expectedEntities: [
-      { text: 'The analyst', type: 'cco:Person' },
-      { text: 'the intelligence briefing', type: 'cco:InformationContentEntity' }
+      { text: 'The analyst', type: 'Person' },
+      { text: 'the intelligence briefing', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'analyst', role: 'Agent' },
@@ -311,7 +311,7 @@ const sentences = [
     subset: 'organizational',
     tags: ['svo', 'government', 'action'],
     expectedEntities: [
-      { text: 'The task force', type: 'cco:Organization' },
+      { text: 'The task force', type: 'Organization' },
       { text: 'the response', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -325,8 +325,8 @@ const sentences = [
     subset: 'organizational',
     tags: ['svo', 'government', 'action'],
     expectedEntities: [
-      { text: 'The inspector', type: 'cco:Person' },
-      { text: 'the evidence', type: 'cco:InformationContentEntity' }
+      { text: 'The inspector', type: 'Person' },
+      { text: 'the evidence', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'inspector', role: 'Agent' },
@@ -339,8 +339,8 @@ const sentences = [
     subset: 'organizational',
     tags: ['svo', 'government', 'action'],
     expectedEntities: [
-      { text: 'The secretary', type: 'cco:Person' },
-      { text: 'a statement', type: 'cco:InformationContentEntity' }
+      { text: 'The secretary', type: 'Person' },
+      { text: 'a statement', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'secretary', role: 'Agent' },
@@ -353,8 +353,8 @@ const sentences = [
     subset: 'organizational',
     tags: ['svo', 'government', 'action'],
     expectedEntities: [
-      { text: 'The agency', type: 'cco:Organization' },
-      { text: 'additional personnel', type: 'cco:Person' }
+      { text: 'The agency', type: 'Organization' },
+      { text: 'additional personnel', type: 'Person' }
     ],
     expectedRoles: [
       { entity: 'agency', role: 'Agent' },
@@ -367,9 +367,9 @@ const sentences = [
     subset: 'organizational',
     tags: ['svo', 'government', 'action', 'pp'],
     expectedEntities: [
-      { text: 'The marshal', type: 'cco:Person' },
-      { text: 'the prisoner', type: 'cco:Person' },
-      { text: 'the courthouse', type: 'cco:Facility' }
+      { text: 'The marshal', type: 'Person' },
+      { text: 'the prisoner', type: 'Person' },
+      { text: 'the courthouse', type: 'Facility' }
     ],
     expectedRoles: [
       { entity: 'marshal', role: 'Agent' },
@@ -383,7 +383,7 @@ const sentences = [
     subset: 'organizational',
     tags: ['svo', 'government', 'action'],
     expectedEntities: [
-      { text: 'The forensic team', type: 'cco:Organization' },
+      { text: 'The forensic team', type: 'Organization' },
       { text: 'the samples', type: 'bfo:Entity' }
     ],
     expectedRoles: [
@@ -397,9 +397,9 @@ const sentences = [
     subset: 'organizational',
     tags: ['svo', 'government', 'action', 'pp'],
     expectedEntities: [
-      { text: 'The prosecutor', type: 'cco:Person' },
-      { text: 'the evidence', type: 'cco:InformationContentEntity' },
-      { text: 'the jury', type: 'cco:Organization' }
+      { text: 'The prosecutor', type: 'Person' },
+      { text: 'the evidence', type: 'InformationContentEntity' },
+      { text: 'the jury', type: 'Organization' }
     ],
     expectedRoles: [
       { entity: 'prosecutor', role: 'Agent' },
@@ -413,8 +413,8 @@ const sentences = [
     subset: 'organizational',
     tags: ['svo', 'government', 'action'],
     expectedEntities: [
-      { text: 'The witness', type: 'cco:Person' },
-      { text: 'testimony', type: 'cco:InformationContentEntity' }
+      { text: 'The witness', type: 'Person' },
+      { text: 'testimony', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'witness', role: 'Agent' },
@@ -427,7 +427,7 @@ const sentences = [
     subset: 'organizational',
     tags: ['svo', 'government', 'action'],
     expectedEntities: [
-      { text: 'The patrol unit', type: 'cco:Organization' },
+      { text: 'The patrol unit', type: 'Organization' },
       { text: 'the perimeter', type: 'bfo:Entity' }
     ],
     expectedRoles: [
@@ -441,8 +441,8 @@ const sentences = [
     subset: 'organizational',
     tags: ['svo', 'government', 'action'],
     expectedEntities: [
-      { text: 'The department', type: 'cco:Organization' },
-      { text: 'new regulations', type: 'cco:InformationContentEntity' }
+      { text: 'The department', type: 'Organization' },
+      { text: 'new regulations', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'department', role: 'Agent' },
@@ -455,9 +455,9 @@ const sentences = [
     subset: 'organizational',
     tags: ['svo', 'government', 'action', 'pp'],
     expectedEntities: [
-      { text: 'The auditor', type: 'cco:Person' },
+      { text: 'The auditor', type: 'Person' },
       { text: 'discrepancies', type: 'bfo:Entity' },
-      { text: 'the records', type: 'cco:InformationContentEntity' }
+      { text: 'the records', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'auditor', role: 'Agent' },
@@ -470,8 +470,8 @@ const sentences = [
     subset: 'organizational',
     tags: ['svo', 'government', 'action'],
     expectedEntities: [
-      { text: 'The judge', type: 'cco:Person' },
-      { text: 'the defendant', type: 'cco:Person' }
+      { text: 'The judge', type: 'Person' },
+      { text: 'the defendant', type: 'Person' }
     ],
     expectedRoles: [
       { entity: 'judge', role: 'Agent' },
@@ -484,7 +484,7 @@ const sentences = [
     subset: 'organizational',
     tags: ['svo', 'government', 'action'],
     expectedEntities: [
-      { text: 'The bureau', type: 'cco:Organization' },
+      { text: 'The bureau', type: 'Organization' },
       { text: 'an investigation', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -498,8 +498,8 @@ const sentences = [
     subset: 'organizational',
     tags: ['passive', 'government', 'action'],
     expectedEntities: [
-      { text: 'The suspect', type: 'cco:Person' },
-      { text: 'the officers', type: 'cco:Person' }
+      { text: 'The suspect', type: 'Person' },
+      { text: 'the officers', type: 'Person' }
     ],
     expectedRoles: [
       { entity: 'officers', role: 'Agent' },
@@ -512,8 +512,8 @@ const sentences = [
     subset: 'organizational',
     tags: ['passive', 'government', 'action'],
     expectedEntities: [
-      { text: 'The report', type: 'cco:InformationContentEntity' },
-      { text: 'the director', type: 'cco:Person' }
+      { text: 'The report', type: 'InformationContentEntity' },
+      { text: 'the director', type: 'Person' }
     ],
     expectedRoles: [
       { entity: 'report', role: 'Patient' },
@@ -526,8 +526,8 @@ const sentences = [
     subset: 'organizational',
     tags: ['passive', 'government', 'action'],
     expectedEntities: [
-      { text: 'The policy', type: 'cco:InformationContentEntity' },
-      { text: 'the committee', type: 'cco:Organization' }
+      { text: 'The policy', type: 'InformationContentEntity' },
+      { text: 'the committee', type: 'Organization' }
     ],
     expectedRoles: [
       { entity: 'committee', role: 'Agent' },
@@ -540,9 +540,9 @@ const sentences = [
     subset: 'organizational',
     tags: ['ditransitive', 'government', 'action'],
     expectedEntities: [
-      { text: 'The commander', type: 'cco:Person' },
-      { text: 'the team', type: 'cco:Organization' },
-      { text: 'new orders', type: 'cco:InformationContentEntity' }
+      { text: 'The commander', type: 'Person' },
+      { text: 'the team', type: 'Organization' },
+      { text: 'new orders', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'commander', role: 'Agent' },
@@ -556,9 +556,9 @@ const sentences = [
     subset: 'organizational',
     tags: ['ditransitive', 'government', 'action'],
     expectedEntities: [
-      { text: 'The supervisor', type: 'cco:Person' },
-      { text: 'the officer', type: 'cco:Person' },
-      { text: 'a new case', type: 'cco:InformationContentEntity' }
+      { text: 'The supervisor', type: 'Person' },
+      { text: 'the officer', type: 'Person' },
+      { text: 'a new case', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'supervisor', role: 'Agent' },
@@ -576,8 +576,8 @@ const sentences = [
     subset: 'coordination',
     tags: ['coordination', 'split', 'government'],
     expectedEntities: [
-      { text: 'The FBI', type: 'cco:Organization' },
-      { text: 'CIA', type: 'cco:Organization' },
+      { text: 'The FBI', type: 'Organization' },
+      { text: 'CIA', type: 'Organization' },
       { text: 'the operation', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -592,9 +592,9 @@ const sentences = [
     subset: 'coordination',
     tags: ['coordination', 'split', 'copular', 'government'],
     expectedEntities: [
-      { text: 'CBP', type: 'cco:Organization' },
-      { text: 'ICE', type: 'cco:Organization' },
-      { text: 'DHS', type: 'cco:Organization' }
+      { text: 'CBP', type: 'Organization' },
+      { text: 'ICE', type: 'Organization' },
+      { text: 'DHS', type: 'Organization' }
     ],
     expectedRoles: []
   },
@@ -604,9 +604,9 @@ const sentences = [
     subset: 'coordination',
     tags: ['coordination', 'split', 'government'],
     expectedEntities: [
-      { text: 'The agent', type: 'cco:Person' },
-      { text: 'the analyst', type: 'cco:Person' },
-      { text: 'the evidence', type: 'cco:InformationContentEntity' }
+      { text: 'The agent', type: 'Person' },
+      { text: 'the analyst', type: 'Person' },
+      { text: 'the evidence', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'agent', role: 'Agent' },
@@ -620,8 +620,8 @@ const sentences = [
     subset: 'coordination',
     tags: ['coordination', 'split', 'government'],
     expectedEntities: [
-      { text: 'The director', type: 'cco:Person' },
-      { text: 'the deputy', type: 'cco:Person' },
+      { text: 'The director', type: 'Person' },
+      { text: 'the deputy', type: 'Person' },
       { text: 'the mission', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -636,8 +636,8 @@ const sentences = [
     subset: 'coordination',
     tags: ['coordination', 'split', 'government'],
     expectedEntities: [
-      { text: 'FEMA', type: 'cco:Organization' },
-      { text: 'the Red Cross', type: 'cco:Organization' },
+      { text: 'FEMA', type: 'Organization' },
+      { text: 'the Red Cross', type: 'Organization' },
       { text: 'disaster relief', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -652,8 +652,8 @@ const sentences = [
     subset: 'coordination',
     tags: ['coordination', 'keep', 'government'],
     expectedEntities: [
-      { text: 'The Department of Homeland Security', type: 'cco:Organization' },
-      { text: 'the directive', type: 'cco:InformationContentEntity' }
+      { text: 'The Department of Homeland Security', type: 'Organization' },
+      { text: 'the directive', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'Department of Homeland Security', role: 'Agent' },
@@ -666,8 +666,8 @@ const sentences = [
     subset: 'coordination',
     tags: ['coordination', 'keep', 'government'],
     expectedEntities: [
-      { text: 'Customs and Border Protection', type: 'cco:Organization' },
-      { text: 'trade laws', type: 'cco:InformationContentEntity' }
+      { text: 'Customs and Border Protection', type: 'Organization' },
+      { text: 'trade laws', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'Customs and Border Protection', role: 'Agent' },
@@ -680,8 +680,8 @@ const sentences = [
     subset: 'coordination',
     tags: ['coordination', 'keep', 'government'],
     expectedEntities: [
-      { text: 'The Bureau of Alcohol Tobacco and Firearms', type: 'cco:Organization' },
-      { text: 'the case', type: 'cco:InformationContentEntity' }
+      { text: 'The Bureau of Alcohol Tobacco and Firearms', type: 'Organization' },
+      { text: 'the case', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'Bureau of Alcohol Tobacco and Firearms', role: 'Agent' },
@@ -694,8 +694,8 @@ const sentences = [
     subset: 'coordination',
     tags: ['coordination', 'split', 'government'],
     expectedEntities: [
-      { text: 'Agents', type: 'cco:Person' },
-      { text: 'officers', type: 'cco:Person' },
+      { text: 'Agents', type: 'Person' },
+      { text: 'officers', type: 'Person' },
       { text: 'the raid', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -710,8 +710,8 @@ const sentences = [
     subset: 'coordination',
     tags: ['coordination', 'split', 'passive'],
     expectedEntities: [
-      { text: 'The suspect', type: 'cco:Person' },
-      { text: 'the accomplice', type: 'cco:Person' }
+      { text: 'The suspect', type: 'Person' },
+      { text: 'the accomplice', type: 'Person' }
     ],
     expectedRoles: [
       { entity: 'suspect', role: 'Patient' },
@@ -724,9 +724,9 @@ const sentences = [
     subset: 'coordination',
     tags: ['coordination', 'split', 'object'],
     expectedEntities: [
-      { text: 'The inspector', type: 'cco:Person' },
-      { text: 'the documents', type: 'cco:InformationContentEntity' },
-      { text: 'the photographs', type: 'cco:InformationContentEntity' }
+      { text: 'The inspector', type: 'Person' },
+      { text: 'the documents', type: 'InformationContentEntity' },
+      { text: 'the photographs', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'inspector', role: 'Agent' },
@@ -740,8 +740,8 @@ const sentences = [
     subset: 'coordination',
     tags: ['coordination', 'split', 'government'],
     expectedEntities: [
-      { text: 'TSA', type: 'cco:Organization' },
-      { text: 'CBP', type: 'cco:Organization' },
+      { text: 'TSA', type: 'Organization' },
+      { text: 'CBP', type: 'Organization' },
       { text: 'new screening procedures', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -756,9 +756,9 @@ const sentences = [
     subset: 'coordination',
     tags: ['coordination', 'split', 'legal'],
     expectedEntities: [
-      { text: 'The prosecutor', type: 'cco:Person' },
-      { text: 'the defense attorney', type: 'cco:Person' },
-      { text: 'the court', type: 'cco:Organization' }
+      { text: 'The prosecutor', type: 'Person' },
+      { text: 'the defense attorney', type: 'Person' },
+      { text: 'the court', type: 'Organization' }
     ],
     expectedRoles: [
       { entity: 'prosecutor', role: 'Agent' },
@@ -772,8 +772,8 @@ const sentences = [
     subset: 'coordination',
     tags: ['coordination', 'keep', 'government'],
     expectedEntities: [
-      { text: 'Fish and Wildlife Service', type: 'cco:Organization' },
-      { text: 'protected areas', type: 'cco:Facility' }
+      { text: 'Fish and Wildlife Service', type: 'Organization' },
+      { text: 'protected areas', type: 'Facility' }
     ],
     expectedRoles: [
       { entity: 'Fish and Wildlife Service', role: 'Agent' },
@@ -786,8 +786,8 @@ const sentences = [
     subset: 'coordination',
     tags: ['coordination', 'keep', 'government'],
     expectedEntities: [
-      { text: 'Immigration and Customs Enforcement', type: 'cco:Organization' },
-      { text: 'the individual', type: 'cco:Person' }
+      { text: 'Immigration and Customs Enforcement', type: 'Organization' },
+      { text: 'the individual', type: 'Person' }
     ],
     expectedRoles: [
       { entity: 'Immigration and Customs Enforcement', role: 'Agent' },
@@ -800,9 +800,9 @@ const sentences = [
     subset: 'coordination',
     tags: ['coordination', 'split', 'object'],
     expectedEntities: [
-      { text: 'The agents', type: 'cco:Person' },
-      { text: 'the building', type: 'cco:Facility' },
-      { text: 'the vehicle', type: 'cco:Artifact' }
+      { text: 'The agents', type: 'Person' },
+      { text: 'the building', type: 'Facility' },
+      { text: 'the vehicle', type: 'Artifact' }
     ],
     expectedRoles: [
       { entity: 'agents', role: 'Agent' },
@@ -816,8 +816,8 @@ const sentences = [
     subset: 'coordination',
     tags: ['coordination', 'split', 'government'],
     expectedEntities: [
-      { text: 'DEA', type: 'cco:Organization' },
-      { text: 'FBI', type: 'cco:Organization' },
+      { text: 'DEA', type: 'Organization' },
+      { text: 'FBI', type: 'Organization' },
       { text: 'a joint investigation', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -832,9 +832,9 @@ const sentences = [
     subset: 'coordination',
     tags: ['coordination', 'split', 'military'],
     expectedEntities: [
-      { text: 'The captain', type: 'cco:Person' },
-      { text: 'the lieutenant', type: 'cco:Person' },
-      { text: 'the team', type: 'cco:Organization' }
+      { text: 'The captain', type: 'Person' },
+      { text: 'the lieutenant', type: 'Person' },
+      { text: 'the team', type: 'Organization' }
     ],
     expectedRoles: [
       { entity: 'captain', role: 'Agent' },
@@ -848,9 +848,9 @@ const sentences = [
     subset: 'coordination',
     tags: ['coordination', 'split', 'government'],
     expectedEntities: [
-      { text: 'The senator', type: 'cco:Person' },
-      { text: 'the representative', type: 'cco:Person' },
-      { text: 'the bill', type: 'cco:InformationContentEntity' }
+      { text: 'The senator', type: 'Person' },
+      { text: 'the representative', type: 'Person' },
+      { text: 'the bill', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'senator', role: 'Agent' },
@@ -864,8 +864,8 @@ const sentences = [
     subset: 'coordination',
     tags: ['coordination', 'split', 'government'],
     expectedEntities: [
-      { text: 'State', type: 'cco:Organization' },
-      { text: 'local authorities', type: 'cco:Organization' },
+      { text: 'State', type: 'Organization' },
+      { text: 'local authorities', type: 'Organization' },
       { text: 'the search', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -883,9 +883,9 @@ const sentences = [
     subset: 'organizational',
     tags: ['ditransitive', 'government', 'action'],
     expectedEntities: [
-      { text: 'The director', type: 'cco:Person' },
-      { text: 'the field office', type: 'cco:Organization' },
-      { text: 'updated instructions', type: 'cco:InformationContentEntity' }
+      { text: 'The director', type: 'Person' },
+      { text: 'the field office', type: 'Organization' },
+      { text: 'updated instructions', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'director', role: 'Agent' },
@@ -899,8 +899,8 @@ const sentences = [
     subset: 'organizational',
     tags: ['ditransitive', 'government', 'action'],
     expectedEntities: [
-      { text: 'The instructor', type: 'cco:Person' },
-      { text: 'the recruits', type: 'cco:Person' },
+      { text: 'The instructor', type: 'Person' },
+      { text: 'the recruits', type: 'Person' },
       { text: 'defensive tactics', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -915,9 +915,9 @@ const sentences = [
     subset: 'organizational',
     tags: ['ditransitive', 'government', 'action'],
     expectedEntities: [
-      { text: 'The administrator', type: 'cco:Person' },
-      { text: 'the officer', type: 'cco:Person' },
-      { text: 'a new badge', type: 'cco:Artifact' }
+      { text: 'The administrator', type: 'Person' },
+      { text: 'the officer', type: 'Person' },
+      { text: 'a new badge', type: 'Artifact' }
     ],
     expectedRoles: [
       { entity: 'administrator', role: 'Agent' },
@@ -936,8 +936,8 @@ const sentences = [
     subset: 'stative-passive',
     tags: ['stative', 'passive', 'government'],
     expectedEntities: [
-      { text: 'The headquarters', type: 'cco:Facility' },
-      { text: 'Washington', type: 'cco:GeopoliticalOrganization' }
+      { text: 'The headquarters', type: 'Facility' },
+      { text: 'Washington', type: 'GeopoliticalOrganization' }
     ],
     expectedRoles: [
       { entity: 'Washington', role: 'Location' }
@@ -949,8 +949,8 @@ const sentences = [
     subset: 'stative-passive',
     tags: ['stative', 'passive', 'government'],
     expectedEntities: [
-      { text: 'The agency', type: 'cco:Organization' },
-      { text: 'the lead federal enforcement body', type: 'cco:Organization' }
+      { text: 'The agency', type: 'Organization' },
+      { text: 'the lead federal enforcement body', type: 'Organization' }
     ],
     expectedRoles: []
   },
@@ -960,8 +960,8 @@ const sentences = [
     subset: 'stative-passive',
     tags: ['stative', 'passive', 'government'],
     expectedEntities: [
-      { text: 'The department', type: 'cco:Organization' },
-      { text: 'several divisions', type: 'cco:Organization' }
+      { text: 'The department', type: 'Organization' },
+      { text: 'several divisions', type: 'Organization' }
     ],
     expectedRoles: []
   },
@@ -971,8 +971,8 @@ const sentences = [
     subset: 'stative-passive',
     tags: ['stative', 'passive', 'government'],
     expectedEntities: [
-      { text: 'The region', type: 'cco:GeopoliticalOrganization' },
-      { text: 'five operational sectors', type: 'cco:Organization' }
+      { text: 'The region', type: 'GeopoliticalOrganization' },
+      { text: 'five operational sectors', type: 'Organization' }
     ],
     expectedRoles: []
   },
@@ -994,8 +994,8 @@ const sentences = [
     subset: 'stative-passive',
     tags: ['agentive', 'passive', 'government'],
     expectedEntities: [
-      { text: 'The suspect', type: 'cco:Person' },
-      { text: 'the tracking team', type: 'cco:Organization' }
+      { text: 'The suspect', type: 'Person' },
+      { text: 'the tracking team', type: 'Organization' }
     ],
     expectedRoles: [
       { entity: 'tracking team', role: 'Agent' },
@@ -1009,7 +1009,7 @@ const sentences = [
     tags: ['agentive', 'passive', 'government'],
     expectedEntities: [
       { text: 'The contraband', type: 'bfo:Entity' },
-      { text: 'the canine unit', type: 'cco:Organization' }
+      { text: 'the canine unit', type: 'Organization' }
     ],
     expectedRoles: [
       { entity: 'canine unit', role: 'Agent' },
@@ -1022,8 +1022,8 @@ const sentences = [
     subset: 'stative-passive',
     tags: ['agentive', 'passive', 'government'],
     expectedEntities: [
-      { text: 'The report', type: 'cco:InformationContentEntity' },
-      { text: 'the senior analyst', type: 'cco:Person' }
+      { text: 'The report', type: 'InformationContentEntity' },
+      { text: 'the senior analyst', type: 'Person' }
     ],
     expectedRoles: [
       { entity: 'senior analyst', role: 'Agent' },
@@ -1036,8 +1036,8 @@ const sentences = [
     subset: 'stative-passive',
     tags: ['agentive', 'passive', 'government'],
     expectedEntities: [
-      { text: 'The territory', type: 'cco:GeopoliticalOrganization' },
-      { text: 'the planning committee', type: 'cco:Organization' }
+      { text: 'The territory', type: 'GeopoliticalOrganization' },
+      { text: 'the planning committee', type: 'Organization' }
     ],
     expectedRoles: [
       { entity: 'planning committee', role: 'Agent' },
@@ -1051,7 +1051,7 @@ const sentences = [
     tags: ['agentive', 'passive', 'government'],
     expectedEntities: [
       { text: 'The shipment', type: 'bfo:Entity' },
-      { text: 'the customs inspector', type: 'cco:Person' }
+      { text: 'the customs inspector', type: 'Person' }
     ],
     expectedRoles: [
       { entity: 'customs inspector', role: 'Agent' },
@@ -1068,9 +1068,9 @@ const sentences = [
     subset: 'three-way-coord',
     tags: ['three-way', 'coordination', 'government'],
     expectedEntities: [
-      { text: 'The FBI', type: 'cco:Organization' },
-      { text: 'DEA', type: 'cco:Organization' },
-      { text: 'ATF', type: 'cco:Organization' },
+      { text: 'The FBI', type: 'Organization' },
+      { text: 'DEA', type: 'Organization' },
+      { text: 'ATF', type: 'Organization' },
       { text: 'the joint operation', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -1086,10 +1086,10 @@ const sentences = [
     subset: 'three-way-coord',
     tags: ['three-way', 'coordination', 'copular', 'government'],
     expectedEntities: [
-      { text: 'CBP', type: 'cco:Organization' },
-      { text: 'ICE', type: 'cco:Organization' },
-      { text: 'TSA', type: 'cco:Organization' },
-      { text: 'DHS', type: 'cco:Organization' }
+      { text: 'CBP', type: 'Organization' },
+      { text: 'ICE', type: 'Organization' },
+      { text: 'TSA', type: 'Organization' },
+      { text: 'DHS', type: 'Organization' }
     ],
     expectedRoles: []
   },
@@ -1099,10 +1099,10 @@ const sentences = [
     subset: 'three-way-coord',
     tags: ['three-way', 'coordination', 'government'],
     expectedEntities: [
-      { text: 'The agent', type: 'cco:Person' },
-      { text: 'the analyst', type: 'cco:Person' },
-      { text: 'the supervisor', type: 'cco:Person' },
-      { text: 'the case', type: 'cco:InformationContentEntity' }
+      { text: 'The agent', type: 'Person' },
+      { text: 'the analyst', type: 'Person' },
+      { text: 'the supervisor', type: 'Person' },
+      { text: 'the case', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'agent', role: 'Agent' },
@@ -1117,9 +1117,9 @@ const sentences = [
     subset: 'three-way-coord',
     tags: ['three-way', 'coordination', 'government'],
     expectedEntities: [
-      { text: 'Federal', type: 'cco:Organization' },
-      { text: 'state', type: 'cco:Organization' },
-      { text: 'local agencies', type: 'cco:Organization' },
+      { text: 'Federal', type: 'Organization' },
+      { text: 'state', type: 'Organization' },
+      { text: 'local agencies', type: 'Organization' },
       { text: 'the emergency', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -1135,10 +1135,10 @@ const sentences = [
     subset: 'three-way-coord',
     tags: ['three-way', 'coordination', 'government'],
     expectedEntities: [
-      { text: 'The director', type: 'cco:Person' },
-      { text: 'the deputy', type: 'cco:Person' },
-      { text: 'the chief of staff', type: 'cco:Person' },
-      { text: 'the plan', type: 'cco:InformationContentEntity' }
+      { text: 'The director', type: 'Person' },
+      { text: 'the deputy', type: 'Person' },
+      { text: 'the chief of staff', type: 'Person' },
+      { text: 'the plan', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'director', role: 'Agent' },
@@ -1159,7 +1159,7 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['svo', 'cbp', 'enforcement'],
     expectedEntities: [
-      { text: 'The border agent', type: 'cco:Person' },
+      { text: 'The border agent', type: 'Person' },
       { text: 'the shipment', type: 'bfo:Entity' }
     ],
     expectedRoles: [
@@ -1173,7 +1173,7 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['svo', 'cbp', 'inspection'],
     expectedEntities: [
-      { text: 'The customs officer', type: 'cco:Person' },
+      { text: 'The customs officer', type: 'Person' },
       { text: 'the cargo', type: 'bfo:Entity' }
     ],
     expectedRoles: [
@@ -1187,8 +1187,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['svo', 'cbp', 'surveillance'],
     expectedEntities: [
-      { text: 'The patrol unit', type: 'cco:Organization' },
-      { text: 'the crossing', type: 'cco:Facility' }
+      { text: 'The patrol unit', type: 'Organization' },
+      { text: 'the crossing', type: 'Facility' }
     ],
     expectedRoles: [
       { entity: 'patrol unit', role: 'Agent' },
@@ -1201,7 +1201,7 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['svo', 'cbp', 'intelligence'],
     expectedEntities: [
-      { text: 'The intelligence analyst', type: 'cco:Person' },
+      { text: 'The intelligence analyst', type: 'Person' },
       { text: 'the threat', type: 'bfo:Entity' }
     ],
     expectedRoles: [
@@ -1215,8 +1215,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['svo', 'cbp', 'operations'],
     expectedEntities: [
-      { text: 'The field operations directorate', type: 'cco:Organization' },
-      { text: 'the ports of entry', type: 'cco:Facility' }
+      { text: 'The field operations directorate', type: 'Organization' },
+      { text: 'the ports of entry', type: 'Facility' }
     ],
     expectedRoles: [
       { entity: 'field operations directorate', role: 'Agent' },
@@ -1229,7 +1229,7 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['svo', 'cbp', 'operations'],
     expectedEntities: [
-      { text: 'The sector chief', type: 'cco:Person' },
+      { text: 'The sector chief', type: 'Person' },
       { text: 'additional resources', type: 'bfo:Entity' }
     ],
     expectedRoles: [
@@ -1243,8 +1243,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['svo', 'cbp', 'trade'],
     expectedEntities: [
-      { text: 'The trade compliance officer', type: 'cco:Person' },
-      { text: 'the tariff schedule', type: 'cco:InformationContentEntity' }
+      { text: 'The trade compliance officer', type: 'Person' },
+      { text: 'the tariff schedule', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'trade compliance officer', role: 'Agent' },
@@ -1257,7 +1257,7 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['svo', 'cbp', 'enforcement'],
     expectedEntities: [
-      { text: 'The K-9 handler', type: 'cco:Person' },
+      { text: 'The K-9 handler', type: 'Person' },
       { text: 'narcotics', type: 'bfo:Entity' }
     ],
     expectedRoles: [
@@ -1271,7 +1271,7 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['svo', 'cbp', 'processing'],
     expectedEntities: [
-      { text: 'The processing center', type: 'cco:Facility' },
+      { text: 'The processing center', type: 'Facility' },
       { text: 'the encounter', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -1285,8 +1285,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['svo', 'cbp', 'leadership'],
     expectedEntities: [
-      { text: 'The commissioner', type: 'cco:Person' },
-      { text: 'a directive', type: 'cco:InformationContentEntity' }
+      { text: 'The commissioner', type: 'Person' },
+      { text: 'a directive', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'commissioner', role: 'Agent' },
@@ -1299,8 +1299,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['svo', 'cbp', 'surveillance'],
     expectedEntities: [
-      { text: 'The air and marine operations center', type: 'cco:Organization' },
-      { text: 'the aircraft', type: 'cco:Artifact' }
+      { text: 'The air and marine operations center', type: 'Organization' },
+      { text: 'the aircraft', type: 'Artifact' }
     ],
     expectedRoles: [
       { entity: 'air and marine operations center', role: 'Agent' },
@@ -1313,8 +1313,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['svo', 'cbp', 'trade'],
     expectedEntities: [
-      { text: 'The import specialist', type: 'cco:Person' },
-      { text: 'the declaration', type: 'cco:InformationContentEntity' }
+      { text: 'The import specialist', type: 'Person' },
+      { text: 'the declaration', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'import specialist', role: 'Agent' },
@@ -1327,7 +1327,7 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['svo', 'cbp', 'operations'],
     expectedEntities: [
-      { text: 'The station commander', type: 'cco:Person' },
+      { text: 'The station commander', type: 'Person' },
       { text: 'overtime', type: 'bfo:Entity' }
     ],
     expectedRoles: [
@@ -1341,7 +1341,7 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['svo', 'cbp', 'agriculture'],
     expectedEntities: [
-      { text: 'The agriculture specialist', type: 'cco:Person' },
+      { text: 'The agriculture specialist', type: 'Person' },
       { text: 'the produce', type: 'bfo:Entity' }
     ],
     expectedRoles: [
@@ -1355,8 +1355,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['svo', 'cbp', 'intelligence'],
     expectedEntities: [
-      { text: 'The targeting center', type: 'cco:Organization' },
-      { text: 'the container', type: 'cco:Artifact' }
+      { text: 'The targeting center', type: 'Organization' },
+      { text: 'the container', type: 'Artifact' }
     ],
     expectedRoles: [
       { entity: 'targeting center', role: 'Agent' },
@@ -1369,7 +1369,7 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['svo', 'cbp', 'forensics'],
     expectedEntities: [
-      { text: 'The lab technician', type: 'cco:Person' },
+      { text: 'The lab technician', type: 'Person' },
       { text: 'the sample', type: 'bfo:Entity' }
     ],
     expectedRoles: [
@@ -1383,7 +1383,7 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['svo', 'cbp', 'operations'],
     expectedEntities: [
-      { text: 'The liaison officer', type: 'cco:Person' },
+      { text: 'The liaison officer', type: 'Person' },
       { text: 'the response', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -1397,7 +1397,7 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['svo', 'cbp', 'operations'],
     expectedEntities: [
-      { text: 'The watch commander', type: 'cco:Person' },
+      { text: 'The watch commander', type: 'Person' },
       { text: 'the lockdown', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -1411,8 +1411,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['svo', 'cbp', 'training'],
     expectedEntities: [
-      { text: 'The training division', type: 'cco:Organization' },
-      { text: 'the curriculum', type: 'cco:InformationContentEntity' }
+      { text: 'The training division', type: 'Organization' },
+      { text: 'the curriculum', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'training division', role: 'Agent' },
@@ -1425,8 +1425,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['svo', 'cbp', 'logistics'],
     expectedEntities: [
-      { text: 'The procurement office', type: 'cco:Organization' },
-      { text: 'new equipment', type: 'cco:Artifact' }
+      { text: 'The procurement office', type: 'Organization' },
+      { text: 'new equipment', type: 'Artifact' }
     ],
     expectedRoles: [
       { entity: 'procurement office', role: 'Agent' },
@@ -1441,8 +1441,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['copular', 'cbp'],
     expectedEntities: [
-      { text: 'The Office of Field Operations', type: 'cco:Organization' },
-      { text: 'CBP', type: 'cco:Organization' }
+      { text: 'The Office of Field Operations', type: 'Organization' },
+      { text: 'CBP', type: 'Organization' }
     ],
     expectedRoles: []
   },
@@ -1452,8 +1452,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['copular', 'cbp'],
     expectedEntities: [
-      { text: 'A port of entry', type: 'cco:Facility' },
-      { text: 'an authorized crossing point', type: 'cco:Facility' }
+      { text: 'A port of entry', type: 'Facility' },
+      { text: 'an authorized crossing point', type: 'Facility' }
     ],
     expectedRoles: []
   },
@@ -1463,8 +1463,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['copular', 'cbp'],
     expectedEntities: [
-      { text: 'The Border Patrol', type: 'cco:Organization' },
-      { text: 'CBP', type: 'cco:Organization' }
+      { text: 'The Border Patrol', type: 'Organization' },
+      { text: 'CBP', type: 'Organization' }
     ],
     expectedRoles: []
   },
@@ -1474,8 +1474,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['copular', 'cbp'],
     expectedEntities: [
-      { text: 'TECS', type: 'cco:Artifact' },
-      { text: 'the primary law enforcement database', type: 'cco:Artifact' }
+      { text: 'TECS', type: 'Artifact' },
+      { text: 'the primary law enforcement database', type: 'Artifact' }
     ],
     expectedRoles: []
   },
@@ -1485,9 +1485,9 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['copular', 'cbp'],
     expectedEntities: [
-      { text: 'The CBP Academy', type: 'cco:Facility' },
-      { text: 'a training facility', type: 'cco:Facility' },
-      { text: 'Georgia', type: 'cco:GeopoliticalOrganization' }
+      { text: 'The CBP Academy', type: 'Facility' },
+      { text: 'a training facility', type: 'Facility' },
+      { text: 'Georgia', type: 'GeopoliticalOrganization' }
     ],
     expectedRoles: []
   },
@@ -1519,8 +1519,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['copular', 'cbp'],
     expectedEntities: [
-      { text: 'The sector', type: 'cco:Organization' },
-      { text: 'a geographic area of responsibility', type: 'cco:GeopoliticalOrganization' }
+      { text: 'The sector', type: 'Organization' },
+      { text: 'a geographic area of responsibility', type: 'GeopoliticalOrganization' }
     ],
     expectedRoles: []
   },
@@ -1530,8 +1530,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['copular', 'cbp'],
     expectedEntities: [
-      { text: 'The checkpoint', type: 'cco:Facility' },
-      { text: 'a fixed inspection station', type: 'cco:Facility' }
+      { text: 'The checkpoint', type: 'Facility' },
+      { text: 'a fixed inspection station', type: 'Facility' }
     ],
     expectedRoles: []
   },
@@ -1541,8 +1541,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['copular', 'cbp'],
     expectedEntities: [
-      { text: 'The National Targeting Center', type: 'cco:Organization' },
-      { text: 'a counterterrorism facility', type: 'cco:Facility' }
+      { text: 'The National Targeting Center', type: 'Organization' },
+      { text: 'a counterterrorism facility', type: 'Facility' }
     ],
     expectedRoles: []
   },
@@ -1552,8 +1552,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['copular', 'cbp'],
     expectedEntities: [
-      { text: 'The duty officer', type: 'cco:Person' },
-      { text: 'the primary contact', type: 'cco:Person' }
+      { text: 'The duty officer', type: 'Person' },
+      { text: 'the primary contact', type: 'Person' }
     ],
     expectedRoles: []
   },
@@ -1563,8 +1563,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['copular', 'cbp', 'trade'],
     expectedEntities: [
-      { text: 'ACE', type: 'cco:Artifact' },
-      { text: 'the automated commercial environment system', type: 'cco:Artifact' }
+      { text: 'ACE', type: 'Artifact' },
+      { text: 'the automated commercial environment system', type: 'Artifact' }
     ],
     expectedRoles: []
   },
@@ -1585,8 +1585,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['copular', 'cbp'],
     expectedEntities: [
-      { text: 'The operational commander', type: 'cco:Person' },
-      { text: 'the senior field official', type: 'cco:Person' }
+      { text: 'The operational commander', type: 'Person' },
+      { text: 'the senior field official', type: 'Person' }
     ],
     expectedRoles: []
   },
@@ -1610,7 +1610,7 @@ const sentences = [
     tags: ['passive', 'cbp'],
     expectedEntities: [
       { text: 'The cargo', type: 'bfo:Entity' },
-      { text: 'customs officers', type: 'cco:Person' }
+      { text: 'customs officers', type: 'Person' }
     ],
     expectedRoles: [
       { entity: 'customs officers', role: 'Agent' },
@@ -1623,8 +1623,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['passive', 'cbp'],
     expectedEntities: [
-      { text: 'The vehicle', type: 'cco:Artifact' },
-      { text: 'the checkpoint', type: 'cco:Facility' }
+      { text: 'The vehicle', type: 'Artifact' },
+      { text: 'the checkpoint', type: 'Facility' }
     ],
     expectedRoles: [
       { entity: 'vehicle', role: 'Patient' },
@@ -1637,7 +1637,7 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['passive', 'cbp'],
     expectedEntities: [
-      { text: 'The traveler', type: 'cco:Person' },
+      { text: 'The traveler', type: 'Person' },
       { text: 'secondary inspection', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -1650,8 +1650,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['passive', 'cbp'],
     expectedEntities: [
-      { text: 'The border wall', type: 'cco:Facility' },
-      { text: 'the Army Corps of Engineers', type: 'cco:Organization' }
+      { text: 'The border wall', type: 'Facility' },
+      { text: 'the Army Corps of Engineers', type: 'Organization' }
     ],
     expectedRoles: [
       { entity: 'Army Corps of Engineers', role: 'Agent' },
@@ -1664,8 +1664,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['passive', 'cbp'],
     expectedEntities: [
-      { text: 'The intelligence report', type: 'cco:InformationContentEntity' },
-      { text: 'all sectors', type: 'cco:Organization' }
+      { text: 'The intelligence report', type: 'InformationContentEntity' },
+      { text: 'all sectors', type: 'Organization' }
     ],
     expectedRoles: [
       { entity: 'intelligence report', role: 'Patient' },
@@ -1678,8 +1678,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['passive', 'cbp'],
     expectedEntities: [
-      { text: 'The new policy', type: 'cco:InformationContentEntity' },
-      { text: 'all field offices', type: 'cco:Organization' }
+      { text: 'The new policy', type: 'InformationContentEntity' },
+      { text: 'all field offices', type: 'Organization' }
     ],
     expectedRoles: [
       { entity: 'policy', role: 'Patient' }
@@ -1692,7 +1692,7 @@ const sentences = [
     tags: ['passive', 'cbp'],
     expectedEntities: [
       { text: 'The narcotics', type: 'bfo:Entity' },
-      { text: 'a hidden compartment', type: 'cco:Artifact' }
+      { text: 'a hidden compartment', type: 'Artifact' }
     ],
     expectedRoles: [
       { entity: 'narcotics', role: 'Patient' },
@@ -1705,7 +1705,7 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['passive', 'cbp'],
     expectedEntities: [
-      { text: 'The suspect', type: 'cco:Person' },
+      { text: 'The suspect', type: 'Person' },
       { text: 'federal custody', type: 'bfo:Entity' }
     ],
     expectedRoles: [
@@ -1718,8 +1718,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['passive', 'cbp'],
     expectedEntities: [
-      { text: 'Additional agents', type: 'cco:Person' },
-      { text: 'the sector chief', type: 'cco:Person' }
+      { text: 'Additional agents', type: 'Person' },
+      { text: 'the sector chief', type: 'Person' }
     ],
     expectedRoles: [
       { entity: 'sector chief', role: 'Agent' },
@@ -1732,8 +1732,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['passive', 'cbp'],
     expectedEntities: [
-      { text: 'The counterfeit goods', type: 'cco:Artifact' },
-      { text: 'the port', type: 'cco:Facility' }
+      { text: 'The counterfeit goods', type: 'Artifact' },
+      { text: 'the port', type: 'Facility' }
     ],
     expectedRoles: [
       { entity: 'goods', role: 'Patient' },
@@ -1748,9 +1748,9 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['pp', 'cbp'],
     expectedEntities: [
-      { text: 'The agent', type: 'cco:Person' },
-      { text: 'the report', type: 'cco:InformationContentEntity' },
-      { text: 'the station', type: 'cco:Facility' }
+      { text: 'The agent', type: 'Person' },
+      { text: 'the report', type: 'InformationContentEntity' },
+      { text: 'the station', type: 'Facility' }
     ],
     expectedRoles: [
       { entity: 'agent', role: 'Agent' },
@@ -1764,9 +1764,9 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['pp', 'cbp'],
     expectedEntities: [
-      { text: 'The officer', type: 'cco:Person' },
-      { text: 'the passport', type: 'cco:InformationContentEntity' },
-      { text: 'the reader', type: 'cco:Artifact' }
+      { text: 'The officer', type: 'Person' },
+      { text: 'the passport', type: 'InformationContentEntity' },
+      { text: 'the reader', type: 'Artifact' }
     ],
     expectedRoles: [
       { entity: 'officer', role: 'Agent' },
@@ -1780,9 +1780,9 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['pp', 'cbp'],
     expectedEntities: [
-      { text: 'The team', type: 'cco:Organization' },
-      { text: 'the detainee', type: 'cco:Person' },
-      { text: 'the facility', type: 'cco:Facility' }
+      { text: 'The team', type: 'Organization' },
+      { text: 'the detainee', type: 'Person' },
+      { text: 'the facility', type: 'Facility' }
     ],
     expectedRoles: [
       { entity: 'team', role: 'Agent' },
@@ -1796,8 +1796,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['pp', 'cbp'],
     expectedEntities: [
-      { text: 'The analyst', type: 'cco:Person' },
-      { text: 'intelligence', type: 'cco:InformationContentEntity' },
+      { text: 'The analyst', type: 'Person' },
+      { text: 'intelligence', type: 'InformationContentEntity' },
       { text: 'multiple sources', type: 'bfo:Entity' }
     ],
     expectedRoles: [
@@ -1812,8 +1812,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['pp', 'cbp'],
     expectedEntities: [
-      { text: 'The supervisor', type: 'cco:Person' },
-      { text: 'the team', type: 'cco:Organization' },
+      { text: 'The supervisor', type: 'Person' },
+      { text: 'the team', type: 'Organization' },
       { text: 'the operation', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -1827,9 +1827,9 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['pp', 'cbp'],
     expectedEntities: [
-      { text: 'The inspector', type: 'cco:Person' },
-      { text: 'the vehicle', type: 'cco:Artifact' },
-      { text: 'a sensor', type: 'cco:Artifact' }
+      { text: 'The inspector', type: 'Person' },
+      { text: 'the vehicle', type: 'Artifact' },
+      { text: 'a sensor', type: 'Artifact' }
     ],
     expectedRoles: [
       { entity: 'inspector', role: 'Agent' },
@@ -1843,9 +1843,9 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['pp', 'cbp'],
     expectedEntities: [
-      { text: 'The office', type: 'cco:Organization' },
-      { text: 'the data', type: 'cco:InformationContentEntity' },
-      { text: 'headquarters', type: 'cco:Facility' }
+      { text: 'The office', type: 'Organization' },
+      { text: 'the data', type: 'InformationContentEntity' },
+      { text: 'headquarters', type: 'Facility' }
     ],
     expectedRoles: [
       { entity: 'office', role: 'Agent' },
@@ -1859,8 +1859,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['pp', 'cbp'],
     expectedEntities: [
-      { text: 'The patrol', type: 'cco:Organization' },
-      { text: 'the group', type: 'cco:Person' },
+      { text: 'The patrol', type: 'Organization' },
+      { text: 'the group', type: 'Person' },
       { text: 'the river', type: 'bfo:Entity' }
     ],
     expectedRoles: [
@@ -1875,7 +1875,7 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['pp', 'cbp'],
     expectedEntities: [
-      { text: 'The specialist', type: 'cco:Person' },
+      { text: 'The specialist', type: 'Person' },
       { text: 'samples', type: 'bfo:Entity' },
       { text: 'the shipment', type: 'bfo:Entity' }
     ],
@@ -1891,9 +1891,9 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['pp', 'cbp'],
     expectedEntities: [
-      { text: 'The commander', type: 'cco:Person' },
-      { text: 'the unit', type: 'cco:Organization' },
-      { text: 'the southern sector', type: 'cco:GeopoliticalOrganization' }
+      { text: 'The commander', type: 'Person' },
+      { text: 'the unit', type: 'Organization' },
+      { text: 'the southern sector', type: 'GeopoliticalOrganization' }
     ],
     expectedRoles: [
       { entity: 'commander', role: 'Agent' },
@@ -1909,9 +1909,9 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['ditransitive', 'cbp'],
     expectedEntities: [
-      { text: 'The supervisor', type: 'cco:Person' },
-      { text: 'the agent', type: 'cco:Person' },
-      { text: 'new credentials', type: 'cco:InformationContentEntity' }
+      { text: 'The supervisor', type: 'Person' },
+      { text: 'the agent', type: 'Person' },
+      { text: 'new credentials', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'supervisor', role: 'Agent' },
@@ -1925,9 +1925,9 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['ditransitive', 'cbp'],
     expectedEntities: [
-      { text: 'The headquarters', type: 'cco:Facility' },
-      { text: 'the sector', type: 'cco:Organization' },
-      { text: 'updated guidelines', type: 'cco:InformationContentEntity' }
+      { text: 'The headquarters', type: 'Facility' },
+      { text: 'the sector', type: 'Organization' },
+      { text: 'updated guidelines', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'headquarters', role: 'Agent' },
@@ -1941,8 +1941,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['ditransitive', 'cbp'],
     expectedEntities: [
-      { text: 'The director', type: 'cco:Person' },
-      { text: 'the officers', type: 'cco:Person' },
+      { text: 'The director', type: 'Person' },
+      { text: 'the officers', type: 'Person' },
       { text: 'additional training', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -1957,8 +1957,8 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['ditransitive', 'cbp'],
     expectedEntities: [
-      { text: 'The instructor', type: 'cco:Person' },
-      { text: 'the class', type: 'cco:Organization' },
+      { text: 'The instructor', type: 'Person' },
+      { text: 'the class', type: 'Organization' },
       { text: 'the new procedure', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -1973,9 +1973,9 @@ const sentences = [
     subset: 'cbp-domain',
     tags: ['ditransitive', 'cbp'],
     expectedEntities: [
-      { text: 'The chief', type: 'cco:Person' },
-      { text: 'the team', type: 'cco:Organization' },
-      { text: 'the intelligence briefing', type: 'cco:InformationContentEntity' }
+      { text: 'The chief', type: 'Person' },
+      { text: 'the team', type: 'Organization' },
+      { text: 'the intelligence briefing', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'chief', role: 'Agent' },
@@ -1995,8 +1995,8 @@ const sentences = [
     subset: 'general',
     tags: ['news', 'government'],
     expectedEntities: [
-      { text: 'The president', type: 'cco:Person' },
-      { text: 'the executive order', type: 'cco:InformationContentEntity' }
+      { text: 'The president', type: 'Person' },
+      { text: 'the executive order', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'president', role: 'Agent' },
@@ -2009,9 +2009,9 @@ const sentences = [
     subset: 'general',
     tags: ['news', 'business'],
     expectedEntities: [
-      { text: 'The company', type: 'cco:Organization' },
+      { text: 'The company', type: 'Organization' },
       { text: 'a merger', type: 'bfo:Process' },
-      { text: 'its competitor', type: 'cco:Organization' }
+      { text: 'its competitor', type: 'Organization' }
     ],
     expectedRoles: [
       { entity: 'company', role: 'Agent' },
@@ -2024,8 +2024,8 @@ const sentences = [
     subset: 'general',
     tags: ['news', 'government'],
     expectedEntities: [
-      { text: 'The mayor', type: 'cco:Person' },
-      { text: 'the budget proposal', type: 'cco:InformationContentEntity' }
+      { text: 'The mayor', type: 'Person' },
+      { text: 'the budget proposal', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'mayor', role: 'Agent' },
@@ -2038,8 +2038,8 @@ const sentences = [
     subset: 'general',
     tags: ['news', 'media'],
     expectedEntities: [
-      { text: 'The journalist', type: 'cco:Person' },
-      { text: 'the investigation findings', type: 'cco:InformationContentEntity' }
+      { text: 'The journalist', type: 'Person' },
+      { text: 'the investigation findings', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'journalist', role: 'Agent' },
@@ -2052,7 +2052,7 @@ const sentences = [
     subset: 'general',
     tags: ['news', 'government'],
     expectedEntities: [
-      { text: 'The governor', type: 'cco:Person' },
+      { text: 'The governor', type: 'Person' },
       { text: 'a state of emergency', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -2066,7 +2066,7 @@ const sentences = [
     subset: 'general',
     tags: ['news', 'legal'],
     expectedEntities: [
-      { text: 'The court', type: 'cco:Organization' },
+      { text: 'The court', type: 'Organization' },
       { text: 'the conviction', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -2080,8 +2080,8 @@ const sentences = [
     subset: 'general',
     tags: ['news', 'labor'],
     expectedEntities: [
-      { text: 'The union', type: 'cco:Organization' },
-      { text: 'the contract', type: 'cco:InformationContentEntity' }
+      { text: 'The union', type: 'Organization' },
+      { text: 'the contract', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'union', role: 'Agent' },
@@ -2094,8 +2094,8 @@ const sentences = [
     subset: 'general',
     tags: ['news', 'regulation'],
     expectedEntities: [
-      { text: 'The regulator', type: 'cco:Person' },
-      { text: 'the corporation', type: 'cco:Organization' },
+      { text: 'The regulator', type: 'Person' },
+      { text: 'the corporation', type: 'Organization' },
       { text: 'violations', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -2111,9 +2111,9 @@ const sentences = [
     subset: 'general',
     tags: ['academic', 'research'],
     expectedEntities: [
-      { text: 'The researcher', type: 'cco:Person' },
-      { text: 'the study', type: 'cco:InformationContentEntity' },
-      { text: 'a peer-reviewed journal', type: 'cco:InformationContentEntity' }
+      { text: 'The researcher', type: 'Person' },
+      { text: 'the study', type: 'InformationContentEntity' },
+      { text: 'a peer-reviewed journal', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'researcher', role: 'Agent' },
@@ -2126,8 +2126,8 @@ const sentences = [
     subset: 'general',
     tags: ['academic', 'research'],
     expectedEntities: [
-      { text: 'The professor', type: 'cco:Person' },
-      { text: 'the findings', type: 'cco:InformationContentEntity' },
+      { text: 'The professor', type: 'Person' },
+      { text: 'the findings', type: 'InformationContentEntity' },
       { text: 'the conference', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -2141,9 +2141,9 @@ const sentences = [
     subset: 'general',
     tags: ['academic', 'funding'],
     expectedEntities: [
-      { text: 'The committee', type: 'cco:Organization' },
+      { text: 'The committee', type: 'Organization' },
       { text: 'the grant', type: 'bfo:Entity' },
-      { text: 'the laboratory', type: 'cco:Organization' }
+      { text: 'the laboratory', type: 'Organization' }
     ],
     expectedRoles: [
       { entity: 'committee', role: 'Agent' },
@@ -2157,8 +2157,8 @@ const sentences = [
     subset: 'general',
     tags: ['academic'],
     expectedEntities: [
-      { text: 'The student', type: 'cco:Person' },
-      { text: 'the dissertation', type: 'cco:InformationContentEntity' }
+      { text: 'The student', type: 'Person' },
+      { text: 'the dissertation', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'student', role: 'Agent' },
@@ -2171,9 +2171,9 @@ const sentences = [
     subset: 'general',
     tags: ['academic', 'research'],
     expectedEntities: [
-      { text: 'The lab', type: 'cco:Organization' },
+      { text: 'The lab', type: 'Organization' },
       { text: 'the samples', type: 'bfo:Entity' },
-      { text: 'a spectrometer', type: 'cco:Artifact' }
+      { text: 'a spectrometer', type: 'Artifact' }
     ],
     expectedRoles: [
       { entity: 'lab', role: 'Agent' },
@@ -2187,8 +2187,8 @@ const sentences = [
     subset: 'general',
     tags: ['academic', 'administration'],
     expectedEntities: [
-      { text: 'The dean', type: 'cco:Person' },
-      { text: 'the new curriculum', type: 'cco:InformationContentEntity' }
+      { text: 'The dean', type: 'Person' },
+      { text: 'the new curriculum', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'dean', role: 'Agent' },
@@ -2201,7 +2201,7 @@ const sentences = [
     subset: 'general',
     tags: ['academic', 'research'],
     expectedEntities: [
-      { text: 'The team', type: 'cco:Organization' },
+      { text: 'The team', type: 'Organization' },
       { text: 'the experiment', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -2217,7 +2217,7 @@ const sentences = [
     subset: 'general',
     tags: ['medical', 'treatment'],
     expectedEntities: [
-      { text: 'The surgeon', type: 'cco:Person' },
+      { text: 'The surgeon', type: 'Person' },
       { text: 'the operation', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -2231,9 +2231,9 @@ const sentences = [
     subset: 'general',
     tags: ['medical', 'treatment'],
     expectedEntities: [
-      { text: 'The nurse', type: 'cco:Person' },
+      { text: 'The nurse', type: 'Person' },
       { text: 'the vaccine', type: 'bfo:Entity' },
-      { text: 'the patient', type: 'cco:Person' }
+      { text: 'the patient', type: 'Person' }
     ],
     expectedRoles: [
       { entity: 'nurse', role: 'Agent' },
@@ -2247,7 +2247,7 @@ const sentences = [
     subset: 'general',
     tags: ['medical', 'diagnosis'],
     expectedEntities: [
-      { text: 'The physician', type: 'cco:Person' },
+      { text: 'The physician', type: 'Person' },
       { text: 'the condition', type: 'bfo:Entity' }
     ],
     expectedRoles: [
@@ -2261,7 +2261,7 @@ const sentences = [
     subset: 'general',
     tags: ['medical', 'treatment'],
     expectedEntities: [
-      { text: 'The pharmacist', type: 'cco:Person' },
+      { text: 'The pharmacist', type: 'Person' },
       { text: 'the medication', type: 'bfo:Entity' }
     ],
     expectedRoles: [
@@ -2275,9 +2275,9 @@ const sentences = [
     subset: 'general',
     tags: ['medical', 'treatment'],
     expectedEntities: [
-      { text: 'The hospital', type: 'cco:Facility' },
-      { text: 'the patient', type: 'cco:Person' },
-      { text: 'the intensive care unit', type: 'cco:Facility' }
+      { text: 'The hospital', type: 'Facility' },
+      { text: 'the patient', type: 'Person' },
+      { text: 'the intensive care unit', type: 'Facility' }
     ],
     expectedRoles: [
       { entity: 'hospital', role: 'Agent' },
@@ -2291,8 +2291,8 @@ const sentences = [
     subset: 'general',
     tags: ['medical', 'diagnosis'],
     expectedEntities: [
-      { text: 'The radiologist', type: 'cco:Person' },
-      { text: 'the imaging results', type: 'cco:InformationContentEntity' }
+      { text: 'The radiologist', type: 'Person' },
+      { text: 'the imaging results', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'radiologist', role: 'Agent' },
@@ -2305,7 +2305,7 @@ const sentences = [
     subset: 'general',
     tags: ['medical', 'treatment'],
     expectedEntities: [
-      { text: 'The therapist', type: 'cco:Person' },
+      { text: 'The therapist', type: 'Person' },
       { text: 'the injury', type: 'bfo:Entity' },
       { text: 'physical therapy', type: 'bfo:Process' }
     ],
@@ -2321,8 +2321,8 @@ const sentences = [
     subset: 'general',
     tags: ['medical', 'administration'],
     expectedEntities: [
-      { text: 'The board', type: 'cco:Organization' },
-      { text: 'the new treatment protocol', type: 'cco:InformationContentEntity' }
+      { text: 'The board', type: 'Organization' },
+      { text: 'the new treatment protocol', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'board', role: 'Agent' },
@@ -2337,9 +2337,9 @@ const sentences = [
     subset: 'general',
     tags: ['legal'],
     expectedEntities: [
-      { text: 'The attorney', type: 'cco:Person' },
-      { text: 'the motion', type: 'cco:InformationContentEntity' },
-      { text: 'the court', type: 'cco:Organization' }
+      { text: 'The attorney', type: 'Person' },
+      { text: 'the motion', type: 'InformationContentEntity' },
+      { text: 'the court', type: 'Organization' }
     ],
     expectedRoles: [
       { entity: 'attorney', role: 'Agent' },
@@ -2353,8 +2353,8 @@ const sentences = [
     subset: 'general',
     tags: ['legal'],
     expectedEntities: [
-      { text: 'The jury', type: 'cco:Organization' },
-      { text: 'the verdict', type: 'cco:InformationContentEntity' }
+      { text: 'The jury', type: 'Organization' },
+      { text: 'the verdict', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'jury', role: 'Agent' },
@@ -2367,8 +2367,8 @@ const sentences = [
     subset: 'general',
     tags: ['legal'],
     expectedEntities: [
-      { text: 'The plaintiff', type: 'cco:Person' },
-      { text: 'the defendant', type: 'cco:Person' },
+      { text: 'The plaintiff', type: 'Person' },
+      { text: 'the defendant', type: 'Person' },
       { text: 'damages', type: 'bfo:Entity' }
     ],
     expectedRoles: [
@@ -2382,8 +2382,8 @@ const sentences = [
     subset: 'general',
     tags: ['legal'],
     expectedEntities: [
-      { text: 'The judge', type: 'cco:Person' },
-      { text: 'a restraining order', type: 'cco:InformationContentEntity' }
+      { text: 'The judge', type: 'Person' },
+      { text: 'a restraining order', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'judge', role: 'Agent' },
@@ -2396,8 +2396,8 @@ const sentences = [
     subset: 'general',
     tags: ['legal'],
     expectedEntities: [
-      { text: 'The defense counsel', type: 'cco:Person' },
-      { text: 'the witness', type: 'cco:Person' }
+      { text: 'The defense counsel', type: 'Person' },
+      { text: 'the witness', type: 'Person' }
     ],
     expectedRoles: [
       { entity: 'defense counsel', role: 'Agent' },
@@ -2410,7 +2410,7 @@ const sentences = [
     subset: 'general',
     tags: ['legal'],
     expectedEntities: [
-      { text: 'The clerk', type: 'cco:Person' },
+      { text: 'The clerk', type: 'Person' },
       { text: 'the proceedings', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -2424,9 +2424,9 @@ const sentences = [
     subset: 'general',
     tags: ['legal'],
     expectedEntities: [
-      { text: 'The magistrate', type: 'cco:Person' },
+      { text: 'The magistrate', type: 'Person' },
       { text: 'bail', type: 'bfo:Entity' },
-      { text: 'the accused', type: 'cco:Person' }
+      { text: 'the accused', type: 'Person' }
     ],
     expectedRoles: [
       { entity: 'magistrate', role: 'Agent' },
@@ -2446,9 +2446,9 @@ const sentences = [
     subset: 'adversarial',
     tags: ['long-np', 'cbp'],
     expectedEntities: [
-      { text: 'The senior intelligence analyst', type: 'cco:Person' },
-      { text: 'the operations center', type: 'cco:Organization' },
-      { text: 'the assessment', type: 'cco:InformationContentEntity' }
+      { text: 'The senior intelligence analyst', type: 'Person' },
+      { text: 'the operations center', type: 'Organization' },
+      { text: 'the assessment', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'intelligence analyst', role: 'Agent' },
@@ -2461,8 +2461,8 @@ const sentences = [
     subset: 'adversarial',
     tags: ['long-np', 'cbp'],
     expectedEntities: [
-      { text: 'The newly appointed deputy commissioner', type: 'cco:Person' },
-      { text: 'the memorandum', type: 'cco:InformationContentEntity' }
+      { text: 'The newly appointed deputy commissioner', type: 'Person' },
+      { text: 'the memorandum', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'deputy commissioner', role: 'Agent' },
@@ -2475,9 +2475,9 @@ const sentences = [
     subset: 'adversarial',
     tags: ['long-np', 'cbp'],
     expectedEntities: [
-      { text: 'The chief patrol agent', type: 'cco:Person' },
-      { text: 'the Rio Grande Valley sector', type: 'cco:Organization' },
-      { text: 'the team', type: 'cco:Organization' }
+      { text: 'The chief patrol agent', type: 'Person' },
+      { text: 'the Rio Grande Valley sector', type: 'Organization' },
+      { text: 'the team', type: 'Organization' }
     ],
     expectedRoles: [
       { entity: 'chief patrol agent', role: 'Agent' },
@@ -2490,8 +2490,8 @@ const sentences = [
     subset: 'adversarial',
     tags: ['long-np', 'forensics'],
     expectedEntities: [
-      { text: 'The experienced forensic laboratory technician', type: 'cco:Person' },
-      { text: 'the evidence', type: 'cco:InformationContentEntity' }
+      { text: 'The experienced forensic laboratory technician', type: 'Person' },
+      { text: 'the evidence', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'technician', role: 'Agent' },
@@ -2504,7 +2504,7 @@ const sentences = [
     subset: 'adversarial',
     tags: ['long-np', 'government'],
     expectedEntities: [
-      { text: 'The assistant secretary', type: 'cco:Person' },
+      { text: 'The assistant secretary', type: 'Person' },
       { text: 'the initiative', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -2518,7 +2518,7 @@ const sentences = [
     subset: 'adversarial',
     tags: ['long-np', 'government'],
     expectedEntities: [
-      { text: 'The congressional oversight committee', type: 'cco:Organization' },
+      { text: 'The congressional oversight committee', type: 'Organization' },
       { text: 'a hearing', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -2534,9 +2534,9 @@ const sentences = [
     subset: 'adversarial',
     tags: ['nested-pp', 'cbp'],
     expectedEntities: [
-      { text: 'The agent', type: 'cco:Person' },
-      { text: 'the report', type: 'cco:InformationContentEntity' },
-      { text: 'the office', type: 'cco:Organization' }
+      { text: 'The agent', type: 'Person' },
+      { text: 'the report', type: 'InformationContentEntity' },
+      { text: 'the office', type: 'Organization' }
     ],
     expectedRoles: [
       { entity: 'agent', role: 'Agent' },
@@ -2550,9 +2550,9 @@ const sentences = [
     subset: 'adversarial',
     tags: ['nested-pp', 'government'],
     expectedEntities: [
-      { text: 'The director', type: 'cco:Person' },
-      { text: 'the office of professional responsibility', type: 'cco:Organization' },
-      { text: 'the complaint', type: 'cco:InformationContentEntity' }
+      { text: 'The director', type: 'Person' },
+      { text: 'the office of professional responsibility', type: 'Organization' },
+      { text: 'the complaint', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'director', role: 'Agent' },
@@ -2565,10 +2565,10 @@ const sentences = [
     subset: 'adversarial',
     tags: ['nested-pp', 'forensics'],
     expectedEntities: [
-      { text: 'The officer', type: 'cco:Person' },
-      { text: 'the evidence', type: 'cco:InformationContentEntity' },
-      { text: 'the scene', type: 'cco:Facility' },
-      { text: 'the lab', type: 'cco:Facility' }
+      { text: 'The officer', type: 'Person' },
+      { text: 'the evidence', type: 'InformationContentEntity' },
+      { text: 'the scene', type: 'Facility' },
+      { text: 'the lab', type: 'Facility' }
     ],
     expectedRoles: [
       { entity: 'officer', role: 'Agent' },
@@ -2583,9 +2583,9 @@ const sentences = [
     subset: 'adversarial',
     tags: ['nested-pp', 'cbp'],
     expectedEntities: [
-      { text: 'The task force', type: 'cco:Organization' },
-      { text: 'the network', type: 'cco:Organization' },
-      { text: 'the border', type: 'cco:Facility' }
+      { text: 'The task force', type: 'Organization' },
+      { text: 'the network', type: 'Organization' },
+      { text: 'the border', type: 'Facility' }
     ],
     expectedRoles: [
       { entity: 'task force', role: 'Agent' },
@@ -2598,10 +2598,10 @@ const sentences = [
     subset: 'adversarial',
     tags: ['nested-pp', 'cbp'],
     expectedEntities: [
-      { text: 'The inspector', type: 'cco:Person' },
+      { text: 'The inspector', type: 'Person' },
       { text: 'the cargo', type: 'bfo:Entity' },
-      { text: 'the container', type: 'cco:Artifact' },
-      { text: 'the port of entry', type: 'cco:Facility' }
+      { text: 'the container', type: 'Artifact' },
+      { text: 'the port of entry', type: 'Facility' }
     ],
     expectedRoles: [
       { entity: 'inspector', role: 'Agent' },
@@ -2616,9 +2616,9 @@ const sentences = [
     subset: 'adversarial',
     tags: ['relative-clause', 'cbp'],
     expectedEntities: [
-      { text: 'The agent', type: 'cco:Person' },
-      { text: 'the tunnel', type: 'cco:Facility' },
-      { text: 'the report', type: 'cco:InformationContentEntity' }
+      { text: 'The agent', type: 'Person' },
+      { text: 'the tunnel', type: 'Facility' },
+      { text: 'the report', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'agent', role: 'Agent' },
@@ -2631,8 +2631,8 @@ const sentences = [
     subset: 'adversarial',
     tags: ['relative-clause', 'cbp'],
     expectedEntities: [
-      { text: 'The vehicle', type: 'cco:Artifact' },
-      { text: 'the border', type: 'cco:Facility' }
+      { text: 'The vehicle', type: 'Artifact' },
+      { text: 'the border', type: 'Facility' }
     ],
     expectedRoles: [
       { entity: 'vehicle', role: 'Patient' }
@@ -2644,9 +2644,9 @@ const sentences = [
     subset: 'adversarial',
     tags: ['relative-clause', 'cbp'],
     expectedEntities: [
-      { text: 'The officer', type: 'cco:Person' },
+      { text: 'The officer', type: 'Person' },
       { text: 'the interview', type: 'bfo:Process' },
-      { text: 'the findings', type: 'cco:InformationContentEntity' }
+      { text: 'the findings', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'officer', role: 'Agent' },
@@ -2659,8 +2659,8 @@ const sentences = [
     subset: 'adversarial',
     tags: ['relative-clause', 'government'],
     expectedEntities: [
-      { text: 'The policy', type: 'cco:InformationContentEntity' },
-      { text: 'the committee', type: 'cco:Organization' }
+      { text: 'The policy', type: 'InformationContentEntity' },
+      { text: 'the committee', type: 'Organization' }
     ],
     expectedRoles: [
       { entity: 'committee', role: 'Agent' },
@@ -2673,8 +2673,8 @@ const sentences = [
     subset: 'adversarial',
     tags: ['relative-clause', 'forensics'],
     expectedEntities: [
-      { text: 'The evidence', type: 'cco:InformationContentEntity' },
-      { text: 'the team', type: 'cco:Organization' }
+      { text: 'The evidence', type: 'InformationContentEntity' },
+      { text: 'the team', type: 'Organization' }
     ],
     expectedRoles: [
       { entity: 'team', role: 'Agent' },
@@ -2689,9 +2689,9 @@ const sentences = [
     subset: 'adversarial',
     tags: ['multi-clause', 'cbp'],
     expectedEntities: [
-      { text: 'The agent', type: 'cco:Person' },
-      { text: 'the suspect', type: 'cco:Person' },
-      { text: 'the team', type: 'cco:Organization' },
+      { text: 'The agent', type: 'Person' },
+      { text: 'the suspect', type: 'Person' },
+      { text: 'the team', type: 'Organization' },
       { text: 'the area', type: 'bfo:Entity' }
     ],
     expectedRoles: [
@@ -2707,9 +2707,9 @@ const sentences = [
     subset: 'adversarial',
     tags: ['multi-clause', 'government'],
     expectedEntities: [
-      { text: 'The director', type: 'cco:Person' },
+      { text: 'The director', type: 'Person' },
       { text: 'the operation', type: 'bfo:Process' },
-      { text: 'the supervisor', type: 'cco:Person' },
+      { text: 'the supervisor', type: 'Person' },
       { text: 'the execution', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -2725,9 +2725,9 @@ const sentences = [
     subset: 'adversarial',
     tags: ['multi-clause', 'subordination', 'cbp'],
     expectedEntities: [
-      { text: 'the patrol', type: 'cco:Organization' },
-      { text: 'the vessel', type: 'cco:Artifact' },
-      { text: 'the coast guard', type: 'cco:Organization' }
+      { text: 'the patrol', type: 'Organization' },
+      { text: 'the vessel', type: 'Artifact' },
+      { text: 'the coast guard', type: 'Organization' }
     ],
     expectedRoles: [
       { entity: 'patrol', role: 'Agent' },
@@ -2741,9 +2741,9 @@ const sentences = [
     subset: 'adversarial',
     tags: ['multi-clause', 'shared-subject', 'cbp'],
     expectedEntities: [
-      { text: 'The analyst', type: 'cco:Person' },
+      { text: 'The analyst', type: 'Person' },
       { text: 'the threat', type: 'bfo:Entity' },
-      { text: 'a response plan', type: 'cco:InformationContentEntity' }
+      { text: 'a response plan', type: 'InformationContentEntity' }
     ],
     expectedRoles: [
       { entity: 'analyst', role: 'Agent' },
@@ -2757,9 +2757,9 @@ const sentences = [
     subset: 'adversarial',
     tags: ['multi-clause', 'subordination', 'cbp'],
     expectedEntities: [
-      { text: 'the alarm', type: 'cco:Artifact' },
-      { text: 'the officers', type: 'cco:Person' },
-      { text: 'the building', type: 'cco:Facility' }
+      { text: 'the alarm', type: 'Artifact' },
+      { text: 'the officers', type: 'Person' },
+      { text: 'the building', type: 'Facility' }
     ],
     expectedRoles: [
       { entity: 'officers', role: 'Agent' },
@@ -2772,10 +2772,10 @@ const sentences = [
     subset: 'adversarial',
     tags: ['multi-clause', 'cbp'],
     expectedEntities: [
-      { text: 'The inspector', type: 'cco:Person' },
-      { text: 'the documents', type: 'cco:InformationContentEntity' },
-      { text: 'the officer', type: 'cco:Person' },
-      { text: 'the driver', type: 'cco:Person' }
+      { text: 'The inspector', type: 'Person' },
+      { text: 'the documents', type: 'InformationContentEntity' },
+      { text: 'the officer', type: 'Person' },
+      { text: 'the driver', type: 'Person' }
     ],
     expectedRoles: [
       { entity: 'inspector', role: 'Agent' },
@@ -2792,7 +2792,7 @@ const sentences = [
     subset: 'adversarial',
     tags: ['long-np', 'government'],
     expectedEntities: [
-      { text: 'The joint interagency task force', type: 'cco:Organization' },
+      { text: 'The joint interagency task force', type: 'Organization' },
       { text: 'the contraband', type: 'bfo:Entity' }
     ],
     expectedRoles: [
@@ -2806,7 +2806,7 @@ const sentences = [
     subset: 'adversarial',
     tags: ['long-np', 'government'],
     expectedEntities: [
-      { text: 'The acting deputy assistant secretary', type: 'cco:Person' },
+      { text: 'The acting deputy assistant secretary', type: 'Person' },
       { text: 'the summit', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -2820,9 +2820,9 @@ const sentences = [
     subset: 'adversarial',
     tags: ['nested-pp', 'cbp'],
     expectedEntities: [
-      { text: 'The team', type: 'cco:Organization' },
-      { text: 'the weapons', type: 'cco:Artifact' },
-      { text: 'the vehicle', type: 'cco:Artifact' }
+      { text: 'The team', type: 'Organization' },
+      { text: 'the weapons', type: 'Artifact' },
+      { text: 'the vehicle', type: 'Artifact' }
     ],
     expectedRoles: [
       { entity: 'team', role: 'Agent' },
@@ -2836,9 +2836,9 @@ const sentences = [
     subset: 'adversarial',
     tags: ['nested-pp', 'government'],
     expectedEntities: [
-      { text: 'The analyst', type: 'cco:Person' },
-      { text: 'the findings', type: 'cco:InformationContentEntity' },
-      { text: 'the director', type: 'cco:Person' }
+      { text: 'The analyst', type: 'Person' },
+      { text: 'the findings', type: 'InformationContentEntity' },
+      { text: 'the director', type: 'Person' }
     ],
     expectedRoles: [
       { entity: 'analyst', role: 'Agent' },
@@ -2852,9 +2852,9 @@ const sentences = [
     subset: 'adversarial',
     tags: ['relative-clause', 'cbp'],
     expectedEntities: [
-      { text: 'The suspect', type: 'cco:Person' },
-      { text: 'the scene', type: 'cco:Facility' },
-      { text: 'the patrol', type: 'cco:Organization' }
+      { text: 'The suspect', type: 'Person' },
+      { text: 'the scene', type: 'Facility' },
+      { text: 'the patrol', type: 'Organization' }
     ],
     expectedRoles: [
       { entity: 'patrol', role: 'Agent' },
@@ -2867,8 +2867,8 @@ const sentences = [
     subset: 'adversarial',
     tags: ['relative-clause', 'cbp'],
     expectedEntities: [
-      { text: 'The smugglers', type: 'cco:Person' },
-      { text: 'the tunnel network', type: 'cco:Facility' }
+      { text: 'The smugglers', type: 'Person' },
+      { text: 'the tunnel network', type: 'Facility' }
     ],
     expectedRoles: [
       { entity: 'smugglers', role: 'Patient' }
@@ -2880,9 +2880,9 @@ const sentences = [
     subset: 'adversarial',
     tags: ['relative-clause', 'government'],
     expectedEntities: [
-      { text: 'The report', type: 'cco:InformationContentEntity' },
-      { text: 'the analyst', type: 'cco:Person' },
-      { text: 'the director', type: 'cco:Person' }
+      { text: 'The report', type: 'InformationContentEntity' },
+      { text: 'the analyst', type: 'Person' },
+      { text: 'the director', type: 'Person' }
     ],
     expectedRoles: [
       { entity: 'analyst', role: 'Agent' },
@@ -2896,9 +2896,9 @@ const sentences = [
     subset: 'adversarial',
     tags: ['multi-clause', 'subordination', 'cbp'],
     expectedEntities: [
-      { text: 'the sensors', type: 'cco:Artifact' },
+      { text: 'the sensors', type: 'Artifact' },
       { text: 'movement', type: 'bfo:Process' },
-      { text: 'the patrol', type: 'cco:Organization' }
+      { text: 'the patrol', type: 'Organization' }
     ],
     expectedRoles: [
       { entity: 'sensors', role: 'Agent' },
@@ -2912,9 +2912,9 @@ const sentences = [
     subset: 'adversarial',
     tags: ['multi-clause', 'cbp'],
     expectedEntities: [
-      { text: 'The commander', type: 'cco:Person' },
-      { text: 'the plan', type: 'cco:InformationContentEntity' },
-      { text: 'the team', type: 'cco:Organization' },
+      { text: 'The commander', type: 'Person' },
+      { text: 'the plan', type: 'InformationContentEntity' },
+      { text: 'the team', type: 'Organization' },
       { text: 'the mission', type: 'bfo:Process' }
     ],
     expectedRoles: [
@@ -2930,9 +2930,9 @@ const sentences = [
     subset: 'adversarial',
     tags: ['nested-pp', 'government'],
     expectedEntities: [
-      { text: 'The liaison', type: 'cco:Person' },
-      { text: 'the embassy', type: 'cco:Facility' },
-      { text: 'the capital', type: 'cco:GeopoliticalOrganization' }
+      { text: 'The liaison', type: 'Person' },
+      { text: 'the embassy', type: 'Facility' },
+      { text: 'the capital', type: 'GeopoliticalOrganization' }
     ],
     expectedRoles: [
       { entity: 'liaison', role: 'Agent' }

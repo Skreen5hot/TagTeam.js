@@ -6,24 +6,24 @@
     "multi-clause",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T11:48:44.527Z",
+  "generatedAt": "2026-02-22T12:26:18.253Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The inspector",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the documents",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     },
     {
       "text": "the officer",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the driver",
-      "type": "cco:Person"
+      "type": "Person"
     }
   ],
   "expectedRoles": [
@@ -100,7 +100,7 @@
         "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Person_Inspector_4f506ec16ab7"
+          "@id": "inst:Person_Inspector_32aa5e6ddc80"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_f94f3a5883eb"
@@ -138,7 +138,7 @@
         "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Person_Officer_e5f6b508688f"
+          "@id": "inst:Person_Officer_e9359684430c"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_f94f3a5883eb"
@@ -156,7 +156,7 @@
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Person_Driver_c52e41ca0ceb"
+          "@id": "inst:Person_Driver_be7b2eca5d86"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_f94f3a5883eb"
@@ -165,7 +165,7 @@
       {
         "@id": "inst:Act_examined",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "examined",
@@ -177,7 +177,7 @@
       {
         "@id": "inst:Act_interviewed",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "interviewed",
@@ -251,15 +251,15 @@
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Person_Inspector_4f506ec16ab7",
+        "@id": "inst:Person_Inspector_32aa5e6ddc80",
         "@type": [
-          "cco:Person",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "inspector",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.527Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.252Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_f94f3a5883eb",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -271,51 +271,51 @@
         ],
         "rdfs:label": "document",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.527Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.252Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_f94f3a5883eb",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Person_Officer_e5f6b508688f",
+        "@id": "inst:Person_Officer_e9359684430c",
         "@type": [
-          "cco:Person",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "officer",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.527Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.252Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_f94f3a5883eb",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Person_Driver_c52e41ca0ceb",
+        "@id": "inst:Person_Driver_be7b2eca5d86",
         "@type": [
-          "cco:Person",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "driver",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.527Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.252Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_f94f3a5883eb",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_f94f3a5883eb",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The inspector examined the documents while the officer interviewed the driver",
         "tagteam:char_count": 77,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-22T11:48:44.518Z"
+        "tagteam:received_at": "2026-02-22T12:26:18.243Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -332,7 +332,7 @@
       {
         "@id": "inst:ParsingAct_f94f3a58",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -365,7 +365,7 @@
             "@id": "inst:Act_interviewed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.518Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.243Z"
       }
     ]
   }

@@ -30,7 +30,7 @@ const VERB_CLASSES = {
     subjectRequirement: ['animate', 'organization', 'collective'],
     subjectForbidden: ['inanimate', 'abstract'],
     objectRequirement: null,  // Mental verbs have loose object constraints
-    ontologyType: 'cco:MentalAct'
+    ontologyType: 'MentalAct'
   },
 
   // Physical acts requiring animate agents (NOT organizations)
@@ -47,7 +47,7 @@ const VERB_CLASSES = {
     subjectForbidden: ['inanimate', 'abstract', 'organization'],
     objectRequirement: ['material_entity', 'inanimate'],  // Physical objects
     objectForbidden: ['abstract'],
-    ontologyType: 'cco:PhysicalAct'
+    ontologyType: 'PhysicalAct'
   },
 
   // Communication acts (organizations can communicate)
@@ -64,7 +64,7 @@ const VERB_CLASSES = {
     subjectRequirement: ['animate', 'organization', 'collective'],
     subjectForbidden: ['inanimate'],
     objectRequirement: null,  // Can announce anything
-    ontologyType: 'cco:CommunicativeAct'
+    ontologyType: 'CommunicativeAct'
   },
 
   // Transfer acts (organizations can transfer)
@@ -78,7 +78,7 @@ const VERB_CLASSES = {
     subjectRequirement: ['animate', 'organization', 'collective'],
     subjectForbidden: ['inanimate', 'abstract'],
     objectRequirement: null,  // Can transfer many things - be permissive
-    ontologyType: 'cco:TransferAct'
+    ontologyType: 'TransferAct'
   },
 
   // Employment/organizational acts
@@ -90,7 +90,7 @@ const VERB_CLASSES = {
     ]),
     subjectRequirement: ['animate', 'organization'],
     objectRequirement: ['animate'],
-    ontologyType: 'cco:OrganizationalAct'
+    ontologyType: 'OrganizationalAct'
   },
 
   // Governance/policy acts
@@ -103,7 +103,7 @@ const VERB_CLASSES = {
     ]),
     subjectRequirement: ['animate', 'organization'],
     objectRequirement: null,
-    ontologyType: 'cco:GovernanceAct'
+    ontologyType: 'GovernanceAct'
   },
 
   // Creation/production acts
@@ -116,7 +116,7 @@ const VERB_CLASSES = {
     ]),
     subjectRequirement: ['animate', 'organization'],
     objectRequirement: ['continuant'],
-    ontologyType: 'cco:CreationAct'
+    ontologyType: 'CreationAct'
   },
 
   // Perception acts (animate only, not organizations)
@@ -128,7 +128,7 @@ const VERB_CLASSES = {
     ]),
     subjectRequirement: ['animate'],
     objectRequirement: null,
-    ontologyType: 'cco:PerceptionAct'
+    ontologyType: 'PerceptionAct'
   },
 
   // Causation (any subject can cause - even inanimate)
@@ -898,16 +898,16 @@ class SelectionalPreferences {
    */
   _getOntologyConstraint(verbClass, agentCategory) {
     if (agentCategory === 'inanimate' || agentCategory === 'material_entity') {
-      return 'bfo:Agent requires bfo:MaterialEntity with cco:has_function capability';
+      return 'bfo:Agent requires bfo:MaterialEntity with has_function capability';
     }
     if (agentCategory === 'abstract') {
-      return 'bfo:Agent requires cco:Agent (animate or organizational entity)';
+      return 'bfo:Agent requires Agent (animate or organizational entity)';
     }
     if (verbClass === 'intentional_physical') {
-      return 'cco:PhysicalAct requires animate agent with physical capability';
+      return 'PhysicalAct requires animate agent with physical capability';
     }
     if (verbClass === 'perception') {
-      return 'cco:PerceptionAct requires animate agent with sensory capability';
+      return 'PerceptionAct requires animate agent with sensory capability';
     }
     return 'Selectional constraint violation';
   }

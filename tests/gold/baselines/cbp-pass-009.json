@@ -6,16 +6,16 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T11:48:43.714Z",
+  "generatedAt": "2026-02-22T12:26:17.232Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "Additional agents",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the sector chief",
-      "type": "cco:Person"
+      "type": "Person"
     }
   ],
   "expectedRoles": [
@@ -99,7 +99,7 @@
       {
         "@id": "inst:Act_deployed",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "deployed",
@@ -154,7 +154,7 @@
         "tagteam:nominatedClassLabel": "Additional Agent",
         "tagteam:nominationBasis": "bare_plural",
         "tagteam:requiresOntologyResolution": true,
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.714Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.232Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3dddf7de5304",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -166,26 +166,26 @@
         ],
         "rdfs:label": "sector chief",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.714Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.232Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3dddf7de5304",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_3dddf7de5304",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "Additional agents were deployed by the sector chief",
         "tagteam:char_count": 51,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T11:48:43.705Z"
+        "tagteam:received_at": "2026-02-22T12:26:17.218Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -202,7 +202,7 @@
       {
         "@id": "inst:ParsingAct_3dddf7de",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -226,7 +226,7 @@
             "@id": "inst:Act_deployed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.705Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.218Z"
       }
     ]
   }

@@ -7,16 +7,16 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T11:48:42.600Z",
+  "generatedAt": "2026-02-22T12:26:16.050Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The department",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "new regulations",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     }
   ],
   "expectedRoles": [
@@ -67,7 +67,7 @@
         "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Organization_Department_6703dc1238fb"
+          "@id": "inst:Organization_Department_767ff5397eec"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7d317d866425"
@@ -94,7 +94,7 @@
       {
         "@id": "inst:Act_implemented",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "implemented",
@@ -137,15 +137,15 @@
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Organization_Department_6703dc1238fb",
+        "@id": "inst:Organization_Department_767ff5397eec",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "department",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.600Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.049Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7d317d866425",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -157,26 +157,26 @@
         ],
         "rdfs:label": "new regulation",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.600Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.049Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7d317d866425",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_7d317d866425",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The department implemented new regulations",
         "tagteam:char_count": 42,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-22T11:48:42.593Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.041Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -193,7 +193,7 @@
       {
         "@id": "inst:ParsingAct_7d317d86",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -217,7 +217,7 @@
             "@id": "inst:Act_implemented"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.593Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.041Z"
       }
     ]
   }

@@ -7,12 +7,12 @@
     "cbp",
     "operations"
   ],
-  "generatedAt": "2026-02-22T11:48:43.371Z",
+  "generatedAt": "2026-02-22T12:26:16.870Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The liaison officer",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the response",
@@ -67,7 +67,7 @@
         "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Person_Liaison_Officer_05e6710d7adb"
+          "@id": "inst:Person_Liaison_Officer_730cb8ba9169"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_4756c94a5bc8"
@@ -94,7 +94,7 @@
       {
         "@id": "inst:Act_coordinated",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "coordinated",
@@ -136,15 +136,15 @@
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Person_Liaison_Officer_05e6710d7adb",
+        "@id": "inst:Person_Liaison_Officer_730cb8ba9169",
         "@type": [
-          "cco:Person",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "liaison officer",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.371Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.870Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4756c94a5bc8",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -156,26 +156,26 @@
         ],
         "rdfs:label": "response",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.371Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.870Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4756c94a5bc8",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_4756c94a5bc8",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The liaison officer coordinated the response",
         "tagteam:char_count": 44,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T11:48:43.364Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.863Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -192,7 +192,7 @@
       {
         "@id": "inst:ParsingAct_4756c94a",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_coordinated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.364Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.863Z"
       }
     ]
   }

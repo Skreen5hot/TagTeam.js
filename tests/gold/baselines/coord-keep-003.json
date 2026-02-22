@@ -7,16 +7,16 @@
     "keep",
     "government"
   ],
-  "generatedAt": "2026-02-22T11:48:42.808Z",
+  "generatedAt": "2026-02-22T12:26:16.262Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The Bureau of Alcohol Tobacco and Firearms",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "the case",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     }
   ],
   "expectedRoles": [
@@ -147,7 +147,7 @@
       {
         "@id": "inst:Act_investigated",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "investigated",
@@ -213,7 +213,7 @@
         "rdfs:label": "bureau of alcohol tobacco",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.807Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.262Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_8033fe818429",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -226,7 +226,7 @@
         "rdfs:label": "firearm",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.807Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.262Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_8033fe818429",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -238,7 +238,7 @@
         ],
         "rdfs:label": "alcohol tobacco",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.807Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.262Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_8033fe818429",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -250,26 +250,26 @@
         ],
         "rdfs:label": "case",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.807Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.262Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_8033fe818429",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_8033fe818429",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The Bureau of Alcohol Tobacco and Firearms investigated the case",
         "tagteam:char_count": 64,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-22T11:48:42.799Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.254Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -286,7 +286,7 @@
       {
         "@id": "inst:ParsingAct_8033fe81",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -316,7 +316,7 @@
             "@id": "inst:Act_investigated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.799Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.254Z"
       }
     ]
   }

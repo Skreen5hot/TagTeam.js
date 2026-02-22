@@ -6,12 +6,12 @@
     "long-np",
     "government"
   ],
-  "generatedAt": "2026-02-22T11:48:44.554Z",
+  "generatedAt": "2026-02-22T12:26:18.279Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The acting deputy assistant secretary",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the summit",
@@ -99,7 +99,7 @@
         ],
         "rdfs:label": "international affair",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.554Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.279Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a9461505ef30",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -112,26 +112,26 @@
         "rdfs:label": "summit",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.554Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.279Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a9461505ef30",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_a9461505ef30",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The acting deputy assistant secretary for international affairs attended the summit",
         "tagteam:char_count": 83,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-22T11:48:44.544Z"
+        "tagteam:received_at": "2026-02-22T12:26:18.270Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -148,7 +148,7 @@
       {
         "@id": "inst:ParsingAct_a9461505",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -169,7 +169,7 @@
             "@id": "inst:the_summit"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.544Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.270Z"
       }
     ]
   }

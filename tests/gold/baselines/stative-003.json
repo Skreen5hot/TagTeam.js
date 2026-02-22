@@ -7,16 +7,16 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-22T11:48:43.013Z",
+  "generatedAt": "2026-02-22T12:26:16.493Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The department",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "several divisions",
-      "type": "cco:Organization"
+      "type": "Organization"
     }
   ],
   "expectedRoles": [],
@@ -54,7 +54,7 @@
         "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Organization_Department_f0c7f1b78c68"
+          "@id": "inst:Organization_Department_c5562413b96e"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a85a47690bea"
@@ -81,7 +81,7 @@
       {
         "@id": "inst:Act_composed",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "composed",
@@ -125,15 +125,15 @@
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Organization_Department_f0c7f1b78c68",
+        "@id": "inst:Organization_Department_c5562413b96e",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "department",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.013Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.493Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a85a47690bea",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -145,26 +145,26 @@
         ],
         "rdfs:label": "several divisions",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.013Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.493Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a85a47690bea",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_a85a47690bea",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The department is composed of several divisions",
         "tagteam:char_count": 47,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T11:48:43.001Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.478Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -181,7 +181,7 @@
       {
         "@id": "inst:ParsingAct_a85a4769",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -205,7 +205,7 @@
             "@id": "inst:Act_composed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.001Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.478Z"
       }
     ]
   }

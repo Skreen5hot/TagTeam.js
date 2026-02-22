@@ -7,12 +7,12 @@
     "shared-subject",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T11:48:44.500Z",
+  "generatedAt": "2026-02-22T12:26:18.222Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The analyst",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the threat",
@@ -20,7 +20,7 @@
     },
     {
       "text": "a response plan",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     }
   ],
   "expectedRoles": [
@@ -80,7 +80,7 @@
         "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Person_Analyst_0a88b2224270"
+          "@id": "inst:Person_Analyst_6a9f7b760a6e"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c2deb9cd5398"
@@ -125,7 +125,7 @@
       {
         "@id": "inst:Act_identified",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "identified",
@@ -167,15 +167,15 @@
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Person_Analyst_0a88b2224270",
+        "@id": "inst:Person_Analyst_6a9f7b760a6e",
         "@type": [
-          "cco:Person",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "analyst",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.500Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.221Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c2deb9cd5398",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -187,7 +187,7 @@
         ],
         "rdfs:label": "threat",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.500Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.222Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c2deb9cd5398",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -199,26 +199,26 @@
         ],
         "rdfs:label": "response plan",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.500Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.222Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c2deb9cd5398",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_c2deb9cd5398",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The analyst identified the threat and recommended a response plan",
         "tagteam:char_count": 65,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-22T11:48:44.491Z"
+        "tagteam:received_at": "2026-02-22T12:26:18.210Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -235,7 +235,7 @@
       {
         "@id": "inst:ParsingAct_c2deb9cd",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -262,7 +262,7 @@
             "@id": "inst:Act_identified"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.491Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.210Z"
       }
     ]
   }

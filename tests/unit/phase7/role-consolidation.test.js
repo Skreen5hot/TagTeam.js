@@ -149,7 +149,7 @@ test('Bearer has exactly one is_bearer_of reference', () => {
   const nodes = getNodes(multiActGraph);
   const patientNode = nodes.find(n =>
     (n['rdfs:label'] || '').toLowerCase().includes('patient') &&
-    n['@type'] && n['@type'].includes('cco:Person')
+    n['@type'] && n['@type'].includes('Person')
   );
   if (!patientNode) {
     // Skip if patient Tier 2 not found

@@ -194,9 +194,9 @@ test('bearer link points to Tier 2 entity (Person/Artifact)', () => {
     const bearerIRI = extractIRI(role['inheres_in']);
     const bearer = graph['@graph'].find(n => n['@id'] === bearerIRI);
     assert(bearer, `Found bearer for ${role['rdfs:label']}`);
-    // In Two-Tier architecture, roles point to Tier 2 entities (cco:Person, cco:Artifact)
+    // In Two-Tier architecture, roles point to Tier 2 entities (Person, Artifact)
     const isTier2Entity = bearer['@type'].some(t =>
-      t.includes('cco:Person') || t.includes('cco:Artifact') || t.includes('cco:'));
+      t.includes('Person') || t.includes('Artifact') || t.includes('cco:'));
     assert(isTier2Entity, 'Bearer is Tier 2 entity');
   });
 });

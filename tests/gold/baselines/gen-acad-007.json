@@ -6,12 +6,12 @@
     "academic",
     "research"
   ],
-  "generatedAt": "2026-02-22T11:48:44.050Z",
+  "generatedAt": "2026-02-22T12:26:17.603Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The team",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "the experiment",
@@ -66,7 +66,7 @@
         "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Organization_Team_0ac365966bf8"
+          "@id": "inst:Organization_Team_abff526f57a4"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b21af55d2390"
@@ -93,7 +93,7 @@
       {
         "@id": "inst:Act_replicated",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "replicated",
@@ -135,15 +135,15 @@
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Organization_Team_0ac365966bf8",
+        "@id": "inst:Organization_Team_abff526f57a4",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "team",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.050Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.603Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b21af55d2390",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -155,26 +155,26 @@
         ],
         "rdfs:label": "experiment",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.050Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.603Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b21af55d2390",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_b21af55d2390",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The team replicated the experiment",
         "tagteam:char_count": 34,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-22T11:48:44.044Z"
+        "tagteam:received_at": "2026-02-22T12:26:17.595Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -191,7 +191,7 @@
       {
         "@id": "inst:ParsingAct_b21af55d",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -215,7 +215,7 @@
             "@id": "inst:Act_replicated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.044Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.595Z"
       }
     ]
   }

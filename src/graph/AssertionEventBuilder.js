@@ -191,7 +191,7 @@ class AssertionEventBuilder {
 
     return {
       '@id': iri,
-      '@type': ['tagteam:EthicalValueICE', 'cco:InformationContentEntity', 'owl:NamedIndividual'],
+      '@type': ['tagteam:EthicalValueICE', 'InformationContentEntity', 'owl:NamedIndividual'],
       'rdfs:label': `${valueName} Value Content`,
       'is_about': { '@id': `tagteam:${valueName}` },
       'is_concretized_by': { '@id': context.ibeIRI },
@@ -269,7 +269,7 @@ class AssertionEventBuilder {
 
     return {
       '@id': iri,
-      '@type': ['tagteam:ContextDimensionICE', 'cco:InformationContentEntity', 'owl:NamedIndividual'],
+      '@type': ['tagteam:ContextDimensionICE', 'InformationContentEntity', 'owl:NamedIndividual'],
       'rdfs:label': `${meta.label} Dimension Content`,
       'is_concretized_by': context.ibeIRI,
       'tagteam:dimension': dimension,

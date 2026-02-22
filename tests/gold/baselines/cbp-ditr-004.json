@@ -6,16 +6,16 @@
     "ditransitive",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T11:48:43.871Z",
+  "generatedAt": "2026-02-22T12:26:17.408Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The instructor",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the class",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "the new procedure",
@@ -101,7 +101,7 @@
       {
         "@id": "inst:Act_showed",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "showed",
@@ -151,7 +151,7 @@
         "rdfs:label": "instructor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.871Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.408Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_412cc0d5f18c",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -163,26 +163,26 @@
         ],
         "rdfs:label": "class",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.871Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.408Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_412cc0d5f18c",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_412cc0d5f18c",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The instructor showed the class the new procedure",
         "tagteam:char_count": 49,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T11:48:43.865Z"
+        "tagteam:received_at": "2026-02-22T12:26:17.399Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -199,7 +199,7 @@
       {
         "@id": "inst:ParsingAct_412cc0d5",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -223,7 +223,7 @@
             "@id": "inst:Act_showed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.865Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.399Z"
       }
     ]
   }

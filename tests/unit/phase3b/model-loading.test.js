@@ -206,7 +206,7 @@ if (!posModelExists || !depModelExists) {
     const entityNodes = graph['@graph'].filter(n => {
       if (!n['@type'] || !n['rdfs:label']) return false;
       const types = [].concat(n['@type']);
-      if (types.includes('cco:IntentionalAct')) return false;
+      if (types.includes('IntentionalAct')) return false;
       if (types.includes('tagteam:StructuralAssertion')) return false;
       if (types.includes('tagteam:NegatedStructuralAssertion')) return false;
       if (types.some(t => t.endsWith('Role'))) return false;

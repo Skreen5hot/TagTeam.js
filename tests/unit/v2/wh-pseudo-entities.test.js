@@ -45,12 +45,12 @@ describe('P0-WH: Wh-Word Pseudo-Entity Recognition', () => {
     expect(whEntity['tagteam:definiteness']).toBe('interrogative_selective');
   });
 
-  test('P0-WH-2: "who approved the budget" — "who" extracted as cco:Person with interrogative definiteness', () => {
+  test('P0-WH-2: "who approved the budget" — "who" extracted as Person with interrogative definiteness', () => {
     const entity = buildAndFind('who approved the budget', 'who');
 
     expect(entity).toBeDefined();
     expect(entity['tagteam:definiteness']).toBe('interrogative');
-    expect(entity['tagteam:denotesType']).toBe('cco:Person');
+    expect(entity['tagteam:denotesType']).toBe('Person');
   });
 
   test('P0-WH-3: "the committee decide what" — "what" extracted as bfo:Entity with interrogative definiteness', () => {
@@ -62,13 +62,13 @@ describe('P0-WH: Wh-Word Pseudo-Entity Recognition', () => {
   });
 
   test('P0-WH-4: Wh pseudo-entity type mapping (who→Person, what→Entity, which→Entity, where→Site, when→TemporalRegion)', () => {
-    // who → cco:Person
+    // who → Person
     const who = buildAndFind('who arrived', 'who');
-    expect(who['tagteam:denotesType']).toBe('cco:Person');
+    expect(who['tagteam:denotesType']).toBe('Person');
 
-    // whom → cco:Person
+    // whom → Person
     const whom = buildAndFind('the manager consulted whom', 'whom');
-    expect(whom['tagteam:denotesType']).toBe('cco:Person');
+    expect(whom['tagteam:denotesType']).toBe('Person');
     expect(whom['tagteam:definiteness']).toBe('interrogative');
 
     // what → bfo:Entity

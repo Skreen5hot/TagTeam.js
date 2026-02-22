@@ -122,15 +122,15 @@ test('Constructor accepts gazetteer data', () => {
   assert(ner !== null, 'Constructor returned null');
 });
 
-test('Exact match: "Customs and Border Protection" → cco:Organization', () => {
+test('Exact match: "Customs and Border Protection" → Organization', () => {
   assert(GazetteerNER !== null, 'Module not loaded');
   const orgs = loadGazetteer('organizations.json');
   assert(orgs !== null, 'organizations.json not loaded');
   const ner = new GazetteerNER([orgs]);
   const result = ner.lookup('Customs and Border Protection');
   assert(result !== null, 'No result for "Customs and Border Protection"');
-  assertEqual(result.type, 'cco:Organization',
-    `Expected cco:Organization, got ${result.type}`);
+  assertEqual(result.type, 'Organization',
+    `Expected Organization, got ${result.type}`);
 });
 
 test('Exact match returns canonicalName', () => {
@@ -176,7 +176,7 @@ test('Alias lookup: "CBP" → resolves to "Customs and Border Protection"', () =
   const result = ner.lookup('CBP');
   assert(result !== null, 'No result for alias "CBP"');
   assertEqual(result.canonicalName, 'Customs and Border Protection');
-  assertEqual(result.type, 'cco:Organization');
+  assertEqual(result.type, 'Organization');
 });
 
 test('Alias lookup returns matchType "alias"', () => {
@@ -203,7 +203,7 @@ test('Abbreviation normalization: "Dept. of Homeland Security" → match', () =>
   const result = ner.lookup('Dept. of Homeland Security');
   assert(result !== null,
     'Should match "Department of Homeland Security" via normalization');
-  assertEqual(result.type, 'cco:Organization');
+  assertEqual(result.type, 'Organization');
 });
 
 test('Case-insensitive match: "customs and border protection" → match', () => {
@@ -213,7 +213,7 @@ test('Case-insensitive match: "customs and border protection" → match', () => 
   const ner = new GazetteerNER([orgs]);
   const result = ner.lookup('customs and border protection');
   assert(result !== null, 'Should match case-insensitively');
-  assertEqual(result.type, 'cco:Organization');
+  assertEqual(result.type, 'Organization');
 });
 
 // ============================================================================
@@ -281,7 +281,7 @@ test('Multiple gazetteers: lookup across all', () => {
   // Should find organization
   const orgResult = ner.lookup('CBP');
   assert(orgResult !== null, 'Should find org');
-  assertEqual(orgResult.type, 'cco:Organization');
+  assertEqual(orgResult.type, 'Organization');
   // Should also find place
   const placeResult = ner.lookup('United States');
   assert(placeResult !== null, 'Should find place');

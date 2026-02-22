@@ -6,16 +6,16 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T11:48:43.454Z",
+  "generatedAt": "2026-02-22T12:26:16.946Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "TECS",
-      "type": "cco:Artifact"
+      "type": "Artifact"
     },
     {
       "text": "the primary law enforcement database",
-      "type": "cco:Artifact"
+      "type": "Artifact"
     }
   ],
   "expectedRoles": [],
@@ -68,26 +68,26 @@
         "rdfs:label": "tecs",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.454Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.946Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e27204699a1a",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_e27204699a1a",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "TECS is the primary law enforcement database",
         "tagteam:char_count": 44,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T11:48:43.446Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.939Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -104,7 +104,7 @@
       {
         "@id": "inst:ParsingAct_e2720469",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -122,7 +122,7 @@
             "@id": "inst:TECS"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.446Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.939Z"
       }
     ]
   }

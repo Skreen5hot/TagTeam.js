@@ -56,22 +56,21 @@ const STATIVE_AMBIGUOUS = {
   'represent': {
     stativeCondition: 'object_is_organization_or_nation',
     stativeRelation: 'tagteam:bears_role_for',
-    eventiveActType: 'cco:IntentionalAct',
+    eventiveActType: 'IntentionalAct',
     // Stative if object is Nation, Organization, GeopoliticalEntity
-    stativeObjectTypes: ['cco:GeopoliticalOrganization', 'cco:Organization', 'cco:GeopoliticalOrganization',
-                         'cco:GovernmentOrganization', 'cco:Country']
+    stativeObjectTypes: ['GeopoliticalOrganization', 'Organization', 'Country']
   },
   'support': {
     stativeCondition: 'subject_is_artifact',
     stativeRelation: 'cco:has_part',
-    eventiveActType: 'cco:IntentionalAct',
-    stativeSubjectTypes: ['cco:Artifact', 'cco:Structure']
+    eventiveActType: 'IntentionalAct',
+    stativeSubjectTypes: ['Artifact']
   },
   'cover': {
     stativeCondition: 'object_is_measurement',
     stativeRelation: 'cco:has_spatial_extent',
-    eventiveActType: 'cco:IntentionalAct',
-    stativeObjectTypes: ['cco:Measurement', 'cco:Area']
+    eventiveActType: 'IntentionalAct',
+    stativeObjectTypes: []
   }
 };
 

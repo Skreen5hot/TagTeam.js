@@ -9,7 +9,7 @@
  *
  * Phase 4 Week 2 Implementation:
  * - IBE node for input text with cco:has_text_value
- * - Parser agent as cco:Agent
+ * - Parser agent as Agent
  * - Deterministic IRI generation for reproducibility
  *
  * @module graph/InformationStaircaseBuilder
@@ -52,7 +52,7 @@ class InformationStaircaseBuilder {
 
     return {
       '@id': iri,
-      '@type': ['cco:InformationBearingEntity', 'owl:NamedIndividual'],
+      '@type': ['InformationBearingEntity', 'owl:NamedIndividual'],
       'rdfs:label': 'Input text',
       'has_text_value': inputText,
       'tagteam:char_count': inputText.length,
@@ -67,7 +67,7 @@ class InformationStaircaseBuilder {
    * The parser agent represents TagTeam as an intentional agent
    * performing detection acts. Used in detected_by relations.
    *
-   * @returns {Object} cco:Agent node for @graph
+   * @returns {Object} Agent node for @graph
    */
   createParserAgent() {
     // Return cached node if already created
@@ -79,7 +79,7 @@ class InformationStaircaseBuilder {
 
     this._parserAgentNode = {
       '@id': iri,
-      '@type': ['cco:Agent', 'owl:NamedIndividual'],
+      '@type': ['Agent', 'owl:NamedIndividual'],
       'rdfs:label': `TagTeam.js Parser v${this.options.version}`,
       'tagteam:version': this.options.version,
       'tagteam:algorithm': 'BFO-aware NLP with CCO mapping',

@@ -5,7 +5,7 @@
  * Stories covered:
  *   1. Temporal Region Detection (bfo:BFO_0000038 / bfo:BFO_0000008)
  *   2. Symptom & Quality Detection (bfo:BFO_0000019)
- *   3. Inanimate Agent Re-typing (cco:InformationContentEntity)
+ *   3. Inanimate Agent Re-typing (InformationContentEntity)
  */
 
 const assert = require('assert');
@@ -96,11 +96,11 @@ test('Integration: full medical sentence parses without error', () => {
   assert.ok(getNodes(medicalGraph).length > 0, 'Graph should have nodes');
 });
 
-test('Integration: "patient" → cco:Person', () => {
+test('Integration: "patient" → Person', () => {
   const node = findTier2ByLabel(medicalGraph, 'patient');
   assert.ok(node, 'Should find Tier 2 node for "patient"');
-  assert.ok(node['@type'].includes('cco:Person'),
-    'patient should be cco:Person, got: ' + JSON.stringify(node['@type']));
+  assert.ok(node['@type'].includes('Person'),
+    'patient should be Person, got: ' + JSON.stringify(node['@type']));
 });
 
 test('Integration: "chest pain" → bfo:BFO_0000019 (Quality)', () => {
@@ -109,7 +109,7 @@ test('Integration: "chest pain" → bfo:BFO_0000019 (Quality)', () => {
   if (node) {
     assert.ok(node['@type'].includes('bfo:BFO_0000019'),
       'chest pain should be Quality, got: ' + JSON.stringify(node['@type']));
-    assert.ok(!node['@type'].includes('cco:Artifact'),
+    assert.ok(!node['@type'].includes('Artifact'),
       'chest pain should NOT be Artifact');
   } else {
     // Compromise NLP may combine "chest pain and shortness of breath"
@@ -125,7 +125,7 @@ test('Integration: "blood sugar levels" → bfo:BFO_0000019 (Quality)', () => {
   assert.ok(node, 'Should find Tier 2 node for "blood sugar levels"');
   assert.ok(node['@type'].includes('bfo:BFO_0000019'),
     'blood sugar levels should be Quality, got: ' + JSON.stringify(node['@type']));
-  assert.ok(!node['@type'].includes('cco:Artifact'),
+  assert.ok(!node['@type'].includes('Artifact'),
     'blood sugar levels should NOT be Artifact');
 });
 
@@ -134,16 +134,16 @@ test('Integration: "three days" → bfo:BFO_0000038 (Temporal Region)', () => {
   assert.ok(node, 'Should find Tier 2 node for "three days"');
   assert.ok(node['@type'].includes('bfo:BFO_0000038'),
     'three days should be Temporal Region, got: ' + JSON.stringify(node['@type']));
-  assert.ok(!node['@type'].includes('cco:Artifact'),
+  assert.ok(!node['@type'].includes('Artifact'),
     'three days should NOT be Artifact');
 });
 
 test('Integration: "suggesting" → InformationContentEntity (not IntentionalAct)', () => {
   const node = findActByVerb(medicalGraph, 'suggest');
   assert.ok(node, 'Should find node for verb "suggest"');
-  assert.ok(node['@type'].includes('cco:InformationContentEntity'),
+  assert.ok(node['@type'].includes('InformationContentEntity'),
     'suggesting with inanimate subject should be ICE, got: ' + JSON.stringify(node['@type']));
-  assert.ok(!node['@type'].includes('cco:IntentionalAct'),
+  assert.ok(!node['@type'].includes('IntentionalAct'),
     'should NOT be IntentionalAct');
 });
 
@@ -151,10 +151,10 @@ test('Integration: "reports" → ActOfCommunication (patient is animate)', () =>
   const node = findActByVerb(medicalGraph, 'report');
   assert.ok(node, 'Should find node for verb "report"');
   assert.ok(
-    node['@type'].includes('cco:ActOfCommunication') ||
-    node['@type'].includes('cco:IntentionalAct'),
+    node['@type'].includes('ActOfCommunication') ||
+    node['@type'].includes('IntentionalAct'),
     'reports with animate agent should be Act, got: ' + JSON.stringify(node['@type']));
-  assert.ok(!node['@type'].includes('cco:InformationContentEntity'),
+  assert.ok(!node['@type'].includes('InformationContentEntity'),
     'should NOT be ICE when agent is animate');
 });
 
@@ -162,7 +162,7 @@ test('Integration: "reports" → ActOfCommunication (patient is animate)', () =>
 // CROSS-STORY: No temporal or quality entity appears as agent
 // ═══════════════════════════════════════════════════════════════
 
-test('Integration: no temporal entity appears as cco:has_agent', () => {
+test('Integration: no temporal entity appears as has_agent', () => {
   const nodes = getNodes(medicalGraph);
   const temporalLabels = ['three days'];
   for (const n of nodes) {
@@ -177,7 +177,7 @@ test('Integration: no temporal entity appears as cco:has_agent', () => {
   }
 });
 
-test('Integration: no quality/symptom entity appears as cco:has_agent', () => {
+test('Integration: no quality/symptom entity appears as has_agent', () => {
   const nodes = getNodes(medicalGraph);
   const symptomLabels = ['chest pain', 'blood sugar', 'cough', 'fever'];
   for (const n of nodes) {
@@ -197,7 +197,7 @@ test('Integration: no quality/symptom entity appears as cco:has_agent', () => {
 // ═══════════════════════════════════════════════════════════════
 
 test('Integration: medical sentence has no Artifact-typed Tier 2 nodes', () => {
-  const artifacts = findNodesByType(medicalGraph, 'cco:Artifact');
+  const artifacts = findNodesByType(medicalGraph, 'Artifact');
   // Filter to actual Tier 2 nodes (not DiscourseReferents)
   const tier2Artifacts = artifacts.filter(n =>
     !n['@type'].includes('tagteam:DiscourseReferent')
@@ -216,7 +216,7 @@ test('Integration: medical sentence has no Artifact-typed Tier 2 nodes', () => {
 test('Integration: Inference node has is_about and supports_inference', () => {
   const node = findActByVerb(medicalGraph, 'suggest');
   assert.ok(node, 'Should find inference node');
-  assert.ok(node['is_about'], 'Inference should have cco:is_about');
+  assert.ok(node['is_about'], 'Inference should have is_about');
   assert.ok(node['tagteam:supports_inference'],
     'Inference should have tagteam:supports_inference');
   assert.strictEqual(node['tagteam:detection_method'], 'selectional_retype');

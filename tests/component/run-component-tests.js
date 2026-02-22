@@ -186,7 +186,7 @@ function normalizeGraphForAnalysis(result) {
   });
 
   // Promote Tier 2 domain types onto Tier 1 DiscourseReferent entities.
-  // Tree pipeline stores domain types (cco:Person, cco:Artifact) on Tier 2 nodes
+  // Tree pipeline stores domain types (Person, Artifact) on Tier 2 nodes
   // linked via cco:is_about. Component tests expect them on Tier 1.
   graph.forEach(node => {
     if (!(node['@type'] || []).includes('tagteam:DiscourseReferent')) return;

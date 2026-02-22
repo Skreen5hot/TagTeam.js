@@ -4,7 +4,7 @@
  * Tests acceptance criteria from DOMAIN_NEUTRAL_IMPLEMENTATION_PLAN.md Phase 2:
  * - AC-2.1: Parser produces BFO types with no config loaded
  * - AC-2.2: loadDomainConfig('config/medical.json') succeeds
- * - AC-2.3: After loading medical config, "care" → cco:ActOfCare
+ * - AC-2.3: After loading medical config, "care" → ActOfCare
  * - AC-2.4: Multiple configs can be loaded additively
  * - AC-2.5: Conflicting configs emit warning, last wins
  * - AC-2.6: clearConfigs() returns to BFO-only mode
@@ -92,13 +92,13 @@ test('DomainConfigLoader: getProcessRootWord returns type for loaded terms', () 
     domain: 'medical',
     version: '1.0',
     processRootWords: {
-      'care': 'cco:IntentionalAct',
-      'surgery': 'cco:IntentionalAct'
+      'care': 'IntentionalAct',
+      'surgery': 'IntentionalAct'
     }
   });
 
-  assert.strictEqual(loader.getProcessRootWord('care'), 'cco:IntentionalAct');
-  assert.strictEqual(loader.getProcessRootWord('surgery'), 'cco:IntentionalAct');
+  assert.strictEqual(loader.getProcessRootWord('care'), 'IntentionalAct');
+  assert.strictEqual(loader.getProcessRootWord('surgery'), 'IntentionalAct');
   assert.strictEqual(loader.getProcessRootWord('unknown'), null);
 });
 
@@ -109,23 +109,23 @@ test('DomainConfigLoader: getTypeSpecialization returns specialized types', () =
     version: '1.0',
     typeSpecializations: {
       'bfo:BFO_0000015': {
-        'care': 'cco:IntentionalAct',
-        'treatment': 'cco:IntentionalAct'
+        'care': 'IntentionalAct',
+        'treatment': 'IntentionalAct'
       },
-      'cco:Person': {
-        'doctor': 'cco:Physician',
-        'nurse': 'cco:Nurse'
+      'Person': {
+        'doctor': 'Physician',
+        'nurse': 'Nurse'
       }
     }
   });
 
   assert.strictEqual(
     loader.getTypeSpecialization('bfo:BFO_0000015', 'care'),
-    'cco:IntentionalAct'
+    'IntentionalAct'
   );
   assert.strictEqual(
-    loader.getTypeSpecialization('cco:Person', 'doctor'),
-    'cco:Physician'
+    loader.getTypeSpecialization('Person', 'doctor'),
+    'Physician'
   );
   assert.strictEqual(
     loader.getTypeSpecialization('bfo:BFO_0000015', 'unknown'),
@@ -156,7 +156,7 @@ test('DomainConfigLoader: multiple configs load additively', () => {
   loader.loadConfigObject({
     domain: 'medical',
     version: '1.0',
-    processRootWords: { 'care': 'cco:IntentionalAct' }
+    processRootWords: { 'care': 'IntentionalAct' }
   });
 
   loader.loadConfigObject({
@@ -166,7 +166,7 @@ test('DomainConfigLoader: multiple configs load additively', () => {
   });
 
   assert.deepStrictEqual(loader.getLoadedDomains(), ['medical', 'legal']);
-  assert.strictEqual(loader.getProcessRootWord('care'), 'cco:IntentionalAct');
+  assert.strictEqual(loader.getProcessRootWord('care'), 'IntentionalAct');
   assert.strictEqual(loader.getProcessRootWord('hearing'), 'legal:LegalHearing');
 });
 

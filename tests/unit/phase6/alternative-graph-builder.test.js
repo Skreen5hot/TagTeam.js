@@ -104,7 +104,7 @@ describe('Phase 6.3: AlternativeGraphBuilder', () => {
   describe('Category 3: Variant Node Creation', () => {
     const originalNode = {
       '@id': 'inst:Act_123',
-      '@type': ['cco:IntentionalAct'],
+      '@type': ['IntentionalAct'],
       'tagteam:modality': 'obligation',
       'tagteam:agent': { '@id': 'inst:Agent_1' }
     };
@@ -116,7 +116,7 @@ describe('Phase 6.3: AlternativeGraphBuilder', () => {
 
     it('VN-002: createVariantNode preserves @type', () => {
       const variant = builder.createVariantNode(originalNode, {}, '_alt1');
-      expect(variant['@type']).toContain('cco:IntentionalAct');
+      expect(variant['@type']).toContain('IntentionalAct');
     });
 
     it('VN-003: createVariantNode applies modifications', () => {
@@ -175,7 +175,7 @@ describe('Phase 6.3: AlternativeGraphBuilder', () => {
       '@graph': [
         {
           '@id': 'inst:Act_123',
-          '@type': ['cco:IntentionalAct'],
+          '@type': ['IntentionalAct'],
           'tagteam:modality': 'obligation',
           'tagteam:actualityStatus': 'tagteam:Prescribed'
         }
@@ -337,7 +337,7 @@ describe('Phase 6.3: AlternativeGraphBuilder', () => {
       '@graph': [
         {
           '@id': 'inst:Entity_1',
-          '@type': ['cco:Organization'],
+          '@type': ['Organization'],
           'rdfs:label': 'Security'
         }
       ]
@@ -366,7 +366,7 @@ describe('Phase 6.3: AlternativeGraphBuilder', () => {
     it('NC-003: Noun category alternative changes @type', () => {
       const alts = builder.buildNounCategoryAlternatives(nounAmbiguity, defaultGraph);
       const role = alts.find(a => a.reading === 'role');
-      expect(role.graph['@type']).not.toContain('cco:Organization');
+      expect(role.graph['@type']).not.toContain('Organization');
     });
 
     it('NC-004: Noun alternative has correct reading', () => {
@@ -394,7 +394,7 @@ describe('Phase 6.3: AlternativeGraphBuilder', () => {
       '@graph': [
         {
           '@id': 'inst:Act_1',
-          '@type': ['cco:IntentionalAct'],
+          '@type': ['IntentionalAct'],
           'tagteam:modality': 'obligation'
         },
         {
@@ -530,7 +530,7 @@ describe('Phase 6.3: AlternativeGraphBuilder', () => {
       '@graph': [
         {
           '@id': 'inst:Act_1',
-          '@type': ['cco:IntentionalAct'],
+          '@type': ['IntentionalAct'],
           'tagteam:modality': 'obligation'
         }
       ]
@@ -587,7 +587,7 @@ describe('Phase 6.3: AlternativeGraphBuilder', () => {
     const graph = {
       '@graph': [
         { '@id': 'inst:Node_1', '@type': ['cco:Act'] },
-        { '@id': 'inst:Node_2', '@type': ['cco:Agent'] },
+        { '@id': 'inst:Node_2', '@type': ['Agent'] },
         { '@id': 'inst:Node_3', '@type': ['cco:Object'] }
       ]
     };
@@ -632,7 +632,7 @@ describe('Phase 6.3: AlternativeGraphBuilder', () => {
       for (let i = 0; i < 100; i++) {
         graph['@graph'].push({
           '@id': `inst:Act_${i}`,
-          '@type': ['cco:IntentionalAct'],
+          '@type': ['IntentionalAct'],
           'tagteam:modality': 'obligation'
         });
         preserved.push({

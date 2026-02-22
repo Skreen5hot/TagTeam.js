@@ -129,7 +129,7 @@ test('build() creates IBE node', () => {
   const graph = builder.build(TEST_TEXT);
 
   const ibeNodes = graph['@graph'].filter(n =>
-    n['@type']?.includes('cco:InformationBearingEntity')
+    n['@type']?.includes('InformationBearingEntity')
   );
 
   assert(ibeNodes.length === 1, 'Should create one IBE node');
@@ -142,7 +142,7 @@ test('build() creates parser agent node', () => {
   const graph = builder.build(TEST_TEXT);
 
   const agentNodes = graph['@graph'].filter(n =>
-    n['@type']?.includes('cco:Agent')
+    n['@type']?.includes('Agent')
   );
 
   assert(agentNodes.length === 1, 'Should create one parser agent');

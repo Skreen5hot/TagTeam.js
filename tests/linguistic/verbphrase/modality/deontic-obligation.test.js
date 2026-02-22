@@ -30,7 +30,7 @@ describe('Deontic Obligation Modality', function() {
 
       const directive = semantic.findNode(graph, n =>
         n['@type']?.includes('tagteam:DirectiveContent') ||
-        n['@type']?.includes('cco:InformationContentEntity')
+        n['@type']?.includes('InformationContentEntity')
       );
 
       expect(directive).toBeTruthy();
@@ -128,7 +128,7 @@ describe('Deontic Obligation Modality', function() {
 
       // Check Tier 1 denotesType or Tier 2 type
       if (nurse['tagteam:denotesType']) {
-        expect(nurse['tagteam:denotesType']).toBe('cco:Person');
+        expect(nurse['tagteam:denotesType']).toBe('Person');
       }
     });
 

@@ -7,16 +7,16 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-22T11:48:42.353Z",
+  "generatedAt": "2026-02-22T12:26:15.794Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "NASA",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "the federal government",
-      "type": "cco:Organization"
+      "type": "Organization"
     }
   ],
   "expectedRoles": [],
@@ -93,7 +93,7 @@
         "rdfs:label": "nasa",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.353Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.794Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6a98fd9c5a58",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -105,26 +105,26 @@
         ],
         "rdfs:label": "federal government",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.353Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.794Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6a98fd9c5a58",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_6a98fd9c5a58",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "NASA is an independent agency of the federal government",
         "tagteam:char_count": 55,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-22T11:48:42.341Z"
+        "tagteam:received_at": "2026-02-22T12:26:15.780Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -141,7 +141,7 @@
       {
         "@id": "inst:ParsingAct_6a98fd9c",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -162,7 +162,7 @@
             "@id": "inst:the_federal_government"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.341Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.780Z"
       }
     ]
   }

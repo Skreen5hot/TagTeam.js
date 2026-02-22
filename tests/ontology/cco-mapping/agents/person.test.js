@@ -1,7 +1,7 @@
 /**
  * CCO Person Mapping Tests
  *
- * Tests that human entities are correctly mapped to cco:Person type.
+ * Tests that human entities are correctly mapped to Person type.
  * Person is a fundamental CCO agent type.
  *
  * Plan Reference: Section 2.2 CCO Extension Mapping / Agents
@@ -14,9 +14,9 @@ const { describe, test, expect, semantic, parseToGraph, printSummary, exit } = r
 
 describe('CCO Person Mapping', function() {
 
-  describe('Medical Roles → cco:Person', function() {
+  describe('Medical Roles → Person', function() {
 
-    test('"doctor" maps to cco:Person denotesType', () => {
+    test('"doctor" maps to Person denotesType', () => {
       const graph = parseToGraph('The doctor treats the patient.');
 
       const doctor = semantic.findNode(graph, n =>
@@ -24,10 +24,10 @@ describe('CCO Person Mapping', function() {
       );
 
       expect(doctor).toBeTruthy();
-      semantic.denotesType(doctor, 'cco:Person');
+      semantic.denotesType(doctor, 'Person');
     });
 
-    test('"patient" maps to cco:Person denotesType', () => {
+    test('"patient" maps to Person denotesType', () => {
       const graph = parseToGraph('The doctor treats the patient.');
 
       const patient = semantic.findNode(graph, n =>
@@ -35,10 +35,10 @@ describe('CCO Person Mapping', function() {
       );
 
       expect(patient).toBeTruthy();
-      semantic.denotesType(patient, 'cco:Person');
+      semantic.denotesType(patient, 'Person');
     });
 
-    test('"nurse" maps to cco:Person', () => {
+    test('"nurse" maps to Person', () => {
       const graph = parseToGraph('The nurse administers medication.');
 
       const nurse = semantic.findNode(graph, n =>
@@ -46,10 +46,10 @@ describe('CCO Person Mapping', function() {
       );
 
       expect(nurse).toBeTruthy();
-      semantic.denotesType(nurse, 'cco:Person');
+      semantic.denotesType(nurse, 'Person');
     });
 
-    test('"physician" maps to cco:Person', () => {
+    test('"physician" maps to Person', () => {
       const graph = parseToGraph('The physician examines the patient.');
 
       const physician = semantic.findNode(graph, n =>
@@ -57,10 +57,10 @@ describe('CCO Person Mapping', function() {
       );
 
       expect(physician).toBeTruthy();
-      semantic.denotesType(physician, 'cco:Person');
+      semantic.denotesType(physician, 'Person');
     });
 
-    test('"surgeon" maps to cco:Person', () => {
+    test('"surgeon" maps to Person', () => {
       const graph = parseToGraph('The surgeon performs the operation.');
 
       const surgeon = semantic.findNode(graph, n =>
@@ -68,19 +68,19 @@ describe('CCO Person Mapping', function() {
       );
 
       expect(surgeon).toBeTruthy();
-      semantic.denotesType(surgeon, 'cco:Person');
+      semantic.denotesType(surgeon, 'Person');
     });
 
   });
 
   describe('Tier 2 Person Entities', function() {
 
-    test('creates Tier 2 cco:Person entity', () => {
+    test('creates Tier 2 Person entity', () => {
       const graph = parseToGraph('The doctor helps the patient.');
 
       // Look for Tier 2 Person nodes
       const tier2Person = semantic.findNode(graph, n =>
-        n['@type']?.includes('cco:Person') &&
+        n['@type']?.includes('Person') &&
         !n['@type']?.includes('tagteam:DiscourseReferent')
       );
 
@@ -103,7 +103,7 @@ describe('CCO Person Mapping', function() {
       const tier2 = semantic.findNode(graph, n => n['@id'] === tier2Id);
 
       if (tier2) {
-        semantic.hasType(tier2, 'cco:Person');
+        semantic.hasType(tier2, 'Person');
       }
     });
 
@@ -111,7 +111,7 @@ describe('CCO Person Mapping', function() {
 
   describe('Group of Persons', function() {
 
-    test('"family" maps to cco:Agent', () => {
+    test('"family" maps to Agent', () => {
       const graph = parseToGraph('The family must make the decision.');
 
       const family = semantic.findNode(graph, n =>
@@ -119,7 +119,7 @@ describe('CCO Person Mapping', function() {
       );
 
       expect(family).toBeTruthy();
-      expect(family['tagteam:denotesType']).toBe('cco:Agent');
+      expect(family['tagteam:denotesType']).toBe('Agent');
     });
 
     test('"patients" (plural) with count creates ObjectAggregate', () => {
@@ -145,7 +145,7 @@ describe('CCO Person Mapping', function() {
       expect(committee).toBeTruthy();
       // Committee is a group
       const denotesType = committee['tagteam:denotesType'];
-      expect(denotesType === 'cco:Agent' || denotesType === 'cco:Organization').toBeTruthy();
+      expect(denotesType === 'Agent' || denotesType === 'Organization').toBeTruthy();
     });
 
   });
@@ -165,7 +165,7 @@ describe('CCO Person Mapping', function() {
       const agent = semantic.findNode(graph, n => n['@id'] === agentId);
 
       if (agent) {
-        semantic.hasType(agent, 'cco:Person');
+        semantic.hasType(agent, 'Person');
       }
     });
 
@@ -213,7 +213,7 @@ describe('CCO Person Mapping', function() {
         const bearer = semantic.findNode(graph, n => n['@id'] === bearerId);
 
         if (bearer) {
-          semantic.hasType(bearer, 'cco:Person');
+          semantic.hasType(bearer, 'Person');
         }
       }
     });

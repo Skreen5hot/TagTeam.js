@@ -156,18 +156,18 @@ test('"blood sugar levels" remains BFO_0000019 (Quality)', () => {
 // Non-medical entities unchanged
 // ═══════════════════════════════════════════════════════════════
 
-test('"ventilator" remains cco:Artifact', () => {
+test('"ventilator" remains Artifact', () => {
   const entities = extractEntities('The doctor used the ventilator');
   const vent = findEntity(entities, 'ventilator');
   assert.ok(vent, 'Should find "ventilator" entity');
-  assert.strictEqual(vent['tagteam:denotesType'], 'cco:Artifact');
+  assert.strictEqual(vent['tagteam:denotesType'], 'Artifact');
 });
 
-test('"patient" remains cco:Person', () => {
+test('"patient" remains Person', () => {
   const entities = extractEntities('The patient has diabetes');
   const patient = findEntity(entities, 'patient');
   assert.ok(patient, 'Should find "patient" entity');
-  assert.strictEqual(patient['tagteam:denotesType'], 'cco:Person');
+  assert.strictEqual(patient['tagteam:denotesType'], 'Person');
 });
 
 // ═══════════════════════════════════════════════════════════════
@@ -180,8 +180,8 @@ test('Tier 2 node for "diabetes" typed BFO_0000016 (not Artifact)', () => {
   assert.ok(tier2, 'Should find Tier 2 node for "diabetes"');
   assert.ok(tier2['@type'].includes('bfo:BFO_0000016'),
     '@type should include bfo:BFO_0000016, got: ' + JSON.stringify(tier2['@type']));
-  assert.ok(!tier2['@type'].includes('cco:Artifact'),
-    '@type should NOT include cco:Artifact');
+  assert.ok(!tier2['@type'].includes('Artifact'),
+    '@type should NOT include Artifact');
   assert.ok(!tier2['@type'].includes('bfo:BFO_0000019'),
     '@type should NOT include bfo:BFO_0000019 (Quality)');
 });

@@ -7,20 +7,20 @@
     "split",
     "object"
   ],
-  "generatedAt": "2026-02-22T11:48:42.837Z",
+  "generatedAt": "2026-02-22T12:26:16.295Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The inspector",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the documents",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     },
     {
       "text": "the photographs",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     }
   ],
   "expectedRoles": [
@@ -75,7 +75,7 @@
         "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Person_Inspector_c47541bc3d8b"
+          "@id": "inst:Person_Inspector_3c49e6ca46af"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_754e50158ed3"
@@ -102,7 +102,7 @@
       {
         "@id": "inst:Act_reviewed",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "reviewed",
@@ -144,15 +144,15 @@
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Person_Inspector_c47541bc3d8b",
+        "@id": "inst:Person_Inspector_3c49e6ca46af",
         "@type": [
-          "cco:Person",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "inspector",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.837Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.295Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_754e50158ed3",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -164,26 +164,26 @@
         ],
         "rdfs:label": "document",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.837Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.295Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_754e50158ed3",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_754e50158ed3",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The inspector reviewed the documents and the photographs",
         "tagteam:char_count": 56,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T11:48:42.830Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.287Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -200,7 +200,7 @@
       {
         "@id": "inst:ParsingAct_754e5015",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -224,7 +224,7 @@
             "@id": "inst:Act_reviewed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.830Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.287Z"
       }
     ]
   }

@@ -4,7 +4,7 @@
  *
  * Validates that the tree pipeline produces:
  *   - Tier 1: tagteam:DiscourseReferent (linguistic mention / ICE)
- *   - Tier 2: cco:Person, cco:Organization, cco:Artifact (real-world entity)
+ *   - Tier 2: Person, Organization, Artifact (real-world entity)
  *   - Provenance: IBE, ArtificialAgent, ActOfArtificialProcessing
  *
  * Authority: TagTeam-Major-Refactor-v2.2.md §11, BFO 2.0, CCO v1.5
@@ -82,7 +82,7 @@ function findParsingAgent(nodes) {
   return nodes.filter(n => {
     const id = n['@id'] || '';
     const types = [].concat(n['@type'] || []);
-    return id.includes('Parser') && types.includes('cco:Agent');
+    return id.includes('Parser') && types.includes('Agent');
   });
 }
 
@@ -90,7 +90,7 @@ function findParsingAct(nodes) {
   return nodes.filter(n => {
     const id = n['@id'] || '';
     const types = [].concat(n['@type'] || []);
-    return id.includes('ParsingAct') && types.includes('cco:IntentionalAct');
+    return id.includes('ParsingAct') && types.includes('IntentionalAct');
   });
 }
 
@@ -176,7 +176,7 @@ test('Tier 2 entities exist with owl:NamedIndividual', () => {
   }
 });
 
-test('Tier 1 nodes link to Tier 2 via cco:is_about', () => {
+test('Tier 1 nodes link to Tier 2 via is_about', () => {
   const graph = buildTreeGraph(SENTENCES.svo);
   const nodes = getNodes(graph);
   const tier1 = findTier1(nodes);
@@ -187,37 +187,37 @@ test('Tier 1 nodes link to Tier 2 via cco:is_about', () => {
     if (node['is_about']) {
       const ref = node['is_about'];
       const iri = typeof ref === 'object' ? ref['@id'] : ref;
-      assert(tier2IRIs.has(iri), `cco:is_about points to ${iri} which is not a Tier 2 node`);
+      assert(tier2IRIs.has(iri), `is_about points to ${iri} which is not a Tier 2 node`);
       linked++;
     }
   }
   assert(linked >= 1, `Expected >= 1 Tier 1 node linked to Tier 2, got ${linked}`);
 });
 
-test('Organization entity maps to cco:Organization Tier 2', () => {
+test('Organization entity maps to Organization Tier 2', () => {
   const graph = buildTreeGraph(SENTENCES.svo);
   const nodes = getNodes(graph);
   const fbi = nodes.find(n => (n['rdfs:label'] || '').includes('FBI'));
   assert(fbi, 'FBI entity not found');
-  assert(fbi['is_about'], 'FBI node missing cco:is_about');
+  assert(fbi['is_about'], 'FBI node missing is_about');
   const t2id = typeof fbi['is_about'] === 'object' ? fbi['is_about']['@id'] : fbi['is_about'];
   const t2node = nodes.find(n => n['@id'] === t2id);
   assert(t2node, `Tier 2 node ${t2id} not found in graph`);
   const types = [].concat(t2node['@type'] || []);
-  assert(types.includes('cco:Organization'), `Expected cco:Organization, got ${types.join(', ')}`);
+  assert(types.includes('Organization'), `Expected Organization, got ${types.join(', ')}`);
 });
 
-test('Passive voice: doctor maps to cco:Person Tier 2', () => {
+test('Passive voice: doctor maps to Person Tier 2', () => {
   const graph = buildTreeGraph(SENTENCES.passive);
   const nodes = getNodes(graph);
   const doctor = nodes.find(n => (n['rdfs:label'] || '').toLowerCase().includes('doctor'));
   assert(doctor, 'doctor entity not found');
-  assert(doctor['is_about'], 'doctor node missing cco:is_about');
+  assert(doctor['is_about'], 'doctor node missing is_about');
   const t2id = typeof doctor['is_about'] === 'object' ? doctor['is_about']['@id'] : doctor['is_about'];
   const t2node = nodes.find(n => n['@id'] === t2id);
   assert(t2node, `Tier 2 node ${t2id} not found`);
   const types = [].concat(t2node['@type'] || []);
-  assert(types.includes('cco:Person'), `Expected cco:Person for doctor, got ${types.join(', ')}`);
+  assert(types.includes('Person'), `Expected Person for doctor, got ${types.join(', ')}`);
 });
 
 // ============================================================================
@@ -229,7 +229,7 @@ console.log(`\n${C.cyan}--- VerbPhrase ICE ---${C.reset}`);
 test('Act nodes have tagteam:VerbPhrase in @type', () => {
   const graph = buildTreeGraph(SENTENCES.svo);
   const nodes = getNodes(graph);
-  // Exclude provenance ParsingAct — it's cco:IntentionalAct but not a text-extracted VerbPhrase
+  // Exclude provenance ParsingAct — it's IntentionalAct but not a text-extracted VerbPhrase
   const acts = findByType(nodes, 'IntentionalAct').filter(a => !(a['@id'] || '').includes('ParsingAct'));
   assert(acts.length >= 1, 'No text-extracted acts found');
   for (const act of acts) {
@@ -244,7 +244,7 @@ test('Act nodes have tagteam:VerbPhrase in @type', () => {
 
 console.log(`\n${C.cyan}--- Provenance: InformationBearingEntity ---${C.reset}`);
 
-test('IBE node exists with cco:InformationBearingEntity type', () => {
+test('IBE node exists with InformationBearingEntity type', () => {
   const graph = buildTreeGraph(SENTENCES.svo);
   const ibes = findByType(getNodes(graph), 'InformationBearingEntity');
   assert(ibes.length === 1, `Expected exactly 1 IBE, got ${ibes.length}`);
@@ -314,12 +314,12 @@ test('ParsingAct has tagteam:has_input pointing to IBE', () => {
   assert(inputIRI === ibe['@id'], `has_input should point to IBE (${ibe['@id']}), got ${inputIRI}`);
 });
 
-test('ParsingAct has cco:has_agent pointing to ArtificialAgent', () => {
+test('ParsingAct has has_agent pointing to ArtificialAgent', () => {
   const graph = buildTreeGraph(SENTENCES.svo);
   const nodes = getNodes(graph);
   const pa = findParsingAct(nodes)[0];
   const agent = findParsingAgent(nodes)[0];
-  assert(pa['has_agent'], 'ParsingAct missing cco:has_agent');
+  assert(pa['has_agent'], 'ParsingAct missing has_agent');
   const agentIRI = typeof pa['has_agent'] === 'object' ? pa['has_agent']['@id'] : pa['has_agent'];
   assert(agentIRI === agent['@id'], `has_agent should point to Agent (${agent['@id']}), got ${agentIRI}`);
 });

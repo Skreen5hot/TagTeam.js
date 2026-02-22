@@ -46,7 +46,7 @@ console.log(`${C.bright}========================================================
 
 console.log(`\n${C.cyan}--- AC-4.19: Component Test Baseline ---${C.reset}`);
 
-const COMPONENT_BASELINE = 30; // Post-audit baseline: cco:Artifact default → bfo:Entity. Was 49 (tree cutover), 89 (legacy). TypeClassifier (Layer 2) will recover type classification tests.
+const COMPONENT_BASELINE = 30; // Post-audit baseline: Artifact default → bfo:Entity. Was 49 (tree cutover), 89 (legacy). TypeClassifier (Layer 2) will recover type classification tests.
 
 test(`AC-4.19: Component tests >= ${COMPONENT_BASELINE} passing`, () => {
   let output;

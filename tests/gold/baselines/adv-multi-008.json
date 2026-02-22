@@ -6,20 +6,20 @@
     "multi-clause",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T11:48:44.658Z",
+  "generatedAt": "2026-02-22T12:26:18.382Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The commander",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the plan",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     },
     {
       "text": "the team",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "the mission",
@@ -110,7 +110,7 @@
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Organization_Plan_And_The_Team_6196d9cca672"
+          "@id": "inst:Organization_Plan_And_The_Team_3a5219813bf0"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_9113ce68dbc8"
@@ -155,7 +155,7 @@
       {
         "@id": "inst:Act_reviewed",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "reviewed",
@@ -205,19 +205,19 @@
         "rdfs:label": "commander",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.658Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.382Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9113ce68dbc8",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Organization_Plan_And_The_Team_6196d9cca672",
+        "@id": "inst:Organization_Plan_And_The_Team_3a5219813bf0",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "plan and the team",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.658Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.382Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9113ce68dbc8",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -229,7 +229,7 @@
         ],
         "rdfs:label": "mission",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.658Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.382Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9113ce68dbc8",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -241,26 +241,26 @@
         ],
         "rdfs:label": "dawn",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.658Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.382Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9113ce68dbc8",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_9113ce68dbc8",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The commander reviewed the plan and the team executed the mission at dawn",
         "tagteam:char_count": 73,
         "tagteam:word_count": 13,
-        "tagteam:received_at": "2026-02-22T11:48:44.646Z"
+        "tagteam:received_at": "2026-02-22T12:26:18.373Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -277,7 +277,7 @@
       {
         "@id": "inst:ParsingAct_9113ce68",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -307,7 +307,7 @@
             "@id": "inst:Act_reviewed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.646Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.373Z"
       }
     ]
   }

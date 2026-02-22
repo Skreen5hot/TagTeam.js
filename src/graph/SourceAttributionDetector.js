@@ -93,26 +93,26 @@ const INSTITUTIONAL_PATTERNS = [
  * Person role patterns for source identification
  */
 const PERSON_ROLE_PATTERNS = {
-  'doctor': 'cco:Person',
-  'dr': 'cco:Person',
-  'physician': 'cco:Person',
-  'surgeon': 'cco:Person',
-  'nurse': 'cco:Person',
-  'patient': 'cco:Person',
-  'family': 'cco:FamilyMember',
-  'relative': 'cco:FamilyMember',
-  'researcher': 'cco:Researcher',
-  'scientist': 'cco:Researcher',
-  'expert': 'cco:Expert',
-  'specialist': 'cco:Specialist',
-  'lawyer': 'cco:LegalProfessional',
-  'attorney': 'cco:LegalProfessional',
-  'judge': 'cco:Judge',
-  'official': 'cco:Official',
-  'spokesperson': 'cco:Spokesperson',
-  'witness': 'cco:Witness',
-  'professor': 'cco:AcademicProfessional',
-  'administrator': 'cco:Administrator'
+  'doctor': 'Person',
+  'dr': 'Person',
+  'physician': 'Person',
+  'surgeon': 'Person',
+  'nurse': 'Person',
+  'patient': 'Person',
+  'family': 'FamilyMember',
+  'relative': 'FamilyMember',
+  'researcher': 'Researcher',
+  'scientist': 'Researcher',
+  'expert': 'Expert',
+  'specialist': 'Specialist',
+  'lawyer': 'LegalProfessional',
+  'attorney': 'LegalProfessional',
+  'judge': 'Judge',
+  'official': 'Official',
+  'spokesperson': 'Spokesperson',
+  'witness': 'Witness',
+  'professor': 'AcademicProfessional',
+  'administrator': 'Administrator'
 };
 
 /**
@@ -347,7 +347,7 @@ class SourceAttributionDetector {
           type: 'institutional',
           institutionalType: type,
           source: match[0],
-          sourceType: 'cco:Organization',
+          sourceType: 'Organization',
           confidence: 0.85,
           evidence: match[0],
           position: this.options.includePositions ? match.index : undefined
@@ -404,17 +404,17 @@ class SourceAttributionDetector {
 
     // Check for organizational patterns
     if (/(?:hospital|clinic|agency|organization|institution|committee|board|panel|council)/i.test(lower)) {
-      return 'cco:Organization';
+      return 'Organization';
     }
 
     // Check for document patterns
     if (/(?:report|study|document|record|policy|guideline|protocol)/i.test(lower)) {
-      return 'cco:InformationContentEntity';
+      return 'InformationContentEntity';
     }
 
     // Default: assume person if starts with capital (likely a name)
     if (/^[A-Z]/.test(source)) {
-      return 'cco:Person';
+      return 'Person';
     }
 
     return null;

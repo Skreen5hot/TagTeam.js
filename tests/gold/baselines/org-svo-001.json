@@ -7,16 +7,16 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T11:48:42.414Z",
+  "generatedAt": "2026-02-22T12:26:15.856Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The FBI",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "the case",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     }
   ],
   "expectedRoles": [
@@ -32,7 +32,7 @@
   "extractedEntities": [
     {
       "text": "The FBI",
-      "type": "cco:Organization",
+      "type": "Organization",
       "id": "inst:The_FBI"
     },
     {
@@ -56,7 +56,7 @@
       {
         "@id": "inst:The_FBI",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The FBI",
@@ -66,9 +66,9 @@
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.95,
         "tagteam:genericityBasis": "named_entity",
-        "tagteam:denotesType": "cco:Organization",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Organization_Fbi_09fcf83953d4"
+          "@id": "inst:Organization_Fbi_2a31ae533bbc"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b812f66889ca"
@@ -95,7 +95,7 @@
       {
         "@id": "inst:Act_investigated",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "investigated",
@@ -137,17 +137,17 @@
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Organization_Fbi_09fcf83953d4",
+        "@id": "inst:Organization_Fbi_2a31ae533bbc",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "fbi",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.414Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.856Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b812f66889ca",
-        "tagteam:denotesType": "cco:Organization"
+        "tagteam:denotesType": "Organization"
       },
       {
         "@id": "inst:Entity_Case_fd0bbeb69bcc",
@@ -157,26 +157,26 @@
         ],
         "rdfs:label": "case",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.414Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.856Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b812f66889ca",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_b812f66889ca",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The FBI investigated the case",
         "tagteam:char_count": 29,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-22T11:48:42.405Z"
+        "tagteam:received_at": "2026-02-22T12:26:15.845Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -193,7 +193,7 @@
       {
         "@id": "inst:ParsingAct_b812f668",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -217,7 +217,7 @@
             "@id": "inst:Act_investigated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.405Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.845Z"
       }
     ]
   }

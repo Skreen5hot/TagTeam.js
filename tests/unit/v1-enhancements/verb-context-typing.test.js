@@ -69,7 +69,7 @@ test('AC-001.1a: "The engineer reviewed the design" → design is ICE', () => {
   const design = findEntityByLabel(graph, 'design');
 
   assert.ok(design, 'Should find design entity');
-  assert.strictEqual(design['tagteam:denotesType'], 'cco:InformationContentEntity',
+  assert.strictEqual(design['tagteam:denotesType'], 'InformationContentEntity',
     `Design should be ICE when reviewed, got: ${design['tagteam:denotesType']}`);
 });
 
@@ -78,7 +78,7 @@ test('AC-001.1b: "The manager read the report" → report is ICE', () => {
   const report = findEntityByLabel(graph, 'report');
 
   assert.ok(report, 'Should find report entity');
-  assert.strictEqual(report['tagteam:denotesType'], 'cco:InformationContentEntity',
+  assert.strictEqual(report['tagteam:denotesType'], 'InformationContentEntity',
     `Report should be ICE when read, got: ${report['tagteam:denotesType']}`);
 });
 
@@ -87,7 +87,7 @@ test('AC-001.1c: "The team studied the document" → document is ICE', () => {
   const document = findEntityByLabel(graph, 'document');
 
   assert.ok(document, 'Should find document entity');
-  assert.strictEqual(document['tagteam:denotesType'], 'cco:InformationContentEntity',
+  assert.strictEqual(document['tagteam:denotesType'], 'InformationContentEntity',
     `Document should be ICE when studied, got: ${document['tagteam:denotesType']}`);
 });
 
@@ -101,7 +101,7 @@ test('AC-001.2a: "The engineer built the design" → design is Artifact', () => 
 
   assert.ok(design, 'Should find design entity');
   // "built" implies physical creation - design is a physical artifact
-  assert.strictEqual(design['tagteam:denotesType'], 'cco:Artifact',
+  assert.strictEqual(design['tagteam:denotesType'], 'Artifact',
     `Design should be Artifact when built, got: ${design['tagteam:denotesType']}`);
 });
 
@@ -111,7 +111,7 @@ test('AC-001.2b: "The worker carried the report" → report is Artifact', () => 
 
   assert.ok(report, 'Should find report entity');
   // "carried" is physical - report is physical object
-  assert.strictEqual(report['tagteam:denotesType'], 'cco:Artifact',
+  assert.strictEqual(report['tagteam:denotesType'], 'Artifact',
     `Report should be Artifact when carried, got: ${report['tagteam:denotesType']}`);
 });
 
@@ -124,7 +124,7 @@ test('AC-001.3a: "The engineer reviewed the patient" → patient remains Person'
   const patient = findEntityByLabel(graph, 'patient');
 
   assert.ok(patient, 'Should find patient entity');
-  assert.strictEqual(patient['tagteam:denotesType'], 'cco:Person',
+  assert.strictEqual(patient['tagteam:denotesType'], 'Person',
     `Patient should remain Person, got: ${patient['tagteam:denotesType']}`);
 });
 
@@ -135,7 +135,7 @@ test('AC-001.3b: "The doctor analyzed the medication" → medication remains Art
   assert.ok(medication, 'Should find medication entity');
   // Medication is explicitly a physical thing, not refinable to ICE
   assert.ok(
-    medication['tagteam:denotesType'] === 'cco:Artifact' ||
+    medication['tagteam:denotesType'] === 'Artifact' ||
     medication['tagteam:denotesType'] === 'bfo:BFO_0000040',
     `Medication should remain Artifact or MaterialEntity, got: ${medication['tagteam:denotesType']}`
   );
@@ -150,7 +150,7 @@ test('AC-001.4a: "The auditor analyzed the data" → data is ICE', () => {
   const data = findEntityByLabel(graph, 'data');
 
   assert.ok(data, 'Should find data entity');
-  assert.strictEqual(data['tagteam:denotesType'], 'cco:InformationContentEntity',
+  assert.strictEqual(data['tagteam:denotesType'], 'InformationContentEntity',
     `Data should be ICE when analyzed, got: ${data['tagteam:denotesType']}`);
 });
 
@@ -159,7 +159,7 @@ test('AC-001.4b: "The committee evaluated the proposal" → proposal is ICE', ()
   const proposal = findEntityByLabel(graph, 'proposal');
 
   assert.ok(proposal, 'Should find proposal entity');
-  assert.strictEqual(proposal['tagteam:denotesType'], 'cco:InformationContentEntity',
+  assert.strictEqual(proposal['tagteam:denotesType'], 'InformationContentEntity',
     `Proposal should be ICE when evaluated, got: ${proposal['tagteam:denotesType']}`);
 });
 
@@ -168,7 +168,7 @@ test('AC-001.4c: "The inspector examined the specifications" → specifications 
   const specs = findEntityByLabel(graph, 'specifications');
 
   assert.ok(specs, 'Should find specifications entity');
-  assert.strictEqual(specs['tagteam:denotesType'], 'cco:InformationContentEntity',
+  assert.strictEqual(specs['tagteam:denotesType'], 'InformationContentEntity',
     `Specifications should be ICE when examined, got: ${specs['tagteam:denotesType']}`);
 });
 
@@ -183,7 +183,7 @@ test('AC-001.5: "The engineer glorped the design" → design retains default typ
   assert.ok(design, 'Should find design entity');
   // Unknown verb should not refine - keeps system default (bfo:BFO_0000040 = MaterialEntity)
   // The key assertion is that it should NOT be refined to ICE
-  assert.notStrictEqual(design['tagteam:denotesType'], 'cco:InformationContentEntity',
+  assert.notStrictEqual(design['tagteam:denotesType'], 'InformationContentEntity',
     'Unknown verb should NOT refine to ICE');
   // And typeRefinedBy should be undefined (no refinement happened)
   assert.ok(!design['tagteam:typeRefinedBy'],

@@ -200,7 +200,7 @@ test('ICE node has correct @type', () => {
 
   assert(ice['@type'].includes('tagteam:EthicalValueICE'),
     'Should have EthicalValueICE type');
-  assert(ice['@type'].includes('cco:InformationContentEntity'),
+  assert(ice['@type'].includes('InformationContentEntity'),
     'Should have InformationContentEntity type');
 });
 

@@ -4,7 +4,7 @@
  * Tests acceptance criteria from DOMAIN_NEUTRAL_IMPLEMENTATION_PLAN.md Phase 3:
  * - AC-3.1: "provide care" → cco:ActOfService (not Transfer)
  * - AC-3.2: "provide medication" → cco:ActOfTransferOfPossession
- * - AC-3.3: "give advice" → cco:ActOfCommunication
+ * - AC-3.3: "give advice" → ActOfCommunication
  * - AC-3.4: Unmapped verb+object uses fallback with warning
  * - AC-3.5: Config can override selectional restrictions
  *
@@ -50,15 +50,15 @@ test('ActExtractor: _getOntologicalCategory returns correct categories', () => {
 
   // Occurrents
   assert.strictEqual(extractor._getOntologicalCategory('bfo:BFO_0000015'), 'occurrent');
-  assert.strictEqual(extractor._getOntologicalCategory('cco:IntentionalAct'), 'occurrent');
+  assert.strictEqual(extractor._getOntologicalCategory('IntentionalAct'), 'occurrent');
   assert.strictEqual(extractor._getOntologicalCategory('cco:ActOfService'), 'occurrent');
 
   // Continuants
   assert.strictEqual(extractor._getOntologicalCategory('bfo:BFO_0000040'), 'continuant');
-  assert.strictEqual(extractor._getOntologicalCategory('cco:Artifact'), 'continuant');
+  assert.strictEqual(extractor._getOntologicalCategory('Artifact'), 'continuant');
 
   // Persons
-  assert.strictEqual(extractor._getOntologicalCategory('cco:Person'), 'person');
+  assert.strictEqual(extractor._getOntologicalCategory('Person'), 'person');
   assert.strictEqual(extractor._getOntologicalCategory('cco:Patient'), 'person');
 
   // GDC
@@ -69,20 +69,20 @@ test('ActExtractor: _applySelectionalRestrictions for "provide"', () => {
   const extractor = new ActExtractor();
 
   // provide + occurrent → ActOfService
-  const careResult = extractor._applySelectionalRestrictions('provide', 'cco:IntentionalAct');
+  const careResult = extractor._applySelectionalRestrictions('provide', 'IntentionalAct');
   assert.strictEqual(careResult, 'cco:ActOfService');
 
   // provide + continuant → ActOfTransferOfPossession
-  const artifactResult = extractor._applySelectionalRestrictions('provide', 'cco:Artifact');
+  const artifactResult = extractor._applySelectionalRestrictions('provide', 'Artifact');
   assert.strictEqual(artifactResult, 'cco:ActOfTransferOfPossession');
 
   // provide + gdc → ActOfCommunication
   const gdcResult = extractor._applySelectionalRestrictions('provide', 'bfo:BFO_0000031');
-  assert.strictEqual(gdcResult, 'cco:ActOfCommunication');
+  assert.strictEqual(gdcResult, 'ActOfCommunication');
 
   // provide + person → IntentionalAct
-  const personResult = extractor._applySelectionalRestrictions('provide', 'cco:Person');
-  assert.strictEqual(personResult, 'cco:IntentionalAct');
+  const personResult = extractor._applySelectionalRestrictions('provide', 'Person');
+  assert.strictEqual(personResult, 'IntentionalAct');
 });
 
 test('ActExtractor: _applySelectionalRestrictions for "give"', () => {
@@ -90,10 +90,10 @@ test('ActExtractor: _applySelectionalRestrictions for "give"', () => {
 
   // give + gdc → ActOfCommunication (give advice)
   const gdcResult = extractor._applySelectionalRestrictions('give', 'bfo:BFO_0000031');
-  assert.strictEqual(gdcResult, 'cco:ActOfCommunication');
+  assert.strictEqual(gdcResult, 'ActOfCommunication');
 
   // give + continuant → ActOfTransferOfPossession
-  const artifactResult = extractor._applySelectionalRestrictions('give', 'cco:Artifact');
+  const artifactResult = extractor._applySelectionalRestrictions('give', 'Artifact');
   assert.strictEqual(artifactResult, 'cco:ActOfTransferOfPossession');
 });
 
@@ -110,7 +110,7 @@ test('ActExtractor: _applySelectionalRestrictions returns null for unmapped verb
   const extractor = new ActExtractor();
 
   // Unmapped verb → null (falls back to VERB_TO_CCO_MAPPINGS)
-  const unmappedResult = extractor._applySelectionalRestrictions('jump', 'cco:Artifact');
+  const unmappedResult = extractor._applySelectionalRestrictions('jump', 'Artifact');
   assert.strictEqual(unmappedResult, null);
 });
 
@@ -119,7 +119,7 @@ test('ActExtractor: _determineActType uses selectional restrictions when context
 
   // With context
   const withContext = extractor._determineActType('provide', {
-    directObjectType: 'cco:IntentionalAct'
+    directObjectType: 'IntentionalAct'
   });
   assert.strictEqual(withContext, 'cco:ActOfService');
 
@@ -191,7 +191,7 @@ test('AC-3.2b: "provide equipment" typed as cco:ActOfTransferOfPossession', () =
 // ==================================
 console.log('\n--- AC-3.3: "give advice" → ActOfCommunication ---');
 
-test('AC-3.3: "give information" typed as cco:ActOfCommunication', () => {
+test('AC-3.3: "give information" typed as ActOfCommunication', () => {
   const builder = new SemanticGraphBuilder();
   // Note: "advice" may not be recognized as GDC, using "information" which is in ONTOLOGICAL_VOCABULARY
   const graph = builder.build('The doctor gives information to the patient.');
@@ -201,7 +201,7 @@ test('AC-3.3: "give information" typed as cco:ActOfCommunication', () => {
   // Check if it's ActOfCommunication or falls back
   const actTypes = act['@type'].join(', ');
   assert(
-    act['@type'].includes('cco:ActOfCommunication') ||
+    act['@type'].includes('ActOfCommunication') ||
     act['@type'].includes('cco:ActOfTransferOfPossession'),
     `give information should be ActOfCommunication or ActOfTransferOfPossession, got: ${actTypes}`
   );
@@ -220,7 +220,7 @@ test('AC-3.4: Unmapped verb uses VERB_TO_CCO_MAPPINGS fallback', () => {
   assert(act, 'Found treat act');
   // "treat" has no selectional restrictions, should use VERB_TO_CCO_MAPPINGS
   assert(
-    act['@type'].includes('cco:IntentionalAct'),
+    act['@type'].includes('IntentionalAct'),
     `treat should use VERB_TO_CCO_MAPPINGS fallback, got: ${act['@type'].join(', ')}`
   );
 });
@@ -233,7 +233,7 @@ test('AC-3.4b: Unknown verb falls back to IntentionalAct', () => {
   assert(act, 'Found smile act');
   // "smile" has no mapping, should fall back to IntentionalAct
   assert(
-    act['@type'].includes('cco:IntentionalAct'),
+    act['@type'].includes('IntentionalAct'),
     `unknown verb should fall back to IntentionalAct, got: ${act['@type'].join(', ')}`
   );
 });
@@ -257,7 +257,7 @@ test('AC-3.5: Config overrides selectional restrictions', () => {
     verbOverrides: {
       'provide': {
         objectIsOccurrent: 'test:CustomActOfService',
-        default: 'cco:IntentionalAct'
+        default: 'IntentionalAct'
       }
     }
   });

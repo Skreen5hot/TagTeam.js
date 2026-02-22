@@ -7,16 +7,16 @@
     "keep",
     "government"
   ],
-  "generatedAt": "2026-02-22T11:48:42.872Z",
+  "generatedAt": "2026-02-22T12:26:16.330Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "Fish and Wildlife Service",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "protected areas",
-      "type": "cco:Facility"
+      "type": "Facility"
     }
   ],
   "expectedRoles": [
@@ -83,7 +83,7 @@
       {
         "@id": "inst:Act_manages",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "manages",
@@ -95,7 +95,7 @@
       {
         "@id": "inst:Act_protected",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "protected",
@@ -107,7 +107,7 @@
       {
         "@id": "inst:Act_areas",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "areas",
@@ -124,7 +124,7 @@
         ],
         "rdfs:label": "fish and wildlife service manage",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.872Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.330Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0256746c2cb5",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -136,26 +136,26 @@
         ],
         "rdfs:label": "area",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.872Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.330Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0256746c2cb5",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_0256746c2cb5",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "Fish and Wildlife Service manages protected areas",
         "tagteam:char_count": 49,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T11:48:42.864Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.321Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -172,7 +172,7 @@
       {
         "@id": "inst:ParsingAct_0256746c",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -202,7 +202,7 @@
             "@id": "inst:Act_areas"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.864Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.321Z"
       }
     ]
   }

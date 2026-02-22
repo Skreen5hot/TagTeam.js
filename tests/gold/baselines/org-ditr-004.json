@@ -7,16 +7,16 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T11:48:42.960Z",
+  "generatedAt": "2026-02-22T12:26:16.430Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The instructor",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the recruits",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "defensive tactics",
@@ -102,7 +102,7 @@
       {
         "@id": "inst:Act_taught",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "taught",
@@ -152,7 +152,7 @@
         "rdfs:label": "instructor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.959Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.430Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4e2012bd3ab5",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -164,26 +164,26 @@
         ],
         "rdfs:label": "recruit",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.959Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.430Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4e2012bd3ab5",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_4e2012bd3ab5",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The instructor taught the recruits defensive tactics",
         "tagteam:char_count": 52,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T11:48:42.953Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.422Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -200,7 +200,7 @@
       {
         "@id": "inst:ParsingAct_4e2012bd",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -224,7 +224,7 @@
             "@id": "inst:Act_taught"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.953Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.422Z"
       }
     ]
   }

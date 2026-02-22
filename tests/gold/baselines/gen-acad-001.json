@@ -6,20 +6,20 @@
     "academic",
     "research"
   ],
-  "generatedAt": "2026-02-22T11:48:43.983Z",
+  "generatedAt": "2026-02-22T12:26:17.528Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The researcher",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the study",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     },
     {
       "text": "a peer-reviewed journal",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     }
   ],
   "expectedRoles": [
@@ -79,7 +79,7 @@
         "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Person_Researcher_9dbbbcd1d5ee"
+          "@id": "inst:Person_Researcher_a7221ef0cb80"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7a16aeae2afb"
@@ -124,7 +124,7 @@
       {
         "@id": "inst:Act_published",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "published",
@@ -183,15 +183,15 @@
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Person_Researcher_9dbbbcd1d5ee",
+        "@id": "inst:Person_Researcher_a7221ef0cb80",
         "@type": [
-          "cco:Person",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "researcher",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.983Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.528Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7a16aeae2afb",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -203,7 +203,7 @@
         ],
         "rdfs:label": "study",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.983Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.528Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7a16aeae2afb",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -215,26 +215,26 @@
         ],
         "rdfs:label": "peer reviewed journal",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.983Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.528Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7a16aeae2afb",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_7a16aeae2afb",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The researcher published the study in a peer-reviewed journal",
         "tagteam:char_count": 61,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-22T11:48:43.974Z"
+        "tagteam:received_at": "2026-02-22T12:26:17.517Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -251,7 +251,7 @@
       {
         "@id": "inst:ParsingAct_7a16aeae",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -278,7 +278,7 @@
             "@id": "inst:Act_published"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.974Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.517Z"
       }
     ]
   }

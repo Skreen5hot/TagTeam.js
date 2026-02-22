@@ -379,7 +379,7 @@ test('toJSONLD() output contains provenance node', () => {
   const provenance = (parsed['@graph'] || []).filter(n => {
     const id = n['@id'] || '';
     const types = [].concat(n['@type'] || []);
-    return id.includes('ParsingAct') && types.includes('cco:IntentionalAct');
+    return id.includes('ParsingAct') && types.includes('IntentionalAct');
   });
   assert(provenance.length > 0, 'toJSONLD output should contain ParsingAct provenance node');
 });

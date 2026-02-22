@@ -179,11 +179,11 @@ function extractEntityType(entity) {
   const types = entity['@type'] || [];
 
   // Map TagTeam types to golden test entity types
-  if (types.includes('cco:Person')) return 'human-professional';
-  if (types.includes('cco:Organization')) return 'organization';
-  if (types.includes('cco:Act') || types.includes('cco:IntentionalAct')) return 'event';
-  if (types.includes('cco:Artifact')) return 'artifact';
-  if (types.includes('cco:Facility')) return 'location';
+  if (types.includes('Person')) return 'human-professional';
+  if (types.includes('Organization')) return 'organization';
+  if (types.includes('cco:Act') || types.includes('IntentionalAct')) return 'event';
+  if (types.includes('Artifact')) return 'artifact';
+  if (types.includes('Facility')) return 'location';
   if (types.includes('bfo:Quality')) return 'quality';
 
   return 'unknown';

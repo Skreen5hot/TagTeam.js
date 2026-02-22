@@ -8,12 +8,12 @@
     "action",
     "pp"
   ],
-  "generatedAt": "2026-02-22T11:48:42.614Z",
+  "generatedAt": "2026-02-22T12:26:16.064Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The auditor",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "discrepancies",
@@ -21,7 +21,7 @@
     },
     {
       "text": "the records",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     }
   ],
   "expectedRoles": [
@@ -75,7 +75,7 @@
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Person_Auditor_fe95c060ae74"
+          "@id": "inst:Person_Auditor_39e397632440"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_111e711f71dc"
@@ -120,7 +120,7 @@
       {
         "@id": "inst:Act_auditor",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "auditor",
@@ -132,7 +132,7 @@
       {
         "@id": "inst:Act_discovered",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "discovered",
@@ -175,14 +175,14 @@
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Person_Auditor_fe95c060ae74",
+        "@id": "inst:Person_Auditor_39e397632440",
         "@type": [
-          "cco:Person",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "auditor",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.613Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.064Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_111e711f71dc",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -194,7 +194,7 @@
         ],
         "rdfs:label": "discrepancy",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.613Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.064Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_111e711f71dc",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -206,26 +206,26 @@
         ],
         "rdfs:label": "record",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.614Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.064Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_111e711f71dc",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_111e711f71dc",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The auditor discovered discrepancies in the records",
         "tagteam:char_count": 51,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T11:48:42.605Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.054Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -242,7 +242,7 @@
       {
         "@id": "inst:ParsingAct_111e711f",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -272,7 +272,7 @@
             "@id": "inst:Act_discovered"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.605Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.054Z"
       }
     ]
   }

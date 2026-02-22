@@ -61,7 +61,7 @@ test('aggregate members exist', () => {
 test('aggregate members have PatientRole', () => {
   const members = graph['@graph'].filter(n =>
     n['tagteam:member_index'] !== undefined &&
-    n['@type']?.includes('cco:Person')
+    n['@type']?.includes('Person')
   );
 
   const patientRoles = findNodes('PatientRole');
@@ -87,8 +87,8 @@ test('PatientRoles inhere in Person members (not aggregate)', () => {
       assert(!isAggregate, 'PatientRole should not inhere in ObjectAggregate');
 
       // Should be a Person
-      const isPerson = bearer['@type']?.some(t => t.includes('cco:Person'));
-      assert(isPerson, 'PatientRole bearer should be cco:Person');
+      const isPerson = bearer['@type']?.some(t => t.includes('Person'));
+      assert(isPerson, 'PatientRole bearer should be Person');
     }
   });
 });
@@ -96,7 +96,7 @@ test('PatientRoles inhere in Person members (not aggregate)', () => {
 test('member is_bearer_of links to PatientRole', () => {
   const members = graph['@graph'].filter(n =>
     n['tagteam:member_index'] !== undefined &&
-    n['@type']?.includes('cco:Person')
+    n['@type']?.includes('Person')
   );
 
   members.forEach(member => {
@@ -140,7 +140,7 @@ test('Quality nodes have inheres_in link to Person', () => {
     const bearer = findNodeById(quality['inheres_in']);
     assert(bearer, 'Quality bearer should exist');
 
-    const isPerson = bearer['@type']?.some(t => t.includes('cco:Person'));
+    const isPerson = bearer['@type']?.some(t => t.includes('Person'));
     assert(isPerson, 'Quality should inhere in Person');
   });
 });
@@ -166,7 +166,7 @@ test('Quality has qualifierText property', () => {
 test('Person members bear both PatientRole and Quality', () => {
   const members = graph['@graph'].filter(n =>
     n['tagteam:member_index'] !== undefined &&
-    n['@type']?.includes('cco:Person')
+    n['@type']?.includes('Person')
   );
 
   members.forEach(member => {

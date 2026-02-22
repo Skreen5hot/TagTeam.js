@@ -88,13 +88,13 @@ const mockGraph = {
   '@graph': [
     {
       '@id': 'act_1',
-      '@type': 'cco:IntentionalAct',
+      '@type': 'IntentionalAct',
       'rdfs:label': 'allocate',
       'tagteam:modality': 'obligation'
     },
     {
       '@id': 'entity_1',
-      '@type': 'cco:Organization',
+      '@type': 'Organization',
       'rdfs:label': 'organization'
     }
   ]
@@ -340,7 +340,7 @@ describe('AlternativeGraphBuilder', () => {
       expect(alternatives[0].reading).toBe('institution');
     })) passed++; else failed++;
 
-    if (it('re-types as cco:Organization', () => {
+    if (it('re-types as Organization', () => {
       const ambiguity = {
         type: 'potential_metonymy',
         nodeId: 'location_1',
@@ -348,8 +348,8 @@ describe('AlternativeGraphBuilder', () => {
       };
 
       const alternatives = builder.build(mockGraph, ambiguity);
-      expect(alternatives[0].suggestedType).toBe('cco:Organization');
-      expect(alternatives[0].node['@type']).toContain('cco:Organization');
+      expect(alternatives[0].suggestedType).toBe('Organization');
+      expect(alternatives[0].node['@type']).toContain('Organization');
     })) passed++; else failed++;
 
     if (it('preserves original source text as metonymicSource', () => {
@@ -364,7 +364,7 @@ describe('AlternativeGraphBuilder', () => {
       expect(alternatives[0].node['tagteam:metonymicSource']).toBe('The White House');
     })) passed++; else failed++;
 
-    if (it('records literal type as cco:Artifact', () => {
+    if (it('records literal type as Artifact', () => {
       const ambiguity = {
         type: 'potential_metonymy',
         nodeId: 'location_1',
@@ -372,7 +372,7 @@ describe('AlternativeGraphBuilder', () => {
       };
 
       const alternatives = builder.build(mockGraph, ambiguity);
-      expect(alternatives[0].node['tagteam:literalType']).toBe('cco:Artifact');
+      expect(alternatives[0].node['tagteam:literalType']).toBe('Artifact');
     })) passed++; else failed++;
   });
 

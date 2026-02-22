@@ -6,16 +6,16 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T11:48:43.416Z",
+  "generatedAt": "2026-02-22T12:26:16.912Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The Office of Field Operations",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "CBP",
-      "type": "cco:Organization"
+      "type": "Organization"
     }
   ],
   "expectedRoles": [],
@@ -32,7 +32,7 @@
     },
     {
       "text": "CBP",
-      "type": "cco:Organization",
+      "type": "Organization",
       "id": "inst:CBP"
     }
   ],
@@ -80,16 +80,16 @@
       {
         "@id": "inst:CBP",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "CBP",
         "tagteam:mentionId": "s0:h11:59-62",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:denotesType": "cco:Organization",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Organization_Cbp_20ac563de71b"
+          "@id": "inst:Organization_Cbp_3419565063af"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a8f0a8fb8925"
@@ -115,7 +115,7 @@
         "rdfs:label": "office of field operation",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.416Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.912Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a8f0a8fb8925",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -127,38 +127,38 @@
         ],
         "rdfs:label": "field operation",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.416Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.912Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a8f0a8fb8925",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Organization_Cbp_20ac563de71b",
+        "@id": "inst:Organization_Cbp_3419565063af",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "cbp",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.416Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.912Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a8f0a8fb8925",
-        "tagteam:denotesType": "cco:Organization"
+        "tagteam:denotesType": "Organization"
       },
       {
         "@id": "inst:Input_Text_IBE_a8f0a8fb8925",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The Office of Field Operations is the largest component of CBP",
         "tagteam:char_count": 62,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-22T11:48:43.408Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.903Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -175,7 +175,7 @@
       {
         "@id": "inst:ParsingAct_a8f0a8fb",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -199,7 +199,7 @@
             "@id": "inst:CBP"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.408Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.903Z"
       }
     ]
   }

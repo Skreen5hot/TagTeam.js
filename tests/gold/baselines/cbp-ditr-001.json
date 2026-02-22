@@ -6,20 +6,20 @@
     "ditransitive",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T11:48:43.843Z",
+  "generatedAt": "2026-02-22T12:26:17.373Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The supervisor",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the agent",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "new credentials",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     }
   ],
   "expectedRoles": [
@@ -83,7 +83,7 @@
         "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Person_Supervisor_1d65ad12f804"
+          "@id": "inst:Person_Supervisor_f3c396f80fec"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d885f31da205"
@@ -101,7 +101,7 @@
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Person_Agent_cc74493a9ddc"
+          "@id": "inst:Person_Agent_796a2cb24d12"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d885f31da205"
@@ -128,7 +128,7 @@
       {
         "@id": "inst:Act_gave",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "gave",
@@ -186,27 +186,27 @@
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Person_Supervisor_1d65ad12f804",
+        "@id": "inst:Person_Supervisor_f3c396f80fec",
         "@type": [
-          "cco:Person",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "supervisor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.843Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.373Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d885f31da205",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Person_Agent_cc74493a9ddc",
+        "@id": "inst:Person_Agent_796a2cb24d12",
         "@type": [
-          "cco:Person",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "agent",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.843Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.373Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d885f31da205",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -218,26 +218,26 @@
         ],
         "rdfs:label": "new credential",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.843Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.373Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d885f31da205",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_d885f31da205",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The supervisor gave the agent new credentials",
         "tagteam:char_count": 45,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T11:48:43.836Z"
+        "tagteam:received_at": "2026-02-22T12:26:17.364Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -254,7 +254,7 @@
       {
         "@id": "inst:ParsingAct_d885f31d",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -281,7 +281,7 @@
             "@id": "inst:Act_gave"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.836Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.364Z"
       }
     ]
   }

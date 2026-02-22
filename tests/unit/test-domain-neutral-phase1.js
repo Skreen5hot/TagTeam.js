@@ -2,10 +2,10 @@
  * Phase 1: Domain-Neutral Foundation - Unit Tests
  *
  * Tests acceptance criteria from DOMAIN_NEUTRAL_IMPLEMENTATION_PLAN.md Phase 1:
- * - AC-1.1: "palliative care" typed as process (with medical config: cco:IntentionalAct)
+ * - AC-1.1: "palliative care" typed as process (with medical config: IntentionalAct)
  * - AC-1.2: "consulting services" typed as bfo:BFO_0000015
  * - AC-1.3: "instruction" typed as bfo:BFO_0000015 (suffix detection)
- * - AC-1.4: "medication" typed as cco:Artifact (result noun exception)
+ * - AC-1.4: "medication" typed as Artifact (result noun exception)
  * - AC-1.5: "the organization" typed as IC (definite determiner)
  *
  * @version 4.0.0-phase4
@@ -46,22 +46,22 @@ const builder = new SemanticGraphBuilder();
 // ==================================
 console.log('--- AC-1.1: Process Detection (medical domain) ---');
 
-test('AC-1.1: "palliative care" typed as cco:IntentionalAct', () => {
+test('AC-1.1: "palliative care" typed as IntentionalAct', () => {
   const graph = builder.build('The nurse provides palliative care to the patient.');
   const referent = findReferent(graph, 'palliative care');
   assert(referent, 'Found palliative care referent');
-  assert.strictEqual(referent['tagteam:denotesType'], 'cco:IntentionalAct',
-    'palliative care should be typed as cco:IntentionalAct');
+  assert.strictEqual(referent['tagteam:denotesType'], 'IntentionalAct',
+    'palliative care should be typed as IntentionalAct');
 });
 
-test('AC-1.1b: "patient care" typed as cco:IntentionalAct', () => {
+test('AC-1.1b: "patient care" typed as IntentionalAct', () => {
   // Note: "The patient needs care" parses "care" as verb in Compromise
   // Using noun phrase "patient care" instead
   const graph = builder.build('The hospital provides excellent patient care.');
   const referent = findReferent(graph, 'patient care');
   assert(referent, 'Found patient care referent');
-  assert.strictEqual(referent['tagteam:denotesType'], 'cco:IntentionalAct',
-    'patient care should be typed as cco:IntentionalAct');
+  assert.strictEqual(referent['tagteam:denotesType'], 'IntentionalAct',
+    'patient care should be typed as IntentionalAct');
 });
 
 // ==================================
@@ -121,12 +121,12 @@ test('AC-1.3c: "training program" typed as bfo:BFO_0000015', () => {
 // ==================================
 console.log('\n--- AC-1.4: Result Noun Exception List ---');
 
-test('AC-1.4: "medication" typed as cco:Artifact', () => {
+test('AC-1.4: "medication" typed as Artifact', () => {
   const graph = builder.build('The doctor prescribed medication.');
   const referent = findReferent(graph, 'medication');
   assert(referent, 'Found medication referent');
-  assert.strictEqual(referent['tagteam:denotesType'], 'cco:Artifact',
-    'medication should be typed as cco:Artifact (result noun)');
+  assert.strictEqual(referent['tagteam:denotesType'], 'Artifact',
+    'medication should be typed as Artifact (result noun)');
 });
 
 test('AC-1.4b: "documentation" typed as bfo:BFO_0000031 (GDC)', () => {
@@ -158,20 +158,20 @@ test('AC-1.4d: "location" typed as bfo:BFO_0000040 (IC)', () => {
 // ==================================
 console.log('\n--- AC-1.5: Determiner-Sensitive Disambiguation ---');
 
-test('AC-1.5: "the organization" typed as cco:Organization (IC)', () => {
+test('AC-1.5: "the organization" typed as Organization (IC)', () => {
   const graph = builder.build('The organization announced the policy.');
   const referent = findReferent(graph, 'organization');
   assert(referent, 'Found organization referent');
-  assert.strictEqual(referent['tagteam:denotesType'], 'cco:Organization',
-    '"the organization" should be typed as cco:Organization (entity reading)');
+  assert.strictEqual(referent['tagteam:denotesType'], 'Organization',
+    '"the organization" should be typed as Organization (entity reading)');
 });
 
-test('AC-1.5b: "the administration" typed as cco:Organization', () => {
+test('AC-1.5b: "the administration" typed as Organization', () => {
   const graph = builder.build('The administration made a decision.');
   const referent = findReferent(graph, 'administration');
   assert(referent, 'Found administration referent');
-  assert.strictEqual(referent['tagteam:denotesType'], 'cco:Organization',
-    '"the administration" should be typed as cco:Organization');
+  assert.strictEqual(referent['tagteam:denotesType'], 'Organization',
+    '"the administration" should be typed as Organization');
 });
 
 // Note: "organization of files" testing is complex due to NLP parsing

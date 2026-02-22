@@ -8,14 +8,14 @@
       "entities": [
         {
           "text": "the administrator",
-          "type": "cco:Person",
+          "type": "Person",
           "definiteness": "definite",
           "number": "singular",
           "role": "administrator"
         },
         {
           "text": "the system",
-          "type": "cco:Artifact",
+          "type": "Artifact",
           "definiteness": "definite",
           "number": "singular"
         }
@@ -33,7 +33,7 @@
       "entities": [
         {
           "text": "the configuration",
-          "type": "cco:InformationContentEntity",
+          "type": "InformationContentEntity",
           "definiteness": "definite",
           "number": "singular"
         }
@@ -70,7 +70,7 @@
       "entities": [
         {
           "text": "the datacenter",
-          "type": "cco:Facility",
+          "type": "Facility",
           "definiteness": "definite",
           "number": "singular"
         },
@@ -94,7 +94,7 @@
       "entities": [
         {
           "text": "the server",
-          "type": "cco:Artifact",
+          "type": "Artifact",
           "definiteness": "definite",
           "number": "singular"
         },
@@ -120,7 +120,7 @@
       "entities": [
         {
           "text": "the server",
-          "type": "cco:Artifact",
+          "type": "Artifact",
           "definiteness": "definite",
           "number": "singular"
         }
@@ -144,14 +144,14 @@
       "entities": [
         {
           "text": "the development team",
-          "type": "cco:Organization",
+          "type": "Organization",
           "definiteness": "definite",
           "number": "singular",
           "organizationType": "team"
         },
         {
           "text": "the feature",
-          "type": "cco:Artifact",
+          "type": "Artifact",
           "definiteness": "definite",
           "number": "singular"
         }
@@ -169,7 +169,7 @@
       "entities": [
         {
           "text": "the application",
-          "type": "cco:Artifact",
+          "type": "Artifact",
           "definiteness": "definite",
           "number": "singular",
           "artifactType": "software"

@@ -8,20 +8,20 @@
     "action",
     "pp"
   ],
-  "generatedAt": "2026-02-22T11:48:42.547Z",
+  "generatedAt": "2026-02-22T12:26:15.985Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The marshal",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the prisoner",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the courthouse",
-      "type": "cco:Facility"
+      "type": "Facility"
     }
   ],
   "expectedRoles": [
@@ -124,7 +124,7 @@
       {
         "@id": "inst:Act_marshal",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "marshal",
@@ -136,7 +136,7 @@
       {
         "@id": "inst:Act_transported",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "transported",
@@ -186,7 +186,7 @@
         ],
         "rdfs:label": "marshal",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.546Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.984Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_61ebb3f0ac09",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -198,7 +198,7 @@
         ],
         "rdfs:label": "prisoner",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.546Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.985Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_61ebb3f0ac09",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -210,26 +210,26 @@
         ],
         "rdfs:label": "courthouse",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.546Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.985Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_61ebb3f0ac09",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_61ebb3f0ac09",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The marshal transported the prisoner to the courthouse",
         "tagteam:char_count": 54,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T11:48:42.537Z"
+        "tagteam:received_at": "2026-02-22T12:26:15.974Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -246,7 +246,7 @@
       {
         "@id": "inst:ParsingAct_61ebb3f0",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -276,7 +276,7 @@
             "@id": "inst:Act_transported"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.537Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.974Z"
       }
     ]
   }

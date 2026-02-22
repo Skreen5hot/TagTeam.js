@@ -8,20 +8,20 @@
     "action",
     "pp"
   ],
-  "generatedAt": "2026-02-22T11:48:42.567Z",
+  "generatedAt": "2026-02-22T12:26:16.010Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The prosecutor",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the evidence",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     },
     {
       "text": "the jury",
-      "type": "cco:Organization"
+      "type": "Organization"
     }
   ],
   "expectedRoles": [
@@ -130,7 +130,7 @@
       {
         "@id": "inst:Act_presented",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "presented",
@@ -197,7 +197,7 @@
         "rdfs:label": "prosecutor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.567Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.009Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4251d8e86419",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -209,7 +209,7 @@
         ],
         "rdfs:label": "evidence",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.567Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.010Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4251d8e86419",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -221,26 +221,26 @@
         ],
         "rdfs:label": "jury",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.567Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.010Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4251d8e86419",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_4251d8e86419",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The prosecutor presented the evidence to the jury",
         "tagteam:char_count": 49,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T11:48:42.560Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.000Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -257,7 +257,7 @@
       {
         "@id": "inst:ParsingAct_4251d8e8",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -284,7 +284,7 @@
             "@id": "inst:Act_presented"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.560Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.000Z"
       }
     ]
   }

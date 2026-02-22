@@ -5,20 +5,20 @@
   "tags": [
     "legal"
   ],
-  "generatedAt": "2026-02-22T11:48:44.155Z",
+  "generatedAt": "2026-02-22T12:26:17.749Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The attorney",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the motion",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     },
     {
       "text": "the court",
-      "type": "cco:Organization"
+      "type": "Organization"
     }
   ],
   "expectedRoles": [
@@ -127,7 +127,7 @@
       {
         "@id": "inst:Act_filed",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "filed",
@@ -194,7 +194,7 @@
         "rdfs:label": "attorney",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.154Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.749Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_de74f4703d67",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -206,7 +206,7 @@
         ],
         "rdfs:label": "motion",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.155Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.749Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_de74f4703d67",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -218,26 +218,26 @@
         ],
         "rdfs:label": "court",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.155Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.749Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_de74f4703d67",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_de74f4703d67",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The attorney filed the motion with the court",
         "tagteam:char_count": 44,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T11:48:44.147Z"
+        "tagteam:received_at": "2026-02-22T12:26:17.738Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -254,7 +254,7 @@
       {
         "@id": "inst:ParsingAct_de74f470",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -281,7 +281,7 @@
             "@id": "inst:Act_filed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.147Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.738Z"
       }
     ]
   }

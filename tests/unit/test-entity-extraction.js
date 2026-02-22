@@ -69,22 +69,22 @@ test('extract() includes owl:NamedIndividual in type array', () => {
 // Test Suite 2: Agent Extraction (AC-1.2.1)
 console.log('\nTest Suite 2: Agent Extraction (AC-1.2.1)');
 
-test('extracts doctor as agent with cco:Person type', () => {
+test('extracts doctor as agent with Person type', () => {
   const extractor = new EntityExtractor();
   const entities = extractor.extract('The doctor treats the patient');
 
   const doctor = entities.find(e => e['rdfs:label'].toLowerCase().includes('doctor'));
   assert(doctor, 'Found doctor entity');
-  assert(doctor['tagteam:denotesType'] === 'cco:Person', 'denotesType is cco:Person');
+  assert(doctor['tagteam:denotesType'] === 'Person', 'denotesType is Person');
 });
 
-test('extracts patient as entity with cco:Person type', () => {
+test('extracts patient as entity with Person type', () => {
   const extractor = new EntityExtractor();
   const entities = extractor.extract('The doctor treats the patient');
 
   const patient = entities.find(e => e['rdfs:label'].toLowerCase().includes('patient'));
   assert(patient, 'Found patient entity');
-  assert(patient['tagteam:denotesType'] === 'cco:Person', 'denotesType is cco:Person');
+  assert(patient['tagteam:denotesType'] === 'Person', 'denotesType is Person');
 });
 
 test('extracts family as group entity', () => {
@@ -93,7 +93,7 @@ test('extracts family as group entity', () => {
 
   const family = entities.find(e => e['rdfs:label'].toLowerCase().includes('family'));
   assert(family, 'Found family entity');
-  assert(family['tagteam:denotesType'] === 'cco:Agent', 'denotesType is cco:Agent');
+  assert(family['tagteam:denotesType'] === 'Agent', 'denotesType is Agent');
 });
 
 // Test Suite 3: Definiteness Detection (AC-1.2.1)
@@ -160,7 +160,7 @@ test('extracts ventilator as artifact', () => {
 
   const ventilator = entities.find(e => e['rdfs:label'].toLowerCase().includes('ventilator'));
   assert(ventilator, 'Found ventilator entity');
-  assert(ventilator['tagteam:denotesType'] === 'cco:Artifact', 'denotesType is cco:Artifact');
+  assert(ventilator['tagteam:denotesType'] === 'Artifact', 'denotesType is Artifact');
 });
 
 test('extracts medication as artifact', () => {
@@ -169,7 +169,7 @@ test('extracts medication as artifact', () => {
 
   const medication = entities.find(e => e['rdfs:label'].toLowerCase().includes('medication'));
   assert(medication, 'Found medication entity');
-  assert(medication['tagteam:denotesType'] === 'cco:Artifact', 'denotesType is cco:Artifact');
+  assert(medication['tagteam:denotesType'] === 'Artifact', 'denotesType is Artifact');
 });
 
 // Test Suite 6: Scarcity Detection (AC-1.2.3)
@@ -296,10 +296,10 @@ test('all referents are DiscourseReferent (NOT BFO entities)', () => {
       'Referents must be DiscourseReferent');
 
     // Must NOT claim BFO entity status directly
-    assert(!r['@type'].includes('cco:Person'),
-      'Referents don\'t claim cco:Person status');
-    assert(!r['@type'].includes('cco:Artifact'),
-      'Referents don\'t claim cco:Artifact status');
+    assert(!r['@type'].includes('Person'),
+      'Referents don\'t claim Person status');
+    assert(!r['@type'].includes('Artifact'),
+      'Referents don\'t claim Artifact status');
 
     // Should include owl:NamedIndividual
     assert(r['@type'].includes('owl:NamedIndividual'),
@@ -319,10 +319,10 @@ test('referents use denotesType (not direct BFO typing)', () => {
     n['rdfs:label']?.toLowerCase().includes('doctor'));
 
   assert(doctor, 'Found doctor');
-  assert(doctor['tagteam:denotesType'] === 'cco:Person',
-    'denotesType points to cco:Person');
-  assert(!doctor['@type'].includes('cco:Person'),
-    '@type does NOT include cco:Person');
+  assert(doctor['tagteam:denotesType'] === 'Person',
+    'denotesType points to Person');
+  assert(!doctor['@type'].includes('Person'),
+    '@type does NOT include Person');
 });
 
 // Test Suite 10: IRI Generation with GraphBuilder
@@ -370,7 +370,7 @@ test('complex scenario: "The doctor must allocate the last ventilator between tw
     n['rdfs:label']?.toLowerCase().includes('doctor') &&
     n['@type']?.includes('tagteam:DiscourseReferent'));
   assert(doctorReferent, 'Found doctor referent');
-  assert(doctorReferent['tagteam:denotesType'] === 'cco:Person', 'Doctor denotesType');
+  assert(doctorReferent['tagteam:denotesType'] === 'Person', 'Doctor denotesType');
   assert(doctorReferent['tagteam:definiteness'] === 'definite', 'Doctor is definite');
 
   // Check ventilator with scarcity (v2.3: scarcity on Tier 1 referent)
@@ -401,12 +401,12 @@ test('extract() creates Tier 2 entities by default', () => {
   const extractor = new EntityExtractor();
   const entities = extractor.extract('The doctor treats the patient');
 
-  // Should have both DiscourseReferent and cco:Person
+  // Should have both DiscourseReferent and Person
   const referents = entities.filter(e => e['@type'].includes('tagteam:DiscourseReferent'));
-  const persons = entities.filter(e => e['@type'].includes('cco:Person'));
+  const persons = entities.filter(e => e['@type'].includes('Person'));
 
   assert(referents.length >= 2, 'Has at least 2 DiscourseReferents');
-  assert(persons.length >= 1, 'Has at least 1 cco:Person');
+  assert(persons.length >= 1, 'Has at least 1 Person');
 });
 
 test('Tier 1 referents have is_about link to Tier 2', () => {
@@ -421,16 +421,16 @@ test('Tier 1 referents have is_about link to Tier 2', () => {
   });
 });
 
-test('Tier 2 entities have correct types (cco:Person, cco:Artifact)', () => {
+test('Tier 2 entities have correct types (Person, Artifact)', () => {
   const extractor = new EntityExtractor();
   const entities = extractor.extract('The doctor allocates the ventilator');
 
   // Find Tier 2 Person and Artifact
-  const person = entities.find(e => e['@type'].includes('cco:Person'));
-  const artifact = entities.find(e => e['@type'].includes('cco:Artifact'));
+  const person = entities.find(e => e['@type'].includes('Person'));
+  const artifact = entities.find(e => e['@type'].includes('Artifact'));
 
-  assert(person, 'Found cco:Person');
-  assert(artifact, 'Found cco:Artifact');
+  assert(person, 'Found Person');
+  assert(artifact, 'Found Artifact');
 
   // Verify they're not DiscourseReferent
   assert(!person['@type'].includes('tagteam:DiscourseReferent'),
@@ -443,8 +443,8 @@ test('Tier 2 entities have provenance properties (v2.2)', () => {
   const extractor = new EntityExtractor();
   const entities = extractor.extract('The doctor');
 
-  const person = entities.find(e => e['@type'].includes('cco:Person'));
-  assert(person, 'Found cco:Person');
+  const person = entities.find(e => e['@type'].includes('Person'));
+  assert(person, 'Found Person');
 
   // v2.2 provenance properties
   assert(person['tagteam:instantiated_at'], 'Has instantiated_at');
@@ -455,12 +455,12 @@ test('createTier2: false option disables Tier 2 creation', () => {
   const extractor = new EntityExtractor({ createTier2: false });
   const entities = extractor.extract('The doctor treats the patient');
 
-  // Should only have DiscourseReferent, no cco:Person
+  // Should only have DiscourseReferent, no Person
   const referents = entities.filter(e => e['@type'].includes('tagteam:DiscourseReferent'));
-  const persons = entities.filter(e => e['@type'].includes('cco:Person'));
+  const persons = entities.filter(e => e['@type'].includes('Person'));
 
   assert(referents.length >= 2, 'Has DiscourseReferents');
-  assert(persons.length === 0, 'No cco:Person when Tier 2 disabled');
+  assert(persons.length === 0, 'No Person when Tier 2 disabled');
 });
 
 test('Tier 2 IRIs are document-scoped (v2.2)', () => {
@@ -470,8 +470,8 @@ test('Tier 2 IRIs are document-scoped (v2.2)', () => {
   const extractor2 = new EntityExtractor({ documentIRI: 'inst:Doc2' });
   const entities2 = extractor2.extract('The doctor');
 
-  const person1 = entities1.find(e => e['@type'].includes('cco:Person'));
-  const person2 = entities2.find(e => e['@type'].includes('cco:Person'));
+  const person1 = entities1.find(e => e['@type'].includes('Person'));
+  const person2 = entities2.find(e => e['@type'].includes('Person'));
 
   assert(person1, 'Found person from doc 1');
   assert(person2, 'Found person from doc 2');
@@ -505,7 +505,7 @@ test('RealWorldEntityFactory can be instantiated', () => {
 test('createFromReferents returns tier2Entities and linkMap', () => {
   const factory = new RealWorldEntityFactory({ documentIRI: 'inst:TestDoc' });
   const referents = [
-    { '@id': 'inst:Ref1', '@type': ['tagteam:DiscourseReferent'], 'rdfs:label': 'the doctor', 'tagteam:denotesType': 'cco:Person' }
+    { '@id': 'inst:Ref1', '@type': ['tagteam:DiscourseReferent'], 'rdfs:label': 'the doctor', 'tagteam:denotesType': 'Person' }
   ];
 
   const result = factory.createFromReferents(referents);

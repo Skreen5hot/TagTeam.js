@@ -7,16 +7,16 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-22T11:48:42.369Z",
+  "generatedAt": "2026-02-22T12:26:15.812Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The attorney general",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the Department of Justice",
-      "type": "cco:Organization"
+      "type": "Organization"
     }
   ],
   "expectedRoles": [],
@@ -120,7 +120,7 @@
         "rdfs:label": "attorney general",
         "tagteam:genericityCategory": "AMB",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.369Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.812Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_94048581b04c",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -132,7 +132,7 @@
         ],
         "rdfs:label": "department of justice",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.369Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.812Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_94048581b04c",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -144,26 +144,26 @@
         ],
         "rdfs:label": "justice",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.369Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.812Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_94048581b04c",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_94048581b04c",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The attorney general is the head of the Department of Justice",
         "tagteam:char_count": 61,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-22T11:48:42.358Z"
+        "tagteam:received_at": "2026-02-22T12:26:15.798Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -180,7 +180,7 @@
       {
         "@id": "inst:ParsingAct_94048581",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -204,7 +204,7 @@
             "@id": "inst:Justice"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.358Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.798Z"
       }
     ]
   }

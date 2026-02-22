@@ -7,12 +7,12 @@
     "subordination",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T11:48:44.642Z",
+  "generatedAt": "2026-02-22T12:26:18.370Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "the sensors",
-      "type": "cco:Artifact"
+      "type": "Artifact"
     },
     {
       "text": "movement",
@@ -20,7 +20,7 @@
     },
     {
       "text": "the patrol",
-      "type": "cco:Organization"
+      "type": "Organization"
     }
   ],
   "expectedRoles": [
@@ -144,7 +144,7 @@
       {
         "@id": "inst:Act_Because",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "Because",
@@ -156,7 +156,7 @@
       {
         "@id": "inst:Act_sensors",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "sensors",
@@ -168,7 +168,7 @@
       {
         "@id": "inst:Act_movement",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "movement",
@@ -180,7 +180,7 @@
       {
         "@id": "inst:Act_responded",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "responded",
@@ -213,7 +213,7 @@
         ],
         "rdfs:label": "because",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.642Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.370Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_075984563370",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -225,7 +225,7 @@
         ],
         "rdfs:label": "sensors",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.642Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.370Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_075984563370",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -237,7 +237,7 @@
         ],
         "rdfs:label": "detected movement",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.642Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.370Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_075984563370",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -250,26 +250,26 @@
         "rdfs:label": "patrol",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.642Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.370Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_075984563370",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_075984563370",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "Because the sensors detected movement the patrol responded immediately",
         "tagteam:char_count": 70,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-22T11:48:44.632Z"
+        "tagteam:received_at": "2026-02-22T12:26:18.360Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -286,7 +286,7 @@
       {
         "@id": "inst:ParsingAct_07598456",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -325,7 +325,7 @@
             "@id": "inst:Act_responded"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.632Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.360Z"
       }
     ]
   }

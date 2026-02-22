@@ -1,7 +1,7 @@
 /**
  * RealWorldEntityFactory.js
  *
- * Creates Tier 2 "Real-World" entities (cco:Person, cco:Artifact, cco:Organization)
+ * Creates Tier 2 "Real-World" entities (Person, Artifact, Organization)
  * from Tier 1 DiscourseReferent nodes.
  *
  * Phase 4 Two-Tier Architecture (v2.2 spec):
@@ -35,7 +35,7 @@ const BFO_IRI_LABELS = {
 /**
  * Convert a tier2Type IRI to a human-readable label for use in instance IRIs.
  * Handles BFO opaque IRIs via lookup table, strips namespace prefix for CCO/other types.
- * @param {string} tier2Type - The type IRI (e.g., 'bfo:BFO_0000001', 'cco:Person')
+ * @param {string} tier2Type - The type IRI (e.g., 'bfo:BFO_0000001', 'Person')
  * @returns {string} Human-readable label (e.g., 'Entity', 'Person')
  */
 function _typeToLabel(tier2Type) {
@@ -49,13 +49,13 @@ function _typeToLabel(tier2Type) {
  */
 const TIER2_TYPE_MAPPINGS = {
   // Maps from denotesType value to Tier 2 class
-  'cco:Person': 'cco:Person',
-  'cco:Agent': 'cco:Agent', // Agent (groups, collectives)
-  'cco:Artifact': 'cco:Artifact',
-  'cco:Organization': 'cco:Organization',
-  'cco:GeopoliticalOrganization': 'cco:GeopoliticalOrganization', // Cities, countries, states
-  'cco:Facility': 'cco:Facility', // Buildings, datacenters, offices
-  'bfo:BFO_0000040': 'cco:Artifact', // Material entity defaults to artifact
+  'Person': 'Person',
+  'Agent': 'Agent', // Agent (groups, collectives)
+  'Artifact': 'Artifact',
+  'Organization': 'Organization',
+  'GeopoliticalOrganization': 'GeopoliticalOrganization', // Cities, countries, states
+  'Facility': 'Facility', // Buildings, datacenters, offices
+  'bfo:BFO_0000040': 'Artifact', // Material entity defaults to artifact
 
   // Temporal Regions (Phase 7.0 — not artifacts)
   'bfo:BFO_0000038': 'bfo:BFO_0000038', // One-Dimensional Temporal Region (durations)
@@ -73,11 +73,11 @@ const TIER2_TYPE_MAPPINGS = {
   'bfo:BFO_0000001': 'bfo:BFO_0000001',  // Entity (for demonstratives "this/that")
   // NOTE: bfo:Entity (prefixed form) intentionally NOT mapped here.
   // When denotesType is bfo:Entity (generic/unclassified), we want keyword
-  // fallback to refine the type (e.g., "doctor" → cco:Person). The default
+  // fallback to refine the type (e.g., "doctor" → Person). The default
   // at the end of _determineTier2Type() already returns bfo:BFO_0000001.
 
   // Information Content Entities (abstract propositional content)
-  'cco:InformationContentEntity': 'cco:InformationContentEntity'
+  'InformationContentEntity': 'InformationContentEntity'
 };
 
 /**
@@ -87,8 +87,8 @@ const TIER2_TYPE_MAPPINGS = {
 const PROCESS_TYPE_MAPPINGS = {
   'bfo:Process': 'bfo:Process',
   'bfo:BFO_0000015': 'bfo:BFO_0000015',
-  'cco:ActOfCommunication': 'cco:ActOfCommunication',  // VERIFIED (ont00000402)
-  'cco:IntentionalAct': 'cco:IntentionalAct'           // VERIFIED (ont00000228)
+  'ActOfCommunication': 'ActOfCommunication',  // VERIFIED (ont00000402)
+  'IntentionalAct': 'IntentionalAct'           // VERIFIED (ont00000228)
 };
 
 /**
@@ -231,7 +231,7 @@ class RealWorldEntityFactory {
    * Determine the Tier 2 type for a referent
    *
    * BFO/CCO compliance: Distinguishes between:
-   * - Continuants (objects that persist): cco:Person, cco:Artifact, cco:Organization
+   * - Continuants (objects that persist): Person, Artifact, Organization
    * - Occurrents (processes that happen): cco:ActOfCare, cco:ActOfMedicalTreatment, etc.
    *
    * @param {Object} referent - DiscourseReferent node
@@ -262,26 +262,26 @@ class RealWorldEntityFactory {
     // Check head noun for person keywords
     for (const keyword of PERSON_KEYWORDS) {
       if (headNoun === keyword) {
-        return { type: 'cco:Person', basis: 'keyword' };
+        return { type: 'Person', basis: 'keyword' };
       }
     }
 
     // Check head noun for organization keywords
     for (const keyword of ORG_KEYWORDS) {
       if (headNoun === keyword) {
-        return { type: 'cco:Organization', basis: 'keyword' };
+        return { type: 'Organization', basis: 'keyword' };
       }
     }
 
     // Default to bfo:Entity (BFO root) — honest admission of incomplete classification.
-    // cco:Artifact was incorrectly specific; bfo:Entity is maximally general and safe.
+    // Artifact was incorrectly specific; bfo:Entity is maximally general and safe.
     return { type: 'bfo:BFO_0000001', basis: 'default' };
   }
 
   /**
    * Create a Tier 2 entity node
    * @param {Object} referent - Source DiscourseReferent
-   * @param {string} tier2Type - The Tier 2 type (cco:Person, etc.)
+   * @param {string} tier2Type - The Tier 2 type (Person, etc.)
    * @param {Object} options - Creation options
    * @returns {Object} Tier 2 entity node
    * @private

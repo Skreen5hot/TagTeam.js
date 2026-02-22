@@ -7,16 +7,16 @@
     "keep",
     "government"
   ],
-  "generatedAt": "2026-02-22T11:48:42.786Z",
+  "generatedAt": "2026-02-22T12:26:16.234Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The Department of Homeland Security",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "the directive",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     }
   ],
   "expectedRoles": [
@@ -37,7 +37,7 @@
     },
     {
       "text": "Homeland Security",
-      "type": "cco:Organization",
+      "type": "Organization",
       "id": "inst:Homeland_Security"
     },
     {
@@ -81,16 +81,16 @@
       {
         "@id": "inst:Homeland_Security",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "Homeland Security",
         "tagteam:mentionId": "s0:h4:18-35",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:denotesType": "cco:Organization",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Organization_Homeland_Security_8d0fbae9bfa4"
+          "@id": "inst:Organization_Homeland_Security_215587f2e1f6"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5d18eb0ca86c"
@@ -117,7 +117,7 @@
       {
         "@id": "inst:Act_issued",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "issued",
@@ -167,21 +167,21 @@
         "rdfs:label": "department of homeland security",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.786Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.234Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5d18eb0ca86c",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Organization_Homeland_Security_8d0fbae9bfa4",
+        "@id": "inst:Organization_Homeland_Security_215587f2e1f6",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "homeland security",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.786Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.234Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5d18eb0ca86c",
-        "tagteam:denotesType": "cco:Organization"
+        "tagteam:denotesType": "Organization"
       },
       {
         "@id": "inst:Entity_Directive_4528ea943d6f",
@@ -191,26 +191,26 @@
         ],
         "rdfs:label": "directive",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.786Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.234Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5d18eb0ca86c",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_5d18eb0ca86c",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The Department of Homeland Security issued the directive",
         "tagteam:char_count": 56,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T11:48:42.778Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.226Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -227,7 +227,7 @@
       {
         "@id": "inst:ParsingAct_5d18eb0c",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -254,7 +254,7 @@
             "@id": "inst:Act_issued"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.778Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.226Z"
       }
     ]
   }

@@ -7,16 +7,16 @@
     "cbp",
     "trade"
   ],
-  "generatedAt": "2026-02-22T11:48:43.563Z",
+  "generatedAt": "2026-02-22T12:26:17.064Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "ACE",
-      "type": "cco:Artifact"
+      "type": "Artifact"
     },
     {
       "text": "the automated commercial environment system",
-      "type": "cco:Artifact"
+      "type": "Artifact"
     }
   ],
   "expectedRoles": [],
@@ -69,26 +69,26 @@
         "rdfs:label": "ace",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.563Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.064Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ab5345740615",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_ab5345740615",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "ACE is the automated commercial environment system",
         "tagteam:char_count": 50,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T11:48:43.553Z"
+        "tagteam:received_at": "2026-02-22T12:26:17.056Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -105,7 +105,7 @@
       {
         "@id": "inst:ParsingAct_ab534574",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -123,7 +123,7 @@
             "@id": "inst:ACE"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.553Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.056Z"
       }
     ]
   }

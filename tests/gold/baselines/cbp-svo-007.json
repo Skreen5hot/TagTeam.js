@@ -7,16 +7,16 @@
     "cbp",
     "trade"
   ],
-  "generatedAt": "2026-02-22T11:48:43.255Z",
+  "generatedAt": "2026-02-22T12:26:16.748Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The trade compliance officer",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the tariff schedule",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     }
   ],
   "expectedRoles": [
@@ -67,7 +67,7 @@
         "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Person_Trade_Compliance_Officer_69e46bbc995e"
+          "@id": "inst:Person_Trade_Compliance_Officer_2bdb57dd30b2"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_19c2b0cebaae"
@@ -94,7 +94,7 @@
       {
         "@id": "inst:Act_assessed",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "assessed",
@@ -136,15 +136,15 @@
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Person_Trade_Compliance_Officer_69e46bbc995e",
+        "@id": "inst:Person_Trade_Compliance_Officer_2bdb57dd30b2",
         "@type": [
-          "cco:Person",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "trade compliance officer",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.255Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.747Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_19c2b0cebaae",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -156,26 +156,26 @@
         ],
         "rdfs:label": "tariff schedule",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.255Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.747Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_19c2b0cebaae",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_19c2b0cebaae",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The trade compliance officer assessed the tariff schedule",
         "tagteam:char_count": 57,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T11:48:43.246Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.739Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -192,7 +192,7 @@
       {
         "@id": "inst:ParsingAct_19c2b0ce",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_assessed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.246Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.739Z"
       }
     ]
   }

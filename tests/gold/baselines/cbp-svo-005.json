@@ -7,16 +7,16 @@
     "cbp",
     "operations"
   ],
-  "generatedAt": "2026-02-22T11:48:43.232Z",
+  "generatedAt": "2026-02-22T12:26:16.722Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The field operations directorate",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "the ports of entry",
-      "type": "cco:Facility"
+      "type": "Facility"
     }
   ],
   "expectedRoles": [
@@ -117,7 +117,7 @@
       {
         "@id": "inst:Act_directorate",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "directorate",
@@ -167,7 +167,7 @@
         "rdfs:label": "field operation",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.232Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.722Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2189b3fcc3ba",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -179,7 +179,7 @@
         ],
         "rdfs:label": "ports of entry",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.232Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.722Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2189b3fcc3ba",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -191,26 +191,26 @@
         ],
         "rdfs:label": "entry",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.232Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.722Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2189b3fcc3ba",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_2189b3fcc3ba",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The field operations directorate managed the ports of entry",
         "tagteam:char_count": 59,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-22T11:48:43.222Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.710Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -227,7 +227,7 @@
       {
         "@id": "inst:ParsingAct_2189b3fc",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -254,7 +254,7 @@
             "@id": "inst:Act_directorate"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.222Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.710Z"
       }
     ]
   }

@@ -8,7 +8,7 @@
  * - ScarcityAssertion ICE (not on Tier 2 entities)
  * - DirectiveContent ICE (modal markers)
  * - ObjectAggregate for plural persons
- * - PatientRole only on cco:Person
+ * - PatientRole only on Person
  * - Roles realize only in Actual acts
  * - Quality nodes for qualifiers (v2.4)
  * - PatientRole on aggregate members (v2.4)
@@ -392,11 +392,11 @@ class SemanticGraphBuilder {
       );
       tier2Entities = extractedEntities.filter(e =>
         e['@type']?.some(t =>
-          t.includes('cco:Person') || t.includes('cco:Artifact') || t.includes('cco:Organization') ||
+          t.includes('Person') || t.includes('Artifact') || t.includes('Organization') ||
           t === 'bfo:BFO_0000038' || t === 'bfo:BFO_0000008' || t === 'bfo:BFO_0000019' || t === 'bfo:BFO_0000016' ||
           t === 'bfo:BFO_0000004' || t === 'bfo:BFO_0000027' || t === 'bfo:BFO_0000001' ||
           t === 'bfo:BFO_0000015' ||
-          t === 'cco:InformationContentEntity'
+          t === 'InformationContentEntity'
         )
       );
 
@@ -717,7 +717,7 @@ class SemanticGraphBuilder {
     const parsingActIRI = `inst:ParsingAct_${this._hashText(text).substring(0, 8)}`;
     const parsingAct = {
       '@id': parsingActIRI,
-      '@type': ['cco:IntentionalAct', 'owl:NamedIndividual'],
+      '@type': ['IntentionalAct', 'owl:NamedIndividual'],
       'rdfs:label': 'Semantic parsing act',
       'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
       'tagteam:has_input': { '@id': ibeNode['@id'] },
@@ -1093,8 +1093,8 @@ class SemanticGraphBuilder {
 
     // Node types that should have certainty analysis
     const targetTypes = [
-      'cco:IntentionalAct',
-      'cco:ActOfCommunication',
+      'IntentionalAct',
+      'ActOfCommunication',
       'tagteam:DirectiveContent',
       'tagteam:DeonticContent',
       'tagteam:ScarcityAssertion',
@@ -1107,7 +1107,7 @@ class SemanticGraphBuilder {
 
       // Check if this node type should have certainty analysis
       const shouldAnalyze = targetTypes.some(t =>
-        types.includes(t) || types.some(nt => nt.startsWith('cco:ActOf'))
+        types.includes(t) || types.some(nt => nt.startsWith('ActOf'))
       );
 
       if (!shouldAnalyze) continue;
@@ -1272,7 +1272,7 @@ class SemanticGraphBuilder {
       if (tier2['@type'].some(t => TEMPORAL_TYPES.includes(t))) {
         temporalTier1.push(t1);
       } else if (tier2['@type'].includes('owl:NamedIndividual') &&
-                 !tier2['@type'].includes('cco:Person')) {
+                 !tier2['@type'].includes('Person')) {
         // Link qualities, dispositions, artifacts — not persons
         entityTier1.push(t1);
       }
@@ -2016,7 +2016,7 @@ class SemanticGraphBuilder {
       for (const act of acts) {
         const actNode = {
           '@id': `${this.options.namespace}:Act_${this._sanitizeId(act.verb)}`,
-          '@type': ['cco:IntentionalAct'],
+          '@type': ['IntentionalAct'],
           'rdfs:label': act.verb,
           'tagteam:lemma': act.lemma,
         };
@@ -2103,7 +2103,7 @@ class SemanticGraphBuilder {
       // Mark act nodes as VerbPhrase ICE
       for (const node of graphNodes) {
         const types = [].concat(node['@type'] || []);
-        if (types.includes('cco:IntentionalAct') && !types.includes('tagteam:VerbPhrase')) {
+        if (types.includes('IntentionalAct') && !types.includes('tagteam:VerbPhrase')) {
           node['@type'].push('tagteam:VerbPhrase');
         }
       }
@@ -2131,7 +2131,7 @@ class SemanticGraphBuilder {
       });
       const parsingAct = {
         '@id': parsingActIRI,
-        '@type': ['cco:IntentionalAct', 'owl:NamedIndividual'],
+        '@type': ['IntentionalAct', 'owl:NamedIndividual'],
         'rdfs:label': 'Semantic parsing act',
         'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
         'tagteam:has_input': { '@id': ibeNode['@id'] },

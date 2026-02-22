@@ -74,13 +74,13 @@ test('AC-003.1a: "Submit the report by Friday" → act has agent "you"', () => {
     `Agent label should be "you", got: ${agent['rdfs:label']}`);
 });
 
-test('AC-003.1b: Implicit agent has denotesType = cco:Person', () => {
+test('AC-003.1b: Implicit agent has denotesType = Person', () => {
   const graph = buildGraph('Submit the report by Friday.');
   const agent = getAgentOfAct(graph, 'submit');
 
   assert.ok(agent, 'Act should have an agent');
-  assert.strictEqual(agent['tagteam:denotesType'], 'cco:Person',
-    `Agent denotesType should be cco:Person, got: ${agent['tagteam:denotesType']}`);
+  assert.strictEqual(agent['tagteam:denotesType'], 'Person',
+    `Agent denotesType should be Person, got: ${agent['tagteam:denotesType']}`);
 });
 
 test('AC-003.1c: Implicit agent has referentialStatus = deictic', () => {
@@ -140,7 +140,7 @@ test('AC-003.3b: No duplicate "you" entities when explicit subject present', () 
   const youEntities = [];
   for (const node of graph['@graph'] || []) {
     if (node['rdfs:label']?.toLowerCase() === 'you' &&
-        node['@type']?.includes('cco:Person')) {
+        node['@type']?.includes('Person')) {
       youEntities.push(node);
     }
   }

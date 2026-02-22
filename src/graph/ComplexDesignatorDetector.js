@@ -138,7 +138,7 @@ class ComplexDesignatorDetector {
         '@type': ['tagteam:ComplexDesignator'],
         'tagteam:fullName': span.text,
         'tagteam:nameComponents': span.components,
-        'tagteam:denotedType': 'cco:Organization',
+        'tagteam:denotedType': 'Organization',
         'tagteam:startPosition': span.start,
         'tagteam:endPosition': span.end
       };

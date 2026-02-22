@@ -103,13 +103,13 @@ describe('Phase 6.4.5: OntologyValidator', () => {
         domain: 'medical',
         version: '1.0',
         typeSpecializations: {
-          'cco:Person': {
+          'Person': {
             terms: ['doctor', 'patient', 'nurse']
           }
         },
         verbOverrides: {
           'treat': {
-            default: 'cco:IntentionalAct'
+            default: 'IntentionalAct'
           }
         }
       };
@@ -179,7 +179,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
         domain: 'test',
         version: '1.0',
         typeSpecializations: {
-          'cco:Person': 'should-be-object'
+          'Person': 'should-be-object'
         }
       };
       const report = validator.validateDomainConfig(config);
@@ -192,7 +192,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
         version: '1.0',
         verbOverrides: {
           'treat': {
-            objectIsOccurrent: 'cco:IntentionalAct'
+            objectIsOccurrent: 'IntentionalAct'
             // Missing 'default' key
           }
         }
@@ -229,7 +229,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
         domain: 'test',
         version: '1.0',
         typeSpecializations: {
-          'cco:Person': {
+          'Person': {
             terms: 'should-be-array'
           }
         }
@@ -244,7 +244,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
   // ===========================================================================
   describe('Category 3: IRI Validation', () => {
     it('IR-001: Valid cco: prefix returns valid', () => {
-      const issue = validator.validateIRI('cco:Person');
+      const issue = validator.validateIRI('Person');
       expect(issue).toBeNull();
     });
 
@@ -309,7 +309,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
     it('BH-001: Type extends correct parent returns valid', () => {
       const issues = validator.validateBFOHierarchy({
         term: 'patient',
-        mappedType: 'cco:Person',
+        mappedType: 'Person',
         baseType: 'bfo:Object'
       });
       expect(issues.length).toBe(0);
@@ -318,7 +318,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
     it('BH-002: Occurrent mapped to Continuant base returns error', () => {
       const issues = validator.validateBFOHierarchy({
         term: 'treatment',
-        mappedType: 'cco:IntentionalAct', // Occurrent
+        mappedType: 'IntentionalAct', // Occurrent
         baseType: 'bfo:Object' // Continuant
       });
       expect(issues.length).toBeGreaterThan(0);
@@ -328,7 +328,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
     it('BH-003: Continuant mapped to Occurrent base returns error', () => {
       const issues = validator.validateBFOHierarchy({
         term: 'doctor',
-        mappedType: 'cco:Person', // Continuant
+        mappedType: 'Person', // Continuant
         baseType: 'bfo:Process' // Occurrent
       });
       expect(issues.length).toBeGreaterThan(0);
@@ -359,7 +359,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
     it('BH-006: Valid CCO subtype of BFO returns valid', () => {
       const issues = validator.validateBFOHierarchy({
         term: 'organization',
-        mappedType: 'cco:Organization',
+        mappedType: 'Organization',
         baseType: 'bfo:Object'
       });
       expect(issues.length).toBe(0);
@@ -368,7 +368,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
     it('BH-007: Process specialization returns valid', () => {
       const issues = validator.validateBFOHierarchy({
         term: 'surgery',
-        mappedType: 'cco:IntentionalAct',
+        mappedType: 'IntentionalAct',
         baseType: 'bfo:Process'
       });
       expect(issues.length).toBe(0);
@@ -396,9 +396,9 @@ describe('Phase 6.4.5: OntologyValidator', () => {
     it('BH-010: Check known medical.json types are all valid', () => {
       // Test common medical domain types
       const types = [
-        { mappedType: 'cco:Person', baseType: 'bfo:Object' },
-        { mappedType: 'cco:Organization', baseType: 'bfo:Object' },
-        { mappedType: 'cco:IntentionalAct', baseType: 'bfo:Process' }
+        { mappedType: 'Person', baseType: 'bfo:Object' },
+        { mappedType: 'Organization', baseType: 'bfo:Object' },
+        { mappedType: 'IntentionalAct', baseType: 'bfo:Process' }
       ];
 
       for (const t of types) {
@@ -440,14 +440,14 @@ describe('Phase 6.4.5: OntologyValidator', () => {
           domain: 'new',
           version: '1.0',
           typeSpecializations: {
-            'cco:Artifact': { terms: ['device'] }
+            'Artifact': { terms: ['device'] }
           }
         },
         [{
           domain: 'existing',
           version: '1.0',
           typeSpecializations: {
-            'cco:Person': { terms: ['device'] } // Same term, different type
+            'Person': { terms: ['device'] } // Same term, different type
           }
         }]
       );
@@ -461,14 +461,14 @@ describe('Phase 6.4.5: OntologyValidator', () => {
           domain: 'new',
           version: '1.0',
           typeSpecializations: {
-            'cco:Person': { terms: ['doctor'] }
+            'Person': { terms: ['doctor'] }
           }
         },
         [{
           domain: 'existing',
           version: '1.0',
           typeSpecializations: {
-            'cco:Person': { terms: ['doctor'] } // Same term, same type - OK
+            'Person': { terms: ['doctor'] } // Same term, same type - OK
           }
         }]
       );
@@ -481,14 +481,14 @@ describe('Phase 6.4.5: OntologyValidator', () => {
           domain: 'legal',
           version: '1.0',
           typeSpecializations: {
-            'cco:Person': { terms: ['lawyer'] }
+            'Person': { terms: ['lawyer'] }
           }
         },
         [{
           domain: 'medical',
           version: '1.0',
           typeSpecializations: {
-            'cco:Person': { terms: ['doctor'] }
+            'Person': { terms: ['doctor'] }
           }
         }]
       );
@@ -517,12 +517,12 @@ describe('Phase 6.4.5: OntologyValidator', () => {
         {
           domain: 'new',
           version: '1.0',
-          verbOverrides: { 'treat': { default: 'cco:IntentionalAct' } }
+          verbOverrides: { 'treat': { default: 'IntentionalAct' } }
         },
         [{
           domain: 'existing',
           version: '1.0',
-          verbOverrides: { 'treat': { default: 'cco:IntentionalAct' } }
+          verbOverrides: { 'treat': { default: 'IntentionalAct' } }
         }]
       );
       // Should at least inform about the override
@@ -554,7 +554,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
           domain: 'medical',
           version: '1.0',
           typeSpecializations: {
-            'cco:Person': { terms: ['patient'] } // Different term
+            'Person': { terms: ['patient'] } // Different term
           }
         }]
       );
@@ -578,14 +578,14 @@ describe('Phase 6.4.5: OntologyValidator', () => {
   describe('Category 6: Verb Override Validation', () => {
     it('VO-001: Valid verb override returns valid', () => {
       const issues = validator.validateVerbOverrides({
-        'treat': { default: 'cco:IntentionalAct' }
+        'treat': { default: 'IntentionalAct' }
       });
       expect(issues.filter(i => i.severity === 'error').length).toBe(0);
     });
 
     it('VO-002: Missing default key returns warning', () => {
       const issues = validator.validateVerbOverrides({
-        'treat': { objectIsOccurrent: 'cco:IntentionalAct' }
+        'treat': { objectIsOccurrent: 'IntentionalAct' }
       });
       expect(issues.some(i => i.code === 'INVALID_VERB_STRUCTURE')).toBe(true);
     });
@@ -593,7 +593,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
     it('VO-003: Unknown override key returns info', () => {
       const issues = validator.validateVerbOverrides({
         'treat': {
-          default: 'cco:IntentionalAct',
+          default: 'IntentionalAct',
           unknownKey: 'value'
         }
       });
@@ -611,8 +611,8 @@ describe('Phase 6.4.5: OntologyValidator', () => {
 
     it('VO-005: Valid medical-style verb overrides return valid', () => {
       const issues = validator.validateVerbOverrides({
-        'treat': { default: 'cco:IntentionalAct' },
-        'diagnose': { default: 'cco:IntentionalAct' },
+        'treat': { default: 'IntentionalAct' },
+        'diagnose': { default: 'IntentionalAct' },
         'provide': {
           default: 'cco:ActOfTransferOfPossession',
           objectIsOccurrent: 'cco:ActOfService'
@@ -631,11 +631,11 @@ describe('Phase 6.4.5: OntologyValidator', () => {
     it('VO-007: Verb with all valid keys returns valid', () => {
       const issues = validator.validateVerbOverrides({
         'provide': {
-          default: 'cco:IntentionalAct',
+          default: 'IntentionalAct',
           objectIsOccurrent: 'cco:ActOfService',
           objectIsContinuant: 'cco:ActOfTransferOfPossession',
-          objectIsGDC: 'cco:ActOfCommunication',
-          objectIsPerson: 'cco:IntentionalAct'
+          objectIsGDC: 'ActOfCommunication',
+          objectIsPerson: 'IntentionalAct'
         }
       });
       expect(issues.filter(i => i.severity === 'error').length).toBe(0);
@@ -780,19 +780,19 @@ describe('Phase 6.4.5: OntologyValidator', () => {
         domain: 'medical',
         version: '1.0',
         typeSpecializations: {
-          'cco:Person': {
+          'Person': {
             terms: ['doctor', 'physician', 'nurse', 'patient']
           },
-          'cco:Organization': {
+          'Organization': {
             terms: ['hospital', 'clinic']
           }
         },
         verbOverrides: {
           'treat': {
-            default: 'cco:IntentionalAct'
+            default: 'IntentionalAct'
           },
           'diagnose': {
-            default: 'cco:IntentionalAct'
+            default: 'IntentionalAct'
           }
         }
       };
@@ -838,7 +838,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
     });
 
     it('EC-003: Unicode in IRIs handled correctly', () => {
-      const issue = validator.validateIRI('cco:PersoneTyp\u00E9');
+      const issue = validator.validateIRI('PersoneTyp\u00E9');
       // Should handle unicode gracefully
       expect(issue === null || issue.severity !== 'error').toBe(true);
     });
@@ -848,7 +848,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
         domain: 'test',
         version: '1.0',
         typeSpecializations: {
-          'cco:Person': {
+          'Person': {
             terms: Array.from({ length: 100 }, (_, i) => `term${i}`)
           }
         }
@@ -862,7 +862,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
         domain: 'test',
         version: '1.0',
         typeSpecializations: {
-          'cco:Person': null
+          'Person': null
         }
       };
       const report = validator.validateDomainConfig(config);
@@ -873,7 +873,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
       const config = {
         domain: 'test',
         version: '1.0',
-        typeSpecializations: [{ type: 'cco:Person' }] // Should be object
+        typeSpecializations: [{ type: 'Person' }] // Should be object
       };
       const report = validator.validateDomainConfig(config);
       expect(report.hasWarnings()).toBe(true);
@@ -884,7 +884,7 @@ describe('Phase 6.4.5: OntologyValidator', () => {
         domain: 'test',
         version: '1.0',
         typeSpecializations: {
-          'cco:Person': 12345 // Invalid
+          'Person': 12345 // Invalid
         }
       };
       const report = validator.validateDomainConfig(config);

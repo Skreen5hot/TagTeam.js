@@ -7,24 +7,24 @@
     "coordination",
     "government"
   ],
-  "generatedAt": "2026-02-22T11:48:43.176Z",
+  "generatedAt": "2026-02-22T12:26:16.662Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The director",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the deputy",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the chief of staff",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the plan",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     }
   ],
   "expectedRoles": [
@@ -88,7 +88,7 @@
         "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Person_Deputy_And_The_Chief_Of_Staff_1318e8c80741"
+          "@id": "inst:Person_Deputy_And_The_Chief_Of_Staff_31928606b538"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d95632251760"
@@ -106,7 +106,7 @@
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Person_Staff_15d4dfd65e54"
+          "@id": "inst:Person_Staff_da0acef034d1"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d95632251760"
@@ -133,7 +133,7 @@
       {
         "@id": "inst:Act_approved",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "approved",
@@ -175,27 +175,27 @@
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Person_Deputy_And_The_Chief_Of_Staff_1318e8c80741",
+        "@id": "inst:Person_Deputy_And_The_Chief_Of_Staff_31928606b538",
         "@type": [
-          "cco:Person",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "deputy and the chief of staff",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.176Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.662Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d95632251760",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Person_Staff_15d4dfd65e54",
+        "@id": "inst:Person_Staff_da0acef034d1",
         "@type": [
-          "cco:Person",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "staff",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.176Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.662Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d95632251760",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -207,26 +207,26 @@
         ],
         "rdfs:label": "plan",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.176Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.662Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d95632251760",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_d95632251760",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The director, the deputy, and the chief of staff approved the plan",
         "tagteam:char_count": 66,
         "tagteam:word_count": 12,
-        "tagteam:received_at": "2026-02-22T11:48:43.163Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.650Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -243,7 +243,7 @@
       {
         "@id": "inst:ParsingAct_d9563225",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -270,7 +270,7 @@
             "@id": "inst:Act_approved"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.163Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.650Z"
       }
     ]
   }

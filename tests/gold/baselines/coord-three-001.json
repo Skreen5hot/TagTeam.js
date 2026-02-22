@@ -7,20 +7,20 @@
     "coordination",
     "government"
   ],
-  "generatedAt": "2026-02-22T11:48:43.120Z",
+  "generatedAt": "2026-02-22T12:26:16.607Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The FBI",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "DEA",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "ATF",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "the joint operation",
@@ -48,7 +48,7 @@
   "extractedEntities": [
     {
       "text": "The FBI DEA and ATF coordinated the joint operation",
-      "type": "cco:Organization",
+      "type": "Organization",
       "id": "inst:The_FBI_DEA_and_ATF_coordinated_the_joint_operation"
     },
     {
@@ -68,16 +68,16 @@
       {
         "@id": "inst:The_FBI_DEA_and_ATF_coordinated_the_joint_operation",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The FBI DEA and ATF coordinated the joint operation",
         "tagteam:mentionId": "s0:h2:0-55",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:denotesType": "cco:Organization",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Organization_Fbi_Dea_And_Atf_Coordinated_The_Joint_Operation_9f237579f8be"
+          "@id": "inst:Organization_Fbi_Dea_And_Atf_Coordinated_The_Joint_Operation_779dc29ca328"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7ef1c425b7be"
@@ -125,7 +125,7 @@
       {
         "@id": "inst:Act_FBI",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "FBI",
@@ -135,16 +135,16 @@
         }
       },
       {
-        "@id": "inst:Organization_Fbi_Dea_And_Atf_Coordinated_The_Joint_Operation_9f237579f8be",
+        "@id": "inst:Organization_Fbi_Dea_And_Atf_Coordinated_The_Joint_Operation_779dc29ca328",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "fbi dea and atf coordinated the joint operation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.120Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.606Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7ef1c425b7be",
-        "tagteam:denotesType": "cco:Organization"
+        "tagteam:denotesType": "Organization"
       },
       {
         "@id": "inst:Entity_Atf_b882685ceb93",
@@ -155,7 +155,7 @@
         "rdfs:label": "atf",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.120Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.607Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7ef1c425b7be",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -167,26 +167,26 @@
         ],
         "rdfs:label": "joint operation",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.120Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.607Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7ef1c425b7be",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_7ef1c425b7be",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The FBI, DEA, and ATF coordinated the joint operation",
         "tagteam:char_count": 53,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-22T11:48:43.109Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.595Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -203,7 +203,7 @@
       {
         "@id": "inst:ParsingAct_7ef1c425",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -230,7 +230,7 @@
             "@id": "inst:Act_FBI"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.109Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.595Z"
       }
     ]
   }

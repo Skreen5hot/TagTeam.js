@@ -8,7 +8,7 @@
       "entities": [
         {
           "text": "the server",
-          "type": "cco:Artifact",
+          "type": "Artifact",
           "definiteness": "definite",
           "number": "singular"
         }
@@ -26,7 +26,7 @@
       "entities": [
         {
           "text": "a server",
-          "type": "cco:Artifact",
+          "type": "Artifact",
           "definiteness": "indefinite",
           "number": "singular"
         }
@@ -44,13 +44,13 @@
       "entities": [
         {
           "text": "the engineer",
-          "type": "cco:Person",
+          "type": "Person",
           "definiteness": "definite",
           "number": "singular"
         },
         {
           "text": "the system",
-          "type": "cco:Artifact",
+          "type": "Artifact",
           "definiteness": "definite",
           "number": "singular"
         }
@@ -68,13 +68,13 @@
       "entities": [
         {
           "text": "an admin",
-          "type": "cco:Person",
+          "type": "Person",
           "definiteness": "indefinite",
           "number": "singular"
         },
         {
           "text": "an alert",
-          "type": "cco:InformationContentEntity",
+          "type": "InformationContentEntity",
           "definiteness": "indefinite",
           "number": "singular"
         }
@@ -92,7 +92,7 @@
       "entities": [
         {
           "text": "the servers",
-          "type": "cco:Artifact",
+          "type": "Artifact",
           "definiteness": "definite",
           "number": "plural"
         }
@@ -110,14 +110,14 @@
       "entities": [
         {
           "text": "some engineers",
-          "type": "cco:Person",
+          "type": "Person",
           "definiteness": "indefinite",
           "number": "plural",
           "quantifier": "some"
         },
         {
           "text": "bugs",
-          "type": "cco:Artifact",
+          "type": "Artifact",
           "definiteness": "bare",
           "number": "plural"
         }
@@ -135,13 +135,13 @@
       "entities": [
         {
           "text": "the team",
-          "type": "cco:Organization",
+          "type": "Organization",
           "definiteness": "definite",
           "number": "singular"
         },
         {
           "text": "the patch",
-          "type": "cco:Artifact",
+          "type": "Artifact",
           "definiteness": "definite",
           "number": "singular"
         }
@@ -159,7 +159,7 @@
       "entities": [
         {
           "text": "the database server",
-          "type": "cco:Artifact",
+          "type": "Artifact",
           "definiteness": "definite",
           "number": "singular"
         }
@@ -177,7 +177,7 @@
       "entities": [
         {
           "text": "the primary server",
-          "type": "cco:Artifact",
+          "type": "Artifact",
           "definiteness": "definite",
           "number": "singular",
           "modifiers": ["primary"]
@@ -196,13 +196,13 @@
       "entities": [
         {
           "text": "the admin",
-          "type": "cco:Person",
+          "type": "Person",
           "definiteness": "definite",
           "number": "singular"
         },
         {
           "text": "the admin's credentials",
-          "type": "cco:InformationContentEntity",
+          "type": "InformationContentEntity",
           "definiteness": "definite",
           "number": "plural",
           "possessor": "the admin"

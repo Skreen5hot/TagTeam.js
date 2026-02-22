@@ -246,7 +246,7 @@ describe('Ambiguity Integration with SemanticGraphBuilder', () => {
       expect(modalAmb['tagteam:readings']).toBeDefined();
     })) passed++; else failed++;
 
-    if (it('types committee as cco:Organization', () => {
+    if (it('types committee as Organization', () => {
       const builder = new SemanticGraphBuilder();
       const result = builder.build('The committee should review', {
         detectAmbiguity: true
@@ -254,7 +254,7 @@ describe('Ambiguity Integration with SemanticGraphBuilder', () => {
 
       // Find Organization nodes
       const orgs = result['@graph'].filter(node =>
-        node['@type']?.includes('cco:Organization')
+        node['@type']?.includes('Organization')
       );
 
       // There should be an Organization for "committee"
@@ -264,7 +264,7 @@ describe('Ambiguity Integration with SemanticGraphBuilder', () => {
       expect(committeeOrg).toBeDefined();
     })) passed++; else failed++;
 
-    if (it('types administration as cco:Organization', () => {
+    if (it('types administration as Organization', () => {
       const builder = new SemanticGraphBuilder();
       const result = builder.build('The administration announced policy', {
         detectAmbiguity: true
@@ -272,7 +272,7 @@ describe('Ambiguity Integration with SemanticGraphBuilder', () => {
 
       // Find Organization nodes
       const orgs = result['@graph'].filter(node =>
-        node['@type']?.includes('cco:Organization')
+        node['@type']?.includes('Organization')
       );
 
       // There should be an Organization for "administration"

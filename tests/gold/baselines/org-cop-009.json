@@ -7,16 +7,16 @@
     "definitional",
     "military"
   ],
-  "generatedAt": "2026-02-22T11:48:42.307Z",
+  "generatedAt": "2026-02-22T12:26:15.740Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The Coast Guard",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "the armed forces",
-      "type": "cco:Organization"
+      "type": "Organization"
     }
   ],
   "expectedRoles": [],
@@ -49,7 +49,7 @@
         "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Person_Coast_Guard_c83f8a770ee7"
+          "@id": "inst:Person_Coast_Guard_8ad859159af5"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ceab63bf2523"
@@ -84,15 +84,15 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Person_Coast_Guard_c83f8a770ee7",
+        "@id": "inst:Person_Coast_Guard_8ad859159af5",
         "@type": [
-          "cco:Person",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "coast guard",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.307Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.740Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ceab63bf2523",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -104,26 +104,26 @@
         ],
         "rdfs:label": "armed force",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.307Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.740Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ceab63bf2523",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_ceab63bf2523",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The Coast Guard is a branch of the armed forces",
         "tagteam:char_count": 47,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-22T11:48:42.294Z"
+        "tagteam:received_at": "2026-02-22T12:26:15.725Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -140,7 +140,7 @@
       {
         "@id": "inst:ParsingAct_ceab63bf",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -161,7 +161,7 @@
             "@id": "inst:the_armed_forces"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.294Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.725Z"
       }
     ]
   }

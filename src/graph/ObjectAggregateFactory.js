@@ -3,7 +3,7 @@
  *
  * Creates BFO Object Aggregate nodes for plural entities.
  * When text mentions "two patients", this creates:
- * - Two individual cco:Person nodes
+ * - Two individual Person nodes
  * - One bfo:BFO_0000027 (Object Aggregate) containing them
  *
  * Phase 4 Two-Tier Architecture v2.3:
@@ -94,7 +94,7 @@ class ObjectAggregateFactory {
    */
   _isPersonEntity(entity) {
     const types = entity['@type'] || [];
-    return types.some(t => t.includes('cco:Person'));
+    return types.some(t => t.includes('Person'));
   }
 
   /**

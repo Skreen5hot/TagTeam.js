@@ -120,7 +120,7 @@ test('AC-4.8d: Event handler in entity text', () => {
 console.log(`\n${C.cyan}--- AC-4.9: JSON Injection ---${C.reset}`);
 
 test('AC-4.9a: JSON structure in input', () => {
-  const result = buildGraph('{"@type": "cco:Person", "label": "injected"} is a concept');
+  const result = buildGraph('{"@type": "Person", "label": "injected"} is a concept');
   assert(result != null, 'Should return a result');
   // Verify the output is valid JSON
   const json = JSON.stringify(result);
@@ -232,14 +232,14 @@ test('escapeHtml: escapes quotes', () => {
 });
 
 test('sanitize: escapes string values', () => {
-  const result = sanitize({ label: '<script>alert(1)</script>', type: 'cco:Person' });
+  const result = sanitize({ label: '<script>alert(1)</script>', type: 'Person' });
   assert(!/<script/.test(result.label), 'label should be escaped');
   assert(result.label.includes('&lt;script&gt;'), 'label should have escaped HTML');
 });
 
 test('sanitizeWithProvenance: escapes string values', () => {
   const results = sanitizeWithProvenance(
-    [{ label: '<b>bold</b>', type: 'cco:Person' }],
+    [{ label: '<b>bold</b>', type: 'Person' }],
     { ontologyHash: 'abc', warnings: [] }
   );
   assert(!/<b>/.test(results[0].label), 'label should be escaped');

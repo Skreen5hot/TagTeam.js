@@ -6,20 +6,20 @@
     "nested-pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T11:48:44.328Z",
+  "generatedAt": "2026-02-22T12:26:17.991Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The agent",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the report",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     },
     {
       "text": "the office",
-      "type": "cco:Organization"
+      "type": "Organization"
     }
   ],
   "expectedRoles": [
@@ -101,7 +101,7 @@
         "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Person_Agent_40c56959bf15"
+          "@id": "inst:Person_Agent_9b5daa26fe78"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_885cdc14aee1"
@@ -182,7 +182,7 @@
       {
         "@id": "inst:Act_filed",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "filed",
@@ -275,15 +275,15 @@
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Person_Agent_40c56959bf15",
+        "@id": "inst:Person_Agent_9b5daa26fe78",
         "@type": [
-          "cco:Person",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "agent",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.327Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.990Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -295,7 +295,7 @@
         ],
         "rdfs:label": "report",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.327Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.990Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -307,7 +307,7 @@
         ],
         "rdfs:label": "office",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.327Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.990Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -319,7 +319,7 @@
         ],
         "rdfs:label": "build",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.327Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.990Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -331,26 +331,26 @@
         ],
         "rdfs:label": "campu",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.327Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.990Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_885cdc14aee1",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The agent filed the report at the office in the building on the campus",
         "tagteam:char_count": 70,
         "tagteam:word_count": 14,
-        "tagteam:received_at": "2026-02-22T11:48:44.316Z"
+        "tagteam:received_at": "2026-02-22T12:26:17.975Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -367,7 +367,7 @@
       {
         "@id": "inst:ParsingAct_885cdc14",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -400,7 +400,7 @@
             "@id": "inst:Act_filed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.316Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.975Z"
       }
     ]
   }

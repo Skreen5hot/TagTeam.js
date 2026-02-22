@@ -6,16 +6,16 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T11:48:43.667Z",
+  "generatedAt": "2026-02-22T12:26:17.173Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The intelligence report",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     },
     {
       "text": "all sectors",
-      "type": "cco:Organization"
+      "type": "Organization"
     }
   ],
   "expectedRoles": [
@@ -93,7 +93,7 @@
       {
         "@id": "inst:Act_distributed",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "distributed",
@@ -145,7 +145,7 @@
         "rdfs:label": "intelligence report",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.667Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.173Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_357d63a0aa17",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -157,26 +157,26 @@
         ],
         "rdfs:label": "all sectors",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.667Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.173Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_357d63a0aa17",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_357d63a0aa17",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The intelligence report was distributed to all sectors",
         "tagteam:char_count": 54,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T11:48:43.660Z"
+        "tagteam:received_at": "2026-02-22T12:26:17.161Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -193,7 +193,7 @@
       {
         "@id": "inst:ParsingAct_357d63a0",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -217,7 +217,7 @@
             "@id": "inst:Act_distributed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.660Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.161Z"
       }
     ]
   }

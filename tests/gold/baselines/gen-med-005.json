@@ -6,20 +6,20 @@
     "medical",
     "treatment"
   ],
-  "generatedAt": "2026-02-22T11:48:44.108Z",
+  "generatedAt": "2026-02-22T12:26:17.675Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The hospital",
-      "type": "cco:Facility"
+      "type": "Facility"
     },
     {
       "text": "the patient",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the intensive care unit",
-      "type": "cco:Facility"
+      "type": "Facility"
     }
   ],
   "expectedRoles": [
@@ -83,7 +83,7 @@
         "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Organization_Hospital_042c2305be50"
+          "@id": "inst:Organization_Hospital_2e487f5a18dc"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_bdc26060bf87"
@@ -101,7 +101,7 @@
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Person_Patient_f5a5ff47b841"
+          "@id": "inst:Person_Patient_8ad6062c2b2d"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_bdc26060bf87"
@@ -119,7 +119,7 @@
         "tagteam:parseProbability": 0.9433,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Organization_Intensive_Care_Unit_0202a4993192"
+          "@id": "inst:Organization_Intensive_Care_Unit_9aeb6df1c06c"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_bdc26060bf87"
@@ -128,7 +128,7 @@
       {
         "@id": "inst:Act_admitted",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "admitted",
@@ -187,58 +187,58 @@
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Organization_Hospital_042c2305be50",
+        "@id": "inst:Organization_Hospital_2e487f5a18dc",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "hospital",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.108Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.674Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdc26060bf87",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Person_Patient_f5a5ff47b841",
+        "@id": "inst:Person_Patient_8ad6062c2b2d",
         "@type": [
-          "cco:Person",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "patient",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.108Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.675Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdc26060bf87",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Organization_Intensive_Care_Unit_0202a4993192",
+        "@id": "inst:Organization_Intensive_Care_Unit_9aeb6df1c06c",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "intensive care unit",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.108Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.675Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdc26060bf87",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_bdc26060bf87",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The hospital admitted the patient to the intensive care unit",
         "tagteam:char_count": 60,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-22T11:48:44.098Z"
+        "tagteam:received_at": "2026-02-22T12:26:17.660Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -255,7 +255,7 @@
       {
         "@id": "inst:ParsingAct_bdc26060",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -282,7 +282,7 @@
             "@id": "inst:Act_admitted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.098Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.660Z"
       }
     ]
   }

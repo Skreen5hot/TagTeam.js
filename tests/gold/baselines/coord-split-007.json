@@ -7,16 +7,16 @@
     "split",
     "passive"
   ],
-  "generatedAt": "2026-02-22T11:48:42.827Z",
+  "generatedAt": "2026-02-22T12:26:16.283Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The suspect",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the accomplice",
-      "type": "cco:Person"
+      "type": "Person"
     }
   ],
   "expectedRoles": [
@@ -67,7 +67,7 @@
       {
         "@id": "inst:Act_arrested",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "arrested",
@@ -102,26 +102,26 @@
         "rdfs:label": "suspect and the accomplice",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.827Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.283Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_28eb09ab1b77",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_28eb09ab1b77",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The suspect and the accomplice were arrested",
         "tagteam:char_count": 44,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T11:48:42.820Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.275Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -138,7 +138,7 @@
       {
         "@id": "inst:ParsingAct_28eb09ab",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -159,7 +159,7 @@
             "@id": "inst:Act_arrested"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.820Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.275Z"
       }
     ]
   }

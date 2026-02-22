@@ -6,20 +6,20 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T11:48:43.791Z",
+  "generatedAt": "2026-02-22T12:26:17.312Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The inspector",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the vehicle",
-      "type": "cco:Artifact"
+      "type": "Artifact"
     },
     {
       "text": "a sensor",
-      "type": "cco:Artifact"
+      "type": "Artifact"
     }
   ],
   "expectedRoles": [
@@ -83,7 +83,7 @@
         "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Person_Inspector_b03f28d71ddb"
+          "@id": "inst:Person_Inspector_dbcf2850bb46"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c74c312f0ba6"
@@ -128,7 +128,7 @@
       {
         "@id": "inst:Act_examined",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "examined",
@@ -187,15 +187,15 @@
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Person_Inspector_b03f28d71ddb",
+        "@id": "inst:Person_Inspector_dbcf2850bb46",
         "@type": [
-          "cco:Person",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "inspector",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.791Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.311Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c74c312f0ba6",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -207,7 +207,7 @@
         ],
         "rdfs:label": "vehicle",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.791Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.311Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c74c312f0ba6",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -219,26 +219,26 @@
         ],
         "rdfs:label": "sensor",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.791Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.311Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c74c312f0ba6",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_c74c312f0ba6",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The inspector examined the vehicle with a sensor",
         "tagteam:char_count": 48,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T11:48:43.784Z"
+        "tagteam:received_at": "2026-02-22T12:26:17.303Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -255,7 +255,7 @@
       {
         "@id": "inst:ParsingAct_c74c312f",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -282,7 +282,7 @@
             "@id": "inst:Act_examined"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.784Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.303Z"
       }
     ]
   }

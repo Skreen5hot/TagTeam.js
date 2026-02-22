@@ -8,7 +8,7 @@
  * Phase 4 Two-Tier Architecture v2.3:
  * - Scarcity info belongs in Tier 1 (ICE layer)
  * - ScarcityAssertion is_about the Tier 2 resource
- * - Tier 2 entities (cco:Person, cco:Artifact) stay clean
+ * - Tier 2 entities (Person, Artifact) stay clean
  *
  * @module graph/ScarcityAssertionFactory
  * @version 4.0.0-phase4-v2.3
@@ -99,7 +99,7 @@ class ScarcityAssertionFactory {
 
     const assertion = {
       '@id': iri,
-      '@type': ['tagteam:ScarcityAssertion', 'cco:InformationContentEntity', 'owl:NamedIndividual'],
+      '@type': ['tagteam:ScarcityAssertion', 'InformationContentEntity', 'owl:NamedIndividual'],
       'rdfs:label': `Resource Scarcity: ${sourceText}`,
       'tagteam:evidenceText': sourceText
     };

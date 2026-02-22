@@ -96,8 +96,8 @@ test('tracks referent nodes separately', () => {
   const budget = new ComplexityBudget();
 
   budget.addNode('DiscourseReferent');
-  budget.addNode('cco:Person');
-  budget.addNode('cco:Agent');
+  budget.addNode('Person');
+  budget.addNode('Agent');
   budget.addNode('owl:NamedIndividual');
 
   assert(budget.nodeCount === 4, 'Should have 4 total nodes');
@@ -157,11 +157,11 @@ test('throws when max referents exceeded', () => {
   const budget = new ComplexityBudget({ maxReferents: 2, throwOnExceed: true });
 
   budget.addNode('DiscourseReferent');
-  budget.addNode('cco:Person');
+  budget.addNode('Person');
 
   let threw = false;
   try {
-    budget.addNode('cco:Agent');
+    budget.addNode('Agent');
   } catch (e) {
     threw = true;
     assert(e.type === 'MAX_REFERENTS', 'Should be MAX_REFERENTS error type');

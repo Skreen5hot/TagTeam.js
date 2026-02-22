@@ -6,16 +6,16 @@
     "medical",
     "diagnosis"
   ],
-  "generatedAt": "2026-02-22T11:48:44.121Z",
+  "generatedAt": "2026-02-22T12:26:17.691Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The radiologist",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the imaging results",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     }
   ],
   "expectedRoles": [
@@ -93,7 +93,7 @@
       {
         "@id": "inst:Act_reviewed",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "reviewed",
@@ -143,7 +143,7 @@
         "rdfs:label": "radiologist",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.120Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.691Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7a1c7a55ec96",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -155,26 +155,26 @@
         ],
         "rdfs:label": "imaging results",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.120Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.691Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7a1c7a55ec96",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_7a1c7a55ec96",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The radiologist reviewed the imaging results",
         "tagteam:char_count": 44,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T11:48:44.113Z"
+        "tagteam:received_at": "2026-02-22T12:26:17.680Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -191,7 +191,7 @@
       {
         "@id": "inst:ParsingAct_7a1c7a55",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -215,7 +215,7 @@
             "@id": "inst:Act_reviewed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.113Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.680Z"
       }
     ]
   }

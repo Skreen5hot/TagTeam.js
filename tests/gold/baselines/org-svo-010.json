@@ -7,16 +7,16 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T11:48:42.525Z",
+  "generatedAt": "2026-02-22T12:26:15.960Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The secretary",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "a statement",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     }
   ],
   "expectedRoles": [
@@ -88,7 +88,7 @@
       {
         "@id": "inst:Act_secretary",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "secretary",
@@ -100,7 +100,7 @@
       {
         "@id": "inst:Act_issued",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "issued",
@@ -133,7 +133,7 @@
         ],
         "rdfs:label": "secretary",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.524Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.960Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c2b4c510415a",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -145,26 +145,26 @@
         ],
         "rdfs:label": "statement",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.524Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.960Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c2b4c510415a",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_c2b4c510415a",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The secretary issued a statement",
         "tagteam:char_count": 32,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-22T11:48:42.513Z"
+        "tagteam:received_at": "2026-02-22T12:26:15.952Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -181,7 +181,7 @@
       {
         "@id": "inst:ParsingAct_c2b4c510",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -208,7 +208,7 @@
             "@id": "inst:Act_issued"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.513Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.952Z"
       }
     ]
   }

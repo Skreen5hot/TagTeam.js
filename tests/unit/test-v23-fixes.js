@@ -2,7 +2,7 @@
  * Unit Tests for v2.3 Ontological Fixes
  *
  * Tests the four critical fixes identified in the BFO/CCO review:
- * - Fix 1: PatientRole only on cco:Person (not artifacts)
+ * - Fix 1: PatientRole only on Person (not artifacts)
  * - Fix 2: Scarcity in ICE layer (ScarcityAssertion)
  * - Fix 3: Object Aggregate for plural persons
  * - Fix 4: Role realization only in Actual acts
@@ -50,9 +50,9 @@ function findNodeById(id) {
 }
 
 // ================================================================
-// FIX 1: PatientRole only on cco:Person
+// FIX 1: PatientRole only on Person
 // ================================================================
-console.log('Fix 1: PatientRole only on cco:Person');
+console.log('Fix 1: PatientRole only on Person');
 
 test('no PatientRole on artifacts', () => {
   const roles = findNodes('PatientRole');
@@ -62,7 +62,7 @@ test('no PatientRole on artifacts', () => {
     const bearerTypes = bearer ? bearer['@type'] : [];
 
     // PatientRole bearer must be a Person, not Artifact
-    const isArtifact = bearerTypes.some(t => t.includes('cco:Artifact'));
+    const isArtifact = bearerTypes.some(t => t.includes('Artifact'));
     assert(!isArtifact, `PatientRole should not inhere in Artifact: ${bearerIRI}`);
   });
 });
@@ -75,7 +75,7 @@ test('PatientRole only inheres in Person types', () => {
     const bearerTypes = bearer ? bearer['@type'] : [];
 
     const isPerson = bearerTypes.some(t =>
-      t.includes('cco:Person') || t.includes('cco:Agent')
+      t.includes('Person') || t.includes('Agent')
     );
     // Note: aggregate members may not have the role directly
   });
@@ -85,7 +85,7 @@ test('ventilator does not bear PatientRole', () => {
   // Find ventilator Tier 2 entity
   const ventilator = graph['@graph'].find(n =>
     n['rdfs:label']?.toLowerCase().includes('ventilator') &&
-    n['@type']?.includes('cco:Artifact')
+    n['@type']?.includes('Artifact')
   );
 
   if (ventilator) {
@@ -132,7 +132,7 @@ test('ScarcityAssertion has is_about link to resource', () => {
 test('Tier 2 entities do not have scarcity properties', () => {
   const tier2 = graph['@graph'].filter(n =>
     n['@type']?.some(t =>
-      t.includes('cco:Person') || t.includes('cco:Artifact')
+      t.includes('Person') || t.includes('Artifact')
     ) && !n['@type']?.includes('tagteam:DiscourseReferent')
   );
 
@@ -163,7 +163,7 @@ test('ObjectAggregate has has_member relation', () => {
 test('individual patient members created', () => {
   // Find patient-related Person entities
   const persons = graph['@graph'].filter(n =>
-    n['@type']?.includes('cco:Person') &&
+    n['@type']?.includes('Person') &&
     n['tagteam:member_index'] // This indicates an individual member
   );
 

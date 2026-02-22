@@ -32,8 +32,8 @@ const doctor = graph['@graph'].find(n =>
 assert(doctor !== undefined, "Found doctor entity");
 assert(doctor['@type'].includes('tagteam:DiscourseReferent'),
   "Doctor has DiscourseReferent type");
-assert(doctor['tagteam:denotesType'] === 'cco:Person',
-  "Doctor denotesType is cco:Person");
+assert(doctor['tagteam:denotesType'] === 'Person',
+  "Doctor denotesType is Person");
 assert(doctor['tagteam:definiteness'] === 'definite',
   "Doctor has definite definiteness (from 'The')");
 assert(doctor['tagteam:referentialStatus'] === 'presupposed',
@@ -55,8 +55,8 @@ const ventilator = graph['@graph'].find(n =>
 assert(ventilator !== undefined, "Found ventilator DiscourseReferent entity");
 assert(ventilator['@type'].includes('tagteam:DiscourseReferent'),
   "Ventilator has DiscourseReferent type");
-assert(ventilator['tagteam:denotesType'] === 'cco:Artifact',
-  "Ventilator denotesType is cco:Artifact");
+assert(ventilator['tagteam:denotesType'] === 'Artifact',
+  "Ventilator denotesType is Artifact");
 
 console.log('✓ AC-1.2.2: Artifact Extraction - PASSED');
 console.log(`  Ventilator IRI: ${ventilator['@id']}`);
@@ -97,10 +97,10 @@ referents.forEach(r => {
     `${r['rdfs:label']} must be DiscourseReferent`);
 
   // Must NOT claim BFO entity status directly in @type
-  assert(!r['@type'].includes('cco:Person'),
-    `${r['rdfs:label']} @type should NOT include cco:Person`);
-  assert(!r['@type'].includes('cco:Artifact'),
-    `${r['rdfs:label']} @type should NOT include cco:Artifact`);
+  assert(!r['@type'].includes('Person'),
+    `${r['rdfs:label']} @type should NOT include Person`);
+  assert(!r['@type'].includes('Artifact'),
+    `${r['rdfs:label']} @type should NOT include Artifact`);
 
   // Should include owl:NamedIndividual
   assert(r['@type'].includes('owl:NamedIndividual'),

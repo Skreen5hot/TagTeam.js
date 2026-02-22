@@ -7,7 +7,7 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-22T11:48:43.067Z",
+  "generatedAt": "2026-02-22T12:26:16.549Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -16,7 +16,7 @@
     },
     {
       "text": "the canine unit",
-      "type": "cco:Organization"
+      "type": "Organization"
     }
   ],
   "expectedRoles": [
@@ -85,7 +85,7 @@
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Organization_Canine_Unit_1005010d85e0"
+          "@id": "inst:Organization_Canine_Unit_78b370ce8a62"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_107c11f15d34"
@@ -94,7 +94,7 @@
       {
         "@id": "inst:Act_identified",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "identified",
@@ -145,38 +145,38 @@
         "rdfs:label": "contraband",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.067Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.549Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_107c11f15d34",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Organization_Canine_Unit_1005010d85e0",
+        "@id": "inst:Organization_Canine_Unit_78b370ce8a62",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "canine unit",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.067Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.549Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_107c11f15d34",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_107c11f15d34",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The contraband was identified by the canine unit",
         "tagteam:char_count": 48,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T11:48:43.059Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.542Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -193,7 +193,7 @@
       {
         "@id": "inst:ParsingAct_107c11f1",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -217,7 +217,7 @@
             "@id": "inst:Act_identified"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.059Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.542Z"
       }
     ]
   }

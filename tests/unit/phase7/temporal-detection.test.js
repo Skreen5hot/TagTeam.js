@@ -2,7 +2,7 @@
  * Temporal Region Detection Test Suite
  * Phase 7.0 Story 1: Temporal expressions → BFO Temporal Regions
  *
- * Ensures "three days" becomes bfo:BFO_0000038 (not cco:Artifact)
+ * Ensures "three days" becomes bfo:BFO_0000038 (not Artifact)
  * and "yesterday" becomes bfo:BFO_0000008.
  */
 
@@ -169,8 +169,8 @@ test('Tier 2 node for "three days" typed BFO_0000038 (not Artifact)', () => {
   assert.ok(tier2, 'Should find Tier 2 node for "three days"');
   assert.ok(tier2['@type'].includes('bfo:BFO_0000038'),
     '@type should include bfo:BFO_0000038');
-  assert.ok(!tier2['@type'].includes('cco:Artifact'),
-    '@type should NOT include cco:Artifact');
+  assert.ok(!tier2['@type'].includes('Artifact'),
+    '@type should NOT include Artifact');
 });
 
 // ═══════════════════════════════════════════════════════════════
@@ -181,14 +181,14 @@ test('"ventilator" still classified as Artifact', () => {
   const entities = extractEntities('The doctor allocated the ventilator');
   const vent = findEntity(entities, 'ventilator');
   assert.ok(vent, 'Should find "ventilator" entity');
-  assert.strictEqual(vent['tagteam:denotesType'], 'cco:Artifact');
+  assert.strictEqual(vent['tagteam:denotesType'], 'Artifact');
 });
 
 test('"patient" still classified as Person', () => {
   const entities = extractEntities('The patient arrived three days ago');
   const patient = findEntity(entities, 'patient');
   assert.ok(patient, 'Should find "patient" entity');
-  assert.strictEqual(patient['tagteam:denotesType'], 'cco:Person');
+  assert.strictEqual(patient['tagteam:denotesType'], 'Person');
 });
 
 // ═══════════════════════════════════════════════════════════════
@@ -199,8 +199,8 @@ test('Temporal entity not assigned as agent in full graph', () => {
   const graph = buildGraph('Patient reports cough for three days');
   const nodes = graph['@graph'] || [];
   const acts = nodes.filter(n => n['@type'] && (
-    n['@type'].includes('cco:IntentionalAct') ||
-    n['@type'].includes('cco:ActOfCommunication')
+    n['@type'].includes('IntentionalAct') ||
+    n['@type'].includes('ActOfCommunication')
   ));
   for (const act of acts) {
     if (act['has_agent']) {

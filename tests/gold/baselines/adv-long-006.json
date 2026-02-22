@@ -6,12 +6,12 @@
     "long-np",
     "government"
   ],
-  "generatedAt": "2026-02-22T11:48:44.313Z",
+  "generatedAt": "2026-02-22T12:26:17.971Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The congressional oversight committee",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "a hearing",
@@ -36,7 +36,7 @@
     },
     {
       "text": "homeland security",
-      "type": "cco:Organization",
+      "type": "Organization",
       "id": "inst:homeland_security"
     },
     {
@@ -80,16 +80,16 @@
       {
         "@id": "inst:homeland_security",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "homeland security",
         "tagteam:mentionId": "s0:h7:41-58",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
-        "tagteam:denotesType": "cco:Organization",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Organization_Homeland_Security_5bb7efc4519e"
+          "@id": "inst:Organization_Homeland_Security_88f95e652ef0"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d9c769f6a06d"
@@ -116,7 +116,7 @@
       {
         "@id": "inst:Act_held",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "held",
@@ -166,21 +166,21 @@
         "rdfs:label": "congressional oversight committee on homeland security",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.313Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.970Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d9c769f6a06d",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Organization_Homeland_Security_5bb7efc4519e",
+        "@id": "inst:Organization_Homeland_Security_88f95e652ef0",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "homeland security",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.313Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.970Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d9c769f6a06d",
-        "tagteam:denotesType": "cco:Organization"
+        "tagteam:denotesType": "Organization"
       },
       {
         "@id": "inst:Entity_Hear_f868b2755c0e",
@@ -190,26 +190,26 @@
         ],
         "rdfs:label": "hear",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.313Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.970Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d9c769f6a06d",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_d9c769f6a06d",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The congressional oversight committee on homeland security held a hearing",
         "tagteam:char_count": 73,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-22T11:48:44.302Z"
+        "tagteam:received_at": "2026-02-22T12:26:17.958Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -226,7 +226,7 @@
       {
         "@id": "inst:ParsingAct_d9c769f6",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -253,7 +253,7 @@
             "@id": "inst:Act_held"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.302Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.958Z"
       }
     ]
   }

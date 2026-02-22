@@ -138,8 +138,8 @@ class DirectiveExtractor {
 
     const directive = {
       '@id': iri,
-      // Per ontology: DirectiveContent is subclass of both DeonticContent and cco:InformationContentEntity
-      '@type': ['tagteam:DirectiveContent', 'cco:InformationContentEntity', 'owl:NamedIndividual'],
+      // Per ontology: DirectiveContent is subclass of both DeonticContent and InformationContentEntity
+      '@type': ['tagteam:DirectiveContent', 'InformationContentEntity', 'owl:NamedIndividual'],
       'rdfs:label': `${modalType.charAt(0).toUpperCase() + modalType.slice(1)} Directive: ${modalMarker}`,
       'tagteam:modalMarker': modalMarker,
       'tagteam:modalType': modalType,

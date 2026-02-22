@@ -7,16 +7,16 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-22T11:48:42.236Z",
+  "generatedAt": "2026-02-22T12:26:15.681Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The Department of Justice",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "a cabinet-level department",
-      "type": "cco:Organization"
+      "type": "Organization"
     }
   ],
   "expectedRoles": [],
@@ -91,7 +91,7 @@
         "rdfs:label": "department of justice",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.236Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.680Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d2e8d9af4275",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -103,26 +103,26 @@
         ],
         "rdfs:label": "justice",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.236Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.680Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d2e8d9af4275",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_d2e8d9af4275",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The Department of Justice is a cabinet-level department",
         "tagteam:char_count": 55,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T11:48:42.225Z"
+        "tagteam:received_at": "2026-02-22T12:26:15.668Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -139,7 +139,7 @@
       {
         "@id": "inst:ParsingAct_d2e8d9af",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -160,7 +160,7 @@
             "@id": "inst:Justice"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.225Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.668Z"
       }
     ]
   }

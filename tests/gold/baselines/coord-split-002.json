@@ -8,32 +8,32 @@
     "copular",
     "government"
   ],
-  "generatedAt": "2026-02-22T11:48:42.735Z",
+  "generatedAt": "2026-02-22T12:26:16.181Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "CBP",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "ICE",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "DHS",
-      "type": "cco:Organization"
+      "type": "Organization"
     }
   ],
   "expectedRoles": [],
   "extractedEntities": [
     {
       "text": "CBP and ICE",
-      "type": "cco:Organization",
+      "type": "Organization",
       "id": "inst:CBP_and_ICE"
     },
     {
       "text": "DHS",
-      "type": "cco:Organization",
+      "type": "Organization",
       "id": "inst:DHS"
     }
   ],
@@ -43,7 +43,7 @@
       {
         "@id": "inst:CBP_and_ICE",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "CBP and ICE",
@@ -53,9 +53,9 @@
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.95,
         "tagteam:genericityBasis": "named_entity",
-        "tagteam:denotesType": "cco:Organization",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Organization_Cbp_And_Ice_5396d99f1b69"
+          "@id": "inst:Organization_Cbp_And_Ice_a6db7addea8d"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_6f7877c05cfe"
@@ -64,16 +64,16 @@
       {
         "@id": "inst:DHS",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "DHS",
         "tagteam:mentionId": "s0:h7:30-33",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
-        "tagteam:denotesType": "cco:Organization",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Organization_Dhs_252b873869b6"
+          "@id": "inst:Organization_Dhs_d8abbb274711"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_6f7877c05cfe"
@@ -90,46 +90,46 @@
         "tagteam:copula": "are"
       },
       {
-        "@id": "inst:Organization_Cbp_And_Ice_5396d99f1b69",
+        "@id": "inst:Organization_Cbp_And_Ice_a6db7addea8d",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "cbp and ice",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.734Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.181Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6f7877c05cfe",
-        "tagteam:denotesType": "cco:Organization"
+        "tagteam:denotesType": "Organization"
       },
       {
-        "@id": "inst:Organization_Dhs_252b873869b6",
+        "@id": "inst:Organization_Dhs_d8abbb274711",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "dhs",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.734Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.181Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6f7877c05cfe",
-        "tagteam:denotesType": "cco:Organization"
+        "tagteam:denotesType": "Organization"
       },
       {
         "@id": "inst:Input_Text_IBE_6f7877c05cfe",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "CBP and ICE are components of DHS",
         "tagteam:char_count": 33,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T11:48:42.727Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.173Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -146,7 +146,7 @@
       {
         "@id": "inst:ParsingAct_6f7877c0",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -167,7 +167,7 @@
             "@id": "inst:DHS"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.727Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.173Z"
       }
     ]
   }

@@ -6,24 +6,24 @@
     "nested-pp",
     "forensics"
   ],
-  "generatedAt": "2026-02-22T11:48:44.363Z",
+  "generatedAt": "2026-02-22T12:26:18.034Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The officer",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the evidence",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     },
     {
       "text": "the scene",
-      "type": "cco:Facility"
+      "type": "Facility"
     },
     {
       "text": "the lab",
-      "type": "cco:Facility"
+      "type": "Facility"
     }
   ],
   "expectedRoles": [
@@ -103,7 +103,7 @@
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Person_Officer_8bc04c75c166"
+          "@id": "inst:Person_Officer_dda80ecdb12e"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c1802d30f53e"
@@ -184,7 +184,7 @@
       {
         "@id": "inst:Act_officer",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "officer",
@@ -196,7 +196,7 @@
       {
         "@id": "inst:Act_transported",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "transported",
@@ -273,14 +273,14 @@
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Person_Officer_8bc04c75c166",
+        "@id": "inst:Person_Officer_dda80ecdb12e",
         "@type": [
-          "cco:Person",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "officer",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.363Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.033Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c1802d30f53e",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -292,7 +292,7 @@
         ],
         "rdfs:label": "evidence",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.363Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.033Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c1802d30f53e",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -304,7 +304,7 @@
         ],
         "rdfs:label": "scene",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.363Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.033Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c1802d30f53e",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -316,7 +316,7 @@
         ],
         "rdfs:label": "lab",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.363Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.033Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c1802d30f53e",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -328,26 +328,26 @@
         ],
         "rdfs:label": "analysis",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.363Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.033Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c1802d30f53e",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_c1802d30f53e",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The officer transported the evidence from the scene to the lab for analysis",
         "tagteam:char_count": 75,
         "tagteam:word_count": 13,
-        "tagteam:received_at": "2026-02-22T11:48:44.349Z"
+        "tagteam:received_at": "2026-02-22T12:26:18.016Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -364,7 +364,7 @@
       {
         "@id": "inst:ParsingAct_c1802d30",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -400,7 +400,7 @@
             "@id": "inst:Act_transported"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.349Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:18.016Z"
       }
     ]
   }

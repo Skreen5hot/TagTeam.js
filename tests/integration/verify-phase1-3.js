@@ -32,8 +32,8 @@ assert(acts1.length >= 1, "Extracts at least one act");
 
 const treatAct = acts1.find(a => a['tagteam:verb'] === 'treat');
 assert(treatAct, "Found treat act");
-assert(treatAct['@type'].includes('cco:IntentionalAct'),
-  "'treat' maps to cco:IntentionalAct");
+assert(treatAct['@type'].includes('IntentionalAct'),
+  "'treat' maps to IntentionalAct");
 assert(treatAct['tagteam:modality'] === 'obligation',
   "'must' detected as obligation modality");
 
@@ -48,7 +48,7 @@ const graph2 = builder2.build(text2);
 
 // Find Tier 2 Person entities
 const tier2Persons = graph2['@graph'].filter(n =>
-  n['@type'] && n['@type'].includes('cco:Person'));
+  n['@type'] && n['@type'].includes('Person'));
 
 assert(tier2Persons.length >= 2, "Has Tier 2 Person entities");
 

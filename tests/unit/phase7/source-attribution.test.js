@@ -110,7 +110,7 @@ test('Direct quote classifies source as physician', () => {
   const detector = new SourceAttributionDetector();
   const result = detector.analyze('"The diagnosis is confirmed," said Dr. Adams.');
 
-  assert.strictEqual(result.attributions[0].sourceType, 'cco:Physician');
+  assert.strictEqual(result.attributions[0].sourceType, 'Physician');
 });
 
 // ═══════════════════════════════════════════════════════════════
@@ -200,7 +200,7 @@ test('Institutional source classified as Organization', () => {
   const detector = new SourceAttributionDetector();
   const result = detector.analyze('Hospital policy requires informed consent.');
 
-  assert.strictEqual(result.attributions[0].sourceType, 'cco:Organization');
+  assert.strictEqual(result.attributions[0].sourceType, 'Organization');
 });
 
 // ═══════════════════════════════════════════════════════════════
@@ -222,7 +222,7 @@ test('Detects "according to" with organization', () => {
 
   assert.ok(result.hasAttributions, 'Should detect attribution');
   assert.strictEqual(result.attributions[0].type, 'according_to');
-  assert.strictEqual(result.attributions[0].sourceType, 'cco:Organization');
+  assert.strictEqual(result.attributions[0].sourceType, 'Organization');
 });
 
 test('Detects "according to" with document reference', () => {
@@ -231,39 +231,39 @@ test('Detects "according to" with document reference', () => {
 
   assert.ok(result.hasAttributions, 'Should detect attribution');
   assert.strictEqual(result.attributions[0].type, 'according_to');
-  assert.strictEqual(result.attributions[0].sourceType, 'cco:InformationContentEntity');
+  assert.strictEqual(result.attributions[0].sourceType, 'InformationContentEntity');
 });
 
 // ═══════════════════════════════════════════════════════════════
 // Source Classification
 // ═══════════════════════════════════════════════════════════════
 
-test('Classifies nurse as cco:Nurse', () => {
+test('Classifies nurse as Nurse', () => {
   const detector = new SourceAttributionDetector();
   const result = detector.analyze('The nurse reported that the patient was improving.');
 
-  assert.strictEqual(result.attributions[0].sourceType, 'cco:Nurse');
+  assert.strictEqual(result.attributions[0].sourceType, 'Nurse');
 });
 
-test('Classifies patient as cco:Patient', () => {
+test('Classifies patient as Patient', () => {
   const detector = new SourceAttributionDetector();
   const result = detector.analyze('The patient stated that pain had decreased.');
 
-  assert.strictEqual(result.attributions[0].sourceType, 'cco:Patient');
+  assert.strictEqual(result.attributions[0].sourceType, 'Patient');
 });
 
 test('Classifies family member appropriately', () => {
   const detector = new SourceAttributionDetector();
   const result = detector.analyze('The family reported that symptoms began last week.');
 
-  assert.strictEqual(result.attributions[0].sourceType, 'cco:FamilyMember');
+  assert.strictEqual(result.attributions[0].sourceType, 'FamilyMember');
 });
 
 test('Classifies unknown capitalized name as Person', () => {
   const detector = new SourceAttributionDetector();
   const result = detector.analyze('"Important findings," said John Wilson.');
 
-  assert.strictEqual(result.attributions[0].sourceType, 'cco:Person');
+  assert.strictEqual(result.attributions[0].sourceType, 'Person');
 });
 
 // ═══════════════════════════════════════════════════════════════
@@ -287,7 +287,7 @@ test('analyzeClaimAttribution returns correct values', () => {
 
   assert.strictEqual(result['tagteam:hasAttribution'], true);
   assert.strictEqual(result['tagteam:attributionType'], 'according_to');
-  assert.strictEqual(result['tagteam:sourceType'], 'cco:Organization');
+  assert.strictEqual(result['tagteam:sourceType'], 'Organization');
 });
 
 test('analyzeClaimAttribution returns unattributed for no match', () => {

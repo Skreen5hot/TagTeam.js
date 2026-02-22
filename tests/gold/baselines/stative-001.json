@@ -7,16 +7,16 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-22T11:48:42.981Z",
+  "generatedAt": "2026-02-22T12:26:16.457Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The headquarters",
-      "type": "cco:Facility"
+      "type": "Facility"
     },
     {
       "text": "Washington",
-      "type": "cco:GeopoliticalOrganization"
+      "type": "GeopoliticalOrganization"
     }
   ],
   "expectedRoles": [
@@ -33,7 +33,7 @@
     },
     {
       "text": "Washington",
-      "type": "cco:GeopoliticalOrganization",
+      "type": "GeopoliticalOrganization",
       "id": "inst:Washington"
     }
   ],
@@ -63,16 +63,16 @@
       {
         "@id": "inst:Washington",
         "@type": [
-          "cco:GeopoliticalOrganization",
+          "GeopoliticalOrganization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "Washington",
         "tagteam:mentionId": "s0:h6:31-41",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
-        "tagteam:denotesType": "cco:GeopoliticalOrganization",
+        "tagteam:denotesType": "GeopoliticalOrganization",
         "is_about": {
-          "@id": "inst:GeopoliticalOrganization_Washington_f2e9f933923a"
+          "@id": "inst:GeopoliticalOrganization_Washington_21da1747205f"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d2ed063928d6"
@@ -98,38 +98,38 @@
         "rdfs:label": "headquarter",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.981Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.457Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d2ed063928d6",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:GeopoliticalOrganization_Washington_f2e9f933923a",
+        "@id": "inst:GeopoliticalOrganization_Washington_21da1747205f",
         "@type": [
-          "cco:GeopoliticalOrganization",
+          "GeopoliticalOrganization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "washington",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.981Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.457Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d2ed063928d6",
-        "tagteam:denotesType": "cco:GeopoliticalOrganization"
+        "tagteam:denotesType": "GeopoliticalOrganization"
       },
       {
         "@id": "inst:Input_Text_IBE_d2ed063928d6",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The headquarters is located in Washington",
         "tagteam:char_count": 41,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T11:48:42.974Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.448Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -146,7 +146,7 @@
       {
         "@id": "inst:ParsingAct_d2ed0639",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -167,7 +167,7 @@
             "@id": "inst:Washington"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.974Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.448Z"
       }
     ]
   }

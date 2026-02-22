@@ -6,20 +6,20 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T11:48:43.833Z",
+  "generatedAt": "2026-02-22T12:26:17.360Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The commander",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the unit",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "the southern sector",
-      "type": "cco:GeopoliticalOrganization"
+      "type": "GeopoliticalOrganization"
     }
   ],
   "expectedRoles": [
@@ -95,7 +95,7 @@
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Organization_Unit_5b48276de44c"
+          "@id": "inst:Organization_Unit_a522c50c4286"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_4834e9ef436e"
@@ -122,7 +122,7 @@
       {
         "@id": "inst:Act_commander",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "commander",
@@ -134,7 +134,7 @@
       {
         "@id": "inst:Act_assigned",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "assigned",
@@ -184,19 +184,19 @@
         ],
         "rdfs:label": "commander",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.833Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.360Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4834e9ef436e",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Organization_Unit_5b48276de44c",
+        "@id": "inst:Organization_Unit_a522c50c4286",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "unit",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.833Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.360Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4834e9ef436e",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -208,26 +208,26 @@
         ],
         "rdfs:label": "southern sector",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.833Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.360Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4834e9ef436e",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_4834e9ef436e",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The commander assigned the unit to the southern sector",
         "tagteam:char_count": 54,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-22T11:48:43.824Z"
+        "tagteam:received_at": "2026-02-22T12:26:17.350Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -244,7 +244,7 @@
       {
         "@id": "inst:ParsingAct_4834e9ef",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -274,7 +274,7 @@
             "@id": "inst:Act_assigned"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.824Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.350Z"
       }
     ]
   }

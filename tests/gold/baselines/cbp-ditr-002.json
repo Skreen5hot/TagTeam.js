@@ -6,20 +6,20 @@
     "ditransitive",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T11:48:43.853Z",
+  "generatedAt": "2026-02-22T12:26:17.386Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The headquarters",
-      "type": "cco:Facility"
+      "type": "Facility"
     },
     {
       "text": "the sector",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "updated guidelines",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     }
   ],
   "expectedRoles": [
@@ -101,7 +101,7 @@
       {
         "@id": "inst:Act_sent",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "sent",
@@ -151,7 +151,7 @@
         "rdfs:label": "headquarter",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.853Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.386Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_208d3324efc8",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -163,26 +163,26 @@
         ],
         "rdfs:label": "sector",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.853Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.386Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_208d3324efc8",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_208d3324efc8",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The headquarters sent the sector updated guidelines",
         "tagteam:char_count": 51,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T11:48:43.846Z"
+        "tagteam:received_at": "2026-02-22T12:26:17.377Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -199,7 +199,7 @@
       {
         "@id": "inst:ParsingAct_208d3324",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -223,7 +223,7 @@
             "@id": "inst:Act_sent"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.846Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.377Z"
       }
     ]
   }

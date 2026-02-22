@@ -7,16 +7,16 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T11:48:42.509Z",
+  "generatedAt": "2026-02-22T12:26:15.948Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The inspector",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the evidence",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     }
   ],
   "expectedRoles": [
@@ -67,7 +67,7 @@
         "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Person_Inspector_956325993a88"
+          "@id": "inst:Person_Inspector_b84e457481fc"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_2bea5c342a3b"
@@ -94,7 +94,7 @@
       {
         "@id": "inst:Act_examined",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "examined",
@@ -136,15 +136,15 @@
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Person_Inspector_956325993a88",
+        "@id": "inst:Person_Inspector_b84e457481fc",
         "@type": [
-          "cco:Person",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "inspector",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.508Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.948Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2bea5c342a3b",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -156,26 +156,26 @@
         ],
         "rdfs:label": "evidence",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.508Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.948Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2bea5c342a3b",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_2bea5c342a3b",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The inspector examined the evidence",
         "tagteam:char_count": 35,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-22T11:48:42.499Z"
+        "tagteam:received_at": "2026-02-22T12:26:15.942Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -192,7 +192,7 @@
       {
         "@id": "inst:ParsingAct_2bea5c34",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_examined"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.499Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.942Z"
       }
     ]
   }

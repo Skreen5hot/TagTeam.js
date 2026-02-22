@@ -136,8 +136,8 @@ test('Act nodes do not receive occupies_temporal_region', () => {
   const graph = buildGraph('Patient reports cough for three days');
   const nodes = getNodes(graph);
   const acts = nodes.filter(n =>
-    n['@type'] && (n['@type'].includes('cco:IntentionalAct') ||
-                   n['@type'].includes('cco:ActOfCommunication'))
+    n['@type'] && (n['@type'].includes('IntentionalAct') ||
+                   n['@type'].includes('ActOfCommunication'))
   );
   for (const act of acts) {
     assert.ok(!act['occupies_temporal_region'],

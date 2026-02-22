@@ -6,16 +6,16 @@
     "medical",
     "administration"
   ],
-  "generatedAt": "2026-02-22T11:48:44.144Z",
+  "generatedAt": "2026-02-22T12:26:17.729Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The board",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "the new treatment protocol",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     }
   ],
   "expectedRoles": [
@@ -66,7 +66,7 @@
         "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Organization_Board_6ce7ee4478bf"
+          "@id": "inst:Organization_Board_2e259ad19202"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_2253a00e3aff"
@@ -93,7 +93,7 @@
       {
         "@id": "inst:Act_certified",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "certified",
@@ -135,15 +135,15 @@
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Organization_Board_6ce7ee4478bf",
+        "@id": "inst:Organization_Board_2e259ad19202",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "board",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.144Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.729Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2253a00e3aff",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -155,26 +155,26 @@
         ],
         "rdfs:label": "new treatment protocol",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.144Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.729Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2253a00e3aff",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_2253a00e3aff",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The board certified the new treatment protocol",
         "tagteam:char_count": 46,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T11:48:44.135Z"
+        "tagteam:received_at": "2026-02-22T12:26:17.713Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -191,7 +191,7 @@
       {
         "@id": "inst:ParsingAct_2253a00e",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -215,7 +215,7 @@
             "@id": "inst:Act_certified"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:44.135Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.713Z"
       }
     ]
   }

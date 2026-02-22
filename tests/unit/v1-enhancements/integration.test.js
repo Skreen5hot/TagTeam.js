@@ -102,7 +102,7 @@ test('INT-003: Cognitive verb + Instrument: "Review the design with the checklis
   // ENH-001: Design refined to ICE
   const design = findEntityByLabel(graph, 'design');
   assert.ok(design, 'Should find design');
-  assert.strictEqual(design['tagteam:denotesType'], 'cco:InformationContentEntity',
+  assert.strictEqual(design['tagteam:denotesType'], 'InformationContentEntity',
     `Design should be ICE, got: ${design['tagteam:denotesType']}`);
 
   // ENH-015: Checklist is instrument
@@ -119,7 +119,7 @@ test('INT-004: Cognitive verb + Beneficiary: "Analyze the report for the client"
   // ENH-001: Report refined to ICE
   const report = findEntityByLabel(graph, 'report');
   assert.ok(report, 'Should find report');
-  assert.strictEqual(report['tagteam:denotesType'], 'cco:InformationContentEntity',
+  assert.strictEqual(report['tagteam:denotesType'], 'InformationContentEntity',
     `Report should be ICE, got: ${report['tagteam:denotesType']}`);
 
   // ENH-015: Client is beneficiary
@@ -169,7 +169,7 @@ test('INT-006: Imperative + Cognitive: "Review the design"', () => {
   // ENH-001: Design refined to ICE (cognitive verb "review")
   const design = findEntityByLabel(graph, 'design');
   assert.ok(design, 'Should find design');
-  assert.strictEqual(design['tagteam:denotesType'], 'cco:InformationContentEntity',
+  assert.strictEqual(design['tagteam:denotesType'], 'InformationContentEntity',
     `Design should be ICE, got: ${design['tagteam:denotesType']}`);
 });
 
@@ -188,7 +188,7 @@ test('INT-007: Full pipeline: "Review the report for the client with the checkli
   // ENH-001: Report refined to ICE
   const report = findEntityByLabel(graph, 'report');
   assert.ok(report, 'Should find report');
-  assert.strictEqual(report['tagteam:denotesType'], 'cco:InformationContentEntity',
+  assert.strictEqual(report['tagteam:denotesType'], 'InformationContentEntity',
     `Report should be ICE, got: ${report['tagteam:denotesType']}`);
 
   // ENH-015: Client is beneficiary

@@ -375,7 +375,7 @@ class AlternativeGraphBuilder {
 
   /**
    * Build metonymic bridge alternative (re-type location as organization)
-   * Per critique: Create alternative node typed as cco:Organization
+   * Per critique: Create alternative node typed as Organization
    * while preserving original source text
    * @private
    */
@@ -388,9 +388,9 @@ class AlternativeGraphBuilder {
     }
 
     const modifications = {
-      '@type': ['cco:Organization', 'bfo:Object', 'tagteam:AlternativeNode'],
+      '@type': ['Organization', 'bfo:Object', 'tagteam:AlternativeNode'],
       'tagteam:metonymicSource': ambiguity.span || node['rdfs:label'],
-      'tagteam:literalType': 'cco:Artifact',
+      'tagteam:literalType': 'Artifact',
       'tagteam:metonymyType': 'location_for_institution'
     };
 
@@ -520,11 +520,11 @@ class AlternativeGraphBuilder {
    */
   _getNounCategoryModifications(reading) {
     const typeMap = {
-      'organization': ['cco:Organization'],
+      'organization': ['Organization'],
       'role': ['bfo:Role'],
       'quality': ['bfo:Quality'],
       'process': ['bfo:Process'],
-      'agent': ['cco:Agent'],
+      'agent': ['Agent'],
       'continuant': ['bfo:Continuant']
     };
 

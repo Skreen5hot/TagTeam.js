@@ -63,10 +63,10 @@ const KNOWN_CLASSES = new Set([
   'bfo:BFO_0000059', // concretizes
 
   // CCO Classes
-  'cco:Agent', 'cco:Person', 'cco:Organization', 'cco:GeopoliticalOrganization',
-  'cco:Artifact', 'cco:Facility',
-  'cco:Act', 'cco:IntentionalAct', 'cco:ActOfCommunication',
-  'cco:InformationBearingEntity', 'cco:InformationContentEntity',
+  'Agent', 'Person', 'Organization', 'GeopoliticalOrganization',
+  'Artifact', 'Facility',
+  'Act', 'IntentionalAct', 'ActOfCommunication',
+  'InformationBearingEntity', 'InformationContentEntity',
   'bfo:Role',
 
   // OWL
@@ -469,7 +469,7 @@ class SHMLValidator {
             'RolePattern',
             `Role bearer ${bearerId} should be an IndependentContinuant`,
             bearerId,
-            'Bearer should be cco:Person, cco:Agent, cco:Artifact or similar'
+            'Bearer should be Person, Agent, Artifact or similar'
           );
         }
       }
@@ -763,7 +763,7 @@ class SHMLValidator {
             'DomainRangeValidation',
             `is_concretized_by target ${concretizedBy} is not an IBE`,
             node['@id'],
-            'Target of is_concretized_by should be cco:InformationBearingEntity'
+            'Target of is_concretized_by should be InformationBearingEntity'
           );
         }
       }
@@ -843,7 +843,7 @@ class SHMLValidator {
         }
       }
 
-      // CCO Expert Checklist Rule: has_agent - Domain: bfo:Process, Range: cco:Agent
+      // CCO Expert Checklist Rule: has_agent - Domain: bfo:Process, Range: Agent
       const hasAgent = extractIRI(node['has_agent']);
       if (hasAgent) {
         total++;
@@ -876,7 +876,7 @@ class SHMLValidator {
               'DomainRangeValidation',
               `has_agent target ${hasAgent} is not an Agent`,
               node['@id'],
-              'has_agent range must be cco:Agent (CCO Expert Checklist)'
+              'has_agent range must be Agent (CCO Expert Checklist)'
             );
           }
         }

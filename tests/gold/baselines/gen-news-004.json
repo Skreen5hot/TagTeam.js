@@ -6,16 +6,16 @@
     "news",
     "media"
   ],
-  "generatedAt": "2026-02-22T11:48:43.926Z",
+  "generatedAt": "2026-02-22T12:26:17.464Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The journalist",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the investigation findings",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     }
   ],
   "expectedRoles": [
@@ -93,7 +93,7 @@
       {
         "@id": "inst:Act_published",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "published",
@@ -143,7 +143,7 @@
         "rdfs:label": "journalist",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.926Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.464Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ab454fbb5672",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -155,26 +155,26 @@
         ],
         "rdfs:label": "investigation finding",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.926Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.464Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ab454fbb5672",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_ab454fbb5672",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The journalist published the investigation findings",
         "tagteam:char_count": 51,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T11:48:43.918Z"
+        "tagteam:received_at": "2026-02-22T12:26:17.456Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -191,7 +191,7 @@
       {
         "@id": "inst:ParsingAct_ab454fbb",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -215,7 +215,7 @@
             "@id": "inst:Act_published"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.918Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.456Z"
       }
     ]
   }

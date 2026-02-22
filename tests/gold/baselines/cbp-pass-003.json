@@ -6,12 +6,12 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T11:48:43.644Z",
+  "generatedAt": "2026-02-22T12:26:17.140Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The traveler",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "secondary inspection",
@@ -89,7 +89,7 @@
       {
         "@id": "inst:Act_referred",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "referred",
@@ -141,7 +141,7 @@
         "rdfs:label": "traveler",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.643Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.140Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e01a3da3904b",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -153,26 +153,26 @@
         ],
         "rdfs:label": "secondary inspection",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.643Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.140Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e01a3da3904b",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_e01a3da3904b",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The traveler was referred to secondary inspection",
         "tagteam:char_count": 49,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T11:48:43.634Z"
+        "tagteam:received_at": "2026-02-22T12:26:17.130Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -189,7 +189,7 @@
       {
         "@id": "inst:ParsingAct_e01a3da3",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -213,7 +213,7 @@
             "@id": "inst:Act_referred"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.634Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.130Z"
       }
     ]
   }

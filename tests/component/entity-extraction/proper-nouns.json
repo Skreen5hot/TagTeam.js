@@ -8,14 +8,14 @@
       "entities": [
         {
           "text": "John",
-          "type": "cco:Person",
+          "type": "Person",
           "definiteness": "definite",
           "number": "singular",
           "properNoun": true
         },
         {
           "text": "the patch",
-          "type": "cco:Artifact",
+          "type": "Artifact",
           "definiteness": "definite",
           "number": "singular"
         }
@@ -33,14 +33,14 @@
       "entities": [
         {
           "text": "John Smith",
-          "type": "cco:Person",
+          "type": "Person",
           "definiteness": "definite",
           "number": "singular",
           "properNoun": true
         },
         {
           "text": "the patch",
-          "type": "cco:Artifact",
+          "type": "Artifact",
           "definiteness": "definite",
           "number": "singular"
         }
@@ -58,14 +58,14 @@
       "entities": [
         {
           "text": "Microsoft",
-          "type": "cco:Organization",
+          "type": "Organization",
           "definiteness": "definite",
           "number": "singular",
           "properNoun": true
         },
         {
           "text": "a patch",
-          "type": "cco:Artifact",
+          "type": "Artifact",
           "definiteness": "indefinite",
           "number": "singular"
         }
@@ -83,13 +83,13 @@
       "entities": [
         {
           "text": "the server in Seattle",
-          "type": "cco:Artifact",
+          "type": "Artifact",
           "definiteness": "definite",
           "number": "singular"
         },
         {
           "text": "Seattle",
-          "type": "cco:GeopoliticalOrganization",
+          "type": "GeopoliticalOrganization",
           "definiteness": "definite",
           "number": "singular",
           "properNoun": true
@@ -108,7 +108,7 @@
       "entities": [
         {
           "text": "Windows",
-          "type": "cco:Artifact",
+          "type": "Artifact",
           "definiteness": "definite",
           "number": "singular",
           "properNoun": true
@@ -127,7 +127,7 @@
       "entities": [
         {
           "text": "Dr. Smith",
-          "type": "cco:Person",
+          "type": "Person",
           "definiteness": "definite",
           "number": "singular",
           "properNoun": true,
@@ -135,7 +135,7 @@
         },
         {
           "text": "the patient",
-          "type": "cco:Person",
+          "type": "Person",
           "definiteness": "definite",
           "number": "singular"
         }

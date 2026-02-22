@@ -146,27 +146,27 @@
           "url": "https://github.com/CommonCoreOntology/CommonCoreOntologies",
           "relevantPrinciples": [
             {
-              "principle": "cco:Agent",
+              "principle": "Agent",
               "description": "Material entity capable of performing intentional acts",
               "subclassOf": "BFO:0000030 Object"
             },
             {
-              "principle": "cco:Artifact",
+              "principle": "Artifact",
               "description": "Material entity that is the product of intentional design (servers, databases, systems)",
               "subclassOf": "BFO:0000030 Object"
             },
             {
-              "principle": "cco:Person",
+              "principle": "Person",
               "description": "Human being (engineer, admin, user)",
-              "subclassOf": "cco:Agent"
+              "subclassOf": "Agent"
             },
             {
-              "principle": "cco:Organization",
+              "principle": "Organization",
               "description": "Social entity with collective intentionality (team, company)",
-              "subclassOf": "cco:Agent"
+              "subclassOf": "Agent"
             },
             {
-              "principle": "cco:InformationContentEntity",
+              "principle": "InformationContentEntity",
               "description": "Generically dependent continuant that encodes information (data, credentials, alerts)",
               "subclassOf": "BFO:0000031 GenericallyDependentContinuant"
             }
@@ -217,31 +217,31 @@
           "relevantPrinciples": [
             {
               "property": "has_agent",
-              "domain": "cco:IntentionalAct",
-              "range": "cco:Agent",
+              "domain": "IntentionalAct",
+              "range": "Agent",
               "description": "Links act to the agent who performs it (subject role)"
             },
             {
               "property": "tagteam:has_patient",
-              "domain": "cco:Act",
+              "domain": "Act",
               "range": "BFO:0000002 Continuant",
               "description": "Links act to the entity that undergoes change (direct object role)"
             },
             {
               "property": "affects",
-              "domain": "cco:Act",
+              "domain": "Act",
               "range": "BFO:0000002 Continuant",
               "description": "Links act to entity that is causally affected but may not undergo intrinsic change"
             },
             {
               "property": "cco:has_input",
-              "domain": "cco:Act",
+              "domain": "Act",
               "range": "BFO:0000002 Continuant",
               "description": "Links act to entity that serves as input to the act"
             },
             {
               "property": "tagteam:has_output",
-              "domain": "cco:Act",
+              "domain": "Act",
               "range": "BFO:0000002 Continuant",
               "description": "Links act to entity that is produced by the act"
             }

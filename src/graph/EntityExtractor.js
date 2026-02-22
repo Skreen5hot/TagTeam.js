@@ -108,8 +108,8 @@ const RELATIVE_TEMPORAL_PREFIXES = ['last', 'next', 'past', 'previous', 'this', 
  * These are recognized as entities when v2 normalizes Wh-questions into SVO order.
  */
 const WH_PSEUDO_ENTITIES = {
-  'who':   { type: 'cco:Person', definiteness: 'interrogative' },
-  'whom':  { type: 'cco:Person', definiteness: 'interrogative' },
+  'who':   { type: 'Person', definiteness: 'interrogative' },
+  'whom':  { type: 'Person', definiteness: 'interrogative' },
   'what':  { type: 'bfo:Entity', definiteness: 'interrogative' },
   'which': { type: 'bfo:Entity', definiteness: 'interrogative_selective' },
   'where': { type: 'bfo:Site', definiteness: 'interrogative' },
@@ -269,113 +269,113 @@ const SYMPTOM_ADJECTIVE_MODIFIERS = new Set([
  */
 const ENTITY_TYPE_MAPPINGS = {
   // Persons/Roles (Medical)
-  'doctor': 'cco:Person',
-  'physician': 'cco:Person',
-  'surgeon': 'cco:Person',
-  'nurse': 'cco:Person',
-  'patient': 'cco:Person',
-  'therapist': 'cco:Person',
-  'pharmacist': 'cco:Person',
-  'paramedic': 'cco:Person',
-  'family': 'cco:Agent',
-  'person': 'cco:Person',
-  'man': 'cco:Person',
-  'woman': 'cco:Person',
-  'child': 'cco:Person',
-  'parent': 'cco:Person',
-  'mother': 'cco:Person',
-  'father': 'cco:Person',
+  'doctor': 'Person',
+  'physician': 'Person',
+  'surgeon': 'Person',
+  'nurse': 'Person',
+  'patient': 'Person',
+  'therapist': 'Person',
+  'pharmacist': 'Person',
+  'paramedic': 'Person',
+  'family': 'Agent',
+  'person': 'Person',
+  'man': 'Person',
+  'woman': 'Person',
+  'child': 'Person',
+  'parent': 'Person',
+  'mother': 'Person',
+  'father': 'Person',
   // Professional/occupational roles (the person bearing the role)
-  'engineer': 'cco:Person',
-  'teacher': 'cco:Person',
-  'lawyer': 'cco:Person',
-  'architect': 'cco:Person',
-  'scientist': 'cco:Person',
-  'researcher': 'cco:Person',
-  'analyst': 'cco:Person',
-  'manager': 'cco:Person',
-  'director': 'cco:Person',
-  'officer': 'cco:Person',
-  'agent': 'cco:Person',
-  'inspector': 'cco:Person',
-  'technician': 'cco:Person',
-  'programmer': 'cco:Person',
-  'developer': 'cco:Person',
-  'designer': 'cco:Person',
-  'consultant': 'cco:Person',
-  'administrator': 'cco:Person',
-  'admin': 'cco:Person',  // V7-006: Common abbreviation
-  'supervisor': 'cco:Person',
-  'coordinator': 'cco:Person',
-  'specialist': 'cco:Person',
-  'professor': 'cco:Person',
-  'student': 'cco:Person',
-  'worker': 'cco:Person',
-  'employee': 'cco:Person',
-  'staff': 'cco:Person',
-  'member': 'cco:Person',
-  'user': 'cco:Person',
-  'client': 'cco:Person',
-  'customer': 'cco:Person',
-  'owner': 'cco:Person',
-  'author': 'cco:Person',
-  'editor': 'cco:Person',
-  'reviewer': 'cco:Person',
-  'auditor': 'cco:Person',
-  'judge': 'cco:Person',
-  'witness': 'cco:Person',
-  'suspect': 'cco:Person',
-  'victim': 'cco:Person',
-  'soldier': 'cco:Person',
-  'pilot': 'cco:Person',
-  'driver': 'cco:Person',
-  'chef': 'cco:Person',
-  'artist': 'cco:Person',
-  'musician': 'cco:Person',
-  'athlete': 'cco:Person',
-  'guard': 'cco:Person',
+  'engineer': 'Person',
+  'teacher': 'Person',
+  'lawyer': 'Person',
+  'architect': 'Person',
+  'scientist': 'Person',
+  'researcher': 'Person',
+  'analyst': 'Person',
+  'manager': 'Person',
+  'director': 'Person',
+  'officer': 'Person',
+  'agent': 'Person',
+  'inspector': 'Person',
+  'technician': 'Person',
+  'programmer': 'Person',
+  'developer': 'Person',
+  'designer': 'Person',
+  'consultant': 'Person',
+  'administrator': 'Person',
+  'admin': 'Person',  // V7-006: Common abbreviation
+  'supervisor': 'Person',
+  'coordinator': 'Person',
+  'specialist': 'Person',
+  'professor': 'Person',
+  'student': 'Person',
+  'worker': 'Person',
+  'employee': 'Person',
+  'staff': 'Person',
+  'member': 'Person',
+  'user': 'Person',
+  'client': 'Person',
+  'customer': 'Person',
+  'owner': 'Person',
+  'author': 'Person',
+  'editor': 'Person',
+  'reviewer': 'Person',
+  'auditor': 'Person',
+  'judge': 'Person',
+  'witness': 'Person',
+  'suspect': 'Person',
+  'victim': 'Person',
+  'soldier': 'Person',
+  'pilot': 'Person',
+  'driver': 'Person',
+  'chef': 'Person',
+  'artist': 'Person',
+  'musician': 'Person',
+  'athlete': 'Person',
+  'guard': 'Person',
 
   // Medical Equipment/Artifacts (physical objects)
-  'ventilator': 'cco:Artifact',
-  'medication': 'cco:Artifact',
-  'drug': 'cco:Artifact',
-  'medicine': 'cco:Artifact',
-  'equipment': 'cco:Artifact',
-  'bed': 'cco:Artifact',
-  'resource': 'cco:Artifact',
+  'ventilator': 'Artifact',
+  'medication': 'Artifact',
+  'drug': 'Artifact',
+  'medicine': 'Artifact',
+  'equipment': 'Artifact',
+  'bed': 'Artifact',
+  'resource': 'Artifact',
   'organ': 'bfo:MaterialEntity',
 
   // V7-006: Technical/IT artifacts
-  'server': 'cco:Artifact',
-  'database': 'cco:Artifact',
-  'system': 'cco:Artifact',
-  'application': 'cco:Artifact',
-  'patch': 'cco:Artifact',
-  'bug': 'cco:Artifact',
-  'alert': 'cco:InformationContentEntity',
-  'log': 'cco:InformationContentEntity',
-  'credential': 'cco:InformationContentEntity',
-  'data': 'cco:InformationContentEntity',
-  'configuration': 'cco:InformationContentEntity',
-  'feature': 'cco:Artifact',
+  'server': 'Artifact',
+  'database': 'Artifact',
+  'system': 'Artifact',
+  'application': 'Artifact',
+  'patch': 'Artifact',
+  'bug': 'Artifact',
+  'alert': 'InformationContentEntity',
+  'log': 'InformationContentEntity',
+  'credential': 'InformationContentEntity',
+  'data': 'InformationContentEntity',
+  'configuration': 'InformationContentEntity',
+  'feature': 'Artifact',
 
-  // V7-Priority5: Software/hardware product names → cco:Artifact
+  // V7-Priority5: Software/hardware product names → Artifact
   // Case-insensitive matching handles "Windows", "windows", etc.
-  'windows': 'cco:Artifact',
-  'linux': 'cco:Artifact',
-  'macos': 'cco:Artifact',
-  'ios': 'cco:Artifact',
-  'android': 'cco:Artifact',
-  'chrome': 'cco:Artifact',
-  'firefox': 'cco:Artifact',
-  'safari': 'cco:Artifact',
-  'edge': 'cco:Artifact',
+  'windows': 'Artifact',
+  'linux': 'Artifact',
+  'macos': 'Artifact',
+  'ios': 'Artifact',
+  'android': 'Artifact',
+  'chrome': 'Artifact',
+  'firefox': 'Artifact',
+  'safari': 'Artifact',
+  'edge': 'Artifact',
 
   // V7-006: Facilities and locations
-  'datacenter': 'cco:Facility',
-  'facility': 'cco:Facility',
-  'building': 'cco:Facility',
-  'office': 'cco:Facility',
+  'datacenter': 'Facility',
+  'facility': 'Facility',
+  'building': 'Facility',
+  'office': 'Facility',
 
   // V7-Priority4: Abstract nouns → bfo:Quality (BFO specifically dependent continuants)
   // Qualities inhere in material entities but are not material themselves
@@ -400,39 +400,39 @@ const ENTITY_TYPE_MAPPINGS = {
  * Pronoun → BFO/CCO type mappings (IEE realist specification)
  *
  * Pronouns carry selectional presuppositions about their antecedent's ontological category:
- * - he/she/him/her/his → cco:Person (gendered personal pronouns presuppose person)
- * - I/me/my/we/us/our → cco:Person (1st person always human)
- * - you/your → cco:Person (2nd person always human)
+ * - he/she/him/her/his → Person (gendered personal pronouns presuppose person)
+ * - I/me/my/we/us/our → Person (1st person always human)
+ * - you/your → Person (2nd person always human)
  * - they/them/their → bfo:BFO_0000027 (Object Aggregate) when plural,
- *                      cco:Person when singular (context-dependent; default plural)
+ *                      Person when singular (context-dependent; default plural)
  * - it/its → bfo:BFO_0000004 (Independent Continuant — could be anything non-person)
  * - this/that/these/those → bfo:BFO_0000001 (Entity — maximally general demonstrative)
  */
 const PRONOUN_TYPE_MAPPINGS = {
   // Gendered personal → Person
-  'he': 'cco:Person',
-  'she': 'cco:Person',
-  'him': 'cco:Person',
-  'her': 'cco:Person',
-  'his': 'cco:Person',
-  'himself': 'cco:Person',
-  'herself': 'cco:Person',
+  'he': 'Person',
+  'she': 'Person',
+  'him': 'Person',
+  'her': 'Person',
+  'his': 'Person',
+  'himself': 'Person',
+  'herself': 'Person',
 
   // 1st person → Person
-  'i': 'cco:Person',
-  'me': 'cco:Person',
-  'my': 'cco:Person',
-  'myself': 'cco:Person',
-  'we': 'cco:Person',
-  'us': 'cco:Person',
-  'our': 'cco:Person',
-  'ourselves': 'cco:Person',
+  'i': 'Person',
+  'me': 'Person',
+  'my': 'Person',
+  'myself': 'Person',
+  'we': 'Person',
+  'us': 'Person',
+  'our': 'Person',
+  'ourselves': 'Person',
 
   // 2nd person → Person
-  'you': 'cco:Person',
-  'your': 'cco:Person',
-  'yourself': 'cco:Person',
-  'yourselves': 'cco:Person',
+  'you': 'Person',
+  'your': 'Person',
+  'yourself': 'Person',
+  'yourselves': 'Person',
 
   // 3rd person plural → Object Aggregate (group)
   'they': 'bfo:BFO_0000027',
@@ -485,17 +485,17 @@ const ONTOLOGICAL_VOCABULARY = {
   'surge': 'bfo:BFO_0000015',
 
   // Independent Continuants (objects)
-  'person': 'cco:Person',
-  'people': 'cco:Person',
-  'human': 'cco:Person',
-  'individual': 'cco:Person',
+  'person': 'Person',
+  'people': 'Person',
+  'human': 'Person',
+  'individual': 'Person',
   'thing': 'bfo:BFO_0000040',
   'object': 'bfo:BFO_0000040',
   'item': 'bfo:BFO_0000040',
-  'artifact': 'cco:Artifact',
-  'device': 'cco:Artifact',
-  'tool': 'cco:Artifact',
-  'machine': 'cco:Artifact',
+  'artifact': 'Artifact',
+  'device': 'Artifact',
+  'tool': 'Artifact',
+  'machine': 'Artifact',
 
   // Generically Dependent Continuants (information entities)
   'document': 'bfo:BFO_0000031',
@@ -506,28 +506,28 @@ const ONTOLOGICAL_VOCABULARY = {
   'report': 'bfo:BFO_0000031',
 
   // Information Content Entities (abstract propositional content)
-  'fact': 'cco:InformationContentEntity',
-  'idea': 'cco:InformationContentEntity',
-  'proposal': 'cco:InformationContentEntity',
-  'theory': 'cco:InformationContentEntity',
-  'claim': 'cco:InformationContentEntity',
-  'belief': 'cco:InformationContentEntity',
-  'assumption': 'cco:InformationContentEntity',
-  'hypothesis': 'cco:InformationContentEntity',
-  'conclusion': 'cco:InformationContentEntity',
-  'finding': 'cco:InformationContentEntity',
-  'observation': 'cco:InformationContentEntity',
-  'opinion': 'cco:InformationContentEntity',
-  'reason': 'cco:InformationContentEntity',
-  'evidence': 'cco:InformationContentEntity',
-  'truth': 'cco:InformationContentEntity',
-  'notion': 'cco:InformationContentEntity',
-  'discrepancy': 'cco:InformationContentEntity',
-  'error': 'cco:InformationContentEntity',
-  'difference': 'cco:InformationContentEntity',
-  'inconsistency': 'cco:InformationContentEntity',
-  'anomaly': 'cco:InformationContentEntity',
-  'variance': 'cco:InformationContentEntity'
+  'fact': 'InformationContentEntity',
+  'idea': 'InformationContentEntity',
+  'proposal': 'InformationContentEntity',
+  'theory': 'InformationContentEntity',
+  'claim': 'InformationContentEntity',
+  'belief': 'InformationContentEntity',
+  'assumption': 'InformationContentEntity',
+  'hypothesis': 'InformationContentEntity',
+  'conclusion': 'InformationContentEntity',
+  'finding': 'InformationContentEntity',
+  'observation': 'InformationContentEntity',
+  'opinion': 'InformationContentEntity',
+  'reason': 'InformationContentEntity',
+  'evidence': 'InformationContentEntity',
+  'truth': 'InformationContentEntity',
+  'notion': 'InformationContentEntity',
+  'discrepancy': 'InformationContentEntity',
+  'error': 'InformationContentEntity',
+  'difference': 'InformationContentEntity',
+  'inconsistency': 'InformationContentEntity',
+  'anomaly': 'InformationContentEntity',
+  'variance': 'InformationContentEntity'
 };
 
 /**
@@ -583,20 +583,20 @@ const PHYSICAL_OBJECT_INDICATORS = [
  */
 const UNAMBIGUOUS_RESULT_NOUNS = {
   // Physical products (IC - Artifact) - always the product, never the process
-  'medication': 'cco:Artifact',
-  'publication': 'cco:Artifact',
-  'invention': 'cco:Artifact',
-  'decoration': 'cco:Artifact',
-  'illustration': 'cco:Artifact',
-  'equipment': 'cco:Artifact',       // Physical tools/devices
-  'instrument': 'cco:Artifact',      // Medical/scientific instrument
-  'garment': 'cco:Artifact',         // Clothing item
-  'pavement': 'cco:Artifact',        // Physical surface
-  'monument': 'cco:Artifact',        // Physical structure
-  'compartment': 'cco:Artifact',     // Physical container/section
+  'medication': 'Artifact',
+  'publication': 'Artifact',
+  'invention': 'Artifact',
+  'decoration': 'Artifact',
+  'illustration': 'Artifact',
+  'equipment': 'Artifact',       // Physical tools/devices
+  'instrument': 'Artifact',      // Medical/scientific instrument
+  'garment': 'Artifact',         // Clothing item
+  'pavement': 'Artifact',        // Physical surface
+  'monument': 'Artifact',        // Physical structure
+  'compartment': 'Artifact',     // Physical container/section
 
   // V7-006: Technical/IT result nouns (artifacts, not processes)
-  'feature': 'cco:Artifact',         // Software feature (thing), not featuring (act)
+  'feature': 'Artifact',         // Software feature (thing), not featuring (act)
 
   // Documents (GDC) - always the document, never the process
   'documentation': 'bfo:BFO_0000031',
@@ -609,7 +609,7 @@ const UNAMBIGUOUS_RESULT_NOUNS = {
   'legislation': 'bfo:BFO_0000031',
 
   // V7-006: IT information content entities (not processes)
-  'configuration': 'cco:InformationContentEntity',  // Config data, not configuring act
+  'configuration': 'InformationContentEntity',  // Config data, not configuring act
 
   // Locations (IC) - always the place, never the process
   'location': 'bfo:BFO_0000040',
@@ -631,30 +631,30 @@ const UNAMBIGUOUS_RESULT_NOUNS = {
  */
 const AMBIGUOUS_NOMINALIZATIONS = {
   // Can be organization (entity) or organizing (process)
-  'organization': 'cco:Organization',
-  'foundation': 'cco:Organization',
-  'administration': 'cco:Organization',
-  'association': 'cco:Organization',
-  'corporation': 'cco:Organization',
-  'institution': 'cco:Organization',
+  'organization': 'Organization',
+  'foundation': 'Organization',
+  'administration': 'Organization',
+  'association': 'Organization',
+  'corporation': 'Organization',
+  'institution': 'Organization',
 
   // Phase 5.3.1: Collective decision-making bodies (always Organizations when agents)
   // These are social entities that can perform intentional acts
-  'committee': 'cco:Organization',
-  'board': 'cco:Organization',
-  'council': 'cco:Organization',
-  'commission': 'cco:Organization',
-  'panel': 'cco:Organization',
-  'team': 'cco:Organization',
+  'committee': 'Organization',
+  'board': 'Organization',
+  'council': 'Organization',
+  'commission': 'Organization',
+  'panel': 'Organization',
+  'team': 'Organization',
 
   // Can be software (entity) or applying (process)
-  'application': 'cco:Artifact',
+  'application': 'Artifact',
 
   // Can be the building (entity) or the act of building (process)
-  'construction': 'cco:Artifact',
-  'creation': 'cco:Artifact',
-  'production': 'cco:Artifact',
-  'installation': 'cco:Artifact'
+  'construction': 'Artifact',
+  'creation': 'Artifact',
+  'production': 'Artifact',
+  'installation': 'Artifact'
 };
 
 /**
@@ -714,7 +714,7 @@ class EntityExtractor {
    * @example
    * const extractor = new EntityExtractor();
    * const entities = extractor.extract("The doctor treats the patient");
-   * // Returns array of DiscourseReferent nodes + cco:Person nodes
+   * // Returns array of DiscourseReferent nodes + Person nodes
    */
   extract(text, options = {}) {
     const tier1Entities = [];
@@ -1078,7 +1078,7 @@ class EntityExtractor {
         text: personText,
         rootNoun: personText,
         offset,
-        entityType: 'cco:Person',
+        entityType: 'Person',
         definiteness: 'definite',  // Proper names are inherently definite
         referentialStatus: 'introduced',
         scarcity: { isScarce: false },
@@ -1105,11 +1105,11 @@ class EntityExtractor {
       if (existingEntity) {
         // Update type if it was extracted by NPChunker with default type
         if (existingEntity['tagteam:denotesType'] === 'bfo:BFO_0000040') {
-          existingEntity['tagteam:denotesType'] = 'cco:Organization';
+          existingEntity['tagteam:denotesType'] = 'Organization';
           // Also update @type array
           const typeIndex = existingEntity['@type'].indexOf('bfo:BFO_0000040');
           if (typeIndex !== -1) {
-            existingEntity['@type'][typeIndex] = 'cco:Organization';
+            existingEntity['@type'][typeIndex] = 'Organization';
           }
         }
         return;
@@ -1121,7 +1121,7 @@ class EntityExtractor {
         text: orgText,
         rootNoun: orgText,
         offset,
-        entityType: 'cco:Organization',
+        entityType: 'Organization',
         definiteness: 'definite',
         referentialStatus: 'introduced',
         scarcity: { isScarce: false },
@@ -1148,11 +1148,11 @@ class EntityExtractor {
       if (existingEntity) {
         // Update type if it was extracted by NPChunker with default type
         if (existingEntity['tagteam:denotesType'] === 'bfo:BFO_0000040') {
-          existingEntity['tagteam:denotesType'] = 'cco:GeopoliticalOrganization';
+          existingEntity['tagteam:denotesType'] = 'GeopoliticalOrganization';
           // Also update @type array
           const typeIndex = existingEntity['@type'].indexOf('bfo:BFO_0000040');
           if (typeIndex !== -1) {
-            existingEntity['@type'][typeIndex] = 'cco:GeopoliticalOrganization';
+            existingEntity['@type'][typeIndex] = 'GeopoliticalOrganization';
           }
         }
         return;
@@ -1165,7 +1165,7 @@ class EntityExtractor {
         text: placeText,
         rootNoun: placeText,
         offset,
-        entityType: 'cco:GeopoliticalOrganization',
+        entityType: 'GeopoliticalOrganization',
         definiteness: 'definite',
         referentialStatus: 'introduced',
         scarcity: { isScarce: false },
@@ -1566,11 +1566,11 @@ class EntityExtractor {
       if (existingEntity) {
         // Update type if it was extracted by NPChunker with default type
         if (existingEntity['tagteam:denotesType'] === 'bfo:BFO_0000040') {
-          existingEntity['tagteam:denotesType'] = 'cco:Person';
+          existingEntity['tagteam:denotesType'] = 'Person';
           // Also update @type array
           const typeIndex = existingEntity['@type'].indexOf('bfo:BFO_0000040');
           if (typeIndex !== -1) {
-            existingEntity['@type'][typeIndex] = 'cco:Person';
+            existingEntity['@type'][typeIndex] = 'Person';
           }
         }
         return;
@@ -1582,7 +1582,7 @@ class EntityExtractor {
         text: personText,
         rootNoun: personText,
         offset,
-        entityType: 'cco:Person',
+        entityType: 'Person',
         definiteness: 'definite',
         referentialStatus: 'introduced',
         scarcity: { isScarce: false },
@@ -1609,11 +1609,11 @@ class EntityExtractor {
       if (existingEntity) {
         // Update type if it was extracted by NPChunker with default type
         if (existingEntity['tagteam:denotesType'] === 'bfo:BFO_0000040') {
-          existingEntity['tagteam:denotesType'] = 'cco:Organization';
+          existingEntity['tagteam:denotesType'] = 'Organization';
           // Also update @type array
           const typeIndex = existingEntity['@type'].indexOf('bfo:BFO_0000040');
           if (typeIndex !== -1) {
-            existingEntity['@type'][typeIndex] = 'cco:Organization';
+            existingEntity['@type'][typeIndex] = 'Organization';
           }
         }
         return;
@@ -1625,7 +1625,7 @@ class EntityExtractor {
         text: orgText,
         rootNoun: orgText,
         offset,
-        entityType: 'cco:Organization',
+        entityType: 'Organization',
         definiteness: 'definite',
         referentialStatus: 'introduced',
         scarcity: { isScarce: false },
@@ -1652,11 +1652,11 @@ class EntityExtractor {
       if (existingEntity) {
         // Update type if it was extracted by NPChunker with default type
         if (existingEntity['tagteam:denotesType'] === 'bfo:BFO_0000040') {
-          existingEntity['tagteam:denotesType'] = 'cco:GeopoliticalOrganization';
+          existingEntity['tagteam:denotesType'] = 'GeopoliticalOrganization';
           // Also update @type array
           const typeIndex = existingEntity['@type'].indexOf('bfo:BFO_0000040');
           if (typeIndex !== -1) {
-            existingEntity['@type'][typeIndex] = 'cco:GeopoliticalOrganization';
+            existingEntity['@type'][typeIndex] = 'GeopoliticalOrganization';
           }
         }
         return;
@@ -1668,7 +1668,7 @@ class EntityExtractor {
         text: placeText,
         rootNoun: placeText,
         offset,
-        entityType: 'cco:GeopoliticalOrganization',
+        entityType: 'GeopoliticalOrganization',
         definiteness: 'definite',
         referentialStatus: 'introduced',
         scarcity: { isScarce: false },
@@ -2078,9 +2078,9 @@ class EntityExtractor {
       // "themselves/ourselves" → group
       let entityType = 'bfo:Entity';  // Default for "itself"
       if (pronounText === 'himself' || pronounText === 'herself' || pronounText === 'myself' || pronounText === 'yourself') {
-        entityType = 'cco:Person';
+        entityType = 'Person';
       } else if (pronounText === 'themselves' || pronounText === 'ourselves' || pronounText === 'yourselves') {
-        entityType = 'cco:Agent';
+        entityType = 'Agent';
       }
 
       // Create DiscourseReferent for reflexive pronoun
@@ -2153,32 +2153,32 @@ class EntityExtractor {
       if (cleanWords.length === 1) {
         // Single capitalized word
         if (techCompanies.has(firstWord)) {
-          newType = 'cco:Organization';
+          newType = 'Organization';
         } else if (techProducts.has(firstWord)) {
-          newType = 'cco:Artifact';  // Product names are artifacts
+          newType = 'Artifact';  // Product names are artifacts
         } else if (totalLength >= 3 && totalLength <= 8) {
           // Short word - likely person name (John, Mary, Smith)
-          newType = 'cco:Person';
+          newType = 'Person';
         } else if (totalLength >= 9) {
           // Longer single word - likely organization (Microsoft = 9 chars)
-          newType = 'cco:Organization';
+          newType = 'Organization';
         }
       } else if (cleanWords.length === 2) {
         // Two capitalized words
         // Check if second word is a common name suffix (indicates person)
         const nameSuffixes = new Set(['Jr', 'Sr', 'II', 'III']);
         if (nameSuffixes.has(cleanWords[1])) {
-          newType = 'cco:Person';
+          newType = 'Person';
         } else if (totalLength <= 20) {
           // Likely "FirstName LastName"
-          newType = 'cco:Person';
+          newType = 'Person';
         } else {
           // Long two-word phrase - likely organization
-          newType = 'cco:Organization';
+          newType = 'Organization';
         }
       } else {
         // Multiple words - likely organization
-        newType = 'cco:Organization';
+        newType = 'Organization';
       }
 
       if (newType) {
@@ -2262,19 +2262,19 @@ class EntityExtractor {
         // Multi-word capitalized phrase
         if (phrase.split(/\s+/).length === 2 && phraseLength <= 20) {
           // Likely "FirstName LastName"
-          entityType = 'cco:Person';
+          entityType = 'Person';
         } else {
           // Longer phrase - likely Organization
-          entityType = 'cco:Organization';
+          entityType = 'Organization';
         }
       } else {
         // Single capitalized word
         if (phraseLength >= 3 && phraseLength <= 10) {
           // Short word - likely person name
-          entityType = 'cco:Person';
+          entityType = 'Person';
         } else if (phraseLength > 10) {
           // Longer word - likely organization or product
-          entityType = 'cco:Organization';
+          entityType = 'Organization';
         } else {
           // Very short - skip (might be abbreviation)
           i++;
@@ -2708,7 +2708,7 @@ class EntityExtractor {
 
     // Priority 4: Domain-specific words from config loader (Phase 2)
     // Config loader takes precedence over suffix detection to allow domain-specific
-    // type specialization (e.g., "surgery" → cco:ActOfSurgery instead of bfo:BFO_0000015)
+    // type specialization (e.g., "surgery" → ActOfSurgery instead of bfo:BFO_0000015)
     if (this.configLoader && this.configLoader.isConfigLoaded()) {
       const configType = this.configLoader.getProcessRootWord(lastWord);
       if (configType) {
@@ -2722,14 +2722,14 @@ class EntityExtractor {
       }
     }
 
-    // Priority 4.5: V7-008 Action nominalizations → cco:Act
+    // Priority 4.5: V7-008 Action nominalizations → Act
     // These are nominalized intentional acts, not generic processes
     const actionNominalizations = new Set([
       'deployment', 'implementation', 'installation', 'configuration',
       'execution', 'operation', 'deployment', 'migration', 'upgrade'
     ]);
     if (actionNominalizations.has(lastWord)) {
-      return { isProcess: true, type: 'cco:Act' };
+      return { isProcess: true, type: 'Act' };
     }
 
     // Priority 5: Nominalization suffixes - domain-neutral detection mechanism
@@ -2949,10 +2949,10 @@ class EntityExtractor {
 
     // Refine based on verb class
     if (COGNITIVE_VERBS.has(governingVerb)) {
-      result.refinedType = 'cco:InformationContentEntity';
+      result.refinedType = 'InformationContentEntity';
       result.governingVerb = governingVerb;
     } else if (PHYSICAL_VERBS.has(governingVerb)) {
-      result.refinedType = 'cco:Artifact';
+      result.refinedType = 'Artifact';
       result.governingVerb = governingVerb;
     }
 
@@ -3130,8 +3130,8 @@ class EntityExtractor {
    * Determine entity type for denotesType property
    *
    * BFO/CCO compliance: Distinguishes between:
-   * - Continuants (objects): cco:Person, cco:Artifact
-   * - Occurrents (processes): cco:ActOfCare, cco:ActOfMedicalTreatment, etc.
+   * - Continuants (objects): Person, Artifact
+   * - Occurrents (processes): ActOfCare, ActOfMedicalTreatment, etc.
    *
    * Uses determiner-sensitive disambiguation for ambiguous nominalizations.
    *
@@ -3155,7 +3155,7 @@ class EntityExtractor {
       // Titles indicate person
       const titles = ['Dr', 'Dr.', 'Mr', 'Mr.', 'Mrs', 'Mrs.', 'Ms', 'Ms.', 'Prof', 'Prof.'];
       if (titles.some(t => firstWord.startsWith(t))) {
-        return 'cco:Person';
+        return 'Person';
       }
 
       // Multi-word capitalized names are usually persons or organizations
@@ -3165,7 +3165,7 @@ class EntityExtractor {
       const hasOrgIndicator = orgIndicators.some(ind => originalNoun.includes(ind));
 
       if (hasOrgIndicator) {
-        return 'cco:Organization';
+        return 'Organization';
       }
 
       // V7-Priority5: Product names (software, hardware)
@@ -3180,19 +3180,19 @@ class EntityExtractor {
         'AWS', 'Azure', 'GCP'
       ];
       if (productNames.includes(originalNoun)) {
-        return 'cco:Artifact';
+        return 'Artifact';
       }
 
       // Single capitalized word: could be person name, product name, or location
       // Default to Person for short single words (common first names)
       // This is a heuristic - proper classification needs context
       if (words.length === 1 && originalNoun.length <= 8) {
-        return 'cco:Person';  // Likely a first name
+        return 'Person';  // Likely a first name
       }
 
       // Multi-word (2-3 words) all capitalized → Person
       if (words.length >= 2 && words.length <= 3) {
-        return 'cco:Person';  // Likely "FirstName LastName"
+        return 'Person';  // Likely "FirstName LastName"
       }
 
       // Fall through to other detection for proper nouns we can't classify
@@ -3409,7 +3409,7 @@ class EntityExtractor {
     // Similar to RoleDetector's multi-type pattern
     const types = [];
 
-    // Add specific CCO/BFO type first (e.g., cco:Person, cco:Artifact)
+    // Add specific CCO/BFO type first (e.g., Person, Artifact)
     if (entityInfo.entityType) {
       types.push(entityInfo.entityType);
     }

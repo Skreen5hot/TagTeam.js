@@ -7,20 +7,20 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-22T11:48:42.927Z",
+  "generatedAt": "2026-02-22T12:26:16.391Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The senator",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the representative",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the bill",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     }
   ],
   "expectedRoles": [
@@ -45,7 +45,7 @@
     },
     {
       "text": "the bill",
-      "type": "cco:Person",
+      "type": "Person",
       "id": "inst:the_bill"
     }
   ],
@@ -73,16 +73,16 @@
       {
         "@id": "inst:the_bill",
         "@type": [
-          "cco:Person",
+          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the bill",
         "tagteam:mentionId": "s0:h8:45-53",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
-        "tagteam:denotesType": "cco:Person",
+        "tagteam:denotesType": "Person",
         "is_about": {
-          "@id": "inst:Person_Bill_eaa69aa0870e"
+          "@id": "inst:Person_Bill_dba8b9637085"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_feb82c570d57"
@@ -91,7 +91,7 @@
       {
         "@id": "inst:Act_senator",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "senator",
@@ -108,38 +108,38 @@
         ],
         "rdfs:label": "senator and the representative sponsored the bill",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.927Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.391Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_feb82c570d57",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Person_Bill_eaa69aa0870e",
+        "@id": "inst:Person_Bill_dba8b9637085",
         "@type": [
-          "cco:Person",
+          "Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "bill",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.927Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.391Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_feb82c570d57",
-        "tagteam:denotesType": "cco:Person"
+        "tagteam:denotesType": "Person"
       },
       {
         "@id": "inst:Input_Text_IBE_feb82c570d57",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The senator and the representative sponsored the bill",
         "tagteam:char_count": 53,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T11:48:42.919Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.382Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -156,7 +156,7 @@
       {
         "@id": "inst:ParsingAct_feb82c57",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -180,7 +180,7 @@
             "@id": "inst:Act_senator"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.919Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.382Z"
       }
     ]
   }

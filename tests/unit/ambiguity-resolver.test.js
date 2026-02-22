@@ -351,7 +351,7 @@ describe('AmbiguityResolver', () => {
 
       const resolution = result.flaggedOnly[0].resolution;
       expect(resolution.suggestRetyping).toBeTrue();
-      expect(resolution.suggestedType).toBe('cco:Organization');
+      expect(resolution.suggestedType).toBe('Organization');
     })) passed++; else failed++;
   });
 

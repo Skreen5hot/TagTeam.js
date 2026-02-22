@@ -6,16 +6,16 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T11:48:43.679Z",
+  "generatedAt": "2026-02-22T12:26:17.189Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The new policy",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     },
     {
       "text": "all field offices",
-      "type": "cco:Organization"
+      "type": "Organization"
     }
   ],
   "expectedRoles": [
@@ -85,7 +85,7 @@
       {
         "@id": "inst:Act_implemented",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "implemented",
@@ -137,7 +137,7 @@
         "rdfs:label": "new policy",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.679Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.189Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_78446384e317",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -149,26 +149,26 @@
         ],
         "rdfs:label": "all field office",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.679Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.189Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_78446384e317",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_78446384e317",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The new policy was implemented across all field offices",
         "tagteam:char_count": 55,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-22T11:48:43.671Z"
+        "tagteam:received_at": "2026-02-22T12:26:17.176Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -185,7 +185,7 @@
       {
         "@id": "inst:ParsingAct_78446384",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -209,7 +209,7 @@
             "@id": "inst:Act_implemented"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.671Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.176Z"
       }
     ]
   }

@@ -7,20 +7,20 @@
     "split",
     "object"
   ],
-  "generatedAt": "2026-02-22T11:48:42.893Z",
+  "generatedAt": "2026-02-22T12:26:16.353Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The agents",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the building",
-      "type": "cco:Facility"
+      "type": "Facility"
     },
     {
       "text": "the vehicle",
-      "type": "cco:Artifact"
+      "type": "Artifact"
     }
   ],
   "expectedRoles": [
@@ -102,7 +102,7 @@
       {
         "@id": "inst:Act_searched",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "searched",
@@ -152,7 +152,7 @@
         "rdfs:label": "agent",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.893Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.352Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2f2da8cea89e",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -164,26 +164,26 @@
         ],
         "rdfs:label": "build",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.893Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.352Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2f2da8cea89e",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_2f2da8cea89e",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The agents searched the building and the vehicle",
         "tagteam:char_count": 48,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T11:48:42.885Z"
+        "tagteam:received_at": "2026-02-22T12:26:16.344Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -200,7 +200,7 @@
       {
         "@id": "inst:ParsingAct_2f2da8ce",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -224,7 +224,7 @@
             "@id": "inst:Act_searched"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.885Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:16.344Z"
       }
     ]
   }

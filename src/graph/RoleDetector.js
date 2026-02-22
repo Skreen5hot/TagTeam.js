@@ -5,7 +5,7 @@
  * Roles link entities (bearers) to acts (realizations).
  *
  * Phase 4 Two-Tier Architecture v2.4:
- * - PatientRole ONLY inheres in cco:Person (not artifacts)
+ * - PatientRole ONLY inheres in Person (not artifacts)
  * - Artifacts use AffectedEntityRole or no role
  * - Roles only realize in Actual acts (not Prescribed/Planned)
  * - PatientRole assigned to ObjectAggregate members (v2.4)
@@ -43,7 +43,7 @@ function extractIRIs(values) {
  * Role type mappings based on relationship to act
  * Maps role positions to CCO/BFO role types
  *
- * IMPORTANT: PatientRole is ONLY for cco:Person entities (BFO/CCO constraint)
+ * IMPORTANT: PatientRole is ONLY for Person entities (BFO/CCO constraint)
  * Artifacts do not bear PatientRole - they are affected but not patients
  */
 /**
@@ -69,8 +69,8 @@ const ROLE_TYPE_MAPPINGS = {
  * PatientRole is a specific medical/care role that only inheres in persons
  */
 const PATIENT_ROLE_ELIGIBLE_TYPES = [
-  'cco:Person',
-  'cco:Agent'
+  'Person',
+  'Agent'
 ];
 
 /**
@@ -99,7 +99,7 @@ class RoleDetector {
    * Detect roles from acts and entities
    *
    * v2.3 changes:
-   * - PatientRole ONLY for cco:Person entities (not artifacts)
+   * - PatientRole ONLY for Person entities (not artifacts)
    * - Roles only realize in Actual acts (not Prescribed/Planned)
    *
    * @param {Array} acts - Array of IntentionalAct nodes from ActExtractor
@@ -276,9 +276,9 @@ class RoleDetector {
     // AgentRole is primarily for persons, but could extend to organizations
     const types = entity['@type'] || [];
     return types.some(type =>
-      type.includes('cco:Person') ||
-      type.includes('cco:Organization') ||
-      type.includes('cco:Agent')
+      type.includes('Person') ||
+      type.includes('Organization') ||
+      type.includes('Agent')
     );
   }
 

@@ -6,20 +6,20 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T11:48:43.800Z",
+  "generatedAt": "2026-02-22T12:26:17.322Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The office",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "the data",
-      "type": "cco:InformationContentEntity"
+      "type": "InformationContentEntity"
     },
     {
       "text": "headquarters",
-      "type": "cco:Facility"
+      "type": "Facility"
     }
   ],
   "expectedRoles": [
@@ -128,7 +128,7 @@
       {
         "@id": "inst:Act_transmitted",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "transmitted",
@@ -195,7 +195,7 @@
         "rdfs:label": "office",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.800Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.322Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c18f302a5480",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -207,7 +207,7 @@
         ],
         "rdfs:label": "datum",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.800Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.322Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c18f302a5480",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -219,26 +219,26 @@
         ],
         "rdfs:label": "headquarter",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.800Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.322Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c18f302a5480",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_c18f302a5480",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The office transmitted the data to headquarters",
         "tagteam:char_count": 47,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T11:48:43.794Z"
+        "tagteam:received_at": "2026-02-22T12:26:17.315Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -255,7 +255,7 @@
       {
         "@id": "inst:ParsingAct_c18f302a",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -282,7 +282,7 @@
             "@id": "inst:Act_transmitted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.794Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.315Z"
       }
     ]
   }

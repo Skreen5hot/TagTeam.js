@@ -2,10 +2,10 @@
  * ActExtractor.js
  *
  * Extracts intentional acts from verb phrases and creates
- * cco:IntentionalAct nodes for the semantic graph.
+ * IntentionalAct nodes for the semantic graph.
  *
  * Phase 4 Two-Tier Architecture (v2.2 spec):
- * - Acts link to Tier 2 entities (cco:Person, cco:Artifact) via has_agent/affects
+ * - Acts link to Tier 2 entities (Person, Artifact) via has_agent/affects
  * - All acts have actualityStatus (Prescribed, Actual, Negated, etc.)
  * - Supports negation detection for Negated status
  *
@@ -23,12 +23,12 @@ const SentenceModeClassifier = require('./SentenceModeClassifier');
 
 /**
  * Default act type for all extracted verb phrases.
- * All acts are cco:IntentionalAct (verified, ont00000228).
+ * All acts are IntentionalAct (verified, ont00000228).
  * The verb lemma (tagteam:lemma) and rdfs:label provide classification
  * breadcrumbs for downstream consumers. Sub-typing is the knowledge
  * graph's responsibility, not the parser's.
  */
-const DEFAULT_ACT_TYPE = 'cco:IntentionalAct';
+const DEFAULT_ACT_TYPE = 'IntentionalAct';
 
 /**
  * Verb infinitive corrections
@@ -330,7 +330,7 @@ const MODALITY_TO_DEONTIC_TYPE = {
   'hypothetical': null
 };
 
-// Selectional Restrictions removed — all acts are cco:IntentionalAct.
+// Selectional Restrictions removed — all acts are IntentionalAct.
 // Verb sense disambiguation (ditransitive, communication, transfer) is
 // handled by verb class sets (COMMUNICATION_VERBS, TRANSFER_VERBS, etc.)
 // for NLP behavior, not for @type emission.
@@ -343,26 +343,26 @@ const MODALITY_TO_DEONTIC_TYPE = {
 const TYPE_TO_CATEGORY = {
   // Occurrents (processes)
   'bfo:BFO_0000015': 'occurrent',
-  'cco:IntentionalAct': 'occurrent',
-  'cco:ActOfCommunication': 'occurrent',
+  'IntentionalAct': 'occurrent',
+  'ActOfCommunication': 'occurrent',
 
   // Independent Continuants (physical things)
   'bfo:BFO_0000040': 'continuant',
   'bfo:MaterialEntity': 'continuant',
-  'cco:Artifact': 'continuant',
-  'cco:Facility': 'continuant',
+  'Artifact': 'continuant',
+  'Facility': 'continuant',
 
   // Persons
-  'cco:Person': 'person',
-  'cco:Agent': 'person',
+  'Person': 'person',
+  'Agent': 'person',
 
   // Organizations (treated as continuant for selectional purposes)
-  'cco:Organization': 'continuant',
-  'cco:GeopoliticalOrganization': 'continuant',
+  'Organization': 'continuant',
+  'GeopoliticalOrganization': 'continuant',
 
   // Generically Dependent Continuants (information)
   'bfo:BFO_0000031': 'gdc',
-  'cco:InformationContentEntity': 'gdc'
+  'InformationContentEntity': 'gdc'
 };
 
 /**
@@ -1107,7 +1107,7 @@ class ActExtractor {
    * @returns {string} CCO act type IRI
    */
   _determineActType(infinitive, context = {}) {
-    // All acts are cco:IntentionalAct. Verb identity is preserved in
+    // All acts are IntentionalAct. Verb identity is preserved in
     // tagteam:lemma and rdfs:label for downstream consumers.
     return DEFAULT_ACT_TYPE;
   }
@@ -1765,7 +1765,7 @@ class ActExtractor {
   /**
    * Link act to discourse referents (Tier 1) or real-world entities (Tier 2)
    *
-   * v2.2 spec: Acts should link to Tier 2 entities (cco:Person, cco:Artifact)
+   * v2.2 spec: Acts should link to Tier 2 entities (Person, Artifact)
    * via has_agent/affects. When linkToTier2 is enabled, resolves Tier 1
    * referents to their Tier 2 entities via cco:is_about.
    *
@@ -1809,7 +1809,7 @@ class ActExtractor {
     // Temporal regions and qualities cannot be agents or patients
     const NON_PARTICIPANT_TYPES = ['bfo:BFO_0000038', 'bfo:BFO_0000008', 'bfo:BFO_0000019', 'bfo:BFO_0000016'];
     // Types that cannot be agents but CAN be patients (objects of actions)
-    const NON_AGENT_TYPES = [...NON_PARTICIPANT_TYPES, 'cco:InformationContentEntity'];
+    const NON_AGENT_TYPES = [...NON_PARTICIPANT_TYPES, 'InformationContentEntity'];
 
     // V7.3: Get verb infinitive to check for causation verbs
     // Causation verbs allow ICE agents (e.g., "The error caused harm")
@@ -1823,7 +1823,7 @@ class ActExtractor {
 
       // V7.3: Allow ICE agents for causation verbs
       // "The error caused harm" - error (ICE) can be causal agent
-      if (dt === 'cco:InformationContentEntity' && CAUSATION_VERBS_LOCAL.has(currentVerbInfinitive)) {
+      if (dt === 'InformationContentEntity' && CAUSATION_VERBS_LOCAL.has(currentVerbInfinitive)) {
         return false; // Not filtered - allow as agent
       }
 
@@ -2312,7 +2312,7 @@ class ActExtractor {
 
     const node = {
       '@id': iri,
-      '@type': ['cco:InformationContentEntity', subtype, 'owl:NamedIndividual'],
+      '@type': ['InformationContentEntity', subtype, 'owl:NamedIndividual'],
       'rdfs:label': `Inference from ${actInfo.links.agentEntity
         ? (actInfo.links.agentEntity['rdfs:label'] || 'source')
         : 'source'}`,
@@ -2348,7 +2348,7 @@ class ActExtractor {
     if (!entity) return false;
     const dt = entity['tagteam:denotesType'];
     // Persons and organizations are animate agents
-    if (dt === 'cco:Person' || dt === 'cco:Agent' || dt === 'cco:Organization') {
+    if (dt === 'Person' || dt === 'Agent' || dt === 'Organization') {
       return false;
     }
     // Artifacts, qualities, material entities are inanimate
@@ -2383,9 +2383,9 @@ class ActExtractor {
     // ENH-003: Include all required properties for a proper Tier 2 entity
     this._implicitYouEntity = {
       '@id': iri,
-      '@type': ['cco:Person', 'owl:NamedIndividual'],
+      '@type': ['Person', 'owl:NamedIndividual'],
       'rdfs:label': 'you',
-      'tagteam:denotesType': 'cco:Person',
+      'tagteam:denotesType': 'Person',
       'tagteam:referentialStatus': 'deictic',  // "you" refers deictically to addressee
       'tagteam:isImplicit': true,
       'tagteam:implicitReason': 'imperative_addressee'
@@ -2496,7 +2496,7 @@ class ActExtractor {
           text: match[0],
           infinitive: verb || match[0],
           offset,
-          actType: 'cco:IntentionalAct',
+          actType: 'IntentionalAct',
           modality: p.modality,
           deonticType: MODALITY_TO_DEONTIC_TYPE[p.modality] || null,
           negation: false,

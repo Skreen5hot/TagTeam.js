@@ -54,7 +54,7 @@ function mockGraph(nodeCount, options = {}) {
   // IBE node
   nodes.push({
     '@id': 'inst:IBE_1',
-    '@type': ['cco:InformationBearingEntity', 'owl:NamedIndividual'],
+    '@type': ['InformationBearingEntity', 'owl:NamedIndividual'],
     'rdfs:label': 'Input text'
   });
 
@@ -64,7 +64,7 @@ function mockGraph(nodeCount, options = {}) {
       '@id': `inst:Entity_${i}`,
       '@type': ['tagteam:DiscourseReferent', 'owl:NamedIndividual'],
       'rdfs:label': `entity_${i}`,
-      'tagteam:denotesType': options.missingTypes ? undefined : 'cco:Person'
+      'tagteam:denotesType': options.missingTypes ? undefined : 'Person'
     });
   }
 
@@ -72,7 +72,7 @@ function mockGraph(nodeCount, options = {}) {
   for (let i = 0; i < (options.acts || 1); i++) {
     nodes.push({
       '@id': `inst:Act_${i}`,
-      '@type': ['cco:IntentionalAct', 'owl:NamedIndividual'],
+      '@type': ['IntentionalAct', 'owl:NamedIndividual'],
       'rdfs:label': `act_${i}`,
       'has_agent': options.missingAgents ? undefined : { '@id': 'inst:Entity_0' }
     });

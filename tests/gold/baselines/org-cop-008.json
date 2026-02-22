@@ -7,12 +7,12 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-22T11:48:42.289Z",
+  "generatedAt": "2026-02-22T12:26:15.721Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "TSA",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "transportation security",
@@ -23,7 +23,7 @@
   "extractedEntities": [
     {
       "text": "TSA",
-      "type": "cco:Organization",
+      "type": "Organization",
       "id": "inst:TSA"
     },
     {
@@ -38,7 +38,7 @@
       {
         "@id": "inst:TSA",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "TSA",
@@ -48,9 +48,9 @@
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.95,
         "tagteam:genericityBasis": "named_entity",
-        "tagteam:denotesType": "cco:Organization",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Organization_Tsa_62cf7841f6cf"
+          "@id": "inst:Organization_Tsa_6c93509d4b92"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_27346421d44a"
@@ -86,17 +86,17 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Organization_Tsa_62cf7841f6cf",
+        "@id": "inst:Organization_Tsa_6c93509d4b92",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "tsa",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.289Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.720Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_27346421d44a",
-        "tagteam:denotesType": "cco:Organization"
+        "tagteam:denotesType": "Organization"
       },
       {
         "@id": "inst:Entity_Transportation_Security_ffbba98e0a75",
@@ -106,26 +106,26 @@
         ],
         "rdfs:label": "transportation security",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.289Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.720Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_27346421d44a",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_27346421d44a",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "TSA is responsible for transportation security",
         "tagteam:char_count": 46,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T11:48:42.279Z"
+        "tagteam:received_at": "2026-02-22T12:26:15.710Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -142,7 +142,7 @@
       {
         "@id": "inst:ParsingAct_27346421",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -163,7 +163,7 @@
             "@id": "inst:transportation_security"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.279Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.710Z"
       }
     ]
   }

@@ -6,20 +6,20 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T11:48:43.757Z",
+  "generatedAt": "2026-02-22T12:26:17.277Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The team",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "the detainee",
-      "type": "cco:Person"
+      "type": "Person"
     },
     {
       "text": "the facility",
-      "type": "cco:Facility"
+      "type": "Facility"
     }
   ],
   "expectedRoles": [
@@ -77,7 +77,7 @@
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
         "is_about": {
-          "@id": "inst:Organization_Team_bf4e23282e39"
+          "@id": "inst:Organization_Team_f08963ff0af2"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b533ad596cff"
@@ -122,7 +122,7 @@
       {
         "@id": "inst:Act_team",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "team",
@@ -134,7 +134,7 @@
       {
         "@id": "inst:Act_transported",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "transported",
@@ -177,14 +177,14 @@
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Organization_Team_bf4e23282e39",
+        "@id": "inst:Organization_Team_f08963ff0af2",
         "@type": [
-          "cco:Organization",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "team",
         "tagteam:typeBasis": "keyword",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.757Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.276Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b533ad596cff",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -196,7 +196,7 @@
         ],
         "rdfs:label": "detainee",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.757Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.276Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b533ad596cff",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -208,26 +208,26 @@
         ],
         "rdfs:label": "facility",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.757Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.276Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b533ad596cff",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_b533ad596cff",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "The team transported the detainee to the facility",
         "tagteam:char_count": 49,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T11:48:43.750Z"
+        "tagteam:received_at": "2026-02-22T12:26:17.270Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -244,7 +244,7 @@
       {
         "@id": "inst:ParsingAct_b533ad59",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -274,7 +274,7 @@
             "@id": "inst:Act_transported"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:43.750Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:17.270Z"
       }
     ]
   }

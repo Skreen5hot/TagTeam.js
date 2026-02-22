@@ -90,13 +90,13 @@
           "act": "fix",
           "property": "has_agent",
           "target": "the engineer",
-          "targetType": "cco:Person"
+          "targetType": "Person"
         },
         {
           "act": "fix",
           "property": "affects",
           "target": "the bug",
-          "targetType": "cco:Artifact"
+          "targetType": "Artifact"
         }
       ]
     },

@@ -7,16 +7,16 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-22T11:48:42.322Z",
+  "generatedAt": "2026-02-22T12:26:15.756Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "DEA",
-      "type": "cco:Organization"
+      "type": "Organization"
     },
     {
       "text": "the primary federal drug enforcement agency",
-      "type": "cco:Organization"
+      "type": "Organization"
     }
   ],
   "expectedRoles": [],
@@ -69,26 +69,26 @@
         "rdfs:label": "dea",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "default",
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.321Z",
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.756Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0abf6643e39e",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
         "@id": "inst:Input_Text_IBE_0abf6643e39e",
         "@type": [
-          "cco:InformationBearingEntity",
+          "InformationBearingEntity",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
         "has_text_value": "DEA is the primary federal drug enforcement agency",
         "tagteam:char_count": 50,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T11:48:42.312Z"
+        "tagteam:received_at": "2026-02-22T12:26:15.744Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:Agent",
+          "Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -105,7 +105,7 @@
       {
         "@id": "inst:ParsingAct_0abf6643",
         "@type": [
-          "cco:IntentionalAct",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
@@ -123,7 +123,7 @@
             "@id": "inst:DEA"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T11:48:42.312Z"
+        "tagteam:instantiated_at": "2026-02-22T12:26:15.744Z"
       }
     ]
   }

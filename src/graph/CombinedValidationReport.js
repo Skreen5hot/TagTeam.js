@@ -153,7 +153,7 @@ class CombinedValidationReport {
 
     const actCount = nodesArray.filter(n => {
       const types = n['@type'] || [];
-      return types.some(t => t.startsWith('cco:ActOf') || t === 'cco:IntentionalAct');
+      return types.some(t => t.startsWith('ActOf') || t === 'IntentionalAct');
     }).length;
 
     const roleCount = nodesArray.filter(n => {
@@ -352,7 +352,7 @@ class CombinedValidationReport {
     // Check: Acts should have agents
     const acts = nodesArray.filter(n => {
       const types = n['@type'] || [];
-      return types.some(t => t.startsWith('cco:ActOf') || t === 'cco:IntentionalAct');
+      return types.some(t => t.startsWith('ActOf') || t === 'IntentionalAct');
     });
     const actsWithoutAgent = acts.filter(a => !a['has_agent']);
     if (actsWithoutAgent.length > 0) {
@@ -380,7 +380,7 @@ class CombinedValidationReport {
     // Check: IBE node should exist
     const hasIBE = nodesArray.some(n => {
       const types = n['@type'] || [];
-      return types.includes('cco:InformationBearingEntity');
+      return types.includes('InformationBearingEntity');
     });
     if (!hasIBE && nodesArray.length > 0) {
       issues.push({

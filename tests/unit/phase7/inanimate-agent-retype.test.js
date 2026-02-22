@@ -83,10 +83,10 @@ test('"Blood sugar levels suggest diabetes" → InformationContentEntity', () =>
   const graph = buildGraph('Blood sugar levels suggest diabetes');
   const node = findActByVerb(graph, 'suggest');
   assert.ok(node, 'Should find node for verb "suggest"');
-  assert.ok(node['@type'].includes('cco:InformationContentEntity'),
-    '@type should include cco:InformationContentEntity, got: ' + JSON.stringify(node['@type']));
-  assert.ok(!node['@type'].includes('cco:IntentionalAct'),
-    '@type should NOT include cco:IntentionalAct');
+  assert.ok(node['@type'].includes('InformationContentEntity'),
+    '@type should include InformationContentEntity, got: ' + JSON.stringify(node['@type']));
+  assert.ok(!node['@type'].includes('IntentionalAct'),
+    '@type should NOT include IntentionalAct');
 });
 
 test('"suggest" with inanimate agent produces tagteam:Inference subtype', () => {
@@ -101,8 +101,8 @@ test('"The results indicate infection" → InformationContentEntity', () => {
   const graph = buildGraph('The results indicate infection');
   const node = findActByVerb(graph, 'indicate');
   assert.ok(node, 'Should find node for verb "indicate"');
-  assert.ok(node['@type'].includes('cco:InformationContentEntity'),
-    '@type should include cco:InformationContentEntity, got: ' + JSON.stringify(node['@type']));
+  assert.ok(node['@type'].includes('InformationContentEntity'),
+    '@type should include InformationContentEntity, got: ' + JSON.stringify(node['@type']));
 });
 
 test('"indicate" with inanimate agent produces tagteam:ClinicalFinding subtype', () => {
@@ -117,8 +117,8 @@ test('"The data shows improvement" → InformationContentEntity', () => {
   const graph = buildGraph('The data shows improvement');
   const node = findActByVerb(graph, 'show');
   assert.ok(node, 'Should find node for verb "show"');
-  assert.ok(node['@type'].includes('cco:InformationContentEntity'),
-    '@type should include cco:InformationContentEntity, got: ' + JSON.stringify(node['@type']));
+  assert.ok(node['@type'].includes('InformationContentEntity'),
+    '@type should include InformationContentEntity, got: ' + JSON.stringify(node['@type']));
 });
 
 // ═══════════════════════════════════════════════════════════════
@@ -133,12 +133,12 @@ test('ICE node has detection_method and original_verb', () => {
   assert.strictEqual(node['tagteam:original_verb'], 'suggest');
 });
 
-test('ICE node has cco:is_about linking to inanimate source', () => {
+test('ICE node has is_about linking to inanimate source', () => {
   const graph = buildGraph('Blood sugar levels suggest diabetes');
   const node = findActByVerb(graph, 'suggest');
   assert.ok(node, 'Should find inference node');
-  assert.ok(node['is_about'], 'Should have cco:is_about property');
-  assert.ok(node['is_about']['@id'], 'cco:is_about should have @id');
+  assert.ok(node['is_about'], 'Should have is_about property');
+  assert.ok(node['is_about']['@id'], 'is_about should have @id');
 });
 
 test('ICE node has tagteam:supports_inference linking to inferred entity', () => {
@@ -158,8 +158,8 @@ test('"The doctor suggests treatment" → IntentionalAct (animate agent)', () =>
   const node = findActByVerb(graph, 'suggest');
   assert.ok(node, 'Should find node for verb "suggest"');
   // Doctor is animate → should remain IntentionalAct
-  assert.ok(!node['@type'].includes('cco:InformationContentEntity'),
-    '@type should NOT include cco:InformationContentEntity when agent is animate');
+  assert.ok(!node['@type'].includes('InformationContentEntity'),
+    '@type should NOT include InformationContentEntity when agent is animate');
 });
 
 test('"Patient reports persistent cough" → ActOfCommunication (unchanged)', () => {
@@ -167,11 +167,11 @@ test('"Patient reports persistent cough" → ActOfCommunication (unchanged)', ()
   const node = findActByVerb(graph, 'report');
   assert.ok(node, 'Should find node for verb "report"');
   // Patient is animate → communication act unchanged
-  assert.ok(node['@type'].includes('cco:ActOfCommunication') ||
-            node['@type'].includes('cco:IntentionalAct'),
+  assert.ok(node['@type'].includes('ActOfCommunication') ||
+            node['@type'].includes('IntentionalAct'),
     'Animate agent should produce IntentionalAct or ActOfCommunication');
-  assert.ok(!node['@type'].includes('cco:InformationContentEntity'),
-    '@type should NOT include cco:InformationContentEntity for animate agent');
+  assert.ok(!node['@type'].includes('InformationContentEntity'),
+    '@type should NOT include InformationContentEntity for animate agent');
 });
 
 // ═══════════════════════════════════════════════════════════════
@@ -182,7 +182,7 @@ test('Non-inference verb with any subject remains IntentionalAct', () => {
   const graph = buildGraph('The doctor treats the patient');
   const node = findActByVerb(graph, 'treat');
   assert.ok(node, 'Should find node for verb "treat"');
-  assert.ok(node['@type'].includes('cco:IntentionalAct'),
+  assert.ok(node['@type'].includes('IntentionalAct'),
     'Non-inference verb should produce standard act type');
 });
 
