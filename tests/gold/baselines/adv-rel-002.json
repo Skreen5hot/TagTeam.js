@@ -6,7 +6,7 @@
     "relative-clause",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:45.099Z",
+  "generatedAt": "2026-02-22T11:48:44.411Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -60,10 +60,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Vehicle_8df4497389e5"
+        "is_about": {
+          "@id": "inst:Entity_Vehicle_3f381190799b"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_03a72b1781ed"
         }
       },
@@ -77,11 +77,17 @@
         "tagteam:mentionId": "s0:h3:12-16",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
-        "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_That_1c54d64aea49"
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.75,
+        "tagteam:genericityAlternative": {
+          "tagteam:category": "GEN",
+          "tagteam:confidence": 0.25
         },
-        "cco:is_concretized_by": {
+        "tagteam:denotesType": "bfo:Entity",
+        "is_about": {
+          "@id": "inst:Entity_That_8bdb8df35e00"
+        },
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_03a72b1781ed"
         }
       },
@@ -95,11 +101,13 @@
         "tagteam:mentionId": "s0:h6:25-35",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Border_122fb1b9e278"
+        "is_about": {
+          "@id": "inst:Entity_Border_8136767e62c3"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_03a72b1781ed"
         }
       },
@@ -111,7 +119,7 @@
         ],
         "rdfs:label": "vehicle",
         "tagteam:lemma": "vehicle",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_03a72b1781ed"
         }
       },
@@ -123,55 +131,61 @@
         ],
         "rdfs:label": "crossed",
         "tagteam:lemma": "cross",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_03a72b1781ed"
         }
       },
       {
-        "@id": "inst:Role_that_cco_AgentRole",
+        "@id": "inst:Role_that_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:that"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_crossed"
         },
-        "rdfs:label": "that as AgentRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Artifact_Vehicle_8df4497389e5",
+        "@id": "inst:Entity_Vehicle_3f381190799b",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "vehicle",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.099Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.410Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_03a72b1781ed",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_That_1c54d64aea49",
+        "@id": "inst:Entity_That_8bdb8df35e00",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "that",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.099Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.410Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_03a72b1781ed",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Border_122fb1b9e278",
+        "@id": "inst:Entity_Border_8136767e62c3",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "border",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.099Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.410Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_03a72b1781ed",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -182,15 +196,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The vehicle that crossed the border was intercepted",
+        "has_text_value": "The vehicle that crossed the border was intercepted",
         "tagteam:char_count": 51,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-18T02:11:45.088Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.401Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -207,20 +221,20 @@
       {
         "@id": "inst:ParsingAct_03a72b17",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_03a72b1781ed"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_vehicle"
           },
@@ -237,7 +251,7 @@
             "@id": "inst:Act_crossed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.088Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.401Z"
       }
     ]
   }

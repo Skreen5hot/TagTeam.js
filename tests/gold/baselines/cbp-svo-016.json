@@ -7,7 +7,7 @@
     "cbp",
     "forensics"
   ],
-  "generatedAt": "2026-02-18T02:11:43.873Z",
+  "generatedAt": "2026-02-22T11:48:43.361Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -63,11 +63,13 @@
         "tagteam:mentionId": "s0:h3:0-18",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Lab_Technician_69ffbabce019"
+        "is_about": {
+          "@id": "inst:Person_Lab_Technician_f75c5e6fa9a5"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7b2aa24154d1"
         }
       },
@@ -82,10 +84,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Sample_b1f8037213bc"
+        "is_about": {
+          "@id": "inst:Entity_Sample_1c72959be5a6"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7b2aa24154d1"
         }
       },
@@ -97,59 +99,64 @@
         ],
         "rdfs:label": "tested",
         "tagteam:lemma": "test",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7b2aa24154d1"
         }
       },
       {
-        "@id": "inst:Role_The_lab_technician_cco_AgentRole",
+        "@id": "inst:Role_The_lab_technician_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_lab_technician"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_tested"
         },
-        "rdfs:label": "The lab technician as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_sample_cco_PatientRole",
+        "@id": "inst:Role_the_sample_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_sample"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_tested"
         },
-        "rdfs:label": "the sample as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Artifact_Lab_Technician_69ffbabce019",
+        "@id": "inst:Person_Lab_Technician_f75c5e6fa9a5",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "lab technician",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.872Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.361Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7b2aa24154d1",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Sample_b1f8037213bc",
+        "@id": "inst:Entity_Sample_1c72959be5a6",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "sample",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.872Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.361Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7b2aa24154d1",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -160,15 +167,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The lab technician tested the sample",
+        "has_text_value": "The lab technician tested the sample",
         "tagteam:char_count": 36,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-18T02:11:43.860Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.353Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -185,20 +192,20 @@
       {
         "@id": "inst:ParsingAct_7b2aa241",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_7b2aa24154d1"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_lab_technician"
           },
@@ -209,7 +216,7 @@
             "@id": "inst:Act_tested"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.860Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.353Z"
       }
     ]
   }

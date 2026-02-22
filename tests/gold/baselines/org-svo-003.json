@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-17T19:15:44.367Z",
+  "generatedAt": "2026-02-22T11:48:42.439Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -63,11 +63,13 @@
         "tagteam:mentionId": "s0:h2:0-13",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Committee_a08e0be51ef5"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_aaaf63c68cad"
         }
       },
@@ -82,10 +84,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Proposal_60434628cc68"
+        "is_about": {
+          "@id": "inst:Entity_Proposal_78fd77528caf"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_aaaf63c68cad"
         }
       },
@@ -97,37 +99,39 @@
         ],
         "rdfs:label": "reviewed",
         "tagteam:lemma": "review",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_aaaf63c68cad"
         }
       },
       {
-        "@id": "inst:Role_The_committee_cco_AgentRole",
+        "@id": "inst:Role_The_committee_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_committee"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_reviewed"
         },
-        "rdfs:label": "The committee as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_proposal_cco_PatientRole",
+        "@id": "inst:Role_the_proposal_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_proposal"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_reviewed"
         },
-        "rdfs:label": "the proposal as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
@@ -138,18 +142,21 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "committee",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.366Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.439Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_aaaf63c68cad",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Proposal_60434628cc68",
+        "@id": "inst:Entity_Proposal_78fd77528caf",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "proposal",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.366Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.439Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_aaaf63c68cad",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -160,15 +167,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The committee reviewed the proposal",
+        "has_text_value": "The committee reviewed the proposal",
         "tagteam:char_count": 35,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-17T19:15:44.359Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.432Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -185,20 +192,20 @@
       {
         "@id": "inst:ParsingAct_aaaf63c6",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_aaaf63c68cad"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_committee"
           },
@@ -209,7 +216,7 @@
             "@id": "inst:Act_reviewed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.359Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.432Z"
       }
     ]
   }

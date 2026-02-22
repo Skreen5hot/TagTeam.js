@@ -6,7 +6,7 @@
     "relative-clause",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:45.082Z",
+  "generatedAt": "2026-02-22T11:48:44.399Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -76,11 +76,13 @@
         "tagteam:mentionId": "s0:h2:0-9",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Agent_49f0ae185bbe"
+        "is_about": {
+          "@id": "inst:Person_Agent_81af965fd45c"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5513ee104d26"
         }
       },
@@ -94,11 +96,14 @@
         "tagteam:mentionId": "s0:h3:10-13",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.95,
+        "tagteam:genericityBasis": "named_entity",
         "tagteam:denotesType": "cco:Organization",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Who_0b5e8fc67012"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5513ee104d26"
         }
       },
@@ -113,10 +118,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Tunnel_77eb42807d56"
+        "is_about": {
+          "@id": "inst:Entity_Tunnel_a69cc51f452b"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5513ee104d26"
         }
       },
@@ -131,10 +136,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Report_233f3ff84b19"
+        "is_about": {
+          "@id": "inst:Entity_Report_072979cc58ef"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5513ee104d26"
         }
       },
@@ -146,48 +151,52 @@
         ],
         "rdfs:label": "filed",
         "tagteam:lemma": "fil",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5513ee104d26"
         }
       },
       {
-        "@id": "inst:Role_The_agent_cco_AgentRole",
+        "@id": "inst:Role_The_agent_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_agent"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_filed"
         },
-        "rdfs:label": "The agent as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Role_the_report_cco_PatientRole",
+        "@id": "inst:Role_the_report_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_report"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_filed"
         },
-        "rdfs:label": "the report as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Artifact_Agent_49f0ae185bbe",
+        "@id": "inst:Person_Agent_81af965fd45c",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "agent",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.081Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.398Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5513ee104d26",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -198,29 +207,33 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "who",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.081Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.398Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5513ee104d26",
         "tagteam:denotesType": "cco:Organization"
       },
       {
-        "@id": "inst:Artifact_Tunnel_77eb42807d56",
+        "@id": "inst:Entity_Tunnel_a69cc51f452b",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "tunnel",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.081Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.398Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5513ee104d26",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Report_233f3ff84b19",
+        "@id": "inst:Entity_Report_072979cc58ef",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "report",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.081Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.398Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5513ee104d26",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -231,15 +244,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The agent who discovered the tunnel filed the report",
+        "has_text_value": "The agent who discovered the tunnel filed the report",
         "tagteam:char_count": 52,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-18T02:11:45.045Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.391Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -256,20 +269,20 @@
       {
         "@id": "inst:ParsingAct_5513ee10",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_5513ee104d26"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_agent"
           },
@@ -286,7 +299,7 @@
             "@id": "inst:Act_filed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.045Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.391Z"
       }
     ]
   }

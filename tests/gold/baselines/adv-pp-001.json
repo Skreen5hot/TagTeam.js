@@ -6,7 +6,7 @@
     "nested-pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:44.980Z",
+  "generatedAt": "2026-02-22T11:48:44.328Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -97,11 +97,13 @@
         "tagteam:mentionId": "s0:h2:0-9",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Agent_53bd05917ab7"
+        "is_about": {
+          "@id": "inst:Person_Agent_40c56959bf15"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_885cdc14aee1"
         }
       },
@@ -116,10 +118,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Report_f1e5970f7627"
+        "is_about": {
+          "@id": "inst:Entity_Report_a32d2ba61c33"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_885cdc14aee1"
         }
       },
@@ -134,10 +136,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Office_e2bd5a2b5db0"
+        "is_about": {
+          "@id": "inst:Entity_Office_dcbb59e10803"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_885cdc14aee1"
         }
       },
@@ -152,10 +154,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Building_d8a0a4f02bc2"
+        "is_about": {
+          "@id": "inst:Entity_Build_6637908f81d0"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_885cdc14aee1"
         }
       },
@@ -170,10 +172,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Campus_43063b525c47"
+        "is_about": {
+          "@id": "inst:Entity_Campu_beef09399838"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_885cdc14aee1"
         }
       },
@@ -185,140 +187,151 @@
         ],
         "rdfs:label": "filed",
         "tagteam:lemma": "fil",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_885cdc14aee1"
         }
       },
       {
-        "@id": "inst:Role_The_agent_cco_AgentRole",
+        "@id": "inst:Role_The_agent_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_agent"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_filed"
         },
-        "rdfs:label": "The agent as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Role_the_report_cco_PatientRole",
+        "@id": "inst:Role_the_report_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_report"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_filed"
         },
-        "rdfs:label": "the report as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Role_the_office_cco_LocationRole",
+        "@id": "inst:Role_the_office_LocationRole",
         "@type": [
-          "cco:LocationRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "LocationRole",
+        "tagteam:roleType": "LocationRole",
         "tagteam:bearer": {
           "@id": "inst:the_office"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_filed"
         },
-        "rdfs:label": "the office as LocationRole",
         "tagteam:preposition": "at",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Role_the_building_cco_LocationRole",
+        "@id": "inst:Role_the_building_LocationRole",
         "@type": [
-          "cco:LocationRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "LocationRole",
+        "tagteam:roleType": "LocationRole",
         "tagteam:bearer": {
           "@id": "inst:the_building"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_filed"
         },
-        "rdfs:label": "the building as LocationRole",
         "tagteam:preposition": "in",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Role_the_campus_cco_LocationRole",
+        "@id": "inst:Role_the_campus_LocationRole",
         "@type": [
-          "cco:LocationRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "LocationRole",
+        "tagteam:roleType": "LocationRole",
         "tagteam:bearer": {
           "@id": "inst:the_campus"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_filed"
         },
-        "rdfs:label": "the campus as LocationRole",
         "tagteam:preposition": "on",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Artifact_Agent_53bd05917ab7",
+        "@id": "inst:Person_Agent_40c56959bf15",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "agent",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.979Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.327Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Report_f1e5970f7627",
+        "@id": "inst:Entity_Report_a32d2ba61c33",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "report",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.979Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.327Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Office_e2bd5a2b5db0",
+        "@id": "inst:Entity_Office_dcbb59e10803",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "office",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.979Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.327Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Building_d8a0a4f02bc2",
+        "@id": "inst:Entity_Build_6637908f81d0",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "building",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.979Z",
+        "rdfs:label": "build",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.327Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Campus_43063b525c47",
+        "@id": "inst:Entity_Campu_beef09399838",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "campus",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.979Z",
+        "rdfs:label": "campu",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.327Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -329,15 +342,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The agent filed the report at the office in the building on the campus",
+        "has_text_value": "The agent filed the report at the office in the building on the campus",
         "tagteam:char_count": 70,
         "tagteam:word_count": 14,
-        "tagteam:received_at": "2026-02-18T02:11:44.968Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.316Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -354,20 +367,20 @@
       {
         "@id": "inst:ParsingAct_885cdc14",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_885cdc14aee1"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_agent"
           },
@@ -387,7 +400,7 @@
             "@id": "inst:Act_filed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.968Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.316Z"
       }
     ]
   }

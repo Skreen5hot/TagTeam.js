@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-17T19:15:44.897Z",
+  "generatedAt": "2026-02-22T11:48:42.927Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -63,10 +63,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Senator_And_The_Representative_Sponsored_The_Bill_833f06c8fdc0"
+        "is_about": {
+          "@id": "inst:Entity_Senator_And_The_Representative_Sponsored_The_Bill_2f47225ce45b"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_feb82c570d57"
         }
       },
@@ -81,10 +81,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "cco:Person",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Person_Bill_eaa69aa0870e"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_feb82c570d57"
         }
       },
@@ -96,18 +96,19 @@
         ],
         "rdfs:label": "senator",
         "tagteam:lemma": "senator",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_feb82c570d57"
         }
       },
       {
-        "@id": "inst:Artifact_Senator_And_The_Representative_Sponsored_The_Bill_833f06c8fdc0",
+        "@id": "inst:Entity_Senator_And_The_Representative_Sponsored_The_Bill_2f47225ce45b",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "senator and the representative sponsored the bill",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.897Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.927Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_feb82c570d57",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -118,7 +119,8 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "bill",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.897Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.927Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_feb82c570d57",
         "tagteam:denotesType": "cco:Person"
       },
@@ -129,15 +131,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The senator and the representative sponsored the bill",
+        "has_text_value": "The senator and the representative sponsored the bill",
         "tagteam:char_count": 53,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-17T19:15:44.888Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.919Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -154,20 +156,20 @@
       {
         "@id": "inst:ParsingAct_feb82c57",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_feb82c570d57"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_senator_and_the_representative_sponsored_the_bill"
           },
@@ -178,7 +180,7 @@
             "@id": "inst:Act_senator"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.888Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.919Z"
       }
     ]
   }

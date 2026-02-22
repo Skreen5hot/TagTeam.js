@@ -6,7 +6,7 @@
     "nested-pp",
     "government"
   ],
-  "generatedAt": "2026-02-18T02:11:44.994Z",
+  "generatedAt": "2026-02-22T11:48:44.345Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -76,11 +76,13 @@
         "tagteam:mentionId": "s0:h2:0-57",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Director_Of_The_Office_Of_Professional_Responsibility_cccb0125f94a"
+        "is_about": {
+          "@id": "inst:Entity_Director_Of_The_Office_Of_Professional_Responsibility_bd303afb37aa"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_464cfaaf4c99"
         }
       },
@@ -95,10 +97,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Office_Of_Professional_Responsibility_33a71bcbba7c"
+        "is_about": {
+          "@id": "inst:Entity_Office_Of_Professional_Responsibility_380b63b814d0"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_464cfaaf4c99"
         }
       },
@@ -113,10 +115,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Professional_Responsibility_6a8e80029f8a"
+        "is_about": {
+          "@id": "inst:Entity_Professional_Responsibility_232fd8ada512"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_464cfaaf4c99"
         }
       },
@@ -131,10 +133,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Complaint_d77a6da36de3"
+        "is_about": {
+          "@id": "inst:Entity_Complaint_9cf7eca27a55"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_464cfaaf4c99"
         }
       },
@@ -146,81 +148,88 @@
         ],
         "rdfs:label": "reviewed",
         "tagteam:lemma": "review",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_464cfaaf4c99"
         }
       },
       {
-        "@id": "inst:Role_The_director_of_the_office_of_professional_responsibility_cco_AgentRole",
+        "@id": "inst:Role_The_director_of_the_office_of_professional_responsibility_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_director_of_the_office_of_professional_responsibility"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_reviewed"
         },
-        "rdfs:label": "The director of the office of professional responsibility as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_complaint_cco_PatientRole",
+        "@id": "inst:Role_the_complaint_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_complaint"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_reviewed"
         },
-        "rdfs:label": "the complaint as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Artifact_Director_Of_The_Office_Of_Professional_Responsibility_cccb0125f94a",
+        "@id": "inst:Entity_Director_Of_The_Office_Of_Professional_Responsibility_bd303afb37aa",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "director of the office of professional responsibility",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.994Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.345Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_464cfaaf4c99",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Office_Of_Professional_Responsibility_33a71bcbba7c",
+        "@id": "inst:Entity_Office_Of_Professional_Responsibility_380b63b814d0",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "office of professional responsibility",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.994Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.345Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_464cfaaf4c99",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Professional_Responsibility_6a8e80029f8a",
+        "@id": "inst:Entity_Professional_Responsibility_232fd8ada512",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "professional responsibility",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.994Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.345Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_464cfaaf4c99",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Complaint_d77a6da36de3",
+        "@id": "inst:Entity_Complaint_9cf7eca27a55",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "complaint",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.994Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.345Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_464cfaaf4c99",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -231,15 +240,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The director of the office of professional responsibility reviewed the complaint",
+        "has_text_value": "The director of the office of professional responsibility reviewed the complaint",
         "tagteam:char_count": 80,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-18T02:11:44.985Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.332Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -256,20 +265,20 @@
       {
         "@id": "inst:ParsingAct_464cfaaf",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_464cfaaf4c99"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_director_of_the_office_of_professional_responsibility"
           },
@@ -286,7 +295,7 @@
             "@id": "inst:Act_reviewed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.985Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.332Z"
       }
     ]
   }

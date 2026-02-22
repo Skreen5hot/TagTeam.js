@@ -6,7 +6,7 @@
     "long-np",
     "government"
   ],
-  "generatedAt": "2026-02-18T02:11:44.965Z",
+  "generatedAt": "2026-02-22T11:48:44.313Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -67,11 +67,13 @@
         "tagteam:mentionId": "s0:h4:0-58",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Congressional_Oversight_Committee_On_Homeland_Security_680bcc7bef70"
+        "is_about": {
+          "@id": "inst:Entity_Congressional_Oversight_Committee_On_Homeland_Security_100615aae848"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d9c769f6a06d"
         }
       },
@@ -86,10 +88,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "cco:Organization",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Homeland_Security_5bb7efc4519e"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d9c769f6a06d"
         }
       },
@@ -104,10 +106,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Hearing_23e511432a81"
+        "is_about": {
+          "@id": "inst:Entity_Hear_f868b2755c0e"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d9c769f6a06d"
         }
       },
@@ -119,48 +121,52 @@
         ],
         "rdfs:label": "held",
         "tagteam:lemma": "hel",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d9c769f6a06d"
         }
       },
       {
-        "@id": "inst:Role_The_congressional_oversight_committee_on_homeland_security_cco_AgentRole",
+        "@id": "inst:Role_The_congressional_oversight_committee_on_homeland_security_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_congressional_oversight_committee_on_homeland_security"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_held"
         },
-        "rdfs:label": "The congressional oversight committee on homeland security as AgentRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Role_a_hearing_cco_PatientRole",
+        "@id": "inst:Role_a_hearing_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:a_hearing"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_held"
         },
-        "rdfs:label": "a hearing as PatientRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Artifact_Congressional_Oversight_Committee_On_Homeland_Security_680bcc7bef70",
+        "@id": "inst:Entity_Congressional_Oversight_Committee_On_Homeland_Security_100615aae848",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "congressional oversight committee on homeland security",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.965Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.313Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d9c769f6a06d",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -171,18 +177,20 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "homeland security",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.965Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.313Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d9c769f6a06d",
         "tagteam:denotesType": "cco:Organization"
       },
       {
-        "@id": "inst:Artifact_Hearing_23e511432a81",
+        "@id": "inst:Entity_Hear_f868b2755c0e",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "hearing",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.965Z",
+        "rdfs:label": "hear",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.313Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d9c769f6a06d",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -193,15 +201,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The congressional oversight committee on homeland security held a hearing",
+        "has_text_value": "The congressional oversight committee on homeland security held a hearing",
         "tagteam:char_count": 73,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-18T02:11:44.955Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.302Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -218,20 +226,20 @@
       {
         "@id": "inst:ParsingAct_d9c769f6",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_d9c769f6a06d"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_congressional_oversight_committee_on_homeland_security"
           },
@@ -245,7 +253,7 @@
             "@id": "inst:Act_held"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.955Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.302Z"
       }
     ]
   }

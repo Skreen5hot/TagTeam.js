@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:44.380Z",
+  "generatedAt": "2026-02-22T11:48:43.791Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -79,11 +79,13 @@
         "tagteam:mentionId": "s0:h2:0-13",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Inspector_2f036dc64202"
+        "is_about": {
+          "@id": "inst:Person_Inspector_b03f28d71ddb"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c74c312f0ba6"
         }
       },
@@ -98,10 +100,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Vehicle_7b8038e44d72"
+        "is_about": {
+          "@id": "inst:Entity_Vehicle_020e07c47868"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c74c312f0ba6"
         }
       },
@@ -116,10 +118,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Sensor_90e651926c40"
+        "is_about": {
+          "@id": "inst:Entity_Sensor_6b386e14b60d"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c74c312f0ba6"
         }
       },
@@ -131,86 +133,93 @@
         ],
         "rdfs:label": "examined",
         "tagteam:lemma": "examin",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c74c312f0ba6"
         }
       },
       {
-        "@id": "inst:Role_The_inspector_cco_AgentRole",
+        "@id": "inst:Role_The_inspector_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_inspector"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_examined"
         },
-        "rdfs:label": "The inspector as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_vehicle_cco_PatientRole",
+        "@id": "inst:Role_the_vehicle_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_vehicle"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_examined"
         },
-        "rdfs:label": "the vehicle as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804
       },
       {
-        "@id": "inst:Role_a_sensor_cco_InstrumentRole",
+        "@id": "inst:Role_a_sensor_InstrumentRole",
         "@type": [
-          "cco:InstrumentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "InstrumentRole",
+        "tagteam:roleType": "InstrumentRole",
         "tagteam:bearer": {
           "@id": "inst:a_sensor"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_examined"
         },
-        "rdfs:label": "a sensor as InstrumentRole",
         "tagteam:preposition": "with",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Artifact_Inspector_2f036dc64202",
+        "@id": "inst:Person_Inspector_b03f28d71ddb",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "inspector",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.379Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.791Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c74c312f0ba6",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Vehicle_7b8038e44d72",
+        "@id": "inst:Entity_Vehicle_020e07c47868",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "vehicle",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.379Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.791Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c74c312f0ba6",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Sensor_90e651926c40",
+        "@id": "inst:Entity_Sensor_6b386e14b60d",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "sensor",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.379Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.791Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c74c312f0ba6",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -221,15 +230,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The inspector examined the vehicle with a sensor",
+        "has_text_value": "The inspector examined the vehicle with a sensor",
         "tagteam:char_count": 48,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-18T02:11:44.372Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.784Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -246,20 +255,20 @@
       {
         "@id": "inst:ParsingAct_c74c312f",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_c74c312f0ba6"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_inspector"
           },
@@ -273,7 +282,7 @@
             "@id": "inst:Act_examined"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.372Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.784Z"
       }
     ]
   }

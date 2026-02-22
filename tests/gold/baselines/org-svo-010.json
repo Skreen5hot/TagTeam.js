@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-17T19:15:44.448Z",
+  "generatedAt": "2026-02-22T11:48:42.525Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -60,10 +60,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Secretary_832251e9d8f3"
+        "is_about": {
+          "@id": "inst:Entity_Secretary_3ceca64629ac"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c2b4c510415a"
         }
       },
@@ -78,10 +78,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Statement_17df5b4e7fa3"
+        "is_about": {
+          "@id": "inst:Entity_Statement_beab022a52ea"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c2b4c510415a"
         }
       },
@@ -93,7 +93,7 @@
         ],
         "rdfs:label": "secretary",
         "tagteam:lemma": "secretary",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c2b4c510415a"
         }
       },
@@ -105,44 +105,47 @@
         ],
         "rdfs:label": "issued",
         "tagteam:lemma": "issu",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c2b4c510415a"
         }
       },
       {
-        "@id": "inst:Role_a_statement_cco_PatientRole",
+        "@id": "inst:Role_a_statement_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:a_statement"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_issued"
         },
-        "rdfs:label": "a statement as PatientRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Artifact_Secretary_832251e9d8f3",
+        "@id": "inst:Entity_Secretary_3ceca64629ac",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "secretary",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.448Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.524Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c2b4c510415a",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Statement_17df5b4e7fa3",
+        "@id": "inst:Entity_Statement_beab022a52ea",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "statement",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.448Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.524Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c2b4c510415a",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -153,15 +156,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The secretary issued a statement",
+        "has_text_value": "The secretary issued a statement",
         "tagteam:char_count": 32,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-17T19:15:44.440Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.513Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -178,20 +181,20 @@
       {
         "@id": "inst:ParsingAct_c2b4c510",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_c2b4c510415a"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_secretary"
           },
@@ -205,7 +208,7 @@
             "@id": "inst:Act_issued"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.440Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.513Z"
       }
     ]
   }

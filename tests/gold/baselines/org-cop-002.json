@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-17T19:15:44.060Z",
+  "generatedAt": "2026-02-22T11:48:42.186Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -40,11 +40,14 @@
         "tagteam:mentionId": "s0:h2:0-7",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.95,
+        "tagteam:genericityBasis": "named_entity",
         "tagteam:denotesType": "cco:Organization",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Fbi_211fc12d022d"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e2954bda045a"
         }
       },
@@ -64,7 +67,9 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "fbi",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.059Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.186Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e2954bda045a",
         "tagteam:denotesType": "cco:Organization"
       },
@@ -75,15 +80,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The FBI is a federal law enforcement agency",
+        "has_text_value": "The FBI is a federal law enforcement agency",
         "tagteam:char_count": 43,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-17T19:15:44.044Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.172Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -100,25 +105,25 @@
       {
         "@id": "inst:ParsingAct_e2954bda",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_e2954bda045a"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_FBI"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.044Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.172Z"
       }
     ]
   }

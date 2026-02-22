@@ -6,7 +6,7 @@
     "academic",
     "research"
   ],
-  "generatedAt": "2026-02-18T02:11:44.658Z",
+  "generatedAt": "2026-02-22T11:48:44.027Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -79,11 +79,13 @@
         "tagteam:mentionId": "s0:h2:0-7",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Lab_ce769f7cbe36"
+        "is_about": {
+          "@id": "inst:Entity_Lab_f9c3232d46e2"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_713fea183bbb"
         }
       },
@@ -98,10 +100,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Samples_f8b296092496"
+        "is_about": {
+          "@id": "inst:Entity_Sample_7087270d9f13"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_713fea183bbb"
         }
       },
@@ -116,10 +118,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Spectrometer_7898cf658825"
+        "is_about": {
+          "@id": "inst:Entity_Spectrometer_fa4c88f2fbc8"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_713fea183bbb"
         }
       },
@@ -131,86 +133,93 @@
         ],
         "rdfs:label": "analyzed",
         "tagteam:lemma": "analyz",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_713fea183bbb"
         }
       },
       {
-        "@id": "inst:Role_The_lab_cco_AgentRole",
+        "@id": "inst:Role_The_lab_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_lab"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_analyzed"
         },
-        "rdfs:label": "The lab as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_samples_cco_PatientRole",
+        "@id": "inst:Role_the_samples_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_samples"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_analyzed"
         },
-        "rdfs:label": "the samples as PatientRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_a_spectrometer_cco_InstrumentRole",
+        "@id": "inst:Role_a_spectrometer_InstrumentRole",
         "@type": [
-          "cco:InstrumentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "InstrumentRole",
+        "tagteam:roleType": "InstrumentRole",
         "tagteam:bearer": {
           "@id": "inst:a_spectrometer"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_analyzed"
         },
-        "rdfs:label": "a spectrometer as InstrumentRole",
         "tagteam:preposition": "with",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Artifact_Lab_ce769f7cbe36",
+        "@id": "inst:Entity_Lab_f9c3232d46e2",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "lab",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.657Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.027Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_713fea183bbb",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Samples_f8b296092496",
+        "@id": "inst:Entity_Sample_7087270d9f13",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "samples",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.657Z",
+        "rdfs:label": "sample",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.027Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_713fea183bbb",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Spectrometer_7898cf658825",
+        "@id": "inst:Entity_Spectrometer_fa4c88f2fbc8",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "spectrometer",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.657Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.027Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_713fea183bbb",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -221,15 +230,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The lab analyzed the samples with a spectrometer",
+        "has_text_value": "The lab analyzed the samples with a spectrometer",
         "tagteam:char_count": 48,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-18T02:11:44.647Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.018Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -246,20 +255,20 @@
       {
         "@id": "inst:ParsingAct_713fea18",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_713fea183bbb"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_lab"
           },
@@ -273,7 +282,7 @@
             "@id": "inst:Act_analyzed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.647Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.018Z"
       }
     ]
   }

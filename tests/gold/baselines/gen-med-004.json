@@ -6,7 +6,7 @@
     "medical",
     "treatment"
   ],
-  "generatedAt": "2026-02-18T02:11:44.732Z",
+  "generatedAt": "2026-02-22T11:48:44.093Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -62,11 +62,13 @@
         "tagteam:mentionId": "s0:h2:0-14",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Pharmacist_25f0d8f23227"
+        "is_about": {
+          "@id": "inst:Person_Pharmacist_f4946de6c734"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_6b7f7e63d5bd"
         }
       },
@@ -81,10 +83,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Medication_f6ed4d0f4d00"
+        "is_about": {
+          "@id": "inst:Entity_Medication_5ef5d8d4be52"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_6b7f7e63d5bd"
         }
       },
@@ -96,59 +98,64 @@
         ],
         "rdfs:label": "dispensed",
         "tagteam:lemma": "dispens",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_6b7f7e63d5bd"
         }
       },
       {
-        "@id": "inst:Role_The_pharmacist_cco_AgentRole",
+        "@id": "inst:Role_The_pharmacist_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_pharmacist"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_dispensed"
         },
-        "rdfs:label": "The pharmacist as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_medication_cco_PatientRole",
+        "@id": "inst:Role_the_medication_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_medication"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_dispensed"
         },
-        "rdfs:label": "the medication as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Artifact_Pharmacist_25f0d8f23227",
+        "@id": "inst:Person_Pharmacist_f4946de6c734",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "pharmacist",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.732Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.093Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6b7f7e63d5bd",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Medication_f6ed4d0f4d00",
+        "@id": "inst:Entity_Medication_5ef5d8d4be52",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "medication",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.732Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.093Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6b7f7e63d5bd",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -159,15 +166,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The pharmacist dispensed the medication",
+        "has_text_value": "The pharmacist dispensed the medication",
         "tagteam:char_count": 39,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-18T02:11:44.724Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.087Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -184,20 +191,20 @@
       {
         "@id": "inst:ParsingAct_6b7f7e63",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_6b7f7e63d5bd"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_pharmacist"
           },
@@ -208,7 +215,7 @@
             "@id": "inst:Act_dispensed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.724Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.087Z"
       }
     ]
   }

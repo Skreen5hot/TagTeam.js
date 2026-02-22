@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-17T19:15:44.912Z",
+  "generatedAt": "2026-02-22T11:48:42.939Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -59,10 +59,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_State_And_Local_Authorities_dbd0a4ab0dbb"
+        "is_about": {
+          "@id": "inst:Entity_State_And_Local_Authority_d04f2ce56be2"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_51c1431487b2"
         }
       },
@@ -77,10 +77,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Search_6f42701d1dc1"
+        "is_about": {
+          "@id": "inst:Entity_Search_28deb6f2379e"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_51c1431487b2"
         }
       },
@@ -92,29 +92,31 @@
         ],
         "rdfs:label": "State",
         "tagteam:lemma": "state",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_51c1431487b2"
         }
       },
       {
-        "@id": "inst:Artifact_State_And_Local_Authorities_dbd0a4ab0dbb",
+        "@id": "inst:Entity_State_And_Local_Authority_d04f2ce56be2",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "state and local authorities",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.912Z",
+        "rdfs:label": "state and local authority",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.939Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_51c1431487b2",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Search_6f42701d1dc1",
+        "@id": "inst:Entity_Search_28deb6f2379e",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "search",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.912Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.939Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_51c1431487b2",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -125,15 +127,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "State and local authorities assisted in the search",
+        "has_text_value": "State and local authorities assisted in the search",
         "tagteam:char_count": 50,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-17T19:15:44.900Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.930Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -150,20 +152,20 @@
       {
         "@id": "inst:ParsingAct_51c14314",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_51c1431487b2"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:State_and_local_authorities"
           },
@@ -174,7 +176,7 @@
             "@id": "inst:Act_State"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.900Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.930Z"
       }
     ]
   }

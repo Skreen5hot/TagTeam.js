@@ -5,7 +5,7 @@
   "tags": [
     "legal"
   ],
-  "generatedAt": "2026-02-18T02:11:44.861Z",
+  "generatedAt": "2026-02-22T11:48:44.211Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -61,11 +61,13 @@
         "tagteam:mentionId": "s0:h2:0-9",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Clerk_254b51db0772"
+        "is_about": {
+          "@id": "inst:Entity_Clerk_c6a01919163e"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_86a5633a35b1"
         }
       },
@@ -80,10 +82,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Proceedings_4abfbfb4e773"
+        "is_about": {
+          "@id": "inst:Entity_Proceeding_dafa7613e298"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_86a5633a35b1"
         }
       },
@@ -95,59 +97,64 @@
         ],
         "rdfs:label": "recorded",
         "tagteam:lemma": "record",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_86a5633a35b1"
         }
       },
       {
-        "@id": "inst:Role_The_clerk_cco_AgentRole",
+        "@id": "inst:Role_The_clerk_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_clerk"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_recorded"
         },
-        "rdfs:label": "The clerk as AgentRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Role_the_proceedings_cco_PatientRole",
+        "@id": "inst:Role_the_proceedings_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_proceedings"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_recorded"
         },
-        "rdfs:label": "the proceedings as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Artifact_Clerk_254b51db0772",
+        "@id": "inst:Entity_Clerk_c6a01919163e",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "clerk",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.861Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.211Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_86a5633a35b1",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Proceedings_4abfbfb4e773",
+        "@id": "inst:Entity_Proceeding_dafa7613e298",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "proceedings",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.861Z",
+        "rdfs:label": "proceeding",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.211Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_86a5633a35b1",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -158,15 +165,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The clerk recorded the proceedings",
+        "has_text_value": "The clerk recorded the proceedings",
         "tagteam:char_count": 34,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-18T02:11:44.852Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.203Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -183,20 +190,20 @@
       {
         "@id": "inst:ParsingAct_86a5633a",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_86a5633a35b1"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_clerk"
           },
@@ -207,7 +214,7 @@
             "@id": "inst:Act_recorded"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.852Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.203Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:44.020Z",
+  "generatedAt": "2026-02-22T11:48:43.480Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -29,6 +29,11 @@
       "text": "travelers",
       "type": "bfo:Entity",
       "id": "inst:travelers"
+    },
+    {
+      "text": "preclearance",
+      "type": "bfo:BFO_0000001",
+      "id": "inst:Entity_Preclearance_104242b768ea"
     }
   ],
   "extractedRoles": [
@@ -49,11 +54,13 @@
         "tagteam:mentionId": "s0:h1:0-12",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
+        "tagteam:genericityCategory": "GEN",
+        "tagteam:genericityConfidence": 0.75,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Preclearance_94a11ad08955"
+        "is_about": {
+          "@id": "inst:Entity_Preclearance_104242b768ea"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c74835b2caa5"
         }
       },
@@ -68,10 +75,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Travelers_34477db6ed40"
+        "is_about": {
+          "@id": "inst:Entity_Traveler_4cad4047f924"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c74835b2caa5"
         }
       },
@@ -83,7 +90,7 @@
         ],
         "rdfs:label": "inspecting",
         "tagteam:lemma": "inspect",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c74835b2caa5"
         }
       },
@@ -97,39 +104,47 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Role_travelers_cco_PatientRole",
+        "@id": "inst:Role_travelers_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:travelers"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_inspecting"
         },
-        "rdfs:label": "travelers as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Artifact_Preclearance_94a11ad08955",
+        "@id": "inst:Entity_Preclearance_104242b768ea",
         "@type": [
-          "cco:Artifact",
-          "owl:NamedIndividual"
+          "bfo:BFO_0000001",
+          "owl:Class"
         ],
         "rdfs:label": "preclearance",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.020Z",
+        "tagteam:genericityCategory": "GEN",
+        "tagteam:typeBasis": "default",
+        "tagteam:classNominationStatus": "unresolved",
+        "tagteam:nominatedClassLabel": "Preclearance",
+        "tagteam:nominationBasis": "unknown",
+        "tagteam:requiresOntologyResolution": true,
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.480Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c74835b2caa5",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Travelers_34477db6ed40",
+        "@id": "inst:Entity_Traveler_4cad4047f924",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "travelers",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.020Z",
+        "rdfs:label": "traveler",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.480Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c74835b2caa5",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -140,15 +155,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "Preclearance is a CBP program for inspecting travelers abroad",
+        "has_text_value": "Preclearance is a CBP program for inspecting travelers abroad",
         "tagteam:char_count": 61,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-18T02:11:44.007Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.470Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -165,20 +180,20 @@
       {
         "@id": "inst:ParsingAct_c74835b2",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_c74835b2caa5"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:Preclearance"
           },
@@ -189,7 +204,7 @@
             "@id": "inst:Act_inspecting"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.007Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.470Z"
       }
     ]
   }

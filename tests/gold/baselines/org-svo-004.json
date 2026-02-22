@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-17T19:15:44.378Z",
+  "generatedAt": "2026-02-22T11:48:42.451Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -76,11 +76,13 @@
         "tagteam:mentionId": "s0:h2:0-9",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Agent_ba540ba978bc"
+        "is_about": {
+          "@id": "inst:Person_Agent_1285a3d4f023"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_484423e3cd48"
         }
       },
@@ -95,10 +97,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Report_5bde8425335a"
+        "is_about": {
+          "@id": "inst:Entity_Report_b8e42c4d49c3"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_484423e3cd48"
         }
       },
@@ -113,10 +115,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Office_db0f6684a02e"
+        "is_about": {
+          "@id": "inst:Entity_Office_5239b2190cc7"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_484423e3cd48"
         }
       },
@@ -128,86 +130,93 @@
         ],
         "rdfs:label": "filed",
         "tagteam:lemma": "fil",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_484423e3cd48"
         }
       },
       {
-        "@id": "inst:Role_The_agent_cco_AgentRole",
+        "@id": "inst:Role_The_agent_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_agent"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_filed"
         },
-        "rdfs:label": "The agent as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Role_a_report_cco_PatientRole",
+        "@id": "inst:Role_a_report_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:a_report"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_filed"
         },
-        "rdfs:label": "a report as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Role_the_office_cco_InstrumentRole",
+        "@id": "inst:Role_the_office_InstrumentRole",
         "@type": [
-          "cco:InstrumentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "InstrumentRole",
+        "tagteam:roleType": "InstrumentRole",
         "tagteam:bearer": {
           "@id": "inst:the_office"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_filed"
         },
-        "rdfs:label": "the office as InstrumentRole",
         "tagteam:preposition": "with",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Artifact_Agent_ba540ba978bc",
+        "@id": "inst:Person_Agent_1285a3d4f023",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "agent",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.378Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.451Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_484423e3cd48",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Report_5bde8425335a",
+        "@id": "inst:Entity_Report_b8e42c4d49c3",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "report",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.378Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.451Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_484423e3cd48",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Office_db0f6684a02e",
+        "@id": "inst:Entity_Office_5239b2190cc7",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "office",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.378Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.451Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_484423e3cd48",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -218,15 +227,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The agent filed a report with the office",
+        "has_text_value": "The agent filed a report with the office",
         "tagteam:char_count": 40,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-17T19:15:44.370Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.442Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -243,20 +252,20 @@
       {
         "@id": "inst:ParsingAct_484423e3",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_484423e3cd48"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_agent"
           },
@@ -270,7 +279,7 @@
             "@id": "inst:Act_filed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.370Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.442Z"
       }
     ]
   }

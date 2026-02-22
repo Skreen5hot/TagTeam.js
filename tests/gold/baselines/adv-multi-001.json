@@ -6,7 +6,7 @@
     "multi-clause",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:45.167Z",
+  "generatedAt": "2026-02-22T11:48:44.464Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -85,10 +85,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Agent_dda841b87247"
+        "is_about": {
+          "@id": "inst:Person_Agent_3579ccebc4a0"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_24ce32ca9e10"
         }
       },
@@ -103,10 +103,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Suspect_5b2515d5e46f"
+        "is_about": {
+          "@id": "inst:Person_Suspect_71b333092b92"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_24ce32ca9e10"
         }
       },
@@ -120,11 +120,13 @@
         "tagteam:mentionId": "s0:h8:35-43",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Team_29fadf38fdb3"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_24ce32ca9e10"
         }
       },
@@ -139,10 +141,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Area_719eba02e8ad"
+        "is_about": {
+          "@id": "inst:Entity_Area_46bd12c676b5"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_24ce32ca9e10"
         }
       },
@@ -154,7 +156,7 @@
         ],
         "rdfs:label": "agent",
         "tagteam:lemma": "agent",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_24ce32ca9e10"
         }
       },
@@ -166,44 +168,47 @@
         ],
         "rdfs:label": "arrested",
         "tagteam:lemma": "arrest",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_24ce32ca9e10"
         }
       },
       {
-        "@id": "inst:Role_the_suspect_cco_PatientRole",
+        "@id": "inst:Role_the_suspect_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_suspect"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_arrested"
         },
-        "rdfs:label": "the suspect as PatientRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Artifact_Agent_dda841b87247",
+        "@id": "inst:Person_Agent_3579ccebc4a0",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "agent",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.166Z",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.464Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_24ce32ca9e10",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Suspect_5b2515d5e46f",
+        "@id": "inst:Person_Suspect_71b333092b92",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "suspect",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.167Z",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.464Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_24ce32ca9e10",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -214,18 +219,21 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "team",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.167Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.464Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_24ce32ca9e10",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Area_719eba02e8ad",
+        "@id": "inst:Entity_Area_46bd12c676b5",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "area",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.167Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.464Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_24ce32ca9e10",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -236,15 +244,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The agent arrested the suspect and the team secured the area",
+        "has_text_value": "The agent arrested the suspect and the team secured the area",
         "tagteam:char_count": 60,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-18T02:11:45.154Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.450Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -261,20 +269,20 @@
       {
         "@id": "inst:ParsingAct_24ce32ca",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_24ce32ca9e10"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_agent"
           },
@@ -294,7 +302,7 @@
             "@id": "inst:Act_arrested"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.154Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.450Z"
       }
     ]
   }

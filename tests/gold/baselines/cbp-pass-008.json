@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:44.275Z",
+  "generatedAt": "2026-02-22T11:48:43.701Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -58,11 +58,13 @@
         "tagteam:mentionId": "s0:h2:0-11",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Suspect_997c623533e2"
+        "is_about": {
+          "@id": "inst:Person_Suspect_ec4ab11c9e30"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_635a40f0651d"
         }
       },
@@ -77,10 +79,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Federal_Custody_977821a43e0c"
+        "is_about": {
+          "@id": "inst:Entity_Federal_Custody_9ba951d640e8"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_635a40f0651d"
         }
       },
@@ -93,60 +95,65 @@
         "rdfs:label": "transferred",
         "tagteam:lemma": "transferr",
         "tagteam:isPassive": true,
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_635a40f0651d"
         }
       },
       {
-        "@id": "inst:Role_The_suspect_cco_PatientRole",
+        "@id": "inst:Role_The_suspect_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:The_suspect"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_transferred"
         },
-        "rdfs:label": "The suspect as PatientRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_federal_custody_cco_DestinationRole",
+        "@id": "inst:Role_federal_custody_DestinationRole",
         "@type": [
-          "cco:DestinationRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "DestinationRole",
+        "tagteam:roleType": "DestinationRole",
         "tagteam:bearer": {
           "@id": "inst:federal_custody"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_transferred"
         },
-        "rdfs:label": "federal custody as DestinationRole",
         "tagteam:preposition": "to",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Artifact_Suspect_997c623533e2",
+        "@id": "inst:Person_Suspect_ec4ab11c9e30",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "suspect",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.275Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.700Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_635a40f0651d",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Federal_Custody_977821a43e0c",
+        "@id": "inst:Entity_Federal_Custody_9ba951d640e8",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "federal custody",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.275Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.700Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_635a40f0651d",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -157,15 +164,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The suspect was transferred to federal custody",
+        "has_text_value": "The suspect was transferred to federal custody",
         "tagteam:char_count": 46,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-18T02:11:44.264Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.694Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -182,20 +189,20 @@
       {
         "@id": "inst:ParsingAct_635a40f0",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_635a40f0651d"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_suspect"
           },
@@ -206,7 +213,7 @@
             "@id": "inst:Act_transferred"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.264Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.694Z"
       }
     ]
   }

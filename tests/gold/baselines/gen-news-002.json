@@ -6,7 +6,7 @@
     "news",
     "business"
   ],
-  "generatedAt": "2026-02-18T02:11:44.523Z",
+  "generatedAt": "2026-02-22T11:48:43.903Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -75,11 +75,13 @@
         "tagteam:mentionId": "s0:h2:0-11",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Company_c0d3098dc8d4"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_be291b49b5d2"
         }
       },
@@ -94,10 +96,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Merger_020ea80aff83"
+        "is_about": {
+          "@id": "inst:Entity_Merger_6a9530f469f1"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_be291b49b5d2"
         }
       },
@@ -112,10 +114,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Its_Competitor_014dc61bb18c"
+        "is_about": {
+          "@id": "inst:Entity_Its_Competitor_4fb8b4a872f7"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_be291b49b5d2"
         }
       },
@@ -127,52 +129,55 @@
         ],
         "rdfs:label": "announced",
         "tagteam:lemma": "announc",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_be291b49b5d2"
         }
       },
       {
-        "@id": "inst:Role_The_company_cco_AgentRole",
+        "@id": "inst:Role_The_company_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_company"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_announced"
         },
-        "rdfs:label": "The company as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Role_a_merger_cco_PatientRole",
+        "@id": "inst:Role_a_merger_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:a_merger"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_announced"
         },
-        "rdfs:label": "a merger as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Role_its_competitor_cco_InstrumentRole",
+        "@id": "inst:Role_its_competitor_InstrumentRole",
         "@type": [
-          "cco:InstrumentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "InstrumentRole",
+        "tagteam:roleType": "InstrumentRole",
         "tagteam:bearer": {
           "@id": "inst:its_competitor"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_announced"
         },
-        "rdfs:label": "its competitor as InstrumentRole",
         "tagteam:preposition": "with",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
@@ -184,29 +189,33 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "company",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.523Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.902Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be291b49b5d2",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Merger_020ea80aff83",
+        "@id": "inst:Entity_Merger_6a9530f469f1",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "merger",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.523Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.902Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be291b49b5d2",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Its_Competitor_014dc61bb18c",
+        "@id": "inst:Entity_Its_Competitor_4fb8b4a872f7",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "its competitor",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.523Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.902Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be291b49b5d2",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -217,15 +226,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The company announced a merger with its competitor",
+        "has_text_value": "The company announced a merger with its competitor",
         "tagteam:char_count": 50,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-18T02:11:44.515Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.894Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -242,20 +251,20 @@
       {
         "@id": "inst:ParsingAct_be291b49",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_be291b49b5d2"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_company"
           },
@@ -269,7 +278,7 @@
             "@id": "inst:Act_announced"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.515Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.894Z"
       }
     ]
   }

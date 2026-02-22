@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:44.089Z",
+  "generatedAt": "2026-02-22T11:48:43.549Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -44,11 +44,18 @@
         "tagteam:mentionId": "s0:h3:0-16",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Duty_Officer_efdc5d915fb3"
+        "tagteam:genericityCategory": "AMB",
+        "tagteam:genericityConfidence": 0.6,
+        "tagteam:genericityBasis": "institutional_the",
+        "tagteam:genericityAlternative": {
+          "tagteam:category": "GEN",
+          "tagteam:confidence": 0.4
         },
-        "cco:is_concretized_by": {
+        "tagteam:denotesType": "bfo:Entity",
+        "is_about": {
+          "@id": "inst:Person_Duty_Officer_b2da48374998"
+        },
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_def8547a60fd"
         }
       },
@@ -63,10 +70,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Emergencies_f26d612231d2"
+        "is_about": {
+          "@id": "inst:Entity_Emergency_96af7ae89cd4"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_def8547a60fd"
         }
       },
@@ -81,24 +88,27 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Artifact_Duty_Officer_efdc5d915fb3",
+        "@id": "inst:Person_Duty_Officer_b2da48374998",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "duty officer",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.089Z",
+        "tagteam:genericityCategory": "AMB",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.549Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_def8547a60fd",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Emergencies_f26d612231d2",
+        "@id": "inst:Entity_Emergency_96af7ae89cd4",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "emergencies",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.089Z",
+        "rdfs:label": "emergency",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.549Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_def8547a60fd",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -109,15 +119,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The duty officer is the primary contact for emergencies",
+        "has_text_value": "The duty officer is the primary contact for emergencies",
         "tagteam:char_count": 55,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-18T02:11:44.077Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.539Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -134,20 +144,20 @@
       {
         "@id": "inst:ParsingAct_def8547a",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_def8547a60fd"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_duty_officer"
           },
@@ -155,7 +165,7 @@
             "@id": "inst:emergencies"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.077Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.539Z"
       }
     ]
   }

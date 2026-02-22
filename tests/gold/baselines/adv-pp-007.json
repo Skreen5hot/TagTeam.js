@@ -6,7 +6,7 @@
     "nested-pp",
     "government"
   ],
-  "generatedAt": "2026-02-18T02:11:45.319Z",
+  "generatedAt": "2026-02-22T11:48:44.581Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -86,10 +86,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Analyst_8d6be23a55c2"
+        "is_about": {
+          "@id": "inst:Person_Analyst_2ae13bdbeb77"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3256b34b6366"
         }
       },
@@ -104,10 +104,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Findings_06ed6b60f9e8"
+        "is_about": {
+          "@id": "inst:Entity_Finding_46f9b7c5c5ac"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3256b34b6366"
         }
       },
@@ -122,10 +122,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Director_Of_The_Operations_Division_At_Headquarters_c336816d6d72"
+        "is_about": {
+          "@id": "inst:Entity_Director_Of_The_Operations_Division_At_Headquarter_17e0499f89af"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3256b34b6366"
         }
       },
@@ -140,10 +140,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Operations_Division_At_Headquarters_1f8c39056360"
+        "is_about": {
+          "@id": "inst:Entity_Operations_Division_At_Headquarter_82f67c5a71c0"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3256b34b6366"
         }
       },
@@ -158,10 +158,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Headquarters_59baf8c34295"
+        "is_about": {
+          "@id": "inst:Entity_Headquarter_a7a33ca4dd35"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3256b34b6366"
         }
       },
@@ -173,7 +173,7 @@
         ],
         "rdfs:label": "analyst",
         "tagteam:lemma": "analyst",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3256b34b6366"
         }
       },
@@ -185,93 +185,100 @@
         ],
         "rdfs:label": "sent",
         "tagteam:lemma": "send",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3256b34b6366"
         }
       },
       {
-        "@id": "inst:Role_the_findings_cco_PatientRole",
+        "@id": "inst:Role_the_findings_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_findings"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_sent"
         },
-        "rdfs:label": "the findings as PatientRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Role_the_director_of_the_operations_division_at_headquarters_cco_DestinationRole",
+        "@id": "inst:Role_the_director_of_the_operations_division_at_headquarters_DestinationRole",
         "@type": [
-          "cco:DestinationRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "DestinationRole",
+        "tagteam:roleType": "DestinationRole",
         "tagteam:bearer": {
           "@id": "inst:the_director_of_the_operations_division_at_headquarters"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_sent"
         },
-        "rdfs:label": "the director of the operations division at headquarters as DestinationRole",
         "tagteam:preposition": "to",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Artifact_Analyst_8d6be23a55c2",
+        "@id": "inst:Person_Analyst_2ae13bdbeb77",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "analyst",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.318Z",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.581Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3256b34b6366",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Findings_06ed6b60f9e8",
+        "@id": "inst:Entity_Finding_46f9b7c5c5ac",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "findings",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.318Z",
+        "rdfs:label": "finding",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.581Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3256b34b6366",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Director_Of_The_Operations_Division_At_Headquarters_c336816d6d72",
+        "@id": "inst:Entity_Director_Of_The_Operations_Division_At_Headquarter_17e0499f89af",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "director of the operations division at headquarters",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.318Z",
+        "rdfs:label": "director of the operations division at headquarter",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.581Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3256b34b6366",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Operations_Division_At_Headquarters_1f8c39056360",
+        "@id": "inst:Entity_Operations_Division_At_Headquarter_82f67c5a71c0",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "operations division at headquarters",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.318Z",
+        "rdfs:label": "operations division at headquarter",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.581Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3256b34b6366",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Headquarters_59baf8c34295",
+        "@id": "inst:Entity_Headquarter_a7a33ca4dd35",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "headquarters",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.318Z",
+        "rdfs:label": "headquarter",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.581Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3256b34b6366",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -282,15 +289,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The analyst sent the findings to the director of the operations division at headquarters",
+        "has_text_value": "The analyst sent the findings to the director of the operations division at headquarters",
         "tagteam:char_count": 88,
         "tagteam:word_count": 14,
-        "tagteam:received_at": "2026-02-18T02:11:45.307Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.571Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -307,20 +314,20 @@
       {
         "@id": "inst:ParsingAct_3256b34b",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_3256b34b6366"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_analyst"
           },
@@ -343,7 +350,7 @@
             "@id": "inst:Act_sent"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.307Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.571Z"
       }
     ]
   }

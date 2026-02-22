@@ -7,7 +7,7 @@
     "definitional",
     "military"
   ],
-  "generatedAt": "2026-02-17T19:15:44.237Z",
+  "generatedAt": "2026-02-22T11:48:42.307Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -45,11 +45,13 @@
         "tagteam:mentionId": "s0:h3:0-15",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Coast_Guard_f747157ea053"
+        "is_about": {
+          "@id": "inst:Person_Coast_Guard_c83f8a770ee7"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ceab63bf2523"
         }
       },
@@ -64,10 +66,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Armed_Forces_afed0dda9542"
+        "is_about": {
+          "@id": "inst:Entity_Armed_Force_4f4be175752f"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ceab63bf2523"
         }
       },
@@ -82,24 +84,27 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Artifact_Coast_Guard_f747157ea053",
+        "@id": "inst:Person_Coast_Guard_c83f8a770ee7",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "coast guard",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.237Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.307Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ceab63bf2523",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Armed_Forces_afed0dda9542",
+        "@id": "inst:Entity_Armed_Force_4f4be175752f",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "armed forces",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.237Z",
+        "rdfs:label": "armed force",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.307Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ceab63bf2523",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -110,15 +115,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The Coast Guard is a branch of the armed forces",
+        "has_text_value": "The Coast Guard is a branch of the armed forces",
         "tagteam:char_count": 47,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-17T19:15:44.220Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.294Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -135,20 +140,20 @@
       {
         "@id": "inst:ParsingAct_ceab63bf",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_ceab63bf2523"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_Coast_Guard"
           },
@@ -156,7 +161,7 @@
             "@id": "inst:the_armed_forces"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.220Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.294Z"
       }
     ]
   }

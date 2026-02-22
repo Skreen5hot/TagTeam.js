@@ -6,7 +6,7 @@
     "medical",
     "diagnosis"
   ],
-  "generatedAt": "2026-02-18T02:11:44.759Z",
+  "generatedAt": "2026-02-22T11:48:44.121Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -62,11 +62,13 @@
         "tagteam:mentionId": "s0:h2:0-15",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Radiologist_7c07563bfb5d"
+        "is_about": {
+          "@id": "inst:Entity_Radiologist_53a97491c603"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7a1c7a55ec96"
         }
       },
@@ -81,10 +83,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Imaging_Results_50bfeb46d5d6"
+        "is_about": {
+          "@id": "inst:Entity_Imaging_Results_c10eb407164f"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7a1c7a55ec96"
         }
       },
@@ -96,59 +98,64 @@
         ],
         "rdfs:label": "reviewed",
         "tagteam:lemma": "review",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7a1c7a55ec96"
         }
       },
       {
-        "@id": "inst:Role_The_radiologist_cco_AgentRole",
+        "@id": "inst:Role_The_radiologist_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_radiologist"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_reviewed"
         },
-        "rdfs:label": "The radiologist as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_imaging_results_cco_PatientRole",
+        "@id": "inst:Role_the_imaging_results_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_imaging_results"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_reviewed"
         },
-        "rdfs:label": "the imaging results as PatientRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Artifact_Radiologist_7c07563bfb5d",
+        "@id": "inst:Entity_Radiologist_53a97491c603",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "radiologist",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.759Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.120Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7a1c7a55ec96",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Imaging_Results_50bfeb46d5d6",
+        "@id": "inst:Entity_Imaging_Results_c10eb407164f",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "imaging results",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.759Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.120Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7a1c7a55ec96",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -159,15 +166,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The radiologist reviewed the imaging results",
+        "has_text_value": "The radiologist reviewed the imaging results",
         "tagteam:char_count": 44,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-18T02:11:44.752Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.113Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -184,20 +191,20 @@
       {
         "@id": "inst:ParsingAct_7a1c7a55",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_7a1c7a55ec96"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_radiologist"
           },
@@ -208,7 +215,7 @@
             "@id": "inst:Act_reviewed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.752Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.113Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "medical",
     "treatment"
   ],
-  "generatedAt": "2026-02-18T02:11:44.747Z",
+  "generatedAt": "2026-02-22T11:48:44.108Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -79,11 +79,13 @@
         "tagteam:mentionId": "s0:h2:0-12",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Hospital_042c2305be50"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_bdc26060bf87"
         }
       },
@@ -98,10 +100,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Person_Patient_f5a5ff47b841"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_bdc26060bf87"
         }
       },
@@ -116,10 +118,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Intensive_Care_Unit_0202a4993192"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_bdc26060bf87"
         }
       },
@@ -131,52 +133,55 @@
         ],
         "rdfs:label": "admitted",
         "tagteam:lemma": "admitt",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_bdc26060bf87"
         }
       },
       {
-        "@id": "inst:Role_The_hospital_cco_AgentRole",
+        "@id": "inst:Role_The_hospital_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_hospital"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_admitted"
         },
-        "rdfs:label": "The hospital as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Role_the_patient_cco_PatientRole",
+        "@id": "inst:Role_the_patient_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_patient"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_admitted"
         },
-        "rdfs:label": "the patient as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Role_the_intensive_care_unit_cco_DestinationRole",
+        "@id": "inst:Role_the_intensive_care_unit_DestinationRole",
         "@type": [
-          "cco:DestinationRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "DestinationRole",
+        "tagteam:roleType": "DestinationRole",
         "tagteam:bearer": {
           "@id": "inst:the_intensive_care_unit"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_admitted"
         },
-        "rdfs:label": "the intensive care unit as DestinationRole",
         "tagteam:preposition": "to",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
@@ -188,7 +193,9 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "hospital",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.746Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.108Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdc26060bf87",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -199,7 +206,8 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "patient",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.746Z",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.108Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdc26060bf87",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -210,7 +218,8 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "intensive care unit",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.746Z",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.108Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdc26060bf87",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -221,15 +230,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The hospital admitted the patient to the intensive care unit",
+        "has_text_value": "The hospital admitted the patient to the intensive care unit",
         "tagteam:char_count": 60,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-18T02:11:44.737Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.098Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -246,20 +255,20 @@
       {
         "@id": "inst:ParsingAct_bdc26060",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_bdc26060bf87"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_hospital"
           },
@@ -273,7 +282,7 @@
             "@id": "inst:Act_admitted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.737Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.098Z"
       }
     ]
   }

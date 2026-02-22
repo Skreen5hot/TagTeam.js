@@ -7,7 +7,7 @@
     "keep",
     "government"
   ],
-  "generatedAt": "2026-02-17T19:15:44.846Z",
+  "generatedAt": "2026-02-22T11:48:42.882Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -60,10 +60,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Immigration_And_Customs_Enforcement_Deported_The_Individual_08b27d322955"
+        "is_about": {
+          "@id": "inst:Entity_Immigration_And_Customs_Enforcement_Deported_The_Individual_9ca80e795dab"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_627b40b5c203"
         }
       },
@@ -77,11 +77,14 @@
         "tagteam:mentionId": "s0:h4:24-35",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
+        "tagteam:genericityBasis": "proper_noun",
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Enforcement_941e330e9faf"
+        "is_about": {
+          "@id": "inst:Entity_Enforcement_7ca33e4d2d17"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_627b40b5c203"
         }
       },
@@ -96,10 +99,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Individual_a3589a09fbff"
+        "is_about": {
+          "@id": "inst:Entity_Individual_200efab15f45"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_627b40b5c203"
         }
       },
@@ -111,40 +114,44 @@
         ],
         "rdfs:label": "Immigration",
         "tagteam:lemma": "immigration",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_627b40b5c203"
         }
       },
       {
-        "@id": "inst:Artifact_Immigration_And_Customs_Enforcement_Deported_The_Individual_08b27d322955",
+        "@id": "inst:Entity_Immigration_And_Customs_Enforcement_Deported_The_Individual_9ca80e795dab",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "immigration and customs enforcement deported the individual",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.845Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.882Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_627b40b5c203",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Enforcement_941e330e9faf",
+        "@id": "inst:Entity_Enforcement_7ca33e4d2d17",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "enforcement",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.845Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.882Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_627b40b5c203",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Individual_a3589a09fbff",
+        "@id": "inst:Entity_Individual_200efab15f45",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "individual",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.845Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.882Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_627b40b5c203",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -155,15 +162,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "Immigration and Customs Enforcement deported the individual",
+        "has_text_value": "Immigration and Customs Enforcement deported the individual",
         "tagteam:char_count": 59,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-17T19:15:44.835Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.875Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -180,20 +187,20 @@
       {
         "@id": "inst:ParsingAct_627b40b5",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_627b40b5c203"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:Immigration_and_Customs_Enforcement_deported_the_individual"
           },
@@ -207,7 +214,7 @@
             "@id": "inst:Act_Immigration"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.835Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.875Z"
       }
     ]
   }

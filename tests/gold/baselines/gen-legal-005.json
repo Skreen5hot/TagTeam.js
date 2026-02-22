@@ -5,7 +5,7 @@
   "tags": [
     "legal"
   ],
-  "generatedAt": "2026-02-18T02:11:44.848Z",
+  "generatedAt": "2026-02-22T11:48:44.198Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -67,10 +67,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_The_bff057f9c74a"
+        "is_about": {
+          "@id": "inst:Entity_The_a58ef68cb88a"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3a1007365039"
         }
       },
@@ -84,11 +84,17 @@
         "tagteam:mentionId": "s0:h3:4-19",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Defense_Counsel_fe6af772db8a"
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.75,
+        "tagteam:genericityAlternative": {
+          "tagteam:category": "GEN",
+          "tagteam:confidence": 0.25
         },
-        "cco:is_concretized_by": {
+        "tagteam:denotesType": "bfo:Entity",
+        "is_about": {
+          "@id": "inst:Entity_Defense_Counsel_d925789b9522"
+        },
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3a1007365039"
         }
       },
@@ -103,10 +109,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Witness_23d701283136"
+        "is_about": {
+          "@id": "inst:Person_Witness_0406c1b9a1e7"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3a1007365039"
         }
       },
@@ -118,7 +124,7 @@
         ],
         "rdfs:label": "The",
         "tagteam:lemma": "the",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3a1007365039"
         }
       },
@@ -130,70 +136,76 @@
         ],
         "rdfs:label": "examined",
         "tagteam:lemma": "examin",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3a1007365039"
         }
       },
       {
-        "@id": "inst:Role_defense_counsel_cco_AgentRole",
+        "@id": "inst:Role_defense_counsel_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:defense_counsel"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_examined"
         },
-        "rdfs:label": "defense counsel as AgentRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Role_the_witness_cco_PatientRole",
+        "@id": "inst:Role_the_witness_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_witness"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_examined"
         },
-        "rdfs:label": "the witness as PatientRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Artifact_The_bff057f9c74a",
+        "@id": "inst:Entity_The_a58ef68cb88a",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "the",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.848Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.198Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3a1007365039",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Defense_Counsel_fe6af772db8a",
+        "@id": "inst:Entity_Defense_Counsel_d925789b9522",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "defense counsel",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.848Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.198Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3a1007365039",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Witness_23d701283136",
+        "@id": "inst:Person_Witness_0406c1b9a1e7",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "witness",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.848Z",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.198Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3a1007365039",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -204,15 +216,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The defense counsel cross-examined the witness",
+        "has_text_value": "The defense counsel cross-examined the witness",
         "tagteam:char_count": 46,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-18T02:11:44.839Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.190Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -229,20 +241,20 @@
       {
         "@id": "inst:ParsingAct_3a100736",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_3a1007365039"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The"
           },
@@ -259,7 +271,7 @@
             "@id": "inst:Act_examined"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.839Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.190Z"
       }
     ]
   }

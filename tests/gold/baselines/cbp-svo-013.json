@@ -7,7 +7,7 @@
     "cbp",
     "operations"
   ],
-  "generatedAt": "2026-02-18T02:11:43.834Z",
+  "generatedAt": "2026-02-22T11:48:43.329Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -54,11 +54,13 @@
         "tagteam:mentionId": "s0:h3:0-21",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Station_Commander_081914ef3f7d"
+        "is_about": {
+          "@id": "inst:Entity_Station_Commander_e96d2390c3ad"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_1739823fda8d"
         }
       },
@@ -71,33 +73,36 @@
         "rdfs:label": "authorized",
         "tagteam:lemma": "authoriz",
         "tagteam:isPassive": true,
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_1739823fda8d"
         }
       },
       {
-        "@id": "inst:Role_The_station_commander_cco_PatientRole",
+        "@id": "inst:Role_The_station_commander_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:The_station_commander"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_authorized"
         },
-        "rdfs:label": "The station commander as PatientRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Artifact_Station_Commander_081914ef3f7d",
+        "@id": "inst:Entity_Station_Commander_e96d2390c3ad",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "station commander",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.834Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.329Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1739823fda8d",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -108,15 +113,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The station commander authorized overtime",
+        "has_text_value": "The station commander authorized overtime",
         "tagteam:char_count": 41,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-18T02:11:43.825Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.322Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -133,20 +138,20 @@
       {
         "@id": "inst:ParsingAct_1739823f",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_1739823fda8d"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_station_commander"
           },
@@ -154,7 +159,7 @@
             "@id": "inst:Act_authorized"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.825Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.322Z"
       }
     ]
   }

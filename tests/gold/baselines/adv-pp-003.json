@@ -6,7 +6,7 @@
     "nested-pp",
     "forensics"
   ],
-  "generatedAt": "2026-02-18T02:11:45.011Z",
+  "generatedAt": "2026-02-22T11:48:44.363Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -102,10 +102,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Officer_394ba5418d2f"
+        "is_about": {
+          "@id": "inst:Person_Officer_8bc04c75c166"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c1802d30f53e"
         }
       },
@@ -120,10 +120,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Evidence_8b4f3ad09c8a"
+        "is_about": {
+          "@id": "inst:Entity_Evidence_c2f00a31cc00"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c1802d30f53e"
         }
       },
@@ -138,10 +138,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Scene_9ff1a3bf39fa"
+        "is_about": {
+          "@id": "inst:Entity_Scene_c802f7748245"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c1802d30f53e"
         }
       },
@@ -156,10 +156,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Lab_bd67910ea0fb"
+        "is_about": {
+          "@id": "inst:Entity_Lab_f2e0772fb7df"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c1802d30f53e"
         }
       },
@@ -174,10 +174,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Analysis_7ba11544d1f7"
+        "is_about": {
+          "@id": "inst:Entity_Analysis_82dc6aaab383"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c1802d30f53e"
         }
       },
@@ -189,7 +189,7 @@
         ],
         "rdfs:label": "officer",
         "tagteam:lemma": "officer",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c1802d30f53e"
         }
       },
@@ -201,125 +201,134 @@
         ],
         "rdfs:label": "transported",
         "tagteam:lemma": "transport",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c1802d30f53e"
         }
       },
       {
-        "@id": "inst:Role_the_evidence_cco_PatientRole",
+        "@id": "inst:Role_the_evidence_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_evidence"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_transported"
         },
-        "rdfs:label": "the evidence as PatientRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Role_the_scene_cco_SourceRole",
+        "@id": "inst:Role_the_scene_SourceRole",
         "@type": [
-          "cco:SourceRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "SourceRole",
+        "tagteam:roleType": "SourceRole",
         "tagteam:bearer": {
           "@id": "inst:the_scene"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_transported"
         },
-        "rdfs:label": "the scene as SourceRole",
         "tagteam:preposition": "from",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Role_the_lab_cco_DestinationRole",
+        "@id": "inst:Role_the_lab_DestinationRole",
         "@type": [
-          "cco:DestinationRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "DestinationRole",
+        "tagteam:roleType": "DestinationRole",
         "tagteam:bearer": {
           "@id": "inst:the_lab"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_transported"
         },
-        "rdfs:label": "the lab as DestinationRole",
         "tagteam:preposition": "to",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Role_analysis_cco_BeneficiaryRole",
+        "@id": "inst:Role_analysis_BeneficiaryRole",
         "@type": [
-          "cco:BeneficiaryRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "BeneficiaryRole",
+        "tagteam:roleType": "BeneficiaryRole",
         "tagteam:bearer": {
           "@id": "inst:analysis"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_transported"
         },
-        "rdfs:label": "analysis as BeneficiaryRole",
         "tagteam:preposition": "for",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Artifact_Officer_394ba5418d2f",
+        "@id": "inst:Person_Officer_8bc04c75c166",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "officer",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.010Z",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.363Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c1802d30f53e",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Evidence_8b4f3ad09c8a",
+        "@id": "inst:Entity_Evidence_c2f00a31cc00",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "evidence",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.010Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.363Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c1802d30f53e",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Scene_9ff1a3bf39fa",
+        "@id": "inst:Entity_Scene_c802f7748245",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "scene",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.010Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.363Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c1802d30f53e",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Lab_bd67910ea0fb",
+        "@id": "inst:Entity_Lab_f2e0772fb7df",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "lab",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.010Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.363Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c1802d30f53e",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Analysis_7ba11544d1f7",
+        "@id": "inst:Entity_Analysis_82dc6aaab383",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "analysis",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.010Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.363Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c1802d30f53e",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -330,15 +339,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The officer transported the evidence from the scene to the lab for analysis",
+        "has_text_value": "The officer transported the evidence from the scene to the lab for analysis",
         "tagteam:char_count": 75,
         "tagteam:word_count": 13,
-        "tagteam:received_at": "2026-02-18T02:11:44.999Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.349Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -355,20 +364,20 @@
       {
         "@id": "inst:ParsingAct_c1802d30",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_c1802d30f53e"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_officer"
           },
@@ -391,7 +400,7 @@
             "@id": "inst:Act_transported"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.999Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.349Z"
       }
     ]
   }

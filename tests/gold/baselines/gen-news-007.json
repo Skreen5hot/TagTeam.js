@@ -6,7 +6,7 @@
     "news",
     "labor"
   ],
-  "generatedAt": "2026-02-18T02:11:44.582Z",
+  "generatedAt": "2026-02-22T11:48:43.961Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -62,11 +62,13 @@
         "tagteam:mentionId": "s0:h2:0-9",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Union_7830b2944f53"
+        "is_about": {
+          "@id": "inst:Entity_Union_9198d2712078"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_99e5af5b7348"
         }
       },
@@ -81,10 +83,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Contract_ea5fc1678939"
+        "is_about": {
+          "@id": "inst:Entity_Contract_e30585f15621"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_99e5af5b7348"
         }
       },
@@ -96,59 +98,64 @@
         ],
         "rdfs:label": "ratified",
         "tagteam:lemma": "ratify",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_99e5af5b7348"
         }
       },
       {
-        "@id": "inst:Role_The_union_cco_AgentRole",
+        "@id": "inst:Role_The_union_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_union"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_ratified"
         },
-        "rdfs:label": "The union as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_contract_cco_PatientRole",
+        "@id": "inst:Role_the_contract_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_contract"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_ratified"
         },
-        "rdfs:label": "the contract as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Artifact_Union_7830b2944f53",
+        "@id": "inst:Entity_Union_9198d2712078",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "union",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.582Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.961Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_99e5af5b7348",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Contract_ea5fc1678939",
+        "@id": "inst:Entity_Contract_e30585f15621",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "contract",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.582Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.961Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_99e5af5b7348",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -159,15 +166,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The union ratified the contract",
+        "has_text_value": "The union ratified the contract",
         "tagteam:char_count": 31,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-18T02:11:44.573Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.955Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -184,20 +191,20 @@
       {
         "@id": "inst:ParsingAct_99e5af5b",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_99e5af5b7348"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_union"
           },
@@ -208,7 +215,7 @@
             "@id": "inst:Act_ratified"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.573Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.955Z"
       }
     ]
   }

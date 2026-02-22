@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-17T19:15:44.399Z",
+  "generatedAt": "2026-02-22T11:48:42.473Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -63,11 +63,13 @@
         "tagteam:mentionId": "s0:h2:0-11",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Officer_60c691ed012a"
+        "is_about": {
+          "@id": "inst:Person_Officer_f4a0ee1a5e69"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_6e24e7fb5edc"
         }
       },
@@ -82,10 +84,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Individual_805c1014f5d1"
+        "is_about": {
+          "@id": "inst:Entity_Individual_ec02c4298aae"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_6e24e7fb5edc"
         }
       },
@@ -97,59 +99,64 @@
         ],
         "rdfs:label": "detained",
         "tagteam:lemma": "detain",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_6e24e7fb5edc"
         }
       },
       {
-        "@id": "inst:Role_The_officer_cco_AgentRole",
+        "@id": "inst:Role_The_officer_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_officer"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_detained"
         },
-        "rdfs:label": "The officer as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9479
       },
       {
-        "@id": "inst:Role_the_individual_cco_PatientRole",
+        "@id": "inst:Role_the_individual_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_individual"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_detained"
         },
-        "rdfs:label": "the individual as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804
       },
       {
-        "@id": "inst:Artifact_Officer_60c691ed012a",
+        "@id": "inst:Person_Officer_f4a0ee1a5e69",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "officer",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.399Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.473Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6e24e7fb5edc",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Individual_805c1014f5d1",
+        "@id": "inst:Entity_Individual_ec02c4298aae",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "individual",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.399Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.473Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6e24e7fb5edc",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -160,15 +167,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The officer detained the individual",
+        "has_text_value": "The officer detained the individual",
         "tagteam:char_count": 35,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-17T19:15:44.392Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.465Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -185,20 +192,20 @@
       {
         "@id": "inst:ParsingAct_6e24e7fb",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_6e24e7fb5edc"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_officer"
           },
@@ -209,7 +216,7 @@
             "@id": "inst:Act_detained"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.392Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.465Z"
       }
     ]
   }

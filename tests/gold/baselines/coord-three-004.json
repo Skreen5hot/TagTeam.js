@@ -7,7 +7,7 @@
     "coordination",
     "government"
   ],
-  "generatedAt": "2026-02-18T02:11:43.610Z",
+  "generatedAt": "2026-02-22T11:48:43.159Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -60,6 +60,11 @@
       "text": "the emergency",
       "type": "bfo:Entity",
       "id": "inst:the_emergency"
+    },
+    {
+      "text": "local agency",
+      "type": "bfo:BFO_0000001",
+      "id": "inst:Entity_Local_Agency_62d675292ef3"
     }
   ],
   "extractedRoles": [],
@@ -76,10 +81,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Federal_State_And_Local_Agencies_Responded_To_The_Emergency_57829dd12fe8"
+        "is_about": {
+          "@id": "inst:Entity_Federal_State_And_Local_Agencies_Responded_To_The_Emergency_4abd4cab14cc"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_34abe0e90d94"
         }
       },
@@ -93,11 +98,14 @@
         "tagteam:mentionId": "s0:h7:22-36",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
+        "tagteam:genericityCategory": "GEN",
+        "tagteam:genericityConfidence": 0.7,
+        "tagteam:genericityBasis": "bare_plural",
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Local_Agencies_33d967215ce5"
+        "is_about": {
+          "@id": "inst:Entity_Local_Agency_62d675292ef3"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_34abe0e90d94"
         }
       },
@@ -112,10 +120,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Emergency_350553614c7e"
+        "is_about": {
+          "@id": "inst:Entity_Emergency_9980a3cf7009"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_34abe0e90d94"
         }
       },
@@ -127,40 +135,48 @@
         ],
         "rdfs:label": "state",
         "tagteam:lemma": "state",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_34abe0e90d94"
         }
       },
       {
-        "@id": "inst:Artifact_Federal_State_And_Local_Agencies_Responded_To_The_Emergency_57829dd12fe8",
+        "@id": "inst:Entity_Federal_State_And_Local_Agencies_Responded_To_The_Emergency_4abd4cab14cc",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "federal state and local agencies responded to the emergency",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.610Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.159Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_34abe0e90d94",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Local_Agencies_33d967215ce5",
+        "@id": "inst:Entity_Local_Agency_62d675292ef3",
         "@type": [
-          "cco:Artifact",
-          "owl:NamedIndividual"
+          "bfo:BFO_0000001",
+          "owl:Class"
         ],
-        "rdfs:label": "local agencies",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.610Z",
+        "rdfs:label": "local agency",
+        "tagteam:genericityCategory": "GEN",
+        "tagteam:typeBasis": "default",
+        "tagteam:classNominationStatus": "unresolved",
+        "tagteam:nominatedClassLabel": "Local Agency",
+        "tagteam:nominationBasis": "bare_plural",
+        "tagteam:requiresOntologyResolution": true,
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.159Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_34abe0e90d94",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Emergency_350553614c7e",
+        "@id": "inst:Entity_Emergency_9980a3cf7009",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "emergency",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.610Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.159Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_34abe0e90d94",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -171,15 +187,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "Federal, state, and local agencies responded to the emergency",
+        "has_text_value": "Federal, state, and local agencies responded to the emergency",
         "tagteam:char_count": 61,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-18T02:11:43.598Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.149Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -196,20 +212,20 @@
       {
         "@id": "inst:ParsingAct_34abe0e9",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_34abe0e90d94"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:Federal_state_and_local_agencies_responded_to_the_emergency"
           },
@@ -223,7 +239,7 @@
             "@id": "inst:Act_state"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.598Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.149Z"
       }
     ]
   }

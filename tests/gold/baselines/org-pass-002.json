@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-17T19:15:44.609Z",
+  "generatedAt": "2026-02-22T11:48:42.667Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -63,11 +63,13 @@
         "tagteam:mentionId": "s0:h2:0-10",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Report_44bbc34d2d1c"
+        "is_about": {
+          "@id": "inst:Entity_Report_5058c3b83413"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e3dc274e948f"
         }
       },
@@ -82,10 +84,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Director_445fd39b9e6f"
+        "is_about": {
+          "@id": "inst:Person_Director_d4cd957a6e1c"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e3dc274e948f"
         }
       },
@@ -98,59 +100,64 @@
         "rdfs:label": "submitted",
         "tagteam:lemma": "submitt",
         "tagteam:isPassive": true,
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e3dc274e948f"
         }
       },
       {
-        "@id": "inst:Role_The_report_cco_PatientRole",
+        "@id": "inst:Role_The_report_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:The_report"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_submitted"
         },
-        "rdfs:label": "The report as PatientRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Role_the_director_cco_AgentRole",
+        "@id": "inst:Role_the_director_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:the_director"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_submitted"
         },
-        "rdfs:label": "the director as AgentRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Artifact_Report_44bbc34d2d1c",
+        "@id": "inst:Entity_Report_5058c3b83413",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "report",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.609Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.667Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e3dc274e948f",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Director_445fd39b9e6f",
+        "@id": "inst:Person_Director_d4cd957a6e1c",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "director",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.609Z",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.667Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e3dc274e948f",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -161,15 +168,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The report was submitted to the director",
+        "has_text_value": "The report was submitted to the director",
         "tagteam:char_count": 40,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-17T19:15:44.600Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.657Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -186,20 +193,20 @@
       {
         "@id": "inst:ParsingAct_e3dc274e",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_e3dc274e948f"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_report"
           },
@@ -210,7 +217,7 @@
             "@id": "inst:Act_submitted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.600Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.657Z"
       }
     ]
   }

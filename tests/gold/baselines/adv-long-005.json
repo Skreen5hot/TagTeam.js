@@ -6,7 +6,7 @@
     "long-np",
     "government"
   ],
-  "generatedAt": "2026-02-18T02:11:44.952Z",
+  "generatedAt": "2026-02-22T11:48:44.297Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -59,10 +59,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Assistant_Secretary_For_Policy_And_Planning_Approved_The_Initiative_4cdc3c58b00e"
+        "is_about": {
+          "@id": "inst:Entity_Assistant_Secretary_For_Policy_And_Planning_Approved_The_Initiative_d349805a9a19"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_cb8ef2a97a1b"
         }
       },
@@ -77,10 +77,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Policy_f197c55522df"
+        "is_about": {
+          "@id": "inst:Entity_Policy_1aba2823d993"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_cb8ef2a97a1b"
         }
       },
@@ -95,10 +95,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Initiative_a5fd253e66b4"
+        "is_about": {
+          "@id": "inst:Entity_Initiative_c3ed3a9345ae"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_cb8ef2a97a1b"
         }
       },
@@ -110,40 +110,43 @@
         ],
         "rdfs:label": "secretary",
         "tagteam:lemma": "secretary",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_cb8ef2a97a1b"
         }
       },
       {
-        "@id": "inst:Artifact_Assistant_Secretary_For_Policy_And_Planning_Approved_The_Initiative_4cdc3c58b00e",
+        "@id": "inst:Entity_Assistant_Secretary_For_Policy_And_Planning_Approved_The_Initiative_d349805a9a19",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "assistant secretary for policy and planning approved the initiative",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.952Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.297Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_cb8ef2a97a1b",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Policy_f197c55522df",
+        "@id": "inst:Entity_Policy_1aba2823d993",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "policy",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.952Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.297Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_cb8ef2a97a1b",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Initiative_a5fd253e66b4",
+        "@id": "inst:Entity_Initiative_c3ed3a9345ae",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "initiative",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.952Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.297Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_cb8ef2a97a1b",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -154,15 +157,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The assistant secretary for policy and planning approved the initiative",
+        "has_text_value": "The assistant secretary for policy and planning approved the initiative",
         "tagteam:char_count": 71,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-18T02:11:44.943Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.286Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -179,20 +182,20 @@
       {
         "@id": "inst:ParsingAct_cb8ef2a9",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_cb8ef2a97a1b"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_assistant_secretary_for_policy_and_planning_approved_the_initiative"
           },
@@ -206,7 +209,7 @@
             "@id": "inst:Act_secretary"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.943Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.286Z"
       }
     ]
   }

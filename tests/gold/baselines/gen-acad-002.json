@@ -6,7 +6,7 @@
     "academic",
     "research"
   ],
-  "generatedAt": "2026-02-18T02:11:44.619Z",
+  "generatedAt": "2026-02-22T11:48:43.994Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -75,11 +75,13 @@
         "tagteam:mentionId": "s0:h2:0-13",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Professor_d8936b9e010f"
+        "is_about": {
+          "@id": "inst:Person_Professor_f4e3cb5ed7f3"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a6cb54c22a1e"
         }
       },
@@ -94,10 +96,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Findings_f1c4b2c4fef0"
+        "is_about": {
+          "@id": "inst:Entity_Finding_e44c78d43e5b"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a6cb54c22a1e"
         }
       },
@@ -112,10 +114,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9479,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Conference_91a3a8197d7a"
+        "is_about": {
+          "@id": "inst:Entity_Conference_fa2d0c53adb8"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a6cb54c22a1e"
         }
       },
@@ -127,86 +129,93 @@
         ],
         "rdfs:label": "presented",
         "tagteam:lemma": "present",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a6cb54c22a1e"
         }
       },
       {
-        "@id": "inst:Role_The_professor_cco_AgentRole",
+        "@id": "inst:Role_The_professor_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_professor"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_presented"
         },
-        "rdfs:label": "The professor as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Role_the_findings_cco_PatientRole",
+        "@id": "inst:Role_the_findings_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_findings"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_presented"
         },
-        "rdfs:label": "the findings as PatientRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Role_the_conference_cco_LocationRole",
+        "@id": "inst:Role_the_conference_LocationRole",
         "@type": [
-          "cco:LocationRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "LocationRole",
+        "tagteam:roleType": "LocationRole",
         "tagteam:bearer": {
           "@id": "inst:the_conference"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_presented"
         },
-        "rdfs:label": "the conference as LocationRole",
         "tagteam:preposition": "at",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Artifact_Professor_d8936b9e010f",
+        "@id": "inst:Person_Professor_f4e3cb5ed7f3",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "professor",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.618Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.994Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a6cb54c22a1e",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Findings_f1c4b2c4fef0",
+        "@id": "inst:Entity_Finding_e44c78d43e5b",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "findings",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.618Z",
+        "rdfs:label": "finding",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.994Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a6cb54c22a1e",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Conference_91a3a8197d7a",
+        "@id": "inst:Entity_Conference_fa2d0c53adb8",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "conference",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.618Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.994Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a6cb54c22a1e",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -217,15 +226,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The professor presented the findings at the conference",
+        "has_text_value": "The professor presented the findings at the conference",
         "tagteam:char_count": 54,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-18T02:11:44.610Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.987Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -242,20 +251,20 @@
       {
         "@id": "inst:ParsingAct_a6cb54c2",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_a6cb54c22a1e"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_professor"
           },
@@ -269,7 +278,7 @@
             "@id": "inst:Act_presented"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.610Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.987Z"
       }
     ]
   }

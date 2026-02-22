@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-17T19:15:44.037Z",
+  "generatedAt": "2026-02-22T11:48:42.167Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -45,11 +45,14 @@
         "tagteam:mentionId": "s0:h1:0-3",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.95,
+        "tagteam:genericityBasis": "named_entity",
         "tagteam:denotesType": "cco:Organization",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Cbp_860dcaf520cb"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3937775d2119"
         }
       },
@@ -64,10 +67,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "cco:Organization",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Dhs_653f713c08f8"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3937775d2119"
         }
       },
@@ -89,7 +92,9 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "cbp",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.036Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.166Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3937775d2119",
         "tagteam:denotesType": "cco:Organization"
       },
@@ -100,7 +105,8 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "dhs",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.036Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.166Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3937775d2119",
         "tagteam:denotesType": "cco:Organization"
       },
@@ -111,15 +117,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "CBP is a component of DHS",
+        "has_text_value": "CBP is a component of DHS",
         "tagteam:char_count": 25,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-17T19:15:43.928Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.073Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -136,20 +142,20 @@
       {
         "@id": "inst:ParsingAct_3937775d",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_3937775d2119"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:CBP"
           },
@@ -157,7 +163,7 @@
             "@id": "inst:DHS"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:43.928Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.073Z"
       }
     ]
   }

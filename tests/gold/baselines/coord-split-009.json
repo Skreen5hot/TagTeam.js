@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-17T19:15:44.809Z",
+  "generatedAt": "2026-02-22T11:48:42.847Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -58,10 +58,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Tsa_And_Cbp_Implemented_New_Screening_Procedures_7e4b39a2cb6a"
+        "is_about": {
+          "@id": "inst:Entity_Tsa_And_Cbp_Implemented_New_Screening_Procedure_0a9d13a815b8"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c752c5b2413a"
         }
       },
@@ -73,18 +73,19 @@
         ],
         "rdfs:label": "procedures",
         "tagteam:lemma": "procedures",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c752c5b2413a"
         }
       },
       {
-        "@id": "inst:Artifact_Tsa_And_Cbp_Implemented_New_Screening_Procedures_7e4b39a2cb6a",
+        "@id": "inst:Entity_Tsa_And_Cbp_Implemented_New_Screening_Procedure_0a9d13a815b8",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "tsa and cbp implemented new screening procedures",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.809Z",
+        "rdfs:label": "tsa and cbp implemented new screening procedure",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.847Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c752c5b2413a",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -95,15 +96,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "TSA and CBP implemented new screening procedures",
+        "has_text_value": "TSA and CBP implemented new screening procedures",
         "tagteam:char_count": 48,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-17T19:15:44.802Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.840Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -120,20 +121,20 @@
       {
         "@id": "inst:ParsingAct_c752c5b2",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_c752c5b2413a"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:TSA_and_CBP_implemented_new_screening_procedures"
           },
@@ -141,7 +142,7 @@
             "@id": "inst:Act_procedures"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.802Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.840Z"
       }
     ]
   }

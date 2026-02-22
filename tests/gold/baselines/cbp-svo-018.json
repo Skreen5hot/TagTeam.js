@@ -7,7 +7,7 @@
     "cbp",
     "operations"
   ],
-  "generatedAt": "2026-02-18T02:11:43.896Z",
+  "generatedAt": "2026-02-22T11:48:43.383Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -63,11 +63,13 @@
         "tagteam:mentionId": "s0:h3:0-19",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Watch_Commander_c56a79b78534"
+        "is_about": {
+          "@id": "inst:Entity_Watch_Commander_7e92c4b28ab1"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_11221ca027fb"
         }
       },
@@ -82,10 +84,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Lockdown_dac43809ab06"
+        "is_about": {
+          "@id": "inst:Entity_Lockdown_1be2d256859a"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_11221ca027fb"
         }
       },
@@ -97,59 +99,64 @@
         ],
         "rdfs:label": "initiated",
         "tagteam:lemma": "initiat",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_11221ca027fb"
         }
       },
       {
-        "@id": "inst:Role_The_watch_commander_cco_AgentRole",
+        "@id": "inst:Role_The_watch_commander_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_watch_commander"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_initiated"
         },
-        "rdfs:label": "The watch commander as AgentRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Role_the_lockdown_cco_PatientRole",
+        "@id": "inst:Role_the_lockdown_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_lockdown"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_initiated"
         },
-        "rdfs:label": "the lockdown as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804
       },
       {
-        "@id": "inst:Artifact_Watch_Commander_c56a79b78534",
+        "@id": "inst:Entity_Watch_Commander_7e92c4b28ab1",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "watch commander",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.896Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.383Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_11221ca027fb",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Lockdown_dac43809ab06",
+        "@id": "inst:Entity_Lockdown_1be2d256859a",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "lockdown",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.896Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.383Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_11221ca027fb",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -160,15 +167,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The watch commander initiated the lockdown",
+        "has_text_value": "The watch commander initiated the lockdown",
         "tagteam:char_count": 42,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-18T02:11:43.889Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.376Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -185,20 +192,20 @@
       {
         "@id": "inst:ParsingAct_11221ca0",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_11221ca027fb"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_watch_commander"
           },
@@ -209,7 +216,7 @@
             "@id": "inst:Act_initiated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.889Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.376Z"
       }
     ]
   }

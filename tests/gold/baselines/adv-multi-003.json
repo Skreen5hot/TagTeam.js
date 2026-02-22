@@ -7,7 +7,7 @@
     "subordination",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:45.201Z",
+  "generatedAt": "2026-02-22T11:48:44.488Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -76,11 +76,13 @@
         "tagteam:mentionId": "s0:h3:6-16",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Patrol_006c05b875f3"
+        "is_about": {
+          "@id": "inst:Entity_Patrol_47a3c3cf246a"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_57d1bde0c7dc"
         }
       },
@@ -95,10 +97,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Vessel_e02d9bb2a97e"
+        "is_about": {
+          "@id": "inst:Entity_Vessel_fb36cddd09bc"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_57d1bde0c7dc"
         }
       },
@@ -113,10 +115,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_It_96189ac6c8a5"
+        "is_about": {
+          "@id": "inst:Entity_It_1141635d5703"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_57d1bde0c7dc"
         }
       },
@@ -128,70 +130,76 @@
         ],
         "rdfs:label": "spotted",
         "tagteam:lemma": "spott",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_57d1bde0c7dc"
         }
       },
       {
-        "@id": "inst:Role_the_patrol_cco_AgentRole",
+        "@id": "inst:Role_the_patrol_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:the_patrol"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_spotted"
         },
-        "rdfs:label": "the patrol as AgentRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Role_the_vessel_cco_PatientRole",
+        "@id": "inst:Role_the_vessel_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_vessel"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_spotted"
         },
-        "rdfs:label": "the vessel as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Artifact_Patrol_006c05b875f3",
+        "@id": "inst:Entity_Patrol_47a3c3cf246a",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "patrol",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.201Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.487Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_57d1bde0c7dc",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Vessel_e02d9bb2a97e",
+        "@id": "inst:Entity_Vessel_fb36cddd09bc",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "vessel",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.201Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.488Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_57d1bde0c7dc",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_It_96189ac6c8a5",
+        "@id": "inst:Entity_It_1141635d5703",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "it",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.201Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.488Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_57d1bde0c7dc",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -202,15 +210,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "After the patrol spotted the vessel the coast guard intercepted it",
+        "has_text_value": "After the patrol spotted the vessel the coast guard intercepted it",
         "tagteam:char_count": 66,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-18T02:11:45.189Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.479Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -227,20 +235,20 @@
       {
         "@id": "inst:ParsingAct_57d1bde0",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_57d1bde0c7dc"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:the_patrol"
           },
@@ -254,7 +262,7 @@
             "@id": "inst:Act_spotted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.189Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.479Z"
       }
     ]
   }

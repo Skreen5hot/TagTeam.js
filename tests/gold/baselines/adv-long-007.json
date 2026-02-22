@@ -6,7 +6,7 @@
     "long-np",
     "government"
   ],
-  "generatedAt": "2026-02-18T02:11:45.270Z",
+  "generatedAt": "2026-02-22T11:48:44.540Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -64,10 +64,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Joint_Interagency_Task_Force_On_Narcotics_903c5fb791a2"
+        "is_about": {
+          "@id": "inst:Entity_Joint_Interagency_Task_Force_On_Narcotic_f3395fd1eeab"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_9713858a7e9d"
         }
       },
@@ -82,10 +82,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Narcotics_506ccc9f9d9f"
+        "is_about": {
+          "@id": "inst:Entity_Narcotic_a88914aefdc0"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_9713858a7e9d"
         }
       },
@@ -100,10 +100,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Contraband_648b2d8472e6"
+        "is_about": {
+          "@id": "inst:Entity_Contraband_3c184528fd3c"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_9713858a7e9d"
         }
       },
@@ -115,7 +115,7 @@
         ],
         "rdfs:label": "force",
         "tagteam:lemma": "force",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_9713858a7e9d"
         }
       },
@@ -127,7 +127,7 @@
         ],
         "rdfs:label": "trafficking",
         "tagteam:lemma": "traffick",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_9713858a7e9d"
         }
       },
@@ -139,55 +139,59 @@
         ],
         "rdfs:label": "seized",
         "tagteam:lemma": "seiz",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_9713858a7e9d"
         }
       },
       {
-        "@id": "inst:Role_the_contraband_cco_PatientRole",
+        "@id": "inst:Role_the_contraband_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_contraband"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_seized"
         },
-        "rdfs:label": "the contraband as PatientRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Artifact_Joint_Interagency_Task_Force_On_Narcotics_903c5fb791a2",
+        "@id": "inst:Entity_Joint_Interagency_Task_Force_On_Narcotic_f3395fd1eeab",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "joint interagency task force on narcotics",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.270Z",
+        "rdfs:label": "joint interagency task force on narcotic",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.539Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9713858a7e9d",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Narcotics_506ccc9f9d9f",
+        "@id": "inst:Entity_Narcotic_a88914aefdc0",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "narcotics",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.270Z",
+        "rdfs:label": "narcotic",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.539Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9713858a7e9d",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Contraband_648b2d8472e6",
+        "@id": "inst:Entity_Contraband_3c184528fd3c",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "contraband",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.270Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.539Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9713858a7e9d",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -198,15 +202,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The joint interagency task force on narcotics trafficking seized the contraband",
+        "has_text_value": "The joint interagency task force on narcotics trafficking seized the contraband",
         "tagteam:char_count": 79,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-18T02:11:45.255Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.530Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -223,20 +227,20 @@
       {
         "@id": "inst:ParsingAct_9713858a",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_9713858a7e9d"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_joint_interagency_task_force_on_narcotics"
           },
@@ -256,7 +260,7 @@
             "@id": "inst:Act_seized"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.255Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.530Z"
       }
     ]
   }

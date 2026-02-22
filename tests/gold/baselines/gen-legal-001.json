@@ -5,7 +5,7 @@
   "tags": [
     "legal"
   ],
-  "generatedAt": "2026-02-18T02:11:44.801Z",
+  "generatedAt": "2026-02-22T11:48:44.155Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -78,11 +78,13 @@
         "tagteam:mentionId": "s0:h2:0-12",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Attorney_845aef0c4ea1"
+        "is_about": {
+          "@id": "inst:Entity_Attorney_f39a2227790e"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_de74f4703d67"
         }
       },
@@ -97,10 +99,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Motion_80f7f2750e89"
+        "is_about": {
+          "@id": "inst:Entity_Motion_792f84530ddb"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_de74f4703d67"
         }
       },
@@ -115,10 +117,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Court_f2ce9d21a5ac"
+        "is_about": {
+          "@id": "inst:Entity_Court_ad7a597fff51"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_de74f4703d67"
         }
       },
@@ -130,86 +132,93 @@
         ],
         "rdfs:label": "filed",
         "tagteam:lemma": "fil",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_de74f4703d67"
         }
       },
       {
-        "@id": "inst:Role_The_attorney_cco_AgentRole",
+        "@id": "inst:Role_The_attorney_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_attorney"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_filed"
         },
-        "rdfs:label": "The attorney as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Role_the_motion_cco_PatientRole",
+        "@id": "inst:Role_the_motion_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_motion"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_filed"
         },
-        "rdfs:label": "the motion as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Role_the_court_cco_InstrumentRole",
+        "@id": "inst:Role_the_court_InstrumentRole",
         "@type": [
-          "cco:InstrumentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "InstrumentRole",
+        "tagteam:roleType": "InstrumentRole",
         "tagteam:bearer": {
           "@id": "inst:the_court"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_filed"
         },
-        "rdfs:label": "the court as InstrumentRole",
         "tagteam:preposition": "with",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Artifact_Attorney_845aef0c4ea1",
+        "@id": "inst:Entity_Attorney_f39a2227790e",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "attorney",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.800Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.154Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_de74f4703d67",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Motion_80f7f2750e89",
+        "@id": "inst:Entity_Motion_792f84530ddb",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "motion",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.800Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.155Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_de74f4703d67",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Court_f2ce9d21a5ac",
+        "@id": "inst:Entity_Court_ad7a597fff51",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "court",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.800Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.155Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_de74f4703d67",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -220,15 +229,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The attorney filed the motion with the court",
+        "has_text_value": "The attorney filed the motion with the court",
         "tagteam:char_count": 44,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-18T02:11:44.792Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.147Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -245,20 +254,20 @@
       {
         "@id": "inst:ParsingAct_de74f470",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_de74f4703d67"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_attorney"
           },
@@ -272,7 +281,7 @@
             "@id": "inst:Act_filed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.792Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.147Z"
       }
     ]
   }

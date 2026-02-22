@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-17T19:15:44.355Z",
+  "generatedAt": "2026-02-22T11:48:42.427Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -80,11 +80,14 @@
         "tagteam:mentionId": "s0:h1:0-3",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.95,
+        "tagteam:genericityBasis": "named_entity",
         "tagteam:denotesType": "cco:Organization",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Cbp_b4f8fba4be5a"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_fd4cf6ffec2e"
         }
       },
@@ -99,10 +102,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Suspect_6c36ce856b4f"
+        "is_about": {
+          "@id": "inst:Person_Suspect_e729ece4c939"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_fd4cf6ffec2e"
         }
       },
@@ -117,10 +120,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Border_9db13001bf34"
+        "is_about": {
+          "@id": "inst:Entity_Border_51db5cb13579"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_fd4cf6ffec2e"
         }
       },
@@ -132,52 +135,55 @@
         ],
         "rdfs:label": "apprehended",
         "tagteam:lemma": "apprehend",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_fd4cf6ffec2e"
         }
       },
       {
-        "@id": "inst:Role_CBP_cco_AgentRole",
+        "@id": "inst:Role_CBP_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:CBP"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_apprehended"
         },
-        "rdfs:label": "CBP as AgentRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Role_the_suspect_cco_PatientRole",
+        "@id": "inst:Role_the_suspect_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_suspect"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_apprehended"
         },
-        "rdfs:label": "the suspect as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Role_the_border_cco_LocationRole",
+        "@id": "inst:Role_the_border_LocationRole",
         "@type": [
-          "cco:LocationRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "LocationRole",
+        "tagteam:roleType": "LocationRole",
         "tagteam:bearer": {
           "@id": "inst:the_border"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_apprehended"
         },
-        "rdfs:label": "the border as LocationRole",
         "tagteam:preposition": "at",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
@@ -189,29 +195,33 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "cbp",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.355Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.427Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_fd4cf6ffec2e",
         "tagteam:denotesType": "cco:Organization"
       },
       {
-        "@id": "inst:Artifact_Suspect_6c36ce856b4f",
+        "@id": "inst:Person_Suspect_e729ece4c939",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "suspect",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.355Z",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.427Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_fd4cf6ffec2e",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Border_9db13001bf34",
+        "@id": "inst:Entity_Border_51db5cb13579",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "border",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.355Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.427Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_fd4cf6ffec2e",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -222,15 +232,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "CBP apprehended the suspect at the border",
+        "has_text_value": "CBP apprehended the suspect at the border",
         "tagteam:char_count": 41,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-17T19:15:44.347Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.418Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -247,20 +257,20 @@
       {
         "@id": "inst:ParsingAct_fd4cf6ff",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_fd4cf6ffec2e"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:CBP"
           },
@@ -274,7 +284,7 @@
             "@id": "inst:Act_apprehended"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.347Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.418Z"
       }
     ]
   }

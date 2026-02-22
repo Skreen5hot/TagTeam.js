@@ -7,7 +7,7 @@
     "coordination",
     "government"
   ],
-  "generatedAt": "2026-02-18T02:11:43.594Z",
+  "generatedAt": "2026-02-22T11:48:43.145Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -80,11 +80,13 @@
         "tagteam:mentionId": "s0:h2:0-9",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Agent_e7665b19cecc"
+        "is_about": {
+          "@id": "inst:Person_Agent_a0181c1432f2"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_76c378938573"
         }
       },
@@ -98,11 +100,13 @@
         "tagteam:mentionId": "s0:h9:30-44",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Supervisor_94ff7da88ecb"
+        "is_about": {
+          "@id": "inst:Person_Supervisor_baaf13bd43b7"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_76c378938573"
         }
       },
@@ -117,10 +121,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Case_96f7cddf33ae"
+        "is_about": {
+          "@id": "inst:Entity_Case_5716a9809140"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_76c378938573"
         }
       },
@@ -132,55 +136,61 @@
         ],
         "rdfs:label": "analyst",
         "tagteam:lemma": "analyst",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_76c378938573"
         }
       },
       {
-        "@id": "inst:Role_The_agent_cco_AgentRole",
+        "@id": "inst:Role_The_agent_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_agent"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_analyst"
         },
-        "rdfs:label": "The agent as AgentRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Artifact_Agent_e7665b19cecc",
+        "@id": "inst:Person_Agent_a0181c1432f2",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "agent",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.593Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.145Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_76c378938573",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Supervisor_94ff7da88ecb",
+        "@id": "inst:Person_Supervisor_baaf13bd43b7",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "supervisor",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.593Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.145Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_76c378938573",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Case_96f7cddf33ae",
+        "@id": "inst:Entity_Case_5716a9809140",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "case",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.593Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.145Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_76c378938573",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -191,15 +201,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The agent, the analyst, and the supervisor reviewed the case",
+        "has_text_value": "The agent, the analyst, and the supervisor reviewed the case",
         "tagteam:char_count": 60,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-18T02:11:43.580Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.136Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -216,20 +226,20 @@
       {
         "@id": "inst:ParsingAct_76c37893",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_76c378938573"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_agent"
           },
@@ -243,7 +253,7 @@
             "@id": "inst:Act_analyst"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.580Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.136Z"
       }
     ]
   }

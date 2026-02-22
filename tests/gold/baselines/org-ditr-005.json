@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-18T02:11:43.354Z",
+  "generatedAt": "2026-02-22T11:48:42.971Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -71,11 +71,13 @@
         "tagteam:mentionId": "s0:h2:0-17",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Administrator_ce60d9ecc5bb"
+        "is_about": {
+          "@id": "inst:Person_Administrator_41c0ab5a0978"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7ee7f9f503de"
         }
       },
@@ -90,10 +92,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Officer_7e30ac6b0a1b"
+        "is_about": {
+          "@id": "inst:Person_Officer_0af283df3c34"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7ee7f9f503de"
         }
       },
@@ -105,59 +107,64 @@
         ],
         "rdfs:label": "handed",
         "tagteam:lemma": "hand",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7ee7f9f503de"
         }
       },
       {
-        "@id": "inst:Role_The_administrator_cco_AgentRole",
+        "@id": "inst:Role_The_administrator_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_administrator"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_handed"
         },
-        "rdfs:label": "The administrator as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_officer_cco_PatientRole",
+        "@id": "inst:Role_the_officer_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_officer"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_handed"
         },
-        "rdfs:label": "the officer as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Artifact_Administrator_ce60d9ecc5bb",
+        "@id": "inst:Person_Administrator_41c0ab5a0978",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "administrator",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.354Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.971Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7ee7f9f503de",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Officer_7e30ac6b0a1b",
+        "@id": "inst:Person_Officer_0af283df3c34",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "officer",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.354Z",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.971Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7ee7f9f503de",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -168,15 +175,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The administrator handed the officer a new badge",
+        "has_text_value": "The administrator handed the officer a new badge",
         "tagteam:char_count": 48,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-18T02:11:43.331Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.963Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -193,20 +200,20 @@
       {
         "@id": "inst:ParsingAct_7ee7f9f5",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_7ee7f9f503de"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_administrator"
           },
@@ -217,7 +224,7 @@
             "@id": "inst:Act_handed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.331Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.963Z"
       }
     ]
   }

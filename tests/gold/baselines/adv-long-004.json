@@ -6,7 +6,7 @@
     "long-np",
     "forensics"
   ],
-  "generatedAt": "2026-02-18T02:11:44.939Z",
+  "generatedAt": "2026-02-22T11:48:44.282Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -62,11 +62,13 @@
         "tagteam:mentionId": "s0:h5:0-46",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Experienced_Forensic_Laboratory_Technician_a95a53c8c240"
+        "is_about": {
+          "@id": "inst:Person_Experienced_Forensic_Laboratory_Technician_0af19dee9922"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_487b574f2e68"
         }
       },
@@ -81,10 +83,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Evidence_89d912da444b"
+        "is_about": {
+          "@id": "inst:Entity_Evidence_db2eb7377fb6"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_487b574f2e68"
         }
       },
@@ -96,59 +98,64 @@
         ],
         "rdfs:label": "analyzed",
         "tagteam:lemma": "analyz",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_487b574f2e68"
         }
       },
       {
-        "@id": "inst:Role_The_experienced_forensic_laboratory_technician_cco_AgentRole",
+        "@id": "inst:Role_The_experienced_forensic_laboratory_technician_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_experienced_forensic_laboratory_technician"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_analyzed"
         },
-        "rdfs:label": "The experienced forensic laboratory technician as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_evidence_cco_PatientRole",
+        "@id": "inst:Role_the_evidence_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_evidence"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_analyzed"
         },
-        "rdfs:label": "the evidence as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Artifact_Experienced_Forensic_Laboratory_Technician_a95a53c8c240",
+        "@id": "inst:Person_Experienced_Forensic_Laboratory_Technician_0af19dee9922",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "experienced forensic laboratory technician",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.939Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.282Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_487b574f2e68",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Evidence_89d912da444b",
+        "@id": "inst:Entity_Evidence_db2eb7377fb6",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "evidence",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.939Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.282Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_487b574f2e68",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -159,15 +166,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The experienced forensic laboratory technician analyzed the evidence",
+        "has_text_value": "The experienced forensic laboratory technician analyzed the evidence",
         "tagteam:char_count": 68,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-18T02:11:44.931Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.272Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -184,20 +191,20 @@
       {
         "@id": "inst:ParsingAct_487b574f",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_487b574f2e68"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_experienced_forensic_laboratory_technician"
           },
@@ -208,7 +215,7 @@
             "@id": "inst:Act_analyzed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.931Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.272Z"
       }
     ]
   }

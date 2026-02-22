@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:44.003Z",
+  "generatedAt": "2026-02-22T11:48:43.467Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -19,7 +19,7 @@
     },
     {
       "text": "Georgia",
-      "type": "cco:GeopoliticalEntity"
+      "type": "cco:GeopoliticalOrganization"
     }
   ],
   "expectedRoles": [],
@@ -48,11 +48,18 @@
         "tagteam:mentionId": "s0:h3:0-15",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Cbp_Academy_2560bb9eb0b9"
+        "tagteam:genericityCategory": "AMB",
+        "tagteam:genericityConfidence": 0.6,
+        "tagteam:genericityBasis": "institutional_the",
+        "tagteam:genericityAlternative": {
+          "tagteam:category": "GEN",
+          "tagteam:confidence": 0.4
         },
-        "cco:is_concretized_by": {
+        "tagteam:denotesType": "bfo:Entity",
+        "is_about": {
+          "@id": "inst:Entity_Cbp_Academy_c4c8c89d4a97"
+        },
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_8c789bab23f6"
         }
       },
@@ -67,10 +74,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Georgia_fb7cda52b540"
+        "is_about": {
+          "@id": "inst:Entity_Georgia_72943294ed38"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_8c789bab23f6"
         }
       },
@@ -85,24 +92,27 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Artifact_Cbp_Academy_2560bb9eb0b9",
+        "@id": "inst:Entity_Cbp_Academy_c4c8c89d4a97",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "cbp academy",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.003Z",
+        "tagteam:genericityCategory": "AMB",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.467Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_8c789bab23f6",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Georgia_fb7cda52b540",
+        "@id": "inst:Entity_Georgia_72943294ed38",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "georgia",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.003Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.467Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_8c789bab23f6",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -113,15 +123,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The CBP Academy is a training facility in Georgia",
+        "has_text_value": "The CBP Academy is a training facility in Georgia",
         "tagteam:char_count": 49,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-18T02:11:43.991Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.458Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -138,20 +148,20 @@
       {
         "@id": "inst:ParsingAct_8c789bab",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_8c789bab23f6"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_CBP_Academy"
           },
@@ -159,7 +169,7 @@
             "@id": "inst:Georgia"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.991Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.458Z"
       }
     ]
   }

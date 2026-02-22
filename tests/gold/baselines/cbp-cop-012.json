@@ -7,7 +7,7 @@
     "cbp",
     "trade"
   ],
-  "generatedAt": "2026-02-18T02:11:44.103Z",
+  "generatedAt": "2026-02-22T11:48:43.563Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -40,11 +40,14 @@
         "tagteam:mentionId": "s0:h1:0-3",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.95,
+        "tagteam:genericityBasis": "named_entity",
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Ace_a1e39f47c649"
+        "is_about": {
+          "@id": "inst:Entity_Ace_fd5f35fa2be5"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ab5345740615"
         }
       },
@@ -58,13 +61,15 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Artifact_Ace_a1e39f47c649",
+        "@id": "inst:Entity_Ace_fd5f35fa2be5",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "ace",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.103Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.563Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ab5345740615",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -75,15 +80,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "ACE is the automated commercial environment system",
+        "has_text_value": "ACE is the automated commercial environment system",
         "tagteam:char_count": 50,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-18T02:11:44.092Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.553Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -100,25 +105,25 @@
       {
         "@id": "inst:ParsingAct_ab534574",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_ab5345740615"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:ACE"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.092Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.553Z"
       }
     ]
   }

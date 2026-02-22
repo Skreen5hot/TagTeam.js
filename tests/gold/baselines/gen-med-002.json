@@ -6,7 +6,7 @@
     "medical",
     "treatment"
   ],
-  "generatedAt": "2026-02-18T02:11:44.706Z",
+  "generatedAt": "2026-02-22T11:48:44.073Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -79,11 +79,13 @@
         "tagteam:mentionId": "s0:h2:0-9",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Person_Nurse_2434192e766e"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_2ff14dc170e0"
         }
       },
@@ -98,10 +100,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Vaccine_df6b9e6041f1"
+        "is_about": {
+          "@id": "inst:Entity_Vaccine_c70a658aee3f"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_2ff14dc170e0"
         }
       },
@@ -116,10 +118,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Person_Patient_868aac8ebe10"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_2ff14dc170e0"
         }
       },
@@ -131,52 +133,55 @@
         ],
         "rdfs:label": "administered",
         "tagteam:lemma": "administer",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_2ff14dc170e0"
         }
       },
       {
-        "@id": "inst:Role_The_nurse_cco_AgentRole",
+        "@id": "inst:Role_The_nurse_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_nurse"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_administered"
         },
-        "rdfs:label": "The nurse as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_vaccine_cco_PatientRole",
+        "@id": "inst:Role_the_vaccine_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_vaccine"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_administered"
         },
-        "rdfs:label": "the vaccine as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Role_the_patient_cco_DestinationRole",
+        "@id": "inst:Role_the_patient_DestinationRole",
         "@type": [
-          "cco:DestinationRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "DestinationRole",
+        "tagteam:roleType": "DestinationRole",
         "tagteam:bearer": {
           "@id": "inst:the_patient"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_administered"
         },
-        "rdfs:label": "the patient as DestinationRole",
         "tagteam:preposition": "to",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
@@ -188,18 +193,21 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "nurse",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.706Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.073Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2ff14dc170e0",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Vaccine_df6b9e6041f1",
+        "@id": "inst:Entity_Vaccine_c70a658aee3f",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "vaccine",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.706Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.073Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2ff14dc170e0",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -210,7 +218,8 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "patient",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.706Z",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.073Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2ff14dc170e0",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -221,15 +230,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The nurse administered the vaccine to the patient",
+        "has_text_value": "The nurse administered the vaccine to the patient",
         "tagteam:char_count": 49,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-18T02:11:44.697Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.065Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -246,20 +255,20 @@
       {
         "@id": "inst:ParsingAct_2ff14dc1",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_2ff14dc170e0"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_nurse"
           },
@@ -273,7 +282,7 @@
             "@id": "inst:Act_administered"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.697Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.065Z"
       }
     ]
   }

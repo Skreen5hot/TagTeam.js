@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:44.344Z",
+  "generatedAt": "2026-02-22T11:48:43.757Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -76,10 +76,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Team_bf4e23282e39"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b533ad596cff"
         }
       },
@@ -94,10 +94,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Detainee_d64fc00c95f9"
+        "is_about": {
+          "@id": "inst:Entity_Detainee_657ea6550c6d"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b533ad596cff"
         }
       },
@@ -112,10 +112,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Facility_d25a0570692d"
+        "is_about": {
+          "@id": "inst:Entity_Facility_4c6ddc3e79a9"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b533ad596cff"
         }
       },
@@ -127,7 +127,7 @@
         ],
         "rdfs:label": "team",
         "tagteam:lemma": "team",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b533ad596cff"
         }
       },
@@ -139,37 +139,39 @@
         ],
         "rdfs:label": "transported",
         "tagteam:lemma": "transport",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b533ad596cff"
         }
       },
       {
-        "@id": "inst:Role_the_detainee_cco_PatientRole",
+        "@id": "inst:Role_the_detainee_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_detainee"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_transported"
         },
-        "rdfs:label": "the detainee as PatientRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Role_the_facility_cco_DestinationRole",
+        "@id": "inst:Role_the_facility_DestinationRole",
         "@type": [
-          "cco:DestinationRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "DestinationRole",
+        "tagteam:roleType": "DestinationRole",
         "tagteam:bearer": {
           "@id": "inst:the_facility"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_transported"
         },
-        "rdfs:label": "the facility as DestinationRole",
         "tagteam:preposition": "to",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
@@ -181,29 +183,32 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "team",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.344Z",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.757Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b533ad596cff",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Detainee_d64fc00c95f9",
+        "@id": "inst:Entity_Detainee_657ea6550c6d",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "detainee",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.344Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.757Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b533ad596cff",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Facility_d25a0570692d",
+        "@id": "inst:Entity_Facility_4c6ddc3e79a9",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "facility",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.344Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.757Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b533ad596cff",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -214,15 +219,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The team transported the detainee to the facility",
+        "has_text_value": "The team transported the detainee to the facility",
         "tagteam:char_count": 49,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-18T02:11:44.337Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.750Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -239,20 +244,20 @@
       {
         "@id": "inst:ParsingAct_b533ad59",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_b533ad596cff"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_team"
           },
@@ -269,7 +274,7 @@
             "@id": "inst:Act_transported"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.337Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.750Z"
       }
     ]
   }

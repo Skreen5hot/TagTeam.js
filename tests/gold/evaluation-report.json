@@ -1,10 +1,10 @@
 {
-  "timestamp": "2026-02-18T08:27:29.118Z",
+  "timestamp": "2026-02-22T11:49:14.718Z",
   "sentenceCount": 200,
   "entityF1": {
-    "precision": 0.9125,
+    "precision": 0.8975409836065574,
     "recall": 0.8938775510204081,
-    "f1": 0.9030927835051547
+    "f1": 0.8957055214723927
   },
   "roleF1": {
     "precision": 0.5162523900573613,
@@ -17,9 +17,9 @@
     "organizational": {
       "count": 43,
       "entityF1": {
-        "precision": 0.9772727272727273,
+        "precision": 0.9662921348314607,
         "recall": 0.8958333333333334,
-        "f1": 0.9347826086956522
+        "f1": 0.9297297297297298
       },
       "roleF1": {
         "precision": 0.4752475247524752,
@@ -30,9 +30,9 @@
     "coordination": {
       "count": 20,
       "entityF1": {
-        "precision": 0.9090909090909091,
+        "precision": 0.8888888888888888,
         "recall": 0.7407407407407407,
-        "f1": 0.8163265306122449
+        "f1": 0.808080808080808
       },
       "roleF1": {
         "precision": 0.5,
@@ -56,9 +56,9 @@
     "three-way-coord": {
       "count": 5,
       "entityF1": {
-        "precision": 1,
+        "precision": 0.9333333333333333,
         "recall": 0.7,
-        "f1": 0.8235294117647058
+        "f1": 0.8
       },
       "roleF1": {
         "precision": 0.375,
@@ -69,9 +69,9 @@
     "cbp-domain": {
       "count": 60,
       "entityF1": {
-        "precision": 0.937007874015748,
+        "precision": 0.9015151515151515,
         "recall": 0.875,
-        "f1": 0.9049429657794676
+        "f1": 0.8880597014925373
       },
       "roleF1": {
         "precision": 0.5161290322580645,
@@ -278,13 +278,13 @@
     },
     {
       "id": "org-cop-014",
-      "entityF1": 0.6666666666666666,
+      "entityF1": 0.5,
       "roleF1": 0,
-      "entityPrecision": 1,
+      "entityPrecision": 0.5,
       "entityRecall": 0.5,
       "rolePrecision": 0,
       "roleRecall": 0,
-      "extractedEntities": 1,
+      "extractedEntities": 2,
       "goldEntities": 2,
       "extractedRoles": 1,
       "goldRoles": 0
@@ -733,13 +733,13 @@
     },
     {
       "id": "coord-split-006",
-      "entityF1": 0.8,
+      "entityF1": 0.6666666666666666,
       "roleF1": 0.6666666666666666,
-      "entityPrecision": 1,
+      "entityPrecision": 0.6666666666666666,
       "entityRecall": 0.6666666666666666,
       "rolePrecision": 0.6666666666666666,
       "roleRecall": 0.6666666666666666,
-      "extractedEntities": 2,
+      "extractedEntities": 3,
       "goldEntities": 3,
       "extractedRoles": 3,
       "goldRoles": 3
@@ -1097,13 +1097,13 @@
     },
     {
       "id": "coord-three-004",
-      "entityF1": 0.8571428571428571,
+      "entityF1": 0.75,
       "roleF1": 0,
-      "entityPrecision": 1,
+      "entityPrecision": 0.75,
       "entityRecall": 0.75,
       "rolePrecision": 0,
       "roleRecall": 0,
-      "extractedEntities": 3,
+      "extractedEntities": 4,
       "goldEntities": 4,
       "extractedRoles": 1,
       "goldRoles": 4
@@ -1214,13 +1214,13 @@
     },
     {
       "id": "cbp-svo-008",
-      "entityF1": 0.6666666666666666,
+      "entityF1": 0.5,
       "roleF1": 0,
-      "entityPrecision": 1,
+      "entityPrecision": 0.5,
       "entityRecall": 0.5,
       "rolePrecision": 0,
       "roleRecall": 0,
-      "extractedEntities": 1,
+      "extractedEntities": 2,
       "goldEntities": 2,
       "extractedRoles": 2,
       "goldRoles": 2
@@ -1396,13 +1396,13 @@
     },
     {
       "id": "cbp-cop-002",
-      "entityF1": 0.5,
+      "entityF1": 0.4,
       "roleF1": 0,
-      "entityPrecision": 0.5,
+      "entityPrecision": 0.3333333333333333,
       "entityRecall": 0.5,
       "rolePrecision": 0,
       "roleRecall": 0,
-      "extractedEntities": 2,
+      "extractedEntities": 3,
       "goldEntities": 2,
       "extractedRoles": 1,
       "goldRoles": 0
@@ -1448,13 +1448,13 @@
     },
     {
       "id": "cbp-cop-006",
-      "entityF1": 0.5,
+      "entityF1": 0.4,
       "roleF1": 0,
-      "entityPrecision": 0.5,
+      "entityPrecision": 0.3333333333333333,
       "entityRecall": 0.5,
       "rolePrecision": 0,
       "roleRecall": 0,
-      "extractedEntities": 2,
+      "extractedEntities": 3,
       "goldEntities": 2,
       "extractedRoles": 2,
       "goldRoles": 0
@@ -1578,13 +1578,13 @@
     },
     {
       "id": "cbp-pass-001",
-      "entityF1": 0.8,
+      "entityF1": 0.6666666666666666,
       "roleF1": 0.6666666666666666,
-      "entityPrecision": 0.6666666666666666,
+      "entityPrecision": 0.5,
       "entityRecall": 1,
       "rolePrecision": 0.5,
       "roleRecall": 1,
-      "extractedEntities": 3,
+      "extractedEntities": 4,
       "goldEntities": 2,
       "extractedRoles": 4,
       "goldRoles": 2
@@ -1682,13 +1682,13 @@
     },
     {
       "id": "cbp-pass-009",
-      "entityF1": 1,
+      "entityF1": 0.8,
       "roleF1": 0.8,
-      "entityPrecision": 1,
+      "entityPrecision": 0.6666666666666666,
       "entityRecall": 1,
       "rolePrecision": 0.6666666666666666,
       "roleRecall": 1,
-      "extractedEntities": 2,
+      "extractedEntities": 3,
       "goldEntities": 2,
       "extractedRoles": 3,
       "goldRoles": 2

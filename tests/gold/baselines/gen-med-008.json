@@ -6,7 +6,7 @@
     "medical",
     "administration"
   ],
-  "generatedAt": "2026-02-18T02:11:44.788Z",
+  "generatedAt": "2026-02-22T11:48:44.144Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -62,11 +62,13 @@
         "tagteam:mentionId": "s0:h2:0-9",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Board_6ce7ee4478bf"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_2253a00e3aff"
         }
       },
@@ -81,10 +83,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_New_Treatment_Protocol_e2a1adcf497e"
+        "is_about": {
+          "@id": "inst:Entity_New_Treatment_Protocol_aa07ba741c02"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_2253a00e3aff"
         }
       },
@@ -96,37 +98,39 @@
         ],
         "rdfs:label": "certified",
         "tagteam:lemma": "certify",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_2253a00e3aff"
         }
       },
       {
-        "@id": "inst:Role_The_board_cco_AgentRole",
+        "@id": "inst:Role_The_board_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_board"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_certified"
         },
-        "rdfs:label": "The board as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Role_the_new_treatment_protocol_cco_PatientRole",
+        "@id": "inst:Role_the_new_treatment_protocol_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_new_treatment_protocol"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_certified"
         },
-        "rdfs:label": "the new treatment protocol as PatientRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
@@ -137,18 +141,21 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "board",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.787Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.144Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2253a00e3aff",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_New_Treatment_Protocol_e2a1adcf497e",
+        "@id": "inst:Entity_New_Treatment_Protocol_aa07ba741c02",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "new treatment protocol",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.787Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.144Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2253a00e3aff",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -159,15 +166,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The board certified the new treatment protocol",
+        "has_text_value": "The board certified the new treatment protocol",
         "tagteam:char_count": 46,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-18T02:11:44.777Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.135Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -184,20 +191,20 @@
       {
         "@id": "inst:ParsingAct_2253a00e",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_2253a00e3aff"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_board"
           },
@@ -208,7 +215,7 @@
             "@id": "inst:Act_certified"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.777Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.135Z"
       }
     ]
   }

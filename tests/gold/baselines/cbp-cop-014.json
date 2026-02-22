@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:44.129Z",
+  "generatedAt": "2026-02-22T11:48:43.592Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -39,11 +39,18 @@
         "tagteam:mentionId": "s0:h3:0-25",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Operational_Commander_49df242b491f"
+        "tagteam:genericityCategory": "AMB",
+        "tagteam:genericityConfidence": 0.6,
+        "tagteam:genericityBasis": "institutional_the",
+        "tagteam:genericityAlternative": {
+          "tagteam:category": "GEN",
+          "tagteam:confidence": 0.4
         },
-        "cco:is_concretized_by": {
+        "tagteam:denotesType": "bfo:Entity",
+        "is_about": {
+          "@id": "inst:Entity_Operational_Commander_c358edfe9f4d"
+        },
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e8d1038bae92"
         }
       },
@@ -57,13 +64,15 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Artifact_Operational_Commander_49df242b491f",
+        "@id": "inst:Entity_Operational_Commander_c358edfe9f4d",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "operational commander",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.129Z",
+        "tagteam:genericityCategory": "AMB",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.592Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e8d1038bae92",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -74,15 +83,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The operational commander is the senior field official",
+        "has_text_value": "The operational commander is the senior field official",
         "tagteam:char_count": 54,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-18T02:11:44.120Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.583Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -99,25 +108,25 @@
       {
         "@id": "inst:ParsingAct_e8d1038b",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_e8d1038bae92"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_operational_commander"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.120Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.583Z"
       }
     ]
   }

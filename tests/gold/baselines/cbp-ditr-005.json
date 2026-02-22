@@ -6,7 +6,7 @@
     "ditransitive",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:44.500Z",
+  "generatedAt": "2026-02-22T11:48:43.881Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -70,11 +70,13 @@
         "tagteam:mentionId": "s0:h2:0-9",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Chief_6ddb67bf20bb"
+        "is_about": {
+          "@id": "inst:Entity_Chief_f1f5550016cd"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3a158b03938b"
         }
       },
@@ -89,10 +91,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Team_1621bc3468ec"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3a158b03938b"
         }
       },
@@ -104,48 +106,52 @@
         ],
         "rdfs:label": "passed",
         "tagteam:lemma": "pass",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3a158b03938b"
         }
       },
       {
-        "@id": "inst:Role_The_chief_cco_AgentRole",
+        "@id": "inst:Role_The_chief_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_chief"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_passed"
         },
-        "rdfs:label": "The chief as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_team_cco_PatientRole",
+        "@id": "inst:Role_the_team_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_team"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_passed"
         },
-        "rdfs:label": "the team as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804
       },
       {
-        "@id": "inst:Artifact_Chief_6ddb67bf20bb",
+        "@id": "inst:Entity_Chief_f1f5550016cd",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "chief",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.500Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.881Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3a158b03938b",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -156,7 +162,8 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "team",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.500Z",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.881Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3a158b03938b",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -167,15 +174,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The chief passed the team the intelligence briefing",
+        "has_text_value": "The chief passed the team the intelligence briefing",
         "tagteam:char_count": 51,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-18T02:11:44.491Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.874Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -192,20 +199,20 @@
       {
         "@id": "inst:ParsingAct_3a158b03",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_3a158b03938b"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_chief"
           },
@@ -216,7 +223,7 @@
             "@id": "inst:Act_passed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.491Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.874Z"
       }
     ]
   }

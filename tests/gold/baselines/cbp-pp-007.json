@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:44.395Z",
+  "generatedAt": "2026-02-22T11:48:43.800Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -79,11 +79,13 @@
         "tagteam:mentionId": "s0:h2:0-10",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Office_1bd7196bd9af"
+        "is_about": {
+          "@id": "inst:Entity_Office_0a8be3bf64c6"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c18f302a5480"
         }
       },
@@ -98,10 +100,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Data_72e2c5d55b77"
+        "is_about": {
+          "@id": "inst:Entity_Datum_86f09e61a4ad"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c18f302a5480"
         }
       },
@@ -116,10 +118,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Headquarters_b31d7853ea51"
+        "is_about": {
+          "@id": "inst:Entity_Headquarter_cf64a4ee8e84"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c18f302a5480"
         }
       },
@@ -131,86 +133,93 @@
         ],
         "rdfs:label": "transmitted",
         "tagteam:lemma": "transmitt",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c18f302a5480"
         }
       },
       {
-        "@id": "inst:Role_The_office_cco_AgentRole",
+        "@id": "inst:Role_The_office_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_office"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_transmitted"
         },
-        "rdfs:label": "The office as AgentRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Role_the_data_cco_PatientRole",
+        "@id": "inst:Role_the_data_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_data"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_transmitted"
         },
-        "rdfs:label": "the data as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804
       },
       {
-        "@id": "inst:Role_headquarters_cco_DestinationRole",
+        "@id": "inst:Role_headquarters_DestinationRole",
         "@type": [
-          "cco:DestinationRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "DestinationRole",
+        "tagteam:roleType": "DestinationRole",
         "tagteam:bearer": {
           "@id": "inst:headquarters"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_transmitted"
         },
-        "rdfs:label": "headquarters as DestinationRole",
         "tagteam:preposition": "to",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804
       },
       {
-        "@id": "inst:Artifact_Office_1bd7196bd9af",
+        "@id": "inst:Entity_Office_0a8be3bf64c6",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "office",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.394Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.800Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c18f302a5480",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Data_72e2c5d55b77",
+        "@id": "inst:Entity_Datum_86f09e61a4ad",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "data",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.394Z",
+        "rdfs:label": "datum",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.800Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c18f302a5480",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Headquarters_b31d7853ea51",
+        "@id": "inst:Entity_Headquarter_cf64a4ee8e84",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "headquarters",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.394Z",
+        "rdfs:label": "headquarter",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.800Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c18f302a5480",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -221,15 +230,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The office transmitted the data to headquarters",
+        "has_text_value": "The office transmitted the data to headquarters",
         "tagteam:char_count": 47,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-18T02:11:44.384Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.794Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -246,20 +255,20 @@
       {
         "@id": "inst:ParsingAct_c18f302a",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_c18f302a5480"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_office"
           },
@@ -273,7 +282,7 @@
             "@id": "inst:Act_transmitted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.384Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.794Z"
       }
     ]
   }

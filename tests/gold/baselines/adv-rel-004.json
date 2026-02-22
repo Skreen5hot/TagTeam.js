@@ -6,7 +6,7 @@
     "relative-clause",
     "government"
   ],
-  "generatedAt": "2026-02-18T02:11:45.134Z",
+  "generatedAt": "2026-02-22T11:48:44.434Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -68,10 +68,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Policy_629ad5407081"
+        "is_about": {
+          "@id": "inst:Entity_Policy_d2f3bfb044f1"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a6a4984e3fd6"
         }
       },
@@ -85,11 +85,13 @@
         "tagteam:mentionId": "s0:h5:16-29",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Committee_0804a5a0e014"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a6a4984e3fd6"
         }
       },
@@ -104,10 +106,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Effect_acbcb0ee4568"
+        "is_about": {
+          "@id": "inst:Entity_Effect_b6178cb3c6bf"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a6a4984e3fd6"
         }
       },
@@ -119,7 +121,7 @@
         ],
         "rdfs:label": "policy",
         "tagteam:lemma": "policy",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a6a4984e3fd6"
         }
       },
@@ -131,48 +133,51 @@
         ],
         "rdfs:label": "took",
         "tagteam:lemma": "take",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a6a4984e3fd6"
         }
       },
       {
-        "@id": "inst:Role_the_committee_cco_AgentRole",
+        "@id": "inst:Role_the_committee_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:the_committee"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_took"
         },
-        "rdfs:label": "the committee as AgentRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Role_effect_cco_PatientRole",
+        "@id": "inst:Role_effect_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:effect"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_took"
         },
-        "rdfs:label": "effect as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Artifact_Policy_629ad5407081",
+        "@id": "inst:Entity_Policy_d2f3bfb044f1",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "policy",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.134Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.434Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a6a4984e3fd6",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -183,18 +188,21 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "committee",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.134Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.434Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a6a4984e3fd6",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Effect_acbcb0ee4568",
+        "@id": "inst:Entity_Effect_b6178cb3c6bf",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "effect",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.134Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.434Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a6a4984e3fd6",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -205,15 +213,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The policy that the committee approved took effect immediately",
+        "has_text_value": "The policy that the committee approved took effect immediately",
         "tagteam:char_count": 62,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-18T02:11:45.122Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.426Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -230,20 +238,20 @@
       {
         "@id": "inst:ParsingAct_a6a4984e",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_a6a4984e3fd6"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_policy"
           },
@@ -260,7 +268,7 @@
             "@id": "inst:Act_took"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.122Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.426Z"
       }
     ]
   }

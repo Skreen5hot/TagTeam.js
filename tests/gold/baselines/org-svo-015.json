@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-17T19:15:44.513Z",
+  "generatedAt": "2026-02-22T11:48:42.578Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -63,11 +63,13 @@
         "tagteam:mentionId": "s0:h2:0-11",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Witness_067bff512920"
+        "is_about": {
+          "@id": "inst:Person_Witness_084c98fd44cc"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_775791190ffd"
         }
       },
@@ -82,10 +84,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Testimony_12dbe89b4d06"
+        "is_about": {
+          "@id": "inst:Entity_Testimony_4bf8d5c28c2c"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_775791190ffd"
         }
       },
@@ -98,59 +100,64 @@
         "rdfs:label": "provided",
         "tagteam:lemma": "provid",
         "tagteam:isPassive": true,
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_775791190ffd"
         }
       },
       {
-        "@id": "inst:Role_The_witness_cco_PatientRole",
+        "@id": "inst:Role_The_witness_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:The_witness"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_provided"
         },
-        "rdfs:label": "The witness as PatientRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Role_testimony_cco_PatientRole",
+        "@id": "inst:Role_testimony_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:testimony"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_provided"
         },
-        "rdfs:label": "testimony as PatientRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Artifact_Witness_067bff512920",
+        "@id": "inst:Person_Witness_084c98fd44cc",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "witness",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.512Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.578Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_775791190ffd",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Testimony_12dbe89b4d06",
+        "@id": "inst:Entity_Testimony_4bf8d5c28c2c",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "testimony",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.513Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.578Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_775791190ffd",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -161,15 +168,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The witness provided testimony",
+        "has_text_value": "The witness provided testimony",
         "tagteam:char_count": 30,
         "tagteam:word_count": 4,
-        "tagteam:received_at": "2026-02-17T19:15:44.504Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.570Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -186,20 +193,20 @@
       {
         "@id": "inst:ParsingAct_77579119",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_775791190ffd"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_witness"
           },
@@ -210,7 +217,7 @@
             "@id": "inst:Act_provided"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.504Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.570Z"
       }
     ]
   }

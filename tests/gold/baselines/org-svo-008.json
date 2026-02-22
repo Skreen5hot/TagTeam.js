@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-17T19:15:44.423Z",
+  "generatedAt": "2026-02-22T11:48:42.496Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -63,11 +63,13 @@
         "tagteam:mentionId": "s0:h3:0-14",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Task_Force_256843e61677"
+        "is_about": {
+          "@id": "inst:Entity_Task_Force_b01c8dafaa6a"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_800c5365a6b6"
         }
       },
@@ -82,10 +84,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Response_f9f9e54d5b97"
+        "is_about": {
+          "@id": "inst:Entity_Response_b845aa532215"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_800c5365a6b6"
         }
       },
@@ -97,59 +99,64 @@
         ],
         "rdfs:label": "coordinated",
         "tagteam:lemma": "coordinat",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_800c5365a6b6"
         }
       },
       {
-        "@id": "inst:Role_The_task_force_cco_AgentRole",
+        "@id": "inst:Role_The_task_force_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_task_force"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_coordinated"
         },
-        "rdfs:label": "The task force as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_response_cco_PatientRole",
+        "@id": "inst:Role_the_response_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_response"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_coordinated"
         },
-        "rdfs:label": "the response as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Artifact_Task_Force_256843e61677",
+        "@id": "inst:Entity_Task_Force_b01c8dafaa6a",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "task force",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.422Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.496Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_800c5365a6b6",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Response_f9f9e54d5b97",
+        "@id": "inst:Entity_Response_b845aa532215",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "response",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.422Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.496Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_800c5365a6b6",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -160,15 +167,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The task force coordinated the response",
+        "has_text_value": "The task force coordinated the response",
         "tagteam:char_count": 39,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-17T19:15:44.414Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.488Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -185,20 +192,20 @@
       {
         "@id": "inst:ParsingAct_800c5365",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_800c5365a6b6"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_task_force"
           },
@@ -209,7 +216,7 @@
             "@id": "inst:Act_coordinated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.414Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.488Z"
       }
     ]
   }

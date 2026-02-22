@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:44.210Z",
+  "generatedAt": "2026-02-22T11:48:43.656Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -67,11 +67,13 @@
         "tagteam:mentionId": "s0:h3:0-15",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Border_Wall_85ed017b5cfc"
+        "is_about": {
+          "@id": "inst:Entity_Border_Wall_e2c3729a2afe"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b903487052bc"
         }
       },
@@ -86,10 +88,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Army_Corps_fea69f0fc1eb"
+        "is_about": {
+          "@id": "inst:Entity_Army_Corp_f63fa1c3449a"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b903487052bc"
         }
       },
@@ -104,10 +106,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Engineers_53e8543ad10a"
+        "is_about": {
+          "@id": "inst:Entity_Engineer_361f47ce473d"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b903487052bc"
         }
       },
@@ -120,86 +122,93 @@
         "rdfs:label": "constructed",
         "tagteam:lemma": "construct",
         "tagteam:isPassive": true,
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b903487052bc"
         }
       },
       {
-        "@id": "inst:Role_The_border_wall_cco_PatientRole",
+        "@id": "inst:Role_The_border_wall_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:The_border_wall"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_constructed"
         },
-        "rdfs:label": "The border wall as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804
       },
       {
-        "@id": "inst:Role_the_Army_Corps_cco_AgentRole",
+        "@id": "inst:Role_the_Army_Corps_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:the_Army_Corps"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_constructed"
         },
-        "rdfs:label": "the Army Corps as AgentRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Role_Engineers_cco_ObliqueRole",
+        "@id": "inst:Role_Engineers_ObliqueRole",
         "@type": [
-          "cco:ObliqueRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "ObliqueRole",
+        "tagteam:roleType": "ObliqueRole",
         "tagteam:bearer": {
           "@id": "inst:Engineers"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_constructed"
         },
-        "rdfs:label": "Engineers as ObliqueRole",
         "tagteam:preposition": "of",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Artifact_Border_Wall_85ed017b5cfc",
+        "@id": "inst:Entity_Border_Wall_e2c3729a2afe",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "border wall",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.209Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.656Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b903487052bc",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Army_Corps_fea69f0fc1eb",
+        "@id": "inst:Entity_Army_Corp_f63fa1c3449a",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "army corps",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.209Z",
+        "rdfs:label": "army corp",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.656Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b903487052bc",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Engineers_53e8543ad10a",
+        "@id": "inst:Entity_Engineer_361f47ce473d",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "engineers",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.209Z",
+        "rdfs:label": "engineer",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.656Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b903487052bc",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -210,15 +219,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The border wall was constructed by the Army Corps of Engineers",
+        "has_text_value": "The border wall was constructed by the Army Corps of Engineers",
         "tagteam:char_count": 62,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-18T02:11:44.198Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.647Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -235,20 +244,20 @@
       {
         "@id": "inst:ParsingAct_b9034870",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_b903487052bc"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_border_wall"
           },
@@ -262,7 +271,7 @@
             "@id": "inst:Act_constructed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.198Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.647Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "medical",
     "diagnosis"
   ],
-  "generatedAt": "2026-02-18T02:11:44.719Z",
+  "generatedAt": "2026-02-22T11:48:44.083Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -59,10 +59,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Person_Physician_e864a49f013f"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0caaac5538be"
         }
       },
@@ -77,10 +77,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Condition_69cc25222869"
+        "is_about": {
+          "@id": "inst:Entity_Condition_ca06aa1f66bf"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0caaac5538be"
         }
       },
@@ -92,7 +92,7 @@
         ],
         "rdfs:label": "physician",
         "tagteam:lemma": "physician",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0caaac5538be"
         }
       },
@@ -104,22 +104,23 @@
         ],
         "rdfs:label": "diagnosed",
         "tagteam:lemma": "diagnos",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0caaac5538be"
         }
       },
       {
-        "@id": "inst:Role_the_condition_cco_PatientRole",
+        "@id": "inst:Role_the_condition_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_condition"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_diagnosed"
         },
-        "rdfs:label": "the condition as PatientRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
@@ -130,18 +131,20 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "physician",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.719Z",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.083Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0caaac5538be",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Condition_69cc25222869",
+        "@id": "inst:Entity_Condition_ca06aa1f66bf",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "condition",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.719Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.083Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0caaac5538be",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -152,15 +155,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The physician diagnosed the condition",
+        "has_text_value": "The physician diagnosed the condition",
         "tagteam:char_count": 37,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-18T02:11:44.711Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.076Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -177,20 +180,20 @@
       {
         "@id": "inst:ParsingAct_0caaac55",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_0caaac5538be"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_physician"
           },
@@ -204,7 +207,7 @@
             "@id": "inst:Act_diagnosed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.711Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.076Z"
       }
     ]
   }

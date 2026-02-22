@@ -7,7 +7,7 @@
     "subordination",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:45.377Z",
+  "generatedAt": "2026-02-22T11:48:44.642Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -78,10 +78,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Because_8b83bace40c9"
+        "is_about": {
+          "@id": "inst:Entity_Because_e72633975a63"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_075984563370"
         }
       },
@@ -96,10 +96,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Sensors_9d80f730c8fe"
+        "is_about": {
+          "@id": "inst:Entity_Sensors_52f61343ae0d"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_075984563370"
         }
       },
@@ -114,10 +114,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Detected_Movement_25299c20450b"
+        "is_about": {
+          "@id": "inst:Entity_Detected_Movement_104d83ad135d"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_075984563370"
         }
       },
@@ -131,11 +131,13 @@
         "tagteam:mentionId": "s0:h7:38-48",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Patrol_6dc1c76c6c88"
+        "is_about": {
+          "@id": "inst:Entity_Patrol_3d58f26b8d88"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_075984563370"
         }
       },
@@ -147,7 +149,7 @@
         ],
         "rdfs:label": "Because",
         "tagteam:lemma": "because",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_075984563370"
         }
       },
@@ -159,7 +161,7 @@
         ],
         "rdfs:label": "sensors",
         "tagteam:lemma": "sensors",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_075984563370"
         }
       },
@@ -171,7 +173,7 @@
         ],
         "rdfs:label": "movement",
         "tagteam:lemma": "movement",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_075984563370"
         }
       },
@@ -183,66 +185,72 @@
         ],
         "rdfs:label": "responded",
         "tagteam:lemma": "respond",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_075984563370"
         }
       },
       {
-        "@id": "inst:Role_the_patrol_cco_AgentRole",
+        "@id": "inst:Role_the_patrol_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:the_patrol"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_responded"
         },
-        "rdfs:label": "the patrol as AgentRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Artifact_Because_8b83bace40c9",
+        "@id": "inst:Entity_Because_e72633975a63",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "because",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.377Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.642Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_075984563370",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Sensors_9d80f730c8fe",
+        "@id": "inst:Entity_Sensors_52f61343ae0d",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "sensors",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.377Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.642Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_075984563370",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Detected_Movement_25299c20450b",
+        "@id": "inst:Entity_Detected_Movement_104d83ad135d",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "detected movement",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.377Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.642Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_075984563370",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Patrol_6dc1c76c6c88",
+        "@id": "inst:Entity_Patrol_3d58f26b8d88",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "patrol",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.377Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.642Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_075984563370",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -253,15 +261,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "Because the sensors detected movement the patrol responded immediately",
+        "has_text_value": "Because the sensors detected movement the patrol responded immediately",
         "tagteam:char_count": 70,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-18T02:11:45.367Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.632Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -278,20 +286,20 @@
       {
         "@id": "inst:ParsingAct_07598456",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_075984563370"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:Because"
           },
@@ -317,7 +325,7 @@
             "@id": "inst:Act_responded"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.367Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.632Z"
       }
     ]
   }

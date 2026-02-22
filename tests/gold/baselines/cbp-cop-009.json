@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:44.061Z",
+  "generatedAt": "2026-02-22T11:48:43.523Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -39,11 +39,18 @@
         "tagteam:mentionId": "s0:h2:0-14",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
-        "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Checkpoint_dfa6fce7eb7f"
+        "tagteam:genericityCategory": "AMB",
+        "tagteam:genericityConfidence": 0.6,
+        "tagteam:genericityBasis": "institutional_the",
+        "tagteam:genericityAlternative": {
+          "tagteam:category": "GEN",
+          "tagteam:confidence": 0.4
         },
-        "cco:is_concretized_by": {
+        "tagteam:denotesType": "bfo:Entity",
+        "is_about": {
+          "@id": "inst:Entity_Checkpoint_c476d2ccb750"
+        },
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0388adf8a5e3"
         }
       },
@@ -57,13 +64,15 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Artifact_Checkpoint_dfa6fce7eb7f",
+        "@id": "inst:Entity_Checkpoint_c476d2ccb750",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "checkpoint",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.061Z",
+        "tagteam:genericityCategory": "AMB",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.523Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0388adf8a5e3",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -74,15 +83,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The checkpoint is a fixed inspection station",
+        "has_text_value": "The checkpoint is a fixed inspection station",
         "tagteam:char_count": 44,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-18T02:11:44.053Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.513Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -99,25 +108,25 @@
       {
         "@id": "inst:ParsingAct_0388adf8",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_0388adf8a5e3"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_checkpoint"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.053Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.513Z"
       }
     ]
   }

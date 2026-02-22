@@ -7,7 +7,7 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-18T02:11:43.544Z",
+  "generatedAt": "2026-02-22T11:48:43.104Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -63,11 +63,13 @@
         "tagteam:mentionId": "s0:h2:0-12",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Shipment_0da172977cdc"
+        "is_about": {
+          "@id": "inst:Entity_Shipment_577578cf0f18"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_62f9fb95d513"
         }
       },
@@ -82,10 +84,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Customs_Inspector_960ce4031119"
+        "is_about": {
+          "@id": "inst:Person_Customs_Inspector_e41380b264d0"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_62f9fb95d513"
         }
       },
@@ -98,59 +100,64 @@
         "rdfs:label": "classified",
         "tagteam:lemma": "classify",
         "tagteam:isPassive": true,
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_62f9fb95d513"
         }
       },
       {
-        "@id": "inst:Role_The_shipment_cco_PatientRole",
+        "@id": "inst:Role_The_shipment_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:The_shipment"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_classified"
         },
-        "rdfs:label": "The shipment as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804
       },
       {
-        "@id": "inst:Role_the_customs_inspector_cco_AgentRole",
+        "@id": "inst:Role_the_customs_inspector_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:the_customs_inspector"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_classified"
         },
-        "rdfs:label": "the customs inspector as AgentRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Artifact_Shipment_0da172977cdc",
+        "@id": "inst:Entity_Shipment_577578cf0f18",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "shipment",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.544Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.104Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_62f9fb95d513",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Customs_Inspector_960ce4031119",
+        "@id": "inst:Person_Customs_Inspector_e41380b264d0",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "customs inspector",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.544Z",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.104Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_62f9fb95d513",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -161,15 +168,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The shipment was classified by the customs inspector",
+        "has_text_value": "The shipment was classified by the customs inspector",
         "tagteam:char_count": 52,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-18T02:11:43.532Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.095Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -186,20 +193,20 @@
       {
         "@id": "inst:ParsingAct_62f9fb95",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_62f9fb95d513"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_shipment"
           },
@@ -210,7 +217,7 @@
             "@id": "inst:Act_classified"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.532Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.095Z"
       }
     ]
   }

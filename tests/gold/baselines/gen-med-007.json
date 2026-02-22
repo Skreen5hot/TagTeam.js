@@ -6,7 +6,7 @@
     "medical",
     "treatment"
   ],
-  "generatedAt": "2026-02-18T02:11:44.773Z",
+  "generatedAt": "2026-02-22T11:48:44.132Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -79,11 +79,13 @@
         "tagteam:mentionId": "s0:h2:0-13",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Person_Therapist_ed8bad742075"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5f37a0817b26"
         }
       },
@@ -98,10 +100,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Injury_c6893a0011c9"
+        "is_about": {
+          "@id": "inst:Entity_Injury_335fa0f05b61"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5f37a0817b26"
         }
       },
@@ -116,10 +118,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Physical_Therapy_f66059ab14f3"
+        "is_about": {
+          "@id": "inst:Entity_Physical_Therapy_34a923b273e2"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5f37a0817b26"
         }
       },
@@ -131,52 +133,55 @@
         ],
         "rdfs:label": "treated",
         "tagteam:lemma": "treat",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5f37a0817b26"
         }
       },
       {
-        "@id": "inst:Role_The_therapist_cco_AgentRole",
+        "@id": "inst:Role_The_therapist_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_therapist"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_treated"
         },
-        "rdfs:label": "The therapist as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Role_the_injury_cco_PatientRole",
+        "@id": "inst:Role_the_injury_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_injury"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_treated"
         },
-        "rdfs:label": "the injury as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Role_physical_therapy_cco_InstrumentRole",
+        "@id": "inst:Role_physical_therapy_InstrumentRole",
         "@type": [
-          "cco:InstrumentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "InstrumentRole",
+        "tagteam:roleType": "InstrumentRole",
         "tagteam:bearer": {
           "@id": "inst:physical_therapy"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_treated"
         },
-        "rdfs:label": "physical therapy as InstrumentRole",
         "tagteam:preposition": "with",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
@@ -188,29 +193,33 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "therapist",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.772Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.131Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5f37a0817b26",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Injury_c6893a0011c9",
+        "@id": "inst:Entity_Injury_335fa0f05b61",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "injury",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.772Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.131Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5f37a0817b26",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Physical_Therapy_f66059ab14f3",
+        "@id": "inst:Entity_Physical_Therapy_34a923b273e2",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "physical therapy",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.772Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.132Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5f37a0817b26",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -221,15 +230,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The therapist treated the injury with physical therapy",
+        "has_text_value": "The therapist treated the injury with physical therapy",
         "tagteam:char_count": 54,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-18T02:11:44.764Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.124Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -246,20 +255,20 @@
       {
         "@id": "inst:ParsingAct_5f37a081",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_5f37a0817b26"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_therapist"
           },
@@ -273,7 +282,7 @@
             "@id": "inst:Act_treated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.764Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.124Z"
       }
     ]
   }

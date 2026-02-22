@@ -7,7 +7,7 @@
     "cbp",
     "intelligence"
   ],
-  "generatedAt": "2026-02-18T02:11:43.856Z",
+  "generatedAt": "2026-02-22T11:48:43.350Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -63,11 +63,13 @@
         "tagteam:mentionId": "s0:h3:0-20",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Targeting_Center_4f14133594ca"
+        "is_about": {
+          "@id": "inst:Entity_Targeting_Center_3e28596ba437"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_73134fecb475"
         }
       },
@@ -82,10 +84,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Container_b5b25800390a"
+        "is_about": {
+          "@id": "inst:Entity_Container_8d1d160f4969"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_73134fecb475"
         }
       },
@@ -97,59 +99,64 @@
         ],
         "rdfs:label": "flagged",
         "tagteam:lemma": "flagg",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_73134fecb475"
         }
       },
       {
-        "@id": "inst:Role_The_targeting_center_cco_AgentRole",
+        "@id": "inst:Role_The_targeting_center_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_targeting_center"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_flagged"
         },
-        "rdfs:label": "The targeting center as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_container_cco_PatientRole",
+        "@id": "inst:Role_the_container_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_container"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_flagged"
         },
-        "rdfs:label": "the container as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Artifact_Targeting_Center_4f14133594ca",
+        "@id": "inst:Entity_Targeting_Center_3e28596ba437",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "targeting center",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.856Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.350Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_73134fecb475",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Container_b5b25800390a",
+        "@id": "inst:Entity_Container_8d1d160f4969",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "container",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.856Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.350Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_73134fecb475",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -160,15 +167,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The targeting center flagged the container",
+        "has_text_value": "The targeting center flagged the container",
         "tagteam:char_count": 42,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-18T02:11:43.848Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.344Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -185,20 +192,20 @@
       {
         "@id": "inst:ParsingAct_73134fec",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_73134fecb475"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_targeting_center"
           },
@@ -209,7 +216,7 @@
             "@id": "inst:Act_flagged"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.848Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.344Z"
       }
     ]
   }

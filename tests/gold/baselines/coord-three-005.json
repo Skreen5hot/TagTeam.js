@@ -7,7 +7,7 @@
     "coordination",
     "government"
   ],
-  "generatedAt": "2026-02-18T02:11:43.632Z",
+  "generatedAt": "2026-02-22T11:48:43.176Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -84,11 +84,13 @@
         "tagteam:mentionId": "s0:h5:15-50",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Person_Deputy_And_The_Chief_Of_Staff_1318e8c80741"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d95632251760"
         }
       },
@@ -103,10 +105,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Person_Staff_15d4dfd65e54"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d95632251760"
         }
       },
@@ -121,10 +123,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Plan_89090296e811"
+        "is_about": {
+          "@id": "inst:Entity_Plan_14e7b6541ae8"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d95632251760"
         }
       },
@@ -136,37 +138,39 @@
         ],
         "rdfs:label": "approved",
         "tagteam:lemma": "approv",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d95632251760"
         }
       },
       {
-        "@id": "inst:Role_the_deputy_and_the_chief_of_staff_cco_AgentRole",
+        "@id": "inst:Role_the_deputy_and_the_chief_of_staff_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:the_deputy_and_the_chief_of_staff"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_approved"
         },
-        "rdfs:label": "the deputy and the chief of staff as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Role_the_plan_cco_PatientRole",
+        "@id": "inst:Role_the_plan_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_plan"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_approved"
         },
-        "rdfs:label": "the plan as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
@@ -177,7 +181,9 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "deputy and the chief of staff",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.631Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.176Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d95632251760",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -188,18 +194,20 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "staff",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.631Z",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.176Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d95632251760",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Plan_89090296e811",
+        "@id": "inst:Entity_Plan_14e7b6541ae8",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "plan",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.631Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.176Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d95632251760",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -210,15 +218,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The director, the deputy, and the chief of staff approved the plan",
+        "has_text_value": "The director, the deputy, and the chief of staff approved the plan",
         "tagteam:char_count": 66,
         "tagteam:word_count": 12,
-        "tagteam:received_at": "2026-02-18T02:11:43.615Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.163Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -235,20 +243,20 @@
       {
         "@id": "inst:ParsingAct_d9563225",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_d95632251760"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:the_deputy_and_the_chief_of_staff"
           },
@@ -262,7 +270,7 @@
             "@id": "inst:Act_approved"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.615Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.163Z"
       }
     ]
   }

@@ -8,7 +8,7 @@
     "action",
     "pp"
   ],
-  "generatedAt": "2026-02-17T19:15:44.552Z",
+  "generatedAt": "2026-02-22T11:48:42.614Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -74,10 +74,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Auditor_7f7093bfbfcc"
+        "is_about": {
+          "@id": "inst:Person_Auditor_fe95c060ae74"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_111e711f71dc"
         }
       },
@@ -92,10 +92,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Discrepancies_2d3081e0d9d8"
+        "is_about": {
+          "@id": "inst:Entity_Discrepancy_df019374a4d0"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_111e711f71dc"
         }
       },
@@ -110,10 +110,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Records_0c93346c5f03"
+        "is_about": {
+          "@id": "inst:Entity_Record_4ac286aaa657"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_111e711f71dc"
         }
       },
@@ -125,7 +125,7 @@
         ],
         "rdfs:label": "auditor",
         "tagteam:lemma": "auditor",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_111e711f71dc"
         }
       },
@@ -137,71 +137,76 @@
         ],
         "rdfs:label": "discovered",
         "tagteam:lemma": "discover",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_111e711f71dc"
         }
       },
       {
-        "@id": "inst:Role_discrepancies_cco_PatientRole",
+        "@id": "inst:Role_discrepancies_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:discrepancies"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_discovered"
         },
-        "rdfs:label": "discrepancies as PatientRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Role_the_records_cco_LocationRole",
+        "@id": "inst:Role_the_records_LocationRole",
         "@type": [
-          "cco:LocationRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "LocationRole",
+        "tagteam:roleType": "LocationRole",
         "tagteam:bearer": {
           "@id": "inst:the_records"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_discovered"
         },
-        "rdfs:label": "the records as LocationRole",
         "tagteam:preposition": "in",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Artifact_Auditor_7f7093bfbfcc",
+        "@id": "inst:Person_Auditor_fe95c060ae74",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "auditor",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.551Z",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.613Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_111e711f71dc",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Discrepancies_2d3081e0d9d8",
+        "@id": "inst:Entity_Discrepancy_df019374a4d0",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "discrepancies",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.552Z",
+        "rdfs:label": "discrepancy",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.613Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_111e711f71dc",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Records_0c93346c5f03",
+        "@id": "inst:Entity_Record_4ac286aaa657",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "records",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.552Z",
+        "rdfs:label": "record",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.614Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_111e711f71dc",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -212,15 +217,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The auditor discovered discrepancies in the records",
+        "has_text_value": "The auditor discovered discrepancies in the records",
         "tagteam:char_count": 51,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-17T19:15:44.542Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.605Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -237,20 +242,20 @@
       {
         "@id": "inst:ParsingAct_111e711f",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_111e711f71dc"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_auditor"
           },
@@ -267,7 +272,7 @@
             "@id": "inst:Act_discovered"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.542Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.605Z"
       }
     ]
   }

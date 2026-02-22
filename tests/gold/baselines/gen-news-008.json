@@ -6,7 +6,7 @@
     "news",
     "regulation"
   ],
-  "generatedAt": "2026-02-18T02:11:44.593Z",
+  "generatedAt": "2026-02-22T11:48:43.971Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -75,11 +75,13 @@
         "tagteam:mentionId": "s0:h2:0-13",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Regulator_7283da75f20e"
+        "is_about": {
+          "@id": "inst:Entity_Regulator_8ae1f8495372"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_673baeaced25"
         }
       },
@@ -94,10 +96,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Corporation_f5d05650532b"
+        "is_about": {
+          "@id": "inst:Organization_Corporation_811b327b331e"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_673baeaced25"
         }
       },
@@ -112,10 +114,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Violations_23577c0b07a2"
+        "is_about": {
+          "@id": "inst:Entity_Violation_f7e9f9ed43a2"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_673baeaced25"
         }
       },
@@ -127,86 +129,93 @@
         ],
         "rdfs:label": "fined",
         "tagteam:lemma": "fin",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_673baeaced25"
         }
       },
       {
-        "@id": "inst:Role_The_regulator_cco_AgentRole",
+        "@id": "inst:Role_The_regulator_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_regulator"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_fined"
         },
-        "rdfs:label": "The regulator as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_corporation_cco_PatientRole",
+        "@id": "inst:Role_the_corporation_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_corporation"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_fined"
         },
-        "rdfs:label": "the corporation as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Role_violations_cco_BeneficiaryRole",
+        "@id": "inst:Role_violations_BeneficiaryRole",
         "@type": [
-          "cco:BeneficiaryRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "BeneficiaryRole",
+        "tagteam:roleType": "BeneficiaryRole",
         "tagteam:bearer": {
           "@id": "inst:violations"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_fined"
         },
-        "rdfs:label": "violations as BeneficiaryRole",
         "tagteam:preposition": "for",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Artifact_Regulator_7283da75f20e",
+        "@id": "inst:Entity_Regulator_8ae1f8495372",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "regulator",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.593Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.971Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_673baeaced25",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Corporation_f5d05650532b",
+        "@id": "inst:Organization_Corporation_811b327b331e",
         "@type": [
-          "cco:Artifact",
+          "cco:Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "corporation",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.593Z",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.971Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_673baeaced25",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Violations_23577c0b07a2",
+        "@id": "inst:Entity_Violation_f7e9f9ed43a2",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "violations",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.593Z",
+        "rdfs:label": "violation",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.971Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_673baeaced25",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -217,15 +226,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The regulator fined the corporation for violations",
+        "has_text_value": "The regulator fined the corporation for violations",
         "tagteam:char_count": 50,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-18T02:11:44.586Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.964Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -242,20 +251,20 @@
       {
         "@id": "inst:ParsingAct_673baeac",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_673baeaced25"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_regulator"
           },
@@ -269,7 +278,7 @@
             "@id": "inst:Act_fined"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.586Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.964Z"
       }
     ]
   }

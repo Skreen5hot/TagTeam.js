@@ -6,7 +6,7 @@
     "relative-clause",
     "government"
   ],
-  "generatedAt": "2026-02-18T02:11:45.363Z",
+  "generatedAt": "2026-02-22T11:48:44.628Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -72,10 +72,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Report_87e9f96418ac"
+        "is_about": {
+          "@id": "inst:Entity_Report_dda1d655762b"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ffc6ed551e17"
         }
       },
@@ -89,11 +89,13 @@
         "tagteam:mentionId": "s0:h5:16-27",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Analyst_076eb7fbb244"
+        "is_about": {
+          "@id": "inst:Person_Analyst_0e744e950f78"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ffc6ed551e17"
         }
       },
@@ -108,10 +110,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Director_927a758c30ae"
+        "is_about": {
+          "@id": "inst:Person_Director_669e4a710ccd"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ffc6ed551e17"
         }
       },
@@ -123,7 +125,7 @@
         ],
         "rdfs:label": "report",
         "tagteam:lemma": "report",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ffc6ed551e17"
         }
       },
@@ -135,55 +137,60 @@
         ],
         "rdfs:label": "compiled",
         "tagteam:lemma": "compil",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ffc6ed551e17"
         }
       },
       {
-        "@id": "inst:Role_the_analyst_cco_AgentRole",
+        "@id": "inst:Role_the_analyst_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:the_analyst"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_compiled"
         },
-        "rdfs:label": "the analyst as AgentRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Artifact_Report_87e9f96418ac",
+        "@id": "inst:Entity_Report_dda1d655762b",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "report",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.363Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.628Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ffc6ed551e17",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Analyst_076eb7fbb244",
+        "@id": "inst:Person_Analyst_0e744e950f78",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "analyst",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.363Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.628Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ffc6ed551e17",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Director_927a758c30ae",
+        "@id": "inst:Person_Director_669e4a710ccd",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "director",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.363Z",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.628Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ffc6ed551e17",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -194,15 +201,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The report that the analyst compiled was forwarded to the director",
+        "has_text_value": "The report that the analyst compiled was forwarded to the director",
         "tagteam:char_count": 66,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-18T02:11:45.353Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.616Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -219,20 +226,20 @@
       {
         "@id": "inst:ParsingAct_ffc6ed55",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_ffc6ed551e17"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_report"
           },
@@ -249,7 +256,7 @@
             "@id": "inst:Act_compiled"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.353Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.616Z"
       }
     ]
   }

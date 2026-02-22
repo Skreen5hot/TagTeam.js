@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:44.440Z",
+  "generatedAt": "2026-02-22T11:48:43.833Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -19,7 +19,7 @@
     },
     {
       "text": "the southern sector",
-      "type": "cco:GeopoliticalEntity"
+      "type": "cco:GeopoliticalOrganization"
     }
   ],
   "expectedRoles": [
@@ -76,10 +76,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Commander_4f1e93f8aea5"
+        "is_about": {
+          "@id": "inst:Entity_Commander_bd3853f7459c"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_4834e9ef436e"
         }
       },
@@ -94,10 +94,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Unit_5b48276de44c"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_4834e9ef436e"
         }
       },
@@ -112,10 +112,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Southern_Sector_7a582ea4a8d1"
+        "is_about": {
+          "@id": "inst:Entity_Southern_Sector_1a6247379c3a"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_4834e9ef436e"
         }
       },
@@ -127,7 +127,7 @@
         ],
         "rdfs:label": "commander",
         "tagteam:lemma": "commander",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_4834e9ef436e"
         }
       },
@@ -139,49 +139,52 @@
         ],
         "rdfs:label": "assigned",
         "tagteam:lemma": "assign",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_4834e9ef436e"
         }
       },
       {
-        "@id": "inst:Role_the_unit_cco_PatientRole",
+        "@id": "inst:Role_the_unit_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_unit"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_assigned"
         },
-        "rdfs:label": "the unit as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Role_the_southern_sector_cco_DestinationRole",
+        "@id": "inst:Role_the_southern_sector_DestinationRole",
         "@type": [
-          "cco:DestinationRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "DestinationRole",
+        "tagteam:roleType": "DestinationRole",
         "tagteam:bearer": {
           "@id": "inst:the_southern_sector"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_assigned"
         },
-        "rdfs:label": "the southern sector as DestinationRole",
         "tagteam:preposition": "to",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Artifact_Commander_4f1e93f8aea5",
+        "@id": "inst:Entity_Commander_bd3853f7459c",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "commander",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.439Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.833Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4834e9ef436e",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -192,18 +195,20 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "unit",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.439Z",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.833Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4834e9ef436e",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Southern_Sector_7a582ea4a8d1",
+        "@id": "inst:Entity_Southern_Sector_1a6247379c3a",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "southern sector",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.439Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.833Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4834e9ef436e",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -214,15 +219,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The commander assigned the unit to the southern sector",
+        "has_text_value": "The commander assigned the unit to the southern sector",
         "tagteam:char_count": 54,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-18T02:11:44.429Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.824Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -239,20 +244,20 @@
       {
         "@id": "inst:ParsingAct_4834e9ef",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_4834e9ef436e"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_commander"
           },
@@ -269,7 +274,7 @@
             "@id": "inst:Act_assigned"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.429Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.824Z"
       }
     ]
   }

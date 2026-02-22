@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:44.369Z",
+  "generatedAt": "2026-02-22T11:48:43.781Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -75,11 +75,13 @@
         "tagteam:mentionId": "s0:h2:0-14",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Supervisor_7a609d85b6c8"
+        "is_about": {
+          "@id": "inst:Person_Supervisor_19d071bf009a"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a1199a59d28f"
         }
       },
@@ -94,10 +96,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Team_81ade5a61e89"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a1199a59d28f"
         }
       },
@@ -112,10 +114,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9479,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Operation_e5033375661c"
+        "is_about": {
+          "@id": "inst:Entity_Operation_357388bdca48"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a1199a59d28f"
         }
       },
@@ -127,64 +129,69 @@
         ],
         "rdfs:label": "briefed",
         "tagteam:lemma": "brief",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a1199a59d28f"
         }
       },
       {
-        "@id": "inst:Role_The_supervisor_cco_AgentRole",
+        "@id": "inst:Role_The_supervisor_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_supervisor"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_briefed"
         },
-        "rdfs:label": "The supervisor as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Role_the_team_cco_PatientRole",
+        "@id": "inst:Role_the_team_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_team"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_briefed"
         },
-        "rdfs:label": "the team as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Role_the_operation_cco_LocationRole",
+        "@id": "inst:Role_the_operation_LocationRole",
         "@type": [
-          "cco:LocationRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "LocationRole",
+        "tagteam:roleType": "LocationRole",
         "tagteam:bearer": {
           "@id": "inst:the_operation"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_briefed"
         },
-        "rdfs:label": "the operation as LocationRole",
         "tagteam:preposition": "on",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Artifact_Supervisor_7a609d85b6c8",
+        "@id": "inst:Person_Supervisor_19d071bf009a",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "supervisor",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.369Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.781Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a1199a59d28f",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -195,18 +202,20 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "team",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.369Z",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.781Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a1199a59d28f",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Operation_e5033375661c",
+        "@id": "inst:Entity_Operation_357388bdca48",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "operation",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.369Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.781Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a1199a59d28f",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -217,15 +226,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The supervisor briefed the team on the operation",
+        "has_text_value": "The supervisor briefed the team on the operation",
         "tagteam:char_count": 48,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-18T02:11:44.360Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.772Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -242,20 +251,20 @@
       {
         "@id": "inst:ParsingAct_a1199a59",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_a1199a59d28f"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_supervisor"
           },
@@ -269,7 +278,7 @@
             "@id": "inst:Act_briefed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.360Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.772Z"
       }
     ]
   }

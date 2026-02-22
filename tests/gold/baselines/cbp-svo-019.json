@@ -7,7 +7,7 @@
     "cbp",
     "training"
   ],
-  "generatedAt": "2026-02-18T02:11:43.912Z",
+  "generatedAt": "2026-02-22T11:48:43.394Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -63,11 +63,13 @@
         "tagteam:mentionId": "s0:h3:0-21",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Training_Division_924253af1d00"
+        "is_about": {
+          "@id": "inst:Entity_Training_Division_f2911ab8c24f"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_6e60b40233e1"
         }
       },
@@ -82,10 +84,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Curriculum_7e97bbcdc4a4"
+        "is_about": {
+          "@id": "inst:Entity_Curriculum_b92f7f5a9668"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_6e60b40233e1"
         }
       },
@@ -97,59 +99,64 @@
         ],
         "rdfs:label": "developed",
         "tagteam:lemma": "develop",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_6e60b40233e1"
         }
       },
       {
-        "@id": "inst:Role_The_training_division_cco_AgentRole",
+        "@id": "inst:Role_The_training_division_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_training_division"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_developed"
         },
-        "rdfs:label": "The training division as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9479
       },
       {
-        "@id": "inst:Role_the_curriculum_cco_PatientRole",
+        "@id": "inst:Role_the_curriculum_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_curriculum"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_developed"
         },
-        "rdfs:label": "the curriculum as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Artifact_Training_Division_924253af1d00",
+        "@id": "inst:Entity_Training_Division_f2911ab8c24f",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "training division",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.911Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.394Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6e60b40233e1",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Curriculum_7e97bbcdc4a4",
+        "@id": "inst:Entity_Curriculum_b92f7f5a9668",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "curriculum",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.911Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.394Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6e60b40233e1",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -160,15 +167,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The training division developed the curriculum",
+        "has_text_value": "The training division developed the curriculum",
         "tagteam:char_count": 46,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-18T02:11:43.902Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.387Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -185,20 +192,20 @@
       {
         "@id": "inst:ParsingAct_6e60b402",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_6e60b40233e1"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_training_division"
           },
@@ -209,7 +216,7 @@
             "@id": "inst:Act_developed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.902Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.387Z"
       }
     ]
   }

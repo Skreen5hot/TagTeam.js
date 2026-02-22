@@ -7,12 +7,12 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-18T02:11:43.528Z",
+  "generatedAt": "2026-02-22T11:48:43.091Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
       "text": "The territory",
-      "type": "cco:GeopoliticalEntity"
+      "type": "cco:GeopoliticalOrganization"
     },
     {
       "text": "the planning committee",
@@ -63,11 +63,13 @@
         "tagteam:mentionId": "s0:h2:0-13",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Territory_9f15de36c035"
+        "is_about": {
+          "@id": "inst:Entity_Territory_fe159ee9c6c9"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ccd0b0692fff"
         }
       },
@@ -82,10 +84,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Planning_Committee_551e0ee661e3"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ccd0b0692fff"
         }
       },
@@ -98,48 +100,52 @@
         "rdfs:label": "divided",
         "tagteam:lemma": "divid",
         "tagteam:isPassive": true,
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ccd0b0692fff"
         }
       },
       {
-        "@id": "inst:Role_The_territory_cco_PatientRole",
+        "@id": "inst:Role_The_territory_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:The_territory"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_divided"
         },
-        "rdfs:label": "The territory as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804
       },
       {
-        "@id": "inst:Role_the_planning_committee_cco_AgentRole",
+        "@id": "inst:Role_the_planning_committee_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:the_planning_committee"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_divided"
         },
-        "rdfs:label": "the planning committee as AgentRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Artifact_Territory_9f15de36c035",
+        "@id": "inst:Entity_Territory_fe159ee9c6c9",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "territory",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.528Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.091Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ccd0b0692fff",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -150,7 +156,8 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "planning committee",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.528Z",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.091Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ccd0b0692fff",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -161,15 +168,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The territory was divided by the planning committee",
+        "has_text_value": "The territory was divided by the planning committee",
         "tagteam:char_count": 51,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-18T02:11:43.518Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.083Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -186,20 +193,20 @@
       {
         "@id": "inst:ParsingAct_ccd0b069",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_ccd0b0692fff"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_territory"
           },
@@ -210,7 +217,7 @@
             "@id": "inst:Act_divided"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.518Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.083Z"
       }
     ]
   }

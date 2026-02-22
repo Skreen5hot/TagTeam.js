@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-17T19:15:44.579Z",
+  "generatedAt": "2026-02-22T11:48:42.636Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -63,11 +63,13 @@
         "tagteam:mentionId": "s0:h2:0-10",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Bureau_5d2beaa94069"
+        "is_about": {
+          "@id": "inst:Entity_Bureau_c890880bffcd"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_62a0e7609c2c"
         }
       },
@@ -82,10 +84,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Investigation_525f91960d1b"
+        "is_about": {
+          "@id": "inst:Entity_Investigation_eb13dcb1b5f7"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_62a0e7609c2c"
         }
       },
@@ -97,59 +99,64 @@
         ],
         "rdfs:label": "conducted",
         "tagteam:lemma": "conduct",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_62a0e7609c2c"
         }
       },
       {
-        "@id": "inst:Role_The_bureau_cco_AgentRole",
+        "@id": "inst:Role_The_bureau_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_bureau"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_conducted"
         },
-        "rdfs:label": "The bureau as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_an_investigation_cco_PatientRole",
+        "@id": "inst:Role_an_investigation_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:an_investigation"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_conducted"
         },
-        "rdfs:label": "an investigation as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Artifact_Bureau_5d2beaa94069",
+        "@id": "inst:Entity_Bureau_c890880bffcd",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "bureau",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.579Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.636Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_62a0e7609c2c",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Investigation_525f91960d1b",
+        "@id": "inst:Entity_Investigation_eb13dcb1b5f7",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "investigation",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.579Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.636Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_62a0e7609c2c",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -160,15 +167,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The bureau conducted an investigation",
+        "has_text_value": "The bureau conducted an investigation",
         "tagteam:char_count": 37,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-17T19:15:44.570Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.629Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -185,20 +192,20 @@
       {
         "@id": "inst:ParsingAct_62a0e760",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_62a0e7609c2c"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_bureau"
           },
@@ -209,7 +216,7 @@
             "@id": "inst:Act_conducted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.570Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.629Z"
       }
     ]
   }

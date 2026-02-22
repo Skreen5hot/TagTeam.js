@@ -7,7 +7,7 @@
     "keep",
     "government"
   ],
-  "generatedAt": "2026-02-17T19:15:44.753Z",
+  "generatedAt": "2026-02-22T11:48:42.796Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -50,10 +50,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Customs_And_Border_Protection_Enforces_Trade_Laws_d45574f0c9a7"
+        "is_about": {
+          "@id": "inst:Entity_Customs_And_Border_Protection_Enforces_Trade_Law_78fbbfd1cfa6"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_930054f1010a"
         }
       },
@@ -65,18 +65,19 @@
         ],
         "rdfs:label": "laws",
         "tagteam:lemma": "laws",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_930054f1010a"
         }
       },
       {
-        "@id": "inst:Artifact_Customs_And_Border_Protection_Enforces_Trade_Laws_d45574f0c9a7",
+        "@id": "inst:Entity_Customs_And_Border_Protection_Enforces_Trade_Law_78fbbfd1cfa6",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "customs and border protection enforces trade laws",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.753Z",
+        "rdfs:label": "customs and border protection enforces trade law",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.796Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_930054f1010a",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -87,15 +88,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "Customs and Border Protection enforces trade laws",
+        "has_text_value": "Customs and Border Protection enforces trade laws",
         "tagteam:char_count": 49,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-17T19:15:44.742Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.789Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -112,20 +113,20 @@
       {
         "@id": "inst:ParsingAct_930054f1",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_930054f1010a"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:Customs_and_Border_Protection_enforces_trade_laws"
           },
@@ -133,7 +134,7 @@
             "@id": "inst:Act_laws"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.742Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.789Z"
       }
     ]
   }

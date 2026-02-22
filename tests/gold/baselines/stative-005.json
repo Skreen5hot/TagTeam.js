@@ -7,7 +7,7 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-18T02:11:43.459Z",
+  "generatedAt": "2026-02-22T11:48:43.043Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -45,11 +45,18 @@
         "tagteam:mentionId": "s0:h2:0-13",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
-        "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Substance_142575193470"
+        "tagteam:genericityCategory": "AMB",
+        "tagteam:genericityConfidence": 0.6,
+        "tagteam:genericityBasis": "institutional_the",
+        "tagteam:genericityAlternative": {
+          "tagteam:category": "GEN",
+          "tagteam:confidence": 0.4
         },
-        "cco:is_concretized_by": {
+        "tagteam:denotesType": "bfo:Entity",
+        "is_about": {
+          "@id": "inst:Entity_Substance_7afa02cc7f29"
+        },
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_9db8f8815e7c"
         }
       },
@@ -64,10 +71,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Controlled_Material_1cfb4aa2f565"
+        "is_about": {
+          "@id": "inst:Entity_Controlled_Material_905c3b61a62a"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_9db8f8815e7c"
         }
       },
@@ -82,24 +89,27 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Artifact_Substance_142575193470",
+        "@id": "inst:Entity_Substance_7afa02cc7f29",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "substance",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.459Z",
+        "tagteam:genericityCategory": "AMB",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.043Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9db8f8815e7c",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Controlled_Material_1cfb4aa2f565",
+        "@id": "inst:Entity_Controlled_Material_905c3b61a62a",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "controlled material",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.459Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.043Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9db8f8815e7c",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -110,15 +120,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The substance is classified as a controlled material",
+        "has_text_value": "The substance is classified as a controlled material",
         "tagteam:char_count": 52,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-18T02:11:43.448Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.035Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -135,20 +145,20 @@
       {
         "@id": "inst:ParsingAct_9db8f881",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_9db8f8815e7c"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_substance"
           },
@@ -156,7 +166,7 @@
             "@id": "inst:a_controlled_material"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.448Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.035Z"
       }
     ]
   }

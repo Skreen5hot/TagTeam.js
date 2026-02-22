@@ -7,7 +7,7 @@
     "cbp",
     "surveillance"
   ],
-  "generatedAt": "2026-02-18T02:11:43.674Z",
+  "generatedAt": "2026-02-22T11:48:43.207Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -63,11 +63,13 @@
         "tagteam:mentionId": "s0:h3:0-15",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Patrol_Unit_a909d0050a26"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_20f0c438164c"
         }
       },
@@ -82,10 +84,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Crossing_c65e0063701d"
+        "is_about": {
+          "@id": "inst:Entity_Cros_56974ea0bd05"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_20f0c438164c"
         }
       },
@@ -97,37 +99,39 @@
         ],
         "rdfs:label": "monitored",
         "tagteam:lemma": "monitor",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_20f0c438164c"
         }
       },
       {
-        "@id": "inst:Role_The_patrol_unit_cco_AgentRole",
+        "@id": "inst:Role_The_patrol_unit_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_patrol_unit"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_monitored"
         },
-        "rdfs:label": "The patrol unit as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_crossing_cco_PatientRole",
+        "@id": "inst:Role_the_crossing_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_crossing"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_monitored"
         },
-        "rdfs:label": "the crossing as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
@@ -138,18 +142,21 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "patrol unit",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.674Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.207Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_20f0c438164c",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Crossing_c65e0063701d",
+        "@id": "inst:Entity_Cros_56974ea0bd05",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "crossing",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.674Z",
+        "rdfs:label": "cros",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.207Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_20f0c438164c",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -160,15 +167,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The patrol unit monitored the crossing",
+        "has_text_value": "The patrol unit monitored the crossing",
         "tagteam:char_count": 38,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-18T02:11:43.666Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.199Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -185,20 +192,20 @@
       {
         "@id": "inst:ParsingAct_20f0c438",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_20f0c438164c"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_patrol_unit"
           },
@@ -209,7 +216,7 @@
             "@id": "inst:Act_monitored"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.666Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.199Z"
       }
     ]
   }

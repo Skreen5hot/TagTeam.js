@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:44.333Z",
+  "generatedAt": "2026-02-22T11:48:43.747Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -79,11 +79,13 @@
         "tagteam:mentionId": "s0:h2:0-11",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Officer_f659e63509f7"
+        "is_about": {
+          "@id": "inst:Person_Officer_c082a7742e49"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e2e7fbde9186"
         }
       },
@@ -98,10 +100,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Passport_07de1fb4022b"
+        "is_about": {
+          "@id": "inst:Entity_Passport_67b22f825055"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e2e7fbde9186"
         }
       },
@@ -116,10 +118,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Reader_2ad1206ac41a"
+        "is_about": {
+          "@id": "inst:Entity_Reader_7236b9bfb74f"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e2e7fbde9186"
         }
       },
@@ -131,86 +133,93 @@
         ],
         "rdfs:label": "scanned",
         "tagteam:lemma": "scann",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e2e7fbde9186"
         }
       },
       {
-        "@id": "inst:Role_The_officer_cco_AgentRole",
+        "@id": "inst:Role_The_officer_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_officer"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_scanned"
         },
-        "rdfs:label": "The officer as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_passport_cco_PatientRole",
+        "@id": "inst:Role_the_passport_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_passport"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_scanned"
         },
-        "rdfs:label": "the passport as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Role_the_reader_cco_InstrumentRole",
+        "@id": "inst:Role_the_reader_InstrumentRole",
         "@type": [
-          "cco:InstrumentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "InstrumentRole",
+        "tagteam:roleType": "InstrumentRole",
         "tagteam:bearer": {
           "@id": "inst:the_reader"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_scanned"
         },
-        "rdfs:label": "the reader as InstrumentRole",
         "tagteam:preposition": "with",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Artifact_Officer_f659e63509f7",
+        "@id": "inst:Person_Officer_c082a7742e49",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "officer",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.332Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.747Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e2e7fbde9186",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Passport_07de1fb4022b",
+        "@id": "inst:Entity_Passport_67b22f825055",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "passport",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.332Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.747Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e2e7fbde9186",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Reader_2ad1206ac41a",
+        "@id": "inst:Entity_Reader_7236b9bfb74f",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "reader",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.332Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.747Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e2e7fbde9186",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -221,15 +230,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The officer scanned the passport with the reader",
+        "has_text_value": "The officer scanned the passport with the reader",
         "tagteam:char_count": 48,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-18T02:11:44.324Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.740Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -246,20 +255,20 @@
       {
         "@id": "inst:ParsingAct_e2e7fbde",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_e2e7fbde9186"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_officer"
           },
@@ -273,7 +282,7 @@
             "@id": "inst:Act_scanned"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.324Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.740Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-17T19:15:44.186Z",
+  "generatedAt": "2026-02-22T11:48:42.252Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -45,11 +45,14 @@
         "tagteam:mentionId": "s0:h1:0-3",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.95,
+        "tagteam:genericityBasis": "named_entity",
         "tagteam:denotesType": "cco:Organization",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Ice_6549468a19a4"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_58542db56a45"
         }
       },
@@ -64,10 +67,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "cco:Organization",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Dhs_0cb940414a5e"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_58542db56a45"
         }
       },
@@ -88,7 +91,9 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "ice",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.186Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.252Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_58542db56a45",
         "tagteam:denotesType": "cco:Organization"
       },
@@ -99,7 +104,8 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "dhs",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.186Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.252Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_58542db56a45",
         "tagteam:denotesType": "cco:Organization"
       },
@@ -110,15 +116,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "ICE is an agency within DHS",
+        "has_text_value": "ICE is an agency within DHS",
         "tagteam:char_count": 27,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-17T19:15:44.177Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.242Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -135,20 +141,20 @@
       {
         "@id": "inst:ParsingAct_58542db5",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_58542db56a45"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:ICE"
           },
@@ -156,7 +162,7 @@
             "@id": "inst:DHS"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.177Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.242Z"
       }
     ]
   }

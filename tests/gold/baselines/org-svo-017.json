@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-17T19:15:44.538Z",
+  "generatedAt": "2026-02-22T11:48:42.600Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -63,11 +63,13 @@
         "tagteam:mentionId": "s0:h2:0-14",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Department_6703dc1238fb"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7d317d866425"
         }
       },
@@ -82,10 +84,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_New_Regulations_3304fda8499a"
+        "is_about": {
+          "@id": "inst:Entity_New_Regulation_2bcbd714199b"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7d317d866425"
         }
       },
@@ -98,37 +100,39 @@
         "rdfs:label": "implemented",
         "tagteam:lemma": "implement",
         "tagteam:isPassive": true,
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7d317d866425"
         }
       },
       {
-        "@id": "inst:Role_The_department_cco_PatientRole",
+        "@id": "inst:Role_The_department_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:The_department"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_implemented"
         },
-        "rdfs:label": "The department as PatientRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Role_new_regulations_cco_AgentRole",
+        "@id": "inst:Role_new_regulations_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:new_regulations"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_implemented"
         },
-        "rdfs:label": "new regulations as AgentRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583
       },
@@ -139,18 +143,21 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "department",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.538Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.600Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7d317d866425",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_New_Regulations_3304fda8499a",
+        "@id": "inst:Entity_New_Regulation_2bcbd714199b",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "new regulations",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.538Z",
+        "rdfs:label": "new regulation",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.600Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7d317d866425",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -161,15 +168,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The department implemented new regulations",
+        "has_text_value": "The department implemented new regulations",
         "tagteam:char_count": 42,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-17T19:15:44.530Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.593Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -186,20 +193,20 @@
       {
         "@id": "inst:ParsingAct_7d317d86",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_7d317d866425"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_department"
           },
@@ -210,7 +217,7 @@
             "@id": "inst:Act_implemented"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.530Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.593Z"
       }
     ]
   }

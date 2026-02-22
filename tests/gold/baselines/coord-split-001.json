@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-17T19:15:44.665Z",
+  "generatedAt": "2026-02-22T11:48:42.723Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -80,11 +80,14 @@
         "tagteam:mentionId": "s0:h2:0-7",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.95,
+        "tagteam:genericityBasis": "named_entity",
         "tagteam:denotesType": "cco:Organization",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Fbi_4497e3258856"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b6c622a3894c"
         }
       },
@@ -98,11 +101,14 @@
         "tagteam:mentionId": "s0:h4:12-15",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.95,
+        "tagteam:genericityBasis": "named_entity",
         "tagteam:denotesType": "cco:Organization",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Cia_1fb66921d37c"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b6c622a3894c"
         }
       },
@@ -117,10 +123,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Operation_42e1f4d31497"
+        "is_about": {
+          "@id": "inst:Entity_Operation_c857a72bf11e"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b6c622a3894c"
         }
       },
@@ -132,52 +138,55 @@
         ],
         "rdfs:label": "coordinated",
         "tagteam:lemma": "coordinat",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b6c622a3894c"
         }
       },
       {
-        "@id": "inst:Role_The_FBI_cco_AgentRole",
+        "@id": "inst:Role_The_FBI_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_FBI"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_coordinated"
         },
-        "rdfs:label": "The FBI as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9479
       },
       {
-        "@id": "inst:Role_CIA_cco_AgentRole",
+        "@id": "inst:Role_CIA_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:CIA"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_coordinated"
         },
-        "rdfs:label": "CIA as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Role_the_operation_cco_PatientRole",
+        "@id": "inst:Role_the_operation_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_operation"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_coordinated"
         },
-        "rdfs:label": "the operation as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
@@ -188,7 +197,9 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "fbi",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.665Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.723Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b6c622a3894c",
         "tagteam:denotesType": "cco:Organization"
       },
@@ -199,18 +210,21 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "cia",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.665Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.723Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b6c622a3894c",
         "tagteam:denotesType": "cco:Organization"
       },
       {
-        "@id": "inst:Artifact_Operation_42e1f4d31497",
+        "@id": "inst:Entity_Operation_c857a72bf11e",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "operation",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.665Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.723Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b6c622a3894c",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -221,15 +235,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The FBI and CIA coordinated the operation",
+        "has_text_value": "The FBI and CIA coordinated the operation",
         "tagteam:char_count": 41,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-17T19:15:44.654Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.713Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -246,20 +260,20 @@
       {
         "@id": "inst:ParsingAct_b6c622a3",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_b6c622a3894c"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_FBI"
           },
@@ -273,7 +287,7 @@
             "@id": "inst:Act_coordinated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.654Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.713Z"
       }
     ]
   }

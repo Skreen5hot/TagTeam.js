@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-17T19:15:44.690Z",
+  "generatedAt": "2026-02-22T11:48:42.749Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -71,11 +71,13 @@
         "tagteam:mentionId": "s0:h2:0-25",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Agent_And_The_Analyst_471212e81343"
+        "is_about": {
+          "@id": "inst:Person_Agent_And_The_Analyst_8c5b120a4679"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_fba35c9e4b1f"
         }
       },
@@ -90,10 +92,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Evidence_c4a319370847"
+        "is_about": {
+          "@id": "inst:Entity_Evidence_a5e15aff8b9d"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_fba35c9e4b1f"
         }
       },
@@ -105,59 +107,64 @@
         ],
         "rdfs:label": "reviewed",
         "tagteam:lemma": "review",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_fba35c9e4b1f"
         }
       },
       {
-        "@id": "inst:Role_The_agent_and_the_analyst_cco_AgentRole",
+        "@id": "inst:Role_The_agent_and_the_analyst_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_agent_and_the_analyst"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_reviewed"
         },
-        "rdfs:label": "The agent and the analyst as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_evidence_cco_PatientRole",
+        "@id": "inst:Role_the_evidence_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_evidence"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_reviewed"
         },
-        "rdfs:label": "the evidence as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Artifact_Agent_And_The_Analyst_471212e81343",
+        "@id": "inst:Person_Agent_And_The_Analyst_8c5b120a4679",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "agent and the analyst",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.690Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.749Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_fba35c9e4b1f",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Evidence_c4a319370847",
+        "@id": "inst:Entity_Evidence_a5e15aff8b9d",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "evidence",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.690Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.749Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_fba35c9e4b1f",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -168,15 +175,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The agent and the analyst reviewed the evidence",
+        "has_text_value": "The agent and the analyst reviewed the evidence",
         "tagteam:char_count": 47,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-17T19:15:44.682Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.740Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -193,20 +200,20 @@
       {
         "@id": "inst:ParsingAct_fba35c9e",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_fba35c9e4b1f"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_agent_and_the_analyst"
           },
@@ -217,7 +224,7 @@
             "@id": "inst:Act_reviewed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.682Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.740Z"
       }
     ]
   }

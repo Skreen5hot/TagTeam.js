@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:43.956Z",
+  "generatedAt": "2026-02-22T11:48:43.429Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -29,6 +29,11 @@
       "text": "entry",
       "type": "bfo:Entity",
       "id": "inst:entry"
+    },
+    {
+      "text": "port of entry",
+      "type": "bfo:BFO_0000001",
+      "id": "inst:Entity_Port_Of_Entry_76c0da80042c"
     }
   ],
   "extractedRoles": [],
@@ -44,11 +49,13 @@
         "tagteam:mentionId": "s0:h2:0-15",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
+        "tagteam:genericityCategory": "GEN",
+        "tagteam:genericityConfidence": 0.75,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Port_Of_Entry_937fe308aa77"
+        "is_about": {
+          "@id": "inst:Entity_Port_Of_Entry_76c0da80042c"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_1b6eef99bb8f"
         }
       },
@@ -63,10 +70,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Entry_d1d4851243a6"
+        "is_about": {
+          "@id": "inst:Entity_Entry_cadcca51ed46"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_1b6eef99bb8f"
         }
       },
@@ -80,24 +87,31 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Artifact_Port_Of_Entry_937fe308aa77",
+        "@id": "inst:Entity_Port_Of_Entry_76c0da80042c",
         "@type": [
-          "cco:Artifact",
-          "owl:NamedIndividual"
+          "bfo:BFO_0000001",
+          "owl:Class"
         ],
         "rdfs:label": "port of entry",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.956Z",
+        "tagteam:genericityCategory": "GEN",
+        "tagteam:typeBasis": "default",
+        "tagteam:classNominationStatus": "unresolved",
+        "tagteam:nominatedClassLabel": "Port Of Entry",
+        "tagteam:nominationBasis": "unknown",
+        "tagteam:requiresOntologyResolution": true,
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.429Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1b6eef99bb8f",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Entry_d1d4851243a6",
+        "@id": "inst:Entity_Entry_cadcca51ed46",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "entry",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.956Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.429Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1b6eef99bb8f",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -108,15 +122,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "A port of entry is an authorized crossing point",
+        "has_text_value": "A port of entry is an authorized crossing point",
         "tagteam:char_count": 47,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-18T02:11:43.946Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.420Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -133,20 +147,20 @@
       {
         "@id": "inst:ParsingAct_1b6eef99",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_1b6eef99bb8f"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:A_port_of_entry"
           },
@@ -154,7 +168,7 @@
             "@id": "inst:entry"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.946Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.420Z"
       }
     ]
   }

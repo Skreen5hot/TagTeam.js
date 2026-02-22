@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:44.178Z",
+  "generatedAt": "2026-02-22T11:48:43.630Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -62,11 +62,13 @@
         "tagteam:mentionId": "s0:h2:0-11",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Vehicle_967d8d3347e1"
+        "is_about": {
+          "@id": "inst:Entity_Vehicle_1e302540ef77"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7eb0ddc9127f"
         }
       },
@@ -81,10 +83,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Checkpoint_ddb1f5b852d9"
+        "is_about": {
+          "@id": "inst:Entity_Checkpoint_4ea249bb9872"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7eb0ddc9127f"
         }
       },
@@ -97,60 +99,65 @@
         "rdfs:label": "searched",
         "tagteam:lemma": "search",
         "tagteam:isPassive": true,
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7eb0ddc9127f"
         }
       },
       {
-        "@id": "inst:Role_The_vehicle_cco_PatientRole",
+        "@id": "inst:Role_The_vehicle_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:The_vehicle"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_searched"
         },
-        "rdfs:label": "The vehicle as PatientRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Role_the_checkpoint_cco_LocationRole",
+        "@id": "inst:Role_the_checkpoint_LocationRole",
         "@type": [
-          "cco:LocationRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "LocationRole",
+        "tagteam:roleType": "LocationRole",
         "tagteam:bearer": {
           "@id": "inst:the_checkpoint"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_searched"
         },
-        "rdfs:label": "the checkpoint as LocationRole",
         "tagteam:preposition": "at",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Artifact_Vehicle_967d8d3347e1",
+        "@id": "inst:Entity_Vehicle_1e302540ef77",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "vehicle",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.178Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.630Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7eb0ddc9127f",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Checkpoint_ddb1f5b852d9",
+        "@id": "inst:Entity_Checkpoint_4ea249bb9872",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "checkpoint",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.178Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.630Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7eb0ddc9127f",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -161,15 +168,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The vehicle was searched at the checkpoint",
+        "has_text_value": "The vehicle was searched at the checkpoint",
         "tagteam:char_count": 42,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-18T02:11:44.167Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.623Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -186,20 +193,20 @@
       {
         "@id": "inst:ParsingAct_7eb0ddc9",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_7eb0ddc9127f"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_vehicle"
           },
@@ -210,7 +217,7 @@
             "@id": "inst:Act_searched"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.167Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.623Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:44.291Z",
+  "generatedAt": "2026-02-22T11:48:43.714Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -38,6 +38,11 @@
       "text": "the sector chief",
       "type": "bfo:Entity",
       "id": "inst:the_sector_chief"
+    },
+    {
+      "text": "additional agent",
+      "type": "bfo:BFO_0000001",
+      "id": "inst:Entity_Additional_Agent_4165e9ce115b"
     }
   ],
   "extractedRoles": [
@@ -62,11 +67,14 @@
         "tagteam:mentionId": "s0:h2:0-17",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
+        "tagteam:genericityCategory": "GEN",
+        "tagteam:genericityConfidence": 0.7,
+        "tagteam:genericityBasis": "bare_plural",
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Additional_Agents_2c433d5e6560"
+        "is_about": {
+          "@id": "inst:Entity_Additional_Agent_4165e9ce115b"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3dddf7de5304"
         }
       },
@@ -81,10 +89,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Sector_Chief_4b8a853203d2"
+        "is_about": {
+          "@id": "inst:Entity_Sector_Chief_db1bc9197d8a"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3dddf7de5304"
         }
       },
@@ -97,59 +105,68 @@
         "rdfs:label": "deployed",
         "tagteam:lemma": "deploy",
         "tagteam:isPassive": true,
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3dddf7de5304"
         }
       },
       {
-        "@id": "inst:Role_Additional_agents_cco_PatientRole",
+        "@id": "inst:Role_Additional_agents_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:Additional_agents"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_deployed"
         },
-        "rdfs:label": "Additional agents as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804
       },
       {
-        "@id": "inst:Role_the_sector_chief_cco_AgentRole",
+        "@id": "inst:Role_the_sector_chief_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:the_sector_chief"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_deployed"
         },
-        "rdfs:label": "the sector chief as AgentRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804
       },
       {
-        "@id": "inst:Artifact_Additional_Agents_2c433d5e6560",
+        "@id": "inst:Entity_Additional_Agent_4165e9ce115b",
         "@type": [
-          "cco:Artifact",
-          "owl:NamedIndividual"
+          "bfo:BFO_0000001",
+          "owl:Class"
         ],
-        "rdfs:label": "additional agents",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.291Z",
+        "rdfs:label": "additional agent",
+        "tagteam:genericityCategory": "GEN",
+        "tagteam:typeBasis": "default",
+        "tagteam:classNominationStatus": "unresolved",
+        "tagteam:nominatedClassLabel": "Additional Agent",
+        "tagteam:nominationBasis": "bare_plural",
+        "tagteam:requiresOntologyResolution": true,
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.714Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3dddf7de5304",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Sector_Chief_4b8a853203d2",
+        "@id": "inst:Entity_Sector_Chief_db1bc9197d8a",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "sector chief",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.291Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.714Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3dddf7de5304",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -160,15 +177,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "Additional agents were deployed by the sector chief",
+        "has_text_value": "Additional agents were deployed by the sector chief",
         "tagteam:char_count": 51,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-18T02:11:44.280Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.705Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -185,20 +202,20 @@
       {
         "@id": "inst:ParsingAct_3dddf7de",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_3dddf7de5304"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:Additional_agents"
           },
@@ -209,7 +226,7 @@
             "@id": "inst:Act_deployed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.280Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.705Z"
       }
     ]
   }

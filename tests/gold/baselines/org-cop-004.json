@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-17T19:15:44.155Z",
+  "generatedAt": "2026-02-22T11:48:42.220Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -45,11 +45,14 @@
         "tagteam:mentionId": "s0:h1:0-4",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.95,
+        "tagteam:genericityBasis": "named_entity",
         "tagteam:denotesType": "cco:Organization",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Fema_27badef70b90"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_661547ea796b"
         }
       },
@@ -64,10 +67,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Disaster_Relief_f9e51758b58f"
+        "is_about": {
+          "@id": "inst:Entity_Disaster_Relief_50fc9a407399"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_661547ea796b"
         }
       },
@@ -89,18 +92,21 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "fema",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.155Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.219Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_661547ea796b",
         "tagteam:denotesType": "cco:Organization"
       },
       {
-        "@id": "inst:Artifact_Disaster_Relief_f9e51758b58f",
+        "@id": "inst:Entity_Disaster_Relief_50fc9a407399",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "disaster relief",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.155Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.219Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_661547ea796b",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -111,15 +117,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "FEMA is responsible for disaster relief",
+        "has_text_value": "FEMA is responsible for disaster relief",
         "tagteam:char_count": 39,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-17T19:15:44.126Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.208Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -136,20 +142,20 @@
       {
         "@id": "inst:ParsingAct_661547ea",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_661547ea796b"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:FEMA"
           },
@@ -157,7 +163,7 @@
             "@id": "inst:disaster_relief"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.126Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.208Z"
       }
     ]
   }

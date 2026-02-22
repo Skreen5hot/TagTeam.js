@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-17T19:15:44.173Z",
+  "generatedAt": "2026-02-22T11:48:42.236Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -45,11 +45,13 @@
         "tagteam:mentionId": "s0:h2:0-25",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Organization_Department_Of_Justice_f37ec32556a7"
+        "is_about": {
+          "@id": "inst:Entity_Department_Of_Justice_04198423cb50"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d2e8d9af4275"
         }
       },
@@ -64,10 +66,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Justice_cb477cdc995c"
+        "is_about": {
+          "@id": "inst:Entity_Justice_48cebd1da216"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d2e8d9af4275"
         }
       },
@@ -81,24 +83,27 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Organization_Department_Of_Justice_f37ec32556a7",
+        "@id": "inst:Entity_Department_Of_Justice_04198423cb50",
         "@type": [
-          "cco:Organization",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "department of justice",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.173Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.236Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d2e8d9af4275",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Justice_cb477cdc995c",
+        "@id": "inst:Entity_Justice_48cebd1da216",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "justice",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.173Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.236Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d2e8d9af4275",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -109,15 +114,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The Department of Justice is a cabinet-level department",
+        "has_text_value": "The Department of Justice is a cabinet-level department",
         "tagteam:char_count": 55,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-17T19:15:44.159Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.225Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -134,20 +139,20 @@
       {
         "@id": "inst:ParsingAct_d2e8d9af",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_d2e8d9af4275"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_Department_of_Justice"
           },
@@ -155,7 +160,7 @@
             "@id": "inst:Justice"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.159Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.225Z"
       }
     ]
   }

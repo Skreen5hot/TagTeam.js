@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-17T19:15:44.486Z",
+  "generatedAt": "2026-02-22T11:48:42.556Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -63,11 +63,13 @@
         "tagteam:mentionId": "s0:h3:0-17",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Forensic_Team_5d22f5d3968b"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_dbe65aa31683"
         }
       },
@@ -82,10 +84,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Samples_01d8f878222a"
+        "is_about": {
+          "@id": "inst:Entity_Sample_bc79fcfcedb6"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_dbe65aa31683"
         }
       },
@@ -97,37 +99,39 @@
         ],
         "rdfs:label": "analyzed",
         "tagteam:lemma": "analyz",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_dbe65aa31683"
         }
       },
       {
-        "@id": "inst:Role_The_forensic_team_cco_AgentRole",
+        "@id": "inst:Role_The_forensic_team_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_forensic_team"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_analyzed"
         },
-        "rdfs:label": "The forensic team as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_samples_cco_PatientRole",
+        "@id": "inst:Role_the_samples_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_samples"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_analyzed"
         },
-        "rdfs:label": "the samples as PatientRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
@@ -138,18 +142,21 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "forensic team",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.486Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.556Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_dbe65aa31683",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Samples_01d8f878222a",
+        "@id": "inst:Entity_Sample_bc79fcfcedb6",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "samples",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.486Z",
+        "rdfs:label": "sample",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.556Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_dbe65aa31683",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -160,15 +167,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The forensic team analyzed the samples",
+        "has_text_value": "The forensic team analyzed the samples",
         "tagteam:char_count": 38,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-17T19:15:44.477Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.549Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -185,20 +192,20 @@
       {
         "@id": "inst:ParsingAct_dbe65aa3",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_dbe65aa31683"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_forensic_team"
           },
@@ -209,7 +216,7 @@
             "@id": "inst:Act_analyzed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.477Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.549Z"
       }
     ]
   }

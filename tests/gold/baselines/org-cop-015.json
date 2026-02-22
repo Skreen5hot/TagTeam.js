@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-17T19:15:44.327Z",
+  "generatedAt": "2026-02-22T11:48:42.401Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -40,11 +40,18 @@
         "tagteam:mentionId": "s0:h3:0-21",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
-        "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Inspector_General_377baffb4ffc"
+        "tagteam:genericityCategory": "AMB",
+        "tagteam:genericityConfidence": 0.6,
+        "tagteam:genericityBasis": "institutional_the",
+        "tagteam:genericityAlternative": {
+          "tagteam:category": "GEN",
+          "tagteam:confidence": 0.4
         },
-        "cco:is_concretized_by": {
+        "tagteam:denotesType": "bfo:Entity",
+        "is_about": {
+          "@id": "inst:Entity_Inspector_General_8f71ca535920"
+        },
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_db6064c89dbb"
         }
       },
@@ -58,13 +65,15 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Artifact_Inspector_General_377baffb4ffc",
+        "@id": "inst:Entity_Inspector_General_8f71ca535920",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "inspector general",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.327Z",
+        "tagteam:genericityCategory": "AMB",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.401Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_db6064c89dbb",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -75,15 +84,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The inspector general is an independent oversight official",
+        "has_text_value": "The inspector general is an independent oversight official",
         "tagteam:char_count": 58,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-17T19:15:44.317Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.392Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -100,25 +109,25 @@
       {
         "@id": "inst:ParsingAct_db6064c8",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_db6064c89dbb"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_inspector_general"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.317Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.392Z"
       }
     ]
   }

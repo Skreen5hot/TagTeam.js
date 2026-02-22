@@ -6,7 +6,7 @@
     "academic",
     "administration"
   ],
-  "generatedAt": "2026-02-18T02:11:44.672Z",
+  "generatedAt": "2026-02-22T11:48:44.040Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -62,11 +62,13 @@
         "tagteam:mentionId": "s0:h2:0-8",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9479,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Dean_ce9621257b0d"
+        "is_about": {
+          "@id": "inst:Entity_Dean_945537be4b03"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_eebf1989e3dc"
         }
       },
@@ -81,10 +83,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_New_Curriculum_11230f67ae45"
+        "is_about": {
+          "@id": "inst:Entity_New_Curriculum_9040b1c1f4fd"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_eebf1989e3dc"
         }
       },
@@ -96,59 +98,64 @@
         ],
         "rdfs:label": "approved",
         "tagteam:lemma": "approv",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_eebf1989e3dc"
         }
       },
       {
-        "@id": "inst:Role_The_dean_cco_AgentRole",
+        "@id": "inst:Role_The_dean_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_dean"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_approved"
         },
-        "rdfs:label": "The dean as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9479
       },
       {
-        "@id": "inst:Role_the_new_curriculum_cco_PatientRole",
+        "@id": "inst:Role_the_new_curriculum_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_new_curriculum"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_approved"
         },
-        "rdfs:label": "the new curriculum as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Artifact_Dean_ce9621257b0d",
+        "@id": "inst:Entity_Dean_945537be4b03",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "dean",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.672Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.040Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_eebf1989e3dc",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_New_Curriculum_11230f67ae45",
+        "@id": "inst:Entity_New_Curriculum_9040b1c1f4fd",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "new curriculum",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.672Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.040Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_eebf1989e3dc",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -159,15 +166,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The dean approved the new curriculum",
+        "has_text_value": "The dean approved the new curriculum",
         "tagteam:char_count": 36,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-18T02:11:44.662Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.031Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -184,20 +191,20 @@
       {
         "@id": "inst:ParsingAct_eebf1989",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_eebf1989e3dc"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_dean"
           },
@@ -208,7 +215,7 @@
             "@id": "inst:Act_approved"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.662Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.031Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:44.425Z",
+  "generatedAt": "2026-02-22T11:48:43.821Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -76,10 +76,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Person_Specialist_1c14e78a61ce"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_be0610f95ed1"
         }
       },
@@ -94,10 +94,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Samples_827b567ea57e"
+        "is_about": {
+          "@id": "inst:Entity_Sample_9d6c6fb3abf1"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_be0610f95ed1"
         }
       },
@@ -112,10 +112,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Shipment_6bb1fc6ce6f8"
+        "is_about": {
+          "@id": "inst:Entity_Shipment_e0e4cb47df4e"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_be0610f95ed1"
         }
       },
@@ -127,7 +127,7 @@
         ],
         "rdfs:label": "specialist",
         "tagteam:lemma": "specialist",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_be0610f95ed1"
         }
       },
@@ -139,37 +139,39 @@
         ],
         "rdfs:label": "collected",
         "tagteam:lemma": "collect",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_be0610f95ed1"
         }
       },
       {
-        "@id": "inst:Role_samples_cco_PatientRole",
+        "@id": "inst:Role_samples_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:samples"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_collected"
         },
-        "rdfs:label": "samples as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Role_the_shipment_cco_SourceRole",
+        "@id": "inst:Role_the_shipment_SourceRole",
         "@type": [
-          "cco:SourceRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "SourceRole",
+        "tagteam:roleType": "SourceRole",
         "tagteam:bearer": {
           "@id": "inst:the_shipment"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_collected"
         },
-        "rdfs:label": "the shipment as SourceRole",
         "tagteam:preposition": "from",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583
@@ -181,29 +183,32 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "specialist",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.425Z",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.820Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be0610f95ed1",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Samples_827b567ea57e",
+        "@id": "inst:Entity_Sample_9d6c6fb3abf1",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "samples",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.425Z",
+        "rdfs:label": "sample",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.820Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be0610f95ed1",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Shipment_6bb1fc6ce6f8",
+        "@id": "inst:Entity_Shipment_e0e4cb47df4e",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "shipment",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.425Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.820Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be0610f95ed1",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -214,15 +219,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The specialist collected samples from the shipment",
+        "has_text_value": "The specialist collected samples from the shipment",
         "tagteam:char_count": 50,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-18T02:11:44.413Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.813Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -239,20 +244,20 @@
       {
         "@id": "inst:ParsingAct_be0610f9",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_be0610f95ed1"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_specialist"
           },
@@ -269,7 +274,7 @@
             "@id": "inst:Act_collected"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.413Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.813Z"
       }
     ]
   }

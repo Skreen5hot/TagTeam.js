@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-17T19:15:44.873Z",
+  "generatedAt": "2026-02-22T11:48:42.906Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -68,10 +68,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Dea_And_Fbi_Launched_A_Joint_Investigation_2019d74589ed"
+        "is_about": {
+          "@id": "inst:Entity_Dea_And_Fbi_Launched_A_Joint_Investigation_47a1265d4516"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d993275a2cdb"
         }
       },
@@ -85,11 +85,14 @@
         "tagteam:mentionId": "s0:h3:8-11",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.95,
+        "tagteam:genericityBasis": "named_entity",
         "tagteam:denotesType": "cco:Organization",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Fbi_fd50b45e9adc"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d993275a2cdb"
         }
       },
@@ -104,10 +107,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Joint_Investigation_831f97cf1b61"
+        "is_about": {
+          "@id": "inst:Entity_Joint_Investigation_f2b45029e145"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d993275a2cdb"
         }
       },
@@ -119,18 +122,19 @@
         ],
         "rdfs:label": "DEA",
         "tagteam:lemma": "dea",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d993275a2cdb"
         }
       },
       {
-        "@id": "inst:Artifact_Dea_And_Fbi_Launched_A_Joint_Investigation_2019d74589ed",
+        "@id": "inst:Entity_Dea_And_Fbi_Launched_A_Joint_Investigation_47a1265d4516",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "dea and fbi launched a joint investigation",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.873Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.906Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d993275a2cdb",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -141,18 +145,21 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "fbi",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.873Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.906Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d993275a2cdb",
         "tagteam:denotesType": "cco:Organization"
       },
       {
-        "@id": "inst:Artifact_Joint_Investigation_831f97cf1b61",
+        "@id": "inst:Entity_Joint_Investigation_f2b45029e145",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "joint investigation",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.873Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.906Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d993275a2cdb",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -163,15 +170,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "DEA and FBI launched a joint investigation",
+        "has_text_value": "DEA and FBI launched a joint investigation",
         "tagteam:char_count": 42,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-17T19:15:44.866Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.897Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -188,20 +195,20 @@
       {
         "@id": "inst:ParsingAct_d993275a",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_d993275a2cdb"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:DEA_and_FBI_launched_a_joint_investigation"
           },
@@ -215,7 +222,7 @@
             "@id": "inst:Act_DEA"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.866Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.897Z"
       }
     ]
   }

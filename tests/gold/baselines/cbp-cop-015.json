@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:44.146Z",
+  "generatedAt": "2026-02-22T11:48:43.607Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -44,11 +44,14 @@
         "tagteam:mentionId": "s0:h1:0-6",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.95,
+        "tagteam:genericityBasis": "named_entity",
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Sentri_092914ff74d8"
+        "is_about": {
+          "@id": "inst:Entity_Sentri_cb4555f0b2b4"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d3178ba20d7b"
         }
       },
@@ -63,10 +66,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Low_Risk_Travelers_decff1286cc1"
+        "is_about": {
+          "@id": "inst:Entity_Low_Risk_Traveler_8191f6a57503"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d3178ba20d7b"
         }
       },
@@ -81,24 +84,27 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Artifact_Sentri_092914ff74d8",
+        "@id": "inst:Entity_Sentri_cb4555f0b2b4",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "sentri",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.146Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.607Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d3178ba20d7b",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Low_Risk_Travelers_decff1286cc1",
+        "@id": "inst:Entity_Low_Risk_Traveler_8191f6a57503",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "low risk travelers",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.146Z",
+        "rdfs:label": "low risk traveler",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.607Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d3178ba20d7b",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -109,15 +115,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "SENTRI is a border crossing program for low-risk travelers",
+        "has_text_value": "SENTRI is a border crossing program for low-risk travelers",
         "tagteam:char_count": 58,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-18T02:11:44.134Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.596Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -134,20 +140,20 @@
       {
         "@id": "inst:ParsingAct_d3178ba2",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_d3178ba20d7b"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:SENTRI"
           },
@@ -155,7 +161,7 @@
             "@id": "inst:low_risk_travelers"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.134Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.596Z"
       }
     ]
   }

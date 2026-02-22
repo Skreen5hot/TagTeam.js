@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-17T19:15:44.279Z",
+  "generatedAt": "2026-02-22T11:48:42.353Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -45,11 +45,14 @@
         "tagteam:mentionId": "s0:h1:0-4",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.95,
+        "tagteam:genericityBasis": "named_entity",
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Nasa_4b3cf62c95ab"
+        "is_about": {
+          "@id": "inst:Entity_Nasa_57c2cde91bcf"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_6a98fd9c5a58"
         }
       },
@@ -64,10 +67,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Federal_Government_a4ba3918da48"
+        "is_about": {
+          "@id": "inst:Entity_Federal_Government_ce861e5d378a"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_6a98fd9c5a58"
         }
       },
@@ -82,24 +85,27 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Artifact_Nasa_4b3cf62c95ab",
+        "@id": "inst:Entity_Nasa_57c2cde91bcf",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "nasa",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.279Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.353Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6a98fd9c5a58",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Federal_Government_a4ba3918da48",
+        "@id": "inst:Entity_Federal_Government_ce861e5d378a",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "federal government",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.279Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.353Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6a98fd9c5a58",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -110,15 +116,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "NASA is an independent agency of the federal government",
+        "has_text_value": "NASA is an independent agency of the federal government",
         "tagteam:char_count": 55,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-17T19:15:44.266Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.341Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -135,20 +141,20 @@
       {
         "@id": "inst:ParsingAct_6a98fd9c",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_6a98fd9c5a58"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:NASA"
           },
@@ -156,7 +162,7 @@
             "@id": "inst:the_federal_government"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.266Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.341Z"
       }
     ]
   }

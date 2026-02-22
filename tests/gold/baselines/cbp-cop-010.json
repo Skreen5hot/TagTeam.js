@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:44.074Z",
+  "generatedAt": "2026-02-22T11:48:43.534Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -39,11 +39,13 @@
         "tagteam:mentionId": "s0:h4:0-29",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_National_Targeting_Center_68c3cb5187e6"
+        "is_about": {
+          "@id": "inst:Entity_National_Targeting_Center_467b95120072"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_08772ce93de7"
         }
       },
@@ -57,13 +59,15 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Artifact_National_Targeting_Center_68c3cb5187e6",
+        "@id": "inst:Entity_National_Targeting_Center_467b95120072",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "national targeting center",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.074Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.534Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_08772ce93de7",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -74,15 +78,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The National Targeting Center is a counterterrorism facility",
+        "has_text_value": "The National Targeting Center is a counterterrorism facility",
         "tagteam:char_count": 60,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-18T02:11:44.065Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.527Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -99,25 +103,25 @@
       {
         "@id": "inst:ParsingAct_08772ce9",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_08772ce93de7"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_National_Targeting_Center"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.065Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.527Z"
       }
     ]
   }

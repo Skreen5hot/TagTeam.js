@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:44.227Z",
+  "generatedAt": "2026-02-22T11:48:43.667Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -62,11 +62,13 @@
         "tagteam:mentionId": "s0:h3:0-23",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Intelligence_Report_ed6881c60430"
+        "is_about": {
+          "@id": "inst:Entity_Intelligence_Report_6f84b6ec64da"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_357d63a0aa17"
         }
       },
@@ -81,10 +83,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_All_Sectors_9c1ffa055291"
+        "is_about": {
+          "@id": "inst:Entity_All_Sectors_03438dc2eaeb"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_357d63a0aa17"
         }
       },
@@ -97,60 +99,65 @@
         "rdfs:label": "distributed",
         "tagteam:lemma": "distribut",
         "tagteam:isPassive": true,
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_357d63a0aa17"
         }
       },
       {
-        "@id": "inst:Role_The_intelligence_report_cco_PatientRole",
+        "@id": "inst:Role_The_intelligence_report_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:The_intelligence_report"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_distributed"
         },
-        "rdfs:label": "The intelligence report as PatientRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Role_all_sectors_cco_DestinationRole",
+        "@id": "inst:Role_all_sectors_DestinationRole",
         "@type": [
-          "cco:DestinationRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "DestinationRole",
+        "tagteam:roleType": "DestinationRole",
         "tagteam:bearer": {
           "@id": "inst:all_sectors"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_distributed"
         },
-        "rdfs:label": "all sectors as DestinationRole",
         "tagteam:preposition": "to",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Artifact_Intelligence_Report_ed6881c60430",
+        "@id": "inst:Entity_Intelligence_Report_6f84b6ec64da",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "intelligence report",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.227Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.667Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_357d63a0aa17",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_All_Sectors_9c1ffa055291",
+        "@id": "inst:Entity_All_Sectors_03438dc2eaeb",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "all sectors",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.227Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.667Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_357d63a0aa17",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -161,15 +168,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The intelligence report was distributed to all sectors",
+        "has_text_value": "The intelligence report was distributed to all sectors",
         "tagteam:char_count": 54,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-18T02:11:44.214Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.660Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -186,20 +193,20 @@
       {
         "@id": "inst:ParsingAct_357d63a0",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_357d63a0aa17"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_intelligence_report"
           },
@@ -210,7 +217,7 @@
             "@id": "inst:Act_distributed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.214Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.660Z"
       }
     ]
   }

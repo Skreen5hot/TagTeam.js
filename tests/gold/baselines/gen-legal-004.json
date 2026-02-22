@@ -5,7 +5,7 @@
   "tags": [
     "legal"
   ],
-  "generatedAt": "2026-02-18T02:11:44.836Z",
+  "generatedAt": "2026-02-22T11:48:44.185Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -61,11 +61,13 @@
         "tagteam:mentionId": "s0:h2:0-9",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Judge_7bb040be0002"
+        "is_about": {
+          "@id": "inst:Person_Judge_710ae88ca4e2"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e4fda6cfb5f4"
         }
       },
@@ -80,10 +82,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Restraining_Order_e1ddccfef00b"
+        "is_about": {
+          "@id": "inst:Entity_Restraining_Order_db58b9b3f94c"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e4fda6cfb5f4"
         }
       },
@@ -95,59 +97,64 @@
         ],
         "rdfs:label": "issued",
         "tagteam:lemma": "issu",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e4fda6cfb5f4"
         }
       },
       {
-        "@id": "inst:Role_The_judge_cco_AgentRole",
+        "@id": "inst:Role_The_judge_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_judge"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_issued"
         },
-        "rdfs:label": "The judge as AgentRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Role_a_restraining_order_cco_PatientRole",
+        "@id": "inst:Role_a_restraining_order_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:a_restraining_order"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_issued"
         },
-        "rdfs:label": "a restraining order as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804
       },
       {
-        "@id": "inst:Artifact_Judge_7bb040be0002",
+        "@id": "inst:Person_Judge_710ae88ca4e2",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "judge",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.835Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.185Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e4fda6cfb5f4",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Restraining_Order_e1ddccfef00b",
+        "@id": "inst:Entity_Restraining_Order_db58b9b3f94c",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "restraining order",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.835Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.185Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e4fda6cfb5f4",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -158,15 +165,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The judge issued a restraining order",
+        "has_text_value": "The judge issued a restraining order",
         "tagteam:char_count": 36,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-18T02:11:44.827Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.179Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -183,20 +190,20 @@
       {
         "@id": "inst:ParsingAct_e4fda6cf",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_e4fda6cfb5f4"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_judge"
           },
@@ -207,7 +214,7 @@
             "@id": "inst:Act_issued"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.827Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.179Z"
       }
     ]
   }

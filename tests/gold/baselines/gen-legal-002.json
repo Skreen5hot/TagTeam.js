@@ -5,7 +5,7 @@
   "tags": [
     "legal"
   ],
-  "generatedAt": "2026-02-18T02:11:44.812Z",
+  "generatedAt": "2026-02-22T11:48:44.166Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -61,11 +61,13 @@
         "tagteam:mentionId": "s0:h2:0-8",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Jury_ac32dd4d0876"
+        "is_about": {
+          "@id": "inst:Entity_Jury_2f36e6af6956"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_bdf10feb9b2b"
         }
       },
@@ -80,10 +82,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Verdict_920f71c232c0"
+        "is_about": {
+          "@id": "inst:Entity_Verdict_e375be90c009"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_bdf10feb9b2b"
         }
       },
@@ -95,59 +97,64 @@
         ],
         "rdfs:label": "delivered",
         "tagteam:lemma": "deliver",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_bdf10feb9b2b"
         }
       },
       {
-        "@id": "inst:Role_The_jury_cco_AgentRole",
+        "@id": "inst:Role_The_jury_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_jury"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_delivered"
         },
-        "rdfs:label": "The jury as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_verdict_cco_PatientRole",
+        "@id": "inst:Role_the_verdict_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_verdict"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_delivered"
         },
-        "rdfs:label": "the verdict as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Artifact_Jury_ac32dd4d0876",
+        "@id": "inst:Entity_Jury_2f36e6af6956",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "jury",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.811Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.166Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdf10feb9b2b",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Verdict_920f71c232c0",
+        "@id": "inst:Entity_Verdict_e375be90c009",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "verdict",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.812Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.166Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdf10feb9b2b",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -158,15 +165,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The jury delivered the verdict",
+        "has_text_value": "The jury delivered the verdict",
         "tagteam:char_count": 30,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-18T02:11:44.804Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.159Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -183,20 +190,20 @@
       {
         "@id": "inst:ParsingAct_bdf10feb",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_bdf10feb9b2b"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_jury"
           },
@@ -207,7 +214,7 @@
             "@id": "inst:Act_delivered"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.804Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.159Z"
       }
     ]
   }

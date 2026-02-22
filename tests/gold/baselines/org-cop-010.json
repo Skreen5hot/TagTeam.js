@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-17T19:15:44.250Z",
+  "generatedAt": "2026-02-22T11:48:42.322Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -40,11 +40,14 @@
         "tagteam:mentionId": "s0:h1:0-3",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.95,
+        "tagteam:genericityBasis": "named_entity",
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Dea_4a738db72ce0"
+        "is_about": {
+          "@id": "inst:Entity_Dea_1cc54ff6c784"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0abf6643e39e"
         }
       },
@@ -58,13 +61,15 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Artifact_Dea_4a738db72ce0",
+        "@id": "inst:Entity_Dea_1cc54ff6c784",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "dea",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.249Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.321Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0abf6643e39e",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -75,15 +80,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "DEA is the primary federal drug enforcement agency",
+        "has_text_value": "DEA is the primary federal drug enforcement agency",
         "tagteam:char_count": 50,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-17T19:15:44.240Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.312Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -100,25 +105,25 @@
       {
         "@id": "inst:ParsingAct_0abf6643",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_0abf6643e39e"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:DEA"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.240Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.312Z"
       }
     ]
   }

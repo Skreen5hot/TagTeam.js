@@ -7,7 +7,7 @@
     "cbp",
     "logistics"
   ],
-  "generatedAt": "2026-02-18T02:11:43.926Z",
+  "generatedAt": "2026-02-22T11:48:43.404Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -63,11 +63,13 @@
         "tagteam:mentionId": "s0:h3:0-22",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Procurement_Office_4b781999b598"
+        "is_about": {
+          "@id": "inst:Entity_Procurement_Office_74e063325d50"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3df868ccff45"
         }
       },
@@ -82,10 +84,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_New_Equipment_2497ec032e1e"
+        "is_about": {
+          "@id": "inst:Entity_New_Equipment_42149b972812"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3df868ccff45"
         }
       },
@@ -97,59 +99,64 @@
         ],
         "rdfs:label": "acquired",
         "tagteam:lemma": "acquir",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3df868ccff45"
         }
       },
       {
-        "@id": "inst:Role_The_procurement_office_cco_AgentRole",
+        "@id": "inst:Role_The_procurement_office_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_procurement_office"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_acquired"
         },
-        "rdfs:label": "The procurement office as AgentRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Role_new_equipment_cco_PatientRole",
+        "@id": "inst:Role_new_equipment_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:new_equipment"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_acquired"
         },
-        "rdfs:label": "new equipment as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Artifact_Procurement_Office_4b781999b598",
+        "@id": "inst:Entity_Procurement_Office_74e063325d50",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "procurement office",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.926Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.404Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3df868ccff45",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_New_Equipment_2497ec032e1e",
+        "@id": "inst:Entity_New_Equipment_42149b972812",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "new equipment",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.926Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.404Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3df868ccff45",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -160,15 +167,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The procurement office acquired new equipment",
+        "has_text_value": "The procurement office acquired new equipment",
         "tagteam:char_count": 45,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-18T02:11:43.918Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.397Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -185,20 +192,20 @@
       {
         "@id": "inst:ParsingAct_3df868cc",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_3df868ccff45"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_procurement_office"
           },
@@ -209,7 +216,7 @@
             "@id": "inst:Act_acquired"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.918Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.397Z"
       }
     ]
   }

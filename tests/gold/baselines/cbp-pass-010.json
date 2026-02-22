@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:44.306Z",
+  "generatedAt": "2026-02-22T11:48:43.726Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -62,11 +62,13 @@
         "tagteam:mentionId": "s0:h3:0-21",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Counterfeit_Goods_2e2b3cdd566a"
+        "is_about": {
+          "@id": "inst:Entity_Counterfeit_Good_6142f46443bc"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_bd201335bcee"
         }
       },
@@ -81,10 +83,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Port_343f866a0d30"
+        "is_about": {
+          "@id": "inst:Entity_Port_941ffc19c8ca"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_bd201335bcee"
         }
       },
@@ -97,60 +99,65 @@
         "rdfs:label": "confiscated",
         "tagteam:lemma": "confiscat",
         "tagteam:isPassive": true,
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_bd201335bcee"
         }
       },
       {
-        "@id": "inst:Role_The_counterfeit_goods_cco_PatientRole",
+        "@id": "inst:Role_The_counterfeit_goods_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:The_counterfeit_goods"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_confiscated"
         },
-        "rdfs:label": "The counterfeit goods as PatientRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_port_cco_LocationRole",
+        "@id": "inst:Role_the_port_LocationRole",
         "@type": [
-          "cco:LocationRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "LocationRole",
+        "tagteam:roleType": "LocationRole",
         "tagteam:bearer": {
           "@id": "inst:the_port"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_confiscated"
         },
-        "rdfs:label": "the port as LocationRole",
         "tagteam:preposition": "at",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Artifact_Counterfeit_Goods_2e2b3cdd566a",
+        "@id": "inst:Entity_Counterfeit_Good_6142f46443bc",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "counterfeit goods",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.306Z",
+        "rdfs:label": "counterfeit good",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.726Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bd201335bcee",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Port_343f866a0d30",
+        "@id": "inst:Entity_Port_941ffc19c8ca",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "port",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.306Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.726Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bd201335bcee",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -161,15 +168,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The counterfeit goods were confiscated at the port",
+        "has_text_value": "The counterfeit goods were confiscated at the port",
         "tagteam:char_count": 50,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-18T02:11:44.296Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.717Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -186,20 +193,20 @@
       {
         "@id": "inst:ParsingAct_bd201335",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_bd201335bcee"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_counterfeit_goods"
           },
@@ -210,7 +217,7 @@
             "@id": "inst:Act_confiscated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.296Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.717Z"
       }
     ]
   }

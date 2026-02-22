@@ -7,7 +7,7 @@
     "cbp",
     "processing"
   ],
-  "generatedAt": "2026-02-18T02:11:43.776Z",
+  "generatedAt": "2026-02-22T11:48:43.283Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -63,11 +63,13 @@
         "tagteam:mentionId": "s0:h3:0-21",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Processing_Center_bc546bd258b3"
+        "is_about": {
+          "@id": "inst:Entity_Processing_Center_0812b78d7012"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_6e0c8dbd1a80"
         }
       },
@@ -82,10 +84,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Encounter_9d7b066f3602"
+        "is_about": {
+          "@id": "inst:Entity_Encounter_8461b054a73e"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_6e0c8dbd1a80"
         }
       },
@@ -97,59 +99,64 @@
         ],
         "rdfs:label": "documented",
         "tagteam:lemma": "document",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_6e0c8dbd1a80"
         }
       },
       {
-        "@id": "inst:Role_The_processing_center_cco_AgentRole",
+        "@id": "inst:Role_The_processing_center_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_processing_center"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_documented"
         },
-        "rdfs:label": "The processing center as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_encounter_cco_PatientRole",
+        "@id": "inst:Role_the_encounter_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_encounter"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_documented"
         },
-        "rdfs:label": "the encounter as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Artifact_Processing_Center_bc546bd258b3",
+        "@id": "inst:Entity_Processing_Center_0812b78d7012",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "processing center",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.776Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.283Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6e0c8dbd1a80",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Encounter_9d7b066f3602",
+        "@id": "inst:Entity_Encounter_8461b054a73e",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "encounter",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.776Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.283Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6e0c8dbd1a80",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -160,15 +167,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The processing center documented the encounter",
+        "has_text_value": "The processing center documented the encounter",
         "tagteam:char_count": 46,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-18T02:11:43.766Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.276Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -185,20 +192,20 @@
       {
         "@id": "inst:ParsingAct_6e0c8dbd",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_6e0c8dbd1a80"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_processing_center"
           },
@@ -209,7 +216,7 @@
             "@id": "inst:Act_documented"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.766Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.276Z"
       }
     ]
   }

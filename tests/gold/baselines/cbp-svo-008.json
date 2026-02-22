@@ -7,7 +7,7 @@
     "cbp",
     "enforcement"
   ],
-  "generatedAt": "2026-02-18T02:11:43.762Z",
+  "generatedAt": "2026-02-22T11:48:43.272Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -34,6 +34,11 @@
       "text": "narcotics",
       "type": "bfo:Entity",
       "id": "inst:narcotics"
+    },
+    {
+      "text": "narcotic",
+      "type": "bfo:BFO_0000001",
+      "id": "inst:Entity_Narcotic_9190a896e147"
     }
   ],
   "extractedRoles": [
@@ -54,11 +59,14 @@
         "tagteam:mentionId": "s0:h7:27-36",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
+        "tagteam:genericityCategory": "GEN",
+        "tagteam:genericityConfidence": 0.9,
+        "tagteam:genericityBasis": "bare_plural",
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Narcotics_5e58e37bd89e"
+        "is_about": {
+          "@id": "inst:Entity_Narcotic_9190a896e147"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_df84be1b3615"
         }
       },
@@ -70,7 +78,7 @@
         ],
         "rdfs:label": "handler",
         "tagteam:lemma": "handler",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_df84be1b3615"
         }
       },
@@ -82,33 +90,40 @@
         ],
         "rdfs:label": "detected",
         "tagteam:lemma": "detect",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_df84be1b3615"
         }
       },
       {
-        "@id": "inst:Role_narcotics_cco_AgentRole",
+        "@id": "inst:Role_narcotics_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:narcotics"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_handler"
         },
-        "rdfs:label": "narcotics as AgentRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Artifact_Narcotics_5e58e37bd89e",
+        "@id": "inst:Entity_Narcotic_9190a896e147",
         "@type": [
-          "cco:Artifact",
-          "owl:NamedIndividual"
+          "bfo:BFO_0000001",
+          "owl:Class"
         ],
-        "rdfs:label": "narcotics",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.761Z",
+        "rdfs:label": "narcotic",
+        "tagteam:genericityCategory": "GEN",
+        "tagteam:typeBasis": "default",
+        "tagteam:classNominationStatus": "unresolved",
+        "tagteam:nominatedClassLabel": "Narcotic",
+        "tagteam:nominationBasis": "bare_plural",
+        "tagteam:requiresOntologyResolution": true,
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.271Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_df84be1b3615",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -119,15 +134,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The K-9 handler detected narcotics",
+        "has_text_value": "The K-9 handler detected narcotics",
         "tagteam:char_count": 34,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-18T02:11:43.748Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.260Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -144,20 +159,20 @@
       {
         "@id": "inst:ParsingAct_df84be1b",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_df84be1b3615"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:narcotics"
           },
@@ -168,7 +183,7 @@
             "@id": "inst:Act_detected"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.748Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.260Z"
       }
     ]
   }

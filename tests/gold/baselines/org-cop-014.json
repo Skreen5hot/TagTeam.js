@@ -6,7 +6,7 @@
     "copular",
     "definitional"
   ],
-  "generatedAt": "2026-02-17T19:15:44.312Z",
+  "generatedAt": "2026-02-22T11:48:42.387Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -24,6 +24,11 @@
       "text": "A field office",
       "type": "bfo:Entity",
       "id": "inst:A_field_office"
+    },
+    {
+      "text": "field office",
+      "type": "bfo:BFO_0000001",
+      "id": "inst:Entity_Field_Office_20bb88f146fc"
     }
   ],
   "extractedRoles": [],
@@ -39,11 +44,13 @@
         "tagteam:mentionId": "s0:h3:0-14",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
+        "tagteam:genericityCategory": "GEN",
+        "tagteam:genericityConfidence": 0.75,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Field_Office_7317b8d0a2a3"
+        "is_about": {
+          "@id": "inst:Entity_Field_Office_20bb88f146fc"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7836a7e31d07"
         }
       },
@@ -57,13 +64,19 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Artifact_Field_Office_7317b8d0a2a3",
+        "@id": "inst:Entity_Field_Office_20bb88f146fc",
         "@type": [
-          "cco:Artifact",
-          "owl:NamedIndividual"
+          "bfo:BFO_0000001",
+          "owl:Class"
         ],
         "rdfs:label": "field office",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.312Z",
+        "tagteam:genericityCategory": "GEN",
+        "tagteam:typeBasis": "default",
+        "tagteam:classNominationStatus": "unresolved",
+        "tagteam:nominatedClassLabel": "Field Office",
+        "tagteam:nominationBasis": "unknown",
+        "tagteam:requiresOntologyResolution": true,
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.387Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7836a7e31d07",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -74,15 +87,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "A field office is a regional operational unit",
+        "has_text_value": "A field office is a regional operational unit",
         "tagteam:char_count": 45,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-17T19:15:44.302Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.373Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -99,25 +112,25 @@
       {
         "@id": "inst:ParsingAct_7836a7e3",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_7836a7e31d07"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:A_field_office"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.302Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.373Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "news",
     "government"
   ],
-  "generatedAt": "2026-02-18T02:11:44.511Z",
+  "generatedAt": "2026-02-22T11:48:43.891Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -62,11 +62,13 @@
         "tagteam:mentionId": "s0:h2:0-13",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_President_cf92ed2b5cae"
+        "is_about": {
+          "@id": "inst:Entity_President_c600412a5344"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_574197891588"
         }
       },
@@ -81,10 +83,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Executive_Order_9a0666924ddf"
+        "is_about": {
+          "@id": "inst:Entity_Executive_Order_825090211a77"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_574197891588"
         }
       },
@@ -96,59 +98,64 @@
         ],
         "rdfs:label": "signed",
         "tagteam:lemma": "sign",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_574197891588"
         }
       },
       {
-        "@id": "inst:Role_The_president_cco_AgentRole",
+        "@id": "inst:Role_The_president_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_president"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_signed"
         },
-        "rdfs:label": "The president as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_executive_order_cco_PatientRole",
+        "@id": "inst:Role_the_executive_order_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_executive_order"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_signed"
         },
-        "rdfs:label": "the executive order as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804
       },
       {
-        "@id": "inst:Artifact_President_cf92ed2b5cae",
+        "@id": "inst:Entity_President_c600412a5344",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "president",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.511Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.890Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_574197891588",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Executive_Order_9a0666924ddf",
+        "@id": "inst:Entity_Executive_Order_825090211a77",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "executive order",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.511Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.891Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_574197891588",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -159,15 +166,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The president signed the executive order",
+        "has_text_value": "The president signed the executive order",
         "tagteam:char_count": 40,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-18T02:11:44.504Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.883Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -184,20 +191,20 @@
       {
         "@id": "inst:ParsingAct_57419789",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_574197891588"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_president"
           },
@@ -208,7 +215,7 @@
             "@id": "inst:Act_signed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.504Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.883Z"
       }
     ]
   }

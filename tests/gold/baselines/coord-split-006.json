@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-17T19:15:44.775Z",
+  "generatedAt": "2026-02-22T11:48:42.817Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -47,6 +47,11 @@
       "text": "the raid",
       "type": "bfo:Entity",
       "id": "inst:the_raid"
+    },
+    {
+      "text": "agents and officer",
+      "type": "bfo:BFO_0000001",
+      "id": "inst:Entity_Agents_And_Officer_08ceba3334b7"
     }
   ],
   "extractedRoles": [
@@ -71,11 +76,14 @@
         "tagteam:mentionId": "s0:h1:0-19",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
+        "tagteam:genericityCategory": "GEN",
+        "tagteam:genericityConfidence": 0.7,
+        "tagteam:genericityBasis": "bare_plural",
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Agents_And_Officers_46ceaa334d6b"
+        "is_about": {
+          "@id": "inst:Entity_Agents_And_Officer_08ceba3334b7"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_602fdc0a1601"
         }
       },
@@ -90,10 +98,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Raid_1ef09f6f7c1f"
+        "is_about": {
+          "@id": "inst:Entity_Raid_33496a894d6b"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_602fdc0a1601"
         }
       },
@@ -105,59 +113,68 @@
         ],
         "rdfs:label": "conducted",
         "tagteam:lemma": "conduct",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_602fdc0a1601"
         }
       },
       {
-        "@id": "inst:Role_Agents_and_officers_cco_AgentRole",
+        "@id": "inst:Role_Agents_and_officers_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:Agents_and_officers"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_conducted"
         },
-        "rdfs:label": "Agents and officers as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_raid_cco_PatientRole",
+        "@id": "inst:Role_the_raid_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_raid"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_conducted"
         },
-        "rdfs:label": "the raid as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Artifact_Agents_And_Officers_46ceaa334d6b",
+        "@id": "inst:Entity_Agents_And_Officer_08ceba3334b7",
         "@type": [
-          "cco:Artifact",
-          "owl:NamedIndividual"
+          "bfo:BFO_0000001",
+          "owl:Class"
         ],
-        "rdfs:label": "agents and officers",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.775Z",
+        "rdfs:label": "agents and officer",
+        "tagteam:genericityCategory": "GEN",
+        "tagteam:typeBasis": "default",
+        "tagteam:classNominationStatus": "unresolved",
+        "tagteam:nominatedClassLabel": "Agents And Officer",
+        "tagteam:nominationBasis": "bare_plural",
+        "tagteam:requiresOntologyResolution": true,
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.817Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_602fdc0a1601",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Raid_1ef09f6f7c1f",
+        "@id": "inst:Entity_Raid_33496a894d6b",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "raid",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.775Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.817Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_602fdc0a1601",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -168,15 +185,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "Agents and officers conducted the raid",
+        "has_text_value": "Agents and officers conducted the raid",
         "tagteam:char_count": 38,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-17T19:15:44.768Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.810Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -193,20 +210,20 @@
       {
         "@id": "inst:ParsingAct_602fdc0a",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_602fdc0a1601"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:Agents_and_officers"
           },
@@ -217,7 +234,7 @@
             "@id": "inst:Act_conducted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.768Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.810Z"
       }
     ]
   }

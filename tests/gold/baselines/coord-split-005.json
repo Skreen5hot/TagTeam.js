@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-17T19:15:44.720Z",
+  "generatedAt": "2026-02-22T11:48:42.776Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -80,11 +80,14 @@
         "tagteam:mentionId": "s0:h1:0-4",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.95,
+        "tagteam:genericityBasis": "named_entity",
         "tagteam:denotesType": "cco:Organization",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Fema_e26fd9abda60"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a2e2db536cca"
         }
       },
@@ -98,11 +101,13 @@
         "tagteam:mentionId": "s0:h5:9-22",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Red_Cross_f34b32a94140"
+        "is_about": {
+          "@id": "inst:Entity_Red_Cross_caf41d69cd62"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a2e2db536cca"
         }
       },
@@ -117,10 +122,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Disaster_0a6c66488f58"
+        "is_about": {
+          "@id": "inst:Entity_Disaster_16fe269450c2"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a2e2db536cca"
         }
       },
@@ -132,52 +137,55 @@
         ],
         "rdfs:label": "provided",
         "tagteam:lemma": "provid",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a2e2db536cca"
         }
       },
       {
-        "@id": "inst:Role_FEMA_cco_AgentRole",
+        "@id": "inst:Role_FEMA_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:FEMA"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_provided"
         },
-        "rdfs:label": "FEMA as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_Red_Cross_cco_AgentRole",
+        "@id": "inst:Role_the_Red_Cross_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:the_Red_Cross"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_provided"
         },
-        "rdfs:label": "the Red Cross as AgentRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Role_disaster_cco_PatientRole",
+        "@id": "inst:Role_disaster_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:disaster"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_provided"
         },
-        "rdfs:label": "disaster as PatientRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
@@ -188,29 +196,34 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "fema",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.720Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.775Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a2e2db536cca",
         "tagteam:denotesType": "cco:Organization"
       },
       {
-        "@id": "inst:Artifact_Red_Cross_f34b32a94140",
+        "@id": "inst:Entity_Red_Cross_caf41d69cd62",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "red cross",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.720Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.775Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a2e2db536cca",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Disaster_0a6c66488f58",
+        "@id": "inst:Entity_Disaster_16fe269450c2",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "disaster",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.720Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.775Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a2e2db536cca",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -221,15 +234,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "FEMA and the Red Cross provided disaster relief",
+        "has_text_value": "FEMA and the Red Cross provided disaster relief",
         "tagteam:char_count": 47,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-17T19:15:44.708Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.767Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -246,20 +259,20 @@
       {
         "@id": "inst:ParsingAct_a2e2db53",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_a2e2db536cca"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:FEMA"
           },
@@ -273,7 +286,7 @@
             "@id": "inst:Act_provided"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.708Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.767Z"
       }
     ]
   }

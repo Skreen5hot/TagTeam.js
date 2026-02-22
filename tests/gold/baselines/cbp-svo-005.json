@@ -7,7 +7,7 @@
     "cbp",
     "operations"
   ],
-  "generatedAt": "2026-02-18T02:11:43.706Z",
+  "generatedAt": "2026-02-22T11:48:43.232Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -68,11 +68,13 @@
         "tagteam:mentionId": "s0:h3:0-20",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Field_Operations_f9c676e8bb41"
+        "is_about": {
+          "@id": "inst:Entity_Field_Operation_9313df2a0b3a"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_2189b3fcc3ba"
         }
       },
@@ -87,10 +89,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Ports_Of_Entry_67c1677a0bb6"
+        "is_about": {
+          "@id": "inst:Entity_Ports_Of_Entry_0748c5f27647"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_2189b3fcc3ba"
         }
       },
@@ -105,10 +107,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Entry_ed8a4f01658b"
+        "is_about": {
+          "@id": "inst:Entity_Entry_6f7e892658b3"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_2189b3fcc3ba"
         }
       },
@@ -120,70 +122,76 @@
         ],
         "rdfs:label": "directorate",
         "tagteam:lemma": "directorate",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_2189b3fcc3ba"
         }
       },
       {
-        "@id": "inst:Role_The_field_operations_cco_AgentRole",
+        "@id": "inst:Role_The_field_operations_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_field_operations"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_directorate"
         },
-        "rdfs:label": "The field operations as AgentRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Role_the_ports_of_entry_cco_PatientRole",
+        "@id": "inst:Role_the_ports_of_entry_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_ports_of_entry"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_directorate"
         },
-        "rdfs:label": "the ports of entry as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Artifact_Field_Operations_f9c676e8bb41",
+        "@id": "inst:Entity_Field_Operation_9313df2a0b3a",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "field operations",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.705Z",
+        "rdfs:label": "field operation",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.232Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2189b3fcc3ba",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Ports_Of_Entry_67c1677a0bb6",
+        "@id": "inst:Entity_Ports_Of_Entry_0748c5f27647",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "ports of entry",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.705Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.232Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2189b3fcc3ba",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Entry_ed8a4f01658b",
+        "@id": "inst:Entity_Entry_6f7e892658b3",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "entry",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.705Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.232Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2189b3fcc3ba",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -194,15 +202,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The field operations directorate managed the ports of entry",
+        "has_text_value": "The field operations directorate managed the ports of entry",
         "tagteam:char_count": 59,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-18T02:11:43.693Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.222Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -219,20 +227,20 @@
       {
         "@id": "inst:ParsingAct_2189b3fc",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_2189b3fcc3ba"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_field_operations"
           },
@@ -246,7 +254,7 @@
             "@id": "inst:Act_directorate"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.693Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.222Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "ditransitive",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:44.452Z",
+  "generatedAt": "2026-02-22T11:48:43.843Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -79,11 +79,13 @@
         "tagteam:mentionId": "s0:h2:0-14",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Supervisor_184e5cb79f44"
+        "is_about": {
+          "@id": "inst:Person_Supervisor_1d65ad12f804"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d885f31da205"
         }
       },
@@ -98,10 +100,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Agent_4fc6248bbd70"
+        "is_about": {
+          "@id": "inst:Person_Agent_cc74493a9ddc"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d885f31da205"
         }
       },
@@ -116,10 +118,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_New_Credentials_197c9b3781d2"
+        "is_about": {
+          "@id": "inst:Entity_New_Credential_5fec4c2340ed"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d885f31da205"
         }
       },
@@ -131,85 +133,92 @@
         ],
         "rdfs:label": "gave",
         "tagteam:lemma": "give",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d885f31da205"
         }
       },
       {
-        "@id": "inst:Role_The_supervisor_cco_AgentRole",
+        "@id": "inst:Role_The_supervisor_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_supervisor"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_gave"
         },
-        "rdfs:label": "The supervisor as AgentRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Role_the_agent_cco_PatientRole",
+        "@id": "inst:Role_the_agent_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_agent"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_gave"
         },
-        "rdfs:label": "the agent as PatientRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Role_new_credentials_cco_PatientRole",
+        "@id": "inst:Role_new_credentials_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:new_credentials"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_gave"
         },
-        "rdfs:label": "new credentials as PatientRole",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Artifact_Supervisor_184e5cb79f44",
+        "@id": "inst:Person_Supervisor_1d65ad12f804",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "supervisor",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.452Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.843Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d885f31da205",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Agent_4fc6248bbd70",
+        "@id": "inst:Person_Agent_cc74493a9ddc",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "agent",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.452Z",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.843Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d885f31da205",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_New_Credentials_197c9b3781d2",
+        "@id": "inst:Entity_New_Credential_5fec4c2340ed",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "new credentials",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.452Z",
+        "rdfs:label": "new credential",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.843Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d885f31da205",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -220,15 +229,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The supervisor gave the agent new credentials",
+        "has_text_value": "The supervisor gave the agent new credentials",
         "tagteam:char_count": 45,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-18T02:11:44.444Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.836Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -245,20 +254,20 @@
       {
         "@id": "inst:ParsingAct_d885f31d",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_d885f31da205"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_supervisor"
           },
@@ -272,7 +281,7 @@
             "@id": "inst:Act_gave"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.444Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.836Z"
       }
     ]
   }

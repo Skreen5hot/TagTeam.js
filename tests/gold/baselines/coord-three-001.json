@@ -7,7 +7,7 @@
     "coordination",
     "government"
   ],
-  "generatedAt": "2026-02-18T02:11:43.560Z",
+  "generatedAt": "2026-02-22T11:48:43.120Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -76,10 +76,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "cco:Organization",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Fbi_Dea_And_Atf_Coordinated_The_Joint_Operation_9f237579f8be"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7ef1c425b7be"
         }
       },
@@ -93,11 +93,14 @@
         "tagteam:mentionId": "s0:h7:20-23",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.95,
+        "tagteam:genericityBasis": "named_entity",
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Atf_ff5cfc05df6d"
+        "is_about": {
+          "@id": "inst:Entity_Atf_b882685ceb93"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7ef1c425b7be"
         }
       },
@@ -112,10 +115,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Joint_Operation_ff12ae6cdefb"
+        "is_about": {
+          "@id": "inst:Entity_Joint_Operation_cd331c76546e"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7ef1c425b7be"
         }
       },
@@ -127,7 +130,7 @@
         ],
         "rdfs:label": "FBI",
         "tagteam:lemma": "fbi",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7ef1c425b7be"
         }
       },
@@ -138,29 +141,33 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "fbi dea and atf coordinated the joint operation",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.560Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.120Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7ef1c425b7be",
         "tagteam:denotesType": "cco:Organization"
       },
       {
-        "@id": "inst:Artifact_Atf_ff5cfc05df6d",
+        "@id": "inst:Entity_Atf_b882685ceb93",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "atf",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.560Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.120Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7ef1c425b7be",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Joint_Operation_ff12ae6cdefb",
+        "@id": "inst:Entity_Joint_Operation_cd331c76546e",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "joint operation",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.560Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.120Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7ef1c425b7be",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -171,15 +178,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The FBI, DEA, and ATF coordinated the joint operation",
+        "has_text_value": "The FBI, DEA, and ATF coordinated the joint operation",
         "tagteam:char_count": 53,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-18T02:11:43.548Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.109Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -196,20 +203,20 @@
       {
         "@id": "inst:ParsingAct_7ef1c425",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_7ef1c425b7be"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_FBI_DEA_and_ATF_coordinated_the_joint_operation"
           },
@@ -223,7 +230,7 @@
             "@id": "inst:Act_FBI"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.548Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.109Z"
       }
     ]
   }

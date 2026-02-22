@@ -6,7 +6,7 @@
     "nested-pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:45.028Z",
+  "generatedAt": "2026-02-22T11:48:44.377Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -76,11 +76,13 @@
         "tagteam:mentionId": "s0:h3:0-14",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Task_Force_b588238138af"
+        "is_about": {
+          "@id": "inst:Entity_Task_Force_f30ac0ab7c72"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d2e6a30f1301"
         }
       },
@@ -95,10 +97,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Network_Of_Smugglers_8f6fed2d6c5f"
+        "is_about": {
+          "@id": "inst:Entity_Network_Of_Smugglers_c529acc0940f"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d2e6a30f1301"
         }
       },
@@ -113,10 +115,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Smugglers_3f31194e4cd2"
+        "is_about": {
+          "@id": "inst:Entity_Smugglers_69479d06fa03"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d2e6a30f1301"
         }
       },
@@ -131,10 +133,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Border_eb93dcc7fee6"
+        "is_about": {
+          "@id": "inst:Entity_Border_cc420f837426"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d2e6a30f1301"
         }
       },
@@ -146,97 +148,105 @@
         ],
         "rdfs:label": "investigated",
         "tagteam:lemma": "investigat",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d2e6a30f1301"
         }
       },
       {
-        "@id": "inst:Role_The_task_force_cco_AgentRole",
+        "@id": "inst:Role_The_task_force_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_task_force"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_investigated"
         },
-        "rdfs:label": "The task force as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_network_of_smugglers_cco_PatientRole",
+        "@id": "inst:Role_the_network_of_smugglers_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_network_of_smugglers"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_investigated"
         },
-        "rdfs:label": "the network of smugglers as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Role_the_border_cco_ObliqueRole",
+        "@id": "inst:Role_the_border_ObliqueRole",
         "@type": [
-          "cco:ObliqueRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "ObliqueRole",
+        "tagteam:roleType": "ObliqueRole",
         "tagteam:bearer": {
           "@id": "inst:the_border"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_investigated"
         },
-        "rdfs:label": "the border as ObliqueRole",
         "tagteam:preposition": "across",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Artifact_Task_Force_b588238138af",
+        "@id": "inst:Entity_Task_Force_f30ac0ab7c72",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "task force",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.028Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.376Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d2e6a30f1301",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Network_Of_Smugglers_8f6fed2d6c5f",
+        "@id": "inst:Entity_Network_Of_Smugglers_c529acc0940f",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "network of smugglers",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.028Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.376Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d2e6a30f1301",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Smugglers_3f31194e4cd2",
+        "@id": "inst:Entity_Smugglers_69479d06fa03",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "smugglers",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.028Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.376Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d2e6a30f1301",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Border_eb93dcc7fee6",
+        "@id": "inst:Entity_Border_cc420f837426",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "border",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.028Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.376Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d2e6a30f1301",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -247,15 +257,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The task force investigated the network of smugglers across the border",
+        "has_text_value": "The task force investigated the network of smugglers across the border",
         "tagteam:char_count": 70,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-18T02:11:45.016Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.367Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -272,20 +282,20 @@
       {
         "@id": "inst:ParsingAct_d2e6a30f",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_d2e6a30f1301"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_task_force"
           },
@@ -302,7 +312,7 @@
             "@id": "inst:Act_investigated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.016Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.367Z"
       }
     ]
   }

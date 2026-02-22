@@ -8,7 +8,7 @@
     "copular",
     "government"
   ],
-  "generatedAt": "2026-02-18T02:11:43.576Z",
+  "generatedAt": "2026-02-22T11:48:43.133Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -54,11 +54,14 @@
         "tagteam:mentionId": "s0:h1:0-19",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.95,
+        "tagteam:genericityBasis": "named_entity",
         "tagteam:denotesType": "cco:Organization",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Cbp_Ice_And_Tsa_d06d05176fd7"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_61564711f690"
         }
       },
@@ -73,10 +76,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "cco:Organization",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Dhs_33f80e99bf64"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_61564711f690"
         }
       },
@@ -97,7 +100,9 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "cbp ice and tsa",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.575Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.133Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_61564711f690",
         "tagteam:denotesType": "cco:Organization"
       },
@@ -108,7 +113,8 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "dhs",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.575Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.133Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_61564711f690",
         "tagteam:denotesType": "cco:Organization"
       },
@@ -119,15 +125,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "CBP, ICE, and TSA are components of DHS",
+        "has_text_value": "CBP, ICE, and TSA are components of DHS",
         "tagteam:char_count": 39,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-18T02:11:43.563Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.124Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -144,20 +150,20 @@
       {
         "@id": "inst:ParsingAct_61564711",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_61564711f690"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:CBP_ICE_and_TSA"
           },
@@ -165,7 +171,7 @@
             "@id": "inst:DHS"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.563Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.124Z"
       }
     ]
   }

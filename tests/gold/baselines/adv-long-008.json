@@ -6,7 +6,7 @@
     "long-np",
     "government"
   ],
-  "generatedAt": "2026-02-18T02:11:45.285Z",
+  "generatedAt": "2026-02-22T11:48:44.554Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -54,10 +54,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_International_Affairs_f50856c651e3"
+        "is_about": {
+          "@id": "inst:Entity_International_Affair_677324796434"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a9461505ef30"
         }
       },
@@ -71,11 +71,13 @@
         "tagteam:mentionId": "s0:h11:73-83",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Summit_64a05140a3a5"
+        "is_about": {
+          "@id": "inst:Entity_Summit_2e373649c0c6"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a9461505ef30"
         }
       },
@@ -90,24 +92,27 @@
         "tagteam:copula": "attended"
       },
       {
-        "@id": "inst:Artifact_International_Affairs_f50856c651e3",
+        "@id": "inst:Entity_International_Affair_677324796434",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "international affairs",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.285Z",
+        "rdfs:label": "international affair",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.554Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a9461505ef30",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Summit_64a05140a3a5",
+        "@id": "inst:Entity_Summit_2e373649c0c6",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "summit",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.285Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.554Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a9461505ef30",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -118,15 +123,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The acting deputy assistant secretary for international affairs attended the summit",
+        "has_text_value": "The acting deputy assistant secretary for international affairs attended the summit",
         "tagteam:char_count": 83,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-18T02:11:45.273Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.544Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -143,20 +148,20 @@
       {
         "@id": "inst:ParsingAct_a9461505",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_a9461505ef30"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:international_affairs"
           },
@@ -164,7 +169,7 @@
             "@id": "inst:the_summit"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.273Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.544Z"
       }
     ]
   }

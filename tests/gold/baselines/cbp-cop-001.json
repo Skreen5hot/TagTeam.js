@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:43.941Z",
+  "generatedAt": "2026-02-22T11:48:43.416Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -49,11 +49,13 @@
         "tagteam:mentionId": "s0:h2:0-30",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Office_Of_Field_Operations_71a1bc615711"
+        "is_about": {
+          "@id": "inst:Entity_Office_Of_Field_Operation_9ae7260ac8fd"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a8f0a8fb8925"
         }
       },
@@ -68,10 +70,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Field_Operations_7c528bde1036"
+        "is_about": {
+          "@id": "inst:Entity_Field_Operation_190a0aa25f30"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a8f0a8fb8925"
         }
       },
@@ -86,10 +88,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "cco:Organization",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Cbp_20ac563de71b"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a8f0a8fb8925"
         }
       },
@@ -105,24 +107,27 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Artifact_Office_Of_Field_Operations_71a1bc615711",
+        "@id": "inst:Entity_Office_Of_Field_Operation_9ae7260ac8fd",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "office of field operations",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.941Z",
+        "rdfs:label": "office of field operation",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.416Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a8f0a8fb8925",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Field_Operations_7c528bde1036",
+        "@id": "inst:Entity_Field_Operation_190a0aa25f30",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "field operations",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.941Z",
+        "rdfs:label": "field operation",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.416Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a8f0a8fb8925",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -133,7 +138,8 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "cbp",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.941Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.416Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a8f0a8fb8925",
         "tagteam:denotesType": "cco:Organization"
       },
@@ -144,15 +150,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The Office of Field Operations is the largest component of CBP",
+        "has_text_value": "The Office of Field Operations is the largest component of CBP",
         "tagteam:char_count": 62,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-18T02:11:43.930Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.408Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -169,20 +175,20 @@
       {
         "@id": "inst:ParsingAct_a8f0a8fb",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_a8f0a8fb8925"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_Office_of_Field_Operations"
           },
@@ -193,7 +199,7 @@
             "@id": "inst:CBP"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.930Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.408Z"
       }
     ]
   }

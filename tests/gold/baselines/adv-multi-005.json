@@ -7,7 +7,7 @@
     "subordination",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:45.231Z",
+  "generatedAt": "2026-02-22T11:48:44.514Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -68,11 +68,13 @@
         "tagteam:mentionId": "s0:h3:5-14",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Alarm_496549ce35b9"
+        "is_about": {
+          "@id": "inst:Entity_Alarm_3f18a8ce486c"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0fad6b4c89c7"
         }
       },
@@ -86,11 +88,13 @@
         "tagteam:mentionId": "s0:h6:23-35",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9479,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Officers_8c74ad53923c"
+        "is_about": {
+          "@id": "inst:Entity_Officer_669e63428570"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0fad6b4c89c7"
         }
       },
@@ -105,10 +109,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Building_d86ebb7f2ffa"
+        "is_about": {
+          "@id": "inst:Entity_Build_4fc7b9dbc458"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0fad6b4c89c7"
         }
       },
@@ -120,55 +124,61 @@
         ],
         "rdfs:label": "sounded",
         "tagteam:lemma": "sound",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0fad6b4c89c7"
         }
       },
       {
-        "@id": "inst:Role_the_alarm_cco_AgentRole",
+        "@id": "inst:Role_the_alarm_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:the_alarm"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_sounded"
         },
-        "rdfs:label": "the alarm as AgentRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Artifact_Alarm_496549ce35b9",
+        "@id": "inst:Entity_Alarm_3f18a8ce486c",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "alarm",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.231Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.514Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0fad6b4c89c7",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Officers_8c74ad53923c",
+        "@id": "inst:Entity_Officer_669e63428570",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "officers",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.231Z",
+        "rdfs:label": "officer",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.514Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0fad6b4c89c7",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Building_d86ebb7f2ffa",
+        "@id": "inst:Entity_Build_4fc7b9dbc458",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "building",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.231Z",
+        "rdfs:label": "build",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.514Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0fad6b4c89c7",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -179,15 +189,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "When the alarm sounded the officers evacuated the building",
+        "has_text_value": "When the alarm sounded the officers evacuated the building",
         "tagteam:char_count": 58,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-18T02:11:45.220Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.504Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -204,20 +214,20 @@
       {
         "@id": "inst:ParsingAct_0fad6b4c",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_0fad6b4c89c7"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:the_alarm"
           },
@@ -231,7 +241,7 @@
             "@id": "inst:Act_sounded"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.220Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.504Z"
       }
     ]
   }

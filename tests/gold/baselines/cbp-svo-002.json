@@ -7,7 +7,7 @@
     "cbp",
     "inspection"
   ],
-  "generatedAt": "2026-02-18T02:11:43.662Z",
+  "generatedAt": "2026-02-22T11:48:43.196Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -63,11 +63,13 @@
         "tagteam:mentionId": "s0:h3:0-19",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Customs_Officer_61c3a031bb0e"
+        "is_about": {
+          "@id": "inst:Person_Customs_Officer_554021f44172"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c6281c2782d6"
         }
       },
@@ -82,10 +84,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Cargo_8565a503361d"
+        "is_about": {
+          "@id": "inst:Entity_Cargo_f87a77572410"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c6281c2782d6"
         }
       },
@@ -97,59 +99,64 @@
         ],
         "rdfs:label": "inspected",
         "tagteam:lemma": "inspect",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c6281c2782d6"
         }
       },
       {
-        "@id": "inst:Role_The_customs_officer_cco_AgentRole",
+        "@id": "inst:Role_The_customs_officer_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_customs_officer"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_inspected"
         },
-        "rdfs:label": "The customs officer as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_cargo_cco_PatientRole",
+        "@id": "inst:Role_the_cargo_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_cargo"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_inspected"
         },
-        "rdfs:label": "the cargo as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Artifact_Customs_Officer_61c3a031bb0e",
+        "@id": "inst:Person_Customs_Officer_554021f44172",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "customs officer",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.662Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.196Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c6281c2782d6",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Cargo_8565a503361d",
+        "@id": "inst:Entity_Cargo_f87a77572410",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "cargo",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.662Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.196Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c6281c2782d6",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -160,15 +167,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The customs officer inspected the cargo",
+        "has_text_value": "The customs officer inspected the cargo",
         "tagteam:char_count": 39,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-18T02:11:43.651Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.189Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -185,20 +192,20 @@
       {
         "@id": "inst:ParsingAct_c6281c27",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_c6281c2782d6"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_customs_officer"
           },
@@ -209,7 +216,7 @@
             "@id": "inst:Act_inspected"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.651Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.189Z"
       }
     ]
   }

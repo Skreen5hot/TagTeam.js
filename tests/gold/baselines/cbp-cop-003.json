@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:43.971Z",
+  "generatedAt": "2026-02-22T11:48:43.442Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -44,11 +44,18 @@
         "tagteam:mentionId": "s0:h3:0-17",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Border_Patrol_df06270328aa"
+        "tagteam:genericityCategory": "AMB",
+        "tagteam:genericityConfidence": 0.6,
+        "tagteam:genericityBasis": "institutional_the",
+        "tagteam:genericityAlternative": {
+          "tagteam:category": "GEN",
+          "tagteam:confidence": 0.4
         },
-        "cco:is_concretized_by": {
+        "tagteam:denotesType": "bfo:Entity",
+        "is_about": {
+          "@id": "inst:Entity_Border_Patrol_a88112f527ec"
+        },
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_8bb25944146c"
         }
       },
@@ -63,10 +70,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "cco:Organization",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Cbp_f3ddd2237b05"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_8bb25944146c"
         }
       },
@@ -81,13 +88,15 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Artifact_Border_Patrol_df06270328aa",
+        "@id": "inst:Entity_Border_Patrol_a88112f527ec",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "border patrol",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.971Z",
+        "tagteam:genericityCategory": "AMB",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.442Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_8bb25944146c",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -98,7 +107,8 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "cbp",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.971Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.442Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_8bb25944146c",
         "tagteam:denotesType": "cco:Organization"
       },
@@ -109,15 +119,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The Border Patrol is the mobile enforcement arm of CBP",
+        "has_text_value": "The Border Patrol is the mobile enforcement arm of CBP",
         "tagteam:char_count": 54,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-18T02:11:43.959Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.432Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -134,20 +144,20 @@
       {
         "@id": "inst:ParsingAct_8bb25944",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_8bb25944146c"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_Border_Patrol"
           },
@@ -155,7 +165,7 @@
             "@id": "inst:CBP"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.959Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.432Z"
       }
     ]
   }

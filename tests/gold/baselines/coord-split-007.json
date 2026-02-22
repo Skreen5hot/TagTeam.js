@@ -7,7 +7,7 @@
     "split",
     "passive"
   ],
-  "generatedAt": "2026-02-17T19:15:44.788Z",
+  "generatedAt": "2026-02-22T11:48:42.827Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -54,11 +54,13 @@
         "tagteam:mentionId": "s0:h2:0-30",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Suspect_And_The_Accomplice_4d83c901bf90"
+        "is_about": {
+          "@id": "inst:Entity_Suspect_And_The_Accomplice_5d547bf5413c"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_28eb09ab1b77"
         }
       },
@@ -71,33 +73,36 @@
         "rdfs:label": "arrested",
         "tagteam:lemma": "arrest",
         "tagteam:isPassive": true,
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_28eb09ab1b77"
         }
       },
       {
-        "@id": "inst:Role_The_suspect_and_the_accomplice_cco_PatientRole",
+        "@id": "inst:Role_The_suspect_and_the_accomplice_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:The_suspect_and_the_accomplice"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_arrested"
         },
-        "rdfs:label": "The suspect and the accomplice as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Artifact_Suspect_And_The_Accomplice_4d83c901bf90",
+        "@id": "inst:Entity_Suspect_And_The_Accomplice_5d547bf5413c",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "suspect and the accomplice",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.787Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.827Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_28eb09ab1b77",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -108,15 +113,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The suspect and the accomplice were arrested",
+        "has_text_value": "The suspect and the accomplice were arrested",
         "tagteam:char_count": 44,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-17T19:15:44.778Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.820Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -133,20 +138,20 @@
       {
         "@id": "inst:ParsingAct_28eb09ab",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_28eb09ab1b77"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_suspect_and_the_accomplice"
           },
@@ -154,7 +159,7 @@
             "@id": "inst:Act_arrested"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.778Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.820Z"
       }
     ]
   }

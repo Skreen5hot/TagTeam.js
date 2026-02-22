@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-17T19:15:44.215Z",
+  "generatedAt": "2026-02-22T11:48:42.289Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -45,11 +45,14 @@
         "tagteam:mentionId": "s0:h1:0-3",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.95,
+        "tagteam:genericityBasis": "named_entity",
         "tagteam:denotesType": "cco:Organization",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Tsa_62cf7841f6cf"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_27346421d44a"
         }
       },
@@ -64,10 +67,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Transportation_Security_93f063c5f2b9"
+        "is_about": {
+          "@id": "inst:Entity_Transportation_Security_ffbba98e0a75"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_27346421d44a"
         }
       },
@@ -89,18 +92,21 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "tsa",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.215Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.289Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_27346421d44a",
         "tagteam:denotesType": "cco:Organization"
       },
       {
-        "@id": "inst:Artifact_Transportation_Security_93f063c5f2b9",
+        "@id": "inst:Entity_Transportation_Security_ffbba98e0a75",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "transportation security",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.215Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.289Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_27346421d44a",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -111,15 +117,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "TSA is responsible for transportation security",
+        "has_text_value": "TSA is responsible for transportation security",
         "tagteam:char_count": 46,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-17T19:15:44.204Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.279Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -136,20 +142,20 @@
       {
         "@id": "inst:ParsingAct_27346421",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_27346421d44a"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:TSA"
           },
@@ -157,7 +163,7 @@
             "@id": "inst:transportation_security"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.204Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.279Z"
       }
     ]
   }

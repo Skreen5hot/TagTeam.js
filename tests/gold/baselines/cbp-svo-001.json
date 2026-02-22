@@ -7,7 +7,7 @@
     "cbp",
     "enforcement"
   ],
-  "generatedAt": "2026-02-18T02:11:43.648Z",
+  "generatedAt": "2026-02-22T11:48:43.186Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -63,11 +63,13 @@
         "tagteam:mentionId": "s0:h3:0-16",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Border_Agent_690c1c64a7ce"
+        "is_about": {
+          "@id": "inst:Person_Border_Agent_6018358ac408"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_160c1d95f809"
         }
       },
@@ -82,10 +84,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Shipment_e4376b9fe57d"
+        "is_about": {
+          "@id": "inst:Entity_Shipment_99581896dab3"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_160c1d95f809"
         }
       },
@@ -97,59 +99,64 @@
         ],
         "rdfs:label": "intercepted",
         "tagteam:lemma": "intercept",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_160c1d95f809"
         }
       },
       {
-        "@id": "inst:Role_The_border_agent_cco_AgentRole",
+        "@id": "inst:Role_The_border_agent_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_border_agent"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_intercepted"
         },
-        "rdfs:label": "The border agent as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_shipment_cco_PatientRole",
+        "@id": "inst:Role_the_shipment_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_shipment"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_intercepted"
         },
-        "rdfs:label": "the shipment as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Artifact_Border_Agent_690c1c64a7ce",
+        "@id": "inst:Person_Border_Agent_6018358ac408",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "border agent",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.647Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.186Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_160c1d95f809",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Shipment_e4376b9fe57d",
+        "@id": "inst:Entity_Shipment_99581896dab3",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "shipment",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.647Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.186Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_160c1d95f809",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -160,15 +167,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The border agent intercepted the shipment",
+        "has_text_value": "The border agent intercepted the shipment",
         "tagteam:char_count": 41,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-18T02:11:43.636Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.179Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -185,20 +192,20 @@
       {
         "@id": "inst:ParsingAct_160c1d95",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_160c1d95f809"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_border_agent"
           },
@@ -209,7 +216,7 @@
             "@id": "inst:Act_intercepted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.636Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.179Z"
       }
     ]
   }

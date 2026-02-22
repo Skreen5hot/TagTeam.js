@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:43.988Z",
+  "generatedAt": "2026-02-22T11:48:43.454Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -39,11 +39,14 @@
         "tagteam:mentionId": "s0:h1:0-4",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.95,
+        "tagteam:genericityBasis": "named_entity",
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Tecs_d791dc210bdf"
+        "is_about": {
+          "@id": "inst:Entity_Tecs_0b09dbe476b3"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e27204699a1a"
         }
       },
@@ -57,13 +60,15 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Artifact_Tecs_d791dc210bdf",
+        "@id": "inst:Entity_Tecs_0b09dbe476b3",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "tecs",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.988Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.454Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e27204699a1a",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -74,15 +79,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "TECS is the primary law enforcement database",
+        "has_text_value": "TECS is the primary law enforcement database",
         "tagteam:char_count": 44,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-18T02:11:43.974Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.446Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -99,25 +104,25 @@
       {
         "@id": "inst:ParsingAct_e2720469",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_e27204699a1a"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:TECS"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.974Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.446Z"
       }
     ]
   }

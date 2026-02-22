@@ -5,7 +5,7 @@
   "tags": [
     "legal"
   ],
-  "generatedAt": "2026-02-18T02:11:44.872Z",
+  "generatedAt": "2026-02-22T11:48:44.222Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -61,10 +61,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Magistrate_Granted_Bail_To_The_Accused_5d237df345d6"
+        "is_about": {
+          "@id": "inst:Entity_Magistrate_Granted_Bail_To_The_Accuse_7a39cf5959ea"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0a9838d0c83b"
         }
       },
@@ -79,10 +79,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Accused_c463fb296504"
+        "is_about": {
+          "@id": "inst:Entity_Accuse_4c2b0aad65a6"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0a9838d0c83b"
         }
       },
@@ -94,29 +94,31 @@
         ],
         "rdfs:label": "bail",
         "tagteam:lemma": "bail",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0a9838d0c83b"
         }
       },
       {
-        "@id": "inst:Artifact_Magistrate_Granted_Bail_To_The_Accused_5d237df345d6",
+        "@id": "inst:Entity_Magistrate_Granted_Bail_To_The_Accuse_7a39cf5959ea",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "magistrate granted bail to the accused",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.872Z",
+        "rdfs:label": "magistrate granted bail to the accuse",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.222Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0a9838d0c83b",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Accused_c463fb296504",
+        "@id": "inst:Entity_Accuse_4c2b0aad65a6",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "accused",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.872Z",
+        "rdfs:label": "accuse",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.222Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0a9838d0c83b",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -127,15 +129,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The magistrate granted bail to the accused",
+        "has_text_value": "The magistrate granted bail to the accused",
         "tagteam:char_count": 42,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-18T02:11:44.865Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.214Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -152,20 +154,20 @@
       {
         "@id": "inst:ParsingAct_0a9838d0",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_0a9838d0c83b"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_magistrate_granted_bail_to_the_accused"
           },
@@ -176,7 +178,7 @@
             "@id": "inst:Act_bail"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.865Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.214Z"
       }
     ]
   }

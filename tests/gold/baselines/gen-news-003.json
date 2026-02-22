@@ -6,7 +6,7 @@
     "news",
     "government"
   ],
-  "generatedAt": "2026-02-18T02:11:44.535Z",
+  "generatedAt": "2026-02-22T11:48:43.915Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -62,11 +62,13 @@
         "tagteam:mentionId": "s0:h2:0-9",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Mayor_30a7b077f3e2"
+        "is_about": {
+          "@id": "inst:Entity_Mayor_c5b561dc0267"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ca8bdea948c7"
         }
       },
@@ -81,10 +83,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Budget_Proposal_6e634f7b326c"
+        "is_about": {
+          "@id": "inst:Entity_Budget_Proposal_abc29312034a"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ca8bdea948c7"
         }
       },
@@ -96,59 +98,64 @@
         ],
         "rdfs:label": "vetoed",
         "tagteam:lemma": "veto",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ca8bdea948c7"
         }
       },
       {
-        "@id": "inst:Role_The_mayor_cco_AgentRole",
+        "@id": "inst:Role_The_mayor_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_mayor"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_vetoed"
         },
-        "rdfs:label": "The mayor as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_budget_proposal_cco_PatientRole",
+        "@id": "inst:Role_the_budget_proposal_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_budget_proposal"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_vetoed"
         },
-        "rdfs:label": "the budget proposal as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Artifact_Mayor_30a7b077f3e2",
+        "@id": "inst:Entity_Mayor_c5b561dc0267",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "mayor",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.534Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.915Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ca8bdea948c7",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Budget_Proposal_6e634f7b326c",
+        "@id": "inst:Entity_Budget_Proposal_abc29312034a",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "budget proposal",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.534Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.915Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ca8bdea948c7",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -159,15 +166,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The mayor vetoed the budget proposal",
+        "has_text_value": "The mayor vetoed the budget proposal",
         "tagteam:char_count": 36,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-18T02:11:44.527Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.907Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -184,20 +191,20 @@
       {
         "@id": "inst:ParsingAct_ca8bdea9",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_ca8bdea948c7"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_mayor"
           },
@@ -208,7 +215,7 @@
             "@id": "inst:Act_vetoed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.527Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.907Z"
       }
     ]
   }

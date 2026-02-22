@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-18T02:11:43.285Z",
+  "generatedAt": "2026-02-22T11:48:42.960Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -71,11 +71,13 @@
         "tagteam:mentionId": "s0:h2:0-14",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Instructor_9c24479cd9c7"
+        "is_about": {
+          "@id": "inst:Entity_Instructor_7e1bfbcbb07a"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_4e2012bd3ab5"
         }
       },
@@ -90,10 +92,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Recruits_65c6111601d7"
+        "is_about": {
+          "@id": "inst:Entity_Recruit_be5a268180ae"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_4e2012bd3ab5"
         }
       },
@@ -105,59 +107,64 @@
         ],
         "rdfs:label": "taught",
         "tagteam:lemma": "taught",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_4e2012bd3ab5"
         }
       },
       {
-        "@id": "inst:Role_The_instructor_cco_AgentRole",
+        "@id": "inst:Role_The_instructor_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_instructor"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_taught"
         },
-        "rdfs:label": "The instructor as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_recruits_cco_PatientRole",
+        "@id": "inst:Role_the_recruits_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_recruits"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_taught"
         },
-        "rdfs:label": "the recruits as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804
       },
       {
-        "@id": "inst:Artifact_Instructor_9c24479cd9c7",
+        "@id": "inst:Entity_Instructor_7e1bfbcbb07a",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "instructor",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.285Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.959Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4e2012bd3ab5",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Recruits_65c6111601d7",
+        "@id": "inst:Entity_Recruit_be5a268180ae",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "recruits",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.285Z",
+        "rdfs:label": "recruit",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.959Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4e2012bd3ab5",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -168,15 +175,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The instructor taught the recruits defensive tactics",
+        "has_text_value": "The instructor taught the recruits defensive tactics",
         "tagteam:char_count": 52,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-18T02:11:43.270Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.953Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -193,20 +200,20 @@
       {
         "@id": "inst:ParsingAct_4e2012bd",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_4e2012bd3ab5"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_instructor"
           },
@@ -217,7 +224,7 @@
             "@id": "inst:Act_taught"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.270Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.953Z"
       }
     ]
   }

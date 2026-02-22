@@ -7,7 +7,7 @@
     "cbp",
     "agriculture"
   ],
-  "generatedAt": "2026-02-18T02:11:43.845Z",
+  "generatedAt": "2026-02-22T11:48:43.340Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -63,11 +63,13 @@
         "tagteam:mentionId": "s0:h3:0-26",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Person_Agriculture_Specialist_adf2cf222561"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b4965e1834cc"
         }
       },
@@ -82,10 +84,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Produce_a674eb63c68e"
+        "is_about": {
+          "@id": "inst:Entity_Produce_112233c1ea61"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b4965e1834cc"
         }
       },
@@ -97,37 +99,39 @@
         ],
         "rdfs:label": "quarantined",
         "tagteam:lemma": "quarantin",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b4965e1834cc"
         }
       },
       {
-        "@id": "inst:Role_The_agriculture_specialist_cco_AgentRole",
+        "@id": "inst:Role_The_agriculture_specialist_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_agriculture_specialist"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_quarantined"
         },
-        "rdfs:label": "The agriculture specialist as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_produce_cco_PatientRole",
+        "@id": "inst:Role_the_produce_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_produce"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_quarantined"
         },
-        "rdfs:label": "the produce as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
@@ -138,18 +142,21 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "agriculture specialist",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.845Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.340Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b4965e1834cc",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Produce_a674eb63c68e",
+        "@id": "inst:Entity_Produce_112233c1ea61",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "produce",
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.845Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.340Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b4965e1834cc",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -160,15 +167,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The agriculture specialist quarantined the produce",
+        "has_text_value": "The agriculture specialist quarantined the produce",
         "tagteam:char_count": 50,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-18T02:11:43.838Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.332Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -185,20 +192,20 @@
       {
         "@id": "inst:ParsingAct_b4965e18",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_b4965e1834cc"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_agriculture_specialist"
           },
@@ -209,7 +216,7 @@
             "@id": "inst:Act_quarantined"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:43.838Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.332Z"
       }
     ]
   }

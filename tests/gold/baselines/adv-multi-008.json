@@ -6,7 +6,7 @@
     "multi-clause",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:45.392Z",
+  "generatedAt": "2026-02-22T11:48:44.658Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -88,11 +88,13 @@
         "tagteam:mentionId": "s0:h2:0-13",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Commander_4d6ba9cbdef8"
+        "is_about": {
+          "@id": "inst:Entity_Commander_090d2f9cff4c"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_9113ce68dbc8"
         }
       },
@@ -107,10 +109,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Plan_And_The_Team_6196d9cca672"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_9113ce68dbc8"
         }
       },
@@ -125,10 +127,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Mission_74980e2acb56"
+        "is_about": {
+          "@id": "inst:Entity_Mission_c8673c71052e"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_9113ce68dbc8"
         }
       },
@@ -143,10 +145,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Dawn_7854ce6cb207"
+        "is_about": {
+          "@id": "inst:Entity_Dawn_2a6a00cbf8aa"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_9113ce68dbc8"
         }
       },
@@ -158,48 +160,52 @@
         ],
         "rdfs:label": "reviewed",
         "tagteam:lemma": "review",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_9113ce68dbc8"
         }
       },
       {
-        "@id": "inst:Role_The_commander_cco_AgentRole",
+        "@id": "inst:Role_The_commander_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_commander"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_reviewed"
         },
-        "rdfs:label": "The commander as AgentRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Role_the_plan_and_the_team_cco_PatientRole",
+        "@id": "inst:Role_the_plan_and_the_team_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_plan_and_the_team"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_reviewed"
         },
-        "rdfs:label": "the plan and the team as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Artifact_Commander_4d6ba9cbdef8",
+        "@id": "inst:Entity_Commander_090d2f9cff4c",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "commander",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.392Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.658Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9113ce68dbc8",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -210,29 +216,32 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "plan and the team",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.392Z",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.658Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9113ce68dbc8",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Mission_74980e2acb56",
+        "@id": "inst:Entity_Mission_c8673c71052e",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "mission",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.392Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.658Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9113ce68dbc8",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Dawn_7854ce6cb207",
+        "@id": "inst:Entity_Dawn_2a6a00cbf8aa",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "dawn",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.392Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.658Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9113ce68dbc8",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -243,15 +252,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The commander reviewed the plan and the team executed the mission at dawn",
+        "has_text_value": "The commander reviewed the plan and the team executed the mission at dawn",
         "tagteam:char_count": 73,
         "tagteam:word_count": 13,
-        "tagteam:received_at": "2026-02-18T02:11:45.381Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.646Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -268,20 +277,20 @@
       {
         "@id": "inst:ParsingAct_9113ce68",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_9113ce68dbc8"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_commander"
           },
@@ -298,7 +307,7 @@
             "@id": "inst:Act_reviewed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.381Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.646Z"
       }
     ]
   }

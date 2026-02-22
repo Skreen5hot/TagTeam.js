@@ -7,7 +7,7 @@
     "cbp",
     "trade"
   ],
-  "generatedAt": "2026-02-18T02:11:44.116Z",
+  "generatedAt": "2026-02-22T11:48:43.578Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -46,10 +46,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_C_Tpat_A_Voluntary_Trade_Partnership_Program_a984f7d89d3b"
+        "is_about": {
+          "@id": "inst:Entity_C_Tpat_A_Voluntary_Trade_Partnership_Program_deebb1f6d2a0"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5414586df117"
         }
       },
@@ -63,11 +63,14 @@
         "tagteam:mentionId": "s0:h3:4-8",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.95,
+        "tagteam:genericityBasis": "named_entity",
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Tpat_9360bf46ee6e"
+        "is_about": {
+          "@id": "inst:Entity_Tpat_ab1ff8cdfd4e"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5414586df117"
         }
       },
@@ -79,29 +82,32 @@
         ],
         "rdfs:label": "C",
         "tagteam:lemma": "c",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5414586df117"
         }
       },
       {
-        "@id": "inst:Artifact_C_Tpat_A_Voluntary_Trade_Partnership_Program_a984f7d89d3b",
+        "@id": "inst:Entity_C_Tpat_A_Voluntary_Trade_Partnership_Program_deebb1f6d2a0",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "c tpat a voluntary trade partnership program",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.116Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.578Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5414586df117",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Tpat_9360bf46ee6e",
+        "@id": "inst:Entity_Tpat_ab1ff8cdfd4e",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "tpat",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.116Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.578Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5414586df117",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -112,15 +118,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "C-TPAT is a voluntary trade partnership program",
+        "has_text_value": "C-TPAT is a voluntary trade partnership program",
         "tagteam:char_count": 47,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-18T02:11:44.107Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.568Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -137,20 +143,20 @@
       {
         "@id": "inst:ParsingAct_5414586d",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_5414586df117"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:C_TPAT_a_voluntary_trade_partnership_program"
           },
@@ -161,7 +167,7 @@
             "@id": "inst:Act_C"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.107Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.568Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "keep",
     "government"
   ],
-  "generatedAt": "2026-02-17T19:15:44.738Z",
+  "generatedAt": "2026-02-22T11:48:42.786Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -68,11 +68,13 @@
         "tagteam:mentionId": "s0:h2:0-35",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Organization_Department_Of_Homeland_Security_68025c462bdd"
+        "is_about": {
+          "@id": "inst:Entity_Department_Of_Homeland_Security_4f02650f410f"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5d18eb0ca86c"
         }
       },
@@ -87,10 +89,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "cco:Organization",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Homeland_Security_8d0fbae9bfa4"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5d18eb0ca86c"
         }
       },
@@ -105,10 +107,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Directive_16862ae000d0"
+        "is_about": {
+          "@id": "inst:Entity_Directive_4528ea943d6f"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5d18eb0ca86c"
         }
       },
@@ -120,48 +122,52 @@
         ],
         "rdfs:label": "issued",
         "tagteam:lemma": "issu",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5d18eb0ca86c"
         }
       },
       {
-        "@id": "inst:Role_The_Department_of_Homeland_Security_cco_AgentRole",
+        "@id": "inst:Role_The_Department_of_Homeland_Security_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_Department_of_Homeland_Security"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_issued"
         },
-        "rdfs:label": "The Department of Homeland Security as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_directive_cco_PatientRole",
+        "@id": "inst:Role_the_directive_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_directive"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_issued"
         },
-        "rdfs:label": "the directive as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Organization_Department_Of_Homeland_Security_68025c462bdd",
+        "@id": "inst:Entity_Department_Of_Homeland_Security_4f02650f410f",
         "@type": [
-          "cco:Organization",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "department of homeland security",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.737Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.786Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5d18eb0ca86c",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -172,18 +178,20 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "homeland security",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.737Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.786Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5d18eb0ca86c",
         "tagteam:denotesType": "cco:Organization"
       },
       {
-        "@id": "inst:Artifact_Directive_16862ae000d0",
+        "@id": "inst:Entity_Directive_4528ea943d6f",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "directive",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.737Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.786Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5d18eb0ca86c",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -194,15 +202,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The Department of Homeland Security issued the directive",
+        "has_text_value": "The Department of Homeland Security issued the directive",
         "tagteam:char_count": 56,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-17T19:15:44.725Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.778Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -219,20 +227,20 @@
       {
         "@id": "inst:ParsingAct_5d18eb0c",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_5d18eb0ca86c"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_Department_of_Homeland_Security"
           },
@@ -246,7 +254,7 @@
             "@id": "inst:Act_issued"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.725Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.778Z"
       }
     ]
   }

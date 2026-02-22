@@ -6,7 +6,7 @@
     "relative-clause",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:45.117Z",
+  "generatedAt": "2026-02-22T11:48:44.423Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -73,10 +73,10 @@
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Officer_7d8886c9b43c"
+        "is_about": {
+          "@id": "inst:Person_Officer_f549f43b7551"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0abd0485984a"
         }
       },
@@ -90,11 +90,14 @@
         "tagteam:mentionId": "s0:h3:12-15",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.95,
+        "tagteam:genericityBasis": "named_entity",
         "tagteam:denotesType": "cco:Organization",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Who_23e07ee7fae6"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0abd0485984a"
         }
       },
@@ -108,11 +111,13 @@
         "tagteam:mentionId": "s0:h6:26-39",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Interview_402ad2aae70c"
+        "is_about": {
+          "@id": "inst:Entity_Interview_cbe7946fcbe0"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0abd0485984a"
         }
       },
@@ -127,10 +132,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Findings_6a294da43187"
+        "is_about": {
+          "@id": "inst:Entity_Finding_b96676b06884"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0abd0485984a"
         }
       },
@@ -142,7 +147,7 @@
         ],
         "rdfs:label": "officer",
         "tagteam:lemma": "officer",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0abd0485984a"
         }
       },
@@ -154,33 +159,35 @@
         ],
         "rdfs:label": "conducted",
         "tagteam:lemma": "conduct",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0abd0485984a"
         }
       },
       {
-        "@id": "inst:Role_who_cco_AgentRole",
+        "@id": "inst:Role_who_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:who"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_conducted"
         },
-        "rdfs:label": "who as AgentRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804
       },
       {
-        "@id": "inst:Artifact_Officer_7d8886c9b43c",
+        "@id": "inst:Person_Officer_f549f43b7551",
         "@type": [
-          "cco:Artifact",
+          "cco:Person",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "officer",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.117Z",
+        "tagteam:typeBasis": "keyword",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.423Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0abd0485984a",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -191,29 +198,34 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "who",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.117Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.423Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0abd0485984a",
         "tagteam:denotesType": "cco:Organization"
       },
       {
-        "@id": "inst:Artifact_Interview_402ad2aae70c",
+        "@id": "inst:Entity_Interview_cbe7946fcbe0",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "interview",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.117Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.423Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0abd0485984a",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Findings_6a294da43187",
+        "@id": "inst:Entity_Finding_b96676b06884",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "findings",
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.117Z",
+        "rdfs:label": "finding",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.423Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0abd0485984a",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -224,15 +236,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The officer who conducted the interview documented the findings",
+        "has_text_value": "The officer who conducted the interview documented the findings",
         "tagteam:char_count": 63,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-18T02:11:45.104Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.415Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -249,20 +261,20 @@
       {
         "@id": "inst:ParsingAct_0abd0485",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_0abd0485984a"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_officer"
           },
@@ -282,7 +294,7 @@
             "@id": "inst:Act_conducted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:45.104Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.415Z"
       }
     ]
   }

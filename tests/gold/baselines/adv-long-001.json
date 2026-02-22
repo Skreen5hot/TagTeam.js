@@ -6,7 +6,7 @@
     "long-np",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:44.889Z",
+  "generatedAt": "2026-02-22T11:48:44.233Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -71,11 +71,13 @@
         "tagteam:mentionId": "s0:h4:0-56",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Senior_Intelligence_Analyst_At_The_Operations_Center_3bafcce3380b"
+        "is_about": {
+          "@id": "inst:Entity_Senior_Intelligence_Analyst_At_The_Operations_Center_f7cb32330e56"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ba2ae99ec82f"
         }
       },
@@ -90,10 +92,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Operations_Center_80bec63ccb0c"
+        "is_about": {
+          "@id": "inst:Entity_Operations_Center_94d31ed15d97"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ba2ae99ec82f"
         }
       },
@@ -108,10 +110,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Assessment_bab96c174da5"
+        "is_about": {
+          "@id": "inst:Entity_Assessment_8e695b8b9c49"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ba2ae99ec82f"
         }
       },
@@ -123,70 +125,76 @@
         ],
         "rdfs:label": "reviewed",
         "tagteam:lemma": "review",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ba2ae99ec82f"
         }
       },
       {
-        "@id": "inst:Role_The_senior_intelligence_analyst_at_the_operations_center_cco_AgentRole",
+        "@id": "inst:Role_The_senior_intelligence_analyst_at_the_operations_center_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_senior_intelligence_analyst_at_the_operations_center"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_reviewed"
         },
-        "rdfs:label": "The senior intelligence analyst at the operations center as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_assessment_cco_PatientRole",
+        "@id": "inst:Role_the_assessment_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_assessment"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_reviewed"
         },
-        "rdfs:label": "the assessment as PatientRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Artifact_Senior_Intelligence_Analyst_At_The_Operations_Center_3bafcce3380b",
+        "@id": "inst:Entity_Senior_Intelligence_Analyst_At_The_Operations_Center_f7cb32330e56",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "senior intelligence analyst at the operations center",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.888Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.233Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ba2ae99ec82f",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Operations_Center_80bec63ccb0c",
+        "@id": "inst:Entity_Operations_Center_94d31ed15d97",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "operations center",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.888Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.233Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ba2ae99ec82f",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Assessment_bab96c174da5",
+        "@id": "inst:Entity_Assessment_8e695b8b9c49",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "assessment",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.888Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.233Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ba2ae99ec82f",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -197,15 +205,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The senior intelligence analyst at the operations center reviewed the assessment",
+        "has_text_value": "The senior intelligence analyst at the operations center reviewed the assessment",
         "tagteam:char_count": 80,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-18T02:11:44.876Z"
+        "tagteam:received_at": "2026-02-22T11:48:44.225Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -222,20 +230,20 @@
       {
         "@id": "inst:ParsingAct_ba2ae99e",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_ba2ae99ec82f"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_senior_intelligence_analyst_at_the_operations_center"
           },
@@ -249,7 +257,7 @@
             "@id": "inst:Act_reviewed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.876Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:44.225Z"
       }
     ]
   }

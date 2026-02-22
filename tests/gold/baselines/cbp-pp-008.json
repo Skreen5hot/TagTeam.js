@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-18T02:11:44.408Z",
+  "generatedAt": "2026-02-22T11:48:43.810Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -75,11 +75,13 @@
         "tagteam:mentionId": "s0:h2:0-10",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Patrol_5b4e160664e5"
+        "is_about": {
+          "@id": "inst:Entity_Patrol_b626cb6920e3"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d6c44624a76b"
         }
       },
@@ -94,10 +96,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Group_439caeff506c"
+        "is_about": {
+          "@id": "inst:Entity_Group_3e43c38e3284"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d6c44624a76b"
         }
       },
@@ -112,10 +114,10 @@
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_River_8e48e5f6bbd5"
+        "is_about": {
+          "@id": "inst:Entity_River_378ae5b77c5b"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d6c44624a76b"
         }
       },
@@ -127,86 +129,93 @@
         ],
         "rdfs:label": "apprehended",
         "tagteam:lemma": "apprehend",
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d6c44624a76b"
         }
       },
       {
-        "@id": "inst:Role_The_patrol_cco_AgentRole",
+        "@id": "inst:Role_The_patrol_AgentRole",
         "@type": [
-          "cco:AgentRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
         "tagteam:bearer": {
           "@id": "inst:The_patrol"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_apprehended"
         },
-        "rdfs:label": "The patrol as AgentRole",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Role_the_group_cco_PatientRole",
+        "@id": "inst:Role_the_group_PatientRole",
         "@type": [
-          "cco:PatientRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "tagteam:bearer": {
           "@id": "inst:the_group"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_apprehended"
         },
-        "rdfs:label": "the group as PatientRole",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Role_the_river_cco_ObliqueRole",
+        "@id": "inst:Role_the_river_ObliqueRole",
         "@type": [
-          "cco:ObliqueRole"
+          "bfo:Role"
         ],
+        "rdfs:label": "ObliqueRole",
+        "tagteam:roleType": "ObliqueRole",
         "tagteam:bearer": {
           "@id": "inst:the_river"
         },
         "tagteam:realizedIn": {
           "@id": "inst:Act_apprehended"
         },
-        "rdfs:label": "the river as ObliqueRole",
         "tagteam:preposition": "near",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Artifact_Patrol_5b4e160664e5",
+        "@id": "inst:Entity_Patrol_b626cb6920e3",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "patrol",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.408Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.810Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d6c44624a76b",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_Group_439caeff506c",
+        "@id": "inst:Entity_Group_3e43c38e3284",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "group",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.408Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.810Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d6c44624a76b",
         "tagteam:denotesType": "bfo:Entity"
       },
       {
-        "@id": "inst:Artifact_River_8e48e5f6bbd5",
+        "@id": "inst:Entity_River_378ae5b77c5b",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "river",
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.408Z",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.810Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d6c44624a76b",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -217,15 +226,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "The patrol apprehended the group near the river",
+        "has_text_value": "The patrol apprehended the group near the river",
         "tagteam:char_count": 47,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-18T02:11:44.400Z"
+        "tagteam:received_at": "2026-02-22T11:48:43.803Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -242,20 +251,20 @@
       {
         "@id": "inst:ParsingAct_d6c44624",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_d6c44624a76b"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:The_patrol"
           },
@@ -269,7 +278,7 @@
             "@id": "inst:Act_apprehended"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-18T02:11:44.400Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:43.803Z"
       }
     ]
   }

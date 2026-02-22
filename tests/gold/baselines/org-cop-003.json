@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-17T19:15:44.118Z",
+  "generatedAt": "2026-02-22T11:48:42.205Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -45,11 +45,14 @@
         "tagteam:mentionId": "s0:h1:0-13",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
+        "tagteam:genericityCategory": "INST",
+        "tagteam:genericityConfidence": 0.9,
+        "tagteam:genericityBasis": "proper_noun",
         "tagteam:denotesType": "bfo:Entity",
-        "cco:is_about": {
-          "@id": "inst:Artifact_Border_Patrol_46776509917f"
+        "is_about": {
+          "@id": "inst:Entity_Border_Patrol_49dd566558f1"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_cdf9fc9ce709"
         }
       },
@@ -64,10 +67,10 @@
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "cco:Organization",
-        "cco:is_about": {
+        "is_about": {
           "@id": "inst:Organization_Cbp_a7935fed0ff5"
         },
-        "cco:is_concretized_by": {
+        "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_cdf9fc9ce709"
         }
       },
@@ -82,13 +85,15 @@
         "tagteam:copula": "is"
       },
       {
-        "@id": "inst:Artifact_Border_Patrol_46776509917f",
+        "@id": "inst:Entity_Border_Patrol_49dd566558f1",
         "@type": [
-          "cco:Artifact",
+          "bfo:BFO_0000001",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "border patrol",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.117Z",
+        "tagteam:genericityCategory": "INST",
+        "tagteam:typeBasis": "default",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.204Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_cdf9fc9ce709",
         "tagteam:denotesType": "bfo:Entity"
       },
@@ -99,7 +104,8 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "cbp",
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.118Z",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.204Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_cdf9fc9ce709",
         "tagteam:denotesType": "cco:Organization"
       },
@@ -110,15 +116,15 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Input text",
-        "cco:has_text_value": "Border Patrol is the enforcement arm of CBP",
+        "has_text_value": "Border Patrol is the enforcement arm of CBP",
         "tagteam:char_count": 43,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-17T19:15:44.063Z"
+        "tagteam:received_at": "2026-02-22T11:48:42.191Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1",
         "@type": [
-          "cco:ArtificialAgent",
+          "cco:Agent",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "TagTeam.js Parser v3.0.0-alpha.1",
@@ -135,20 +141,20 @@
       {
         "@id": "inst:ParsingAct_cdf9fc9c",
         "@type": [
-          "cco:ActOfArtificialProcessing",
+          "cco:IntentionalAct",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "Semantic parsing act",
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "cco:has_input": {
+        "tagteam:has_input": {
           "@id": "inst:Input_Text_IBE_cdf9fc9ce709"
         },
-        "cco:has_agent": {
+        "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0_alpha_1"
         },
-        "cco:has_output": [
+        "tagteam:has_output": [
           {
             "@id": "inst:Border_Patrol"
           },
@@ -156,7 +162,7 @@
             "@id": "inst:CBP"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-17T19:15:44.063Z"
+        "tagteam:instantiated_at": "2026-02-22T11:48:42.191Z"
       }
     ]
   }
