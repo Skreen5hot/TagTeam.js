@@ -1998,6 +1998,9 @@ class SemanticGraphBuilder {
           if (gen) {
             entityNode['tagteam:genericityCategory'] = gen.category;
             entityNode['tagteam:genericityConfidence'] = gen.confidence;
+            if (gen.basis) {
+              entityNode['tagteam:genericityBasis'] = gen.basis;
+            }
             if (gen.alternative) {
               entityNode['tagteam:genericityAlternative'] = {
                 'tagteam:category': gen.alternative.category,
@@ -2063,7 +2066,8 @@ class SemanticGraphBuilder {
       if (_RealWorldEntityFactory) {
         const entityFactory = new _RealWorldEntityFactory({
           graphBuilder: this,
-          documentIRI: `inst:Input_Text_IBE_${this._hashText(text)}`
+          documentIRI: `inst:Input_Text_IBE_${this._hashText(text)}`,
+          lemmatizer: this.lemmatizer
         });
 
         // Filter entity nodes (exclude Acts, Roles, Assertions)

@@ -34,7 +34,18 @@
                     ]);
                     const posJSON = await posRes.json();
                     const depJSON = await depRes.json();
-                    TagTeam.loadModels(posJSON, depJSON);
+                    let calJSON = null;
+                    try { calJSON = await fetch('../dist/models/dep-calibration.json').then(r => r.json()); } catch(e) {}
+                    let gazetteers = null;
+                    try {
+                        const gazFiles = ['names.json', 'organizations.json', 'places.json'];
+                        gazetteers = await Promise.all(
+                            gazFiles.map(f => fetch('../dist/models/gazetteers/' + f).then(r => r.ok ? r.json() : null))
+                        );
+                        gazetteers = gazetteers.filter(g => g !== null);
+                        if (gazetteers.length === 0) gazetteers = null;
+                    } catch(e) { /* gazetteers are optional */ }
+                    TagTeam.loadModels(posJSON, depJSON, calJSON, gazetteers);
                     log('Models loaded. areModelsLoaded: ' + TagTeam.areModelsLoaded());
                 } catch (e) {
                     log('Model loading failed: ' + e.message + ' — falling back to legacy');
@@ -49,7 +60,7 @@
 
                 // Check for Tier 2 entities
                 const tier2 = result['@graph'].filter(n =>
-                    n['@type'] && (n['@type'].includes('cco:Person') || n['@type'].includes('cco:Artifact'))
+                    n['@type'] && (n['@type'].includes('owl:NamedIndividual') || n['@type'].includes('owl:Class'))
                 );
                 log('Tier 2 entities: ' + tier2.length);
 

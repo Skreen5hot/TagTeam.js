@@ -15,6 +15,35 @@
 const crypto = require('crypto');
 
 /**
+ * BFO opaque IRI → human-readable label mapping.
+ * Used to generate valid IRI local names from BFO types
+ * (BFO_0000001 → Entity, not bfo:BFO_0000001 which contains invalid colons).
+ */
+const BFO_IRI_LABELS = {
+  'bfo:BFO_0000001': 'Entity',
+  'bfo:BFO_0000004': 'IndependentContinuant',
+  'bfo:BFO_0000008': 'TemporalRegion',
+  'bfo:BFO_0000015': 'Process',
+  'bfo:BFO_0000016': 'Disposition',
+  'bfo:BFO_0000019': 'Quality',
+  'bfo:BFO_0000023': 'Role',
+  'bfo:BFO_0000027': 'ObjectAggregate',
+  'bfo:BFO_0000038': 'OneDimTemporalRegion',
+  'bfo:BFO_0000040': 'MaterialEntity',
+};
+
+/**
+ * Convert a tier2Type IRI to a human-readable label for use in instance IRIs.
+ * Handles BFO opaque IRIs via lookup table, strips namespace prefix for CCO/other types.
+ * @param {string} tier2Type - The type IRI (e.g., 'bfo:BFO_0000001', 'cco:Person')
+ * @returns {string} Human-readable label (e.g., 'Entity', 'Person')
+ */
+function _typeToLabel(tier2Type) {
+  if (BFO_IRI_LABELS[tier2Type]) return BFO_IRI_LABELS[tier2Type];
+  return tier2Type.replace(/^[a-z]+:/, '');
+}
+
+/**
  * Entity type mappings from keywords to CCO types
  * Used to determine the appropriate Tier 2 type
  */
@@ -42,6 +71,10 @@ const TIER2_TYPE_MAPPINGS = {
   'bfo:BFO_0000004': 'bfo:BFO_0000004',  // Independent Continuant (for "it")
   'bfo:BFO_0000027': 'bfo:BFO_0000027',  // Object Aggregate (for plural "they")
   'bfo:BFO_0000001': 'bfo:BFO_0000001',  // Entity (for demonstratives "this/that")
+  // NOTE: bfo:Entity (prefixed form) intentionally NOT mapped here.
+  // When denotesType is bfo:Entity (generic/unclassified), we want keyword
+  // fallback to refine the type (e.g., "doctor" → cco:Person). The default
+  // at the end of _determineTier2Type() already returns bfo:BFO_0000001.
 
   // Information Content Entities (abstract propositional content)
   'cco:InformationContentEntity': 'cco:InformationContentEntity'
@@ -137,7 +170,7 @@ class RealWorldEntityFactory {
 
     for (const referent of referents) {
       // Determine Tier 2 type
-      const tier2Type = this._determineTier2Type(referent);
+      const { type: tier2Type, basis: typeBasis } = this._determineTier2Type(referent);
 
       if (!tier2Type) {
         // Skip if we can't determine a valid Tier 2 type
@@ -147,7 +180,8 @@ class RealWorldEntityFactory {
       // Generate Tier 2 entity
       const tier2Entity = this._createTier2Entity(referent, tier2Type, {
         documentIRI: docIRI,
-        includeProvenance
+        includeProvenance,
+        typeBasis
       });
 
       // Check cache for existing entity with same IRI
@@ -174,13 +208,13 @@ class RealWorldEntityFactory {
    * @returns {Object|null} Tier 2 entity node or null if cannot create
    */
   createFromReferent(referent, options = {}) {
-    const tier2Type = this._determineTier2Type(referent);
+    const { type: tier2Type, basis: typeBasis } = this._determineTier2Type(referent);
 
     if (!tier2Type) {
       return null;
     }
 
-    return this._createTier2Entity(referent, tier2Type, options);
+    return this._createTier2Entity(referent, tier2Type, { ...options, typeBasis });
   }
 
   /**
@@ -210,12 +244,12 @@ class RealWorldEntityFactory {
 
     // Check if it's a process type (pass through as-is)
     if (denotesType && this._isProcessType(denotesType)) {
-      return PROCESS_TYPE_MAPPINGS[denotesType];
+      return { type: PROCESS_TYPE_MAPPINGS[denotesType], basis: 'type-mapping' };
     }
 
     // Check continuant type mappings
     if (denotesType && TIER2_TYPE_MAPPINGS[denotesType]) {
-      return TIER2_TYPE_MAPPINGS[denotesType];
+      return { type: TIER2_TYPE_MAPPINGS[denotesType], basis: 'type-mapping' };
     }
 
     // Fall back to label-based detection using head noun (last content word).
@@ -228,20 +262,20 @@ class RealWorldEntityFactory {
     // Check head noun for person keywords
     for (const keyword of PERSON_KEYWORDS) {
       if (headNoun === keyword) {
-        return 'cco:Person';
+        return { type: 'cco:Person', basis: 'keyword' };
       }
     }
 
     // Check head noun for organization keywords
     for (const keyword of ORG_KEYWORDS) {
       if (headNoun === keyword) {
-        return 'cco:Organization';
+        return { type: 'cco:Organization', basis: 'keyword' };
       }
     }
 
     // Default to bfo:Entity (BFO root) — honest admission of incomplete classification.
     // cco:Artifact was incorrectly specific; bfo:Entity is maximally general and safe.
-    return 'bfo:BFO_0000001';
+    return { type: 'bfo:BFO_0000001', basis: 'default' };
   }
 
   /**
@@ -265,7 +299,6 @@ class RealWorldEntityFactory {
     // §9.5: GEN/UNIV subjects produce owl:Class, not owl:NamedIndividual
     const genericityCategory = referent['tagteam:genericityCategory'];
     const isClassLevel = genericityCategory === 'GEN' || genericityCategory === 'UNIV';
-    const typeLabel = tier2Type.replace('cco:', '');
     const node = {
       '@id': iri,
       '@type': [tier2Type, isClassLevel ? 'owl:Class' : 'owl:NamedIndividual'],
@@ -275,6 +308,19 @@ class RealWorldEntityFactory {
     // Propagate genericity annotations to Tier 2
     if (genericityCategory) {
       node['tagteam:genericityCategory'] = genericityCategory;
+    }
+
+    // Type resolution basis (how the Tier 2 type was determined)
+    if (options.typeBasis) {
+      node['tagteam:typeBasis'] = options.typeBasis;
+    }
+
+    // Class nomination pattern: GEN/UNIV entities signal unresolved class references
+    if (isClassLevel) {
+      node['tagteam:classNominationStatus'] = 'unresolved';
+      node['tagteam:nominatedClassLabel'] = this._canonicalClassLabel(normalizedLabel);
+      node['tagteam:nominationBasis'] = referent['tagteam:genericityBasis'] || 'unknown';
+      node['tagteam:requiresOntologyResolution'] = true;
     }
 
     // Add provenance properties (v2.2)
@@ -334,8 +380,8 @@ class RealWorldEntityFactory {
       .join('_')
       .replace(/[^a-zA-Z0-9_]/g, '');
 
-    // Extract type name without namespace
-    const typeLabel = tier2Type.replace('cco:', '');
+    // Extract type name without namespace (handles both cco: and bfo: prefixes)
+    const typeLabel = _typeToLabel(tier2Type);
 
     return `inst:${typeLabel}_${cleanLabel}_${hashSuffix}`;
   }
@@ -378,6 +424,30 @@ class RealWorldEntityFactory {
     }
 
     return normalized;
+  }
+
+  /**
+   * Create a singular, capitalized canonical class label from a normalized label.
+   * "doctors" → "Doctor", "safety reports" → "Safety Report"
+   * @param {string} label - Normalized label (already lowercased, determiner-stripped)
+   * @returns {string} Canonical class label
+   * @private
+   */
+  _canonicalClassLabel(label) {
+    const words = label.trim().split(/\s+/);
+    if (words.length === 0) return label;
+
+    // Lemmatize the last word (head noun) to singular form
+    const lastWord = words[words.length - 1];
+    if (this.lemmatizer) {
+      const lemma = this.lemmatizer.lemmatize(lastWord, 'NNS').lemma;
+      words[words.length - 1] = lemma;
+    }
+
+    // Capitalize each word
+    return words
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' ');
   }
 
   /**

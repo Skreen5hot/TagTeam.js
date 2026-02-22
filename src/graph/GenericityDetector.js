@@ -234,11 +234,11 @@ class GenericityDetector {
     // Known named entities are always INST regardless of POS tag.
     // This neutralizes POS tagger errors (e.g., CBP tagged NN instead of NNP).
     if (this._isKnownEntity(headId, entity, depTree)) {
-      return { category: 'INST', confidence: 0.95 };
+      return { category: 'INST', confidence: 0.95, basis: 'named_entity' };
     }
 
     // Step 1: Determiner signal
-    const detSignal = this._getDeterminerSignal(headId, depTree, tags);
+    const { signal: detSignal, basis: detBasis } = this._getDeterminerSignal(headId, depTree, tags);
 
     // Step 2: Tense/aspect/modal signal
     const verbInfo = this._getGoverningVerb(headId, depTree);
@@ -248,7 +248,7 @@ class GenericityDetector {
     const predicateSignal = this._getPredicateSignal(verbInfo, depTree, tags);
 
     // Step 4: Decision logic
-    return this._decide(detSignal, tenseSignal, predicateSignal, headId, depTree, tags, registerHint, isModal);
+    return this._decide(detSignal, tenseSignal, predicateSignal, headId, depTree, tags, registerHint, isModal, detBasis);
   }
 
   /**
@@ -264,10 +264,10 @@ class GenericityDetector {
       const headTag = tags[headId - 1];
 
       if (headTag === 'NNS' || headTag === 'NNPS') {
-        return 'GEN'; // bare plural
+        return { signal: 'GEN', basis: 'bare_plural' };
       }
       if (headTag === 'NNP') {
-        return 'INST'; // proper noun
+        return { signal: 'INST', basis: 'proper_noun' };
       }
       if (headTag === 'NN') {
         const headWord = depTree.tokens[headId - 1].toLowerCase();
@@ -275,16 +275,18 @@ class GenericityDetector {
           ? this.lemmatizer.lemmatize(headWord, headTag).lemma
           : headWord;
         if (MASS_NOUNS.has(lemma)) {
-          return 'GEN'; // bare mass noun
+          return { signal: 'GEN', basis: 'mass_noun' };
         }
-        return 'AMB'; // bare count noun (possibly det-dropped)
+        return { signal: 'AMB', basis: null }; // bare count noun (possibly det-dropped)
       }
-      return 'AMB';
+      return { signal: 'AMB', basis: null };
     }
 
     // Has determiner — look it up
     const detWord = detChild.word.toLowerCase();
-    return DET_TO_GENERICITY[detWord] || 'AMB';
+    const detCategory = DET_TO_GENERICITY[detWord] || 'AMB';
+    const detBasis = detCategory === 'UNIV' ? 'universal_quantifier' : null;
+    return { signal: detCategory, basis: detBasis };
   }
 
   /**
@@ -385,7 +387,7 @@ class GenericityDetector {
    * Decision logic from §9.5.4.
    * @private
    */
-  _decide(detSignal, tenseSignal, predicateSignal, headId, depTree, tags, registerHint, isModal) {
+  _decide(detSignal, tenseSignal, predicateSignal, headId, depTree, tags, registerHint, isModal, detBasis) {
     // Strong GEN or UNIV from determiner
     if (detSignal === 'GEN' || detSignal === 'UNIV') {
       let confidence = 0.9;
@@ -398,7 +400,7 @@ class GenericityDetector {
       if (detSignal === 'GEN' && predicateSignal === 'GEN_SUPPORT') {
         confidence = 0.95; // Bare plural + stative/copular = very high
       }
-      return { category: detSignal, confidence };
+      return { category: detSignal, confidence, basis: detBasis };
     }
 
     // Strong INST from determiner
@@ -420,6 +422,7 @@ class GenericityDetector {
           return {
             category: 'AMB',
             confidence: 0.6,
+            basis: 'institutional_the',
             alternative: { category: 'GEN', confidence: 0.4 }
           };
         }
@@ -431,11 +434,12 @@ class GenericityDetector {
         return {
           category: 'INST',
           confidence: 0.75,
+          basis: detBasis,
           alternative: { category: 'GEN', confidence: 0.25 }
         };
       }
 
-      return { category: 'INST', confidence };
+      return { category: 'INST', confidence, basis: detBasis };
     }
 
     // Step 5: Resolve AMB using tense + predicate type
@@ -460,16 +464,20 @@ class GenericityDetector {
       instSupport -= 1; // Modal hedging undermines instance reading
     }
 
+    // Determine basis for AMB-resolved decisions
+    const resolvedBasis = (isModal && tenseSignal === 'GEN_SUPPORT') ? 'deontic_modal' : detBasis;
+
     if (genSupport >= 2) {
-      return { category: 'GEN', confidence: 0.75 };
+      return { category: 'GEN', confidence: 0.75, basis: resolvedBasis };
     }
     if (genSupport === 1 && instSupport === 0) {
-      return { category: 'GEN', confidence: 0.65 };
+      return { category: 'GEN', confidence: 0.65, basis: resolvedBasis };
     }
     if (instSupport >= 2) {
       return {
         category: 'INST',
         confidence: 0.75,
+        basis: detBasis,
         alternative: { category: 'GEN', confidence: 0.25 }
       };
     }
@@ -477,6 +485,7 @@ class GenericityDetector {
       return {
         category: 'INST',
         confidence: 0.65,
+        basis: detBasis,
         alternative: { category: 'GEN', confidence: 0.35 }
       };
     }
@@ -485,6 +494,7 @@ class GenericityDetector {
     return {
       category: 'AMB',
       confidence: 0.5,
+      basis: detBasis,
       alternative: { category: 'GEN', confidence: 0.5 }
     };
   }
