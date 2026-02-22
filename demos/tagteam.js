@@ -325877,12 +325877,12 @@ function normalizeUnicode(text) {
 // =============================================================================
 
 const UD_TO_BFO_ROLE = Object.freeze({
-  'nsubj':      Object.freeze({ role: 'Role', label: 'AgentRole',     bfo: 'Role', note: 'Active voice subject' }),
-  'obj':        Object.freeze({ role: 'Role', label: 'PatientRole',   bfo: 'Role', note: 'Direct object' }),
-  'iobj':       Object.freeze({ role: 'Role', label: 'RecipientRole', bfo: 'Role', note: 'Indirect object' }),
-  'nsubj:pass': Object.freeze({ role: 'Role', label: 'PatientRole',   bfo: 'Role', note: 'Passive subject = patient' }),
-  'obl:agent':  Object.freeze({ role: 'Role', label: 'AgentRole',     bfo: 'Role', note: 'Passive "by" phrase = agent' }),
-  'obl':        Object.freeze({ role: 'Role', label: 'ObliqueRole',   bfo: 'Role', note: 'Subtyped by case child' }),
+  'nsubj':      Object.freeze({ role: 'Role', label: 'AgentRole',     bfo: 'bfo:BFO_0000023', note: 'Active voice subject' }),
+  'obj':        Object.freeze({ role: 'Role', label: 'PatientRole',   bfo: 'bfo:BFO_0000023', note: 'Direct object' }),
+  'iobj':       Object.freeze({ role: 'Role', label: 'RecipientRole', bfo: 'bfo:BFO_0000023', note: 'Indirect object' }),
+  'nsubj:pass': Object.freeze({ role: 'Role', label: 'PatientRole',   bfo: 'bfo:BFO_0000023', note: 'Passive subject = patient' }),
+  'obl:agent':  Object.freeze({ role: 'Role', label: 'AgentRole',     bfo: 'bfo:BFO_0000023', note: 'Passive "by" phrase = agent' }),
+  'obl':        Object.freeze({ role: 'Role', label: 'ObliqueRole',   bfo: 'bfo:BFO_0000023', note: 'Subtyped by case child' }),
 });
 
 // =============================================================================
@@ -326368,6 +326368,47 @@ const ENTITY_BEARING_LABELS = new Set([
 ]);
 
 /**
+ * Head-noun → ontological type mappings for common nouns.
+ * Mirrors EntityExtractor.ENTITY_TYPE_MAPPINGS for the tree pipeline.
+ * Enables correct Tier 2 typing without gazetteer dependency.
+ */
+const HEAD_NOUN_TYPE_MAP = {
+  // Persons (medical + professional + general)
+  'doctor': 'Person', 'physician': 'Person', 'surgeon': 'Person',
+  'nurse': 'Person', 'patient': 'Person', 'therapist': 'Person',
+  'pharmacist': 'Person', 'paramedic': 'Person', 'caregiver': 'Person',
+  'person': 'Person', 'man': 'Person', 'woman': 'Person',
+  'child': 'Person', 'parent': 'Person', 'mother': 'Person', 'father': 'Person',
+  'engineer': 'Person', 'teacher': 'Person', 'lawyer': 'Person',
+  'scientist': 'Person', 'researcher': 'Person', 'analyst': 'Person',
+  'manager': 'Person', 'director': 'Person', 'officer': 'Person',
+  'agent': 'Person', 'inspector': 'Person', 'technician': 'Person',
+  'programmer': 'Person', 'developer': 'Person', 'designer': 'Person',
+  'consultant': 'Person', 'administrator': 'Person', 'admin': 'Person',
+  'supervisor': 'Person', 'specialist': 'Person', 'professor': 'Person',
+  'student': 'Person', 'worker': 'Person', 'employee': 'Person',
+  'member': 'Person', 'user': 'Person', 'client': 'Person',
+  'customer': 'Person', 'owner': 'Person', 'author': 'Person',
+  'judge': 'Person', 'witness': 'Person', 'suspect': 'Person',
+  'victim': 'Person', 'soldier': 'Person', 'pilot': 'Person',
+  'driver': 'Person', 'chef': 'Person', 'artist': 'Person',
+  'guard': 'Person', 'family': 'Agent',
+  // Artifacts
+  'ventilator': 'Artifact', 'medication': 'Artifact', 'drug': 'Artifact',
+  'medicine': 'Artifact', 'equipment': 'Artifact', 'server': 'Artifact',
+  'database': 'Artifact', 'system': 'Artifact', 'application': 'Artifact',
+  // ICE
+  'alert': 'InformationContentEntity', 'log': 'InformationContentEntity',
+  'credential': 'InformationContentEntity', 'data': 'InformationContentEntity',
+  // Facilities
+  'datacenter': 'Facility', 'facility': 'Facility', 'building': 'Facility',
+  'office': 'Facility',
+  // Organizations
+  'hospital': 'Organization', 'department': 'Organization',
+  'agency': 'Organization', 'company': 'Organization', 'team': 'Organization',
+};
+
+/**
  * POS tags that indicate a proper noun (relevant for coordination split).
  */
 const PROPER_NOUN_TAGS = new Set(['NNP', 'NNPS']);
@@ -326745,6 +326786,12 @@ class TreeEntityExtractor {
       // Try head word only
       const headLookup = this.gazetteerNER.lookup(headWord);
       if (headLookup) return headLookup.type;
+    }
+
+    // Head-noun type lookup (common nouns)
+    const headLower = (headWord || '').toLowerCase();
+    if (HEAD_NOUN_TYPE_MAP[headLower]) {
+      return HEAD_NOUN_TYPE_MAP[headLower];
     }
 
     // POS tag heuristics
@@ -327838,7 +327885,7 @@ if (typeof module !== 'undefined' && module.exports) {
  * - options.preserveAmbiguity enables lattice generation
  *
  * @module graph/SemanticGraphBuilder
- * @version 3.0.0-alpha.1
+ * @version 3.0.0
  */
 
 // Core infrastructure modules
@@ -327989,7 +328036,7 @@ class SemanticGraphBuilder {
     // Core infrastructure
     this.contextManager = new ContextManager({ graphBuilder: this });
     this.informationStaircaseBuilder = new InformationStaircaseBuilder({
-      version: '3.0.0-alpha.1'
+      version: '3.0.0'
     });
 
     // Phase 2: Domain configuration loader for type specialization
@@ -328646,7 +328693,7 @@ class SemanticGraphBuilder {
         buildTimestamp: this.buildTimestamp,
         inputLength: text.length,
         nodeCount: this.nodes.length,
-        version: '3.0.0-alpha.1',
+        version: '3.0.0',
         contextIRI,
         ibeIRI: ibeNode['@id'],
         parserAgentIRI: parserAgentNode['@id'],
@@ -330238,8 +330285,8 @@ class SemanticGraphBuilder {
     /**
      * Version information
      */
-    version: '3.0.0-alpha.1',
-    BUILD: 'build 216 | 1724fde | 2026-02-22T14:55:14.625Z',
+    version: '3.0.0',
+    BUILD: 'build 221 | c97229b | 2026-02-22T19:50:31.722Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
