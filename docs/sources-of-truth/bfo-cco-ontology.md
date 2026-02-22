@@ -317,7 +317,7 @@ BFO:0000001 Entity
       "type": "cco:IntentionalAct",
       "verb": "design",
       "properties": {
-        "cco:has_agent": "entity_server_123"
+        "has_agent": "entity_server_123"
       }
     },
     "entities": [

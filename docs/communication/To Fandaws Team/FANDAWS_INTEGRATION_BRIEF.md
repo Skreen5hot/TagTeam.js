@@ -261,7 +261,7 @@ For passive sentences, the syntactic subject is the semantic patient:
 
 ### Q8: Entity Granularity
 
-TagTeam.js extracts entities with ontological types (cco:Person, cco:Organization, bfo:Quality, etc.) and a Two-Tier ICE architecture (discourse referents + ontological classifications).
+TagTeam.js extracts entities with ontological types (Person, Organization, Quality, etc.) and a Two-Tier ICE architecture (discourse referents + ontological classifications).
 
 The ParseResult schema expects simple strings for subject/object.
 

@@ -284,29 +284,29 @@ For the sentence *"The doctor must allocate the last ventilator"*:
       "@id": "inst:DiscourseReferent_doctor_a8f3",
       "@type": ["tagteam:DiscourseReferent", "owl:NamedIndividual"],
       "rdfs:label": "the doctor",
-      "tagteam:denotesType": "cco:Person",
+      "tagteam:denotesType": "Person",
       "tagteam:definiteness": "definite",
-      "cco:is_about": { "@id": "inst:Person_Doctor_f2a9" }
+      "is_about": { "@id": "inst:Person_Doctor_f2a9" }
     },
     {
       "@id": "inst:Person_Doctor_f2a9",
-      "@type": ["cco:Person", "owl:NamedIndividual"],
+      "@type": ["Person", "owl:NamedIndividual"],
       "rdfs:label": "Doctor"
     },
     {
       "@id": "inst:Act_allocate_b3c7",
-      "@type": ["cco:IntentionalAct", "bfo:BFO_0000015", "owl:NamedIndividual"],
+      "@type": ["IntentionalAct", "owl:NamedIndividual"],
       "rdfs:label": "allocate",
       "tagteam:verb": "allocate",
       "tagteam:actualityStatus": { "@id": "tagteam:Prescribed" },
-      "cco:has_agent": { "@id": "inst:Person_Doctor_f2a9" },
+      "has_agent": { "@id": "inst:Person_Doctor_f2a9" },
       "tagteam:modality": "must"
     },
     {
       "@id": "inst:AgentRole_doctor_d4e1",
-      "@type": ["bfo:BFO_0000023", "bfo:Role", "owl:NamedIndividual"],
+      "@type": ["Role", "owl:NamedIndividual"],
       "rdfs:label": "AgentRole",
-      "bfo:BFO_0000052": { "@id": "inst:Person_Doctor_f2a9" },
+      "inheres_in": { "@id": "inst:Person_Doctor_f2a9" },
       "tagteam:would_be_realized_in": { "@id": "inst:Act_allocate_b3c7" }
     }
   ]

@@ -411,8 +411,8 @@ Classification: `{ category: 'INST', confidence: 0.9 }`
 ```json
 {
   "@id": "inst:those_dogs",
-  "@type": ["tagteam:DiscourseReferent", "bfo:Entity"],
-  "cco:is_about": { "@id": "inst:Dog_instance_abc123" },
+  "@type": ["tagteam:DiscourseReferent", "Entity"],
+  "is_about": { "@id": "inst:Dog_instance_abc123" },
   "tagteam:genericityCategory": "INST",
   "tagteam:confidence": 0.9
 }
@@ -461,8 +461,8 @@ Classification: `{ category: 'INST', confidence: 0.65, alternative: { category: 
 ```json
 {
   "@id": "inst:a_dog",
-  "@type": ["tagteam:DiscourseReferent", "bfo:Entity"],
-  "cco:is_about": { "@id": "inst:Dog_instance_def456" },
+  "@type": ["tagteam:DiscourseReferent", "Entity"],
+  "is_about": { "@id": "inst:Dog_instance_def456" },
   "tagteam:genericityCategory": "INST",
   "tagteam:confidence": 0.65,
   "tagteam:genericityAlternative": {

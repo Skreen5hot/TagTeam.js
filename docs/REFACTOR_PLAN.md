@@ -579,25 +579,25 @@ The mapping from UD dependency labels to BFO/CCO roles becomes a clean lookup ta
 
 ```javascript
 const DEP_TO_BFO_ROLE = {
-  // Post-cleanup: all roles are bfo:Role (BFO_0000023) with rdfs:label for distinction
-  'nsubj':     { role: 'bfo:Role', label: 'AgentRole',     bfo: 'bfo:BFO_0000023' },
-  'dobj':      { role: 'bfo:Role', label: 'PatientRole',   bfo: 'bfo:BFO_0000023' },
-  'obj':       { role: 'bfo:Role', label: 'PatientRole',   bfo: 'bfo:BFO_0000023' },
-  'iobj':      { role: 'bfo:Role', label: 'RecipientRole', bfo: 'bfo:BFO_0000023' },
-  'nsubjpass': { role: 'bfo:Role', label: 'PatientRole',   bfo: 'bfo:BFO_0000023' },
-  'obl':       { role: 'bfo:Role', label: 'ObliqueRole',   bfo: 'bfo:BFO_0000023' },  // Subtyped by prep
+  // Post-cleanup: all roles are Role (BFO_0000023) with rdfs:label for distinction
+  'nsubj':     { role: 'Role', label: 'AgentRole',     bfo: 'bfo:BFO_0000023' },
+  'dobj':      { role: 'Role', label: 'PatientRole',   bfo: 'bfo:BFO_0000023' },
+  'obj':       { role: 'Role', label: 'PatientRole',   bfo: 'bfo:BFO_0000023' },
+  'iobj':      { role: 'Role', label: 'RecipientRole', bfo: 'bfo:BFO_0000023' },
+  'nsubjpass': { role: 'Role', label: 'PatientRole',   bfo: 'bfo:BFO_0000023' },
+  'obl':       { role: 'Role', label: 'ObliqueRole',   bfo: 'bfo:BFO_0000023' },  // Subtyped by prep
 };
 
-// Oblique subtypes by preposition (all bfo:Role with rdfs:label)
+// Oblique subtypes by preposition (all Role with rdfs:label)
 const PREP_TO_ROLE = {
-  'for':   { role: 'bfo:Role', label: 'BeneficiaryRole' },
-  'with':  { role: 'bfo:Role', label: 'InstrumentRole' },
-  'at':    { role: 'bfo:Role', label: 'LocationRole' },
-  'in':    { role: 'bfo:Role', label: 'LocationRole' },
-  'on':    { role: 'bfo:Role', label: 'LocationRole' },
-  'from':  { role: 'bfo:Role', label: 'SourceRole' },
-  'to':    { role: 'bfo:Role', label: 'DestinationRole' },
-  'by':    { role: 'bfo:Role', label: 'AgentRole' },         // Passive agent
+  'for':   { role: 'Role', label: 'BeneficiaryRole' },
+  'with':  { role: 'Role', label: 'InstrumentRole' },
+  'at':    { role: 'Role', label: 'LocationRole' },
+  'in':    { role: 'Role', label: 'LocationRole' },
+  'on':    { role: 'Role', label: 'LocationRole' },
+  'from':  { role: 'Role', label: 'SourceRole' },
+  'to':    { role: 'Role', label: 'DestinationRole' },
+  'by':    { role: 'Role', label: 'AgentRole' },         // Passive agent
 };
 ```
 

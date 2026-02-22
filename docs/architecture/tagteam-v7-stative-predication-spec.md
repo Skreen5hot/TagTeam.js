@@ -978,8 +978,8 @@ oers_integration:
     "classifier_confidence": 0.98,
     "ner_strategy": "GREEDY",
     "morphological_overrides": [
-      {"word": "Settlement", "suppressed_type": "bfo:Process", "actual_type": "nameComponent"},
-      {"word": "Development", "suppressed_type": "bfo:Process", "actual_type": "nameComponent"}
+      {"word": "Settlement", "suppressed_type": "Process", "actual_type": "nameComponent"},
+      {"word": "Development", "suppressed_type": "Process", "actual_type": "nameComponent"}
     ],
     "all_caps_handled": ["HIV", "AIDS", "OECD", "ICSID"],
     "warnings": []
@@ -1050,7 +1050,7 @@ oers_integration:
 **Input A** (Process):
 > "The settlement of the lawsuit took three months."
 
-**Expected**: `settlement` → `bfo:Process`
+**Expected**: `settlement` → `Process`
 
 **Input B** (Name Component):
 > "The President visited the Centre for Settlement of Investment Disputes."
@@ -1063,10 +1063,10 @@ oers_integration:
   
   "input_a": {
     "text": "The settlement of the lawsuit took three months.",
-    "expected_type_for_settlement": "bfo:Process",
+    "expected_type_for_settlement": "Process",
     "mode": "NARRATIVE"
   },
-  
+
   "input_b": {
     "text": "The President visited the Centre for Settlement of Investment Disputes.",
     "expected_type_for_settlement": "nameComponent",

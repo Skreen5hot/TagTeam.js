@@ -79,18 +79,18 @@ Every JSON-LD output contains:
 - `tagteam:ContextAssessmentEvent` - Context dimension scores
 
 **Tier 2 (IC Layer - Real-World Entities)**
-- `cco:Person` - Human individuals
-- `cco:Artifact` - Physical objects
-- `cco:Organization` - Groups/institutions
+- `Person` - Human individuals
+- `Artifact` - Physical objects
+- `Organization` - Groups/institutions
 - `bfo:BFO_0000027` - Object Aggregates (e.g., "two patients")
 
 **Acts**
-- `cco:IntentionalAct` - Actions with agents and affected parties
-- Links: `cco:has_agent`, `cco:affects`, `bfo:has_participant`
+- `IntentionalAct` - Actions with agents and affected parties
+- Links: `has_agent`, `affects`, `has_participant`
 
 **Roles**
-- `bfo:Role` (rdfs:label: "AgentRole") - Entity performing an act
-- `bfo:Role` (rdfs:label: "PatientRole") - Entity receiving care (persons only)
+- `Role` (rdfs:label: "AgentRole") - Entity performing an act
+- `Role` (rdfs:label: "PatientRole") - Entity receiving care (persons only)
 - `bfo:BFO_0000023` - Generic BFO Role
 
 ---
@@ -171,7 +171,7 @@ budget.checkTextLength(text);
 
 // Add nodes
 budget.addNode('tagteam:DiscourseReferent');
-budget.addNode('cco:IntentionalAct');
+budget.addNode('IntentionalAct');
 
 // Check usage
 const usage = budget.getUsage();

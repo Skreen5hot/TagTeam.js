@@ -71,10 +71,10 @@ TagTeam.js v1 is a **deterministic semantic intake compiler**. It transforms nat
 const WH_PSEUDO_ENTITIES = {
   'who':   { type: 'cco:Person', definiteness: 'interrogative' },
   'whom':  { type: 'cco:Person', definiteness: 'interrogative' },
-  'what':  { type: 'bfo:Entity', definiteness: 'interrogative' },
-  'which': { type: 'bfo:Entity', definiteness: 'interrogative_selective' },
-  'where': { type: 'bfo:Site', definiteness: 'interrogative' },
-  'when':  { type: 'bfo:TemporalRegion', definiteness: 'interrogative' }
+  'what':  { type: 'Entity', definiteness: 'interrogative' },
+  'which': { type: 'Entity', definiteness: 'interrogative_selective' },
+  'where': { type: 'Site', definiteness: 'interrogative' },
+  'when':  { type: 'TemporalRegion', definiteness: 'interrogative' }
 };
 ```
 
@@ -170,10 +170,10 @@ const WH_PSEUDO_ENTITIES = {
 │                                                                              │
 │  {                                                                           │
 │    "@type": "tagteam:Inquiry",                                               │
-│    "cco:is_about": {                                                         │
-│      "@type": "cco:IntentionalAct",                                          │
-│      "cco:has_agent": { "@id": "inst:Auditor_001" },                         │
-│      "cco:affects": { "@id": "inst:Report_001", "tagteam:isQuestionFocus": true }
+│    "is_about": {                                                             │
+│      "@type": "IntentionalAct",                                              │
+│      "has_agent": { "@id": "inst:Auditor_001" },                             │
+│      "affects": { "@id": "inst:Report_001", "tagteam:isQuestionFocus": true }
 │    }                                                                         │
 │  }                                                                           │
 └─────────────────────────────────────────────────────────────────────────────┘
@@ -345,15 +345,15 @@ Clause 2:  "[The server] was verified by the administrator"
   "@graph": [
     {
       "@id": "inst:Reboot_Act_001",
-      "@type": "cco:IntentionalAct",
-      "cco:affects": { "@id": "inst:Server_001" },
+      "@type": "IntentionalAct",
+      "affects": { "@id": "inst:Server_001" },
       "tagteam:clauseIndex": 0
     },
     {
       "@id": "inst:Verify_Act_002",
-      "@type": "cco:IntentionalAct",
-      "cco:has_agent": { "@id": "inst:Administrator_001" },
-      "cco:affects": { "@id": "inst:Server_001" },
+      "@type": "IntentionalAct",
+      "has_agent": { "@id": "inst:Administrator_001" },
+      "affects": { "@id": "inst:Server_001" },
       "tagteam:clauseIndex": 1,
       "tagteam:subjectSource": "ellipsis_injection"
     },
@@ -542,7 +542,7 @@ Clause 2:  "[The server] was verified by the administrator"
 {
   "@type": "cco:MentalProcess",
   "@id": "inst:Worry_Process_001",
-  "cco:has_agent": { "@id": "inst:Administrator_001" },
+  "has_agent": { "@id": "inst:Administrator_001" },
   "tagteam:has_cause": { "@id": "inst:Failure_001" },
   "tagteam:verbClass": "psych_verb"
 }

@@ -1184,7 +1184,7 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
                 });
             });
             var roles = nodes.filter(function(n) {
-                return n['@type'] && n['@type'].indexOf('bfo:BFO_0000023') !== -1;
+                return n['@type'] && (n['@type'].indexOf('Role') !== -1 || n['@type'].indexOf('bfo:BFO_0000023') !== -1);
             });
 
             var html = '';
@@ -1203,7 +1203,7 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
                 tier1.forEach(function(r) {
                     var extras = '';
                     if (r['tagteam:is_scarce']) extras += ' <strong style="color: #dc2626;">SCARCE</strong>';
-                    var aboutStr = strId(r['cco:is_about']);
+                    var aboutStr = strId(r['is_about']);
                     var isAbout = aboutStr ? ' &rarr; <em style="color: #059669;">' + aboutStr.split('_').slice(0,2).join('_') + '</em>' : '';
                     html += '<div class="entity-item"><strong>' + r['rdfs:label'] + '</strong>' + isAbout + extras + '</div>';
                 });
@@ -1215,7 +1215,7 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
                 tier2.forEach(function(e) {
                     var entityType = 'Entity';
                     for (var i = 0; i < e['@type'].length; i++) {
-                        if (e['@type'][i].indexOf('cco:') === 0) { entityType = e['@type'][i]; break; }
+                        if (e['@type'][i] !== 'owl:NamedIndividual' && e['@type'][i] !== 'Entity') { entityType = e['@type'][i]; break; }
                     }
                     html += '<div class="entity-item" style="border-left-color: #059669;"><strong>' + e['rdfs:label'] + '</strong> (' + entityType + ')</div>';
                 });
@@ -1227,12 +1227,12 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
                 acts.forEach(function(a) {
                     var actType = 'IntentionalAct';
                     for (var i = 0; i < a['@type'].length; i++) {
-                        if (a['@type'][i].indexOf('cco:') !== -1) { actType = a['@type'][i]; break; }
+                        if (a['@type'][i] !== 'owl:NamedIndividual' && a['@type'][i].indexOf('Act') !== -1) { actType = a['@type'][i]; break; }
                     }
                     var modality = a['tagteam:modality'] ? ' <em>[' + a['tagteam:modality'] + ']</em>' : '';
                     var statusStr = strId(a['tagteam:actualityStatus']);
                     var status = statusStr ? ' <span style="background: #8b5cf6; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em;">' + statusStr.replace('tagteam:', '') + '</span>' : '';
-                    var agentStr = strId(a['cco:has_agent']);
+                    var agentStr = strId(a['has_agent']);
                     var agent = agentStr ? ' <span style="color: #059669; font-size: 0.9em;">agent: ' + agentStr.split('_').slice(1,2).join('') + '</span>' : '';
                     var verbLabel = a['tagteam:verb'] || a['tagteam:lemma'] || a['rdfs:label'] || 'Act';
                     html += '<div class="act-item"><strong>' + verbLabel + '</strong> (' + actType + ')' + modality + status + agent + '</div>';
@@ -1372,8 +1372,8 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
                         html += ' <span style="background: #8b5cf6; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em;">' + statusStr2.replace('tagteam:', '') + '</span>';
                     }
 
-                    var agentId = strId(a['cco:has_agent']);
-                    var patientId = strId(a['cco:affects']);
+                    var agentId = strId(a['has_agent']);
+                    var patientId = strId(a['affects']);
                     if (agentId) html += '<br><span style="color: #059669; font-size: 0.9em;">Agent: ' + agentId.split('_').slice(0, 2).join(' ') + '</span>';
                     if (patientId) html += '<br><span style="color: #b45309; font-size: 0.9em;">Patient: ' + patientId.split('_').slice(0, 2).join(' ') + '</span>';
 
@@ -1407,19 +1407,19 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
                     '@prefix bfo: <http://purl.obolibrary.org/obo/> .',
                     '@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .',
                     '',
-                    'med:CardiovascularDisease a bfo:0000016 ;',
+                    'med:CardiovascularDisease a bfo:BFO_0000016 ;',
                     '    rdfs:label "Cardiovascular Disease" ;',
                     '    med:indicators "chest pain, shortness of breath, heart attack, stroke, hypertension" .',
                     '',
-                    'med:RespiratoryInfection a bfo:0000016 ;',
+                    'med:RespiratoryInfection a bfo:BFO_0000016 ;',
                     '    rdfs:label "Respiratory Infection" ;',
                     '    med:indicators "cough, fever, congestion, pneumonia, bronchitis" .',
                     '',
-                    'med:Diabetes a bfo:0000016 ;',
+                    'med:Diabetes a bfo:BFO_0000016 ;',
                     '    rdfs:label "Diabetes" ;',
                     '    med:indicators "blood sugar, insulin, glucose, thirst, fatigue" .',
                     '',
-                    'med:MentalHealth a bfo:0000016 ;',
+                    'med:MentalHealth a bfo:BFO_0000016 ;',
                     '    rdfs:label "Mental Health Disorder" ;',
                     '    med:indicators "anxiety, depression, insomnia, mood changes, panic" .'
                 ].join('\n'),

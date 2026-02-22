@@ -85,9 +85,9 @@ Three deliverables:
 | Test ID | Test | Assertion |
 |---------|------|-----------|
 | P0-WH-1 | Build `"the auditor review which report"` (pre-normalized) | "which report" extracted as entity with `definiteness: "interrogative_selective"` |
-| P0-WH-2 | Build `"who approved the budget"` (pre-normalized) | "who" extracted as `cco:Person` entity with `definiteness: "interrogative"` |
-| P0-WH-3 | Build `"the committee decide what"` (pre-normalized) | "what" extracted as `bfo:Entity` with `definiteness: "interrogative"` |
-| P0-WH-4 | Wh pseudo-entity type mapping | `who`/`whom` → `cco:Person`, `what` → `bfo:Entity`, `which` → `bfo:Entity`, `where` → `bfo:Site`, `when` → `bfo:TemporalRegion` |
+| P0-WH-2 | Build `"who approved the budget"` (pre-normalized) | "who" extracted as `Person` entity with `definiteness: "interrogative"` |
+| P0-WH-3 | Build `"the committee decide what"` (pre-normalized) | "what" extracted as `Entity` with `definiteness: "interrogative"` |
+| P0-WH-4 | Wh pseudo-entity type mapping | `who`/`whom` → `Person`, `what` → `Entity`, `which` → `Entity`, `where` → `Site`, `when` → `TemporalRegion` |
 
 **v2 config passthrough:**
 
@@ -549,7 +549,7 @@ A `StructuralNormalizer.js` that rewrites Wh-questions and expletive-subject con
 {
   "@type": "cco:MentalProcess",
   "@id": "inst:Worry_Process_001",
-  "cco:has_agent": { "@id": "inst:Administrator_001" },
+  "has_agent": { "@id": "inst:Administrator_001" },
   "tagteam:has_cause": { "@id": "inst:Failure_001" },
   "tagteam:verbClass": "psych_verb"
 }

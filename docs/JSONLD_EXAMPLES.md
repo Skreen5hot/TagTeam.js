@@ -28,56 +28,56 @@ The doctor treats the patient.
       "@id": "inst:Doctor_Referent_a8f3b2cd",
       "@type": ["tagteam:DiscourseReferent", "owl:NamedIndividual"],
       "rdfs:label": "the doctor",
-      "tagteam:denotesType": "cco:Person",
+      "tagteam:denotesType": "Person",
       "tagteam:definiteness": "definite",
       "tagteam:referentialStatus": "presupposed",
       "tagteam:extracted_from_span": "The doctor",
       "tagteam:span_offset": [0, 10],
-      "cco:is_about": "inst:Doctor_Person_a8f3b2cd"
+      "is_about": "inst:Doctor_Person_a8f3b2cd"
     },
     {
       "@id": "inst:Doctor_Person_a8f3b2cd",
-      "@type": ["cco:Person", "owl:NamedIndividual"],
+      "@type": ["Person", "owl:NamedIndividual"],
       "rdfs:label": "doctor (Person)"
     },
     {
       "@id": "inst:Patient_Referent_b9e2c3df",
       "@type": ["tagteam:DiscourseReferent", "owl:NamedIndividual"],
       "rdfs:label": "the patient",
-      "tagteam:denotesType": "cco:Person",
+      "tagteam:denotesType": "Person",
       "tagteam:definiteness": "definite",
       "tagteam:referentialStatus": "presupposed",
-      "cco:is_about": "inst:Patient_Person_b9e2c3df"
+      "is_about": "inst:Patient_Person_b9e2c3df"
     },
     {
       "@id": "inst:Patient_Person_b9e2c3df",
-      "@type": ["cco:Person", "owl:NamedIndividual"],
+      "@type": ["Person", "owl:NamedIndividual"],
       "rdfs:label": "patient (Person)"
     },
     {
       "@id": "inst:Treat_IntentionalAct_c4d1e5fg",
-      "@type": ["cco:IntentionalAct", "owl:NamedIndividual"],
+      "@type": ["IntentionalAct", "owl:NamedIndividual"],
       "rdfs:label": "treats",
       "tagteam:verb": "treats",
       "tagteam:lemma": "treat",
       "tagteam:tense": "present",
       "tagteam:actualityStatus": "tagteam:Actual",
-      "cco:has_agent": "inst:Doctor_Person_a8f3b2cd",
-      "cco:affects": "inst:Patient_Person_b9e2c3df"
+      "has_agent": "inst:Doctor_Person_a8f3b2cd",
+      "affects": "inst:Patient_Person_b9e2c3df"
     },
     {
       "@id": "inst:Agent_Role_d5e2f6gh",
-      "@type": ["bfo:Role", "bfo:BFO_0000023", "owl:NamedIndividual"],
+      "@type": ["Role", "bfo:BFO_0000023", "owl:NamedIndividual"],
       "rdfs:label": "AgentRole",
-      "bfo:inheres_in": "inst:Doctor_Person_a8f3b2cd",
-      "bfo:realized_in": "inst:Treat_IntentionalAct_c4d1e5fg"
+      "inheres_in": "inst:Doctor_Person_a8f3b2cd",
+      "realized_in": "inst:Treat_IntentionalAct_c4d1e5fg"
     },
     {
       "@id": "inst:Patient_Role_e6f3g7hi",
-      "@type": ["bfo:Role", "bfo:BFO_0000023", "owl:NamedIndividual"],
+      "@type": ["Role", "bfo:BFO_0000023", "owl:NamedIndividual"],
       "rdfs:label": "PatientRole",
-      "bfo:inheres_in": "inst:Patient_Person_b9e2c3df",
-      "bfo:realized_in": "inst:Treat_IntentionalAct_c4d1e5fg"
+      "inheres_in": "inst:Patient_Person_b9e2c3df",
+      "realized_in": "inst:Treat_IntentionalAct_c4d1e5fg"
     }
   ]
 }
@@ -85,8 +85,8 @@ The doctor treats the patient.
 
 ### Key Points
 
-- **Two-Tier Architecture**: `DiscourseReferent` (Tier 1) links to `cco:Person` (Tier 2) via `cco:is_about`
-- **Roles**: `bfo:Role` with `rdfs:label` "AgentRole"/"PatientRole" link bearers to acts
+- **Two-Tier Architecture**: `DiscourseReferent` (Tier 1) links to `Person` (Tier 2) via `is_about`
+- **Roles**: `Role` with `rdfs:label` "AgentRole"/"PatientRole" link bearers to acts
 - **`owl:NamedIndividual`**: All instances include this type
 
 ---
@@ -108,15 +108,15 @@ The doctor must allocate the last ventilator between two critically ill patients
       "@id": "inst:Doctor_Referent_0469b924",
       "@type": ["tagteam:DiscourseReferent", "owl:NamedIndividual"],
       "rdfs:label": "the doctor",
-      "tagteam:denotesType": "cco:Person",
+      "tagteam:denotesType": "Person",
       "tagteam:definiteness": "definite",
-      "cco:is_about": "inst:Doctor_Person_0469b924"
+      "is_about": "inst:Doctor_Person_0469b924"
     },
 
     // Tier 2: Real-world Person
     {
       "@id": "inst:Doctor_Person_0469b924",
-      "@type": ["cco:Person", "owl:NamedIndividual"],
+      "@type": ["Person", "owl:NamedIndividual"],
       "rdfs:label": "doctor (Person)"
     },
 
@@ -125,22 +125,22 @@ The doctor must allocate the last ventilator between two critically ill patients
       "@id": "inst:Ventilator_Referent_1a2b3c4d",
       "@type": ["tagteam:DiscourseReferent", "owl:NamedIndividual"],
       "rdfs:label": "the last ventilator",
-      "tagteam:denotesType": "cco:Artifact",
+      "tagteam:denotesType": "Artifact",
       "tagteam:definiteness": "definite",
-      "cco:is_about": "inst:Ventilator_Artifact_1a2b3c4d"
+      "is_about": "inst:Ventilator_Artifact_1a2b3c4d"
     },
 
     // Tier 2: Artifact (no scarcity directly - see ScarcityAssertion below)
     {
       "@id": "inst:Ventilator_Artifact_1a2b3c4d",
-      "@type": ["cco:Artifact", "owl:NamedIndividual"],
+      "@type": ["Artifact", "owl:NamedIndividual"],
       "rdfs:label": "ventilator (Artifact)"
     },
 
     // ICE Layer: Scarcity Assertion (text SAYS it's scarce)
     {
       "@id": "inst:Scarcity_Assertion_2b3c4d5e",
-      "@type": ["tagteam:ScarcityAssertion", "cco:InformationContentEntity", "owl:NamedIndividual"],
+      "@type": ["tagteam:ScarcityAssertion", "InformationContentEntity", "owl:NamedIndividual"],
       "rdfs:label": "Scarcity assertion: ventilator",
       "tagteam:scarceResource": "inst:Ventilator_Artifact_1a2b3c4d",
       "tagteam:supplyCount": 1,
@@ -153,7 +153,7 @@ The doctor must allocate the last ventilator between two critically ill patients
       "@type": ["tagteam:DiscourseReferent", "owl:NamedIndividual"],
       "rdfs:label": "two critically ill patients",
       "tagteam:quantity": 2,
-      "cco:is_about": "inst:Patients_Aggregate_3c4d5e6f"
+      "is_about": "inst:Patients_Aggregate_3c4d5e6f"
     },
 
     // Object Aggregate (plural persons)
@@ -162,7 +162,7 @@ The doctor must allocate the last ventilator between two critically ill patients
       "@type": ["bfo:BFO_0000027", "owl:NamedIndividual"],
       "rdfs:label": "aggregate of 2 patients",
       "tagteam:member_count": 2,
-      "bfo:has_member": [
+      "has_member": [
         "inst:Patient_Member_0_4d5e6f7g",
         "inst:Patient_Member_1_5e6f7g8h"
       ]
@@ -171,39 +171,39 @@ The doctor must allocate the last ventilator between two critically ill patients
     // Individual members
     {
       "@id": "inst:Patient_Member_0_4d5e6f7g",
-      "@type": ["cco:Person", "owl:NamedIndividual"],
+      "@type": ["Person", "owl:NamedIndividual"],
       "rdfs:label": "patient member 1"
     },
     {
       "@id": "inst:Patient_Member_1_5e6f7g8h",
-      "@type": ["cco:Person", "owl:NamedIndividual"],
+      "@type": ["Person", "owl:NamedIndividual"],
       "rdfs:label": "patient member 2"
     },
 
     // Quality nodes (v2.4)
     {
       "@id": "inst:Quality_CriticallyIll_6f7g8h9i",
-      "@type": ["bfo:Quality", "bfo:BFO_0000019", "owl:NamedIndividual"],
+      "@type": ["Quality", "bfo:BFO_0000019", "owl:NamedIndividual"],
       "rdfs:label": "DiseaseQuality",
       "rdfs:label": "critically ill quality",
       "tagteam:qualifierText": "critically ill",
       "tagteam:severity": "critical",
-      "bfo:inheres_in": "inst:Patient_Member_0_4d5e6f7g"
+      "inheres_in": "inst:Patient_Member_0_4d5e6f7g"
     },
 
     // IntentionalAct with modal marker
     {
       "@id": "inst:Allocate_IntentionalAct_7g8h9i0j",
-      "@type": ["cco:IntentionalAct", "owl:NamedIndividual"],
+      "@type": ["IntentionalAct", "owl:NamedIndividual"],
       "rdfs:label": "must allocate",
       "tagteam:verb": "allocate",
       "tagteam:lemma": "allocate",
       "tagteam:tense": "present",
       "tagteam:modality": "obligation",
       "tagteam:actualityStatus": "tagteam:Prescribed",
-      "cco:has_agent": "inst:Doctor_Person_0469b924",
-      "cco:affects": "inst:Ventilator_Artifact_1a2b3c4d",
-      "bfo:has_participant": [
+      "has_agent": "inst:Doctor_Person_0469b924",
+      "affects": "inst:Ventilator_Artifact_1a2b3c4d",
+      "has_participant": [
         "inst:Patient_Member_0_4d5e6f7g",
         "inst:Patient_Member_1_5e6f7g8h"
       ]
@@ -212,7 +212,7 @@ The doctor must allocate the last ventilator between two critically ill patients
     // Directive Content ICE (modal "must")
     {
       "@id": "inst:Directive_Must_8h9i0j1k",
-      "@type": ["tagteam:DirectiveContent", "cco:InformationContentEntity", "owl:NamedIndividual"],
+      "@type": ["tagteam:DirectiveContent", "InformationContentEntity", "owl:NamedIndividual"],
       "rdfs:label": "Directive: must allocate",
       "tagteam:modalType": "deontic",
       "tagteam:modalMarker": "must",
@@ -223,18 +223,18 @@ The doctor must allocate the last ventilator between two critically ill patients
     // Agent Role (realized in actual acts only)
     {
       "@id": "inst:Agent_Role_9i0j1k2l",
-      "@type": ["bfo:Role", "bfo:BFO_0000023", "owl:NamedIndividual"],
+      "@type": ["Role", "bfo:BFO_0000023", "owl:NamedIndividual"],
       "rdfs:label": "AgentRole",
-      "bfo:inheres_in": "inst:Doctor_Person_0469b924",
+      "inheres_in": "inst:Doctor_Person_0469b924",
       "tagteam:would_be_realized_in": "inst:Allocate_IntentionalAct_7g8h9i0j"
     },
 
     // Patient Roles on aggregate members (v2.4)
     {
       "@id": "inst:Patient_Role_0j1k2l3m",
-      "@type": ["bfo:Role", "bfo:BFO_0000023", "owl:NamedIndividual"],
+      "@type": ["Role", "bfo:BFO_0000023", "owl:NamedIndividual"],
       "rdfs:label": "PatientRole",
-      "bfo:inheres_in": "inst:Patient_Member_0_4d5e6f7g",
+      "inheres_in": "inst:Patient_Member_0_4d5e6f7g",
       "tagteam:would_be_realized_in": "inst:Allocate_IntentionalAct_7g8h9i0j"
     }
   ]
@@ -280,9 +280,9 @@ const graph = builder.build(text, {
     // Information Bearing Entity (input text)
     {
       "@id": "inst:Input_IBE_abc12345",
-      "@type": ["cco:InformationBearingEntity", "owl:NamedIndividual"],
+      "@type": ["InformationBearingEntity", "owl:NamedIndividual"],
       "rdfs:label": "Input text",
-      "cco:has_text_value": "The family must decide whether to continue treatment.",
+      "has_text_value": "The family must decide whether to continue treatment.",
       "tagteam:char_count": 54,
       "tagteam:word_count": 9,
       "tagteam:received_at": "2026-01-19T12:00:00.000Z"
@@ -291,7 +291,7 @@ const graph = builder.build(text, {
     // Parser Agent
     {
       "@id": "inst:TagTeam_Parser_v4.0.0",
-      "@type": ["cco:Agent", "owl:NamedIndividual"],
+      "@type": ["Agent", "owl:NamedIndividual"],
       "rdfs:label": "ArtificialAgent",
       "rdfs:label": "TagTeam Semantic Parser v4.0.0",
       "tagteam:version": "4.0.0-phase4-week2",
@@ -335,13 +335,13 @@ const graph = builder.build(text, {
     // Ethical Value ICE (separate from assertion)
     {
       "@id": "inst:Autonomy_ICE_jkl01234",
-      "@type": ["tagteam:EthicalValueICE", "cco:InformationContentEntity", "owl:NamedIndividual"],
+      "@type": ["tagteam:EthicalValueICE", "InformationContentEntity", "owl:NamedIndividual"],
       "rdfs:label": "Autonomy (ethical value)",
       "tagteam:valueName": "Autonomy",
       "tagteam:valueCategory": "core",
       "tagteam:salience": 0.9,
       "tagteam:polarity": -1,
-      "cco:is_concretized_by": "inst:Input_IBE_abc12345"
+      "is_concretized_by": "inst:Input_IBE_abc12345"
     },
 
     // Value Assertion Event: Compassion
@@ -363,12 +363,12 @@ const graph = builder.build(text, {
 
     {
       "@id": "inst:Compassion_ICE_pqr45678",
-      "@type": ["tagteam:EthicalValueICE", "cco:InformationContentEntity", "owl:NamedIndividual"],
+      "@type": ["tagteam:EthicalValueICE", "InformationContentEntity", "owl:NamedIndividual"],
       "rdfs:label": "Compassion (ethical value)",
       "tagteam:valueName": "Compassion",
       "tagteam:salience": 0.8,
       "tagteam:polarity": 1,
-      "cco:is_concretized_by": "inst:Input_IBE_abc12345"
+      "is_concretized_by": "inst:Input_IBE_abc12345"
     }
   ]
 }
@@ -462,10 +462,10 @@ PATTERN SCORES
 
 WARNINGS
   [RolePattern] Role inst:Agent_Role_xyz is not realized by any process
-    Suggestion: Add cco:realized_in or tagteam:would_be_realized_in
+    Suggestion: Add realized_in or tagteam:would_be_realized_in
 
   [SocioPrimalPattern] Act inst:Decide_Act has no temporal grounding
-    Suggestion: Add cco:occurs_during or tagteam:temporal_extent
+    Suggestion: Add occurs_during or tagteam:temporal_extent
 
   [VocabularyValidation] Unknown predicate: tagteam:customProp
     Suggestion: Check spelling. Similar: tagteam:polarity

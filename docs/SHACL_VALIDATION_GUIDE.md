@@ -89,7 +89,7 @@ Role → (bfo:realized_in) → Process
 ```json
 {
   "@id": "inst:Agent_Role",
-  "@type": "bfo:Role",
+  "@type": ["Role", "owl:NamedIndividual"],
   "rdfs:label": "AgentRole",
   "bfo:inheres_in": "inst:Doctor_Person",
   "bfo:realized_in": "inst:Treat_Act"
@@ -100,7 +100,7 @@ Role → (bfo:realized_in) → Process
 ```json
 {
   "@id": "inst:Agent_Role",
-  "@type": "bfo:Role",
+  "@type": ["Role", "owl:NamedIndividual"],
   "rdfs:label": "AgentRole"
   // Missing inheres_in → VIOLATION
 }
@@ -156,10 +156,10 @@ DesignativeICE → (cco:has_text_value) → name string
 ```json
 {
   "@id": "inst:DrSmith_Designation",
-  "@type": "cco:InformationContentEntity",
+  "@type": "InformationContentEntity",
   "rdfs:label": "DesignativeICE",
   "cco:has_text_value": "Dr. Smith",
-  "cco:designates": "inst:DrSmith_Person"
+  "designates": "inst:DrSmith_Person"
 }
 ```
 
@@ -254,9 +254,9 @@ IntentionalAct → (cco:affects) → Patient
 ```json
 {
   "@id": "inst:Allocate_Act",
-  "@type": "cco:IntentionalAct",
-  "cco:has_agent": "inst:Doctor_Person",
-  "cco:affects": "inst:Ventilator_Artifact",
+  "@type": "IntentionalAct",
+  "has_agent": "inst:Doctor_Person",
+  "affects": "inst:Ventilator_Artifact",
   "cco:occurs_during": "inst:Decision_Time"
 }
 ```
@@ -297,8 +297,8 @@ Ensures properties are used with correct subject/object types.
 ```json
 {
   "@id": "inst:Treat_Act",
-  "@type": "cco:IntentionalAct",  // ✓ Correct domain
-  "cco:has_agent": "inst:Doctor"   // ✓ cco:Person is an Agent
+  "@type": "IntentionalAct",  // ✓ Correct domain
+  "has_agent": "inst:Doctor"   // ✓ cco:Person is an Agent
 }
 ```
 
@@ -307,7 +307,7 @@ Ensures properties are used with correct subject/object types.
 {
   "@id": "inst:Quality",
   "@type": "bfo:BFO_0000019",
-  "cco:has_agent": "inst:Doctor"   // ✗ has_agent on non-act
+  "has_agent": "inst:Doctor"   // ✗ has_agent on non-act
 }
 ```
 
@@ -443,10 +443,10 @@ report.info        // Array of INFO issues (if verbose)
 ### "Role has no bearer"
 ```javascript
 // Bad
-{ "@id": "inst:Role", "@type": "bfo:Role", "rdfs:label": "AgentRole" }
+{ "@id": "inst:Role", "@type": ["Role", "owl:NamedIndividual"], "rdfs:label": "AgentRole" }
 
 // Good - add inheres_in
-{ "@id": "inst:Role", "@type": "bfo:Role", "rdfs:label": "AgentRole",
+{ "@id": "inst:Role", "@type": ["Role", "owl:NamedIndividual"], "rdfs:label": "AgentRole",
   "bfo:inheres_in": "inst:Person" }
 ```
 
@@ -463,10 +463,10 @@ report.info        // Array of INFO issues (if verbose)
 ### "Act has no temporal grounding"
 ```javascript
 // Bad
-{ "@id": "inst:Act", "@type": "cco:IntentionalAct" }
+{ "@id": "inst:Act", "@type": "IntentionalAct" }
 
 // Good - add temporal extent
-{ "@id": "inst:Act", "@type": "cco:IntentionalAct",
+{ "@id": "inst:Act", "@type": "IntentionalAct",
   "tagteam:temporal_extent": "2026-01-19T12:00:00Z" }
 ```
 

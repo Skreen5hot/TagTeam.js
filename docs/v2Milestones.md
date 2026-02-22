@@ -50,7 +50,7 @@ v1 modifications and the `tagteam.ttl` OWL schema required before any v2 feature
 ### Demo Scenario
 
 1. Build `"The auditor reviewed the report."` with v2 enabled — show v1 output unchanged (no regression)
-2. Show `WH_PSEUDO_ENTITIES` map accessible: `who` → `cco:Person`, `what` → `bfo:Entity`, `which` → `bfo:Entity`
+2. Show `WH_PSEUDO_ENTITIES` map accessible: `who` → `Person`, `what` → `Entity`, `which` → `Entity`
 3. Load `ontologies/tagteam.ttl` — show it parses as valid OWL with classes: `tagteam:Inquiry`, `tagteam:DirectiveContent`, `tagteam:ConditionalContent`, `tagteam:ClauseRelation`
 4. Show v2 config toggles: `builder.options.v2.clauseSegmentation.enabled === true`
 
