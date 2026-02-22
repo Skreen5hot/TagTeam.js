@@ -327885,7 +327885,7 @@ if (typeof module !== 'undefined' && module.exports) {
  * - options.preserveAmbiguity enables lattice generation
  *
  * @module graph/SemanticGraphBuilder
- * @version 3.0.0-alpha.1
+ * @version 3.0.0
  */
 
 // Core infrastructure modules
@@ -328036,7 +328036,7 @@ class SemanticGraphBuilder {
     // Core infrastructure
     this.contextManager = new ContextManager({ graphBuilder: this });
     this.informationStaircaseBuilder = new InformationStaircaseBuilder({
-      version: '3.0.0-alpha.1'
+      version: '3.0.0'
     });
 
     // Phase 2: Domain configuration loader for type specialization
@@ -328693,7 +328693,7 @@ class SemanticGraphBuilder {
         buildTimestamp: this.buildTimestamp,
         inputLength: text.length,
         nodeCount: this.nodes.length,
-        version: '3.0.0-alpha.1',
+        version: '3.0.0',
         contextIRI,
         ibeIRI: ibeNode['@id'],
         parserAgentIRI: parserAgentNode['@id'],
@@ -330285,8 +330285,8 @@ class SemanticGraphBuilder {
     /**
      * Version information
      */
-    version: '3.0.0-alpha.1',
-    BUILD: 'build 217 | b14442f | 2026-02-22T19:32:41.440Z',
+    version: '3.0.0',
+    BUILD: 'build 221 | c97229b | 2026-02-22T19:37:52.551Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
