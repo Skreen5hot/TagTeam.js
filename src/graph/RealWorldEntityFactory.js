@@ -402,6 +402,11 @@ class RealWorldEntityFactory {
       'presumed', 'apparent', 'alleged', 'uncertain', 'questionable'
     ];
 
+    // Detect if the head word is an acronym BEFORE lowercasing
+    const origWords = label.trim().split(/\s+/);
+    const origLastWord = origWords[origWords.length - 1];
+    const headIsAcronym = /^[A-Z]{2,}$/.test(origLastWord);
+
     let normalized = label.toLowerCase().trim();
 
     // Remove leading determiner
@@ -419,7 +424,8 @@ class RealWorldEntityFactory {
     normalized = words.join(' ').replace(/[.,;:!?]+$/, '');
 
     // Lemmatize the head noun (e.g., "safety reports" → "safety report")
-    if (this.lemmatizer) {
+    // Skip acronyms — "DHS" is not a plural of "DH"
+    if (this.lemmatizer && !headIsAcronym) {
       normalized = this.lemmatizer.lemmatizePhrase(normalized);
     }
 
@@ -434,8 +440,14 @@ class RealWorldEntityFactory {
    * @private
    */
   _canonicalClassLabel(label) {
-    const words = label.trim().split(/\s+/);
+    let words = label.trim().split(/\s+/);
     if (words.length === 0) return label;
+
+    // Strip leading quantifiers — "all employees" → "employees", not "All Employee"
+    const quantifiers = ['all', 'every', 'each', 'no', 'some', 'any', 'most'];
+    while (words.length > 1 && quantifiers.includes(words[0])) {
+      words.shift();
+    }
 
     // Lemmatize the last word (head noun) to singular form
     const lastWord = words[words.length - 1];

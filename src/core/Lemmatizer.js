@@ -282,8 +282,14 @@ class Lemmatizer {
     if (words.length === 0) return '';
 
     const lastIdx = words.length - 1;
-    const { lemma } = this.lemmatize(words[lastIdx].toLowerCase());
-    words[lastIdx] = lemma;
+    const lastWord = words[lastIdx];
+    // Skip lemmatization for acronyms (all-uppercase, e.g. DHS, CBP, FBI)
+    if (/^[A-Z]{2,}$/.test(lastWord)) {
+      words[lastIdx] = lastWord.toLowerCase();
+    } else {
+      const { lemma } = this.lemmatize(lastWord.toLowerCase());
+      words[lastIdx] = lemma;
+    }
     return words.join(' ');
   }
 
