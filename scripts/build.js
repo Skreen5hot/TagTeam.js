@@ -461,6 +461,7 @@ semanticValidators = semanticValidators.replace(/module\.exports\s*=\s*\{[^}]*\}
 semanticValidators = semanticValidators.replace(/'use strict';\s*\n?/g, '');
 outputSanitizer = outputSanitizer.replace(/module\.exports\s*=\s*\{[^}]*\};\s*\n?/g, '');
 outputSanitizer = outputSanitizer.replace(/'use strict';\s*\n?/g, '');
+outputSanitizer = stripBundleNodeCode(outputSanitizer, 'OutputSanitizer');
 auditLogger = auditLogger.replace(/module\.exports\s*=\s*\{[^}]*\};\s*\n?/g, '');
 auditLogger = auditLogger.replace(/'use strict';\s*\n?/g, '');
 console.log('  ✓ Processed security modules for browser (4 of 5; ontology-integrity is Node-only)');
@@ -486,6 +487,109 @@ function stripCommonJS(code, className) {
   return code;
 }
 
+// Strip Node.js-only code that survives stripCommonJS() — ensures zero require/fs in bundle
+// NOTE: This runs AFTER stripCommonJS(), so require('fs')/require('path') lines are already gone.
+// The fs.readFileSync/path.join/__dirname calls survive because they're in function bodies.
+function stripBundleNodeCode(code, moduleName) {
+  // Normalize CRLF → LF so regexes using \n work on Windows-authored source files
+  code = code.replace(/\r\n/g, '\n');
+  const before = code.length;
+
+  if (moduleName === 'SemanticGraphBuilder') {
+    // --- Lazy module resolvers (25 instances) ---
+    // Pattern: (typeof X !== 'undefined') ? X : (() => { try { return require('./X'); } catch (e) { return null; } })()
+    // All modules are already in bundle scope — require fallback is dead code
+    code = code.replace(
+      /\(typeof (\w+) !== 'undefined'\) \? \1 : \(\(\) => \{\s*\n\s*try \{ return require\([^)]+\); \} catch \(e\) \{ return null; \}\s*\n\s*\}\)\(\)/g,
+      '(typeof $1 !== "undefined") ? $1 : null'
+    );
+
+    // --- Input validator require (Stage 0) ---
+    code = code.replace(
+      /let _inputValidator;\s*\n\s*try \{ _inputValidator = require\('\.\.\/security\/input-validator'\); \} catch\(e\) \{ \/\* browser \*\/ \}/,
+      'const _inputValidator = (typeof validateInput !== "undefined") ? { validateInput: validateInput } : null;'
+    );
+
+    // --- Stage 3: POS model Node.js auto-loading (post-stripCommonJS) ---
+    // After stripCommonJS, the require('fs')/require('path') lines are gone but fs.readFileSync survives
+    code = code.replace(
+      /\} else if \(posModelPath\) \{[\s\S]*?this\._treePosTagger = tagger;\s*\n\s*\} else \{[\s\S]*?this\._treePosTagger = tagger;\s*\n\s*\}/,
+      `} else {\n        throw new Error('Models not loaded. Call TagTeam.loadModels(posJSON, depJSON) before buildGraph().');\n      }`
+    );
+
+    // --- Stage 4: Dep model Node.js auto-loading (post-stripCommonJS) ---
+    code = code.replace(
+      /\} else if \(buildOptions\.depModel\) \{[\s\S]*?this\._treeDepParser = depParser;\s*\n\s*\} else \{[\s\S]*?this\._treeDepParser = depParser;\s*\n\s*\}/,
+      `} else {\n        throw new Error('Models not loaded. Call TagTeam.loadModels(posJSON, depJSON) before buildGraph().');\n      }`
+    );
+
+    // --- Stage 4.5: Calibration auto-load (post-stripCommonJS) ---
+    code = code.replace(
+      /\/\/ Stage 4\.5: Calibration table loading \(lazy-load, cached\)\s*\n\s*if \(!this\._calibration && typeof require !== 'undefined'\) \{[\s\S]*?\/\/ Calibration loading is non-blocking\s*\n\s*\}\s*\n\s*\}/,
+      '// Stage 4.5: Calibration — injected via loadModels() / _injectCachedModels()'
+    );
+
+    // --- Stage 4.7: Gazetteer auto-load (post-stripCommonJS) ---
+    code = code.replace(
+      /if \(!this\._treeGazetteerNER && _GazetteerNER\) \{\s*\n\s*if \(typeof require !== 'undefined'\) \{[\s\S]*?\/\/ Gazetteer loading is non-blocking[^\n]*\n\s*\}\s*\n\s*\}\s*\n\s*\}/,
+      '// Stage 4.7: Gazetteers — injected via loadModels() / _injectCachedModels()'
+    );
+  }
+
+  if (moduleName === 'EntityExtractor') {
+    // Remove module-level POS model auto-load (post-stripCommonJS: require lines gone, fs/path usage survives)
+    code = code.replace(
+      /\/\/ Load perceptron model once at module level[^\n]*\nlet _perceptronTagger = null;\nlet _usePerceptron = true;[^\n]*\ntry \{[\s\S]*?_perceptronTagger = null;\s*\n\}/,
+      '// Perceptron tagger — injected via loadModels() in bundle\nlet _perceptronTagger = null;\nlet _usePerceptron = true;'
+    );
+  }
+
+  if (moduleName === 'OutputSanitizer') {
+    // Replace process.env.TAGTEAM_VERSION with a browser-safe literal
+    code = code.replace(
+      /process\.env\.TAGTEAM_VERSION \|\| 'unknown'/g,
+      "'3.0.0'"
+    );
+  }
+
+  const stripped = before - code.length;
+  if (stripped > 0) {
+    console.log(`  ✓ Stripped ${stripped} bytes of Node.js code from ${moduleName}`);
+  }
+  return code;
+}
+
+// Clean the final assembled bundle — strips patterns that individual module processing missed
+function cleanFinalBundle(bundleStr) {
+  const before = bundleStr.length;
+
+  // Strip module.exports conditional blocks (empty shells left after stripCommonJS + populated ones)
+  // Handles: if (typeof module !== 'undefined' && module.exports) { ... }
+  // Uses [\s\S]*? to match multi-line block contents including nested braces
+  // Preserves the UMD wrapper at lines 53-55 (uses different pattern: typeof module === 'object')
+  bundleStr = bundleStr.replace(
+    /if\s*\(typeof\s+module\s*!==\s*'undefined'\s*&&\s*module\.exports\)\s*\{[\s\S]*?\n\s*\}\s*\n?/g,
+    ''
+  );
+
+  // NOTE: Do NOT strip "if (typeof window !== 'undefined') { window.X = X; }" blocks here.
+  // These set up global references (e.g., window.POSTagger) that other bundle code depends on.
+  // stripCommonJS() already handles this for modules it processes; the remaining ones are needed.
+
+  // Strip DomainConfigLoader.loadConfig filesystem calls
+  // Replace the fs-based loadConfig with a browser-safe version
+  bundleStr = bundleStr.replace(
+    /loadConfig\(configPath\)\s*\{[\s\S]*?return this\.loadConfigObject\(config\);\s*\n\s*\}/,
+    `loadConfig(configPath) {\n    throw new Error('DomainConfigLoader.loadConfig() requires Node.js. Use loadConfigObject(jsonObj) in the browser bundle.');\n  }`
+  );
+
+  const stripped = before - bundleStr.length;
+  if (stripped > 0) {
+    console.log(`  ✓ Final bundle cleanup: stripped ${stripped} bytes of Node.js patterns`);
+  }
+  return bundleStr;
+}
+
 lemmatizerSrc = stripCommonJS(lemmatizerSrc, 'Lemmatizer');
 console.log('  ✓ Converted Lemmatizer to browser format');
 
@@ -499,6 +603,7 @@ realWorldEntityFactory = stripCommonJS(realWorldEntityFactory, 'RealWorldEntityF
 console.log('  ✓ Converted RealWorldEntityFactory to browser format');
 
 entityExtractor = stripCommonJS(entityExtractor, 'EntityExtractor');
+entityExtractor = stripBundleNodeCode(entityExtractor, 'EntityExtractor');
 console.log('  ✓ Converted EntityExtractor to browser format');
 
 actExtractor = stripCommonJS(actExtractor, 'ActExtractor');
@@ -508,6 +613,7 @@ roleDetector = stripCommonJS(roleDetector, 'RoleDetector');
 console.log('  ✓ Converted RoleDetector to browser format');
 
 semanticGraphBuilder = stripCommonJS(semanticGraphBuilder, 'SemanticGraphBuilder');
+semanticGraphBuilder = stripBundleNodeCode(semanticGraphBuilder, 'SemanticGraphBuilder');
 console.log('  ✓ Converted SemanticGraphBuilder to browser format');
 
 jsonldSerializer = stripCommonJS(jsonldSerializer, 'JSONLDSerializer');
@@ -725,12 +831,19 @@ ${posTagger}
 
   // ============================================================================
   // COMPROMISE.JS - NLP LIBRARY (Week 3) (~345KB)
+  // Shadow module/exports so compromise UMD takes the browser path (sets _global.nlp)
+  // instead of the Node.js path which would hijack our bundle export.
+  // eslint-disable-next-line no-var
+  var module, exports;
   // ============================================================================
 
 ${compromise}
 
-  // Make nlp available to PatternMatcher
-  const nlp = typeof _global.nlp !== 'undefined' ? _global.nlp : (typeof module !== 'undefined' && require ? require('compromise') : null);
+  // Make nlp available to PatternMatcher (compromise is inlined above)
+  const nlp = typeof _global.nlp !== 'undefined' ? _global.nlp : null;
+  if (!nlp) {
+    throw new Error('TagTeam: compromise NLP engine not found. Ensure compromise is loaded before TagTeam.');
+  }
 
   // ============================================================================
   // MATCHING STRATEGIES (Week 3) (~2KB)
@@ -1508,12 +1621,72 @@ ${semanticGraphBuilder}
 });
 `;
 
+// Final bundle cleanup — strip Node.js patterns that survived module-level processing
+console.log('\n🧹 Final bundle cleanup...');
+let cleanedBundle = cleanFinalBundle(bundle);
+
 // Write the bundle
 const outputPath = path.join(distDir, 'tagteam.js');
-fs.writeFileSync(outputPath, bundle, 'utf8');
+fs.writeFileSync(outputPath, cleanedBundle, 'utf8');
 
 const bundleSize = fs.statSync(outputPath).size;
 console.log(`  ✓ Generated dist/tagteam.js (${(bundleSize / 1024 / 1024).toFixed(2)} MB)`);
+
+// ============================================================================
+// BUNDLE INTEGRITY GATE — Edge-canonical single-file enforcement
+// Fail the build if any Node.js-only patterns survive into the bundle.
+// ============================================================================
+console.log('\n🔒 Running bundle integrity gate...');
+const bundleContent = fs.readFileSync(outputPath, 'utf8');
+
+// Split bundle into TagTeam code vs. compromise (third-party, minified on one line)
+// Compromise is inlined as a single minified line starting with !function(e,t){
+const bundleLines = bundleContent.split('\n');
+const compromiseLine = bundleLines.findIndex(l => l.startsWith('!function(e,t){"object"==typeof exports'));
+const tagteamCode = bundleLines.filter((_, i) => i !== compromiseLine).join('\n');
+
+// Strict-zero forbidden patterns — checked against TagTeam code only (excludes compromise internals)
+const forbidden = [
+  { pattern: 'require(',      label: 'require() calls' },
+  { pattern: 'readFileSync',  label: 'fs.readFileSync' },
+  { pattern: 'existsSync',    label: 'fs.existsSync' },
+  { pattern: '__dirname',     label: '__dirname references' },
+  { pattern: 'process.env',   label: 'process.env references' },
+  { pattern: 'process.cwd',   label: 'process.cwd references' },
+];
+
+// module.exports: UMD wrapper uses 2 known-safe occurrences (typeof module === 'object')
+const KNOWN_MODULE_EXPORTS = 2;
+
+let gateFailures = 0;
+for (const { pattern, label } of forbidden) {
+  const count = tagteamCode.split(pattern).length - 1;
+  if (count > 0) {
+    console.error(`  ✗ Bundle contains ${count} instance(s) of "${pattern}" (${label})`);
+    gateFailures++;
+  } else {
+    console.log(`  ✓ Zero ${label}`);
+  }
+}
+
+// module.exports check with UMD wrapper exception
+const meCount = tagteamCode.split('module.exports').length - 1;
+if (meCount > KNOWN_MODULE_EXPORTS) {
+  console.error(`  ✗ Bundle contains ${meCount} instance(s) of "module.exports" (expected ≤${KNOWN_MODULE_EXPORTS}: UMD wrapper only)`);
+  gateFailures++;
+} else {
+  console.log(`  ✓ module.exports: ${meCount} (all known-safe: UMD wrapper)`);
+}
+
+if (compromiseLine >= 0) {
+  console.log(`  ℹ Compromise.js (line ${compromiseLine + 1}): third-party minified — excluded from gate`);
+}
+
+if (gateFailures > 0) {
+  console.error(`\n❌ Bundle integrity gate FAILED (${gateFailures} violation(s)). Fix before shipping.`);
+  process.exit(1);
+}
+console.log('  ✓ Bundle integrity gate PASSED — zero Node.js patterns in TagTeam code');
 
 // Create a simple test HTML
 const testHtml = `<!DOCTYPE html>
