@@ -1,7 +1,7 @@
 /*!
  * TagTeam.js - Two-Tier Semantic Graph Architecture for Ethical Context Analysis
  * Version: 7.0 (v2 Phase 2: Dependency Parser)
- * Date: 2026-02-22
+ * Date: 2026-02-25
  *
  * A client-side JavaScript library for extracting semantic roles from natural language text
  *
@@ -330286,7 +330286,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '3.0.0',
-    BUILD: 'build 222 | 0c5451f | 2026-02-22T20:06:18.781Z',
+    BUILD: 'build 223 | 8fa5afc | 2026-02-25T11:56:41.054Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
