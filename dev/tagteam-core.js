@@ -1,7 +1,7 @@
 /*!
  * TagTeam Core - Domain-Neutral Semantic Parser
  * Version: 5.0.0
- * Date: 2026-02-25
+ * Date: 2026-02-26
  *
  * Core semantic parsing engine with BFO/CCO-compliant JSON-LD output.
  * Does NOT include value detection - use tagteam-iee-values for that.

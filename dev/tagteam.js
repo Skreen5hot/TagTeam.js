@@ -1,7 +1,7 @@
 /*!
  * TagTeam.js - Two-Tier Semantic Graph Architecture for Ethical Context Analysis
  * Version: 7.0 (v2 Phase 2: Dependency Parser)
- * Date: 2026-02-25
+ * Date: 2026-02-26
  *
  * A client-side JavaScript library for extracting semantic roles from natural language text
  *
@@ -298040,7 +298040,12 @@ POSTagger.prototype.prettyPrint = function(taggedWords) {
 //print(new POSTagger().tag(["i", "went", "to", "the", "store", "to", "buy", "5.2", "gallons", "of", "milk"]));
 
 // Export for Node.js / CommonJS environments
-// ============================================================================
+if (typeof window !== 'undefined') {
+    window.POSTagger = POSTagger;
+}
+
+
+  // ============================================================================
   // COMPROMISE.JS - NLP LIBRARY (Week 3) (~345KB)
   // Shadow module/exports so compromise UMD takes the browser path (sets _global.nlp)
   // instead of the Node.js path which would hijack our bundle export.
@@ -330072,7 +330077,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '3.0.0',
-    BUILD: 'build 230 | 43b7292 | 2026-02-25T12:57:34.874Z',
+    BUILD: 'build 232 | 416b882 | 2026-02-26T09:23:43.991Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
