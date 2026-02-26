@@ -5,7 +5,7 @@
   "tags": [
     "legal"
   ],
-  "generatedAt": "2026-02-22T19:35:08.850Z",
+  "generatedAt": "2026-02-26T12:28:11.709Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -106,7 +106,7 @@
         ],
         "rdfs:label": "magistrate granted bail to the accuse",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.850Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.709Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0a9838d0c83b",
         "tagteam:denotesType": "Entity"
       },
@@ -118,7 +118,7 @@
         ],
         "rdfs:label": "accuse",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.850Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.709Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0a9838d0c83b",
         "tagteam:denotesType": "Entity"
       },
@@ -132,7 +132,7 @@
         "has_text_value": "The magistrate granted bail to the accused",
         "tagteam:char_count": 42,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T19:35:08.839Z"
+        "tagteam:received_at": "2026-02-26T12:28:11.701Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -161,13 +161,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_0a9838d0c83b"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_magistrate_granted_bail_to_the_accused"
           },
@@ -178,7 +178,7 @@
             "@id": "inst:Act_bail"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.839Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.701Z"
       }
     ]
   }

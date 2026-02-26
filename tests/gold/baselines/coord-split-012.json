@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-22T19:35:06.672Z",
+  "generatedAt": "2026-02-26T12:28:10.283Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -134,7 +134,7 @@
         ],
         "rdfs:label": "dea and fbi launched a joint investigation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.672Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.283Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d993275a2cdb",
         "tagteam:denotesType": "Entity"
       },
@@ -147,7 +147,7 @@
         "rdfs:label": "fbi",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.672Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.283Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d993275a2cdb",
         "tagteam:denotesType": "Organization"
       },
@@ -159,7 +159,7 @@
         ],
         "rdfs:label": "joint investigation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.672Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.283Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d993275a2cdb",
         "tagteam:denotesType": "Entity"
       },
@@ -173,7 +173,7 @@
         "has_text_value": "DEA and FBI launched a joint investigation",
         "tagteam:char_count": 42,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T19:35:06.659Z"
+        "tagteam:received_at": "2026-02-26T12:28:10.274Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -202,13 +202,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_d993275a2cdb"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:DEA_and_FBI_launched_a_joint_investigation"
           },
@@ -222,7 +222,7 @@
             "@id": "inst:Act_DEA"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.659Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.274Z"
       }
     ]
   }

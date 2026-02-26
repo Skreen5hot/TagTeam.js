@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T19:35:07.880Z",
+  "generatedAt": "2026-02-26T12:28:11.001Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -72,7 +72,7 @@
         "rdfs:label": "operational commander",
         "tagteam:genericityCategory": "AMB",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.880Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.001Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e8d1038bae92",
         "tagteam:denotesType": "Entity"
       },
@@ -86,7 +86,7 @@
         "has_text_value": "The operational commander is the senior field official",
         "tagteam:char_count": 54,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T19:35:07.865Z"
+        "tagteam:received_at": "2026-02-26T12:28:10.993Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -115,18 +115,18 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_e8d1038bae92"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_operational_commander"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.865Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.993Z"
       }
     ]
   }

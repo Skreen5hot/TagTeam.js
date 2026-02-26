@@ -7,7 +7,7 @@
     "coordination",
     "government"
   ],
-  "generatedAt": "2026-02-22T19:35:07.108Z",
+  "generatedAt": "2026-02-26T12:28:10.536Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -165,7 +165,7 @@
         "rdfs:label": "agent",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.108Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.536Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_76c378938573",
         "tagteam:denotesType": "Person"
       },
@@ -178,7 +178,7 @@
         "rdfs:label": "supervisor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.108Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.536Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_76c378938573",
         "tagteam:denotesType": "Person"
       },
@@ -190,7 +190,7 @@
         ],
         "rdfs:label": "case",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.108Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.536Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_76c378938573",
         "tagteam:denotesType": "Entity"
       },
@@ -204,7 +204,7 @@
         "has_text_value": "The agent, the analyst, and the supervisor reviewed the case",
         "tagteam:char_count": 60,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-22T19:35:07.094Z"
+        "tagteam:received_at": "2026-02-26T12:28:10.527Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -233,13 +233,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_76c378938573"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_agent"
           },
@@ -253,7 +253,7 @@
             "@id": "inst:Act_analyst"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.094Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.527Z"
       }
     ]
   }

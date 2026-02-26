@@ -7,7 +7,7 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-22T19:35:06.815Z",
+  "generatedAt": "2026-02-26T12:28:10.376Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -98,7 +98,7 @@
         "rdfs:label": "headquarter",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.814Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.376Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d2ed063928d6",
         "tagteam:denotesType": "Entity"
       },
@@ -110,7 +110,7 @@
         ],
         "rdfs:label": "washington",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.814Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.376Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d2ed063928d6",
         "tagteam:denotesType": "GeopoliticalOrganization"
       },
@@ -124,7 +124,7 @@
         "has_text_value": "The headquarters is located in Washington",
         "tagteam:char_count": 41,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T19:35:06.801Z"
+        "tagteam:received_at": "2026-02-26T12:28:10.367Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -153,13 +153,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_d2ed063928d6"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_headquarters"
           },
@@ -167,7 +167,7 @@
             "@id": "inst:Washington"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.801Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.367Z"
       }
     ]
   }

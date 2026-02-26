@@ -6,7 +6,7 @@
     "relative-clause",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T19:35:09.130Z",
+  "generatedAt": "2026-02-26T12:28:11.920Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -187,7 +187,7 @@
         ],
         "rdfs:label": "officer",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:09.130Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.920Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0abd0485984a",
         "tagteam:denotesType": "Person"
       },
@@ -200,7 +200,7 @@
         "rdfs:label": "who",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:09.130Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.920Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0abd0485984a",
         "tagteam:denotesType": "Organization"
       },
@@ -213,7 +213,7 @@
         "rdfs:label": "interview",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:09.130Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.920Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0abd0485984a",
         "tagteam:denotesType": "Entity"
       },
@@ -225,7 +225,7 @@
         ],
         "rdfs:label": "finding",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:09.130Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.920Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0abd0485984a",
         "tagteam:denotesType": "Entity"
       },
@@ -239,7 +239,7 @@
         "has_text_value": "The officer who conducted the interview documented the findings",
         "tagteam:char_count": 63,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-22T19:35:09.120Z"
+        "tagteam:received_at": "2026-02-26T12:28:11.912Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -268,13 +268,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_0abd0485984a"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_officer"
           },
@@ -294,7 +294,7 @@
             "@id": "inst:Act_conducted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:09.120Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.912Z"
       }
     ]
   }

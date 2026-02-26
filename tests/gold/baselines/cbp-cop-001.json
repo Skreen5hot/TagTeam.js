@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T19:35:07.583Z",
+  "generatedAt": "2026-02-26T12:28:10.832Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -115,7 +115,7 @@
         "rdfs:label": "office of field operation",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.583Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.831Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a8f0a8fb8925",
         "tagteam:denotesType": "Facility"
       },
@@ -127,7 +127,7 @@
         ],
         "rdfs:label": "field operation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.583Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.832Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a8f0a8fb8925",
         "tagteam:denotesType": "Entity"
       },
@@ -139,7 +139,7 @@
         ],
         "rdfs:label": "cbp",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.583Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.832Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a8f0a8fb8925",
         "tagteam:denotesType": "Organization"
       },
@@ -153,7 +153,7 @@
         "has_text_value": "The Office of Field Operations is the largest component of CBP",
         "tagteam:char_count": 62,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-22T19:35:07.569Z"
+        "tagteam:received_at": "2026-02-26T12:28:10.820Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -182,13 +182,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_a8f0a8fb8925"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_Office_of_Field_Operations"
           },
@@ -199,7 +199,7 @@
             "@id": "inst:CBP"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.569Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.820Z"
       }
     ]
   }

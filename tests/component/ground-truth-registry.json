@@ -240,7 +240,7 @@
               "description": "Links act to entity that serves as input to the act"
             },
             {
-              "property": "tagteam:has_output",
+              "property": "has_output",
               "domain": "Act",
               "range": "BFO:0000002 Continuant",
               "description": "Links act to entity that is produced by the act"

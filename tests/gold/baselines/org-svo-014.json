@@ -8,7 +8,7 @@
     "action",
     "pp"
   ],
-  "generatedAt": "2026-02-22T19:35:06.103Z",
+  "generatedAt": "2026-02-26T12:28:09.918Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -197,7 +197,7 @@
         "rdfs:label": "prosecutor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.103Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.918Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4251d8e86419",
         "tagteam:denotesType": "Entity"
       },
@@ -209,7 +209,7 @@
         ],
         "rdfs:label": "evidence",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.103Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.918Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4251d8e86419",
         "tagteam:denotesType": "Entity"
       },
@@ -221,7 +221,7 @@
         ],
         "rdfs:label": "jury",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.103Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.918Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4251d8e86419",
         "tagteam:denotesType": "Entity"
       },
@@ -235,7 +235,7 @@
         "has_text_value": "The prosecutor presented the evidence to the jury",
         "tagteam:char_count": 49,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T19:35:06.087Z"
+        "tagteam:received_at": "2026-02-26T12:28:09.908Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -264,13 +264,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_4251d8e86419"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_prosecutor"
           },
@@ -284,7 +284,7 @@
             "@id": "inst:Act_presented"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.087Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.908Z"
       }
     ]
   }

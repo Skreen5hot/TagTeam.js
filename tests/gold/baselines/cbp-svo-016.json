@@ -7,7 +7,7 @@
     "cbp",
     "forensics"
   ],
-  "generatedAt": "2026-02-22T19:35:07.491Z",
+  "generatedAt": "2026-02-26T12:28:10.767Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -144,7 +144,7 @@
         "rdfs:label": "lab technician",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.491Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.766Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7b2aa24154d1",
         "tagteam:denotesType": "Person"
       },
@@ -156,7 +156,7 @@
         ],
         "rdfs:label": "sample",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.491Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.766Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7b2aa24154d1",
         "tagteam:denotesType": "Entity"
       },
@@ -170,7 +170,7 @@
         "has_text_value": "The lab technician tested the sample",
         "tagteam:char_count": 36,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T19:35:07.480Z"
+        "tagteam:received_at": "2026-02-26T12:28:10.758Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -199,13 +199,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_7b2aa24154d1"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_lab_technician"
           },
@@ -216,7 +216,7 @@
             "@id": "inst:Act_tested"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.480Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.758Z"
       }
     ]
   }

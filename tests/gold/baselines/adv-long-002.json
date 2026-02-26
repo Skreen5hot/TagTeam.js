@@ -6,7 +6,7 @@
     "long-np",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T19:35:08.893Z",
+  "generatedAt": "2026-02-26T12:28:11.741Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -155,7 +155,7 @@
         ],
         "rdfs:label": "newly appointed deputy commissioner of field operation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.893Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.741Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_913620ff359a",
         "tagteam:denotesType": "Entity"
       },
@@ -167,7 +167,7 @@
         ],
         "rdfs:label": "field operation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.893Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.741Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_913620ff359a",
         "tagteam:denotesType": "Entity"
       },
@@ -179,7 +179,7 @@
         ],
         "rdfs:label": "memorandum",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.893Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.741Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_913620ff359a",
         "tagteam:denotesType": "Entity"
       },
@@ -193,7 +193,7 @@
         "has_text_value": "The newly appointed deputy commissioner of field operations issued the memorandum",
         "tagteam:char_count": 81,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-22T19:35:08.873Z"
+        "tagteam:received_at": "2026-02-26T12:28:11.728Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -222,13 +222,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_913620ff359a"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_newly_appointed_deputy_commissioner_of_field_operations"
           },
@@ -245,7 +245,7 @@
             "@id": "inst:Act_issued"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.873Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.728Z"
       }
     ]
   }

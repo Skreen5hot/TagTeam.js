@@ -6,7 +6,7 @@
     "nested-pp",
     "forensics"
   ],
-  "generatedAt": "2026-02-22T19:35:09.041Z",
+  "generatedAt": "2026-02-26T12:28:11.848Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -280,7 +280,7 @@
         ],
         "rdfs:label": "officer",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:09.041Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.847Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c1802d30f53e",
         "tagteam:denotesType": "Person"
       },
@@ -292,7 +292,7 @@
         ],
         "rdfs:label": "evidence",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:09.041Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.847Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c1802d30f53e",
         "tagteam:denotesType": "Entity"
       },
@@ -304,7 +304,7 @@
         ],
         "rdfs:label": "scene",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:09.041Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.847Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c1802d30f53e",
         "tagteam:denotesType": "Entity"
       },
@@ -316,7 +316,7 @@
         ],
         "rdfs:label": "lab",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:09.041Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.847Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c1802d30f53e",
         "tagteam:denotesType": "Entity"
       },
@@ -328,7 +328,7 @@
         ],
         "rdfs:label": "analysis",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:09.041Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.847Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c1802d30f53e",
         "tagteam:denotesType": "Entity"
       },
@@ -342,7 +342,7 @@
         "has_text_value": "The officer transported the evidence from the scene to the lab for analysis",
         "tagteam:char_count": 75,
         "tagteam:word_count": 13,
-        "tagteam:received_at": "2026-02-22T19:35:09.028Z"
+        "tagteam:received_at": "2026-02-26T12:28:11.837Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -371,13 +371,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_c1802d30f53e"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_officer"
           },
@@ -400,7 +400,7 @@
             "@id": "inst:Act_transported"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:09.028Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.837Z"
       }
     ]
   }

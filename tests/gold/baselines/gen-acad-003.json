@@ -6,7 +6,7 @@
     "academic",
     "funding"
   ],
-  "generatedAt": "2026-02-22T19:35:08.538Z",
+  "generatedAt": "2026-02-26T12:28:11.479Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -184,7 +184,7 @@
         ],
         "rdfs:label": "committee",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.538Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.478Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ef416c4d629f",
         "tagteam:denotesType": "Entity"
       },
@@ -196,7 +196,7 @@
         ],
         "rdfs:label": "grant",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.538Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.479Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ef416c4d629f",
         "tagteam:denotesType": "Entity"
       },
@@ -208,7 +208,7 @@
         ],
         "rdfs:label": "laboratory",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.538Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.479Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ef416c4d629f",
         "tagteam:denotesType": "Entity"
       },
@@ -222,7 +222,7 @@
         "has_text_value": "The committee awarded the grant to the laboratory",
         "tagteam:char_count": 49,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T19:35:08.528Z"
+        "tagteam:received_at": "2026-02-26T12:28:11.470Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -251,13 +251,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_ef416c4d629f"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_committee"
           },
@@ -274,7 +274,7 @@
             "@id": "inst:Act_awarded"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.528Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.470Z"
       }
     ]
   }

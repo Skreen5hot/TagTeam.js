@@ -7,7 +7,7 @@
     "keep",
     "government"
   ],
-  "generatedAt": "2026-02-22T19:35:06.432Z",
+  "generatedAt": "2026-02-26T12:28:10.149Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -167,7 +167,7 @@
         "rdfs:label": "department of homeland security",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.432Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.148Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5d18eb0ca86c",
         "tagteam:denotesType": "Organization"
       },
@@ -179,7 +179,7 @@
         ],
         "rdfs:label": "homeland security",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.432Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.148Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5d18eb0ca86c",
         "tagteam:denotesType": "Organization"
       },
@@ -191,7 +191,7 @@
         ],
         "rdfs:label": "directive",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.432Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.148Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5d18eb0ca86c",
         "tagteam:denotesType": "Entity"
       },
@@ -205,7 +205,7 @@
         "has_text_value": "The Department of Homeland Security issued the directive",
         "tagteam:char_count": 56,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T19:35:06.420Z"
+        "tagteam:received_at": "2026-02-26T12:28:10.138Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -234,13 +234,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_5d18eb0ca86c"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_Department_of_Homeland_Security"
           },
@@ -254,7 +254,7 @@
             "@id": "inst:Act_issued"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.420Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.138Z"
       }
     ]
   }

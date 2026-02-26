@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T19:35:08.173Z",
+  "generatedAt": "2026-02-26T12:28:11.207Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -195,7 +195,7 @@
         "rdfs:label": "analyst",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.172Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.206Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_052be27bb329",
         "tagteam:denotesType": "Person"
       },
@@ -207,7 +207,7 @@
         ],
         "rdfs:label": "intelligence",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.172Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.206Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_052be27bb329",
         "tagteam:denotesType": "Entity"
       },
@@ -219,7 +219,7 @@
         ],
         "rdfs:label": "multiple source",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.172Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.206Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_052be27bb329",
         "tagteam:denotesType": "Entity"
       },
@@ -233,7 +233,7 @@
         "has_text_value": "The analyst gathered intelligence from multiple sources",
         "tagteam:char_count": 55,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T19:35:08.162Z"
+        "tagteam:received_at": "2026-02-26T12:28:11.199Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -262,13 +262,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_052be27bb329"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_analyst"
           },
@@ -282,7 +282,7 @@
             "@id": "inst:Act_gathered"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.162Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.199Z"
       }
     ]
   }

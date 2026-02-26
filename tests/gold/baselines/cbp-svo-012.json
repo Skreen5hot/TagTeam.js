@@ -7,7 +7,7 @@
     "cbp",
     "trade"
   ],
-  "generatedAt": "2026-02-22T19:35:07.413Z",
+  "generatedAt": "2026-02-26T12:28:10.719Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -144,7 +144,7 @@
         "rdfs:label": "import specialist",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.413Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.718Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e6194180de4c",
         "tagteam:denotesType": "Person"
       },
@@ -156,7 +156,7 @@
         ],
         "rdfs:label": "declaration",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.413Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.719Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e6194180de4c",
         "tagteam:denotesType": "Entity"
       },
@@ -170,7 +170,7 @@
         "has_text_value": "The import specialist verified the declaration",
         "tagteam:char_count": 46,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T19:35:07.396Z"
+        "tagteam:received_at": "2026-02-26T12:28:10.709Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -199,13 +199,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_e6194180de4c"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_import_specialist"
           },
@@ -216,7 +216,7 @@
             "@id": "inst:Act_verified"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.396Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.709Z"
       }
     ]
   }

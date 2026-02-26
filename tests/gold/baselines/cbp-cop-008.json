@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T19:35:07.738Z",
+  "generatedAt": "2026-02-26T12:28:10.930Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -96,7 +96,7 @@
         "rdfs:label": "sector",
         "tagteam:genericityCategory": "AMB",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.738Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.930Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_80cdc9eae006",
         "tagteam:denotesType": "Entity"
       },
@@ -108,7 +108,7 @@
         ],
         "rdfs:label": "responsibility",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.738Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.930Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_80cdc9eae006",
         "tagteam:denotesType": "Entity"
       },
@@ -122,7 +122,7 @@
         "has_text_value": "The sector is a geographic area of responsibility",
         "tagteam:char_count": 49,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T19:35:07.719Z"
+        "tagteam:received_at": "2026-02-26T12:28:10.920Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -151,13 +151,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_80cdc9eae006"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_sector"
           },
@@ -165,7 +165,7 @@
             "@id": "inst:responsibility"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.719Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.920Z"
       }
     ]
   }

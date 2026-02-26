@@ -1,0 +1,341 @@
+@prefix : <http://tagteam.fandaws.org/ontology/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix bfo: <http://purl.obolibrary.org/obo/> .
+@prefix cco: <https://www.commoncoreontologies.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+# =============================================================================
+# TagTeam v3 Ontology
+# =============================================================================
+#
+# Merges:
+#   - Core property axioms (from @context audit v2.2 — BFO bridges,
+#     datatype segregation, near-miss documentation)
+#   - v2 structural semantics (speech acts, clause segmentation,
+#     verb class routing, discourse memory)
+#
+# Style conventions:
+#   - Every entity carries rdfs:label + skos:prefLabel + skos:definition
+#   - skos:scopeNote used ONLY for near-miss documentation (why a tagteam:
+#     property is NOT the BFO/CCO property it resembles)
+#   - Default namespace ':' for all tagteam terms
+#
+# Namespace: http://tagteam.fandaws.org/ontology/
+# Alignment: BFO 2020, CCO 2.0
+# =============================================================================
+
+<http://tagteam.fandaws.org/ontology/v3/>
+    a owl:Ontology ;
+    owl:versionIRI <http://tagteam.fandaws.org/ontology/v3/3.0.0/> ;
+    owl:versionInfo "3.0.0"^^xsd:string ;
+    dc:title "TagTeam v3 Ontology"@en ;
+    dc:description "Unified ontology merging core property axioms (BFO bridges, datatype segregation) with structural semantics extensions (clause segmentation, speech act typing, verb class routing, discourse memory)."@en ;
+    dcterms:created "2026-02-26"^^xsd:date ;
+    owl:imports <http://purl.obolibrary.org/obo/bfo-core.owl> ;
+    owl:imports <https://www.commoncoreontologies.org/CommonCoreOntologiesMerged> .
+
+
+# =============================================================================
+# CORE OBJECT PROPERTIES — BFO BRIDGED (Audit §3.3)
+# =============================================================================
+
+:has_function
+    a owl:ObjectProperty ;
+    rdfs:subPropertyOf bfo:BFO_0000196 ;  # BFO 2020 bearer_of
+    rdfs:label "has function"@en ;
+    skos:prefLabel "has function"@en ;
+    skos:definition "An object property relating an independent continuant to a function that inheres in it."@en .
+
+
+# =============================================================================
+# CORE OBJECT PROPERTIES — DOMAIN-SPECIFIC (Audit §3–4, §8)
+# =============================================================================
+
+:would_be_realized_in
+    a owl:ObjectProperty ;
+    rdfs:label "would be realized in"@en ;
+    skos:prefLabel "would be realized in"@en ;
+    skos:definition "An object property relating a realizable entity to a process type in which it would be realized under counterfactual conditions."@en ;
+    skos:scopeNote "Denotes counterfactual realization. BFO realizes/realized_in is reserved for actual events only."@en .
+
+:extracted_from
+    a owl:ObjectProperty ;
+    rdfs:label "extracted from"@en ;
+    skos:prefLabel "extracted from"@en ;
+    skos:definition "An object property relating a parse artifact to the source text span from which it was produced by an NLP process."@en .
+
+:has_component
+    a owl:ObjectProperty ;
+    rdfs:label "has component"@en ;
+    skos:prefLabel "has component"@en ;
+    skos:definition "An object property relating a linguistic structure to a constituent grammatical unit it contains."@en ;
+    skos:scopeNote "Denotes linguistic or structural composition (e.g., VerbPhrase contains NounPhrase). STRICTLY NOT BFO mereological parthood (has_continuant_part BFO_0000178)."@en .
+
+:supersedes
+    a owl:ObjectProperty ;
+    rdfs:label "supersedes"@en ;
+    skos:prefLabel "supersedes"@en ;
+    skos:definition "An object property relating a document or validation record to the prior version it replaces."@en ;
+    skos:scopeNote "Denotes document or validation record versioning. Distinct from CCO is_successor_of (cco:ont00001775), which implies a manufacturing/process chain."@en .
+
+:describes_quality
+    a owl:ObjectProperty ;
+    rdfs:label "describes quality"@en ;
+    skos:prefLabel "describes quality"@en ;
+    skos:definition "An object property relating a discourse referent to the quality it characterizes in the source text."@en ;
+    skos:scopeNote "Links a DiscourseReferent to a Quality. Distinct from CCO describes (cco:ont00001982), which has domain DescriptiveICE."@en .
+
+
+# =============================================================================
+# CORE DATATYPE PROPERTIES (Audit §3.2)
+# =============================================================================
+
+:has_start_time
+    a owl:DatatypeProperty ;
+    rdfs:label "has start time"@en ;
+    skos:prefLabel "has start time"@en ;
+    skos:definition "A datatype property relating a process or temporal entity to its beginning instant expressed as an xsd:dateTime literal."@en ;
+    rdfs:range xsd:dateTime ;
+    skos:scopeNote "NLP extraction property. Distinct from BFO has_first_instant (BFO_0000222), which is an owl:ObjectProperty pointing to a TemporalInstant individual."@en .
+
+:has_end_time
+    a owl:DatatypeProperty ;
+    rdfs:label "has end time"@en ;
+    skos:prefLabel "has end time"@en ;
+    skos:definition "A datatype property relating a process or temporal entity to its ending instant expressed as an xsd:dateTime literal."@en ;
+    rdfs:range xsd:dateTime ;
+    skos:scopeNote "NLP extraction property. Distinct from BFO has_last_instant (BFO_0000224), which is an owl:ObjectProperty pointing to a TemporalInstant individual."@en .
+
+
+# =============================================================================
+# SPEECH ACT CLASSES
+# =============================================================================
+
+:SpeechAct
+    a owl:Class ;
+    rdfs:subClassOf cco:InformationContentEntity ;
+    rdfs:label "Speech Act"@en ;
+    skos:prefLabel "Speech Act"@en ;
+    skos:definition "An information content entity that denotes the illocutionary force of an utterance."@en .
+
+:Inquiry
+    a owl:Class ;
+    rdfs:subClassOf :SpeechAct ;
+    rdfs:label "Inquiry"@en ;
+    skos:prefLabel "Inquiry"@en ;
+    skos:definition "A speech act that requests information by wrapping an interrogative act."@en .
+
+:ConditionalContent
+    a owl:Class ;
+    rdfs:subClassOf :SpeechAct ;
+    rdfs:label "Conditional Content"@en ;
+    skos:prefLabel "Conditional Content"@en ;
+    skos:definition "A speech act that denotes a condition-consequence relationship where the truth or occurrence of one proposition depends upon the truth or occurrence of another proposition."@en .
+
+:ValueAssertionEvent
+    a owl:Class ;
+    rdfs:subClassOf :SpeechAct ;
+    rdfs:label "Value Assertion Event"@en ;
+    skos:prefLabel "Value Assertion Event"@en ;
+    skos:definition "A speech act that expresses a judgment about the worth, quality, or significance of some entity."@en .
+
+
+# =============================================================================
+# STRUCTURAL CLASSES
+# =============================================================================
+
+:ClauseRelation
+    a owl:Class ;
+    rdfs:label "Clause Relation"@en ;
+    skos:prefLabel "Clause Relation"@en ;
+    skos:definition "A structural connection that links two grammatical units within a compound or complex sentence."@en .
+
+:CausativeAct
+    a owl:Class ;
+    rdfs:subClassOf cco:IntentionalAct ;
+    rdfs:label "Causative Act"@en ;
+    skos:prefLabel "Causative Act"@en ;
+    skos:definition "An intentional behavior that brings about another agent's performance of an action."@en .
+
+
+# =============================================================================
+# ACTUALITY STATUS INDIVIDUALS (new to v2; others reused from core)
+# =============================================================================
+
+:Interrogative
+    a owl:NamedIndividual, :ActualityStatus ;
+    rdfs:label "Interrogative"@en ;
+    skos:prefLabel "Interrogative"@en ;
+    skos:definition "An actuality status that denotes the event is being questioned."@en .
+
+
+# =============================================================================
+# CLAUSE RELATION TYPE INDIVIDUALS
+# =============================================================================
+
+:and_then
+    a owl:NamedIndividual, :ClauseRelation ;
+    rdfs:label "and then"@en ;
+    skos:prefLabel "and then"@en ;
+    skos:definition "A clause relation denoting sequential coordination where clause A is followed by clause B."@en .
+
+:therefore
+    a owl:NamedIndividual, :ClauseRelation ;
+    rdfs:label "therefore"@en ;
+    skos:prefLabel "therefore"@en ;
+    skos:definition "A clause relation denoting that clause B is a consequence of clause A."@en .
+
+:in_order_that
+    a owl:NamedIndividual, :ClauseRelation ;
+    rdfs:label "in order that"@en ;
+    skos:prefLabel "in order that"@en ;
+    skos:definition "A clause relation denoting a purposive connection where one clause expresses the goal or intended outcome of another clause."@en .
+
+:contrasts_with
+    a owl:NamedIndividual, :ClauseRelation ;
+    rdfs:label "contrasts with"@en ;
+    skos:prefLabel "contrasts with"@en ;
+    skos:definition "A clause relation denoting that clause B presents information that differs from or opposes the information presented in clause A."@en .
+
+:alternative_to
+    a owl:NamedIndividual, :ClauseRelation ;
+    rdfs:label "alternative to"@en ;
+    skos:prefLabel "alternative to"@en ;
+    skos:definition "A clause relation denoting that clause B is a substitute option for clause A."@en .
+
+
+# =============================================================================
+# TEMPORAL RELATION INDIVIDUALS
+# =============================================================================
+
+:precedes
+    a owl:NamedIndividual ;
+    rdfs:label "precedes"@en ;
+    skos:prefLabel "precedes"@en ;
+    skos:definition "A temporal relation denoting that the source event occurs before the target event."@en .
+
+:follows
+    a owl:NamedIndividual ;
+    rdfs:label "follows"@en ;
+    skos:prefLabel "follows"@en ;
+    skos:definition "A temporal relation denoting that the source event occurs after the target event."@en .
+
+:simultaneous_with
+    a owl:NamedIndividual ;
+    rdfs:label "simultaneous with"@en ;
+    skos:prefLabel "simultaneous with"@en ;
+    skos:definition "A temporal relation denoting that the events occur at the same time."@en .
+
+
+# =============================================================================
+# DATATYPE PROPERTIES — v2 EXTENSIONS
+# =============================================================================
+
+:clauseIndex
+    a owl:DatatypeProperty ;
+    rdfs:label "clause index"@en ;
+    skos:prefLabel "clause index"@en ;
+    skos:definition "A datatype property that denotes a zero-based numerical position identifying which grammatical unit an act belongs to in a multi-unit sentence."@en ;
+    rdfs:range xsd:integer .
+
+:subjectSource
+    a owl:DatatypeProperty ;
+    rdfs:label "subject source"@en ;
+    skos:prefLabel "subject source"@en ;
+    skos:definition "A datatype property that denotes the method by which a grammatical topic was determined for a linguistic expression."@en ;
+    rdfs:range xsd:string .
+
+:whPhrase
+    a owl:DatatypeProperty ;
+    rdfs:label "Wh-phrase"@en ;
+    skos:prefLabel "Wh-phrase"@en ;
+    skos:definition "A datatype property that denotes the original interrogative phrase from a question before normalization."@en ;
+    rdfs:range xsd:string .
+
+:verbClass
+    a owl:DatatypeProperty ;
+    rdfs:label "verb class"@en ;
+    skos:prefLabel "verb class"@en ;
+    skos:definition "A datatype property that denotes the grammatical category classification of action words, such as psychological, raising, or causative types."@en ;
+    rdfs:range xsd:string .
+
+:epistemicStatus
+    a owl:DatatypeProperty ;
+    rdfs:label "epistemic status"@en ;
+    skos:prefLabel "epistemic status"@en ;
+    skos:definition "A datatype property that denotes a qualification concerning the degree of certainty or confidence associated with a proposition or belief state."@en ;
+    rdfs:range xsd:string .
+
+:isQuestionFocus
+    a owl:DatatypeProperty ;
+    rdfs:label "is question focus"@en ;
+    skos:prefLabel "is question focus"@en ;
+    skos:definition "A datatype property that indicates the entity is the primary subject of inquiry in an interrogative statement."@en ;
+    rdfs:range xsd:boolean .
+
+
+# =============================================================================
+# ANNOTATION PROPERTIES
+# =============================================================================
+
+:structuralAmbiguity
+    a owl:AnnotationProperty ;
+    rdfs:label "structural ambiguity"@en ;
+    skos:prefLabel "structural ambiguity"@en ;
+    skos:definition "An annotation that flags a node as having unresolved structural ambiguity from the v2 pre-processing layer."@en .
+
+
+# =============================================================================
+# OBJECT PROPERTIES — v2 EXTENSIONS
+# =============================================================================
+
+:relationType
+    a owl:ObjectProperty ;
+    rdfs:label "relation type"@en ;
+    skos:prefLabel "relation type"@en ;
+    skos:definition "An object property that links a clause connection to its semantic category, such as sequential, causal, or contrastive."@en ;
+    rdfs:domain :ClauseRelation .
+
+:fromClause
+    a owl:ObjectProperty ;
+    rdfs:label "from clause"@en ;
+    skos:prefLabel "from clause"@en ;
+    skos:definition "An object property that relates a relational entity to its source linguistic act."@en ;
+    rdfs:domain :ClauseRelation .
+
+:toClause
+    a owl:ObjectProperty ;
+    rdfs:label "to clause"@en ;
+    skos:prefLabel "to clause"@en ;
+    skos:definition "An object property that relates a conditional statement to its consequent linguistic act."@en ;
+    rdfs:domain :ClauseRelation .
+
+:has_antecedent
+    a owl:ObjectProperty ;
+    rdfs:label "has antecedent"@en ;
+    skos:prefLabel "has antecedent"@en ;
+    skos:definition "An object property that relates a conditional information content entity to the information content entity that denotes the condition upon which the conditional depends."@en ;
+    rdfs:domain :ConditionalContent .
+
+:has_consequent
+    a owl:ObjectProperty ;
+    rdfs:label "has consequent"@en ;
+    skos:prefLabel "has consequent"@en ;
+    skos:definition "An object property that relates a conditional information content entity to the information content entity that denotes what follows when the conditional's antecedent condition is satisfied."@en ;
+    rdfs:domain :ConditionalContent .
+
+:has_cause
+    a owl:ObjectProperty ;
+    rdfs:label "has cause"@en ;
+    skos:prefLabel "has cause"@en ;
+    skos:definition "An object property that relates a mental process to the entity that causally brings about that mental process."@en .
+
+
+# =============================================================================
+# END OF V3 ONTOLOGY
+# =============================================================================

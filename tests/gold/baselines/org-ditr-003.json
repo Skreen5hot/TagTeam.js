@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T19:35:06.751Z",
+  "generatedAt": "2026-02-26T12:28:10.339Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -175,7 +175,7 @@
         "rdfs:label": "director",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.750Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.338Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_985b2c0d6976",
         "tagteam:denotesType": "Person"
       },
@@ -187,7 +187,7 @@
         ],
         "rdfs:label": "field office",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.750Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.338Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_985b2c0d6976",
         "tagteam:denotesType": "Facility"
       },
@@ -199,7 +199,7 @@
         ],
         "rdfs:label": "instructions",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.750Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.338Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_985b2c0d6976",
         "tagteam:denotesType": "Entity"
       },
@@ -213,7 +213,7 @@
         "has_text_value": "The director sent the field office updated instructions",
         "tagteam:char_count": 55,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T19:35:06.734Z"
+        "tagteam:received_at": "2026-02-26T12:28:10.329Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -242,13 +242,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_985b2c0d6976"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_director"
           },
@@ -262,7 +262,7 @@
             "@id": "inst:Act_updated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.734Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.329Z"
       }
     ]
   }

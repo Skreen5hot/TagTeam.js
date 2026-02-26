@@ -85,7 +85,7 @@ class DirectiveExtractor {
           directives.push(directive);
 
           // Link act back to directive
-          act['tagteam:prescribed_by'] = { '@id': directive['@id'] };
+          act['prescribed_by'] = { '@id': directive['@id'] };
         }
       }
     });

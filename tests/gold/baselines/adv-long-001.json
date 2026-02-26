@@ -6,7 +6,7 @@
     "long-np",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T19:35:08.868Z",
+  "generatedAt": "2026-02-26T12:28:11.724Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -170,7 +170,7 @@
         "rdfs:label": "senior intelligence analyst at the operations center",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.868Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.723Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ba2ae99ec82f",
         "tagteam:denotesType": "Person"
       },
@@ -182,7 +182,7 @@
         ],
         "rdfs:label": "operations center",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.868Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.723Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ba2ae99ec82f",
         "tagteam:denotesType": "Entity"
       },
@@ -194,7 +194,7 @@
         ],
         "rdfs:label": "assessment",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.868Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.723Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ba2ae99ec82f",
         "tagteam:denotesType": "Entity"
       },
@@ -208,7 +208,7 @@
         "has_text_value": "The senior intelligence analyst at the operations center reviewed the assessment",
         "tagteam:char_count": 80,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-22T19:35:08.854Z"
+        "tagteam:received_at": "2026-02-26T12:28:11.712Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -237,13 +237,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_ba2ae99ec82f"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_senior_intelligence_analyst_at_the_operations_center"
           },
@@ -257,7 +257,7 @@
             "@id": "inst:Act_reviewed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.854Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.712Z"
       }
     ]
   }

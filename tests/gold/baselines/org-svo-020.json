@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T19:35:06.213Z",
+  "generatedAt": "2026-02-26T12:28:09.990Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -144,7 +144,7 @@
         "rdfs:label": "bureau",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.212Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.990Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_62a0e7609c2c",
         "tagteam:denotesType": "Entity"
       },
@@ -156,7 +156,7 @@
         ],
         "rdfs:label": "investigation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.212Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.990Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_62a0e7609c2c",
         "tagteam:denotesType": "Entity"
       },
@@ -170,7 +170,7 @@
         "has_text_value": "The bureau conducted an investigation",
         "tagteam:char_count": 37,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-22T19:35:06.198Z"
+        "tagteam:received_at": "2026-02-26T12:28:09.981Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -199,13 +199,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_62a0e7609c2c"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_bureau"
           },
@@ -216,7 +216,7 @@
             "@id": "inst:Act_conducted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.198Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.981Z"
       }
     ]
   }

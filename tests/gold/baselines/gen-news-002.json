@@ -6,7 +6,7 @@
     "news",
     "business"
   ],
-  "generatedAt": "2026-02-22T19:35:08.385Z",
+  "generatedAt": "2026-02-26T12:28:11.363Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -191,7 +191,7 @@
         "rdfs:label": "company",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.384Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.362Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be291b49b5d2",
         "tagteam:denotesType": "Organization"
       },
@@ -203,7 +203,7 @@
         ],
         "rdfs:label": "merger",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.384Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.362Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be291b49b5d2",
         "tagteam:denotesType": "Entity"
       },
@@ -215,7 +215,7 @@
         ],
         "rdfs:label": "its competitor",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.384Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.362Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be291b49b5d2",
         "tagteam:denotesType": "Entity"
       },
@@ -229,7 +229,7 @@
         "has_text_value": "The company announced a merger with its competitor",
         "tagteam:char_count": 50,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T19:35:08.371Z"
+        "tagteam:received_at": "2026-02-26T12:28:11.352Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -258,13 +258,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_be291b49b5d2"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_company"
           },
@@ -278,7 +278,7 @@
             "@id": "inst:Act_announced"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.371Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.352Z"
       }
     ]
   }

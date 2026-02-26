@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T19:35:06.235Z",
+  "generatedAt": "2026-02-26T12:28:10.004Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -145,7 +145,7 @@
         "rdfs:label": "suspect",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.234Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.004Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4eac41fb7b6a",
         "tagteam:denotesType": "Person"
       },
@@ -157,7 +157,7 @@
         ],
         "rdfs:label": "officer",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.234Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.004Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4eac41fb7b6a",
         "tagteam:denotesType": "Entity"
       },
@@ -171,7 +171,7 @@
         "has_text_value": "The suspect was apprehended by the officers",
         "tagteam:char_count": 43,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T19:35:06.219Z"
+        "tagteam:received_at": "2026-02-26T12:28:09.995Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -200,13 +200,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_4eac41fb7b6a"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_suspect"
           },
@@ -217,7 +217,7 @@
             "@id": "inst:Act_apprehended"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.219Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.995Z"
       }
     ]
   }
