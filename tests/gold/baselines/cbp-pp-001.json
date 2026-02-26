@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T19:35:08.128Z",
+  "generatedAt": "2026-02-26T10:38:53.878Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -195,7 +195,7 @@
         "rdfs:label": "agent",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.128Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.878Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1f0c8c112476",
         "tagteam:denotesType": "Person"
       },
@@ -207,7 +207,7 @@
         ],
         "rdfs:label": "report",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.128Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.878Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1f0c8c112476",
         "tagteam:denotesType": "Entity"
       },
@@ -219,7 +219,7 @@
         ],
         "rdfs:label": "station",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.128Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.878Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1f0c8c112476",
         "tagteam:denotesType": "Entity"
       },
@@ -233,7 +233,7 @@
         "has_text_value": "The agent filed the report at the station",
         "tagteam:char_count": 41,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T19:35:08.118Z"
+        "tagteam:received_at": "2026-02-26T10:38:53.870Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -262,13 +262,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_1f0c8c112476"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_agent"
           },
@@ -282,7 +282,7 @@
             "@id": "inst:Act_filed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.118Z"
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.870Z"
       }
     ]
   }

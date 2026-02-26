@@ -6,7 +6,7 @@
     "ditransitive",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T19:35:08.330Z",
+  "generatedAt": "2026-02-26T10:38:54.031Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -151,7 +151,7 @@
         "rdfs:label": "instructor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.330Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.031Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_412cc0d5f18c",
         "tagteam:denotesType": "Entity"
       },
@@ -163,7 +163,7 @@
         ],
         "rdfs:label": "class",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.330Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.031Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_412cc0d5f18c",
         "tagteam:denotesType": "Entity"
       },
@@ -177,7 +177,7 @@
         "has_text_value": "The instructor showed the class the new procedure",
         "tagteam:char_count": 49,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T19:35:08.317Z"
+        "tagteam:received_at": "2026-02-26T10:38:54.023Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -206,13 +206,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_412cc0d5f18c"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_instructor"
           },
@@ -223,7 +223,7 @@
             "@id": "inst:Act_showed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.317Z"
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.023Z"
       }
     ]
   }

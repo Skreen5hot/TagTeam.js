@@ -6,7 +6,7 @@
     "long-np",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T19:35:08.921Z",
+  "generatedAt": "2026-02-26T10:38:54.454Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -170,7 +170,7 @@
         "rdfs:label": "chief patrol agent of the rio grande valley sector",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.921Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.453Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0ea5cf1748b8",
         "tagteam:denotesType": "Person"
       },
@@ -182,7 +182,7 @@
         ],
         "rdfs:label": "rio grande valley sector",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.921Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.453Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0ea5cf1748b8",
         "tagteam:denotesType": "Entity"
       },
@@ -194,7 +194,7 @@
         ],
         "rdfs:label": "team",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.921Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.453Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0ea5cf1748b8",
         "tagteam:denotesType": "Organization"
       },
@@ -208,7 +208,7 @@
         "has_text_value": "The chief patrol agent of the Rio Grande Valley sector briefed the team",
         "tagteam:char_count": 71,
         "tagteam:word_count": 13,
-        "tagteam:received_at": "2026-02-22T19:35:08.901Z"
+        "tagteam:received_at": "2026-02-26T10:38:54.442Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -237,13 +237,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_0ea5cf1748b8"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_chief_patrol_agent_of_the_Rio_Grande_Valley_sector"
           },
@@ -257,7 +257,7 @@
             "@id": "inst:Act_briefed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.901Z"
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.442Z"
       }
     ]
   }

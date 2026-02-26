@@ -313,7 +313,7 @@ test('@context includes DiscourseReferent class (AC-1.1.3)', () => {
   const parsed = JSON.parse(serializer.serialize(graph));
 
   const context = parsed['@context'];
-  assert(context.DiscourseReferent === 'tagteam:DiscourseReferent',
+  assert(context.DiscourseReferent['@id'] === 'tagteam:DiscourseReferent',
     '@context defines DiscourseReferent');
 });
 
@@ -323,8 +323,8 @@ test('@context includes is_about (cross-tier relation per v2.2 spec)', () => {
   const parsed = JSON.parse(serializer.serialize(graph));
 
   const context = parsed['@context'];
-  assert(context.is_about['@id'] === 'cco:is_about',
-    'is_about maps to cco:is_about');
+  assert(context.is_about['@id'] === 'cco:ont00001808',
+    'is_about maps to cco:ont00001808');
   assert(context.is_about['@type'] === '@id',
     'is_about is @id type');
 });
@@ -345,9 +345,9 @@ test('@context includes all GIT-Minimal classes', () => {
   const parsed = JSON.parse(serializer.serialize(graph));
 
   const context = parsed['@context'];
-  assert(context.InterpretationContext === 'tagteam:InterpretationContext');
-  assert(context.AutomatedDetection === 'tagteam:AutomatedDetection');
-  assert(context.HumanValidation === 'tagteam:HumanValidation');
+  assert(context.InterpretationContext['@id'] === 'tagteam:InterpretationContext');
+  assert(context.AutomatedDetection['@id'] === 'tagteam:AutomatedDetection');
+  assert(context.HumanValidation['@id'] === 'tagteam:HumanValidation');
 });
 
 test('@context includes GIT-Minimal properties', () => {
@@ -368,7 +368,7 @@ test('@context includes BFO relations', () => {
   const parsed = JSON.parse(serializer.serialize(graph));
 
   const context = parsed['@context'];
-  assert(context.inheres_in['@id'] === 'bfo:BFO_0000052');
+  assert(context.inheres_in['@id'] === 'bfo:BFO_0000197');
   assert(context.realized_in['@id'] === 'bfo:BFO_0000054');
   assert(context.has_participant['@id'] === 'bfo:BFO_0000057');
 });
@@ -392,12 +392,12 @@ test('@context includes Tier 1 classes (v2.2)', () => {
   const parsed = JSON.parse(serializer.serialize(graph));
 
   const context = parsed['@context'];
-  assert(context.DiscourseReferent === 'tagteam:DiscourseReferent');
-  assert(context.VerbPhrase === 'tagteam:VerbPhrase');
-  assert(context.DirectiveContent === 'tagteam:DirectiveContent');
-  assert(context.ScarcityAssertion === 'tagteam:ScarcityAssertion');
-  assert(context.ValueDetectionRecord === 'tagteam:ValueDetectionRecord');
-  assert(context.ContextAssessmentRecord === 'tagteam:ContextAssessmentRecord');
+  assert(context.DiscourseReferent['@id'] === 'tagteam:DiscourseReferent');
+  assert(context.VerbPhrase['@id'] === 'tagteam:VerbPhrase');
+  assert(context.DirectiveContent['@id'] === 'tagteam:DirectiveContent');
+  assert(context.ScarcityAssertion['@id'] === 'tagteam:ScarcityAssertion');
+  assert(context.ValueDetectionRecord['@id'] === 'tagteam:ValueDetectionRecord');
+  assert(context.ContextAssessmentRecord['@id'] === 'tagteam:ContextAssessmentRecord');
 });
 
 test('@context includes Actuality Status Named Individuals (v2.2)', () => {
@@ -406,14 +406,14 @@ test('@context includes Actuality Status Named Individuals (v2.2)', () => {
   const parsed = JSON.parse(serializer.serialize(graph));
 
   const context = parsed['@context'];
-  assert(context.ActualityStatus === 'tagteam:ActualityStatus');
-  assert(context.Actual === 'tagteam:Actual');
-  assert(context.Prescribed === 'tagteam:Prescribed');
-  assert(context.Permitted === 'tagteam:Permitted');
-  assert(context.Prohibited === 'tagteam:Prohibited');
-  assert(context.Hypothetical === 'tagteam:Hypothetical');
-  assert(context.Planned === 'tagteam:Planned');
-  assert(context.Negated === 'tagteam:Negated');
+  assert(context.ActualityStatus['@id'] === 'tagteam:ActualityStatus');
+  assert(context.Actual['@id'] === 'tagteam:Actual');
+  assert(context.Prescribed['@id'] === 'tagteam:Prescribed');
+  assert(context.Permitted['@id'] === 'tagteam:Permitted');
+  assert(context.Prohibited['@id'] === 'tagteam:Prohibited');
+  assert(context.Hypothetical['@id'] === 'tagteam:Hypothetical');
+  assert(context.Planned['@id'] === 'tagteam:Planned');
+  assert(context.Negated['@id'] === 'tagteam:Negated');
 });
 
 test('@context includes cross-tier relations (v2.2)', () => {
@@ -422,9 +422,9 @@ test('@context includes cross-tier relations (v2.2)', () => {
   const parsed = JSON.parse(serializer.serialize(graph));
 
   const context = parsed['@context'];
-  assert(context.is_about['@id'] === 'cco:is_about');
-  assert(context.prescribes['@id'] === 'cco:prescribes');
-  assert(context.prescribed_by['@id'] === 'tagteam:prescribed_by');
+  assert(context.is_about['@id'] === 'cco:ont00001808');
+  assert(context.prescribes['@id'] === 'cco:ont00001942');
+  assert(context.prescribed_by['@id'] === 'cco:ont00001920');
 });
 
 test('@context includes Tier 1 relations (v2.2)', () => {
@@ -447,7 +447,7 @@ test('@context includes provenance properties (v2.2)', () => {
   assert(context.instantiated_at['@id'] === 'tagteam:instantiated_at');
   assert(context.instantiated_at['@type'] === 'xsd:dateTime');
   assert(context.instantiated_by['@id'] === 'tagteam:instantiated_by');
-  assert(context.negationMarker === 'tagteam:negationMarker');
+  assert(context.negationMarker['@id'] === 'tagteam:negationMarker');
 });
 
 test('@context includes actualityStatus property (v2.2)', () => {
@@ -480,8 +480,8 @@ test('@context includes deontic properties (v2.2)', () => {
   const parsed = JSON.parse(serializer.serialize(graph));
 
   const context = parsed['@context'];
-  assert(context.modalType === 'tagteam:modalType');
-  assert(context.modalMarker === 'tagteam:modalMarker');
+  assert(context.modalType['@id'] === 'tagteam:modalType');
+  assert(context.modalMarker['@id'] === 'tagteam:modalMarker');
   assert(context.modalStrength['@type'] === 'xsd:decimal');
 });
 
@@ -491,10 +491,10 @@ test('@context includes VerbPhrase properties (v2.2)', () => {
   const parsed = JSON.parse(serializer.serialize(graph));
 
   const context = parsed['@context'];
-  assert(context.verb === 'tagteam:verb');
-  assert(context.lemma === 'tagteam:lemma');
-  assert(context.tense === 'tagteam:tense');
-  assert(context.hasModalMarker === 'tagteam:hasModalMarker');
+  assert(context.verb['@id'] === 'tagteam:verb');
+  assert(context.lemma['@id'] === 'tagteam:lemma');
+  assert(context.tense['@id'] === 'tagteam:tense');
+  assert(context.hasModalMarker['@id'] === 'tagteam:hasModalMarker');
 });
 
 test('@context includes IBE properties (v2.2)', () => {
@@ -503,7 +503,7 @@ test('@context includes IBE properties (v2.2)', () => {
   const parsed = JSON.parse(serializer.serialize(graph));
 
   const context = parsed['@context'];
-  assert(context.has_text_value === 'cco:has_text_value');
+  assert(context.has_text_value['@id'] === 'cco:ont00001765');
   assert(context.char_count['@type'] === 'xsd:integer');
   assert(context.received_at['@type'] === 'xsd:dateTime');
   assert(context.temporal_extent['@type'] === 'xsd:dateTime');
@@ -515,13 +515,13 @@ test('@context includes DiscourseReferent properties (v2.2)', () => {
   const parsed = JSON.parse(serializer.serialize(graph));
 
   const context = parsed['@context'];
-  assert(context.sourceText === 'tagteam:sourceText');
+  assert(context.sourceText['@id'] === 'tagteam:sourceText');
   assert(context.startPosition['@type'] === 'xsd:integer');
   assert(context.endPosition['@type'] === 'xsd:integer');
-  assert(context.definiteness === 'tagteam:definiteness');
+  assert(context.definiteness['@id'] === 'tagteam:definiteness');
   assert(context.quantity['@type'] === 'xsd:integer');
-  assert(context.quantityIndicator === 'tagteam:quantityIndicator');
-  assert(context.qualifiers === 'tagteam:qualifiers');
+  assert(context.quantityIndicator['@id'] === 'tagteam:quantityIndicator');
+  assert(context.qualifiers['@id'] === 'tagteam:qualifiers');
 });
 
 // Summary

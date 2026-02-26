@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-22T19:35:05.627Z",
+  "generatedAt": "2026-02-26T10:38:52.369Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -94,7 +94,7 @@
         "rdfs:label": "tsa",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:05.627Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:52.369Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_27346421d44a",
         "tagteam:denotesType": "Organization"
       },
@@ -106,7 +106,7 @@
         ],
         "rdfs:label": "transportation security",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:05.627Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:52.369Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_27346421d44a",
         "tagteam:denotesType": "Entity"
       },
@@ -120,7 +120,7 @@
         "has_text_value": "TSA is responsible for transportation security",
         "tagteam:char_count": 46,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T19:35:05.610Z"
+        "tagteam:received_at": "2026-02-26T10:38:52.360Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -149,13 +149,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_27346421d44a"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:TSA"
           },
@@ -163,7 +163,7 @@
             "@id": "inst:transportation_security"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:05.610Z"
+        "tagteam:instantiated_at": "2026-02-26T10:38:52.360Z"
       }
     ]
   }

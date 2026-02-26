@@ -7,7 +7,7 @@
     "split",
     "military"
   ],
-  "generatedAt": "2026-02-22T19:35:06.691Z",
+  "generatedAt": "2026-02-26T10:38:53.025Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -152,7 +152,7 @@
         "rdfs:label": "captain and the lieutenant",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.691Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.024Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b507a2e3cebb",
         "tagteam:denotesType": "Entity"
       },
@@ -164,7 +164,7 @@
         ],
         "rdfs:label": "team",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.691Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.024Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b507a2e3cebb",
         "tagteam:denotesType": "Organization"
       },
@@ -178,7 +178,7 @@
         "has_text_value": "The captain and the lieutenant briefed the team",
         "tagteam:char_count": 47,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T19:35:06.678Z"
+        "tagteam:received_at": "2026-02-26T10:38:53.017Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -207,13 +207,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_b507a2e3cebb"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_captain_and_the_lieutenant"
           },
@@ -224,7 +224,7 @@
             "@id": "inst:Act_briefed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.678Z"
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.017Z"
       }
     ]
   }

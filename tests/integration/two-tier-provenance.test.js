@@ -304,13 +304,13 @@ test('ActOfArtificialProcessing node exists', () => {
   assert(parsingActs.length === 1, `Expected exactly 1 ParsingAct, got ${parsingActs.length}`);
 });
 
-test('ParsingAct has tagteam:has_input pointing to IBE', () => {
+test('ParsingAct has has_input pointing to IBE', () => {
   const graph = buildTreeGraph(SENTENCES.svo);
   const nodes = getNodes(graph);
   const pa = findParsingAct(nodes)[0];
   const ibe = findByType(nodes, 'InformationBearingEntity')[0];
-  assert(pa['tagteam:has_input'], 'ParsingAct missing tagteam:has_input');
-  const inputIRI = typeof pa['tagteam:has_input'] === 'object' ? pa['tagteam:has_input']['@id'] : pa['tagteam:has_input'];
+  assert(pa['has_input'], 'ParsingAct missing has_input');
+  const inputIRI = typeof pa['has_input'] === 'object' ? pa['has_input']['@id'] : pa['has_input'];
   assert(inputIRI === ibe['@id'], `has_input should point to IBE (${ibe['@id']}), got ${inputIRI}`);
 });
 
@@ -324,12 +324,12 @@ test('ParsingAct has has_agent pointing to ArtificialAgent', () => {
   assert(agentIRI === agent['@id'], `has_agent should point to Agent (${agent['@id']}), got ${agentIRI}`);
 });
 
-test('ParsingAct has tagteam:has_output listing all ICE nodes', () => {
+test('ParsingAct has has_output listing all ICE nodes', () => {
   const graph = buildTreeGraph(SENTENCES.svo);
   const nodes = getNodes(graph);
   const pa = findParsingAct(nodes)[0];
-  assert(pa['tagteam:has_output'], 'ParsingAct missing tagteam:has_output');
-  const outputs = [].concat(pa['tagteam:has_output']);
+  assert(pa['has_output'], 'ParsingAct missing has_output');
+  const outputs = [].concat(pa['has_output']);
   assert(outputs.length >= 2, `Expected >= 2 ICE outputs, got ${outputs.length}`);
 });
 

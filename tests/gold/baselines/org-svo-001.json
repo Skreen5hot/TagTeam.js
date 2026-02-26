@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T19:35:05.834Z",
+  "generatedAt": "2026-02-26T10:38:52.488Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -145,7 +145,7 @@
         "rdfs:label": "fbi",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:05.834Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:52.488Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b812f66889ca",
         "tagteam:denotesType": "Organization"
       },
@@ -157,7 +157,7 @@
         ],
         "rdfs:label": "case",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:05.834Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:52.488Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b812f66889ca",
         "tagteam:denotesType": "Entity"
       },
@@ -171,7 +171,7 @@
         "has_text_value": "The FBI investigated the case",
         "tagteam:char_count": 29,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-22T19:35:05.818Z"
+        "tagteam:received_at": "2026-02-26T10:38:52.477Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -200,13 +200,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_b812f66889ca"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_FBI"
           },
@@ -217,7 +217,7 @@
             "@id": "inst:Act_investigated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:05.818Z"
+        "tagteam:instantiated_at": "2026-02-26T10:38:52.477Z"
       }
     ]
   }

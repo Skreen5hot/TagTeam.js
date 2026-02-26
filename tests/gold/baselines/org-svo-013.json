@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T19:35:06.081Z",
+  "generatedAt": "2026-02-26T10:38:52.629Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -144,7 +144,7 @@
         "rdfs:label": "forensic team",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.080Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:52.628Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_dbe65aa31683",
         "tagteam:denotesType": "Organization"
       },
@@ -156,7 +156,7 @@
         ],
         "rdfs:label": "sample",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.081Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:52.629Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_dbe65aa31683",
         "tagteam:denotesType": "Entity"
       },
@@ -170,7 +170,7 @@
         "has_text_value": "The forensic team analyzed the samples",
         "tagteam:char_count": 38,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T19:35:06.070Z"
+        "tagteam:received_at": "2026-02-26T10:38:52.621Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -199,13 +199,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_dbe65aa31683"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_forensic_team"
           },
@@ -216,7 +216,7 @@
             "@id": "inst:Act_analyzed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.070Z"
+        "tagteam:instantiated_at": "2026-02-26T10:38:52.621Z"
       }
     ]
   }

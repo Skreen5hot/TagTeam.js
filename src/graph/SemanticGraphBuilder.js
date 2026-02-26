@@ -720,7 +720,7 @@ class SemanticGraphBuilder {
       '@type': ['IntentionalAct', 'owl:NamedIndividual'],
       'rdfs:label': 'Semantic parsing act',
       'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
-      'tagteam:has_input': { '@id': ibeNode['@id'] },
+      'has_input': { '@id': ibeNode['@id'] },
       'has_agent': { '@id': parserAgentNode['@id'] },
       'tagteam:instantiated_at': this.buildTimestamp
     };
@@ -775,7 +775,7 @@ class SemanticGraphBuilder {
     if (outputICEs.length > 0) {
       const parsingActNode = this.nodeIndex.get(parsingActIRI);
       if (parsingActNode) {
-        parsingActNode['tagteam:has_output'] = outputICEs.map(ice => ({ '@id': ice['@id'] }));
+        parsingActNode['has_output'] = outputICEs.map(ice => ({ '@id': ice['@id'] }));
       }
     }
 
@@ -2134,9 +2134,9 @@ class SemanticGraphBuilder {
         '@type': ['IntentionalAct', 'owl:NamedIndividual'],
         'rdfs:label': 'Semantic parsing act',
         'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
-        'tagteam:has_input': { '@id': ibeNode['@id'] },
+        'has_input': { '@id': ibeNode['@id'] },
         'has_agent': { '@id': parserAgentNode['@id'] },
-        'tagteam:has_output': iceNodes.map(n => ({ '@id': n['@id'] })),
+        'has_output': iceNodes.map(n => ({ '@id': n['@id'] })),
         'tagteam:instantiated_at': this.buildTimestamp
       };
       graphNodes.push(parsingAct);

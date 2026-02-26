@@ -7,7 +7,7 @@
     "cbp",
     "operations"
   ],
-  "generatedAt": "2026-02-22T19:35:07.279Z",
+  "generatedAt": "2026-02-26T10:38:53.369Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -145,7 +145,7 @@
         "rdfs:label": "sector chief",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.279Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.369Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e4400b4f4de2",
         "tagteam:denotesType": "Entity"
       },
@@ -157,7 +157,7 @@
         ],
         "rdfs:label": "additional resources",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.279Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.369Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e4400b4f4de2",
         "tagteam:denotesType": "Entity"
       },
@@ -171,7 +171,7 @@
         "has_text_value": "The sector chief deployed additional resources",
         "tagteam:char_count": 46,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T19:35:07.267Z"
+        "tagteam:received_at": "2026-02-26T10:38:53.359Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -200,13 +200,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_e4400b4f4de2"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_sector_chief"
           },
@@ -217,7 +217,7 @@
             "@id": "inst:Act_deployed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.267Z"
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.359Z"
       }
     ]
   }

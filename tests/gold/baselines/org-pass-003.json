@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T19:35:06.271Z",
+  "generatedAt": "2026-02-26T10:38:52.765Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -145,7 +145,7 @@
         "rdfs:label": "policy",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.271Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:52.765Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_85ce02b56051",
         "tagteam:denotesType": "Entity"
       },
@@ -157,7 +157,7 @@
         ],
         "rdfs:label": "committee",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.271Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:52.765Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_85ce02b56051",
         "tagteam:denotesType": "Entity"
       },
@@ -171,7 +171,7 @@
         "has_text_value": "The policy was approved by the committee",
         "tagteam:char_count": 40,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T19:35:06.259Z"
+        "tagteam:received_at": "2026-02-26T10:38:52.755Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -200,13 +200,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_85ce02b56051"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_policy"
           },
@@ -217,7 +217,7 @@
             "@id": "inst:Act_approved"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.259Z"
+        "tagteam:instantiated_at": "2026-02-26T10:38:52.755Z"
       }
     ]
   }

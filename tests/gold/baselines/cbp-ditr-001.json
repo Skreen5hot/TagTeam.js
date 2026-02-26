@@ -6,7 +6,7 @@
     "ditransitive",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T19:35:08.278Z",
+  "generatedAt": "2026-02-26T10:38:53.999Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -194,7 +194,7 @@
         "rdfs:label": "supervisor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.277Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.999Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d885f31da205",
         "tagteam:denotesType": "Person"
       },
@@ -206,7 +206,7 @@
         ],
         "rdfs:label": "agent",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.278Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.999Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d885f31da205",
         "tagteam:denotesType": "Person"
       },
@@ -218,7 +218,7 @@
         ],
         "rdfs:label": "new credential",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.278Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.999Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d885f31da205",
         "tagteam:denotesType": "Entity"
       },
@@ -232,7 +232,7 @@
         "has_text_value": "The supervisor gave the agent new credentials",
         "tagteam:char_count": 45,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T19:35:08.264Z"
+        "tagteam:received_at": "2026-02-26T10:38:53.992Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -261,13 +261,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_d885f31da205"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_supervisor"
           },
@@ -281,7 +281,7 @@
             "@id": "inst:Act_gave"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.264Z"
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.992Z"
       }
     ]
   }

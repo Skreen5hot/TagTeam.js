@@ -313301,236 +313301,252 @@ class JSONLDSerializer {
    */
   _buildContext() {
     return {
-      // ===== Namespace Prefixes =====
-      bfo: 'http://purl.obolibrary.org/obo/',
-      cco: 'https://www.commoncoreontologies.org/',
+      // ═══════ Namespace Prefixes ═══════
+      bfo:     'http://purl.obolibrary.org/obo/',
+      cco:     'https://www.commoncoreontologies.org/',
       tagteam: 'http://tagteam.fandaws.org/ontology/',
-      inst: 'http://tagteam.fandaws.org/instance/',
-      rdf: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
-      rdfs: 'http://www.w3.org/2000/01/rdf-schema#',
-      owl: 'http://www.w3.org/2002/07/owl#',
-      xsd: 'http://www.w3.org/2001/XMLSchema#',
+      inst:    'http://tagteam.fandaws.org/instance/',
+      rdf:     'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+      rdfs:    'http://www.w3.org/2000/01/rdf-schema#',
+      owl:     'http://www.w3.org/2002/07/owl#',
+      xsd:     'http://www.w3.org/2001/XMLSchema#',
 
-      // ===== Tier 1 Classes (ICE - Parsing Layer) =====
-      DiscourseReferent: 'tagteam:DiscourseReferent',
-      VerbPhrase: 'tagteam:VerbPhrase',
-      DirectiveContent: 'tagteam:DirectiveContent',
-      ScarcityAssertion: 'tagteam:ScarcityAssertion',
-      ValueDetectionRecord: 'tagteam:ValueDetectionRecord',
-      ContextAssessmentRecord: 'tagteam:ContextAssessmentRecord',
-      InterpretationContext: 'tagteam:InterpretationContext',
+      // ═══════ BFO 2020 Classes ═══════
+      Entity:                         { '@id': 'bfo:BFO_0000001' },
+      Continuant:                     { '@id': 'bfo:BFO_0000002' },
+      IndependentContinuant:          { '@id': 'bfo:BFO_0000004' },
+      TemporalRegion:                 { '@id': 'bfo:BFO_0000008' },
+      Process:                        { '@id': 'bfo:BFO_0000015' },
+      Disposition:                    { '@id': 'bfo:BFO_0000016' },
+      Quality:                        { '@id': 'bfo:BFO_0000019' },
+      Role:                           { '@id': 'bfo:BFO_0000023' },
+      ObjectAggregate:                { '@id': 'bfo:BFO_0000027' },
+      Site:                           { '@id': 'bfo:BFO_0000029' },
+      Object:                         { '@id': 'bfo:BFO_0000030' },
+      GenericallyDependentContinuant: { '@id': 'bfo:BFO_0000031' },
+      OneDimensionalTemporalRegion:   { '@id': 'bfo:BFO_0000038' },
+      MaterialEntity:                 { '@id': 'bfo:BFO_0000040' },
+      RelationalQuality:              { '@id': 'bfo:BFO_0000145' },
 
-      // ===== Week 2: Assertion Event Classes =====
-      ValueAssertionEvent: 'tagteam:ValueAssertionEvent',
-      ContextAssessmentEvent: 'tagteam:ContextAssessmentEvent',
-      EthicalValueICE: 'tagteam:EthicalValueICE',
-      ContextDimensionICE: 'tagteam:ContextDimensionICE',
+      // ═══════ CCO 2.0 Classes ═══════
+      Act:                        { '@id': 'cco:ont00000005' },
+      ActOfCommunication:         { '@id': 'cco:ont00000402' },
+      Agent:                      { '@id': 'cco:ont00001017' },
+      Artifact:                   { '@id': 'cco:ont00000995' },
+      Country:                    { '@id': 'cco:ont00000139' },
+      Facility:                   { '@id': 'cco:ont00000192' },
+      GeopoliticalOrganization:   { '@id': 'cco:ont00000176' },
+      InformationBearingEntity:   { '@id': 'cco:ont00000253' },
+      InformationContentEntity:   { '@id': 'cco:ont00000958' },
+      IntentionalAct:             { '@id': 'cco:ont00000228' },
+      Organization:               { '@id': 'cco:ont00001180' },
+      Person:                     { '@id': 'cco:ont00001262' },
 
-      // ===== CCO Verified Classes (opaque IRIs from CCO 2.0) =====
-      Act: 'cco:ont00000005',
-      ActOfCommunication: 'cco:ont00000402',
-      Agent: 'cco:ont00001017',
-      Artifact: 'cco:ont00000995',
-      Country: 'cco:ont00000139',
-      Facility: 'cco:ont00000192',
-      GeopoliticalOrganization: 'cco:ont00000176',
-      InformationBearingEntity: 'cco:ont00000253',
-      InformationContentEntity: 'cco:ont00000958',
-      IntentionalAct: 'cco:ont00000228',
-      Organization: 'cco:ont00001180',
-      Person: 'cco:ont00001262',
+      // ═══════ TagTeam Classes — NLP / Linguistic ═══════
+      DiscourseReferent:  { '@id': 'tagteam:DiscourseReferent' },
+      VerbPhrase:         { '@id': 'tagteam:VerbPhrase' },
 
-      // ===== BFO Verified Classes (opaque IRIs from BFO 2020) =====
-      Entity: 'bfo:BFO_0000001',
-      Continuant: 'bfo:BFO_0000002',
-      IndependentContinuant: 'bfo:BFO_0000004',
-      TemporalRegion: 'bfo:BFO_0000008',
-      Process: 'bfo:BFO_0000015',
-      Disposition: 'bfo:BFO_0000016',
-      Quality: 'bfo:BFO_0000019',
-      Role: 'bfo:BFO_0000023',
-      ObjectAggregate: 'bfo:BFO_0000027',
-      Site: 'bfo:BFO_0000029',
-      Object: 'bfo:BFO_0000030',
-      GenericallyDependentContinuant: 'bfo:BFO_0000031',
-      OneDimensionalTemporalRegion: 'bfo:BFO_0000038',
-      MaterialEntity: 'bfo:BFO_0000040',
-      RelationalQuality: 'bfo:BFO_0000145',
+      // ─────── TagTeam Classes — Deontic / Actuality Status ───────
+      ActualityStatus: { '@id': 'tagteam:ActualityStatus' },
+      Actual:          { '@id': 'tagteam:Actual' },
+      Prescribed:      { '@id': 'tagteam:Prescribed' },
+      Permitted:       { '@id': 'tagteam:Permitted' },
+      Prohibited:      { '@id': 'tagteam:Prohibited' },
+      Hypothetical:    { '@id': 'tagteam:Hypothetical' },
+      Planned:         { '@id': 'tagteam:Planned' },
+      Negated:         { '@id': 'tagteam:Negated' },
+      Entitled:        { '@id': 'tagteam:Entitled' },
+      Empowered:       { '@id': 'tagteam:Empowered' },
+      Protected:       { '@id': 'tagteam:Protected' },
 
-      // ===== GIT-Minimal Classes =====
-      AutomatedDetection: 'tagteam:AutomatedDetection',
-      HumanValidation: 'tagteam:HumanValidation',
-      HumanRejection: 'tagteam:HumanRejection',
-      HumanCorrection: 'tagteam:HumanCorrection',
+      // ─────── TagTeam Classes — Value Detection ───────
+      DirectiveContent:        { '@id': 'tagteam:DirectiveContent' },
+      ScarcityAssertion:       { '@id': 'tagteam:ScarcityAssertion' },
+      ValueDetectionRecord:    { '@id': 'tagteam:ValueDetectionRecord' },
+      ContextAssessmentRecord: { '@id': 'tagteam:ContextAssessmentRecord' },
+      InterpretationContext:   { '@id': 'tagteam:InterpretationContext' },
+      ValueAssertionEvent:     { '@id': 'tagteam:ValueAssertionEvent' },
+      ContextAssessmentEvent:  { '@id': 'tagteam:ContextAssessmentEvent' },
+      EthicalValueICE:         { '@id': 'tagteam:EthicalValueICE' },
+      ContextDimensionICE:     { '@id': 'tagteam:ContextDimensionICE' },
 
-      // ===== Actuality Status Named Individuals =====
-      ActualityStatus: 'tagteam:ActualityStatus',
-      Actual: 'tagteam:Actual',
-      Prescribed: 'tagteam:Prescribed',
-      Permitted: 'tagteam:Permitted',
-      Prohibited: 'tagteam:Prohibited',
-      Hypothetical: 'tagteam:Hypothetical',
-      Planned: 'tagteam:Planned',
-      Negated: 'tagteam:Negated',
-      // Phase 6.4: Hohfeldian deontic statuses
-      Entitled: 'tagteam:Entitled',      // Claim/Right holder status
-      Empowered: 'tagteam:Empowered',    // Authority/Power status
-      Protected: 'tagteam:Protected',    // Immunity/Protection status
+      // ─────── TagTeam Classes — Curation Workflow ───────
+      AutomatedDetection: { '@id': 'tagteam:AutomatedDetection' },
+      HumanValidation:    { '@id': 'tagteam:HumanValidation' },
+      HumanRejection:     { '@id': 'tagteam:HumanRejection' },
+      HumanCorrection:    { '@id': 'tagteam:HumanCorrection' },
 
-      // ===== Cross-Tier Relations (CCO verified — opaque IRIs) =====
-      is_about: { '@id': 'cco:ont00001808', '@type': '@id' },
-      prescribes: { '@id': 'cco:ont00001942', '@type': '@id' },
-      prescribed_by: { '@id': 'tagteam:prescribed_by', '@type': '@id' },
+      // ─────── TagTeam Classes — v3 Speech Acts & Structural ───────
+      SpeechAct:          { '@id': 'tagteam:SpeechAct' },
+      Inquiry:            { '@id': 'tagteam:Inquiry' },
+      ConditionalContent: { '@id': 'tagteam:ConditionalContent' },
+      ClauseRelation:     { '@id': 'tagteam:ClauseRelation' },
+      CausativeAct:       { '@id': 'tagteam:CausativeAct' },
 
-      // ===== ICE Concretization (BFO 2020) =====
-      is_concretized_by: { '@id': 'bfo:BFO_0000058', '@type': '@id' },
-      concretizes: { '@id': 'bfo:BFO_0000059', '@type': '@id' },
+      // ─────── v3 Named Individuals — Actuality Status ───────
+      Interrogative: { '@id': 'tagteam:Interrogative' },
 
-      // ===== Tier 1 Relations =====
-      has_component: { '@id': 'tagteam:has_component', '@type': '@id' },
-      extracted_from: { '@id': 'tagteam:extracted_from', '@type': '@id' },
-      corefersWith: { '@id': 'tagteam:corefersWith', '@type': '@id' },
-      describes_quality: { '@id': 'tagteam:describes_quality', '@type': '@id' },
+      // ─────── v3 Named Individuals — Clause Relation Types ───────
+      and_then:       { '@id': 'tagteam:and_then' },
+      therefore:      { '@id': 'tagteam:therefore' },
+      in_order_that:  { '@id': 'tagteam:in_order_that' },
+      contrasts_with: { '@id': 'tagteam:contrasts_with' },
+      alternative_to: { '@id': 'tagteam:alternative_to' },
 
-      // ===== Tier 2 Relations (BFO 2020) =====
-      inheres_in: { '@id': 'bfo:BFO_0000197', '@type': '@id' },
-      is_bearer_of: { '@id': 'bfo:BFO_0000196', '@type': '@id' },
-      realized_in: { '@id': 'bfo:BFO_0000054', '@type': '@id' },
-      realizes: { '@id': 'bfo:BFO_0000055', '@type': '@id' },
-      has_participant: { '@id': 'bfo:BFO_0000057', '@type': '@id' },
-      has_member_part: { '@id': 'bfo:BFO_0000115', '@type': '@id' },
+      // ─────── v3 Named Individuals — Temporal Relations ───────
+      precedes:          { '@id': 'tagteam:precedes' },
+      follows:           { '@id': 'tagteam:follows' },
+      simultaneous_with: { '@id': 'tagteam:simultaneous_with' },
 
-      // v2.3: Role realization (for Prescribed acts where role is not yet realized)
-      would_be_realized_in: { '@id': 'tagteam:would_be_realized_in', '@type': '@id' },
+      // ═══════ BFO 2020 Object Properties ═══════
+      is_concretized_by:        { '@id': 'bfo:BFO_0000058',  '@type': '@id' },
+      concretizes:              { '@id': 'bfo:BFO_0000059',  '@type': '@id' },
+      inheres_in:               { '@id': 'bfo:BFO_0000197',  '@type': '@id' },
+      is_bearer_of:             { '@id': 'bfo:BFO_0000196',  '@type': '@id' },
+      realized_in:              { '@id': 'bfo:BFO_0000054',  '@type': '@id' },
+      realizes:                 { '@id': 'bfo:BFO_0000055',  '@type': '@id' },
+      has_participant:          { '@id': 'bfo:BFO_0000057',  '@type': '@id' },
+      participates_in:          { '@id': 'bfo:BFO_0000056',  '@type': '@id' },
+      has_member_part:          { '@id': 'bfo:BFO_0000115',  '@type': '@id' },
+      member_part_of:           { '@id': 'bfo:BFO_0000129',  '@type': '@id' },
+      has_continuant_part:      { '@id': 'bfo:BFO_0000178',  '@type': '@id' },
+      continuant_part_of:       { '@id': 'bfo:BFO_0000176',  '@type': '@id' },
+      is_part_of:               { '@id': 'bfo:BFO_0000176',  '@type': '@id' },
+      located_in:               { '@id': 'bfo:BFO_0000171',  '@type': '@id' },
+      occupies_temporal_region:  { '@id': 'bfo:BFO_0000199',  '@type': '@id' },
 
-      // ===== Tier 2 Relations (CCO verified — opaque IRIs) =====
-      has_agent: { '@id': 'cco:ont00001833', '@type': '@id' },
-      has_recipient: { '@id': 'cco:ont00001922', '@type': '@id' },
-      has_input: { '@id': 'tagteam:has_input', '@type': '@id' },
-      has_output: { '@id': 'tagteam:has_output', '@type': '@id' },
-      affects: { '@id': 'cco:ont00001834', '@type': '@id' },
-      designates: { '@id': 'cco:ont00001916', '@type': '@id' },
-      is_designated_by: { '@id': 'cco:ont00001879', '@type': '@id' },
-      is_measured_by: { '@id': 'cco:ont00001904', '@type': '@id' },
-      measures: { '@id': 'cco:ont00001966', '@type': '@id' },
-      uses_measurement_unit: { '@id': 'cco:ont00001863', '@type': '@id' },
+      // ═══════ CCO 2.0 Object Properties (★ = fixed in audit v2.2, ✚ = added) ═══════
+      is_about:              { '@id': 'cco:ont00001808',  '@type': '@id' },
+      is_subject_of:         { '@id': 'cco:ont00001801',  '@type': '@id' },       // ✚ added
+      prescribes:            { '@id': 'cco:ont00001942',  '@type': '@id' },
+      prescribed_by:         { '@id': 'cco:ont00001920',  '@type': '@id' },       // ★ was tagteam:
+      has_agent:             { '@id': 'cco:ont00001833',  '@type': '@id' },
+      has_recipient:         { '@id': 'cco:ont00001922',  '@type': '@id' },
+      has_input:             { '@id': 'cco:ont00001921',  '@type': '@id' },       // ★ was tagteam:
+      has_output:            { '@id': 'cco:ont00001986',  '@type': '@id' },       // ★ was tagteam:
+      is_input_of:           { '@id': 'cco:ont00001841',  '@type': '@id' },       // ✚ added
+      is_output_of:          { '@id': 'cco:ont00001816',  '@type': '@id' },       // ✚ added
+      affects:               { '@id': 'cco:ont00001834',  '@type': '@id' },
+      designates:            { '@id': 'cco:ont00001916',  '@type': '@id' },
+      is_designated_by:      { '@id': 'cco:ont00001879',  '@type': '@id' },
+      is_measured_by:        { '@id': 'cco:ont00001904',  '@type': '@id' },
+      measures:              { '@id': 'cco:ont00001966',  '@type': '@id' },
+      uses_measurement_unit: { '@id': 'cco:ont00001863',  '@type': '@id' },
 
-      // ===== Tier 2 Relations (BFO re-exports — opaque IRIs) =====
-      occupies_temporal_region: { '@id': 'bfo:BFO_0000199', '@type': '@id' },
-      participates_in: { '@id': 'bfo:BFO_0000056', '@type': '@id' },
-      is_part_of: { '@id': 'bfo:BFO_0000176', '@type': '@id' },
-
-      // ===== Structural Assertion Relations (BFO verified) =====
-      located_in: { '@id': 'bfo:BFO_0000171', '@type': '@id' },
-      has_continuant_part: { '@id': 'bfo:BFO_0000178', '@type': '@id' },
-      continuant_part_of: { '@id': 'bfo:BFO_0000176', '@type': '@id' },
-      member_part_of: { '@id': 'bfo:BFO_0000129', '@type': '@id' },
-
-      // ===== Structural Assertion Relations (TagTeam-defined — not in CCO/BFO) =====
-      has_possession: { '@id': 'tagteam:has_possession', '@type': '@id' },
-      has_function: { '@id': 'tagteam:has_function', '@type': '@id' },
-      has_spatial_extent: { '@id': 'tagteam:has_spatial_extent', '@type': '@id' },
-      bears_role_for: { '@id': 'tagteam:bears_role_for', '@type': '@id' },
-
-      // ===== Aspirational Properties (not yet in use — tagteam namespace) =====
-      occurs_during: { '@id': 'tagteam:occurs_during', '@type': '@id' },
+      // ═══════ TagTeam Object Properties (no CCO/BFO equivalent — audit v2.2 §3–4) ═══════
+      has_component:         { '@id': 'tagteam:has_component',         '@type': '@id' },
+      extracted_from:        { '@id': 'tagteam:extracted_from',        '@type': '@id' },
+      corefersWith:          { '@id': 'tagteam:corefersWith',          '@type': '@id' },
+      describes_quality:     { '@id': 'tagteam:describes_quality',     '@type': '@id' },
+      would_be_realized_in:  { '@id': 'tagteam:would_be_realized_in', '@type': '@id' },
+      has_possession:        { '@id': 'tagteam:has_possession',        '@type': '@id' },
+      has_function:          { '@id': 'tagteam:has_function',          '@type': '@id' },
+      has_spatial_extent:    { '@id': 'tagteam:has_spatial_extent',    '@type': '@id' },
+      bears_role_for:        { '@id': 'tagteam:bears_role_for',        '@type': '@id' },
+      occurs_during:         { '@id': 'tagteam:occurs_during',         '@type': '@id' },
       has_measurement_value: { '@id': 'tagteam:has_measurement_value', '@type': '@id' },
-      has_start_time: { '@id': 'tagteam:has_start_time', '@type': '@id' },
-      has_end_time: { '@id': 'tagteam:has_end_time', '@type': '@id' },
+      has_start_time:        { '@id': 'tagteam:has_start_time',        '@type': '@id' },
+      has_end_time:          { '@id': 'tagteam:has_end_time',          '@type': '@id' },
+      assertionType:         { '@id': 'tagteam:assertionType',         '@type': '@id' },
+      validInContext:        { '@id': 'tagteam:validInContext',        '@type': '@id' },
+      actualityStatus:       { '@id': 'tagteam:actualityStatus',       '@type': '@id' },
+      validatedBy:           { '@id': 'tagteam:validatedBy',           '@type': '@id' },
+      supersedes:            { '@id': 'tagteam:supersedes',            '@type': '@id' },
+      scarceResource:        { '@id': 'tagteam:scarceResource',        '@type': '@id' },
+      asserts:               { '@id': 'tagteam:asserts',               '@type': '@id' },
+      detected_by:           { '@id': 'tagteam:detected_by',           '@type': '@id' },
+      based_on:              { '@id': 'tagteam:based_on',              '@type': '@id' },
+      instantiated_by:       { '@id': 'tagteam:instantiated_by',       '@type': '@id' },
 
-      // ===== GIT-Minimal Properties =====
-      assertionType: { '@id': 'tagteam:assertionType', '@type': '@id' },
-      validInContext: { '@id': 'tagteam:validInContext', '@type': '@id' },
-      actualityStatus: { '@id': 'tagteam:actualityStatus', '@type': '@id' },
-      validatedBy: { '@id': 'tagteam:validatedBy', '@type': '@id' },
-      validationTimestamp: { '@id': 'tagteam:validationTimestamp', '@type': 'xsd:dateTime' },
-      supersedes: { '@id': 'tagteam:supersedes', '@type': '@id' },
-      framework: 'tagteam:framework',
+      competingParties: {
+        '@id':        'tagteam:competingParties',
+        '@type':      '@id',
+        '@container': '@set'
+      },
 
-      // ===== Provenance Properties (v2.2) =====
-      instantiated_at: { '@id': 'tagteam:instantiated_at', '@type': 'xsd:dateTime' },
-      instantiated_by: { '@id': 'tagteam:instantiated_by', '@type': '@id' },
-      negationMarker: 'tagteam:negationMarker',
+      // ─────── v3 Object Properties — Clause / Conditional / Causal ───────
+      relationType:   { '@id': 'tagteam:relationType',   '@type': '@id' },
+      fromClause:     { '@id': 'tagteam:fromClause',     '@type': '@id' },
+      toClause:       { '@id': 'tagteam:toClause',       '@type': '@id' },
+      has_antecedent: { '@id': 'tagteam:has_antecedent', '@type': '@id' },
+      has_consequent: { '@id': 'tagteam:has_consequent', '@type': '@id' },
+      has_cause:      { '@id': 'tagteam:has_cause',      '@type': '@id' },
 
-      // ===== Confidence Properties =====
-      extractionConfidence: { '@id': 'tagteam:extractionConfidence', '@type': 'xsd:decimal' },
+      // ═══════ CCO 2.0 Data Properties ═══════
+      has_text_value: { '@id': 'cco:ont00001765', '@type': 'xsd:string' },
+
+      // ═══════ TagTeam Data Properties — xsd:dateTime ═══════
+      instantiated_at:     { '@id': 'tagteam:instantiated_at',     '@type': 'xsd:dateTime' },
+      validationTimestamp:  { '@id': 'tagteam:validationTimestamp',  '@type': 'xsd:dateTime' },
+      detected_at:         { '@id': 'tagteam:detected_at',          '@type': 'xsd:dateTime' },
+      received_at:         { '@id': 'tagteam:received_at',          '@type': 'xsd:dateTime' },
+      temporal_extent:     { '@id': 'tagteam:temporal_extent',      '@type': 'xsd:dateTime' },
+
+      // ─────── TagTeam Data Properties — xsd:decimal ───────
+      extractionConfidence:     { '@id': 'tagteam:extractionConfidence',     '@type': 'xsd:decimal' },
       classificationConfidence: { '@id': 'tagteam:classificationConfidence', '@type': 'xsd:decimal' },
-      relevanceConfidence: { '@id': 'tagteam:relevanceConfidence', '@type': 'xsd:decimal' },
-      aggregateConfidence: { '@id': 'tagteam:aggregateConfidence', '@type': 'xsd:decimal' },
-      aggregationMethod: 'tagteam:aggregationMethod',
+      relevanceConfidence:      { '@id': 'tagteam:relevanceConfidence',      '@type': 'xsd:decimal' },
+      aggregateConfidence:      { '@id': 'tagteam:aggregateConfidence',      '@type': 'xsd:decimal' },
+      modalStrength:            { '@id': 'tagteam:modalStrength',            '@type': 'xsd:decimal' },
+      scarcityRatio:            { '@id': 'tagteam:scarcityRatio',            '@type': 'xsd:decimal' },
+      salience:                 { '@id': 'tagteam:salience',                 '@type': 'xsd:decimal' },
+      score:                    { '@id': 'tagteam:score',                    '@type': 'xsd:decimal' },
 
-      // ===== Deontic Properties =====
-      modalType: 'tagteam:modalType',
-      modalMarker: 'tagteam:modalMarker',
-      modalStrength: { '@id': 'tagteam:modalStrength', '@type': 'xsd:decimal' },
-
-      // ===== Scarcity Properties (v2.3: ScarcityAssertion ICE) =====
-      scarceResource: { '@id': 'tagteam:scarceResource', '@type': '@id' },
-      competingParties: { '@id': 'tagteam:competingParties', '@type': '@id', '@container': '@set' },
-      supplyCount: { '@id': 'tagteam:supplyCount', '@type': 'xsd:integer' },
-      demandCount: { '@id': 'tagteam:demandCount', '@type': 'xsd:integer' },
-      scarcityRatio: { '@id': 'tagteam:scarcityRatio', '@type': 'xsd:decimal' },
-      scarcityMarker: 'tagteam:scarcityMarker',
-      evidenceText: 'tagteam:evidenceText',
-      detected_at: { '@id': 'tagteam:detected_at', '@type': 'xsd:dateTime' },
-
-      // ===== Object Aggregate Properties (v2.3) =====
-      member_count: { '@id': 'tagteam:member_count', '@type': 'xsd:integer' },
-      member_index: { '@id': 'tagteam:member_index', '@type': 'xsd:integer' },
-
-      // ===== Classification Properties (nomination pattern) =====
-      classificationLabel: 'tagteam:classificationLabel',
-      classificationBasis: 'tagteam:classificationBasis',
-
-      // ===== Quality Properties (v2.4) =====
-      qualifierText: 'tagteam:qualifierText',
-      severity: 'tagteam:severity',
-      ageCategory: 'tagteam:ageCategory',
-
-      // ===== Discourse Referent Properties =====
-      sourceText: 'tagteam:sourceText',
+      // ─────── TagTeam Data Properties — xsd:integer ───────
+      supplyCount:   { '@id': 'tagteam:supplyCount',   '@type': 'xsd:integer' },
+      demandCount:   { '@id': 'tagteam:demandCount',   '@type': 'xsd:integer' },
+      member_count:  { '@id': 'tagteam:member_count',  '@type': 'xsd:integer' },
+      member_index:  { '@id': 'tagteam:member_index',  '@type': 'xsd:integer' },
       startPosition: { '@id': 'tagteam:startPosition', '@type': 'xsd:integer' },
-      endPosition: { '@id': 'tagteam:endPosition', '@type': 'xsd:integer' },
-      definiteness: 'tagteam:definiteness',
-      quantity: { '@id': 'tagteam:quantity', '@type': 'xsd:integer' },
-      quantityIndicator: 'tagteam:quantityIndicator',
-      qualifiers: 'tagteam:qualifiers',
+      endPosition:   { '@id': 'tagteam:endPosition',   '@type': 'xsd:integer' },
+      quantity:      { '@id': 'tagteam:quantity',       '@type': 'xsd:integer' },
+      char_count:    { '@id': 'tagteam:char_count',     '@type': 'xsd:integer' },
+      word_count:    { '@id': 'tagteam:word_count',     '@type': 'xsd:integer' },
+      polarity:      { '@id': 'tagteam:polarity',       '@type': 'xsd:integer' },
 
-      // ===== VerbPhrase Properties =====
-      verb: 'tagteam:verb',
-      lemma: 'tagteam:lemma',
-      tense: 'tagteam:tense',
-      hasModalMarker: 'tagteam:hasModalMarker',
+      // ─────── v3 Data Properties — Clause / Discourse ───────
+      clauseIndex:    { '@id': 'tagteam:clauseIndex',    '@type': 'xsd:integer' },
+      isQuestionFocus: { '@id': 'tagteam:isQuestionFocus', '@type': 'xsd:boolean' },
+      subjectSource:  { '@id': 'tagteam:subjectSource' },
+      whPhrase:       { '@id': 'tagteam:whPhrase' },
+      verbClass:      { '@id': 'tagteam:verbClass' },
+      epistemicStatus: { '@id': 'tagteam:epistemicStatus' },
 
-      // ===== IBE Properties =====
-      has_text_value: 'cco:ont00001765',
-      char_count: { '@id': 'tagteam:char_count', '@type': 'xsd:integer' },
-      word_count: { '@id': 'tagteam:word_count', '@type': 'xsd:integer' },
-      received_at: { '@id': 'tagteam:received_at', '@type': 'xsd:dateTime' },
-      temporal_extent: { '@id': 'tagteam:temporal_extent', '@type': 'xsd:dateTime' },
+      // ═══════ TagTeam Annotation / String Properties ═══════
+      framework:           { '@id': 'tagteam:framework' },
+      negationMarker:      { '@id': 'tagteam:negationMarker' },
+      aggregationMethod:   { '@id': 'tagteam:aggregationMethod' },
+      modalType:           { '@id': 'tagteam:modalType' },
+      modalMarker:         { '@id': 'tagteam:modalMarker' },
+      scarcityMarker:      { '@id': 'tagteam:scarcityMarker' },
+      evidenceText:        { '@id': 'tagteam:evidenceText' },
+      classificationLabel: { '@id': 'tagteam:classificationLabel' },
+      classificationBasis: { '@id': 'tagteam:classificationBasis' },
+      qualifierText:       { '@id': 'tagteam:qualifierText' },
+      severity:            { '@id': 'tagteam:severity' },
+      ageCategory:         { '@id': 'tagteam:ageCategory' },
+      sourceText:          { '@id': 'tagteam:sourceText' },
+      definiteness:        { '@id': 'tagteam:definiteness' },
+      quantityIndicator:   { '@id': 'tagteam:quantityIndicator' },
+      qualifiers:          { '@id': 'tagteam:qualifiers' },
+      verb:                { '@id': 'tagteam:verb' },
+      lemma:               { '@id': 'tagteam:lemma' },
+      tense:               { '@id': 'tagteam:tense' },
+      hasModalMarker:      { '@id': 'tagteam:hasModalMarker' },
+      version:             { '@id': 'tagteam:version' },
+      algorithm:           { '@id': 'tagteam:algorithm' },
+      capabilities:        { '@id': 'tagteam:capabilities' },
+      valueName:           { '@id': 'tagteam:valueName' },
+      valueCategory:       { '@id': 'tagteam:valueCategory' },
+      evidence:            { '@id': 'tagteam:evidence' },
+      sourceSpan:          { '@id': 'tagteam:sourceSpan' },
+      category:            { '@id': 'tagteam:category' },
+      matched_markers:     { '@id': 'tagteam:matched_markers' },
+      detection_method:    { '@id': 'tagteam:detection_method' },
+      dimension:           { '@id': 'tagteam:dimension' },
 
-      // ===== Week 2: Parser Agent Properties =====
-      version: 'tagteam:version',
-      algorithm: 'tagteam:algorithm',
-      capabilities: 'tagteam:capabilities',
-
-      // ===== Week 2: Value/Context Assertion Properties =====
-      valueName: 'tagteam:valueName',
-      valueCategory: 'tagteam:valueCategory',
-      evidence: 'tagteam:evidence',
-      sourceSpan: 'tagteam:sourceSpan',
-      category: 'tagteam:category',
-
-      // ===== Value Detection Properties =====
-      asserts: { '@id': 'tagteam:asserts', '@type': '@id' },
-      detected_by: { '@id': 'tagteam:detected_by', '@type': '@id' },
-      based_on: { '@id': 'tagteam:based_on', '@type': '@id' },
-      polarity: { '@id': 'tagteam:polarity', '@type': 'xsd:integer' },
-      salience: { '@id': 'tagteam:salience', '@type': 'xsd:decimal' },
-      matched_markers: 'tagteam:matched_markers',
-      detection_method: 'tagteam:detection_method',
-      dimension: 'tagteam:dimension',
-      score: { '@id': 'tagteam:score', '@type': 'xsd:decimal' }
+      // ─────── v3 Annotation Property ───────
+      structuralAmbiguity: { '@id': 'tagteam:structuralAmbiguity' }
     };
   }
 
@@ -313816,7 +313832,7 @@ class DirectiveExtractor {
           directives.push(directive);
 
           // Link act back to directive
-          act['tagteam:prescribed_by'] = { '@id': directive['@id'] };
+          act['prescribed_by'] = { '@id': directive['@id'] };
         }
       }
     });
@@ -328413,7 +328429,7 @@ class SemanticGraphBuilder {
       '@type': ['IntentionalAct', 'owl:NamedIndividual'],
       'rdfs:label': 'Semantic parsing act',
       'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
-      'tagteam:has_input': { '@id': ibeNode['@id'] },
+      'has_input': { '@id': ibeNode['@id'] },
       'has_agent': { '@id': parserAgentNode['@id'] },
       'tagteam:instantiated_at': this.buildTimestamp
     };
@@ -328468,7 +328484,7 @@ class SemanticGraphBuilder {
     if (outputICEs.length > 0) {
       const parsingActNode = this.nodeIndex.get(parsingActIRI);
       if (parsingActNode) {
-        parsingActNode['tagteam:has_output'] = outputICEs.map(ice => ({ '@id': ice['@id'] }));
+        parsingActNode['has_output'] = outputICEs.map(ice => ({ '@id': ice['@id'] }));
       }
     }
 
@@ -329755,9 +329771,9 @@ class SemanticGraphBuilder {
         '@type': ['IntentionalAct', 'owl:NamedIndividual'],
         'rdfs:label': 'Semantic parsing act',
         'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
-        'tagteam:has_input': { '@id': ibeNode['@id'] },
+        'has_input': { '@id': ibeNode['@id'] },
         'has_agent': { '@id': parserAgentNode['@id'] },
-        'tagteam:has_output': iceNodes.map(n => ({ '@id': n['@id'] })),
+        'has_output': iceNodes.map(n => ({ '@id': n['@id'] })),
         'tagteam:instantiated_at': this.buildTimestamp
       };
       graphNodes.push(parsingAct);
@@ -330077,7 +330093,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '3.0.0',
-    BUILD: 'build 231 | 43b7292 | 2026-02-26T09:18:05.957Z',
+    BUILD: 'build 232 | 416b882 | 2026-02-26T10:39:19.829Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,

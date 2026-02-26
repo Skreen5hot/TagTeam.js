@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T19:35:08.091Z",
+  "generatedAt": "2026-02-26T10:38:53.853Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -154,7 +154,7 @@
         "tagteam:nominatedClassLabel": "Additional Agent",
         "tagteam:nominationBasis": "bare_plural",
         "tagteam:requiresOntologyResolution": true,
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.091Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.853Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3dddf7de5304",
         "tagteam:denotesType": "Entity"
       },
@@ -166,7 +166,7 @@
         ],
         "rdfs:label": "sector chief",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.091Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.853Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3dddf7de5304",
         "tagteam:denotesType": "Entity"
       },
@@ -180,7 +180,7 @@
         "has_text_value": "Additional agents were deployed by the sector chief",
         "tagteam:char_count": 51,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T19:35:08.079Z"
+        "tagteam:received_at": "2026-02-26T10:38:53.846Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -209,13 +209,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_3dddf7de5304"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:Additional_agents"
           },
@@ -226,7 +226,7 @@
             "@id": "inst:Act_deployed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.079Z"
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.846Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-22T19:35:06.290Z",
+  "generatedAt": "2026-02-26T10:38:52.778Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -152,7 +152,7 @@
         "rdfs:label": "commander",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.289Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:52.778Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_04b1e6715106",
         "tagteam:denotesType": "Entity"
       },
@@ -164,7 +164,7 @@
         ],
         "rdfs:label": "team",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.290Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:52.778Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_04b1e6715106",
         "tagteam:denotesType": "Organization"
       },
@@ -178,7 +178,7 @@
         "has_text_value": "The commander gave the team new orders",
         "tagteam:char_count": 38,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T19:35:06.276Z"
+        "tagteam:received_at": "2026-02-26T10:38:52.769Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -207,13 +207,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_04b1e6715106"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_commander"
           },
@@ -224,7 +224,7 @@
             "@id": "inst:Act_gave"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.276Z"
+        "tagteam:instantiated_at": "2026-02-26T10:38:52.769Z"
       }
     ]
   }

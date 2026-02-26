@@ -7,7 +7,7 @@
     "subordination",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T19:35:09.250Z",
+  "generatedAt": "2026-02-26T10:38:54.709Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -153,7 +153,7 @@
         "rdfs:label": "alarm",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:09.250Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.709Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0fad6b4c89c7",
         "tagteam:denotesType": "Entity"
       },
@@ -166,7 +166,7 @@
         "rdfs:label": "officer",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:09.250Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.709Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0fad6b4c89c7",
         "tagteam:denotesType": "Entity"
       },
@@ -178,7 +178,7 @@
         ],
         "rdfs:label": "build",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:09.250Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.709Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0fad6b4c89c7",
         "tagteam:denotesType": "Facility"
       },
@@ -192,7 +192,7 @@
         "has_text_value": "When the alarm sounded the officers evacuated the building",
         "tagteam:char_count": 58,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-22T19:35:09.236Z"
+        "tagteam:received_at": "2026-02-26T10:38:54.697Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -221,13 +221,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_0fad6b4c89c7"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:the_alarm"
           },
@@ -241,7 +241,7 @@
             "@id": "inst:Act_sounded"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:09.236Z"
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.697Z"
       }
     ]
   }

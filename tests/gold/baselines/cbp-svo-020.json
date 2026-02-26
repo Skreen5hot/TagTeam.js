@@ -7,7 +7,7 @@
     "cbp",
     "logistics"
   ],
-  "generatedAt": "2026-02-22T19:35:07.562Z",
+  "generatedAt": "2026-02-26T10:38:53.529Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -144,7 +144,7 @@
         "rdfs:label": "procurement office",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.562Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.529Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3df868ccff45",
         "tagteam:denotesType": "Facility"
       },
@@ -156,7 +156,7 @@
         ],
         "rdfs:label": "new equipment",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.562Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.529Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3df868ccff45",
         "tagteam:denotesType": "Artifact"
       },
@@ -170,7 +170,7 @@
         "has_text_value": "The procurement office acquired new equipment",
         "tagteam:char_count": 45,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T19:35:07.553Z"
+        "tagteam:received_at": "2026-02-26T10:38:53.520Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -199,13 +199,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_3df868ccff45"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_procurement_office"
           },
@@ -216,7 +216,7 @@
             "@id": "inst:Act_acquired"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.553Z"
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.520Z"
       }
     ]
   }

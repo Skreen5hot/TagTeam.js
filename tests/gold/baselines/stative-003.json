@@ -7,7 +7,7 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-22T19:35:06.860Z",
+  "generatedAt": "2026-02-26T10:38:53.128Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -133,7 +133,7 @@
         "rdfs:label": "department",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.860Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.128Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a85a47690bea",
         "tagteam:denotesType": "Organization"
       },
@@ -145,7 +145,7 @@
         ],
         "rdfs:label": "several divisions",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.860Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.128Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a85a47690bea",
         "tagteam:denotesType": "Entity"
       },
@@ -159,7 +159,7 @@
         "has_text_value": "The department is composed of several divisions",
         "tagteam:char_count": 47,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T19:35:06.845Z"
+        "tagteam:received_at": "2026-02-26T10:38:53.120Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -188,13 +188,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_a85a47690bea"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_department"
           },
@@ -205,7 +205,7 @@
             "@id": "inst:Act_composed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.845Z"
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.120Z"
       }
     ]
   }

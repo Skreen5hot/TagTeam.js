@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T19:35:07.809Z",
+  "generatedAt": "2026-02-26T10:38:53.684Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -96,7 +96,7 @@
         "rdfs:label": "duty officer",
         "tagteam:genericityCategory": "AMB",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.808Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.684Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_def8547a60fd",
         "tagteam:denotesType": "Person"
       },
@@ -108,7 +108,7 @@
         ],
         "rdfs:label": "emergency",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.808Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.684Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_def8547a60fd",
         "tagteam:denotesType": "Entity"
       },
@@ -122,7 +122,7 @@
         "has_text_value": "The duty officer is the primary contact for emergencies",
         "tagteam:char_count": 55,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-22T19:35:07.793Z"
+        "tagteam:received_at": "2026-02-26T10:38:53.673Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -151,13 +151,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_def8547a60fd"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_duty_officer"
           },
@@ -165,7 +165,7 @@
             "@id": "inst:emergencies"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.793Z"
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.673Z"
       }
     ]
   }

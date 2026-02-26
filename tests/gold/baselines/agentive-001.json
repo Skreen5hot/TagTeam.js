@@ -7,7 +7,7 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-22T19:35:06.939Z",
+  "generatedAt": "2026-02-26T10:38:53.171Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -145,7 +145,7 @@
         "rdfs:label": "suspect",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.939Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.171Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_83d812c2cd7a",
         "tagteam:denotesType": "Person"
       },
@@ -157,7 +157,7 @@
         ],
         "rdfs:label": "tracking team",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.939Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.171Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_83d812c2cd7a",
         "tagteam:denotesType": "Organization"
       },
@@ -171,7 +171,7 @@
         "has_text_value": "The suspect was located by the tracking team",
         "tagteam:char_count": 44,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T19:35:06.923Z"
+        "tagteam:received_at": "2026-02-26T10:38:53.159Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -200,13 +200,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_83d812c2cd7a"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_suspect"
           },
@@ -217,7 +217,7 @@
             "@id": "inst:Act_located"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:06.923Z"
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.159Z"
       }
     ]
   }

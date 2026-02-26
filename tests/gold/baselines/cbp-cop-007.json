@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T19:35:07.712Z",
+  "generatedAt": "2026-02-26T10:38:53.628Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -68,7 +68,7 @@
         "rdfs:label": "global entry",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.712Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.627Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d804a7592ad0",
         "tagteam:denotesType": "Entity"
       },
@@ -82,7 +82,7 @@
         "has_text_value": "Global Entry is a trusted traveler program",
         "tagteam:char_count": 42,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T19:35:07.695Z"
+        "tagteam:received_at": "2026-02-26T10:38:53.618Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -111,18 +111,18 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_d804a7592ad0"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:Global_Entry"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.695Z"
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.618Z"
       }
     ]
   }

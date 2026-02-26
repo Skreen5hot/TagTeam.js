@@ -5,7 +5,7 @@
   "tags": [
     "legal"
   ],
-  "generatedAt": "2026-02-22T19:35:08.780Z",
+  "generatedAt": "2026-02-26T10:38:54.354Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -190,7 +190,7 @@
         "rdfs:label": "plaintiff",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.780Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.353Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bac952cf5615",
         "tagteam:denotesType": "Entity"
       },
@@ -202,7 +202,7 @@
         ],
         "rdfs:label": "defendant",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.780Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.353Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bac952cf5615",
         "tagteam:denotesType": "Entity"
       },
@@ -214,7 +214,7 @@
         ],
         "rdfs:label": "damage",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.780Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.353Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bac952cf5615",
         "tagteam:denotesType": "Entity"
       },
@@ -228,7 +228,7 @@
         "has_text_value": "The plaintiff sued the defendant for damages",
         "tagteam:char_count": 44,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T19:35:08.770Z"
+        "tagteam:received_at": "2026-02-26T10:38:54.347Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -257,13 +257,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_bac952cf5615"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_plaintiff"
           },
@@ -277,7 +277,7 @@
             "@id": "inst:Act_sued"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.770Z"
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.347Z"
       }
     ]
   }

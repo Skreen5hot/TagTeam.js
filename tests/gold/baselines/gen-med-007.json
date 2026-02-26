@@ -6,7 +6,7 @@
     "medical",
     "treatment"
   ],
-  "generatedAt": "2026-02-22T19:35:08.714Z",
+  "generatedAt": "2026-02-26T10:38:54.309Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -195,7 +195,7 @@
         "rdfs:label": "therapist",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.714Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.308Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5f37a0817b26",
         "tagteam:denotesType": "Person"
       },
@@ -207,7 +207,7 @@
         ],
         "rdfs:label": "injury",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.714Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.309Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5f37a0817b26",
         "tagteam:denotesType": "Entity"
       },
@@ -219,7 +219,7 @@
         ],
         "rdfs:label": "physical therapy",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.714Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.309Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5f37a0817b26",
         "tagteam:denotesType": "Entity"
       },
@@ -233,7 +233,7 @@
         "has_text_value": "The therapist treated the injury with physical therapy",
         "tagteam:char_count": 54,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T19:35:08.705Z"
+        "tagteam:received_at": "2026-02-26T10:38:54.301Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -262,13 +262,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_5f37a0817b26"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_therapist"
           },
@@ -282,7 +282,7 @@
             "@id": "inst:Act_treated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.705Z"
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.301Z"
       }
     ]
   }

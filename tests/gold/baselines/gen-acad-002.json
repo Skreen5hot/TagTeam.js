@@ -6,7 +6,7 @@
     "academic",
     "research"
   ],
-  "generatedAt": "2026-02-22T19:35:08.524Z",
+  "generatedAt": "2026-02-26T10:38:54.154Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -191,7 +191,7 @@
         "rdfs:label": "professor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.524Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.154Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a6cb54c22a1e",
         "tagteam:denotesType": "Person"
       },
@@ -203,7 +203,7 @@
         ],
         "rdfs:label": "finding",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.524Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.154Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a6cb54c22a1e",
         "tagteam:denotesType": "Entity"
       },
@@ -215,7 +215,7 @@
         ],
         "rdfs:label": "conference",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.524Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.154Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a6cb54c22a1e",
         "tagteam:denotesType": "Entity"
       },
@@ -229,7 +229,7 @@
         "has_text_value": "The professor presented the findings at the conference",
         "tagteam:char_count": 54,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-22T19:35:08.513Z"
+        "tagteam:received_at": "2026-02-26T10:38:54.142Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -258,13 +258,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_a6cb54c22a1e"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_professor"
           },
@@ -278,7 +278,7 @@
             "@id": "inst:Act_presented"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.513Z"
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.142Z"
       }
     ]
   }

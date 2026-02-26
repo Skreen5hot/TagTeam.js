@@ -6,7 +6,7 @@
     "nested-pp",
     "government"
   ],
-  "generatedAt": "2026-02-22T19:35:09.343Z",
+  "generatedAt": "2026-02-26T10:38:54.782Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -230,7 +230,7 @@
         ],
         "rdfs:label": "analyst",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:09.343Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.781Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3256b34b6366",
         "tagteam:denotesType": "Person"
       },
@@ -242,7 +242,7 @@
         ],
         "rdfs:label": "finding",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:09.343Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.781Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3256b34b6366",
         "tagteam:denotesType": "Entity"
       },
@@ -254,7 +254,7 @@
         ],
         "rdfs:label": "director of the operations division at headquarter",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:09.343Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.781Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3256b34b6366",
         "tagteam:denotesType": "Person"
       },
@@ -266,7 +266,7 @@
         ],
         "rdfs:label": "operations division at headquarter",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:09.343Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.781Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3256b34b6366",
         "tagteam:denotesType": "Entity"
       },
@@ -278,7 +278,7 @@
         ],
         "rdfs:label": "headquarter",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:09.343Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.781Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3256b34b6366",
         "tagteam:denotesType": "Entity"
       },
@@ -292,7 +292,7 @@
         "has_text_value": "The analyst sent the findings to the director of the operations division at headquarters",
         "tagteam:char_count": 88,
         "tagteam:word_count": 14,
-        "tagteam:received_at": "2026-02-22T19:35:09.332Z"
+        "tagteam:received_at": "2026-02-26T10:38:54.771Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -321,13 +321,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_3256b34b6366"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_analyst"
           },
@@ -350,7 +350,7 @@
             "@id": "inst:Act_sent"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:09.332Z"
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.771Z"
       }
     ]
   }

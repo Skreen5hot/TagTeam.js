@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-22T19:35:07.640Z",
+  "generatedAt": "2026-02-26T10:38:53.590Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -68,7 +68,7 @@
         "rdfs:label": "tecs",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.640Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.590Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e27204699a1a",
         "tagteam:denotesType": "Entity"
       },
@@ -82,7 +82,7 @@
         "has_text_value": "TECS is the primary law enforcement database",
         "tagteam:char_count": 44,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-22T19:35:07.628Z"
+        "tagteam:received_at": "2026-02-26T10:38:53.580Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -111,18 +111,18 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_e27204699a1a"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:TECS"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:07.628Z"
+        "tagteam:instantiated_at": "2026-02-26T10:38:53.580Z"
       }
     ]
   }

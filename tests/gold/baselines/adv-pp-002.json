@@ -6,7 +6,7 @@
     "nested-pp",
     "government"
   ],
-  "generatedAt": "2026-02-22T19:35:09.024Z",
+  "generatedAt": "2026-02-26T10:38:54.521Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -193,7 +193,7 @@
         "rdfs:label": "director of the office of professional responsibility",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:09.023Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.521Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_464cfaaf4c99",
         "tagteam:denotesType": "Person"
       },
@@ -205,7 +205,7 @@
         ],
         "rdfs:label": "office of professional responsibility",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:09.023Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.521Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_464cfaaf4c99",
         "tagteam:denotesType": "Facility"
       },
@@ -217,7 +217,7 @@
         ],
         "rdfs:label": "professional responsibility",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:09.023Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.521Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_464cfaaf4c99",
         "tagteam:denotesType": "Entity"
       },
@@ -229,7 +229,7 @@
         ],
         "rdfs:label": "complaint",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:09.023Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.521Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_464cfaaf4c99",
         "tagteam:denotesType": "Entity"
       },
@@ -243,7 +243,7 @@
         "has_text_value": "The director of the office of professional responsibility reviewed the complaint",
         "tagteam:char_count": 80,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-22T19:35:09.010Z"
+        "tagteam:received_at": "2026-02-26T10:38:54.510Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -272,13 +272,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_464cfaaf4c99"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_director_of_the_office_of_professional_responsibility"
           },
@@ -295,7 +295,7 @@
             "@id": "inst:Act_reviewed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:09.010Z"
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.510Z"
       }
     ]
   }

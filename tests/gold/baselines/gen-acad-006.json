@@ -6,7 +6,7 @@
     "academic",
     "administration"
   ],
-  "generatedAt": "2026-02-22T19:35:08.596Z",
+  "generatedAt": "2026-02-26T10:38:54.207Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -143,7 +143,7 @@
         "rdfs:label": "dean",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.595Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.206Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_eebf1989e3dc",
         "tagteam:denotesType": "Entity"
       },
@@ -155,7 +155,7 @@
         ],
         "rdfs:label": "new curriculum",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.595Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.206Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_eebf1989e3dc",
         "tagteam:denotesType": "Entity"
       },
@@ -169,7 +169,7 @@
         "has_text_value": "The dean approved the new curriculum",
         "tagteam:char_count": 36,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-22T19:35:08.581Z"
+        "tagteam:received_at": "2026-02-26T10:38:54.200Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -198,13 +198,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_eebf1989e3dc"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_dean"
           },
@@ -215,7 +215,7 @@
             "@id": "inst:Act_approved"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.581Z"
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.200Z"
       }
     ]
   }

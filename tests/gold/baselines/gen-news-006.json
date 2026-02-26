@@ -6,7 +6,7 @@
     "news",
     "legal"
   ],
-  "generatedAt": "2026-02-22T19:35:08.451Z",
+  "generatedAt": "2026-02-26T10:38:54.106Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -143,7 +143,7 @@
         "rdfs:label": "court",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.451Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.106Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_12d4f768dc8b",
         "tagteam:denotesType": "Entity"
       },
@@ -155,7 +155,7 @@
         ],
         "rdfs:label": "conviction",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.451Z",
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.106Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_12d4f768dc8b",
         "tagteam:denotesType": "Entity"
       },
@@ -169,7 +169,7 @@
         "has_text_value": "The court overturned the conviction",
         "tagteam:char_count": 35,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-22T19:35:08.439Z"
+        "tagteam:received_at": "2026-02-26T10:38:54.100Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -198,13 +198,13 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
-        "tagteam:has_input": {
+        "has_input": {
           "@id": "inst:Input_Text_IBE_12d4f768dc8b"
         },
         "has_agent": {
           "@id": "inst:TagTeam_Parser_v3_0_0"
         },
-        "tagteam:has_output": [
+        "has_output": [
           {
             "@id": "inst:The_court"
           },
@@ -215,7 +215,7 @@
             "@id": "inst:Act_overturned"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-22T19:35:08.439Z"
+        "tagteam:instantiated_at": "2026-02-26T10:38:54.100Z"
       }
     ]
   }
