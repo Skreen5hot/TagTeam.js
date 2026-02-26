@@ -6,7 +6,7 @@
     "multi-clause",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T10:38:54.842Z",
+  "generatedAt": "2026-02-26T12:28:12.151Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -205,7 +205,7 @@
         "rdfs:label": "commander",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.842Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:12.151Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9113ce68dbc8",
         "tagteam:denotesType": "Entity"
       },
@@ -217,7 +217,7 @@
         ],
         "rdfs:label": "plan and the team",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.842Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:12.151Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9113ce68dbc8",
         "tagteam:denotesType": "Entity"
       },
@@ -229,7 +229,7 @@
         ],
         "rdfs:label": "mission",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.842Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:12.151Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9113ce68dbc8",
         "tagteam:denotesType": "Entity"
       },
@@ -241,7 +241,7 @@
         ],
         "rdfs:label": "dawn",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.842Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:12.151Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9113ce68dbc8",
         "tagteam:denotesType": "Entity"
       },
@@ -255,7 +255,7 @@
         "has_text_value": "The commander reviewed the plan and the team executed the mission at dawn",
         "tagteam:char_count": 73,
         "tagteam:word_count": 13,
-        "tagteam:received_at": "2026-02-26T10:38:54.834Z"
+        "tagteam:received_at": "2026-02-26T12:28:12.140Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -307,7 +307,7 @@
             "@id": "inst:Act_reviewed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.834Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:12.140Z"
       }
     ]
   }

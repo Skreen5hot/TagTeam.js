@@ -8,7 +8,7 @@
     "action",
     "pp"
   ],
-  "generatedAt": "2026-02-26T10:38:52.642Z",
+  "generatedAt": "2026-02-26T12:28:09.918Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -197,7 +197,7 @@
         "rdfs:label": "prosecutor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.642Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.918Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4251d8e86419",
         "tagteam:denotesType": "Entity"
       },
@@ -209,7 +209,7 @@
         ],
         "rdfs:label": "evidence",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.642Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.918Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4251d8e86419",
         "tagteam:denotesType": "Entity"
       },
@@ -221,7 +221,7 @@
         ],
         "rdfs:label": "jury",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.642Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.918Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4251d8e86419",
         "tagteam:denotesType": "Entity"
       },
@@ -235,7 +235,7 @@
         "has_text_value": "The prosecutor presented the evidence to the jury",
         "tagteam:char_count": 49,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T10:38:52.633Z"
+        "tagteam:received_at": "2026-02-26T12:28:09.908Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -284,7 +284,7 @@
             "@id": "inst:Act_presented"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.633Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.908Z"
       }
     ]
   }

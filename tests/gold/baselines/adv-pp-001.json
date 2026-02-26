@@ -6,7 +6,7 @@
     "nested-pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T10:38:54.507Z",
+  "generatedAt": "2026-02-26T12:28:11.819Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -283,7 +283,7 @@
         "rdfs:label": "agent",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.506Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.819Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
         "tagteam:denotesType": "Person"
       },
@@ -295,7 +295,7 @@
         ],
         "rdfs:label": "report",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.507Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.819Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
         "tagteam:denotesType": "Entity"
       },
@@ -307,7 +307,7 @@
         ],
         "rdfs:label": "office",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.507Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.819Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
         "tagteam:denotesType": "Facility"
       },
@@ -319,7 +319,7 @@
         ],
         "rdfs:label": "build",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.507Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.819Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
         "tagteam:denotesType": "Facility"
       },
@@ -331,7 +331,7 @@
         ],
         "rdfs:label": "campu",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.507Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.819Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
         "tagteam:denotesType": "Entity"
       },
@@ -345,7 +345,7 @@
         "has_text_value": "The agent filed the report at the office in the building on the campus",
         "tagteam:char_count": 70,
         "tagteam:word_count": 14,
-        "tagteam:received_at": "2026-02-26T10:38:54.496Z"
+        "tagteam:received_at": "2026-02-26T12:28:11.807Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -400,7 +400,7 @@
             "@id": "inst:Act_filed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.496Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.807Z"
       }
     ]
   }

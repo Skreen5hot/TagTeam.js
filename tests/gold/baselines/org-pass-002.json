@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-26T10:38:52.752Z",
+  "generatedAt": "2026-02-26T12:28:10.017Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -145,7 +145,7 @@
         "rdfs:label": "report",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.752Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.016Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e3dc274e948f",
         "tagteam:denotesType": "Entity"
       },
@@ -157,7 +157,7 @@
         ],
         "rdfs:label": "director",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.752Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.016Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e3dc274e948f",
         "tagteam:denotesType": "Person"
       },
@@ -171,7 +171,7 @@
         "has_text_value": "The report was submitted to the director",
         "tagteam:char_count": 40,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-26T10:38:52.741Z"
+        "tagteam:received_at": "2026-02-26T12:28:10.007Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -217,7 +217,7 @@
             "@id": "inst:Act_submitted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.741Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.007Z"
       }
     ]
   }

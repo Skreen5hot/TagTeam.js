@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-26T10:38:52.176Z",
+  "generatedAt": "2026-02-26T12:28:09.355Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -94,7 +94,7 @@
         "rdfs:label": "cbp",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.175Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.353Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3937775d2119",
         "tagteam:denotesType": "Organization"
       },
@@ -106,7 +106,7 @@
         ],
         "rdfs:label": "dhs",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.175Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.354Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3937775d2119",
         "tagteam:denotesType": "Organization"
       },
@@ -120,7 +120,7 @@
         "has_text_value": "CBP is a component of DHS",
         "tagteam:char_count": 25,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-26T10:38:52.084Z"
+        "tagteam:received_at": "2026-02-26T12:28:09.206Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -163,7 +163,7 @@
             "@id": "inst:DHS"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.084Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.206Z"
       }
     ]
   }

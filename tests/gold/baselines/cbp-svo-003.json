@@ -7,7 +7,7 @@
     "cbp",
     "surveillance"
   ],
-  "generatedAt": "2026-02-26T10:38:53.334Z",
+  "generatedAt": "2026-02-26T12:28:10.601Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -144,7 +144,7 @@
         "rdfs:label": "patrol unit",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.333Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.601Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_20f0c438164c",
         "tagteam:denotesType": "Entity"
       },
@@ -156,7 +156,7 @@
         ],
         "rdfs:label": "cros",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.333Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.601Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_20f0c438164c",
         "tagteam:denotesType": "Entity"
       },
@@ -170,7 +170,7 @@
         "has_text_value": "The patrol unit monitored the crossing",
         "tagteam:char_count": 38,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-26T10:38:53.325Z"
+        "tagteam:received_at": "2026-02-26T12:28:10.594Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_monitored"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.325Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.594Z"
       }
     ]
   }

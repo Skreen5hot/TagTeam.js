@@ -6,7 +6,7 @@
     "nested-pp",
     "government"
   ],
-  "generatedAt": "2026-02-26T10:38:54.853Z",
+  "generatedAt": "2026-02-26T12:28:12.172Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -200,7 +200,7 @@
         ],
         "rdfs:label": "liaison",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.853Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:12.171Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_06c6729ecab7",
         "tagteam:denotesType": "Entity"
       },
@@ -212,7 +212,7 @@
         ],
         "rdfs:label": "embassy",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.853Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:12.171Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_06c6729ecab7",
         "tagteam:denotesType": "Entity"
       },
@@ -224,7 +224,7 @@
         ],
         "rdfs:label": "capital of the neighboring country",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.853Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:12.171Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_06c6729ecab7",
         "tagteam:denotesType": "Entity"
       },
@@ -236,7 +236,7 @@
         ],
         "rdfs:label": "neighboring country",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.853Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:12.171Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_06c6729ecab7",
         "tagteam:denotesType": "Entity"
       },
@@ -250,7 +250,7 @@
         "has_text_value": "The liaison coordinated with the embassy in the capital of the neighboring country",
         "tagteam:char_count": 82,
         "tagteam:word_count": 13,
-        "tagteam:received_at": "2026-02-26T10:38:54.844Z"
+        "tagteam:received_at": "2026-02-26T12:28:12.156Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -305,7 +305,7 @@
             "@id": "inst:Act_coordinated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.844Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:12.156Z"
       }
     ]
   }

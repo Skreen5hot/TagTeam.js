@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T10:38:53.823Z",
+  "generatedAt": "2026-02-26T12:28:11.097Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -137,7 +137,7 @@
         "rdfs:label": "new policy",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.823Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.097Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_78446384e317",
         "tagteam:denotesType": "Entity"
       },
@@ -149,7 +149,7 @@
         ],
         "rdfs:label": "all field office",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.823Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.097Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_78446384e317",
         "tagteam:denotesType": "Entity"
       },
@@ -163,7 +163,7 @@
         "has_text_value": "The new policy was implemented across all field offices",
         "tagteam:char_count": 55,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-26T10:38:53.814Z"
+        "tagteam:received_at": "2026-02-26T12:28:11.086Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -209,7 +209,7 @@
             "@id": "inst:Act_implemented"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.814Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.086Z"
       }
     ]
   }

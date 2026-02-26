@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-26T10:38:52.846Z",
+  "generatedAt": "2026-02-26T12:28:10.120Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -152,7 +152,7 @@
         "rdfs:label": "director and the deputy",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.846Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.119Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_fd3482a97e5f",
         "tagteam:denotesType": "Person"
       },
@@ -164,7 +164,7 @@
         ],
         "rdfs:label": "mission",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.846Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.119Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_fd3482a97e5f",
         "tagteam:denotesType": "Entity"
       },
@@ -178,7 +178,7 @@
         "has_text_value": "The director and the deputy authorized the mission",
         "tagteam:char_count": 50,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T10:38:52.837Z"
+        "tagteam:received_at": "2026-02-26T12:28:10.109Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -224,7 +224,7 @@
             "@id": "inst:Act_authorized"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.837Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.109Z"
       }
     ]
   }

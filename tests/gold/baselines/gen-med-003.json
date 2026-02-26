@@ -6,7 +6,7 @@
     "medical",
     "diagnosis"
   ],
-  "generatedAt": "2026-02-26T10:38:54.261Z",
+  "generatedAt": "2026-02-26T12:28:11.562Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -132,7 +132,7 @@
         ],
         "rdfs:label": "physician",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.261Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.562Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0caaac5538be",
         "tagteam:denotesType": "Person"
       },
@@ -144,7 +144,7 @@
         ],
         "rdfs:label": "condition",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.261Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.562Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0caaac5538be",
         "tagteam:denotesType": "Entity"
       },
@@ -158,7 +158,7 @@
         "has_text_value": "The physician diagnosed the condition",
         "tagteam:char_count": 37,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-26T10:38:54.254Z"
+        "tagteam:received_at": "2026-02-26T12:28:11.553Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -207,7 +207,7 @@
             "@id": "inst:Act_diagnosed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.254Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.553Z"
       }
     ]
   }

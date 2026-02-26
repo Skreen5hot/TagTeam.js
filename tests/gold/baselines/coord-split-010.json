@@ -7,7 +7,7 @@
     "split",
     "legal"
   ],
-  "generatedAt": "2026-02-26T10:38:52.957Z",
+  "generatedAt": "2026-02-26T12:28:10.234Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -152,7 +152,7 @@
         "rdfs:label": "prosecutor and the defense attorney",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.957Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.234Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7cd57943d605",
         "tagteam:denotesType": "Entity"
       },
@@ -164,7 +164,7 @@
         ],
         "rdfs:label": "court",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.957Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.234Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7cd57943d605",
         "tagteam:denotesType": "Entity"
       },
@@ -178,7 +178,7 @@
         "has_text_value": "The prosecutor and the defense attorney addressed the court",
         "tagteam:char_count": 59,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-26T10:38:52.947Z"
+        "tagteam:received_at": "2026-02-26T12:28:10.223Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -224,7 +224,7 @@
             "@id": "inst:Act_addressed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.947Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.223Z"
       }
     ]
   }

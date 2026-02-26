@@ -6,7 +6,7 @@
     "news",
     "regulation"
   ],
-  "generatedAt": "2026-02-26T10:38:54.127Z",
+  "generatedAt": "2026-02-26T12:28:11.442Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -191,7 +191,7 @@
         "rdfs:label": "regulator",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.126Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.442Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_673baeaced25",
         "tagteam:denotesType": "Entity"
       },
@@ -203,7 +203,7 @@
         ],
         "rdfs:label": "corporation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.126Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.442Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_673baeaced25",
         "tagteam:denotesType": "Entity"
       },
@@ -215,7 +215,7 @@
         ],
         "rdfs:label": "violation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.126Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.442Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_673baeaced25",
         "tagteam:denotesType": "Entity"
       },
@@ -229,7 +229,7 @@
         "has_text_value": "The regulator fined the corporation for violations",
         "tagteam:char_count": 50,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-26T10:38:54.120Z"
+        "tagteam:received_at": "2026-02-26T12:28:11.434Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -278,7 +278,7 @@
             "@id": "inst:Act_fined"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.120Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.434Z"
       }
     ]
   }

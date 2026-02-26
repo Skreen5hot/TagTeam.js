@@ -7,7 +7,7 @@
     "coordination",
     "government"
   ],
-  "generatedAt": "2026-02-26T10:38:53.299Z",
+  "generatedAt": "2026-02-26T12:28:10.568Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -183,7 +183,7 @@
         "rdfs:label": "deputy and the chief of staff",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.299Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.568Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d95632251760",
         "tagteam:denotesType": "Entity"
       },
@@ -195,7 +195,7 @@
         ],
         "rdfs:label": "staff",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.299Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.568Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d95632251760",
         "tagteam:denotesType": "Entity"
       },
@@ -207,7 +207,7 @@
         ],
         "rdfs:label": "plan",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.299Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.568Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d95632251760",
         "tagteam:denotesType": "Entity"
       },
@@ -221,7 +221,7 @@
         "has_text_value": "The director, the deputy, and the chief of staff approved the plan",
         "tagteam:char_count": 66,
         "tagteam:word_count": 12,
-        "tagteam:received_at": "2026-02-26T10:38:53.288Z"
+        "tagteam:received_at": "2026-02-26T12:28:10.558Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -270,7 +270,7 @@
             "@id": "inst:Act_approved"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.288Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.558Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "relative-clause",
     "government"
   ],
-  "generatedAt": "2026-02-26T10:38:54.620Z",
+  "generatedAt": "2026-02-26T12:28:11.932Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -177,7 +177,7 @@
         ],
         "rdfs:label": "policy",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.620Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.931Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a6a4984e3fd6",
         "tagteam:denotesType": "Entity"
       },
@@ -190,7 +190,7 @@
         "rdfs:label": "committee",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.620Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.931Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a6a4984e3fd6",
         "tagteam:denotesType": "Entity"
       },
@@ -202,7 +202,7 @@
         ],
         "rdfs:label": "effect",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.620Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.932Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a6a4984e3fd6",
         "tagteam:denotesType": "Entity"
       },
@@ -216,7 +216,7 @@
         "has_text_value": "The policy that the committee approved took effect immediately",
         "tagteam:char_count": 62,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-26T10:38:54.609Z"
+        "tagteam:received_at": "2026-02-26T12:28:11.924Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -268,7 +268,7 @@
             "@id": "inst:Act_took"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.609Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.924Z"
       }
     ]
   }

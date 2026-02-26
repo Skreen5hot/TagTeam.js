@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-26T10:38:52.590Z",
+  "generatedAt": "2026-02-26T12:28:09.864Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -133,7 +133,7 @@
         ],
         "rdfs:label": "secretary",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.590Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.864Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c2b4c510415a",
         "tagteam:denotesType": "Entity"
       },
@@ -145,7 +145,7 @@
         ],
         "rdfs:label": "statement",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.590Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.864Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c2b4c510415a",
         "tagteam:denotesType": "Entity"
       },
@@ -159,7 +159,7 @@
         "has_text_value": "The secretary issued a statement",
         "tagteam:char_count": 32,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-26T10:38:52.583Z"
+        "tagteam:received_at": "2026-02-26T12:28:09.854Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -208,7 +208,7 @@
             "@id": "inst:Act_issued"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.583Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.854Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-26T10:38:53.049Z",
+  "generatedAt": "2026-02-26T12:28:10.324Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -104,7 +104,7 @@
         ],
         "rdfs:label": "state and local authority",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.049Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.324Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_51c1431487b2",
         "tagteam:denotesType": "Entity"
       },
@@ -116,7 +116,7 @@
         ],
         "rdfs:label": "search",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.049Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.324Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_51c1431487b2",
         "tagteam:denotesType": "Entity"
       },
@@ -130,7 +130,7 @@
         "has_text_value": "State and local authorities assisted in the search",
         "tagteam:char_count": 50,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T10:38:53.040Z"
+        "tagteam:received_at": "2026-02-26T12:28:10.315Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -176,7 +176,7 @@
             "@id": "inst:Act_State"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.040Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.315Z"
       }
     ]
   }

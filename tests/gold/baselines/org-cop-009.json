@@ -7,7 +7,7 @@
     "definitional",
     "military"
   ],
-  "generatedAt": "2026-02-26T10:38:52.385Z",
+  "generatedAt": "2026-02-26T12:28:09.628Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -92,7 +92,7 @@
         "rdfs:label": "coast guard",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.385Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.628Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ceab63bf2523",
         "tagteam:denotesType": "Person"
       },
@@ -104,7 +104,7 @@
         ],
         "rdfs:label": "armed force",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.385Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.628Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ceab63bf2523",
         "tagteam:denotesType": "Entity"
       },
@@ -118,7 +118,7 @@
         "has_text_value": "The Coast Guard is a branch of the armed forces",
         "tagteam:char_count": 47,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-26T10:38:52.373Z"
+        "tagteam:received_at": "2026-02-26T12:28:09.614Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -161,7 +161,7 @@
             "@id": "inst:the_armed_forces"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.373Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.614Z"
       }
     ]
   }

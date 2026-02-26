@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-26T10:38:52.357Z",
+  "generatedAt": "2026-02-26T12:28:09.595Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -73,7 +73,7 @@
         "rdfs:label": "secret service",
         "tagteam:genericityCategory": "AMB",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.357Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.595Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c648675cc7aa",
         "tagteam:denotesType": "Entity"
       },
@@ -87,7 +87,7 @@
         "has_text_value": "The Secret Service is a federal agency",
         "tagteam:char_count": 38,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-26T10:38:52.345Z"
+        "tagteam:received_at": "2026-02-26T12:28:09.584Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -127,7 +127,7 @@
             "@id": "inst:The_Secret_Service"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.345Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.584Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "ditransitive",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T10:38:54.046Z",
+  "generatedAt": "2026-02-26T12:28:11.334Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -151,7 +151,7 @@
         "rdfs:label": "chief",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.046Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.334Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3a158b03938b",
         "tagteam:denotesType": "Entity"
       },
@@ -163,7 +163,7 @@
         ],
         "rdfs:label": "team",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.046Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.334Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3a158b03938b",
         "tagteam:denotesType": "Organization"
       },
@@ -177,7 +177,7 @@
         "has_text_value": "The chief passed the team the intelligence briefing",
         "tagteam:char_count": 51,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T10:38:54.035Z"
+        "tagteam:received_at": "2026-02-26T12:28:11.325Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -223,7 +223,7 @@
             "@id": "inst:Act_passed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.035Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.325Z"
       }
     ]
   }

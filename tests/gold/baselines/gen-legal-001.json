@@ -5,7 +5,7 @@
   "tags": [
     "legal"
   ],
-  "generatedAt": "2026-02-26T10:38:54.333Z",
+  "generatedAt": "2026-02-26T12:28:11.639Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -194,7 +194,7 @@
         "rdfs:label": "attorney",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.333Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.638Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_de74f4703d67",
         "tagteam:denotesType": "Entity"
       },
@@ -206,7 +206,7 @@
         ],
         "rdfs:label": "motion",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.333Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.639Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_de74f4703d67",
         "tagteam:denotesType": "Entity"
       },
@@ -218,7 +218,7 @@
         ],
         "rdfs:label": "court",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.333Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.639Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_de74f4703d67",
         "tagteam:denotesType": "Entity"
       },
@@ -232,7 +232,7 @@
         "has_text_value": "The attorney filed the motion with the court",
         "tagteam:char_count": 44,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T10:38:54.324Z"
+        "tagteam:received_at": "2026-02-26T12:28:11.631Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -281,7 +281,7 @@
             "@id": "inst:Act_filed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.324Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.631Z"
       }
     ]
   }

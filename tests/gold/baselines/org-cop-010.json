@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-26T10:38:52.399Z",
+  "generatedAt": "2026-02-26T12:28:09.645Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -69,7 +69,7 @@
         "rdfs:label": "dea",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.398Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.644Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0abf6643e39e",
         "tagteam:denotesType": "Entity"
       },
@@ -83,7 +83,7 @@
         "has_text_value": "DEA is the primary federal drug enforcement agency",
         "tagteam:char_count": 50,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T10:38:52.389Z"
+        "tagteam:received_at": "2026-02-26T12:28:09.633Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -123,7 +123,7 @@
             "@id": "inst:DEA"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.389Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.633Z"
       }
     ]
   }

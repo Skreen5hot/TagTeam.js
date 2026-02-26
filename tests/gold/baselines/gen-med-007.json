@@ -6,7 +6,7 @@
     "medical",
     "treatment"
   ],
-  "generatedAt": "2026-02-26T10:38:54.309Z",
+  "generatedAt": "2026-02-26T12:28:11.616Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -195,7 +195,7 @@
         "rdfs:label": "therapist",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.308Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.615Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5f37a0817b26",
         "tagteam:denotesType": "Person"
       },
@@ -207,7 +207,7 @@
         ],
         "rdfs:label": "injury",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.309Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.616Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5f37a0817b26",
         "tagteam:denotesType": "Entity"
       },
@@ -219,7 +219,7 @@
         ],
         "rdfs:label": "physical therapy",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.309Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.616Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5f37a0817b26",
         "tagteam:denotesType": "Entity"
       },
@@ -233,7 +233,7 @@
         "has_text_value": "The therapist treated the injury with physical therapy",
         "tagteam:char_count": 54,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T10:38:54.301Z"
+        "tagteam:received_at": "2026-02-26T12:28:11.607Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -282,7 +282,7 @@
             "@id": "inst:Act_treated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.301Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.607Z"
       }
     ]
   }

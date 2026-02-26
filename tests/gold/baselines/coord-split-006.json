@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-26T10:38:52.912Z",
+  "generatedAt": "2026-02-26T12:28:10.185Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -162,7 +162,7 @@
         "tagteam:nominatedClassLabel": "Agents And Officer",
         "tagteam:nominationBasis": "bare_plural",
         "tagteam:requiresOntologyResolution": true,
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.911Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.184Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_602fdc0a1601",
         "tagteam:denotesType": "Entity"
       },
@@ -174,7 +174,7 @@
         ],
         "rdfs:label": "raid",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.911Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.184Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_602fdc0a1601",
         "tagteam:denotesType": "Entity"
       },
@@ -188,7 +188,7 @@
         "has_text_value": "Agents and officers conducted the raid",
         "tagteam:char_count": 38,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-26T10:38:52.905Z"
+        "tagteam:received_at": "2026-02-26T12:28:10.177Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -234,7 +234,7 @@
             "@id": "inst:Act_conducted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.905Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.177Z"
       }
     ]
   }

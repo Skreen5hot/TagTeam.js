@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T10:38:53.765Z",
+  "generatedAt": "2026-02-26T12:28:11.042Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -145,7 +145,7 @@
         "rdfs:label": "vehicle",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.765Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.042Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7eb0ddc9127f",
         "tagteam:denotesType": "Entity"
       },
@@ -157,7 +157,7 @@
         ],
         "rdfs:label": "checkpoint",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.765Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.042Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7eb0ddc9127f",
         "tagteam:denotesType": "Entity"
       },
@@ -171,7 +171,7 @@
         "has_text_value": "The vehicle was searched at the checkpoint",
         "tagteam:char_count": 42,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-26T10:38:53.756Z"
+        "tagteam:received_at": "2026-02-26T12:28:11.034Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -217,7 +217,7 @@
             "@id": "inst:Act_searched"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.756Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.034Z"
       }
     ]
   }

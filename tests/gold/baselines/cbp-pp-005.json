@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T10:38:53.927Z",
+  "generatedAt": "2026-02-26T12:28:11.217Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -191,7 +191,7 @@
         "rdfs:label": "supervisor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.927Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.217Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a1199a59d28f",
         "tagteam:denotesType": "Person"
       },
@@ -203,7 +203,7 @@
         ],
         "rdfs:label": "team",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.927Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.217Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a1199a59d28f",
         "tagteam:denotesType": "Organization"
       },
@@ -215,7 +215,7 @@
         ],
         "rdfs:label": "operation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.927Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.217Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a1199a59d28f",
         "tagteam:denotesType": "Entity"
       },
@@ -229,7 +229,7 @@
         "has_text_value": "The supervisor briefed the team on the operation",
         "tagteam:char_count": 48,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T10:38:53.918Z"
+        "tagteam:received_at": "2026-02-26T12:28:11.210Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -278,7 +278,7 @@
             "@id": "inst:Act_briefed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.918Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.210Z"
       }
     ]
   }

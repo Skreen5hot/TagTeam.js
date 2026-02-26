@@ -7,7 +7,7 @@
     "cbp",
     "enforcement"
   ],
-  "generatedAt": "2026-02-26T10:38:53.401Z",
+  "generatedAt": "2026-02-26T12:28:10.661Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -123,7 +123,7 @@
         "tagteam:nominatedClassLabel": "Narcotic",
         "tagteam:nominationBasis": "bare_plural",
         "tagteam:requiresOntologyResolution": true,
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.400Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.661Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_df84be1b3615",
         "tagteam:denotesType": "Entity"
       },
@@ -137,7 +137,7 @@
         "has_text_value": "The K-9 handler detected narcotics",
         "tagteam:char_count": 34,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-26T10:38:53.389Z"
+        "tagteam:received_at": "2026-02-26T12:28:10.650Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -183,7 +183,7 @@
             "@id": "inst:Act_detected"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.389Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.650Z"
       }
     ]
   }

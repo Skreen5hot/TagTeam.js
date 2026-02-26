@@ -7,7 +7,7 @@
     "split",
     "passive"
   ],
-  "generatedAt": "2026-02-26T10:38:52.923Z",
+  "generatedAt": "2026-02-26T12:28:10.196Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -102,7 +102,7 @@
         "rdfs:label": "suspect and the accomplice",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.923Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.196Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_28eb09ab1b77",
         "tagteam:denotesType": "Person"
       },
@@ -116,7 +116,7 @@
         "has_text_value": "The suspect and the accomplice were arrested",
         "tagteam:char_count": 44,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-26T10:38:52.915Z"
+        "tagteam:received_at": "2026-02-26T12:28:10.187Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -159,7 +159,7 @@
             "@id": "inst:Act_arrested"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.915Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.187Z"
       }
     ]
   }

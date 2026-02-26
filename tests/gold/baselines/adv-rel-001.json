@@ -6,7 +6,7 @@
     "relative-clause",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T10:38:54.573Z",
+  "generatedAt": "2026-02-26T12:28:11.894Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -196,7 +196,7 @@
         "rdfs:label": "agent",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.573Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.894Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5513ee104d26",
         "tagteam:denotesType": "Person"
       },
@@ -209,7 +209,7 @@
         "rdfs:label": "who",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.573Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.894Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5513ee104d26",
         "tagteam:denotesType": "Organization"
       },
@@ -221,7 +221,7 @@
         ],
         "rdfs:label": "tunnel",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.573Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.894Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5513ee104d26",
         "tagteam:denotesType": "Entity"
       },
@@ -233,7 +233,7 @@
         ],
         "rdfs:label": "report",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.573Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.894Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5513ee104d26",
         "tagteam:denotesType": "Entity"
       },
@@ -247,7 +247,7 @@
         "has_text_value": "The agent who discovered the tunnel filed the report",
         "tagteam:char_count": 52,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-26T10:38:54.562Z"
+        "tagteam:received_at": "2026-02-26T12:28:11.883Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -299,7 +299,7 @@
             "@id": "inst:Act_filed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:54.562Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:11.883Z"
       }
     ]
   }

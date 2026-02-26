@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-26T10:38:52.683Z",
+  "generatedAt": "2026-02-26T12:28:09.953Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -145,7 +145,7 @@
         "rdfs:label": "department",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.682Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.953Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7d317d866425",
         "tagteam:denotesType": "Organization"
       },
@@ -157,7 +157,7 @@
         ],
         "rdfs:label": "new regulation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.682Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.953Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7d317d866425",
         "tagteam:denotesType": "Entity"
       },
@@ -171,7 +171,7 @@
         "has_text_value": "The department implemented new regulations",
         "tagteam:char_count": 42,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-26T10:38:52.674Z"
+        "tagteam:received_at": "2026-02-26T12:28:09.946Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -217,7 +217,7 @@
             "@id": "inst:Act_implemented"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.674Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.946Z"
       }
     ]
   }

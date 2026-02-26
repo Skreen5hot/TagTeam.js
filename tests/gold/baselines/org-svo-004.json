@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-26T10:38:52.521Z",
+  "generatedAt": "2026-02-26T12:28:09.784Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -192,7 +192,7 @@
         "rdfs:label": "agent",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.521Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.784Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_484423e3cd48",
         "tagteam:denotesType": "Person"
       },
@@ -204,7 +204,7 @@
         ],
         "rdfs:label": "report",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.521Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.784Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_484423e3cd48",
         "tagteam:denotesType": "Entity"
       },
@@ -216,7 +216,7 @@
         ],
         "rdfs:label": "office",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.521Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.784Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_484423e3cd48",
         "tagteam:denotesType": "Facility"
       },
@@ -230,7 +230,7 @@
         "has_text_value": "The agent filed a report with the office",
         "tagteam:char_count": 40,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T10:38:52.512Z"
+        "tagteam:received_at": "2026-02-26T12:28:09.772Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -279,7 +279,7 @@
             "@id": "inst:Act_filed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.512Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.772Z"
       }
     ]
   }

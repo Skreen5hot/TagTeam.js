@@ -7,7 +7,7 @@
     "cbp",
     "trade"
   ],
-  "generatedAt": "2026-02-26T10:38:53.445Z",
+  "generatedAt": "2026-02-26T12:28:10.719Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -144,7 +144,7 @@
         "rdfs:label": "import specialist",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.445Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.718Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e6194180de4c",
         "tagteam:denotesType": "Person"
       },
@@ -156,7 +156,7 @@
         ],
         "rdfs:label": "declaration",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.445Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.719Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e6194180de4c",
         "tagteam:denotesType": "Entity"
       },
@@ -170,7 +170,7 @@
         "has_text_value": "The import specialist verified the declaration",
         "tagteam:char_count": 46,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-26T10:38:53.437Z"
+        "tagteam:received_at": "2026-02-26T12:28:10.709Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_verified"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.437Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.709Z"
       }
     ]
   }

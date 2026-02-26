@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-26T10:38:52.944Z",
+  "generatedAt": "2026-02-26T12:28:10.220Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -85,7 +85,7 @@
         ],
         "rdfs:label": "tsa and cbp implemented new screening procedure",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.944Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.220Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c752c5b2413a",
         "tagteam:denotesType": "Entity"
       },
@@ -99,7 +99,7 @@
         "has_text_value": "TSA and CBP implemented new screening procedures",
         "tagteam:char_count": 48,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-26T10:38:52.937Z"
+        "tagteam:received_at": "2026-02-26T12:28:10.211Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -142,7 +142,7 @@
             "@id": "inst:Act_procedures"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.937Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.211Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-26T10:38:52.602Z",
+  "generatedAt": "2026-02-26T12:28:09.878Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -144,7 +144,7 @@
         "rdfs:label": "agency",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.601Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.878Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_48aebb4bb95e",
         "tagteam:denotesType": "Organization"
       },
@@ -156,7 +156,7 @@
         ],
         "rdfs:label": "additional personnel",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.601Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.878Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_48aebb4bb95e",
         "tagteam:denotesType": "Entity"
       },
@@ -170,7 +170,7 @@
         "has_text_value": "The agency deployed additional personnel",
         "tagteam:char_count": 40,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-26T10:38:52.593Z"
+        "tagteam:received_at": "2026-02-26T12:28:09.868Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_deployed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.593Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.868Z"
       }
     ]
   }

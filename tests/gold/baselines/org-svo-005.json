@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-26T10:38:52.532Z",
+  "generatedAt": "2026-02-26T12:28:09.796Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -144,7 +144,7 @@
         "rdfs:label": "director",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.531Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.796Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c25f005f9259",
         "tagteam:denotesType": "Person"
       },
@@ -156,7 +156,7 @@
         ],
         "rdfs:label": "operation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.531Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.796Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c25f005f9259",
         "tagteam:denotesType": "Entity"
       },
@@ -170,7 +170,7 @@
         "has_text_value": "The director authorized the operation",
         "tagteam:char_count": 37,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-26T10:38:52.524Z"
+        "tagteam:received_at": "2026-02-26T12:28:09.787Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_authorized"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:52.524Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:09.787Z"
       }
     ]
   }

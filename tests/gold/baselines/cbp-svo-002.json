@@ -7,7 +7,7 @@
     "cbp",
     "inspection"
   ],
-  "generatedAt": "2026-02-26T10:38:53.322Z",
+  "generatedAt": "2026-02-26T12:28:10.591Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -144,7 +144,7 @@
         "rdfs:label": "customs officer",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.322Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.591Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c6281c2782d6",
         "tagteam:denotesType": "Person"
       },
@@ -156,7 +156,7 @@
         ],
         "rdfs:label": "cargo",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.322Z",
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.591Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c6281c2782d6",
         "tagteam:denotesType": "Entity"
       },
@@ -170,7 +170,7 @@
         "has_text_value": "The customs officer inspected the cargo",
         "tagteam:char_count": 39,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-26T10:38:53.312Z"
+        "tagteam:received_at": "2026-02-26T12:28:10.584Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -216,7 +216,7 @@
             "@id": "inst:Act_inspected"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T10:38:53.312Z"
+        "tagteam:instantiated_at": "2026-02-26T12:28:10.584Z"
       }
     ]
   }

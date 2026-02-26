@@ -313445,8 +313445,8 @@ class JSONLDSerializer {
       bears_role_for:        { '@id': 'tagteam:bears_role_for',        '@type': '@id' },
       occurs_during:         { '@id': 'tagteam:occurs_during',         '@type': '@id' },
       has_measurement_value: { '@id': 'tagteam:has_measurement_value', '@type': '@id' },
-      has_start_time:        { '@id': 'tagteam:has_start_time',        '@type': '@id' },
-      has_end_time:          { '@id': 'tagteam:has_end_time',          '@type': '@id' },
+      has_start_time:        { '@id': 'tagteam:has_start_time',        '@type': 'xsd:dateTime' },
+      has_end_time:          { '@id': 'tagteam:has_end_time',          '@type': 'xsd:dateTime' },
       assertionType:         { '@id': 'tagteam:assertionType',         '@type': '@id' },
       validInContext:        { '@id': 'tagteam:validInContext',        '@type': '@id' },
       actualityStatus:       { '@id': 'tagteam:actualityStatus',       '@type': '@id' },
@@ -330093,7 +330093,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '3.0.0',
-    BUILD: 'build 232 | 416b882 | 2026-02-26T10:39:19.829Z',
+    BUILD: 'build 233 | 10b1817 | 2026-02-26T12:29:49.744Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
