@@ -6,7 +6,7 @@
     "academic",
     "research"
   ],
-  "generatedAt": "2026-02-26T12:28:11.456Z",
+  "generatedAt": "2026-02-27T10:50:25.010Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -51,15 +51,15 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The researcher",
+      "entity": "researcher",
       "role": "Agent"
     },
     {
-      "entity": "the study",
+      "entity": "study",
       "role": "Patient"
     },
     {
-      "entity": "a peer reviewed journal",
+      "entity": "peer reviewed journal",
       "role": "Location"
     }
   ],
@@ -68,7 +68,6 @@
       {
         "@id": "inst:The_researcher",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The researcher",
@@ -88,7 +87,6 @@
       {
         "@id": "inst:the_study",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the study",
@@ -106,7 +104,6 @@
       {
         "@id": "inst:a_peer_reviewed_journal",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "a peer reviewed journal",
@@ -140,10 +137,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_researcher"
+        "inheres_in": {
+          "@id": "inst:Person_Researcher_a7221ef0cb80"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_published"
         },
         "tagteam:parseConfidence": "high",
@@ -156,10 +153,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_study"
+        "inheres_in": {
+          "@id": "inst:Entity_Study_0c60247bf889"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_published"
         },
         "tagteam:parseConfidence": "medium",
@@ -172,10 +169,10 @@
         ],
         "rdfs:label": "LocationRole",
         "tagteam:roleType": "LocationRole",
-        "tagteam:bearer": {
-          "@id": "inst:a_peer_reviewed_journal"
+        "inheres_in": {
+          "@id": "inst:Entity_Peer_Reviewed_Journal_03cdad33b367"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_published"
         },
         "tagteam:preposition": "in",
@@ -191,9 +188,17 @@
         "rdfs:label": "researcher",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.456Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.009Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7a16aeae2afb",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:The_researcher"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_researcher_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Study_0c60247bf889",
@@ -203,9 +208,17 @@
         ],
         "rdfs:label": "study",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.456Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.009Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7a16aeae2afb",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_study"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_study_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Peer_Reviewed_Journal_03cdad33b367",
@@ -215,9 +228,17 @@
         ],
         "rdfs:label": "peer reviewed journal",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.456Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.009Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7a16aeae2afb",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:a_peer_reviewed_journal"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_a_peer_reviewed_journal_LocationRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_7a16aeae2afb",
@@ -229,7 +250,7 @@
         "has_text_value": "The researcher published the study in a peer-reviewed journal",
         "tagteam:char_count": 61,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-26T12:28:11.446Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.002Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -278,7 +299,7 @@
             "@id": "inst:Act_published"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.446Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.002Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-26T12:28:09.682Z",
+  "generatedAt": "2026-02-27T10:50:23.224Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -38,7 +38,6 @@
       {
         "@id": "inst:NASA",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "NASA",
@@ -59,7 +58,6 @@
       {
         "@id": "inst:the_federal_government",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the federal government",
@@ -93,9 +91,12 @@
         "rdfs:label": "nasa",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.682Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.224Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6a98fd9c5a58",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:NASA"
+        }
       },
       {
         "@id": "inst:Entity_Federal_Government_a5882d865777",
@@ -105,9 +106,12 @@
         ],
         "rdfs:label": "federal government",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.682Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.224Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6a98fd9c5a58",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_federal_government"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_6a98fd9c5a58",
@@ -119,7 +123,7 @@
         "has_text_value": "NASA is an independent agency of the federal government",
         "tagteam:char_count": 55,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-26T12:28:09.665Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.209Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -162,7 +166,7 @@
             "@id": "inst:the_federal_government"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.665Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.209Z"
       }
     ]
   }

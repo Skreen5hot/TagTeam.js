@@ -7,7 +7,7 @@
     "cbp",
     "trade"
   ],
-  "generatedAt": "2026-02-26T12:28:10.977Z",
+  "generatedAt": "2026-02-27T10:50:24.550Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -33,7 +33,6 @@
       {
         "@id": "inst:ACE",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "ACE",
@@ -69,9 +68,12 @@
         "rdfs:label": "ace",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.977Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.550Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ab5345740615",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:ACE"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_ab5345740615",
@@ -83,7 +85,7 @@
         "has_text_value": "ACE is the automated commercial environment system",
         "tagteam:char_count": 50,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-26T12:28:10.969Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.541Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -123,7 +125,7 @@
             "@id": "inst:ACE"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.969Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.541Z"
       }
     ]
   }

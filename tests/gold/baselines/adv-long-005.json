@@ -6,7 +6,7 @@
     "long-np",
     "government"
   ],
-  "generatedAt": "2026-02-26T12:28:11.784Z",
+  "generatedAt": "2026-02-27T10:50:25.333Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -51,7 +51,6 @@
       {
         "@id": "inst:The_assistant_secretary_for_policy_and_planning_approved_the_initiative",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The assistant secretary for policy and planning approved the initiative",
@@ -69,7 +68,6 @@
       {
         "@id": "inst:policy",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "policy",
@@ -87,7 +85,6 @@
       {
         "@id": "inst:the_initiative",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the initiative",
@@ -122,9 +119,12 @@
         ],
         "rdfs:label": "assistant secretary for policy and planning approved the initiative",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.784Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.333Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_cb8ef2a97a1b",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_assistant_secretary_for_policy_and_planning_approved_the_initiative"
+        }
       },
       {
         "@id": "inst:Entity_Policy_0d82c8e669b0",
@@ -134,9 +134,12 @@
         ],
         "rdfs:label": "policy",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.784Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.333Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_cb8ef2a97a1b",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:policy"
+        }
       },
       {
         "@id": "inst:Entity_Initiative_80de852e167f",
@@ -146,9 +149,12 @@
         ],
         "rdfs:label": "initiative",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.784Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.333Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_cb8ef2a97a1b",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_initiative"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_cb8ef2a97a1b",
@@ -160,7 +166,7 @@
         "has_text_value": "The assistant secretary for policy and planning approved the initiative",
         "tagteam:char_count": 71,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-26T12:28:11.774Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.323Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -209,7 +215,7 @@
             "@id": "inst:Act_secretary"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.774Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.323Z"
       }
     ]
   }

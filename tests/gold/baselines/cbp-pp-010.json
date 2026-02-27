@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:11.274Z",
+  "generatedAt": "2026-02-27T10:50:24.847Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -55,11 +55,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "the unit",
+      "entity": "unit",
       "role": "Patient"
     },
     {
-      "entity": "the southern sector",
+      "entity": "southern sector",
       "role": "Goal"
     }
   ],
@@ -68,7 +68,6 @@
       {
         "@id": "inst:The_commander",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The commander",
@@ -86,7 +85,6 @@
       {
         "@id": "inst:the_unit",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the unit",
@@ -104,7 +102,6 @@
       {
         "@id": "inst:the_southern_sector",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the southern sector",
@@ -150,10 +147,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_unit"
+        "inheres_in": {
+          "@id": "inst:Entity_Unit_ab9ec0d4d50d"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_assigned"
         },
         "tagteam:parseConfidence": "medium",
@@ -166,10 +163,10 @@
         ],
         "rdfs:label": "DestinationRole",
         "tagteam:roleType": "DestinationRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_southern_sector"
+        "inheres_in": {
+          "@id": "inst:Entity_Southern_Sector_209bb9246ac5"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_assigned"
         },
         "tagteam:preposition": "to",
@@ -184,9 +181,12 @@
         ],
         "rdfs:label": "commander",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.274Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.847Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4834e9ef436e",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_commander"
+        }
       },
       {
         "@id": "inst:Entity_Unit_ab9ec0d4d50d",
@@ -196,9 +196,17 @@
         ],
         "rdfs:label": "unit",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.274Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.847Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4834e9ef436e",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_unit"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_unit_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Southern_Sector_209bb9246ac5",
@@ -208,9 +216,17 @@
         ],
         "rdfs:label": "southern sector",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.274Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.847Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4834e9ef436e",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_southern_sector"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_southern_sector_DestinationRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_4834e9ef436e",
@@ -222,7 +238,7 @@
         "has_text_value": "The commander assigned the unit to the southern sector",
         "tagteam:char_count": 54,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-26T12:28:11.266Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.837Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -274,7 +290,7 @@
             "@id": "inst:Act_assigned"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.266Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.837Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-26T12:28:09.521Z",
+  "generatedAt": "2026-02-27T10:50:23.048Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -38,7 +38,6 @@
       {
         "@id": "inst:Border_Patrol",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "Border Patrol",
@@ -59,7 +58,6 @@
       {
         "@id": "inst:CBP",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "CBP",
@@ -93,9 +91,12 @@
         "rdfs:label": "border patrol",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.520Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.048Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_cdf9fc9ce709",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:Border_Patrol"
+        }
       },
       {
         "@id": "inst:Organization_Cbp_746cc17756d4",
@@ -105,9 +106,12 @@
         ],
         "rdfs:label": "cbp",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.521Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.048Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_cdf9fc9ce709",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:CBP"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_cdf9fc9ce709",
@@ -119,7 +123,7 @@
         "has_text_value": "Border Patrol is the enforcement arm of CBP",
         "tagteam:char_count": 43,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T12:28:09.394Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.032Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -162,7 +166,7 @@
             "@id": "inst:CBP"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.394Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.032Z"
       }
     ]
   }

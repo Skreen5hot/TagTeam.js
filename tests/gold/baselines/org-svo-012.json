@@ -8,7 +8,7 @@
     "action",
     "pp"
   ],
-  "generatedAt": "2026-02-26T12:28:09.892Z",
+  "generatedAt": "2026-02-27T10:50:23.455Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -57,11 +57,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "the prisoner",
+      "entity": "prisoner",
       "role": "Patient"
     },
     {
-      "entity": "the courthouse",
+      "entity": "courthouse",
       "role": "Goal"
     }
   ],
@@ -70,7 +70,6 @@
       {
         "@id": "inst:The_marshal",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The marshal",
@@ -88,7 +87,6 @@
       {
         "@id": "inst:the_prisoner",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the prisoner",
@@ -106,7 +104,6 @@
       {
         "@id": "inst:the_courthouse",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the courthouse",
@@ -152,10 +149,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_prisoner"
+        "inheres_in": {
+          "@id": "inst:Entity_Prisoner_f7058b5ed8bc"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_transported"
         },
         "tagteam:parseConfidence": "low",
@@ -168,10 +165,10 @@
         ],
         "rdfs:label": "DestinationRole",
         "tagteam:roleType": "DestinationRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_courthouse"
+        "inheres_in": {
+          "@id": "inst:Entity_Courthouse_69cbd4d65744"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_transported"
         },
         "tagteam:preposition": "to",
@@ -186,9 +183,12 @@
         ],
         "rdfs:label": "marshal",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.892Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.455Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_61ebb3f0ac09",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_marshal"
+        }
       },
       {
         "@id": "inst:Entity_Prisoner_f7058b5ed8bc",
@@ -198,9 +198,17 @@
         ],
         "rdfs:label": "prisoner",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.892Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.455Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_61ebb3f0ac09",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_prisoner"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_prisoner_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Courthouse_69cbd4d65744",
@@ -210,9 +218,17 @@
         ],
         "rdfs:label": "courthouse",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.892Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.455Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_61ebb3f0ac09",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_courthouse"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_courthouse_DestinationRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_61ebb3f0ac09",
@@ -224,7 +240,7 @@
         "has_text_value": "The marshal transported the prisoner to the courthouse",
         "tagteam:char_count": 54,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T12:28:09.882Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.444Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -276,7 +292,7 @@
             "@id": "inst:Act_transported"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.882Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.444Z"
       }
     ]
   }

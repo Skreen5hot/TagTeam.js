@@ -7,7 +7,7 @@
     "cbp",
     "operations"
   ],
-  "generatedAt": "2026-02-26T12:28:10.730Z",
+  "generatedAt": "2026-02-27T10:50:24.307Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -38,7 +38,7 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The station commander",
+      "entity": "station commander",
       "role": "Patient"
     }
   ],
@@ -47,7 +47,6 @@
       {
         "@id": "inst:The_station_commander",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The station commander",
@@ -84,10 +83,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_station_commander"
+        "inheres_in": {
+          "@id": "inst:Entity_Station_Commander_911ca6eb2444"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_authorized"
         },
         "tagteam:parseConfidence": "low",
@@ -102,9 +101,17 @@
         "rdfs:label": "station commander",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.730Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.307Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1739823fda8d",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_station_commander"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_station_commander_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_1739823fda8d",
@@ -116,7 +123,7 @@
         "has_text_value": "The station commander authorized overtime",
         "tagteam:char_count": 41,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-26T12:28:10.723Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.301Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -159,7 +166,7 @@
             "@id": "inst:Act_authorized"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.723Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.301Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "subordination",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:11.983Z",
+  "generatedAt": "2026-02-27T10:50:25.523Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -56,11 +56,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "the patrol",
+      "entity": "patrol",
       "role": "Agent"
     },
     {
-      "entity": "the vessel",
+      "entity": "vessel",
       "role": "Patient"
     }
   ],
@@ -69,7 +69,6 @@
       {
         "@id": "inst:the_patrol",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the patrol",
@@ -89,7 +88,6 @@
       {
         "@id": "inst:the_vessel",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the vessel",
@@ -107,7 +105,6 @@
       {
         "@id": "inst:it",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "it",
@@ -141,10 +138,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_patrol"
+        "inheres_in": {
+          "@id": "inst:Entity_Patrol_f3dead5d9d83"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_spotted"
         },
         "tagteam:parseConfidence": "medium",
@@ -157,10 +154,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_vessel"
+        "inheres_in": {
+          "@id": "inst:Entity_Vessel_e94a4ec489ac"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_spotted"
         },
         "tagteam:parseConfidence": "medium",
@@ -175,9 +172,17 @@
         "rdfs:label": "patrol",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.983Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.523Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_57d1bde0c7dc",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_patrol"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_patrol_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Vessel_e94a4ec489ac",
@@ -187,9 +192,17 @@
         ],
         "rdfs:label": "vessel",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.983Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.523Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_57d1bde0c7dc",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_vessel"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_vessel_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_It_136cab0c9aa9",
@@ -199,9 +212,12 @@
         ],
         "rdfs:label": "it",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.983Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.523Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_57d1bde0c7dc",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:it"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_57d1bde0c7dc",
@@ -213,7 +229,7 @@
         "has_text_value": "After the patrol spotted the vessel the coast guard intercepted it",
         "tagteam:char_count": 66,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-26T12:28:11.973Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.515Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -262,7 +278,7 @@
             "@id": "inst:Act_spotted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.973Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.515Z"
       }
     ]
   }

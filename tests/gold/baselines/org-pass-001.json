@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-26T12:28:10.004Z",
+  "generatedAt": "2026-02-27T10:50:23.566Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -43,11 +43,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The suspect",
+      "entity": "suspect",
       "role": "Patient"
     },
     {
-      "entity": "the officers",
+      "entity": "officer",
       "role": "Agent"
     }
   ],
@@ -56,7 +56,6 @@
       {
         "@id": "inst:The_suspect",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The suspect",
@@ -76,7 +75,6 @@
       {
         "@id": "inst:the_officers",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the officers",
@@ -111,10 +109,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_suspect"
+        "inheres_in": {
+          "@id": "inst:Person_Suspect_34e2037b710d"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_apprehended"
         },
         "tagteam:parseConfidence": "medium",
@@ -127,10 +125,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_officers"
+        "inheres_in": {
+          "@id": "inst:Entity_Officer_06d065378f47"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_apprehended"
         },
         "tagteam:parseConfidence": "low",
@@ -145,9 +143,17 @@
         "rdfs:label": "suspect",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.004Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.566Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4eac41fb7b6a",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:The_suspect"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_suspect_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Officer_06d065378f47",
@@ -157,9 +163,17 @@
         ],
         "rdfs:label": "officer",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.004Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.566Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4eac41fb7b6a",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_officers"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_officers_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_4eac41fb7b6a",
@@ -171,7 +185,7 @@
         "has_text_value": "The suspect was apprehended by the officers",
         "tagteam:char_count": 43,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-26T12:28:09.995Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.556Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -217,7 +231,7 @@
             "@id": "inst:Act_apprehended"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.995Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.556Z"
       }
     ]
   }

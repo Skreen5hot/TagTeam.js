@@ -5,7 +5,7 @@
   "tags": [
     "legal"
   ],
-  "generatedAt": "2026-02-26T12:28:11.685Z",
+  "generatedAt": "2026-02-27T10:50:25.240Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -50,7 +50,7 @@
       "role": "Agent"
     },
     {
-      "entity": "the witness",
+      "entity": "witness",
       "role": "Patient"
     }
   ],
@@ -59,7 +59,6 @@
       {
         "@id": "inst:The",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The",
@@ -77,7 +76,6 @@
       {
         "@id": "inst:defense_counsel",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "defense counsel",
@@ -101,7 +99,6 @@
       {
         "@id": "inst:the_witness",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the witness",
@@ -147,10 +144,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:defense_counsel"
+        "inheres_in": {
+          "@id": "inst:Entity_Defense_Counsel_7e3bc9b9ef3c"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_examined"
         },
         "tagteam:parseConfidence": "low",
@@ -163,10 +160,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_witness"
+        "inheres_in": {
+          "@id": "inst:Person_Witness_4f44df2cc2cc"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_examined"
         },
         "tagteam:parseConfidence": "low",
@@ -180,9 +177,12 @@
         ],
         "rdfs:label": "the",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.684Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.240Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3a1007365039",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The"
+        }
       },
       {
         "@id": "inst:Entity_Defense_Counsel_7e3bc9b9ef3c",
@@ -193,9 +193,17 @@
         "rdfs:label": "defense counsel",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.684Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.240Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3a1007365039",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:defense_counsel"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_defense_counsel_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Person_Witness_4f44df2cc2cc",
@@ -205,9 +213,17 @@
         ],
         "rdfs:label": "witness",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.684Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.240Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3a1007365039",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:the_witness"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_witness_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_3a1007365039",
@@ -219,7 +235,7 @@
         "has_text_value": "The defense counsel cross-examined the witness",
         "tagteam:char_count": 46,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-26T12:28:11.676Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.233Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -271,7 +287,7 @@
             "@id": "inst:Act_examined"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.676Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.233Z"
       }
     ]
   }

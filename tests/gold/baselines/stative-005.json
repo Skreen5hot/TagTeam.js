@@ -7,7 +7,7 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-26T12:28:10.433Z",
+  "generatedAt": "2026-02-27T10:50:23.997Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -38,7 +38,6 @@
       {
         "@id": "inst:The_substance",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The substance",
@@ -63,7 +62,6 @@
       {
         "@id": "inst:a_controlled_material",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "a controlled material",
@@ -97,9 +95,12 @@
         "rdfs:label": "substance",
         "tagteam:genericityCategory": "AMB",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.433Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.997Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9db8f8815e7c",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_substance"
+        }
       },
       {
         "@id": "inst:Entity_Controlled_Material_a193fda545d4",
@@ -109,9 +110,12 @@
         ],
         "rdfs:label": "controlled material",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.433Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.997Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9db8f8815e7c",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:a_controlled_material"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_9db8f8815e7c",
@@ -123,7 +127,7 @@
         "has_text_value": "The substance is classified as a controlled material",
         "tagteam:char_count": 52,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T12:28:10.423Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.989Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -166,7 +170,7 @@
             "@id": "inst:a_controlled_material"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.423Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.989Z"
       }
     ]
   }

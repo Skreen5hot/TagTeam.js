@@ -6,7 +6,7 @@
     "medical",
     "treatment"
   ],
-  "generatedAt": "2026-02-26T12:28:11.536Z",
+  "generatedAt": "2026-02-27T10:50:25.092Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -42,11 +42,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The surgeon",
+      "entity": "surgeon",
       "role": "Agent"
     },
     {
-      "entity": "the operation",
+      "entity": "operation",
       "role": "Patient"
     }
   ],
@@ -55,7 +55,6 @@
       {
         "@id": "inst:The_surgeon",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The surgeon",
@@ -75,7 +74,6 @@
       {
         "@id": "inst:the_operation",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the operation",
@@ -109,10 +107,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_surgeon"
+        "inheres_in": {
+          "@id": "inst:Person_Surgeon_719a49d194d2"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_performed"
         },
         "tagteam:parseConfidence": "high",
@@ -125,10 +123,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_operation"
+        "inheres_in": {
+          "@id": "inst:Entity_Operation_67de859e0aab"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_performed"
         },
         "tagteam:parseConfidence": "medium",
@@ -143,9 +141,17 @@
         "rdfs:label": "surgeon",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.535Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.092Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_45c47387cdb2",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:The_surgeon"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_surgeon_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Operation_67de859e0aab",
@@ -155,9 +161,17 @@
         ],
         "rdfs:label": "operation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.535Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.092Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_45c47387cdb2",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_operation"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_operation_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_45c47387cdb2",
@@ -169,7 +183,7 @@
         "has_text_value": "The surgeon performed the operation",
         "tagteam:char_count": 35,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-26T12:28:11.528Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.086Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -215,7 +229,7 @@
             "@id": "inst:Act_performed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.528Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.086Z"
       }
     ]
   }

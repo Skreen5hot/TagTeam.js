@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:11.097Z",
+  "generatedAt": "2026-02-27T10:50:24.662Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -38,7 +38,7 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The new policy",
+      "entity": "new policy",
       "role": "Patient"
     }
   ],
@@ -47,7 +47,6 @@
       {
         "@id": "inst:The_new_policy",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The new policy",
@@ -67,7 +66,6 @@
       {
         "@id": "inst:all_field_offices",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "all field offices",
@@ -102,10 +100,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_new_policy"
+        "inheres_in": {
+          "@id": "inst:Entity_New_Policy_ebaec6c94f1c"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_implemented"
         },
         "tagteam:parseConfidence": "medium",
@@ -118,10 +116,10 @@
         ],
         "rdfs:label": "ObliqueRole",
         "tagteam:roleType": "ObliqueRole",
-        "tagteam:bearer": {
-          "@id": "inst:all_field_offices"
+        "inheres_in": {
+          "@id": "inst:Entity_All_Field_Office_c843193c79f5"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_implemented"
         },
         "tagteam:preposition": "across",
@@ -137,9 +135,17 @@
         "rdfs:label": "new policy",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.097Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.661Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_78446384e317",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_new_policy"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_new_policy_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_All_Field_Office_c843193c79f5",
@@ -149,9 +155,17 @@
         ],
         "rdfs:label": "all field office",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.097Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.662Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_78446384e317",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:all_field_offices"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_all_field_offices_ObliqueRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_78446384e317",
@@ -163,7 +177,7 @@
         "has_text_value": "The new policy was implemented across all field offices",
         "tagteam:char_count": 55,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-26T12:28:11.086Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.648Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -209,7 +223,7 @@
             "@id": "inst:Act_implemented"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.086Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.648Z"
       }
     ]
   }

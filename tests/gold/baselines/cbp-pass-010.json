@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:11.160Z",
+  "generatedAt": "2026-02-27T10:50:24.714Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -42,11 +42,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The counterfeit goods",
+      "entity": "counterfeit good",
       "role": "Patient"
     },
     {
-      "entity": "the port",
+      "entity": "port",
       "role": "Location"
     }
   ],
@@ -55,7 +55,6 @@
       {
         "@id": "inst:The_counterfeit_goods",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The counterfeit goods",
@@ -75,7 +74,6 @@
       {
         "@id": "inst:the_port",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the port",
@@ -110,10 +108,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_counterfeit_goods"
+        "inheres_in": {
+          "@id": "inst:Entity_Counterfeit_Good_39cb21b7b427"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_confiscated"
         },
         "tagteam:parseConfidence": "high",
@@ -126,10 +124,10 @@
         ],
         "rdfs:label": "LocationRole",
         "tagteam:roleType": "LocationRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_port"
+        "inheres_in": {
+          "@id": "inst:Entity_Port_27c971031df5"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_confiscated"
         },
         "tagteam:preposition": "at",
@@ -145,9 +143,17 @@
         "rdfs:label": "counterfeit good",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.160Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.713Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bd201335bcee",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_counterfeit_goods"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_counterfeit_goods_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Port_27c971031df5",
@@ -157,9 +163,17 @@
         ],
         "rdfs:label": "port",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.160Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.713Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bd201335bcee",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_port"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_port_LocationRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_bd201335bcee",
@@ -171,7 +185,7 @@
         "has_text_value": "The counterfeit goods were confiscated at the port",
         "tagteam:char_count": 50,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T12:28:11.151Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.705Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -217,7 +231,7 @@
             "@id": "inst:Act_confiscated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.151Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.705Z"
       }
     ]
   }

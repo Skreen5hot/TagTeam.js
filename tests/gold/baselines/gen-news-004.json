@@ -6,7 +6,7 @@
     "news",
     "media"
   ],
-  "generatedAt": "2026-02-26T12:28:11.396Z",
+  "generatedAt": "2026-02-27T10:50:24.957Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -42,11 +42,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The journalist",
+      "entity": "journalist",
       "role": "Agent"
     },
     {
-      "entity": "the investigation findings",
+      "entity": "investigation finding",
       "role": "Patient"
     }
   ],
@@ -55,7 +55,6 @@
       {
         "@id": "inst:The_journalist",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The journalist",
@@ -75,7 +74,6 @@
       {
         "@id": "inst:the_investigation_findings",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the investigation findings",
@@ -109,10 +107,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_journalist"
+        "inheres_in": {
+          "@id": "inst:Entity_Journalist_07567bf1560b"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_published"
         },
         "tagteam:parseConfidence": "high",
@@ -125,10 +123,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_investigation_findings"
+        "inheres_in": {
+          "@id": "inst:Entity_Investigation_Finding_4a97276f2dcd"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_published"
         },
         "tagteam:parseConfidence": "high",
@@ -143,9 +141,17 @@
         "rdfs:label": "journalist",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.396Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.957Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ab454fbb5672",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_journalist"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_journalist_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Investigation_Finding_4a97276f2dcd",
@@ -155,9 +161,17 @@
         ],
         "rdfs:label": "investigation finding",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.396Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.957Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ab454fbb5672",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_investigation_findings"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_investigation_findings_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_ab454fbb5672",
@@ -169,7 +183,7 @@
         "has_text_value": "The journalist published the investigation findings",
         "tagteam:char_count": 51,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-26T12:28:11.386Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.950Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -215,7 +229,7 @@
             "@id": "inst:Act_published"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.386Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.950Z"
       }
     ]
   }

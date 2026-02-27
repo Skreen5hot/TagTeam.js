@@ -385,8 +385,8 @@ test('Roles remain intact — not disrupted by Two-Tier wiring', () => {
   assert(roles.length >= 2, `Expected >= 2 roles, got ${roles.length}`);
   // Each role should still have bearer and realizedIn
   for (const r of roles) {
-    assert(r['tagteam:bearer'], `Role ${r['@id']} missing tagteam:bearer`);
-    assert(r['tagteam:realizedIn'], `Role ${r['@id']} missing tagteam:realizedIn`);
+    assert(r['inheres_in'], `Role ${r['@id']} missing inheres_in`);
+    assert(r['realized_in'], `Role ${r['@id']} missing realized_in`);
   }
 });
 

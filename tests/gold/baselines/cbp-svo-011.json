@@ -7,7 +7,7 @@
     "cbp",
     "surveillance"
   ],
-  "generatedAt": "2026-02-26T12:28:10.704Z",
+  "generatedAt": "2026-02-27T10:50:24.283Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -43,11 +43,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The air and marine operations center",
+      "entity": "air and marine operations center",
       "role": "Agent"
     },
     {
-      "entity": "the aircraft",
+      "entity": "aircraft",
       "role": "Patient"
     }
   ],
@@ -56,7 +56,6 @@
       {
         "@id": "inst:The_air_and_marine_operations_center",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The air and marine operations center",
@@ -80,7 +79,6 @@
       {
         "@id": "inst:the_aircraft",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the aircraft",
@@ -114,10 +112,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_air_and_marine_operations_center"
+        "inheres_in": {
+          "@id": "inst:Entity_Air_And_Marine_Operations_Center_e55f222e7ed6"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_tracked"
         },
         "tagteam:parseConfidence": "high",
@@ -130,10 +128,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_aircraft"
+        "inheres_in": {
+          "@id": "inst:Entity_Aircraft_75cdfa657df9"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_tracked"
         },
         "tagteam:parseConfidence": "medium",
@@ -148,9 +146,17 @@
         "rdfs:label": "air and marine operations center",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.704Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.283Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9cb5e554a2fa",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_air_and_marine_operations_center"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_air_and_marine_operations_center_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Aircraft_75cdfa657df9",
@@ -160,9 +166,17 @@
         ],
         "rdfs:label": "aircraft",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.704Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.283Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9cb5e554a2fa",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_aircraft"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_aircraft_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_9cb5e554a2fa",
@@ -174,7 +188,7 @@
         "has_text_value": "The air and marine operations center tracked the aircraft",
         "tagteam:char_count": 57,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-26T12:28:10.694Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.272Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -220,7 +234,7 @@
             "@id": "inst:Act_tracked"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.694Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.272Z"
       }
     ]
   }

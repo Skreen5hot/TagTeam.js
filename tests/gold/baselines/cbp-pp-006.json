@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:11.230Z",
+  "generatedAt": "2026-02-27T10:50:24.797Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -55,15 +55,15 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The inspector",
+      "entity": "inspector",
       "role": "Agent"
     },
     {
-      "entity": "the vehicle",
+      "entity": "vehicle",
       "role": "Patient"
     },
     {
-      "entity": "a sensor",
+      "entity": "sensor",
       "role": "Instrument"
     }
   ],
@@ -72,7 +72,6 @@
       {
         "@id": "inst:The_inspector",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The inspector",
@@ -92,7 +91,6 @@
       {
         "@id": "inst:the_vehicle",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the vehicle",
@@ -110,7 +108,6 @@
       {
         "@id": "inst:a_sensor",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "a sensor",
@@ -144,10 +141,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_inspector"
+        "inheres_in": {
+          "@id": "inst:Person_Inspector_dbcf2850bb46"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_examined"
         },
         "tagteam:parseConfidence": "high",
@@ -160,10 +157,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_vehicle"
+        "inheres_in": {
+          "@id": "inst:Entity_Vehicle_7cc93dc12eea"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_examined"
         },
         "tagteam:parseConfidence": "medium",
@@ -176,10 +173,10 @@
         ],
         "rdfs:label": "InstrumentRole",
         "tagteam:roleType": "InstrumentRole",
-        "tagteam:bearer": {
-          "@id": "inst:a_sensor"
+        "inheres_in": {
+          "@id": "inst:Entity_Sensor_4058cebfca1b"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_examined"
         },
         "tagteam:preposition": "with",
@@ -195,9 +192,17 @@
         "rdfs:label": "inspector",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.230Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.797Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c74c312f0ba6",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:The_inspector"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_inspector_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Vehicle_7cc93dc12eea",
@@ -207,9 +212,17 @@
         ],
         "rdfs:label": "vehicle",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.230Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.797Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c74c312f0ba6",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_vehicle"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_vehicle_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Sensor_4058cebfca1b",
@@ -219,9 +232,17 @@
         ],
         "rdfs:label": "sensor",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.230Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.797Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c74c312f0ba6",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:a_sensor"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_a_sensor_InstrumentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_c74c312f0ba6",
@@ -233,7 +254,7 @@
         "has_text_value": "The inspector examined the vehicle with a sensor",
         "tagteam:char_count": 48,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T12:28:11.220Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.789Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -282,7 +303,7 @@
             "@id": "inst:Act_examined"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.220Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.789Z"
       }
     ]
   }

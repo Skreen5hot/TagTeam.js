@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-26T12:28:10.060Z",
+  "generatedAt": "2026-02-27T10:50:23.626Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -56,11 +56,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "the officer",
+      "entity": "officer",
       "role": "Recipient"
     },
     {
-      "entity": "a new case",
+      "entity": "new case",
       "role": "Patient"
     }
   ],
@@ -69,7 +69,6 @@
       {
         "@id": "inst:The_supervisor",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The supervisor",
@@ -87,7 +86,6 @@
       {
         "@id": "inst:the_officer",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the officer",
@@ -105,7 +103,6 @@
       {
         "@id": "inst:a_new_case",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "a new case",
@@ -151,10 +148,10 @@
         ],
         "rdfs:label": "RecipientRole",
         "tagteam:roleType": "RecipientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_officer"
+        "inheres_in": {
+          "@id": "inst:Person_Officer_7da3766439ec"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_assigned"
         },
         "tagteam:parseConfidence": "low",
@@ -167,10 +164,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:a_new_case"
+        "inheres_in": {
+          "@id": "inst:Entity_New_Case_771c5d1502a3"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_assigned"
         },
         "tagteam:parseConfidence": "medium",
@@ -184,9 +181,12 @@
         ],
         "rdfs:label": "supervisor",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.060Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.625Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ec52282eb233",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:The_supervisor"
+        }
       },
       {
         "@id": "inst:Person_Officer_7da3766439ec",
@@ -196,9 +196,17 @@
         ],
         "rdfs:label": "officer",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.060Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.625Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ec52282eb233",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:the_officer"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_officer_RecipientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_New_Case_771c5d1502a3",
@@ -208,9 +216,17 @@
         ],
         "rdfs:label": "new case",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.060Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.625Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ec52282eb233",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:a_new_case"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_a_new_case_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_ec52282eb233",
@@ -222,7 +238,7 @@
         "has_text_value": "The supervisor assigned the officer a new case",
         "tagteam:char_count": 46,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T12:28:10.048Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.614Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -274,7 +290,7 @@
             "@id": "inst:Act_assigned"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.048Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.614Z"
       }
     ]
   }

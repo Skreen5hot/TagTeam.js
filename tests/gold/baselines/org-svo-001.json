@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-26T12:28:09.746Z",
+  "generatedAt": "2026-02-27T10:50:23.297Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -43,11 +43,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The FBI",
+      "entity": "fbi",
       "role": "Agent"
     },
     {
-      "entity": "the case",
+      "entity": "case",
       "role": "Patient"
     }
   ],
@@ -56,7 +56,6 @@
       {
         "@id": "inst:The_FBI",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The FBI",
@@ -77,7 +76,6 @@
       {
         "@id": "inst:the_case",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the case",
@@ -111,10 +109,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_FBI"
+        "inheres_in": {
+          "@id": "inst:Organization_Fbi_2a31ae533bbc"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_investigated"
         },
         "tagteam:parseConfidence": "high",
@@ -127,10 +125,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_case"
+        "inheres_in": {
+          "@id": "inst:Entity_Case_662f82f1df1c"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_investigated"
         },
         "tagteam:parseConfidence": "medium",
@@ -145,9 +143,17 @@
         "rdfs:label": "fbi",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.745Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.297Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b812f66889ca",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:The_FBI"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_FBI_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Case_662f82f1df1c",
@@ -157,9 +163,17 @@
         ],
         "rdfs:label": "case",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.745Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.297Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b812f66889ca",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_case"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_case_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_b812f66889ca",
@@ -171,7 +185,7 @@
         "has_text_value": "The FBI investigated the case",
         "tagteam:char_count": 29,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-26T12:28:09.734Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.284Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -217,7 +231,7 @@
             "@id": "inst:Act_investigated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.734Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.284Z"
       }
     ]
   }

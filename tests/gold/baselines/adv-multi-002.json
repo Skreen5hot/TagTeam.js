@@ -6,7 +6,7 @@
     "multi-clause",
     "government"
   ],
-  "generatedAt": "2026-02-26T12:28:11.969Z",
+  "generatedAt": "2026-02-27T10:50:25.512Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -68,11 +68,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The director",
+      "entity": "director",
       "role": "Agent"
     },
     {
-      "entity": "the operation",
+      "entity": "operation",
       "role": "Patient"
     }
   ],
@@ -81,7 +81,6 @@
       {
         "@id": "inst:The_director",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The director",
@@ -101,7 +100,6 @@
       {
         "@id": "inst:the_operation",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the operation",
@@ -119,7 +117,6 @@
       {
         "@id": "inst:the_supervisor",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the supervisor",
@@ -139,7 +136,6 @@
       {
         "@id": "inst:the_execution",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the execution",
@@ -173,10 +169,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_director"
+        "inheres_in": {
+          "@id": "inst:Person_Director_a1fef1584295"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_authorized"
         },
         "tagteam:parseConfidence": "high",
@@ -189,10 +185,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_operation"
+        "inheres_in": {
+          "@id": "inst:Entity_Operation_92163c223afe"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_authorized"
         },
         "tagteam:parseConfidence": "medium",
@@ -207,9 +203,17 @@
         "rdfs:label": "director",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.969Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.512Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c507cb076f74",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:The_director"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_director_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Operation_92163c223afe",
@@ -219,9 +223,17 @@
         ],
         "rdfs:label": "operation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.969Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.512Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c507cb076f74",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_operation"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_operation_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Person_Supervisor_2fc0a09a1cdb",
@@ -232,9 +244,12 @@
         "rdfs:label": "supervisor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.969Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.512Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c507cb076f74",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:the_supervisor"
+        }
       },
       {
         "@id": "inst:Entity_Execution_890bb3f4f7c3",
@@ -244,9 +259,12 @@
         ],
         "rdfs:label": "execution",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.969Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.512Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c507cb076f74",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_execution"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_c507cb076f74",
@@ -258,7 +276,7 @@
         "has_text_value": "The director authorized the operation but the supervisor delayed the execution",
         "tagteam:char_count": 78,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-26T12:28:11.960Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.504Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -310,7 +328,7 @@
             "@id": "inst:Act_authorized"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.960Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.504Z"
       }
     ]
   }

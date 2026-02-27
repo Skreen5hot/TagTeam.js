@@ -49,7 +49,7 @@ function extractSemanticRoles(graph) {
   );
 
   // Tree pipeline: Materialize roles from separate Role nodes onto act nodes.
-  // Role nodes have: tagteam:realizedIn → act, tagteam:bearer → entity
+  // Role nodes have: realized_in → act, inheres_in → entity
   // Map from role rdfs:label to property name (post-IRI cleanup: roles are bfo:Role)
   const roleToProperty = {
     'AgentRole': 'has_agent',
@@ -67,8 +67,8 @@ function extractSemanticRoles(graph) {
     (n['@type'] || []).includes('Role')
   );
   for (const role of roleNodes) {
-    const actRef = role['tagteam:realizedIn'];
-    const entityRef = role['tagteam:bearer'];
+    const actRef = role['realized_in'];
+    const entityRef = role['inheres_in'];
     if (!actRef || !entityRef) continue;
     const actId = typeof actRef === 'string' ? actRef : actRef['@id'];
     const entityId = typeof entityRef === 'string' ? entityRef : entityRef['@id'];

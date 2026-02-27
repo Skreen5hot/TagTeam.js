@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:11.252Z",
+  "generatedAt": "2026-02-27T10:50:24.820Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -55,11 +55,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The patrol",
+      "entity": "patrol",
       "role": "Agent"
     },
     {
-      "entity": "the group",
+      "entity": "group",
       "role": "Patient"
     }
   ],
@@ -68,7 +68,6 @@
       {
         "@id": "inst:The_patrol",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The patrol",
@@ -88,7 +87,6 @@
       {
         "@id": "inst:the_group",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the group",
@@ -106,7 +104,6 @@
       {
         "@id": "inst:the_river",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the river",
@@ -140,10 +137,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_patrol"
+        "inheres_in": {
+          "@id": "inst:Entity_Patrol_0f3cbda5e4d6"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_apprehended"
         },
         "tagteam:parseConfidence": "high",
@@ -156,10 +153,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_group"
+        "inheres_in": {
+          "@id": "inst:Entity_Group_cb36334750d0"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_apprehended"
         },
         "tagteam:parseConfidence": "medium",
@@ -172,10 +169,10 @@
         ],
         "rdfs:label": "ObliqueRole",
         "tagteam:roleType": "ObliqueRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_river"
+        "inheres_in": {
+          "@id": "inst:Entity_River_9917ba7b6218"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_apprehended"
         },
         "tagteam:preposition": "near",
@@ -191,9 +188,17 @@
         "rdfs:label": "patrol",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.252Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.820Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d6c44624a76b",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_patrol"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_patrol_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Group_cb36334750d0",
@@ -203,9 +208,17 @@
         ],
         "rdfs:label": "group",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.252Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.820Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d6c44624a76b",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_group"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_group_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_River_9917ba7b6218",
@@ -215,9 +228,17 @@
         ],
         "rdfs:label": "river",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.252Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.820Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d6c44624a76b",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_river"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_river_ObliqueRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_d6c44624a76b",
@@ -229,7 +250,7 @@
         "has_text_value": "The patrol apprehended the group near the river",
         "tagteam:char_count": 47,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T12:28:11.244Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.811Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -278,7 +299,7 @@
             "@id": "inst:Act_apprehended"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.244Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.811Z"
       }
     ]
   }

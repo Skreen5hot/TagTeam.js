@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:11.263Z",
+  "generatedAt": "2026-02-27T10:50:24.832Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -55,11 +55,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "samples",
+      "entity": "sample",
       "role": "Patient"
     },
     {
-      "entity": "the shipment",
+      "entity": "shipment",
       "role": "Source"
     }
   ],
@@ -68,7 +68,6 @@
       {
         "@id": "inst:The_specialist",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The specialist",
@@ -86,7 +85,6 @@
       {
         "@id": "inst:samples",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "samples",
@@ -104,7 +102,6 @@
       {
         "@id": "inst:the_shipment",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the shipment",
@@ -150,10 +147,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:samples"
+        "inheres_in": {
+          "@id": "inst:Entity_Sample_a7a0134a3c93"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_collected"
         },
         "tagteam:parseConfidence": "medium",
@@ -166,10 +163,10 @@
         ],
         "rdfs:label": "SourceRole",
         "tagteam:roleType": "SourceRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_shipment"
+        "inheres_in": {
+          "@id": "inst:Entity_Shipment_11bcc3c3cb9c"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_collected"
         },
         "tagteam:preposition": "from",
@@ -184,9 +181,12 @@
         ],
         "rdfs:label": "specialist",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.263Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.832Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be0610f95ed1",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:The_specialist"
+        }
       },
       {
         "@id": "inst:Entity_Sample_a7a0134a3c93",
@@ -196,9 +196,17 @@
         ],
         "rdfs:label": "sample",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.263Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.832Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be0610f95ed1",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:samples"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_samples_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Shipment_11bcc3c3cb9c",
@@ -208,9 +216,17 @@
         ],
         "rdfs:label": "shipment",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.263Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.832Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be0610f95ed1",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_shipment"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_shipment_SourceRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_be0610f95ed1",
@@ -222,7 +238,7 @@
         "has_text_value": "The specialist collected samples from the shipment",
         "tagteam:char_count": 50,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-26T12:28:11.255Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.823Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -274,7 +290,7 @@
             "@id": "inst:Act_collected"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.255Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.823Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "nested-pp",
     "government"
   ],
-  "generatedAt": "2026-02-26T12:28:11.833Z",
+  "generatedAt": "2026-02-27T10:50:25.382Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -56,11 +56,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The director of the office of professional responsibility",
+      "entity": "director of the office of professional responsibility",
       "role": "Agent"
     },
     {
-      "entity": "the complaint",
+      "entity": "complaint",
       "role": "Patient"
     }
   ],
@@ -69,7 +69,6 @@
       {
         "@id": "inst:The_director_of_the_office_of_professional_responsibility",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The director of the office of professional responsibility",
@@ -89,7 +88,6 @@
       {
         "@id": "inst:the_office_of_professional_responsibility",
         "@type": [
-          "Facility",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the office of professional responsibility",
@@ -107,7 +105,6 @@
       {
         "@id": "inst:professional_responsibility",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "professional responsibility",
@@ -125,7 +122,6 @@
       {
         "@id": "inst:the_complaint",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the complaint",
@@ -159,10 +155,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_director_of_the_office_of_professional_responsibility"
+        "inheres_in": {
+          "@id": "inst:Person_Director_Of_The_Office_Of_Professional_Responsibility_3ce17b3e1e50"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_reviewed"
         },
         "tagteam:parseConfidence": "high",
@@ -175,10 +171,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_complaint"
+        "inheres_in": {
+          "@id": "inst:Entity_Complaint_ddd4dfdb142a"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_reviewed"
         },
         "tagteam:parseConfidence": "medium",
@@ -193,9 +189,17 @@
         "rdfs:label": "director of the office of professional responsibility",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.833Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.382Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_464cfaaf4c99",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:The_director_of_the_office_of_professional_responsibility"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_director_of_the_office_of_professional_responsibility_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Facility_Office_Of_Professional_Responsibility_1a68aec5bd52",
@@ -205,9 +209,12 @@
         ],
         "rdfs:label": "office of professional responsibility",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.833Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.382Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_464cfaaf4c99",
-        "tagteam:denotesType": "Facility"
+        "tagteam:denotesType": "Facility",
+        "is_subject_of": {
+          "@id": "inst:the_office_of_professional_responsibility"
+        }
       },
       {
         "@id": "inst:Entity_Professional_Responsibility_dd8238c135f1",
@@ -217,9 +224,12 @@
         ],
         "rdfs:label": "professional responsibility",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.833Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.382Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_464cfaaf4c99",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:professional_responsibility"
+        }
       },
       {
         "@id": "inst:Entity_Complaint_ddd4dfdb142a",
@@ -229,9 +239,17 @@
         ],
         "rdfs:label": "complaint",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.833Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.382Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_464cfaaf4c99",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_complaint"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_complaint_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_464cfaaf4c99",
@@ -243,7 +261,7 @@
         "has_text_value": "The director of the office of professional responsibility reviewed the complaint",
         "tagteam:char_count": 80,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-26T12:28:11.822Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.367Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -295,7 +313,7 @@
             "@id": "inst:Act_reviewed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.822Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.367Z"
       }
     ]
   }

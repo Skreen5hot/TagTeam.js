@@ -7,7 +7,7 @@
     "cbp",
     "processing"
   ],
-  "generatedAt": "2026-02-26T12:28:10.675Z",
+  "generatedAt": "2026-02-27T10:50:24.259Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -43,11 +43,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The processing center",
+      "entity": "processing center",
       "role": "Agent"
     },
     {
-      "entity": "the encounter",
+      "entity": "encounter",
       "role": "Patient"
     }
   ],
@@ -56,7 +56,6 @@
       {
         "@id": "inst:The_processing_center",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The processing center",
@@ -76,7 +75,6 @@
       {
         "@id": "inst:the_encounter",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the encounter",
@@ -110,10 +108,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_processing_center"
+        "inheres_in": {
+          "@id": "inst:Entity_Processing_Center_0e55608bef9e"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_documented"
         },
         "tagteam:parseConfidence": "high",
@@ -126,10 +124,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_encounter"
+        "inheres_in": {
+          "@id": "inst:Entity_Encounter_1b15a5a48541"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_documented"
         },
         "tagteam:parseConfidence": "medium",
@@ -144,9 +142,17 @@
         "rdfs:label": "processing center",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.675Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.259Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6e0c8dbd1a80",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_processing_center"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_processing_center_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Encounter_1b15a5a48541",
@@ -156,9 +162,17 @@
         ],
         "rdfs:label": "encounter",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.675Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.259Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6e0c8dbd1a80",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_encounter"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_encounter_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_6e0c8dbd1a80",
@@ -170,7 +184,7 @@
         "has_text_value": "The processing center documented the encounter",
         "tagteam:char_count": 46,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-26T12:28:10.666Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.253Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -216,7 +230,7 @@
             "@id": "inst:Act_documented"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.666Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.253Z"
       }
     ]
   }

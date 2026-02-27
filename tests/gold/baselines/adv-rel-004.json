@@ -6,7 +6,7 @@
     "relative-clause",
     "government"
   ],
-  "generatedAt": "2026-02-26T12:28:11.932Z",
+  "generatedAt": "2026-02-27T10:50:25.474Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -47,7 +47,7 @@
   ],
   "extractedRoles": [
     {
-      "entity": "the committee",
+      "entity": "committee",
       "role": "Agent"
     },
     {
@@ -60,7 +60,6 @@
       {
         "@id": "inst:The_policy",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The policy",
@@ -78,7 +77,6 @@
       {
         "@id": "inst:the_committee",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the committee",
@@ -98,7 +96,6 @@
       {
         "@id": "inst:effect",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "effect",
@@ -144,10 +141,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_committee"
+        "inheres_in": {
+          "@id": "inst:Entity_Committee_2d61742371fe"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_took"
         },
         "tagteam:parseConfidence": "medium",
@@ -160,10 +157,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:effect"
+        "inheres_in": {
+          "@id": "inst:Entity_Effect_bf143dc696fd"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_took"
         },
         "tagteam:parseConfidence": "medium",
@@ -177,9 +174,12 @@
         ],
         "rdfs:label": "policy",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.931Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.473Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a6a4984e3fd6",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_policy"
+        }
       },
       {
         "@id": "inst:Entity_Committee_2d61742371fe",
@@ -190,9 +190,17 @@
         "rdfs:label": "committee",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.931Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.474Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a6a4984e3fd6",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_committee"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_committee_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Effect_bf143dc696fd",
@@ -202,9 +210,17 @@
         ],
         "rdfs:label": "effect",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.932Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.474Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a6a4984e3fd6",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:effect"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_effect_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_a6a4984e3fd6",
@@ -216,7 +232,7 @@
         "has_text_value": "The policy that the committee approved took effect immediately",
         "tagteam:char_count": 62,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-26T12:28:11.924Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.465Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -268,7 +284,7 @@
             "@id": "inst:Act_took"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.924Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.465Z"
       }
     ]
   }

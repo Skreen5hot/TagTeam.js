@@ -6,7 +6,7 @@
     "medical",
     "treatment"
   ],
-  "generatedAt": "2026-02-26T12:28:11.593Z",
+  "generatedAt": "2026-02-27T10:50:25.146Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -55,15 +55,15 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The hospital",
+      "entity": "hospital",
       "role": "Agent"
     },
     {
-      "entity": "the patient",
+      "entity": "patient",
       "role": "Patient"
     },
     {
-      "entity": "the intensive care unit",
+      "entity": "intensive care unit",
       "role": "Goal"
     }
   ],
@@ -72,7 +72,6 @@
       {
         "@id": "inst:The_hospital",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The hospital",
@@ -92,7 +91,6 @@
       {
         "@id": "inst:the_patient",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the patient",
@@ -110,7 +108,6 @@
       {
         "@id": "inst:the_intensive_care_unit",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the intensive care unit",
@@ -144,10 +141,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_hospital"
+        "inheres_in": {
+          "@id": "inst:Organization_Hospital_2e487f5a18dc"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_admitted"
         },
         "tagteam:parseConfidence": "high",
@@ -160,10 +157,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_patient"
+        "inheres_in": {
+          "@id": "inst:Person_Patient_8ad6062c2b2d"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_admitted"
         },
         "tagteam:parseConfidence": "medium",
@@ -176,10 +173,10 @@
         ],
         "rdfs:label": "DestinationRole",
         "tagteam:roleType": "DestinationRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_intensive_care_unit"
+        "inheres_in": {
+          "@id": "inst:Entity_Intensive_Care_Unit_28634a31e671"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_admitted"
         },
         "tagteam:preposition": "to",
@@ -195,9 +192,17 @@
         "rdfs:label": "hospital",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.593Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.146Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdc26060bf87",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:The_hospital"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_hospital_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Person_Patient_8ad6062c2b2d",
@@ -207,9 +212,17 @@
         ],
         "rdfs:label": "patient",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.593Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.146Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdc26060bf87",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:the_patient"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_patient_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Intensive_Care_Unit_28634a31e671",
@@ -219,9 +232,17 @@
         ],
         "rdfs:label": "intensive care unit",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.593Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.146Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdc26060bf87",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_intensive_care_unit"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_intensive_care_unit_DestinationRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_bdc26060bf87",
@@ -233,7 +254,7 @@
         "has_text_value": "The hospital admitted the patient to the intensive care unit",
         "tagteam:char_count": 60,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-26T12:28:11.581Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.136Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -282,7 +303,7 @@
             "@id": "inst:Act_admitted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.581Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.136Z"
       }
     ]
   }

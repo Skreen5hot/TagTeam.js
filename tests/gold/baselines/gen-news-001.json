@@ -6,7 +6,7 @@
     "news",
     "government"
   ],
-  "generatedAt": "2026-02-26T12:28:11.348Z",
+  "generatedAt": "2026-02-27T10:50:24.920Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -42,11 +42,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The president",
+      "entity": "president",
       "role": "Agent"
     },
     {
-      "entity": "the executive order",
+      "entity": "executive order",
       "role": "Patient"
     }
   ],
@@ -55,7 +55,6 @@
       {
         "@id": "inst:The_president",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The president",
@@ -75,7 +74,6 @@
       {
         "@id": "inst:the_executive_order",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the executive order",
@@ -109,10 +107,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_president"
+        "inheres_in": {
+          "@id": "inst:Entity_President_43c49e64a9e7"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_signed"
         },
         "tagteam:parseConfidence": "high",
@@ -125,10 +123,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_executive_order"
+        "inheres_in": {
+          "@id": "inst:Entity_Executive_Order_3b31d324b48b"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_signed"
         },
         "tagteam:parseConfidence": "medium",
@@ -143,9 +141,17 @@
         "rdfs:label": "president",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.348Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.920Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_574197891588",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_president"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_president_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Executive_Order_3b31d324b48b",
@@ -155,9 +161,17 @@
         ],
         "rdfs:label": "executive order",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.348Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.920Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_574197891588",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_executive_order"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_executive_order_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_574197891588",
@@ -169,7 +183,7 @@
         "has_text_value": "The president signed the executive order",
         "tagteam:char_count": 40,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-26T12:28:11.337Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.911Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -215,7 +229,7 @@
             "@id": "inst:Act_signed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.337Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.911Z"
       }
     ]
   }

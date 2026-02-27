@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:11.116Z",
+  "generatedAt": "2026-02-27T10:50:24.676Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -42,11 +42,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The narcotics",
+      "entity": "narcotic",
       "role": "Patient"
     },
     {
-      "entity": "a hidden compartment",
+      "entity": "hidden compartment",
       "role": "Agent"
     }
   ],
@@ -55,7 +55,6 @@
       {
         "@id": "inst:The_narcotics",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The narcotics",
@@ -75,7 +74,6 @@
       {
         "@id": "inst:a_hidden_compartment",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "a hidden compartment",
@@ -110,10 +108,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_narcotics"
+        "inheres_in": {
+          "@id": "inst:Entity_Narcotic_9874eff78185"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_discovered"
         },
         "tagteam:parseConfidence": "medium",
@@ -126,10 +124,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:a_hidden_compartment"
+        "inheres_in": {
+          "@id": "inst:Entity_Hidden_Compartment_ce278df1b05d"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_discovered"
         },
         "tagteam:parseConfidence": "low",
@@ -144,9 +142,17 @@
         "rdfs:label": "narcotic",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.115Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.676Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e19973411aea",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_narcotics"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_narcotics_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Hidden_Compartment_ce278df1b05d",
@@ -156,9 +162,17 @@
         ],
         "rdfs:label": "hidden compartment",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.115Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.676Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e19973411aea",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:a_hidden_compartment"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_a_hidden_compartment_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_e19973411aea",
@@ -170,7 +184,7 @@
         "has_text_value": "The narcotics were discovered in a hidden compartment",
         "tagteam:char_count": 53,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T12:28:11.102Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.667Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -216,7 +230,7 @@
             "@id": "inst:Act_discovered"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.102Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.667Z"
       }
     ]
   }

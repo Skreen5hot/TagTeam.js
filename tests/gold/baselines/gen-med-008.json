@@ -6,7 +6,7 @@
     "medical",
     "administration"
   ],
-  "generatedAt": "2026-02-26T12:28:11.628Z",
+  "generatedAt": "2026-02-27T10:50:25.185Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -42,11 +42,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The board",
+      "entity": "board",
       "role": "Agent"
     },
     {
-      "entity": "the new treatment protocol",
+      "entity": "new treatment protocol",
       "role": "Patient"
     }
   ],
@@ -55,7 +55,6 @@
       {
         "@id": "inst:The_board",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The board",
@@ -75,7 +74,6 @@
       {
         "@id": "inst:the_new_treatment_protocol",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the new treatment protocol",
@@ -109,10 +107,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_board"
+        "inheres_in": {
+          "@id": "inst:Entity_Board_98af73e08863"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_certified"
         },
         "tagteam:parseConfidence": "high",
@@ -125,10 +123,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_new_treatment_protocol"
+        "inheres_in": {
+          "@id": "inst:Entity_New_Treatment_Protocol_9c66ee463311"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_certified"
         },
         "tagteam:parseConfidence": "high",
@@ -143,9 +141,17 @@
         "rdfs:label": "board",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.627Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.185Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2253a00e3aff",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_board"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_board_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_New_Treatment_Protocol_9c66ee463311",
@@ -155,9 +161,17 @@
         ],
         "rdfs:label": "new treatment protocol",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.628Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.185Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2253a00e3aff",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_new_treatment_protocol"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_new_treatment_protocol_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_2253a00e3aff",
@@ -169,7 +183,7 @@
         "has_text_value": "The board certified the new treatment protocol",
         "tagteam:char_count": 46,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-26T12:28:11.619Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.176Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -215,7 +229,7 @@
             "@id": "inst:Act_certified"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.619Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.176Z"
       }
     ]
   }

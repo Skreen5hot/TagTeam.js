@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-26T12:28:09.564Z",
+  "generatedAt": "2026-02-27T10:50:23.090Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -38,7 +38,6 @@
       {
         "@id": "inst:The_Department_of_Justice",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The Department of Justice",
@@ -58,7 +57,6 @@
       {
         "@id": "inst:Justice",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "Justice",
@@ -91,9 +89,12 @@
         "rdfs:label": "department of justice",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.564Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.089Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d2e8d9af4275",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:The_Department_of_Justice"
+        }
       },
       {
         "@id": "inst:Entity_Justice_13b049cc409f",
@@ -103,9 +104,12 @@
         ],
         "rdfs:label": "justice",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.564Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.089Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d2e8d9af4275",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:Justice"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_d2e8d9af4275",
@@ -117,7 +121,7 @@
         "has_text_value": "The Department of Justice is a cabinet-level department",
         "tagteam:char_count": 55,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T12:28:09.547Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.071Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -160,7 +164,7 @@
             "@id": "inst:Justice"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.547Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.071Z"
       }
     ]
   }

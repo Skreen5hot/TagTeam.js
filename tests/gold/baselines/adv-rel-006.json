@@ -6,7 +6,7 @@
     "relative-clause",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:12.093Z",
+  "generatedAt": "2026-02-27T10:50:25.621Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -65,7 +65,6 @@
       {
         "@id": "inst:The_suspect",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The suspect",
@@ -83,7 +82,6 @@
       {
         "@id": "inst:who",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "who",
@@ -104,7 +102,6 @@
       {
         "@id": "inst:the_scene",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the scene",
@@ -124,7 +121,6 @@
       {
         "@id": "inst:the_patrol",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the patrol",
@@ -170,10 +166,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:who"
+        "inheres_in": {
+          "@id": "inst:Organization_Who_b4977e3c4530"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_fled"
         },
         "tagteam:parseConfidence": "medium",
@@ -187,9 +183,12 @@
         ],
         "rdfs:label": "suspect",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.093Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.621Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ea1319c8181c",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:The_suspect"
+        }
       },
       {
         "@id": "inst:Organization_Who_b4977e3c4530",
@@ -200,9 +199,17 @@
         "rdfs:label": "who",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.093Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.621Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ea1319c8181c",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:who"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_who_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Scene_55e533a5e82b",
@@ -213,9 +220,12 @@
         "rdfs:label": "scene",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.093Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.621Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ea1319c8181c",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_scene"
+        }
       },
       {
         "@id": "inst:Entity_Patrol_1071748399e7",
@@ -225,9 +235,12 @@
         ],
         "rdfs:label": "patrol",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.093Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.621Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ea1319c8181c",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_patrol"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_ea1319c8181c",
@@ -239,7 +252,7 @@
         "has_text_value": "The suspect who fled the scene was apprehended by the patrol",
         "tagteam:char_count": 60,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-26T12:28:12.082Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.607Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -294,7 +307,7 @@
             "@id": "inst:Act_fled"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.082Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.607Z"
       }
     ]
   }

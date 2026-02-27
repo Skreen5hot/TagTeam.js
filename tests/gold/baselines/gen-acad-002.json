@@ -6,7 +6,7 @@
     "academic",
     "research"
   ],
-  "generatedAt": "2026-02-26T12:28:11.467Z",
+  "generatedAt": "2026-02-27T10:50:25.023Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -51,15 +51,15 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The professor",
+      "entity": "professor",
       "role": "Agent"
     },
     {
-      "entity": "the findings",
+      "entity": "finding",
       "role": "Patient"
     },
     {
-      "entity": "the conference",
+      "entity": "conference",
       "role": "Location"
     }
   ],
@@ -68,7 +68,6 @@
       {
         "@id": "inst:The_professor",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The professor",
@@ -88,7 +87,6 @@
       {
         "@id": "inst:the_findings",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the findings",
@@ -106,7 +104,6 @@
       {
         "@id": "inst:the_conference",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the conference",
@@ -140,10 +137,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_professor"
+        "inheres_in": {
+          "@id": "inst:Person_Professor_15e053659bfe"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_presented"
         },
         "tagteam:parseConfidence": "high",
@@ -156,10 +153,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_findings"
+        "inheres_in": {
+          "@id": "inst:Entity_Finding_e5da19c509d7"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_presented"
         },
         "tagteam:parseConfidence": "high",
@@ -172,10 +169,10 @@
         ],
         "rdfs:label": "LocationRole",
         "tagteam:roleType": "LocationRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_conference"
+        "inheres_in": {
+          "@id": "inst:Entity_Conference_d5c3c97b26ac"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_presented"
         },
         "tagteam:preposition": "at",
@@ -191,9 +188,17 @@
         "rdfs:label": "professor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.466Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.023Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a6cb54c22a1e",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:The_professor"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_professor_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Finding_e5da19c509d7",
@@ -203,9 +208,17 @@
         ],
         "rdfs:label": "finding",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.466Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.023Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a6cb54c22a1e",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_findings"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_findings_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Conference_d5c3c97b26ac",
@@ -215,9 +228,17 @@
         ],
         "rdfs:label": "conference",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.467Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.023Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a6cb54c22a1e",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_conference"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_conference_LocationRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_a6cb54c22a1e",
@@ -229,7 +250,7 @@
         "has_text_value": "The professor presented the findings at the conference",
         "tagteam:char_count": 54,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T12:28:11.459Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.014Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -278,7 +299,7 @@
             "@id": "inst:Act_presented"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.459Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.014Z"
       }
     ]
   }

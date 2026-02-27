@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:11.195Z",
+  "generatedAt": "2026-02-27T10:50:24.760Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -55,11 +55,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "the detainee",
+      "entity": "detainee",
       "role": "Patient"
     },
     {
-      "entity": "the facility",
+      "entity": "facility",
       "role": "Goal"
     }
   ],
@@ -68,7 +68,6 @@
       {
         "@id": "inst:The_team",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The team",
@@ -86,7 +85,6 @@
       {
         "@id": "inst:the_detainee",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the detainee",
@@ -104,7 +102,6 @@
       {
         "@id": "inst:the_facility",
         "@type": [
-          "Facility",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the facility",
@@ -150,10 +147,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_detainee"
+        "inheres_in": {
+          "@id": "inst:Entity_Detainee_3c1be0de0038"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_transported"
         },
         "tagteam:parseConfidence": "low",
@@ -166,10 +163,10 @@
         ],
         "rdfs:label": "DestinationRole",
         "tagteam:roleType": "DestinationRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_facility"
+        "inheres_in": {
+          "@id": "inst:Facility_Facility_5075eb071662"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_transported"
         },
         "tagteam:preposition": "to",
@@ -184,9 +181,12 @@
         ],
         "rdfs:label": "team",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.195Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.760Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b533ad596cff",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:The_team"
+        }
       },
       {
         "@id": "inst:Entity_Detainee_3c1be0de0038",
@@ -196,9 +196,17 @@
         ],
         "rdfs:label": "detainee",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.195Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.760Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b533ad596cff",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_detainee"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_detainee_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Facility_Facility_5075eb071662",
@@ -208,9 +216,17 @@
         ],
         "rdfs:label": "facility",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.195Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.760Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b533ad596cff",
-        "tagteam:denotesType": "Facility"
+        "tagteam:denotesType": "Facility",
+        "is_subject_of": {
+          "@id": "inst:the_facility"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_facility_DestinationRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_b533ad596cff",
@@ -222,7 +238,7 @@
         "has_text_value": "The team transported the detainee to the facility",
         "tagteam:char_count": 49,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T12:28:11.188Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.750Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -274,7 +290,7 @@
             "@id": "inst:Act_transported"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.188Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.750Z"
       }
     ]
   }

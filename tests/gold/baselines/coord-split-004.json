@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-26T12:28:10.120Z",
+  "generatedAt": "2026-02-27T10:50:23.675Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -51,11 +51,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The director and the deputy",
+      "entity": "director and the deputy",
       "role": "Agent"
     },
     {
-      "entity": "the mission",
+      "entity": "mission",
       "role": "Patient"
     }
   ],
@@ -64,7 +64,6 @@
       {
         "@id": "inst:The_director_and_the_deputy",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The director and the deputy",
@@ -84,7 +83,6 @@
       {
         "@id": "inst:the_mission",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the mission",
@@ -118,10 +116,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_director_and_the_deputy"
+        "inheres_in": {
+          "@id": "inst:Person_Director_And_The_Deputy_c82b672de631"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_authorized"
         },
         "tagteam:parseConfidence": "high",
@@ -134,10 +132,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_mission"
+        "inheres_in": {
+          "@id": "inst:Entity_Mission_30d3ed41ba96"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_authorized"
         },
         "tagteam:parseConfidence": "medium",
@@ -152,9 +150,17 @@
         "rdfs:label": "director and the deputy",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.119Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.674Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_fd3482a97e5f",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:The_director_and_the_deputy"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_director_and_the_deputy_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Mission_30d3ed41ba96",
@@ -164,9 +170,17 @@
         ],
         "rdfs:label": "mission",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.119Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.674Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_fd3482a97e5f",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_mission"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_mission_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_fd3482a97e5f",
@@ -178,7 +192,7 @@
         "has_text_value": "The director and the deputy authorized the mission",
         "tagteam:char_count": 50,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T12:28:10.109Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.666Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -224,7 +238,7 @@
             "@id": "inst:Act_authorized"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.109Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.666Z"
       }
     ]
   }

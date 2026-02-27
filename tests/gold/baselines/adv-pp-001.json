@@ -6,7 +6,7 @@
     "nested-pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:11.819Z",
+  "generatedAt": "2026-02-27T10:50:25.362Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -65,23 +65,23 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The agent",
+      "entity": "agent",
       "role": "Agent"
     },
     {
-      "entity": "the report",
+      "entity": "report",
       "role": "Patient"
     },
     {
-      "entity": "the office",
+      "entity": "office",
       "role": "Location"
     },
     {
-      "entity": "the building",
+      "entity": "build",
       "role": "Location"
     },
     {
-      "entity": "the campus",
+      "entity": "campu",
       "role": "Location"
     }
   ],
@@ -90,7 +90,6 @@
       {
         "@id": "inst:The_agent",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The agent",
@@ -110,7 +109,6 @@
       {
         "@id": "inst:the_report",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the report",
@@ -128,7 +126,6 @@
       {
         "@id": "inst:the_office",
         "@type": [
-          "Facility",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the office",
@@ -146,7 +143,6 @@
       {
         "@id": "inst:the_building",
         "@type": [
-          "Facility",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the building",
@@ -164,7 +160,6 @@
       {
         "@id": "inst:the_campus",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the campus",
@@ -198,10 +193,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_agent"
+        "inheres_in": {
+          "@id": "inst:Person_Agent_9b5daa26fe78"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_filed"
         },
         "tagteam:parseConfidence": "high",
@@ -214,10 +209,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_report"
+        "inheres_in": {
+          "@id": "inst:Entity_Report_8a61663bb4d0"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_filed"
         },
         "tagteam:parseConfidence": "medium",
@@ -230,10 +225,10 @@
         ],
         "rdfs:label": "LocationRole",
         "tagteam:roleType": "LocationRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_office"
+        "inheres_in": {
+          "@id": "inst:Facility_Office_3a7f6557aa5a"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_filed"
         },
         "tagteam:preposition": "at",
@@ -247,10 +242,10 @@
         ],
         "rdfs:label": "LocationRole",
         "tagteam:roleType": "LocationRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_building"
+        "inheres_in": {
+          "@id": "inst:Facility_Build_d7981ce27ebe"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_filed"
         },
         "tagteam:preposition": "in",
@@ -264,10 +259,10 @@
         ],
         "rdfs:label": "LocationRole",
         "tagteam:roleType": "LocationRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_campus"
+        "inheres_in": {
+          "@id": "inst:Entity_Campu_a815216d2c05"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_filed"
         },
         "tagteam:preposition": "on",
@@ -283,9 +278,17 @@
         "rdfs:label": "agent",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.819Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.361Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:The_agent"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_agent_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Report_8a61663bb4d0",
@@ -295,9 +298,17 @@
         ],
         "rdfs:label": "report",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.819Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.362Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_report"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_report_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Facility_Office_3a7f6557aa5a",
@@ -307,9 +318,17 @@
         ],
         "rdfs:label": "office",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.819Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.362Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
-        "tagteam:denotesType": "Facility"
+        "tagteam:denotesType": "Facility",
+        "is_subject_of": {
+          "@id": "inst:the_office"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_office_LocationRole"
+          }
+        ]
       },
       {
         "@id": "inst:Facility_Build_d7981ce27ebe",
@@ -319,9 +338,17 @@
         ],
         "rdfs:label": "build",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.819Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.362Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
-        "tagteam:denotesType": "Facility"
+        "tagteam:denotesType": "Facility",
+        "is_subject_of": {
+          "@id": "inst:the_building"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_building_LocationRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Campu_a815216d2c05",
@@ -331,9 +358,17 @@
         ],
         "rdfs:label": "campu",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.819Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.362Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_campus"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_campus_LocationRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_885cdc14aee1",
@@ -345,7 +380,7 @@
         "has_text_value": "The agent filed the report at the office in the building on the campus",
         "tagteam:char_count": 70,
         "tagteam:word_count": 14,
-        "tagteam:received_at": "2026-02-26T12:28:11.807Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.349Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -400,7 +435,7 @@
             "@id": "inst:Act_filed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.807Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.349Z"
       }
     ]
   }

@@ -8,7 +8,7 @@
     "action",
     "pp"
   ],
-  "generatedAt": "2026-02-26T12:28:09.965Z",
+  "generatedAt": "2026-02-27T10:50:23.526Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -53,11 +53,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "discrepancies",
+      "entity": "discrepancy",
       "role": "Patient"
     },
     {
-      "entity": "the records",
+      "entity": "record",
       "role": "Location"
     }
   ],
@@ -66,7 +66,6 @@
       {
         "@id": "inst:The_auditor",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The auditor",
@@ -84,7 +83,6 @@
       {
         "@id": "inst:discrepancies",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "discrepancies",
@@ -102,7 +100,6 @@
       {
         "@id": "inst:the_records",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the records",
@@ -148,10 +145,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:discrepancies"
+        "inheres_in": {
+          "@id": "inst:Entity_Discrepancy_2736ca0ab5cf"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_discovered"
         },
         "tagteam:parseConfidence": "low",
@@ -164,10 +161,10 @@
         ],
         "rdfs:label": "LocationRole",
         "tagteam:roleType": "LocationRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_records"
+        "inheres_in": {
+          "@id": "inst:Entity_Record_f8356b35bc0f"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_discovered"
         },
         "tagteam:preposition": "in",
@@ -182,9 +179,12 @@
         ],
         "rdfs:label": "auditor",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.965Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.526Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_111e711f71dc",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_auditor"
+        }
       },
       {
         "@id": "inst:Entity_Discrepancy_2736ca0ab5cf",
@@ -194,9 +194,17 @@
         ],
         "rdfs:label": "discrepancy",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.965Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.526Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_111e711f71dc",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:discrepancies"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_discrepancies_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Record_f8356b35bc0f",
@@ -206,9 +214,17 @@
         ],
         "rdfs:label": "record",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.965Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.526Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_111e711f71dc",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_records"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_records_LocationRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_111e711f71dc",
@@ -220,7 +236,7 @@
         "has_text_value": "The auditor discovered discrepancies in the records",
         "tagteam:char_count": 51,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-26T12:28:09.956Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.518Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -272,7 +288,7 @@
             "@id": "inst:Act_discovered"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.956Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.518Z"
       }
     ]
   }

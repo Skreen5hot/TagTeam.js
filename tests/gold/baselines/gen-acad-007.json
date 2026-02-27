@@ -6,7 +6,7 @@
     "academic",
     "research"
   ],
-  "generatedAt": "2026-02-26T12:28:11.524Z",
+  "generatedAt": "2026-02-27T10:50:25.082Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -42,11 +42,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The team",
+      "entity": "team",
       "role": "Agent"
     },
     {
-      "entity": "the experiment",
+      "entity": "experiment",
       "role": "Patient"
     }
   ],
@@ -55,7 +55,6 @@
       {
         "@id": "inst:The_team",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The team",
@@ -75,7 +74,6 @@
       {
         "@id": "inst:the_experiment",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the experiment",
@@ -109,10 +107,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_team"
+        "inheres_in": {
+          "@id": "inst:Organization_Team_abff526f57a4"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_replicated"
         },
         "tagteam:parseConfidence": "high",
@@ -125,10 +123,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_experiment"
+        "inheres_in": {
+          "@id": "inst:Entity_Experiment_04b8e8223b9d"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_replicated"
         },
         "tagteam:parseConfidence": "medium",
@@ -143,9 +141,17 @@
         "rdfs:label": "team",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.524Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.082Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b21af55d2390",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:The_team"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_team_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Experiment_04b8e8223b9d",
@@ -155,9 +161,17 @@
         ],
         "rdfs:label": "experiment",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.524Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.082Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b21af55d2390",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_experiment"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_experiment_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_b21af55d2390",
@@ -169,7 +183,7 @@
         "has_text_value": "The team replicated the experiment",
         "tagteam:char_count": 34,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-26T12:28:11.517Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.075Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -215,7 +229,7 @@
             "@id": "inst:Act_replicated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.517Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.075Z"
       }
     ]
   }

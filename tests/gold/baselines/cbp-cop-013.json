@@ -7,7 +7,7 @@
     "cbp",
     "trade"
   ],
-  "generatedAt": "2026-02-26T12:28:10.989Z",
+  "generatedAt": "2026-02-27T10:50:24.562Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -38,7 +38,6 @@
       {
         "@id": "inst:C_TPAT_a_voluntary_trade_partnership_program",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "C TPAT a voluntary trade partnership program",
@@ -56,7 +55,6 @@
       {
         "@id": "inst:TPAT",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "TPAT",
@@ -94,9 +92,12 @@
         ],
         "rdfs:label": "c tpat a voluntary trade partnership program",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.989Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.562Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5414586df117",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:C_TPAT_a_voluntary_trade_partnership_program"
+        }
       },
       {
         "@id": "inst:Entity_Tpat_48f54af3d52d",
@@ -107,9 +108,12 @@
         "rdfs:label": "tpat",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.989Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.562Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5414586df117",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:TPAT"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_5414586df117",
@@ -121,7 +125,7 @@
         "has_text_value": "C-TPAT is a voluntary trade partnership program",
         "tagteam:char_count": 47,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-26T12:28:10.980Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.554Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -167,7 +171,7 @@
             "@id": "inst:Act_C"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.980Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.554Z"
       }
     ]
   }

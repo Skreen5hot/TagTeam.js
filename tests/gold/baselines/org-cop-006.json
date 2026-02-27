@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-26T12:28:09.581Z",
+  "generatedAt": "2026-02-27T10:50:23.107Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -38,7 +38,6 @@
       {
         "@id": "inst:ICE",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "ICE",
@@ -59,7 +58,6 @@
       {
         "@id": "inst:DHS",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "DHS",
@@ -93,9 +91,12 @@
         "rdfs:label": "ice",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.580Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.107Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_58542db56a45",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:ICE"
+        }
       },
       {
         "@id": "inst:Organization_Dhs_1a42f95d4b42",
@@ -105,9 +106,12 @@
         ],
         "rdfs:label": "dhs",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.580Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.107Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_58542db56a45",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:DHS"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_58542db56a45",
@@ -119,7 +123,7 @@
         "has_text_value": "ICE is an agency within DHS",
         "tagteam:char_count": 27,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-26T12:28:09.570Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.095Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -162,7 +166,7 @@
             "@id": "inst:DHS"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.570Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.095Z"
       }
     ]
   }

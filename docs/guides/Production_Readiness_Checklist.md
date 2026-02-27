@@ -1,10 +1,11 @@
 # TagTeam.js — Production Readiness Checklist
 
-**Version:** 3.0.1
-**Date:** February 26, 2026
+**Version:** 3.0.2
+**Date:** February 27, 2026
 **Author:** Aaron, Technical Lead / Semantic Architect
 **Status:** Merged to MAIN
-**Branch:** origin/main (commit `b6a7896`)
+**Branch:** origin/main (commit `162361e`)
+**Previous:** v3.0.1 at `b6a7896`
 **Classification:** INTERNAL — Development Team Distribution Only
 
 ---
@@ -14,6 +15,8 @@
 The BFO/CCO IRI integrity audit is complete. Over the course of fifteen commits, the team eliminated all phantom IRIs from TagTeam's output. Every class, property, and relation value in the system now resolves through the @context alias layer to a verified opaque IRI in a published ontology (BFO 2020 or CCO 2.0), or is honestly declared in the `tagteam:` namespace as parser-defined metadata.
 
 The v2.2 audit (commits `10b1817`, `b6a7896`) fixed 3 additional fabricated CCO IRIs (`has_input`, `has_output`, `prescribed_by`), added 6 missing CCO inverse properties, restructured the @context to consistent expanded `{@id}` form, added 27 v3 ontology terms, and corrected datatype typing for `has_text_value` (`xsd:string`) and `has_start_time`/`has_end_time` (`xsd:dateTime`).
+
+The Tier 1/Tier 2 type separation fix (commit `162361e`) resolved the ontological contradiction where Tier 1 DiscourseReferent nodes carried both information-entity and independent-continuant types. Tier 1 `@type` is now `[DiscourseReferent]` only, with ontological type preserved as `denotesType` metadata. Fabricated role properties (`tagteam:bearer`, `tagteam:realizedIn`) replaced with BFO properties (`inheres_in`, `realized_in`). Role bearers repointed from Tier 1 to Tier 2. Back-links (`is_subject_of`, `is_bearer_of`) added on Tier 2 for O(1) graph traversal. 343 structural checks passed across 11 test graphs. See `docs/development/tier-separation-violation-revised.md` for the full architecture specification.
 
 This checklist defines the requirements for merging the dev branch to MAIN, the criteria for any external demonstration or deployment, and the hardening tasks that should be scheduled after the initial release. Items are organized into three tiers based on blocking priority.
 
@@ -36,8 +39,10 @@ This checklist defines the requirements for merging the dev branch to MAIN, the 
 | `8fa5afc` | Move compromise and n3 to devDependencies | Zero runtime deps |
 | `10b1817` | @context audit v2.2: fix 3 fabricated CCO IRIs, restructure, add v3 terms | 3 fabricated IRIs + 6 missing properties + 27 v3 terms |
 | `b6a7896` | Fix has_start_time/has_end_time @context typing to xsd:dateTime | 2 incorrectly typed properties |
+| `56e262a` | Update Production Readiness Checklist for v2.2 audit | — |
+| `162361e` | Tier 1/Tier 2 type separation: eliminate ontological contradiction | 2 fabricated properties (`tagteam:bearer`, `tagteam:realizedIn`) |
 
-**Result:** Zero phantom IRIs remain in `src/`. Every IRI in every output graph resolves to a published ontology entry or is declared as `tagteam:` namespace.
+**Result:** Zero phantom IRIs remain in `src/`. Zero fabricated role properties remain. Every IRI in every output graph resolves to a published ontology entry or is declared as `tagteam:` namespace. Tier 1/Tier 2 type separation is enforced — no OWL disjointness violations.
 
 ---
 
@@ -55,17 +60,17 @@ This checklist defines the requirements for merging the dev branch to MAIN, the 
 
 ### 1.2 Build Artifact Integrity
 
-- [x] **Demo bundle sync.** Verify `demos/tagteam.js` matches `dist/tagteam.js` by checksum. Add a CI step that compares the two files and fails on mismatch. *(Verified at `b6a7896`: checksum `68c4d21b168f75049c9508572c552c57`. CI step not yet automated.)*
+- [x] **Demo bundle sync.** Verify `demos/tagteam.js` matches `dist/tagteam.js` by checksum. Add a CI step that compares the two files and fails on mismatch. *(Verified at `162361e`: checksum `dbfd3431f85395da4c356ade516385ef`. CI step not yet automated.)*
 
 - [x] **Model file loading.** Confirm all demo pages successfully load: POS lexicon, dependency model, and all gazetteer files (places, organizations, person keywords). *(Verified at `c97229b`; no model changes since.)*
 
-- [x] **Gold baseline evaluation.** Run `npm run gold:evaluate`. Zero mismatches required. *(Verified at `b6a7896`: Entity F1 89.6%, Role F1 59.3%, 0 mismatches. 200 baselines regenerated.)*
+- [x] **Gold baseline evaluation.** Run `npm run gold:evaluate`. Zero mismatches required. *(Verified at `162361e`: Entity F1 89.6%, Role F1 57.8%, 0 mismatches. 200 baselines regenerated. Role F1 drop from 59.3% is a label-source change — evaluator reads Tier 2 labels post-separation. See FT-01 in merge approval memo.)*
 
 ### 1.3 Test Suite
 
-- [x] **CI tests: all phases passing, 0 failures.** *(Verified at `b6a7896`: 0 failures across all phases.)*
+- [x] **CI tests: all phases passing, 0 failures.** *(Verified at `162361e`: 770+ tests, 0 failures across all 13 phases.)*
 
-- [x] **Component tests: 42/100 baseline maintained.** No regression from the pre-audit baseline (was 30, improved to 42 via HEAD_NOUN_TYPE_MAP and TreeEntityExtractor fixes). *(Verified at `b6a7896`: 42/100, 0 errors.)*
+- [x] **Component tests: 42/100 baseline maintained.** No regression from the pre-audit baseline (was 30, improved to 42 via HEAD_NOUN_TYPE_MAP and TreeEntityExtractor fixes). *(Verified at `162361e`: 42/100, 0 errors.)*
 
 ---
 
@@ -200,6 +205,13 @@ grep -rn "cco:is_concretized_by\|cco:concretizes" src/
 
 ```bash
 grep -rn "tagteam:has_input\|tagteam:has_output\|tagteam:prescribed_by" src/
+```
+
+### Fabricated Role Properties (tier separation)
+
+```bash
+grep -rn "tagteam:bearer\|tagteam:realizedIn" src/
+grep -rn "tagteam:bearer\|tagteam:realizedIn" tests/ --include="*.js"
 ```
 
 ### Build Verification
@@ -368,15 +380,16 @@ Complete mapping of all ontology-sourced aliases in the @context as of commit `b
 | `has_consequent` | `tagteam:has_consequent` | `@id` |
 | `has_cause` | `tagteam:has_cause` | `@id` |
 
-**Datatype Properties (5):**
+**Datatype Properties (6):**
 
-| Alias | @id | Typing |
-|-------|-----|--------|
-| `clauseIndex` | `tagteam:clauseIndex` | `xsd:integer` |
-| `subjectSource` | `tagteam:subjectSource` | — |
-| `whPhrase` | `tagteam:whPhrase` | — |
-| `verbClass` | `tagteam:verbClass` | — |
-| `epistemicStatus` | `tagteam:epistemicStatus` | — |
+| Alias | @id | Typing | Added |
+|-------|-----|--------|-------|
+| `denotesType` | `tagteam:denotesType` | — | **tier-sep** *(ontological type metadata on Tier 1 DiscourseReferent nodes)* |
+| `clauseIndex` | `tagteam:clauseIndex` | `xsd:integer` | v3 |
+| `subjectSource` | `tagteam:subjectSource` | — | v3 |
+| `whPhrase` | `tagteam:whPhrase` | — | v3 |
+| `verbClass` | `tagteam:verbClass` | — | v3 |
+| `epistemicStatus` | `tagteam:epistemicStatus` | — | v3 |
 
 **Boolean Properties (1):**
 

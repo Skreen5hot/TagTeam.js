@@ -7,7 +7,7 @@
     "subordination",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:12.010Z",
+  "generatedAt": "2026-02-27T10:50:25.545Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -52,7 +52,7 @@
   ],
   "extractedRoles": [
     {
-      "entity": "the alarm",
+      "entity": "alarm",
       "role": "Agent"
     }
   ],
@@ -61,7 +61,6 @@
       {
         "@id": "inst:the_alarm",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the alarm",
@@ -81,7 +80,6 @@
       {
         "@id": "inst:the_officers",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the officers",
@@ -101,7 +99,6 @@
       {
         "@id": "inst:the_building",
         "@type": [
-          "Facility",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the building",
@@ -135,10 +132,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_alarm"
+        "inheres_in": {
+          "@id": "inst:Entity_Alarm_29b00a632dfa"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_sounded"
         },
         "tagteam:parseConfidence": "medium",
@@ -153,9 +150,17 @@
         "rdfs:label": "alarm",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.010Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.545Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0fad6b4c89c7",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_alarm"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_alarm_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Officer_18d605d4d94c",
@@ -166,9 +171,12 @@
         "rdfs:label": "officer",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.010Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.545Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0fad6b4c89c7",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_officers"
+        }
       },
       {
         "@id": "inst:Facility_Build_e72a3fd311be",
@@ -178,9 +186,12 @@
         ],
         "rdfs:label": "build",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.010Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.545Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0fad6b4c89c7",
-        "tagteam:denotesType": "Facility"
+        "tagteam:denotesType": "Facility",
+        "is_subject_of": {
+          "@id": "inst:the_building"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_0fad6b4c89c7",
@@ -192,7 +203,7 @@
         "has_text_value": "When the alarm sounded the officers evacuated the building",
         "tagteam:char_count": 58,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-26T12:28:12.000Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.537Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -241,7 +252,7 @@
             "@id": "inst:Act_sounded"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.000Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.537Z"
       }
     ]
   }

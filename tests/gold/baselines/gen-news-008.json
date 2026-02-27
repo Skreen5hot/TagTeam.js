@@ -6,7 +6,7 @@
     "news",
     "regulation"
   ],
-  "generatedAt": "2026-02-26T12:28:11.442Z",
+  "generatedAt": "2026-02-27T10:50:24.999Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -51,15 +51,15 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The regulator",
+      "entity": "regulator",
       "role": "Agent"
     },
     {
-      "entity": "the corporation",
+      "entity": "corporation",
       "role": "Patient"
     },
     {
-      "entity": "violations",
+      "entity": "violation",
       "role": "Beneficiary"
     }
   ],
@@ -68,7 +68,6 @@
       {
         "@id": "inst:The_regulator",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The regulator",
@@ -88,7 +87,6 @@
       {
         "@id": "inst:the_corporation",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the corporation",
@@ -106,7 +104,6 @@
       {
         "@id": "inst:violations",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "violations",
@@ -140,10 +137,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_regulator"
+        "inheres_in": {
+          "@id": "inst:Entity_Regulator_77e99f5d685b"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_fined"
         },
         "tagteam:parseConfidence": "high",
@@ -156,10 +153,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_corporation"
+        "inheres_in": {
+          "@id": "inst:Entity_Corporation_31fd408c0817"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_fined"
         },
         "tagteam:parseConfidence": "medium",
@@ -172,10 +169,10 @@
         ],
         "rdfs:label": "BeneficiaryRole",
         "tagteam:roleType": "BeneficiaryRole",
-        "tagteam:bearer": {
-          "@id": "inst:violations"
+        "inheres_in": {
+          "@id": "inst:Entity_Violation_e7ee8e1d633b"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_fined"
         },
         "tagteam:preposition": "for",
@@ -191,9 +188,17 @@
         "rdfs:label": "regulator",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.442Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.999Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_673baeaced25",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_regulator"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_regulator_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Corporation_31fd408c0817",
@@ -203,9 +208,17 @@
         ],
         "rdfs:label": "corporation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.442Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.999Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_673baeaced25",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_corporation"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_corporation_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Violation_e7ee8e1d633b",
@@ -215,9 +228,17 @@
         ],
         "rdfs:label": "violation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.442Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.999Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_673baeaced25",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:violations"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_violations_BeneficiaryRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_673baeaced25",
@@ -229,7 +250,7 @@
         "has_text_value": "The regulator fined the corporation for violations",
         "tagteam:char_count": 50,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-26T12:28:11.434Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.992Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -278,7 +299,7 @@
             "@id": "inst:Act_fined"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.434Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.992Z"
       }
     ]
   }

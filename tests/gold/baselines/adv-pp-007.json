@@ -6,7 +6,7 @@
     "nested-pp",
     "government"
   ],
-  "generatedAt": "2026-02-26T12:28:12.079Z",
+  "generatedAt": "2026-02-27T10:50:25.604Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -65,11 +65,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "the findings",
+      "entity": "finding",
       "role": "Patient"
     },
     {
-      "entity": "the director of the operations division at headquarters",
+      "entity": "director of the operations division at headquarter",
       "role": "Goal"
     }
   ],
@@ -78,7 +78,6 @@
       {
         "@id": "inst:The_analyst",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The analyst",
@@ -96,7 +95,6 @@
       {
         "@id": "inst:the_findings",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the findings",
@@ -114,7 +112,6 @@
       {
         "@id": "inst:the_director_of_the_operations_division_at_headquarters",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the director of the operations division at headquarters",
@@ -132,7 +129,6 @@
       {
         "@id": "inst:the_operations_division_at_headquarters",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the operations division at headquarters",
@@ -150,7 +146,6 @@
       {
         "@id": "inst:headquarters",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "headquarters",
@@ -196,10 +191,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_findings"
+        "inheres_in": {
+          "@id": "inst:Entity_Finding_53a0b6693efb"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_sent"
         },
         "tagteam:parseConfidence": "low",
@@ -212,10 +207,10 @@
         ],
         "rdfs:label": "DestinationRole",
         "tagteam:roleType": "DestinationRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_director_of_the_operations_division_at_headquarters"
+        "inheres_in": {
+          "@id": "inst:Person_Director_Of_The_Operations_Division_At_Headquarter_48a6914d62a3"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_sent"
         },
         "tagteam:preposition": "to",
@@ -230,9 +225,12 @@
         ],
         "rdfs:label": "analyst",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.079Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.604Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3256b34b6366",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:The_analyst"
+        }
       },
       {
         "@id": "inst:Entity_Finding_53a0b6693efb",
@@ -242,9 +240,17 @@
         ],
         "rdfs:label": "finding",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.079Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.604Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3256b34b6366",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_findings"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_findings_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Person_Director_Of_The_Operations_Division_At_Headquarter_48a6914d62a3",
@@ -254,9 +260,17 @@
         ],
         "rdfs:label": "director of the operations division at headquarter",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.079Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.604Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3256b34b6366",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:the_director_of_the_operations_division_at_headquarters"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_director_of_the_operations_division_at_headquarters_DestinationRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Operations_Division_At_Headquarter_8d9c543be815",
@@ -266,9 +280,12 @@
         ],
         "rdfs:label": "operations division at headquarter",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.079Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.604Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3256b34b6366",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_operations_division_at_headquarters"
+        }
       },
       {
         "@id": "inst:Entity_Headquarter_0fe7319ab967",
@@ -278,9 +295,12 @@
         ],
         "rdfs:label": "headquarter",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.079Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.604Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3256b34b6366",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:headquarters"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_3256b34b6366",
@@ -292,7 +312,7 @@
         "has_text_value": "The analyst sent the findings to the director of the operations division at headquarters",
         "tagteam:char_count": 88,
         "tagteam:word_count": 14,
-        "tagteam:received_at": "2026-02-26T12:28:12.068Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.594Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -350,7 +370,7 @@
             "@id": "inst:Act_sent"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.068Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.594Z"
       }
     ]
   }

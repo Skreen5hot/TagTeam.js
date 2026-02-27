@@ -7,7 +7,7 @@
     "subordination",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:12.135Z",
+  "generatedAt": "2026-02-27T10:50:25.662Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -61,7 +61,7 @@
   ],
   "extractedRoles": [
     {
-      "entity": "the patrol",
+      "entity": "patrol",
       "role": "Agent"
     }
   ],
@@ -70,7 +70,6 @@
       {
         "@id": "inst:Because",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "Because",
@@ -88,7 +87,6 @@
       {
         "@id": "inst:the_sensors",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the sensors",
@@ -106,7 +104,6 @@
       {
         "@id": "inst:detected_movement",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "detected movement",
@@ -124,7 +121,6 @@
       {
         "@id": "inst:the_patrol",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the patrol",
@@ -196,10 +192,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_patrol"
+        "inheres_in": {
+          "@id": "inst:Entity_Patrol_f37459b78906"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_responded"
         },
         "tagteam:parseConfidence": "medium",
@@ -213,9 +209,12 @@
         ],
         "rdfs:label": "because",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.135Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.662Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_075984563370",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:Because"
+        }
       },
       {
         "@id": "inst:Entity_Sensors_a59604baab18",
@@ -225,9 +224,12 @@
         ],
         "rdfs:label": "sensors",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.135Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.662Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_075984563370",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_sensors"
+        }
       },
       {
         "@id": "inst:Entity_Detected_Movement_ca683f6109d0",
@@ -237,9 +239,12 @@
         ],
         "rdfs:label": "detected movement",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.135Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.662Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_075984563370",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:detected_movement"
+        }
       },
       {
         "@id": "inst:Entity_Patrol_f37459b78906",
@@ -250,9 +255,17 @@
         "rdfs:label": "patrol",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.135Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.662Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_075984563370",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_patrol"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_patrol_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_075984563370",
@@ -264,7 +277,7 @@
         "has_text_value": "Because the sensors detected movement the patrol responded immediately",
         "tagteam:char_count": 70,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-26T12:28:12.124Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.652Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -325,7 +338,7 @@
             "@id": "inst:Act_responded"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.124Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.652Z"
       }
     ]
   }

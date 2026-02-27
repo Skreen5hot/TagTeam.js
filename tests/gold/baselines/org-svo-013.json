@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-26T12:28:09.904Z",
+  "generatedAt": "2026-02-27T10:50:23.468Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -43,11 +43,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The forensic team",
+      "entity": "forensic team",
       "role": "Agent"
     },
     {
-      "entity": "the samples",
+      "entity": "sample",
       "role": "Patient"
     }
   ],
@@ -56,7 +56,6 @@
       {
         "@id": "inst:The_forensic_team",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The forensic team",
@@ -76,7 +75,6 @@
       {
         "@id": "inst:the_samples",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the samples",
@@ -110,10 +108,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_forensic_team"
+        "inheres_in": {
+          "@id": "inst:Organization_Forensic_Team_f17d3140cec4"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_analyzed"
         },
         "tagteam:parseConfidence": "high",
@@ -126,10 +124,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_samples"
+        "inheres_in": {
+          "@id": "inst:Entity_Sample_ac4d505e8853"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_analyzed"
         },
         "tagteam:parseConfidence": "high",
@@ -144,9 +142,17 @@
         "rdfs:label": "forensic team",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.904Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.467Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_dbe65aa31683",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:The_forensic_team"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_forensic_team_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Sample_ac4d505e8853",
@@ -156,9 +162,17 @@
         ],
         "rdfs:label": "sample",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.904Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.468Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_dbe65aa31683",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_samples"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_samples_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_dbe65aa31683",
@@ -170,7 +184,7 @@
         "has_text_value": "The forensic team analyzed the samples",
         "tagteam:char_count": 38,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-26T12:28:09.896Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.460Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -216,7 +230,7 @@
             "@id": "inst:Act_analyzed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.896Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.460Z"
       }
     ]
   }

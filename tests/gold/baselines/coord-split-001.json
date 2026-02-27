@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-26T12:28:10.072Z",
+  "generatedAt": "2026-02-27T10:50:23.638Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -56,15 +56,15 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The FBI",
+      "entity": "fbi",
       "role": "Agent"
     },
     {
-      "entity": "CIA",
+      "entity": "cia",
       "role": "Agent"
     },
     {
-      "entity": "the operation",
+      "entity": "operation",
       "role": "Patient"
     }
   ],
@@ -73,7 +73,6 @@
       {
         "@id": "inst:The_FBI",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The FBI",
@@ -94,7 +93,6 @@
       {
         "@id": "inst:CIA",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "CIA",
@@ -115,7 +113,6 @@
       {
         "@id": "inst:the_operation",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the operation",
@@ -149,10 +146,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_FBI"
+        "inheres_in": {
+          "@id": "inst:Organization_Fbi_80c764422e83"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_coordinated"
         },
         "tagteam:parseConfidence": "high",
@@ -165,10 +162,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:CIA"
+        "inheres_in": {
+          "@id": "inst:Organization_Cia_b87ef89f2a35"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_coordinated"
         },
         "tagteam:parseConfidence": "high",
@@ -181,10 +178,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_operation"
+        "inheres_in": {
+          "@id": "inst:Entity_Operation_8d36b12af994"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_coordinated"
         },
         "tagteam:parseConfidence": "medium",
@@ -199,9 +196,17 @@
         "rdfs:label": "fbi",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.072Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.638Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b6c622a3894c",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:The_FBI"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_FBI_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Organization_Cia_b87ef89f2a35",
@@ -212,9 +217,17 @@
         "rdfs:label": "cia",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.072Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.638Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b6c622a3894c",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:CIA"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_CIA_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Operation_8d36b12af994",
@@ -224,9 +237,17 @@
         ],
         "rdfs:label": "operation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.072Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.638Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b6c622a3894c",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_operation"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_operation_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_b6c622a3894c",
@@ -238,7 +259,7 @@
         "has_text_value": "The FBI and CIA coordinated the operation",
         "tagteam:char_count": 41,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-26T12:28:10.063Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.629Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -287,7 +308,7 @@
             "@id": "inst:Act_coordinated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.063Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.629Z"
       }
     ]
   }

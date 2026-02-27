@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-26T12:28:09.355Z",
+  "generatedAt": "2026-02-27T10:50:23.004Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -38,7 +38,6 @@
       {
         "@id": "inst:CBP",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "CBP",
@@ -59,7 +58,6 @@
       {
         "@id": "inst:DHS",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "DHS",
@@ -94,9 +92,12 @@
         "rdfs:label": "cbp",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.353Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.003Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3937775d2119",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:CBP"
+        }
       },
       {
         "@id": "inst:Organization_Dhs_96cd0d7cff6f",
@@ -106,9 +107,12 @@
         ],
         "rdfs:label": "dhs",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.354Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.003Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3937775d2119",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:DHS"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_3937775d2119",
@@ -120,7 +124,7 @@
         "has_text_value": "CBP is a component of DHS",
         "tagteam:char_count": 25,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-26T12:28:09.206Z"
+        "tagteam:received_at": "2026-02-27T10:50:22.889Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -163,7 +167,7 @@
             "@id": "inst:DHS"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.206Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:22.889Z"
       }
     ]
   }

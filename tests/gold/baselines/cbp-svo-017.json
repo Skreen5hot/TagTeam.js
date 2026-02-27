@@ -7,7 +7,7 @@
     "cbp",
     "operations"
   ],
-  "generatedAt": "2026-02-26T12:28:10.779Z",
+  "generatedAt": "2026-02-27T10:50:24.355Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -43,11 +43,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The liaison officer",
+      "entity": "liaison officer",
       "role": "Agent"
     },
     {
-      "entity": "the response",
+      "entity": "response",
       "role": "Patient"
     }
   ],
@@ -56,7 +56,6 @@
       {
         "@id": "inst:The_liaison_officer",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The liaison officer",
@@ -76,7 +75,6 @@
       {
         "@id": "inst:the_response",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the response",
@@ -110,10 +108,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_liaison_officer"
+        "inheres_in": {
+          "@id": "inst:Person_Liaison_Officer_730cb8ba9169"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_coordinated"
         },
         "tagteam:parseConfidence": "high",
@@ -126,10 +124,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_response"
+        "inheres_in": {
+          "@id": "inst:Entity_Response_aeb506da10b6"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_coordinated"
         },
         "tagteam:parseConfidence": "medium",
@@ -144,9 +142,17 @@
         "rdfs:label": "liaison officer",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.779Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.355Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4756c94a5bc8",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:The_liaison_officer"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_liaison_officer_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Response_aeb506da10b6",
@@ -156,9 +162,17 @@
         ],
         "rdfs:label": "response",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.779Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.355Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4756c94a5bc8",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_response"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_response_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_4756c94a5bc8",
@@ -170,7 +184,7 @@
         "has_text_value": "The liaison officer coordinated the response",
         "tagteam:char_count": 44,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-26T12:28:10.771Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.349Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -216,7 +230,7 @@
             "@id": "inst:Act_coordinated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.771Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.349Z"
       }
     ]
   }

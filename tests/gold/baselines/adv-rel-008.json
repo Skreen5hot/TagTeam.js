@@ -6,7 +6,7 @@
     "relative-clause",
     "government"
   ],
-  "generatedAt": "2026-02-26T12:28:12.120Z",
+  "generatedAt": "2026-02-27T10:50:25.649Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -55,7 +55,7 @@
   ],
   "extractedRoles": [
     {
-      "entity": "the analyst",
+      "entity": "analyst",
       "role": "Agent"
     }
   ],
@@ -64,7 +64,6 @@
       {
         "@id": "inst:The_report",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The report",
@@ -82,7 +81,6 @@
       {
         "@id": "inst:the_analyst",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the analyst",
@@ -102,7 +100,6 @@
       {
         "@id": "inst:the_director",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the director",
@@ -148,10 +145,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_analyst"
+        "inheres_in": {
+          "@id": "inst:Person_Analyst_cd5cf19e7db3"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_compiled"
         },
         "tagteam:parseConfidence": "low",
@@ -165,9 +162,12 @@
         ],
         "rdfs:label": "report",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.120Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.649Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ffc6ed551e17",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_report"
+        }
       },
       {
         "@id": "inst:Person_Analyst_cd5cf19e7db3",
@@ -178,9 +178,17 @@
         "rdfs:label": "analyst",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.120Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.649Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ffc6ed551e17",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:the_analyst"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_analyst_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Person_Director_e67c7e73b289",
@@ -190,9 +198,12 @@
         ],
         "rdfs:label": "director",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.120Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.649Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ffc6ed551e17",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:the_director"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_ffc6ed551e17",
@@ -204,7 +215,7 @@
         "has_text_value": "The report that the analyst compiled was forwarded to the director",
         "tagteam:char_count": 66,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-26T12:28:12.111Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.639Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -256,7 +267,7 @@
             "@id": "inst:Act_compiled"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.111Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.639Z"
       }
     ]
   }

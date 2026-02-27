@@ -110,14 +110,14 @@ for (const sentence of sentences) {
       if (!isAct && !isRole && !isAssertion && !isProvenance && !isTier2 && node['rdfs:label']) {
         extractedEntities.push({
           text: node['rdfs:label'],
-          type: types[0] || 'Entity',
+          type: node['tagteam:denotesType'] || types[0] || 'Entity',
           id: node['@id']
         });
       }
 
-      // Tree pipeline: Role nodes with tagteam:bearer
-      if (isRole && node['tagteam:bearer']) {
-        const bearerRef = node['tagteam:bearer'];
+      // Tree pipeline: Role nodes with inheres_in (bearer)
+      if (isRole && node['inheres_in']) {
+        const bearerRef = node['inheres_in'];
         const bearerId = typeof bearerRef === 'string' ? bearerRef : (bearerRef['@id'] || bearerRef);
         const bearerLabel = idToLabel[bearerId] || bearerId;
         let roleName = null;

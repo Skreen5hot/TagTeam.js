@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-26T12:28:09.541Z",
+  "generatedAt": "2026-02-27T10:50:23.066Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -38,7 +38,6 @@
       {
         "@id": "inst:FEMA",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "FEMA",
@@ -59,7 +58,6 @@
       {
         "@id": "inst:disaster_relief",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "disaster relief",
@@ -94,9 +92,12 @@
         "rdfs:label": "fema",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.541Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.065Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_661547ea796b",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:FEMA"
+        }
       },
       {
         "@id": "inst:Entity_Disaster_Relief_5b9a57e19ff6",
@@ -106,9 +107,12 @@
         ],
         "rdfs:label": "disaster relief",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.541Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.065Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_661547ea796b",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:disaster_relief"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_661547ea796b",
@@ -120,7 +124,7 @@
         "has_text_value": "FEMA is responsible for disaster relief",
         "tagteam:char_count": 39,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-26T12:28:09.527Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.052Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -163,7 +167,7 @@
             "@id": "inst:disaster_relief"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.527Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.052Z"
       }
     ]
   }

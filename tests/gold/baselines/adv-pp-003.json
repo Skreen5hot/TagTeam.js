@@ -6,7 +6,7 @@
     "nested-pp",
     "forensics"
   ],
-  "generatedAt": "2026-02-26T12:28:11.848Z",
+  "generatedAt": "2026-02-27T10:50:25.401Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -73,15 +73,15 @@
   ],
   "extractedRoles": [
     {
-      "entity": "the evidence",
+      "entity": "evidence",
       "role": "Patient"
     },
     {
-      "entity": "the scene",
+      "entity": "scene",
       "role": "Source"
     },
     {
-      "entity": "the lab",
+      "entity": "lab",
       "role": "Goal"
     },
     {
@@ -94,7 +94,6 @@
       {
         "@id": "inst:The_officer",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The officer",
@@ -112,7 +111,6 @@
       {
         "@id": "inst:the_evidence",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the evidence",
@@ -130,7 +128,6 @@
       {
         "@id": "inst:the_scene",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the scene",
@@ -148,7 +145,6 @@
       {
         "@id": "inst:the_lab",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the lab",
@@ -166,7 +162,6 @@
       {
         "@id": "inst:analysis",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "analysis",
@@ -212,10 +207,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_evidence"
+        "inheres_in": {
+          "@id": "inst:Entity_Evidence_dea61cf359a3"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_transported"
         },
         "tagteam:parseConfidence": "low",
@@ -228,10 +223,10 @@
         ],
         "rdfs:label": "SourceRole",
         "tagteam:roleType": "SourceRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_scene"
+        "inheres_in": {
+          "@id": "inst:Entity_Scene_3bd7f9674e3f"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_transported"
         },
         "tagteam:preposition": "from",
@@ -245,10 +240,10 @@
         ],
         "rdfs:label": "DestinationRole",
         "tagteam:roleType": "DestinationRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_lab"
+        "inheres_in": {
+          "@id": "inst:Entity_Lab_949408293a8c"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_transported"
         },
         "tagteam:preposition": "to",
@@ -262,10 +257,10 @@
         ],
         "rdfs:label": "BeneficiaryRole",
         "tagteam:roleType": "BeneficiaryRole",
-        "tagteam:bearer": {
-          "@id": "inst:analysis"
+        "inheres_in": {
+          "@id": "inst:Entity_Analysis_7afad47c53c3"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_transported"
         },
         "tagteam:preposition": "for",
@@ -280,9 +275,12 @@
         ],
         "rdfs:label": "officer",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.847Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.401Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c1802d30f53e",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:The_officer"
+        }
       },
       {
         "@id": "inst:Entity_Evidence_dea61cf359a3",
@@ -292,9 +290,17 @@
         ],
         "rdfs:label": "evidence",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.847Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.401Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c1802d30f53e",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_evidence"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_evidence_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Scene_3bd7f9674e3f",
@@ -304,9 +310,17 @@
         ],
         "rdfs:label": "scene",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.847Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.401Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c1802d30f53e",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_scene"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_scene_SourceRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Lab_949408293a8c",
@@ -316,9 +330,17 @@
         ],
         "rdfs:label": "lab",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.847Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.401Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c1802d30f53e",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_lab"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_lab_DestinationRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Analysis_7afad47c53c3",
@@ -328,9 +350,17 @@
         ],
         "rdfs:label": "analysis",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.847Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.401Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c1802d30f53e",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:analysis"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_analysis_BeneficiaryRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_c1802d30f53e",
@@ -342,7 +372,7 @@
         "has_text_value": "The officer transported the evidence from the scene to the lab for analysis",
         "tagteam:char_count": 75,
         "tagteam:word_count": 13,
-        "tagteam:received_at": "2026-02-26T12:28:11.837Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.387Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -400,7 +430,7 @@
             "@id": "inst:Act_transported"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.837Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.387Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "shared-subject",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:11.997Z",
+  "generatedAt": "2026-02-27T10:50:25.534Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -56,11 +56,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The analyst",
+      "entity": "analyst",
       "role": "Agent"
     },
     {
-      "entity": "the threat",
+      "entity": "threat",
       "role": "Patient"
     }
   ],
@@ -69,7 +69,6 @@
       {
         "@id": "inst:The_analyst",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The analyst",
@@ -89,7 +88,6 @@
       {
         "@id": "inst:the_threat",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the threat",
@@ -107,7 +105,6 @@
       {
         "@id": "inst:a_response_plan",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "a response plan",
@@ -141,10 +138,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_analyst"
+        "inheres_in": {
+          "@id": "inst:Person_Analyst_6a9f7b760a6e"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_identified"
         },
         "tagteam:parseConfidence": "medium",
@@ -157,10 +154,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_threat"
+        "inheres_in": {
+          "@id": "inst:Entity_Threat_49a84ab9910b"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_identified"
         },
         "tagteam:parseConfidence": "medium",
@@ -175,9 +172,17 @@
         "rdfs:label": "analyst",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.997Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.534Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c2deb9cd5398",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:The_analyst"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_analyst_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Threat_49a84ab9910b",
@@ -187,9 +192,17 @@
         ],
         "rdfs:label": "threat",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.997Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.534Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c2deb9cd5398",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_threat"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_threat_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Response_Plan_f4d3970400b6",
@@ -199,9 +212,12 @@
         ],
         "rdfs:label": "response plan",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.997Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.534Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c2deb9cd5398",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:a_response_plan"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_c2deb9cd5398",
@@ -213,7 +229,7 @@
         "has_text_value": "The analyst identified the threat and recommended a response plan",
         "tagteam:char_count": 65,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-26T12:28:11.987Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.526Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -262,7 +278,7 @@
             "@id": "inst:Act_identified"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.987Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.526Z"
       }
     ]
   }

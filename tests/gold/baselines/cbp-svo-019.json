@@ -7,7 +7,7 @@
     "cbp",
     "training"
   ],
-  "generatedAt": "2026-02-26T12:28:10.801Z",
+  "generatedAt": "2026-02-27T10:50:24.376Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -43,11 +43,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The training division",
+      "entity": "training division",
       "role": "Agent"
     },
     {
-      "entity": "the curriculum",
+      "entity": "curriculum",
       "role": "Patient"
     }
   ],
@@ -56,7 +56,6 @@
       {
         "@id": "inst:The_training_division",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The training division",
@@ -76,7 +75,6 @@
       {
         "@id": "inst:the_curriculum",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the curriculum",
@@ -110,10 +108,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_training_division"
+        "inheres_in": {
+          "@id": "inst:Entity_Training_Division_5333a0f06a98"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_developed"
         },
         "tagteam:parseConfidence": "high",
@@ -126,10 +124,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_curriculum"
+        "inheres_in": {
+          "@id": "inst:Entity_Curriculum_90b417c5af35"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_developed"
         },
         "tagteam:parseConfidence": "medium",
@@ -144,9 +142,17 @@
         "rdfs:label": "training division",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.800Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.376Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6e60b40233e1",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_training_division"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_training_division_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Curriculum_90b417c5af35",
@@ -156,9 +162,17 @@
         ],
         "rdfs:label": "curriculum",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.801Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.376Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6e60b40233e1",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_curriculum"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_curriculum_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_6e60b40233e1",
@@ -170,7 +184,7 @@
         "has_text_value": "The training division developed the curriculum",
         "tagteam:char_count": 46,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-26T12:28:10.793Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.369Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -216,7 +230,7 @@
             "@id": "inst:Act_developed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.793Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.369Z"
       }
     ]
   }

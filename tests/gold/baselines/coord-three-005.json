@@ -7,7 +7,7 @@
     "coordination",
     "government"
   ],
-  "generatedAt": "2026-02-26T12:28:10.568Z",
+  "generatedAt": "2026-02-27T10:50:24.142Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -64,11 +64,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "the deputy and the chief of staff",
+      "entity": "deputy and the chief of staff",
       "role": "Agent"
     },
     {
-      "entity": "the plan",
+      "entity": "plan",
       "role": "Patient"
     }
   ],
@@ -77,7 +77,6 @@
       {
         "@id": "inst:the_deputy_and_the_chief_of_staff",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the deputy and the chief of staff",
@@ -97,7 +96,6 @@
       {
         "@id": "inst:staff",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "staff",
@@ -115,7 +113,6 @@
       {
         "@id": "inst:the_plan",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the plan",
@@ -149,10 +146,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_deputy_and_the_chief_of_staff"
+        "inheres_in": {
+          "@id": "inst:Entity_Deputy_And_The_Chief_Of_Staff_42b3c28ffd65"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_approved"
         },
         "tagteam:parseConfidence": "high",
@@ -165,10 +162,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_plan"
+        "inheres_in": {
+          "@id": "inst:Entity_Plan_ba3bb69f1ff6"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_approved"
         },
         "tagteam:parseConfidence": "medium",
@@ -183,9 +180,17 @@
         "rdfs:label": "deputy and the chief of staff",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.568Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.142Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d95632251760",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_deputy_and_the_chief_of_staff"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_deputy_and_the_chief_of_staff_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Staff_67781c94d97b",
@@ -195,9 +200,12 @@
         ],
         "rdfs:label": "staff",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.568Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.142Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d95632251760",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:staff"
+        }
       },
       {
         "@id": "inst:Entity_Plan_ba3bb69f1ff6",
@@ -207,9 +215,17 @@
         ],
         "rdfs:label": "plan",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.568Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.142Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d95632251760",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_plan"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_plan_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_d95632251760",
@@ -221,7 +237,7 @@
         "has_text_value": "The director, the deputy, and the chief of staff approved the plan",
         "tagteam:char_count": 66,
         "tagteam:word_count": 12,
-        "tagteam:received_at": "2026-02-26T12:28:10.558Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.124Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -270,7 +286,7 @@
             "@id": "inst:Act_approved"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.558Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.124Z"
       }
     ]
   }
