@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-26T12:28:10.283Z",
+  "generatedAt": "2026-02-27T10:50:23.843Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -60,7 +60,6 @@
       {
         "@id": "inst:DEA_and_FBI_launched_a_joint_investigation",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "DEA and FBI launched a joint investigation",
@@ -78,7 +77,6 @@
       {
         "@id": "inst:FBI",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "FBI",
@@ -99,7 +97,6 @@
       {
         "@id": "inst:a_joint_investigation",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "a joint investigation",
@@ -134,9 +131,12 @@
         ],
         "rdfs:label": "dea and fbi launched a joint investigation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.283Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.843Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d993275a2cdb",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:DEA_and_FBI_launched_a_joint_investigation"
+        }
       },
       {
         "@id": "inst:Organization_Fbi_68ed54055e67",
@@ -147,9 +147,12 @@
         "rdfs:label": "fbi",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.283Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.843Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d993275a2cdb",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:FBI"
+        }
       },
       {
         "@id": "inst:Entity_Joint_Investigation_069586c5dc16",
@@ -159,9 +162,12 @@
         ],
         "rdfs:label": "joint investigation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.283Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.843Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d993275a2cdb",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:a_joint_investigation"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_d993275a2cdb",
@@ -173,7 +179,7 @@
         "has_text_value": "DEA and FBI launched a joint investigation",
         "tagteam:char_count": 42,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-26T12:28:10.274Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.833Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -222,7 +228,7 @@
             "@id": "inst:Act_DEA"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.274Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.833Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "medical",
     "treatment"
   ],
-  "generatedAt": "2026-02-26T12:28:11.549Z",
+  "generatedAt": "2026-02-27T10:50:25.106Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -55,15 +55,15 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The nurse",
+      "entity": "nurse",
       "role": "Agent"
     },
     {
-      "entity": "the vaccine",
+      "entity": "vaccine",
       "role": "Patient"
     },
     {
-      "entity": "the patient",
+      "entity": "patient",
       "role": "Goal"
     }
   ],
@@ -72,7 +72,6 @@
       {
         "@id": "inst:The_nurse",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The nurse",
@@ -92,7 +91,6 @@
       {
         "@id": "inst:the_vaccine",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the vaccine",
@@ -110,7 +108,6 @@
       {
         "@id": "inst:the_patient",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the patient",
@@ -144,10 +141,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_nurse"
+        "inheres_in": {
+          "@id": "inst:Person_Nurse_fd935005be8c"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_administered"
         },
         "tagteam:parseConfidence": "high",
@@ -160,10 +157,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_vaccine"
+        "inheres_in": {
+          "@id": "inst:Entity_Vaccine_370aec140dfb"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_administered"
         },
         "tagteam:parseConfidence": "medium",
@@ -176,10 +173,10 @@
         ],
         "rdfs:label": "DestinationRole",
         "tagteam:roleType": "DestinationRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_patient"
+        "inheres_in": {
+          "@id": "inst:Person_Patient_4e93620bb5fa"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_administered"
         },
         "tagteam:preposition": "to",
@@ -195,9 +192,17 @@
         "rdfs:label": "nurse",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.549Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.105Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2ff14dc170e0",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:The_nurse"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_nurse_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Vaccine_370aec140dfb",
@@ -207,9 +212,17 @@
         ],
         "rdfs:label": "vaccine",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.549Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.106Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2ff14dc170e0",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_vaccine"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_vaccine_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Person_Patient_4e93620bb5fa",
@@ -219,9 +232,17 @@
         ],
         "rdfs:label": "patient",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.549Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.106Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2ff14dc170e0",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:the_patient"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_patient_DestinationRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_2ff14dc170e0",
@@ -233,7 +254,7 @@
         "has_text_value": "The nurse administered the vaccine to the patient",
         "tagteam:char_count": 49,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T12:28:11.541Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.097Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -282,7 +303,7 @@
             "@id": "inst:Act_administered"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.541Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.097Z"
       }
     ]
   }

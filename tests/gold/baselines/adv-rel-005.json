@@ -6,7 +6,7 @@
     "relative-clause",
     "forensics"
   ],
-  "generatedAt": "2026-02-26T12:28:11.943Z",
+  "generatedAt": "2026-02-27T10:50:25.487Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -51,7 +51,7 @@
       "role": "Patient"
     },
     {
-      "entity": "the team",
+      "entity": "team",
       "role": "Patient"
     }
   ],
@@ -60,7 +60,6 @@
       {
         "@id": "inst:The_evidence",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The evidence",
@@ -78,7 +77,6 @@
       {
         "@id": "inst:which",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "which",
@@ -102,7 +100,6 @@
       {
         "@id": "inst:the_team",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the team",
@@ -151,10 +148,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:which"
+        "inheres_in": {
+          "@id": "inst:Entity_Which_754dce98fca7"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_analyzed"
         },
         "tagteam:parseConfidence": "low",
@@ -167,10 +164,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_team"
+        "inheres_in": {
+          "@id": "inst:Organization_Team_9cbcd2e88cb5"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_analyzed"
         },
         "tagteam:parseConfidence": "medium",
@@ -184,9 +181,12 @@
         ],
         "rdfs:label": "evidence",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.943Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.487Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0b294fe327d7",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_evidence"
+        }
       },
       {
         "@id": "inst:Entity_Which_754dce98fca7",
@@ -197,9 +197,17 @@
         "rdfs:label": "which",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.943Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.487Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0b294fe327d7",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:which"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_which_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Organization_Team_9cbcd2e88cb5",
@@ -210,9 +218,17 @@
         "rdfs:label": "team",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.943Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.487Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0b294fe327d7",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:the_team"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_team_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_0b294fe327d7",
@@ -224,7 +240,7 @@
         "has_text_value": "The evidence which the team collected was analyzed",
         "tagteam:char_count": 50,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T12:28:11.934Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.477Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -276,7 +292,7 @@
             "@id": "inst:Act_analyzed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.934Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.477Z"
       }
     ]
   }

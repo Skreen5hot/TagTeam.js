@@ -6,7 +6,7 @@
     "academic",
     "administration"
   ],
-  "generatedAt": "2026-02-26T12:28:11.513Z",
+  "generatedAt": "2026-02-27T10:50:25.072Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -42,11 +42,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The dean",
+      "entity": "dean",
       "role": "Agent"
     },
     {
-      "entity": "the new curriculum",
+      "entity": "new curriculum",
       "role": "Patient"
     }
   ],
@@ -55,7 +55,6 @@
       {
         "@id": "inst:The_dean",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The dean",
@@ -75,7 +74,6 @@
       {
         "@id": "inst:the_new_curriculum",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the new curriculum",
@@ -109,10 +107,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_dean"
+        "inheres_in": {
+          "@id": "inst:Entity_Dean_f344338f119b"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_approved"
         },
         "tagteam:parseConfidence": "high",
@@ -125,10 +123,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_new_curriculum"
+        "inheres_in": {
+          "@id": "inst:Entity_New_Curriculum_2fd010961850"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_approved"
         },
         "tagteam:parseConfidence": "medium",
@@ -143,9 +141,17 @@
         "rdfs:label": "dean",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.512Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.071Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_eebf1989e3dc",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_dean"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_dean_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_New_Curriculum_2fd010961850",
@@ -155,9 +161,17 @@
         ],
         "rdfs:label": "new curriculum",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.512Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.071Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_eebf1989e3dc",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_new_curriculum"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_new_curriculum_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_eebf1989e3dc",
@@ -169,7 +183,7 @@
         "has_text_value": "The dean approved the new curriculum",
         "tagteam:char_count": 36,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-26T12:28:11.503Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.062Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -215,7 +229,7 @@
             "@id": "inst:Act_approved"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.503Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.062Z"
       }
     ]
   }

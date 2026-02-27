@@ -6,7 +6,7 @@
     "academic",
     "research"
   ],
-  "generatedAt": "2026-02-26T12:28:11.499Z",
+  "generatedAt": "2026-02-27T10:50:25.058Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -55,15 +55,15 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The lab",
+      "entity": "lab",
       "role": "Agent"
     },
     {
-      "entity": "the samples",
+      "entity": "sample",
       "role": "Patient"
     },
     {
-      "entity": "a spectrometer",
+      "entity": "spectrometer",
       "role": "Instrument"
     }
   ],
@@ -72,7 +72,6 @@
       {
         "@id": "inst:The_lab",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The lab",
@@ -92,7 +91,6 @@
       {
         "@id": "inst:the_samples",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the samples",
@@ -110,7 +108,6 @@
       {
         "@id": "inst:a_spectrometer",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "a spectrometer",
@@ -144,10 +141,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_lab"
+        "inheres_in": {
+          "@id": "inst:Entity_Lab_3eb17c8dd130"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_analyzed"
         },
         "tagteam:parseConfidence": "high",
@@ -160,10 +157,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_samples"
+        "inheres_in": {
+          "@id": "inst:Entity_Sample_2e8ecad1c911"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_analyzed"
         },
         "tagteam:parseConfidence": "high",
@@ -176,10 +173,10 @@
         ],
         "rdfs:label": "InstrumentRole",
         "tagteam:roleType": "InstrumentRole",
-        "tagteam:bearer": {
-          "@id": "inst:a_spectrometer"
+        "inheres_in": {
+          "@id": "inst:Entity_Spectrometer_596c0a00b8da"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_analyzed"
         },
         "tagteam:preposition": "with",
@@ -195,9 +192,17 @@
         "rdfs:label": "lab",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.499Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.057Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_713fea183bbb",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_lab"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_lab_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Sample_2e8ecad1c911",
@@ -207,9 +212,17 @@
         ],
         "rdfs:label": "sample",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.499Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.057Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_713fea183bbb",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_samples"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_samples_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Spectrometer_596c0a00b8da",
@@ -219,9 +232,17 @@
         ],
         "rdfs:label": "spectrometer",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.499Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.057Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_713fea183bbb",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:a_spectrometer"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_a_spectrometer_InstrumentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_713fea183bbb",
@@ -233,7 +254,7 @@
         "has_text_value": "The lab analyzed the samples with a spectrometer",
         "tagteam:char_count": 48,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T12:28:11.492Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.050Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -282,7 +303,7 @@
             "@id": "inst:Act_analyzed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.492Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.050Z"
       }
     ]
   }

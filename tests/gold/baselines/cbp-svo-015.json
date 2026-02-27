@@ -7,7 +7,7 @@
     "cbp",
     "intelligence"
   ],
-  "generatedAt": "2026-02-26T12:28:10.754Z",
+  "generatedAt": "2026-02-27T10:50:24.330Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -43,11 +43,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The targeting center",
+      "entity": "targeting center",
       "role": "Agent"
     },
     {
-      "entity": "the container",
+      "entity": "container",
       "role": "Patient"
     }
   ],
@@ -56,7 +56,6 @@
       {
         "@id": "inst:The_targeting_center",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The targeting center",
@@ -76,7 +75,6 @@
       {
         "@id": "inst:the_container",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the container",
@@ -110,10 +108,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_targeting_center"
+        "inheres_in": {
+          "@id": "inst:Entity_Targeting_Center_7f55116e1d07"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_flagged"
         },
         "tagteam:parseConfidence": "high",
@@ -126,10 +124,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_container"
+        "inheres_in": {
+          "@id": "inst:Entity_Container_7b81b9c63456"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_flagged"
         },
         "tagteam:parseConfidence": "medium",
@@ -144,9 +142,17 @@
         "rdfs:label": "targeting center",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.754Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.330Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_73134fecb475",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_targeting_center"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_targeting_center_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Container_7b81b9c63456",
@@ -156,9 +162,17 @@
         ],
         "rdfs:label": "container",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.754Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.330Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_73134fecb475",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_container"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_container_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_73134fecb475",
@@ -170,7 +184,7 @@
         "has_text_value": "The targeting center flagged the container",
         "tagteam:char_count": 42,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-26T12:28:10.745Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.321Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -216,7 +230,7 @@
             "@id": "inst:Act_flagged"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.745Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.321Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-26T12:28:09.976Z",
+  "generatedAt": "2026-02-27T10:50:23.540Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -43,11 +43,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The judge",
+      "entity": "judge",
       "role": "Agent"
     },
     {
-      "entity": "the defendant",
+      "entity": "defendant",
       "role": "Patient"
     }
   ],
@@ -56,7 +56,6 @@
       {
         "@id": "inst:The_judge",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The judge",
@@ -76,7 +75,6 @@
       {
         "@id": "inst:the_defendant",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the defendant",
@@ -110,10 +108,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_judge"
+        "inheres_in": {
+          "@id": "inst:Person_Judge_0e4e1ac12ffa"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_sentenced"
         },
         "tagteam:parseConfidence": "high",
@@ -126,10 +124,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_defendant"
+        "inheres_in": {
+          "@id": "inst:Entity_Defendant_46b139a1e870"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_sentenced"
         },
         "tagteam:parseConfidence": "high",
@@ -144,9 +142,17 @@
         "rdfs:label": "judge",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.975Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.540Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b33178564168",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:The_judge"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_judge_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Defendant_46b139a1e870",
@@ -156,9 +162,17 @@
         ],
         "rdfs:label": "defendant",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.975Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.540Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b33178564168",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_defendant"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_defendant_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_b33178564168",
@@ -170,7 +184,7 @@
         "has_text_value": "The judge sentenced the defendant",
         "tagteam:char_count": 33,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-26T12:28:09.968Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.531Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -216,7 +230,7 @@
             "@id": "inst:Act_sentenced"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.968Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.531Z"
       }
     ]
   }

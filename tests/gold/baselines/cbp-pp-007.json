@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:11.240Z",
+  "generatedAt": "2026-02-27T10:50:24.808Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -55,15 +55,15 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The office",
+      "entity": "office",
       "role": "Agent"
     },
     {
-      "entity": "the data",
+      "entity": "datum",
       "role": "Patient"
     },
     {
-      "entity": "headquarters",
+      "entity": "headquarter",
       "role": "Goal"
     }
   ],
@@ -72,7 +72,6 @@
       {
         "@id": "inst:The_office",
         "@type": [
-          "Facility",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The office",
@@ -92,7 +91,6 @@
       {
         "@id": "inst:the_data",
         "@type": [
-          "InformationContentEntity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the data",
@@ -110,7 +108,6 @@
       {
         "@id": "inst:headquarters",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "headquarters",
@@ -144,10 +141,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_office"
+        "inheres_in": {
+          "@id": "inst:Facility_Office_b6bdd9a4d894"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_transmitted"
         },
         "tagteam:parseConfidence": "low",
@@ -160,10 +157,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_data"
+        "inheres_in": {
+          "@id": "inst:InformationContentEntity_Datum_5a9bfd617625"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_transmitted"
         },
         "tagteam:parseConfidence": "medium",
@@ -176,10 +173,10 @@
         ],
         "rdfs:label": "DestinationRole",
         "tagteam:roleType": "DestinationRole",
-        "tagteam:bearer": {
-          "@id": "inst:headquarters"
+        "inheres_in": {
+          "@id": "inst:Entity_Headquarter_c6c00384c632"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_transmitted"
         },
         "tagteam:preposition": "to",
@@ -195,9 +192,17 @@
         "rdfs:label": "office",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.240Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.808Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c18f302a5480",
-        "tagteam:denotesType": "Facility"
+        "tagteam:denotesType": "Facility",
+        "is_subject_of": {
+          "@id": "inst:The_office"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_office_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:InformationContentEntity_Datum_5a9bfd617625",
@@ -207,9 +212,17 @@
         ],
         "rdfs:label": "datum",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.240Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.808Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c18f302a5480",
-        "tagteam:denotesType": "InformationContentEntity"
+        "tagteam:denotesType": "InformationContentEntity",
+        "is_subject_of": {
+          "@id": "inst:the_data"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_data_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Headquarter_c6c00384c632",
@@ -219,9 +232,17 @@
         ],
         "rdfs:label": "headquarter",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.240Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.808Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c18f302a5480",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:headquarters"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_headquarters_DestinationRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_c18f302a5480",
@@ -233,7 +254,7 @@
         "has_text_value": "The office transmitted the data to headquarters",
         "tagteam:char_count": 47,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-26T12:28:11.233Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.801Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -282,7 +303,7 @@
             "@id": "inst:Act_transmitted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.233Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.801Z"
       }
     ]
   }

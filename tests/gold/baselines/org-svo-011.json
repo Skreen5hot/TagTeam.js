@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-26T12:28:09.878Z",
+  "generatedAt": "2026-02-27T10:50:23.441Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -43,7 +43,7 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The agency",
+      "entity": "agency",
       "role": "Agent"
     },
     {
@@ -56,7 +56,6 @@
       {
         "@id": "inst:The_agency",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The agency",
@@ -76,7 +75,6 @@
       {
         "@id": "inst:additional_personnel",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "additional personnel",
@@ -110,10 +108,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_agency"
+        "inheres_in": {
+          "@id": "inst:Organization_Agency_a24708564956"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_deployed"
         },
         "tagteam:parseConfidence": "high",
@@ -126,10 +124,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:additional_personnel"
+        "inheres_in": {
+          "@id": "inst:Entity_Additional_Personnel_1980740ffd51"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_deployed"
         },
         "tagteam:parseConfidence": "medium",
@@ -144,9 +142,17 @@
         "rdfs:label": "agency",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.878Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.440Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_48aebb4bb95e",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:The_agency"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_agency_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Additional_Personnel_1980740ffd51",
@@ -156,9 +162,17 @@
         ],
         "rdfs:label": "additional personnel",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.878Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.440Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_48aebb4bb95e",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:additional_personnel"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_additional_personnel_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_48aebb4bb95e",
@@ -170,7 +184,7 @@
         "has_text_value": "The agency deployed additional personnel",
         "tagteam:char_count": 40,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-26T12:28:09.868Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.433Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -216,7 +230,7 @@
             "@id": "inst:Act_deployed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.868Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.433Z"
       }
     ]
   }

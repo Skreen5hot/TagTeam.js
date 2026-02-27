@@ -6,7 +6,7 @@
     "ditransitive",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:11.334Z",
+  "generatedAt": "2026-02-27T10:50:24.906Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -50,11 +50,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The chief",
+      "entity": "chief",
       "role": "Agent"
     },
     {
-      "entity": "the team",
+      "entity": "team",
       "role": "Patient"
     }
   ],
@@ -63,7 +63,6 @@
       {
         "@id": "inst:The_chief",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The chief",
@@ -83,7 +82,6 @@
       {
         "@id": "inst:the_team",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the team",
@@ -117,10 +115,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_chief"
+        "inheres_in": {
+          "@id": "inst:Entity_Chief_a940943603d2"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_passed"
         },
         "tagteam:parseConfidence": "high",
@@ -133,10 +131,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_team"
+        "inheres_in": {
+          "@id": "inst:Organization_Team_2297213bf695"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_passed"
         },
         "tagteam:parseConfidence": "medium",
@@ -151,9 +149,17 @@
         "rdfs:label": "chief",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.334Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.906Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3a158b03938b",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_chief"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_chief_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Organization_Team_2297213bf695",
@@ -163,9 +169,17 @@
         ],
         "rdfs:label": "team",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.334Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.906Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3a158b03938b",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:the_team"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_team_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_3a158b03938b",
@@ -177,7 +191,7 @@
         "has_text_value": "The chief passed the team the intelligence briefing",
         "tagteam:char_count": 51,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T12:28:11.325Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.898Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -223,7 +237,7 @@
             "@id": "inst:Act_passed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.325Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.898Z"
       }
     ]
   }

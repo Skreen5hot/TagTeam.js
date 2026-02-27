@@ -6,7 +6,7 @@
     "ditransitive",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:11.307Z",
+  "generatedAt": "2026-02-27T10:50:24.877Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -50,11 +50,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The director",
+      "entity": "director",
       "role": "Agent"
     },
     {
-      "entity": "the officers additional training",
+      "entity": "officers additional train",
       "role": "Patient"
     }
   ],
@@ -63,7 +63,6 @@
       {
         "@id": "inst:The_director",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The director",
@@ -83,7 +82,6 @@
       {
         "@id": "inst:the_officers_additional_training",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the officers additional training",
@@ -117,10 +115,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_director"
+        "inheres_in": {
+          "@id": "inst:Person_Director_92160cf42539"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_offered"
         },
         "tagteam:parseConfidence": "high",
@@ -133,10 +131,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_officers_additional_training"
+        "inheres_in": {
+          "@id": "inst:Entity_Officers_Additional_Train_1651d225636f"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_offered"
         },
         "tagteam:parseConfidence": "medium",
@@ -151,9 +149,17 @@
         "rdfs:label": "director",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.307Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.877Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_8ddeb4663bec",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:The_director"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_director_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Officers_Additional_Train_1651d225636f",
@@ -163,9 +169,17 @@
         ],
         "rdfs:label": "officers additional train",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.307Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.877Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_8ddeb4663bec",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_officers_additional_training"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_officers_additional_training_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_8ddeb4663bec",
@@ -177,7 +191,7 @@
         "has_text_value": "The director offered the officers additional training",
         "tagteam:char_count": 53,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-26T12:28:11.300Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.871Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -223,7 +237,7 @@
             "@id": "inst:Act_offered"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.300Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.871Z"
       }
     ]
   }

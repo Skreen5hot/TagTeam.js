@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-26T12:28:10.311Z",
+  "generatedAt": "2026-02-27T10:50:23.871Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -55,7 +55,6 @@
       {
         "@id": "inst:The_senator_and_the_representative_sponsored_the_bill",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The senator and the representative sponsored the bill",
@@ -73,7 +72,6 @@
       {
         "@id": "inst:the_bill",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the bill",
@@ -108,9 +106,12 @@
         ],
         "rdfs:label": "senator and the representative sponsored the bill",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.311Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.870Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_feb82c570d57",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_senator_and_the_representative_sponsored_the_bill"
+        }
       },
       {
         "@id": "inst:Person_Bill_dba8b9637085",
@@ -120,9 +121,12 @@
         ],
         "rdfs:label": "bill",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.311Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.871Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_feb82c570d57",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:the_bill"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_feb82c570d57",
@@ -134,7 +138,7 @@
         "has_text_value": "The senator and the representative sponsored the bill",
         "tagteam:char_count": 53,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T12:28:10.301Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.860Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -180,7 +184,7 @@
             "@id": "inst:Act_senator"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.301Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.860Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "cbp",
     "operations"
   ],
-  "generatedAt": "2026-02-26T12:28:10.623Z",
+  "generatedAt": "2026-02-27T10:50:24.213Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -48,11 +48,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The field operations",
+      "entity": "field operation",
       "role": "Agent"
     },
     {
-      "entity": "the ports of entry",
+      "entity": "ports of entry",
       "role": "Patient"
     }
   ],
@@ -61,7 +61,6 @@
       {
         "@id": "inst:The_field_operations",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The field operations",
@@ -81,7 +80,6 @@
       {
         "@id": "inst:the_ports_of_entry",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the ports of entry",
@@ -99,7 +97,6 @@
       {
         "@id": "inst:entry",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "entry",
@@ -133,10 +130,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_field_operations"
+        "inheres_in": {
+          "@id": "inst:Entity_Field_Operation_509e875aa707"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_directorate"
         },
         "tagteam:parseConfidence": "low",
@@ -149,10 +146,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_ports_of_entry"
+        "inheres_in": {
+          "@id": "inst:Entity_Ports_Of_Entry_f43e3a5b4044"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_directorate"
         },
         "tagteam:parseConfidence": "medium",
@@ -167,9 +164,17 @@
         "rdfs:label": "field operation",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.623Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.212Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2189b3fcc3ba",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_field_operations"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_field_operations_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Ports_Of_Entry_f43e3a5b4044",
@@ -179,9 +184,17 @@
         ],
         "rdfs:label": "ports of entry",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.623Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.212Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2189b3fcc3ba",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_ports_of_entry"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_ports_of_entry_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Entry_79516cd746b7",
@@ -191,9 +204,12 @@
         ],
         "rdfs:label": "entry",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.623Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.212Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2189b3fcc3ba",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:entry"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_2189b3fcc3ba",
@@ -205,7 +221,7 @@
         "has_text_value": "The field operations directorate managed the ports of entry",
         "tagteam:char_count": 59,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-26T12:28:10.615Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.203Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -254,7 +270,7 @@
             "@id": "inst:Act_directorate"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.615Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.203Z"
       }
     ]
   }

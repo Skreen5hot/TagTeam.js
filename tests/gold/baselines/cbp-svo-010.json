@@ -7,7 +7,7 @@
     "cbp",
     "leadership"
   ],
-  "generatedAt": "2026-02-26T12:28:10.688Z",
+  "generatedAt": "2026-02-27T10:50:24.269Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -43,7 +43,7 @@
   ],
   "extractedRoles": [
     {
-      "entity": "a directive",
+      "entity": "directive",
       "role": "Patient"
     }
   ],
@@ -52,7 +52,6 @@
       {
         "@id": "inst:The_commissioner",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The commissioner",
@@ -70,7 +69,6 @@
       {
         "@id": "inst:a_directive",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "a directive",
@@ -116,10 +114,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:a_directive"
+        "inheres_in": {
+          "@id": "inst:Entity_Directive_02e5c793520c"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_issued"
         },
         "tagteam:parseConfidence": "low",
@@ -133,9 +131,12 @@
         ],
         "rdfs:label": "commissioner",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.688Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.269Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_591c3ce46791",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_commissioner"
+        }
       },
       {
         "@id": "inst:Entity_Directive_02e5c793520c",
@@ -145,9 +146,17 @@
         ],
         "rdfs:label": "directive",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.688Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.269Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_591c3ce46791",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:a_directive"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_a_directive_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_591c3ce46791",
@@ -159,7 +168,7 @@
         "has_text_value": "The commissioner issued a directive",
         "tagteam:char_count": 35,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-26T12:28:10.680Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.262Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -208,7 +217,7 @@
             "@id": "inst:Act_issued"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.680Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.262Z"
       }
     ]
   }

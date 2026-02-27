@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-26T12:28:09.953Z",
+  "generatedAt": "2026-02-27T10:50:23.513Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -43,11 +43,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The department",
+      "entity": "department",
       "role": "Patient"
     },
     {
-      "entity": "new regulations",
+      "entity": "new regulation",
       "role": "Agent"
     }
   ],
@@ -56,7 +56,6 @@
       {
         "@id": "inst:The_department",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The department",
@@ -76,7 +75,6 @@
       {
         "@id": "inst:new_regulations",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "new regulations",
@@ -111,10 +109,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_department"
+        "inheres_in": {
+          "@id": "inst:Organization_Department_767ff5397eec"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_implemented"
         },
         "tagteam:parseConfidence": "low",
@@ -127,10 +125,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:new_regulations"
+        "inheres_in": {
+          "@id": "inst:Entity_New_Regulation_204d5f7113f9"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_implemented"
         },
         "tagteam:parseConfidence": "medium",
@@ -145,9 +143,17 @@
         "rdfs:label": "department",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.953Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.513Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7d317d866425",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:The_department"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_department_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_New_Regulation_204d5f7113f9",
@@ -157,9 +163,17 @@
         ],
         "rdfs:label": "new regulation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.953Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.513Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7d317d866425",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:new_regulations"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_new_regulations_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_7d317d866425",
@@ -171,7 +185,7 @@
         "has_text_value": "The department implemented new regulations",
         "tagteam:char_count": 42,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-26T12:28:09.946Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.505Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -217,7 +231,7 @@
             "@id": "inst:Act_implemented"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.946Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.505Z"
       }
     ]
   }

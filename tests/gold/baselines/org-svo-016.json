@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-26T12:28:09.943Z",
+  "generatedAt": "2026-02-27T10:50:23.501Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -43,11 +43,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The patrol unit",
+      "entity": "patrol unit",
       "role": "Agent"
     },
     {
-      "entity": "the perimeter",
+      "entity": "perimeter",
       "role": "Patient"
     }
   ],
@@ -56,7 +56,6 @@
       {
         "@id": "inst:The_patrol_unit",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The patrol unit",
@@ -76,7 +75,6 @@
       {
         "@id": "inst:the_perimeter",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the perimeter",
@@ -110,10 +108,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_patrol_unit"
+        "inheres_in": {
+          "@id": "inst:Entity_Patrol_Unit_38c546bc6d25"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_secured"
         },
         "tagteam:parseConfidence": "high",
@@ -126,10 +124,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_perimeter"
+        "inheres_in": {
+          "@id": "inst:Entity_Perimeter_4cf41bdd66e2"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_secured"
         },
         "tagteam:parseConfidence": "medium",
@@ -144,9 +142,17 @@
         "rdfs:label": "patrol unit",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.943Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.501Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_f4a24093cff1",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_patrol_unit"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_patrol_unit_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Perimeter_4cf41bdd66e2",
@@ -156,9 +162,17 @@
         ],
         "rdfs:label": "perimeter",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.943Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.501Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_f4a24093cff1",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_perimeter"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_perimeter_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_f4a24093cff1",
@@ -170,7 +184,7 @@
         "has_text_value": "The patrol unit secured the perimeter",
         "tagteam:char_count": 37,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-26T12:28:09.933Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.492Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -216,7 +230,7 @@
             "@id": "inst:Act_secured"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.933Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.492Z"
       }
     ]
   }

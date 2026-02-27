@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:11.147Z",
+  "generatedAt": "2026-02-27T10:50:24.703Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -47,11 +47,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "Additional agents",
+      "entity": "additional agent",
       "role": "Patient"
     },
     {
-      "entity": "the sector chief",
+      "entity": "sector chief",
       "role": "Agent"
     }
   ],
@@ -60,7 +60,6 @@
       {
         "@id": "inst:Additional_agents",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "Additional agents",
@@ -81,7 +80,6 @@
       {
         "@id": "inst:the_sector_chief",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the sector chief",
@@ -116,10 +114,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:Additional_agents"
+        "inheres_in": {
+          "@id": "inst:Entity_Additional_Agent_4a583cc070ce"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_deployed"
         },
         "tagteam:parseConfidence": "medium",
@@ -132,10 +130,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_sector_chief"
+        "inheres_in": {
+          "@id": "inst:Entity_Sector_Chief_8e771fb76562"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_deployed"
         },
         "tagteam:parseConfidence": "medium",
@@ -154,9 +152,17 @@
         "tagteam:nominatedClassLabel": "Additional Agent",
         "tagteam:nominationBasis": "bare_plural",
         "tagteam:requiresOntologyResolution": true,
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.147Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.702Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3dddf7de5304",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:Additional_agents"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_Additional_agents_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Sector_Chief_8e771fb76562",
@@ -166,9 +172,17 @@
         ],
         "rdfs:label": "sector chief",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.147Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.702Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3dddf7de5304",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_sector_chief"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_sector_chief_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_3dddf7de5304",
@@ -180,7 +194,7 @@
         "has_text_value": "Additional agents were deployed by the sector chief",
         "tagteam:char_count": 51,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T12:28:11.136Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.694Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -226,7 +240,7 @@
             "@id": "inst:Act_deployed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.136Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.694Z"
       }
     ]
   }

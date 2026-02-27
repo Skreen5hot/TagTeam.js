@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-26T12:28:10.324Z",
+  "generatedAt": "2026-02-27T10:50:23.885Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -51,7 +51,6 @@
       {
         "@id": "inst:State_and_local_authorities",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "State and local authorities",
@@ -69,7 +68,6 @@
       {
         "@id": "inst:the_search",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the search",
@@ -104,9 +102,12 @@
         ],
         "rdfs:label": "state and local authority",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.324Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.885Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_51c1431487b2",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:State_and_local_authorities"
+        }
       },
       {
         "@id": "inst:Entity_Search_163023f8cdfb",
@@ -116,9 +117,12 @@
         ],
         "rdfs:label": "search",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.324Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.885Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_51c1431487b2",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_search"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_51c1431487b2",
@@ -130,7 +134,7 @@
         "has_text_value": "State and local authorities assisted in the search",
         "tagteam:char_count": 50,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T12:28:10.315Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.874Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -176,7 +180,7 @@
             "@id": "inst:Act_State"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.315Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.874Z"
       }
     ]
   }

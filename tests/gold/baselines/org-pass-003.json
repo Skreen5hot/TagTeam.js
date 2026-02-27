@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-26T12:28:10.031Z",
+  "generatedAt": "2026-02-27T10:50:23.592Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -43,11 +43,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The policy",
+      "entity": "policy",
       "role": "Patient"
     },
     {
-      "entity": "the committee",
+      "entity": "committee",
       "role": "Agent"
     }
   ],
@@ -56,7 +56,6 @@
       {
         "@id": "inst:The_policy",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The policy",
@@ -76,7 +75,6 @@
       {
         "@id": "inst:the_committee",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the committee",
@@ -111,10 +109,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_policy"
+        "inheres_in": {
+          "@id": "inst:Entity_Policy_436c6620d8ac"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_approved"
         },
         "tagteam:parseConfidence": "medium",
@@ -127,10 +125,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_committee"
+        "inheres_in": {
+          "@id": "inst:Entity_Committee_8859766e5b7f"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_approved"
         },
         "tagteam:parseConfidence": "low",
@@ -145,9 +143,17 @@
         "rdfs:label": "policy",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.031Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.592Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_85ce02b56051",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_policy"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_policy_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Committee_8859766e5b7f",
@@ -157,9 +163,17 @@
         ],
         "rdfs:label": "committee",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.031Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.592Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_85ce02b56051",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_committee"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_committee_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_85ce02b56051",
@@ -171,7 +185,7 @@
         "has_text_value": "The policy was approved by the committee",
         "tagteam:char_count": 40,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-26T12:28:10.020Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.582Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -217,7 +231,7 @@
             "@id": "inst:Act_approved"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.020Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.582Z"
       }
     ]
   }

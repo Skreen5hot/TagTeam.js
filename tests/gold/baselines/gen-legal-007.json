@@ -5,7 +5,7 @@
   "tags": [
     "legal"
   ],
-  "generatedAt": "2026-02-26T12:28:11.709Z",
+  "generatedAt": "2026-02-27T10:50:25.264Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -53,7 +53,6 @@
       {
         "@id": "inst:The_magistrate_granted_bail_to_the_accused",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The magistrate granted bail to the accused",
@@ -71,7 +70,6 @@
       {
         "@id": "inst:the_accused",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the accused",
@@ -106,9 +104,12 @@
         ],
         "rdfs:label": "magistrate granted bail to the accuse",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.709Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.263Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0a9838d0c83b",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_magistrate_granted_bail_to_the_accused"
+        }
       },
       {
         "@id": "inst:Entity_Accuse_bd1ae3946ce5",
@@ -118,9 +119,12 @@
         ],
         "rdfs:label": "accuse",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.709Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.263Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0a9838d0c83b",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_accused"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_0a9838d0c83b",
@@ -132,7 +136,7 @@
         "has_text_value": "The magistrate granted bail to the accused",
         "tagteam:char_count": 42,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-26T12:28:11.701Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.256Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -178,7 +182,7 @@
             "@id": "inst:Act_bail"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.701Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.256Z"
       }
     ]
   }

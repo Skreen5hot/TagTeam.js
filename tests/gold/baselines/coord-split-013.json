@@ -7,7 +7,7 @@
     "split",
     "military"
   ],
-  "generatedAt": "2026-02-26T12:28:10.297Z",
+  "generatedAt": "2026-02-27T10:50:23.856Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -51,11 +51,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The captain and the lieutenant",
+      "entity": "captain and the lieutenant",
       "role": "Agent"
     },
     {
-      "entity": "the team",
+      "entity": "team",
       "role": "Patient"
     }
   ],
@@ -64,7 +64,6 @@
       {
         "@id": "inst:The_captain_and_the_lieutenant",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The captain and the lieutenant",
@@ -84,7 +83,6 @@
       {
         "@id": "inst:the_team",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the team",
@@ -118,10 +116,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_captain_and_the_lieutenant"
+        "inheres_in": {
+          "@id": "inst:Entity_Captain_And_The_Lieutenant_814731b4d0b1"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_briefed"
         },
         "tagteam:parseConfidence": "high",
@@ -134,10 +132,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_team"
+        "inheres_in": {
+          "@id": "inst:Organization_Team_98d3651976cd"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_briefed"
         },
         "tagteam:parseConfidence": "medium",
@@ -152,9 +150,17 @@
         "rdfs:label": "captain and the lieutenant",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.297Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.856Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b507a2e3cebb",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_captain_and_the_lieutenant"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_captain_and_the_lieutenant_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Organization_Team_98d3651976cd",
@@ -164,9 +170,17 @@
         ],
         "rdfs:label": "team",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.297Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.856Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b507a2e3cebb",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:the_team"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_team_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_b507a2e3cebb",
@@ -178,7 +192,7 @@
         "has_text_value": "The captain and the lieutenant briefed the team",
         "tagteam:char_count": 47,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T12:28:10.287Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.848Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -224,7 +238,7 @@
             "@id": "inst:Act_briefed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.287Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.848Z"
       }
     ]
   }

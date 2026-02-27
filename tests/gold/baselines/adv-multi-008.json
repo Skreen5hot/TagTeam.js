@@ -6,7 +6,7 @@
     "multi-clause",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:12.151Z",
+  "generatedAt": "2026-02-27T10:50:25.674Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -68,11 +68,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The commander",
+      "entity": "commander",
       "role": "Agent"
     },
     {
-      "entity": "the plan and the team",
+      "entity": "plan and the team",
       "role": "Patient"
     }
   ],
@@ -81,7 +81,6 @@
       {
         "@id": "inst:The_commander",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The commander",
@@ -101,7 +100,6 @@
       {
         "@id": "inst:the_plan_and_the_team",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the plan and the team",
@@ -119,7 +117,6 @@
       {
         "@id": "inst:the_mission",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the mission",
@@ -137,7 +134,6 @@
       {
         "@id": "inst:dawn",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "dawn",
@@ -171,10 +167,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_commander"
+        "inheres_in": {
+          "@id": "inst:Entity_Commander_f439e9702ac9"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_reviewed"
         },
         "tagteam:parseConfidence": "medium",
@@ -187,10 +183,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_plan_and_the_team"
+        "inheres_in": {
+          "@id": "inst:Entity_Plan_And_The_Team_166f13650fec"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_reviewed"
         },
         "tagteam:parseConfidence": "medium",
@@ -205,9 +201,17 @@
         "rdfs:label": "commander",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.151Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.674Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9113ce68dbc8",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_commander"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_commander_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Plan_And_The_Team_166f13650fec",
@@ -217,9 +221,17 @@
         ],
         "rdfs:label": "plan and the team",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.151Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.674Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9113ce68dbc8",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_plan_and_the_team"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_plan_and_the_team_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Mission_dcffa39f775b",
@@ -229,9 +241,12 @@
         ],
         "rdfs:label": "mission",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.151Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.674Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9113ce68dbc8",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_mission"
+        }
       },
       {
         "@id": "inst:Entity_Dawn_b7a1c9d8d9db",
@@ -241,9 +256,12 @@
         ],
         "rdfs:label": "dawn",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.151Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.674Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9113ce68dbc8",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:dawn"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_9113ce68dbc8",
@@ -255,7 +273,7 @@
         "has_text_value": "The commander reviewed the plan and the team executed the mission at dawn",
         "tagteam:char_count": 73,
         "tagteam:word_count": 13,
-        "tagteam:received_at": "2026-02-26T12:28:12.140Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.666Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -307,7 +325,7 @@
             "@id": "inst:Act_reviewed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:12.140Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.666Z"
       }
     ]
   }

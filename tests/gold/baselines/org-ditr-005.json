@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-26T12:28:10.364Z",
+  "generatedAt": "2026-02-27T10:50:23.927Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -51,11 +51,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The administrator",
+      "entity": "administrator",
       "role": "Agent"
     },
     {
-      "entity": "the officer",
+      "entity": "officer",
       "role": "Patient"
     }
   ],
@@ -64,7 +64,6 @@
       {
         "@id": "inst:The_administrator",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The administrator",
@@ -84,7 +83,6 @@
       {
         "@id": "inst:the_officer",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the officer",
@@ -118,10 +116,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_administrator"
+        "inheres_in": {
+          "@id": "inst:Person_Administrator_b38375b57d9f"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_handed"
         },
         "tagteam:parseConfidence": "high",
@@ -134,10 +132,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_officer"
+        "inheres_in": {
+          "@id": "inst:Person_Officer_204feb66fe49"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_handed"
         },
         "tagteam:parseConfidence": "medium",
@@ -152,9 +150,17 @@
         "rdfs:label": "administrator",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.364Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.926Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7ee7f9f503de",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:The_administrator"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_administrator_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Person_Officer_204feb66fe49",
@@ -164,9 +170,17 @@
         ],
         "rdfs:label": "officer",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.364Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.926Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7ee7f9f503de",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:the_officer"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_officer_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_7ee7f9f503de",
@@ -178,7 +192,7 @@
         "has_text_value": "The administrator handed the officer a new badge",
         "tagteam:char_count": 48,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T12:28:10.355Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.916Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -224,7 +238,7 @@
             "@id": "inst:Act_handed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.355Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.916Z"
       }
     ]
   }

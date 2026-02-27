@@ -6,7 +6,7 @@
     "news",
     "government"
   ],
-  "generatedAt": "2026-02-26T12:28:11.380Z",
+  "generatedAt": "2026-02-27T10:50:24.946Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -42,11 +42,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The mayor",
+      "entity": "mayor",
       "role": "Agent"
     },
     {
-      "entity": "the budget proposal",
+      "entity": "budget proposal",
       "role": "Patient"
     }
   ],
@@ -55,7 +55,6 @@
       {
         "@id": "inst:The_mayor",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The mayor",
@@ -75,7 +74,6 @@
       {
         "@id": "inst:the_budget_proposal",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the budget proposal",
@@ -109,10 +107,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_mayor"
+        "inheres_in": {
+          "@id": "inst:Entity_Mayor_ed59316b59da"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_vetoed"
         },
         "tagteam:parseConfidence": "high",
@@ -125,10 +123,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_budget_proposal"
+        "inheres_in": {
+          "@id": "inst:Entity_Budget_Proposal_e6840489f22a"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_vetoed"
         },
         "tagteam:parseConfidence": "medium",
@@ -143,9 +141,17 @@
         "rdfs:label": "mayor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.380Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.945Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ca8bdea948c7",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_mayor"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_mayor_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Budget_Proposal_e6840489f22a",
@@ -155,9 +161,17 @@
         ],
         "rdfs:label": "budget proposal",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.380Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.945Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ca8bdea948c7",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_budget_proposal"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_budget_proposal_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_ca8bdea948c7",
@@ -169,7 +183,7 @@
         "has_text_value": "The mayor vetoed the budget proposal",
         "tagteam:char_count": 36,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-26T12:28:11.368Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.938Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -215,7 +229,7 @@
             "@id": "inst:Act_vetoed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.368Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.938Z"
       }
     ]
   }

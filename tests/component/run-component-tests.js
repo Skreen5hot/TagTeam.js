@@ -85,7 +85,7 @@ const CATEGORIES = {
  * Normalize tree pipeline output so act nodes have inline role properties.
  *
  * The tree pipeline uses separate Role nodes:
- *   Role { tagteam:bearer → entity, tagteam:realizedIn → act }
+ *   Role { inheres_in → entity, realized_in → act }
  *
  * The legacy pipeline puts roles directly on acts:
  *   Act { cco:has_agent → entity, cco:affects → entity }
@@ -125,8 +125,8 @@ function normalizeGraphForAnalysis(result) {
   );
 
   roleNodes.forEach(role => {
-    const actRef = role['tagteam:realizedIn'];
-    const entityRef = role['tagteam:bearer'];
+    const actRef = role['realized_in'];
+    const entityRef = role['inheres_in'];
     if (!actRef || !entityRef) return;
 
     const actId = typeof actRef === 'string' ? actRef : actRef['@id'];

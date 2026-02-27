@@ -7,7 +7,7 @@
     "keep",
     "government"
   ],
-  "generatedAt": "2026-02-26T12:28:10.149Z",
+  "generatedAt": "2026-02-27T10:50:23.703Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -48,11 +48,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The Department of Homeland Security",
+      "entity": "department of homeland security",
       "role": "Agent"
     },
     {
-      "entity": "the directive",
+      "entity": "directive",
       "role": "Patient"
     }
   ],
@@ -61,7 +61,6 @@
       {
         "@id": "inst:The_Department_of_Homeland_Security",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The Department of Homeland Security",
@@ -81,7 +80,6 @@
       {
         "@id": "inst:Homeland_Security",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "Homeland Security",
@@ -99,7 +97,6 @@
       {
         "@id": "inst:the_directive",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the directive",
@@ -133,10 +130,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_Department_of_Homeland_Security"
+        "inheres_in": {
+          "@id": "inst:Organization_Department_Of_Homeland_Security_161cdb1056ee"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_issued"
         },
         "tagteam:parseConfidence": "high",
@@ -149,10 +146,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_directive"
+        "inheres_in": {
+          "@id": "inst:Entity_Directive_d7f30b03ee4c"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_issued"
         },
         "tagteam:parseConfidence": "medium",
@@ -167,9 +164,17 @@
         "rdfs:label": "department of homeland security",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.148Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.703Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5d18eb0ca86c",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:The_Department_of_Homeland_Security"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_Department_of_Homeland_Security_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Organization_Homeland_Security_215587f2e1f6",
@@ -179,9 +184,12 @@
         ],
         "rdfs:label": "homeland security",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.148Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.703Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5d18eb0ca86c",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:Homeland_Security"
+        }
       },
       {
         "@id": "inst:Entity_Directive_d7f30b03ee4c",
@@ -191,9 +199,17 @@
         ],
         "rdfs:label": "directive",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.148Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.703Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5d18eb0ca86c",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_directive"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_directive_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_5d18eb0ca86c",
@@ -205,7 +221,7 @@
         "has_text_value": "The Department of Homeland Security issued the directive",
         "tagteam:char_count": 56,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T12:28:10.138Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.693Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -254,7 +270,7 @@
             "@id": "inst:Act_issued"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.138Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.693Z"
       }
     ]
   }

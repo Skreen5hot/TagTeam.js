@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-26T12:28:10.185Z",
+  "generatedAt": "2026-02-27T10:50:23.741Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -56,11 +56,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "Agents and officers",
+      "entity": "agents and officer",
       "role": "Agent"
     },
     {
-      "entity": "the raid",
+      "entity": "raid",
       "role": "Patient"
     }
   ],
@@ -69,7 +69,6 @@
       {
         "@id": "inst:Agents_and_officers",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "Agents and officers",
@@ -90,7 +89,6 @@
       {
         "@id": "inst:the_raid",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the raid",
@@ -124,10 +122,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:Agents_and_officers"
+        "inheres_in": {
+          "@id": "inst:Entity_Agents_And_Officer_1254fac6a876"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_conducted"
         },
         "tagteam:parseConfidence": "high",
@@ -140,10 +138,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_raid"
+        "inheres_in": {
+          "@id": "inst:Entity_Raid_0166913511eb"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_conducted"
         },
         "tagteam:parseConfidence": "medium",
@@ -162,9 +160,17 @@
         "tagteam:nominatedClassLabel": "Agents And Officer",
         "tagteam:nominationBasis": "bare_plural",
         "tagteam:requiresOntologyResolution": true,
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.184Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.741Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_602fdc0a1601",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:Agents_and_officers"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_Agents_and_officers_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Raid_0166913511eb",
@@ -174,9 +180,17 @@
         ],
         "rdfs:label": "raid",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.184Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.741Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_602fdc0a1601",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_raid"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_raid_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_602fdc0a1601",
@@ -188,7 +202,7 @@
         "has_text_value": "Agents and officers conducted the raid",
         "tagteam:char_count": 38,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-26T12:28:10.177Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.732Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -234,7 +248,7 @@
             "@id": "inst:Act_conducted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.177Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.732Z"
       }
     ]
   }

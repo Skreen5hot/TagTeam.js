@@ -455,11 +455,14 @@ class SHMLValidator {
         const isIndependentContinuant =
           this._hasType(bearer, 'Agent') ||
           this._hasType(bearer, 'Person') ||
+          this._hasType(bearer, 'Organization') ||
+          this._hasType(bearer, 'Entity') ||
           this._hasType(bearer, 'Artifact') ||
           this._hasType(bearer, 'IndependentContinuant') ||
           this._hasType(bearer, 'BFO_0000004') ||
           this._hasType(bearer, 'MaterialEntity') ||
-          this._hasType(bearer, 'DiscourseReferent'); // TagTeam discourse referents can bear roles
+          this._hasType(bearer, 'owl:NamedIndividual') ||
+          this._hasType(bearer, 'owl:Class');
 
         if (isIndependentContinuant) {
           passed++;

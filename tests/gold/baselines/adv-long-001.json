@@ -6,7 +6,7 @@
     "long-np",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:11.724Z",
+  "generatedAt": "2026-02-27T10:50:25.276Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -51,11 +51,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The senior intelligence analyst at the operations center",
+      "entity": "senior intelligence analyst at the operations center",
       "role": "Agent"
     },
     {
-      "entity": "the assessment",
+      "entity": "assessment",
       "role": "Patient"
     }
   ],
@@ -64,7 +64,6 @@
       {
         "@id": "inst:The_senior_intelligence_analyst_at_the_operations_center",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The senior intelligence analyst at the operations center",
@@ -84,7 +83,6 @@
       {
         "@id": "inst:the_operations_center",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the operations center",
@@ -102,7 +100,6 @@
       {
         "@id": "inst:the_assessment",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the assessment",
@@ -136,10 +133,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_senior_intelligence_analyst_at_the_operations_center"
+        "inheres_in": {
+          "@id": "inst:Person_Senior_Intelligence_Analyst_At_The_Operations_Center_7699692c18f0"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_reviewed"
         },
         "tagteam:parseConfidence": "high",
@@ -152,10 +149,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_assessment"
+        "inheres_in": {
+          "@id": "inst:Entity_Assessment_d29b7670e446"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_reviewed"
         },
         "tagteam:parseConfidence": "high",
@@ -170,9 +167,17 @@
         "rdfs:label": "senior intelligence analyst at the operations center",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.723Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.276Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ba2ae99ec82f",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:The_senior_intelligence_analyst_at_the_operations_center"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_senior_intelligence_analyst_at_the_operations_center_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Operations_Center_41e07d4d50b0",
@@ -182,9 +187,12 @@
         ],
         "rdfs:label": "operations center",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.723Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.276Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ba2ae99ec82f",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_operations_center"
+        }
       },
       {
         "@id": "inst:Entity_Assessment_d29b7670e446",
@@ -194,9 +202,17 @@
         ],
         "rdfs:label": "assessment",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.723Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.276Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ba2ae99ec82f",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_assessment"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_assessment_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_ba2ae99ec82f",
@@ -208,7 +224,7 @@
         "has_text_value": "The senior intelligence analyst at the operations center reviewed the assessment",
         "tagteam:char_count": 80,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-26T12:28:11.712Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.267Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -257,7 +273,7 @@
             "@id": "inst:Act_reviewed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.712Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.267Z"
       }
     ]
   }

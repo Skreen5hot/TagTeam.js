@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:10.846Z",
+  "generatedAt": "2026-02-27T10:50:24.422Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -42,7 +42,6 @@
       {
         "@id": "inst:A_port_of_entry",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "A port of entry",
@@ -62,7 +61,6 @@
       {
         "@id": "inst:entry",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "entry",
@@ -99,9 +97,12 @@
         "tagteam:nominatedClassLabel": "Port Of Entry",
         "tagteam:nominationBasis": "unknown",
         "tagteam:requiresOntologyResolution": true,
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.845Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.422Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1b6eef99bb8f",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:A_port_of_entry"
+        }
       },
       {
         "@id": "inst:Entity_Entry_f2895dabc650",
@@ -111,9 +112,12 @@
         ],
         "rdfs:label": "entry",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.846Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.422Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1b6eef99bb8f",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:entry"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_1b6eef99bb8f",
@@ -125,7 +129,7 @@
         "has_text_value": "A port of entry is an authorized crossing point",
         "tagteam:char_count": 47,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-26T12:28:10.835Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.408Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -168,7 +172,7 @@
             "@id": "inst:entry"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.835Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.408Z"
       }
     ]
   }

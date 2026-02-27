@@ -7,7 +7,7 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-26T12:28:10.402Z",
+  "generatedAt": "2026-02-27T10:50:23.971Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -34,7 +34,7 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The department",
+      "entity": "department",
       "role": "Patient"
     }
   ],
@@ -43,7 +43,6 @@
       {
         "@id": "inst:The_department",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The department",
@@ -63,7 +62,6 @@
       {
         "@id": "inst:several_divisions",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "several divisions",
@@ -98,10 +96,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_department"
+        "inheres_in": {
+          "@id": "inst:Organization_Department_c5562413b96e"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_composed"
         },
         "tagteam:parseConfidence": "high",
@@ -114,10 +112,10 @@
         ],
         "rdfs:label": "ObliqueRole",
         "tagteam:roleType": "ObliqueRole",
-        "tagteam:bearer": {
-          "@id": "inst:several_divisions"
+        "inheres_in": {
+          "@id": "inst:Entity_Several_Divisions_87e128f635d6"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_composed"
         },
         "tagteam:preposition": "of",
@@ -133,9 +131,17 @@
         "rdfs:label": "department",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.402Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.970Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a85a47690bea",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:The_department"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_department_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Several_Divisions_87e128f635d6",
@@ -145,9 +151,17 @@
         ],
         "rdfs:label": "several divisions",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.402Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.970Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a85a47690bea",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:several_divisions"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_several_divisions_ObliqueRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_a85a47690bea",
@@ -159,7 +173,7 @@
         "has_text_value": "The department is composed of several divisions",
         "tagteam:char_count": 47,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-26T12:28:10.395Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.958Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -205,7 +219,7 @@
             "@id": "inst:Act_composed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.395Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.958Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:11.217Z",
+  "generatedAt": "2026-02-27T10:50:24.785Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -51,15 +51,15 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The supervisor",
+      "entity": "supervisor",
       "role": "Agent"
     },
     {
-      "entity": "the team",
+      "entity": "team",
       "role": "Patient"
     },
     {
-      "entity": "the operation",
+      "entity": "operation",
       "role": "Location"
     }
   ],
@@ -68,7 +68,6 @@
       {
         "@id": "inst:The_supervisor",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The supervisor",
@@ -88,7 +87,6 @@
       {
         "@id": "inst:the_team",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the team",
@@ -106,7 +104,6 @@
       {
         "@id": "inst:the_operation",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the operation",
@@ -140,10 +137,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_supervisor"
+        "inheres_in": {
+          "@id": "inst:Person_Supervisor_487af051fef4"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_briefed"
         },
         "tagteam:parseConfidence": "high",
@@ -156,10 +153,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_team"
+        "inheres_in": {
+          "@id": "inst:Organization_Team_d9c56c4d1f53"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_briefed"
         },
         "tagteam:parseConfidence": "medium",
@@ -172,10 +169,10 @@
         ],
         "rdfs:label": "LocationRole",
         "tagteam:roleType": "LocationRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_operation"
+        "inheres_in": {
+          "@id": "inst:Entity_Operation_697fd1f6fb14"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_briefed"
         },
         "tagteam:preposition": "on",
@@ -191,9 +188,17 @@
         "rdfs:label": "supervisor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.217Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.785Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a1199a59d28f",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:The_supervisor"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_supervisor_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Organization_Team_d9c56c4d1f53",
@@ -203,9 +208,17 @@
         ],
         "rdfs:label": "team",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.217Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.785Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a1199a59d28f",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:the_team"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_team_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Operation_697fd1f6fb14",
@@ -215,9 +228,17 @@
         ],
         "rdfs:label": "operation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.217Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.785Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a1199a59d28f",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_operation"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_operation_LocationRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_a1199a59d28f",
@@ -229,7 +250,7 @@
         "has_text_value": "The supervisor briefed the team on the operation",
         "tagteam:char_count": 48,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T12:28:11.210Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.776Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -278,7 +299,7 @@
             "@id": "inst:Act_briefed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.210Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.776Z"
       }
     ]
   }

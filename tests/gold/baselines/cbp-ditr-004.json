@@ -6,7 +6,7 @@
     "ditransitive",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:11.321Z",
+  "generatedAt": "2026-02-27T10:50:24.894Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -50,11 +50,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The instructor",
+      "entity": "instructor",
       "role": "Agent"
     },
     {
-      "entity": "the class",
+      "entity": "class",
       "role": "Patient"
     }
   ],
@@ -63,7 +63,6 @@
       {
         "@id": "inst:The_instructor",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The instructor",
@@ -83,7 +82,6 @@
       {
         "@id": "inst:the_class",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the class",
@@ -117,10 +115,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_instructor"
+        "inheres_in": {
+          "@id": "inst:Entity_Instructor_2cacf9a4ac15"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_showed"
         },
         "tagteam:parseConfidence": "high",
@@ -133,10 +131,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_class"
+        "inheres_in": {
+          "@id": "inst:Entity_Class_ef5cb822d3d3"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_showed"
         },
         "tagteam:parseConfidence": "medium",
@@ -151,9 +149,17 @@
         "rdfs:label": "instructor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.320Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.893Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_412cc0d5f18c",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_instructor"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_instructor_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Class_ef5cb822d3d3",
@@ -163,9 +169,17 @@
         ],
         "rdfs:label": "class",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.320Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.893Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_412cc0d5f18c",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_class"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_class_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_412cc0d5f18c",
@@ -177,7 +191,7 @@
         "has_text_value": "The instructor showed the class the new procedure",
         "tagteam:char_count": 49,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T12:28:11.311Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.882Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -223,7 +237,7 @@
             "@id": "inst:Act_showed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.311Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.882Z"
       }
     ]
   }

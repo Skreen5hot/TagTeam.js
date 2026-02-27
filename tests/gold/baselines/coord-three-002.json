@@ -8,7 +8,7 @@
     "copular",
     "government"
   ],
-  "generatedAt": "2026-02-26T12:28:10.524Z",
+  "generatedAt": "2026-02-27T10:50:24.090Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -47,7 +47,6 @@
       {
         "@id": "inst:CBP_ICE_and_TSA",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "CBP ICE and TSA",
@@ -68,7 +67,6 @@
       {
         "@id": "inst:DHS",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "DHS",
@@ -102,9 +100,12 @@
         "rdfs:label": "cbp ice and tsa",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.524Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.090Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_61564711f690",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:CBP_ICE_and_TSA"
+        }
       },
       {
         "@id": "inst:Organization_Dhs_e5b8ae272321",
@@ -114,9 +115,12 @@
         ],
         "rdfs:label": "dhs",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.524Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.090Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_61564711f690",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:DHS"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_61564711f690",
@@ -128,7 +132,7 @@
         "has_text_value": "CBP, ICE, and TSA are components of DHS",
         "tagteam:char_count": 39,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T12:28:10.516Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.079Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -171,7 +175,7 @@
             "@id": "inst:DHS"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.516Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.079Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "cbp",
     "enforcement"
   ],
-  "generatedAt": "2026-02-26T12:28:10.661Z",
+  "generatedAt": "2026-02-27T10:50:24.250Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -43,7 +43,7 @@
   ],
   "extractedRoles": [
     {
-      "entity": "narcotics",
+      "entity": "narcotic",
       "role": "Agent"
     }
   ],
@@ -52,7 +52,6 @@
       {
         "@id": "inst:narcotics",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "narcotics",
@@ -101,10 +100,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:narcotics"
+        "inheres_in": {
+          "@id": "inst:Entity_Narcotic_b73c35009c13"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_handler"
         },
         "tagteam:parseConfidence": "low",
@@ -123,9 +122,17 @@
         "tagteam:nominatedClassLabel": "Narcotic",
         "tagteam:nominationBasis": "bare_plural",
         "tagteam:requiresOntologyResolution": true,
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.661Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.250Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_df84be1b3615",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:narcotics"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_narcotics_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_df84be1b3615",
@@ -137,7 +144,7 @@
         "has_text_value": "The K-9 handler detected narcotics",
         "tagteam:char_count": 34,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-26T12:28:10.650Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.239Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -183,7 +190,7 @@
             "@id": "inst:Act_detected"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.650Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.239Z"
       }
     ]
   }

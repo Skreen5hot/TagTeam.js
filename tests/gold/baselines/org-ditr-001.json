@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-26T12:28:10.044Z",
+  "generatedAt": "2026-02-27T10:50:23.606Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -51,11 +51,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The commander",
+      "entity": "commander",
       "role": "Agent"
     },
     {
-      "entity": "the team",
+      "entity": "team",
       "role": "Patient"
     }
   ],
@@ -64,7 +64,6 @@
       {
         "@id": "inst:The_commander",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The commander",
@@ -84,7 +83,6 @@
       {
         "@id": "inst:the_team",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the team",
@@ -118,10 +116,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_commander"
+        "inheres_in": {
+          "@id": "inst:Entity_Commander_63a08986ac4b"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_gave"
         },
         "tagteam:parseConfidence": "low",
@@ -134,10 +132,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_team"
+        "inheres_in": {
+          "@id": "inst:Organization_Team_e81839881a24"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_gave"
         },
         "tagteam:parseConfidence": "low",
@@ -152,9 +150,17 @@
         "rdfs:label": "commander",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.044Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.606Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_04b1e6715106",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_commander"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_commander_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Organization_Team_e81839881a24",
@@ -164,9 +170,17 @@
         ],
         "rdfs:label": "team",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.044Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.606Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_04b1e6715106",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:the_team"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_team_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_04b1e6715106",
@@ -178,7 +192,7 @@
         "has_text_value": "The commander gave the team new orders",
         "tagteam:char_count": 38,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-26T12:28:10.034Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.595Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -224,7 +238,7 @@
             "@id": "inst:Act_gave"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.034Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.595Z"
       }
     ]
   }

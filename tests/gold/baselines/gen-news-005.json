@@ -6,7 +6,7 @@
     "news",
     "government"
   ],
-  "generatedAt": "2026-02-26T12:28:11.411Z",
+  "generatedAt": "2026-02-27T10:50:24.968Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -47,11 +47,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The governor",
+      "entity": "governor",
       "role": "Agent"
     },
     {
-      "entity": "a state of emergency",
+      "entity": "state of emergency",
       "role": "Patient"
     }
   ],
@@ -60,7 +60,6 @@
       {
         "@id": "inst:The_governor",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The governor",
@@ -80,7 +79,6 @@
       {
         "@id": "inst:a_state_of_emergency",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "a state of emergency",
@@ -98,7 +96,6 @@
       {
         "@id": "inst:emergency",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "emergency",
@@ -132,10 +129,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_governor"
+        "inheres_in": {
+          "@id": "inst:Entity_Governor_f10b65e9045e"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_declared"
         },
         "tagteam:parseConfidence": "medium",
@@ -148,10 +145,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:a_state_of_emergency"
+        "inheres_in": {
+          "@id": "inst:Entity_State_Of_Emergency_8ee74420e42e"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_declared"
         },
         "tagteam:parseConfidence": "medium",
@@ -166,9 +163,17 @@
         "rdfs:label": "governor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.410Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.968Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1af407d800b2",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_governor"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_governor_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_State_Of_Emergency_8ee74420e42e",
@@ -178,9 +183,17 @@
         ],
         "rdfs:label": "state of emergency",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.410Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.968Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1af407d800b2",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:a_state_of_emergency"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_a_state_of_emergency_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Emergency_2594ffe2d9cc",
@@ -190,9 +203,12 @@
         ],
         "rdfs:label": "emergency",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.411Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.968Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1af407d800b2",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:emergency"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_1af407d800b2",
@@ -204,7 +220,7 @@
         "has_text_value": "The governor declared a state of emergency",
         "tagteam:char_count": 42,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-26T12:28:11.401Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.959Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -253,7 +269,7 @@
             "@id": "inst:Act_declared"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.401Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.959Z"
       }
     ]
   }

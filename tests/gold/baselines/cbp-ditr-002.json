@@ -6,7 +6,7 @@
     "ditransitive",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:11.297Z",
+  "generatedAt": "2026-02-27T10:50:24.868Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -50,11 +50,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The headquarters",
+      "entity": "headquarter",
       "role": "Agent"
     },
     {
-      "entity": "the sector",
+      "entity": "sector",
       "role": "Patient"
     }
   ],
@@ -63,7 +63,6 @@
       {
         "@id": "inst:The_headquarters",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The headquarters",
@@ -83,7 +82,6 @@
       {
         "@id": "inst:the_sector",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the sector",
@@ -117,10 +115,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_headquarters"
+        "inheres_in": {
+          "@id": "inst:Entity_Headquarter_997263a49aa6"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_sent"
         },
         "tagteam:parseConfidence": "high",
@@ -133,10 +131,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_sector"
+        "inheres_in": {
+          "@id": "inst:Entity_Sector_21a4c1ac8347"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_sent"
         },
         "tagteam:parseConfidence": "medium",
@@ -151,9 +149,17 @@
         "rdfs:label": "headquarter",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.296Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.868Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_208d3324efc8",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_headquarters"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_headquarters_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Sector_21a4c1ac8347",
@@ -163,9 +169,17 @@
         ],
         "rdfs:label": "sector",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.296Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.868Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_208d3324efc8",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_sector"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_sector_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_208d3324efc8",
@@ -177,7 +191,7 @@
         "has_text_value": "The headquarters sent the sector updated guidelines",
         "tagteam:char_count": 51,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-26T12:28:11.288Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.861Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -223,7 +237,7 @@
             "@id": "inst:Act_sent"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.288Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.861Z"
       }
     ]
   }

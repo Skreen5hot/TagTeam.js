@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:11.070Z",
+  "generatedAt": "2026-02-27T10:50:24.632Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -47,11 +47,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The border wall",
+      "entity": "border wall",
       "role": "Patient"
     },
     {
-      "entity": "the Army Corps",
+      "entity": "army corp",
       "role": "Agent"
     }
   ],
@@ -60,7 +60,6 @@
       {
         "@id": "inst:The_border_wall",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The border wall",
@@ -80,7 +79,6 @@
       {
         "@id": "inst:the_Army_Corps",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the Army Corps",
@@ -98,7 +96,6 @@
       {
         "@id": "inst:Engineers",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "Engineers",
@@ -133,10 +130,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_border_wall"
+        "inheres_in": {
+          "@id": "inst:Entity_Border_Wall_6c64f3e36b4d"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_constructed"
         },
         "tagteam:parseConfidence": "medium",
@@ -149,10 +146,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_Army_Corps"
+        "inheres_in": {
+          "@id": "inst:Entity_Army_Corp_fe697c7a9b8a"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_constructed"
         },
         "tagteam:parseConfidence": "low",
@@ -165,10 +162,10 @@
         ],
         "rdfs:label": "ObliqueRole",
         "tagteam:roleType": "ObliqueRole",
-        "tagteam:bearer": {
-          "@id": "inst:Engineers"
+        "inheres_in": {
+          "@id": "inst:Entity_Engineer_5ffe63f880c7"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_constructed"
         },
         "tagteam:preposition": "of",
@@ -184,9 +181,17 @@
         "rdfs:label": "border wall",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.070Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.632Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b903487052bc",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_border_wall"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_border_wall_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Army_Corp_fe697c7a9b8a",
@@ -196,9 +201,17 @@
         ],
         "rdfs:label": "army corp",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.070Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.632Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b903487052bc",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_Army_Corps"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_Army_Corps_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Engineer_5ffe63f880c7",
@@ -208,9 +221,17 @@
         ],
         "rdfs:label": "engineer",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.070Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.632Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b903487052bc",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:Engineers"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_Engineers_ObliqueRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_b903487052bc",
@@ -222,7 +243,7 @@
         "has_text_value": "The border wall was constructed by the Army Corps of Engineers",
         "tagteam:char_count": 62,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-26T12:28:11.059Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.623Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -271,7 +292,7 @@
             "@id": "inst:Act_constructed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.059Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.623Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:11.014Z",
+  "generatedAt": "2026-02-27T10:50:24.585Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -37,7 +37,6 @@
       {
         "@id": "inst:SENTRI",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "SENTRI",
@@ -58,7 +57,6 @@
       {
         "@id": "inst:low_risk_travelers",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "low risk travelers",
@@ -92,9 +90,12 @@
         "rdfs:label": "sentri",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.014Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.584Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d3178ba20d7b",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:SENTRI"
+        }
       },
       {
         "@id": "inst:Entity_Low_Risk_Traveler_0f96fca6d06a",
@@ -104,9 +105,12 @@
         ],
         "rdfs:label": "low risk traveler",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.014Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.584Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d3178ba20d7b",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:low_risk_travelers"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_d3178ba20d7b",
@@ -118,7 +122,7 @@
         "has_text_value": "SENTRI is a border crossing program for low-risk travelers",
         "tagteam:char_count": 58,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-26T12:28:11.004Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.575Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -161,7 +165,7 @@
             "@id": "inst:low_risk_travelers"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.004Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.575Z"
       }
     ]
   }

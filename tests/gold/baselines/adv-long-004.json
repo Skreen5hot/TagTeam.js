@@ -6,7 +6,7 @@
     "long-np",
     "forensics"
   ],
-  "generatedAt": "2026-02-26T12:28:11.769Z",
+  "generatedAt": "2026-02-27T10:50:25.319Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -42,11 +42,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The experienced forensic laboratory technician",
+      "entity": "experienced forensic laboratory technician",
       "role": "Agent"
     },
     {
-      "entity": "the evidence",
+      "entity": "evidence",
       "role": "Patient"
     }
   ],
@@ -55,7 +55,6 @@
       {
         "@id": "inst:The_experienced_forensic_laboratory_technician",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The experienced forensic laboratory technician",
@@ -75,7 +74,6 @@
       {
         "@id": "inst:the_evidence",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the evidence",
@@ -109,10 +107,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_experienced_forensic_laboratory_technician"
+        "inheres_in": {
+          "@id": "inst:Person_Experienced_Forensic_Laboratory_Technician_4578aa8a1709"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_analyzed"
         },
         "tagteam:parseConfidence": "high",
@@ -125,10 +123,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_evidence"
+        "inheres_in": {
+          "@id": "inst:Entity_Evidence_dc57ec345bba"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_analyzed"
         },
         "tagteam:parseConfidence": "medium",
@@ -143,9 +141,17 @@
         "rdfs:label": "experienced forensic laboratory technician",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.769Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.319Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_487b574f2e68",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:The_experienced_forensic_laboratory_technician"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_experienced_forensic_laboratory_technician_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Evidence_dc57ec345bba",
@@ -155,9 +161,17 @@
         ],
         "rdfs:label": "evidence",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.769Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.319Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_487b574f2e68",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_evidence"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_evidence_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_487b574f2e68",
@@ -169,7 +183,7 @@
         "has_text_value": "The experienced forensic laboratory technician analyzed the evidence",
         "tagteam:char_count": 68,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-26T12:28:11.761Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.308Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -215,7 +229,7 @@
             "@id": "inst:Act_analyzed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.761Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.308Z"
       }
     ]
   }

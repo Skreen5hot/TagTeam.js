@@ -7,7 +7,7 @@
     "cbp",
     "logistics"
   ],
-  "generatedAt": "2026-02-26T12:28:10.817Z",
+  "generatedAt": "2026-02-27T10:50:24.387Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -43,7 +43,7 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The procurement office",
+      "entity": "procurement office",
       "role": "Agent"
     },
     {
@@ -56,7 +56,6 @@
       {
         "@id": "inst:The_procurement_office",
         "@type": [
-          "Facility",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The procurement office",
@@ -76,7 +75,6 @@
       {
         "@id": "inst:new_equipment",
         "@type": [
-          "Artifact",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "new equipment",
@@ -110,10 +108,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_procurement_office"
+        "inheres_in": {
+          "@id": "inst:Facility_Procurement_Office_1e0b088a5a43"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_acquired"
         },
         "tagteam:parseConfidence": "medium",
@@ -126,10 +124,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:new_equipment"
+        "inheres_in": {
+          "@id": "inst:Artifact_New_Equipment_a2419a252331"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_acquired"
         },
         "tagteam:parseConfidence": "medium",
@@ -144,9 +142,17 @@
         "rdfs:label": "procurement office",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.817Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.386Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3df868ccff45",
-        "tagteam:denotesType": "Facility"
+        "tagteam:denotesType": "Facility",
+        "is_subject_of": {
+          "@id": "inst:The_procurement_office"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_procurement_office_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Artifact_New_Equipment_a2419a252331",
@@ -156,9 +162,17 @@
         ],
         "rdfs:label": "new equipment",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.817Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.386Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3df868ccff45",
-        "tagteam:denotesType": "Artifact"
+        "tagteam:denotesType": "Artifact",
+        "is_subject_of": {
+          "@id": "inst:new_equipment"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_new_equipment_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_3df868ccff45",
@@ -170,7 +184,7 @@
         "has_text_value": "The procurement office acquired new equipment",
         "tagteam:char_count": 45,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-26T12:28:10.808Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.379Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -216,7 +230,7 @@
             "@id": "inst:Act_acquired"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.808Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.379Z"
       }
     ]
   }

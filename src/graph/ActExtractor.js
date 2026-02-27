@@ -580,10 +580,10 @@ class ActExtractor {
         const links = this._linkToEntities(text, verbText, offset, entities);
         // Get object entity type for disambiguation
         const objectEntity = links.patientEntity || links.affectedEntity;
-        const objectType = objectEntity?.['@type']?.[0] || objectEntity?.['tagteam:denotesType'] || null;
+        const objectType = objectEntity?.['tagteam:denotesType'] || objectEntity?.['@type']?.[0] || null;
         const objectLabel = objectEntity?.['rdfs:label'] || null;
         const subjectEntity = links.agentEntity || links.subjectEntity;
-        const subjectType = subjectEntity?.['@type']?.[0] || subjectEntity?.['tagteam:denotesType'] || null;
+        const subjectType = subjectEntity?.['tagteam:denotesType'] || subjectEntity?.['@type']?.[0] || null;
 
         const disambiguation = this._sentenceModeClassifier.disambiguateStativeVerb(infinitive, {
           objectType, objectLabel, subjectType

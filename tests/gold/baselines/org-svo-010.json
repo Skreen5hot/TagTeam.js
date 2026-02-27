@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-26T12:28:09.864Z",
+  "generatedAt": "2026-02-27T10:50:23.429Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -43,7 +43,7 @@
   ],
   "extractedRoles": [
     {
-      "entity": "a statement",
+      "entity": "statement",
       "role": "Patient"
     }
   ],
@@ -52,7 +52,6 @@
       {
         "@id": "inst:The_secretary",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The secretary",
@@ -70,7 +69,6 @@
       {
         "@id": "inst:a_statement",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "a statement",
@@ -116,10 +114,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:a_statement"
+        "inheres_in": {
+          "@id": "inst:Entity_Statement_3dc3cb29367a"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_issued"
         },
         "tagteam:parseConfidence": "low",
@@ -133,9 +131,12 @@
         ],
         "rdfs:label": "secretary",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.864Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.429Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c2b4c510415a",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_secretary"
+        }
       },
       {
         "@id": "inst:Entity_Statement_3dc3cb29367a",
@@ -145,9 +146,17 @@
         ],
         "rdfs:label": "statement",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.864Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.429Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c2b4c510415a",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:a_statement"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_a_statement_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_c2b4c510415a",
@@ -159,7 +168,7 @@
         "has_text_value": "The secretary issued a statement",
         "tagteam:char_count": 32,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-26T12:28:09.854Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.419Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -208,7 +217,7 @@
             "@id": "inst:Act_issued"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.854Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.419Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:11.042Z",
+  "generatedAt": "2026-02-27T10:50:24.607Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -42,11 +42,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The vehicle",
+      "entity": "vehicle",
       "role": "Patient"
     },
     {
-      "entity": "the checkpoint",
+      "entity": "checkpoint",
       "role": "Location"
     }
   ],
@@ -55,7 +55,6 @@
       {
         "@id": "inst:The_vehicle",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The vehicle",
@@ -75,7 +74,6 @@
       {
         "@id": "inst:the_checkpoint",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the checkpoint",
@@ -110,10 +108,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_vehicle"
+        "inheres_in": {
+          "@id": "inst:Entity_Vehicle_8153d7563cce"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_searched"
         },
         "tagteam:parseConfidence": "high",
@@ -126,10 +124,10 @@
         ],
         "rdfs:label": "LocationRole",
         "tagteam:roleType": "LocationRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_checkpoint"
+        "inheres_in": {
+          "@id": "inst:Entity_Checkpoint_101a5ab565a8"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_searched"
         },
         "tagteam:preposition": "at",
@@ -145,9 +143,17 @@
         "rdfs:label": "vehicle",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.042Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.607Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7eb0ddc9127f",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_vehicle"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_vehicle_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Checkpoint_101a5ab565a8",
@@ -157,9 +163,17 @@
         ],
         "rdfs:label": "checkpoint",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.042Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.607Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7eb0ddc9127f",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_checkpoint"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_checkpoint_LocationRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_7eb0ddc9127f",
@@ -171,7 +185,7 @@
         "has_text_value": "The vehicle was searched at the checkpoint",
         "tagteam:char_count": 42,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-26T12:28:11.034Z"
+        "tagteam:received_at": "2026-02-27T10:50:24.600Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -217,7 +231,7 @@
             "@id": "inst:Act_searched"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.034Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:24.600Z"
       }
     ]
   }

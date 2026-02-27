@@ -2049,8 +2049,8 @@ class SemanticGraphBuilder {
           '@type': [role.role],
           'rdfs:label': roleLabel,
           'tagteam:roleType': roleLabel,
-          'tagteam:bearer': { '@id': `${this.options.namespace}:${this._sanitizeId(role.entity)}` },
-          'tagteam:realizedIn': { '@id': `${this.options.namespace}:Act_${this._sanitizeId(role.act)}` },
+          'inheres_in': { '@id': `${this.options.namespace}:${this._sanitizeId(role.entity)}` },
+          'realized_in': { '@id': `${this.options.namespace}:Act_${this._sanitizeId(role.act)}` },
         };
         if (role.preposition) roleNode['tagteam:preposition'] = role.preposition;
         // Confidence annotations on roles (AC-3.16)
@@ -2076,15 +2076,14 @@ class SemanticGraphBuilder {
           return !t.some(x => x.includes('Act') || x.includes('Role') || x.includes('Assertion'));
         });
 
-        // Bootstrap tagteam:denotesType from @type[0] and mark as DiscourseReferent
+        // Bootstrap tagteam:denotesType from @type[0] BEFORE overwriting, then clean Tier 1
         for (const node of referentNodes) {
           const types = [].concat(node['@type'] || []);
           if (!node['tagteam:denotesType'] && types[0]) {
             node['tagteam:denotesType'] = types[0];
           }
-          if (!types.includes('tagteam:DiscourseReferent')) {
-            node['@type'].push('tagteam:DiscourseReferent');
-          }
+          // Tier separation: Tier 1 carries only DiscourseReferent (no ontological types)
+          node['@type'] = ['tagteam:DiscourseReferent'];
         }
 
         // Create Tier 2 entities and link via cco:is_about
@@ -2095,6 +2094,41 @@ class SemanticGraphBuilder {
             node['is_about'] = { '@id': tier2IRI };
           }
         }
+        // Add is_subject_of back-link from Tier 2 to Tier 1 (inverse of is_about)
+        for (const t2 of tier2Entities) {
+          const tier1Node = referentNodes.find(n =>
+            n['is_about'] && n['is_about']['@id'] === t2['@id']
+          );
+          if (tier1Node) {
+            t2['is_subject_of'] = { '@id': tier1Node['@id'] };
+          }
+        }
+
+        // Repoint role bearers from Tier 1 to Tier 2
+        for (const node of graphNodes) {
+          if (node['inheres_in']) {
+            const bearerIRI = node['inheres_in']['@id'];
+            const tier2IRI = linkMap.get(bearerIRI);
+            if (tier2IRI) {
+              node['inheres_in'] = { '@id': tier2IRI };
+            } else {
+              console.warn(`[TierSep] No Tier 2 mapping for bearer ${bearerIRI} — role ${node['@id']} retains Tier 1 pointer`);
+            }
+          }
+        }
+
+        // Add is_bearer_of back-links on Tier 2 entities
+        for (const node of graphNodes) {
+          if (node['inheres_in']) {
+            const tier2IRI = node['inheres_in']['@id'];
+            const tier2Node = tier2Entities.find(t2 => t2['@id'] === tier2IRI);
+            if (tier2Node) {
+              if (!tier2Node['is_bearer_of']) tier2Node['is_bearer_of'] = [];
+              tier2Node['is_bearer_of'].push({ '@id': node['@id'] });
+            }
+          }
+        }
+
         for (const t2 of tier2Entities) {
           graphNodes.push(t2);
         }

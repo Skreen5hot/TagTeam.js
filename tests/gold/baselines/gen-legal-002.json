@@ -5,7 +5,7 @@
   "tags": [
     "legal"
   ],
-  "generatedAt": "2026-02-26T12:28:11.652Z",
+  "generatedAt": "2026-02-27T10:50:25.209Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -41,11 +41,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The jury",
+      "entity": "jury",
       "role": "Agent"
     },
     {
-      "entity": "the verdict",
+      "entity": "verdict",
       "role": "Patient"
     }
   ],
@@ -54,7 +54,6 @@
       {
         "@id": "inst:The_jury",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The jury",
@@ -74,7 +73,6 @@
       {
         "@id": "inst:the_verdict",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the verdict",
@@ -108,10 +106,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_jury"
+        "inheres_in": {
+          "@id": "inst:Entity_Jury_11bfbc158934"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_delivered"
         },
         "tagteam:parseConfidence": "high",
@@ -124,10 +122,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_verdict"
+        "inheres_in": {
+          "@id": "inst:Entity_Verdict_1001707536e4"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_delivered"
         },
         "tagteam:parseConfidence": "medium",
@@ -142,9 +140,17 @@
         "rdfs:label": "jury",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.652Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.209Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdf10feb9b2b",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_jury"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_jury_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Verdict_1001707536e4",
@@ -154,9 +160,17 @@
         ],
         "rdfs:label": "verdict",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.652Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.209Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdf10feb9b2b",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_verdict"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_verdict_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_bdf10feb9b2b",
@@ -168,7 +182,7 @@
         "has_text_value": "The jury delivered the verdict",
         "tagteam:char_count": 30,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-26T12:28:11.645Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.202Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -214,7 +228,7 @@
             "@id": "inst:Act_delivered"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.645Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.202Z"
       }
     ]
   }

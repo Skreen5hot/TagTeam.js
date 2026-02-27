@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-26T12:28:09.758Z",
+  "generatedAt": "2026-02-27T10:50:23.314Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -56,15 +56,15 @@
   ],
   "extractedRoles": [
     {
-      "entity": "CBP",
+      "entity": "cbp",
       "role": "Agent"
     },
     {
-      "entity": "the suspect",
+      "entity": "suspect",
       "role": "Patient"
     },
     {
-      "entity": "the border",
+      "entity": "border",
       "role": "Location"
     }
   ],
@@ -73,7 +73,6 @@
       {
         "@id": "inst:CBP",
         "@type": [
-          "Organization",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "CBP",
@@ -94,7 +93,6 @@
       {
         "@id": "inst:the_suspect",
         "@type": [
-          "Person",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the suspect",
@@ -112,7 +110,6 @@
       {
         "@id": "inst:the_border",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the border",
@@ -146,10 +143,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:CBP"
+        "inheres_in": {
+          "@id": "inst:Organization_Cbp_1e0a8cbcedd1"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_apprehended"
         },
         "tagteam:parseConfidence": "medium",
@@ -162,10 +159,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_suspect"
+        "inheres_in": {
+          "@id": "inst:Person_Suspect_6281039006d8"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_apprehended"
         },
         "tagteam:parseConfidence": "medium",
@@ -178,10 +175,10 @@
         ],
         "rdfs:label": "LocationRole",
         "tagteam:roleType": "LocationRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_border"
+        "inheres_in": {
+          "@id": "inst:Entity_Border_b409f35e568a"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_apprehended"
         },
         "tagteam:preposition": "at",
@@ -197,9 +194,17 @@
         "rdfs:label": "cbp",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.757Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.314Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_fd4cf6ffec2e",
-        "tagteam:denotesType": "Organization"
+        "tagteam:denotesType": "Organization",
+        "is_subject_of": {
+          "@id": "inst:CBP"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_CBP_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Person_Suspect_6281039006d8",
@@ -209,9 +214,17 @@
         ],
         "rdfs:label": "suspect",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.757Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.314Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_fd4cf6ffec2e",
-        "tagteam:denotesType": "Person"
+        "tagteam:denotesType": "Person",
+        "is_subject_of": {
+          "@id": "inst:the_suspect"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_suspect_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Border_b409f35e568a",
@@ -221,9 +234,17 @@
         ],
         "rdfs:label": "border",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.757Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.314Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_fd4cf6ffec2e",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_border"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_border_LocationRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_fd4cf6ffec2e",
@@ -235,7 +256,7 @@
         "has_text_value": "CBP apprehended the suspect at the border",
         "tagteam:char_count": 41,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-26T12:28:09.749Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.302Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -284,7 +305,7 @@
             "@id": "inst:Act_apprehended"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:09.749Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.302Z"
       }
     ]
   }

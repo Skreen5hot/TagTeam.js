@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-26T12:28:10.351Z",
+  "generatedAt": "2026-02-27T10:50:23.911Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -51,11 +51,11 @@
   ],
   "extractedRoles": [
     {
-      "entity": "The instructor",
+      "entity": "instructor",
       "role": "Agent"
     },
     {
-      "entity": "the recruits",
+      "entity": "recruit",
       "role": "Patient"
     }
   ],
@@ -64,7 +64,6 @@
       {
         "@id": "inst:The_instructor",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The instructor",
@@ -84,7 +83,6 @@
       {
         "@id": "inst:the_recruits",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the recruits",
@@ -118,10 +116,10 @@
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
-        "tagteam:bearer": {
-          "@id": "inst:The_instructor"
+        "inheres_in": {
+          "@id": "inst:Entity_Instructor_35c309ed1aa9"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_taught"
         },
         "tagteam:parseConfidence": "high",
@@ -134,10 +132,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_recruits"
+        "inheres_in": {
+          "@id": "inst:Entity_Recruit_4b6131a5af3f"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_taught"
         },
         "tagteam:parseConfidence": "medium",
@@ -152,9 +150,17 @@
         "rdfs:label": "instructor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.351Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.910Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4e2012bd3ab5",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_instructor"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_The_instructor_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Recruit_4b6131a5af3f",
@@ -164,9 +170,17 @@
         ],
         "rdfs:label": "recruit",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.351Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.910Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_4e2012bd3ab5",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_recruits"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_recruits_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_4e2012bd3ab5",
@@ -178,7 +192,7 @@
         "has_text_value": "The instructor taught the recruits defensive tactics",
         "tagteam:char_count": 52,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-26T12:28:10.343Z"
+        "tagteam:received_at": "2026-02-27T10:50:23.903Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -224,7 +238,7 @@
             "@id": "inst:Act_taught"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:10.343Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:23.903Z"
       }
     ]
   }

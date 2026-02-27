@@ -221,6 +221,7 @@ class JSONLDSerializer {
       detected_by:           { '@id': 'tagteam:detected_by',           '@type': '@id' },
       based_on:              { '@id': 'tagteam:based_on',              '@type': '@id' },
       instantiated_by:       { '@id': 'tagteam:instantiated_by',       '@type': '@id' },
+      denotesType:           { '@id': 'tagteam:denotesType' },
 
       competingParties: {
         '@id':        'tagteam:competingParties',

@@ -6,7 +6,7 @@
     "long-np",
     "cbp"
   ],
-  "generatedAt": "2026-02-26T12:28:11.741Z",
+  "generatedAt": "2026-02-27T10:50:25.291Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -47,7 +47,7 @@
   ],
   "extractedRoles": [
     {
-      "entity": "the memorandum",
+      "entity": "memorandum",
       "role": "Patient"
     }
   ],
@@ -56,7 +56,6 @@
       {
         "@id": "inst:The_newly_appointed_deputy_commissioner_of_field_operations",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The newly appointed deputy commissioner of field operations",
@@ -74,7 +73,6 @@
       {
         "@id": "inst:field_operations",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "field operations",
@@ -92,7 +90,6 @@
       {
         "@id": "inst:the_memorandum",
         "@type": [
-          "Entity",
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "the memorandum",
@@ -138,10 +135,10 @@
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
-        "tagteam:bearer": {
-          "@id": "inst:the_memorandum"
+        "inheres_in": {
+          "@id": "inst:Entity_Memorandum_f713698a82f9"
         },
-        "tagteam:realizedIn": {
+        "realized_in": {
           "@id": "inst:Act_issued"
         },
         "tagteam:parseConfidence": "medium",
@@ -155,9 +152,12 @@
         ],
         "rdfs:label": "newly appointed deputy commissioner of field operation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.741Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.291Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_913620ff359a",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:The_newly_appointed_deputy_commissioner_of_field_operations"
+        }
       },
       {
         "@id": "inst:Entity_Field_Operation_62142b17ad6b",
@@ -167,9 +167,12 @@
         ],
         "rdfs:label": "field operation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.741Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.291Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_913620ff359a",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:field_operations"
+        }
       },
       {
         "@id": "inst:Entity_Memorandum_f713698a82f9",
@@ -179,9 +182,17 @@
         ],
         "rdfs:label": "memorandum",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.741Z",
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.291Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_913620ff359a",
-        "tagteam:denotesType": "Entity"
+        "tagteam:denotesType": "Entity",
+        "is_subject_of": {
+          "@id": "inst:the_memorandum"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_memorandum_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_913620ff359a",
@@ -193,7 +204,7 @@
         "has_text_value": "The newly appointed deputy commissioner of field operations issued the memorandum",
         "tagteam:char_count": 81,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-26T12:28:11.728Z"
+        "tagteam:received_at": "2026-02-27T10:50:25.280Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -245,7 +256,7 @@
             "@id": "inst:Act_issued"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-26T12:28:11.728Z"
+        "tagteam:instantiated_at": "2026-02-27T10:50:25.280Z"
       }
     ]
   }
