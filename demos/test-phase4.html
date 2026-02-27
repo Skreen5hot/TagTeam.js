@@ -25,31 +25,8 @@
                 // Check if nlp (Compromise) is available
                 log('window.nlp available: ' + (typeof window.nlp));
 
-                // Load tree models
-                log('Loading models...');
-                try {
-                    const [posRes, depRes] = await Promise.all([
-                        fetch('../dist/models/pos-weights-pruned.json'),
-                        fetch('../dist/models/dep-weights-pruned.json')
-                    ]);
-                    const posJSON = await posRes.json();
-                    const depJSON = await depRes.json();
-                    let calJSON = null;
-                    try { calJSON = await fetch('../dist/models/dep-calibration.json').then(r => r.json()); } catch(e) {}
-                    let gazetteers = null;
-                    try {
-                        const gazFiles = ['names.json', 'organizations.json', 'places.json'];
-                        gazetteers = await Promise.all(
-                            gazFiles.map(f => fetch('../dist/models/gazetteers/' + f).then(r => r.ok ? r.json() : null))
-                        );
-                        gazetteers = gazetteers.filter(g => g !== null);
-                        if (gazetteers.length === 0) gazetteers = null;
-                    } catch(e) { /* gazetteers are optional */ }
-                    TagTeam.loadModels(posJSON, depJSON, calJSON, gazetteers);
-                    log('Models loaded. areModelsLoaded: ' + TagTeam.areModelsLoaded());
-                } catch (e) {
-                    log('Model loading failed: ' + e.message + ' — falling back to legacy');
-                }
+                // Models are baked into the bundle — no fetch needed
+                log('Models baked in. areModelsLoaded: ' + TagTeam.areModelsLoaded());
 
                 // Try building a graph
                 var opts = {};

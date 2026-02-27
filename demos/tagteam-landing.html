@@ -1059,36 +1059,11 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
         var _cachedGraph = null;
         var _cachedParse = null;
         var _currentText = '';
-        var _modelsLoaded = false;
+        var _modelsLoaded = true; // Models are baked into the bundle
 
-        // ── Load tree pipeline models ──
-        window.addEventListener('load', async function() {
+        window.addEventListener('load', function() {
             if (typeof TagTeam !== 'undefined' && TagTeam.version) {
                 document.getElementById('hero-version').textContent = 'v' + TagTeam.version;
-            }
-            // Load models for tree pipeline
-            try {
-                var modelBase = (window.location.hostname === 'localhost' || window.location.hostname === '')
-                    ? '../dist/models/' : 'models/';
-                var responses = await Promise.all([
-                    fetch(modelBase + 'pos-weights-pruned.json').then(function(r) { return r.json(); }),
-                    fetch(modelBase + 'dep-weights-pruned.json').then(function(r) { return r.json(); })
-                ]);
-                var calJSON = null;
-                try { calJSON = await fetch(modelBase + 'dep-calibration.json').then(function(r) { return r.json(); }); } catch(e) {}
-                var gazetteers = null;
-                try {
-                    var gazFiles = ['names.json', 'organizations.json', 'places.json'];
-                    gazetteers = await Promise.all(
-                        gazFiles.map(function(f) { return fetch(modelBase + 'gazetteers/' + f).then(function(r) { return r.ok ? r.json() : null; }); })
-                    );
-                    gazetteers = gazetteers.filter(function(g) { return g !== null; });
-                    if (gazetteers.length === 0) gazetteers = null;
-                } catch(e) { /* gazetteers are optional */ }
-                TagTeam.loadModels(responses[0], responses[1], calJSON, gazetteers);
-                _modelsLoaded = true;
-            } catch (e) {
-                console.warn('Model loading failed, using legacy pipeline:', e.message);
             }
             // Auto-analyze default text
             var input = document.getElementById('input');

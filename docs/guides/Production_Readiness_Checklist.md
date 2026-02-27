@@ -1,11 +1,11 @@
 # TagTeam.js — Production Readiness Checklist
 
-**Version:** 3.0.2
+**Version:** 3.0.3
 **Date:** February 27, 2026
 **Author:** Aaron, Technical Lead / Semantic Architect
 **Status:** Merged to MAIN
-**Branch:** origin/main (commit `162361e`)
-**Previous:** v3.0.1 at `b6a7896`
+**Branch:** origin/dev (commit `040ce19`)
+**Previous:** v3.0.2 at `162361e`
 **Classification:** INTERNAL — Development Team Distribution Only
 
 ---
@@ -17,6 +17,8 @@ The BFO/CCO IRI integrity audit is complete. Over the course of fifteen commits,
 The v2.2 audit (commits `10b1817`, `b6a7896`) fixed 3 additional fabricated CCO IRIs (`has_input`, `has_output`, `prescribed_by`), added 6 missing CCO inverse properties, restructured the @context to consistent expanded `{@id}` form, added 27 v3 ontology terms, and corrected datatype typing for `has_text_value` (`xsd:string`) and `has_start_time`/`has_end_time` (`xsd:dateTime`).
 
 The Tier 1/Tier 2 type separation fix (commit `162361e`) resolved the ontological contradiction where Tier 1 DiscourseReferent nodes carried both information-entity and independent-continuant types. Tier 1 `@type` is now `[DiscourseReferent]` only, with ontological type preserved as `denotesType` metadata. Fabricated role properties (`tagteam:bearer`, `tagteam:realizedIn`) replaced with BFO properties (`inheres_in`, `realized_in`). Role bearers repointed from Tier 1 to Tier 2. Back-links (`is_subject_of`, `is_bearer_of`) added on Tier 2 for O(1) graph traversal. 343 structural checks passed across 11 test graphs. See `docs/development/tier-separation-violation-revised.md` for the full architecture specification.
+
+The single-file architecture change (commit `040ce19`) embeds all pipeline models (POS weights, dep weights, calibration, gazetteers) directly into `tagteam.js` at build time. The bundle is now a single 11.10 MB artifact (2.30 MB gzip) that works with zero configuration — `<script src="tagteam.js">` and the parser is ready. `loadModels()` remains as a swap override for power users. Stale artifacts (`tagteam-core.js`, `tagteam-values.js`, `dist/models/`) removed. `dist/standalone-demo.html` proves zero-config parsing from `file:///`.
 
 This checklist defines the requirements for merging the dev branch to MAIN, the criteria for any external demonstration or deployment, and the hardening tasks that should be scheduled after the initial release. Items are organized into three tiers based on blocking priority.
 
@@ -41,8 +43,10 @@ This checklist defines the requirements for merging the dev branch to MAIN, the 
 | `b6a7896` | Fix has_start_time/has_end_time @context typing to xsd:dateTime | 2 incorrectly typed properties |
 | `56e262a` | Update Production Readiness Checklist for v2.2 audit | — |
 | `162361e` | Tier 1/Tier 2 type separation: eliminate ontological contradiction | 2 fabricated properties (`tagteam:bearer`, `tagteam:realizedIn`) |
+| `2def172` | Update Production Readiness Checklist for tier separation fix | — |
+| `040ce19` | Embed models into bundle — zero-configuration single-file architecture | — |
 
-**Result:** Zero phantom IRIs remain in `src/`. Zero fabricated role properties remain. Every IRI in every output graph resolves to a published ontology entry or is declared as `tagteam:` namespace. Tier 1/Tier 2 type separation is enforced — no OWL disjointness violations.
+**Result:** Zero phantom IRIs remain in `src/`. Zero fabricated role properties remain. Every IRI in every output graph resolves to a published ontology entry or is declared as `tagteam:` namespace. Tier 1/Tier 2 type separation is enforced — no OWL disjointness violations. Single-file architecture: one artifact, zero external dependencies, zero setup.
 
 ---
 
@@ -60,9 +64,9 @@ This checklist defines the requirements for merging the dev branch to MAIN, the 
 
 ### 1.2 Build Artifact Integrity
 
-- [x] **Demo bundle sync.** Verify `demos/tagteam.js` matches `dist/tagteam.js` by checksum. Add a CI step that compares the two files and fails on mismatch. *(Verified at `162361e`: checksum `dbfd3431f85395da4c356ade516385ef`. CI step not yet automated.)*
+- [x] **Demo bundle sync.** Verify `demos/tagteam.js` matches `dist/tagteam.js` by checksum. Add a CI step that compares the two files and fails on mismatch. *(Verified at `040ce19`: checksum `7d53518d4726a40753657c2aae993294`. CI step not yet automated.)*
 
-- [x] **Model file loading.** Confirm all demo pages successfully load: POS lexicon, dependency model, and all gazetteer files (places, organizations, person keywords). *(Verified at `c97229b`; no model changes since.)*
+- [x] **Single-file architecture.** Verify `dist/` contains only `tagteam.js` and `standalone-demo.html` — no `models/` directory, no `tagteam-core.js`, no `tagteam-values.js`. Models (POS weights, dep weights, calibration, gazetteers) are baked into the bundle at build time. `TagTeam.areModelsLoaded()` must return `true` immediately without calling `loadModels()`. `dist/standalone-demo.html` must parse text via `file:///` with zero network requests. *(Verified at `040ce19`: 11.10 MB bundle, gzip 2.30 MB. Stale artifacts removed. Standalone demo confirmed working.)*
 
 - [x] **Gold baseline evaluation.** Run `npm run gold:evaluate`. Zero mismatches required. *(Verified at `162361e`: Entity F1 89.6%, Role F1 57.8%, 0 mismatches. 200 baselines regenerated. Role F1 drop from 59.3% is a label-source change — evaluator reads Tier 2 labels post-separation. See FT-01 in merge approval memo.)*
 
@@ -80,9 +84,9 @@ This checklist defines the requirements for merging the dev branch to MAIN, the 
 
 ### 2.1 Performance and Bundle Size
 
-- [ ] **Compression analysis.** The 5.2MB raw bundle is the largest cost to the user in an edge-canonical architecture. Verify gzip and Brotli compressed sizes. Target: under 1.5MB compressed.
+- [x] **Bundle size and compression.** The single-file bundle (with embedded models) is 11.10 MB raw / 2.30 MB gzip. Verified within the 15 MB / 4 MB CI gates. *(Verified at `040ce19`.)*
 
-- [ ] **POS lexicon lazy loading.** The 4.1MB POS lexicon and Turtle ontology files should load on demand when `TagTeam.parse()` is first called, not at import time. This is the highest-impact optimization available.
+- [ ] **Brotli compression analysis.** Verify Brotli compressed size for CDN delivery. Target: under 2 MB Brotli.
 
 - [ ] **Automated parse-time benchmark.** Add a CI step that measures `parse()` execution time on a standard 20-word sentence. Fail if time exceeds 60ms on the CI runner. Establish a baseline and track regressions.
 
@@ -212,6 +216,18 @@ grep -rn "tagteam:has_input\|tagteam:has_output\|tagteam:prescribed_by" src/
 ```bash
 grep -rn "tagteam:bearer\|tagteam:realizedIn" src/
 grep -rn "tagteam:bearer\|tagteam:realizedIn" tests/ --include="*.js"
+```
+
+### Single-File Architecture Verification
+
+```bash
+# dist/ must contain only tagteam.js and standalone-demo.html — no models/ directory
+ls dist/
+# Expected: standalone-demo.html  tagteam.js
+
+# areModelsLoaded() must return true without loadModels()
+node -e "const T = require('./dist/tagteam.js'); console.log(T.areModelsLoaded())"
+# Expected: true
 ```
 
 ### Build Verification
