@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T21:29:42.775Z",
+  "generatedAt": "2026-02-28T11:17:37.199Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -181,7 +181,7 @@
         ],
         "rdfs:label": "specialist",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:42.775Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.199Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be0610f95ed1",
         "tagteam:denotesType": "Person",
         "is_subject_of": {
@@ -196,7 +196,7 @@
         ],
         "rdfs:label": "sample",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:42.775Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.199Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be0610f95ed1",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -216,7 +216,7 @@
         ],
         "rdfs:label": "shipment",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:42.775Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.199Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be0610f95ed1",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -238,7 +238,7 @@
         "has_text_value": "The specialist collected samples from the shipment",
         "tagteam:char_count": 50,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-27T21:29:42.761Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.192Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -290,7 +290,7 @@
             "@id": "inst:Act_collected"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T21:29:42.761Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.192Z"
       }
     ]
   }

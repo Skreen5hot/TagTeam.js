@@ -6,7 +6,7 @@
     "news",
     "labor"
   ],
-  "generatedAt": "2026-02-27T21:29:43.017Z",
+  "generatedAt": "2026-02-28T11:17:37.402Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -141,7 +141,7 @@
         "rdfs:label": "union",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.016Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.402Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_99e5af5b7348",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -161,7 +161,7 @@
         ],
         "rdfs:label": "contract",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.017Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.402Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_99e5af5b7348",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -183,7 +183,7 @@
         "has_text_value": "The union ratified the contract",
         "tagteam:char_count": 31,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-27T21:29:43.007Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.396Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -229,7 +229,7 @@
             "@id": "inst:Act_ratified"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.007Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.396Z"
       }
     ]
   }

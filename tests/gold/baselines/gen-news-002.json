@@ -6,7 +6,7 @@
     "news",
     "business"
   ],
-  "generatedAt": "2026-02-27T21:29:42.938Z",
+  "generatedAt": "2026-02-28T11:17:37.349Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -188,7 +188,7 @@
         "rdfs:label": "company",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:42.938Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.348Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be291b49b5d2",
         "tagteam:denotesType": "Organization",
         "is_subject_of": {
@@ -208,7 +208,7 @@
         ],
         "rdfs:label": "merger",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:42.938Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.349Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be291b49b5d2",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -228,7 +228,7 @@
         ],
         "rdfs:label": "its competitor",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:42.938Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.349Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be291b49b5d2",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -250,7 +250,7 @@
         "has_text_value": "The company announced a merger with its competitor",
         "tagteam:char_count": 50,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-27T21:29:42.925Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.340Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -299,7 +299,7 @@
             "@id": "inst:Act_announced"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T21:29:42.925Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.340Z"
       }
     ]
   }

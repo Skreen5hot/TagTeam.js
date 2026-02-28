@@ -166,8 +166,8 @@ function _resolveEntityText(text, entityTextToIRI) {
   const direct = entityTextToIRI.get(text.toLowerCase());
   if (direct) return direct;
 
-  // Strip leading prepositions: "of DHS" → "DHS", "in Washington" → "Washington"
-  const stripped = text.replace(/^(of|in|at|for|by|from|to|with|on|near)\s+/i, '');
+  // Strip leading prepositions: "of DHS" → "DHS", "within DHS" → "DHS"
+  const stripped = text.replace(/^(of|in|at|for|by|from|to|with|on|near|within|as)\s+/i, '');
   const match = entityTextToIRI.get(stripped.toLowerCase());
   if (match) return match;
 

@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-27T21:29:41.119Z",
+  "generatedAt": "2026-02-28T11:17:36.121Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -150,7 +150,7 @@
         "rdfs:label": "agent and the analyst",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:41.119Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.121Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_fba35c9e4b1f",
         "tagteam:denotesType": "Person",
         "is_subject_of": {
@@ -170,7 +170,7 @@
         ],
         "rdfs:label": "evidence",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:41.119Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.121Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_fba35c9e4b1f",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -192,7 +192,7 @@
         "has_text_value": "The agent and the analyst reviewed the evidence",
         "tagteam:char_count": 47,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-27T21:29:41.110Z"
+        "tagteam:received_at": "2026-02-28T11:17:36.114Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -238,7 +238,7 @@
             "@id": "inst:Act_reviewed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T21:29:41.110Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.114Z"
       }
     ]
   }

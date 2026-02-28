@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T21:29:41.966Z",
+  "generatedAt": "2026-02-28T11:17:36.905Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -71,7 +71,7 @@
         "rdfs:label": "checkpoint",
         "tagteam:genericityCategory": "AMB",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:41.965Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.905Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0388adf8a5e3",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -88,7 +88,7 @@
         "has_text_value": "The checkpoint is a fixed inspection station",
         "tagteam:char_count": 44,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-27T21:29:41.954Z"
+        "tagteam:received_at": "2026-02-28T11:17:36.896Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -128,7 +128,7 @@
             "@id": "inst:The_checkpoint"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T21:29:41.954Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.896Z"
       }
     ]
   }

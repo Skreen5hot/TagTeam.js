@@ -6,7 +6,7 @@
     "copular",
     "definitional"
   ],
-  "generatedAt": "2026-02-27T21:29:40.748Z",
+  "generatedAt": "2026-02-28T11:17:35.788Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -75,7 +75,7 @@
         "tagteam:nominatedClassLabel": "Field Office",
         "tagteam:nominationBasis": "unknown",
         "tagteam:requiresOntologyResolution": true,
-        "tagteam:instantiated_at": "2026-02-27T21:29:40.748Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:35.787Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7836a7e31d07",
         "tagteam:denotesType": "Facility",
         "is_subject_of": {
@@ -92,7 +92,7 @@
         "has_text_value": "A field office is a regional operational unit",
         "tagteam:char_count": 45,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-27T21:29:40.739Z"
+        "tagteam:received_at": "2026-02-28T11:17:35.778Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -132,7 +132,7 @@
             "@id": "inst:A_field_office"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T21:29:40.739Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:35.778Z"
       }
     ]
   }

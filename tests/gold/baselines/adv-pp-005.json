@@ -6,7 +6,7 @@
     "nested-pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T21:29:43.660Z",
+  "generatedAt": "2026-02-28T11:17:37.824Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -257,7 +257,7 @@
         "rdfs:label": "inspector",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.660Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.823Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_49fea0f990d9",
         "tagteam:denotesType": "Person",
         "is_subject_of": {
@@ -277,7 +277,7 @@
         ],
         "rdfs:label": "cargo",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.660Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.823Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_49fea0f990d9",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -297,7 +297,7 @@
         ],
         "rdfs:label": "container",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.660Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.823Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_49fea0f990d9",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -317,7 +317,7 @@
         ],
         "rdfs:label": "port of entry",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.660Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.823Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_49fea0f990d9",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -337,7 +337,7 @@
         ],
         "rdfs:label": "entry",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.660Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.823Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_49fea0f990d9",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -354,7 +354,7 @@
         "has_text_value": "The inspector examined the cargo in the container at the port of entry",
         "tagteam:char_count": 70,
         "tagteam:word_count": 13,
-        "tagteam:received_at": "2026-02-27T21:29:43.650Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.814Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -409,7 +409,7 @@
             "@id": "inst:Act_examined"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.650Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.814Z"
       }
     ]
   }

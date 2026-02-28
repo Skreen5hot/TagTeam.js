@@ -6,7 +6,7 @@
     "ditransitive",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T21:29:42.843Z",
+  "generatedAt": "2026-02-28T11:17:37.269Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -149,7 +149,7 @@
         "rdfs:label": "headquarter",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:42.842Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.268Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_208d3324efc8",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -169,7 +169,7 @@
         ],
         "rdfs:label": "sector",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:42.842Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.268Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_208d3324efc8",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -191,7 +191,7 @@
         "has_text_value": "The headquarters sent the sector updated guidelines",
         "tagteam:char_count": 51,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-27T21:29:42.828Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.256Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -237,7 +237,7 @@
             "@id": "inst:Act_sent"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T21:29:42.828Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.256Z"
       }
     ]
   }

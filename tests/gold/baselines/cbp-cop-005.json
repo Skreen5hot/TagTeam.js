@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T21:29:41.896Z",
+  "generatedAt": "2026-02-28T11:17:36.851Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -84,10 +84,17 @@
         "@type": [
           "tagteam:StructuralAssertion"
         ],
-        "tagteam:subject": "The CBP Academy",
         "tagteam:pattern": "predication",
-        "tagteam:object": "in Georgia",
-        "tagteam:copula": "is"
+        "tagteam:copula": "is",
+        "assertionSubject": {
+          "@id": "inst:The_CBP_Academy"
+        },
+        "assertionObject": {
+          "@id": "inst:Georgia"
+        },
+        "assertedRelation": {
+          "@id": "located_in"
+        }
       },
       {
         "@id": "inst:Entity_Cbp_Academy_c768ae6c9b3f",
@@ -98,11 +105,14 @@
         "rdfs:label": "cbp academy",
         "tagteam:genericityCategory": "AMB",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:41.896Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.851Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_8c789bab23f6",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
           "@id": "inst:The_CBP_Academy"
+        },
+        "located_in": {
+          "@id": "inst:Entity_Georgia_fc659f259d0d"
         }
       },
       {
@@ -113,7 +123,7 @@
         ],
         "rdfs:label": "georgia",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:41.896Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.851Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_8c789bab23f6",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -130,7 +140,7 @@
         "has_text_value": "The CBP Academy is a training facility in Georgia",
         "tagteam:char_count": 49,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-27T21:29:41.884Z"
+        "tagteam:received_at": "2026-02-28T11:17:36.840Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -173,7 +183,7 @@
             "@id": "inst:Georgia"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T21:29:41.884Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.840Z"
       }
     ]
   }

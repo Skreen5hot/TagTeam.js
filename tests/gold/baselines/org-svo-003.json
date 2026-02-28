@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-27T21:29:40.806Z",
+  "generatedAt": "2026-02-28T11:17:35.831Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -142,7 +142,7 @@
         "rdfs:label": "committee",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:40.805Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:35.831Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_aaaf63c68cad",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -162,7 +162,7 @@
         ],
         "rdfs:label": "proposal",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:40.805Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:35.831Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_aaaf63c68cad",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -184,7 +184,7 @@
         "has_text_value": "The committee reviewed the proposal",
         "tagteam:char_count": 35,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-27T21:29:40.797Z"
+        "tagteam:received_at": "2026-02-28T11:17:35.824Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -230,7 +230,7 @@
             "@id": "inst:Act_reviewed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T21:29:40.797Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:35.824Z"
       }
     ]
   }

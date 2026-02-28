@@ -6,7 +6,7 @@
     "nested-pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T21:29:43.586Z",
+  "generatedAt": "2026-02-28T11:17:37.773Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -278,7 +278,7 @@
         "rdfs:label": "agent",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.585Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.772Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
         "tagteam:denotesType": "Person",
         "is_subject_of": {
@@ -298,7 +298,7 @@
         ],
         "rdfs:label": "report",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.585Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.772Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -318,7 +318,7 @@
         ],
         "rdfs:label": "office",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.585Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.772Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
         "tagteam:denotesType": "Facility",
         "is_subject_of": {
@@ -338,7 +338,7 @@
         ],
         "rdfs:label": "build",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.585Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.772Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
         "tagteam:denotesType": "Facility",
         "is_subject_of": {
@@ -358,7 +358,7 @@
         ],
         "rdfs:label": "campu",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.585Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.772Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_885cdc14aee1",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -380,7 +380,7 @@
         "has_text_value": "The agent filed the report at the office in the building on the campus",
         "tagteam:char_count": 70,
         "tagteam:word_count": 14,
-        "tagteam:received_at": "2026-02-27T21:29:43.566Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.759Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -435,7 +435,7 @@
             "@id": "inst:Act_filed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.566Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.759Z"
       }
     ]
   }

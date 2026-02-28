@@ -8,7 +8,7 @@
     "action",
     "pp"
   ],
-  "generatedAt": "2026-02-27T21:29:40.918Z",
+  "generatedAt": "2026-02-28T11:17:35.939Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -183,7 +183,7 @@
         ],
         "rdfs:label": "marshal",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:40.917Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:35.939Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_61ebb3f0ac09",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -198,7 +198,7 @@
         ],
         "rdfs:label": "prisoner",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:40.917Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:35.939Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_61ebb3f0ac09",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -218,7 +218,7 @@
         ],
         "rdfs:label": "courthouse",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:40.917Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:35.939Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_61ebb3f0ac09",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -240,7 +240,7 @@
         "has_text_value": "The marshal transported the prisoner to the courthouse",
         "tagteam:char_count": 54,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-27T21:29:40.908Z"
+        "tagteam:received_at": "2026-02-28T11:17:35.928Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -292,7 +292,7 @@
             "@id": "inst:Act_transported"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T21:29:40.908Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:35.928Z"
       }
     ]
   }

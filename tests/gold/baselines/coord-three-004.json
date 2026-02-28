@@ -7,7 +7,7 @@
     "coordination",
     "government"
   ],
-  "generatedAt": "2026-02-27T21:29:41.572Z",
+  "generatedAt": "2026-02-28T11:17:36.549Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -144,7 +144,7 @@
         ],
         "rdfs:label": "federal state and local agencies responded to the emergency",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:41.572Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.549Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_34abe0e90d94",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -164,7 +164,7 @@
         "tagteam:nominatedClassLabel": "Local Agency",
         "tagteam:nominationBasis": "bare_plural",
         "tagteam:requiresOntologyResolution": true,
-        "tagteam:instantiated_at": "2026-02-27T21:29:41.572Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.549Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_34abe0e90d94",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -179,7 +179,7 @@
         ],
         "rdfs:label": "emergency",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:41.572Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.549Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_34abe0e90d94",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -196,7 +196,7 @@
         "has_text_value": "Federal, state, and local agencies responded to the emergency",
         "tagteam:char_count": 61,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-27T21:29:41.561Z"
+        "tagteam:received_at": "2026-02-28T11:17:36.537Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -245,7 +245,7 @@
             "@id": "inst:Act_state"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T21:29:41.561Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.537Z"
       }
     ]
   }

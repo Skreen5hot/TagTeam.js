@@ -6,7 +6,7 @@
     "relative-clause",
     "forensics"
   ],
-  "generatedAt": "2026-02-27T21:29:43.756Z",
+  "generatedAt": "2026-02-28T11:17:37.893Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -181,7 +181,7 @@
         ],
         "rdfs:label": "evidence",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.755Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.892Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0b294fe327d7",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -197,7 +197,7 @@
         "rdfs:label": "which",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.755Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.893Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0b294fe327d7",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -218,7 +218,7 @@
         "rdfs:label": "team",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.755Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.893Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0b294fe327d7",
         "tagteam:denotesType": "Organization",
         "is_subject_of": {
@@ -240,7 +240,7 @@
         "has_text_value": "The evidence which the team collected was analyzed",
         "tagteam:char_count": 50,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-27T21:29:43.740Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.883Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -292,7 +292,7 @@
             "@id": "inst:Act_analyzed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.740Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.883Z"
       }
     ]
   }

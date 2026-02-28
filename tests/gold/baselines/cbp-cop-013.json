@@ -7,7 +7,7 @@
     "cbp",
     "trade"
   ],
-  "generatedAt": "2026-02-27T21:29:42.035Z",
+  "generatedAt": "2026-02-28T11:17:36.954Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -92,7 +92,7 @@
         ],
         "rdfs:label": "c tpat a voluntary trade partnership program",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:42.035Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.954Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5414586df117",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -108,7 +108,7 @@
         "rdfs:label": "tpat",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:42.035Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.954Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5414586df117",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -125,7 +125,7 @@
         "has_text_value": "C-TPAT is a voluntary trade partnership program",
         "tagteam:char_count": 47,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-27T21:29:42.022Z"
+        "tagteam:received_at": "2026-02-28T11:17:36.943Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -171,7 +171,7 @@
             "@id": "inst:Act_C"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T21:29:42.022Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.943Z"
       }
     ]
   }

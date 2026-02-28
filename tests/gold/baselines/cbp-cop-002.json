@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T21:29:41.855Z",
+  "generatedAt": "2026-02-28T11:17:36.811Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -97,7 +97,7 @@
         "tagteam:nominatedClassLabel": "Port Of Entry",
         "tagteam:nominationBasis": "unknown",
         "tagteam:requiresOntologyResolution": true,
-        "tagteam:instantiated_at": "2026-02-27T21:29:41.855Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.811Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1b6eef99bb8f",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -112,7 +112,7 @@
         ],
         "rdfs:label": "entry",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:41.855Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.811Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1b6eef99bb8f",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -129,7 +129,7 @@
         "has_text_value": "A port of entry is an authorized crossing point",
         "tagteam:char_count": 47,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-27T21:29:41.845Z"
+        "tagteam:received_at": "2026-02-28T11:17:36.803Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -172,7 +172,7 @@
             "@id": "inst:entry"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T21:29:41.845Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.803Z"
       }
     ]
   }

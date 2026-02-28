@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T21:29:42.322Z",
+  "generatedAt": "2026-02-28T11:17:37.070Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -142,7 +142,7 @@
         "rdfs:label": "narcotic",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:42.321Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.070Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e19973411aea",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -162,7 +162,7 @@
         ],
         "rdfs:label": "hidden compartment",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:42.321Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.070Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e19973411aea",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -184,7 +184,7 @@
         "has_text_value": "The narcotics were discovered in a hidden compartment",
         "tagteam:char_count": 53,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-27T21:29:42.307Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.061Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -230,7 +230,7 @@
             "@id": "inst:Act_discovered"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T21:29:42.307Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.061Z"
       }
     ]
   }

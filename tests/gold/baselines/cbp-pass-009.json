@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T21:29:42.404Z",
+  "generatedAt": "2026-02-28T11:17:37.090Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -152,7 +152,7 @@
         "tagteam:nominatedClassLabel": "Additional Agent",
         "tagteam:nominationBasis": "bare_plural",
         "tagteam:requiresOntologyResolution": true,
-        "tagteam:instantiated_at": "2026-02-27T21:29:42.403Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.090Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3dddf7de5304",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -172,7 +172,7 @@
         ],
         "rdfs:label": "sector chief",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:42.404Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.090Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3dddf7de5304",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -194,7 +194,7 @@
         "has_text_value": "Additional agents were deployed by the sector chief",
         "tagteam:char_count": 51,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-27T21:29:42.378Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.083Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -240,7 +240,7 @@
             "@id": "inst:Act_deployed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T21:29:42.378Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.083Z"
       }
     ]
   }

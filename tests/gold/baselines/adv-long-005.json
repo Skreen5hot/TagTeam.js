@@ -6,7 +6,7 @@
     "long-np",
     "government"
   ],
-  "generatedAt": "2026-02-27T21:29:43.538Z",
+  "generatedAt": "2026-02-28T11:17:37.742Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -119,7 +119,7 @@
         ],
         "rdfs:label": "assistant secretary for policy and planning approved the initiative",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.537Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.742Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_cb8ef2a97a1b",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -134,7 +134,7 @@
         ],
         "rdfs:label": "policy",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.537Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.742Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_cb8ef2a97a1b",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -149,7 +149,7 @@
         ],
         "rdfs:label": "initiative",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.537Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.742Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_cb8ef2a97a1b",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -166,7 +166,7 @@
         "has_text_value": "The assistant secretary for policy and planning approved the initiative",
         "tagteam:char_count": 71,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-27T21:29:43.522Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.734Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -215,7 +215,7 @@
             "@id": "inst:Act_secretary"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.522Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.734Z"
       }
     ]
   }

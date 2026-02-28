@@ -7,7 +7,7 @@
     "coordination",
     "government"
   ],
-  "generatedAt": "2026-02-27T21:29:41.533Z",
+  "generatedAt": "2026-02-28T11:17:36.507Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -139,7 +139,7 @@
         ],
         "rdfs:label": "fbi dea and atf coordinated the joint operation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:41.533Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.506Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7ef1c425b7be",
         "tagteam:denotesType": "Organization",
         "is_subject_of": {
@@ -155,7 +155,7 @@
         "rdfs:label": "atf",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:41.533Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.506Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7ef1c425b7be",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -170,7 +170,7 @@
         ],
         "rdfs:label": "joint operation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:41.533Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.506Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7ef1c425b7be",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -187,7 +187,7 @@
         "has_text_value": "The FBI, DEA, and ATF coordinated the joint operation",
         "tagteam:char_count": 53,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-27T21:29:41.521Z"
+        "tagteam:received_at": "2026-02-28T11:17:36.496Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -236,7 +236,7 @@
             "@id": "inst:Act_FBI"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T21:29:41.521Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.496Z"
       }
     ]
   }

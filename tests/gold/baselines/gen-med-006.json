@@ -6,7 +6,7 @@
     "medical",
     "diagnosis"
   ],
-  "generatedAt": "2026-02-27T21:29:43.284Z",
+  "generatedAt": "2026-02-28T11:17:37.558Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -141,7 +141,7 @@
         "rdfs:label": "radiologist",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.284Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.558Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7a1c7a55ec96",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -161,7 +161,7 @@
         ],
         "rdfs:label": "imaging results",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.284Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.558Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7a1c7a55ec96",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -183,7 +183,7 @@
         "has_text_value": "The radiologist reviewed the imaging results",
         "tagteam:char_count": 44,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-27T21:29:43.272Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.549Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -229,7 +229,7 @@
             "@id": "inst:Act_reviewed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.272Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.549Z"
       }
     ]
   }

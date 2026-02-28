@@ -5,7 +5,7 @@
   "tags": [
     "legal"
   ],
-  "generatedAt": "2026-02-27T21:29:43.418Z",
+  "generatedAt": "2026-02-28T11:17:37.655Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -140,7 +140,7 @@
         "rdfs:label": "clerk",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.417Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.655Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_86a5633a35b1",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -160,7 +160,7 @@
         ],
         "rdfs:label": "proceeding",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.417Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.655Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_86a5633a35b1",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -182,7 +182,7 @@
         "has_text_value": "The clerk recorded the proceedings",
         "tagteam:char_count": 34,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-27T21:29:43.406Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.648Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -228,7 +228,7 @@
             "@id": "inst:Act_recorded"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.406Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.648Z"
       }
     ]
   }

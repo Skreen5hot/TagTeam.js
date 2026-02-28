@@ -6,7 +6,7 @@
     "long-np",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T21:29:43.476Z",
+  "generatedAt": "2026-02-28T11:17:37.701Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -152,7 +152,7 @@
         ],
         "rdfs:label": "newly appointed deputy commissioner of field operation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.475Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.701Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_913620ff359a",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -167,7 +167,7 @@
         ],
         "rdfs:label": "field operation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.475Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.701Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_913620ff359a",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -182,7 +182,7 @@
         ],
         "rdfs:label": "memorandum",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.475Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.701Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_913620ff359a",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -204,7 +204,7 @@
         "has_text_value": "The newly appointed deputy commissioner of field operations issued the memorandum",
         "tagteam:char_count": 81,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-27T21:29:43.459Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.688Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -256,7 +256,7 @@
             "@id": "inst:Act_issued"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.459Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.688Z"
       }
     ]
   }

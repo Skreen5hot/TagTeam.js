@@ -6,7 +6,7 @@
     "long-np",
     "government"
   ],
-  "generatedAt": "2026-02-27T21:29:43.891Z",
+  "generatedAt": "2026-02-28T11:17:38.007Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -84,10 +84,17 @@
         "@type": [
           "tagteam:StructuralAssertion"
         ],
-        "tagteam:subject": "the summit",
         "tagteam:pattern": "predication",
-        "tagteam:object": "for international affairs",
-        "tagteam:copula": "attended"
+        "tagteam:copula": "attended",
+        "assertionSubject": {
+          "@id": "inst:the_summit"
+        },
+        "assertionObject": {
+          "@id": "inst:international_affairs"
+        },
+        "assertedRelation": {
+          "@id": "has_function"
+        }
       },
       {
         "@id": "inst:Entity_International_Affair_7514185c3bdc",
@@ -97,7 +104,7 @@
         ],
         "rdfs:label": "international affair",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.890Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:38.006Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a9461505ef30",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -113,11 +120,14 @@
         "rdfs:label": "summit",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.890Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:38.007Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a9461505ef30",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
           "@id": "inst:the_summit"
+        },
+        "has_function": {
+          "@id": "inst:Entity_International_Affair_7514185c3bdc"
         }
       },
       {
@@ -130,7 +140,7 @@
         "has_text_value": "The acting deputy assistant secretary for international affairs attended the summit",
         "tagteam:char_count": 83,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-27T21:29:43.881Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.998Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -173,7 +183,7 @@
             "@id": "inst:the_summit"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.881Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.998Z"
       }
     ]
   }

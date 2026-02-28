@@ -6,7 +6,7 @@
     "medical",
     "administration"
   ],
-  "generatedAt": "2026-02-27T21:29:43.322Z",
+  "generatedAt": "2026-02-28T11:17:37.586Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -141,7 +141,7 @@
         "rdfs:label": "board",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.322Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.586Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2253a00e3aff",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -161,7 +161,7 @@
         ],
         "rdfs:label": "new treatment protocol",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.322Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.586Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2253a00e3aff",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -183,7 +183,7 @@
         "has_text_value": "The board certified the new treatment protocol",
         "tagteam:char_count": 46,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-27T21:29:43.311Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.579Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -229,7 +229,7 @@
             "@id": "inst:Act_certified"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T21:29:43.311Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.579Z"
       }
     ]
   }

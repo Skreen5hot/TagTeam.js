@@ -6,7 +6,7 @@
     "news",
     "government"
   ],
-  "generatedAt": "2026-02-27T21:29:42.920Z",
+  "generatedAt": "2026-02-28T11:17:37.336Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -141,7 +141,7 @@
         "rdfs:label": "president",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:42.920Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.336Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_574197891588",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -161,7 +161,7 @@
         ],
         "rdfs:label": "executive order",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T21:29:42.920Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.336Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_574197891588",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -183,7 +183,7 @@
         "has_text_value": "The president signed the executive order",
         "tagteam:char_count": 40,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-27T21:29:42.908Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.329Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -229,7 +229,7 @@
             "@id": "inst:Act_signed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T21:29:42.908Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.329Z"
       }
     ]
   }

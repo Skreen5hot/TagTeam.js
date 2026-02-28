@@ -84,6 +84,20 @@ const RELATION_INFERENCE_TABLE = [
   { pattern: 'responsible for', relation: 'has_function' },
 ];
 
+/**
+ * Preposition-based fallback relations (FT-03b).
+ * When no specific predicate pattern matches, the nmod/obl preposition
+ * alone determines a default ontological relation.
+ */
+const PREPOSITION_FALLBACK_RELATIONS = {
+  'of':     'member_part_of',
+  'in':     'located_in',
+  'within': 'continuant_part_of',
+  'at':     'located_in',
+  'for':    'has_function',
+  'as':     'rdf:type',
+};
+
 // ============================================================================
 // TreeActExtractor
 // ============================================================================
@@ -336,7 +350,7 @@ class TreeActExtractor {
       object: objectSubtree.tokens.join(' '),
       copula: depTree.tokens[verbId - 1],
       negated: this._detectNegation(children),
-      relation: null,
+      relation: 'has_possession',
       subjectId: subjectChild.dependent,
       objectId: objectChild.dependent,
     };
@@ -518,6 +532,38 @@ class TreeActExtractor {
       }
     }
 
+    // FT-03b: Preposition-based fallback — when no specific predicate pattern
+    // matches, use the preposition alone to infer a default relation.
+    // e.g. "X is an agency of Y" → "of" → member_part_of
+    const fallbackPrep = this._extractFallbackPreposition(depTree, children);
+    if (fallbackPrep && PREPOSITION_FALLBACK_RELATIONS[fallbackPrep]) {
+      return PREPOSITION_FALLBACK_RELATIONS[fallbackPrep];
+    }
+
+    return null;
+  }
+
+  /**
+   * Extract the governing preposition from nmod/obl children for fallback
+   * relation inference. Checks nmod first (most common for copulars), then obl.
+   *
+   * @param {DepTree} depTree
+   * @param {Array} children - Children of the predicate root
+   * @returns {string|null} Lowercase preposition or null
+   */
+  _extractFallbackPreposition(depTree, children) {
+    const nmodChild = children.find(c => c.label === 'nmod');
+    if (nmodChild) {
+      const nmodChildren = depTree.getChildren(nmodChild.dependent);
+      const caseChild = nmodChildren.find(c => c.label === 'case');
+      if (caseChild) return caseChild.word.toLowerCase();
+    }
+    const oblChild = children.find(c => c.label === 'obl');
+    if (oblChild) {
+      const oblChildren = depTree.getChildren(oblChild.dependent);
+      const caseChild = oblChildren.find(c => c.label === 'case');
+      if (caseChild) return caseChild.word.toLowerCase();
+    }
     return null;
   }
 
