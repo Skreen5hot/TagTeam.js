@@ -6,7 +6,7 @@
     "multi-clause",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T10:50:25.500Z",
+  "generatedAt": "2026-02-27T21:29:43.773Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -192,7 +192,7 @@
         ],
         "rdfs:label": "agent",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.500Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.773Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_24ce32ca9e10",
         "tagteam:denotesType": "Person",
         "is_subject_of": {
@@ -207,7 +207,7 @@
         ],
         "rdfs:label": "suspect",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.500Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.773Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_24ce32ca9e10",
         "tagteam:denotesType": "Person",
         "is_subject_of": {
@@ -228,7 +228,7 @@
         "rdfs:label": "team",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.500Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.773Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_24ce32ca9e10",
         "tagteam:denotesType": "Organization",
         "is_subject_of": {
@@ -243,7 +243,7 @@
         ],
         "rdfs:label": "area",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.500Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.773Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_24ce32ca9e10",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -260,7 +260,7 @@
         "has_text_value": "The agent arrested the suspect and the team secured the area",
         "tagteam:char_count": 60,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-27T10:50:25.490Z"
+        "tagteam:received_at": "2026-02-27T21:29:43.760Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -315,7 +315,7 @@
             "@id": "inst:Act_arrested"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.490Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.760Z"
       }
     ]
   }

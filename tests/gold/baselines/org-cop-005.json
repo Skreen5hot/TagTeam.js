@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-27T10:50:23.090Z",
+  "generatedAt": "2026-02-27T21:29:40.608Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -89,7 +89,7 @@
         "rdfs:label": "department of justice",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.089Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:40.608Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d2e8d9af4275",
         "tagteam:denotesType": "Organization",
         "is_subject_of": {
@@ -104,7 +104,7 @@
         ],
         "rdfs:label": "justice",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.089Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:40.608Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d2e8d9af4275",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -121,7 +121,7 @@
         "has_text_value": "The Department of Justice is a cabinet-level department",
         "tagteam:char_count": 55,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-27T10:50:23.071Z"
+        "tagteam:received_at": "2026-02-27T21:29:40.595Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -164,7 +164,7 @@
             "@id": "inst:Justice"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.071Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:40.595Z"
       }
     ]
   }

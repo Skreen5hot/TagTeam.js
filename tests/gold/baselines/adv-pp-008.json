@@ -6,7 +6,7 @@
     "nested-pp",
     "government"
   ],
-  "generatedAt": "2026-02-27T10:50:25.689Z",
+  "generatedAt": "2026-02-27T21:29:44.004Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -196,7 +196,7 @@
         ],
         "rdfs:label": "liaison",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.689Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:44.004Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_06c6729ecab7",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -211,7 +211,7 @@
         ],
         "rdfs:label": "embassy",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.689Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:44.004Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_06c6729ecab7",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -231,7 +231,7 @@
         ],
         "rdfs:label": "capital of the neighboring country",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.689Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:44.004Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_06c6729ecab7",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -251,7 +251,7 @@
         ],
         "rdfs:label": "neighboring country",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.689Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:44.004Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_06c6729ecab7",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -268,7 +268,7 @@
         "has_text_value": "The liaison coordinated with the embassy in the capital of the neighboring country",
         "tagteam:char_count": 82,
         "tagteam:word_count": 13,
-        "tagteam:received_at": "2026-02-27T10:50:25.678Z"
+        "tagteam:received_at": "2026-02-27T21:29:43.993Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -323,7 +323,7 @@
             "@id": "inst:Act_coordinated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.678Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.993Z"
       }
     ]
   }

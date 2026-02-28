@@ -8,7 +8,7 @@
     "copular",
     "government"
   ],
-  "generatedAt": "2026-02-27T10:50:23.650Z",
+  "generatedAt": "2026-02-27T21:29:41.106Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -96,7 +96,7 @@
         "rdfs:label": "cbp and ice",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.650Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:41.106Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6f7877c05cfe",
         "tagteam:denotesType": "Organization",
         "is_subject_of": {
@@ -111,7 +111,7 @@
         ],
         "rdfs:label": "dhs",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.650Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:41.106Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6f7877c05cfe",
         "tagteam:denotesType": "Organization",
         "is_subject_of": {
@@ -128,7 +128,7 @@
         "has_text_value": "CBP and ICE are components of DHS",
         "tagteam:char_count": 33,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-27T10:50:23.641Z"
+        "tagteam:received_at": "2026-02-27T21:29:41.096Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -171,7 +171,7 @@
             "@id": "inst:DHS"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.641Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:41.096Z"
       }
     ]
   }

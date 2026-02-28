@@ -6,7 +6,7 @@
     "academic",
     "administration"
   ],
-  "generatedAt": "2026-02-27T10:50:25.072Z",
+  "generatedAt": "2026-02-27T21:29:43.162Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -141,7 +141,7 @@
         "rdfs:label": "dean",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.071Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.162Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_eebf1989e3dc",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -161,7 +161,7 @@
         ],
         "rdfs:label": "new curriculum",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.071Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.162Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_eebf1989e3dc",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -183,7 +183,7 @@
         "has_text_value": "The dean approved the new curriculum",
         "tagteam:char_count": 36,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-27T10:50:25.062Z"
+        "tagteam:received_at": "2026-02-27T21:29:43.149Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -229,7 +229,7 @@
             "@id": "inst:Act_approved"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.062Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.149Z"
       }
     ]
   }

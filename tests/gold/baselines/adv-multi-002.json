@@ -6,7 +6,7 @@
     "multi-clause",
     "government"
   ],
-  "generatedAt": "2026-02-27T10:50:25.512Z",
+  "generatedAt": "2026-02-27T21:29:43.792Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -203,7 +203,7 @@
         "rdfs:label": "director",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.512Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.792Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c507cb076f74",
         "tagteam:denotesType": "Person",
         "is_subject_of": {
@@ -223,7 +223,7 @@
         ],
         "rdfs:label": "operation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.512Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.792Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c507cb076f74",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -244,7 +244,7 @@
         "rdfs:label": "supervisor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.512Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.792Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c507cb076f74",
         "tagteam:denotesType": "Person",
         "is_subject_of": {
@@ -259,7 +259,7 @@
         ],
         "rdfs:label": "execution",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.512Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.792Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c507cb076f74",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -276,7 +276,7 @@
         "has_text_value": "The director authorized the operation but the supervisor delayed the execution",
         "tagteam:char_count": 78,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-27T10:50:25.504Z"
+        "tagteam:received_at": "2026-02-27T21:29:43.779Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -328,7 +328,7 @@
             "@id": "inst:Act_authorized"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.504Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.779Z"
       }
     ]
   }

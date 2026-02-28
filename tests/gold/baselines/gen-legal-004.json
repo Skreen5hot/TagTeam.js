@@ -5,7 +5,7 @@
   "tags": [
     "legal"
   ],
-  "generatedAt": "2026-02-27T10:50:25.230Z",
+  "generatedAt": "2026-02-27T21:29:43.383Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -140,7 +140,7 @@
         "rdfs:label": "judge",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.230Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.383Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e4fda6cfb5f4",
         "tagteam:denotesType": "Person",
         "is_subject_of": {
@@ -160,7 +160,7 @@
         ],
         "rdfs:label": "restraining order",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.230Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.383Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e4fda6cfb5f4",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -182,7 +182,7 @@
         "has_text_value": "The judge issued a restraining order",
         "tagteam:char_count": 36,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-27T10:50:25.223Z"
+        "tagteam:received_at": "2026-02-27T21:29:43.373Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -228,7 +228,7 @@
             "@id": "inst:Act_issued"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.223Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.373Z"
       }
     ]
   }

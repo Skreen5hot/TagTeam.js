@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-27T10:50:23.314Z",
+  "generatedAt": "2026-02-27T21:29:40.794Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -194,7 +194,7 @@
         "rdfs:label": "cbp",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.314Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:40.794Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_fd4cf6ffec2e",
         "tagteam:denotesType": "Organization",
         "is_subject_of": {
@@ -214,7 +214,7 @@
         ],
         "rdfs:label": "suspect",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.314Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:40.794Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_fd4cf6ffec2e",
         "tagteam:denotesType": "Person",
         "is_subject_of": {
@@ -234,7 +234,7 @@
         ],
         "rdfs:label": "border",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.314Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:40.794Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_fd4cf6ffec2e",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -256,7 +256,7 @@
         "has_text_value": "CBP apprehended the suspect at the border",
         "tagteam:char_count": 41,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-27T10:50:23.302Z"
+        "tagteam:received_at": "2026-02-27T21:29:40.784Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -305,7 +305,7 @@
             "@id": "inst:Act_apprehended"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.302Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:40.784Z"
       }
     ]
   }

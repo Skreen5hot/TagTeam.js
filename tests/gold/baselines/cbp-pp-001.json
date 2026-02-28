@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T10:50:24.729Z",
+  "generatedAt": "2026-02-27T21:29:42.451Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -192,7 +192,7 @@
         "rdfs:label": "agent",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.729Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:42.451Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1f0c8c112476",
         "tagteam:denotesType": "Person",
         "is_subject_of": {
@@ -212,7 +212,7 @@
         ],
         "rdfs:label": "report",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.729Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:42.451Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1f0c8c112476",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -232,7 +232,7 @@
         ],
         "rdfs:label": "station",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.729Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:42.451Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1f0c8c112476",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -254,7 +254,7 @@
         "has_text_value": "The agent filed the report at the station",
         "tagteam:char_count": 41,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-27T10:50:24.718Z"
+        "tagteam:received_at": "2026-02-27T21:29:42.433Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -303,7 +303,7 @@
             "@id": "inst:Act_filed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.718Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:42.433Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-27T10:50:24.022Z",
+  "generatedAt": "2026-02-27T21:29:41.473Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -143,7 +143,7 @@
         "rdfs:label": "contraband",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.022Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:41.473Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_107c11f15d34",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -163,7 +163,7 @@
         ],
         "rdfs:label": "canine unit",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.022Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:41.473Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_107c11f15d34",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -185,7 +185,7 @@
         "has_text_value": "The contraband was identified by the canine unit",
         "tagteam:char_count": 48,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-27T10:50:24.013Z"
+        "tagteam:received_at": "2026-02-27T21:29:41.463Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -231,7 +231,7 @@
             "@id": "inst:Act_identified"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.013Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:41.463Z"
       }
     ]
   }

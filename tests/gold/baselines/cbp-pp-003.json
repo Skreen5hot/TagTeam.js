@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T10:50:24.760Z",
+  "generatedAt": "2026-02-27T21:29:42.515Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -181,7 +181,7 @@
         ],
         "rdfs:label": "team",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.760Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:42.515Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b533ad596cff",
         "tagteam:denotesType": "Organization",
         "is_subject_of": {
@@ -196,7 +196,7 @@
         ],
         "rdfs:label": "detainee",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.760Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:42.515Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b533ad596cff",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -216,7 +216,7 @@
         ],
         "rdfs:label": "facility",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.760Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:42.515Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b533ad596cff",
         "tagteam:denotesType": "Facility",
         "is_subject_of": {
@@ -238,7 +238,7 @@
         "has_text_value": "The team transported the detainee to the facility",
         "tagteam:char_count": 49,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-27T10:50:24.750Z"
+        "tagteam:received_at": "2026-02-27T21:29:42.502Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -290,7 +290,7 @@
             "@id": "inst:Act_transported"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.750Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:42.502Z"
       }
     ]
   }

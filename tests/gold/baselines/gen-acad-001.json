@@ -6,7 +6,7 @@
     "academic",
     "research"
   ],
-  "generatedAt": "2026-02-27T10:50:25.010Z",
+  "generatedAt": "2026-02-27T21:29:43.061Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -188,7 +188,7 @@
         "rdfs:label": "researcher",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.009Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.060Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7a16aeae2afb",
         "tagteam:denotesType": "Person",
         "is_subject_of": {
@@ -208,7 +208,7 @@
         ],
         "rdfs:label": "study",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.009Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.060Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7a16aeae2afb",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -228,7 +228,7 @@
         ],
         "rdfs:label": "peer reviewed journal",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.009Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.060Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7a16aeae2afb",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -250,7 +250,7 @@
         "has_text_value": "The researcher published the study in a peer-reviewed journal",
         "tagteam:char_count": 61,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-27T10:50:25.002Z"
+        "tagteam:received_at": "2026-02-27T21:29:43.042Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -299,7 +299,7 @@
             "@id": "inst:Act_published"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.002Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.042Z"
       }
     ]
   }

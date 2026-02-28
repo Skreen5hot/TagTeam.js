@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T10:50:24.502Z",
+  "generatedAt": "2026-02-27T21:29:41.948Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -94,7 +94,7 @@
         "rdfs:label": "sector",
         "tagteam:genericityCategory": "AMB",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.502Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:41.948Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_80cdc9eae006",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -109,7 +109,7 @@
         ],
         "rdfs:label": "responsibility",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.502Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:41.948Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_80cdc9eae006",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -126,7 +126,7 @@
         "has_text_value": "The sector is a geographic area of responsibility",
         "tagteam:char_count": 49,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-27T10:50:24.493Z"
+        "tagteam:received_at": "2026-02-27T21:29:41.938Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -169,7 +169,7 @@
             "@id": "inst:responsibility"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.493Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:41.938Z"
       }
     ]
   }

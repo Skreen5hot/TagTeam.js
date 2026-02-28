@@ -6,7 +6,7 @@
     "nested-pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T10:50:25.591Z",
+  "generatedAt": "2026-02-27T21:29:43.907Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -235,7 +235,7 @@
         "rdfs:label": "team",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.590Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.907Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5cc8383356e0",
         "tagteam:denotesType": "Organization",
         "is_subject_of": {
@@ -255,7 +255,7 @@
         ],
         "rdfs:label": "weapon",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.590Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.907Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5cc8383356e0",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -275,7 +275,7 @@
         ],
         "rdfs:label": "vehicle near the checkpoint",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.590Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.907Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5cc8383356e0",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -295,7 +295,7 @@
         ],
         "rdfs:label": "border",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.590Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.907Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5cc8383356e0",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -317,7 +317,7 @@
         "has_text_value": "The team recovered the weapons from the vehicle near the checkpoint at the border",
         "tagteam:char_count": 81,
         "tagteam:word_count": 14,
-        "tagteam:received_at": "2026-02-27T10:50:25.582Z"
+        "tagteam:received_at": "2026-02-27T21:29:43.893Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -369,7 +369,7 @@
             "@id": "inst:Act_recovered"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.582Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.893Z"
       }
     ]
   }

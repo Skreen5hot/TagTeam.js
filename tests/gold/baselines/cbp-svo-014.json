@@ -7,7 +7,7 @@
     "cbp",
     "agriculture"
   ],
-  "generatedAt": "2026-02-27T10:50:24.318Z",
+  "generatedAt": "2026-02-27T21:29:41.761Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -142,7 +142,7 @@
         "rdfs:label": "agriculture specialist",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.318Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:41.761Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b4965e1834cc",
         "tagteam:denotesType": "Person",
         "is_subject_of": {
@@ -162,7 +162,7 @@
         ],
         "rdfs:label": "produce",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.318Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:41.761Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b4965e1834cc",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -184,7 +184,7 @@
         "has_text_value": "The agriculture specialist quarantined the produce",
         "tagteam:char_count": 50,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-27T10:50:24.310Z"
+        "tagteam:received_at": "2026-02-27T21:29:41.754Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -230,7 +230,7 @@
             "@id": "inst:Act_quarantined"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.310Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:41.754Z"
       }
     ]
   }

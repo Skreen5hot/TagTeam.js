@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T10:50:24.797Z",
+  "generatedAt": "2026-02-27T21:29:42.635Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -192,7 +192,7 @@
         "rdfs:label": "inspector",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.797Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:42.634Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c74c312f0ba6",
         "tagteam:denotesType": "Person",
         "is_subject_of": {
@@ -212,7 +212,7 @@
         ],
         "rdfs:label": "vehicle",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.797Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:42.634Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c74c312f0ba6",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -232,7 +232,7 @@
         ],
         "rdfs:label": "sensor",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.797Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:42.634Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c74c312f0ba6",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -254,7 +254,7 @@
         "has_text_value": "The inspector examined the vehicle with a sensor",
         "tagteam:char_count": 48,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-27T10:50:24.789Z"
+        "tagteam:received_at": "2026-02-27T21:29:42.621Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -303,7 +303,7 @@
             "@id": "inst:Act_examined"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.789Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:42.621Z"
       }
     ]
   }

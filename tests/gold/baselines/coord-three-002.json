@@ -8,7 +8,7 @@
     "copular",
     "government"
   ],
-  "generatedAt": "2026-02-27T10:50:24.090Z",
+  "generatedAt": "2026-02-27T21:29:41.546Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -100,7 +100,7 @@
         "rdfs:label": "cbp ice and tsa",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.090Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:41.546Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_61564711f690",
         "tagteam:denotesType": "Organization",
         "is_subject_of": {
@@ -115,7 +115,7 @@
         ],
         "rdfs:label": "dhs",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.090Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:41.546Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_61564711f690",
         "tagteam:denotesType": "Organization",
         "is_subject_of": {
@@ -132,7 +132,7 @@
         "has_text_value": "CBP, ICE, and TSA are components of DHS",
         "tagteam:char_count": 39,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-27T10:50:24.079Z"
+        "tagteam:received_at": "2026-02-27T21:29:41.536Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -175,7 +175,7 @@
             "@id": "inst:DHS"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.079Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:41.536Z"
       }
     ]
   }

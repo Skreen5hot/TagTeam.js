@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T10:50:24.404Z",
+  "generatedAt": "2026-02-27T21:29:41.842Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -97,11 +97,17 @@
         "@type": [
           "tagteam:StructuralAssertion"
         ],
-        "tagteam:subject": "The Office of Field Operations",
         "tagteam:pattern": "predication",
-        "tagteam:relation": "has_continuant_part",
-        "tagteam:object": "of CBP",
-        "tagteam:copula": "is"
+        "tagteam:copula": "is",
+        "assertionSubject": {
+          "@id": "inst:The_Office_of_Field_Operations"
+        },
+        "assertionObject": {
+          "@id": "inst:CBP"
+        },
+        "assertedRelation": {
+          "@id": "has_continuant_part"
+        }
       },
       {
         "@id": "inst:Facility_Office_Of_Field_Operation_fe3ad43ba33e",
@@ -112,7 +118,7 @@
         "rdfs:label": "office of field operation",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.404Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:41.841Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a8f0a8fb8925",
         "tagteam:denotesType": "Facility",
         "is_subject_of": {
@@ -127,7 +133,7 @@
         ],
         "rdfs:label": "field operation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.404Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:41.841Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a8f0a8fb8925",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -142,11 +148,14 @@
         ],
         "rdfs:label": "cbp",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.404Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:41.841Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a8f0a8fb8925",
         "tagteam:denotesType": "Organization",
         "is_subject_of": {
           "@id": "inst:CBP"
+        },
+        "has_continuant_part": {
+          "@id": "inst:Facility_Office_Of_Field_Operation_fe3ad43ba33e"
         }
       },
       {
@@ -159,7 +168,7 @@
         "has_text_value": "The Office of Field Operations is the largest component of CBP",
         "tagteam:char_count": 62,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-27T10:50:24.391Z"
+        "tagteam:received_at": "2026-02-27T21:29:41.829Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -205,7 +214,7 @@
             "@id": "inst:CBP"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.391Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:41.829Z"
       }
     ]
   }

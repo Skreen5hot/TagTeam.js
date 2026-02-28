@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T10:50:24.585Z",
+  "generatedAt": "2026-02-27T21:29:42.075Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -90,7 +90,7 @@
         "rdfs:label": "sentri",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.584Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:42.075Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d3178ba20d7b",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -105,7 +105,7 @@
         ],
         "rdfs:label": "low risk traveler",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.584Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:42.075Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d3178ba20d7b",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -122,7 +122,7 @@
         "has_text_value": "SENTRI is a border crossing program for low-risk travelers",
         "tagteam:char_count": 58,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-27T10:50:24.575Z"
+        "tagteam:received_at": "2026-02-27T21:29:42.056Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -165,7 +165,7 @@
             "@id": "inst:low_risk_travelers"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.575Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:42.056Z"
       }
     ]
   }

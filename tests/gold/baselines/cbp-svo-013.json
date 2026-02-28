@@ -7,7 +7,7 @@
     "cbp",
     "operations"
   ],
-  "generatedAt": "2026-02-27T10:50:24.307Z",
+  "generatedAt": "2026-02-27T21:29:41.751Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -101,7 +101,7 @@
         "rdfs:label": "station commander",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.307Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:41.751Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1739823fda8d",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -123,7 +123,7 @@
         "has_text_value": "The station commander authorized overtime",
         "tagteam:char_count": 41,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-27T10:50:24.301Z"
+        "tagteam:received_at": "2026-02-27T21:29:41.744Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -166,7 +166,7 @@
             "@id": "inst:Act_authorized"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.301Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:41.744Z"
       }
     ]
   }

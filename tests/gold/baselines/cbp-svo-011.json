@@ -7,7 +7,7 @@
     "cbp",
     "surveillance"
   ],
-  "generatedAt": "2026-02-27T10:50:24.283Z",
+  "generatedAt": "2026-02-27T21:29:41.728Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -146,7 +146,7 @@
         "rdfs:label": "air and marine operations center",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.283Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:41.728Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9cb5e554a2fa",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -166,7 +166,7 @@
         ],
         "rdfs:label": "aircraft",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.283Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:41.728Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9cb5e554a2fa",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -188,7 +188,7 @@
         "has_text_value": "The air and marine operations center tracked the aircraft",
         "tagteam:char_count": 57,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-27T10:50:24.272Z"
+        "tagteam:received_at": "2026-02-27T21:29:41.717Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -234,7 +234,7 @@
             "@id": "inst:Act_tracked"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.272Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:41.717Z"
       }
     ]
   }

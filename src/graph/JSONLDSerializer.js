@@ -223,6 +223,17 @@ class JSONLDSerializer {
       instantiated_by:       { '@id': 'tagteam:instantiated_by',       '@type': '@id' },
       denotesType:           { '@id': 'tagteam:denotesType' },
 
+      // ═══════ FT-03: StructuralAssertion provenance properties ═══════
+      assertionSubject:      { '@id': 'tagteam:assertionSubject',      '@type': '@id' },
+      assertionObject:       { '@id': 'tagteam:assertionObject',       '@type': '@id' },
+      assertedRelation:      { '@id': 'tagteam:assertedRelation',      '@type': '@id' },
+
+      // ═══════ OWL NegativePropertyAssertion vocabulary ═══════
+      'owl:NegativePropertyAssertion': { '@id': 'owl:NegativePropertyAssertion' },
+      'owl:sourceIndividual':    { '@id': 'owl:sourceIndividual',    '@type': '@id' },
+      'owl:assertionProperty':   { '@id': 'owl:assertionProperty',   '@type': '@id' },
+      'owl:targetIndividual':    { '@id': 'owl:targetIndividual',    '@type': '@id' },
+
       competingParties: {
         '@id':        'tagteam:competingParties',
         '@type':      '@id',

@@ -7,7 +7,7 @@
     "definitional",
     "intelligence"
   ],
-  "generatedAt": "2026-02-27T10:50:23.201Z",
+  "generatedAt": "2026-02-27T21:29:40.703Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -68,7 +68,7 @@
         "rdfs:label": "cia",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.201Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:40.703Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bf96c6493def",
         "tagteam:denotesType": "Organization",
         "is_subject_of": {
@@ -85,7 +85,7 @@
         "has_text_value": "The CIA is an intelligence agency",
         "tagteam:char_count": 33,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-27T10:50:23.190Z"
+        "tagteam:received_at": "2026-02-27T21:29:40.690Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -125,7 +125,7 @@
             "@id": "inst:The_CIA"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.190Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:40.690Z"
       }
     ]
   }

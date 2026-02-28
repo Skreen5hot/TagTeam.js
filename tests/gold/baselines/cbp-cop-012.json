@@ -7,7 +7,7 @@
     "cbp",
     "trade"
   ],
-  "generatedAt": "2026-02-27T10:50:24.550Z",
+  "generatedAt": "2026-02-27T21:29:42.018Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -68,7 +68,7 @@
         "rdfs:label": "ace",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.550Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:42.018Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ab5345740615",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -85,7 +85,7 @@
         "has_text_value": "ACE is the automated commercial environment system",
         "tagteam:char_count": 50,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-27T10:50:24.541Z"
+        "tagteam:received_at": "2026-02-27T21:29:42.008Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -125,7 +125,7 @@
             "@id": "inst:ACE"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.541Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:42.008Z"
       }
     ]
   }

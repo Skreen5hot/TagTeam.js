@@ -162,6 +162,55 @@
     skos:prefLabel "Causative Act"@en ;
     skos:definition "An intentional behavior that brings about another agent's performance of an action."@en .
 
+:StructuralAssertion
+    a owl:Class ;
+    rdfs:subClassOf cco:ont00000958 ;  # CCO InformationContentEntity
+    rdfs:label "Structural Assertion"@en ;
+    skos:prefLabel "Structural Assertion"@en ;
+    skos:definition "A detected structural relation between entities from copular or stative sentence patterns. Serves as Tier 1 provenance for the corresponding Tier 2 inter-entity triple."@en .
+
+:NegatedStructuralAssertion
+    a owl:Class ;
+    rdfs:subClassOf :StructuralAssertion ;
+    rdfs:label "Negated Structural Assertion"@en ;
+    skos:prefLabel "Negated Structural Assertion"@en ;
+    skos:definition "A detected structural relation that the text explicitly denies. Corresponds to an owl:NegativePropertyAssertion on Tier 2."@en .
+
+:DiscourseReferent
+    a owl:Class ;
+    rdfs:subClassOf cco:ont00000958 ;  # CCO InformationContentEntity
+    rdfs:label "Discourse Referent"@en ;
+    skos:prefLabel "Discourse Referent"@en ;
+    skos:definition "A Tier 1 information content entity that represents a mention of an entity in discourse. Links to its Tier 2 real-world referent via cco:is_about."@en .
+
+
+# =============================================================================
+# FT-03: STRUCTURAL ASSERTION PROVENANCE PROPERTIES
+# =============================================================================
+
+:assertionSubject
+    a owl:ObjectProperty ;
+    rdfs:label "assertion subject"@en ;
+    skos:prefLabel "assertion subject"@en ;
+    skos:definition "The Tier 1 DiscourseReferent that served as the linguistic subject of a detected structural assertion."@en ;
+    rdfs:domain :StructuralAssertion ;
+    rdfs:range :DiscourseReferent .
+
+:assertionObject
+    a owl:ObjectProperty ;
+    rdfs:label "assertion object"@en ;
+    skos:prefLabel "assertion object"@en ;
+    skos:definition "The Tier 1 DiscourseReferent that served as the linguistic object of a detected structural assertion."@en ;
+    rdfs:domain :StructuralAssertion ;
+    rdfs:range :DiscourseReferent .
+
+:assertedRelation
+    a owl:AnnotationProperty ;
+    rdfs:label "asserted relation"@en ;
+    skos:prefLabel "asserted relation"@en ;
+    skos:definition "The CCO/BFO property IRI that a structural assertion claims to hold (or not hold, in the case of negated assertions) between two entities."@en ;
+    rdfs:domain :StructuralAssertion .
+
 
 # =============================================================================
 # ACTUALITY STATUS INDIVIDUALS (new to v2; others reused from core)

@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-27T10:50:23.245Z",
+  "generatedAt": "2026-02-27T21:29:40.736Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -117,7 +117,7 @@
         "rdfs:label": "attorney general",
         "tagteam:genericityCategory": "AMB",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.244Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:40.735Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_94048581b04c",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -132,7 +132,7 @@
         ],
         "rdfs:label": "department of justice",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.244Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:40.735Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_94048581b04c",
         "tagteam:denotesType": "Organization",
         "is_subject_of": {
@@ -147,7 +147,7 @@
         ],
         "rdfs:label": "justice",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.244Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:40.735Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_94048581b04c",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -164,7 +164,7 @@
         "has_text_value": "The attorney general is the head of the Department of Justice",
         "tagteam:char_count": 61,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-27T10:50:23.229Z"
+        "tagteam:received_at": "2026-02-27T21:29:40.724Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -210,7 +210,7 @@
             "@id": "inst:Justice"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.229Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:40.724Z"
       }
     ]
   }

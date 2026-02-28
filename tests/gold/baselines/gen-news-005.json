@@ -6,7 +6,7 @@
     "news",
     "government"
   ],
-  "generatedAt": "2026-02-27T10:50:24.968Z",
+  "generatedAt": "2026-02-27T21:29:42.987Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -163,7 +163,7 @@
         "rdfs:label": "governor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.968Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:42.986Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1af407d800b2",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -183,7 +183,7 @@
         ],
         "rdfs:label": "state of emergency",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.968Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:42.986Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1af407d800b2",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -203,7 +203,7 @@
         ],
         "rdfs:label": "emergency",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.968Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:42.986Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1af407d800b2",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -220,7 +220,7 @@
         "has_text_value": "The governor declared a state of emergency",
         "tagteam:char_count": 42,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-27T10:50:24.959Z"
+        "tagteam:received_at": "2026-02-27T21:29:42.974Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -269,7 +269,7 @@
             "@id": "inst:Act_declared"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.959Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:42.974Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "multi-clause",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T10:50:25.557Z",
+  "generatedAt": "2026-02-27T21:29:43.861Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -255,7 +255,7 @@
         "rdfs:label": "inspector",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.556Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.860Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_f94f3a5883eb",
         "tagteam:denotesType": "Person",
         "is_subject_of": {
@@ -275,7 +275,7 @@
         ],
         "rdfs:label": "document",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.556Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.860Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_f94f3a5883eb",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -296,7 +296,7 @@
         "rdfs:label": "officer",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.556Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.860Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_f94f3a5883eb",
         "tagteam:denotesType": "Person",
         "is_subject_of": {
@@ -316,7 +316,7 @@
         ],
         "rdfs:label": "driver",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.556Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.860Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_f94f3a5883eb",
         "tagteam:denotesType": "Person",
         "is_subject_of": {
@@ -338,7 +338,7 @@
         "has_text_value": "The inspector examined the documents while the officer interviewed the driver",
         "tagteam:char_count": 77,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-27T10:50:25.548Z"
+        "tagteam:received_at": "2026-02-27T21:29:43.851Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -393,7 +393,7 @@
             "@id": "inst:Act_interviewed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.548Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.851Z"
       }
     ]
   }

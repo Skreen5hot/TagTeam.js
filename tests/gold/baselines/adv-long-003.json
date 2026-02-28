@@ -6,7 +6,7 @@
     "long-np",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T10:50:25.305Z",
+  "generatedAt": "2026-02-27T21:29:43.497Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -167,7 +167,7 @@
         "rdfs:label": "chief patrol agent of the rio grande valley sector",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.305Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.497Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0ea5cf1748b8",
         "tagteam:denotesType": "Person",
         "is_subject_of": {
@@ -187,7 +187,7 @@
         ],
         "rdfs:label": "rio grande valley sector",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.305Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.497Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0ea5cf1748b8",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -202,7 +202,7 @@
         ],
         "rdfs:label": "team",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.305Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.497Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0ea5cf1748b8",
         "tagteam:denotesType": "Organization",
         "is_subject_of": {
@@ -224,7 +224,7 @@
         "has_text_value": "The chief patrol agent of the Rio Grande Valley sector briefed the team",
         "tagteam:char_count": 71,
         "tagteam:word_count": 13,
-        "tagteam:received_at": "2026-02-27T10:50:25.294Z"
+        "tagteam:received_at": "2026-02-27T21:29:43.481Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -273,7 +273,7 @@
             "@id": "inst:Act_briefed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.294Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.481Z"
       }
     ]
   }

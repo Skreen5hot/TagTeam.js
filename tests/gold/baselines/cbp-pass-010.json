@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T10:50:24.714Z",
+  "generatedAt": "2026-02-27T21:29:42.427Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -143,7 +143,7 @@
         "rdfs:label": "counterfeit good",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.713Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:42.427Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bd201335bcee",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -163,7 +163,7 @@
         ],
         "rdfs:label": "port",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.713Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:42.427Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bd201335bcee",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -185,7 +185,7 @@
         "has_text_value": "The counterfeit goods were confiscated at the port",
         "tagteam:char_count": 50,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-27T10:50:24.705Z"
+        "tagteam:received_at": "2026-02-27T21:29:42.413Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -231,7 +231,7 @@
             "@id": "inst:Act_confiscated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.705Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:42.413Z"
       }
     ]
   }

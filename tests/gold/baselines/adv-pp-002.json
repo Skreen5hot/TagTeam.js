@@ -6,7 +6,7 @@
     "nested-pp",
     "government"
   ],
-  "generatedAt": "2026-02-27T10:50:25.382Z",
+  "generatedAt": "2026-02-27T21:29:43.609Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -189,7 +189,7 @@
         "rdfs:label": "director of the office of professional responsibility",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.382Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.608Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_464cfaaf4c99",
         "tagteam:denotesType": "Person",
         "is_subject_of": {
@@ -209,7 +209,7 @@
         ],
         "rdfs:label": "office of professional responsibility",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.382Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.609Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_464cfaaf4c99",
         "tagteam:denotesType": "Facility",
         "is_subject_of": {
@@ -224,7 +224,7 @@
         ],
         "rdfs:label": "professional responsibility",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.382Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.609Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_464cfaaf4c99",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -239,7 +239,7 @@
         ],
         "rdfs:label": "complaint",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.382Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.609Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_464cfaaf4c99",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -261,7 +261,7 @@
         "has_text_value": "The director of the office of professional responsibility reviewed the complaint",
         "tagteam:char_count": 80,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-27T10:50:25.367Z"
+        "tagteam:received_at": "2026-02-27T21:29:43.592Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -313,7 +313,7 @@
             "@id": "inst:Act_reviewed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.367Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.592Z"
       }
     ]
   }

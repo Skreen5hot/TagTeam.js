@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-27T10:50:23.027Z",
+  "generatedAt": "2026-02-27T21:29:40.481Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -68,7 +68,7 @@
         "rdfs:label": "fbi",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.027Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:40.480Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e2954bda045a",
         "tagteam:denotesType": "Organization",
         "is_subject_of": {
@@ -85,7 +85,7 @@
         "has_text_value": "The FBI is a federal law enforcement agency",
         "tagteam:char_count": 43,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-27T10:50:23.009Z"
+        "tagteam:received_at": "2026-02-27T21:29:40.463Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -125,7 +125,7 @@
             "@id": "inst:The_FBI"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.009Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:40.463Z"
       }
     ]
   }

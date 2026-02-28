@@ -5,7 +5,7 @@
   "tags": [
     "legal"
   ],
-  "generatedAt": "2026-02-27T10:50:25.209Z",
+  "generatedAt": "2026-02-27T21:29:43.354Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -140,7 +140,7 @@
         "rdfs:label": "jury",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.209Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.354Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdf10feb9b2b",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -160,7 +160,7 @@
         ],
         "rdfs:label": "verdict",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.209Z",
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.354Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdf10feb9b2b",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -182,7 +182,7 @@
         "has_text_value": "The jury delivered the verdict",
         "tagteam:char_count": 30,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-27T10:50:25.202Z"
+        "tagteam:received_at": "2026-02-27T21:29:43.344Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -228,7 +228,7 @@
             "@id": "inst:Act_delivered"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.202Z"
+        "tagteam:instantiated_at": "2026-02-27T21:29:43.344Z"
       }
     ]
   }
