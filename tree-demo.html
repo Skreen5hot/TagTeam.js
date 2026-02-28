@@ -353,69 +353,18 @@
     }
 
     // =========================================================================
-    // Model loading
+    // Model loading — models are baked into the bundle, ready immediately
     // =========================================================================
-    let modelsReady = false;
+    let modelsReady = true;
 
-    async function loadModels() {
+    window.addEventListener('load', function() {
       const overlay = document.getElementById('loadingOverlay');
-      const status = document.getElementById('loadingStatus');
       const badge = document.getElementById('statusBadge');
-
-      try {
-        // Determine model path
-        const modelBase = window.location.hostname === 'localhost' || window.location.hostname === ''
-          ? '../dist/models/'
-          : 'models/';
-
-        status.textContent = 'Fetching POS tagger weights (~2.6 MB)...';
-        const posResp = await fetch(modelBase + 'pos-weights-pruned.json');
-        if (!posResp.ok) throw new Error('Failed to fetch POS model: ' + posResp.status);
-        const posJSON = await posResp.json();
-
-        status.textContent = 'Fetching dependency parser weights (~3.3 MB)...';
-        const depResp = await fetch(modelBase + 'dep-weights-pruned.json');
-        if (!depResp.ok) throw new Error('Failed to fetch dep model: ' + depResp.status);
-        const depJSON = await depResp.json();
-
-        status.textContent = 'Fetching calibration data...';
-        let calJSON = null;
-        try {
-          const calResp = await fetch(modelBase + 'dep-calibration.json');
-          if (calResp.ok) calJSON = await calResp.json();
-        } catch (e) { /* calibration is optional */ }
-
-        status.textContent = 'Fetching gazetteers...';
-        let gazetteers = null;
-        try {
-          const gazFiles = ['names.json', 'organizations.json', 'places.json'];
-          gazetteers = await Promise.all(
-            gazFiles.map(f => fetch(modelBase + 'gazetteers/' + f).then(r => r.ok ? r.json() : null))
-          );
-          gazetteers = gazetteers.filter(g => g !== null);
-          if (gazetteers.length === 0) gazetteers = null;
-        } catch (e) { /* gazetteers are optional */ }
-
-        status.textContent = 'Initializing tree pipeline...';
-        TagTeam.loadModels(posJSON, depJSON, calJSON, gazetteers);
-
-        modelsReady = true;
-        badge.className = 'status-badge status-ready';
-        badge.textContent = 'Ready';
-        document.getElementById('analyzeBtn').disabled = false;
-        overlay.style.display = 'none';
-
-      } catch (err) {
-        badge.className = 'status-badge status-error';
-        badge.textContent = 'Error';
-        status.innerHTML = '<strong>Failed to load models.</strong><br>' +
-          err.message + '<br><br>' +
-          '<small>If using file:// protocol, start a local server:<br>' +
-          '<code>npx serve . -p 8080</code></small>';
-      }
-    }
-
-    window.addEventListener('load', loadModels);
+      badge.className = 'status-badge status-ready';
+      badge.textContent = 'Ready';
+      document.getElementById('analyzeBtn').disabled = false;
+      overlay.style.display = 'none';
+    });
 
     // =========================================================================
     // Analysis

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><base href="/TagTeam.js/">
+  <meta charset="UTF-8">
+  <title>TagTeam.js — Standalone Demo</title>
+  <style>
+    body { font-family: monospace; max-width: 900px; margin: 40px auto; padding: 0 20px; }
+    input { width: 100%; padding: 8px; font-size: 16px; box-sizing: border-box; }
+    button { padding: 8px 16px; font-size: 14px; cursor: pointer; margin-top: 8px; }
+    pre { white-space: pre-wrap; background: #f4f4f4; padding: 16px; margin-top: 12px; max-height: 600px; overflow: auto; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <h2>TagTeam.js — Standalone Demo</h2>
+  <p>No server. No fetch. No setup. Models are baked into the bundle. Just <code>&lt;script src="tagteam.js"&gt;</code> and call <code>TagTeam.buildGraph(text)</code>.</p>
+  <input id="in" value="The agent arrested the suspect at the border." />
+  <button onclick="run()">Parse</button>
+  <pre id="out">Loading TagTeam.js...</pre>
+  <script>
+    function run() {
+      var text = document.getElementById('in').value.trim();
+      if (!text) return;
+      if (typeof TagTeam === 'undefined') {
+        document.getElementById('out').textContent = 'Loading TagTeam.js — please wait...';
+        return;
+      }
+      var result = TagTeam.buildGraph(text);
+      document.getElementById('out').textContent = JSON.stringify(result, null, 2);
+    }
+    document.getElementById('in').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') run();
+    });
+  </script>
+  <script src="tagteam.js"></script>
+  <script>document.getElementById('out').textContent = 'Ready.';</script>
+</body>
+</html>
