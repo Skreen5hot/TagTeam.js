@@ -6,7 +6,7 @@
     "academic",
     "research"
   ],
-  "generatedAt": "2026-02-27T10:50:25.023Z",
+  "generatedAt": "2026-02-28T11:17:37.434Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -188,7 +188,7 @@
         "rdfs:label": "professor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.023Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.434Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a6cb54c22a1e",
         "tagteam:denotesType": "Person",
         "is_subject_of": {
@@ -208,7 +208,7 @@
         ],
         "rdfs:label": "finding",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.023Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.434Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a6cb54c22a1e",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -228,7 +228,7 @@
         ],
         "rdfs:label": "conference",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.023Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.434Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a6cb54c22a1e",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -250,7 +250,7 @@
         "has_text_value": "The professor presented the findings at the conference",
         "tagteam:char_count": 54,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-27T10:50:25.014Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.428Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -299,7 +299,7 @@
             "@id": "inst:Act_presented"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.014Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.428Z"
       }
     ]
   }

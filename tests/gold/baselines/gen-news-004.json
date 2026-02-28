@@ -6,7 +6,7 @@
     "news",
     "media"
   ],
-  "generatedAt": "2026-02-27T10:50:24.957Z",
+  "generatedAt": "2026-02-28T11:17:37.371Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -141,7 +141,7 @@
         "rdfs:label": "journalist",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.957Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.371Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ab454fbb5672",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -161,7 +161,7 @@
         ],
         "rdfs:label": "investigation finding",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.957Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.371Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ab454fbb5672",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -183,7 +183,7 @@
         "has_text_value": "The journalist published the investigation findings",
         "tagteam:char_count": 51,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-27T10:50:24.950Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.363Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -229,7 +229,7 @@
             "@id": "inst:Act_published"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.950Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.363Z"
       }
     ]
   }

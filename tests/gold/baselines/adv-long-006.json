@@ -6,7 +6,7 @@
     "long-np",
     "government"
   ],
-  "generatedAt": "2026-02-27T10:50:25.345Z",
+  "generatedAt": "2026-02-28T11:17:37.755Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -163,7 +163,7 @@
         "rdfs:label": "congressional oversight committee on homeland security",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.345Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.755Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d9c769f6a06d",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -183,7 +183,7 @@
         ],
         "rdfs:label": "homeland security",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.345Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.755Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d9c769f6a06d",
         "tagteam:denotesType": "Organization",
         "is_subject_of": {
@@ -198,7 +198,7 @@
         ],
         "rdfs:label": "hear",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.345Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.755Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d9c769f6a06d",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -220,7 +220,7 @@
         "has_text_value": "The congressional oversight committee on homeland security held a hearing",
         "tagteam:char_count": 73,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-27T10:50:25.336Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.746Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -269,7 +269,7 @@
             "@id": "inst:Act_held"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.336Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.746Z"
       }
     ]
   }

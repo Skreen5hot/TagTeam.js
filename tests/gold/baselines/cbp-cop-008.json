@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T10:50:24.502Z",
+  "generatedAt": "2026-02-28T11:17:36.891Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -80,10 +80,17 @@
         "@type": [
           "tagteam:StructuralAssertion"
         ],
-        "tagteam:subject": "The sector",
         "tagteam:pattern": "predication",
-        "tagteam:object": "of responsibility",
-        "tagteam:copula": "is"
+        "tagteam:copula": "is",
+        "assertionSubject": {
+          "@id": "inst:The_sector"
+        },
+        "assertionObject": {
+          "@id": "inst:responsibility"
+        },
+        "assertedRelation": {
+          "@id": "member_part_of"
+        }
       },
       {
         "@id": "inst:Entity_Sector_0674b22d94ba",
@@ -94,11 +101,14 @@
         "rdfs:label": "sector",
         "tagteam:genericityCategory": "AMB",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.502Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.891Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_80cdc9eae006",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
           "@id": "inst:The_sector"
+        },
+        "member_part_of": {
+          "@id": "inst:Entity_Responsibility_08828b3afabf"
         }
       },
       {
@@ -109,7 +119,7 @@
         ],
         "rdfs:label": "responsibility",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.502Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.891Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_80cdc9eae006",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -126,7 +136,7 @@
         "has_text_value": "The sector is a geographic area of responsibility",
         "tagteam:char_count": 49,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-27T10:50:24.493Z"
+        "tagteam:received_at": "2026-02-28T11:17:36.884Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -169,7 +179,7 @@
             "@id": "inst:responsibility"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.493Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.884Z"
       }
     ]
   }

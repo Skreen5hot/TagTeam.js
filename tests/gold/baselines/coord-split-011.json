@@ -7,7 +7,7 @@
     "split",
     "object"
   ],
-  "generatedAt": "2026-02-27T10:50:23.829Z",
+  "generatedAt": "2026-02-28T11:17:36.274Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -150,7 +150,7 @@
         "rdfs:label": "agent",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.829Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.274Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2f2da8cea89e",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -170,7 +170,7 @@
         ],
         "rdfs:label": "build",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.829Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.274Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2f2da8cea89e",
         "tagteam:denotesType": "Facility",
         "is_subject_of": {
@@ -192,7 +192,7 @@
         "has_text_value": "The agents searched the building and the vehicle",
         "tagteam:char_count": 48,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-27T10:50:23.821Z"
+        "tagteam:received_at": "2026-02-28T11:17:36.266Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -238,7 +238,7 @@
             "@id": "inst:Act_searched"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.821Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.266Z"
       }
     ]
   }

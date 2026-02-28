@@ -155,17 +155,15 @@ jobs:
 
       - name: Build TagTeam.js bundles
         run: |
-          node scripts/build-separated.js
           node scripts/build.js
 
       - name: Assemble Pages site
         run: |
           mkdir -p gh-pages
 
-          # Copy all bundles (core, values, combined)
+          # Copy bundle (single-file, models embedded)
           cp dist/tagteam.js gh-pages/
-          cp dist/tagteam-core.js gh-pages/
-          cp dist/tagteam-values.js gh-pages/
+          cp dist/standalone-demo.html gh-pages/standalone-demo.html
 
           # Copy landing page as index
           cp demos/tagteam-landing.html gh-pages/index.html
@@ -179,18 +177,12 @@ jobs:
 
           # Copy extracted demo pages
           cp demos/demo.html gh-pages/demo.html
-          cp demos/separated-demo.html gh-pages/separated-demo.html
 
-          # Copy Phase 3A tree-based extraction demo + models + gazetteers
+          # Copy Phase 3A tree-based extraction demo (models are in the bundle)
           cp demos/tree-demo.html gh-pages/tree-demo.html
-          cp -r dist/models gh-pages/models
-          mkdir -p gh-pages/models/gazetteers
-          cp src/data/gazetteers/*.json gh-pages/models/gazetteers/ 2>/dev/null || true
 
           # Copy browser validation tests
           cp dist/test.html gh-pages/test.html
-          cp dist/test-week2b-full.html gh-pages/test-week2b-full.html
-          cp dist/test-iee-bundle.html gh-pages/test-iee-bundle.html
 
           # Copy legacy validation tests
           cp tests/browser/test-week2a-context.html gh-pages/validation.html

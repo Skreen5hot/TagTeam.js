@@ -5,7 +5,7 @@
   "tags": [
     "legal"
   ],
-  "generatedAt": "2026-02-27T10:50:25.221Z",
+  "generatedAt": "2026-02-28T11:17:37.617Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -187,7 +187,7 @@
         "rdfs:label": "plaintiff",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.221Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.617Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bac952cf5615",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -207,7 +207,7 @@
         ],
         "rdfs:label": "defendant",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.221Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.617Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bac952cf5615",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -227,7 +227,7 @@
         ],
         "rdfs:label": "damage",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.221Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.617Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bac952cf5615",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -249,7 +249,7 @@
         "has_text_value": "The plaintiff sued the defendant for damages",
         "tagteam:char_count": 44,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-27T10:50:25.214Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.609Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -298,7 +298,7 @@
             "@id": "inst:Act_sued"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.214Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.609Z"
       }
     ]
   }

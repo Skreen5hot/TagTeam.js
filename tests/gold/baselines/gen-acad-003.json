@@ -6,7 +6,7 @@
     "academic",
     "funding"
   ],
-  "generatedAt": "2026-02-27T10:50:25.033Z",
+  "generatedAt": "2026-02-28T11:17:37.445Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -181,7 +181,7 @@
         ],
         "rdfs:label": "committee",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.033Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.445Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ef416c4d629f",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -196,7 +196,7 @@
         ],
         "rdfs:label": "grant",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.033Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.445Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ef416c4d629f",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -216,7 +216,7 @@
         ],
         "rdfs:label": "laboratory",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.033Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.445Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ef416c4d629f",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -238,7 +238,7 @@
         "has_text_value": "The committee awarded the grant to the laboratory",
         "tagteam:char_count": 49,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-27T10:50:25.026Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.438Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -290,7 +290,7 @@
             "@id": "inst:Act_awarded"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.026Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.438Z"
       }
     ]
   }

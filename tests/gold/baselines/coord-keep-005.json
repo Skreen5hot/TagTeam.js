@@ -7,7 +7,7 @@
     "keep",
     "government"
   ],
-  "generatedAt": "2026-02-27T10:50:23.818Z",
+  "generatedAt": "2026-02-28T11:17:36.260Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -123,7 +123,7 @@
         ],
         "rdfs:label": "immigration and customs enforcement deported the individual",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.817Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.260Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_627b40b5c203",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -139,7 +139,7 @@
         "rdfs:label": "enforcement",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.818Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.260Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_627b40b5c203",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -154,7 +154,7 @@
         ],
         "rdfs:label": "individual",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.818Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.260Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_627b40b5c203",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -171,7 +171,7 @@
         "has_text_value": "Immigration and Customs Enforcement deported the individual",
         "tagteam:char_count": 59,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-27T10:50:23.810Z"
+        "tagteam:received_at": "2026-02-28T11:17:36.253Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -220,7 +220,7 @@
             "@id": "inst:Act_Immigration"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.810Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.253Z"
       }
     ]
   }

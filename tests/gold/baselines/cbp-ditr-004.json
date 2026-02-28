@@ -6,7 +6,7 @@
     "ditransitive",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T10:50:24.894Z",
+  "generatedAt": "2026-02-28T11:17:37.312Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -149,7 +149,7 @@
         "rdfs:label": "instructor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.893Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.312Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_412cc0d5f18c",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -169,7 +169,7 @@
         ],
         "rdfs:label": "class",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.893Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.312Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_412cc0d5f18c",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -191,7 +191,7 @@
         "has_text_value": "The instructor showed the class the new procedure",
         "tagteam:char_count": 49,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-27T10:50:24.882Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.300Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -237,7 +237,7 @@
             "@id": "inst:Act_showed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.882Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.300Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-27T10:50:24.049Z",
+  "generatedAt": "2026-02-28T11:17:36.476Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -143,7 +143,7 @@
         "rdfs:label": "territory",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.048Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.476Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ccd0b0692fff",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -163,7 +163,7 @@
         ],
         "rdfs:label": "planning committee",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.049Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.476Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ccd0b0692fff",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -185,7 +185,7 @@
         "has_text_value": "The territory was divided by the planning committee",
         "tagteam:char_count": 51,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-27T10:50:24.039Z"
+        "tagteam:received_at": "2026-02-28T11:17:36.467Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -231,7 +231,7 @@
             "@id": "inst:Act_divided"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.039Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.467Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-27T10:50:23.148Z",
+  "generatedAt": "2026-02-28T11:17:35.708Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -77,11 +77,17 @@
         "@type": [
           "tagteam:StructuralAssertion"
         ],
-        "tagteam:subject": "TSA",
         "tagteam:pattern": "predication",
-        "tagteam:relation": "has_function",
-        "tagteam:object": "for transportation security",
-        "tagteam:copula": "is"
+        "tagteam:copula": "is",
+        "assertionSubject": {
+          "@id": "inst:TSA"
+        },
+        "assertionObject": {
+          "@id": "inst:transportation_security"
+        },
+        "assertedRelation": {
+          "@id": "has_function"
+        }
       },
       {
         "@id": "inst:Organization_Tsa_6c93509d4b92",
@@ -92,11 +98,14 @@
         "rdfs:label": "tsa",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.147Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:35.708Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_27346421d44a",
         "tagteam:denotesType": "Organization",
         "is_subject_of": {
           "@id": "inst:TSA"
+        },
+        "has_function": {
+          "@id": "inst:Entity_Transportation_Security_f9c9dfebc318"
         }
       },
       {
@@ -107,7 +116,7 @@
         ],
         "rdfs:label": "transportation security",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.148Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:35.708Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_27346421d44a",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -124,7 +133,7 @@
         "has_text_value": "TSA is responsible for transportation security",
         "tagteam:char_count": 46,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-27T10:50:23.136Z"
+        "tagteam:received_at": "2026-02-28T11:17:35.699Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -167,7 +176,7 @@
             "@id": "inst:transportation_security"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.136Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:35.699Z"
       }
     ]
   }

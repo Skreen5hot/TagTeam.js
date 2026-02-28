@@ -1,11 +1,11 @@
 # TagTeam.js — Production Readiness Checklist
 
-**Version:** 3.0.2
-**Date:** February 27, 2026
+**Version:** 3.0.4
+**Date:** February 28, 2026
 **Author:** Aaron, Technical Lead / Semantic Architect
-**Status:** Merged to MAIN
-**Branch:** origin/main (commit `162361e`)
-**Previous:** v3.0.1 at `b6a7896`
+**Status:** Pending merge to MAIN
+**Branch:** origin/dev (commit `8839b98`)
+**Previous:** v3.0.3 at `040ce19`
 **Classification:** INTERNAL — Development Team Distribution Only
 
 ---
@@ -17,6 +17,10 @@ The BFO/CCO IRI integrity audit is complete. Over the course of fifteen commits,
 The v2.2 audit (commits `10b1817`, `b6a7896`) fixed 3 additional fabricated CCO IRIs (`has_input`, `has_output`, `prescribed_by`), added 6 missing CCO inverse properties, restructured the @context to consistent expanded `{@id}` form, added 27 v3 ontology terms, and corrected datatype typing for `has_text_value` (`xsd:string`) and `has_start_time`/`has_end_time` (`xsd:dateTime`).
 
 The Tier 1/Tier 2 type separation fix (commit `162361e`) resolved the ontological contradiction where Tier 1 DiscourseReferent nodes carried both information-entity and independent-continuant types. Tier 1 `@type` is now `[DiscourseReferent]` only, with ontological type preserved as `denotesType` metadata. Fabricated role properties (`tagteam:bearer`, `tagteam:realizedIn`) replaced with BFO properties (`inheres_in`, `realized_in`). Role bearers repointed from Tier 1 to Tier 2. Back-links (`is_subject_of`, `is_bearer_of`) added on Tier 2 for O(1) graph traversal. 343 structural checks passed across 11 test graphs. See `docs/development/tier-separation-violation-revised.md` for the full architecture specification.
+
+The single-file architecture change (commit `040ce19`) embeds all pipeline models (POS weights, dep weights, calibration, gazetteers) directly into `tagteam.js` at build time. The bundle is now a single 11.10 MB artifact (2.30 MB gzip) that works with zero configuration — `<script src="tagteam.js">` and the parser is ready. `loadModels()` remains as a swap override for power users. Stale artifacts (`tagteam-core.js`, `tagteam-values.js`, `dist/models/`) removed. `dist/standalone-demo.html` proves zero-config parsing from `file:///`.
+
+The FT-03 StructuralAssertion upgrade (commits `9c9dfac`, `8839b98`) promotes copular sentence assertions from disconnected string-based provenance nodes to formal Tier 2 inter-entity triples. Assertion provenance nodes now carry IRI references (`assertionSubject`, `assertionObject`, `assertedRelation`) instead of string literals. Affirmative assertions emit Tier 2 property edges with correct directionality (e.g., "CBP is a component of DHS" → DHS `has_continuant_part` CBP). Negated assertions emit `owl:NegativePropertyAssertion` nodes — required under the Open World Assumption. A preposition-based fallback relation table covers patterns not in the explicit inference table (e.g., "agency of" → `member_part_of`). Possessive assertions emit `has_possession`. Result: 19 of 34 corpus assertions fully upgraded; 15 irreducible (existential patterns with no object). 7 new @context entries (3 assertion provenance + 4 OWL NPA vocabulary). Entity F1 89.6%. 770+ tests passing.
 
 This checklist defines the requirements for merging the dev branch to MAIN, the criteria for any external demonstration or deployment, and the hardening tasks that should be scheduled after the initial release. Items are organized into three tiers based on blocking priority.
 
@@ -41,8 +45,13 @@ This checklist defines the requirements for merging the dev branch to MAIN, the 
 | `b6a7896` | Fix has_start_time/has_end_time @context typing to xsd:dateTime | 2 incorrectly typed properties |
 | `56e262a` | Update Production Readiness Checklist for v2.2 audit | — |
 | `162361e` | Tier 1/Tier 2 type separation: eliminate ontological contradiction | 2 fabricated properties (`tagteam:bearer`, `tagteam:realizedIn`) |
+| `2def172` | Update Production Readiness Checklist for tier separation fix | — |
+| `040ce19` | Embed models into bundle — zero-configuration single-file architecture | — |
+| `1d43ceb` | Remove stale model-loading code from CI and demos | — |
+| `9c9dfac` | FT-03: Promote StructuralAssertions to Tier 2 triples | — |
+| `8839b98` | FT-03b: Close relation inference gap — preposition fallback + possessive relations | — |
 
-**Result:** Zero phantom IRIs remain in `src/`. Zero fabricated role properties remain. Every IRI in every output graph resolves to a published ontology entry or is declared as `tagteam:` namespace. Tier 1/Tier 2 type separation is enforced — no OWL disjointness violations.
+**Result:** Zero phantom IRIs remain in `src/`. Zero fabricated role properties remain. Every IRI in every output graph resolves to a published ontology entry or is declared as `tagteam:` namespace. Tier 1/Tier 2 type separation is enforced — no OWL disjointness violations. Single-file architecture: one artifact, zero external dependencies, zero setup. StructuralAssertions promoted to formal Tier 2 triples with IRI references and OWL NPA support.
 
 ---
 
@@ -60,17 +69,17 @@ This checklist defines the requirements for merging the dev branch to MAIN, the 
 
 ### 1.2 Build Artifact Integrity
 
-- [x] **Demo bundle sync.** Verify `demos/tagteam.js` matches `dist/tagteam.js` by checksum. Add a CI step that compares the two files and fails on mismatch. *(Verified at `162361e`: checksum `dbfd3431f85395da4c356ade516385ef`. CI step not yet automated.)*
+- [x] **Demo bundle sync.** Verify `demos/tagteam.js` matches `dist/tagteam.js` by checksum. Add a CI step that compares the two files and fails on mismatch. *(Verified at `8839b98`: checksum `d5ded560e5e6c5b027fc882222712cd7`. CI step not yet automated.)*
 
-- [x] **Model file loading.** Confirm all demo pages successfully load: POS lexicon, dependency model, and all gazetteer files (places, organizations, person keywords). *(Verified at `c97229b`; no model changes since.)*
+- [x] **Single-file architecture.** Verify `dist/` contains only `tagteam.js`, `standalone-demo.html`, and `test.html` — no `models/` directory, no `tagteam-core.js`, no `tagteam-values.js`. Models (POS weights, dep weights, calibration, gazetteers) are baked into the bundle at build time. `TagTeam.areModelsLoaded()` must return `true` immediately without calling `loadModels()`. `dist/standalone-demo.html` must parse text via `file:///` with zero network requests. *(Verified at `8839b98`: 11.40 MB bundle, gzip 2.41 MB. Stale artifacts removed including separated-demo.html, demos/models/, dist test HTML files. Standalone demo confirmed working.)*
 
-- [x] **Gold baseline evaluation.** Run `npm run gold:evaluate`. Zero mismatches required. *(Verified at `162361e`: Entity F1 89.6%, Role F1 57.8%, 0 mismatches. 200 baselines regenerated. Role F1 drop from 59.3% is a label-source change — evaluator reads Tier 2 labels post-separation. See FT-01 in merge approval memo.)*
+- [x] **Gold baseline evaluation.** Run `npm run gold:evaluate`. Zero mismatches required. *(Verified at `8839b98`: Entity F1 89.6%, Role F1 57.8%, 0 mismatches. 200 baselines regenerated including FT-03 assertion upgrades. Role F1 drop from 59.3% is a label-source change — evaluator reads Tier 2 labels post-separation. See FT-01 in merge approval memo.)*
 
 ### 1.3 Test Suite
 
-- [x] **CI tests: all phases passing, 0 failures.** *(Verified at `162361e`: 770+ tests, 0 failures across all 13 phases.)*
+- [x] **CI tests: all phases passing, 0 failures.** *(Verified at `8839b98`: 770+ tests, 0 failures across all 13 phases.)*
 
-- [x] **Component tests: 42/100 baseline maintained.** No regression from the pre-audit baseline (was 30, improved to 42 via HEAD_NOUN_TYPE_MAP and TreeEntityExtractor fixes). *(Verified at `162361e`: 42/100, 0 errors.)*
+- [x] **Component tests: 42/100 baseline maintained.** No regression from the pre-audit baseline (was 30, improved to 42 via HEAD_NOUN_TYPE_MAP and TreeEntityExtractor fixes). *(Verified at `8839b98`: 42/100, 0 errors.)*
 
 ---
 
@@ -80,9 +89,9 @@ This checklist defines the requirements for merging the dev branch to MAIN, the 
 
 ### 2.1 Performance and Bundle Size
 
-- [ ] **Compression analysis.** The 5.2MB raw bundle is the largest cost to the user in an edge-canonical architecture. Verify gzip and Brotli compressed sizes. Target: under 1.5MB compressed.
+- [x] **Bundle size and compression.** The single-file bundle (with embedded models) is 11.40 MB raw / 2.41 MB gzip. Verified within the 15 MB / 4 MB CI gates. *(Verified at `8839b98`.)*
 
-- [ ] **POS lexicon lazy loading.** The 4.1MB POS lexicon and Turtle ontology files should load on demand when `TagTeam.parse()` is first called, not at import time. This is the highest-impact optimization available.
+- [ ] **Brotli compression analysis.** Verify Brotli compressed size for CDN delivery. Target: under 2 MB Brotli.
 
 - [ ] **Automated parse-time benchmark.** Add a CI step that measures `parse()` execution time on a standard 20-word sentence. Fail if time exceeds 60ms on the CI runner. Establish a baseline and track regressions.
 
@@ -212,6 +221,22 @@ grep -rn "tagteam:has_input\|tagteam:has_output\|tagteam:prescribed_by" src/
 ```bash
 grep -rn "tagteam:bearer\|tagteam:realizedIn" src/
 grep -rn "tagteam:bearer\|tagteam:realizedIn" tests/ --include="*.js"
+```
+
+### Single-File Architecture Verification
+
+```bash
+# dist/ must contain only tagteam.js, standalone-demo.html, test.html — no models/ directory
+ls dist/
+# Expected: standalone-demo.html  tagteam.js  test.html
+
+# areModelsLoaded() must return true without loadModels()
+node -e "const T = require('./dist/tagteam.js'); console.log(T.areModelsLoaded())"
+# Expected: true
+
+# demos/ must not contain models/ directory or separated-demo.html
+ls demos/models/ 2>/dev/null && echo "FAIL: demos/models/ still exists" || echo "PASS"
+test -f demos/separated-demo.html && echo "FAIL: separated-demo.html still exists" || echo "PASS"
 ```
 
 ### Build Verification
@@ -402,3 +427,24 @@ Complete mapping of all ontology-sourced aliases in the @context as of commit `b
 | Alias | @id | Typing |
 |-------|-----|--------|
 | `structuralAmbiguity` | `tagteam:structuralAmbiguity` | — |
+
+### FT-03: StructuralAssertion Provenance Properties (3)
+
+*Added to @context in `9c9dfac`. Defined in `ontology/tagteam-v3.ttl`.*
+
+| Alias | @id | Typing | Purpose |
+|-------|-----|--------|---------|
+| `assertionSubject` | `tagteam:assertionSubject` | `@id` | Tier 1 DiscourseReferent that served as linguistic subject |
+| `assertionObject` | `tagteam:assertionObject` | `@id` | Tier 1 DiscourseReferent that served as linguistic object |
+| `assertedRelation` | `tagteam:assertedRelation` | `@id` | CCO/BFO property IRI claimed by the assertion |
+
+### FT-03: OWL NegativePropertyAssertion Vocabulary (4)
+
+*Added to @context in `9c9dfac`. Standard OWL 2 vocabulary for explicitly denying a relation under Open World Assumption.*
+
+| Alias | @id | Typing | Purpose |
+|-------|-----|--------|---------|
+| `owl:NegativePropertyAssertion` | `owl:NegativePropertyAssertion` | — | OWL class for negated assertions |
+| `owl:sourceIndividual` | `owl:sourceIndividual` | `@id` | Domain individual of the denied relation |
+| `owl:assertionProperty` | `owl:assertionProperty` | `@id` | Property IRI being denied |
+| `owl:targetIndividual` | `owl:targetIndividual` | `@id` | Range individual of the denied relation |

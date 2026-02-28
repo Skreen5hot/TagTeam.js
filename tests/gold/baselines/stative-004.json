@@ -7,7 +7,7 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-27T10:50:23.985Z",
+  "generatedAt": "2026-02-28T11:17:36.408Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -131,7 +131,7 @@
         "rdfs:label": "region",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.985Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.408Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3c52822f2a0b",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -151,7 +151,7 @@
         ],
         "rdfs:label": "five operational sectors",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.985Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.408Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3c52822f2a0b",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -173,7 +173,7 @@
         "has_text_value": "The region is divided into five operational sectors",
         "tagteam:char_count": 51,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-27T10:50:23.975Z"
+        "tagteam:received_at": "2026-02-28T11:17:36.398Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -219,7 +219,7 @@
             "@id": "inst:Act_divided"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.975Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.398Z"
       }
     ]
   }

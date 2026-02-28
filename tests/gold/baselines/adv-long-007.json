@@ -6,7 +6,7 @@
     "long-np",
     "government"
   ],
-  "generatedAt": "2026-02-27T10:50:25.569Z",
+  "generatedAt": "2026-02-28T11:17:37.992Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -164,7 +164,7 @@
         ],
         "rdfs:label": "joint interagency task force on narcotic",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.569Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.992Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9713858a7e9d",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -179,7 +179,7 @@
         ],
         "rdfs:label": "narcotic",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.569Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.992Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9713858a7e9d",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -194,7 +194,7 @@
         ],
         "rdfs:label": "contraband",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.569Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.992Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9713858a7e9d",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -216,7 +216,7 @@
         "has_text_value": "The joint interagency task force on narcotics trafficking seized the contraband",
         "tagteam:char_count": 79,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-27T10:50:25.560Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.979Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -271,7 +271,7 @@
             "@id": "inst:Act_seized"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.560Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.979Z"
       }
     ]
   }

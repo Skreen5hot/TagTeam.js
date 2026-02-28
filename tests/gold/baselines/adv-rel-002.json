@@ -6,7 +6,7 @@
     "relative-clause",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T10:50:25.450Z",
+  "generatedAt": "2026-02-28T11:17:37.851Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -156,7 +156,7 @@
         ],
         "rdfs:label": "vehicle",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.450Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.851Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_03a72b1781ed",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -172,7 +172,7 @@
         "rdfs:label": "that",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.450Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.851Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_03a72b1781ed",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -193,7 +193,7 @@
         "rdfs:label": "border",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.450Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.851Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_03a72b1781ed",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -210,7 +210,7 @@
         "has_text_value": "The vehicle that crossed the border was intercepted",
         "tagteam:char_count": 51,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-27T10:50:25.441Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.841Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -262,7 +262,7 @@
             "@id": "inst:Act_crossed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.441Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.841Z"
       }
     ]
   }

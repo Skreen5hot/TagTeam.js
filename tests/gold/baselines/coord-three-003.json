@@ -7,7 +7,7 @@
     "coordination",
     "government"
   ],
-  "generatedAt": "2026-02-27T10:50:24.104Z",
+  "generatedAt": "2026-02-28T11:17:36.534Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -162,7 +162,7 @@
         "rdfs:label": "agent",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.104Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.534Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_76c378938573",
         "tagteam:denotesType": "Person",
         "is_subject_of": {
@@ -183,7 +183,7 @@
         "rdfs:label": "supervisor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.104Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.534Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_76c378938573",
         "tagteam:denotesType": "Person",
         "is_subject_of": {
@@ -198,7 +198,7 @@
         ],
         "rdfs:label": "case",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.104Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.534Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_76c378938573",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -215,7 +215,7 @@
         "has_text_value": "The agent, the analyst, and the supervisor reviewed the case",
         "tagteam:char_count": 60,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-27T10:50:24.093Z"
+        "tagteam:received_at": "2026-02-28T11:17:36.523Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -264,7 +264,7 @@
             "@id": "inst:Act_analyst"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.093Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.523Z"
       }
     ]
   }

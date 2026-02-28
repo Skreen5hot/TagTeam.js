@@ -7,7 +7,7 @@
     "keep",
     "government"
   ],
-  "generatedAt": "2026-02-27T10:50:23.716Z",
+  "generatedAt": "2026-02-28T11:17:36.171Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -76,7 +76,7 @@
         ],
         "rdfs:label": "customs and border protection enforces trade law",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.716Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.171Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_930054f1010a",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -93,7 +93,7 @@
         "has_text_value": "Customs and Border Protection enforces trade laws",
         "tagteam:char_count": 49,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-27T10:50:23.706Z"
+        "tagteam:received_at": "2026-02-28T11:17:36.163Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -136,7 +136,7 @@
             "@id": "inst:Act_laws"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.706Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.163Z"
       }
     ]
   }

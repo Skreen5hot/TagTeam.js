@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T10:50:24.744Z",
+  "generatedAt": "2026-02-28T11:17:37.125Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -192,7 +192,7 @@
         "rdfs:label": "officer",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.743Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.125Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e2e7fbde9186",
         "tagteam:denotesType": "Person",
         "is_subject_of": {
@@ -212,7 +212,7 @@
         ],
         "rdfs:label": "passport",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.743Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.125Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e2e7fbde9186",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -232,7 +232,7 @@
         ],
         "rdfs:label": "reader",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.743Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.125Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e2e7fbde9186",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -254,7 +254,7 @@
         "has_text_value": "The officer scanned the passport with the reader",
         "tagteam:char_count": 48,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-27T10:50:24.734Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.117Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -303,7 +303,7 @@
             "@id": "inst:Act_scanned"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.734Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.117Z"
       }
     ]
   }

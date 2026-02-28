@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-02-26T10:41:17.781Z",
+  "timestamp": "2026-02-28T11:17:47.541Z",
   "sentenceCount": 200,
   "entityF1": {
     "precision": 0.8975409836065574,
@@ -7,9 +7,9 @@
     "f1": 0.8957055214723927
   },
   "roleF1": {
-    "precision": 0.5162523900573613,
-    "recall": 0.6976744186046512,
-    "f1": 0.5934065934065934
+    "precision": 0.502868068833652,
+    "recall": 0.6795865633074936,
+    "f1": 0.578021978021978
   },
   "copularAccuracy": 0.96875,
   "coordinationAccuracy": 0.8,
@@ -22,9 +22,9 @@
         "f1": 0.9297297297297298
       },
       "roleF1": {
-        "precision": 0.4752475247524752,
-        "recall": 0.75,
-        "f1": 0.5818181818181818
+        "precision": 0.46534653465346537,
+        "recall": 0.734375,
+        "f1": 0.5696969696969697
       }
     },
     "coordination": {
@@ -74,9 +74,9 @@
         "f1": 0.8880597014925373
       },
       "roleF1": {
-        "precision": 0.5161290322580645,
-        "recall": 0.7920792079207921,
-        "f1": 0.625
+        "precision": 0.4774193548387097,
+        "recall": 0.7326732673267327,
+        "f1": 0.5781250000000001
       }
     },
     "general": {
@@ -526,11 +526,11 @@
     {
       "id": "org-svo-018",
       "entityF1": 1,
-      "roleF1": 0.4,
+      "roleF1": 0,
       "entityPrecision": 1,
       "entityRecall": 1,
-      "rolePrecision": 0.3333333333333333,
-      "roleRecall": 0.5,
+      "rolePrecision": 0,
+      "roleRecall": 0,
       "extractedEntities": 3,
       "goldEntities": 3,
       "extractedRoles": 3,
@@ -1683,11 +1683,11 @@
     {
       "id": "cbp-pass-009",
       "entityF1": 0.8,
-      "roleF1": 0.8,
+      "roleF1": 0.4,
       "entityPrecision": 0.6666666666666666,
       "entityRecall": 1,
-      "rolePrecision": 0.6666666666666666,
-      "roleRecall": 1,
+      "rolePrecision": 0.3333333333333333,
+      "roleRecall": 0.5,
       "extractedEntities": 3,
       "goldEntities": 2,
       "extractedRoles": 3,
@@ -1696,11 +1696,11 @@
     {
       "id": "cbp-pass-010",
       "entityF1": 1,
-      "roleF1": 0.8,
+      "roleF1": 0.4,
       "entityPrecision": 1,
       "entityRecall": 1,
-      "rolePrecision": 0.6666666666666666,
-      "roleRecall": 1,
+      "rolePrecision": 0.3333333333333333,
+      "roleRecall": 0.5,
       "extractedEntities": 2,
       "goldEntities": 2,
       "extractedRoles": 3,
@@ -1748,11 +1748,11 @@
     {
       "id": "cbp-pp-004",
       "entityF1": 1,
-      "roleF1": 0.8571428571428571,
+      "roleF1": 0.5714285714285715,
       "entityPrecision": 1,
       "entityRecall": 1,
-      "rolePrecision": 0.75,
-      "roleRecall": 1,
+      "rolePrecision": 0.5,
+      "roleRecall": 0.6666666666666666,
       "extractedEntities": 3,
       "goldEntities": 3,
       "extractedRoles": 4,
@@ -1787,11 +1787,11 @@
     {
       "id": "cbp-pp-007",
       "entityF1": 1,
-      "roleF1": 0.8571428571428571,
+      "roleF1": 0.5714285714285715,
       "entityPrecision": 1,
       "entityRecall": 1,
-      "rolePrecision": 0.75,
-      "roleRecall": 1,
+      "rolePrecision": 0.5,
+      "roleRecall": 0.6666666666666666,
       "extractedEntities": 3,
       "goldEntities": 3,
       "extractedRoles": 4,
@@ -1839,11 +1839,11 @@
     {
       "id": "cbp-ditr-001",
       "entityF1": 1,
-      "roleF1": 0.5714285714285715,
+      "roleF1": 0.28571428571428575,
       "entityPrecision": 1,
       "entityRecall": 1,
-      "rolePrecision": 0.5,
-      "roleRecall": 0.6666666666666666,
+      "rolePrecision": 0.25,
+      "roleRecall": 0.3333333333333333,
       "extractedEntities": 3,
       "goldEntities": 3,
       "extractedRoles": 4,
@@ -1865,11 +1865,11 @@
     {
       "id": "cbp-ditr-003",
       "entityF1": 0.8,
-      "roleF1": 0.6666666666666666,
+      "roleF1": 0.3333333333333333,
       "entityPrecision": 1,
       "entityRecall": 0.6666666666666666,
-      "rolePrecision": 0.6666666666666666,
-      "roleRecall": 0.6666666666666666,
+      "rolePrecision": 0.3333333333333333,
+      "roleRecall": 0.3333333333333333,
       "extractedEntities": 2,
       "goldEntities": 3,
       "extractedRoles": 3,

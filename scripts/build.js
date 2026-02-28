@@ -344,6 +344,20 @@ console.log(`  ✓ value-definitions-comprehensive.json (${(valueDefinitions.len
 console.log(`  ✓ frame-value-boosts.json (${(frameValueBoosts.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ conflict-pairs.json (${(conflictPairs.length / 1024).toFixed(2)} KB)`);
 
+// Read model files for embedding into bundle
+console.log('\n📖 Reading pipeline models for embedding...');
+const embeddedPosModel = fs.readFileSync(path.join(__dirname, '..', 'src', 'data', 'pos-weights-pruned.json'), 'utf8');
+const embeddedDepModel = fs.readFileSync(path.join(__dirname, '..', 'src', 'data', 'dep-weights-pruned.json'), 'utf8');
+const embeddedCalibration = fs.readFileSync(path.join(__dirname, '..', 'src', 'data', 'dep-calibration.json'), 'utf8');
+const gazetteersDir = path.join(__dirname, '..', 'src', 'data', 'gazetteers');
+const embeddedGazNames = fs.readFileSync(path.join(gazetteersDir, 'names.json'), 'utf8');
+const embeddedGazOrgs = fs.readFileSync(path.join(gazetteersDir, 'organizations.json'), 'utf8');
+const embeddedGazPlaces = fs.readFileSync(path.join(gazetteersDir, 'places.json'), 'utf8');
+console.log(`  ✓ pos-weights-pruned.json (${(embeddedPosModel.length / 1024 / 1024).toFixed(2)} MB)`);
+console.log(`  ✓ dep-weights-pruned.json (${(embeddedDepModel.length / 1024 / 1024).toFixed(2)} MB)`);
+console.log(`  ✓ dep-calibration.json (${(embeddedCalibration.length / 1024).toFixed(2)} KB)`);
+console.log(`  ✓ gazetteers: names.json, organizations.json, places.json`);
+
 // Strip IIFE wrappers from SemanticRoleExtractor if present
 console.log('\n🔧 Processing source files...');
 if (semanticExtractor.includes('(function(window)')) {
@@ -1289,14 +1303,27 @@ ${confidenceAnnotator}
 ${semanticGraphBuilder}
 
   // ============================================================================
+  // EMBEDDED MODELS (baked in at build time — zero-configuration parsing)
+  // ============================================================================
+
+  const _EMBEDDED_POS_MODEL = ${embeddedPosModel};
+  const _EMBEDDED_DEP_MODEL = ${embeddedDepModel};
+  const _EMBEDDED_CALIBRATION = ${embeddedCalibration};
+  const _EMBEDDED_GAZETTEERS = [
+    ${embeddedGazNames},
+    ${embeddedGazOrgs},
+    ${embeddedGazPlaces}
+  ];
+
+  // ============================================================================
   // UNIFIED API
   // ============================================================================
 
-  // Cache for pre-loaded tree pipeline models (browser use)
-  let _cachedPosModel = null;
-  let _cachedDepModel = null;
-  let _cachedCalibration = null;
-  let _cachedGazetteers = null;
+  // Model cache — initialized from embedded data, overridable via loadModels()
+  let _cachedPosModel = _EMBEDDED_POS_MODEL;
+  let _cachedDepModel = _EMBEDDED_DEP_MODEL;
+  let _cachedCalibration = _EMBEDDED_CALIBRATION;
+  let _cachedGazetteers = _EMBEDDED_GAZETTEERS;
   let _buildTreeGraphWarned = false;
 
   // Shared helper: inject cached models into a SemanticGraphBuilder instance
@@ -1414,7 +1441,7 @@ ${semanticGraphBuilder}
      * Uses the tree pipeline (PerceptronTagger + DependencyParser) by default.
      * Pass { useLegacy: true } to use the legacy Compromise NLP pipeline.
      *
-     * In browser, call loadModels() first to pre-load POS/dep models.
+     * Models are baked into the bundle — no setup needed.
      *
      * @param {string} text - The text to analyze
      * @param {Object} options - Optional configuration
@@ -1464,13 +1491,15 @@ ${semanticGraphBuilder}
     },
 
     /**
-     * Pre-load pipeline models for browser use.
-     * Call once after fetching model JSON files, before buildGraph().
+     * Override the built-in models with custom weights.
+     * The bundle ships with models baked in — this is only needed
+     * to swap in domain-specific weights or custom gazetteers.
+     * Replaces (not merges) the active model cache.
      *
-     * @param {Object} posJSON - Parsed POS tagger weights (pos-weights-pruned.json)
-     * @param {Object} depJSON - Parsed dependency parser weights (dep-weights-pruned.json)
-     * @param {Object} [calibrationJSON] - Parsed calibration table (dep-calibration.json)
-     * @param {Object} [gazetteersJSON] - Parsed gazetteer data
+     * @param {Object} posJSON - POS tagger weights (replaces built-in)
+     * @param {Object} depJSON - Dependency parser weights (replaces built-in)
+     * @param {Object} [calibrationJSON] - Calibration table (replaces built-in)
+     * @param {Object} [gazetteersJSON] - Gazetteer data (replaces built-in)
      */
     loadModels: function(posJSON, depJSON, calibrationJSON, gazetteersJSON) {
       _cachedPosModel = posJSON;
@@ -1937,37 +1966,7 @@ const testHtml = `<!DOCTYPE html>
 fs.writeFileSync(path.join(distDir, 'test.html'), testHtml, 'utf8');
 console.log('  ✓ Created dist/test.html');
 
-// Copy tree pipeline models to dist/models/ for browser fetch
-console.log('\n📦 Copying tree pipeline models...');
-const modelsDir = path.join(distDir, 'models');
-if (!fs.existsSync(modelsDir)) {
-  fs.mkdirSync(modelsDir, { recursive: true });
-}
-const posModelSrc = path.join(__dirname, '..', 'src', 'data', 'pos-weights-pruned.json');
-const depModelSrc = path.join(__dirname, '..', 'src', 'data', 'dep-weights-pruned.json');
-const calSrc = path.join(__dirname, '..', 'src', 'data', 'dep-calibration.json');
-fs.copyFileSync(posModelSrc, path.join(modelsDir, 'pos-weights-pruned.json'));
-console.log(`  ✓ pos-weights-pruned.json (${(fs.statSync(posModelSrc).size / 1024 / 1024).toFixed(2)} MB)`);
-fs.copyFileSync(depModelSrc, path.join(modelsDir, 'dep-weights-pruned.json'));
-console.log(`  ✓ dep-weights-pruned.json (${(fs.statSync(depModelSrc).size / 1024 / 1024).toFixed(2)} MB)`);
-if (fs.existsSync(calSrc)) {
-  fs.copyFileSync(calSrc, path.join(modelsDir, 'dep-calibration.json'));
-  console.log(`  ✓ dep-calibration.json (${(fs.statSync(calSrc).size / 1024).toFixed(2)} KB)`);
-}
-
-// Copy gazetteer files for browser access
-const gazetteersDir = path.join(__dirname, '..', 'src', 'data', 'gazetteers');
-const gazetteersDistDir = path.join(modelsDir, 'gazetteers');
-if (fs.existsSync(gazetteersDir)) {
-  if (!fs.existsSync(gazetteersDistDir)) {
-    fs.mkdirSync(gazetteersDistDir, { recursive: true });
-  }
-  const gazFiles = fs.readdirSync(gazetteersDir).filter(f => f.endsWith('.json'));
-  for (const f of gazFiles) {
-    fs.copyFileSync(path.join(gazetteersDir, f), path.join(gazetteersDistDir, f));
-    console.log(`  ✓ gazetteers/${f}`);
-  }
-}
+// Models are now embedded in the bundle — no separate files needed
 
 // Summary
 console.log('\n✨ Build complete!\n');

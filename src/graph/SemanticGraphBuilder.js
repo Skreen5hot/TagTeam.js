@@ -139,6 +139,43 @@ const _GenericityDetector = (typeof GenericityDetector !== 'undefined') ? Generi
   try { return require('./GenericityDetector'); } catch (e) { return null; }
 })();
 
+// ============================================================================
+// FT-03: Relation directionality table
+// Maps copular/stative relation names to triple direction.
+// subjectRole: 'domain' = linguistic subject IS the domain of the property
+// subjectRole: 'range'  = linguistic subject IS the range (triple must invert)
+// ============================================================================
+const RELATION_DIRECTIONALITY = {
+  'has_continuant_part': { subjectRole: 'range',  property: 'has_continuant_part' },
+  'continuant_part_of':  { subjectRole: 'domain', property: 'continuant_part_of' },
+  'member_part_of':      { subjectRole: 'domain', property: 'member_part_of' },
+  'located_in':          { subjectRole: 'domain', property: 'located_in' },
+  'has_function':        { subjectRole: 'domain', property: 'has_function' },
+  'has_possession':      { subjectRole: 'domain', property: 'has_possession' },
+  'rdfs:subClassOf':     { subjectRole: 'domain', property: 'rdfs:subClassOf' },
+  'rdf:type':            { subjectRole: 'domain', property: 'rdf:type' },
+};
+
+/**
+ * FT-03: Resolve assertion entity text to a Tier 1 DR IRI.
+ * Strips leading prepositions and determiners to match entity labels.
+ */
+function _resolveEntityText(text, entityTextToIRI) {
+  if (!text) return null;
+  // Direct match
+  const direct = entityTextToIRI.get(text.toLowerCase());
+  if (direct) return direct;
+
+  // Strip leading prepositions: "of DHS" → "DHS", "within DHS" → "DHS"
+  const stripped = text.replace(/^(of|in|at|for|by|from|to|with|on|near|within|as)\s+/i, '');
+  const match = entityTextToIRI.get(stripped.toLowerCase());
+  if (match) return match;
+
+  // Strip leading determiners: "the DOD" → "DOD"
+  const noDet = stripped.replace(/^(the|a|an)\s+/i, '');
+  return entityTextToIRI.get(noDet.toLowerCase()) || null;
+}
+
 /**
  * Main class for building semantic graphs in JSON-LD format
  */
@@ -2131,6 +2168,79 @@ class SemanticGraphBuilder {
 
         for (const t2 of tier2Entities) {
           graphNodes.push(t2);
+        }
+
+        // --- FT-03: Upgrade StructuralAssertions to Tier 2 triples ---
+        // Build entity text → Tier 1 IRI lookup for assertion resolution
+        const entityTextToIRI = new Map();
+        for (const node of referentNodes) {
+          if (node['rdfs:label'] && node['@id']) {
+            entityTextToIRI.set(node['rdfs:label'].toLowerCase(), node['@id']);
+          }
+        }
+
+        for (const node of graphNodes) {
+          const types = [].concat(node['@type'] || []);
+          if (!types.some(t => t.includes('StructuralAssertion'))) continue;
+
+          const isNegated = types.includes('tagteam:NegatedStructuralAssertion');
+          const subjectText = node['tagteam:subject'];
+          const objectText = node['tagteam:object'];
+          const relation = node['tagteam:relation'];
+
+          if (!subjectText || !relation) continue;
+
+          // Resolve subject/object text to Tier 1 DRs
+          const subjectIRI = _resolveEntityText(subjectText, entityTextToIRI);
+          const objectIRI = _resolveEntityText(objectText, entityTextToIRI);
+
+          if (!subjectIRI || !objectIRI) {
+            console.warn(`[FT-03] Could not resolve assertion: subject="${subjectText}" object="${objectText}"`);
+            continue;
+          }
+
+          // Look up Tier 2 IRIs via linkMap
+          const subjectTier2 = linkMap.get(subjectIRI);
+          const objectTier2 = linkMap.get(objectIRI);
+
+          if (!subjectTier2 || !objectTier2) {
+            console.warn(`[FT-03] No Tier 2 mapping for assertion entities: subject=${subjectIRI} object=${objectIRI}`);
+            continue;
+          }
+
+          // Upgrade assertion provenance node (replace strings with IRI refs)
+          node['assertionSubject'] = { '@id': subjectIRI };
+          node['assertionObject'] = { '@id': objectIRI };
+          node['assertedRelation'] = { '@id': relation };
+          delete node['tagteam:subject'];
+          delete node['tagteam:object'];
+          delete node['tagteam:relation'];
+
+          // Determine triple direction
+          const directionality = RELATION_DIRECTIONALITY[relation];
+          if (!directionality) continue;
+
+          const domainTier2 = directionality.subjectRole === 'domain' ? subjectTier2 : objectTier2;
+          const rangeTier2 = directionality.subjectRole === 'domain' ? objectTier2 : subjectTier2;
+
+          if (isNegated) {
+            // Emit owl:NegativePropertyAssertion node
+            const npaId = `${this.options.namespace}:NPA_${this._sanitizeId(subjectText)}_${this._sanitizeId(objectText || 'unknown')}`;
+            const npaNode = {
+              '@id': npaId,
+              '@type': ['owl:NegativePropertyAssertion'],
+              'owl:sourceIndividual': { '@id': domainTier2 },
+              'owl:assertionProperty': { '@id': relation },
+              'owl:targetIndividual': { '@id': rangeTier2 },
+            };
+            graphNodes.push(npaNode);
+          } else {
+            // Emit affirmative triple on domain Tier 2 node
+            const domainNode = tier2Entities.find(t2 => t2['@id'] === domainTier2);
+            if (domainNode) {
+              domainNode[directionality.property] = { '@id': rangeTier2 };
+            }
+          }
         }
       }
 

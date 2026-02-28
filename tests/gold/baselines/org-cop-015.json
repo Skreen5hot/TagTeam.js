@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-27T10:50:23.278Z",
+  "generatedAt": "2026-02-28T11:17:35.798Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -72,7 +72,7 @@
         "rdfs:label": "inspector general",
         "tagteam:genericityCategory": "AMB",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.278Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:35.798Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_db6064c89dbb",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -89,7 +89,7 @@
         "has_text_value": "The inspector general is an independent oversight official",
         "tagteam:char_count": 58,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-27T10:50:23.269Z"
+        "tagteam:received_at": "2026-02-28T11:17:35.790Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -129,7 +129,7 @@
             "@id": "inst:The_inspector_general"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.269Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:35.790Z"
       }
     ]
   }

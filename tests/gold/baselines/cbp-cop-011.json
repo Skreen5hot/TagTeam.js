@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T10:50:24.538Z",
+  "generatedAt": "2026-02-28T11:17:36.927Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -80,10 +80,17 @@
         "@type": [
           "tagteam:StructuralAssertion"
         ],
-        "tagteam:subject": "The duty officer",
         "tagteam:pattern": "predication",
-        "tagteam:object": "for emergencies",
-        "tagteam:copula": "is"
+        "tagteam:copula": "is",
+        "assertionSubject": {
+          "@id": "inst:The_duty_officer"
+        },
+        "assertionObject": {
+          "@id": "inst:emergencies"
+        },
+        "assertedRelation": {
+          "@id": "has_function"
+        }
       },
       {
         "@id": "inst:Person_Duty_Officer_6072fed75244",
@@ -94,11 +101,14 @@
         "rdfs:label": "duty officer",
         "tagteam:genericityCategory": "AMB",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.537Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.927Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_def8547a60fd",
         "tagteam:denotesType": "Person",
         "is_subject_of": {
           "@id": "inst:The_duty_officer"
+        },
+        "has_function": {
+          "@id": "inst:Entity_Emergency_be9f88e13198"
         }
       },
       {
@@ -109,7 +119,7 @@
         ],
         "rdfs:label": "emergency",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.538Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.927Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_def8547a60fd",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -126,7 +136,7 @@
         "has_text_value": "The duty officer is the primary contact for emergencies",
         "tagteam:char_count": 55,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-27T10:50:24.527Z"
+        "tagteam:received_at": "2026-02-28T11:17:36.919Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -169,7 +179,7 @@
             "@id": "inst:emergencies"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.527Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:36.919Z"
       }
     ]
   }

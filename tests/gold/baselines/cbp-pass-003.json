@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T10:50:24.618Z",
+  "generatedAt": "2026-02-28T11:17:37.016Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -139,7 +139,7 @@
         "rdfs:label": "traveler",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.618Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.016Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e01a3da3904b",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -159,7 +159,7 @@
         ],
         "rdfs:label": "secondary inspection",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.618Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.016Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e01a3da3904b",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -181,7 +181,7 @@
         "has_text_value": "The traveler was referred to secondary inspection",
         "tagteam:char_count": 49,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-27T10:50:24.609Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.007Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -227,7 +227,7 @@
             "@id": "inst:Act_referred"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.609Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.007Z"
       }
     ]
   }

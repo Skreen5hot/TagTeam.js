@@ -5,7 +5,7 @@
   "tags": [
     "academic"
   ],
-  "generatedAt": "2026-02-27T10:50:25.046Z",
+  "generatedAt": "2026-02-28T11:17:37.454Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -140,7 +140,7 @@
         "rdfs:label": "student",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.045Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.454Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a66dc85bd56e",
         "tagteam:denotesType": "Person",
         "is_subject_of": {
@@ -160,7 +160,7 @@
         ],
         "rdfs:label": "dissertation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.045Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.454Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a66dc85bd56e",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -182,7 +182,7 @@
         "has_text_value": "The student defended the dissertation",
         "tagteam:char_count": 37,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-27T10:50:25.038Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.448Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -228,7 +228,7 @@
             "@id": "inst:Act_defended"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.038Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.448Z"
       }
     ]
   }

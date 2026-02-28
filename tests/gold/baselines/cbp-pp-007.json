@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T10:50:24.808Z",
+  "generatedAt": "2026-02-28T11:17:37.179Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -192,7 +192,7 @@
         "rdfs:label": "office",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.808Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.178Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c18f302a5480",
         "tagteam:denotesType": "Facility",
         "is_subject_of": {
@@ -212,7 +212,7 @@
         ],
         "rdfs:label": "datum",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.808Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.178Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c18f302a5480",
         "tagteam:denotesType": "InformationContentEntity",
         "is_subject_of": {
@@ -232,7 +232,7 @@
         ],
         "rdfs:label": "headquarter",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.808Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.178Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c18f302a5480",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -254,7 +254,7 @@
         "has_text_value": "The office transmitted the data to headquarters",
         "tagteam:char_count": 47,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-27T10:50:24.801Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.171Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -303,7 +303,7 @@
             "@id": "inst:Act_transmitted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:24.801Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.171Z"
       }
     ]
   }

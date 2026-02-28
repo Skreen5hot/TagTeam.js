@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-27T10:50:23.387Z",
+  "generatedAt": "2026-02-28T11:17:35.877Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -142,7 +142,7 @@
         "rdfs:label": "analyst",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.387Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:35.877Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5d7e68cf95fa",
         "tagteam:denotesType": "Person",
         "is_subject_of": {
@@ -162,7 +162,7 @@
         ],
         "rdfs:label": "intelligence brief",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.387Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:35.877Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5d7e68cf95fa",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -184,7 +184,7 @@
         "has_text_value": "The analyst prepared the intelligence briefing",
         "tagteam:char_count": 46,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-27T10:50:23.376Z"
+        "tagteam:received_at": "2026-02-28T11:17:35.869Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -230,7 +230,7 @@
             "@id": "inst:Act_prepared"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:23.376Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:35.869Z"
       }
     ]
   }

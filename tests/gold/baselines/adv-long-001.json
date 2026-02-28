@@ -6,7 +6,7 @@
     "long-np",
     "cbp"
   ],
-  "generatedAt": "2026-02-27T10:50:25.276Z",
+  "generatedAt": "2026-02-28T11:17:37.683Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -167,7 +167,7 @@
         "rdfs:label": "senior intelligence analyst at the operations center",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.276Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.682Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ba2ae99ec82f",
         "tagteam:denotesType": "Person",
         "is_subject_of": {
@@ -187,7 +187,7 @@
         ],
         "rdfs:label": "operations center",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.276Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.682Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ba2ae99ec82f",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -202,7 +202,7 @@
         ],
         "rdfs:label": "assessment",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.276Z",
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.682Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ba2ae99ec82f",
         "tagteam:denotesType": "Entity",
         "is_subject_of": {
@@ -224,7 +224,7 @@
         "has_text_value": "The senior intelligence analyst at the operations center reviewed the assessment",
         "tagteam:char_count": 80,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-27T10:50:25.267Z"
+        "tagteam:received_at": "2026-02-28T11:17:37.671Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -273,7 +273,7 @@
             "@id": "inst:Act_reviewed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-27T10:50:25.267Z"
+        "tagteam:instantiated_at": "2026-02-28T11:17:37.671Z"
       }
     ]
   }
