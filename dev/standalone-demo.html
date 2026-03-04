@@ -8,6 +8,12 @@
     input { width: 100%; padding: 8px; font-size: 16px; box-sizing: border-box; }
     button { padding: 8px 16px; font-size: 14px; cursor: pointer; margin-top: 8px; }
     pre { white-space: pre-wrap; background: #f4f4f4; padding: 16px; margin-top: 12px; max-height: 600px; overflow: auto; font-size: 12px; }
+    details { margin-top: 24px; border: 1px solid #ccc; border-radius: 4px; }
+    details > summary { cursor: pointer; font-weight: bold; padding: 10px 14px; background: #e8e8e8; }
+    details > summary:hover { background: #d8d8d8; }
+    details .section-body { padding: 14px; }
+    details pre { font-size: 11px; }
+    details code { background: #eee; padding: 1px 4px; }
   </style>
 </head>
 <body>
@@ -31,7 +37,62 @@
       if (e.key === 'Enter') run();
     });
   </script>
+
+  <details>
+    <summary>Advanced: Custom Ontology Class Matching</summary>
+    <div class="section-body">
+      <p>TagTeam includes <code>OntologyTextTagger</code> — load any Turtle/TTL ontology and match text against its classes. No values layer needed.</p>
+<pre>
+// 1. Load a TTL ontology string
+const tagger = TagTeam.OntologyTextTagger.fromTTL(ttlString, {
+  propertyMap: {
+    keywords: 'myns:keywords',
+    label: 'rdfs:label'
+  }
+});
+
+// 2. Tag text against ontology classes
+const matches = tagger.tagText("Patient has fever and cough");
+console.log(matches);
+// → [{ classIRI: 'myns:Fever', label: 'Fever', score: 0.9, ... }, ...]
+
+// 3. Or build a graph and match post-hoc
+const graph = TagTeam.buildGraph("The doctor examined the patient");
+</pre>
+      <p><strong>Key classes:</strong></p>
+      <ul>
+        <li><code>TagTeam.OntologyTextTagger</code> — main tagger (static <code>.fromTTL()</code>)</li>
+        <li><code>TagTeam.TurtleParser</code> — lightweight TTL parser</li>
+        <li><code>TagTeam.OntologyManager</code> — unified JSON + TTL loading with cache</li>
+        <li><code>TagTeam.PropertyMapper</code> — configurable property-to-tag mapping</li>
+      </ul>
+      <button type="button" onclick="runOntologyDemo()">Run Ontology Demo</button>
+      <pre id="ontology-out"></pre>
+    </div>
+  </details>
+
   <script src="tagteam.js"></script>
-  <script>document.getElementById('out').textContent = 'Ready.';</script>
+  <script>
+    document.getElementById('out').textContent = 'Ready.';
+
+    function runOntologyDemo() {
+      if (typeof TagTeam === 'undefined') return;
+      var ttl = [
+        '@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .',
+        '@prefix ex: <http://example.org/med#> .',
+        'ex:Fever a rdfs:Class ; rdfs:label "Fever" .',
+        'ex:Cough a rdfs:Class ; rdfs:label "Cough" .',
+        'ex:Patient a rdfs:Class ; rdfs:label "Patient" .',
+        'ex:Doctor a rdfs:Class ; rdfs:label "Doctor" .'
+      ].join('\n');
+      try {
+        var tagger = TagTeam.OntologyTextTagger.fromTTL(ttl);
+        var matches = tagger.tagText('Patient has fever and cough');
+        document.getElementById('ontology-out').textContent = JSON.stringify(matches, null, 2);
+      } catch (e) {
+        document.getElementById('ontology-out').textContent = 'Error: ' + e.message;
+      }
+    }
+  </script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 /*!
  * TagTeam.js - Two-Tier Semantic Graph Architecture for Ethical Context Analysis
  * Version: 7.0 (v2 Phase 2: Dependency Parser)
- * Date: 2026-02-28
+ * Date: 2026-03-04
  *
  * A client-side JavaScript library for extracting semantic roles from natural language text
  *
@@ -298625,6 +298625,7 @@ if (typeof window !== 'undefined') {
     return PatternMatcher;
   })(nlp);
 
+
   // ============================================================================
   // CONTEXT ANALYZER (Week 2a) (~15KB)
   // ============================================================================
@@ -299109,6 +299110,7 @@ if (typeof window !== 'undefined') {
     return ContextAnalyzer;
   })(PatternMatcher);
 
+
   // ============================================================================
   // CERTAINTY ANALYZER (Phase 7.2) (~8KB)
   // ============================================================================
@@ -299421,6 +299423,7 @@ class CertaintyAnalyzer {
 
   // Make CertaintyAnalyzer available globally for SemanticGraphBuilder
   _global.CertaintyAnalyzer = CertaintyAnalyzer;
+
 
   // ============================================================================
   // PHASE 7.1: SOURCE ATTRIBUTION DETECTION (~10KB)
@@ -299945,6 +299948,7 @@ class SourceAttributionDetector {
 
   // Make SourceAttributionDetector available globally for SemanticGraphBuilder
   _global.SourceAttributionDetector = SourceAttributionDetector;
+
 
   // ============================================================================
   // PHASE 7 v7: SENTENCE MODE CLASSIFIER (~6KB)
@@ -301464,6 +301468,7 @@ class SecurityAuditLogger {
     });
   }
 }
+
 
 
 
@@ -303475,6 +303480,7 @@ class SecurityAuditLogger {
 }
 ;
 
+
   // ============================================================================
   // VALUE MATCHER (Week 2b) (~6KB)
   // ============================================================================
@@ -303676,6 +303682,7 @@ class SecurityAuditLogger {
 
   // Make ValueMatcher available globally for SemanticRoleExtractor
   _global.ValueMatcher = ValueMatcher;
+
 
   // ============================================================================
   // VALUE SCORER (Week 2b) (~9KB)
@@ -303928,6 +303935,7 @@ class SecurityAuditLogger {
 
   // Make ValueScorer available globally for SemanticRoleExtractor
   _global.ValueScorer = ValueScorer;
+
 
   // ============================================================================
   // ETHICAL PROFILER (Week 2b) (~12KB)
@@ -304351,6 +304359,7 @@ class SecurityAuditLogger {
 
   // Make EthicalProfiler available globally for SemanticRoleExtractor
   _global.EthicalProfiler = EthicalProfiler;
+
 
   // ============================================================================
   // SEMANTIC ROLE EXTRACTOR (~32KB + Week 2a/2b enhancements)
@@ -314396,6 +314405,7 @@ class QualityFactory {
 
 
 
+
   // ============================================================================
   // ASSERTION EVENT BUILDER (Phase 4 - Week 2)
   // Creates ValueAssertionEvent and ContextAssessmentEvent nodes
@@ -314766,6 +314776,7 @@ class AssertionEventBuilder {
     this.graphBuilder = graphBuilder;
   }
 }
+
 
 
 
@@ -330687,7 +330698,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '3.0.0',
-    BUILD: 'build 240 | 90e6782 | 2026-02-28T12:10:22.874Z',
+    BUILD: 'build 242 | 271e0a1 | 2026-03-04T10:41:16.987Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
