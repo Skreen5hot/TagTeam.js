@@ -4,9 +4,35 @@
  *
  * Creates a single-file d3.js-style bundle from source files
  *
- * Usage: node build.js
- * Output: dist/tagteam.js (full bundle)
+ * Usage: node build.js          → dist/tagteam.js (full bundle)
+ *        node build.js --core   → dist/tagteam-core.js (core only)
+ * Output: dist/tagteam.js or dist/tagteam-core.js
  */
+
+// ============================================================================
+// TWO-BUNDLE ARCHITECTURE
+// ============================================================================
+// This build produces TWO bundles from a single script:
+//
+//   tagteam.js      — Full bundle (NLP + graph + ontology + values/ethical)
+//   tagteam-core.js — Core bundle (NLP + graph + ontology, NO values/ethical)
+//
+// The core bundle exists because external users who want pure NLP-to-ontology
+// parsing should not ship an ethical profiler. The values layer was the IEE
+// collaboration's contribution and is optional for non-IEE consumers.
+//
+// DO NOT delete tagteam-core.js or remove the --core flag without checking
+// with downstream consumers. The core bundle has an automated CI gate
+// (tests/bundle/core-bundle.test.js) that will fail if it breaks.
+//
+// Usage:
+//   node scripts/build.js          → dist/tagteam.js (full)
+//   node scripts/build.js --core   → dist/tagteam-core.js (core only)
+//   npm run build:all              → both
+// ============================================================================
+
+const CORE_ONLY = process.argv.includes('--core');
+const OUTPUT_NAME = CORE_ONLY ? 'tagteam-core.js' : 'tagteam.js';
 
 const fs = require('fs');
 const path = require('path');
@@ -34,7 +60,7 @@ const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'
 const pkgVersion = pkg.version;
 const buildInfo = `build ${buildNumber} | ${gitHash} | ${buildTimestamp}`;
 
-console.log('🔨 Building TagTeam.js bundle...');
+console.log(`🔨 Building TagTeam.js ${CORE_ONLY ? 'core' : 'full'} bundle...`);
 console.log(`   Build #${buildNumber} (${gitHash} @ ${buildTimestamp})\n`);
 
 // Create dist directory if it doesn't exist
@@ -167,11 +193,11 @@ let posTagger = fs.readFileSync(posTaggerPath, 'utf8');
 let patternMatcher = fs.readFileSync(patternMatcherPath, 'utf8');
 let matchingStrategies = fs.readFileSync(matchingStrategiesPath, 'utf8');
 let compromise = fs.readFileSync(compromisePath, 'utf8');
-let contextAnalyzer = fs.readFileSync(contextAnalyzerPath, 'utf8');
-let certaintyAnalyzer = fs.readFileSync(certaintyAnalyzerPath, 'utf8');
-let valueMatcher = fs.readFileSync(valueMatcherPath, 'utf8');
-let valueScorer = fs.readFileSync(valueScorerPath, 'utf8');
-let ethicalProfiler = fs.readFileSync(ethicalProfilerPath, 'utf8');
+let contextAnalyzer = CORE_ONLY ? '' : fs.readFileSync(contextAnalyzerPath, 'utf8');
+let certaintyAnalyzer = CORE_ONLY ? '' : fs.readFileSync(certaintyAnalyzerPath, 'utf8');
+let valueMatcher = CORE_ONLY ? '' : fs.readFileSync(valueMatcherPath, 'utf8');
+let valueScorer = CORE_ONLY ? '' : fs.readFileSync(valueScorerPath, 'utf8');
+let ethicalProfiler = CORE_ONLY ? '' : fs.readFileSync(ethicalProfilerPath, 'utf8');
 let semanticExtractor = fs.readFileSync(semanticExtractorPath, 'utf8');
 let lemmatizerSrc = fs.readFileSync(lemmatizerPath, 'utf8');
 
@@ -180,11 +206,15 @@ console.log(`  ✓ POSTagger.js (${(posTagger.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ Compromise.js (NLP) (${(compromise.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ MatchingStrategies.js (${(matchingStrategies.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ PatternMatcher.js (${(patternMatcher.length / 1024).toFixed(2)} KB)`);
-console.log(`  ✓ ContextAnalyzer.js (${(contextAnalyzer.length / 1024).toFixed(2)} KB)`);
-console.log(`  ✓ CertaintyAnalyzer.js (${(certaintyAnalyzer.length / 1024).toFixed(2)} KB)`);
-console.log(`  ✓ ValueMatcher.js (${(valueMatcher.length / 1024).toFixed(2)} KB)`);
-console.log(`  ✓ ValueScorer.js (${(valueScorer.length / 1024).toFixed(2)} KB)`);
-console.log(`  ✓ EthicalProfiler.js (${(ethicalProfiler.length / 1024).toFixed(2)} KB)`);
+if (!CORE_ONLY) {
+  console.log(`  ✓ ContextAnalyzer.js (${(contextAnalyzer.length / 1024).toFixed(2)} KB)`);
+  console.log(`  ✓ CertaintyAnalyzer.js (${(certaintyAnalyzer.length / 1024).toFixed(2)} KB)`);
+  console.log(`  ✓ ValueMatcher.js (${(valueMatcher.length / 1024).toFixed(2)} KB)`);
+  console.log(`  ✓ ValueScorer.js (${(valueScorer.length / 1024).toFixed(2)} KB)`);
+  console.log(`  ✓ EthicalProfiler.js (${(ethicalProfiler.length / 1024).toFixed(2)} KB)`);
+} else {
+  console.log('  ⊘ Skipped 5 values/ethical analyzer files (--core)');
+}
 console.log(`  ✓ SemanticRoleExtractor.js (${(semanticExtractor.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ Lemmatizer.js (${(lemmatizerSrc.length / 1024).toFixed(2)} KB)`);
 
@@ -208,7 +238,7 @@ let objectAggregateFactory = fs.readFileSync(objectAggregateFactoryPath, 'utf8')
 let qualityFactory = fs.readFileSync(qualityFactoryPath, 'utf8');
 
 // Week 2 modules
-let assertionEventBuilder = fs.readFileSync(assertionEventBuilderPath, 'utf8');
+let assertionEventBuilder = CORE_ONLY ? '' : fs.readFileSync(assertionEventBuilderPath, 'utf8');
 let contextManager = fs.readFileSync(contextManagerPath, 'utf8');
 let informationStaircaseBuilder = fs.readFileSync(informationStaircaseBuilderPath, 'utf8');
 
@@ -232,8 +262,8 @@ let alternativeGraphBuilder = fs.readFileSync(alternativeGraphBuilderPath, 'utf8
 // Phase 6.5: Ontology loading
 let turtleParser = fs.readFileSync(turtleParserPath, 'utf8');
 let ontologyManager = fs.readFileSync(ontologyManagerPath, 'utf8');
-let valueNetAdapter = fs.readFileSync(valueNetAdapterPath, 'utf8');
-let bridgeOntologyLoader = fs.readFileSync(bridgeOntologyLoaderPath, 'utf8');
+let valueNetAdapter = CORE_ONLY ? '' : fs.readFileSync(valueNetAdapterPath, 'utf8');
+let bridgeOntologyLoader = CORE_ONLY ? '' : fs.readFileSync(bridgeOntologyLoaderPath, 'utf8');
 
 // Phase 6.6: General-purpose tagger
 let propertyMapper = fs.readFileSync(propertyMapperPath, 'utf8');
@@ -302,7 +332,7 @@ console.log(`  ✓ ScarcityAssertionFactory.js (${(scarcityAssertionFactory.leng
 console.log(`  ✓ DirectiveExtractor.js (${(directiveExtractor.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ ObjectAggregateFactory.js (${(objectAggregateFactory.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ QualityFactory.js (${(qualityFactory.length / 1024).toFixed(2)} KB)`);
-console.log(`  ✓ AssertionEventBuilder.js (${(assertionEventBuilder.length / 1024).toFixed(2)} KB)`);
+if (!CORE_ONLY) console.log(`  ✓ AssertionEventBuilder.js (${(assertionEventBuilder.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ ContextManager.js (${(contextManager.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ InformationStaircaseBuilder.js (${(informationStaircaseBuilder.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ DomainConfigLoader.js (${(domainConfigLoader.length / 1024).toFixed(2)} KB)`);
@@ -316,8 +346,10 @@ console.log(`  ✓ InterpretationLattice.js (${(interpretationLattice.length / 1
 console.log(`  ✓ AlternativeGraphBuilder.js (${(alternativeGraphBuilder.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ TurtleParser.js (${(turtleParser.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ OntologyManager.js (${(ontologyManager.length / 1024).toFixed(2)} KB)`);
-console.log(`  ✓ ValueNetAdapter.js (${(valueNetAdapter.length / 1024).toFixed(2)} KB)`);
-console.log(`  ✓ BridgeOntologyLoader.js (${(bridgeOntologyLoader.length / 1024).toFixed(2)} KB)`);
+if (!CORE_ONLY) {
+  console.log(`  ✓ ValueNetAdapter.js (${(valueNetAdapter.length / 1024).toFixed(2)} KB)`);
+  console.log(`  ✓ BridgeOntologyLoader.js (${(bridgeOntologyLoader.length / 1024).toFixed(2)} KB)`);
+}
 console.log(`  ✓ PropertyMapper.js (${(propertyMapper.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ OntologyTextTagger.js (${(ontologyTextTagger.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ SourceAttributionDetector.js (${(sourceAttributionDetector.length / 1024).toFixed(2)} KB)`);
@@ -330,19 +362,24 @@ console.log(`  ✓ semantic-validators.js (${(semanticValidators.length / 1024).
 console.log(`  ✓ output-sanitizer.js (${(outputSanitizer.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ audit-logger.js (${(auditLogger.length / 1024).toFixed(2)} KB)`);
 
-// Read data files for Week 2b
-console.log('\n📖 Reading Week 2b data files...');
-const valueDefinitionsPath = path.join(__dirname, '..', 'iee-collaboration', 'from-iee', 'data', 'value-definitions-comprehensive.json');
-const frameValueBoostsPath = path.join(__dirname, '..', 'iee-collaboration', 'from-iee', 'data', 'frame-value-boosts.json');
-const conflictPairsPath = path.join(__dirname, '..', 'iee-collaboration', 'from-iee', 'data', 'conflict-pairs.json');
+// Read data files for Week 2b (values layer — skipped in --core mode)
+let valueDefinitions = '{}', frameValueBoosts = '{}', conflictPairs = '{}';
+if (!CORE_ONLY) {
+  console.log('\n📖 Reading Week 2b data files...');
+  const valueDefinitionsPath = path.join(__dirname, '..', 'iee-collaboration', 'from-iee', 'data', 'value-definitions-comprehensive.json');
+  const frameValueBoostsPath = path.join(__dirname, '..', 'iee-collaboration', 'from-iee', 'data', 'frame-value-boosts.json');
+  const conflictPairsPath = path.join(__dirname, '..', 'iee-collaboration', 'from-iee', 'data', 'conflict-pairs.json');
 
-const valueDefinitions = fs.readFileSync(valueDefinitionsPath, 'utf8');
-const frameValueBoosts = fs.readFileSync(frameValueBoostsPath, 'utf8');
-const conflictPairs = fs.readFileSync(conflictPairsPath, 'utf8');
+  valueDefinitions = fs.readFileSync(valueDefinitionsPath, 'utf8');
+  frameValueBoosts = fs.readFileSync(frameValueBoostsPath, 'utf8');
+  conflictPairs = fs.readFileSync(conflictPairsPath, 'utf8');
 
-console.log(`  ✓ value-definitions-comprehensive.json (${(valueDefinitions.length / 1024).toFixed(2)} KB)`);
-console.log(`  ✓ frame-value-boosts.json (${(frameValueBoosts.length / 1024).toFixed(2)} KB)`);
-console.log(`  ✓ conflict-pairs.json (${(conflictPairs.length / 1024).toFixed(2)} KB)`);
+  console.log(`  ✓ value-definitions-comprehensive.json (${(valueDefinitions.length / 1024).toFixed(2)} KB)`);
+  console.log(`  ✓ frame-value-boosts.json (${(frameValueBoosts.length / 1024).toFixed(2)} KB)`);
+  console.log(`  ✓ conflict-pairs.json (${(conflictPairs.length / 1024).toFixed(2)} KB)`);
+} else {
+  console.log('\n⊘ Skipped Week 2b data files (--core)');
+}
 
 // Read model files for embedding into bundle
 console.log('\n📖 Reading pipeline models for embedding...');
@@ -749,8 +786,120 @@ console.log('  ✓ Converted TreeRoleMapper to browser format');
 confidenceAnnotator = stripCommonJS(confidenceAnnotator, 'ConfidenceAnnotator');
 console.log('  ✓ Converted ConfidenceAnnotator to browser format');
 
+// ---- Conditional bundle sections (values/ethical layer) ----
+// When --core, these are empty strings so the bundle omits the values layer entirely.
+// Each section is a self-contained block of the final bundle source.
+
+const _sect_contextAnalyzer = CORE_ONLY ? '' : `
+  // ============================================================================
+  // CONTEXT ANALYZER (Week 2a) (~15KB)
+  // ============================================================================
+
+  const ContextAnalyzer = (function(PatternMatcher) {
+${contextAnalyzer}
+    return ContextAnalyzer;
+  })(PatternMatcher);
+`;
+
+const _sect_certainty = CORE_ONLY ? '' : `
+  // ============================================================================
+  // CERTAINTY ANALYZER (Phase 7.2) (~8KB)
+  // ============================================================================
+
+${certaintyAnalyzer}
+
+  // Make CertaintyAnalyzer available globally for SemanticGraphBuilder
+  _global.CertaintyAnalyzer = CertaintyAnalyzer;
+`;
+
+const _sect_sourceAttribution = CORE_ONLY ? '' : `
+  // ============================================================================
+  // PHASE 7.1: SOURCE ATTRIBUTION DETECTION (~10KB)
+  // ============================================================================
+
+${sourceAttributionDetector}
+
+  // Make SourceAttributionDetector available globally for SemanticGraphBuilder
+  _global.SourceAttributionDetector = SourceAttributionDetector;
+`;
+
+const _sect_valueData = CORE_ONLY ? '' : `
+  // ============================================================================
+  // WEEK 2B: ETHICAL VALUE DETECTION DATA (~70KB)
+  // ============================================================================
+
+  // Value definitions (50 values across 5 domains)
+  _global.VALUE_DEFINITIONS = ${valueDefinitions};
+
+  // Frame and role boost mappings
+  _global.FRAME_VALUE_BOOSTS = ${frameValueBoosts};
+
+  // Predefined conflict pairs (18 known ethical tensions)
+  _global.CONFLICT_PAIRS = ${conflictPairs};
+`;
+
+const _sect_valueMatcher = CORE_ONLY ? '' : `
+  // ============================================================================
+  // VALUE MATCHER (Week 2b) (~6KB)
+  // ============================================================================
+
+  const ValueMatcher = (function(PatternMatcher) {
+${valueMatcher}
+    return ValueMatcher;
+  })(PatternMatcher);
+
+  // Make ValueMatcher available globally for SemanticRoleExtractor
+  _global.ValueMatcher = ValueMatcher;
+`;
+
+const _sect_valueScorer = CORE_ONLY ? '' : `
+  // ============================================================================
+  // VALUE SCORER (Week 2b) (~9KB)
+  // ============================================================================
+
+  const ValueScorer = (function() {
+${valueScorer}
+    return ValueScorer;
+  })();
+
+  // Make ValueScorer available globally for SemanticRoleExtractor
+  _global.ValueScorer = ValueScorer;
+`;
+
+const _sect_ethicalProfiler = CORE_ONLY ? '' : `
+  // ============================================================================
+  // ETHICAL PROFILER (Week 2b) (~12KB)
+  // ============================================================================
+
+  const EthicalProfiler = (function() {
+${ethicalProfiler}
+    return EthicalProfiler;
+  })();
+
+  // Make EthicalProfiler available globally for SemanticRoleExtractor
+  _global.EthicalProfiler = EthicalProfiler;
+`;
+
+const _sect_assertionEventBuilder = CORE_ONLY ? '' : `
+  // ============================================================================
+  // ASSERTION EVENT BUILDER (Phase 4 - Week 2)
+  // Creates ValueAssertionEvent and ContextAssessmentEvent nodes
+  // ============================================================================
+
+${assertionEventBuilder}
+`;
+
+const _sect_valueNetAdapter = CORE_ONLY ? '' : `
+${valueNetAdapter}
+`;
+
+const _sect_bridgeOntologyLoader = CORE_ONLY ? '' : `
+${bridgeOntologyLoader}
+`;
+
 // Build the bundle
 console.log('\n🔧 Building bundle...');
+if (CORE_ONLY) console.log('  ℹ Core-only mode: values/ethical layer excluded');
 
 const bundle = `/*!
  * TagTeam.js - Two-Tier Semantic Graph Architecture for Ethical Context Analysis
@@ -877,32 +1026,9 @@ ${patternMatcher}
     return PatternMatcher;
   })(nlp);
 
-  // ============================================================================
-  // CONTEXT ANALYZER (Week 2a) (~15KB)
-  // ============================================================================
-
-  const ContextAnalyzer = (function(PatternMatcher) {
-${contextAnalyzer}
-    return ContextAnalyzer;
-  })(PatternMatcher);
-
-  // ============================================================================
-  // CERTAINTY ANALYZER (Phase 7.2) (~8KB)
-  // ============================================================================
-
-${certaintyAnalyzer}
-
-  // Make CertaintyAnalyzer available globally for SemanticGraphBuilder
-  _global.CertaintyAnalyzer = CertaintyAnalyzer;
-
-  // ============================================================================
-  // PHASE 7.1: SOURCE ATTRIBUTION DETECTION (~10KB)
-  // ============================================================================
-
-${sourceAttributionDetector}
-
-  // Make SourceAttributionDetector available globally for SemanticGraphBuilder
-  _global.SourceAttributionDetector = SourceAttributionDetector;
+${_sect_contextAnalyzer}
+${_sect_certainty}
+${_sect_sourceAttribution}
 
   // ============================================================================
   // PHASE 7 v7: SENTENCE MODE CLASSIFIER (~6KB)
@@ -943,54 +1069,10 @@ ${outputSanitizer}
 
 ${auditLogger}
 
-  // ============================================================================
-  // WEEK 2B: ETHICAL VALUE DETECTION DATA (~70KB)
-  // ============================================================================
-
-  // Value definitions (50 values across 5 domains)
-  _global.VALUE_DEFINITIONS = ${valueDefinitions};
-
-  // Frame and role boost mappings
-  _global.FRAME_VALUE_BOOSTS = ${frameValueBoosts};
-
-  // Predefined conflict pairs (18 known ethical tensions)
-  _global.CONFLICT_PAIRS = ${conflictPairs};
-
-  // ============================================================================
-  // VALUE MATCHER (Week 2b) (~6KB)
-  // ============================================================================
-
-  const ValueMatcher = (function(PatternMatcher) {
-${valueMatcher}
-    return ValueMatcher;
-  })(PatternMatcher);
-
-  // Make ValueMatcher available globally for SemanticRoleExtractor
-  _global.ValueMatcher = ValueMatcher;
-
-  // ============================================================================
-  // VALUE SCORER (Week 2b) (~9KB)
-  // ============================================================================
-
-  const ValueScorer = (function() {
-${valueScorer}
-    return ValueScorer;
-  })();
-
-  // Make ValueScorer available globally for SemanticRoleExtractor
-  _global.ValueScorer = ValueScorer;
-
-  // ============================================================================
-  // ETHICAL PROFILER (Week 2b) (~12KB)
-  // ============================================================================
-
-  const EthicalProfiler = (function() {
-${ethicalProfiler}
-    return EthicalProfiler;
-  })();
-
-  // Make EthicalProfiler available globally for SemanticRoleExtractor
-  _global.EthicalProfiler = EthicalProfiler;
+${_sect_valueData}
+${_sect_valueMatcher}
+${_sect_valueScorer}
+${_sect_ethicalProfiler}
 
   // ============================================================================
   // SEMANTIC ROLE EXTRACTOR (~32KB + Week 2a/2b enhancements)
@@ -1119,12 +1201,7 @@ ${objectAggregateFactory}
 
 ${qualityFactory}
 
-  // ============================================================================
-  // ASSERTION EVENT BUILDER (Phase 4 - Week 2)
-  // Creates ValueAssertionEvent and ContextAssessmentEvent nodes
-  // ============================================================================
-
-${assertionEventBuilder}
+${_sect_assertionEventBuilder}
 
   // ============================================================================
   // CONTEXT MANAGER (Phase 4 - Week 2)
@@ -1212,9 +1289,8 @@ ${turtleParser}
 
 ${ontologyManager}
 
-${valueNetAdapter}
-
-${bridgeOntologyLoader}
+${_sect_valueNetAdapter}
+${_sect_bridgeOntologyLoader}
 
   // ============================================================================
   // PHASE 6.6: GENERAL-PURPOSE ONTOLOGY TEXT TAGGER
@@ -1392,7 +1468,7 @@ ${semanticGraphBuilder}
       return texts.map(text => this.parse(text));
     },
 
-    /**
+${CORE_ONLY ? '' : `    /**
      * Load value definitions for semantic matching (Week 2 feature)
      *
      * @param {Object} definitions - Value definitions in IEE format
@@ -1402,7 +1478,7 @@ ${semanticGraphBuilder}
       console.warn('TagTeam.loadValueDefinitions: Feature available in Week 2');
       return this;
     },
-
+`}
     /**
      * Add custom compound terms
      *
@@ -1430,12 +1506,12 @@ ${semanticGraphBuilder}
      *   coreVerbs: ['pray', 'worship', 'meditate']
      * });
      */
-    addSemanticFrame: function(frameDefinition) {
+${CORE_ONLY ? '' : `    addSemanticFrame: function(frameDefinition) {
       // TODO: Implement frame extension API
       console.warn('TagTeam.addSemanticFrame: Feature available in Week 2');
       return this;
     },
-
+`}
     /**
      * Build a JSON-LD semantic graph from text.
      * Uses the tree pipeline (PerceptronTagger + DependencyParser) by default.
@@ -1570,7 +1646,7 @@ ${semanticGraphBuilder}
     QualityFactory: QualityFactory,
 
     // Week 2: Assertion events and GIT-Minimal
-    AssertionEventBuilder: AssertionEventBuilder,
+${CORE_ONLY ? '' : '    AssertionEventBuilder: AssertionEventBuilder,'}
     ContextManager: ContextManager,
     InformationStaircaseBuilder: InformationStaircaseBuilder,
 
@@ -1594,19 +1670,19 @@ ${semanticGraphBuilder}
     // Phase 6.5: Ontology loading
     TurtleParser: TurtleParser,
     OntologyManager: OntologyManager,
-    ValueNetAdapter: ValueNetAdapter,
-    BridgeOntologyLoader: BridgeOntologyLoader,
+${CORE_ONLY ? '' : `    ValueNetAdapter: ValueNetAdapter,
+    BridgeOntologyLoader: BridgeOntologyLoader,`}
 
     // Phase 6.6: General-purpose tagger
     PropertyMapper: PropertyMapper,
     OntologyTextTagger: OntologyTextTagger,
 
-    // Phase 7.2: Certainty analysis
+${CORE_ONLY ? '' : `    // Phase 7.2: Certainty analysis
     CertaintyAnalyzer: CertaintyAnalyzer,
 
     // Phase 7.1: Source attribution detection
     SourceAttributionDetector: SourceAttributionDetector,
-
+`}
     // Phase 7 v7: Sentence mode classifier + complex designator detector
     SentenceModeClassifier: SentenceModeClassifier,
     ComplexDesignatorDetector: ComplexDesignatorDetector,
@@ -1655,11 +1731,11 @@ console.log('\n🧹 Final bundle cleanup...');
 let cleanedBundle = cleanFinalBundle(bundle);
 
 // Write the bundle
-const outputPath = path.join(distDir, 'tagteam.js');
+const outputPath = path.join(distDir, OUTPUT_NAME);
 fs.writeFileSync(outputPath, cleanedBundle, 'utf8');
 
 const bundleSize = fs.statSync(outputPath).size;
-console.log(`  ✓ Generated dist/tagteam.js (${(bundleSize / 1024 / 1024).toFixed(2)} MB)`);
+console.log(`  ✓ Generated dist/${OUTPUT_NAME} (${(bundleSize / 1024 / 1024).toFixed(2)} MB)`);
 
 // ============================================================================
 // BUNDLE INTEGRITY GATE — Edge-canonical single-file enforcement
@@ -1963,23 +2039,20 @@ const testHtml = `<!DOCTYPE html>
 </html>
 `;
 
-fs.writeFileSync(path.join(distDir, 'test.html'), testHtml, 'utf8');
-console.log('  ✓ Created dist/test.html');
+if (!CORE_ONLY) {
+  fs.writeFileSync(path.join(distDir, 'test.html'), testHtml, 'utf8');
+  console.log('  ✓ Created dist/test.html');
+}
 
 // Models are now embedded in the bundle — no separate files needed
 
 // Summary
-console.log('\n✨ Build complete!\n');
-console.log('📦 Bundle: dist/tagteam.js');
-console.log('🧪 Test:   dist/test.html');
-console.log('\n📖 Usage:');
-console.log('   <script src="tagteam.js"></script>');
+console.log(`\n✨ Build complete! (${CORE_ONLY ? 'core' : 'full'})\n`);
+console.log(`📦 Bundle: dist/${OUTPUT_NAME}`);
+if (!CORE_ONLY) console.log('🧪 Test:   dist/test.html');
+console.log(`\n📖 Usage:`);
+console.log(`   <script src="${OUTPUT_NAME}"></script>`);
 console.log('   <script>');
-console.log('     const result = TagTeam.parse("I love coding");');
-console.log('     console.log(result);');
-console.log('   </script>');
-console.log('\n🚀 Next steps:');
-console.log('   1. Open dist/test.html in browser');
-console.log('   2. Verify all tests pass');
-console.log('   3. Update demos to use bundle');
-console.log('   4. Share with IEE team\n');
+console.log('     const graph = TagTeam.buildGraph("The agent arrested the suspect");');
+console.log('     console.log(graph);');
+console.log('   </script>\n');

@@ -157,6 +157,14 @@ jobs:
         run: |
           node scripts/build.js
 
+      - name: Build core bundle
+        run: node scripts/build.js --core
+
+      - name: Verify core bundle
+        run: |
+          test -f dist/tagteam-core.js || (echo "FATAL: tagteam-core.js missing" && exit 1)
+          node tests/bundle/core-bundle.test.js
+
       - name: Assemble Pages site
         run: |
           mkdir -p gh-pages
