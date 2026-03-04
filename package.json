@@ -8,6 +8,8 @@
   },
   "scripts": {
     "build": "node scripts/build.js",
+    "build:core": "node scripts/build.js --core",
+    "build:all": "node scripts/build.js && node scripts/build.js --core",
     "test": "node tests/integration/test-full-corpus.js",
     "test:browser": "echo 'Open tests/browser/verify-bundle.html in your browser'",
     "test:integration": "node tests/integration/test-integration.js",
@@ -41,6 +43,7 @@
     "test:adversarial": "node tests/adversarial/edge-cases.test.js",
     "test:sanitization": "node tests/security/sanitization.test.js",
     "test:bundle": "node tests/bundle/bundle-size.test.js",
+    "test:core": "node tests/bundle/core-bundle.test.js",
     "benchmark": "node tests/performance/benchmark.js",
     "test:api-compat": "node tests/regression/api-compat.test.js",
     "test:regression": "node tests/regression/baseline-gate.test.js",
