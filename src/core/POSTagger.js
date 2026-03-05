@@ -13,24 +13,24 @@ function POSTagger(){
     this.tagsMap = (typeof LEXICON_TAG_MAP !== 'undefined') ? LEXICON_TAG_MAP : {};
 }
 
-/**
- * Indicates whether or not this string starts with the specified string.
- * @param {Object} string
- */
-String.prototype.startsWith = function(string){
-    if (!string) 
-        return false;
-    return this.indexOf(string) == 0;
+// Guard: only install polyfills if native implementations are missing.
+// The original jsPOS polyfill for endsWith used indexOf (finds first occurrence)
+// which breaks when the search char appears earlier in the string
+// (e.g., "swims".endsWith("s") would return false).
+if (!String.prototype.startsWith) {
+    String.prototype.startsWith = function(string){
+        if (!string)
+            return false;
+        return this.indexOf(string) == 0;
+    }
 }
 
-/**
- * Indicates whether or not this string ends with the specified string.
- * @param {Object} string
- */
-String.prototype.endsWith = function(string){
-    if (!string || string.length > this.length) 
-        return false;
-    return this.indexOf(string) == this.length - string.length;
+if (!String.prototype.endsWith) {
+    String.prototype.endsWith = function(string){
+        if (!string || string.length > this.length)
+            return false;
+        return this.lastIndexOf(string) == this.length - string.length;
+    }
 }
 
 POSTagger.prototype.wordInLexicon = function(word){

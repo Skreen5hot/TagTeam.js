@@ -723,12 +723,14 @@ class OntologyTextTagger {
   _determineInflection(inputLower, matchedLemma, ontologyOriginal, lem) {
     const ontoLower = ontologyOriginal.toLowerCase();
 
-    // Check irregular maps on both sides
+    // Check irregular noun maps on both sides (children→child, criteria→criterion)
     if (lem.irregularNouns && (lem.irregularNouns[inputLower] || lem.irregularNouns[ontoLower])) {
       return 'irregular';
     }
+    // Irregular verbs (ran→run, swam→swim) → "verb→base" — from the consumer's
+    // perspective what matters is that a verb was normalized, not regularity
     if (lem.irregularVerbs && (lem.irregularVerbs[inputLower] || lem.irregularVerbs[ontoLower])) {
-      return 'irregular';
+      return 'verb→base';
     }
 
     // Check if the ontology value itself is a verb form
