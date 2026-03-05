@@ -1080,6 +1080,22 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
             _cachedParse = TagTeam.parse(text);
             var graphOpts = { detectAmbiguity: true, verbose: verbose };
             if (!_modelsLoaded) graphOpts.useLegacy = true;
+
+            // Wire ontology into buildGraph if TTL is loaded
+            var ttlInput = document.getElementById('ttl-input').value.trim();
+            var ontologyTabBtn = document.getElementById('ontology-tab-btn');
+            if (ttlInput) {
+                try {
+                    var keywordsProp = document.getElementById('ttl-keywords-prop').value.trim() || 'rdfs:label';
+                    var tagger = TagTeam.OntologyTextTagger.fromTTL(ttlInput, {
+                        propertyMap: { keywords: keywordsProp, label: 'rdfs:label' }
+                    });
+                    graphOpts.ontology = tagger;
+                } catch (e) {
+                    console.warn('Ontology tagger creation failed:', e.message);
+                }
+            }
+
             _cachedGraph = TagTeam.buildGraph(text, graphOpts);
 
             // Populate all tabs
@@ -1087,12 +1103,10 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
             renderContextTab(_cachedParse);
             renderClausesTab(_cachedGraph, text);
 
-            // Ontology matching (if TTL is loaded)
-            var ttlInput = document.getElementById('ttl-input').value.trim();
-            var ontologyTabBtn = document.getElementById('ontology-tab-btn');
+            // Ontology audit tab (if TTL is loaded)
             if (ttlInput) {
-                var keywordsProp = document.getElementById('ttl-keywords-prop').value.trim();
-                renderOntologyTab(ttlInput, text, keywordsProp);
+                var keywordsProp2 = document.getElementById('ttl-keywords-prop').value.trim();
+                renderOntologyTab(ttlInput, text, keywordsProp2);
                 ontologyTabBtn.style.display = '';
             } else {
                 ontologyTabBtn.style.display = 'none';
