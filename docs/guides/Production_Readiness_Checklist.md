@@ -1,11 +1,11 @@
 # TagTeam.js — Production Readiness Checklist
 
-**Version:** 3.0.4
-**Date:** February 28, 2026
+**Version:** 3.0.5
+**Date:** March 5, 2026
 **Author:** Aaron, Technical Lead / Semantic Architect
-**Status:** Pending merge to MAIN
-**Branch:** origin/dev (commit `8839b98`)
-**Previous:** v3.0.3 at `040ce19`
+**Status:** Merge to MAIN
+**Branch:** origin/dev (commit `c8f16a7`)
+**Previous:** v3.0.4 at `8839b98`
 **Classification:** INTERNAL — Development Team Distribution Only
 
 ---
@@ -50,6 +50,12 @@ This checklist defines the requirements for merging the dev branch to MAIN, the 
 | `1d43ceb` | Remove stale model-loading code from CI and demos | — |
 | `9c9dfac` | FT-03: Promote StructuralAssertions to Tier 2 triples | — |
 | `8839b98` | FT-03b: Close relation inference gap — preposition fallback + possessive relations | — |
+| `d86afdf` | Native ontology integration: `buildGraph({ ontology: tagger })` | — |
+| `db4ccb4`–`abbe6af` | Ontology enrichment fixes: threshold, landing page, label fallback | — |
+| `13fefea` | OntologyTextTagger: multi-property priority matching with morphological normalization | — |
+| `c8f16a7` | Fix `endsWith` polyfill bug in POSTagger; irregular verb inflection labels | — |
+
+The OntologyTextTagger priority matching upgrade (commits `d86afdf`–`c8f16a7`) adds a 4-phase matching engine: exact match across rdfs:label → skos:prefLabel → skos:altLabel → skos:notation → skos:hiddenLabel, possessive stripping, lemma matching (regular/irregular plurals, verb inflections via Lemmatizer), and compound possessive+lemma normalization. Three new match provenance fields: `ontologyMatchType`, `ontologyMatchForm`, `ontologyMatchInflection`. Backward compatible — custom keyword property ontologies use legacy matching. The endsWith polyfill bug in jsPOS (POSTagger.js) was discovered and fixed: the polyfill used `indexOf` instead of `lastIndexOf`, causing `"swims".endsWith("s")` to return false. 192 new test assertions (129 priority + 63 integration). `dist/` cleaned back to single-file: `tagteam-core.js` removed (buildable on demand via `--core`). `demos/` synced from `dist/`.
 
 **Result:** Zero phantom IRIs remain in `src/`. Zero fabricated role properties remain. Every IRI in every output graph resolves to a published ontology entry or is declared as `tagteam:` namespace. Tier 1/Tier 2 type separation is enforced — no OWL disjointness violations. Single-file architecture: one artifact, zero external dependencies, zero setup. StructuralAssertions promoted to formal Tier 2 triples with IRI references and OWL NPA support.
 
@@ -61,25 +67,25 @@ This checklist defines the requirements for merging the dev branch to MAIN, the 
 
 ### 1.1 IRI Integrity Verification
 
-- [ ] **JSON-LD round-trip test.** Create an automated test that loads a sample graph, calls `jsonld.expand()`, and verifies every expanded IRI matches a published BFO 2020 or CCO 2.0 entry. This is the definitive test — it's what any downstream consumer will do. Install `jsonld` via npm and add to the CI pipeline. *(Not yet automated — verified manually at `b6a7896`.)*
+- [ ] **FT-06: JSON-LD round-trip test.** Create an automated test that loads a sample graph, calls `jsonld.expand()`, and verifies every expanded IRI matches a published BFO 2020 or CCO 2.0 entry. This is the definitive test — it's what any downstream consumer will do. Install `jsonld` via npm and add to the CI pipeline. *(Not yet automated — verified manually at `b6a7896`. Filed as FT-06 for next maintenance cycle.)*
 
-- [ ] **Grep CI gate.** Run the full grep verification suite (see Appendix A) in CI. Every pattern must return zero matches in `src/` excluding comments and @context alias targets. Fail the build if any match is found. *(Not yet automated — verified manually at `b6a7896`. All patterns return zero code matches; only comment hits remain.)*
+- [ ] **FT-07: Grep CI gate.** Run the full grep verification suite (see Appendix A) in CI. Every pattern must return zero matches in `src/` excluding comments and @context alias targets. Fail the build if any match is found. *(Not yet automated — verified manually at `b6a7896`. Filed as FT-07 for next maintenance cycle.)*
 
 - [x] **@context freeze policy.** Any future addition to the @context must include the verified opaque IRI and a comment citing the source (BFO OWL line number or CCO CSV line number). Undocumented additions are not permitted. *(Established by convention. The v2.2 audit documents all additions with verified IRIs in the audit ledger and restructured JSON reference.)*
 
 ### 1.2 Build Artifact Integrity
 
-- [x] **Demo bundle sync.** Verify `demos/tagteam.js` matches `dist/tagteam.js` by checksum. Add a CI step that compares the two files and fails on mismatch. *(Verified at `8839b98`: checksum `d5ded560e5e6c5b027fc882222712cd7`. CI step not yet automated.)*
+- [x] **Demo bundle sync.** Verify `demos/tagteam.js` matches `dist/tagteam.js` by checksum. Add a CI step that compares the two files and fails on mismatch. *(Re-verified at `c8f16a7`: checksum `febb53eb11720e6df1d813cdedab701a`. Stale demos/tagteam-core.js, demos/tagteam-values.js, demos/models/ removed. CI step not yet automated.)*
 
-- [x] **Single-file architecture.** Verify `dist/` contains only `tagteam.js`, `standalone-demo.html`, and `test.html` — no `models/` directory, no `tagteam-core.js`, no `tagteam-values.js`. Models (POS weights, dep weights, calibration, gazetteers) are baked into the bundle at build time. `TagTeam.areModelsLoaded()` must return `true` immediately without calling `loadModels()`. `dist/standalone-demo.html` must parse text via `file:///` with zero network requests. *(Verified at `8839b98`: 11.40 MB bundle, gzip 2.41 MB. Stale artifacts removed including separated-demo.html, demos/models/, dist test HTML files. Standalone demo confirmed working.)*
+- [x] **Single-file architecture.** Verify `dist/` contains only `tagteam.js`, `standalone-demo.html`, and `test.html` — no `models/` directory, no `tagteam-core.js`, no `tagteam-values.js`. Models (POS weights, dep weights, calibration, gazetteers) are baked into the bundle at build time. `TagTeam.areModelsLoaded()` must return `true` immediately without calling `loadModels()`. `dist/standalone-demo.html` must parse text via `file:///` with zero network requests. *(Re-verified at `c8f16a7`: dist/ contains exactly tagteam.js + standalone-demo.html + test.html. tagteam-core.js removed — dev-time artifact, buildable on demand via `--core`. 11.67 MB bundle. areModelsLoaded() returns true.)*
 
-- [x] **Gold baseline evaluation.** Run `npm run gold:evaluate`. Zero mismatches required. *(Verified at `8839b98`: Entity F1 89.6%, Role F1 57.8%, 0 mismatches. 200 baselines regenerated including FT-03 assertion upgrades. Role F1 drop from 59.3% is a label-source change — evaluator reads Tier 2 labels post-separation. See FT-01 in merge approval memo.)*
+- [x] **Gold baseline evaluation.** Run `npm run gold:evaluate`. Zero mismatches required. *(Re-verified at `c8f16a7`: Entity F1 89.6%, Role F1 55.0%, 0 mismatches.)*
 
 ### 1.3 Test Suite
 
-- [x] **CI tests: all phases passing, 0 failures.** *(Verified at `8839b98`: 770+ tests, 0 failures across all 13 phases.)*
+- [x] **CI tests: all phases passing, 0 failures.** *(Re-verified at `c8f16a7`: 13 suites, 0 failures. Includes new ontology tagger priority matching tests (129 assertions) and core bundle integration tests (TC-I01–TC-I07).)*
 
-- [x] **Component tests: 42/100 baseline maintained.** No regression from the pre-audit baseline (was 30, improved to 42 via HEAD_NOUN_TYPE_MAP and TreeEntityExtractor fixes). *(Verified at `8839b98`: 42/100, 0 errors.)*
+- [x] **Component tests: 42/100 baseline maintained.** No regression from the pre-audit baseline (was 30, improved to 42 via HEAD_NOUN_TYPE_MAP and TreeEntityExtractor fixes). *(Re-verified at `c8f16a7`: 42/100, 0 errors.)*
 
 ---
 

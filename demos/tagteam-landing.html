@@ -753,6 +753,10 @@
                                     Keywords property:
                                     <input type="text" id="ttl-keywords-prop" value="" placeholder="e.g. med:indicators" style="padding: 4px 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; width: 160px; margin-left: 4px;">
                                 </label>
+                                <label style="font-size: 0.85em; color: #555;">
+                                    Confidence threshold:
+                                    <input type="number" id="ttl-threshold" value="0.2" min="0" max="1" step="0.1" style="padding: 4px 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; width: 60px; margin-left: 4px;">
+                                </label>
                                 <button class="example-btn" onclick="clearTtl()" style="font-size: 12px; padding: 4px 12px;">Clear TTL</button>
                             </div>
                         </div>
@@ -1080,6 +1084,24 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
             _cachedParse = TagTeam.parse(text);
             var graphOpts = { detectAmbiguity: true, verbose: verbose };
             if (!_modelsLoaded) graphOpts.useLegacy = true;
+
+            // Wire ontology into buildGraph if TTL is loaded
+            var ttlInput = document.getElementById('ttl-input').value.trim();
+            var ontologyTabBtn = document.getElementById('ontology-tab-btn');
+            if (ttlInput) {
+                try {
+                    var keywordsProp = document.getElementById('ttl-keywords-prop').value.trim() || 'rdfs:label';
+                    var tagger = TagTeam.OntologyTextTagger.fromTTL(ttlInput, {
+                        propertyMap: { keywords: keywordsProp, label: 'rdfs:label' }
+                    });
+                    graphOpts.ontology = tagger;
+                    var thresholdVal = parseFloat(document.getElementById('ttl-threshold').value);
+                    if (!isNaN(thresholdVal)) graphOpts.ontologyThreshold = thresholdVal;
+                } catch (e) {
+                    console.warn('Ontology tagger creation failed:', e.message);
+                }
+            }
+
             _cachedGraph = TagTeam.buildGraph(text, graphOpts);
 
             // Populate all tabs
@@ -1087,12 +1109,10 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
             renderContextTab(_cachedParse);
             renderClausesTab(_cachedGraph, text);
 
-            // Ontology matching (if TTL is loaded)
-            var ttlInput = document.getElementById('ttl-input').value.trim();
-            var ontologyTabBtn = document.getElementById('ontology-tab-btn');
+            // Ontology audit tab (if TTL is loaded)
             if (ttlInput) {
-                var keywordsProp = document.getElementById('ttl-keywords-prop').value.trim();
-                renderOntologyTab(ttlInput, text, keywordsProp);
+                var keywordsProp2 = document.getElementById('ttl-keywords-prop').value.trim();
+                renderOntologyTab(ttlInput, text, keywordsProp2);
                 ontologyTabBtn.style.display = '';
             } else {
                 ontologyTabBtn.style.display = 'none';
@@ -1234,7 +1254,7 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
             }
 
             document.getElementById('entities-content').innerHTML = html;
-            document.getElementById('jsonld-output').textContent = TagTeam.toJSONLD(text, { pretty: true, detectAmbiguity: true });
+            document.getElementById('jsonld-output').textContent = JSON.stringify(_cachedGraph, null, 2);
         }
 
         // ── Tab 2: Context Intensity ──
@@ -1361,7 +1381,7 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
             }
 
             document.getElementById('clauses-content').innerHTML = html;
-            document.getElementById('clauses-json-output').textContent = TagTeam.toJSONLD(text, { pretty: true });
+            document.getElementById('clauses-json-output').textContent = JSON.stringify(_cachedGraph, null, 2);
         }
 
         // ── TTL helpers ──

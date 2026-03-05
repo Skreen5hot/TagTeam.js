@@ -2,36 +2,152 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>TagTeam.js — Standalone Demo</title>
+  <title>TagTeam.js — Implementation Guide</title>
   <style>
-    body { font-family: monospace; max-width: 900px; margin: 40px auto; padding: 0 20px; }
-    input { width: 100%; padding: 8px; font-size: 16px; box-sizing: border-box; }
-    button { padding: 8px 16px; font-size: 14px; cursor: pointer; margin-top: 8px; }
-    pre { white-space: pre-wrap; background: #f4f4f4; padding: 16px; margin-top: 12px; max-height: 600px; overflow: auto; font-size: 12px; }
+    body { font-family: system-ui, -apple-system, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; line-height: 1.6; color: #1a1a1a; }
+    h1 { font-size: 1.4em; margin-bottom: 0.2em; }
+    h2 { font-size: 1.1em; margin-top: 2em; border-bottom: 1px solid #ddd; padding-bottom: 4px; }
+    p.subtitle { color: #666; margin-top: 0; }
+    pre { background: #f5f5f5; padding: 16px; overflow-x: auto; font-size: 13px; border-radius: 4px; border: 1px solid #e0e0e0; }
+    code { font-family: 'Consolas', 'Monaco', monospace; }
+    .ic { background: #f0f0f0; padding: 1px 5px; border-radius: 3px; font-size: 0.9em; }
+    .panel { margin-top: 2em; padding: 20px; border: 1px solid #ccc; border-radius: 6px; background: #fafafa; }
+    .panel input[type="text"] { width: 100%; padding: 8px; font-size: 14px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 3px; }
+    .panel textarea { width: 100%; min-height: 120px; padding: 8px; font-size: 13px; font-family: 'Consolas', 'Monaco', monospace; box-sizing: border-box; border: 1px solid #ccc; border-radius: 3px; resize: vertical; }
+    .panel pre { max-height: 500px; overflow: auto; margin-top: 12px; font-size: 12px; }
+    .panel button { padding: 6px 14px; margin-top: 8px; cursor: pointer; border: 1px solid #aaa; border-radius: 3px; background: #fff; }
+    .panel button:hover { background: #eee; }
+    .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
+    .row label { font-size: 0.85em; color: #555; }
+    .row input[type="text"], .row input[type="number"] { padding: 4px 8px; border: 1px solid #ccc; border-radius: 3px; font-size: 13px; }
+    .file-label { display: inline-block; padding: 6px 14px; border: 1px solid #aaa; border-radius: 3px; cursor: pointer; font-size: 13px; background: #fff; }
+    .file-label:hover { background: #eee; }
+    .file-label input { display: none; }
   </style>
 </head>
 <body>
-  <h2>TagTeam.js — Standalone Demo</h2>
-  <p>No server. No fetch. No setup. Models are baked into the bundle. Just <code>&lt;script src="tagteam.js"&gt;</code> and call <code>TagTeam.buildGraph(text)</code>.</p>
-  <input id="in" value="The agent arrested the suspect at the border." />
-  <button onclick="run()">Parse</button>
-  <pre id="out">Loading TagTeam.js...</pre>
+
+  <h1>TagTeam.js</h1>
+  <p class="subtitle">Natural language to JSON-LD semantic graphs. One script tag. No server.</p>
+
+  <!-- ── Step 1 ─────────────────────────────────────────────── -->
+  <h2>1. Include the bundle</h2>
+  <p>One file. Models are embedded. No fetch, no setup.</p>
+<pre><code>&lt;script src="tagteam.js"&gt;&lt;/script&gt;</code></pre>
+
+  <!-- ── Step 2 ─────────────────────────────────────────────── -->
+  <h2>2. Parse text into a semantic graph</h2>
+<pre><code>const graph = TagTeam.buildGraph("The agent arrested the suspect at the border.");
+console.log(JSON.stringify(graph, null, 2));</code></pre>
+  <p>Returns a JSON-LD graph with entities, acts, roles, and discourse referents.</p>
+
+  <!-- ── Step 3 ─────────────────────────────────────────────── -->
+  <h2>3. Enrich with your own ontology</h2>
+  <p>Load a Turtle ontology and pass it to <code class="ic">buildGraph()</code>. Tier 2 entities get <code class="ic">ontologyMatch</code> annotations in the same call.</p>
+<pre><code>const tagger = TagTeam.OntologyTextTagger.fromTTL(ttlString, {
+  propertyMap: { keywords: 'rdfs:label', label: 'rdfs:label' }
+});
+
+const graph = TagTeam.buildGraph("Patient has fever and cough", {
+  ontology: tagger,
+  ontologyThreshold: 0.2   // optional, default 0.2
+});</code></pre>
+
+  <!-- ── Step 4 ─────────────────────────────────────────────── -->
+  <h2>4. API</h2>
+<pre><code>TagTeam.buildGraph(text, options?)                   // returns JSON-LD graph
+TagTeam.toJSONLD(text, options?)                     // alias for buildGraph
+TagTeam.OntologyTextTagger.fromTTL(ttl, config)     // create tagger from Turtle</code></pre>
+  <p><strong>Options:</strong></p>
+  <ul>
+    <li><code class="ic">ontology</code> — an <code class="ic">OntologyTextTagger</code> instance for ontology enrichment</li>
+    <li><code class="ic">ontologyThreshold</code> — minimum confidence for matches (default: 0.2)</li>
+    <li><code class="ic">useLegacy</code> — use legacy pipeline (default: false)</li>
+  </ul>
+
+  <!-- ── Live: Parse ────────────────────────────────────────── -->
+  <div class="panel">
+    <strong>Parse text</strong>
+    <input type="text" id="in" value="The patient presented with chest pain and shortness of breath along with fatigue and anxiety" placeholder="Enter text to parse" title="Text input" />
+
+    <div style="margin-top: 16px;">
+      <strong>Ontology (optional)</strong>
+      <p style="margin: 4px 0 8px; font-size: 0.85em; color: #666;">Paste Turtle (.ttl) below or upload a file. Tier 2 entities will be annotated with matched classes.</p>
+      <div class="row" style="margin-bottom: 8px;">
+        <label class="file-label">Upload .ttl file<input type="file" id="ttl-file" accept=".ttl,.turtle" onchange="loadFile(this)"></label>
+        <button type="button" onclick="loadExample()">Load medical example</button>
+      </div>
+      <textarea id="ttl" placeholder="@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .&#10;@prefix ex: <http://example.org/med#> .&#10;ex:Fever a rdfs:Class ; rdfs:label &quot;Fever&quot; ."></textarea>
+      <div class="row">
+        <label>Keywords property: <input type="text" id="kw-prop" value="" placeholder="e.g. med:indicators or rdfs:label" style="width: 200px;"></label>
+        <label>Threshold: <input type="number" id="threshold" value="0.2" min="0" max="1" step="0.1" style="width: 60px;"></label>
+      </div>
+    </div>
+
+    <button type="button" onclick="run()" style="margin-top: 12px; font-weight: bold;">Parse</button>
+    <pre id="out">Ready.</pre>
+  </div>
+
+  <script src="tagteam.js"></script>
   <script>
     function run() {
       var text = document.getElementById('in').value.trim();
-      if (!text) return;
-      if (typeof TagTeam === 'undefined') {
-        document.getElementById('out').textContent = 'Loading TagTeam.js — please wait...';
-        return;
+      if (!text || typeof TagTeam === 'undefined') return;
+
+      var opts = {};
+      var ttl = document.getElementById('ttl').value.trim();
+      if (ttl) {
+        try {
+          var kwProp = document.getElementById('kw-prop').value.trim() || 'rdfs:label';
+          var tagger = TagTeam.OntologyTextTagger.fromTTL(ttl, {
+            propertyMap: { keywords: kwProp, label: 'rdfs:label' }
+          });
+          opts.ontology = tagger;
+          var th = parseFloat(document.getElementById('threshold').value);
+          if (!isNaN(th)) opts.ontologyThreshold = th;
+        } catch (e) {
+          document.getElementById('out').textContent = 'Ontology error: ' + e.message;
+          return;
+        }
       }
-      var result = TagTeam.buildGraph(text);
-      document.getElementById('out').textContent = JSON.stringify(result, null, 2);
+
+      var graph = TagTeam.buildGraph(text, opts);
+      document.getElementById('out').textContent = JSON.stringify(graph, null, 2);
     }
+
+    function loadFile(input) {
+      if (!input.files || !input.files[0]) return;
+      var reader = new FileReader();
+      reader.onload = function(e) { document.getElementById('ttl').value = e.target.result; };
+      reader.readAsText(input.files[0]);
+    }
+
+    function loadExample() {
+      document.getElementById('ttl').value = [
+        '@prefix med: <http://example.org/medical#> .',
+        '@prefix bfo: <http://purl.obolibrary.org/obo/> .',
+        '@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .',
+        '',
+        'med:CardiovascularDisease a bfo:BFO_0000016 ;',
+        '    rdfs:label "Cardiovascular Disease" ;',
+        '    med:indicators "chest pain, shortness of breath, heart attack, stroke, hypertension" .',
+        '',
+        'med:Diabetes a bfo:BFO_0000016 ;',
+        '    rdfs:label "Diabetes" ;',
+        '    med:indicators "blood sugar, insulin, glucose, thirst, fatigue" .',
+        '',
+        'med:MentalHealth a bfo:BFO_0000016 ;',
+        '    rdfs:label "Mental Health Disorder" ;',
+        '    med:indicators "anxiety, depression, insomnia, mood changes, panic" .'
+      ].join('\n');
+      document.getElementById('kw-prop').value = 'med:indicators';
+      document.getElementById('threshold').value = '0.2';
+    }
+
     document.getElementById('in').addEventListener('keydown', function(e) {
       if (e.key === 'Enter') run();
     });
   </script>
-  <script src="tagteam.js"></script>
-  <script>document.getElementById('out').textContent = 'Ready.';</script>
+
 </body>
 </html>

@@ -385,6 +385,57 @@
     skos:definition "An object property that relates a mental process to the entity that causally brings about that mental process."@en .
 
 
+# ═══════ ONTOLOGY MATCH ANNOTATION PROPERTIES ═══════
+
+:ontologyMatch
+    a owl:AnnotationProperty ;
+    rdfs:label "ontology match"@en ;
+    skos:prefLabel "ontology match"@en ;
+    skos:definition "An annotation linking a Tier 2 entity node to externally-matched ontology class metadata. Each entry records the matched class IRI, confidence score, evidence text, and class label. Added by buildGraph() when the ontology option is provided."@en .
+
+:ontologyMatchClass
+    a owl:AnnotationProperty ;
+    rdfs:label "ontology match class"@en ;
+    skos:definition "The IRI of the ontology class matched to this entity."@en ;
+    rdfs:range rdfs:Resource .
+
+:ontologyMatchConfidence
+    a owl:AnnotationProperty ;
+    rdfs:label "ontology match confidence"@en ;
+    skos:definition "A decimal between 0.0 and 1.0 indicating the confidence of the ontology class match."@en ;
+    rdfs:range xsd:decimal .
+
+:ontologyMatchEvidence
+    a owl:AnnotationProperty ;
+    rdfs:label "ontology match evidence"@en ;
+    skos:definition "The text token that triggered the ontology class match."@en ;
+    rdfs:range xsd:string .
+
+:ontologyMatchLabel
+    a owl:AnnotationProperty ;
+    rdfs:label "ontology match label"@en ;
+    skos:definition "The human-readable label of the matched ontology class."@en ;
+    rdfs:range xsd:string .
+
+:ontologyMatchType
+    a owl:AnnotationProperty ;
+    rdfs:label "ontology match type"@en ;
+    skos:definition "How the match was made: exact, alias, lemma, or hidden."@en ;
+    rdfs:range xsd:string .
+
+:ontologyMatchForm
+    a owl:AnnotationProperty ;
+    rdfs:label "ontology match form"@en ;
+    skos:definition "The original input text form before any normalization was applied."@en ;
+    rdfs:range xsd:string .
+
+:ontologyMatchInflection
+    a owl:AnnotationProperty ;
+    rdfs:label "ontology match inflection"@en ;
+    skos:definition "The normalization chain applied, e.g. plural→singular, possessive→base, verb→base, irregular."@en ;
+    rdfs:range xsd:string .
+
+
 # =============================================================================
 # END OF V3 ONTOLOGY
 # =============================================================================

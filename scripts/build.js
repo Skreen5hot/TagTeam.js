@@ -1418,6 +1418,83 @@ ${semanticGraphBuilder}
     }
   }
 
+  // ── Ontology enrichment (private) ──────────────────────────────
+  // Annotates Tier 2 entity nodes with ontology class matches.
+  // Called by buildGraph() when options.ontology is provided.
+  // Identification: nodes with is_subject_of are Tier 2 entities.
+  // Matching: token-level overlap (not substring) between entity
+  // labels and tag evidence terms. Checks both the Tier 2 label
+  // (normalized/lemmatized) and the linked Tier 1 referent label
+  // (original text) to handle lemmatization mismatches.
+  function _enrichGraphWithOntology(graph, tags, threshold) {
+    var nodes = graph['@graph'] || [];
+    // Build @id → node lookup for Tier 1 referent label resolution
+    var nodeIndex = {};
+    for (var ni = 0; ni < nodes.length; ni++) {
+      if (nodes[ni]['@id']) nodeIndex[nodes[ni]['@id']] = nodes[ni];
+    }
+    for (var i = 0; i < nodes.length; i++) {
+      var node = nodes[i];
+      // Positive identification: is_subject_of marks Tier 2 entities
+      if (!node['is_subject_of']) continue;
+      var t2Label = (node['rdfs:label'] || '').toLowerCase();
+      if (!t2Label) continue;
+      // Also get the Tier 1 referent's label (original text, pre-lemmatization)
+      var t1Label = '';
+      var t1Ref = node['is_subject_of'];
+      if (t1Ref && t1Ref['@id'] && nodeIndex[t1Ref['@id']]) {
+        t1Label = (nodeIndex[t1Ref['@id']]['rdfs:label'] || '').toLowerCase();
+      }
+      var t2Tokens = t2Label.split(/\\s+/);
+      var t1Tokens = t1Label ? t1Label.split(/\\s+/) : [];
+      for (var ti = 0; ti < tags.length; ti++) {
+        var tag = tags[ti];
+        if (tag.confidence < threshold) continue;
+        var ev = tag.evidence || [];
+        for (var ei = 0; ei < ev.length; ei++) {
+          var evLower = ev[ei].toLowerCase();
+          // Token-level match: try Tier 2 label first, then Tier 1 label
+          var matched = _tokenMatch(evLower, t2Tokens) || _tokenMatch(evLower, t1Tokens);
+          if (!matched) continue;
+          // Annotate — don't mutate @type
+          if (!node['ontologyMatch']) node['ontologyMatch'] = [];
+          node['ontologyMatch'].push({
+            ontologyMatchClass: tag.iri || tag['class'],
+            ontologyMatchConfidence: tag.confidence,
+            ontologyMatchEvidence: ev[ei],
+            ontologyMatchLabel: tag.label || '',
+            ontologyMatchType: tag.ontologyMatchType || 'exact',
+            ontologyMatchForm: tag.ontologyMatchForm || ev[ei],
+            ontologyMatchInflection: tag.ontologyMatchInflection || null
+          });
+          // Update classNominationStatus if this is an unresolved owl:Class node
+          if (node['tagteam:classNominationStatus'] === 'unresolved') {
+            node['tagteam:classNominationStatus'] = 'resolved';
+            node['tagteam:requiresOntologyResolution'] = false;
+          }
+          break; // One evidence match per tag is sufficient
+        }
+      }
+    }
+  }
+
+  // Token-level match helper: handles single-word and multi-word evidence
+  function _tokenMatch(evLower, labelTokens) {
+    if (!labelTokens.length) return false;
+    var evTokens = evLower.split(/\\s+/);
+    if (evTokens.length === 1) {
+      for (var i = 0; i < labelTokens.length; i++) {
+        if (labelTokens[i] === evLower) return true;
+      }
+      return false;
+    }
+    // Multi-token: all evidence tokens must appear in label tokens
+    for (var i = 0; i < evTokens.length; i++) {
+      if (labelTokens.indexOf(evTokens[i]) === -1) return false;
+    }
+    return true;
+  }
+
   /**
    * TagTeam - Unified API for semantic parsing
    */
@@ -1513,38 +1590,93 @@ ${CORE_ONLY ? '' : `    addSemanticFrame: function(frameDefinition) {
     },
 `}
     /**
-     * Build a JSON-LD semantic graph from text.
-     * Uses the tree pipeline (PerceptronTagger + DependencyParser) by default.
-     * Pass { useLegacy: true } to use the legacy Compromise NLP pipeline.
-     *
-     * Models are baked into the bundle — no setup needed.
+     * Build a JSON-LD semantic graph from natural language text (Phase 4)
      *
      * @param {string} text - The text to analyze
-     * @param {Object} options - Optional configuration
-     * @param {string} options.context - Interpretation context (e.g., 'MedicalEthics')
-     * @param {boolean} options.useLegacy - Use legacy Compromise pipeline (default: false)
-     * @param {boolean} options.extractEntities - Extract entities (default: true)
-     * @param {boolean} options.extractActs - Extract acts (default: true)
-     * @param {boolean} options.detectRoles - Detect roles (default: true)
+     * @param {Object} [options] - Optional configuration
+     * @param {string} [options.context] - Interpretation context (e.g., 'MedicalEthics')
+     * @param {boolean} [options.useLegacy] - Use legacy Compromise pipeline (default: false)
+     * @param {Object} [options.ontology] - An OntologyTextTagger instance; Tier 2
+     *   entities will be annotated with matched ontology class metadata
+     * @param {number} [options.ontologyThreshold=0.2] - Minimum confidence for
+     *   ontology matches (0.0-1.0)
+     * @param {boolean} [options.extractEntities] - Extract entities (default: true)
+     * @param {boolean} [options.extractActs] - Extract acts (default: true)
+     * @param {boolean} [options.detectRoles] - Detect roles (default: true)
      * @returns {Object} Graph object with @graph array
      *
      * @example
      * const graph = TagTeam.buildGraph("The doctor must allocate the ventilator");
-     * console.log(graph['@graph']); // Array of nodes
+     *
+     * @example
+     * // With ontology enrichment
+     * const tagger = TagTeam.OntologyTextTagger.fromTTL(ttlString);
+     * const graph = TagTeam.buildGraph("The patient has fever", { ontology: tagger });
+     * // Tier 2 entity nodes now have ontologyMatch annotations
      */
     buildGraph: function(text, options) {
       options = options || {};
+      var graph;
 
       // Legacy escape hatch
       if (options.useLegacy) {
         const builder = new SemanticGraphBuilder(options);
-        return builder.build(text, options);
+        graph = builder.build(text, options);
+      } else {
+        // Tree pipeline (default)
+        const builder = new SemanticGraphBuilder(options);
+        _injectCachedModels(builder);
+        graph = builder.build(text, Object.assign({}, options, { useTreeExtractors: true }));
       }
 
-      // Tree pipeline (default)
-      const builder = new SemanticGraphBuilder(options);
-      _injectCachedModels(builder);
-      return builder.build(text, Object.assign({}, options, { useTreeExtractors: true }));
+      // Ontology enrichment: annotate Tier 2 entities with matched ontology classes
+      if (options.ontology && typeof options.ontology.tagText === 'function') {
+        var tags = options.ontology.tagText(text) || [];
+
+        // Supplement with label-based matches: class names that appear as
+        // tokens in the text should always match, even if the keyword
+        // property (e.g. med:indicators) didn't contain the class name.
+        var defs = options.ontology.tagDefinitions;
+        if (defs) {
+          var textLower = text.toLowerCase();
+          var textTokens = textLower.split(/\s+/).map(function(t) {
+            return t.replace(/[^a-z0-9]/g, '');
+          });
+          for (var dk in defs) {
+            var def = defs[dk];
+            if (!def.label) continue;
+            var labelLower = def.label.toLowerCase();
+            var labelTokens = labelLower.split(/\s+/);
+            var allPresent = true;
+            for (var li = 0; li < labelTokens.length; li++) {
+              if (textTokens.indexOf(labelTokens[li]) === -1) { allPresent = false; break; }
+            }
+            if (!allPresent) continue;
+            // Skip if keyword matching already found this class
+            var defIri = def.iri || def.id;
+            var alreadyTagged = false;
+            for (var ti = 0; ti < tags.length; ti++) {
+              if ((tags[ti].iri || tags[ti]['class']) === defIri || tags[ti]['class'] === def.id) {
+                alreadyTagged = true; break;
+              }
+            }
+            if (alreadyTagged) continue;
+            tags.push({
+              'class': def.id, label: def.label, confidence: 1.0,
+              evidence: [def.label], iri: defIri, keywordCount: 1, domain: 'custom',
+              ontologyMatchType: 'exact', ontologyMatchForm: def.label, ontologyMatchInflection: null
+            });
+          }
+        }
+
+        if (tags.length > 0) {
+          var threshold = typeof options.ontologyThreshold === 'number'
+            ? options.ontologyThreshold : 0.2;
+          _enrichGraphWithOntology(graph, tags, threshold);
+        }
+      }
+
+      return graph;
     },
 
     /**

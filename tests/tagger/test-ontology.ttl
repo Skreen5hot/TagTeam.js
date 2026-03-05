@@ -1,0 +1,102 @@
+@prefix : <https://example.org/ontology/> .
+@prefix ex: <https://example.org/ontology/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+<https://example.org/ontology/tagteamTestOntology> rdf:type owl:Ontology ;
+    owl:versionIRI <https://example.org/ontology/2026-03-05/tagteamTestOntology> ;
+    dcterms:contributor "DHS AI Team"@en ;
+    dcterms:description "Test ontology for validating OntologyTextTagger matching. Contains classes, properties, and individuals covering exact match, alias, lemma, possessive, irregular inflection, verb inflection, hidden/typo, and multi-token scenarios."@en .
+
+# ═══════════════════════════════════════════════════════════════
+# CLASSES
+# ═══════════════════════════════════════════════════════════════
+
+# --- Basic classes (exact + lemma match targets) ---
+
+ex:Agent rdf:type owl:Class ;
+    rdfs:label "Agent"@en ;
+    rdfs:comment "Persons acting on behalf of an organization."@en .
+
+ex:Operative rdf:type owl:Class ;
+    skos:prefLabel "Operative"@en ;
+    rdfs:comment "Individuals performing covert operations."@en .
+
+# --- Irregular inflection targets ---
+
+ex:Child rdf:type owl:Class ;
+    skos:altLabel "Children"@en ;
+    rdfs:comment "A young person."@en .
+
+ex:Kid rdf:type owl:Class ;
+    skos:notation "Kid'"@en ;
+    rdfs:comment "Informal term for a child. NOTE: Notation value includes trailing apostrophe to test that the tagger normalizes ontology-side possessive markers."@en .
+
+ex:Criterion rdf:type owl:Class ;
+    rdfs:label "Criteria"@en ;
+    rdfs:comment "A standard or principle by which something is judged. NOTE: Label uses the irregular plural form."@en .
+
+ex:Phenomenon rdf:type owl:Class ;
+    skos:prefLabel "Phenomena"@en ;
+    rdfs:comment "An observable event. NOTE: prefLabel uses the irregular plural form."@en .
+
+# --- Verb inflection targets ---
+
+ex:RunningAct rdf:type owl:Class ;
+    rdfs:label "Running"@en ;
+    rdfs:comment "The act of moving swiftly on foot."@en .
+
+ex:SwimmingAct rdf:type owl:Class ;
+    skos:prefLabel "Swimming"@en ;
+    rdfs:comment "The act of moving through water."@en .
+
+# --- Standard lemma targets ---
+
+ex:Dog rdf:type owl:Class ;
+    rdfs:label "Dog"@en ;
+    rdfs:comment "Domesticated canine animal."@en .
+
+ex:Wolf rdf:type owl:Class ;
+    skos:prefLabel "Wolf"@en ;
+    rdfs:comment "Wild canine animal."@en .
+
+# --- Multi-token / hyphenated targets ---
+
+ex:Radio rdf:type owl:Class ;
+    rdfs:label "Radio"@en ;
+    rdfs:comment "A device for receiving or transmitting radio signals."@en .
+
+ex:WalkieTalkie rdf:type owl:Class ;
+    skos:prefLabel "Walkie-Talkie"@en ;
+    rdfs:comment "A portable two-way radio transceiver."@en .
+
+# --- Government agency class ---
+
+ex:GovernmentAgency rdf:type owl:Class ;
+    rdfs:label "Government Agency"@en ;
+    rdfs:comment "A government organization."@en .
+
+# ═══════════════════════════════════════════════════════════════
+# INDIVIDUALS
+# ═══════════════════════════════════════════════════════════════
+
+ex:DepartmentOfHomelandSecurity rdf:type owl:NamedIndividual , ex:GovernmentAgency ;
+    rdfs:label "Department of Homeland Security"@en ;
+    skos:altLabel "DHS"@en ;
+    skos:prefLabel "U.S. Homeland Security Department"@en ;
+    skos:notation "HS-DEP"@en ;
+    skos:hiddenLabel "Homland Security"@en ;
+    skos:hiddenLabel "Dept of Homeland Securty"@en ;
+    rdfs:comment "A federal agency responsible for public security."@en .
+
+ex:Smith_001 rdf:type owl:NamedIndividual ;
+    rdfs:label "Smith"@en ;
+    rdfs:comment "Possessive test form for Smith's."@en .
+
+ex:Jones_001 rdf:type owl:NamedIndividual ;
+    skos:prefLabel "Jones"@en ;
+    rdfs:comment "Possessive test form for Jones'."@en .

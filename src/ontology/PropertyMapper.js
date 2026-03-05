@@ -191,7 +191,8 @@ class PropertyMapper {
       name: name,
       label: label,
       type: classInfo.type,
-      keywords: keywords
+      keywords: keywords,
+      propertyEvidence: this._collectPropertyEvidence(subject, parseResult)
     };
 
     // Polarity indicators (optional)
@@ -251,6 +252,8 @@ class PropertyMapper {
       'rdfs:label',
       'skos:altLabel',
       'skos:prefLabel',
+      'skos:notation',
+      'skos:hiddenLabel',
       'dc:title',
       'dcterms:title',
       'schema:name',
@@ -258,6 +261,54 @@ class PropertyMapper {
       'foaf:name',
       'foaf:nick'
     ];
+  }
+
+  /**
+   * Ordered priority properties for multi-property matching.
+   * Each entry maps a predicate to the matchType it produces.
+   */
+  static get PRIORITY_PROPERTIES() {
+    return [
+      { predicate: 'rdfs:label',       matchType: 'exact' },
+      { predicate: 'skos:prefLabel',   matchType: 'exact' },
+      { predicate: 'skos:altLabel',    matchType: 'alias' },
+      { predicate: 'skos:notation',    matchType: 'alias' },
+      { predicate: 'skos:hiddenLabel', matchType: 'hidden' }
+    ];
+  }
+
+  /**
+   * Collect per-property evidence preserving which predicate each value came from.
+   * Used by OntologyTextTagger's priority matching mode.
+   * @param {string} subject - The class IRI
+   * @param {Object} parseResult - TurtleParser ParseResult
+   * @returns {Array<Object>} Array of { predicate, matchType, values }
+   * @private
+   */
+  _collectPropertyEvidence(subject, parseResult) {
+    const evidence = [];
+
+    for (const entry of PropertyMapper.PRIORITY_PROPERTIES) {
+      const values = typeof parseResult.getProperties === 'function'
+        ? parseResult.getProperties(subject, entry.predicate)
+        : [];
+
+      // Fallback for single-valued getProperty if getProperties not available
+      if (values.length === 0) {
+        const single = parseResult.getProperty(subject, entry.predicate);
+        if (single) values.push(single);
+      }
+
+      if (values.length > 0) {
+        evidence.push({
+          predicate: entry.predicate,
+          matchType: entry.matchType,
+          values: values
+        });
+      }
+    }
+
+    return evidence;
   }
 
   /**
