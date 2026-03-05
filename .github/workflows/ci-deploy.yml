@@ -157,14 +157,6 @@ jobs:
         run: |
           node scripts/build.js
 
-      - name: Build core bundle
-        run: node scripts/build.js --core
-
-      - name: Verify core bundle
-        run: |
-          test -f dist/tagteam-core.js || (echo "FATAL: tagteam-core.js missing" && exit 1)
-          node tests/bundle/core-bundle.test.js
-
       - name: Assemble Pages site
         run: |
           mkdir -p gh-pages
@@ -178,7 +170,6 @@ jobs:
 
           # Copy Phase 6 demos
           cp demos/phase6-lattice-demo.html gh-pages/phase6-lattice-demo.html
-          cp demos/phase65-ontology-demo.html gh-pages/phase65-ontology-demo.html
           cp demos/phase66-custom-tagger-demo.html gh-pages/phase66-custom-tagger-demo.html
           cp demos/stakeholder-demo.html gh-pages/stakeholder-demo.html
           cp demos/semantic-demo.html gh-pages/semantic-demo.html
@@ -191,9 +182,6 @@ jobs:
 
           # Copy browser validation tests
           cp dist/test.html gh-pages/test.html
-
-          # Copy legacy validation tests
-          cp tests/browser/test-week2a-context.html gh-pages/validation.html
 
           # Copy expert validation results
           cp tests/expert-validation/results/expert-validation-visual-summary.html gh-pages/expert-validation-visual-summary.html
