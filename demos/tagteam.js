@@ -297930,24 +297930,24 @@ function POSTagger(){
     this.tagsMap = (typeof LEXICON_TAG_MAP !== 'undefined') ? LEXICON_TAG_MAP : {};
 }
 
-/**
- * Indicates whether or not this string starts with the specified string.
- * @param {Object} string
- */
-String.prototype.startsWith = function(string){
-    if (!string) 
-        return false;
-    return this.indexOf(string) == 0;
+// Guard: only install polyfills if native implementations are missing.
+// The original jsPOS polyfill for endsWith used indexOf (finds first occurrence)
+// which breaks when the search char appears earlier in the string
+// (e.g., "swims".endsWith("s") would return false).
+if (!String.prototype.startsWith) {
+    String.prototype.startsWith = function(string){
+        if (!string)
+            return false;
+        return this.indexOf(string) == 0;
+    }
 }
 
-/**
- * Indicates whether or not this string ends with the specified string.
- * @param {Object} string
- */
-String.prototype.endsWith = function(string){
-    if (!string || string.length > this.length) 
-        return false;
-    return this.indexOf(string) == this.length - string.length;
+if (!String.prototype.endsWith) {
+    String.prototype.endsWith = function(string){
+        if (!string || string.length > this.length)
+            return false;
+        return this.lastIndexOf(string) == this.length - string.length;
+    }
 }
 
 POSTagger.prototype.wordInLexicon = function(word){
@@ -313577,7 +313577,10 @@ class JSONLDSerializer {
       ontologyMatchClass:      { '@id': 'tagteam:ontologyMatchClass',      '@type': '@id' },
       ontologyMatchConfidence: { '@id': 'tagteam:ontologyMatchConfidence', '@type': 'xsd:decimal' },
       ontologyMatchEvidence:   { '@id': 'tagteam:ontologyMatchEvidence' },
-      ontologyMatchLabel:      { '@id': 'tagteam:ontologyMatchLabel' }
+      ontologyMatchLabel:      { '@id': 'tagteam:ontologyMatchLabel' },
+      ontologyMatchType:       { '@id': 'tagteam:ontologyMatchType' },
+      ontologyMatchForm:       { '@id': 'tagteam:ontologyMatchForm' },
+      ontologyMatchInflection: { '@id': 'tagteam:ontologyMatchInflection' }
     };
   }
 
@@ -320572,6 +320575,18 @@ class ParseResult {
   }
 
   /**
+   * Get ALL values for a predicate on a subject (multi-valued predicates)
+   * @param {string} subject - Subject IRI
+   * @param {string} predicate - Predicate IRI
+   * @returns {string[]} Array of object values
+   */
+  getProperties(subject, predicate) {
+    return this.triples
+      .filter(t => t.subject === subject && t.predicate === predicate)
+      .map(t => t.object);
+  }
+
+  /**
    * Get keywords for a subject (splits comma-separated values)
    * @param {string} subject - Subject IRI
    * @returns {Array<string>} Array of keywords
@@ -323029,7 +323044,8 @@ class PropertyMapper {
       name: name,
       label: label,
       type: classInfo.type,
-      keywords: keywords
+      keywords: keywords,
+      propertyEvidence: this._collectPropertyEvidence(subject, parseResult)
     };
 
     // Polarity indicators (optional)
@@ -323089,6 +323105,8 @@ class PropertyMapper {
       'rdfs:label',
       'skos:altLabel',
       'skos:prefLabel',
+      'skos:notation',
+      'skos:hiddenLabel',
       'dc:title',
       'dcterms:title',
       'schema:name',
@@ -323096,6 +323114,54 @@ class PropertyMapper {
       'foaf:name',
       'foaf:nick'
     ];
+  }
+
+  /**
+   * Ordered priority properties for multi-property matching.
+   * Each entry maps a predicate to the matchType it produces.
+   */
+  static get PRIORITY_PROPERTIES() {
+    return [
+      { predicate: 'rdfs:label',       matchType: 'exact' },
+      { predicate: 'skos:prefLabel',   matchType: 'exact' },
+      { predicate: 'skos:altLabel',    matchType: 'alias' },
+      { predicate: 'skos:notation',    matchType: 'alias' },
+      { predicate: 'skos:hiddenLabel', matchType: 'hidden' }
+    ];
+  }
+
+  /**
+   * Collect per-property evidence preserving which predicate each value came from.
+   * Used by OntologyTextTagger's priority matching mode.
+   * @param {string} subject - The class IRI
+   * @param {Object} parseResult - TurtleParser ParseResult
+   * @returns {Array<Object>} Array of { predicate, matchType, values }
+   * @private
+   */
+  _collectPropertyEvidence(subject, parseResult) {
+    const evidence = [];
+
+    for (const entry of PropertyMapper.PRIORITY_PROPERTIES) {
+      const values = typeof parseResult.getProperties === 'function'
+        ? parseResult.getProperties(subject, entry.predicate)
+        : [];
+
+      // Fallback for single-valued getProperty if getProperties not available
+      if (values.length === 0) {
+        const single = parseResult.getProperty(subject, entry.predicate);
+        if (single) values.push(single);
+      }
+
+      if (values.length > 0) {
+        evidence.push({
+          predicate: entry.predicate,
+          matchType: entry.matchType,
+          values: values
+        });
+      }
+    }
+
+    return evidence;
   }
 
   /**
@@ -323169,6 +323235,7 @@ class PropertyMapper {
  */
 
 // Try to load ValueMatcher - may not be available in all contexts
+// Try to load Lemmatizer for morphological normalization
 class OntologyTextTagger {
   /**
    * Create a new OntologyTextTagger
@@ -323210,6 +323277,12 @@ class OntologyTextTagger {
     this.propertyMapper = new PropertyMapper(this.propertyMap);
     this.tagDefinitions = [];
     this._parseResult = null;
+    this._lemmatizer = null;
+
+    // Detect match mode: priority chain for standard SKOS properties, legacy keyword for custom
+    const standardProps = ['rdfs:label', 'skos:prefLabel', 'skos:altLabel', 'skos:notation', 'skos:hiddenLabel'];
+    this._matchMode = (!this.propertyMap.keywords || standardProps.includes(this.propertyMap.keywords))
+      ? 'priority' : 'keyword';
 
     // If ontologyManager provided, we store it for compatibility
     this.ontologyManager = options.ontologyManager || null;
@@ -323224,6 +323297,14 @@ class OntologyTextTagger {
     const parser = new TurtleParser();
     this._parseResult = parser.parse(ttlContent);
     this.tagDefinitions = this.propertyMapper.extractDefinitions(this._parseResult);
+
+    // In priority mode, supplement definitions for classes that were excluded
+    // because they lack the configured keyword property but DO have other
+    // priority properties (skos:prefLabel, skos:altLabel, skos:notation, etc.)
+    if (this._matchMode === 'priority') {
+      this._supplementPriorityDefinitions();
+      this._precomputeLemmas();
+    }
 
     return {
       classCount: this.tagDefinitions.length,
@@ -323250,7 +323331,9 @@ class OntologyTextTagger {
     const results = [];
 
     for (const def of defs) {
-      const result = this._matchDefinition(text, def);
+      const result = this._matchMode === 'priority'
+        ? this._matchDefinitionPriority(text, def)
+        : this._matchDefinition(text, def);
       if (result) {
         results.push(result);
       }
@@ -323399,6 +323482,53 @@ class OntologyTextTagger {
   // ===========================================================================
 
   /**
+   * In priority mode, add definitions for classes that have priority properties
+   * (skos:prefLabel, skos:altLabel, etc.) but were excluded by the PropertyMapper
+   * because they lack the configured keyword property (rdfs:label).
+   * @private
+   */
+  _supplementPriorityDefinitions() {
+    if (!this._parseResult) return;
+
+    const existingIds = new Set(this.tagDefinitions.map(d => d.id));
+    const allClasses = this._parseResult.getClasses();
+
+    for (const cls of allClasses) {
+      if (existingIds.has(cls.id)) continue;
+
+      // Check if this class has any priority property values
+      const evidence = this.propertyMapper._collectPropertyEvidence(cls.id, this._parseResult);
+      if (evidence.length === 0) continue;
+
+      // Build a minimal definition from the property evidence
+      const allValues = [];
+      for (const group of evidence) {
+        for (const v of group.values) {
+          allValues.push(v);
+        }
+      }
+
+      const localName = cls.id.includes(':') && !cls.id.includes('://')
+        ? cls.id.split(':').pop()
+        : cls.id.includes('#') ? cls.id.split('#').pop()
+        : cls.id.includes('/') ? cls.id.split('/').pop()
+        : cls.id;
+
+      const label = (evidence[0] && evidence[0].values[0]) || localName;
+
+      this.tagDefinitions.push({
+        id: cls.id,
+        iri: this._parseResult.resolveIRI ? this._parseResult.resolveIRI(cls.id) : cls.id,
+        name: localName,
+        label: label,
+        type: cls.type,
+        keywords: allValues,
+        propertyEvidence: evidence
+      });
+    }
+  }
+
+  /**
    * Match a single tag definition against text
    * @private
    */
@@ -323505,6 +323635,353 @@ class OntologyTextTagger {
   }
 
   // ===========================================================================
+  // Priority Matching Engine
+  // ===========================================================================
+
+  /**
+   * Match a definition using the multi-property priority chain with morphological normalization.
+   * @param {string} text - Input text
+   * @param {Object} def - Tag definition with propertyEvidence
+   * @returns {Object|null} Match result or null
+   * @private
+   */
+  _matchDefinitionPriority(text, def) {
+    const groups = def.propertyEvidence;
+    if (!groups || groups.length === 0) {
+      return this._matchDefinition(text, def);
+    }
+
+    // Extract possessive tokens upfront (needed in Phases 1, 2, 4)
+    const possessiveTokens = this._extractPossessiveTokens(text);
+
+    // Phase 1: EXACT match — word-boundary search in text for each property value
+    // Also detects possessive context: "Smith's" matching "Smith" → inflection: possessive→base
+    const phase1Matched = new Set(); // track which (value) matched exactly
+    for (const group of groups) {
+      for (const value of group.values) {
+        const hit = this._wordBoundarySearchEx(text, value);
+        if (hit) {
+          phase1Matched.add(value.toLowerCase());
+          // Check if the match is within a possessive token
+          const possCtx = this._possessiveContext(hit, possessiveTokens);
+          return this._buildPriorityResult(def, {
+            matchType: group.matchType,
+            evidence: [value],
+            originalForm: possCtx ? possCtx.original : hit.originalForm,
+            inflection: possCtx ? 'possessive→base' : null
+          });
+        }
+      }
+    }
+
+    // Phase 2: POSSESSIVE-STRIPPED input against ontology values
+    if (possessiveTokens.length > 0) {
+      for (const pt of possessiveTokens) {
+        const strippedLower = pt.stripped.toLowerCase();
+        for (const group of groups) {
+          for (const value of group.values) {
+            const valueCleaned = this._stripPossessive(value);
+            if (strippedLower === valueCleaned.toLowerCase()) {
+              return this._buildPriorityResult(def, {
+                matchType: group.matchType,
+                evidence: [value],
+                originalForm: pt.original,
+                inflection: 'possessive→base'
+              });
+            }
+          }
+        }
+      }
+    }
+
+    // Phase 3: LEMMA match — multi-candidate approach
+    const lem = this._getLemmatizer();
+    if (lem) {
+      const tokens = text.split(/\s+/).map(t => t.replace(/[^a-zA-Z0-9'\u2019\u2018-]/g, '')).filter(t => t);
+
+      for (const token of tokens) {
+        const tokenLower = token.toLowerCase();
+        // Get multiple lemma candidates (no-tag, NNS, verb paths)
+        const candidates = this._getLemmaCandidates(tokenLower, lem);
+
+        for (const cand of candidates) {
+          for (const group of groups) {
+            if (!group.lemmatizedValues) continue;
+            for (const lv of group.lemmatizedValues) {
+              // Guard: skip if already matched exactly in Phase 1
+              if (phase1Matched.has(lv.original.toLowerCase()) && tokenLower === lv.original.toLowerCase()) {
+                continue;
+              }
+              if (cand.lemma === lv.lemma && cand.lemma !== '') {
+                // Verify normalization occurred on at least one side
+                if (tokenLower === lv.original.toLowerCase()) continue;
+                const inflection = this._determineInflection(tokenLower, cand.lemma, lv.original, lem);
+                return this._buildPriorityResult(def, {
+                  matchType: 'lemma',
+                  evidence: [lv.original],
+                  originalForm: token,
+                  inflection: inflection
+                });
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Phase 4: POSSESSIVE + LEMMA compound
+    if (lem && possessiveTokens.length > 0) {
+      for (const pt of possessiveTokens) {
+        const strippedLower = pt.stripped.toLowerCase();
+        const candidates = this._getLemmaCandidates(strippedLower, lem);
+        for (const cand of candidates) {
+          for (const group of groups) {
+            if (!group.lemmatizedValues) continue;
+            for (const lv of group.lemmatizedValues) {
+              if (cand.lemma === lv.lemma && cand.lemma !== '') {
+                return this._buildPriorityResult(def, {
+                  matchType: group.matchType,
+                  evidence: [lv.original],
+                  originalForm: pt.original,
+                  inflection: 'possessive→base'
+                });
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return null;
+  }
+
+  /**
+   * Pre-compute lemmatized ontology values for each propertyEvidence group.
+   * Uses multiple POS paths for robust lemmatization.
+   * @private
+   */
+  _precomputeLemmas() {
+    const lem = this._getLemmatizer();
+    if (!lem) return;
+
+    for (const def of this.tagDefinitions) {
+      if (!def.propertyEvidence) continue;
+
+      for (const group of def.propertyEvidence) {
+        group.lemmatizedValues = group.values.map(v => {
+          const cleaned = this._stripPossessive(v);
+          const cleanedLower = cleaned.toLowerCase();
+          // Get best non-identity lemma using multiple paths
+          const candidates = this._getLemmaCandidates(cleanedLower, lem);
+          const nonIdentity = candidates.filter(c => c.source !== 'identity');
+          const bestLemma = nonIdentity.length > 0 ? nonIdentity[0].lemma : cleanedLower;
+          return {
+            original: v,
+            cleaned: cleaned,
+            lemma: bestLemma
+          };
+        });
+      }
+    }
+  }
+
+  /**
+   * Get multiple lemma candidates for a token, trying different POS paths.
+   * Returns candidates sorted by priority: no-tag first, then NNS, then verb forms.
+   * @param {string} tokenLower - Lowercased token
+   * @param {Object} lem - Lemmatizer instance
+   * @returns {Array<{lemma: string, source: string}>} Lemma candidates
+   * @private
+   */
+  _getLemmaCandidates(tokenLower, lem) {
+    const candidates = [];
+    const seen = new Set();
+
+    // Identity candidate: enables bidirectional matching where the input is
+    // already the base form but the ontology has an inflected form
+    // (e.g., input "Criterion" matching ontology "Criteria" whose lemma is "criterion")
+    candidates.push({ lemma: tokenLower, source: 'identity' });
+    seen.add(tokenLower);
+
+    // No-tag path (tries verb first, then noun)
+    const noTag = lem.lemmatize(tokenLower);
+    if (!seen.has(noTag.lemma)) {
+      candidates.push({ lemma: noTag.lemma, source: noTag.category });
+      seen.add(noTag.lemma);
+    }
+
+    // Explicit noun plural path (catches wolves→wolf which noTag misses)
+    const nns = lem.lemmatize(tokenLower, 'NNS');
+    if (!seen.has(nns.lemma)) {
+      candidates.push({ lemma: nns.lemma, source: 'noun' });
+      seen.add(nns.lemma);
+    }
+
+    // Explicit verb paths
+    for (const tag of ['VBZ', 'VBG', 'VBD']) {
+      const vr = lem.lemmatize(tokenLower, tag);
+      if (!seen.has(vr.lemma)) {
+        candidates.push({ lemma: vr.lemma, source: 'verb' });
+        seen.add(vr.lemma);
+      }
+    }
+
+    return candidates;
+  }
+
+  /**
+   * Get or create the Lemmatizer instance (lazy).
+   * @returns {Object|null} Lemmatizer instance or null
+   * @private
+   */
+  _getLemmatizer() {
+    if (this._lemmatizer) return this._lemmatizer;
+    if (!Lemmatizer) return null;
+    this._lemmatizer = new Lemmatizer();
+    return this._lemmatizer;
+  }
+
+  /**
+   * Strip possessive suffix from a string.
+   * @param {string} str - Input string
+   * @returns {string} String with possessive removed
+   * @private
+   */
+  _stripPossessive(str) {
+    if (!str) return '';
+    return str.replace(/['\u2019\u2018]s?$/i, '').trim();
+  }
+
+  /**
+   * Extract possessive tokens from text.
+   * Matches both "word's" and "word'" patterns.
+   * @param {string} text - Input text
+   * @returns {Array<{original: string, stripped: string}>} Possessive tokens
+   * @private
+   */
+  _extractPossessiveTokens(text) {
+    const results = [];
+    // Match word + apostrophe + optional s, followed by non-word or end
+    const regex = /(\w+)(['\u2019\u2018]s?)(?=\s|$|[^a-zA-Z0-9])/gi;
+    let match;
+    while ((match = regex.exec(text)) !== null) {
+      const original = match[0]; // e.g., "Smith's" or "Jones'"
+      const stripped = match[1]; // e.g., "Smith" or "Jones"
+      if (stripped && match[2]) {
+        results.push({ original, stripped });
+      }
+    }
+    return results;
+  }
+
+  /**
+   * Word-boundary search for a value in text. Returns match with position info.
+   * @param {string} text - Text to search
+   * @param {string} value - Value to find
+   * @returns {{originalForm: string, index: number}|null} Match info or null
+   * @private
+   */
+  _wordBoundarySearchEx(text, value) {
+    if (!value || !text) return null;
+    const escaped = value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp('\\b' + escaped + '\\b', 'i');
+    const match = regex.exec(text);
+    if (match) {
+      return { originalForm: match[0], index: match.index };
+    }
+    return null;
+  }
+
+  /**
+   * Check if a word-boundary match is within a possessive context.
+   * E.g., "Smith" matched within "Smith's" → possessive context.
+   * @param {{originalForm: string, index: number}} hit - Match result
+   * @param {Array} possessiveTokens - Extracted possessive tokens
+   * @returns {{original: string, stripped: string}|null} Possessive token or null
+   * @private
+   */
+  _possessiveContext(hit, possessiveTokens) {
+    const hitLower = hit.originalForm.toLowerCase();
+    for (const pt of possessiveTokens) {
+      if (pt.stripped.toLowerCase() === hitLower) {
+        return pt;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Determine the inflection type from a lemma match.
+   * Uses ontology-side context: if the ontology value is a verb form, it's verb→base.
+   * Checks irregular maps on both input and ontology sides.
+   * @param {string} inputLower - Lowercased input token
+   * @param {string} matchedLemma - The lemma that matched
+   * @param {string} ontologyOriginal - Original ontology value
+   * @param {Object} lem - Lemmatizer instance
+   * @returns {string} Inflection description
+   * @private
+   */
+  _determineInflection(inputLower, matchedLemma, ontologyOriginal, lem) {
+    const ontoLower = ontologyOriginal.toLowerCase();
+
+    // Check irregular noun maps on both sides (children→child, criteria→criterion)
+    if (lem.irregularNouns && (lem.irregularNouns[inputLower] || lem.irregularNouns[ontoLower])) {
+      return 'irregular';
+    }
+    // Irregular verbs (ran→run, swam→swim) → "verb→base" — from the consumer's
+    // perspective what matters is that a verb was normalized, not regularity
+    if (lem.irregularVerbs && (lem.irregularVerbs[inputLower] || lem.irregularVerbs[ontoLower])) {
+      return 'verb→base';
+    }
+
+    // Check if the ontology value itself is a verb form
+    // (e.g., "Running" → lemma "run" via verb path → verb domain)
+    const ontoLemmaResult = lem.lemmatize(ontoLower);
+    if (ontoLemmaResult.lemma !== ontoLower && ontoLemmaResult.category === 'verb') {
+      return 'verb→base';
+    }
+
+    // Simple plural heuristic: if removing trailing 's' gives the matched lemma,
+    // it's most likely a noun plural (agents→agent, operatives→operative)
+    if (inputLower.endsWith('s') && inputLower.slice(0, -1) === matchedLemma) {
+      return 'plural→singular';
+    }
+
+    // Check if the input is a verb form by trying verb-specific lemmatization
+    for (const tag of ['VBG', 'VBD']) {
+      const vr = lem.lemmatize(inputLower, tag);
+      if (vr.lemma === matchedLemma && vr.lemma !== inputLower) {
+        return 'verb→base';
+      }
+    }
+
+    return 'plural→singular';
+  }
+
+  /**
+   * Build the result object for a priority match.
+   * @param {Object} def - Tag definition
+   * @param {Object} matchInfo - Match details
+   * @returns {Object} Tag result
+   * @private
+   */
+  _buildPriorityResult(def, matchInfo) {
+    return {
+      class: def.id,
+      label: def.label,
+      confidence: 1.0,
+      evidence: matchInfo.evidence,
+      keywordCount: 1,
+      polarity: 0,
+      domain: this.domain,
+      iri: def.iri || def.id,
+      ontologyMatchType: matchInfo.matchType,
+      ontologyMatchForm: matchInfo.originalForm,
+      ontologyMatchInflection: matchInfo.inflection
+    };
+  }
+
+  // ===========================================================================
   // Static Factory Methods
   // ===========================================================================
 
@@ -323515,6 +323992,9 @@ class OntologyTextTagger {
    * @returns {OntologyTextTagger} Configured and loaded tagger
    */
   static fromTTL(ttlContent, options = {}) {
+    if (!options.propertyMap) {
+      options = { ...options, propertyMap: { keywords: 'rdfs:label', label: 'rdfs:label' } };
+    }
     const tagger = new OntologyTextTagger(options);
     tagger.loadFromString(ttlContent);
     return tagger;
@@ -330547,7 +331027,10 @@ class SemanticGraphBuilder {
             ontologyMatchClass: tag.iri || tag['class'],
             ontologyMatchConfidence: tag.confidence,
             ontologyMatchEvidence: ev[ei],
-            ontologyMatchLabel: tag.label || ''
+            ontologyMatchLabel: tag.label || '',
+            ontologyMatchType: tag.ontologyMatchType || 'exact',
+            ontologyMatchForm: tag.ontologyMatchForm || ev[ei],
+            ontologyMatchInflection: tag.ontologyMatchInflection || null
           });
           // Update classNominationStatus if this is an unresolved owl:Class node
           if (node['tagteam:classNominationStatus'] === 'unresolved') {
@@ -330745,7 +331228,8 @@ class SemanticGraphBuilder {
             if (alreadyTagged) continue;
             tags.push({
               'class': def.id, label: def.label, confidence: 1.0,
-              evidence: [def.label], iri: defIri, keywordCount: 1, domain: 'custom'
+              evidence: [def.label], iri: defIri, keywordCount: 1, domain: 'custom',
+              ontologyMatchType: 'exact', ontologyMatchForm: def.label, ontologyMatchInflection: null
             });
           }
         }
@@ -330836,7 +331320,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '3.0.0',
-    BUILD: 'build 256 | 7e0dc0b | 2026-03-05T11:54:30.242Z',
+    BUILD: 'build 261 | 13fefea | 2026-03-05T13:54:39.341Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
