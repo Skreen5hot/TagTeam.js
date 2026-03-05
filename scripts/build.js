@@ -1595,7 +1595,7 @@ ${CORE_ONLY ? '' : `    addSemanticFrame: function(frameDefinition) {
      * @param {boolean} [options.useLegacy] - Use legacy Compromise pipeline (default: false)
      * @param {Object} [options.ontology] - An OntologyTextTagger instance; Tier 2
      *   entities will be annotated with matched ontology class metadata
-     * @param {number} [options.ontologyThreshold=0.5] - Minimum confidence for
+     * @param {number} [options.ontologyThreshold=0.2] - Minimum confidence for
      *   ontology matches (0.0-1.0)
      * @param {boolean} [options.extractEntities] - Extract entities (default: true)
      * @param {boolean} [options.extractActs] - Extract acts (default: true)
@@ -1631,7 +1631,7 @@ ${CORE_ONLY ? '' : `    addSemanticFrame: function(frameDefinition) {
         var tags = options.ontology.tagText(text);
         if (tags && tags.length > 0) {
           var threshold = typeof options.ontologyThreshold === 'number'
-            ? options.ontologyThreshold : 0.5;
+            ? options.ontologyThreshold : 0.2;
           _enrichGraphWithOntology(graph, tags, threshold);
         }
       }

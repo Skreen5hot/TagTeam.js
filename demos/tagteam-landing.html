@@ -753,6 +753,10 @@
                                     Keywords property:
                                     <input type="text" id="ttl-keywords-prop" value="" placeholder="e.g. med:indicators" style="padding: 4px 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; width: 160px; margin-left: 4px;">
                                 </label>
+                                <label style="font-size: 0.85em; color: #555;">
+                                    Confidence threshold:
+                                    <input type="number" id="ttl-threshold" value="0.2" min="0" max="1" step="0.1" style="padding: 4px 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; width: 60px; margin-left: 4px;">
+                                </label>
                                 <button class="example-btn" onclick="clearTtl()" style="font-size: 12px; padding: 4px 12px;">Clear TTL</button>
                             </div>
                         </div>
@@ -1091,6 +1095,8 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
                         propertyMap: { keywords: keywordsProp, label: 'rdfs:label' }
                     });
                     graphOpts.ontology = tagger;
+                    var thresholdVal = parseFloat(document.getElementById('ttl-threshold').value);
+                    if (!isNaN(thresholdVal)) graphOpts.ontologyThreshold = thresholdVal;
                 } catch (e) {
                     console.warn('Ontology tagger creation failed:', e.message);
                 }
