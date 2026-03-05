@@ -297930,24 +297930,24 @@ function POSTagger(){
     this.tagsMap = (typeof LEXICON_TAG_MAP !== 'undefined') ? LEXICON_TAG_MAP : {};
 }
 
-/**
- * Indicates whether or not this string starts with the specified string.
- * @param {Object} string
- */
-String.prototype.startsWith = function(string){
-    if (!string) 
-        return false;
-    return this.indexOf(string) == 0;
+// Guard: only install polyfills if native implementations are missing.
+// The original jsPOS polyfill for endsWith used indexOf (finds first occurrence)
+// which breaks when the search char appears earlier in the string
+// (e.g., "swims".endsWith("s") would return false).
+if (!String.prototype.startsWith) {
+    String.prototype.startsWith = function(string){
+        if (!string)
+            return false;
+        return this.indexOf(string) == 0;
+    }
 }
 
-/**
- * Indicates whether or not this string ends with the specified string.
- * @param {Object} string
- */
-String.prototype.endsWith = function(string){
-    if (!string || string.length > this.length) 
-        return false;
-    return this.indexOf(string) == this.length - string.length;
+if (!String.prototype.endsWith) {
+    String.prototype.endsWith = function(string){
+        if (!string || string.length > this.length)
+            return false;
+        return this.lastIndexOf(string) == this.length - string.length;
+    }
 }
 
 POSTagger.prototype.wordInLexicon = function(word){
@@ -323924,12 +323924,14 @@ class OntologyTextTagger {
   _determineInflection(inputLower, matchedLemma, ontologyOriginal, lem) {
     const ontoLower = ontologyOriginal.toLowerCase();
 
-    // Check irregular maps on both sides
+    // Check irregular noun maps on both sides (children→child, criteria→criterion)
     if (lem.irregularNouns && (lem.irregularNouns[inputLower] || lem.irregularNouns[ontoLower])) {
       return 'irregular';
     }
+    // Irregular verbs (ran→run, swam→swim) → "verb→base" — from the consumer's
+    // perspective what matters is that a verb was normalized, not regularity
     if (lem.irregularVerbs && (lem.irregularVerbs[inputLower] || lem.irregularVerbs[ontoLower])) {
-      return 'irregular';
+      return 'verb→base';
     }
 
     // Check if the ontology value itself is a verb form
@@ -331318,7 +331320,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '3.0.0',
-    BUILD: 'build 260 | 13fefea | 2026-03-05T13:36:58.151Z',
+    BUILD: 'build 263 | c8f16a7 | 2026-03-05T14:01:21.149Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
