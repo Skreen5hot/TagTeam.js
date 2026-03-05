@@ -330713,8 +330713,44 @@ class SemanticGraphBuilder {
 
       // Ontology enrichment: annotate Tier 2 entities with matched ontology classes
       if (options.ontology && typeof options.ontology.tagText === 'function') {
-        var tags = options.ontology.tagText(text);
-        if (tags && tags.length > 0) {
+        var tags = options.ontology.tagText(text) || [];
+
+        // Supplement with label-based matches: class names that appear as
+        // tokens in the text should always match, even if the keyword
+        // property (e.g. med:indicators) didn't contain the class name.
+        var defs = options.ontology.tagDefinitions;
+        if (defs) {
+          var textLower = text.toLowerCase();
+          var textTokens = textLower.split(/s+/).map(function(t) {
+            return t.replace(/[^a-z0-9]/g, '');
+          });
+          for (var dk in defs) {
+            var def = defs[dk];
+            if (!def.label) continue;
+            var labelLower = def.label.toLowerCase();
+            var labelTokens = labelLower.split(/s+/);
+            var allPresent = true;
+            for (var li = 0; li < labelTokens.length; li++) {
+              if (textTokens.indexOf(labelTokens[li]) === -1) { allPresent = false; break; }
+            }
+            if (!allPresent) continue;
+            // Skip if keyword matching already found this class
+            var defIri = def.iri || def.id;
+            var alreadyTagged = false;
+            for (var ti = 0; ti < tags.length; ti++) {
+              if ((tags[ti].iri || tags[ti]['class']) === defIri || tags[ti]['class'] === def.id) {
+                alreadyTagged = true; break;
+              }
+            }
+            if (alreadyTagged) continue;
+            tags.push({
+              'class': def.id, label: def.label, confidence: 1.0,
+              evidence: [def.label], iri: defIri, keywordCount: 1, domain: 'custom'
+            });
+          }
+        }
+
+        if (tags.length > 0) {
           var threshold = typeof options.ontologyThreshold === 'number'
             ? options.ontologyThreshold : 0.2;
           _enrichGraphWithOntology(graph, tags, threshold);
@@ -330800,7 +330836,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '3.0.0',
-    BUILD: 'build 256 | 7e0dc0b | 2026-03-05T11:36:40.233Z',
+    BUILD: 'build 258 | abbe6af | 2026-03-05T12:03:01.078Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
