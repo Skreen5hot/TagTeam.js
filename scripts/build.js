@@ -1462,7 +1462,10 @@ ${semanticGraphBuilder}
             ontologyMatchClass: tag.iri || tag['class'],
             ontologyMatchConfidence: tag.confidence,
             ontologyMatchEvidence: ev[ei],
-            ontologyMatchLabel: tag.label || ''
+            ontologyMatchLabel: tag.label || '',
+            ontologyMatchType: tag.ontologyMatchType || 'exact',
+            ontologyMatchForm: tag.ontologyMatchForm || ev[ei],
+            ontologyMatchInflection: tag.ontologyMatchInflection || null
           });
           // Update classNominationStatus if this is an unresolved owl:Class node
           if (node['tagteam:classNominationStatus'] === 'unresolved') {
@@ -1660,7 +1663,8 @@ ${CORE_ONLY ? '' : `    addSemanticFrame: function(frameDefinition) {
             if (alreadyTagged) continue;
             tags.push({
               'class': def.id, label: def.label, confidence: 1.0,
-              evidence: [def.label], iri: defIri, keywordCount: 1, domain: 'custom'
+              evidence: [def.label], iri: defIri, keywordCount: 1, domain: 'custom',
+              ontologyMatchType: 'exact', ontologyMatchForm: def.label, ontologyMatchInflection: null
             });
           }
         }

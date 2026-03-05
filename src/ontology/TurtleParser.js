@@ -192,6 +192,18 @@ class ParseResult {
   }
 
   /**
+   * Get ALL values for a predicate on a subject (multi-valued predicates)
+   * @param {string} subject - Subject IRI
+   * @param {string} predicate - Predicate IRI
+   * @returns {string[]} Array of object values
+   */
+  getProperties(subject, predicate) {
+    return this.triples
+      .filter(t => t.subject === subject && t.predicate === predicate)
+      .map(t => t.object);
+  }
+
+  /**
    * Get keywords for a subject (splits comma-separated values)
    * @param {string} subject - Subject IRI
    * @returns {Array<string>} Array of keywords

@@ -156,6 +156,98 @@ try {
 }
 console.log(`  ${passed - enrichStart} checks passed\n`);
 
+// ── Priority matching integration (TC-I01 through TC-I07) ────────────
+const priorityStart = passed;
+console.log('8. Priority matching integration:');
+try {
+  const fs = require('fs');
+  const ttlPath = path.join(__dirname, '..', 'tagger', 'test-ontology.ttl');
+  const ttl = fs.readFileSync(ttlPath, 'utf8');
+
+  // TC-I01: Annotations appear on Tier 2 nodes
+  const tagger = T.OntologyTextTagger.fromTTL(ttl);
+  const g = T.buildGraph('The agent arrested the suspect', { ontology: tagger });
+  const tier2Nodes = g['@graph'].filter(n => n['is_subject_of']);
+  const agentNode = tier2Nodes.find(n =>
+    (n['rdfs:label'] || '').toLowerCase() === 'agent');
+  assert(agentNode && agentNode['ontologyMatch'],
+    'TC-I01: Agent Tier 2 node has ontologyMatch');
+
+  // TC-I02: @type is never mutated
+  tier2Nodes.forEach(n => {
+    (n['@type'] || []).forEach(t => {
+      assert(!t.includes('example.org'),
+        'TC-I02: Ontology IRI not in @type: ' + (n['rdfs:label'] || 'unknown'));
+    });
+  });
+
+  // TC-I03: classNominationStatus resolves on match
+  const lawTTL = [
+    '@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .',
+    '@prefix ex: <http://example.org/law#> .',
+    'ex:Officer a rdfs:Class ; rdfs:label "Officer" .'
+  ].join('\n');
+  const lawTagger = T.OntologyTextTagger.fromTTL(lawTTL);
+  const gLaw = T.buildGraph('An officer shall verify documentation', { ontology: lawTagger });
+  const officerNode = gLaw['@graph'].find(n =>
+    n['is_subject_of'] && (n['rdfs:label'] || '').toLowerCase() === 'officer');
+  if (officerNode && officerNode['ontologyMatch']) {
+    assert(officerNode['tagteam:classNominationStatus'] === 'resolved',
+      'TC-I03: classNominationStatus resolved');
+  }
+
+  // TC-I04: No ontology option — no annotations, no crash
+  const gNoOnt = T.buildGraph('The doctor treated the patient');
+  const anyMatches = gNoOnt['@graph'].filter(n => n['ontologyMatch']);
+  assert(anyMatches.length === 0,
+    'TC-I04: No ontology produces no ontologyMatch');
+
+  // TC-I05: Token boundary enforcement
+  const antTTL = [
+    '@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .',
+    '@prefix ex: <http://example.org/test#> .',
+    'ex:Ant a rdfs:Class ; rdfs:label "Ant" .'
+  ].join('\n');
+  const antTagger = T.OntologyTextTagger.fromTTL(antTTL);
+  const gAnt = T.buildGraph('The doctor treated the patient', { ontology: antTagger });
+  const patientNode = gAnt['@graph'].find(n =>
+    n['is_subject_of'] && (n['rdfs:label'] || '').toLowerCase().includes('patient'));
+  assert(!patientNode || !patientNode['ontologyMatch'],
+    'TC-I05: "ant" does not substring-match "patient"');
+
+  // TC-I06: All matches surface with complete fields
+  const g2 = T.buildGraph('The agent reviewed the criteria', { ontology: tagger });
+  const matched2 = g2['@graph'].filter(n => n['ontologyMatch']);
+  matched2.forEach(n => {
+    n['ontologyMatch'].forEach(m => {
+      assert(typeof m.ontologyMatchConfidence === 'number',
+        'TC-I06: Match has numeric confidence');
+      assert(typeof m.ontologyMatchType === 'string',
+        'TC-I06: Match has matchType');
+    });
+  });
+
+  // TC-I07: Full annotation structure
+  const g3 = T.buildGraph('The agents inspected the dogs', { ontology: tagger });
+  const matched3 = g3['@graph'].filter(n => n['ontologyMatch']);
+  assert(matched3.length > 0, 'TC-I07: At least one match produced');
+  matched3.forEach(n => {
+    n['ontologyMatch'].forEach(m => {
+      assert(m.ontologyMatchClass, 'TC-I07: Has ontologyMatchClass');
+      assert(typeof m.ontologyMatchConfidence === 'number', 'TC-I07: Has confidence');
+      assert(m.ontologyMatchEvidence, 'TC-I07: Has evidence');
+      assert(m.ontologyMatchLabel !== undefined, 'TC-I07: Has label');
+      assert(m.ontologyMatchType, 'TC-I07: Has matchType');
+      assert(m.ontologyMatchForm, 'TC-I07: Has matchForm');
+    });
+  });
+
+} catch (e) {
+  failed++;
+  console.error(`  FAIL: Priority integration threw: ${e.message}`);
+}
+console.log(`  ${passed - priorityStart} checks passed\n`);
+
 // ── Summary ────────────────────────────────────────────────────────────
 console.log('-----------------------------------');
 console.log(`Results: ${passed} passed, ${failed} failed`);

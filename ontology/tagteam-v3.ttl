@@ -417,6 +417,24 @@
     skos:definition "The human-readable label of the matched ontology class."@en ;
     rdfs:range xsd:string .
 
+:ontologyMatchType
+    a owl:AnnotationProperty ;
+    rdfs:label "ontology match type"@en ;
+    skos:definition "How the match was made: exact, alias, lemma, or hidden."@en ;
+    rdfs:range xsd:string .
+
+:ontologyMatchForm
+    a owl:AnnotationProperty ;
+    rdfs:label "ontology match form"@en ;
+    skos:definition "The original input text form before any normalization was applied."@en ;
+    rdfs:range xsd:string .
+
+:ontologyMatchInflection
+    a owl:AnnotationProperty ;
+    rdfs:label "ontology match inflection"@en ;
+    skos:definition "The normalization chain applied, e.g. plural→singular, possessive→base, verb→base, irregular."@en ;
+    rdfs:range xsd:string .
+
 
 # =============================================================================
 # END OF V3 ONTOLOGY
