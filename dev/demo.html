@@ -74,28 +74,28 @@
     </style>
 </head>
 <body>
-    <h1>TagTeam.js - Ethical Context Analysis <span class="badge">Week 2a</span></h1>
+    <h1>TagTeam.js - Interactive Demo</h1>
 
     <div class="container">
         <h2>Interactive Demo</h2>
-        <p>Enter an ethical dilemma or moral decision scenario:</p>
+        <p>Enter a sentence to analyze:</p>
 
         <textarea id="input" placeholder="Type or click an example below...">The doctor must allocate the last ventilator between two critically ill patients</textarea>
         <br>
-        <button onclick="analyze()">Analyze Context</button>
+        <button onclick="analyze()">Analyze</button>
 
-        <h3>Example Scenarios (click to try):</h3>
+        <h3>Example Sentences (click to try):</h3>
         <div class="example" onclick="setExample('The family must decide whether to continue treatment')">
-            Healthcare: End of Life Decision
+            Healthcare: Decision Scenario
         </div>
-        <div class="example" onclick="setExample('I am questioning core doctrines')">
-            Spiritual: Faith Crisis
+        <div class="example" onclick="setExample('The server rebooted and the application restarted')">
+            Technical: Compound Sentence
         </div>
         <div class="example" onclick="setExample('I discovered that my company is falsifying safety reports')">
             Vocational: Whistleblowing
         </div>
-        <div class="example" onclick="setExample('My best friend is cheating on their spouse')">
-            Interpersonal: Friend Infidelity
+        <div class="example" onclick="setExample('The engineer designed the bridge for the city')">
+            Construction: Role Assignment
         </div>
     </div>
 
@@ -105,15 +105,8 @@
     </div>
 
     <div class="container">
-        <h2>About Week 2a</h2>
-        <p>Week 2a implements <strong>Context Intensity Analysis</strong> with 12 dimensions:</p>
-        <ul>
-            <li><strong>Temporal:</strong> urgency, duration, reversibility</li>
-            <li><strong>Relational:</strong> intimacy, powerDifferential, trust</li>
-            <li><strong>Consequential:</strong> harmSeverity, benefitMagnitude, scope</li>
-            <li><strong>Epistemic:</strong> certainty, informationCompleteness, expertise</li>
-        </ul>
-        <p><strong>Validation:</strong> 100% accuracy (60/60 dimensions) on IEE test corpus</p>
+        <h2>About TagTeam.js</h2>
+        <p>TagTeam.js is a deterministic semantic parser that extracts entities, actions, and roles from text, producing BFO/CCO-aligned JSON-LD knowledge graphs.</p>
         <p><a href="index.html">View Full Test Suite</a></p>
     </div>
 
