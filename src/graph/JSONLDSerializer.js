@@ -322,7 +322,17 @@ class JSONLDSerializer {
       dimension:           { '@id': 'tagteam:dimension' },
 
       // ─────── v3 Annotation Property ───────
-      structuralAmbiguity: { '@id': 'tagteam:structuralAmbiguity' }
+      structuralAmbiguity: { '@id': 'tagteam:structuralAmbiguity' },
+
+      // ─────── Ontology matching ───────
+      ontologyMatch: {
+        '@id':        'tagteam:ontologyMatch',
+        '@container': '@set'
+      },
+      ontologyMatchClass:      { '@id': 'tagteam:ontologyMatchClass',      '@type': '@id' },
+      ontologyMatchConfidence: { '@id': 'tagteam:ontologyMatchConfidence', '@type': 'xsd:decimal' },
+      ontologyMatchEvidence:   { '@id': 'tagteam:ontologyMatchEvidence' },
+      ontologyMatchLabel:      { '@id': 'tagteam:ontologyMatchLabel' }
     };
   }
 

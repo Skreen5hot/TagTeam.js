@@ -41,23 +41,20 @@
   <details>
     <summary>Advanced: Custom Ontology Class Matching</summary>
     <div class="section-body">
-      <p>TagTeam includes <code>OntologyTextTagger</code> — load any Turtle/TTL ontology and match text against its classes. No values layer needed.</p>
+      <p>TagTeam includes <code>OntologyTextTagger</code> — load any Turtle/TTL ontology and match text against its classes. Pass <code>{ ontology: tagger }</code> to <code>buildGraph()</code> for native enrichment.</p>
 <pre>
-// 1. Load a TTL ontology string
+// 1. Load a TTL ontology string (keywords maps evidence terms)
 const tagger = TagTeam.OntologyTextTagger.fromTTL(ttlString, {
-  propertyMap: {
-    keywords: 'myns:keywords',
-    label: 'rdfs:label'
-  }
+  propertyMap: { keywords: 'rdfs:label', label: 'rdfs:label' }
 });
 
-// 2. Tag text against ontology classes
-const matches = tagger.tagText("Patient has fever and cough");
-console.log(matches);
-// → [{ classIRI: 'myns:Fever', label: 'Fever', score: 0.9, ... }, ...]
-
-// 3. Or build a graph and match post-hoc
-const graph = TagTeam.buildGraph("The doctor examined the patient");
+// 2. Build graph with native ontology enrichment (one call)
+const graph = TagTeam.buildGraph("Patient has fever and cough", {
+  ontology: tagger,
+  ontologyThreshold: 0.5  // optional, default 0.5
+});
+// Tier 2 entity nodes now have ontologyMatch annotations:
+// { ontologyMatchClass: "ex:Fever", ontologyMatchConfidence: 0.9, ... }
 </pre>
       <p><strong>Key classes:</strong></p>
       <ul>
@@ -86,9 +83,21 @@ const graph = TagTeam.buildGraph("The doctor examined the patient");
         'ex:Doctor a rdfs:Class ; rdfs:label "Doctor" .'
       ].join('\n');
       try {
-        var tagger = TagTeam.OntologyTextTagger.fromTTL(ttl);
-        var matches = tagger.tagText('Patient has fever and cough');
-        document.getElementById('ontology-out').textContent = JSON.stringify(matches, null, 2);
+        var tagger = TagTeam.OntologyTextTagger.fromTTL(ttl, {
+          propertyMap: { keywords: 'rdfs:label', label: 'rdfs:label' }
+        });
+        var graph = TagTeam.buildGraph('Patient has fever and cough', { ontology: tagger });
+        // Show nodes that got ontology matches
+        var matched = (graph['@graph'] || []).filter(function(n) { return n['ontologyMatch']; });
+        if (matched.length > 0) {
+          document.getElementById('ontology-out').textContent =
+            'Matched ' + matched.length + ' node(s):\n\n' +
+            JSON.stringify(matched, null, 2);
+        } else {
+          document.getElementById('ontology-out').textContent =
+            'No ontology matches on Tier 2 entities.\n\nFull graph:\n' +
+            JSON.stringify(graph, null, 2);
+        }
       } catch (e) {
         document.getElementById('ontology-out').textContent = 'Error: ' + e.message;
       }

@@ -1418,6 +1418,62 @@ ${semanticGraphBuilder}
     }
   }
 
+  // ── Ontology enrichment (private) ──────────────────────────────
+  // Annotates Tier 2 entity nodes with ontology class matches.
+  // Called by buildGraph() when options.ontology is provided.
+  // Identification: nodes with is_subject_of are Tier 2 entities.
+  // Matching: token-level overlap (not substring) between entity
+  // labels and tag evidence terms.
+  function _enrichGraphWithOntology(graph, tags, threshold) {
+    var nodes = graph['@graph'] || [];
+    for (var i = 0; i < nodes.length; i++) {
+      var node = nodes[i];
+      // Positive identification: is_subject_of marks Tier 2 entities
+      if (!node['is_subject_of']) continue;
+      var label = (node['rdfs:label'] || '').toLowerCase();
+      if (!label) continue;
+      var labelTokens = label.split(/\\s+/);
+      for (var ti = 0; ti < tags.length; ti++) {
+        var tag = tags[ti];
+        if (tag.confidence < threshold) continue;
+        var ev = tag.evidence || [];
+        for (var ei = 0; ei < ev.length; ei++) {
+          var evLower = ev[ei].toLowerCase();
+          // Token-level match: handle single-word and multi-word evidence
+          var matched = false;
+          var evTokens = evLower.split(/\\s+/);
+          if (evTokens.length === 1) {
+            // Single token: exact match against any label token
+            for (var li = 0; li < labelTokens.length; li++) {
+              if (labelTokens[li] === evLower) { matched = true; break; }
+            }
+          } else {
+            // Multi-token: all evidence tokens must appear in label tokens
+            matched = true;
+            for (var li = 0; li < evTokens.length; li++) {
+              if (labelTokens.indexOf(evTokens[li]) === -1) { matched = false; break; }
+            }
+          }
+          if (!matched) continue;
+          // Annotate — don't mutate @type
+          if (!node['ontologyMatch']) node['ontologyMatch'] = [];
+          node['ontologyMatch'].push({
+            ontologyMatchClass: tag.iri || tag['class'],
+            ontologyMatchConfidence: tag.confidence,
+            ontologyMatchEvidence: ev[ei],
+            ontologyMatchLabel: tag.label || ''
+          });
+          // Update classNominationStatus if this is an unresolved owl:Class node
+          if (node['tagteam:classNominationStatus'] === 'unresolved') {
+            node['tagteam:classNominationStatus'] = 'resolved';
+            node['tagteam:requiresOntologyResolution'] = false;
+          }
+          break; // One evidence match per tag is sufficient
+        }
+      }
+    }
+  }
+
   /**
    * TagTeam - Unified API for semantic parsing
    */
@@ -1513,38 +1569,56 @@ ${CORE_ONLY ? '' : `    addSemanticFrame: function(frameDefinition) {
     },
 `}
     /**
-     * Build a JSON-LD semantic graph from text.
-     * Uses the tree pipeline (PerceptronTagger + DependencyParser) by default.
-     * Pass { useLegacy: true } to use the legacy Compromise NLP pipeline.
-     *
-     * Models are baked into the bundle — no setup needed.
+     * Build a JSON-LD semantic graph from natural language text (Phase 4)
      *
      * @param {string} text - The text to analyze
-     * @param {Object} options - Optional configuration
-     * @param {string} options.context - Interpretation context (e.g., 'MedicalEthics')
-     * @param {boolean} options.useLegacy - Use legacy Compromise pipeline (default: false)
-     * @param {boolean} options.extractEntities - Extract entities (default: true)
-     * @param {boolean} options.extractActs - Extract acts (default: true)
-     * @param {boolean} options.detectRoles - Detect roles (default: true)
+     * @param {Object} [options] - Optional configuration
+     * @param {string} [options.context] - Interpretation context (e.g., 'MedicalEthics')
+     * @param {boolean} [options.useLegacy] - Use legacy Compromise pipeline (default: false)
+     * @param {Object} [options.ontology] - An OntologyTextTagger instance; Tier 2
+     *   entities will be annotated with matched ontology class metadata
+     * @param {number} [options.ontologyThreshold=0.5] - Minimum confidence for
+     *   ontology matches (0.0-1.0)
+     * @param {boolean} [options.extractEntities] - Extract entities (default: true)
+     * @param {boolean} [options.extractActs] - Extract acts (default: true)
+     * @param {boolean} [options.detectRoles] - Detect roles (default: true)
      * @returns {Object} Graph object with @graph array
      *
      * @example
      * const graph = TagTeam.buildGraph("The doctor must allocate the ventilator");
-     * console.log(graph['@graph']); // Array of nodes
+     *
+     * @example
+     * // With ontology enrichment
+     * const tagger = TagTeam.OntologyTextTagger.fromTTL(ttlString);
+     * const graph = TagTeam.buildGraph("The patient has fever", { ontology: tagger });
+     * // Tier 2 entity nodes now have ontologyMatch annotations
      */
     buildGraph: function(text, options) {
       options = options || {};
+      var graph;
 
       // Legacy escape hatch
       if (options.useLegacy) {
         const builder = new SemanticGraphBuilder(options);
-        return builder.build(text, options);
+        graph = builder.build(text, options);
+      } else {
+        // Tree pipeline (default)
+        const builder = new SemanticGraphBuilder(options);
+        _injectCachedModels(builder);
+        graph = builder.build(text, Object.assign({}, options, { useTreeExtractors: true }));
       }
 
-      // Tree pipeline (default)
-      const builder = new SemanticGraphBuilder(options);
-      _injectCachedModels(builder);
-      return builder.build(text, Object.assign({}, options, { useTreeExtractors: true }));
+      // Ontology enrichment: annotate Tier 2 entities with matched ontology classes
+      if (options.ontology && typeof options.ontology.tagText === 'function') {
+        var tags = options.ontology.tagText(text);
+        if (tags && tags.length > 0) {
+          var threshold = typeof options.ontologyThreshold === 'number'
+            ? options.ontologyThreshold : 0.5;
+          _enrichGraphWithOntology(graph, tags, threshold);
+        }
+      }
+
+      return graph;
     },
 
     /**

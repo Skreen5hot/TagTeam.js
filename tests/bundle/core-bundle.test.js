@@ -112,6 +112,50 @@ try {
 }
 console.log(`  ${passed - funcStart} checks passed\n`);
 
+// ── Ontology enrichment via buildGraph() ─────────────────────────────
+const enrichStart = passed;
+console.log('7. Ontology enrichment via buildGraph():');
+try {
+  const ttl = [
+    '@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .',
+    '@prefix ex: <http://example.org/test#> .',
+    'ex:Suspect a rdfs:Class ; rdfs:label "Suspect" .'
+  ].join('\n');
+  const tagger = T.OntologyTextTagger.fromTTL(ttl, {
+    propertyMap: { keywords: 'rdfs:label', label: 'rdfs:label' }
+  });
+  const enriched = T.buildGraph('The agent arrested the suspect', { ontology: tagger });
+
+  // Check that ontologyMatch annotations exist
+  const matchedNodes = enriched['@graph'].filter(n => n['ontologyMatch']);
+  assert(matchedNodes.length > 0, 'buildGraph with ontology produces ontologyMatch annotations');
+
+  // Verify structure of match entry
+  if (matchedNodes.length > 0) {
+    const match = matchedNodes[0]['ontologyMatch'][0];
+    assert(match.ontologyMatchClass, 'ontologyMatch has class IRI');
+    assert(typeof match.ontologyMatchConfidence === 'number', 'ontologyMatch has confidence');
+    assert(match.ontologyMatchEvidence, 'ontologyMatch has evidence');
+  }
+
+  // Verify @type is NOT mutated (annotate, don't assert)
+  const suspectNode = enriched['@graph'].find(n =>
+    (n['rdfs:label'] || '').toLowerCase().includes('suspect') && n['is_subject_of']);
+  if (suspectNode) {
+    assert(suspectNode['@type'].indexOf('ex:Suspect') === -1,
+      'ontology IRI not pushed into @type (annotate only)');
+  }
+
+  // Test threshold filtering — no crash
+  T.buildGraph('The agent arrested the suspect',
+    { ontology: tagger, ontologyThreshold: 0.99 });
+  assert(true, 'ontologyThreshold option accepted without error');
+} catch (e) {
+  failed++;
+  console.error(`  FAIL: Ontology enrichment threw: ${e.message}`);
+}
+console.log(`  ${passed - enrichStart} checks passed\n`);
+
 // ── Summary ────────────────────────────────────────────────────────────
 console.log('-----------------------------------');
 console.log(`Results: ${passed} passed, ${failed} failed`);
