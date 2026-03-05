@@ -330508,37 +330508,38 @@ class SemanticGraphBuilder {
   // Called by buildGraph() when options.ontology is provided.
   // Identification: nodes with is_subject_of are Tier 2 entities.
   // Matching: token-level overlap (not substring) between entity
-  // labels and tag evidence terms.
+  // labels and tag evidence terms. Checks both the Tier 2 label
+  // (normalized/lemmatized) and the linked Tier 1 referent label
+  // (original text) to handle lemmatization mismatches.
   function _enrichGraphWithOntology(graph, tags, threshold) {
     var nodes = graph['@graph'] || [];
+    // Build @id → node lookup for Tier 1 referent label resolution
+    var nodeIndex = {};
+    for (var ni = 0; ni < nodes.length; ni++) {
+      if (nodes[ni]['@id']) nodeIndex[nodes[ni]['@id']] = nodes[ni];
+    }
     for (var i = 0; i < nodes.length; i++) {
       var node = nodes[i];
       // Positive identification: is_subject_of marks Tier 2 entities
       if (!node['is_subject_of']) continue;
-      var label = (node['rdfs:label'] || '').toLowerCase();
-      if (!label) continue;
-      var labelTokens = label.split(/\s+/);
+      var t2Label = (node['rdfs:label'] || '').toLowerCase();
+      if (!t2Label) continue;
+      // Also get the Tier 1 referent's label (original text, pre-lemmatization)
+      var t1Label = '';
+      var t1Ref = node['is_subject_of'];
+      if (t1Ref && t1Ref['@id'] && nodeIndex[t1Ref['@id']]) {
+        t1Label = (nodeIndex[t1Ref['@id']]['rdfs:label'] || '').toLowerCase();
+      }
+      var t2Tokens = t2Label.split(/\s+/);
+      var t1Tokens = t1Label ? t1Label.split(/\s+/) : [];
       for (var ti = 0; ti < tags.length; ti++) {
         var tag = tags[ti];
         if (tag.confidence < threshold) continue;
         var ev = tag.evidence || [];
         for (var ei = 0; ei < ev.length; ei++) {
           var evLower = ev[ei].toLowerCase();
-          // Token-level match: handle single-word and multi-word evidence
-          var matched = false;
-          var evTokens = evLower.split(/\s+/);
-          if (evTokens.length === 1) {
-            // Single token: exact match against any label token
-            for (var li = 0; li < labelTokens.length; li++) {
-              if (labelTokens[li] === evLower) { matched = true; break; }
-            }
-          } else {
-            // Multi-token: all evidence tokens must appear in label tokens
-            matched = true;
-            for (var li = 0; li < evTokens.length; li++) {
-              if (labelTokens.indexOf(evTokens[li]) === -1) { matched = false; break; }
-            }
-          }
+          // Token-level match: try Tier 2 label first, then Tier 1 label
+          var matched = _tokenMatch(evLower, t2Tokens) || _tokenMatch(evLower, t1Tokens);
           if (!matched) continue;
           // Annotate — don't mutate @type
           if (!node['ontologyMatch']) node['ontologyMatch'] = [];
@@ -330557,6 +330558,23 @@ class SemanticGraphBuilder {
         }
       }
     }
+  }
+
+  // Token-level match helper: handles single-word and multi-word evidence
+  function _tokenMatch(evLower, labelTokens) {
+    if (!labelTokens.length) return false;
+    var evTokens = evLower.split(/\s+/);
+    if (evTokens.length === 1) {
+      for (var i = 0; i < labelTokens.length; i++) {
+        if (labelTokens[i] === evLower) return true;
+      }
+      return false;
+    }
+    // Multi-token: all evidence tokens must appear in label tokens
+    for (var i = 0; i < evTokens.length; i++) {
+      if (labelTokens.indexOf(evTokens[i]) === -1) return false;
+    }
+    return true;
   }
 
   /**
@@ -330782,7 +330800,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '3.0.0',
-    BUILD: 'build 248 | d86afdf | 2026-03-05T10:15:37.387Z',
+    BUILD: 'build 250 | db4ccb4 | 2026-03-05T10:28:01.042Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
