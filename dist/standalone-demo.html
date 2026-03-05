@@ -2,34 +2,119 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>TagTeam.js — Standalone Demo</title>
+  <title>TagTeam.js — Implementation Guide</title>
   <style>
-    body { font-family: monospace; max-width: 900px; margin: 40px auto; padding: 0 20px; }
-    input { width: 100%; padding: 8px; font-size: 16px; box-sizing: border-box; }
-    button { padding: 8px 16px; font-size: 14px; cursor: pointer; margin-top: 8px; }
-    pre { white-space: pre-wrap; background: #f4f4f4; padding: 16px; margin-top: 12px; max-height: 600px; overflow: auto; font-size: 12px; }
-    details { margin-top: 24px; border: 1px solid #ccc; border-radius: 4px; }
-    details > summary { cursor: pointer; font-weight: bold; padding: 10px 14px; background: #e8e8e8; }
-    details > summary:hover { background: #d8d8d8; }
-    details .section-body { padding: 14px; }
-    details pre { font-size: 11px; }
-    details code { background: #eee; padding: 1px 4px; }
+    body { font-family: system-ui, -apple-system, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; line-height: 1.6; color: #1a1a1a; }
+    h1 { font-size: 1.4em; margin-bottom: 0.2em; }
+    h2 { font-size: 1.1em; margin-top: 2em; border-bottom: 1px solid #ddd; padding-bottom: 4px; }
+    p.subtitle { color: #666; margin-top: 0; }
+    pre { background: #f5f5f5; padding: 16px; overflow-x: auto; font-size: 13px; border-radius: 4px; border: 1px solid #e0e0e0; }
+    code { font-family: 'Consolas', 'Monaco', monospace; }
+    .inline-code { background: #f0f0f0; padding: 1px 5px; border-radius: 3px; font-size: 0.9em; }
+    .live { margin-top: 2em; padding: 20px; border: 1px solid #ccc; border-radius: 6px; background: #fafafa; }
+    .live input { width: 100%; padding: 8px; font-size: 14px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 3px; }
+    .live pre { max-height: 500px; overflow: auto; margin-top: 12px; font-size: 12px; }
+    .live button { padding: 6px 14px; margin-top: 8px; cursor: pointer; }
   </style>
 </head>
 <body>
-  <h2>TagTeam.js — Standalone Demo</h2>
-  <p>No server. No fetch. No setup. Models are baked into the bundle. Just <code>&lt;script src="tagteam.js"&gt;</code> and call <code>TagTeam.buildGraph(text)</code>.</p>
-  <input id="in" value="The agent arrested the suspect at the border." />
-  <button onclick="run()">Parse</button>
-  <pre id="out">Loading TagTeam.js...</pre>
+
+  <h1>TagTeam.js</h1>
+  <p class="subtitle">Natural language to JSON-LD semantic graphs. One script tag. No server.</p>
+
+  <!-- ── Step 1: Include the bundle ─────────────────────────── -->
+  <h2>1. Include the bundle</h2>
+  <p>One file. Models are embedded. No fetch, no setup.</p>
+<pre><code>&lt;script src="tagteam.js"&gt;&lt;/script&gt;</code></pre>
+
+  <!-- ── Step 2: Parse text ─────────────────────────────────── -->
+  <h2>2. Parse text into a semantic graph</h2>
+<pre><code>const graph = TagTeam.buildGraph("The agent arrested the suspect at the border.");
+console.log(JSON.stringify(graph, null, 2));</code></pre>
+  <p>Returns a JSON-LD graph with entities, acts, roles, and discourse referents.</p>
+
+  <!-- ── Step 3: Ontology enrichment ────────────────────────── -->
+  <h2>3. Enrich with your own ontology</h2>
+  <p>Load a Turtle ontology and pass it to <code class="inline-code">buildGraph()</code>. Tier 2 entities get <code class="inline-code">ontologyMatch</code> annotations in the same call.</p>
+<pre><code>// Load ontology from a TTL string
+const tagger = TagTeam.OntologyTextTagger.fromTTL(ttlString, {
+  propertyMap: { keywords: 'rdfs:label', label: 'rdfs:label' }
+});
+
+// Parse + enrich in one call
+const graph = TagTeam.buildGraph("Patient has fever and cough", {
+  ontology: tagger,
+  ontologyThreshold: 0.5   // optional, default 0.5
+});
+
+// Tier 2 entity nodes now carry ontologyMatch metadata:
+// {
+//   ontologyMatchClass: "ex:Fever",
+//   ontologyMatchConfidence: 0.85,
+//   ontologyMatchEvidence: "Fever",
+//   ontologyMatchLabel: "Fever"
+// }</code></pre>
+
+  <!-- ── Step 4: Complete working example ───────────────────── -->
+  <h2>4. Complete working example</h2>
+  <p>Copy this into an HTML file alongside <code class="inline-code">tagteam.js</code>:</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;script src="tagteam.js"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    // Basic parse
+    var graph = TagTeam.buildGraph("The doctor treated the patient.");
+    document.write("&lt;pre&gt;" + JSON.stringify(graph, null, 2) + "&lt;/pre&gt;");
+
+    // With ontology enrichment
+    var ttl = [
+      '@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .',
+      '@prefix ex: &lt;http://example.org/med#&gt; .',
+      'ex:Doctor a rdfs:Class ; rdfs:label "Doctor" .',
+      'ex:Patient a rdfs:Class ; rdfs:label "Patient" .'
+    ].join('\n');
+
+    var tagger = TagTeam.OntologyTextTagger.fromTTL(ttl, {
+      propertyMap: { keywords: 'rdfs:label', label: 'rdfs:label' }
+    });
+    var enriched = TagTeam.buildGraph("The doctor treated the patient.", {
+      ontology: tagger
+    });
+    document.write("&lt;pre&gt;" + JSON.stringify(enriched, null, 2) + "&lt;/pre&gt;");
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+  <!-- ── API reference ──────────────────────────────────────── -->
+  <h2>API</h2>
+<pre><code>TagTeam.buildGraph(text, options?)        // returns JSON-LD graph
+TagTeam.toJSONLD(text, options?)          // alias for buildGraph
+TagTeam.OntologyTextTagger.fromTTL(ttl, config)  // create tagger from Turtle</code></pre>
+  <p><strong>Options:</strong></p>
+  <ul>
+    <li><code class="inline-code">ontology</code> — an <code class="inline-code">OntologyTextTagger</code> instance for ontology enrichment</li>
+    <li><code class="inline-code">ontologyThreshold</code> — minimum confidence for matches (default: 0.5)</li>
+    <li><code class="inline-code">useLegacy</code> — use legacy pipeline (default: false)</li>
+  </ul>
+
+  <!-- ── Live test ──────────────────────────────────────────── -->
+  <div class="live">
+    <strong>Try it</strong>
+    <input id="in" value="The agent arrested the suspect at the border." placeholder="Enter text to parse" title="Text input" />
+    <button type="button" onclick="run()">Parse</button>
+    <pre id="out">Loading...</pre>
+  </div>
+
+  <script src="tagteam.js"></script>
   <script>
+    document.getElementById('out').textContent = 'Ready.';
     function run() {
       var text = document.getElementById('in').value.trim();
-      if (!text) return;
-      if (typeof TagTeam === 'undefined') {
-        document.getElementById('out').textContent = 'Loading TagTeam.js — please wait...';
-        return;
-      }
+      if (!text || typeof TagTeam === 'undefined') return;
       var result = TagTeam.buildGraph(text);
       document.getElementById('out').textContent = JSON.stringify(result, null, 2);
     }
@@ -38,70 +123,5 @@
     });
   </script>
 
-  <details>
-    <summary>Advanced: Custom Ontology Class Matching</summary>
-    <div class="section-body">
-      <p>TagTeam includes <code>OntologyTextTagger</code> — load any Turtle/TTL ontology and match text against its classes. Pass <code>{ ontology: tagger }</code> to <code>buildGraph()</code> for native enrichment.</p>
-<pre>
-// 1. Load a TTL ontology string (keywords maps evidence terms)
-const tagger = TagTeam.OntologyTextTagger.fromTTL(ttlString, {
-  propertyMap: { keywords: 'rdfs:label', label: 'rdfs:label' }
-});
-
-// 2. Build graph with native ontology enrichment (one call)
-const graph = TagTeam.buildGraph("Patient has fever and cough", {
-  ontology: tagger,
-  ontologyThreshold: 0.5  // optional, default 0.5
-});
-// Tier 2 entity nodes now have ontologyMatch annotations:
-// { ontologyMatchClass: "ex:Fever", ontologyMatchConfidence: 0.9, ... }
-</pre>
-      <p><strong>Key classes:</strong></p>
-      <ul>
-        <li><code>TagTeam.OntologyTextTagger</code> — main tagger (static <code>.fromTTL()</code>)</li>
-        <li><code>TagTeam.TurtleParser</code> — lightweight TTL parser</li>
-        <li><code>TagTeam.OntologyManager</code> — unified JSON + TTL loading with cache</li>
-        <li><code>TagTeam.PropertyMapper</code> — configurable property-to-tag mapping</li>
-      </ul>
-      <button type="button" onclick="runOntologyDemo()">Run Ontology Demo</button>
-      <pre id="ontology-out"></pre>
-    </div>
-  </details>
-
-  <script src="tagteam.js"></script>
-  <script>
-    document.getElementById('out').textContent = 'Ready.';
-
-    function runOntologyDemo() {
-      if (typeof TagTeam === 'undefined') return;
-      var ttl = [
-        '@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .',
-        '@prefix ex: <http://example.org/med#> .',
-        'ex:Fever a rdfs:Class ; rdfs:label "Fever" .',
-        'ex:Cough a rdfs:Class ; rdfs:label "Cough" .',
-        'ex:Patient a rdfs:Class ; rdfs:label "Patient" .',
-        'ex:Doctor a rdfs:Class ; rdfs:label "Doctor" .'
-      ].join('\n');
-      try {
-        var tagger = TagTeam.OntologyTextTagger.fromTTL(ttl, {
-          propertyMap: { keywords: 'rdfs:label', label: 'rdfs:label' }
-        });
-        var graph = TagTeam.buildGraph('Patient has fever and cough', { ontology: tagger });
-        // Show nodes that got ontology matches
-        var matched = (graph['@graph'] || []).filter(function(n) { return n['ontologyMatch']; });
-        if (matched.length > 0) {
-          document.getElementById('ontology-out').textContent =
-            'Matched ' + matched.length + ' node(s):\n\n' +
-            JSON.stringify(matched, null, 2);
-        } else {
-          document.getElementById('ontology-out').textContent =
-            'No ontology matches on Tier 2 entities.\n\nFull graph:\n' +
-            JSON.stringify(graph, null, 2);
-        }
-      } catch (e) {
-        document.getElementById('ontology-out').textContent = 'Error: ' + e.message;
-      }
-    }
-  </script>
 </body>
 </html>
