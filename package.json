@@ -1,7 +1,7 @@
 {
   "name": "tagteam-js",
   "version": "3.0.0",
-  "description": "Deterministic semantic parser with ethical value detection - BFO-compatible ontology system",
+  "description": "Deterministic semantic parser - BFO-compatible ontology system",
   "main": "dist/tagteam.js",
   "bin": {
     "tagteam-compile": "./bin/tagteam-ontology-compiler.js"
@@ -57,13 +57,10 @@
   },
   "keywords": [
     "nlp",
-    "ethics",
     "semantic-parsing",
-    "values",
     "bfo",
     "ontology",
     "philosophy",
-    "moral-reasoning",
     "deliberation"
   ],
   "author": "Aaron Damiano",

@@ -66,7 +66,6 @@ describe('P0-TTL: tagteam-v2.ttl Schema Validation', () => {
     expect(schemaDefines(':Inquiry')).toBe(true);
     expect(schemaDefines(':ConditionalContent')).toBe(true);
     expect(schemaDefines(':ClauseRelation')).toBe(true);
-    expect(schemaDefines(':ValueAssertionEvent')).toBe(true);
 
     // Verify class hierarchy
     expect(schemaContent).toContain(':Inquiry');

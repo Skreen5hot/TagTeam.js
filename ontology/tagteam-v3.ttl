@@ -137,14 +137,6 @@
     skos:prefLabel "Conditional Content"@en ;
     skos:definition "A speech act that denotes a condition-consequence relationship where the truth or occurrence of one proposition depends upon the truth or occurrence of another proposition."@en .
 
-:ValueAssertionEvent
-    a owl:Class ;
-    rdfs:subClassOf :SpeechAct ;
-    rdfs:label "Value Assertion Event"@en ;
-    skos:prefLabel "Value Assertion Event"@en ;
-    skos:definition "A speech act that expresses a judgment about the worth, quality, or significance of some entity."@en .
-
-
 # =============================================================================
 # STRUCTURAL CLASSES
 # =============================================================================

@@ -135,7 +135,7 @@ The OntologyTextTagger priority matching upgrade (commits `d86afdf`–`c8f16a7`)
 
 ### 3.1 Build and Distribution
 
-- [ ] **Tree shaking / ESM build.** Ensure the ESM build allows consumers to import only the core parser without the EthicalProfiler, reducing bundle size for applications that don't need value detection.
+- [ ] **Tree shaking / ESM build.** Ensure the ESM build allows consumers to import only the core parser, reducing bundle size for applications that don't need the full pipeline.
 
 - [ ] **CJS/ESM/UMD output.** Provide all three formats in `dist/` to support modern bundlers (Vite, Astro) and legacy environments (script tags).
 
@@ -153,7 +153,7 @@ The OntologyTextTagger priority matching upgrade (commits `d86afdf`–`c8f16a7`)
 
 ### 3.4 @context Architecture
 
-- [ ] **@context modularity.** The @context has ~150 entries; a typical parse uses ~40. Split into a base context (namespaces + core structural properties) and extension contexts (scarcity, values, context assessment, human workflow). Use JSON-LD @context array composition.
+- [ ] **@context modularity.** The @context has ~150 entries; a typical parse uses ~40. Split into a base context (namespaces + core structural properties) and extension contexts (scarcity, ontology enrichment, human workflow). Use JSON-LD @context array composition.
 
 - [ ] **Dual-alias documentation.** Document that `continuant_part_of` and `is_part_of` both map to `bfo:BFO_0000176` intentionally (property alias vs. structural assertion alias). Prevent future "cleanup" that removes one.
 
@@ -161,7 +161,7 @@ The OntologyTextTagger priority matching upgrade (commits `d86afdf`–`c8f16a7`)
 
 - [ ] **Full API reference.** Generate JSDoc or TypeDoc documentation covering all public methods, configuration options, and output graph structure.
 
-- [ ] **Ethical value detection documentation.** The EthicalProfiler detects values based on a keyword lexicon. Document the scope, assumptions, and limitations of this detection. Include what frameworks are covered, what biases exist in the lexicon, and how to extend it. This deserves thoughtful treatment as a standalone document, not a checklist item.
+- [ ] **Ontology enrichment documentation.** Document the OntologyTextTagger pipeline: TTL parsing, property mapping, keyword matching, and confidence scoring. Include how to create custom ontologies and extend the tagger for domain-specific use cases.
 
 ---
 
@@ -384,7 +384,6 @@ Complete mapping of all ontology-sourced aliases in the @context as of commit `b
 | `ConditionalContent` | `tagteam:ConditionalContent` | owl:Class (subClassOf bfo:GenericallyDependentContinuant) |
 | `ClauseRelation` | `tagteam:ClauseRelation` | owl:Class (subClassOf bfo:GenericallyDependentContinuant) |
 | `CausativeAct` | `tagteam:CausativeAct` | owl:Class (subClassOf cco:IntentionalAct) |
-| `ValueAssertionEvent` | `tagteam:ValueAssertionEvent` | owl:Class (subClassOf cco:IntentionalAct) |
 
 **Individuals (9):**
 

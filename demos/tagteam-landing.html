@@ -832,8 +832,8 @@
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">&#x2696;&#xFE0F;</div>
-                        <h3>Detect Context &amp; Values</h3>
-                        <p>Analyzes 12 contextual dimensions (urgency, harm severity, trust, etc.) and detects ethical values and modality (must, should, may) for decision-support applications.</p>
+                        <h3>Detect Context &amp; Modality</h3>
+                        <p>Analyzes contextual dimensions and detects modality (must, should, may) with ambiguity preservation for decision-support applications.</p>
                     </div>
                 </div>
             </section>
@@ -939,7 +939,7 @@
                     </a>
                     <a href="test-week2b-full.html" class="link-card">
                         <h4>Full Corpus (20 Scenarios)</h4>
-                        <p>Performance benchmarks and ethical value detection across 20 test scenarios</p>
+                        <p>Performance benchmarks and semantic analysis across 20 test scenarios</p>
                     </a>
                     <a href="test-iee-bundle.html" class="link-card">
                         <h4>IEE Test Corpus</h4>
@@ -1277,19 +1277,11 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
                 html += '</div>';
             }
 
-            // Semantic frame and ethical profile
+            // Semantic frame
             if (result.semanticFrame) {
                 html += '<div style="margin-top: 15px; padding: 12px; background: #f0fdf4; border-radius: 8px; border-left: 4px solid #10b981;">';
                 html += '<strong>Semantic Frame:</strong> ' + result.semanticFrame;
                 if (result.action && result.action.modality) html += ' | <strong>Modality:</strong> ' + result.action.modality;
-                html += '</div>';
-            }
-
-            if (result.ethicalProfile && result.ethicalProfile.topValues && result.ethicalProfile.topValues.length > 0) {
-                html += '<div style="margin-top: 10px; padding: 12px; background: #f5f3ff; border-radius: 8px; border-left: 4px solid #8b5cf6;">';
-                html += '<strong>Ethical Values:</strong> ';
-                html += result.ethicalProfile.topValues.map(function(v) { return v.name; }).join(', ');
-                html += ' | <strong>Domain:</strong> ' + (result.ethicalProfile.dominantDomain || 'N/A');
                 html += '</div>';
             }
 

@@ -2,7 +2,7 @@
  * PatternMatcher.js
  *
  * Utility module for keyword pattern matching, negation handling,
- * intensifiers, and hedges. Used by ContextAnalyzer and ValueMatcher.
+ * intensifiers, and hedges.
  *
  * Week 2a Addition - January 2026
  * Week 3 Enhancement - Added NLP support for flexible pattern matching

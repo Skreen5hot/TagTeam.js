@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Verify TagTeam.js Bundle - Week 2a</title>
+    <title>Verify TagTeam.js Bundle</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace;
@@ -57,7 +57,7 @@
 </head>
 <body>
     <h1>TagTeam.js Bundle Verification</h1>
-    <p><strong>Purpose:</strong> Verify that dist/tagteam.js contains all Week 2a features</p>
+    <p><strong>Purpose:</strong> Verify that dist/tagteam.js contains core parsing functionality</p>
     <p><strong>Date:</strong> January 12, 2026</p>
 
     <div id="results"></div>
@@ -129,126 +129,6 @@
             };
         });
 
-        // Test 3: Week 2a - contextIntensity exists
-        test('Week 2a: contextIntensity Field Exists', () => {
-            const result = TagTeam.parse("The doctor must allocate the last ventilator");
-            if (result.contextIntensity) {
-                return {
-                    pass: true,
-                    message: 'contextIntensity field is present in parse result',
-                    details: JSON.stringify(result.contextIntensity, null, 2)
-                };
-            }
-            return {
-                pass: false,
-                message: 'contextIntensity field is missing - Week 2a not integrated',
-                details: 'Available fields: ' + Object.keys(result).join(', ')
-            };
-        });
-
-        // Test 4: Week 2a - All 12 dimensions present
-        test('Week 2a: All 12 Dimensions Present', () => {
-            const result = TagTeam.parse("Emergency situation");
-            const ctx = result.contextIntensity;
-
-            const expectedDimensions = {
-                temporal: ['urgency', 'duration', 'reversibility'],
-                relational: ['intimacy', 'powerDifferential', 'trust'],
-                consequential: ['harmSeverity', 'benefitMagnitude', 'scope'],
-                epistemic: ['certainty', 'informationCompleteness', 'expertise']
-            };
-
-            const missing = [];
-            for (const category in expectedDimensions) {
-                if (!ctx[category]) {
-                    missing.push(category + ' (entire category missing)');
-                } else {
-                    for (const dim of expectedDimensions[category]) {
-                        if (typeof ctx[category][dim] !== 'number') {
-                            missing.push(category + '.' + dim);
-                        }
-                    }
-                }
-            }
-
-            if (missing.length === 0) {
-                return {
-                    pass: true,
-                    message: 'All 12 dimensions are present and have numeric scores',
-                    details: JSON.stringify(ctx, null, 2)
-                };
-            }
-            return {
-                pass: false,
-                message: 'Missing dimensions: ' + missing.join(', '),
-                details: JSON.stringify(ctx, null, 2)
-            };
-        });
-
-        // Test 5: Week 2a - Trust scoring bug fix
-        test('Week 2a: Trust Scoring Bug Fix', () => {
-            const result = TagTeam.parse("I discovered that my company is falsifying safety reports");
-            const trust = result.contextIntensity.relational.trust;
-
-            if (trust === 0.2) {
-                return {
-                    pass: true,
-                    message: 'Trust score is correct (0.2) - bug fix verified',
-                    details: 'Text: "I discovered that my company is falsifying safety reports"\nTrust: ' + trust + ' (expected: 0.2)\n\nThe PatternMatcher bug where defaults override low scores has been fixed.'
-                };
-            }
-            return {
-                pass: false,
-                message: 'Trust score is incorrect: ' + trust + ' (expected: 0.2)',
-                details: 'This indicates the PatternMatcher bug fix may not be in the bundle.\nThe bug: default scores (0.5) were overriding matched scores (0.2) when using Math.max()'
-            };
-        });
-
-        // Test 6: Week 2a - Urgency scoring
-        test('Week 2a: Urgency Scoring', () => {
-            const result = TagTeam.parse("The doctor must allocate the last ventilator between two critically ill patients");
-            const urgency = result.contextIntensity.temporal.urgency;
-
-            if (urgency >= 0.9) {
-                return {
-                    pass: true,
-                    message: 'Urgency score is correct (≥0.9 for extreme urgency)',
-                    details: 'Text: "The doctor must allocate the last ventilator..."\nUrgency: ' + urgency + ' (expected: 1.0)'
-                };
-            }
-            return {
-                pass: false,
-                message: 'Urgency score too low: ' + urgency + ' (expected: ≥0.9)',
-                details: 'Keywords like "last ventilator" and "critically ill" should trigger extreme urgency'
-            };
-        });
-
-        // Test 7: Week 2a - Default scores
-        test('Week 2a: Default Score Fallback', () => {
-            const result = TagTeam.parse("Something happened");
-            const ctx = result.contextIntensity;
-
-            // For generic text, should get defaults:
-            // Temporal/Epistemic: 0.5, Relational: 0.3-0.5, Consequential: 0.2-0.3
-            const checks = [
-                ctx.temporal.urgency >= 0.4 && ctx.temporal.urgency <= 0.6,
-                ctx.relational.intimacy >= 0.2 && ctx.relational.intimacy <= 0.5,
-                ctx.epistemic.certainty >= 0.4 && ctx.epistemic.certainty <= 0.6
-            ];
-
-            if (checks.every(c => c)) {
-                return {
-                    pass: true,
-                    message: 'Default scores are reasonable for generic text',
-                    details: JSON.stringify(ctx, null, 2)
-                };
-            }
-            return {
-                pass: false,
-                message: 'Default scores seem off for generic text',
-                details: JSON.stringify(ctx, null, 2)
-            };
-        });
 
         // Summary
         setTimeout(() => {
@@ -261,8 +141,8 @@
                     <h2>Summary</h2>
                     <p><strong>${passed}/${total} tests passed</strong></p>
                     ${passed === total
-                        ? '<p>✅ Bundle is verified and ready for delivery to IEE team</p>'
-                        : '<p>❌ Bundle has issues - please rebuild with <code>node build.js</code></p>'}
+                        ? '<p>✅ Bundle is verified and ready to use</p>'
+                        : '<p>❌ Bundle has issues - please rebuild with <code>npm run build</code></p>'}
                 </div>
             `;
         }, 100);

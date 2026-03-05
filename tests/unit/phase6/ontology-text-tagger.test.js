@@ -609,32 +609,6 @@ describe('OntologyTextTagger', () => {
       });
     });
 
-    it('OTT-052: toValueMatcherFormat returns correct structure', () => {
-      const vmFormat = medTagger.toValueMatcherFormat();
-      expect(vmFormat.values).toBeDefined();
-      expect(vmFormat.values.length).toBe(3);
-      expect(vmFormat.version).toBe('6.6');
-      expect(vmFormat.source).toBe('medical');
-    });
-
-    it('OTT-053: toValueMatcherFormat values have semanticMarkers', () => {
-      const vmFormat = medTagger.toValueMatcherFormat();
-      const cardio = vmFormat.values.find(v => v.name === 'Cardiovascular Disease');
-      expect(cardio.semanticMarkers).toContain('chest pain');
-      expect(cardio.domain).toBe('medical');
-    });
-
-    it('OTT-054: toValueMatcherFormat includes polarityIndicators', () => {
-      const tagger = OntologyTextTagger.fromTTL(LEGAL_TTL, {
-        propertyMap: LEGAL_PROPERTY_MAP,
-        domain: 'legal'
-      });
-      const vmFormat = tagger.toValueMatcherFormat();
-      const breach = vmFormat.values.find(v => v.name === 'Breach of Contract');
-      expect(breach.polarityIndicators.upholding).toContain('remedy');
-      expect(breach.polarityIndicators.violating).toContain('damages');
-    });
-
     it('OTT-055: exportDefinitions returns serializable JSON', () => {
       const exported = medTagger.exportDefinitions();
       expect(exported.domain).toBe('medical');

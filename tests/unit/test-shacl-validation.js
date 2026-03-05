@@ -79,8 +79,8 @@ test('ICE with is_concretized_by passes', () => {
   const graph = {
     '@graph': [
       {
-        '@id': 'inst:Autonomy_ICE_123',
-        '@type': ['tagteam:EthicalValueICE', 'InformationContentEntity'],
+        '@id': 'inst:Test_ICE_123',
+        '@type': ['InformationContentEntity'],
         'is_concretized_by': 'inst:Input_IBE_456'
       },
       {
@@ -641,24 +641,6 @@ test('validates realistic TagTeam graph', () => {
         '@id': 'inst:TagTeam_Parser_v4_0_0',
         '@type': ['Agent', 'owl:NamedIndividual'],
         'tagteam:version': '4.0.0-phase4-week3'
-      },
-      // Value ICE
-      {
-        '@id': 'inst:Autonomy_ICE_def456',
-        '@type': ['tagteam:EthicalValueICE', 'InformationContentEntity', 'owl:NamedIndividual'],
-        'is_concretized_by': 'inst:Input_Text_IBE_abc123',
-        'tagteam:valueName': 'Autonomy'
-      },
-      // Value Assertion
-      {
-        '@id': 'inst:Autonomy_Assertion_ghi789',
-        '@type': ['tagteam:ValueAssertionEvent', 'owl:NamedIndividual'],
-        'tagteam:asserts': 'inst:Autonomy_ICE_def456',
-        'tagteam:detected_by': 'inst:TagTeam_Parser_v4_0_0',
-        'tagteam:based_on': 'inst:Input_Text_IBE_abc123',
-        'tagteam:assertionType': 'tagteam:AutomatedDetection',
-        'tagteam:validInContext': 'inst:MedicalEthics_Context',
-        'tagteam:aggregateConfidence': 0.85
       },
       // Context
       {
