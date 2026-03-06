@@ -75,10 +75,7 @@ const KNOWN_CLASSES = new Set([
   // TagTeam Classes
   'tagteam:DiscourseReferent', 'tagteam:VerbPhrase',
   'tagteam:DeonticContent', 'tagteam:DirectiveContent', 'tagteam:ScarcityAssertion',
-  'tagteam:ValueDetectionRecord', 'tagteam:ContextAssessmentRecord',
   'tagteam:InterpretationContext',
-  'tagteam:ValueAssertionEvent', 'tagteam:ContextAssessmentEvent',
-  'tagteam:EthicalValueICE', 'tagteam:ContextDimensionICE',
   'tagteam:AutomatedDetection', 'tagteam:HumanValidation',
   'tagteam:HumanRejection', 'tagteam:HumanCorrection',
   'tagteam:StructuralAssertion', 'tagteam:ComplexDesignator'

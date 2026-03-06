@@ -765,7 +765,7 @@
                     <div id="output-area" style="display: none; margin-top: 20px;">
                         <div class="tab-bar">
                             <button class="tab-btn active" onclick="switchTab('entities')">Entities &amp; Roles</button>
-                            <button class="tab-btn" onclick="switchTab('context')">Context Intensity</button>
+                            <button class="tab-btn" onclick="switchTab('context')">Semantic Parse</button>
                             <button class="tab-btn" onclick="switchTab('clauses')">Clause Segmentation</button>
                             <button class="tab-btn" onclick="switchTab('ontology')" id="ontology-tab-btn" style="display:none;">Ontology Matches</button>
                         </div>
@@ -783,7 +783,7 @@
 
                         <div id="tab-context" class="tab-panel">
                             <div class="results-box">
-                                <h3>Context Intensity Analysis</h3>
+                                <h3>Semantic Parse Result</h3>
                                 <div id="context-content"></div>
                                 <details style="margin-top: 15px;">
                                     <summary style="cursor: pointer; font-weight: 600; color: #667eea;">View Full JSON</summary>
@@ -832,8 +832,8 @@
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">&#x2696;&#xFE0F;</div>
-                        <h3>Detect Context &amp; Values</h3>
-                        <p>Analyzes 12 contextual dimensions (urgency, harm severity, trust, etc.) and detects ethical values and modality (must, should, may) for decision-support applications.</p>
+                        <h3>Detect Modality &amp; Genericity</h3>
+                        <p>Detects modality (must, should, may) with ambiguity preservation and distinguishes generic kinds from specific instances for ontologically precise graphs.</p>
                     </div>
                 </div>
             </section>
@@ -939,7 +939,7 @@
                     </a>
                     <a href="test-week2b-full.html" class="link-card">
                         <h4>Full Corpus (20 Scenarios)</h4>
-                        <p>Performance benchmarks and ethical value detection across 20 test scenarios</p>
+                        <p>Performance benchmarks and semantic analysis across 20 test scenarios</p>
                     </a>
                     <a href="test-iee-bundle.html" class="link-card">
                         <h4>IEE Test Corpus</h4>
@@ -958,7 +958,7 @@
                 <div class="code-example"><span style="color: #a0aec0;">// Node.js</span>
 const TagTeam = require('tagteam');
 
-<span style="color: #a0aec0;">// Parse with context intensity</span>
+<span style="color: #a0aec0;">// Parse semantic roles</span>
 const result = TagTeam.parse("The doctor must decide");
 console.log(result.agent);            <span style="color: #a0aec0;">// { text: "doctor" }</span>
 console.log(result.action.modality);  <span style="color: #a0aec0;">// "must"</span>
@@ -1008,10 +1008,6 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
                     <a href="phase6-lattice-demo.html" class="link-card">
                         <h4>Ambiguity Preservation</h4>
                         <p>See how linguistic ambiguities are detected and preserved for downstream resolution</p>
-                    </a>
-                    <a href="phase65-ontology-demo.html" class="link-card">
-                        <h4>Ontology Integration</h4>
-                        <p>Load and query BFO/CCO ontologies with Turtle and JSON formats</p>
                     </a>
                     <a href="phase66-custom-tagger-demo.html" class="link-card">
                         <h4>Custom POS Tagging</h4>
@@ -1257,44 +1253,45 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
             document.getElementById('jsonld-output').textContent = JSON.stringify(_cachedGraph, null, 2);
         }
 
-        // ── Tab 2: Context Intensity ──
+        // ── Tab 2: Semantic Parse ──
         function renderContextTab(result) {
             var html = '';
-            if (result.contextIntensity) {
-                html += '<div class="context-breakdown">';
-                for (var category in result.contextIntensity) {
-                    html += '<div class="context-category">';
-                    html += '<h4>' + category.charAt(0).toUpperCase() + category.slice(1) + '</h4>';
-                    for (var dimension in result.contextIntensity[category]) {
-                        var value = result.contextIntensity[category][dimension];
-                        html += '<div class="context-dimension">';
-                        html += '<span>' + dimension + '</span>';
-                        html += '<span class="dimension-value">' + value.toFixed(2) + '</span>';
-                        html += '</div>';
-                    }
+
+            // Role summary
+            var roles = [
+                { label: 'Agent', data: result.agent },
+                { label: 'Action', data: result.action },
+                { label: 'Patient', data: result.patient },
+                { label: 'Recipient', data: result.recipient },
+                { label: 'Theme', data: result.theme }
+            ];
+            html += '<div style="display: grid; gap: 8px;">';
+            for (var i = 0; i < roles.length; i++) {
+                var r = roles[i];
+                if (r.data) {
+                    var text = r.data.text || r.data.verb || JSON.stringify(r.data);
+                    html += '<div style="padding: 10px 14px; background: #f8fafc; border-radius: 6px; border-left: 4px solid #667eea;">';
+                    html += '<strong>' + r.label + ':</strong> ' + text;
+                    if (r.data.modality) html += ' <span style="color: #6b7280;">(' + r.data.modality + ')</span>';
                     html += '</div>';
                 }
-                html += '</div>';
             }
+            html += '</div>';
 
-            // Semantic frame and ethical profile
+            // Semantic frame
             if (result.semanticFrame) {
                 html += '<div style="margin-top: 15px; padding: 12px; background: #f0fdf4; border-radius: 8px; border-left: 4px solid #10b981;">';
                 html += '<strong>Semantic Frame:</strong> ' + result.semanticFrame;
-                if (result.action && result.action.modality) html += ' | <strong>Modality:</strong> ' + result.action.modality;
                 html += '</div>';
             }
 
-            if (result.ethicalProfile && result.ethicalProfile.topValues && result.ethicalProfile.topValues.length > 0) {
-                html += '<div style="margin-top: 10px; padding: 12px; background: #f5f3ff; border-radius: 8px; border-left: 4px solid #8b5cf6;">';
-                html += '<strong>Ethical Values:</strong> ';
-                html += result.ethicalProfile.topValues.map(function(v) { return v.name; }).join(', ');
-                html += ' | <strong>Domain:</strong> ' + (result.ethicalProfile.dominantDomain || 'N/A');
+            // Confidence
+            if (result.confidence !== undefined) {
+                var confColor = result.confidence >= 0.7 ? '#10b981' : result.confidence >= 0.4 ? '#f59e0b' : '#ef4444';
+                html += '<div style="margin-top: 10px; padding: 10px 14px; background: #fafafa; border-radius: 6px;">';
+                html += '<strong>Confidence:</strong> <span style="color: ' + confColor + ';">' + (result.confidence * 100).toFixed(0) + '%</span>';
+                html += ' | <strong>Version:</strong> ' + (result.version || '1.0');
                 html += '</div>';
-            }
-
-            if (!result.contextIntensity) {
-                html = '<p style="color: #6b7280;">No context intensity data found.</p>';
             }
 
             document.getElementById('context-content').innerHTML = html;

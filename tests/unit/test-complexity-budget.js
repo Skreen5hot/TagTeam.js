@@ -67,7 +67,7 @@ test('resets counters correctly', () => {
   const budget = new ComplexityBudget();
 
   budget.addNode('DiscourseReferent');
-  budget.addNode('ValueAssertionEvent');
+  budget.addNode('tagteam:AssertionEvent');
 
   assert(budget.nodeCount === 2, 'Should have 2 nodes');
 
@@ -107,8 +107,8 @@ test('tracks referent nodes separately', () => {
 test('tracks assertion nodes separately', () => {
   const budget = new ComplexityBudget();
 
-  budget.addNode('ValueAssertionEvent');
-  budget.addNode('ContextAssessmentEvent');
+  budget.addNode('tagteam:AssertionEvent');
+  budget.addNode('tagteam:ContextAssertionEvent');
   budget.addNode('tagteam:AssertionEvent');
   budget.addNode('owl:NamedIndividual');
 
@@ -121,7 +121,7 @@ test('addNodes adds multiple nodes', () => {
 
   const added = budget.addNodes([
     'DiscourseReferent',
-    'ValueAssertionEvent',
+    'tagteam:AssertionEvent',
     'owl:NamedIndividual'
   ]);
 
@@ -173,8 +173,8 @@ test('throws when max referents exceeded', () => {
 test('throws when max assertions exceeded', () => {
   const budget = new ComplexityBudget({ maxAssertions: 2, throwOnExceed: true });
 
-  budget.addNode('ValueAssertionEvent');
-  budget.addNode('ContextAssessmentEvent');
+  budget.addNode('tagteam:AssertionEvent');
+  budget.addNode('tagteam:ContextAssertionEvent');
 
   let threw = false;
   try {
@@ -252,7 +252,7 @@ test('getUsage returns correct statistics', () => {
   const budget = new ComplexityBudget({ maxNodes: 100, maxReferents: 10, maxAssertions: 20 });
 
   budget.addNode('DiscourseReferent');
-  budget.addNode('ValueAssertionEvent');
+  budget.addNode('tagteam:AssertionEvent');
   budget.addNode('owl:NamedIndividual');
 
   const usage = budget.getUsage();
@@ -374,7 +374,7 @@ test('getMetadata returns budget usage', () => {
   const budget = new ComplexityBudget();
 
   budget.addNode('DiscourseReferent');
-  budget.addNode('ValueAssertionEvent');
+  budget.addNode('tagteam:AssertionEvent');
 
   const metadata = budget.getMetadata();
 

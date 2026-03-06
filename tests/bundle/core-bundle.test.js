@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 /**
- * Core Bundle Exclusion Contract Test
+ * Bundle Contract Test
  *
- * Verifies that dist/tagteam-core.js:
+ * Verifies that dist/tagteam.js:
  *   1. Includes all core NLP + graph + ontology classes
- *   2. Excludes the values/ethical layer entirely
- *   3. Can build a graph end-to-end without the values layer
+ *   2. Can build a graph end-to-end
  *
  * Run: node tests/bundle/core-bundle.test.js
  *   or: npm run test:core
@@ -13,7 +12,7 @@
 'use strict';
 
 const path = require('path');
-const corePath = path.join(__dirname, '..', '..', 'dist', 'tagteam-core.js');
+const corePath = path.join(__dirname, '..', '..', 'dist', 'tagteam.js');
 
 let T;
 try {
@@ -76,21 +75,9 @@ console.log('4. Embedded models loaded:');
 assert(T.areModelsLoaded() === true, 'areModelsLoaded() returns true');
 console.log(`  ${passed - modelStart} checks passed\n`);
 
-// ── Values layer excluded ──────────────────────────────────────────────
-const exclStart = passed;
-console.log('5. Values/ethical layer excluded:');
-assert(typeof T.ValueMatcher === 'undefined', 'ValueMatcher is undefined');
-assert(typeof T.EthicalProfiler === 'undefined', 'EthicalProfiler is undefined');
-assert(typeof T.AssertionEventBuilder === 'undefined', 'AssertionEventBuilder is undefined');
-assert(typeof T.ValueNetAdapter === 'undefined', 'ValueNetAdapter is undefined');
-assert(typeof T.BridgeOntologyLoader === 'undefined', 'BridgeOntologyLoader is undefined');
-assert(typeof T.CertaintyAnalyzer === 'undefined', 'CertaintyAnalyzer is undefined');
-assert(typeof T.SourceAttributionDetector === 'undefined', 'SourceAttributionDetector is undefined');
-console.log(`  ${passed - exclStart} checks passed\n`);
-
 // ── Functional smoke test ──────────────────────────────────────────────
 const funcStart = passed;
-console.log('6. Functional smoke test:');
+console.log('5. Functional smoke test:');
 try {
   const graph = T.buildGraph('The agent arrested the suspect');
   assert(graph['@graph'] && graph['@graph'].length > 0, 'buildGraph returns non-empty @graph');
@@ -114,7 +101,7 @@ console.log(`  ${passed - funcStart} checks passed\n`);
 
 // ── Ontology enrichment via buildGraph() ─────────────────────────────
 const enrichStart = passed;
-console.log('7. Ontology enrichment via buildGraph():');
+console.log('6. Ontology enrichment via buildGraph():');
 try {
   const ttl = [
     '@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .',
@@ -158,7 +145,7 @@ console.log(`  ${passed - enrichStart} checks passed\n`);
 
 // ── Priority matching integration (TC-I01 through TC-I07) ────────────
 const priorityStart = passed;
-console.log('8. Priority matching integration:');
+console.log('7. Priority matching integration:');
 try {
   const fs = require('fs');
   const ttlPath = path.join(__dirname, '..', 'tagger', 'test-ontology.ttl');

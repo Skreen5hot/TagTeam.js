@@ -250,22 +250,6 @@ test('@context includes is_concretized_by', () => {
     '@context should include is_concretized_by for ICE linkage');
 });
 
-test('@context includes ValueAssertionEvent', () => {
-  const jsonldStr = serializer.serialize({ '@graph': [] });
-  const jsonld = JSON.parse(jsonldStr);
-
-  assert(jsonld['@context'].ValueAssertionEvent,
-    '@context should include ValueAssertionEvent');
-});
-
-test('@context includes ContextAssessmentEvent', () => {
-  const jsonldStr = serializer.serialize({ '@graph': [] });
-  const jsonld = JSON.parse(jsonldStr);
-
-  assert(jsonld['@context'].ContextAssessmentEvent,
-    '@context should include ContextAssessmentEvent');
-});
-
 test('@context includes confidence properties', () => {
   const jsonldStr = serializer.serialize({ '@graph': [] });
   const jsonld = JSON.parse(jsonldStr);
@@ -278,67 +262,6 @@ test('@context includes confidence properties', () => {
     '@context should include relevanceConfidence');
   assert(jsonld['@context'].aggregateConfidence,
     '@context should include aggregateConfidence');
-});
-
-// ================================================================
-// Full Integration Test
-// ================================================================
-console.log('\nFull Integration');
-
-test('value assertions have GIT-Minimal properties when provided', () => {
-  const builder = new SemanticGraphBuilder();
-  const scoredValues = [
-    { value: 'Autonomy', confidence: 0.85 },
-    { value: 'Justice', confidence: 0.72 }
-  ];
-
-  const graph = builder.build(TEST_TEXT, {
-    context: 'MedicalEthics',
-    scoredValues
-  });
-
-  const assertions = graph['@graph'].filter(n =>
-    n['@type']?.includes('tagteam:ValueAssertionEvent')
-  );
-
-  assert(assertions.length === 2, 'Should create 2 value assertions');
-
-  assertions.forEach(assertion => {
-    assert(assertion['tagteam:assertionType'] === 'tagteam:AutomatedDetection',
-      'Should have AutomatedDetection type');
-    assert(assertion['tagteam:validInContext'] === 'inst:MedicalEthics_Context',
-      'Should have validInContext link');
-    assert(assertion['tagteam:based_on'],
-      'Should have based_on link to IBE');
-    assert(assertion['tagteam:detected_by'],
-      'Should have detected_by link to parser');
-  });
-});
-
-test('context assessments have GIT-Minimal properties when provided', () => {
-  const builder = new SemanticGraphBuilder();
-  const contextIntensity = {
-    urgency: 0.9,
-    stakesLevel: 0.85
-  };
-
-  const graph = builder.build(TEST_TEXT, {
-    context: 'MedicalEthics',
-    contextIntensity
-  });
-
-  const assessments = graph['@graph'].filter(n =>
-    n['@type']?.includes('tagteam:ContextAssessmentEvent')
-  );
-
-  assert(assessments.length === 2, 'Should create 2 context assessments');
-
-  assessments.forEach(assessment => {
-    assert(assessment['tagteam:assertionType'] === 'tagteam:AutomatedDetection',
-      'Should have AutomatedDetection type');
-    assert(assessment['tagteam:validInContext'] === 'inst:MedicalEthics_Context',
-      'Should have validInContext link');
-  });
 });
 
 // ================================================================

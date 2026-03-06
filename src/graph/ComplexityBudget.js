@@ -427,9 +427,7 @@ class ComplexityBudget {
    */
   _isAssertionType(nodeType) {
     if (!nodeType) return false;
-    return nodeType.includes('AssertionEvent') ||
-      nodeType.includes('ValueAssertionEvent') ||
-      nodeType.includes('ContextAssessmentEvent');
+    return nodeType.includes('AssertionEvent');
   }
 
   /**

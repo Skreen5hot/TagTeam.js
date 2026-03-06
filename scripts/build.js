@@ -4,35 +4,11 @@
  *
  * Creates a single-file d3.js-style bundle from source files
  *
- * Usage: node build.js          → dist/tagteam.js (full bundle)
- *        node build.js --core   → dist/tagteam-core.js (core only)
- * Output: dist/tagteam.js or dist/tagteam-core.js
+ * Usage: node build.js
+ * Output: dist/tagteam.js
  */
 
-// ============================================================================
-// TWO-BUNDLE ARCHITECTURE
-// ============================================================================
-// This build produces TWO bundles from a single script:
-//
-//   tagteam.js      — Full bundle (NLP + graph + ontology + values/ethical)
-//   tagteam-core.js — Core bundle (NLP + graph + ontology, NO values/ethical)
-//
-// The core bundle exists because external users who want pure NLP-to-ontology
-// parsing should not ship an ethical profiler. The values layer was the IEE
-// collaboration's contribution and is optional for non-IEE consumers.
-//
-// DO NOT delete tagteam-core.js or remove the --core flag without checking
-// with downstream consumers. The core bundle has an automated CI gate
-// (tests/bundle/core-bundle.test.js) that will fail if it breaks.
-//
-// Usage:
-//   node scripts/build.js          → dist/tagteam.js (full)
-//   node scripts/build.js --core   → dist/tagteam-core.js (core only)
-//   npm run build:all              → both
-// ============================================================================
-
-const CORE_ONLY = process.argv.includes('--core');
-const OUTPUT_NAME = CORE_ONLY ? 'tagteam-core.js' : 'tagteam.js';
+const OUTPUT_NAME = 'tagteam.js';
 
 const fs = require('fs');
 const path = require('path');
@@ -60,7 +36,7 @@ const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'
 const pkgVersion = pkg.version;
 const buildInfo = `build ${buildNumber} | ${gitHash} | ${buildTimestamp}`;
 
-console.log(`🔨 Building TagTeam.js ${CORE_ONLY ? 'core' : 'full'} bundle...`);
+console.log(`🔨 Building TagTeam.js bundle...`);
 console.log(`   Build #${buildNumber} (${gitHash} @ ${buildTimestamp})\n`);
 
 // Create dist directory if it doesn't exist
@@ -77,11 +53,6 @@ const posTaggerPath = path.join(__dirname, '..', 'src', 'core', 'POSTagger.js');
 const patternMatcherPath = path.join(__dirname, '..', 'src', 'core', 'PatternMatcher.js');
 const matchingStrategiesPath = path.join(__dirname, '..', 'src', 'core', 'MatchingStrategies.js');
 const compromisePath = path.join(__dirname, '..', 'node_modules', 'compromise', 'builds', 'compromise.js');
-const contextAnalyzerPath = path.join(__dirname, '..', 'src', 'analyzers', 'ContextAnalyzer.js');
-const certaintyAnalyzerPath = path.join(__dirname, '..', 'src', 'analyzers', 'CertaintyAnalyzer.js');
-const valueMatcherPath = path.join(__dirname, '..', 'src', 'analyzers', 'ValueMatcher.js');
-const valueScorerPath = path.join(__dirname, '..', 'src', 'analyzers', 'ValueScorer.js');
-const ethicalProfilerPath = path.join(__dirname, '..', 'src', 'analyzers', 'EthicalProfiler.js');
 const semanticExtractorPath = path.join(__dirname, '..', 'src', 'core', 'SemanticRoleExtractor.js');
 
 // Core NLP modules
@@ -105,8 +76,7 @@ const objectAggregateFactoryPath = path.join(__dirname, '..', 'src', 'graph', 'O
 // v2.4: Quality factory for entity qualifiers
 const qualityFactoryPath = path.join(__dirname, '..', 'src', 'graph', 'QualityFactory.js');
 
-// Week 2: Assertion events and GIT-Minimal integration
-const assertionEventBuilderPath = path.join(__dirname, '..', 'src', 'graph', 'AssertionEventBuilder.js');
+// Week 2: GIT-Minimal integration
 const contextManagerPath = path.join(__dirname, '..', 'src', 'graph', 'ContextManager.js');
 const informationStaircaseBuilderPath = path.join(__dirname, '..', 'src', 'graph', 'InformationStaircaseBuilder.js');
 
@@ -130,8 +100,6 @@ const alternativeGraphBuilderPath = path.join(__dirname, '..', 'src', 'graph', '
 // Phase 6.5: Ontology loading modules
 const turtleParserPath = path.join(__dirname, '..', 'src', 'ontology', 'TurtleParser.js');
 const ontologyManagerPath = path.join(__dirname, '..', 'src', 'ontology', 'OntologyManager.js');
-const valueNetAdapterPath = path.join(__dirname, '..', 'src', 'ontology', 'ValueNetAdapter.js');
-const bridgeOntologyLoaderPath = path.join(__dirname, '..', 'src', 'ontology', 'BridgeOntologyLoader.js');
 
 // Phase 6.6: General-purpose ontology text tagger
 const propertyMapperPath = path.join(__dirname, '..', 'src', 'ontology', 'PropertyMapper.js');
@@ -193,11 +161,6 @@ let posTagger = fs.readFileSync(posTaggerPath, 'utf8');
 let patternMatcher = fs.readFileSync(patternMatcherPath, 'utf8');
 let matchingStrategies = fs.readFileSync(matchingStrategiesPath, 'utf8');
 let compromise = fs.readFileSync(compromisePath, 'utf8');
-let contextAnalyzer = CORE_ONLY ? '' : fs.readFileSync(contextAnalyzerPath, 'utf8');
-let certaintyAnalyzer = CORE_ONLY ? '' : fs.readFileSync(certaintyAnalyzerPath, 'utf8');
-let valueMatcher = CORE_ONLY ? '' : fs.readFileSync(valueMatcherPath, 'utf8');
-let valueScorer = CORE_ONLY ? '' : fs.readFileSync(valueScorerPath, 'utf8');
-let ethicalProfiler = CORE_ONLY ? '' : fs.readFileSync(ethicalProfilerPath, 'utf8');
 let semanticExtractor = fs.readFileSync(semanticExtractorPath, 'utf8');
 let lemmatizerSrc = fs.readFileSync(lemmatizerPath, 'utf8');
 
@@ -206,15 +169,6 @@ console.log(`  ✓ POSTagger.js (${(posTagger.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ Compromise.js (NLP) (${(compromise.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ MatchingStrategies.js (${(matchingStrategies.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ PatternMatcher.js (${(patternMatcher.length / 1024).toFixed(2)} KB)`);
-if (!CORE_ONLY) {
-  console.log(`  ✓ ContextAnalyzer.js (${(contextAnalyzer.length / 1024).toFixed(2)} KB)`);
-  console.log(`  ✓ CertaintyAnalyzer.js (${(certaintyAnalyzer.length / 1024).toFixed(2)} KB)`);
-  console.log(`  ✓ ValueMatcher.js (${(valueMatcher.length / 1024).toFixed(2)} KB)`);
-  console.log(`  ✓ ValueScorer.js (${(valueScorer.length / 1024).toFixed(2)} KB)`);
-  console.log(`  ✓ EthicalProfiler.js (${(ethicalProfiler.length / 1024).toFixed(2)} KB)`);
-} else {
-  console.log('  ⊘ Skipped 5 values/ethical analyzer files (--core)');
-}
 console.log(`  ✓ SemanticRoleExtractor.js (${(semanticExtractor.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ Lemmatizer.js (${(lemmatizerSrc.length / 1024).toFixed(2)} KB)`);
 
@@ -238,7 +192,6 @@ let objectAggregateFactory = fs.readFileSync(objectAggregateFactoryPath, 'utf8')
 let qualityFactory = fs.readFileSync(qualityFactoryPath, 'utf8');
 
 // Week 2 modules
-let assertionEventBuilder = CORE_ONLY ? '' : fs.readFileSync(assertionEventBuilderPath, 'utf8');
 let contextManager = fs.readFileSync(contextManagerPath, 'utf8');
 let informationStaircaseBuilder = fs.readFileSync(informationStaircaseBuilderPath, 'utf8');
 
@@ -262,9 +215,6 @@ let alternativeGraphBuilder = fs.readFileSync(alternativeGraphBuilderPath, 'utf8
 // Phase 6.5: Ontology loading
 let turtleParser = fs.readFileSync(turtleParserPath, 'utf8');
 let ontologyManager = fs.readFileSync(ontologyManagerPath, 'utf8');
-let valueNetAdapter = CORE_ONLY ? '' : fs.readFileSync(valueNetAdapterPath, 'utf8');
-let bridgeOntologyLoader = CORE_ONLY ? '' : fs.readFileSync(bridgeOntologyLoaderPath, 'utf8');
-
 // Phase 6.6: General-purpose tagger
 let propertyMapper = fs.readFileSync(propertyMapperPath, 'utf8');
 let ontologyTextTagger = fs.readFileSync(ontologyTextTaggerPath, 'utf8');
@@ -332,7 +282,6 @@ console.log(`  ✓ ScarcityAssertionFactory.js (${(scarcityAssertionFactory.leng
 console.log(`  ✓ DirectiveExtractor.js (${(directiveExtractor.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ ObjectAggregateFactory.js (${(objectAggregateFactory.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ QualityFactory.js (${(qualityFactory.length / 1024).toFixed(2)} KB)`);
-if (!CORE_ONLY) console.log(`  ✓ AssertionEventBuilder.js (${(assertionEventBuilder.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ ContextManager.js (${(contextManager.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ InformationStaircaseBuilder.js (${(informationStaircaseBuilder.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ DomainConfigLoader.js (${(domainConfigLoader.length / 1024).toFixed(2)} KB)`);
@@ -346,10 +295,6 @@ console.log(`  ✓ InterpretationLattice.js (${(interpretationLattice.length / 1
 console.log(`  ✓ AlternativeGraphBuilder.js (${(alternativeGraphBuilder.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ TurtleParser.js (${(turtleParser.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ OntologyManager.js (${(ontologyManager.length / 1024).toFixed(2)} KB)`);
-if (!CORE_ONLY) {
-  console.log(`  ✓ ValueNetAdapter.js (${(valueNetAdapter.length / 1024).toFixed(2)} KB)`);
-  console.log(`  ✓ BridgeOntologyLoader.js (${(bridgeOntologyLoader.length / 1024).toFixed(2)} KB)`);
-}
 console.log(`  ✓ PropertyMapper.js (${(propertyMapper.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ OntologyTextTagger.js (${(ontologyTextTagger.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ SourceAttributionDetector.js (${(sourceAttributionDetector.length / 1024).toFixed(2)} KB)`);
@@ -361,25 +306,6 @@ console.log(`  ✓ ontology-integrity.js (${(ontologyIntegrity.length / 1024).to
 console.log(`  ✓ semantic-validators.js (${(semanticValidators.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ output-sanitizer.js (${(outputSanitizer.length / 1024).toFixed(2)} KB)`);
 console.log(`  ✓ audit-logger.js (${(auditLogger.length / 1024).toFixed(2)} KB)`);
-
-// Read data files for Week 2b (values layer — skipped in --core mode)
-let valueDefinitions = '{}', frameValueBoosts = '{}', conflictPairs = '{}';
-if (!CORE_ONLY) {
-  console.log('\n📖 Reading Week 2b data files...');
-  const valueDefinitionsPath = path.join(__dirname, '..', 'iee-collaboration', 'from-iee', 'data', 'value-definitions-comprehensive.json');
-  const frameValueBoostsPath = path.join(__dirname, '..', 'iee-collaboration', 'from-iee', 'data', 'frame-value-boosts.json');
-  const conflictPairsPath = path.join(__dirname, '..', 'iee-collaboration', 'from-iee', 'data', 'conflict-pairs.json');
-
-  valueDefinitions = fs.readFileSync(valueDefinitionsPath, 'utf8');
-  frameValueBoosts = fs.readFileSync(frameValueBoostsPath, 'utf8');
-  conflictPairs = fs.readFileSync(conflictPairsPath, 'utf8');
-
-  console.log(`  ✓ value-definitions-comprehensive.json (${(valueDefinitions.length / 1024).toFixed(2)} KB)`);
-  console.log(`  ✓ frame-value-boosts.json (${(frameValueBoosts.length / 1024).toFixed(2)} KB)`);
-  console.log(`  ✓ conflict-pairs.json (${(conflictPairs.length / 1024).toFixed(2)} KB)`);
-} else {
-  console.log('\n⊘ Skipped Week 2b data files (--core)');
-}
 
 // Read model files for embedding into bundle
 console.log('\n📖 Reading pipeline models for embedding...');
@@ -407,8 +333,8 @@ if (semanticExtractor.includes('(function(window)')) {
   console.log('  ✓ Stripped IIFE wrapper from SemanticRoleExtractor');
 }
 
-// Replace window references in SemanticRoleExtractor with _global
-if (semanticExtractor.includes('window.VALUE_DEFINITIONS')) {
+// Replace window references in SemanticRoleExtractor with _global for cross-platform compatibility
+if (semanticExtractor.includes('window.')) {
   semanticExtractor = semanticExtractor.replace(/window\./g, '_global.');
   console.log('  ✓ Fixed window references in SemanticRoleExtractor');
 }
@@ -443,47 +369,6 @@ if (matchingStrategies.includes('(function(root, factory)')) {
     console.log('  ✓ Stripped UMD wrapper from MatchingStrategies');
   }
 }
-
-// Strip UMD wrapper from ContextAnalyzer
-if (contextAnalyzer.includes('(function(root, factory)')) {
-  const factoryMatch = contextAnalyzer.match(/}\(typeof self[^}]+function\(PatternMatcher\)\s*\{([\s\S]+)\}\)\);/);
-  if (factoryMatch) {
-    contextAnalyzer = factoryMatch[1];
-    console.log('  ✓ Stripped UMD wrapper from ContextAnalyzer');
-  }
-}
-
-// Strip UMD wrapper from ValueMatcher
-if (valueMatcher.includes('(function(root, factory)')) {
-  const factoryMatch = valueMatcher.match(/}\(typeof self[^}]+function\(PatternMatcher\)\s*\{([\s\S]+)\}\)\);/);
-  if (factoryMatch) {
-    valueMatcher = factoryMatch[1];
-    console.log('  ✓ Stripped UMD wrapper from ValueMatcher');
-  }
-}
-
-// Strip UMD wrapper from ValueScorer
-if (valueScorer.includes('(function(root, factory)')) {
-  const factoryMatch = valueScorer.match(/}\(typeof self[^}]+function\(\)\s*\{([\s\S]+)\}\)\);/);
-  if (factoryMatch) {
-    valueScorer = factoryMatch[1];
-    console.log('  ✓ Stripped UMD wrapper from ValueScorer');
-  }
-}
-
-// Strip UMD wrapper from EthicalProfiler
-if (ethicalProfiler.includes('(function(root, factory)')) {
-  const factoryMatch = ethicalProfiler.match(/}\(typeof self[^}]+function\(\)\s*\{([\s\S]+)\}\)\);/);
-  if (factoryMatch) {
-    ethicalProfiler = factoryMatch[1];
-    console.log('  ✓ Stripped UMD wrapper from EthicalProfiler');
-  }
-}
-
-// Phase 7.2: Strip CommonJS from CertaintyAnalyzer
-certaintyAnalyzer = certaintyAnalyzer.replace(/module\.exports\s*=\s*\w+;\s*\n?/g, '');
-certaintyAnalyzer = certaintyAnalyzer.replace(/'use strict';\s*\n?/g, '');
-console.log('  ✓ Processed CertaintyAnalyzer for browser');
 
 // Phase 7.1: Strip CommonJS from SourceAttributionDetector
 sourceAttributionDetector = sourceAttributionDetector.replace(/module\.exports\s*=\s*\w+;\s*\n?/g, '');
@@ -684,9 +569,6 @@ qualityFactory = stripCommonJS(qualityFactory, 'QualityFactory');
 console.log('  ✓ Converted QualityFactory to browser format');
 
 // Week 2 modules
-assertionEventBuilder = stripCommonJS(assertionEventBuilder, 'AssertionEventBuilder');
-console.log('  ✓ Converted AssertionEventBuilder to browser format');
-
 contextManager = stripCommonJS(contextManager, 'ContextManager');
 console.log('  ✓ Converted ContextManager to browser format');
 
@@ -730,12 +612,6 @@ console.log('  ✓ Converted TurtleParser to browser format');
 
 ontologyManager = stripCommonJS(ontologyManager, 'OntologyManager');
 console.log('  ✓ Converted OntologyManager to browser format');
-
-valueNetAdapter = stripCommonJS(valueNetAdapter, 'ValueNetAdapter');
-console.log('  ✓ Converted ValueNetAdapter to browser format');
-
-bridgeOntologyLoader = stripCommonJS(bridgeOntologyLoader, 'BridgeOntologyLoader');
-console.log('  ✓ Converted BridgeOntologyLoader to browser format');
 
 // Phase 6.6: General-purpose tagger
 propertyMapper = stripCommonJS(propertyMapper, 'PropertyMapper');
@@ -786,33 +662,8 @@ console.log('  ✓ Converted TreeRoleMapper to browser format');
 confidenceAnnotator = stripCommonJS(confidenceAnnotator, 'ConfidenceAnnotator');
 console.log('  ✓ Converted ConfidenceAnnotator to browser format');
 
-// ---- Conditional bundle sections (values/ethical layer) ----
-// When --core, these are empty strings so the bundle omits the values layer entirely.
-// Each section is a self-contained block of the final bundle source.
-
-const _sect_contextAnalyzer = CORE_ONLY ? '' : `
-  // ============================================================================
-  // CONTEXT ANALYZER (Week 2a) (~15KB)
-  // ============================================================================
-
-  const ContextAnalyzer = (function(PatternMatcher) {
-${contextAnalyzer}
-    return ContextAnalyzer;
-  })(PatternMatcher);
-`;
-
-const _sect_certainty = CORE_ONLY ? '' : `
-  // ============================================================================
-  // CERTAINTY ANALYZER (Phase 7.2) (~8KB)
-  // ============================================================================
-
-${certaintyAnalyzer}
-
-  // Make CertaintyAnalyzer available globally for SemanticGraphBuilder
-  _global.CertaintyAnalyzer = CertaintyAnalyzer;
-`;
-
-const _sect_sourceAttribution = CORE_ONLY ? '' : `
+// ---- Source attribution section (unconditional) ----
+const _sect_sourceAttribution = `
   // ============================================================================
   // PHASE 7.1: SOURCE ATTRIBUTION DETECTION (~10KB)
   // ============================================================================
@@ -823,121 +674,26 @@ ${sourceAttributionDetector}
   _global.SourceAttributionDetector = SourceAttributionDetector;
 `;
 
-const _sect_valueData = CORE_ONLY ? '' : `
-  // ============================================================================
-  // WEEK 2B: ETHICAL VALUE DETECTION DATA (~70KB)
-  // ============================================================================
-
-  // Value definitions (50 values across 5 domains)
-  _global.VALUE_DEFINITIONS = ${valueDefinitions};
-
-  // Frame and role boost mappings
-  _global.FRAME_VALUE_BOOSTS = ${frameValueBoosts};
-
-  // Predefined conflict pairs (18 known ethical tensions)
-  _global.CONFLICT_PAIRS = ${conflictPairs};
-`;
-
-const _sect_valueMatcher = CORE_ONLY ? '' : `
-  // ============================================================================
-  // VALUE MATCHER (Week 2b) (~6KB)
-  // ============================================================================
-
-  const ValueMatcher = (function(PatternMatcher) {
-${valueMatcher}
-    return ValueMatcher;
-  })(PatternMatcher);
-
-  // Make ValueMatcher available globally for SemanticRoleExtractor
-  _global.ValueMatcher = ValueMatcher;
-`;
-
-const _sect_valueScorer = CORE_ONLY ? '' : `
-  // ============================================================================
-  // VALUE SCORER (Week 2b) (~9KB)
-  // ============================================================================
-
-  const ValueScorer = (function() {
-${valueScorer}
-    return ValueScorer;
-  })();
-
-  // Make ValueScorer available globally for SemanticRoleExtractor
-  _global.ValueScorer = ValueScorer;
-`;
-
-const _sect_ethicalProfiler = CORE_ONLY ? '' : `
-  // ============================================================================
-  // ETHICAL PROFILER (Week 2b) (~12KB)
-  // ============================================================================
-
-  const EthicalProfiler = (function() {
-${ethicalProfiler}
-    return EthicalProfiler;
-  })();
-
-  // Make EthicalProfiler available globally for SemanticRoleExtractor
-  _global.EthicalProfiler = EthicalProfiler;
-`;
-
-const _sect_assertionEventBuilder = CORE_ONLY ? '' : `
-  // ============================================================================
-  // ASSERTION EVENT BUILDER (Phase 4 - Week 2)
-  // Creates ValueAssertionEvent and ContextAssessmentEvent nodes
-  // ============================================================================
-
-${assertionEventBuilder}
-`;
-
-const _sect_valueNetAdapter = CORE_ONLY ? '' : `
-${valueNetAdapter}
-`;
-
-const _sect_bridgeOntologyLoader = CORE_ONLY ? '' : `
-${bridgeOntologyLoader}
-`;
-
 // Build the bundle
 console.log('\n🔧 Building bundle...');
-if (CORE_ONLY) console.log('  ℹ Core-only mode: values/ethical layer excluded');
 
 const bundle = `/*!
- * TagTeam.js - Two-Tier Semantic Graph Architecture for Ethical Context Analysis
+ * TagTeam.js - Two-Tier Semantic Graph Engine
  * Version: 7.0 (v2 Phase 2: Dependency Parser)
  * Date: ${new Date().toISOString().split('T')[0]}
  *
  * A client-side JavaScript library for extracting semantic roles from natural language text
  *
- * Phase 6: Interpretation Lattice
- *   - AmbiguityDetector: Detects modal, scope, noun category, selectional ambiguities
- *   - SelectionalPreferences: 8 verb classes, 6 entity categories
- *   - AmbiguityResolver: Hierarchy of evidence for resolution decisions
- *   - InterpretationLattice: Default reading + alternative interpretations
- *   - AlternativeGraphBuilder: Modal strength scale, metonymic bridge
- *   - options.preserveAmbiguity enables lattice generation
- *
- * Phase 6.5: Ontology Loading (NEW)
- *   - TurtleParser: Lightweight TTL/Turtle parser for ValueNet ontologies
- *   - OntologyManager: Unified JSON + TTL loading with caching
- *   - ValueNetAdapter: ValueNet → ValueMatcher format conversion
- *   - BridgeOntologyLoader: IEE bridge ontology (owl:sameAs, worldview mapping)
- *
- * Phase 6.6: General-Purpose Ontology Text Tagger
- *   - PropertyMapper: Configurable property-to-TagDefinition mapping
- *   - OntologyTextTagger: Load any TTL, map properties, tag text
- *
- * Phase 4-5: Two-Tier JSON-LD semantic graph with BFO/CCO ontology support
+ * Two-Tier JSON-LD semantic graph with BFO/CCO ontology support
  *   - Tier 1 (ICE): DiscourseReferent - parsing layer
  *   - Tier 2 (IC): Person/Artifact - real-world entities
- *   - ActualityStatus on all acts (Prescribed, Actual, Negated, etc.)
  *   - Cross-tier linking via cco:is_about
- *   - Ambiguity detection and flagging
  *
- * Earlier Phases:
- *   - Week 1: Semantic role extraction
- *   - Week 2a: Context intensity analysis (12 dimensions)
- *   - Week 2b: Ethical value detection (50 values, conflict detection)
- *   - Week 3: Enhanced pattern matching with NLP
+ * Key capabilities:
+ *   - Dependency parsing (arc-eager UD v2)
+ *   - Genericity detection (kind vs instance)
+ *   - Ontology text tagging (TTL-based, multi-property, lemma matching)
+ *   - Interpretation lattice (ambiguity preservation)
  *   - SHACL validation and complexity budget
  *
  * Inspired by d3.js and mermaid.js - single file, simple API
@@ -1026,8 +782,6 @@ ${patternMatcher}
     return PatternMatcher;
   })(nlp);
 
-${_sect_contextAnalyzer}
-${_sect_certainty}
 ${_sect_sourceAttribution}
 
   // ============================================================================
@@ -1068,11 +822,6 @@ ${semanticValidators}
 ${outputSanitizer}
 
 ${auditLogger}
-
-${_sect_valueData}
-${_sect_valueMatcher}
-${_sect_valueScorer}
-${_sect_ethicalProfiler}
 
   // ============================================================================
   // SEMANTIC ROLE EXTRACTOR (~32KB + Week 2a/2b enhancements)
@@ -1201,8 +950,6 @@ ${objectAggregateFactory}
 
 ${qualityFactory}
 
-${_sect_assertionEventBuilder}
-
   // ============================================================================
   // CONTEXT MANAGER (Phase 4 - Week 2)
   // Manages InterpretationContext nodes for GIT-Minimal compliance
@@ -1282,15 +1029,12 @@ ${alternativeGraphBuilder}
 
   // ============================================================================
   // PHASE 6.5: ONTOLOGY LOADING MODULES
-  // TTL parsing, unified loading, ValueNet adapter, bridge ontology
+  // TTL parsing, unified ontology loading
   // ============================================================================
 
 ${turtleParser}
 
 ${ontologyManager}
-
-${_sect_valueNetAdapter}
-${_sect_bridgeOntologyLoader}
 
   // ============================================================================
   // PHASE 6.6: GENERAL-PURPOSE ONTOLOGY TEXT TAGGER
@@ -1545,17 +1289,6 @@ ${semanticGraphBuilder}
       return texts.map(text => this.parse(text));
     },
 
-${CORE_ONLY ? '' : `    /**
-     * Load value definitions for semantic matching (Week 2 feature)
-     *
-     * @param {Object} definitions - Value definitions in IEE format
-     */
-    loadValueDefinitions: function(definitions) {
-      // TODO: Implement in Week 2
-      console.warn('TagTeam.loadValueDefinitions: Feature available in Week 2');
-      return this;
-    },
-`}
     /**
      * Add custom compound terms
      *
@@ -1583,12 +1316,6 @@ ${CORE_ONLY ? '' : `    /**
      *   coreVerbs: ['pray', 'worship', 'meditate']
      * });
      */
-${CORE_ONLY ? '' : `    addSemanticFrame: function(frameDefinition) {
-      // TODO: Implement frame extension API
-      console.warn('TagTeam.addSemanticFrame: Feature available in Week 2');
-      return this;
-    },
-`}
     /**
      * Build a JSON-LD semantic graph from natural language text (Phase 4)
      *
@@ -1777,8 +1504,7 @@ ${CORE_ONLY ? '' : `    addSemanticFrame: function(frameDefinition) {
     // v2.4: Quality factory
     QualityFactory: QualityFactory,
 
-    // Week 2: Assertion events and GIT-Minimal
-${CORE_ONLY ? '' : '    AssertionEventBuilder: AssertionEventBuilder,'}
+    // Week 2: GIT-Minimal
     ContextManager: ContextManager,
     InformationStaircaseBuilder: InformationStaircaseBuilder,
 
@@ -1802,19 +1528,14 @@ ${CORE_ONLY ? '' : '    AssertionEventBuilder: AssertionEventBuilder,'}
     // Phase 6.5: Ontology loading
     TurtleParser: TurtleParser,
     OntologyManager: OntologyManager,
-${CORE_ONLY ? '' : `    ValueNetAdapter: ValueNetAdapter,
-    BridgeOntologyLoader: BridgeOntologyLoader,`}
 
     // Phase 6.6: General-purpose tagger
     PropertyMapper: PropertyMapper,
     OntologyTextTagger: OntologyTextTagger,
 
-${CORE_ONLY ? '' : `    // Phase 7.2: Certainty analysis
-    CertaintyAnalyzer: CertaintyAnalyzer,
-
     // Phase 7.1: Source attribution detection
     SourceAttributionDetector: SourceAttributionDetector,
-`}
+
     // Phase 7 v7: Sentence mode classifier + complex designator detector
     SentenceModeClassifier: SentenceModeClassifier,
     ComplexDesignatorDetector: ComplexDesignatorDetector,
@@ -2171,17 +1892,15 @@ const testHtml = `<!DOCTYPE html>
 </html>
 `;
 
-if (!CORE_ONLY) {
-  fs.writeFileSync(path.join(distDir, 'test.html'), testHtml, 'utf8');
-  console.log('  ✓ Created dist/test.html');
-}
+fs.writeFileSync(path.join(distDir, 'test.html'), testHtml, 'utf8');
+console.log('  ✓ Created dist/test.html');
 
 // Models are now embedded in the bundle — no separate files needed
 
 // Summary
-console.log(`\n✨ Build complete! (${CORE_ONLY ? 'core' : 'full'})\n`);
+console.log(`\n✨ Build complete!\n`);
 console.log(`📦 Bundle: dist/${OUTPUT_NAME}`);
-if (!CORE_ONLY) console.log('🧪 Test:   dist/test.html');
+console.log('🧪 Test:   dist/test.html');
 console.log(`\n📖 Usage:`);
 console.log(`   <script src="${OUTPUT_NAME}"></script>`);
 console.log('   <script>');

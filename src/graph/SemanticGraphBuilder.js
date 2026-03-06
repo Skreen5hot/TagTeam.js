@@ -12,15 +12,8 @@
  * - Roles realize only in Actual acts
  * - Quality nodes for qualifiers (v2.4)
  * - PatientRole on aggregate members (v2.4)
- * - ValueAssertionEvent with three-way confidence (Week 2) [OPTIONAL]
- * - ContextAssessmentEvent for 12 dimensions (Week 2) [OPTIONAL]
  * - IBE/ICE Information Staircase (Week 2)
  * - GIT-Minimal provenance (Week 2)
- *
- * v5.0.0 Package Separation:
- * - AssertionEventBuilder is now OPTIONAL (for tagteam-iee-values package)
- * - Core package works without value/context assertions
- * - Extension point: options.assertionBuilder for external injection
  *
  * v6.0.0 Interpretation Lattice:
  * - InterpretationLattice for multi-reading ambiguity preservation
@@ -65,17 +58,6 @@ const _InterpretationLattice = (typeof InterpretationLattice !== 'undefined') ? 
 })();
 const _AlternativeGraphBuilder = (typeof AlternativeGraphBuilder !== 'undefined') ? AlternativeGraphBuilder : (() => {
   try { return require('./AlternativeGraphBuilder'); } catch (e) { return null; }
-})();
-
-// OPTIONAL: AssertionEventBuilder - only load if available (for backwards compatibility)
-// In v5.0.0+, this is provided by tagteam-iee-values package via options.assertionBuilder
-const _AssertionEventBuilder = (typeof AssertionEventBuilder !== 'undefined') ? AssertionEventBuilder : (() => {
-  try { return require('./AssertionEventBuilder'); } catch (e) { return null; }
-})();
-
-// Phase 7.2: CertaintyAnalyzer for hedge/booster/evidential detection
-const _CertaintyAnalyzer = (typeof CertaintyAnalyzer !== 'undefined') ? CertaintyAnalyzer : (() => {
-  try { return require('../analyzers/CertaintyAnalyzer'); } catch (e) { return null; }
 })();
 
 // Phase 7.1: SourceAttributionDetector for quote/reported speech/institutional source detection
@@ -216,20 +198,6 @@ class SemanticGraphBuilder {
     // v2 Phase 1: Clause segmenter
     this.clauseSegmenter = new ClauseSegmenter();
 
-    // v5.0.0: AssertionEventBuilder is OPTIONAL
-    // Can be injected via options.assertionBuilder (for tagteam-iee-values)
-    // or use built-in if available (for backwards compatibility)
-    if (options.assertionBuilder) {
-      // External assertion builder injected (from tagteam-iee-values)
-      this.assertionEventBuilder = options.assertionBuilder;
-    } else if (_AssertionEventBuilder) {
-      // Built-in AssertionEventBuilder available (backwards compatibility)
-      this.assertionEventBuilder = new _AssertionEventBuilder({ graphBuilder: this });
-    } else {
-      // No assertion builder - core-only mode
-      this.assertionEventBuilder = null;
-    }
-
     // Core infrastructure
     this.contextManager = new ContextManager({ graphBuilder: this });
     this.informationStaircaseBuilder = new InformationStaircaseBuilder({
@@ -253,13 +221,6 @@ class SemanticGraphBuilder {
     } else {
       this.ambiguityResolver = null;
       this.alternativeBuilder = null;
-    }
-
-    // Phase 7.2: Certainty analysis (optional)
-    if (_CertaintyAnalyzer) {
-      this.certaintyAnalyzer = new _CertaintyAnalyzer();
-    } else {
-      this.certaintyAnalyzer = null;
     }
 
     // Phase 7.1: Source attribution detection (optional)
@@ -737,12 +698,6 @@ class SemanticGraphBuilder {
       }
     });
 
-    // Phase 7.2: Certainty analysis on acts and directives
-    // Adds hedge/booster/evidential markers to nodes with sourceText
-    if (this.certaintyAnalyzer && buildOptions.analyzeCertainty !== false) {
-      this._addCertaintyMarkers(text);
-    }
-
     // Phase 7.1: Source attribution detection on full text
     // Adds source attribution metadata when quotes/reported speech detected
     if (this.sourceAttributionDetector && buildOptions.detectSourceAttribution !== false) {
@@ -771,36 +726,6 @@ class SemanticGraphBuilder {
       if (contextNode) {
         this.addNode(contextNode);
       }
-    }
-
-    // Phase 2.3: Create value assertion events (if values provided AND builder available)
-    // v5.0.0: This is optional - only runs if assertionEventBuilder is available
-    if (this.assertionEventBuilder && buildOptions.extractValues !== false && buildOptions.scoredValues) {
-      const valueResult = this.assertionEventBuilder.createValueAssertions(
-        buildOptions.scoredValues,
-        {
-          contextIRI,
-          ibeIRI: ibeNode['@id'],
-          parserAgentIRI: parserAgentNode['@id']
-        }
-      );
-      this.addNodes(valueResult.assertionEvents);
-      this.addNodes(valueResult.iceNodes);
-    }
-
-    // Phase 2.4: Create context assessment events (if context intensity provided AND builder available)
-    // v5.0.0: This is optional - only runs if assertionEventBuilder is available
-    if (this.assertionEventBuilder && buildOptions.extractContext !== false && buildOptions.contextIntensity) {
-      const contextResult = this.assertionEventBuilder.createContextAssessments(
-        buildOptions.contextIntensity,
-        {
-          contextIRI,
-          ibeIRI: ibeNode['@id'],
-          parserAgentIRI: parserAgentNode['@id']
-        }
-      );
-      this.addNodes(contextResult.assessmentEvents);
-      this.addNodes(contextResult.iceNodes);
     }
 
     // Phase 2.5: Close the provenance loop - add has_output to ParsingAct
@@ -894,7 +819,6 @@ class SemanticGraphBuilder {
         contextIRI,
         ibeIRI: ibeNode['@id'],
         parserAgentIRI: parserAgentNode['@id'],
-        hasValueAssertions: !!(this.assertionEventBuilder && buildOptions.scoredValues),
         hasInterpretationLattice: !!interpretationLattice
       }
     };
@@ -1117,80 +1041,6 @@ class SemanticGraphBuilder {
       .update(text)
       .digest('hex')
       .substring(0, 12);
-  }
-
-  /**
-   * Phase 7.2: Add certainty markers to nodes that have sourceText.
-   * Applies hedge/booster/evidential detection to acts and directives.
-   * @param {string} fullText - Full input text for context
-   * @private
-   */
-  _addCertaintyMarkers(fullText) {
-    if (!this.certaintyAnalyzer) return;
-
-    // Node types that should have certainty analysis
-    const targetTypes = [
-      'IntentionalAct',
-      'ActOfCommunication',
-      'tagteam:DirectiveContent',
-      'tagteam:DeonticContent',
-      'tagteam:ScarcityAssertion',
-      'tagteam:Inference',
-      'tagteam:ClinicalFinding'
-    ];
-
-    for (const node of this.nodes) {
-      const types = node['@type'] || [];
-
-      // Check if this node type should have certainty analysis
-      const shouldAnalyze = targetTypes.some(t =>
-        types.includes(t) || types.some(nt => nt.startsWith('ActOf'))
-      );
-
-      if (!shouldAnalyze) continue;
-
-      // Get the source text for this node
-      const sourceText = node['tagteam:sourceText'];
-      if (!sourceText) continue;
-
-      // Get context around the sourceText (for better marker detection)
-      const startPos = node['tagteam:startPosition'];
-      const endPos = node['tagteam:endPosition'];
-      let contextText = sourceText;
-
-      // Expand context to capture surrounding markers (e.g., "reportedly" before verb)
-      if (typeof startPos === 'number' && startPos > 0) {
-        const contextStart = Math.max(0, startPos - 30);
-        const contextEnd = Math.min(fullText.length, (endPos || startPos + sourceText.length) + 10);
-        contextText = fullText.substring(contextStart, contextEnd);
-      }
-
-      // Analyze certainty markers
-      const analysis = this.certaintyAnalyzer.analyze(contextText);
-
-      // Only add properties if markers found
-      if (analysis.markerCount > 0) {
-        node['tagteam:certaintyScore'] = Math.round(analysis.certaintyScore * 100) / 100;
-
-        if (analysis.isHedged) {
-          node['tagteam:isHedged'] = true;
-          node['tagteam:hedgeMarkers'] = analysis.hedges.map(h => h.marker);
-        }
-
-        if (analysis.isBoosted) {
-          node['tagteam:isBoosted'] = true;
-          node['tagteam:boosterMarkers'] = analysis.boosters.map(b => b.marker);
-        }
-
-        if (analysis.isEvidential) {
-          node['tagteam:isEvidential'] = true;
-          node['tagteam:evidentialMarkers'] = analysis.evidentials.map(e => ({
-            marker: e.marker,
-            sourceType: e.sourceType
-          }));
-        }
-      }
-    }
   }
 
   /**

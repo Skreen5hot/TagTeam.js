@@ -336,13 +336,11 @@ class RealWorldEntityFactory {
       node['tagteam:introducingPreposition'] = referent['tagteam:introducingPreposition'];
     }
 
-    // ENH-001: Copy type information from referent for consistency
-    if (referent['tagteam:denotesType']) {
-      node['tagteam:denotesType'] = referent['tagteam:denotesType'];
-    }
-    if (referent['tagteam:typeRefinedBy']) {
-      node['tagteam:typeRefinedBy'] = referent['tagteam:typeRefinedBy'];
-    }
+    // ENH-001: denotesType has rdfs:domain :DiscourseReferent — do NOT copy
+    // to Tier 2 nodes (Independent Continuants). The Tier 2 @type already
+    // carries the real-world class (cco:Person, cco:Artifact, etc.).
+    // typeRefinedBy similarly belongs on Tier 1 only.
+
 
     return node;
   }

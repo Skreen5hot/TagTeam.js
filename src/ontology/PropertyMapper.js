@@ -5,7 +5,7 @@
  * @description Phase 6.6 - Property Mapper
  *
  * Maps ontology triples to TagDefinitions using a configurable property map.
- * This is the generalization of ValueNetAdapter's hardcoded vn: property extraction.
+ * Maps arbitrary ontology properties to TagDefinition fields via a configurable property map.
  *
  * Instead of always reading vn:keywords → semanticMarkers, the PropertyMapper
  * reads whatever property the user specifies as the keyword source.

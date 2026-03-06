@@ -8,8 +8,6 @@
  * - DeonticContent / DirectiveInformationContentEntity
  * - ObjectAggregate (bfo:BFO_0000027)
  * - Role realization properties
- * - ValueAssertionEvent, ContextAssessmentEvent (Week 2)
- * - EthicalValueICE, ContextDimensionICE (Week 2)
  * - IBE/ICE concretization linkage (Week 2)
  *
  * @module graph/JSONLDSerializer
@@ -123,16 +121,10 @@ class JSONLDSerializer {
       Empowered:       { '@id': 'tagteam:Empowered' },
       Protected:       { '@id': 'tagteam:Protected' },
 
-      // ─────── TagTeam Classes — Value Detection ───────
+      // ─────── TagTeam Classes — Graph Structure ───────
       DirectiveContent:        { '@id': 'tagteam:DirectiveContent' },
       ScarcityAssertion:       { '@id': 'tagteam:ScarcityAssertion' },
-      ValueDetectionRecord:    { '@id': 'tagteam:ValueDetectionRecord' },
-      ContextAssessmentRecord: { '@id': 'tagteam:ContextAssessmentRecord' },
       InterpretationContext:   { '@id': 'tagteam:InterpretationContext' },
-      ValueAssertionEvent:     { '@id': 'tagteam:ValueAssertionEvent' },
-      ContextAssessmentEvent:  { '@id': 'tagteam:ContextAssessmentEvent' },
-      EthicalValueICE:         { '@id': 'tagteam:EthicalValueICE' },
-      ContextDimensionICE:     { '@id': 'tagteam:ContextDimensionICE' },
 
       // ─────── TagTeam Classes — Curation Workflow ───────
       AutomatedDetection: { '@id': 'tagteam:AutomatedDetection' },

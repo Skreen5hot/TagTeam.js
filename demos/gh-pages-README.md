@@ -1,26 +1,23 @@
-# TagTeam.js - Semantic Parsing & Ethical Value Detection
+# TagTeam.js - Deterministic Semantic Parser
 
-This is an automated deployment of TagTeam.js with modular bundle support.
+This is an automated deployment of TagTeam.js.
 
 ## Pages
 
 - [Interactive Demo](demo.html) - Try TagTeam.js with example scenarios
-- [Separated Bundles Demo](separated-demo.html) - Core + Values modular usage
 - [Test Suite](index.html) - Full validation results
 
 ## Available Bundles
 
 | Bundle | Size | Use Case |
 |--------|------|----------|
-| `tagteam.js` | ~4.8 MB | Combined (backwards compatible) |
-| `tagteam-core.js` | ~4.7 MB | Core parsing only |
-| `tagteam-values.js` | ~138 KB | Values add-on (requires core) |
+| `tagteam.js` | ~5.5 MB | Single-file bundle (models baked in) |
 
 ## Features
 
 - Two-tier semantic architecture (BFO/CCO aligned)
-- 12-dimension context intensity analysis
-- IEE ethical value detection
+- Dependency parsing with semantic role assignment
 - Pattern-based deterministic parsing
+- JSON-LD knowledge graph output
 
 **Built:** Automatically from main branch

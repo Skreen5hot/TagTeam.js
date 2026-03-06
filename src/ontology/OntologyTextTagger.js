@@ -19,14 +19,6 @@ const TurtleParser = require('./TurtleParser.js');
 const OntologyManager = require('./OntologyManager.js');
 const PropertyMapper = require('./PropertyMapper.js');
 
-// Try to load ValueMatcher - may not be available in all contexts
-let ValueMatcher;
-try {
-  ValueMatcher = require('../analyzers/ValueMatcher.js');
-} catch (e) {
-  ValueMatcher = null;
-}
-
 // Try to load Lemmatizer for morphological normalization
 let Lemmatizer;
 try {
@@ -222,44 +214,6 @@ class OntologyTextTagger {
     }
 
     return this.propertyMapper.validate(this._parseResult);
-  }
-
-  /**
-   * Export as ValueMatcher-compatible format
-   * @returns {Object} { values: [...], version, source }
-   */
-  toValueMatcherFormat() {
-    const values = this.tagDefinitions.map(def => ({
-      name: def.label || def.name,
-      domain: this.domain,
-      semanticMarkers: def.keywords,
-      polarityIndicators: {
-        upholding: def.upholdingTerms || [],
-        violating: def.violatingTerms || []
-      },
-      iri: def.iri || def.id,
-      bfoType: def.type
-    }));
-
-    return {
-      values,
-      version: '6.6',
-      source: this.domain,
-      description: `Values converted by OntologyTextTagger (${this.domain})`,
-      generatedAt: new Date().toISOString()
-    };
-  }
-
-  /**
-   * Create a ValueMatcher instance
-   * @returns {Object} ValueMatcher instance
-   * @throws {Error} If ValueMatcher is not available
-   */
-  createValueMatcher() {
-    if (!ValueMatcher) {
-      throw new Error('ValueMatcher is not available. Ensure it is properly imported.');
-    }
-    return new ValueMatcher(this.toValueMatcherFormat());
   }
 
   /**
