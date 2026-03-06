@@ -1,11 +1,11 @@
 # TagTeam.js — Production Readiness Checklist
 
-**Version:** 3.0.5
-**Date:** March 5, 2026
+**Version:** 4.1.0
+**Date:** March 6, 2026
 **Author:** Aaron, Technical Lead / Semantic Architect
 **Status:** Merge to MAIN
-**Branch:** origin/dev (commit `c8f16a7`)
-**Previous:** v3.0.4 at `8839b98`
+**Branch:** origin/dev (commit `3d8b245`)
+**Previous:** v3.0.5 at `c8f16a7`
 **Classification:** INTERNAL — Development Team Distribution Only
 
 ---
@@ -54,10 +54,19 @@ This checklist defines the requirements for merging the dev branch to MAIN, the 
 | `db4ccb4`–`abbe6af` | Ontology enrichment fixes: threshold, landing page, label fallback | — |
 | `13fefea` | OntologyTextTagger: multi-property priority matching with morphological normalization | — |
 | `c8f16a7` | Fix `endsWith` polyfill bug in POSTagger; irregular verb inflection labels | — |
+| `3f04a6d` | Remove values/ethical layer from TagTeam core | 10 values classes + 4 assertion type individuals |
+| `673ebbd` | Bump version to 4.0.0 — values layer removal is a breaking change | — |
+| `18b7473` | Fix CI deploy: remove references to deleted files | — |
+| `4b228f5` | Update demo sites for v4.0 single-bundle architecture | — |
+| `3d8b245` | Consolidate ontology to single tagteam.ttl v4.1.0, fix denotesType domain violation | 1 domain violation (denotesType on Tier 2) |
+
+The v4.0.0 values layer removal (commits `3f04a6d`–`673ebbd`) deleted all ethical/contextual analysis classes: `ValueAssertionEvent`, `ContextAssessmentEvent`, `EthicalValueICE`, `ContextDimensionICE`, `ValueDetectionRecord`, `ContextAssessmentRecord`, `AssertionType`, and 4 assertion type individuals (`AutomatedDetection`, `HumanValidation`, `HumanRejection`, `HumanCorrection`). Associated extractors (`ValueExtractor.js`, `ContextExtractor.js`), tests, demos, and @context entries removed. 48 values-related properties purged from the @context. CI tests: 13 suites, 0 failures.
+
+The ontology consolidation (commit `3d8b245`) merged four overlapping TagTeam TTL files (`tagteam-core.ttl` v1.0.0, `tagteam-v2.ttl` v2.0.0, `tagteam-v3.ttl` v3.0.0, and the prior `tagteam.ttl` v4.0.1) into a single authoritative `ontology/tagteam.ttl` v4.1.0 (106 entities: 14 classes, 20 object properties, 55 datatype properties, 17 named individuals). Zero values classes remain. Three external reference files (~2.8 MB total: `bfo-core.ttl`, `CommonCoreOntologiesMerged-v2.ttl`, `MergedAllCoreOntology-v1.5-2024-02-14.ttl`) and `iri-mapping-v2.0.csv` deleted. The `denotesType` domain violation was fixed: `tagteam:denotesType` (with `rdfs:domain :DiscourseReferent`) was being copied to Tier 2 Independent Continuant nodes by `RealWorldEntityFactory.js`, which would cause OWL reasoner disjointness crashes. Tier 2 `@type` already carries the real-world class.
 
 The OntologyTextTagger priority matching upgrade (commits `d86afdf`–`c8f16a7`) adds a 4-phase matching engine: exact match across rdfs:label → skos:prefLabel → skos:altLabel → skos:notation → skos:hiddenLabel, possessive stripping, lemma matching (regular/irregular plurals, verb inflections via Lemmatizer), and compound possessive+lemma normalization. Three new match provenance fields: `ontologyMatchType`, `ontologyMatchForm`, `ontologyMatchInflection`. Backward compatible — custom keyword property ontologies use legacy matching. The endsWith polyfill bug in jsPOS (POSTagger.js) was discovered and fixed: the polyfill used `indexOf` instead of `lastIndexOf`, causing `"swims".endsWith("s")` to return false. 192 new test assertions (129 priority + 63 integration). `dist/` cleaned back to single-file: `tagteam-core.js` removed (buildable on demand via `--core`). `demos/` synced from `dist/`.
 
-**Result:** Zero phantom IRIs remain in `src/`. Zero fabricated role properties remain. Every IRI in every output graph resolves to a published ontology entry or is declared as `tagteam:` namespace. Tier 1/Tier 2 type separation is enforced — no OWL disjointness violations. Single-file architecture: one artifact, zero external dependencies, zero setup. StructuralAssertions promoted to formal Tier 2 triples with IRI references and OWL NPA support.
+**Result:** Zero phantom IRIs remain in `src/`. Zero fabricated role properties remain. Every IRI in every output graph resolves to a published ontology entry or is declared as `tagteam:` namespace. Tier 1/Tier 2 type separation is enforced — no OWL disjointness violations. Single-file architecture: one artifact, zero external dependencies, zero setup. StructuralAssertions promoted to formal Tier 2 triples with IRI references and OWL NPA support. Values/ethical layer fully removed. Ontology consolidated to single authoritative file (`tagteam.ttl` v4.1.0, 106 entities). `denotesType` domain violation fixed — Tier 2 nodes no longer carry Tier 1-only properties.
 
 ---
 
@@ -67,25 +76,25 @@ The OntologyTextTagger priority matching upgrade (commits `d86afdf`–`c8f16a7`)
 
 ### 1.1 IRI Integrity Verification
 
-- [ ] **FT-06: JSON-LD round-trip test.** Create an automated test that loads a sample graph, calls `jsonld.expand()`, and verifies every expanded IRI matches a published BFO 2020 or CCO 2.0 entry. This is the definitive test — it's what any downstream consumer will do. Install `jsonld` via npm and add to the CI pipeline. *(Not yet automated — verified manually at `b6a7896`. Filed as FT-06 for next maintenance cycle.)*
+- [ ] **FT-06: JSON-LD round-trip test.** Create an automated test that loads a sample graph, calls `jsonld.expand()`, and verifies every expanded IRI matches a published BFO 2020 or CCO 2.0 entry. This is the definitive test — it's what any downstream consumer will do. Install `jsonld` via npm and add to the CI pipeline. *(Not yet automated — verified manually at `b6a7896` and `3d8b245`. Filed as FT-06 for next maintenance cycle.)*
 
-- [ ] **FT-07: Grep CI gate.** Run the full grep verification suite (see Appendix A) in CI. Every pattern must return zero matches in `src/` excluding comments and @context alias targets. Fail the build if any match is found. *(Not yet automated — verified manually at `b6a7896`. Filed as FT-07 for next maintenance cycle.)*
+- [ ] **FT-07: Grep CI gate.** Run the full grep verification suite (see Appendix A) in CI. Every pattern must return zero matches in `src/` excluding comments and @context alias targets. Fail the build if any match is found. *(Not yet automated — verified manually at `3d8b245`: all hits are in comments only, zero in executable code.)*
 
 - [x] **@context freeze policy.** Any future addition to the @context must include the verified opaque IRI and a comment citing the source (BFO OWL line number or CCO CSV line number). Undocumented additions are not permitted. *(Established by convention. The v2.2 audit documents all additions with verified IRIs in the audit ledger and restructured JSON reference.)*
 
 ### 1.2 Build Artifact Integrity
 
-- [x] **Demo bundle sync.** Verify `demos/tagteam.js` matches `dist/tagteam.js` by checksum. Add a CI step that compares the two files and fails on mismatch. *(Re-verified at `c8f16a7`: checksum `febb53eb11720e6df1d813cdedab701a`. Stale demos/tagteam-core.js, demos/tagteam-values.js, demos/models/ removed. CI step not yet automated.)*
+- [x] **Demo bundle sync.** Verify `demos/tagteam.js` matches `dist/tagteam.js` by checksum. Add a CI step that compares the two files and fails on mismatch. *(Re-verified at `3d8b245`. Stale demos/tagteam-core.js, demos/tagteam-values.js, demos/models/ removed. CI step not yet automated.)*
 
-- [x] **Single-file architecture.** Verify `dist/` contains only `tagteam.js`, `standalone-demo.html`, and `test.html` — no `models/` directory, no `tagteam-core.js`, no `tagteam-values.js`. Models (POS weights, dep weights, calibration, gazetteers) are baked into the bundle at build time. `TagTeam.areModelsLoaded()` must return `true` immediately without calling `loadModels()`. `dist/standalone-demo.html` must parse text via `file:///` with zero network requests. *(Re-verified at `c8f16a7`: dist/ contains exactly tagteam.js + standalone-demo.html + test.html. tagteam-core.js removed — dev-time artifact, buildable on demand via `--core`. 11.67 MB bundle. areModelsLoaded() returns true.)*
+- [x] **Single-file architecture.** Verify `dist/` contains only `tagteam.js`, `standalone-demo.html`, and `test.html` — no `models/` directory, no `tagteam-core.js`, no `tagteam-values.js`. Models (POS weights, dep weights, calibration, gazetteers) are baked into the bundle at build time. `TagTeam.areModelsLoaded()` must return `true` immediately without calling `loadModels()`. `dist/standalone-demo.html` must parse text via `file:///` with zero network requests. *(Re-verified at `3d8b245`: dist/ contains exactly tagteam.js + standalone-demo.html + test.html. areModelsLoaded() returns true.)*
 
-- [x] **Gold baseline evaluation.** Run `npm run gold:evaluate`. Zero mismatches required. *(Re-verified at `c8f16a7`: Entity F1 89.6%, Role F1 55.0%, 0 mismatches.)*
+- [x] **Gold baseline evaluation.** Run `npm run gold:evaluate`. Zero mismatches required. *(Re-verified at `3d8b245`: Entity F1 89.6%, Role F1 57.8%, 0 mismatches.)*
 
 ### 1.3 Test Suite
 
-- [x] **CI tests: all phases passing, 0 failures.** *(Re-verified at `c8f16a7`: 13 suites, 0 failures. Includes new ontology tagger priority matching tests (129 assertions) and core bundle integration tests (TC-I01–TC-I07).)*
+- [x] **CI tests: all phases passing, 0 failures.** *(Re-verified at `3d8b245`: 13 suites, 0 failures. Includes values removal, ontology consolidation, and denotesType domain violation fix.)*
 
-- [x] **Component tests: 42/100 baseline maintained.** No regression from the pre-audit baseline (was 30, improved to 42 via HEAD_NOUN_TYPE_MAP and TreeEntityExtractor fixes). *(Re-verified at `c8f16a7`: 42/100, 0 errors.)*
+- [x] **Component tests: 42/100 baseline maintained.** No regression from the pre-audit baseline (was 30, improved to 42 via HEAD_NOUN_TYPE_MAP and TreeEntityExtractor fixes). *(Re-verified at `3d8b245`: 42/100, 0 errors.)*
 
 ---
 
@@ -119,7 +128,7 @@ The OntologyTextTagger priority matching upgrade (commits `d86afdf`–`c8f16a7`)
 
 - [ ] **Version pinning with source hashes.** Declare the exact ontology versions in build metadata including the Git commit hash of each source TTL file used during the build. Specifically: BFO 2020 `bfo-core.ttl` (commit hash from the BFO GitHub repository) and CCO 2.0 (release tag plus commit hash of the merged OWL file). If CCO releases a 2.1 that renumbers opaque IRIs, the team must know immediately and be able to diff against the pinned version.
 
-- [x] **`tagteam.ttl` creation.** Create a formal OWL file defining all ~60 `tagteam:` namespace properties and classes. This is required for Fandaws and any downstream consumer to reason over TagTeam output. Each property should have `rdfs:label`, `rdfs:comment`, and domain/range declarations. *(Done: `ontology/tagteam-v3.ttl`, 341 lines, 28 subjects with full axioms. Added to @context in `10b1817`.)*
+- [x] **`tagteam.ttl` creation.** Create a formal OWL file defining all `tagteam:` namespace properties and classes. This is required for Fandaws and any downstream consumer to reason over TagTeam output. Each property should have `rdfs:label`, `rdfs:comment`, and domain/range declarations. *(Consolidated at `3d8b245`: `ontology/tagteam.ttl` v4.1.0, 106 entities with full axioms. Split files `tagteam-core.ttl`, `tagteam-v2.ttl`, `tagteam-v3.ttl` deleted. Zero values classes. External reference files removed.)*
 
 - [ ] **`measures` alias documentation.** The `measures` alias maps to CCO's "is a measurement of" (`ont00001966`), not the English verb "measures." Add a comment in the @context and include a note in the API documentation. This directly affects how consumers interpret the data output and must be clarified before any external use.
 
@@ -373,7 +382,7 @@ Complete mapping of all ontology-sourced aliases in the @context as of commit `b
 
 ### tagteam: Namespace — v3 Ontology Terms (27)
 
-*Defined in `ontology/tagteam-v3.ttl`. Added to @context in `10b1817`.*
+*Defined in `ontology/tagteam.ttl` (consolidated v4.1.0). Added to @context in `10b1817`.*
 
 **Classes (6):**
 
@@ -414,7 +423,7 @@ Complete mapping of all ontology-sourced aliases in the @context as of commit `b
 
 | Alias | @id | Typing | Added |
 |-------|-----|--------|-------|
-| `denotesType` | `tagteam:denotesType` | — | **tier-sep** *(ontological type metadata on Tier 1 DiscourseReferent nodes)* |
+| `denotesType` | `tagteam:denotesType` | — | **tier-sep** *(ontological type metadata on Tier 1 DiscourseReferent nodes only — `rdfs:domain :DiscourseReferent`, not emitted on Tier 2; fixed at `3d8b245`)* |
 | `clauseIndex` | `tagteam:clauseIndex` | `xsd:integer` | v3 |
 | `subjectSource` | `tagteam:subjectSource` | — | v3 |
 | `whPhrase` | `tagteam:whPhrase` | — | v3 |
@@ -435,7 +444,7 @@ Complete mapping of all ontology-sourced aliases in the @context as of commit `b
 
 ### FT-03: StructuralAssertion Provenance Properties (3)
 
-*Added to @context in `9c9dfac`. Defined in `ontology/tagteam-v3.ttl`.*
+*Added to @context in `9c9dfac`. Defined in `ontology/tagteam.ttl` (consolidated v4.1.0).*
 
 | Alias | @id | Typing | Purpose |
 |-------|-----|--------|---------|
