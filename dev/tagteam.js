@@ -302364,13 +302364,11 @@ class RealWorldEntityFactory {
       node['tagteam:introducingPreposition'] = referent['tagteam:introducingPreposition'];
     }
 
-    // ENH-001: Copy type information from referent for consistency
-    if (referent['tagteam:denotesType']) {
-      node['tagteam:denotesType'] = referent['tagteam:denotesType'];
-    }
-    if (referent['tagteam:typeRefinedBy']) {
-      node['tagteam:typeRefinedBy'] = referent['tagteam:typeRefinedBy'];
-    }
+    // ENH-001: denotesType has rdfs:domain :DiscourseReferent — do NOT copy
+    // to Tier 2 nodes (Independent Continuants). The Tier 2 @type already
+    // carries the real-world class (cco:Person, cco:Artifact, etc.).
+    // typeRefinedBy similarly belongs on Tier 1 only.
+
 
     return node;
   }
@@ -325946,7 +325944,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 268 | 4b228f5 | 2026-03-06T09:37:47.982Z',
+    BUILD: 'build 268 | 3d8b245 | 2026-03-06T11:49:39.060Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
