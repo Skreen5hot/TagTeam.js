@@ -216,7 +216,6 @@
       <li><strong>WHO</strong> is involved (a doctor, two patients)</li>
       <li><strong>WHAT</strong> action is being discussed (prioritizing)</li>
       <li><strong>WHETHER</strong> it's required or optional ("should" = obligation?)</li>
-      <li><strong>WHAT VALUES</strong> are at stake (fairness? efficiency?)</li>
     </ul>
 
     <p style="margin-top: 30px;">Computers? <span class="bad">They just see a string of characters.</span></p>
@@ -226,7 +225,7 @@
 <!-- SLIDE 3: Why It Matters -->
 <div class="slide" id="slide3">
   <div class="card">
-    <h2>Why This Matters for Ethics</h2>
+    <h2>Why This Matters</h2>
 
     <div class="dilemma-box">
       <h4>Consider This Real Scenario:</h4>
@@ -251,7 +250,7 @@
     </div>
 
     <p style="margin-top: 20px; font-weight: bold; color: #c53030;">
-      Current AI systems pick one reading and pretend the ambiguity doesn't exist.
+      Current AI systems pick one reading and discard the ambiguity.
     </p>
   </div>
 </div>
@@ -276,8 +275,6 @@
       <span class="output-warning">⚠ AMBIGUITY DETECTED:</span><br>
       &nbsp;&nbsp;• Reading 1: <span class="output-value">Obligation</span> (70% likely)<br>
       &nbsp;&nbsp;• Reading 2: <span class="output-value">Expectation</span> (30% likely)<br>
-      <br>
-      <span class="output-label">Values at stake:</span> <span class="output-value">Fairness, Efficiency</span>
     </div>
 
     <p style="margin-top: 20px;">
@@ -296,7 +293,7 @@
         <h3>Without TagTeam</h3>
         <ul style="padding-left: 20px; color: #666;">
           <li>AI makes hidden assumptions</li>
-          <li>Ethical nuance is lost</li>
+          <li>Linguistic nuance is lost</li>
           <li>Humans can't audit AI reasoning</li>
           <li>Errors are invisible</li>
         </ul>
@@ -327,7 +324,7 @@
     <h2>Try It Yourself</h2>
 
     <div class="interactive-demo">
-      <textarea id="demo-input" rows="3" placeholder="Enter a sentence about an ethical dilemma...">The nurse must decide whether to inform the family about the diagnosis.</textarea>
+      <textarea id="demo-input" rows="3" placeholder="Enter a sentence to analyze...">The nurse must decide whether to inform the family about the diagnosis.</textarea>
       <br>
       <button onclick="runDemo()">Analyze This Sentence</button>
       <label style="display: inline-flex; align-items: center; gap: 6px; margin-left: 10px; font-size: 0.9em; color: #666; cursor: pointer;">
@@ -348,10 +345,6 @@
       <div>
         <div class="big-number">475+</div>
         <p>Tests Passing</p>
-      </div>
-      <div>
-        <div class="big-number">50</div>
-        <p>Ethical Values Detected</p>
       </div>
       <div>
         <div class="big-number">100%</div>
@@ -381,7 +374,7 @@
     <div style="background: #f7fafc; padding: 30px; border-radius: 12px; margin-top: 40px;">
       <p style="margin: 0; color: #667eea; font-weight: bold;">Key Takeaway:</p>
       <p style="margin: 10px 0 0 0; font-size: 1.2em;">
-        We're building infrastructure that makes AI-assisted ethical analysis <strong>transparent and trustworthy</strong>.
+        We're building infrastructure that makes AI-assisted text analysis <strong>transparent and trustworthy</strong>.
       </p>
     </div>
   </div>
