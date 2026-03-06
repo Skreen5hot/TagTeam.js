@@ -10,44 +10,46 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 
 # =============================================================================
-# TagTeam Ontology (Combined)
+# TagTeam Semantic Parsing Ontology
 # =============================================================================
 #
-# COMBINED ONTOLOGY - includes both core parsing and value detection vocabulary.
-# For modular usage, see:
-# - tagteam-core.ttl   - Core parsing vocabulary only
-# - tagteam-values.ttl - Value detection vocabulary (imports core)
+# A unified ontology for domain-neutral semantic parsing that extends
+# BFO 2020 (ISO 21838-2:2020) and Common Core Ontologies (CCO).
 #
-# An extension ontology for BFO and CCO that provides vocabulary for:
-# - Natural language parsing artifacts (Tier 1: DiscourseReferent, VerbPhrase)
-# - Assertion events and confidence tracking
-# - Deontic modality (obligation, permission, prohibition)
-# - Scarcity detection
-# - Value and context assessment
+# Provides vocabulary for:
+#   - Natural language parsing artifacts (DiscourseReferent, VerbPhrase)
+#   - Speech act typing and clause segmentation
+#   - Structural assertion provenance (FT-03)
+#   - Deontic modality (obligation, permission, prohibition)
+#   - Scarcity detection
+#   - Actuality status tracking
+#   - Ontology match annotations
+#   - BFO/CCO bridge properties with near-miss documentation
 #
-# Alignment:
-# - BFO 2020 (ISO 21838-2:2020)
-# - Common Core Ontologies (CCO)
+# Consolidates previous tagteam-core (v1.0.0), tagteam-v2 (v2.0.0),
+# and tagteam-v3 (v3.0.0) into a single authoritative file.
 #
-# Version: 4.0.1 (combined), see also core v1.0.0 and values v1.0.0
+# Version: 4.1.0
+# License: CC-BY-4.0
 # =============================================================================
 
 <http://tagteam.fandaws.org/ontology/>
     a owl:Ontology ;
-    owl:versionIRI <http://tagteam.fandaws.org/ontology/4.0.1/> ;
-    owl:versionInfo "4.0.1"^^xsd:string ;
-    dc:title "TagTeam Ontology"@en ;
-    dc:description "An extension ontology for BFO and CCO providing vocabulary for natural language parsing, assertion events, deontic modality, and ethical value detection."@en ;
+    owl:versionIRI <http://tagteam.fandaws.org/ontology/4.1.0/> ;
+    owl:versionInfo "4.1.0"^^xsd:string ;
+    dc:title "TagTeam Semantic Parsing Ontology"@en ;
+    dc:description "A unified ontology for domain-neutral semantic parsing with BFO/CCO alignment. Provides vocabulary for parsing artifacts, speech acts, clause segmentation, structural assertions, deontic modality, scarcity detection, and ontology matching."@en ;
     dc:creator "TagTeam Development Team"@en ;
     dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
     dcterms:created "2024-01-01"^^xsd:date ;
-    dcterms:modified "2026-01-22"^^xsd:date ;
-    rdfs:comment "TagTeam extends BFO and CCO to support semantic graph construction from natural language text, with particular focus on ethical discourse analysis."@en ;
-    owl:imports <http://purl.obolibrary.org/obo/bfo/2020/bfo.owl> .
+    dcterms:modified "2026-03-06"^^xsd:date ;
+    rdfs:comment "Consolidated from tagteam-core v1.0.0, tagteam-v2 v2.0.0, and tagteam-v3 v3.0.0. Values/ethical layer removed in v4.0.0; see packages/iee-values/ for standalone reference."@en ;
+    owl:imports <http://purl.obolibrary.org/obo/bfo.owl> ,
+                <https://www.commoncoreontologies.org/> .
 
 
 # =============================================================================
-# CLASSES - Tier 1 Parsing Layer (Information Content Entities)
+# CLASSES — Tier 1 Parsing Layer (Information Content Entities)
 # =============================================================================
 
 :DiscourseReferent
@@ -55,7 +57,7 @@
     rdfs:subClassOf cco:InformationContentEntity ;
     rdfs:label "Discourse Referent"@en ;
     skos:prefLabel "Discourse Referent"@en ;
-    skos:definition "An information content entity that denotes a linguistic reference to an entity mentioned in text."@en ;
+    skos:definition "A Tier 1 information content entity that represents a mention of an entity in discourse. Links to its Tier 2 real-world referent via cco:is_about."@en ;
     rdfs:comment "In the two-tier architecture, DiscourseReferents (Tier 1) are linked to real-world entities like cco:Person (Tier 2) via the denotesType property."@en ;
     skos:example "The text 'the doctor' creates a DiscourseReferent that denotesType cco:Person."@en .
 
@@ -90,29 +92,6 @@
     skos:definition "An information content entity that denotes the insufficient availability of a resource relative to demand for that resource."@en ;
     skos:example "The phrase 'the last ventilator' triggers creation of a ScarcityAssertion."@en .
 
-
-# =============================================================================
-# CLASSES - Value and Context Assessment
-# =============================================================================
-
-:ValueDetectionRecord
-    a owl:Class ;
-    rdfs:subClassOf cco:InformationContentEntity ;
-    rdfs:label "Value Detection Record"@en ;
-    skos:prefLabel "Value Detection Record"@en ;
-    skos:definition "A record of an ethical value detected in text through pattern matching or semantic analysis."@en ;
-    owl:deprecated "true"^^xsd:boolean ;
-    rdfs:comment "Deprecated: Use ValueAssertionEvent instead for GIT-Minimal compliance."@en .
-
-:ContextAssessmentRecord
-    a owl:Class ;
-    rdfs:subClassOf cco:InformationContentEntity ;
-    rdfs:label "Context Assessment Record"@en ;
-    skos:prefLabel "Context Assessment Record"@en ;
-    skos:definition "A record of context dimension scores assessed from text analysis."@en ;
-    owl:deprecated "true"^^xsd:boolean ;
-    rdfs:comment "Deprecated: Use ContextAssessmentEvent instead for GIT-Minimal compliance."@en .
-
 :InterpretationContext
     a owl:Class ;
     rdfs:subClassOf cco:InformationContentEntity ;
@@ -123,7 +102,7 @@
 
 
 # =============================================================================
-# CLASSES - Speech Acts (from v2)
+# CLASSES — Speech Acts
 # =============================================================================
 
 :SpeechAct
@@ -133,79 +112,55 @@
     skos:prefLabel "Speech Act"@en ;
     skos:definition "An information content entity that denotes the illocutionary force of an utterance."@en .
 
-
-# =============================================================================
-# CLASSES - Assertion Events (Week 2: GIT-Minimal Compliance)
-# =============================================================================
-
-:ValueAssertionEvent
+:Inquiry
     a owl:Class ;
     rdfs:subClassOf :SpeechAct ;
-    rdfs:label "Value Assertion Event"@en ;
-    skos:prefLabel "Value Assertion Event"@en ;
-    skos:definition "A speech act that expresses a judgment about the worth, quality, or significance of some entity."@en ;
-    rdfs:comment "Aligned with tagteam-v2.ttl definition. For the process of detecting values, use detection event patterns with :detected_by and :assertionType."@en .
+    rdfs:label "Inquiry"@en ;
+    skos:prefLabel "Inquiry"@en ;
+    skos:definition "A speech act that requests information by wrapping an interrogative act."@en .
 
-:ContextAssessmentEvent
+:ConditionalContent
     a owl:Class ;
-    rdfs:subClassOf bfo:BFO_0000015 ;  # process
-    rdfs:label "Context Assessment Event"@en ;
-    skos:prefLabel "Context Assessment Event"@en ;
-    skos:definition "A process in which an agent evaluates a situational dimension and assigns a score to that dimension."@en .
-
-:EthicalValueICE
-    a owl:Class ;
-    rdfs:subClassOf cco:InformationContentEntity ;
-    rdfs:label "Ethical Value ICE"@en ;
-    skos:prefLabel "Ethical Value Information Content Entity"@en ;
-    skos:definition "An information content entity that denotes a moral principle or standard (such as autonomy, beneficence, or justice) that guides conduct and decision-making."@en .
-
-:ContextDimensionICE
-    a owl:Class ;
-    rdfs:subClassOf cco:InformationContentEntity ;
-    rdfs:label "Context Dimension ICE"@en ;
-    skos:prefLabel "Context Dimension Information Content Entity"@en ;
-    skos:definition "An Information Content Entity that denotes an evaluative aspect of a situational circumstance along which assessments can be made."@en .
+    rdfs:subClassOf :SpeechAct ;
+    rdfs:label "Conditional Content"@en ;
+    skos:prefLabel "Conditional Content"@en ;
+    skos:definition "A speech act that denotes a condition-consequence relationship where the truth or occurrence of one proposition depends upon the truth or occurrence of another proposition."@en .
 
 
 # =============================================================================
-# CLASSES - Assertion Types (GIT-Minimal)
+# CLASSES — Structural
 # =============================================================================
 
-:AssertionType
+:ClauseRelation
+    a owl:Class ;
+    rdfs:label "Clause Relation"@en ;
+    skos:prefLabel "Clause Relation"@en ;
+    skos:definition "A structural connection that links two grammatical units within a compound or complex sentence."@en .
+
+:CausativeAct
+    a owl:Class ;
+    rdfs:subClassOf cco:IntentionalAct ;
+    rdfs:label "Causative Act"@en ;
+    skos:prefLabel "Causative Act"@en ;
+    skos:definition "An intentional behavior that brings about another agent's performance of an action."@en .
+
+:StructuralAssertion
     a owl:Class ;
     rdfs:subClassOf cco:InformationContentEntity ;
-    rdfs:label "Assertion Type"@en ;
-    skos:prefLabel "Assertion Type"@en ;
-    skos:definition "An Information Content Entity that denotes a category specifying the provenance and validation status of declarative statements."@en .
+    rdfs:label "Structural Assertion"@en ;
+    skos:prefLabel "Structural Assertion"@en ;
+    skos:definition "A detected structural relation between entities from copular or stative sentence patterns. Serves as Tier 1 provenance for the corresponding Tier 2 inter-entity triple."@en .
 
-:AutomatedDetection
-    a owl:NamedIndividual, :AssertionType ;
-    rdfs:label "Automated Detection"@en ;
-    skos:prefLabel "Automated Detection"@en ;
-    skos:definition "An assertion type that denotes assertions made by computational systems without human validation."@en .
-
-:HumanValidation
-    a owl:NamedIndividual, :AssertionType ;
-    rdfs:label "Human Validation"@en ;
-    skos:prefLabel "Human Validation"@en ;
-    skos:definition "An assertion type that denotes assertions which have been confirmed as accurate by a person."@en .
-
-:HumanRejection
-    a owl:NamedIndividual, :AssertionType ;
-    rdfs:label "Human Rejection"@en ;
-    skos:prefLabel "Human Rejection"@en ;
-    skos:definition "An assertion type that denotes an assertion has been rejected by a person reviewer as incorrect."@en .
-
-:HumanCorrection
-    a owl:NamedIndividual, :AssertionType ;
-    rdfs:label "Human Correction"@en ;
-    skos:prefLabel "Human Correction"@en ;
-    skos:definition "An assertion type that denotes an assertion has been modified by a person to supersede a previous assertion."@en .
+:NegatedStructuralAssertion
+    a owl:Class ;
+    rdfs:subClassOf :StructuralAssertion ;
+    rdfs:label "Negated Structural Assertion"@en ;
+    skos:prefLabel "Negated Structural Assertion"@en ;
+    skos:definition "A detected structural relation that the text explicitly denies. Corresponds to an owl:NegativePropertyAssertion on Tier 2."@en .
 
 
 # =============================================================================
-# CLASSES - Actuality Status (Deontic/Temporal)
+# CLASSES — Actuality Status (Deontic/Temporal)
 # =============================================================================
 
 :ActualityStatus
@@ -263,9 +218,15 @@
     skos:definition "An actuality status that denotes the explicit denial or contradiction of an act's occurrence in the text."@en ;
     rdfs:comment "Corresponds to negation markers like 'not', 'never', 'won't'."@en .
 
+:Interrogative
+    a owl:NamedIndividual, :ActualityStatus ;
+    rdfs:label "Interrogative"@en ;
+    skos:prefLabel "Interrogative"@en ;
+    skos:definition "An actuality status that denotes the event is being questioned."@en .
+
 
 # =============================================================================
-# CLASSES - Default Context
+# NAMED INDIVIDUALS — Default Context
 # =============================================================================
 
 :Default_Context
@@ -276,63 +237,86 @@
 
 
 # =============================================================================
-# OBJECT PROPERTIES - Parsing Relations
+# NAMED INDIVIDUALS — Clause Relation Types
 # =============================================================================
 
-:has_component
-    a owl:ObjectProperty ;
-    rdfs:label "has component"@en ;
-    skos:prefLabel "has component"@en ;
-    skos:definition "A relation that holds between a complex linguistic structure and a constituent part of that structure."@en ;
-    rdfs:domain cco:InformationContentEntity ;
-    rdfs:range cco:InformationContentEntity .
+:and_then
+    a owl:NamedIndividual, :ClauseRelation ;
+    rdfs:label "and then"@en ;
+    skos:prefLabel "and then"@en ;
+    skos:definition "A clause relation denoting sequential coordination where clause A is followed by clause B."@en .
 
-:extracted_from
-    a owl:ObjectProperty ;
-    rdfs:label "extracted from"@en ;
-    skos:prefLabel "extracted from"@en ;
-    skos:definition "An object property that relates an information content entity to the discourse referent that bears the information content denoted by that entity."@en ;
-    rdfs:domain cco:InformationContentEntity ;
-    rdfs:range :DiscourseReferent .
+:therefore
+    a owl:NamedIndividual, :ClauseRelation ;
+    rdfs:label "therefore"@en ;
+    skos:prefLabel "therefore"@en ;
+    skos:definition "A clause relation denoting that clause B is a consequence of clause A."@en .
 
-:corefersWith
-    a owl:ObjectProperty ;
-    rdfs:label "corefers with"@en ;
-    skos:prefLabel "corefers with"@en ;
-    skos:definition "An object property that relates two discourse referents that denote the same entity."@en ;
-    rdfs:domain :DiscourseReferent ;
-    rdfs:range :DiscourseReferent ;
-    rdf:type owl:SymmetricProperty .
+:in_order_that
+    a owl:NamedIndividual, :ClauseRelation ;
+    rdfs:label "in order that"@en ;
+    skos:prefLabel "in order that"@en ;
+    skos:definition "A clause relation denoting a purposive connection where one clause expresses the goal or intended outcome of another clause."@en .
 
-:describes_quality
-    a owl:ObjectProperty ;
-    rdfs:label "describes quality"@en ;
-    skos:prefLabel "describes quality"@en ;
-    skos:definition "An object property that relates a discourse referent to a BFO qualitative characteristic that the discourse referent linguistically denotes."@en ;
-    rdfs:comment """Phase 5 Addition (per CCO Expert Review):
-This property enables mapping from linguistic qualifiers to formal BFO qualities.
-For example, 'critically ill patient' would have:
-  - DiscourseReferent for 'patient' with :describes_quality linking to
-  - bfo:Quality that inheres in the Patient
+:contrasts_with
+    a owl:NamedIndividual, :ClauseRelation ;
+    rdfs:label "contrasts with"@en ;
+    skos:prefLabel "contrasts with"@en ;
+    skos:definition "A clause relation denoting that clause B presents information that differs from or opposes the information presented in clause A."@en .
 
-This is essential for reasoning about the physical states described by adjectives,
-not just recording them as text strings in :qualifierText."""@en ;
-    rdfs:domain :DiscourseReferent ;
-    rdfs:range bfo:BFO_0000019 .  # quality
+:alternative_to
+    a owl:NamedIndividual, :ClauseRelation ;
+    rdfs:label "alternative to"@en ;
+    skos:prefLabel "alternative to"@en ;
+    skos:definition "A clause relation denoting that clause B is a substitute option for clause A."@en .
 
 
 # =============================================================================
-# OBJECT PROPERTIES - Role and Act Relations
+# NAMED INDIVIDUALS — Temporal Relations
+# =============================================================================
+
+:precedes
+    a owl:NamedIndividual ;
+    rdfs:label "precedes"@en ;
+    skos:prefLabel "precedes"@en ;
+    skos:definition "A temporal relation denoting that the source event occurs before the target event."@en .
+
+:follows
+    a owl:NamedIndividual ;
+    rdfs:label "follows"@en ;
+    skos:prefLabel "follows"@en ;
+    skos:definition "A temporal relation denoting that the source event occurs after the target event."@en .
+
+:simultaneous_with
+    a owl:NamedIndividual ;
+    rdfs:label "simultaneous with"@en ;
+    skos:prefLabel "simultaneous with"@en ;
+    skos:definition "A temporal relation denoting that the events occur at the same time."@en .
+
+
+# =============================================================================
+# OBJECT PROPERTIES — BFO Bridged (Audit §3.3)
+# =============================================================================
+
+:has_function
+    a owl:ObjectProperty ;
+    rdfs:subPropertyOf bfo:BFO_0000196 ;  # BFO 2020 bearer_of
+    rdfs:label "has function"@en ;
+    skos:prefLabel "has function"@en ;
+    skos:definition "An object property relating an independent continuant to a function that inheres in it."@en .
+
+
+# =============================================================================
+# OBJECT PROPERTIES — Domain-Specific (Audit §3–4, §8)
 # =============================================================================
 
 :would_be_realized_in
     a owl:ObjectProperty ;
     rdfs:label "would be realized in"@en ;
     skos:prefLabel "would be realized in"@en ;
-    skos:definition "An object property that relates a role to a process type such that the role has the disposition to be actualized during instances of that process type under appropriate conditions."@en ;
-    rdfs:comment """Extends BFO's realized_in (BFO_0000054) for non-actual processes.
-
-USAGE CONSTRAINT (per CCO Expert Review):
+    skos:definition "An object property relating a realizable entity to a process type in which it would be realized under counterfactual conditions."@en ;
+    skos:scopeNote "Denotes counterfactual realization. BFO realizes/realized_in is reserved for actual events only."@en ;
+    rdfs:comment """USAGE CONSTRAINT (per CCO Expert Review):
 This property MUST ONLY be used when the target process has an actualityStatus
 other than :Actual (i.e., :Prescribed, :Permitted, :Prohibited, :Hypothetical,
 :Planned, or :Negated). Using this property with an :Actual process violates
@@ -345,6 +329,61 @@ Correct usage:
 This prevents over-generation of potentiality in factual graphs."""@en ;
     rdfs:domain bfo:BFO_0000023 ;  # role
     rdfs:range bfo:BFO_0000015 .   # process
+
+:extracted_from
+    a owl:ObjectProperty ;
+    rdfs:label "extracted from"@en ;
+    skos:prefLabel "extracted from"@en ;
+    skos:definition "An object property relating a parse artifact to the source text span from which it was produced by an NLP process."@en ;
+    rdfs:domain cco:InformationContentEntity ;
+    rdfs:range :DiscourseReferent .
+
+:has_component
+    a owl:ObjectProperty ;
+    rdfs:label "has component"@en ;
+    skos:prefLabel "has component"@en ;
+    skos:definition "An object property relating a linguistic structure to a constituent grammatical unit it contains."@en ;
+    skos:scopeNote "Denotes linguistic or structural composition (e.g., VerbPhrase contains NounPhrase). STRICTLY NOT BFO mereological parthood (has_continuant_part BFO_0000178)."@en ;
+    rdfs:domain cco:InformationContentEntity ;
+    rdfs:range cco:InformationContentEntity .
+
+:supersedes
+    a owl:ObjectProperty ;
+    rdfs:label "supersedes"@en ;
+    skos:prefLabel "supersedes"@en ;
+    skos:definition "An object property relating a document or validation record to the prior version it replaces."@en ;
+    skos:scopeNote "Denotes document or validation record versioning. Distinct from CCO is_successor_of (cco:ont00001775), which implies a manufacturing/process chain."@en .
+
+:describes_quality
+    a owl:ObjectProperty ;
+    rdfs:label "describes quality"@en ;
+    skos:prefLabel "describes quality"@en ;
+    skos:definition "An object property relating a discourse referent to the quality it characterizes in the source text."@en ;
+    skos:scopeNote "Links a DiscourseReferent to a Quality. Distinct from CCO describes (cco:ont00001982), which has domain DescriptiveICE."@en ;
+    rdfs:comment """Phase 5 Addition (per CCO Expert Review):
+This property enables mapping from linguistic qualifiers to formal BFO qualities.
+For example, 'critically ill patient' would have:
+  - DiscourseReferent for 'patient' with :describes_quality linking to
+  - bfo:Quality that inheres in the Patient
+
+This is essential for reasoning about the physical states described by adjectives,
+not just recording them as text strings in :qualifierText."""@en ;
+    rdfs:domain :DiscourseReferent ;
+    rdfs:range bfo:BFO_0000019 .  # quality
+
+:corefersWith
+    a owl:ObjectProperty ;
+    rdfs:label "corefers with"@en ;
+    skos:prefLabel "corefers with"@en ;
+    skos:definition "An object property that relates two discourse referents that denote the same entity."@en ;
+    rdfs:domain :DiscourseReferent ;
+    rdfs:range :DiscourseReferent ;
+    rdf:type owl:SymmetricProperty .
+
+
+# =============================================================================
+# OBJECT PROPERTIES — Role and Act Relations
+# =============================================================================
 
 :actualityStatus
     a owl:ObjectProperty ;
@@ -375,68 +414,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
 
 
 # =============================================================================
-# OBJECT PROPERTIES - Assertion Event Relations (GIT-Minimal)
-# =============================================================================
-
-:asserts
-    a owl:ObjectProperty ;
-    rdfs:label "asserts"@en ;
-    skos:prefLabel "asserts"@en ;
-    skos:definition "A relation that holds between an assertion event and an information content entity that is the propositional content of that event."@en ;
-    rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
-    rdfs:range cco:InformationContentEntity .
-
-:detected_by
-    a owl:ObjectProperty ;
-    rdfs:label "detected by"@en ;
-    skos:prefLabel "detected by"@en ;
-    skos:definition "An object property that relates an assertion event to the agent that is the detector of the content of that assertion."@en ;
-    rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
-    rdfs:range cco:Agent .
-
-:based_on
-    a owl:ObjectProperty ;
-    rdfs:label "based on"@en ;
-    skos:prefLabel "based on"@en ;
-    skos:definition "An object property that relates an assertion event to the information bearing entity that serves as the evidential foundation for that assertion."@en ;
-    rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
-    rdfs:range cco:InformationBearingEntity .
-
-:assertionType
-    a owl:ObjectProperty ;
-    rdfs:label "assertion type"@en ;
-    skos:prefLabel "assertion type"@en ;
-    skos:definition "An object property that relates a declarative information content entity to the process classification that brought about that entity."@en ;
-    rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
-    rdfs:range :AssertionType .
-
-:validInContext
-    a owl:ObjectProperty ;
-    rdfs:label "valid in context"@en ;
-    skos:prefLabel "valid in context"@en ;
-    skos:definition "An object property that relates an assertion to the interpretation framework under which that assertion holds true."@en ;
-    rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
-    rdfs:range :InterpretationContext .
-
-:validatedBy
-    a owl:ObjectProperty ;
-    rdfs:label "validated by"@en ;
-    skos:prefLabel "validated by"@en ;
-    skos:definition "An object property that relates an assertion event to the human agent who confirmed its accuracy or correctness."@en ;
-    rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
-    rdfs:range cco:Person .
-
-:supersedes
-    a owl:ObjectProperty ;
-    rdfs:label "supersedes"@en ;
-    skos:prefLabel "supersedes"@en ;
-    skos:definition "A relation that holds between a corrected assertion and a previous assertion that the corrected assertion replaces due to the previous assertion containing an error or being outdated."@en ;
-    rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
-    rdfs:range [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] .
-
-
-# =============================================================================
-# OBJECT PROPERTIES - Scarcity Relations
+# OBJECT PROPERTIES — Scarcity Relations
 # =============================================================================
 
 :scarceResource
@@ -457,52 +435,86 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
 
 
 # =============================================================================
-# DATATYPE PROPERTIES - Confidence Metrics
+# OBJECT PROPERTIES — Provenance
 # =============================================================================
 
-:extractionConfidence
-    a owl:DatatypeProperty ;
-    rdfs:label "extraction confidence"@en ;
-    skos:prefLabel "extraction confidence"@en ;
-    skos:definition "A datatype property that denotes a numerical value between 0.0 and 1.0 indicating the degree of certainty associated with an automated derivation process for an assertion."@en ;
-    rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
-    rdfs:range xsd:decimal .
-
-:classificationConfidence
-    a owl:DatatypeProperty ;
-    rdfs:label "classification confidence"@en ;
-    skos:prefLabel "classification confidence"@en ;
-    skos:definition "A datatype property that denotes a numerical value between 0.0 and 1.0 indicating the degree of certainty in a categorical assignment."@en ;
-    rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
-    rdfs:range xsd:decimal .
-
-:relevanceConfidence
-    a owl:DatatypeProperty ;
-    rdfs:label "relevance confidence"@en ;
-    skos:prefLabel "relevance confidence"@en ;
-    skos:definition "A datatype property that denotes a numerical value between 0.0 and 1.0 indicating the degree to which an assertion pertains to a specified context."@en ;
-    rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
-    rdfs:range xsd:decimal .
-
-:aggregateConfidence
-    a owl:DatatypeProperty ;
-    rdfs:label "aggregate confidence"@en ;
-    skos:prefLabel "aggregate confidence"@en ;
-    skos:definition "A datatype property that denotes a numerical value between 0.0 and 1.0 representing the combined certainty measure derived from extraction, classification, and relevance assessments."@en ;
-    rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
-    rdfs:range xsd:decimal .
-
-:aggregationMethod
-    a owl:DatatypeProperty ;
-    rdfs:label "aggregation method"@en ;
-    skos:prefLabel "aggregation method"@en ;
-    skos:definition "A datatype property that denotes the computational approach for combining multiple confidence values into a single aggregate value."@en ;
-    rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
-    rdfs:range xsd:string .
+:instantiated_by
+    a owl:ObjectProperty ;
+    rdfs:label "instantiated by"@en ;
+    skos:prefLabel "instantiated by"@en ;
+    skos:definition "An object property that relates an entity to the agent or document that brought it into existence."@en ;
+    rdfs:range cco:InformationBearingEntity .
 
 
 # =============================================================================
-# DATATYPE PROPERTIES - Provenance and Timestamps
+# OBJECT PROPERTIES — Clause Relations
+# =============================================================================
+
+:relationType
+    a owl:ObjectProperty ;
+    rdfs:label "relation type"@en ;
+    skos:prefLabel "relation type"@en ;
+    skos:definition "An object property that links a clause connection to its semantic category, such as sequential, causal, or contrastive."@en ;
+    rdfs:domain :ClauseRelation .
+
+:fromClause
+    a owl:ObjectProperty ;
+    rdfs:label "from clause"@en ;
+    skos:prefLabel "from clause"@en ;
+    skos:definition "An object property that relates a relational entity to its source linguistic act."@en ;
+    rdfs:domain :ClauseRelation .
+
+:toClause
+    a owl:ObjectProperty ;
+    rdfs:label "to clause"@en ;
+    skos:prefLabel "to clause"@en ;
+    skos:definition "An object property that relates a conditional statement to its consequent linguistic act."@en ;
+    rdfs:domain :ClauseRelation .
+
+:has_antecedent
+    a owl:ObjectProperty ;
+    rdfs:label "has antecedent"@en ;
+    skos:prefLabel "has antecedent"@en ;
+    skos:definition "An object property that relates a conditional information content entity to the information content entity that denotes the condition upon which the conditional depends."@en ;
+    rdfs:domain :ConditionalContent .
+
+:has_consequent
+    a owl:ObjectProperty ;
+    rdfs:label "has consequent"@en ;
+    skos:prefLabel "has consequent"@en ;
+    skos:definition "An object property that relates a conditional information content entity to the information content entity that denotes what follows when the conditional's antecedent condition is satisfied."@en ;
+    rdfs:domain :ConditionalContent .
+
+:has_cause
+    a owl:ObjectProperty ;
+    rdfs:label "has cause"@en ;
+    skos:prefLabel "has cause"@en ;
+    skos:definition "An object property that relates a mental process to the entity that causally brings about that mental process."@en .
+
+
+# =============================================================================
+# OBJECT PROPERTIES — FT-03 Structural Assertion Provenance
+# =============================================================================
+
+:assertionSubject
+    a owl:ObjectProperty ;
+    rdfs:label "assertion subject"@en ;
+    skos:prefLabel "assertion subject"@en ;
+    skos:definition "The Tier 1 DiscourseReferent that served as the linguistic subject of a detected structural assertion."@en ;
+    rdfs:domain :StructuralAssertion ;
+    rdfs:range :DiscourseReferent .
+
+:assertionObject
+    a owl:ObjectProperty ;
+    rdfs:label "assertion object"@en ;
+    skos:prefLabel "assertion object"@en ;
+    skos:definition "The Tier 1 DiscourseReferent that served as the linguistic object of a detected structural assertion."@en ;
+    rdfs:domain :StructuralAssertion ;
+    rdfs:range :DiscourseReferent .
+
+
+# =============================================================================
+# DATATYPE PROPERTIES — Provenance and Timestamps
 # =============================================================================
 
 :instantiated_at
@@ -512,18 +524,11 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     skos:definition "A datatype property that denotes the timestamp when an entity was created in the graph."@en ;
     rdfs:range xsd:dateTime .
 
-:instantiated_by
-    a owl:ObjectProperty ;
-    rdfs:label "instantiated by"@en ;
-    skos:prefLabel "instantiated by"@en ;
-    skos:definition "An object property that relates an entity to the agent or document that brought it into existence."@en ;
-    rdfs:range cco:InformationBearingEntity .
-
 :detected_at
     a owl:DatatypeProperty ;
     rdfs:label "detected at"@en ;
     skos:prefLabel "detected at"@en ;
-    skos:definition "The timestamp when a detection (e.g., scarcity, value) was made."@en ;
+    skos:definition "The timestamp when a detection (e.g., scarcity) was made."@en ;
     rdfs:range xsd:dateTime .
 
 :received_at
@@ -534,14 +539,6 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     rdfs:domain cco:InformationBearingEntity ;
     rdfs:range xsd:dateTime .
 
-:validationTimestamp
-    a owl:DatatypeProperty ;
-    rdfs:label "validation timestamp"@en ;
-    skos:prefLabel "validation timestamp"@en ;
-    skos:definition "A datatype property that denotes the temporal instant when an assertion was validated by a human reviewer."@en ;
-    rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueAssertionEvent :ContextAssessmentEvent ) ] ;
-    rdfs:range xsd:dateTime .
-
 :temporal_extent
     a owl:DatatypeProperty ;
     rdfs:label "temporal extent"@en ;
@@ -549,9 +546,25 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     skos:definition "A datatype property that denotes the duration of time during which an entity exists or a process occurs."@en ;
     rdfs:range xsd:dateTime .
 
+:has_start_time
+    a owl:DatatypeProperty ;
+    rdfs:label "has start time"@en ;
+    skos:prefLabel "has start time"@en ;
+    skos:definition "A datatype property relating a process or temporal entity to its beginning instant expressed as an xsd:dateTime literal."@en ;
+    rdfs:range xsd:dateTime ;
+    skos:scopeNote "NLP extraction property. Distinct from BFO has_first_instant (BFO_0000222), which is an owl:ObjectProperty pointing to a TemporalInstant individual."@en .
+
+:has_end_time
+    a owl:DatatypeProperty ;
+    rdfs:label "has end time"@en ;
+    skos:prefLabel "has end time"@en ;
+    skos:definition "A datatype property relating a process or temporal entity to its ending instant expressed as an xsd:dateTime literal."@en ;
+    rdfs:range xsd:dateTime ;
+    skos:scopeNote "NLP extraction property. Distinct from BFO has_last_instant (BFO_0000224), which is an owl:ObjectProperty pointing to a TemporalInstant individual."@en .
+
 
 # =============================================================================
-# DATATYPE PROPERTIES - Text and Position
+# DATATYPE PROPERTIES — Text and Position
 # =============================================================================
 
 :sourceText
@@ -608,7 +621,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
 
 
 # =============================================================================
-# DATATYPE PROPERTIES - Discourse Referent Attributes
+# DATATYPE PROPERTIES — Discourse Referent Attributes
 # =============================================================================
 
 :denotesType
@@ -658,7 +671,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
 
 
 # =============================================================================
-# DATATYPE PROPERTIES - Role and Act Attributes
+# DATATYPE PROPERTIES — Role and Act Attributes
 # =============================================================================
 
 :roleType
@@ -720,7 +733,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
 
 
 # =============================================================================
-# DATATYPE PROPERTIES - Deontic Modal Attributes
+# DATATYPE PROPERTIES — Deontic Modal Attributes
 # =============================================================================
 
 :modality
@@ -753,7 +766,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
 
 
 # =============================================================================
-# DATATYPE PROPERTIES - Scarcity Attributes
+# DATATYPE PROPERTIES — Scarcity Attributes
 # =============================================================================
 
 :is_scarce
@@ -804,7 +817,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
 
 
 # =============================================================================
-# DATATYPE PROPERTIES - Quality Attributes
+# DATATYPE PROPERTIES — Quality Attributes
 # =============================================================================
 
 :qualifierText
@@ -830,7 +843,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
 
 
 # =============================================================================
-# DATATYPE PROPERTIES - Object Aggregate Attributes
+# DATATYPE PROPERTIES — Object Aggregate Attributes
 # =============================================================================
 
 :member_count
@@ -850,105 +863,7 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
 
 
 # =============================================================================
-# DATATYPE PROPERTIES - Value/Context Assessment Attributes
-# =============================================================================
-
-:valueName
-    a owl:DatatypeProperty ;
-    rdfs:label "value name"@en ;
-    skos:prefLabel "value name"@en ;
-    skos:definition "A datatype property that denotes the textual identifier of an ethical principle or standard such as autonomy, beneficence, or justice."@en ;
-    rdfs:domain :EthicalValueICE ;
-    rdfs:range xsd:string .
-
-:valueCategory
-    a owl:DatatypeProperty ;
-    rdfs:label "value category"@en ;
-    skos:prefLabel "value category"@en ;
-    skos:definition "A datatype property that denotes the classificatory domain to which an ethical principle belongs, such as ethical, legal, or social domains."@en ;
-    rdfs:domain :EthicalValueICE ;
-    rdfs:range xsd:string .
-
-:dimension
-    a owl:DatatypeProperty ;
-    rdfs:label "dimension"@en ;
-    skos:prefLabel "dimension"@en ;
-    skos:definition "A datatype property that specifies the contextual aspect being evaluated in an assessment framework."@en ;
-    rdfs:domain :ContextDimensionICE ;
-    rdfs:range xsd:string .
-
-:category
-    a owl:DatatypeProperty ;
-    rdfs:label "category"@en ;
-    skos:prefLabel "category"@en ;
-    skos:definition "A datatype property that assigns classificatory labels to context dimensions."@en ;
-    rdfs:range xsd:string .
-
-:score
-    a owl:DatatypeProperty ;
-    rdfs:label "score"@en ;
-    skos:prefLabel "score"@en ;
-    skos:definition "A numeric value between 0.0 and 1.0 that quantifies the degree of assessment for a context dimension."@en ;
-    rdfs:range xsd:decimal .
-
-:polarity
-    a owl:DatatypeProperty ;
-    rdfs:label "polarity"@en ;
-    skos:prefLabel "polarity"@en ;
-    skos:definition "A datatype property that denotes whether a value has a positive, negative, or neutral orientation as indicated by the numerical values 1, -1, or 0 respectively."@en ;
-    rdfs:range xsd:integer .
-
-:salience
-    a owl:DatatypeProperty ;
-    rdfs:label "salience"@en ;
-    skos:prefLabel "salience"@en ;
-    skos:definition "A datatype property that denotes the degree of prominence of a textual value on a scale from 0.0 to 1.0."@en ;
-    rdfs:range xsd:decimal .
-
-
-# =============================================================================
-# DATATYPE PROPERTIES - Evidence and Detection
-# =============================================================================
-
-:evidence
-    a owl:DatatypeProperty ;
-    rdfs:label "evidence"@en ;
-    skos:prefLabel "evidence"@en ;
-    skos:definition "A textual information content entity that denotes facts or observations which support the truth or validity of an assertion."@en ;
-    rdfs:range xsd:string .
-
-:evidenceText
-    a owl:DatatypeProperty ;
-    rdfs:label "evidence text"@en ;
-    skos:prefLabel "evidence text"@en ;
-    owl:equivalentProperty :evidence ;
-    skos:definition "A datatype property that denotes textual content serving as support or proof for a claim or conclusion."@en ;
-    rdfs:range xsd:string .
-
-:sourceSpan
-    a owl:DatatypeProperty ;
-    rdfs:label "source span"@en ;
-    skos:prefLabel "source span"@en ;
-    skos:definition "A datatype property that denotes the textual boundaries within a document from which supporting evidence originates."@en ;
-    rdfs:range xsd:string .
-
-:matched_markers
-    a owl:DatatypeProperty ;
-    rdfs:label "matched markers"@en ;
-    skos:prefLabel "matched markers"@en ;
-    skos:definition "A datatype property that denotes linguistic elements that correspond to specific patterns within textual content."@en ;
-    rdfs:range xsd:string .
-
-:detection_method
-    a owl:DatatypeProperty ;
-    rdfs:label "detection method"@en ;
-    skos:prefLabel "detection method"@en ;
-    skos:definition "A datatype property that denotes the specific technique or approach employed to identify the presence or occurrence of a particular entity or phenomenon."@en ;
-    rdfs:range xsd:string .
-
-
-# =============================================================================
-# DATATYPE PROPERTIES - Parser Agent Attributes
+# DATATYPE PROPERTIES — Parser Agent Attributes
 # =============================================================================
 
 :version
@@ -974,20 +889,20 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
 
 
 # =============================================================================
-# DATATYPE PROPERTIES - Context Framework
+# DATATYPE PROPERTIES — Context Framework
 # =============================================================================
 
 :framework
     a owl:DatatypeProperty ;
     rdfs:label "framework"@en ;
     skos:prefLabel "framework"@en ;
-    skos:definition "A datatype property that denotes the ethical or interpretive approach associated with a particular context."@en ;
+    skos:definition "A datatype property that denotes the interpretive approach associated with a particular context."@en ;
     rdfs:domain :InterpretationContext ;
     rdfs:range xsd:string .
 
 
 # =============================================================================
-# DATATYPE PROPERTIES - Budget Tracking
+# DATATYPE PROPERTIES — Budget Tracking
 # =============================================================================
 
 :budgetUsage
@@ -1009,6 +924,124 @@ This prevents over-generation of potentiality in factual graphs."""@en ;
     rdfs:label "budget warnings"@en ;
     skos:prefLabel "budget warnings"@en ;
     skos:definition "A datatype property that denotes alert messages produced during computational complexity resource allocation monitoring."@en ;
+    rdfs:range xsd:string .
+
+
+# =============================================================================
+# DATATYPE PROPERTIES — Clause Segmentation (v2 extensions)
+# =============================================================================
+
+:clauseIndex
+    a owl:DatatypeProperty ;
+    rdfs:label "clause index"@en ;
+    skos:prefLabel "clause index"@en ;
+    skos:definition "A datatype property that denotes a zero-based numerical position identifying which grammatical unit an act belongs to in a multi-unit sentence."@en ;
+    rdfs:range xsd:integer .
+
+:subjectSource
+    a owl:DatatypeProperty ;
+    rdfs:label "subject source"@en ;
+    skos:prefLabel "subject source"@en ;
+    skos:definition "A datatype property that denotes the method by which a grammatical topic was determined for a linguistic expression."@en ;
+    rdfs:range xsd:string .
+
+:whPhrase
+    a owl:DatatypeProperty ;
+    rdfs:label "Wh-phrase"@en ;
+    skos:prefLabel "Wh-phrase"@en ;
+    skos:definition "A datatype property that denotes the original interrogative phrase from a question before normalization."@en ;
+    rdfs:range xsd:string .
+
+:verbClass
+    a owl:DatatypeProperty ;
+    rdfs:label "verb class"@en ;
+    skos:prefLabel "verb class"@en ;
+    skos:definition "A datatype property that denotes the grammatical category classification of action words, such as psychological, raising, or causative types."@en ;
+    rdfs:range xsd:string .
+
+:epistemicStatus
+    a owl:DatatypeProperty ;
+    rdfs:label "epistemic status"@en ;
+    skos:prefLabel "epistemic status"@en ;
+    skos:definition "A datatype property that denotes a qualification concerning the degree of certainty or confidence associated with a proposition or belief state."@en ;
+    rdfs:range xsd:string .
+
+:isQuestionFocus
+    a owl:DatatypeProperty ;
+    rdfs:label "is question focus"@en ;
+    skos:prefLabel "is question focus"@en ;
+    skos:definition "A datatype property that indicates the entity is the primary subject of inquiry in an interrogative statement."@en ;
+    rdfs:range xsd:boolean .
+
+
+# =============================================================================
+# ANNOTATION PROPERTIES — Structural Ambiguity
+# =============================================================================
+
+:structuralAmbiguity
+    a owl:AnnotationProperty ;
+    rdfs:label "structural ambiguity"@en ;
+    skos:prefLabel "structural ambiguity"@en ;
+    skos:definition "An annotation that flags a node as having unresolved structural ambiguity from the v2 pre-processing layer."@en .
+
+:assertedRelation
+    a owl:AnnotationProperty ;
+    rdfs:label "asserted relation"@en ;
+    skos:prefLabel "asserted relation"@en ;
+    skos:definition "The CCO/BFO property IRI that a structural assertion claims to hold (or not hold, in the case of negated assertions) between two entities."@en ;
+    rdfs:domain :StructuralAssertion .
+
+
+# =============================================================================
+# ANNOTATION PROPERTIES — Ontology Match
+# =============================================================================
+
+:ontologyMatch
+    a owl:AnnotationProperty ;
+    rdfs:label "ontology match"@en ;
+    skos:prefLabel "ontology match"@en ;
+    skos:definition "An annotation linking a Tier 2 entity node to externally-matched ontology class metadata. Each entry records the matched class IRI, confidence score, evidence text, and class label. Added by buildGraph() when the ontology option is provided."@en .
+
+:ontologyMatchClass
+    a owl:AnnotationProperty ;
+    rdfs:label "ontology match class"@en ;
+    skos:definition "The IRI of the ontology class matched to this entity."@en ;
+    rdfs:range rdfs:Resource .
+
+:ontologyMatchConfidence
+    a owl:AnnotationProperty ;
+    rdfs:label "ontology match confidence"@en ;
+    skos:definition "A decimal between 0.0 and 1.0 indicating the confidence of the ontology class match."@en ;
+    rdfs:range xsd:decimal .
+
+:ontologyMatchEvidence
+    a owl:AnnotationProperty ;
+    rdfs:label "ontology match evidence"@en ;
+    skos:definition "The text token that triggered the ontology class match."@en ;
+    rdfs:range xsd:string .
+
+:ontologyMatchLabel
+    a owl:AnnotationProperty ;
+    rdfs:label "ontology match label"@en ;
+    skos:definition "The human-readable label of the matched ontology class."@en ;
+    rdfs:range xsd:string .
+
+:ontologyMatchType
+    a owl:AnnotationProperty ;
+    rdfs:label "ontology match type"@en ;
+    skos:definition "How the match was made: exact, alias, lemma, or hidden."@en ;
+    rdfs:range xsd:string .
+
+:ontologyMatchForm
+    a owl:AnnotationProperty ;
+    rdfs:label "ontology match form"@en ;
+    skos:definition "The original input text form before any normalization was applied."@en ;
+    rdfs:range xsd:string .
+
+:ontologyMatchInflection
+    a owl:AnnotationProperty ;
+    rdfs:label "ontology match inflection"@en ;
+    skos:definition "The normalization chain applied, e.g. plural->singular, possessive->base, verb->base, irregular."@en ;
     rdfs:range xsd:string .
 
 

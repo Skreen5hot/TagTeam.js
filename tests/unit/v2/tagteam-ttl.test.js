@@ -1,15 +1,13 @@
 /**
- * P0-TTL: tagteam-v2.ttl Schema Validation Tests
+ * P0-TTL: tagteam.ttl Schema Validation Tests
  *
- * Phase 0 — validates that the v2 OWL ontology defines all required
- * classes, properties, and individuals per v2Spec §4.
+ * Phase 0 — validates that the unified TagTeam ontology defines all required
+ * classes, properties, and individuals from core, v2, and v3.
  *
- * Updated for namespace alignment: http://tagteam.fandaws.org/ontology/
- * v2 now uses the default prefix `:` and imports tagteam-core.ttl.
- * Terms already in core (DirectiveContent, Actual, Hypothetical, Prescribed,
- * Negated, corefersWith) are NOT redefined in v2.
+ * Namespace: http://tagteam.fandaws.org/ontology/
+ * Single authoritative file consolidating core + structural + BFO bridges.
  *
- * Test IDs: P0-TTL-1 through P0-TTL-5
+ * Test IDs: P0-TTL-1 through P0-TTL-7
  */
 
 'use strict';
@@ -18,7 +16,7 @@ const fs = require('fs');
 const path = require('path');
 const { describe, test, expect, printSummary } = require('../../framework/test-helpers');
 
-const SCHEMA_PATH = path.join(__dirname, '..', '..', '..', 'ontology', 'tagteam-v2.ttl');
+const SCHEMA_PATH = path.join(__dirname, '..', '..', '..', 'ontology', 'tagteam.ttl');
 
 // Load schema content once
 const schemaContent = fs.readFileSync(SCHEMA_PATH, 'utf-8');
@@ -33,12 +31,12 @@ function schemaDefines(term) {
   return pattern.test(schemaContent);
 }
 
-describe('P0-TTL: tagteam-v2.ttl Schema Validation', () => {
+describe('P0-TTL: tagteam.ttl Schema Validation', () => {
 
-  test('P0-TTL-1: tagteam-v2.ttl parses without error (well-formed Turtle)', () => {
+  test('P0-TTL-1: tagteam.ttl parses without error (well-formed Turtle)', () => {
     expect(schemaContent.length).toBeGreaterThan(0);
 
-    // Must have prefix declarations (now uses default prefix :)
+    // Must have prefix declarations
     expect(schemaContent).toContain('@prefix : <http://tagteam.fandaws.org/ontology/>');
     expect(schemaContent).toContain('@prefix owl:');
     expect(schemaContent).toContain('@prefix rdfs:');
@@ -46,22 +44,27 @@ describe('P0-TTL: tagteam-v2.ttl Schema Validation', () => {
     expect(schemaContent).toContain('@prefix skos:');
 
     // Must declare itself as an ontology
-    expect(schemaContent).toContain('<http://tagteam.fandaws.org/ontology/v2/>');
+    expect(schemaContent).toContain('<http://tagteam.fandaws.org/ontology/>');
     expect(schemaContent).toContain('a owl:Ontology');
 
-    // Must import core
-    expect(schemaContent).toContain('owl:imports <http://tagteam.fandaws.org/ontology/core/>');
-
     // Must have version info
-    expect(schemaContent).toContain('owl:versionInfo "2.0.0"');
+    expect(schemaContent).toContain('owl:versionInfo "4.1.0"');
 
     // Check for balanced quotes (basic)
     const doubleQuotes = (schemaContent.match(/"/g) || []).length;
     expect(doubleQuotes % 2).toBe(0);
   });
 
-  test('P0-TTL-2: Schema defines Speech Act classes (Inquiry, ConditionalContent, ClauseRelation)', () => {
-    // Speech Act classes (DirectiveContent is now in core, not redefined here)
+  test('P0-TTL-2: Schema defines Tier 1 parsing classes (DiscourseReferent, VerbPhrase, DeonticContent)', () => {
+    expect(schemaDefines(':DiscourseReferent')).toBe(true);
+    expect(schemaDefines(':VerbPhrase')).toBe(true);
+    expect(schemaDefines(':DeonticContent')).toBe(true);
+    expect(schemaDefines(':DirectiveContent')).toBe(true);
+    expect(schemaDefines(':ScarcityAssertion')).toBe(true);
+    expect(schemaDefines(':InterpretationContext')).toBe(true);
+  });
+
+  test('P0-TTL-3: Schema defines Speech Act classes (Inquiry, ConditionalContent, ClauseRelation)', () => {
     expect(schemaDefines(':SpeechAct')).toBe(true);
     expect(schemaDefines(':Inquiry')).toBe(true);
     expect(schemaDefines(':ConditionalContent')).toBe(true);
@@ -72,55 +75,43 @@ describe('P0-TTL: tagteam-v2.ttl Schema Validation', () => {
     expect(schemaContent).toContain('rdfs:subClassOf :SpeechAct');
   });
 
-  test('P0-TTL-3: Schema defines clause relation individuals (and_then, therefore, in_order_that, contrasts_with)', () => {
+  test('P0-TTL-4: Schema defines actuality status individuals (Actual through Interrogative)', () => {
+    expect(schemaDefines(':ActualityStatus')).toBe(true);
+    expect(schemaDefines(':Actual')).toBe(true);
+    expect(schemaDefines(':Prescribed')).toBe(true);
+    expect(schemaDefines(':Permitted')).toBe(true);
+    expect(schemaDefines(':Prohibited')).toBe(true);
+    expect(schemaDefines(':Hypothetical')).toBe(true);
+    expect(schemaDefines(':Planned')).toBe(true);
+    expect(schemaDefines(':Negated')).toBe(true);
+    expect(schemaDefines(':Interrogative')).toBe(true);
+
+    // All must be NamedIndividuals
+    expect(schemaContent).toContain('owl:NamedIndividual');
+  });
+
+  test('P0-TTL-5: Schema defines clause relation individuals and properties', () => {
+    // Clause relation individuals
     expect(schemaDefines(':and_then')).toBe(true);
     expect(schemaDefines(':therefore')).toBe(true);
     expect(schemaDefines(':in_order_that')).toBe(true);
     expect(schemaDefines(':contrasts_with')).toBe(true);
     expect(schemaDefines(':alternative_to')).toBe(true);
 
-    // All must be NamedIndividuals
-    expect(schemaContent).toContain(':and_then');
-    expect(schemaContent).toContain(':therefore');
-    expect(schemaContent).toContain(':in_order_that');
-    expect(schemaContent).toContain(':contrasts_with');
-  });
+    // Temporal relations
+    expect(schemaDefines(':precedes')).toBe(true);
+    expect(schemaDefines(':follows')).toBe(true);
+    expect(schemaDefines(':simultaneous_with')).toBe(true);
 
-  test('P0-TTL-4: Schema defines Interrogative actuality status (others in core)', () => {
-    // Interrogative is the only new actuality status in v2
-    expect(schemaDefines(':Interrogative')).toBe(true);
-    expect(schemaContent).toContain(':Interrogative');
-    expect(schemaContent).toContain('owl:NamedIndividual');
-
-    // Actual, Hypothetical, Prescribed, Negated are in core (imported)
-    // They should NOT be redefined in v2
-    expect(schemaDefines(':Actual')).toBe(false);
-    expect(schemaDefines(':Hypothetical')).toBe(false);
-    expect(schemaDefines(':Prescribed')).toBe(false);
-    expect(schemaDefines(':Negated')).toBe(false);
-  });
-
-  test('P0-TTL-5: Schema defines clauseIndex, subjectSource, whPhrase, verbClass properties', () => {
+    // Clause properties
     expect(schemaDefines(':clauseIndex')).toBe(true);
     expect(schemaDefines(':subjectSource')).toBe(true);
     expect(schemaDefines(':whPhrase')).toBe(true);
     expect(schemaDefines(':verbClass')).toBe(true);
-
-    // Verify property types
-    expect(schemaContent).toContain(':clauseIndex');
-    expect(schemaContent).toContain(':subjectSource');
-    expect(schemaContent).toContain(':whPhrase');
-    expect(schemaContent).toContain(':verbClass');
-
-    // Verify additional properties
     expect(schemaDefines(':epistemicStatus')).toBe(true);
     expect(schemaDefines(':isQuestionFocus')).toBe(true);
-    expect(schemaDefines(':structuralAmbiguity')).toBe(true);
 
-    // corefersWith is in core (imported), not redefined in v2
-    expect(schemaDefines(':corefersWith')).toBe(false);
-
-    // Object properties for clause relations
+    // Clause object properties
     expect(schemaDefines(':relationType')).toBe(true);
     expect(schemaDefines(':fromClause')).toBe(true);
     expect(schemaDefines(':toClause')).toBe(true);
@@ -133,15 +124,47 @@ describe('P0-TTL: tagteam-v2.ttl Schema Validation', () => {
     expect(schemaContent).toContain('owl:AnnotationProperty');
   });
 
-  // Temporal relations (needed by Phase 3)
-  test('P0-TTL-EXTRA: Schema defines temporal relation individuals', () => {
-    expect(schemaDefines(':precedes')).toBe(true);
-    expect(schemaDefines(':follows')).toBe(true);
-    expect(schemaDefines(':simultaneous_with')).toBe(true);
+  test('P0-TTL-6: Schema defines v3 additions (StructuralAssertion, ontologyMatch, BFO bridges)', () => {
+    // FT-03 Structural Assertions
+    expect(schemaDefines(':StructuralAssertion')).toBe(true);
+    expect(schemaDefines(':NegatedStructuralAssertion')).toBe(true);
+    expect(schemaDefines(':assertionSubject')).toBe(true);
+    expect(schemaDefines(':assertionObject')).toBe(true);
+    expect(schemaDefines(':assertedRelation')).toBe(true);
 
-    expect(schemaContent).toContain(':precedes');
-    expect(schemaContent).toContain(':follows');
-    expect(schemaContent).toContain(':simultaneous_with');
+    // BFO bridge properties
+    expect(schemaDefines(':has_function')).toBe(true);
+    expect(schemaDefines(':supersedes')).toBe(true);
+    expect(schemaDefines(':has_start_time')).toBe(true);
+    expect(schemaDefines(':has_end_time')).toBe(true);
+
+    // scopeNote documentation
+    expect(schemaContent).toContain('skos:scopeNote');
+
+    // Ontology match annotations
+    expect(schemaDefines(':ontologyMatch')).toBe(true);
+    expect(schemaDefines(':ontologyMatchClass')).toBe(true);
+    expect(schemaDefines(':ontologyMatchConfidence')).toBe(true);
+    expect(schemaDefines(':ontologyMatchEvidence')).toBe(true);
+    expect(schemaDefines(':ontologyMatchLabel')).toBe(true);
+    expect(schemaDefines(':ontologyMatchType')).toBe(true);
+    expect(schemaDefines(':ontologyMatchForm')).toBe(true);
+    expect(schemaDefines(':ontologyMatchInflection')).toBe(true);
+  });
+
+  test('P0-TTL-7: Schema does NOT define removed values classes', () => {
+    // Values classes removed in v4.0.0
+    expect(schemaDefines(':ValueAssertionEvent')).toBe(false);
+    expect(schemaDefines(':ContextAssessmentEvent')).toBe(false);
+    expect(schemaDefines(':EthicalValueICE')).toBe(false);
+    expect(schemaDefines(':ContextDimensionICE')).toBe(false);
+    expect(schemaDefines(':ValueDetectionRecord')).toBe(false);
+    expect(schemaDefines(':ContextAssessmentRecord')).toBe(false);
+    expect(schemaDefines(':AssertionType')).toBe(false);
+    expect(schemaDefines(':AutomatedDetection')).toBe(false);
+    expect(schemaDefines(':HumanValidation')).toBe(false);
+    expect(schemaDefines(':HumanRejection')).toBe(false);
+    expect(schemaDefines(':HumanCorrection')).toBe(false);
   });
 });
 
