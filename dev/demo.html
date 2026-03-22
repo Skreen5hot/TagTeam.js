@@ -45,6 +45,21 @@
         button:hover {
             background: #2980b9;
         }
+        .toggle-row {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            margin-left: 12px;
+            vertical-align: middle;
+        }
+        .toggle-row label {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9em;
+            color: #666;
+            cursor: pointer;
+        }
         pre {
             background: #f8f8f8;
             padding: 15px;
@@ -83,6 +98,10 @@
         <textarea id="input" placeholder="Type or click an example below...">The doctor must allocate the last ventilator between two critically ill patients</textarea>
         <br>
         <button onclick="analyze()">Analyze</button>
+        <span class="toggle-row">
+            <label><input type="checkbox" id="context-toggle"> Show @context</label>
+            <label><input type="checkbox" id="pos-toggle"> Show POS Tags</label>
+        </span>
 
         <h3>Example Sentences (click to try):</h3>
         <div class="example" onclick="setExample('The family must decide whether to continue treatment')">
@@ -124,13 +143,39 @@
                 return;
             }
 
-            const result = TagTeam.parse(text);
-            document.getElementById('output').textContent = JSON.stringify(result, null, 2);
+            const showContext = document.getElementById('context-toggle').checked;
+            const showPOS = document.getElementById('pos-toggle').checked;
+
+            const graph = TagTeam.buildGraph(text, { verbose: showPOS });
+
+            // Serialize to full JSON-LD via the serializer
+            const serializer = new TagTeam.JSONLDSerializer({ pretty: true });
+            const jsonld = JSON.parse(serializer.serialize(graph));
+
+            // Strip @context unless toggled on
+            if (!showContext) {
+                delete jsonld['@context'];
+            }
+
+            // Append POS debug info if toggled on
+            if (showPOS && graph._debug && graph._debug.posTokens) {
+                jsonld._posTokens = graph._debug.posTokens;
+            }
+
+            document.getElementById('output').textContent = JSON.stringify(jsonld, null, 2);
             document.getElementById('results').style.display = 'block';
 
             // Scroll to results
             document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
         }
+
+        // Re-analyze when toggles change
+        document.getElementById('context-toggle').addEventListener('change', function() {
+            if (document.getElementById('results').style.display !== 'none') analyze();
+        });
+        document.getElementById('pos-toggle').addEventListener('change', function() {
+            if (document.getElementById('results').style.display !== 'none') analyze();
+        });
 
         // Auto-analyze on load if there's default text
         window.onload = function() {
