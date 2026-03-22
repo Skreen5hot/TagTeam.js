@@ -721,6 +721,9 @@
                     <div class="action-row">
                         <button onclick="runAnalysis()">Analyze</button>
                         <label class="verbose-label">
+                            <input type="checkbox" id="context-toggle"> Show @context
+                        </label>
+                        <label class="verbose-label">
                             <input type="checkbox" id="verbose-toggle"> Show POS Tags
                         </label>
                     </div>
@@ -1049,7 +1052,26 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
         var _cachedGraph = null;
         var _cachedParse = null;
         var _currentText = '';
+
+        // Serialize graph to JSON-LD, optionally including @context
+        function serializeGraph(graph) {
+            var serializer = new TagTeam.JSONLDSerializer({ pretty: true });
+            var jsonld = JSON.parse(serializer.serialize(graph));
+            if (!document.getElementById('context-toggle').checked) {
+                delete jsonld['@context'];
+            }
+            return JSON.stringify(jsonld, null, 2);
+        }
         var _modelsLoaded = true; // Models are baked into the bundle
+
+        // Re-render JSON panes when @context toggle changes (no re-parse needed)
+        document.getElementById('context-toggle').addEventListener('change', function() {
+            if (_cachedGraph) {
+                var serialized = serializeGraph(_cachedGraph);
+                document.getElementById('jsonld-output').textContent = serialized;
+                document.getElementById('clauses-json-output').textContent = serialized;
+            }
+        });
 
         window.addEventListener('load', function() {
             if (typeof TagTeam !== 'undefined' && TagTeam.version) {
@@ -1250,7 +1272,7 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
             }
 
             document.getElementById('entities-content').innerHTML = html;
-            document.getElementById('jsonld-output').textContent = JSON.stringify(_cachedGraph, null, 2);
+            document.getElementById('jsonld-output').textContent = serializeGraph(_cachedGraph);
         }
 
         // ── Tab 2: Semantic Parse ──
@@ -1378,7 +1400,7 @@ console.log(graph['@graph']);         <span style="color: #a0aec0;">// Array of 
             }
 
             document.getElementById('clauses-content').innerHTML = html;
-            document.getElementById('clauses-json-output').textContent = JSON.stringify(_cachedGraph, null, 2);
+            document.getElementById('clauses-json-output').textContent = serializeGraph(_cachedGraph);
         }
 
         // ── TTL helpers ──
