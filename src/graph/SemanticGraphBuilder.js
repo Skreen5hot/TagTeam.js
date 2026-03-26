@@ -1903,14 +1903,36 @@ class SemanticGraphBuilder {
       for (const act of acts) {
         const actNode = {
           '@id': `${this.options.namespace}:Act_${this._sanitizeId(act.verb)}`,
-          '@type': ['IntentionalAct'],
+          '@type': ['IntentionalAct', 'tagteam:VerbPhrase'],
           'rdfs:label': act.verb,
           'tagteam:lemma': act.lemma,
+          'tagteam:verb': act.lemma,
         };
         if (act.isPassive) actNode['tagteam:isPassive'] = true;
         if (act.isNegated) actNode['tagteam:isNegated'] = true;
         if (act.isCopular) actNode['tagteam:isCopular'] = true;
+        // Modal detection properties
+        if (act.modality) actNode['tagteam:modality'] = act.modality;
+        if (act.deonticType) actNode['tagteam:deonticType'] = act.deonticType;
+        if (act.modalVerb) actNode['tagteam:modalVerb'] = act.modalVerb;
+        if (act.sourceText) actNode['tagteam:sourceText'] = act.sourceText;
+        // Actuality status: modal-derived or default Actual
+        actNode['tagteam:actualityStatus'] = act.actualityStatus
+          ? { '@id': act.actualityStatus }
+          : { '@id': 'tagteam:Actual' };
         graphNodes.push(actNode);
+      }
+
+      // Create DirectiveContent nodes for modal acts
+      if (this.directiveExtractor) {
+        const actNodes = graphNodes.filter(n => {
+          const types = [].concat(n['@type'] || []);
+          return types.includes('IntentionalAct') && n['tagteam:modality'];
+        });
+        if (actNodes.length > 0) {
+          const directives = this.directiveExtractor.extract(actNodes, text);
+          for (const d of directives) graphNodes.push(d);
+        }
       }
 
       // Convert structural assertions to JSON-LD nodes
@@ -1957,10 +1979,10 @@ class SemanticGraphBuilder {
           lemmatizer: this.lemmatizer
         });
 
-        // Filter entity nodes (exclude Acts, Roles, Assertions)
+        // Filter entity nodes (exclude Acts, Roles, Assertions, Directives)
         const referentNodes = graphNodes.filter(n => {
           const t = [].concat(n['@type'] || []);
-          return !t.some(x => x.includes('Act') || x.includes('Role') || x.includes('Assertion'));
+          return !t.some(x => x.includes('Act') || x.includes('Role') || x.includes('Assertion') || x.includes('Directive'));
         });
 
         // Bootstrap tagteam:denotesType from @type[0] BEFORE overwriting, then clean Tier 1

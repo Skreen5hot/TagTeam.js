@@ -225,7 +225,7 @@
 
     const MODAL_MARKERS = {
         possibility: ['might', 'may', 'could', 'possibly', 'perhaps', 'maybe'],
-        necessity: ['must', 'should', 'ought', 'need', 'have to', 'required'],
+        necessity: ['must', 'shall', 'should', 'ought', 'need', 'have to', 'required'],
         intention: ['will', 'would', 'going to', 'plan', 'intend', 'want'],
         ability: ['can', 'able', 'capable']
     };

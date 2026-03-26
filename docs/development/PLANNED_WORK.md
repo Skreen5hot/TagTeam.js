@@ -1,7 +1,7 @@
 # TagTeam.js — Comprehensive Planned Work Document
 
-**Version**: 1.0
-**Date**: 2026-02-20
+**Version**: 2.0
+**Date**: 2026-03-26
 **Authority**: This document is the single source of truth for all planned, in-progress, and completed work. It supersedes fragmented references across specs, roadmaps, and planning files.
 
 ---
@@ -13,7 +13,7 @@
 | `docs/development/TagTeam-Major-Refactor-v2.2.md` | Master spec (the "what and why") | Approved, sections actively consumed |
 | `docs/development/Major-Refactor-Roadmap.md` | TDD phase roadmap (the "how and when") | Phases 0-4 complete, Phase 5 not started |
 | `docs/architecture/spec-section-9.5-genericity-detection-final.md` | GenericityDetector spec (§9.5) | Implemented (not in roadmap — orphaned feature) |
-| `docs/research/Fandaws_v3.3_Specification.md` | Fandaws integration spec (§10.4.1) | Phase 5 depends on this |
+| `docs/research/Fandaws_v3.3_Specification.md` | Fandaws integration spec (§10.4.1) | Phase 5 deferred — parser maturity required first |
 | `docs/dossiers/PHVD-2026-02-20-WP2.yaml` | Pre-demo validation dossier for GenericityDetector | Active |
 | `docs/development/EVALUATION_REPORT.md` | Gold evaluation results | Published 2026-02-18 |
 | `docs/development/PERFORMANCE_REPORT.md` | Benchmark results | Published 2026-02-17 |
@@ -32,7 +32,7 @@ Phase 3A  ████████████████████ 100%  Tre
 Phase 3B  ████████████████████ 100%  Confidence, Debug, Loading       ✅ COMPLETE
 Phase 4   ██████████████████░░  95%  Validation & Release Readiness   ⚠️ 1 BLOCKER (legal)
 §9.5      ████████████████████ 100%  Genericity Detection             ✅ COMPLETE (orphaned)
-Phase 5   ░░░░░░░░░░░░░░░░░░░░   0%  Fandaws Integration             ❌ NOT STARTED
+Phase 5   ░░░░░░░░░░░░░░░░░░░░   0%  Fandaws Integration             ⏸️ DEFERRED (parser maturity)
 Phase 6   ████████████████████ 100%  Ambiguity Preservation           ✅ COMPLETE (untracked)
 Phase 7   ████████████████████ 100%  Semantic Refinement              ✅ COMPLETE (untracked)
 ```
@@ -242,19 +242,104 @@ These require act/role context to determine property and filler. Deferred to fut
 
 ---
 
-## SECTION 2: ACTIVE WORK (In Progress)
+## SECTION 2: ACTIVE WORK — Post-Demo Workstreams (2026-03-26)
 
-### GenericityDetector Demo Prep (2026-02-20)
+### Context
 
-| Item | Status | Notes |
-|------|--------|-------|
-| Demo buttons + genericity badges | ✅ Done | tree-demo.html updated |
-| P0 regression fix (CBP → owl:Class) | ✅ Fixed | Commit eab0b91, acronym guard |
-| Stakeholder demo | ⏸️ Paused | Waiting for stative verb concern resolution |
+Stakeholder demo on 2026-03-26 exposed surface-level failures that undermined confidence in the tool. The architecture is sound (two-tier graph, BFO compliance, ontology matching, OWL NPA for negation — all validated). The problem: we demoed a parser to people who needed a platform, and the parser couldn't handle their sentences.
 
-**Stakeholder Concern:** "Dogs have fur" correctly classified as GEN/95%, but pipeline treats "have" as IntentionalAct with AgentRole/PatientRole. This is ontologically wrong for stative possession. See §9.5.5 Pattern A — stative predicates should produce `bfo:has_quality` or `bfo:inheres_in`, not IntentionalAct + AgentRole.
+**What broke in front of users:**
+- `shall` not recognized as deontic modal (every CBP policy sentence returned `modality=null`)
+- "Department of Homeland Security" fragmented into separate tokens
+- JSON-LD output incomprehensible to non-technical users
+- Ontology matching produced duplicate nodes (now fixed: commit `d64abda`)
 
-**Resolution path:** Requires act type reclassification for stative verbs. The GenericityDetector identifies the sentence as generic correctly, but the act extraction pipeline doesn't distinguish stative from dynamic predicates. This is an architectural gap documented in the PHVD (assumption A-010).
+**What is NOT being revisited:** Two-tier architecture, FT-03 StructuralAssertion work, ontology tagger priority engine, BFO/CCO topology, model embedding, values layer removal. The architecture is solid. We're finishing the surface.
+
+Three parallel workstreams address this. None are optional.
+
+---
+
+### WS-1: Domain Test Corpus
+
+**Priority:** HIGHEST — quality gate everything else depends on
+**Owner:** Needed
+**Timeline:** Before any other feature work
+
+Build a corpus of 50 real sentences from CBP policy documents, federal regulations, and operational text. Run every sentence through `buildGraph()`. Review every graph for correctness.
+
+**Why:** Current test sentences are synthetic ("The cat sleeps"). Nobody at a demo types those. They type: "An officer shall verify that the traveler's documentation is consistent with the information provided on the CBP Form 6059B."
+
+**Process:**
+1. Collect 50 sentences from real CBP/DHS source documents
+2. Run each through `buildGraph()`, capture full `@graph` output
+3. Manual review: entities correct? Multi-word intact? Roles correct? Modality? Negation? Ontology match?
+4. Categorize each failure: **Bug** (fix it), **Known limitation** (add to S6 as `known: true`), **Enhancement** (file for later)
+5. Bug-category: write regression test, fix it
+6. Known-limitation: document in semantic parse runner S6
+
+**Deliverable:** `tests/corpus/cbp-policy-corpus.json` — 50 sentences with output and correctness annotations. Becomes acceptance test for all future parser changes.
+
+---
+
+### WS-2: SME Demo UI
+
+**Priority:** HIGH — required before any future external demo
+**Owner:** Needed
+**Timeline:** Parallel with WS-1
+
+Build a visualization layer that renders `buildGraph()` output as something subject matter experts can read. JSON-LD is a serialization format for machines.
+
+**Three views:**
+
+**Entity Cards:** For each Tier 2 node (identified by `is_subject_of`):
+- Entity name, type (excluding owl:NamedIndividual/owl:Class), ontology matches (label + confidence), role in sentence
+
+**Relation Map:** For each StructuralAssertion or Tier 2 → Tier 2 property:
+- Subject → Relation → Object as table row ("CBP → part of → DHS")
+- Negated assertions: strike-through or red indicator
+
+**Raw JSON toggle:** Full `@graph` behind "Developer View" button. Hidden by default.
+
+**What NOT to build:** No D3 force layouts. No interactive graph. Cards and a table. Comprehension, not exploration.
+
+**Deliverable:** Updated `dist/standalone-demo.html`. Works from `file://`. No server. No build step.
+
+---
+
+### WS-3: Embarrassing Failures
+
+**Priority:** HIGH — specific bugs that broke the demo
+**Owner:** Dev team
+**Timeline:** Immediate, before WS-1 corpus review
+
+#### Fix 1: `shall` Modality (S8-02)
+**Status:** Test exists, test fails. **Effort:** Small.
+Add `shall` to the modal verb list alongside `must`, `will`, `can`, `might`. Classify as deontic obligation.
+
+#### Fix 2: Multi-Word Entity Fragmentation
+**Status:** Tracked as §5.1b. **Effort:** Medium.
+"Department of Homeland Security" fragmented in certain syntactic positions. Reproduce, trace, patch. Test in subject, object, possessive, prepositional, and relative clause positions.
+
+#### Fix 3: Ontology Matching Bugs
+**Status:** ✅ FIXED (commit `d64abda`). Three bugs resolved:
+- Duplicate match nodes → removed dead label supplement loop + subject dedup
+- Missing OWL type distinction → added `ontologyMatchOWLType` field
+- CCO acronym (`cco:ont00001753`) not in priority chain → added to `PRIORITY_PROPERTIES`
+- `ontologyMatchClass` renamed to `ontologyMatchIRI`
+
+---
+
+### WS Success Criteria
+
+| # | Criterion | Measurement |
+|---|-----------|-------------|
+| 1 | Corpus complete | 50 real CBP sentences parsed, every graph reviewed, every failure categorized |
+| 2 | Demo UI usable | Non-technical user sees entity cards + relations, not JSON-LD |
+| 3 | Embarrassments fixed | `shall` recognized. "Department of Homeland Security" never fragments. Ontology matching correct. |
+| 4 | Test runners green | All three HTML runners pass (within expected known-limitation and TDD-target counts) |
+
+**When all four are met, we demo again.**
 
 ---
 
@@ -262,10 +347,23 @@ These require act/role context to determine property and filler. Deferred to fut
 
 ### 3.1 Phase 5: Fandaws Integration — TagTeamAdapter + ParseResult Contract
 
-**Priority:** HIGH — Core product integration
-**Dependencies:** Phase 4 complete (all except legal sign-off)
+**Priority:** DEFERRED — TagTeam not mature enough to serve as Fandaws NLParser
+**Dependencies:** Phase 4 complete, WS-1/WS-3 workstreams, Role F1 ≥ 85%
 **Spec:** `docs/research/Fandaws_v3.3_Specification.md` §10.4.1
 **Roadmap:** `docs/development/Major-Refactor-Roadmap.md` Phase 5
+
+**Deferral rationale (2026-03-26):**
+Phase 5 makes TagTeam the NLParser *for* Fandaws. This requires TagTeam to reliably parse the sentence types Fandaws will feed it — policy text, regulatory language, multi-word entities, deontic modals. The 2026-03-26 stakeholder demo proved TagTeam cannot yet handle these patterns: Role F1 is 59% (target 85%), coordination splits multi-word entities, `shall` isn't recognized. Shipping the adapter now would give Fandaws a parser that breaks on its core input.
+
+**What is NOT deferred:** TagTeam can already consume Fandaws' *output* (the knowledge graph) as an ontology via `OntologyTextTagger.fromTTL()`. This is Layer 3 type resolution (§3.5) — the Fandaws graph enriches TagTeam entity matching. This capability is live and working.
+
+**Prerequisite to un-defer:**
+- WS-1 corpus: 50 real policy sentences parsed correctly
+- WS-3 fixes: `shall` modality, multi-word entity fragmentation
+- Role F1 ≥ 75% (relaxed from 85% — sufficient for adapter MVP)
+- Coordination entity accuracy ≥ 90% on coord-keep baselines
+
+**AC list preserved for when work resumes:**
 
 | AC | Description | Effort |
 |----|-------------|--------|
@@ -285,7 +383,7 @@ These require act/role context to determine property and filler. Deferred to fut
 | AC-5.14 | Negation passthrough | Small |
 | AC-5.15 | Knowledge graph context (advisory) | Large — deferred |
 
-**Deliverables:**
+**Deliverables (when un-deferred):**
 - `src/adapters/TagTeamAdapter.js`
 - `src/adapters/FandawsParseResultMapper.js`
 - `src/adapters/VerbTypeClassifier.js`
@@ -566,57 +664,68 @@ These are **known and accepted** limitations that require major architectural wo
 
 ---
 
-## SECTION 7: PRIORITIZED WORK QUEUE
+## SECTION 7: PRIORITIZED WORK QUEUE (Updated 2026-03-26)
 
-### Tier 1: Immediate (This Sprint)
+### Tier 1: Immediate — Demo Recovery (Parallel Workstreams)
 
-| # | Work Item | Effort | Blocker? | Depends On |
-|---|-----------|--------|----------|------------|
-| 1 | Resolve stakeholder stative verb concern | Small | Blocks demo | — |
-| 2 | Legal sign-off follow-up | External | Blocks release | — |
+| # | Work Item | Workstream | Effort | Status |
+|---|-----------|------------|--------|--------|
+| 1 | Fix `shall` modality (S8-02) | WS-3 | Small | Test exists, test fails |
+| 2 | Fix multi-word entity fragmentation (§5.1b) | WS-3 | Medium | Tracked, needs investigation |
+| 3 | Fix ontology matching bugs (dedup, OWL type, acronym) | WS-3 | Medium | ✅ DONE (`d64abda`) |
+| 4 | Build 50-sentence CBP domain corpus | WS-1 | Medium | Not started |
+| 5 | Review corpus graphs, categorize failures | WS-1 | Large | Depends on #4 |
+| 6 | SME demo UI (entity cards + relation map) | WS-2 | Medium | Not started |
 
-### Tier 2: Near-Term (Next Sprint)
-
-| # | Work Item | Effort | Depends On |
-|---|-----------|--------|------------|
-| 3 | Phase 5 Fandaws Integration (AC-5.1–5.14) | Large | Phase 4 exit |
-| 4 | Stative predicate reclassification | Medium | — |
-
-### Tier 3: Medium-Term
+### Tier 2: Parser Maturity — Path to Fandaws Readiness
 
 | # | Work Item | Effort | Depends On |
 |---|-----------|--------|------------|
-| 5 | §9.5.5 OWL Restriction Patterns (A-E) | Large | #4 (stative) |
-| 6 | Role F1 improvement campaign | Large | — |
-| 7 | p50 latency optimization | Medium | — |
+| 7 | Stative predicate reclassification (§3.3) | Medium | — |
+| 8 | Role F1 improvement (oblique roles, coordination propagation) | Large | — |
+| 9 | Coordination entity boundary fix (§5.1b comprehensive) | Large | #2 (investigation) |
+| 10 | Legal sign-off follow-up (AC-4.21) | External | — |
 
-### Tier 4: Long-Term / Deferred
+### Tier 3: Ontological Completeness
 
 | # | Work Item | Effort | Depends On |
 |---|-----------|--------|------------|
-| 8 | Domain fine-tuning | Large | Phase 5 |
-| 9 | Prefix subordination (V7 arch fix) | Very Large | — |
-| 10 | Relative clause support (V7 arch fix) | Very Large | — |
-| 11 | Mobile performance testing | Medium | Hardware |
+| 11 | §9.5.5 OWL Restriction Patterns (A-E) | Large | #7 (stative) |
+| 12 | TypeClassifier module (§3.5) | Medium | — |
+| 13 | p50 latency optimization | Medium | — |
+
+### Tier 4: Deferred
+
+| # | Work Item | Effort | Depends On |
+|---|-----------|--------|------------|
+| 14 | Phase 5 Fandaws adapter (AC-5.1–5.14) | Large | #4, #7, #8, #9 — parser maturity |
+| 15 | Domain fine-tuning | Large | #14 |
+| 16 | Prefix subordination (V7 arch fix) | Very Large | — |
+| 17 | Relative clause support (V7 arch fix) | Very Large | — |
+| 18 | Mobile performance testing | Medium | Hardware |
 
 ---
 
-## SECTION 8: KEY METRICS DASHBOARD
+## SECTION 8: KEY METRICS DASHBOARD (Updated 2026-03-26)
 
 | Metric | Value | Target | Status |
 |--------|-------|--------|--------|
-| Entity F1 | 90.3% | ≥88% | ✅ |
-| Role F1 | 59.3% | ≥85% | ❌ (baselined) |
+| Entity F1 | 89.6% | ≥88% | ✅ |
+| Role F1 | 57.8% | ≥85% | ❌ (baselined) |
 | POS accuracy | 93.5% | ≥96% | ⚠️ (accepted) |
 | UAS | 85.3% | ≥90% | ⚠️ (accepted) |
 | LAS | 83.2% | ≥88% | ⚠️ (accepted) |
-| Component tests | 89/100 (89%) | 100% | ⚠️ (11 architectural) |
-| CI tests | ~770+ | All pass | ✅ |
+| Component tests | 42/100 (42%) | 100% | ⚠️ (architectural) |
+| CI tests | 14 suites, 0 failures | All pass | ✅ |
 | Genericity tests | 43/43 | All pass | ✅ |
-| Bundle size | 5.49 MB / 0.97 MB gz | <10/<4 MB | ✅ |
+| Tagger tests | 141/141 | All pass | ✅ |
+| Bundle tests | 53/53 | All pass | ✅ |
+| Bundle size | 10.95 MB | <15 MB | ✅ |
 | p50 latency | 15.95ms | <10ms | ❌ |
 | p95 latency | 27.44ms | <30ms | ✅ |
 | Copular accuracy | 96.875% | ≥95% | ✅ |
+| Ontology matching | No dupes, OWL type, acronyms | Correct | ✅ (fixed `d64abda`) |
+| Version | 4.1.0 | — | Merged to main |
 | Coordination accuracy | 80% | — | ⚠️ |
 
 ---

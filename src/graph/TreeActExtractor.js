@@ -98,6 +98,34 @@ const PREPOSITION_FALLBACK_RELATIONS = {
   'as':     'rdf:type',
 };
 
+/**
+ * Modal Vocabulary Table — single source of truth.
+ * Maps modal verb → { modality, status, negatedModality, negatedStatus, deonticType }.
+ * See docs/development/plan-ws3-fix1-modal-detection.md for specification.
+ */
+const MODAL_TABLE = {
+  'must':   { modality: 'obligation',     status: 'tagteam:Prescribed',   negatedModality: 'prohibition', negatedStatus: 'tagteam:Prohibited', deonticType: 'duty' },
+  'shall':  { modality: 'obligation',     status: 'tagteam:Prescribed',   negatedModality: 'prohibition', negatedStatus: 'tagteam:Prohibited', deonticType: 'duty' },
+  'should': { modality: 'recommendation', status: 'tagteam:Prescribed',   negatedModality: null,          negatedStatus: null,                  deonticType: 'duty' },
+  'will':   { modality: 'intention',      status: 'tagteam:Actual',       negatedModality: null,          negatedStatus: null,                  deonticType: null },
+  'may':    { modality: 'permission',     status: 'tagteam:Permitted',    negatedModality: 'prohibition', negatedStatus: 'tagteam:Prohibited',  deonticType: 'privilege' },
+  'can':    { modality: 'ability',        status: 'tagteam:Possible',     negatedModality: 'prohibition', negatedStatus: 'tagteam:Prohibited',  deonticType: null },
+  'could':  { modality: 'hypothetical',   status: 'tagteam:Hypothetical', negatedModality: null,          negatedStatus: null,                  deonticType: null },
+  'would':  { modality: 'hypothetical',   status: 'tagteam:Hypothetical', negatedModality: null,          negatedStatus: null,                  deonticType: null },
+  'might':  { modality: 'possibility',    status: 'tagteam:Possible',     negatedModality: null,          negatedStatus: null,                  deonticType: null },
+  'ought':  { modality: 'obligation',    status: 'tagteam:Prescribed',   negatedModality: null,          negatedStatus: null,                  deonticType: 'duty' },
+};
+
+/**
+ * Multi-word modal verb lemmas that appear as control verbs with xcomp + "to".
+ * e.g., "have to allocate" → "have" is root, "allocate" is xcomp, "to" is mark.
+ */
+const MULTI_WORD_MODAL_LEMMAS = {
+  'have': 'obligation',
+  'need': 'obligation',
+  'ought': 'obligation',
+};
+
 // ============================================================================
 // TreeActExtractor
 // ============================================================================
@@ -147,16 +175,22 @@ class TreeActExtractor {
           acts.push(act);
         }
       } else {
-        // Regular verb act
-        const act = this._buildAct(depTree, rootId, children);
+        // Check for multi-word modal: root is "have"/"need"/"ought" with xcomp child
+        const multiWordResult = this._checkMultiWordModal(depTree, rootId, children);
+        if (multiWordResult) {
+          acts.push(multiWordResult);
+        } else {
+          // Regular verb act
+          const act = this._buildAct(depTree, rootId, children);
 
-        // Check for verb-based relation patterns (e.g., "is located in X")
-        // If a structural assertion is found, it replaces the act (not both)
-        const verbRelation = this._checkVerbRelation(depTree, rootId, children, act);
-        if (verbRelation) {
-          structuralAssertions.push(verbRelation);
-        } else if (act) {
-          acts.push(act);
+          // Check for verb-based relation patterns (e.g., "is located in X")
+          // If a structural assertion is found, it replaces the act (not both)
+          const verbRelation = this._checkVerbRelation(depTree, rootId, children, act);
+          if (verbRelation) {
+            structuralAssertions.push(verbRelation);
+          } else if (act) {
+            acts.push(act);
+          }
         }
       }
 
@@ -187,7 +221,10 @@ class TreeActExtractor {
     const isNegated = this._detectNegation(children);
     const isCopular = false;
 
-    return {
+    // Modal detection: scan aux children for MD tag or known modal words
+    const modal = this._detectModality(depTree, verbId, children);
+
+    const act = {
       verb: word,
       lemma,
       tag,
@@ -195,6 +232,114 @@ class TreeActExtractor {
       isCopular,
       isPassive,
       isNegated,
+    };
+
+    if (modal) {
+      act.modalVerb = modal.modalVerb;
+      act.modality = modal.modality;
+      act.actualityStatus = modal.actualityStatus;
+      if (modal.deonticType) act.deonticType = modal.deonticType;
+      // Reconstruct source text for DirectiveExtractor
+      act.sourceText = modal.modalVerb + ' ' + word;
+    }
+
+    return act;
+  }
+
+  /**
+   * Detect modality from dependency tree.
+   *
+   * Detection order (per plan specification):
+   *   1. Find modal: scan aux children for POS MD or known modal words
+   *   2. Find negation: scan advmod children for "not"/"n't", or handle "cannot"
+   *   3. Combine: if negation + modal has negated form, use negated modality/status
+   *
+   * @param {DepTree} depTree
+   * @param {number} verbId - 1-indexed verb token ID
+   * @param {Array} children - Direct children of this verb
+   * @returns {{ modalVerb: string, modality: string, actualityStatus: string, deonticType: string|null }|null}
+   */
+  _detectModality(depTree, verbId, children) {
+    // Step 1: Find modal among aux children
+    let modalWord = null;
+    let modalEntry = null;
+
+    for (const child of children) {
+      if (child.label !== 'aux' && child.label !== 'advmod') continue;
+      const childWord = child.word.toLowerCase();
+      // advmod children: only check "cannot" (POS tagger tags it as RB, not MD)
+      if (child.label === 'advmod' && childWord !== 'cannot') continue;
+      const childTag = depTree.tags[child.dependent - 1];
+
+      // Check by POS tag MD first, then by word lookup (fallback for mistagged modals)
+      if (childTag === 'MD' || MODAL_TABLE[childWord] || childWord === 'cannot') {
+        // "cannot" → look up "can" + force negation
+        if (childWord === 'cannot') {
+          modalEntry = MODAL_TABLE['can'];
+          modalWord = 'cannot';
+          if (modalEntry && modalEntry.negatedModality) {
+            return {
+              modalVerb: 'cannot',
+              modality: modalEntry.negatedModality,
+              actualityStatus: modalEntry.negatedStatus,
+              deonticType: modalEntry.deonticType || null,
+            };
+          }
+          break;
+        }
+        modalEntry = MODAL_TABLE[childWord];
+        if (modalEntry) {
+          modalWord = childWord;
+          break;
+        }
+      }
+    }
+
+    // Handle "cannot" as single token: the tokenizer may keep it as one word
+    // Check if the verb itself is "cannot" — it won't appear as an aux child
+    if (!modalEntry) {
+      const verbWord = depTree.tokens[verbId - 1].toLowerCase();
+      if (verbWord === 'cannot') {
+        modalEntry = MODAL_TABLE['can'];
+        modalWord = 'cannot';
+        // "cannot" is inherently negated
+        if (modalEntry && modalEntry.negatedModality) {
+          return {
+            modalVerb: 'cannot',
+            modality: modalEntry.negatedModality,
+            actualityStatus: modalEntry.negatedStatus,
+            deonticType: modalEntry.deonticType || null,
+          };
+        }
+      }
+    }
+
+    if (!modalEntry) return null;
+
+    // Step 2: Check for negation among siblings
+    const hasNegation = children.some(c => {
+      if (c.label === 'advmod') {
+        const w = c.word.toLowerCase();
+        return w === 'not' || w === "n't" || w === 'never';
+      }
+      return c.label === 'neg';
+    });
+
+    // Step 3: Combine modal + negation
+    if (hasNegation && modalEntry.negatedModality) {
+      return {
+        modalVerb: modalWord,
+        modality: modalEntry.negatedModality,
+        actualityStatus: modalEntry.negatedStatus,
+        deonticType: modalEntry.deonticType || null,
+      };
+    }
+
+    return {
+      modalVerb: modalWord,
+      modality: modalEntry.modality,
+      actualityStatus: modalEntry.status,
+      deonticType: modalEntry.deonticType || null,
     };
   }
 
@@ -435,6 +580,48 @@ class TreeActExtractor {
         }
       }
     }
+  }
+
+  /**
+   * Check for multi-word modal patterns: "have to VERB", "need to VERB".
+   * The root is the control verb ("have"/"need") with xcomp → real verb and mark → "to".
+   * Returns an act for the real verb with obligation modality, or null.
+   *
+   * @param {DepTree} depTree
+   * @param {number} rootId - 1-indexed root verb ID
+   * @param {Array} children - Direct children of root
+   * @returns {Act|null}
+   */
+  _checkMultiWordModal(depTree, rootId, children) {
+    const rootWord = depTree.tokens[rootId - 1];
+    const rootTag = depTree.tags[rootId - 1];
+    const rootLemma = this._lemmatize(rootWord, rootTag);
+
+    const modalModality = MULTI_WORD_MODAL_LEMMAS[rootLemma];
+    if (!modalModality) return null;
+
+    // Find xcomp child (the real verb)
+    const xcompChild = children.find(c => c.label === 'xcomp');
+    if (!xcompChild) return null;
+
+    // Verify "to" mark exists on the xcomp
+    const xcompChildren = depTree.getChildren(xcompChild.dependent);
+    const hasToMark = xcompChildren.some(c => c.label === 'mark' && c.word.toLowerCase() === 'to');
+    if (!hasToMark) return null;
+
+    // Build act for the real verb (xcomp)
+    const act = this._buildAct(depTree, xcompChild.dependent, xcompChildren);
+    if (!act) return null;
+
+    // Override with multi-word modal properties
+    const entry = MODAL_TABLE['must']; // obligation defaults match "must"
+    act.modalVerb = rootLemma + ' to';
+    act.modality = modalModality;
+    act.actualityStatus = entry ? entry.status : 'tagteam:Prescribed';
+    act.deonticType = entry ? entry.deonticType : 'duty';
+    act.sourceText = rootWord + ' to ' + act.verb;
+
+    return act;
   }
 
   /**
