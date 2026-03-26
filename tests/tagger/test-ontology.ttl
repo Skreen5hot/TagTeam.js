@@ -6,6 +6,7 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix cco: <https://www.commoncoreontologies.org/> .
 
 <https://example.org/ontology/tagteamTestOntology> rdf:type owl:Ontology ;
     owl:versionIRI <https://example.org/ontology/2026-03-05/tagteamTestOntology> ;
@@ -92,6 +93,11 @@ ex:DepartmentOfHomelandSecurity rdf:type owl:NamedIndividual , ex:GovernmentAgen
     skos:hiddenLabel "Homland Security"@en ;
     skos:hiddenLabel "Dept of Homeland Securty"@en ;
     rdfs:comment "A federal agency responsible for public security."@en .
+
+ex:CustomsBorderProtection rdf:type owl:NamedIndividual , ex:GovernmentAgency ;
+    rdfs:label "Customs and Border Protection"@en ;
+    cco:ont00001753 "CBP"@en ;
+    rdfs:comment "A DHS sub-agency. Tests cco:ont00001753 (CCO acronym property) matching."@en .
 
 ex:Smith_001 rdf:type owl:NamedIndividual ;
     rdfs:label "Smith"@en ;

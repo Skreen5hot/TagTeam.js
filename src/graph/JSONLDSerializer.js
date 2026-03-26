@@ -321,13 +321,14 @@ class JSONLDSerializer {
         '@id':        'tagteam:ontologyMatch',
         '@container': '@set'
       },
-      ontologyMatchClass:      { '@id': 'tagteam:ontologyMatchClass',      '@type': '@id' },
+      ontologyMatchIRI:      { '@id': 'tagteam:ontologyMatchIRI',      '@type': '@id' },
       ontologyMatchConfidence: { '@id': 'tagteam:ontologyMatchConfidence', '@type': 'xsd:decimal' },
       ontologyMatchEvidence:   { '@id': 'tagteam:ontologyMatchEvidence' },
       ontologyMatchLabel:      { '@id': 'tagteam:ontologyMatchLabel' },
       ontologyMatchType:       { '@id': 'tagteam:ontologyMatchType' },
       ontologyMatchForm:       { '@id': 'tagteam:ontologyMatchForm' },
-      ontologyMatchInflection: { '@id': 'tagteam:ontologyMatchInflection' }
+      ontologyMatchInflection: { '@id': 'tagteam:ontologyMatchInflection' },
+      ontologyMatchOWLType:    { '@id': 'tagteam:ontologyMatchOWLType' }
     };
   }
 

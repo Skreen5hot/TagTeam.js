@@ -64,8 +64,20 @@ class PropertyMapper {
       parseResult.getProperty(c.id, this.propertyMap.keywords)
     );
 
+    // Deduplicate by subject ID: a subject with multiple rdf:type triples
+    // (e.g., owl:NamedIndividual + ex:GovernmentAgency) appears once per triple
+    // in getClasses(). Keep the first occurrence only.
+    const seen = new Set();
+    const unique = [];
+    for (const c of filtered) {
+      if (!seen.has(c.id)) {
+        seen.add(c.id);
+        unique.push(c);
+      }
+    }
+
     // Map each subject to a TagDefinition
-    return filtered
+    return unique
       .map(c => this._buildTagDefinition(c, parseResult))
       .filter(d => d !== null);
   }
@@ -191,6 +203,7 @@ class PropertyMapper {
       name: name,
       label: label,
       type: classInfo.type,
+      owlType: this._resolveOWLType(subject, parseResult),
       keywords: keywords,
       propertyEvidence: this._collectPropertyEvidence(subject, parseResult)
     };
@@ -273,6 +286,10 @@ class PropertyMapper {
       { predicate: 'skos:prefLabel',   matchType: 'exact' },
       { predicate: 'skos:altLabel',    matchType: 'alias' },
       { predicate: 'skos:notation',    matchType: 'alias' },
+      // cco:ont00001753 = CCO "acronym" annotation property
+      // Used across CCO-aligned ontologies for abbreviations (DHS, CBP, etc.)
+      // Parent of cco:ont00001740 (SI unit symbol)
+      { predicate: 'cco:ont00001753',  matchType: 'alias' },
       { predicate: 'skos:hiddenLabel', matchType: 'hidden' }
     ];
   }
@@ -309,6 +326,25 @@ class PropertyMapper {
     }
 
     return evidence;
+  }
+
+  /**
+   * Determine the OWL type category for a subject.
+   * Checks all rdf:type triples: if any is owl:NamedIndividual, returns that;
+   * otherwise returns owl:Class as default.
+   * @param {string} subject - The class/individual IRI
+   * @param {Object} parseResult - TurtleParser ParseResult
+   * @returns {string} 'owl:NamedIndividual' or 'owl:Class'
+   * @private
+   */
+  _resolveOWLType(subject, parseResult) {
+    const classes = parseResult.getClasses();
+    for (const cls of classes) {
+      if (cls.id === subject && cls.type === 'owl:NamedIndividual') {
+        return 'owl:NamedIndividual';
+      }
+    }
+    return 'owl:Class';
   }
 
   /**

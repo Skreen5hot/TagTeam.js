@@ -1,7 +1,7 @@
 /*!
  * TagTeam.js - Two-Tier Semantic Graph Engine
  * Version: 7.0 (v2 Phase 2: Dependency Parser)
- * Date: 2026-03-05
+ * Date: 2026-03-26
  *
  * A client-side JavaScript library for extracting semantic roles from natural language text
  *
@@ -302364,13 +302364,11 @@ class RealWorldEntityFactory {
       node['tagteam:introducingPreposition'] = referent['tagteam:introducingPreposition'];
     }
 
-    // ENH-001: Copy type information from referent for consistency
-    if (referent['tagteam:denotesType']) {
-      node['tagteam:denotesType'] = referent['tagteam:denotesType'];
-    }
-    if (referent['tagteam:typeRefinedBy']) {
-      node['tagteam:typeRefinedBy'] = referent['tagteam:typeRefinedBy'];
-    }
+    // ENH-001: denotesType has rdfs:domain :DiscourseReferent — do NOT copy
+    // to Tier 2 nodes (Independent Continuants). The Tier 2 @type already
+    // carries the real-world class (cco:Person, cco:Artifact, etc.).
+    // typeRefinedBy similarly belongs on Tier 1 only.
+
 
     return node;
   }
@@ -309798,13 +309796,14 @@ class JSONLDSerializer {
         '@id':        'tagteam:ontologyMatch',
         '@container': '@set'
       },
-      ontologyMatchClass:      { '@id': 'tagteam:ontologyMatchClass',      '@type': '@id' },
+      ontologyMatchIRI:      { '@id': 'tagteam:ontologyMatchIRI',      '@type': '@id' },
       ontologyMatchConfidence: { '@id': 'tagteam:ontologyMatchConfidence', '@type': 'xsd:decimal' },
       ontologyMatchEvidence:   { '@id': 'tagteam:ontologyMatchEvidence' },
       ontologyMatchLabel:      { '@id': 'tagteam:ontologyMatchLabel' },
       ontologyMatchType:       { '@id': 'tagteam:ontologyMatchType' },
       ontologyMatchForm:       { '@id': 'tagteam:ontologyMatchForm' },
-      ontologyMatchInflection: { '@id': 'tagteam:ontologyMatchInflection' }
+      ontologyMatchInflection: { '@id': 'tagteam:ontologyMatchInflection' },
+      ontologyMatchOWLType:    { '@id': 'tagteam:ontologyMatchOWLType' }
     };
   }
 
@@ -317745,8 +317744,20 @@ class PropertyMapper {
       parseResult.getProperty(c.id, this.propertyMap.keywords)
     );
 
+    // Deduplicate by subject ID: a subject with multiple rdf:type triples
+    // (e.g., owl:NamedIndividual + ex:GovernmentAgency) appears once per triple
+    // in getClasses(). Keep the first occurrence only.
+    const seen = new Set();
+    const unique = [];
+    for (const c of filtered) {
+      if (!seen.has(c.id)) {
+        seen.add(c.id);
+        unique.push(c);
+      }
+    }
+
     // Map each subject to a TagDefinition
-    return filtered
+    return unique
       .map(c => this._buildTagDefinition(c, parseResult))
       .filter(d => d !== null);
   }
@@ -317872,6 +317883,7 @@ class PropertyMapper {
       name: name,
       label: label,
       type: classInfo.type,
+      owlType: this._resolveOWLType(subject, parseResult),
       keywords: keywords,
       propertyEvidence: this._collectPropertyEvidence(subject, parseResult)
     };
@@ -317954,6 +317966,10 @@ class PropertyMapper {
       { predicate: 'skos:prefLabel',   matchType: 'exact' },
       { predicate: 'skos:altLabel',    matchType: 'alias' },
       { predicate: 'skos:notation',    matchType: 'alias' },
+      // cco:ont00001753 = CCO "acronym" annotation property
+      // Used across CCO-aligned ontologies for abbreviations (DHS, CBP, etc.)
+      // Parent of cco:ont00001740 (SI unit symbol)
+      { predicate: 'cco:ont00001753',  matchType: 'alias' },
       { predicate: 'skos:hiddenLabel', matchType: 'hidden' }
     ];
   }
@@ -317990,6 +318006,25 @@ class PropertyMapper {
     }
 
     return evidence;
+  }
+
+  /**
+   * Determine the OWL type category for a subject.
+   * Checks all rdf:type triples: if any is owl:NamedIndividual, returns that;
+   * otherwise returns owl:Class as default.
+   * @param {string} subject - The class/individual IRI
+   * @param {Object} parseResult - TurtleParser ParseResult
+   * @returns {string} 'owl:NamedIndividual' or 'owl:Class'
+   * @private
+   */
+  _resolveOWLType(subject, parseResult) {
+    const classes = parseResult.getClasses();
+    for (const cls of classes) {
+      if (cls.id === subject && cls.type === 'owl:NamedIndividual') {
+        return 'owl:NamedIndividual';
+      }
+    }
+    return 'owl:Class';
   }
 
   /**
@@ -318311,6 +318346,7 @@ class OntologyTextTagger {
         name: localName,
         label: label,
         type: cls.type,
+        owlType: this.propertyMapper._resolveOWLType(cls.id, this._parseResult),
         keywords: allValues,
         propertyEvidence: evidence
       });
@@ -318407,7 +318443,8 @@ class OntologyTextTagger {
       keywordCount,
       polarity,
       domain: this.domain,
-      iri: def.iri || def.id
+      iri: def.iri || def.id,
+      ontologyMatchOWLType: def.owlType || 'owl:Class'
     };
 
     // Add category if present
@@ -318766,7 +318803,8 @@ class OntologyTextTagger {
       iri: def.iri || def.id,
       ontologyMatchType: matchInfo.matchType,
       ontologyMatchForm: matchInfo.originalForm,
-      ontologyMatchInflection: matchInfo.inflection
+      ontologyMatchInflection: matchInfo.inflection,
+      ontologyMatchOWLType: def.owlType || 'owl:Class'
     };
   }
 
@@ -325667,13 +325705,14 @@ class SemanticGraphBuilder {
           // Annotate — don't mutate @type
           if (!node['ontologyMatch']) node['ontologyMatch'] = [];
           node['ontologyMatch'].push({
-            ontologyMatchClass: tag.iri || tag['class'],
+            ontologyMatchIRI: tag.iri || tag['class'],
             ontologyMatchConfidence: tag.confidence,
             ontologyMatchEvidence: ev[ei],
             ontologyMatchLabel: tag.label || '',
             ontologyMatchType: tag.ontologyMatchType || 'exact',
             ontologyMatchForm: tag.ontologyMatchForm || ev[ei],
-            ontologyMatchInflection: tag.ontologyMatchInflection || null
+            ontologyMatchInflection: tag.ontologyMatchInflection || null,
+            ontologyMatchOWLType: tag.ontologyMatchOWLType || 'owl:Class'
           });
           // Update classNominationStatus if this is an unresolved owl:Class node
           if (node['tagteam:classNominationStatus'] === 'unresolved') {
@@ -325820,45 +325859,11 @@ class SemanticGraphBuilder {
         graph = builder.build(text, Object.assign({}, options, { useTreeExtractors: true }));
       }
 
-      // Ontology enrichment: annotate Tier 2 entities with matched ontology classes
+      // Ontology enrichment: annotate Tier 2 entities with matched ontology classes.
+      // The priority matching engine in tagText() handles all matching cases
+      // (exact, alias, lemma, possessive, acronym). No label supplement needed.
       if (options.ontology && typeof options.ontology.tagText === 'function') {
         var tags = options.ontology.tagText(text) || [];
-
-        // Supplement with label-based matches: class names that appear as
-        // tokens in the text should always match, even if the keyword
-        // property (e.g. med:indicators) didn't contain the class name.
-        var defs = options.ontology.tagDefinitions;
-        if (defs) {
-          var textLower = text.toLowerCase();
-          var textTokens = textLower.split(/s+/).map(function(t) {
-            return t.replace(/[^a-z0-9]/g, '');
-          });
-          for (var dk in defs) {
-            var def = defs[dk];
-            if (!def.label) continue;
-            var labelLower = def.label.toLowerCase();
-            var labelTokens = labelLower.split(/s+/);
-            var allPresent = true;
-            for (var li = 0; li < labelTokens.length; li++) {
-              if (textTokens.indexOf(labelTokens[li]) === -1) { allPresent = false; break; }
-            }
-            if (!allPresent) continue;
-            // Skip if keyword matching already found this class
-            var defIri = def.iri || def.id;
-            var alreadyTagged = false;
-            for (var ti = 0; ti < tags.length; ti++) {
-              if ((tags[ti].iri || tags[ti]['class']) === defIri || tags[ti]['class'] === def.id) {
-                alreadyTagged = true; break;
-              }
-            }
-            if (alreadyTagged) continue;
-            tags.push({
-              'class': def.id, label: def.label, confidence: 1.0,
-              evidence: [def.label], iri: defIri, keywordCount: 1, domain: 'custom',
-              ontologyMatchType: 'exact', ontologyMatchForm: def.label, ontologyMatchInflection: null
-            });
-          }
-        }
 
         if (tags.length > 0) {
           var threshold = typeof options.ontologyThreshold === 'number'
@@ -325946,7 +325951,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 267 | 3f04a6d | 2026-03-05T17:31:21.864Z',
+    BUILD: 'build 269 | 8c4c684 | 2026-03-26T13:23:57.903Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,

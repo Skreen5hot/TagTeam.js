@@ -159,7 +159,7 @@ Each `ontologyMatch` entry on a Tier 2 node uses this structure. All fields are 
 
 ```json
 {
-  "ontologyMatchClass": "https://example.org/ontology/Agent",
+  "ontologyMatchIRI": "https://example.org/ontology/Agent",
   "ontologyMatchConfidence": 0.92,
   "ontologyMatchEvidence": "agents",
   "ontologyMatchLabel": "Agent",
@@ -171,7 +171,7 @@ Each `ontologyMatch` entry on a Tier 2 node uses this structure. All fields are 
 
 | Field | Type | Description |
 |---|---|---|
-| `ontologyMatchClass` | IRI (`@type: "@id"`) | The ontology class or individual IRI that matched |
+| `ontologyMatchIRI` | IRI (`@type: "@id"`) | The ontology class or individual IRI that matched |
 | `ontologyMatchConfidence` | decimal (0.0–1.0) | Confidence of the match |
 | `ontologyMatchEvidence` | string | The specific text token or span that triggered the match |
 | `ontologyMatchLabel` | string | The human-readable label of the matched ontology class |
@@ -213,7 +213,7 @@ These properties must be added to support the annotation schema.
 ```javascript
 // ── Ontology matching ──────────────────────────────────
 ontologyMatch:           { '@id': 'tagteam:ontologyMatch',           '@container': '@set' },
-ontologyMatchClass:      { '@id': 'tagteam:ontologyMatchClass',      '@type': '@id' },
+ontologyMatchIRI:      { '@id': 'tagteam:ontologyMatchIRI',      '@type': '@id' },
 ontologyMatchConfidence: { '@id': 'tagteam:ontologyMatchConfidence', '@type': 'xsd:decimal' },
 ontologyMatchEvidence:   { '@id': 'tagteam:ontologyMatchEvidence' },
 ontologyMatchLabel:      { '@id': 'tagteam:ontologyMatchLabel' },
@@ -231,7 +231,7 @@ tagteam:ontologyMatch rdf:type owl:AnnotationProperty ;
     rdfs:label "ontology match"@en ;
     skos:definition "An annotation linking a Tier 2 entity node to externally-matched ontology class metadata."@en .
 
-tagteam:ontologyMatchClass rdf:type owl:AnnotationProperty ;
+tagteam:ontologyMatchIRI rdf:type owl:AnnotationProperty ;
     rdfs:label "ontology match class"@en ;
     skos:definition "The IRI of the ontology class matched to this entity."@en .
 
@@ -441,7 +441,7 @@ const agentNode = tier2Nodes.find(n =>
   (n['rdfs:label'] || '').toLowerCase() === 'agent');
 assert(agentNode && agentNode['ontologyMatch'],
   'Agent Tier 2 node has ontologyMatch');
-assert(agentNode['ontologyMatch'][0].ontologyMatchClass ===
+assert(agentNode['ontologyMatch'][0].ontologyMatchIRI ===
   'https://example.org/ontology/Agent',
   'Agent matches ex:Agent class');
 ```
@@ -542,7 +542,7 @@ assert(matchedNodes.length > 0, 'At least one match produced');
 
 matchedNodes.forEach(n => {
   n['ontologyMatch'].forEach(m => {
-    assert(m.ontologyMatchClass, 'Has ontologyMatchClass (IRI)');
+    assert(m.ontologyMatchIRI, 'Has ontologyMatchIRI (IRI)');
     assert(typeof m.ontologyMatchConfidence === 'number', 'Has ontologyMatchConfidence (number)');
     assert(m.ontologyMatchEvidence, 'Has ontologyMatchEvidence (string)');
     assert(m.ontologyMatchLabel !== undefined, 'Has ontologyMatchLabel');

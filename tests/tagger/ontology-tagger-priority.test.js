@@ -579,6 +579,83 @@ console.log('--- Backward Compatibility ---');
 })();
 
 // ═══════════════════════════════════════════════════════════════
+// Bug Regression: Duplicate Matches (Bug 1)
+// ═══════════════════════════════════════════════════════════════
+console.log('--- Bug 1: No Duplicate Matches ---');
+
+// TC-BUG1: tagText must return exactly one match per entity
+(function TCBUG1() {
+  var r = tagger.tagText('Department of Homeland Security');
+  var dhsMatches = r.filter(function(t) {
+    return t['class'] === 'ex:DepartmentOfHomelandSecurity' ||
+           (t.iri || '').indexOf('DepartmentOfHomelandSecurity') >= 0;
+  });
+  assert(dhsMatches.length === 1, 'TC-BUG1: Exactly one DHS match (got ' + dhsMatches.length + ')');
+})();
+
+// ═══════════════════════════════════════════════════════════════
+// Bug Regression: OWL Type Distinction (Bug 2)
+// ═══════════════════════════════════════════════════════════════
+console.log('--- Bug 2: OWL Type Distinction ---');
+
+// TC-BUG2a: NamedIndividual has ontologyMatchOWLType = owl:NamedIndividual
+(function TCBUG2a() {
+  var r = tagger.tagText('Department of Homeland Security');
+  var m = findMatch(r, 'ex:DepartmentOfHomelandSecurity');
+  assert(m, 'TC-BUG2a: DHS matched');
+  assert(m && m.ontologyMatchOWLType === 'owl:NamedIndividual',
+    'TC-BUG2a: OWL type is owl:NamedIndividual (got ' + (m && m.ontologyMatchOWLType) + ')');
+})();
+
+// TC-BUG2b: owl:Class has ontologyMatchOWLType = owl:Class
+(function TCBUG2b() {
+  var r = tagger.tagText('Agent');
+  var m = findMatch(r, 'ex:Agent');
+  assert(m, 'TC-BUG2b: Agent matched');
+  assert(m && m.ontologyMatchOWLType === 'owl:Class',
+    'TC-BUG2b: OWL type is owl:Class (got ' + (m && m.ontologyMatchOWLType) + ')');
+})();
+
+// TC-BUG2c: Smith (NamedIndividual without class)
+(function TCBUG2c() {
+  var r = tagger.tagText('Smith');
+  var m = findMatch(r, 'ex:Smith_001');
+  assert(m, 'TC-BUG2c: Smith matched');
+  assert(m && m.ontologyMatchOWLType === 'owl:NamedIndividual',
+    'TC-BUG2c: OWL type is owl:NamedIndividual (got ' + (m && m.ontologyMatchOWLType) + ')');
+})();
+
+// ═══════════════════════════════════════════════════════════════
+// Bug Regression: CCO Acronym Matching (Bug 3)
+// ═══════════════════════════════════════════════════════════════
+console.log('--- Bug 3: CCO Acronym (cco:ont00001753) ---');
+
+// TC-BUG3a: "CBP" matched via cco:ont00001753
+(function TCBUG3a() {
+  var r = tagger.tagText('CBP');
+  var m = findMatch(r, 'ex:CustomsBorderProtection');
+  assert(m, 'TC-BUG3a: CBP matched via cco:ont00001753 (got ' + r.length + ' total matches)');
+  assert(m && m.ontologyMatchType === 'alias',
+    'TC-BUG3a: matchType is alias (got ' + (m && m.ontologyMatchType) + ')');
+})();
+
+// TC-BUG3b: "CBP" lowercase
+(function TCBUG3b() {
+  var r = tagger.tagText('cbp');
+  var m = findMatch(r, 'ex:CustomsBorderProtection');
+  assert(m, 'TC-BUG3b: cbp matched lowercase via cco:ont00001753');
+})();
+
+// TC-BUG3c: Full name still matches via rdfs:label
+(function TCBUG3c() {
+  var r = tagger.tagText('Customs and Border Protection');
+  var m = findMatch(r, 'ex:CustomsBorderProtection');
+  assert(m, 'TC-BUG3c: Full name matched via rdfs:label');
+  assert(m && m.ontologyMatchType === 'exact',
+    'TC-BUG3c: matchType is exact (got ' + (m && m.ontologyMatchType) + ')');
+})();
+
+// ═══════════════════════════════════════════════════════════════
 // Results
 // ═══════════════════════════════════════════════════════════════
 console.log('\n=== Results ===');
