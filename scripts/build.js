@@ -1203,13 +1203,14 @@ ${semanticGraphBuilder}
           // Annotate — don't mutate @type
           if (!node['ontologyMatch']) node['ontologyMatch'] = [];
           node['ontologyMatch'].push({
-            ontologyMatchClass: tag.iri || tag['class'],
+            ontologyMatchIRI: tag.iri || tag['class'],
             ontologyMatchConfidence: tag.confidence,
             ontologyMatchEvidence: ev[ei],
             ontologyMatchLabel: tag.label || '',
             ontologyMatchType: tag.ontologyMatchType || 'exact',
             ontologyMatchForm: tag.ontologyMatchForm || ev[ei],
-            ontologyMatchInflection: tag.ontologyMatchInflection || null
+            ontologyMatchInflection: tag.ontologyMatchInflection || null,
+            ontologyMatchOWLType: tag.ontologyMatchOWLType || 'owl:Class'
           });
           // Update classNominationStatus if this is an unresolved owl:Class node
           if (node['tagteam:classNominationStatus'] === 'unresolved') {
@@ -1356,45 +1357,11 @@ ${semanticGraphBuilder}
         graph = builder.build(text, Object.assign({}, options, { useTreeExtractors: true }));
       }
 
-      // Ontology enrichment: annotate Tier 2 entities with matched ontology classes
+      // Ontology enrichment: annotate Tier 2 entities with matched ontology classes.
+      // The priority matching engine in tagText() handles all matching cases
+      // (exact, alias, lemma, possessive, acronym). No label supplement needed.
       if (options.ontology && typeof options.ontology.tagText === 'function') {
         var tags = options.ontology.tagText(text) || [];
-
-        // Supplement with label-based matches: class names that appear as
-        // tokens in the text should always match, even if the keyword
-        // property (e.g. med:indicators) didn't contain the class name.
-        var defs = options.ontology.tagDefinitions;
-        if (defs) {
-          var textLower = text.toLowerCase();
-          var textTokens = textLower.split(/\s+/).map(function(t) {
-            return t.replace(/[^a-z0-9]/g, '');
-          });
-          for (var dk in defs) {
-            var def = defs[dk];
-            if (!def.label) continue;
-            var labelLower = def.label.toLowerCase();
-            var labelTokens = labelLower.split(/\s+/);
-            var allPresent = true;
-            for (var li = 0; li < labelTokens.length; li++) {
-              if (textTokens.indexOf(labelTokens[li]) === -1) { allPresent = false; break; }
-            }
-            if (!allPresent) continue;
-            // Skip if keyword matching already found this class
-            var defIri = def.iri || def.id;
-            var alreadyTagged = false;
-            for (var ti = 0; ti < tags.length; ti++) {
-              if ((tags[ti].iri || tags[ti]['class']) === defIri || tags[ti]['class'] === def.id) {
-                alreadyTagged = true; break;
-              }
-            }
-            if (alreadyTagged) continue;
-            tags.push({
-              'class': def.id, label: def.label, confidence: 1.0,
-              evidence: [def.label], iri: defIri, keywordCount: 1, domain: 'custom',
-              ontologyMatchType: 'exact', ontologyMatchForm: def.label, ontologyMatchInflection: null
-            });
-          }
-        }
 
         if (tags.length > 0) {
           var threshold = typeof options.ontologyThreshold === 'number'

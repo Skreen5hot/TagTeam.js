@@ -120,7 +120,7 @@ try {
   // Verify structure of match entry
   if (matchedNodes.length > 0) {
     const match = matchedNodes[0]['ontologyMatch'][0];
-    assert(match.ontologyMatchClass, 'ontologyMatch has class IRI');
+    assert(match.ontologyMatchIRI, 'ontologyMatch has class IRI');
     assert(typeof match.ontologyMatchConfidence === 'number', 'ontologyMatch has confidence');
     assert(match.ontologyMatchEvidence, 'ontologyMatch has evidence');
   }
@@ -220,7 +220,7 @@ try {
   assert(matched3.length > 0, 'TC-I07: At least one match produced');
   matched3.forEach(n => {
     n['ontologyMatch'].forEach(m => {
-      assert(m.ontologyMatchClass, 'TC-I07: Has ontologyMatchClass');
+      assert(m.ontologyMatchIRI, 'TC-I07: Has ontologyMatchIRI');
       assert(typeof m.ontologyMatchConfidence === 'number', 'TC-I07: Has confidence');
       assert(m.ontologyMatchEvidence, 'TC-I07: Has evidence');
       assert(m.ontologyMatchLabel !== undefined, 'TC-I07: Has label');

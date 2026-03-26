@@ -275,6 +275,7 @@ class OntologyTextTagger {
         name: localName,
         label: label,
         type: cls.type,
+        owlType: this.propertyMapper._resolveOWLType(cls.id, this._parseResult),
         keywords: allValues,
         propertyEvidence: evidence
       });
@@ -371,7 +372,8 @@ class OntologyTextTagger {
       keywordCount,
       polarity,
       domain: this.domain,
-      iri: def.iri || def.id
+      iri: def.iri || def.id,
+      ontologyMatchOWLType: def.owlType || 'owl:Class'
     };
 
     // Add category if present
@@ -730,7 +732,8 @@ class OntologyTextTagger {
       iri: def.iri || def.id,
       ontologyMatchType: matchInfo.matchType,
       ontologyMatchForm: matchInfo.originalForm,
-      ontologyMatchInflection: matchInfo.inflection
+      ontologyMatchInflection: matchInfo.inflection,
+      ontologyMatchOWLType: def.owlType || 'owl:Class'
     };
   }
 

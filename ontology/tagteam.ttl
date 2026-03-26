@@ -1002,10 +1002,10 @@ not just recording them as text strings in :qualifierText."""@en ;
     skos:prefLabel "ontology match"@en ;
     skos:definition "An annotation linking a Tier 2 entity node to externally-matched ontology class metadata. Each entry records the matched class IRI, confidence score, evidence text, and class label. Added by buildGraph() when the ontology option is provided."@en .
 
-:ontologyMatchClass
+:ontologyMatchIRI
     a owl:AnnotationProperty ;
-    rdfs:label "ontology match class"@en ;
-    skos:definition "The IRI of the ontology class matched to this entity."@en ;
+    rdfs:label "ontology match IRI"@en ;
+    skos:definition "The IRI of the ontology class or individual matched to this entity."@en ;
     rdfs:range rdfs:Resource .
 
 :ontologyMatchConfidence
@@ -1042,6 +1042,12 @@ not just recording them as text strings in :qualifierText."""@en ;
     a owl:AnnotationProperty ;
     rdfs:label "ontology match inflection"@en ;
     skos:definition "The normalization chain applied, e.g. plural->singular, possessive->base, verb->base, irregular."@en ;
+    rdfs:range xsd:string .
+
+:ontologyMatchOWLType
+    a owl:AnnotationProperty ;
+    rdfs:label "ontology match OWL type"@en ;
+    skos:definition "The OWL category (owl:Class or owl:NamedIndividual) of the matched ontology entity."@en ;
     rdfs:range xsd:string .
 
 

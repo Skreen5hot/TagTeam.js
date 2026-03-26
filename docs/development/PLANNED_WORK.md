@@ -450,6 +450,33 @@ Properties:
 - Passive voice: obl:agent detection works but some edge cases fail
 - Improvement path: targeted fixes per pattern type, not architectural change
 
+### 5.1b Coordination Entity Boundary Failure (2026-03-26)
+
+**Severity:** HIGH — Multi-word named entities containing "and" are destroyed by coordination split
+**Impact:** Ontology matching cannot work if the entity was never extracted as a unit
+
+**Observed failure:** "Customs and Border Protection is part of Department of Homeland Security."
+- Parser splits on "and", creating fragments: `Customs`, `Border Protection`, `Security`
+- "Customs" and "Security" misclassified as verbs (`Act_Customs`, `Act_Security`)
+- Period extracted as entity (`inst:`)
+- No ontology match possible because "Customs and Border Protection" never exists as a node
+- Compare: "CBP is part of Department of Homeland Security." works correctly (single token, no coordination ambiguity)
+
+**Scope:** Affects all government agency names with "and": Customs and Border Protection, Immigration and Customs Enforcement, Fish and Wildlife Service, Bureau of Alcohol Tobacco and Firearms. Baseline tests `coord-keep-001` through `coord-keep-005` all fail.
+
+**Root cause:** `TreeEntityExtractor._handleCoordination()` compound-crossing guard (intended to return KEEP when conjuncts have `compound` children) is not firing reliably for these patterns. The dependency parser produces a coordination structure where "and" triggers conjunct splitting before the compound guard can prevent it.
+
+**Existing defenses:**
+- Compound-crossing check in `TreeEntityExtractor.js` (lines ~218-233): returns null (KEEP) when conjuncts have compound deps — but not triggering for these cases
+- GazetteerNER: could prevent split if these names were in the gazetteer, but government agency names are not in the current gazetteer set
+- ComplexDesignatorDetector: designed for greedy multi-word NER but runs after coordination has already split
+
+**Fix paths (not prioritized):**
+1. Add government agency names to GazetteerNER — prevents split at source
+2. Fix compound-crossing guard to handle these dependency structures
+3. Move ComplexDesignatorDetector before coordination split
+4. Ontology-aware entity boundary repair: if a loaded ontology contains "Customs and Border Protection" as an rdfs:label, use it as NER evidence to prevent splitting
+
 ### 5.2 Fabricated Ontology IRIs (CCO Audit — 2026-02-21)
 
 **Severity:** HIGH — Ontological correctness

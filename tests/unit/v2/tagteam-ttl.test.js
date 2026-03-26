@@ -143,7 +143,7 @@ describe('P0-TTL: tagteam.ttl Schema Validation', () => {
 
     // Ontology match annotations
     expect(schemaDefines(':ontologyMatch')).toBe(true);
-    expect(schemaDefines(':ontologyMatchClass')).toBe(true);
+    expect(schemaDefines(':ontologyMatchIRI')).toBe(true);
     expect(schemaDefines(':ontologyMatchConfidence')).toBe(true);
     expect(schemaDefines(':ontologyMatchEvidence')).toBe(true);
     expect(schemaDefines(':ontologyMatchLabel')).toBe(true);
