@@ -322200,6 +322200,16 @@ const MODAL_TABLE = {
  * Multi-word modal verb lemmas that appear as control verbs with xcomp + "to".
  * e.g., "have to allocate" → "have" is root, "allocate" is xcomp, "to" is mark.
  */
+/**
+ * Contraction stems produced by the tokenizer splitting "can't" → ["ca","n't"],
+ * "won't" → ["wo","n't"], etc. Maps stem → full modal word for MODAL_TABLE lookup.
+ */
+const CONTRACTION_STEMS = {
+  'ca':    'can',     // can't → ca + n't
+  'wo':    'will',    // won't → wo + n't
+  'sha':   'shall',   // shan't → sha + n't (rare but valid)
+};
+
 const MULTI_WORD_MODAL_LEMMAS = {
   'have': 'obligation',
   'need': 'obligation',
@@ -322351,8 +322361,11 @@ class TreeActExtractor {
       if (child.label === 'advmod' && childWord !== 'cannot') continue;
       const childTag = depTree.tags[child.dependent - 1];
 
+      // Resolve contraction stems: "ca" → "can", "wo" → "will"
+      const resolvedWord = CONTRACTION_STEMS[childWord] || childWord;
+
       // Check by POS tag MD first, then by word lookup (fallback for mistagged modals)
-      if (childTag === 'MD' || MODAL_TABLE[childWord] || childWord === 'cannot') {
+      if (childTag === 'MD' || MODAL_TABLE[resolvedWord] || resolvedWord === 'cannot') {
         // "cannot" → look up "can" + force negation
         if (childWord === 'cannot') {
           modalEntry = MODAL_TABLE['can'];
@@ -322367,9 +322380,9 @@ class TreeActExtractor {
           }
           break;
         }
-        modalEntry = MODAL_TABLE[childWord];
+        modalEntry = MODAL_TABLE[resolvedWord];
         if (modalEntry) {
-          modalWord = childWord;
+          modalWord = resolvedWord;
           break;
         }
       }
@@ -326160,7 +326173,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 271 | facb3dd | 2026-03-26T15:58:20.619Z',
+    BUILD: 'build 272 | 536c471 | 2026-03-26T18:09:10.378Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
