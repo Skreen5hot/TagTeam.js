@@ -321709,27 +321709,58 @@ class TreeEntityExtractor {
    * @param {DepTree} depTree - Parsed dependency tree
    * @returns {{ entities: Entity[], aliasMap: Map<string, string> }}
    */
-  extract(depTree) {
+  extract(depTree, options) {
+    const opts = options || {};
     const entities = [];
     const aliasMap = new Map();
     const seenHeads = new Set(); // Prevent duplicate entity extraction
 
-    // Step 0: Extract root nouns as entities (roots that are not verbs
+    // Locked spans from ComplexDesignatorDetector (§5.1b)
+    // Token indices covered by locked spans — skip normal extraction for these
+    const lockedSpans = opts.lockedSpans || [];
+    const lockedTokens = new Set();
+    for (const span of lockedSpans) {
+      for (let t = span.startToken; t <= span.endToken; t++) {
+        lockedTokens.add(t);
+      }
+    }
+
+    // Step 0: Inject locked span entities FIRST
+    // These override the dep tree — the CDD surface-form detection takes priority
+    for (const span of lockedSpans) {
+      const spanTokens = [];
+      const spanIndices = [];
+      for (let t = span.startToken; t <= span.endToken; t++) {
+        spanTokens.push(depTree.tokens[t - 1]);
+        spanIndices.push(t);
+        seenHeads.add(t);
+      }
+      entities.push({
+        fullText: span.text,
+        headId: span.startToken,
+        indices: spanIndices,
+        type: 'Organization', // CDD detects proper names → Organization default
+        role: 'locked',
+        source: 'ComplexDesignatorDetector'
+      });
+    }
+
+    // Step 1: Extract root nouns as entities (roots that are not verbs
     // may be copular predicates or standalone noun phrases)
     const roots = depTree.getRoots();
     for (const rootId of roots) {
+      if (lockedTokens.has(rootId)) continue; // Skip tokens inside locked spans
       const rootTag = depTree.tags[rootId - 1];
       const children = depTree.getChildren(rootId);
       const hasCop = children.some(c => c.label === 'cop');
-      // Root nouns that are copular predicates — don't extract as entities
-      // Root nouns without cop that have nsubj children — they're predicates in verb-less parses
-      // But root nouns in relative clause parses (e.g., "The doctor who ... left") — extract as entity
       if (!TEE_VERB_TAGS.has(rootTag) && !hasCop) {
         const hasNsubj = children.some(c => c.label === 'nsubj' || c.label === 'nsubj:pass');
         if (!hasNsubj && !seenHeads.has(rootId)) {
           seenHeads.add(rootId);
           const entity = this._buildEntity(depTree, rootId, 'root');
           if (entity) {
+            // RC-3: If entity span overlaps a locked span, skip it
+            if (this._overlapsLockedSpan(entity, lockedTokens)) continue;
             this._extractAliases(depTree, entity, aliasMap);
             entities.push(entity);
           }
@@ -321737,39 +321768,50 @@ class TreeEntityExtractor {
       }
     }
 
-    // Step 1: Find all entity-bearing positions
+    // Step 2: Find all entity-bearing positions
     for (const arc of depTree.arcs) {
       if (!ENTITY_BEARING_LABELS.has(arc.label)) continue;
       if (seenHeads.has(arc.dependent)) continue;
+      if (lockedTokens.has(arc.dependent)) continue; // Skip tokens inside locked spans
 
       const entityHead = arc.dependent;
       seenHeads.add(entityHead);
 
-      // Step 2: Check for coordination — may need to split
+      // Step 3: Check for coordination — may need to split
       const coordResult = this._handleCoordination(depTree, entityHead, arc.label, seenHeads);
       if (coordResult) {
-        // Coordination was split into multiple entities
         for (const entity of coordResult) {
+          if (this._overlapsLockedSpan(entity, lockedTokens)) continue;
           this._extractAliases(depTree, entity, aliasMap);
           entities.push(entity);
         }
         continue;
       }
 
-      // Step 3: Build entity span from subtree
+      // Step 4: Build entity span from subtree
       const entity = this._buildEntity(depTree, entityHead, arc.label);
       if (!entity) continue;
+      if (this._overlapsLockedSpan(entity, lockedTokens)) continue;
 
-      // Step 4: Extract aliases from appositions
+      // Step 5: Extract aliases from appositions
       this._extractAliases(depTree, entity, aliasMap);
 
       entities.push(entity);
     }
 
-    // Step 5: Alias promotion — resolve later mentions via aliasMap
+    // Step 6: Alias promotion — resolve later mentions via aliasMap
     this._promoteAliases(entities, aliasMap);
 
     return { entities, aliasMap };
+  }
+
+  /**
+   * Check if an entity's token indices overlap with locked span tokens.
+   * @private
+   */
+  _overlapsLockedSpan(entity, lockedTokens) {
+    if (!entity.indices || lockedTokens.size === 0) return false;
+    return entity.indices.some(idx => lockedTokens.has(idx));
   }
 
   /**
@@ -321950,8 +321992,11 @@ class TreeEntityExtractor {
       if (isHead && child.label === 'case') continue;
       // Skip additional labels (e.g., 'cc' for split conjunct entities)
       if (skipLabels.length > 0 && skipLabels.includes(child.label)) continue;
-      // Skip conj children that have cop dependents (copular predicates, not coordination)
+      // Skip conj children that are verbs (RC-3: prevents "Immigration" absorbing "deported")
+      // or that have cop dependents (copular predicates, not coordination)
       if (child.label === 'conj') {
+        const conjTag = depTree.tags[child.dependent - 1];
+        if (TEE_VERB_TAGS.has(conjTag)) continue; // Verb conjunct → not part of entity
         const conjChildren = depTree._children.get(child.dependent) || [];
         const hasCop = conjChildren.some(c => c.label === 'cop');
         if (hasCop) continue; // This conj is a copular predicate → skip
@@ -324346,6 +324391,42 @@ class SemanticGraphBuilder {
   }
 
   /**
+   * Map CDD character-based spans to 1-indexed token index ranges.
+   * @param {Array} cdSpans - CDD spans with { text, start, end, components }
+   * @param {string[]} tokens - Token strings from tokenizer
+   * @param {Array} tokenObjs - Token objects with { text, start, end }
+   * @returns {Array<{ text: string, startToken: number, endToken: number }>}
+   * @private
+   */
+  _mapCDDSpansToTokenIndices(cdSpans, tokens, tokenObjs) {
+    if (!cdSpans || cdSpans.length === 0) return [];
+
+    return cdSpans.map(span => {
+      let startToken = -1;
+      let endToken = -1;
+
+      for (let i = 0; i < tokenObjs.length; i++) {
+        const tok = tokenObjs[i];
+        const tokStart = typeof tok === 'object' ? tok.start : 0;
+        const tokEnd = typeof tok === 'object' ? tok.end : 0;
+
+        // Token overlaps with span
+        if (tokStart >= span.start && tokEnd <= span.end) {
+          if (startToken === -1) startToken = i + 1; // 1-indexed
+          endToken = i + 1;
+        }
+      }
+
+      return {
+        text: span.text,
+        startToken,
+        endToken,
+        components: span.components
+      };
+    }).filter(s => s.startToken > 0);
+  }
+
+  /**
    * Phase 7.1: Detect and add source attributions from the full text.
    * Creates SourceAttribution nodes when quotes, reported speech, or
    * institutional sources are detected.
@@ -325028,12 +325109,39 @@ class SemanticGraphBuilder {
       // Stage 4.7: Gazetteer initialization (lazy-load, cached like POS tagger/dep parser)
       // Stage 4.7: Gazetteers — injected via loadModels() / _injectCachedModels()
 
+      // Stage 4.8: ComplexDesignatorDetector pre-pass (§5.1b)
+      // Detect multi-word proper names by surface form BEFORE entity extraction.
+      // These locked spans override the dep tree to prevent fragmentation.
+      let lockedSpans = [];
+      if (ComplexDesignatorDetector) {
+        stages.current = 'detectComplexDesignators';
+        const cdDetector = new ComplexDesignatorDetector();
+        const cdSpans = cdDetector.detect(text);
+        // Filter: reject spans that are just acronym-only coordination
+        // ("FBI and CIA", "CMS and AEs") — these are distinct entities, not one name.
+        // A valid multi-word proper name has at least one non-acronym capitalized word
+        // on each side of a connector.
+        const filteredSpans = cdSpans.filter(span => {
+          const comps = span.components;
+          if (comps.length < 3) return true; // Single-word or two-word — keep
+          const connectors = new Set(['and', 'or', 'of', 'for', 'on', 'the']);
+          const nonConnectorWords = comps.filter(c => !connectors.has(c.toLowerCase()));
+          // If ALL non-connector words are short ALL-CAPS (<=4 chars), it's acronym coordination
+          const allAcronyms = nonConnectorWords.length >= 2 &&
+            nonConnectorWords.every(w => w === w.toUpperCase() && w.length <= 5 && /^[A-Z]+s?$/.test(w));
+          if (allAcronyms) return false; // Reject: "FBI and CIA", "CMS and AEs"
+          return true;
+        });
+        // Convert CDD spans to token-index ranges for TreeEntityExtractor
+        lockedSpans = this._mapCDDSpansToTokenIndices(filteredSpans, tokens, tokenObjs);
+      }
+
       // Stage 5: Tree-based entity extraction
       stages.current = 'extractEntities';
       const entityExtractor = new _TreeEntityExtractor({
         gazetteerNER: this._treeGazetteerNER || null
       });
-      const { entities, aliasMap } = entityExtractor.extract(depTree);
+      const { entities, aliasMap } = entityExtractor.extract(depTree, { lockedSpans });
 
       // Stage 6: Tree-based act extraction
       stages.current = 'extractActs';
@@ -326173,7 +326281,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 271 | facb3dd | 2026-03-26T18:05:02.796Z',
+    BUILD: 'build 272 | 536c471 | 2026-03-26T18:24:21.476Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,

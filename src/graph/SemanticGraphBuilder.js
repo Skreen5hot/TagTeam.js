@@ -1044,6 +1044,42 @@ class SemanticGraphBuilder {
   }
 
   /**
+   * Map CDD character-based spans to 1-indexed token index ranges.
+   * @param {Array} cdSpans - CDD spans with { text, start, end, components }
+   * @param {string[]} tokens - Token strings from tokenizer
+   * @param {Array} tokenObjs - Token objects with { text, start, end }
+   * @returns {Array<{ text: string, startToken: number, endToken: number }>}
+   * @private
+   */
+  _mapCDDSpansToTokenIndices(cdSpans, tokens, tokenObjs) {
+    if (!cdSpans || cdSpans.length === 0) return [];
+
+    return cdSpans.map(span => {
+      let startToken = -1;
+      let endToken = -1;
+
+      for (let i = 0; i < tokenObjs.length; i++) {
+        const tok = tokenObjs[i];
+        const tokStart = typeof tok === 'object' ? tok.start : 0;
+        const tokEnd = typeof tok === 'object' ? tok.end : 0;
+
+        // Token overlaps with span
+        if (tokStart >= span.start && tokEnd <= span.end) {
+          if (startToken === -1) startToken = i + 1; // 1-indexed
+          endToken = i + 1;
+        }
+      }
+
+      return {
+        text: span.text,
+        startToken,
+        endToken,
+        components: span.components
+      };
+    }).filter(s => s.startToken > 0);
+  }
+
+  /**
    * Phase 7.1: Detect and add source attributions from the full text.
    * Creates SourceAttribution nodes when quotes, reported speech, or
    * institutional sources are detected.
@@ -1798,12 +1834,39 @@ class SemanticGraphBuilder {
         }
       }
 
+      // Stage 4.8: ComplexDesignatorDetector pre-pass (§5.1b)
+      // Detect multi-word proper names by surface form BEFORE entity extraction.
+      // These locked spans override the dep tree to prevent fragmentation.
+      let lockedSpans = [];
+      if (ComplexDesignatorDetector) {
+        stages.current = 'detectComplexDesignators';
+        const cdDetector = new ComplexDesignatorDetector();
+        const cdSpans = cdDetector.detect(text);
+        // Filter: reject spans that are just acronym-only coordination
+        // ("FBI and CIA", "CMS and AEs") — these are distinct entities, not one name.
+        // A valid multi-word proper name has at least one non-acronym capitalized word
+        // on each side of a connector.
+        const filteredSpans = cdSpans.filter(span => {
+          const comps = span.components;
+          if (comps.length < 3) return true; // Single-word or two-word — keep
+          const connectors = new Set(['and', 'or', 'of', 'for', 'on', 'the']);
+          const nonConnectorWords = comps.filter(c => !connectors.has(c.toLowerCase()));
+          // If ALL non-connector words are short ALL-CAPS (<=4 chars), it's acronym coordination
+          const allAcronyms = nonConnectorWords.length >= 2 &&
+            nonConnectorWords.every(w => w === w.toUpperCase() && w.length <= 5 && /^[A-Z]+s?$/.test(w));
+          if (allAcronyms) return false; // Reject: "FBI and CIA", "CMS and AEs"
+          return true;
+        });
+        // Convert CDD spans to token-index ranges for TreeEntityExtractor
+        lockedSpans = this._mapCDDSpansToTokenIndices(filteredSpans, tokens, tokenObjs);
+      }
+
       // Stage 5: Tree-based entity extraction
       stages.current = 'extractEntities';
       const entityExtractor = new _TreeEntityExtractor({
         gazetteerNER: this._treeGazetteerNER || null
       });
-      const { entities, aliasMap } = entityExtractor.extract(depTree);
+      const { entities, aliasMap } = entityExtractor.extract(depTree, { lockedSpans });
 
       // Stage 6: Tree-based act extraction
       stages.current = 'extractActs';
