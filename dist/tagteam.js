@@ -322270,7 +322270,7 @@ const MODAL_TABLE = {
   'could':  { modality: 'hypothetical',   status: 'tagteam:Hypothetical', negatedModality: null,          negatedStatus: null,                  deonticType: null },
   'would':  { modality: 'hypothetical',   status: 'tagteam:Hypothetical', negatedModality: null,          negatedStatus: null,                  deonticType: null },
   'might':  { modality: 'possibility',    status: 'tagteam:Possible',     negatedModality: null,          negatedStatus: null,                  deonticType: null },
-  'ought':  { modality: 'obligation',    status: 'tagteam:Prescribed',   negatedModality: null,          negatedStatus: null,                  deonticType: 'duty' },
+  'ought':  { modality: 'recommendation', status: 'tagteam:Prescribed',   negatedModality: null,          negatedStatus: null,                  deonticType: 'duty' },
 };
 
 /**
@@ -322290,7 +322290,7 @@ const CONTRACTION_STEMS = {
 const MULTI_WORD_MODAL_LEMMAS = {
   'have': 'obligation',
   'need': 'obligation',
-  'ought': 'obligation',
+  'ought': 'recommendation',  // "ought to" → DefeasibleObligation (spec §4)
 };
 
 // ============================================================================
@@ -322808,11 +322808,13 @@ class TreeActExtractor {
     if (!act) return null;
 
     // Override with multi-word modal properties
-    const entry = MODAL_TABLE['must']; // obligation defaults match "must"
+    // Look up the actual modality entry — 'ought' maps to 'recommendation', not 'obligation'
+    const matchingModal = Object.entries(MODAL_TABLE).find(([, v]) => v.modality === modalModality);
+    const entry = matchingModal ? matchingModal[1] : MODAL_TABLE['must'];
     act.modalVerb = rootLemma + ' to';
     act.modality = modalModality;
-    act.actualityStatus = entry ? entry.status : 'tagteam:Prescribed';
-    act.deonticType = entry ? entry.deonticType : 'duty';
+    act.actualityStatus = entry.status;
+    act.deonticType = entry.deonticType;
     act.sourceText = rootWord + ' to ' + act.verb;
 
     return act;
@@ -326526,7 +326528,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 274 | 8c8ccc3 | 2026-03-27T10:09:40.728Z',
+    BUILD: 'build 275 | 8059ee0 | 2026-03-27T10:24:32.616Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
