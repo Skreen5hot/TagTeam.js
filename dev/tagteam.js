@@ -309617,6 +309617,8 @@ class JSONLDSerializer {
       Prohibition:                           { '@id': 'tagteam:Prohibition' },
       Intention:                             { '@id': 'tagteam:Intention' },
       ConjunctiveObligation:                 { '@id': 'tagteam:ConjunctiveObligation' },
+      DeonticCategory:                       { '@id': 'tagteam:DeonticCategory' },
+      FulfillmentState:                      { '@id': 'tagteam:FulfillmentState' },
       ScarcityAssertion:                     { '@id': 'tagteam:ScarcityAssertion' },
       InterpretationContext:                 { '@id': 'tagteam:InterpretationContext' },
 
@@ -309793,6 +309795,10 @@ class JSONLDSerializer {
       isSpecifiedBy:              { '@id': 'tagteam:isSpecifiedBy',              '@type': '@id' },
       is_prescribed_by:           { '@id': 'tagteam:is_prescribed_by',           '@type': '@id' },
       hasConjunct:                { '@id': 'tagteam:hasConjunct',                '@type': '@id', '@container': '@set' },
+      disambiguationNote:         { '@id': 'tagteam:disambiguationNote' },
+      realizedAt:                 { '@id': 'tagteam:realizedAt',                 '@type': 'xsd:dateTime' },
+      violatedAt:                 { '@id': 'tagteam:violatedAt',                 '@type': 'xsd:dateTime' },
+      violationEvidence:          { '@id': 'tagteam:violationEvidence',          '@type': '@id' },
       scarcityMarker:      { '@id': 'tagteam:scarcityMarker' },
       evidenceText:        { '@id': 'tagteam:evidenceText' },
       classificationLabel: { '@id': 'tagteam:classificationLabel' },
@@ -326575,7 +326581,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 279 | a68e9d3 | 2026-03-27T21:14:38.655Z',
+    BUILD: 'build 280 | a91ec34 | 2026-03-27T23:10:52.822Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
