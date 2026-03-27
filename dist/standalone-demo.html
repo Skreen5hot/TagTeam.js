@@ -2,152 +2,733 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>TagTeam.js — Implementation Guide</title>
+  <title>TagTeam.js — Semantic Graph Explorer</title>
   <style>
-    body { font-family: system-ui, -apple-system, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; line-height: 1.6; color: #1a1a1a; }
-    h1 { font-size: 1.4em; margin-bottom: 0.2em; }
-    h2 { font-size: 1.1em; margin-top: 2em; border-bottom: 1px solid #ddd; padding-bottom: 4px; }
-    p.subtitle { color: #666; margin-top: 0; }
-    pre { background: #f5f5f5; padding: 16px; overflow-x: auto; font-size: 13px; border-radius: 4px; border: 1px solid #e0e0e0; }
-    code { font-family: 'Consolas', 'Monaco', monospace; }
-    .ic { background: #f0f0f0; padding: 1px 5px; border-radius: 3px; font-size: 0.9em; }
-    .panel { margin-top: 2em; padding: 20px; border: 1px solid #ccc; border-radius: 6px; background: #fafafa; }
-    .panel input[type="text"] { width: 100%; padding: 8px; font-size: 14px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 3px; }
-    .panel textarea { width: 100%; min-height: 120px; padding: 8px; font-size: 13px; font-family: 'Consolas', 'Monaco', monospace; box-sizing: border-box; border: 1px solid #ccc; border-radius: 3px; resize: vertical; }
-    .panel pre { max-height: 500px; overflow: auto; margin-top: 12px; font-size: 12px; }
-    .panel button { padding: 6px 14px; margin-top: 8px; cursor: pointer; border: 1px solid #aaa; border-radius: 3px; background: #fff; }
-    .panel button:hover { background: #eee; }
-    .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
-    .row label { font-size: 0.85em; color: #555; }
-    .row input[type="text"], .row input[type="number"] { padding: 4px 8px; border: 1px solid #ccc; border-radius: 3px; font-size: 13px; }
-    .file-label { display: inline-block; padding: 6px 14px; border: 1px solid #aaa; border-radius: 3px; cursor: pointer; font-size: 13px; background: #fff; }
-    .file-label:hover { background: #eee; }
-    .file-label input { display: none; }
+    :root {
+      --blue: #2563eb; --blue-bg: #eff6ff; --blue-border: #bfdbfe;
+      --orange: #d97706; --orange-bg: #fffbeb; --orange-border: #fde68a;
+      --green: #059669; --green-bg: #ecfdf5; --green-border: #a7f3d0;
+      --purple: #7c3aed; --purple-bg: #f5f3ff; --purple-border: #c4b5fd;
+      --red: #dc2626; --red-bg: #fef2f2; --red-border: #fecaca;
+      --gray: #6b7280; --gray-bg: #f9fafb; --gray-border: #e5e7eb;
+      --bg: #fff; --fg: #111827; --muted: #6b7280; --border: #e5e7eb;
+      --panel-bg: #f9fafb; --card-bg: #fff; --card-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--fg); line-height: 1.5; font-size: 14px; }
+
+    /* ── Header ─────────────────────────────────────── */
+    .header { max-width: 1100px; margin: 0 auto; padding: 24px 24px 0; }
+    .header h1 { font-size: 1.3em; font-weight: 700; }
+    .header h1 span { color: var(--muted); font-weight: 400; font-size: 0.75em; }
+    .header p { color: var(--muted); font-size: 0.85em; margin-top: 2px; }
+
+    /* ── Input Panel ────────────────────────────────── */
+    .input-panel { max-width: 1100px; margin: 16px auto; padding: 0 24px; }
+    .input-row { display: flex; gap: 8px; align-items: stretch; }
+    .input-row input[type="text"] { flex: 1; padding: 10px 14px; font-size: 14px; border: 1px solid var(--border); border-radius: 6px; outline: none; font-family: inherit; }
+    .input-row input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+    .btn { padding: 10px 20px; border: none; border-radius: 6px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+    .btn-primary { background: var(--blue); color: #fff; }
+    .btn-primary:hover { background: #1d4ed8; }
+    .btn-secondary { background: var(--panel-bg); color: var(--fg); border: 1px solid var(--border); }
+    .btn-secondary:hover { background: #f3f4f6; }
+    .btn-sm { padding: 5px 12px; font-size: 12px; }
+
+    /* ── Ontology Row ───────────────────────────────── */
+    .ontology-row { display: flex; gap: 8px; align-items: center; margin-top: 8px; flex-wrap: wrap; }
+    .ontology-row label { font-size: 12px; color: var(--muted); }
+    .ontology-row input[type="file"] { display: none; }
+    .file-btn { display: inline-flex; align-items: center; gap: 4px; padding: 5px 12px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px; cursor: pointer; background: #fff; color: var(--fg); }
+    .file-btn:hover { background: #f3f4f6; }
+    .ontology-status { font-size: 12px; color: var(--green); font-weight: 500; }
+
+    /* ── Tabs ────────────────────────────────────────── */
+    .results-container { max-width: 1100px; margin: 0 auto; padding: 0 24px 40px; }
+    .tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 16px; }
+    .tab { padding: 10px 20px; font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.15s; -webkit-user-select: none; user-select: none; }
+    .badge-blue { background: var(--blue-bg); color: var(--blue); }
+    .badge-orange { background: var(--orange-bg); color: var(--orange); }
+    .badge-gray { background: #f3f4f6; color: #6b7280; }
+    .tab:hover { color: var(--fg); }
+    .tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+    .tab-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 10px; font-size: 11px; font-weight: 700; margin-left: 6px; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── Entity Cards ───────────────────────────────── */
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
+    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; box-shadow: var(--card-shadow); border-left: 4px solid var(--gray); }
+    .card.continuant { border-left-color: var(--blue); }
+    .card.occurrent { border-left-color: var(--orange); }
+    .card.ice { border-left-color: var(--green); }
+    .card.role-card { border-left-color: var(--purple); }
+    .card.deontic { border-left-color: var(--red); }
+    .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+    .card-name { font-size: 1em; font-weight: 700; color: var(--fg); }
+    .tier-badge { font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 3px; letter-spacing: 0.5px; flex-shrink: 0; }
+    .tier-badge.t1 { background: #dbeafe; color: #1e40af; }
+    .tier-badge.t2 { background: #fef3c7; color: #92400e; }
+    .type-badges { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+    .type-badge { font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 500; }
+    .type-badge.continuant { background: var(--blue-bg); color: var(--blue); border: 1px solid var(--blue-border); }
+    .type-badge.occurrent { background: var(--orange-bg); color: var(--orange); border: 1px solid var(--orange-border); }
+    .type-badge.ice { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+    .type-badge.role-type { background: var(--purple-bg); color: var(--purple); border: 1px solid var(--purple-border); }
+    .type-badge.deontic { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+    .type-badge.generic { background: var(--gray-bg); color: var(--gray); border: 1px solid var(--gray-border); }
+    .card-props { font-size: 12px; color: var(--muted); }
+    .card-prop { display: flex; gap: 6px; padding: 3px 0; border-bottom: 1px solid #f3f4f6; }
+    .card-prop:last-child { border-bottom: none; }
+    .card-prop-key { color: var(--muted); font-weight: 500; min-width: 80px; flex-shrink: 0; }
+    .card-prop-val { color: var(--fg); word-break: break-all; }
+    .ontology-pill { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; padding: 3px 10px; border-radius: 12px; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; margin: 2px 0; }
+    .ontology-pill .conf { color: #6b7280; }
+
+    /* ── Relation Map ───────────────────────────────── */
+    .relation-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .relation-table th { text-align: left; padding: 8px 12px; background: var(--panel-bg); border-bottom: 2px solid var(--border); font-weight: 600; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .relation-table td { padding: 8px 12px; border-bottom: 1px solid #f3f4f6; }
+    .relation-table tr:hover td { background: #f9fafb; }
+    .rel-subject { font-weight: 600; color: var(--blue); }
+    .rel-predicate { font-weight: 500; color: var(--orange); font-family: 'Consolas','Monaco',monospace; font-size: 12px; }
+    .rel-object { font-weight: 600; color: var(--green); }
+    .rel-negated { text-decoration: line-through; color: var(--red); }
+    .filter-row { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+    .filter-btn { padding: 4px 12px; font-size: 12px; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; background: #fff; color: var(--muted); font-family: inherit; }
+    .filter-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+
+    /* ── Graph View ──────────────────────────────────── */
+    .graph-container { position: relative; width: 100%; height: 550px; background: #fafafa; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+    .graph-container svg { width: 100%; height: 100%; }
+    .graph-container .link { stroke: #b0b0b0; stroke-opacity: 0.6; stroke-width: 1.5px; fill: none; }
+    .graph-container .link-label { font-size: 9px; fill: #888; pointer-events: none; }
+    .graph-container .node-label { font-size: 11px; font-weight: 600; pointer-events: none; text-anchor: middle; }
+    .graph-container .node-type-label { font-size: 8px; fill: #888; pointer-events: none; text-anchor: middle; }
+    .graph-unavailable { text-align: center; padding: 80px 20px; color: var(--muted); }
+    .graph-unavailable .icon { font-size: 2em; margin-bottom: 8px; }
+    .graph-legend { display: flex; gap: 16px; padding: 8px 0; flex-wrap: wrap; font-size: 11px; color: var(--muted); }
+    .graph-legend-item { display: flex; align-items: center; gap: 4px; }
+    .graph-legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+    /* ── Raw JSON ────────────────────────────────────── */
+    .json-pre { background: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: 6px; max-height: 600px; overflow: auto; font-family: 'Consolas','Monaco',monospace; font-size: 12px; line-height: 1.6; white-space: pre-wrap; }
+
+    /* ── Empty state ─────────────────────────────────── */
+    .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
+    .hidden { display: none; }
+    .empty-state .icon { font-size: 2em; margin-bottom: 8px; }
+    .empty-state p { font-size: 0.9em; }
+
+    /* ── Stats bar ───────────────────────────────────── */
+    .stats-bar { display: flex; gap: 16px; padding: 10px 0; margin-bottom: 12px; flex-wrap: wrap; }
+    .stat { font-size: 12px; color: var(--muted); }
+    .stat strong { color: var(--fg); font-size: 14px; }
   </style>
 </head>
 <body>
 
-  <h1>TagTeam.js</h1>
-  <p class="subtitle">Natural language to JSON-LD semantic graphs. One script tag. No server.</p>
+<div class="header">
+  <h1>TagTeam.js <span>Semantic Graph Explorer</span></h1>
+  <p>Natural language to BFO/CCO-compliant knowledge graphs. Type a sentence, see the entities, relations, and deontic structure.</p>
+</div>
 
-  <!-- ── Step 1 ─────────────────────────────────────────────── -->
-  <h2>1. Include the bundle</h2>
-  <p>One file. Models are embedded. No fetch, no setup.</p>
-<pre><code>&lt;script src="tagteam.js"&gt;&lt;/script&gt;</code></pre>
-
-  <!-- ── Step 2 ─────────────────────────────────────────────── -->
-  <h2>2. Parse text into a semantic graph</h2>
-<pre><code>const graph = TagTeam.buildGraph("The agent arrested the suspect at the border.");
-console.log(JSON.stringify(graph, null, 2));</code></pre>
-  <p>Returns a JSON-LD graph with entities, acts, roles, and discourse referents.</p>
-
-  <!-- ── Step 3 ─────────────────────────────────────────────── -->
-  <h2>3. Enrich with your own ontology</h2>
-  <p>Load a Turtle ontology and pass it to <code class="ic">buildGraph()</code>. Tier 2 entities get <code class="ic">ontologyMatch</code> annotations in the same call.</p>
-<pre><code>const tagger = TagTeam.OntologyTextTagger.fromTTL(ttlString, {
-  propertyMap: { keywords: 'rdfs:label', label: 'rdfs:label' }
-});
-
-const graph = TagTeam.buildGraph("Patient has fever and cough", {
-  ontology: tagger,
-  ontologyThreshold: 0.2   // optional, default 0.2
-});</code></pre>
-
-  <!-- ── Step 4 ─────────────────────────────────────────────── -->
-  <h2>4. API</h2>
-<pre><code>TagTeam.buildGraph(text, options?)                   // returns JSON-LD graph
-TagTeam.toJSONLD(text, options?)                     // alias for buildGraph
-TagTeam.OntologyTextTagger.fromTTL(ttl, config)     // create tagger from Turtle</code></pre>
-  <p><strong>Options:</strong></p>
-  <ul>
-    <li><code class="ic">ontology</code> — an <code class="ic">OntologyTextTagger</code> instance for ontology enrichment</li>
-    <li><code class="ic">ontologyThreshold</code> — minimum confidence for matches (default: 0.2)</li>
-    <li><code class="ic">useLegacy</code> — use legacy pipeline (default: false)</li>
-  </ul>
-
-  <!-- ── Live: Parse ────────────────────────────────────────── -->
-  <div class="panel">
-    <strong>Parse text</strong>
-    <input type="text" id="in" value="The patient presented with chest pain and shortness of breath along with fatigue and anxiety" placeholder="Enter text to parse" title="Text input" />
-
-    <div style="margin-top: 16px;">
-      <strong>Ontology (optional)</strong>
-      <p style="margin: 4px 0 8px; font-size: 0.85em; color: #666;">Paste Turtle (.ttl) below or upload a file. Tier 2 entities will be annotated with matched classes.</p>
-      <div class="row" style="margin-bottom: 8px;">
-        <label class="file-label">Upload .ttl file<input type="file" id="ttl-file" accept=".ttl,.turtle" onchange="loadFile(this)"></label>
-        <button type="button" onclick="loadExample()">Load medical example</button>
-      </div>
-      <textarea id="ttl" placeholder="@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .&#10;@prefix ex: <http://example.org/med#> .&#10;ex:Fever a rdfs:Class ; rdfs:label &quot;Fever&quot; ."></textarea>
-      <div class="row">
-        <label>Keywords property: <input type="text" id="kw-prop" value="" placeholder="e.g. med:indicators or rdfs:label" style="width: 200px;"></label>
-        <label>Threshold: <input type="number" id="threshold" value="0.2" min="0" max="1" step="0.1" style="width: 60px;"></label>
-      </div>
-    </div>
-
-    <button type="button" onclick="run()" style="margin-top: 12px; font-weight: bold;">Parse</button>
-    <pre id="out">Ready.</pre>
+<div class="input-panel">
+  <div class="input-row">
+    <input type="text" id="in" value="The committee shall review and approve the proposal." placeholder="Enter any sentence..." />
+    <button type="button" class="btn btn-primary" onclick="analyze()">Analyze</button>
   </div>
+  <div class="ontology-row">
+    <label class="file-btn">
+      <span>Load Ontology (.ttl)</span>
+      <input type="file" id="ttl-file" accept=".ttl,.turtle" onchange="loadOntologyFile(this)">
+    </label>
+    <span class="ontology-status" id="ont-status"></span>
+  </div>
+</div>
 
-  <script src="tagteam.js"></script>
-  <script>
-    function run() {
-      var text = document.getElementById('in').value.trim();
-      if (!text || typeof TagTeam === 'undefined') return;
+<div class="results-container">
+  <div id="results-area" class="hidden">
+    <div class="stats-bar" id="stats-bar"></div>
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('entities')">Entity Cards <span class="tab-badge badge-blue" id="badge-entities">0</span></div>
+      <div class="tab" onclick="switchTab('relations')">Relation Map <span class="tab-badge badge-orange" id="badge-relations">0</span></div>
+      <div class="tab" onclick="switchTab('graph')">Graph View <span class="tab-badge badge-gray" id="badge-graph">D3</span></div>
+      <div class="tab" onclick="switchTab('json')">Raw JSON</div>
+    </div>
+    <div class="tab-panel active" id="panel-entities"></div>
+    <div class="tab-panel" id="panel-relations"></div>
+    <div class="tab-panel" id="panel-graph"></div>
+    <div class="tab-panel" id="panel-json"></div>
+  </div>
+  <div id="empty-state" class="empty-state">
+    <div class="icon">&#x1F50D;</div>
+    <p>Type a sentence above and click <strong>Analyze</strong> to see the semantic graph.</p>
+  </div>
+</div>
 
-      var opts = {};
-      var ttl = document.getElementById('ttl').value.trim();
-      if (ttl) {
-        try {
-          var kwProp = document.getElementById('kw-prop').value.trim() || 'rdfs:label';
-          var tagger = TagTeam.OntologyTextTagger.fromTTL(ttl, {
-            propertyMap: { keywords: kwProp, label: 'rdfs:label' }
-          });
-          opts.ontology = tagger;
-          var th = parseFloat(document.getElementById('threshold').value);
-          if (!isNaN(th)) opts.ontologyThreshold = th;
-        } catch (e) {
-          document.getElementById('out').textContent = 'Ontology error: ' + e.message;
-          return;
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="tagteam.js"></script>
+<script>
+// ═══════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════
+var currentOntologyTagger = null;
+var currentGraph = null;
+
+// ═══════════════════════════════════════════════════════════════
+// BFO CATEGORY CLASSIFICATION
+// ═══════════════════════════════════════════════════════════════
+var CONTINUANT_TYPES = ['Person','Organization','Entity','Facility','Agent','owl:NamedIndividual','owl:Class','Country','GeopoliticalOrganization','MaterialEntity','IndependentContinuant'];
+var OCCURRENT_TYPES = ['IntentionalAct','Process','Act'];
+var ICE_TYPES = ['InformationContentEntity','InformationBearingEntity','DirectiveInformationContentEntity','PlanSpecification','tagteam:DirectiveContent','tagteam:DiscourseReferent','tagteam:VerbPhrase','tagteam:StructuralAssertion','tagteam:NegatedStructuralAssertion','tagteam:ScarcityAssertion'];
+var ROLE_TYPES = ['Role','AgentRole','PatientRole','BeneficiaryRole','RecipientRole','InstrumentRole'];
+var DEONTIC_TYPES = ['Obligation','Permission','Prohibition','Intention','tagteam:ConjunctiveObligation'];
+
+function classifyNode(node) {
+  var types = [].concat(node['@type'] || []);
+  for (var i = 0; i < types.length; i++) {
+    var t = types[i];
+    if (DEONTIC_TYPES.some(function(d) { return t.includes(d); })) return 'deontic';
+    if (ROLE_TYPES.some(function(r) { return t === r || t.includes(r); })) return 'role-card';
+    if (OCCURRENT_TYPES.some(function(o) { return t.includes(o); })) return 'occurrent';
+    if (ICE_TYPES.some(function(ic) { return t === ic || t.includes(ic); })) return 'ice';
+  }
+  // Default: if it has is_subject_of → it's a Tier 2 continuant
+  if (node['is_subject_of']) return 'continuant';
+  // Tier 1 DiscourseReferent
+  if (types.some(function(t) { return t.includes('DiscourseReferent'); })) return 'ice';
+  return 'continuant';
+}
+
+function classifyType(typeName) {
+  if (DEONTIC_TYPES.some(function(d) { return typeName.includes(d); })) return 'deontic';
+  if (ROLE_TYPES.some(function(r) { return typeName === r || typeName.includes(r); })) return 'role-type';
+  if (OCCURRENT_TYPES.some(function(o) { return typeName.includes(o); })) return 'occurrent';
+  if (ICE_TYPES.some(function(i) { return typeName === i || typeName.includes(i); })) return 'ice';
+  return 'continuant';
+}
+
+function getTier(node) {
+  if (node['is_subject_of']) return 'T2';
+  var types = [].concat(node['@type'] || []);
+  if (types.some(function(t) { return t.includes('DiscourseReferent'); })) return 'T1';
+  if (types.some(function(t) { return t.includes('owl:NamedIndividual'); })) return 'T2';
+  return '';
+}
+
+function shortType(t) {
+  if (t.includes(':')) return t.split(':').pop();
+  if (t.includes('/')) return t.split('/').pop();
+  if (t.includes('#')) return t.split('#').pop();
+  return t;
+}
+
+function resolveId(val) {
+  if (!val) return null;
+  if (typeof val === 'object' && val['@id']) return val['@id'];
+  return val;
+}
+
+function resolveLabel(graph, ref) {
+  var id = resolveId(ref);
+  if (!id) return null;
+  var node = graph.find(function(n) { return n['@id'] === id; });
+  return node ? (node['rdfs:label'] || id) : id;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ANALYZE
+// ═══════════════════════════════════════════════════════════════
+function analyze() {
+  var text = document.getElementById('in').value.trim();
+  if (!text || typeof TagTeam === 'undefined') return;
+
+  var opts = {};
+  if (currentOntologyTagger) {
+    opts.ontology = currentOntologyTagger;
+    opts.ontologyThreshold = 0.2;
+  }
+
+  var result = TagTeam.buildGraph(text, opts);
+  currentGraph = result['@graph'] || [];
+
+  document.getElementById('empty-state').classList.add('hidden');
+  document.getElementById('results-area').classList.remove('hidden');
+
+  renderStats(currentGraph);
+  renderEntityCards(currentGraph);
+  renderRelationMap(currentGraph);
+  renderGraphView(currentGraph);
+  renderJSON(result);
+  switchTab('entities');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// STATS BAR
+// ═══════════════════════════════════════════════════════════════
+function renderStats(graph) {
+  var entities = graph.filter(function(n) { return n['is_subject_of'] || [].concat(n['@type']||[]).includes('tagteam:DiscourseReferent'); });
+  var acts = graph.filter(function(n) { return [].concat(n['@type']||[]).includes('IntentionalAct') && !(n['@id']||'').includes('ParsingAct'); });
+  var vps = graph.filter(function(n) { return [].concat(n['@type']||[]).some(function(t) { return t.includes('VerbPhrase'); }) && ![].concat(n['@type']||[]).includes('IntentionalAct'); });
+  var deontics = graph.filter(function(n) { var t = [].concat(n['@type']||[]); return t.some(function(x) { return DEONTIC_TYPES.some(function(d) { return x.includes(d); }); }); });
+  var assertions = graph.filter(function(n) { return [].concat(n['@type']||[]).some(function(t) { return t.includes('Assertion'); }); });
+
+  var html = '';
+  html += '<div class="stat"><strong>' + entities.length + '</strong> entities</div>';
+  if (acts.length) html += '<div class="stat"><strong>' + acts.length + '</strong> acts</div>';
+  if (vps.length) html += '<div class="stat"><strong>' + vps.length + '</strong> prescribed</div>';
+  if (deontics.length) html += '<div class="stat"><strong>' + deontics.length + '</strong> deontic</div>';
+  if (assertions.length) html += '<div class="stat"><strong>' + assertions.length + '</strong> assertions</div>';
+  html += '<div class="stat"><strong>' + graph.length + '</strong> total nodes</div>';
+  document.getElementById('stats-bar').innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ENTITY CARDS
+// ═══════════════════════════════════════════════════════════════
+function renderEntityCards(graph) {
+  var panel = document.getElementById('panel-entities');
+  // Filter out parser infrastructure nodes
+  var meaningful = graph.filter(function(n) {
+    var id = n['@id'] || '';
+    if (id.includes('ParsingAct') || id.includes('Parser_v')) return false;
+    if (id.includes('Input_Text_IBE')) return false;
+    return true;
+  });
+
+  if (meaningful.length === 0) {
+    panel.innerHTML = '<div class="empty-state"><p>No entities found.</p></div>';
+    document.getElementById('badge-entities').textContent = '0';
+    return;
+  }
+
+  document.getElementById('badge-entities').textContent = meaningful.length;
+  var html = '<div class="card-grid">';
+
+  for (var i = 0; i < meaningful.length; i++) {
+    var node = meaningful[i];
+    var cat = classifyNode(node);
+    var tier = getTier(node);
+    var label = node['rdfs:label'] || node['@id'] || '(unnamed)';
+    var types = [].concat(node['@type'] || []);
+
+    html += '<div class="card ' + cat + '">';
+    html += '<div class="card-header">';
+    html += '<span class="card-name">' + escHtml(label) + '</span>';
+    if (tier) html += '<span class="tier-badge ' + tier.toLowerCase() + '">' + tier + '</span>';
+    html += '</div>';
+
+    // Type badges
+    html += '<div class="type-badges">';
+    for (var j = 0; j < types.length; j++) {
+      var st = shortType(types[j]);
+      if (st === 'owl:NamedIndividual' || st === 'NamedIndividual') continue;
+      var tc = classifyType(types[j]);
+      html += '<span class="type-badge ' + tc + '">' + escHtml(st) + '</span>';
+    }
+    html += '</div>';
+
+    // Properties
+    html += '<div class="card-props">';
+
+    // Deontic category
+    var deonticCat = node['tagteam:deonticCategory'];
+    if (deonticCat) {
+      var catId = resolveId(deonticCat);
+      html += '<div class="card-prop"><span class="card-prop-key">Category</span><span class="card-prop-val">' + escHtml(shortType(catId)) + '</span></div>';
+    }
+
+    // Modal marker
+    if (node['tagteam:modalMarker']) {
+      html += '<div class="card-prop"><span class="card-prop-key">Modal</span><span class="card-prop-val">' + escHtml(node['tagteam:modalMarker']) + '</span></div>';
+    }
+
+    // Verb
+    if (node['tagteam:verb']) {
+      html += '<div class="card-prop"><span class="card-prop-key">Verb</span><span class="card-prop-val">' + escHtml(node['tagteam:verb']) + '</span></div>';
+    }
+
+    // Prescribed act type
+    if (node['tagteam:prescribedActType']) {
+      html += '<div class="card-prop"><span class="card-prop-key">Act type</span><span class="card-prop-val">' + escHtml(node['tagteam:prescribedActType']) + '</span></div>';
+    }
+
+    // Fulfillment state
+    var fulfillment = node['tagteam:fulfillmentState'];
+    if (fulfillment) {
+      html += '<div class="card-prop"><span class="card-prop-key">State</span><span class="card-prop-val">' + escHtml(shortType(resolveId(fulfillment))) + '</span></div>';
+    }
+
+    // Confidence
+    if (node['tagteam:interpretationConfidence'] !== undefined) {
+      html += '<div class="card-prop"><span class="card-prop-key">Confidence</span><span class="card-prop-val">' + node['tagteam:interpretationConfidence'] + '</span></div>';
+    }
+
+    // Role type
+    if (node['tagteam:roleType']) {
+      html += '<div class="card-prop"><span class="card-prop-key">Role</span><span class="card-prop-val">' + escHtml(node['tagteam:roleType']) + '</span></div>';
+    }
+
+    // Genericity
+    if (node['tagteam:genericityCategory']) {
+      html += '<div class="card-prop"><span class="card-prop-key">Genericity</span><span class="card-prop-val">' + escHtml(node['tagteam:genericityCategory']) + '</span></div>';
+    }
+
+    // Ontology matches
+    var matches = node['ontologyMatch'];
+    if (matches) {
+      var matchArr = [].concat(matches);
+      for (var m = 0; m < matchArr.length; m++) {
+        var match = matchArr[m];
+        var matchLabel = match['ontologyMatchLabel'] || match['ontologyMatchEvidence'] || '';
+        var matchConf = match['ontologyMatchConfidence'];
+        var matchType = match['ontologyMatchOWLType'] ? shortType(match['ontologyMatchOWLType']) : '';
+        html += '<div class="ontology-pill">';
+        html += escHtml(matchLabel);
+        if (matchType) html += ' <span class="conf">(' + matchType + ')</span>';
+        if (matchConf !== undefined) html += ' <span class="conf">' + matchConf + '</span>';
+        html += '</div>';
+      }
+    }
+
+    html += '</div>'; // card-props
+    html += '</div>'; // card
+  }
+
+  html += '</div>'; // card-grid
+  panel.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RELATION MAP
+// ═══════════════════════════════════════════════════════════════
+function renderRelationMap(graph) {
+  var panel = document.getElementById('panel-relations');
+  var relations = [];
+
+  // Link properties to extract
+  var LINK_PROPS = [
+    'is_about', 'is_subject_of', 'is_bearer_of', 'inheres_in', 'realized_in',
+    'prescribes', 'is_prescribed_by', 'isSpecifiedBy', 'is_concretized_by',
+    'has_agent', 'has_input', 'has_output', 'has_continuant_part', 'continuant_part_of',
+    'member_part_of', 'located_in', 'has_possession',
+    'tagteam:prescribedAgent', 'tagteam:prescribedPatient', 'tagteam:prescribedRecipient',
+    'tagteam:hasConjunct',
+    'assertionSubject', 'assertionObject', 'assertedRelation'
+  ];
+
+  for (var i = 0; i < graph.length; i++) {
+    var node = graph[i];
+    var subjectLabel = node['rdfs:label'] || node['@id'] || '';
+    if ((node['@id']||'').includes('Input_Text') || (node['@id']||'').includes('Parser_v') || (node['@id']||'').includes('ParsingAct')) continue;
+
+    for (var p = 0; p < LINK_PROPS.length; p++) {
+      var prop = LINK_PROPS[p];
+      var val = node[prop];
+      if (!val) continue;
+
+      var targets = [].concat(val);
+      for (var t = 0; t < targets.length; t++) {
+        var targetId = resolveId(targets[t]);
+        if (!targetId) continue;
+        var objectLabel = resolveLabel(graph, targetId) || targetId;
+        var shortProp = prop.includes(':') ? prop.split(':').pop() : prop;
+
+        relations.push({
+          subject: subjectLabel,
+          predicate: shortProp,
+          object: objectLabel,
+          negated: false
+        });
+      }
+    }
+
+    // Structural assertions
+    if (node['tagteam:subject'] && node['tagteam:relation']) {
+      relations.push({
+        subject: node['tagteam:subject'],
+        predicate: node['tagteam:relation'],
+        object: node['tagteam:object'] || '(existential)',
+        negated: !!node['tagteam:negated']
+      });
+    }
+  }
+
+  document.getElementById('badge-relations').textContent = relations.length;
+
+  if (relations.length === 0) {
+    panel.innerHTML = '<div class="empty-state"><p>No relations found.</p></div>';
+    return;
+  }
+
+  // Collect unique predicates for filters
+  var predicates = {};
+  for (var i = 0; i < relations.length; i++) predicates[relations[i].predicate] = true;
+  var predList = Object.keys(predicates).sort();
+
+  var html = '<div class="filter-row">';
+  html += '<span class="filter-btn active" onclick="filterRelations(this, \'all\')">All</span>';
+  for (var i = 0; i < predList.length; i++) {
+    html += '<span class="filter-btn" onclick="filterRelations(this, \'' + escHtml(predList[i]) + '\')">' + escHtml(predList[i]) + '</span>';
+  }
+  html += '</div>';
+
+  html += '<table class="relation-table" id="rel-table">';
+  html += '<thead><tr><th>Subject</th><th>Predicate</th><th>Object</th></tr></thead><tbody>';
+  for (var i = 0; i < relations.length; i++) {
+    var r = relations[i];
+    var negClass = r.negated ? ' rel-negated' : '';
+    html += '<tr data-pred="' + escHtml(r.predicate) + '">';
+    html += '<td class="rel-subject' + negClass + '">' + escHtml(r.subject) + '</td>';
+    html += '<td class="rel-predicate">' + escHtml(r.predicate) + '</td>';
+    html += '<td class="rel-object' + negClass + '">' + escHtml(r.object) + '</td>';
+    html += '</tr>';
+  }
+  html += '</tbody></table>';
+  panel.innerHTML = html;
+}
+
+function filterRelations(btn, predicate) {
+  var btns = btn.parentNode.querySelectorAll('.filter-btn');
+  for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
+  btn.classList.add('active');
+
+  var rows = document.querySelectorAll('#rel-table tbody tr');
+  for (var i = 0; i < rows.length; i++) {
+    if (predicate === 'all') { rows[i].style.display = ''; }
+    else { rows[i].style.display = rows[i].dataset.pred === predicate ? '' : 'none'; }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RAW JSON
+// ═══════════════════════════════════════════════════════════════
+function renderJSON(graph) {
+  var panel = document.getElementById('panel-json');
+  // Filter @context for cleaner output
+  var cleaned = JSON.parse(JSON.stringify(graph));
+  if (cleaned['@context']) delete cleaned['@context'];
+  panel.innerHTML = '<pre class="json-pre">' + escHtml(JSON.stringify(cleaned, null, 2)) + '</pre>';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// GRAPH VIEW (D3 force-directed)
+// ═══════════════════════════════════════════════════════════════
+var D3_AVAILABLE = typeof d3 !== 'undefined';
+
+// BFO color map for graph nodes
+var GRAPH_COLORS = {
+  continuant: { fill: '#dbeafe', stroke: '#2563eb' },
+  occurrent: { fill: '#fef3c7', stroke: '#d97706' },
+  ice: { fill: '#d1fae5', stroke: '#059669' },
+  'role-card': { fill: '#ede9fe', stroke: '#7c3aed' },
+  deontic: { fill: '#fee2e2', stroke: '#dc2626' },
+  default: { fill: '#f3f4f6', stroke: '#6b7280' }
+};
+
+function graphNodeColor(node) {
+  var cat = classifyNode(node);
+  return GRAPH_COLORS[cat] || GRAPH_COLORS['default'];
+}
+
+function renderGraphView(graph) {
+  var panel = document.getElementById('panel-graph');
+
+  if (!D3_AVAILABLE) {
+    panel.innerHTML = '<div class="graph-unavailable"><div class="icon">&#x1F310;</div><p>Graph View requires D3.js (loaded from CDN).<br>Available when connected to the internet.</p></div>';
+    return;
+  }
+
+  // Convert @graph to D3 nodes + links
+  var nodeMap = {};
+  var d3Nodes = [];
+  var d3Links = [];
+
+  // Build node map (skip infrastructure)
+  for (var i = 0; i < graph.length; i++) {
+    var n = graph[i];
+    var id = n['@id'];
+    if (!id) continue;
+    if (id.includes('Input_Text_IBE') || id.includes('Parser_v') || id.includes('ParsingAct')) continue;
+
+    var label = n['rdfs:label'] || id.split(':').pop().split('_').join(' ');
+    var cat = classifyNode(n);
+    nodeMap[id] = { id: id, name: label, category: cat, types: [].concat(n['@type'] || []), _node: n };
+    d3Nodes.push(nodeMap[id]);
+  }
+
+  // Extract links from properties
+  var LINK_PROPS = [
+    'is_about', 'is_subject_of', 'inheres_in', 'realized_in',
+    'prescribes', 'is_prescribed_by', 'isSpecifiedBy', 'is_concretized_by',
+    'has_continuant_part', 'continuant_part_of', 'located_in', 'has_possession',
+    'tagteam:prescribedAgent', 'tagteam:prescribedPatient', 'tagteam:prescribedRecipient',
+    'tagteam:hasConjunct', 'assertionSubject', 'assertionObject'
+  ];
+
+  for (var i = 0; i < graph.length; i++) {
+    var n = graph[i];
+    var sourceId = n['@id'];
+    if (!sourceId || !nodeMap[sourceId]) continue;
+
+    for (var p = 0; p < LINK_PROPS.length; p++) {
+      var prop = LINK_PROPS[p];
+      var val = n[prop];
+      if (!val) continue;
+      var targets = [].concat(val);
+      for (var t = 0; t < targets.length; t++) {
+        var targetId = resolveId(targets[t]);
+        if (targetId && nodeMap[targetId]) {
+          var shortProp = prop.includes(':') ? prop.split(':').pop() : prop;
+          d3Links.push({ source: sourceId, target: targetId, label: shortProp });
         }
       }
-
-      var graph = TagTeam.buildGraph(text, opts);
-      document.getElementById('out').textContent = JSON.stringify(graph, null, 2);
     }
+  }
 
-    function loadFile(input) {
-      if (!input.files || !input.files[0]) return;
-      var reader = new FileReader();
-      reader.onload = function(e) { document.getElementById('ttl').value = e.target.result; };
-      reader.readAsText(input.files[0]);
+  document.getElementById('badge-graph').textContent = d3Nodes.length;
+
+  // Legend
+  var html = '<div class="graph-legend">';
+  html += '<div class="graph-legend-item"><div class="graph-legend-dot" style="background:#2563eb"></div> Continuant</div>';
+  html += '<div class="graph-legend-item"><div class="graph-legend-dot" style="background:#d97706"></div> Occurrent</div>';
+  html += '<div class="graph-legend-item"><div class="graph-legend-dot" style="background:#059669"></div> ICE</div>';
+  html += '<div class="graph-legend-item"><div class="graph-legend-dot" style="background:#7c3aed"></div> Role</div>';
+  html += '<div class="graph-legend-item"><div class="graph-legend-dot" style="background:#dc2626"></div> Deontic</div>';
+  html += '</div>';
+  html += '<div class="graph-container"><svg id="graph-svg"></svg></div>';
+  panel.innerHTML = html;
+
+  // D3 force simulation
+  var svg = d3.select('#graph-svg');
+  var width = svg.node().getBoundingClientRect().width || 800;
+  var height = 550;
+
+  // Arrow marker
+  svg.append('defs').append('marker')
+    .attr('id', 'arrowhead')
+    .attr('viewBox', '0 -5 10 10')
+    .attr('refX', 22).attr('refY', 0)
+    .attr('markerWidth', 6).attr('markerHeight', 6)
+    .attr('orient', 'auto')
+    .append('path').attr('d', 'M0,-5L10,0L0,5').attr('fill', '#999');
+
+  var zoomLayer = svg.append('g');
+  svg.call(d3.zoom().scaleExtent([0.2, 4]).on('zoom', function(event) {
+    zoomLayer.attr('transform', event.transform);
+  }));
+
+  var simulation = d3.forceSimulation(d3Nodes)
+    .force('link', d3.forceLink(d3Links).id(function(d) { return d.id; }).distance(100))
+    .force('charge', d3.forceManyBody().strength(-250))
+    .force('center', d3.forceCenter(width / 2, height / 2))
+    .force('collision', d3.forceCollide(40));
+
+  // Links
+  var link = zoomLayer.selectAll('.link')
+    .data(d3Links).join('line')
+    .attr('class', 'link')
+    .attr('marker-end', 'url(#arrowhead)');
+
+  // Link labels
+  var linkLabel = zoomLayer.selectAll('.link-label')
+    .data(d3Links).join('text')
+    .attr('class', 'link-label')
+    .text(function(d) { return d.label; });
+
+  // Nodes
+  var node = zoomLayer.selectAll('.node-group')
+    .data(d3Nodes).join('g')
+    .attr('class', 'node-group')
+    .call(d3.drag()
+      .on('start', function(event, d) { if (!event.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+      .on('drag', function(event, d) { d.fx = event.x; d.fy = event.y; })
+      .on('end', function(event, d) { if (!event.active) simulation.alphaTarget(0); })
+    );
+
+  node.append('circle')
+    .attr('r', 16)
+    .attr('fill', function(d) { return (GRAPH_COLORS[d.category] || GRAPH_COLORS['default']).fill; })
+    .attr('stroke', function(d) { return (GRAPH_COLORS[d.category] || GRAPH_COLORS['default']).stroke; })
+    .attr('stroke-width', 2);
+
+  node.append('text')
+    .attr('class', 'node-label')
+    .attr('dy', -20)
+    .text(function(d) { return d.name.length > 25 ? d.name.substring(0, 22) + '...' : d.name; });
+
+  node.append('text')
+    .attr('class', 'node-type-label')
+    .attr('dy', 30)
+    .text(function(d) { var t = d.types.filter(function(x) { return x !== 'owl:NamedIndividual'; }); return t.length > 0 ? shortType(t[0]) : ''; });
+
+  // Tooltip on hover
+  node.append('title')
+    .text(function(d) { return d.name + '\n' + d.types.join(', '); });
+
+  // Tick
+  simulation.on('tick', function() {
+    link.attr('x1', function(d) { return d.source.x; })
+        .attr('y1', function(d) { return d.source.y; })
+        .attr('x2', function(d) { return d.target.x; })
+        .attr('y2', function(d) { return d.target.y; });
+
+    linkLabel.attr('x', function(d) { return (d.source.x + d.target.x) / 2; })
+             .attr('y', function(d) { return (d.source.y + d.target.y) / 2; });
+
+    node.attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; });
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TABS
+// ═══════════════════════════════════════════════════════════════
+function switchTab(name) {
+  var tabs = document.querySelectorAll('.tab');
+  var panels = document.querySelectorAll('.tab-panel');
+  for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('active');
+  for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+
+  var names = ['entities','relations','graph','json'];
+  var idx = names.indexOf(name);
+  if (idx >= 0) { tabs[idx].classList.add('active'); panels[idx].classList.add('active'); }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ONTOLOGY
+// ═══════════════════════════════════════════════════════════════
+function loadOntologyFile(input) {
+  if (!input.files || !input.files[0]) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      currentOntologyTagger = TagTeam.OntologyTextTagger.fromTTL(e.target.result, {
+        propertyMap: { keywords: 'rdfs:label', label: 'rdfs:label' }
+      });
+      var stats = currentOntologyTagger.getStats();
+      document.getElementById('ont-status').textContent = stats.classCount + ' classes loaded from ' + input.files[0].name;
+    } catch (err) {
+      document.getElementById('ont-status').textContent = 'Error: ' + err.message;
+      document.getElementById('ont-status').style.color = '#dc2626';
     }
+  };
+  reader.readAsText(input.files[0]);
+}
 
-    function loadExample() {
-      document.getElementById('ttl').value = [
-        '@prefix med: <http://example.org/medical#> .',
-        '@prefix bfo: <http://purl.obolibrary.org/obo/> .',
-        '@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .',
-        '',
-        'med:CardiovascularDisease a bfo:BFO_0000016 ;',
-        '    rdfs:label "Cardiovascular Disease" ;',
-        '    med:indicators "chest pain, shortness of breath, heart attack, stroke, hypertension" .',
-        '',
-        'med:Diabetes a bfo:BFO_0000016 ;',
-        '    rdfs:label "Diabetes" ;',
-        '    med:indicators "blood sugar, insulin, glucose, thirst, fatigue" .',
-        '',
-        'med:MentalHealth a bfo:BFO_0000016 ;',
-        '    rdfs:label "Mental Health Disorder" ;',
-        '    med:indicators "anxiety, depression, insomnia, mood changes, panic" .'
-      ].join('\n');
-      document.getElementById('kw-prop').value = 'med:indicators';
-      document.getElementById('threshold').value = '0.2';
-    }
+// ═══════════════════════════════════════════════════════════════
+// UTIL
+// ═══════════════════════════════════════════════════════════════
+function escHtml(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 
-    document.getElementById('in').addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') run();
-    });
-  </script>
+// Enter key triggers analyze
+document.getElementById('in').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') analyze();
+});
+</script>
 
 </body>
 </html>

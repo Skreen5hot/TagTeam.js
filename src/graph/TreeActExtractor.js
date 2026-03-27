@@ -107,7 +107,7 @@ const MODAL_TABLE = {
   'must':   { modality: 'obligation',     status: 'tagteam:Prescribed',   negatedModality: 'prohibition', negatedStatus: 'tagteam:Prohibited', deonticType: 'duty' },
   'shall':  { modality: 'obligation',     status: 'tagteam:Prescribed',   negatedModality: 'prohibition', negatedStatus: 'tagteam:Prohibited', deonticType: 'duty' },
   'should': { modality: 'recommendation', status: 'tagteam:Prescribed',   negatedModality: null,          negatedStatus: null,                  deonticType: 'duty' },
-  'will':   { modality: 'intention',      status: 'tagteam:Actual',       negatedModality: null,          negatedStatus: null,                  deonticType: null },
+  'will':   { modality: 'intention',      status: 'tagteam:Actual',       negatedModality: 'prohibition', negatedStatus: 'tagteam:Prohibited',  deonticType: null },
   'may':    { modality: 'permission',     status: 'tagteam:Permitted',    negatedModality: 'prohibition', negatedStatus: 'tagteam:Prohibited',  deonticType: 'privilege' },
   'can':    { modality: 'ability',        status: 'tagteam:Possible',     negatedModality: 'prohibition', negatedStatus: 'tagteam:Prohibited',  deonticType: null },
   'could':  { modality: 'hypothetical',   status: 'tagteam:Hypothetical', negatedModality: null,          negatedStatus: null,                  deonticType: null },
@@ -589,12 +589,14 @@ class TreeActExtractor {
       : null;
 
     for (const child of children) {
-      if (child.label === 'advcl' || child.label === 'acl:relcl' || child.label === 'acl') {
+      if (child.label === 'advcl' || child.label === 'acl:relcl' || child.label === 'acl' || child.label === 'ccomp') {
         const embeddedTag = depTree.tags[child.dependent - 1];
         if (VERB_TAGS.has(embeddedTag)) {
           const embeddedChildren = depTree.getChildren(child.dependent);
           const act = this._buildAct(depTree, child.dependent, embeddedChildren);
           if (act) acts.push(act);
+          // Recurse into embedded clause to find deeper acts (e.g., ccomp inside acl)
+          this._extractEmbeddedActs(depTree, child.dependent, acts, structuralAssertions);
         }
       }
       // Coordinated verbs: conj children inherit the parent's modal

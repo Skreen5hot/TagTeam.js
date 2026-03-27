@@ -1,0 +1,1683 @@
+[
+  {
+    "id": "MOA-01",
+    "text": "CMS shall allow USCIS to monitor and review all records and documents under CMS control related to this Agreement.",
+    "tags": [
+      "OBL",
+      "COORD",
+      "ENTITY"
+    ],
+    "summary": {
+      "entities": 2,
+      "entityLabels": [
+        "CMS",
+        "allow"
+      ],
+      "vps": 3,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 1,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 2,
+      "roles": 1,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "allow",
+          "agent": "linked",
+          "patient": "missing"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-02",
+    "text": "CMS shall provide USCIS with data and information regarding operation of the data exchange program.",
+    "tags": [
+      "OBL",
+      "ENTITY"
+    ],
+    "summary": {
+      "entities": 2,
+      "entityLabels": [
+        "CMS",
+        "provide"
+      ],
+      "vps": 1,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 1,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "provide",
+          "agent": "linked",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-03",
+    "text": "CMS shall cooperate and collaborate with USCIS and consider its input and recommendations.",
+    "tags": [
+      "OBL",
+      "COORD"
+    ],
+    "summary": {
+      "entities": 4,
+      "entityLabels": [
+        "CMS",
+        "cooperate",
+        "collaborate",
+        "consider"
+      ],
+      "vps": 3,
+      "dices": 3,
+      "planSpecs": 3,
+      "obligations": 3,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "cooperate",
+          "agent": "linked",
+          "patient": "missing"
+        },
+        {
+          "actType": "collaborate",
+          "agent": "missing",
+          "patient": "missing"
+        },
+        {
+          "actType": "consider",
+          "agent": "missing",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-04",
+    "text": "CMS shall take corrective measures in a timely manner.",
+    "tags": [
+      "OBL"
+    ],
+    "summary": {
+      "entities": 2,
+      "entityLabels": [
+        "CMS",
+        "take"
+      ],
+      "vps": 1,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 1,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "take",
+          "agent": "linked",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-05",
+    "text": "Both Parties shall maintain a level of security that is commensurate with the risk and magnitude of the harm that could result from misuse of the information.",
+    "tags": [
+      "OBL",
+      "COMPLEX",
+      "HYP"
+    ],
+    "summary": {
+      "entities": 10,
+      "entityLabels": [
+        "Both Parties",
+        "a level of security",
+        "security",
+        "that",
+        "the risk and magnitude of the harm",
+        "the harm",
+        "that",
+        "misuse of the information",
+        "the information",
+        "maintain"
+      ],
+      "vps": 1,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 1,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "maintain",
+          "agent": "missing",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-06",
+    "text": "Both Parties shall comply with the limitations on use and disclosure.",
+    "tags": [
+      "OBL",
+      "COORD"
+    ],
+    "summary": {
+      "entities": 4,
+      "entityLabels": [
+        "Both Parties",
+        "the limitations on use and disclosure",
+        "use and disclosure",
+        "comply"
+      ],
+      "vps": 1,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 1,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "comply",
+          "agent": "missing",
+          "patient": "missing"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-07",
+    "text": "Each Party to this Agreement shall be liable for acts and omissions of its own employees.",
+    "tags": [
+      "OBL",
+      "COMPLEX"
+    ],
+    "summary": {
+      "entities": 4,
+      "entityLabels": [
+        "Each Party",
+        "this Agreement",
+        "acts and omissions of its own employees",
+        "its own employees"
+      ],
+      "vps": 0,
+      "dices": 0,
+      "planSpecs": 0,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 1,
+      "planSpecDetails": []
+    }
+  },
+  {
+    "id": "MOA-08",
+    "text": "Neither Party shall be liable for any injury to another party's personnel or damage to another party's property.",
+    "tags": [
+      "OBL",
+      "NEG",
+      "COORD"
+    ],
+    "summary": {
+      "entities": 4,
+      "entityLabels": [
+        "Neither Party",
+        "any injury to another party &#39;s personnel or damage to another party &#39;s property",
+        "another party &#39;s personnel or damage to another party &#39;s property",
+        "another party &#39;s property"
+      ],
+      "vps": 0,
+      "dices": 0,
+      "planSpecs": 0,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 1,
+      "planSpecDetails": []
+    }
+  },
+  {
+    "id": "MOA-09",
+    "text": "CMS shall allow DHS and its components to monitor CMS and CMS sub-user system access.",
+    "tags": [
+      "OBL",
+      "ENTITY",
+      "COORD"
+    ],
+    "summary": {
+      "entities": 4,
+      "entityLabels": [
+        "CMS",
+        "DHS and its components",
+        "CMS and CMS",
+        "allow"
+      ],
+      "vps": 1,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 1,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "allow",
+          "agent": "linked",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-10",
+    "text": "CMS shall require compliance with the same or more stringent privacy and security standards.",
+    "tags": [
+      "OBL",
+      "COMPLEX"
+    ],
+    "summary": {
+      "entities": 2,
+      "entityLabels": [
+        "CMS",
+        "require"
+      ],
+      "vps": 1,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 1,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "require",
+          "agent": "linked",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-11",
+    "text": "The AE must submit such documentation electronically.",
+    "tags": [
+      "OBL"
+    ],
+    "summary": {
+      "entities": 3,
+      "entityLabels": [
+        "The AE",
+        "such documentation",
+        "submit"
+      ],
+      "vps": 1,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 1,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "submit",
+          "agent": "linked",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-12",
+    "text": "An individual seeking to contest the content of USCIS information must contact USCIS or the record's owner.",
+    "tags": [
+      "OBL",
+      "COMPLEX"
+    ],
+    "summary": {
+      "entities": 5,
+      "entityLabels": [
+        "An individual",
+        "the content of USCIS information",
+        "USCIS information",
+        "USCIS or the record &#39;s owner",
+        "contact"
+      ],
+      "vps": 1,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 1,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "contact",
+          "agent": "linked",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-13",
+    "text": "A state Medicaid or CHIP agency must determine or renew eligibility in accordance with 42 CFR Part 435.",
+    "tags": [
+      "OBL",
+      "ENTITY",
+      "COORD"
+    ],
+    "summary": {
+      "entities": 7,
+      "entityLabels": [
+        "Medicaid or CHIP",
+        "CFR Part",
+        "A state",
+        "eligibility",
+        "accordance",
+        "determine",
+        "renew"
+      ],
+      "vps": 2,
+      "dices": 2,
+      "planSpecs": 2,
+      "obligations": 2,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "determine",
+          "agent": "linked",
+          "patient": "missing"
+        },
+        {
+          "actType": "renew",
+          "agent": "missing",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-14",
+    "text": "The Party requesting permission must specify the following in writing.",
+    "tags": [
+      "OBL",
+      "COMPLEX"
+    ],
+    "summary": {
+      "entities": 4,
+      "entityLabels": [
+        "The Party",
+        "permission",
+        "the following",
+        "writing"
+      ],
+      "vps": 2,
+      "dices": 0,
+      "planSpecs": 0,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 2,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": []
+    }
+  },
+  {
+    "id": "MOA-15",
+    "text": "Marketplace matching programs must continue in the absence of a cost-effectiveness finding.",
+    "tags": [
+      "OBL",
+      "COMPLEX"
+    ],
+    "summary": {
+      "entities": 4,
+      "entityLabels": [
+        "Marketplace matching programs",
+        "the absence of a cost effectiveness finding",
+        "a cost effectiveness finding",
+        "continue"
+      ],
+      "vps": 1,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 1,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "continue",
+          "agent": "linked",
+          "patient": "missing"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-16",
+    "text": "Alternative verification methods should use the AE's direct SAVE access method.",
+    "tags": [
+      "OBL",
+      "ENTITY"
+    ],
+    "summary": {
+      "entities": 3,
+      "entityLabels": [
+        "Alternative verification methods",
+        "the AE &#39;s direct SAVE access method",
+        "use"
+      ],
+      "vps": 1,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 1,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "use",
+          "agent": "linked",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-17",
+    "text": "Retained records should meet legal evidentiary requirements.",
+    "tags": [
+      "OBL"
+    ],
+    "summary": {
+      "entities": 3,
+      "entityLabels": [
+        "Retained records",
+        "legal evidentiary requirements",
+        "meet"
+      ],
+      "vps": 1,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 1,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "meet",
+          "agent": "linked",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-18",
+    "text": "CMS and AEs may not deny an application based on a verification response that fails to confirm the applicant's status.",
+    "tags": [
+      "PRO",
+      "ENTITY",
+      "COMPLEX",
+      "COORD"
+    ],
+    "summary": {
+      "entities": 6,
+      "entityLabels": [
+        "CMS and AEs",
+        "an application",
+        "a verification response",
+        "that",
+        "the applicant &#39;s status",
+        "deny"
+      ],
+      "vps": 1,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 1,
+      "intentions": 0,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "deny",
+          "agent": "linked",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-19",
+    "text": "CMS and AEs may not suspend, terminate, reduce, or make a final denial regarding the eligibility of an individual.",
+    "tags": [
+      "PRO",
+      "COORD"
+    ],
+    "summary": {
+      "entities": 8,
+      "entityLabels": [
+        "CMS and AEs",
+        "a final denial regarding the eligibility of an individual",
+        "the eligibility of an individual",
+        "an individual",
+        "suspend",
+        "terminate",
+        "reduce",
+        "make"
+      ],
+      "vps": 4,
+      "dices": 4,
+      "planSpecs": 4,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 4,
+      "intentions": 0,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "suspend",
+          "agent": "linked",
+          "patient": "missing"
+        },
+        {
+          "actType": "terminate",
+          "agent": "missing",
+          "patient": "missing"
+        },
+        {
+          "actType": "reduce",
+          "agent": "missing",
+          "patient": "missing"
+        },
+        {
+          "actType": "make",
+          "agent": "missing",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-20",
+    "text": "The Parties will not use the data to extract information concerning individuals therein for any purpose not authorized by this Agreement.",
+    "tags": [
+      "PRO",
+      "COMPLEX",
+      "NEG"
+    ],
+    "summary": {
+      "entities": 7,
+      "entityLabels": [
+        "The Parties",
+        "the data",
+        "information",
+        "individuals",
+        "any purpose",
+        "this Agreement",
+        "use"
+      ],
+      "vps": 1,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 1,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "use",
+          "agent": "missing",
+          "patient": "missing"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-21",
+    "text": "CMS, through the Hub, may disclose to AEs the data received from USCIS under this Agreement.",
+    "tags": [
+      "PERM",
+      "ENTITY"
+    ],
+    "summary": {
+      "entities": 7,
+      "entityLabels": [
+        "CMS",
+        "the Hub",
+        "AEs",
+        "the data",
+        "USCIS",
+        "this Agreement",
+        "disclose"
+      ],
+      "vps": 1,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 0,
+      "permissions": 1,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "disclose",
+          "agent": "linked",
+          "patient": "missing"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-22",
+    "text": "CMS, through the Hub, may request verification for individuals currently enrolled whose immigration status has an expiration date.",
+    "tags": [
+      "PERM",
+      "COMPLEX"
+    ],
+    "summary": {
+      "entities": 8,
+      "entityLabels": [
+        "CMS",
+        ".",
+        "the Hub",
+        "verification for individuals",
+        "individuals",
+        "whose immigration status",
+        "an expiration date",
+        "request"
+      ],
+      "vps": 4,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 0,
+      "permissions": 1,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 3,
+      "roles": 2,
+      "assertions": 1,
+      "planSpecDetails": [
+        {
+          "actType": "request",
+          "agent": "linked",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-23",
+    "text": "USCIS may request this information at any time throughout the duration or any extension of this Agreement.",
+    "tags": [
+      "PERM"
+    ],
+    "summary": {
+      "entities": 2,
+      "entityLabels": [
+        "USCIS",
+        "request"
+      ],
+      "vps": 1,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 0,
+      "permissions": 1,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "request",
+          "agent": "linked",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-24",
+    "text": "Each party may request an on-site inspection in addition to requesting reports.",
+    "tags": [
+      "PERM",
+      "COORD"
+    ],
+    "summary": {
+      "entities": 5,
+      "entityLabels": [
+        "Each party",
+        "an on site inspection",
+        "addition",
+        "reports",
+        "request"
+      ],
+      "vps": 2,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 0,
+      "permissions": 1,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 1,
+      "roles": 1,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "request",
+          "agent": "linked",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-25",
+    "text": "The AE may implement an approved alternative verification method to determine the applicant's immigration status.",
+    "tags": [
+      "PERM",
+      "COMPLEX"
+    ],
+    "summary": {
+      "entities": 4,
+      "entityLabels": [
+        "The AE",
+        "an approved alternative verification method",
+        "the applicant &#39;s immigration status",
+        "implement"
+      ],
+      "vps": 1,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 0,
+      "permissions": 1,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "implement",
+          "agent": "linked",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-26",
+    "text": "USCIS will provide CMS with electronic access to immigrant, nonimmigrant, and naturalized citizen data.",
+    "tags": [
+      "INT",
+      "ENTITY",
+      "COORD"
+    ],
+    "summary": {
+      "entities": 3,
+      "entityLabels": [
+        "USCIS",
+        "and naturalized citizen data",
+        "provide"
+      ],
+      "vps": 1,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 1,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "provide",
+          "agent": "linked",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-27",
+    "text": "CMS will notify the USCIS Safeguards and Recordkeeping Procedures Contact immediately upon discovery of a breach.",
+    "tags": [
+      "INT",
+      "ENTITY",
+      "COMPLEX"
+    ],
+    "summary": {
+      "entities": 5,
+      "entityLabels": [
+        "USCIS Safeguards and Recordkeeping Procedures Contact",
+        "CMS",
+        "discovery of a breach",
+        "a breach",
+        "notify"
+      ],
+      "vps": 1,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 1,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "notify",
+          "agent": "linked",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-28",
+    "text": "CMS will report this Data Exchange Agreement to OMB and to the appropriate Committees of Congress for review.",
+    "tags": [
+      "INT",
+      "ENTITY",
+      "COORD"
+    ],
+    "summary": {
+      "entities": 6,
+      "entityLabels": [
+        "Data Exchange Agreement",
+        "Committees of Congress",
+        ".",
+        "CMS",
+        "review",
+        "report"
+      ],
+      "vps": 4,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 1,
+      "acts": 3,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "report",
+          "agent": "linked",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-29",
+    "text": "CMS will enter into agreements with AEs that include terms consistent with this Agreement.",
+    "tags": [
+      "INT",
+      "COMPLEX"
+    ],
+    "summary": {
+      "entities": 2,
+      "entityLabels": [
+        "CMS",
+        "enter"
+      ],
+      "vps": 1,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 1,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "enter",
+          "agent": "linked",
+          "patient": "missing"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-30",
+    "text": "USCIS will conduct an additional verification search of available databases.",
+    "tags": [
+      "INT"
+    ],
+    "summary": {
+      "entities": 2,
+      "entityLabels": [
+        "USCIS",
+        "conduct"
+      ],
+      "vps": 1,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 1,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "conduct",
+          "agent": "linked",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-31",
+    "text": "CMS will provide USCIS with the following identifying information about an individual who is the subject of an inquiry.",
+    "tags": [
+      "INT",
+      "COMPLEX"
+    ],
+    "summary": {
+      "entities": 2,
+      "entityLabels": [
+        "CMS",
+        "provide"
+      ],
+      "vps": 1,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 1,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "provide",
+          "agent": "linked",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-32",
+    "text": "The Exchange will verify citizenship and immigration status in accordance with the applicable regulations.",
+    "tags": [
+      "INT",
+      "ENTITY"
+    ],
+    "summary": {
+      "entities": 5,
+      "entityLabels": [
+        "The Exchange",
+        "citizenship and immigration",
+        "accordance",
+        "the applicable regulations",
+        "verify"
+      ],
+      "vps": 1,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 1,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "verify",
+          "agent": "linked",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-33",
+    "text": "The terms and conditions of this Agreement will be carried out by authorized officers, employees, and contractors of CMS and USCIS.",
+    "tags": [
+      "INT",
+      "PASS",
+      "COORD",
+      "ENTITY"
+    ],
+    "summary": {
+      "entities": 7,
+      "entityLabels": [
+        "and contractors",
+        "CMS and USCIS",
+        ".",
+        "The terms and conditions of this Agreement",
+        "this Agreement",
+        "authorized officers",
+        "carried"
+      ],
+      "vps": 4,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 1,
+      "acts": 3,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "carry",
+          "agent": "linked",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-34",
+    "text": "The Applicant will be provided the opportunity to appeal denials of eligibility.",
+    "tags": [
+      "INT",
+      "PASS"
+    ],
+    "summary": {
+      "entities": 5,
+      "entityLabels": [
+        "The Applicant",
+        "the opportunity",
+        "denials of eligibility",
+        "eligibility",
+        "provided"
+      ],
+      "vps": 1,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 1,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "provid",
+          "agent": "linked",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-35",
+    "text": "USCIS shall be allowed to conduct compliance assistance visits.",
+    "tags": [
+      "OBL",
+      "PASS"
+    ],
+    "summary": {
+      "entities": 2,
+      "entityLabels": [
+        "USCIS",
+        "allowed"
+      ],
+      "vps": 1,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 1,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "allow",
+          "agent": "missing",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-36",
+    "text": "SAVE provides immigration status information to authorized agencies.",
+    "tags": [
+      "ACT",
+      "ENTITY"
+    ],
+    "summary": {
+      "entities": 1,
+      "entityLabels": [
+        "SAVE"
+      ],
+      "vps": 2,
+      "dices": 0,
+      "planSpecs": 0,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 2,
+      "roles": 2,
+      "assertions": 0,
+      "planSpecDetails": []
+    }
+  },
+  {
+    "id": "MOA-37",
+    "text": "The Hub transmits the verification request to SAVE and returns the response to the AE.",
+    "tags": [
+      "ACT",
+      "ENTITY",
+      "COORD"
+    ],
+    "summary": {
+      "entities": 4,
+      "entityLabels": [
+        "The Hub",
+        "the verification request",
+        "the response to the AE",
+        "the AE"
+      ],
+      "vps": 2,
+      "dices": 0,
+      "planSpecs": 0,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 2,
+      "roles": 3,
+      "assertions": 0,
+      "planSpecDetails": []
+    }
+  },
+  {
+    "id": "MOA-38",
+    "text": "CMS operates the federally-facilitated Exchange through the Hub.",
+    "tags": [
+      "ACT",
+      "ENTITY"
+    ],
+    "summary": {
+      "entities": 1,
+      "entityLabels": [
+        "CMS"
+      ],
+      "vps": 1,
+      "dices": 0,
+      "planSpecs": 0,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 1,
+      "roles": 3,
+      "assertions": 0,
+      "planSpecDetails": []
+    }
+  },
+  {
+    "id": "MOA-39",
+    "text": "The responsible DHS component is the Verification Division within the USCIS Immigration Records and Identity Services Directorate.",
+    "tags": [
+      "ACT",
+      "ENTITY",
+      "COMPLEX"
+    ],
+    "summary": {
+      "entities": 3,
+      "entityLabels": [
+        "Verification Division",
+        "USCIS Immigration Records and Identity Services Directorate",
+        "The responsible DHS component"
+      ],
+      "vps": 0,
+      "dices": 0,
+      "planSpecs": 0,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 1,
+      "planSpecDetails": []
+    }
+  },
+  {
+    "id": "MOA-40",
+    "text": "This Agreement establishes the terms and conditions for the data exchange between CMS and USCIS.",
+    "tags": [
+      "ACT",
+      "ENTITY"
+    ],
+    "summary": {
+      "entities": 4,
+      "entityLabels": [
+        "This Agreement",
+        "the terms and conditions",
+        "the data exchange between CMS and USCIS",
+        "CMS"
+      ],
+      "vps": 1,
+      "dices": 0,
+      "planSpecs": 0,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 1,
+      "roles": 3,
+      "assertions": 0,
+      "planSpecDetails": []
+    }
+  },
+  {
+    "id": "MOA-41",
+    "text": "If the DOS provides USCIS with timely information about certificates of citizenship, SAVE will be able to verify an individual's acquired citizenship status.",
+    "tags": [
+      "INT",
+      "COMPLEX",
+      "ENTITY"
+    ],
+    "summary": {
+      "entities": 7,
+      "entityLabels": [
+        "If the DOS",
+        "USCIS",
+        "timely information about certificates of citizenship",
+        "certificates of citizenship",
+        "citizenship",
+        "SAVE",
+        "an individual"
+      ],
+      "vps": 1,
+      "dices": 0,
+      "planSpecs": 0,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 1,
+      "roles": 3,
+      "assertions": 1,
+      "planSpecDetails": []
+    }
+  },
+  {
+    "id": "MOA-42",
+    "text": "When USCIS cannot verify immigration status through second step verification, the AE will be prompted to submit the case for third step verification.",
+    "tags": [
+      "INT",
+      "COMPLEX",
+      "NEG"
+    ],
+    "summary": {
+      "entities": 8,
+      "entityLabels": [
+        "When USCIS",
+        "verify immigration status",
+        "second step verification",
+        "the AE",
+        "the case for third step verification",
+        "third step verification",
+        "prompted",
+        "cannot"
+      ],
+      "vps": 2,
+      "dices": 2,
+      "planSpecs": 2,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 1,
+      "intentions": 1,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "prompt",
+          "agent": "missing",
+          "patient": "linked"
+        },
+        {
+          "actType": "cannot",
+          "agent": "linked",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-43",
+    "text": "If third level verification is required, the AE will facilitate the transfer of the Applicant's immigration documentation to USCIS.",
+    "tags": [
+      "INT",
+      "COMPLEX",
+      "PASS"
+    ],
+    "summary": {
+      "entities": 3,
+      "entityLabels": [
+        "AE",
+        "third level verification",
+        "facilitate"
+      ],
+      "vps": 2,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 1,
+      "acts": 1,
+      "roles": 1,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "facilitate",
+          "agent": "linked",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-44",
+    "text": "CMS estimates that approximately 5.8 million records may be transacted through SAVE queries for the purpose of verifying eligibility.",
+    "tags": [
+      "PERM",
+      "COMPLEX"
+    ],
+    "summary": {
+      "entities": 1,
+      "entityLabels": [
+        "CMS"
+      ],
+      "vps": 1,
+      "dices": 0,
+      "planSpecs": 0,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 1,
+      "roles": 1,
+      "assertions": 0,
+      "planSpecDetails": []
+    }
+  },
+  {
+    "id": "MOA-45",
+    "text": "Nothing in this Agreement shall be construed as a waiver of sovereign immunity against suits by third persons.",
+    "tags": [
+      "OBL",
+      "NEG",
+      "COMPLEX"
+    ],
+    "summary": {
+      "entities": 7,
+      "entityLabels": [
+        "Nothing in this Agreement",
+        "this Agreement",
+        "a waiver of sovereign immunity against suits by third persons",
+        "sovereign immunity against suits by third persons",
+        "suits",
+        "third persons",
+        "construed"
+      ],
+      "vps": 2,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 1,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 1,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "constru",
+          "agent": "missing",
+          "patient": "missing"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-46",
+    "text": "The Department of Homeland Security provides verification services through the Systematic Alien Verification for Entitlements program.",
+    "tags": [
+      "ACT",
+      "ENTITY"
+    ],
+    "summary": {
+      "entities": 3,
+      "entityLabels": [
+        "The Department of Homeland Security",
+        "Systematic Alien Verification for Entitlements",
+        "verification services"
+      ],
+      "vps": 1,
+      "dices": 0,
+      "planSpecs": 0,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 1,
+      "roles": 1,
+      "assertions": 0,
+      "planSpecDetails": []
+    }
+  },
+  {
+    "id": "MOA-47",
+    "text": "United States Citizenship and Immigration Services operates the SAVE system.",
+    "tags": [
+      "ACT",
+      "ENTITY"
+    ],
+    "summary": {
+      "entities": 2,
+      "entityLabels": [
+        "United States Citizenship and Immigration Services",
+        "the SAVE system"
+      ],
+      "vps": 1,
+      "dices": 0,
+      "planSpecs": 0,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 1,
+      "roles": 2,
+      "assertions": 0,
+      "planSpecDetails": []
+    }
+  },
+  {
+    "id": "MOA-48",
+    "text": "The Centers for Medicare and Medicaid Services administers the federally-facilitated Exchange.",
+    "tags": [
+      "ACT",
+      "ENTITY"
+    ],
+    "summary": {
+      "entities": 2,
+      "entityLabels": [
+        "The Centers for Medicare and Medicaid Services",
+        "the federally facilitated Exchange"
+      ],
+      "vps": 1,
+      "dices": 0,
+      "planSpecs": 0,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 0,
+      "acts": 1,
+      "roles": 2,
+      "assertions": 0,
+      "planSpecDetails": []
+    }
+  },
+  {
+    "id": "MOA-49",
+    "text": "CMS and AEs will use the USCIS information in determining eligibility for enrollment in qualified health plans and insurance affordability programs.",
+    "tags": [
+      "INT",
+      "COORD",
+      "ENTITY",
+      "COMPLEX"
+    ],
+    "summary": {
+      "entities": 7,
+      "entityLabels": [
+        "CMS and AEs",
+        "the USCIS information",
+        "eligibility for enrollment",
+        "enrollment",
+        "qualified health plans and insurance affordability",
+        "programs",
+        "use"
+      ],
+      "vps": 2,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 1,
+      "acts": 1,
+      "roles": 2,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "use",
+          "agent": "linked",
+          "patient": "linked"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MOA-50",
+    "text": "USCIS will advise the AE through the Hub or the AE's direct SAVE access method.",
+    "tags": [
+      "INT",
+      "COORD"
+    ],
+    "summary": {
+      "entities": 2,
+      "entityLabels": [
+        "USCIS",
+        "advise"
+      ],
+      "vps": 1,
+      "dices": 1,
+      "planSpecs": 1,
+      "obligations": 0,
+      "permissions": 0,
+      "prohibitions": 0,
+      "intentions": 1,
+      "acts": 0,
+      "roles": 0,
+      "assertions": 0,
+      "planSpecDetails": [
+        {
+          "actType": "advise",
+          "agent": "linked",
+          "patient": "linked"
+        }
+      ]
+    }
+  }
+]
