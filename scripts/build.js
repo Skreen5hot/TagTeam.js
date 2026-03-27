@@ -1370,6 +1370,14 @@ ${semanticGraphBuilder}
         }
       }
 
+      // Attach @context so buildGraph() returns a complete JSON-LD document.
+      // Downstream consumers (jsonld.js, SPARQL, RDF parsers) need @context
+      // to resolve compact terms like "prescribes", "inheres_in" to full IRIs.
+      if (!graph['@context']) {
+        var serializer = new JSONLDSerializer();
+        graph['@context'] = serializer._buildContext();
+      }
+
       return graph;
     },
 
