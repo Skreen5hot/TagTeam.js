@@ -437,8 +437,10 @@ const semantic = {
       throw new Error('Node has no actualityStatus');
     }
     const normalizedExpected = expectedStatus.includes(':') ? expectedStatus : `tagteam:${expectedStatus}`;
-    if (status !== normalizedExpected) {
-      throw new Error(`Expected actualityStatus "${normalizedExpected}", got "${status}"`);
+    // Handle both string form ("tagteam:Prescribed") and JSON-LD @id form ({"@id":"tagteam:Prescribed"})
+    const actual = (typeof status === 'object' && status['@id']) ? status['@id'] : status;
+    if (actual !== normalizedExpected) {
+      throw new Error(`Expected actualityStatus "${normalizedExpected}", got "${actual}"`);
     }
   },
 

@@ -1,11 +1,11 @@
 # TagTeam.js — Production Readiness Checklist
 
-**Version:** 4.1.0
-**Date:** March 6, 2026
+**Version:** 5.0.0
+**Date:** March 27, 2026
 **Author:** Aaron, Technical Lead / Semantic Architect
 **Status:** Merge to MAIN
-**Branch:** origin/dev (commit `3d8b245`)
-**Previous:** v3.0.5 at `c8f16a7`
+**Branch:** origin/dev (commit `ec08a7d`)
+**Previous:** v4.1.0 at `b50864e`
 **Classification:** INTERNAL — Development Team Distribution Only
 
 ---
@@ -59,6 +59,12 @@ This checklist defines the requirements for merging the dev branch to MAIN, the 
 | `18b7473` | Fix CI deploy: remove references to deleted files | — |
 | `4b228f5` | Update demo sites for v4.0 single-bundle architecture | — |
 | `3d8b245` | Consolidate ontology to single tagteam.ttl v4.1.0, fix denotesType domain violation | 1 domain violation (denotesType on Tier 2) |
+| `d64abda` | Fix three ontology matching bugs: dedup, OWL type, CCO acronym; rename ontologyMatchClass → ontologyMatchIRI | 3 ontology matching bugs + IRI rename |
+| `facb3dd` | Add modal verb detection to tree pipeline (WS-3 Fix 1) — 10 single-word + 3 multi-word modals | Missing feature: tree pipeline had zero modal detection |
+| `536c471` | Fix modal contraction handling: can't, won't, mustn't, shouldn't | 2 contraction stem gaps |
+| `953026e` | Integrate ComplexDesignatorDetector into tree pipeline (WS-3 Fix 2) — CDD pre-pass + locked spans | Multi-word entity fragmentation (5 agency names) |
+| `8059ee0` | Implement Realist Deontic Modeling v1.2.1 — eliminate ghost IntentionalAct nodes for modal sentences | Ghost act violation (BFO realist commitment) |
+| `ec08a7d` | Fix ought → DefeasibleObligation, multi-word modal status lookup | 1 deontic category mismap |
 
 The v4.0.0 values layer removal (commits `3f04a6d`–`673ebbd`) deleted all ethical/contextual analysis classes: `ValueAssertionEvent`, `ContextAssessmentEvent`, `EthicalValueICE`, `ContextDimensionICE`, `ValueDetectionRecord`, `ContextAssessmentRecord`, `AssertionType`, and 4 assertion type individuals (`AutomatedDetection`, `HumanValidation`, `HumanRejection`, `HumanCorrection`). Associated extractors (`ValueExtractor.js`, `ContextExtractor.js`), tests, demos, and @context entries removed. 48 values-related properties purged from the @context. CI tests: 13 suites, 0 failures.
 
@@ -88,13 +94,13 @@ The OntologyTextTagger priority matching upgrade (commits `d86afdf`–`c8f16a7`)
 
 - [x] **Single-file architecture.** Verify `dist/` contains only `tagteam.js`, `standalone-demo.html`, and `test.html` — no `models/` directory, no `tagteam-core.js`, no `tagteam-values.js`. Models (POS weights, dep weights, calibration, gazetteers) are baked into the bundle at build time. `TagTeam.areModelsLoaded()` must return `true` immediately without calling `loadModels()`. `dist/standalone-demo.html` must parse text via `file:///` with zero network requests. *(Re-verified at `3d8b245`: dist/ contains exactly tagteam.js + standalone-demo.html + test.html. areModelsLoaded() returns true.)*
 
-- [x] **Gold baseline evaluation.** Run `npm run gold:evaluate`. Zero mismatches required. *(Re-verified at `3d8b245`: Entity F1 89.6%, Role F1 57.8%, 0 mismatches.)*
+- [x] **Gold baseline evaluation.** Run `npm run gold:evaluate`. Zero mismatches required. *(Re-verified at `ec08a7d`: Entity F1 89.6%, Role F1 57.8%, 0 mismatches.)*
 
 ### 1.3 Test Suite
 
-- [x] **CI tests: all phases passing, 0 failures.** *(Re-verified at `3d8b245`: 13 suites, 0 failures. Includes values removal, ontology consolidation, and denotesType domain violation fix.)*
+- [x] **CI tests: all phases passing, 0 failures.** *(Re-verified at `ec08a7d`: 14 suites, 0 failures. Includes RDM implementation, modal detection, entity fragmentation fix, ontology matching bugs.)*
 
-- [x] **Component tests: 42/100 baseline maintained.** No regression from the pre-audit baseline (was 30, improved to 42 via HEAD_NOUN_TYPE_MAP and TreeEntityExtractor fixes). *(Re-verified at `3d8b245`: 42/100, 0 errors.)*
+- [x] **Component tests: 42/100 baseline maintained.** No regression from the pre-audit baseline (was 30, improved to 42 via HEAD_NOUN_TYPE_MAP and TreeEntityExtractor fixes). *(Re-verified at `ec08a7d`: 42/100, 0 errors.)*
 
 ---
 

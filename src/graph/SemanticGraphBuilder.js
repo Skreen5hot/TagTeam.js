@@ -38,6 +38,20 @@ const QualityFactory = require('./QualityFactory');
 const DomainConfigLoader = require('./DomainConfigLoader');
 const ClauseSegmenter = require('./ClauseSegmenter');
 
+// ── Realist Deontic Modeling (RDM) ──────────────────────────────
+// Maps modality string → deontic category, RE type, and default confidence.
+// See docs/development/realist-deontic-modeling-v1.2.1.md §4.
+const DEONTIC_CATEGORY_TABLE = {
+  'obligation':     { category: 'tagteam:UnconditionalObligation', reType: 'Obligation',  confidence: 0.95 },
+  'recommendation': { category: 'tagteam:DefeasibleObligation',    reType: 'Obligation',  confidence: 0.85 },
+  'intention':      { category: 'tagteam:DeclaredIntention',       reType: 'Intention',   confidence: 0.75 },
+  'permission':     { category: 'tagteam:GrantedPermission',       reType: 'Permission',  confidence: 0.70 },
+  'ability':        { category: 'tagteam:GrantedPermission',       reType: 'Permission',  confidence: 0.70 },
+  'prohibition':    { category: 'tagteam:UnconditionalProhibition',reType: 'Prohibition', confidence: 0.90 },
+  'hypothetical':   { category: 'tagteam:Hypothetical',            reType: null,          confidence: 0.80 },
+  'possibility':    { category: 'tagteam:Hypothetical',            reType: null,          confidence: 0.80 },
+};
+
 // Core infrastructure modules
 const ContextManager = require('./ContextManager');
 const InformationStaircaseBuilder = require('./InformationStaircaseBuilder');
@@ -1044,6 +1058,62 @@ class SemanticGraphBuilder {
   }
 
   /**
+   * Find a Tier 2 entity node by label match (case-insensitive).
+   * Tier 2 nodes have is_subject_of.
+   * @param {Array} graphNodes - Current graph nodes
+   * @param {string} label - Entity label to match
+   * @returns {Object|null}
+   * @private
+   */
+  _findTier2ByLabel(graphNodes, label) {
+    if (!label) return null;
+    // Strip leading determiners ("The committee" → "committee") for matching
+    // Tier 2 labels are lowercase without determiners
+    const stripped = label.toLowerCase().replace(/^(the|a|an|this|that|these|those)\s+/i, '');
+    return graphNodes.find(n => {
+      if (!n['is_subject_of']) return false;
+      const t2Label = (n['rdfs:label'] || '').toLowerCase();
+      return t2Label === stripped || t2Label.includes(stripped) || stripped.includes(t2Label);
+    }) || null;
+  }
+
+  /**
+   * Map CDD character-based spans to 1-indexed token index ranges.
+   * @param {Array} cdSpans - CDD spans with { text, start, end, components }
+   * @param {string[]} tokens - Token strings from tokenizer
+   * @param {Array} tokenObjs - Token objects with { text, start, end }
+   * @returns {Array<{ text: string, startToken: number, endToken: number }>}
+   * @private
+   */
+  _mapCDDSpansToTokenIndices(cdSpans, tokens, tokenObjs) {
+    if (!cdSpans || cdSpans.length === 0) return [];
+
+    return cdSpans.map(span => {
+      let startToken = -1;
+      let endToken = -1;
+
+      for (let i = 0; i < tokenObjs.length; i++) {
+        const tok = tokenObjs[i];
+        const tokStart = typeof tok === 'object' ? tok.start : 0;
+        const tokEnd = typeof tok === 'object' ? tok.end : 0;
+
+        // Token overlaps with span
+        if (tokStart >= span.start && tokEnd <= span.end) {
+          if (startToken === -1) startToken = i + 1; // 1-indexed
+          endToken = i + 1;
+        }
+      }
+
+      return {
+        text: span.text,
+        startToken,
+        endToken,
+        components: span.components
+      };
+    }).filter(s => s.startToken > 0);
+  }
+
+  /**
    * Phase 7.1: Detect and add source attributions from the full text.
    * Creates SourceAttribution nodes when quotes, reported speech, or
    * institutional sources are detected.
@@ -1798,12 +1868,39 @@ class SemanticGraphBuilder {
         }
       }
 
+      // Stage 4.8: ComplexDesignatorDetector pre-pass (§5.1b)
+      // Detect multi-word proper names by surface form BEFORE entity extraction.
+      // These locked spans override the dep tree to prevent fragmentation.
+      let lockedSpans = [];
+      if (ComplexDesignatorDetector) {
+        stages.current = 'detectComplexDesignators';
+        const cdDetector = new ComplexDesignatorDetector();
+        const cdSpans = cdDetector.detect(text);
+        // Filter: reject spans that are just acronym-only coordination
+        // ("FBI and CIA", "CMS and AEs") — these are distinct entities, not one name.
+        // A valid multi-word proper name has at least one non-acronym capitalized word
+        // on each side of a connector.
+        const filteredSpans = cdSpans.filter(span => {
+          const comps = span.components;
+          if (comps.length < 3) return true; // Single-word or two-word — keep
+          const connectors = new Set(['and', 'or', 'of', 'for', 'on', 'the']);
+          const nonConnectorWords = comps.filter(c => !connectors.has(c.toLowerCase()));
+          // If ALL non-connector words are short ALL-CAPS (<=4 chars), it's acronym coordination
+          const allAcronyms = nonConnectorWords.length >= 2 &&
+            nonConnectorWords.every(w => w === w.toUpperCase() && w.length <= 5 && /^[A-Z]+s?$/.test(w));
+          if (allAcronyms) return false; // Reject: "FBI and CIA", "CMS and AEs"
+          return true;
+        });
+        // Convert CDD spans to token-index ranges for TreeEntityExtractor
+        lockedSpans = this._mapCDDSpansToTokenIndices(filteredSpans, tokens, tokenObjs);
+      }
+
       // Stage 5: Tree-based entity extraction
       stages.current = 'extractEntities';
       const entityExtractor = new _TreeEntityExtractor({
         gazetteerNER: this._treeGazetteerNER || null
       });
-      const { entities, aliasMap } = entityExtractor.extract(depTree);
+      const { entities, aliasMap } = entityExtractor.extract(depTree, { lockedSpans });
 
       // Stage 6: Tree-based act extraction
       stages.current = 'extractActs';
@@ -1899,18 +1996,150 @@ class SemanticGraphBuilder {
         graphNodes.push(entityNode);
       }
 
-      // Convert acts to JSON-LD nodes
+      // ── Realist Deontic Modeling: Act Assembly ──────────────────
+      // Modal acts → VerbPhrase (Tier 1) + DICE + PlanSpec + RealizableEntity (Tier 2)
+      // Non-modal acts → IntentionalAct (current path, unchanged)
+      // See docs/development/realist-deontic-modeling-v1.2.1.md
+
+      // Pre-scan: resolve modal role mappings and stamp onto act objects
+      const modalActVerbIds = new Set();
+
       for (const act of acts) {
-        const actNode = {
-          '@id': `${this.options.namespace}:Act_${this._sanitizeId(act.verb)}`,
-          '@type': ['IntentionalAct'],
-          'rdfs:label': act.verb,
-          'tagteam:lemma': act.lemma,
-        };
-        if (act.isPassive) actNode['tagteam:isPassive'] = true;
-        if (act.isNegated) actNode['tagteam:isNegated'] = true;
-        if (act.isCopular) actNode['tagteam:isCopular'] = true;
-        graphNodes.push(actNode);
+        if (act.modality) {
+          modalActVerbIds.add(act.verbId);
+          // Resolve agent/patient from roles — stamp directly onto act
+          const actRoles = roles.filter(r => r.actId === act.verbId);
+          const agentRole = actRoles.find(r => r.label === 'AgentRole');
+          const patientRole = actRoles.find(r => r.label === 'PatientRole');
+          const recipientRole = actRoles.find(r => r.label === 'RecipientRole');
+          act._prescribedAgentText = agentRole ? agentRole.entity : null;
+          act._prescribedPatientText = patientRole ? patientRole.entity : null;
+          act._prescribedRecipientText = recipientRole ? recipientRole.entity : null;
+        }
+      }
+
+      // Track modal obligations for ConjunctiveObligation grouping
+      const modalObligations = []; // { obligationId, actVerb, modalVerb }
+
+      for (const act of acts) {
+        const deontic = act.modality ? DEONTIC_CATEGORY_TABLE[act.modality] : null;
+
+        if (deontic) {
+          // ── Realist path: VerbPhrase (Tier 1) ──
+          const vpId = `${this.options.namespace}:VP_${this._sanitizeId(act.modalVerb || '')}_${this._sanitizeId(act.verb)}`;
+          const diceId = `${this.options.namespace}:Directive_${this._sanitizeId(act.modalVerb || '')}_${this._hashText(act.verb + (act.modality || '')).substring(0, 12)}`;
+          const planSpecId = `${this.options.namespace}:PlanSpec_${this._sanitizeId(act.verb)}_${this._hashText(act.verb + text).substring(0, 8)}`;
+
+          const vpNode = {
+            '@id': vpId,
+            '@type': ['tagteam:DiscourseReferent', 'tagteam:VerbPhrase'],
+            'rdfs:label': act.verb,
+            'tagteam:lemma': act.lemma,
+            'tagteam:verb': act.lemma,
+            'tagteam:modalMarker': act.modalVerb || null,
+            'tagteam:modality': act.modality,
+            'tagteam:deonticCategory': { '@id': deontic.category },
+            'tagteam:interpretationConfidence': deontic.confidence,
+            'is_about': { '@id': diceId },
+          };
+          if (act.isPassive) vpNode['tagteam:isPassive'] = true;
+          if (act.isNegated) vpNode['tagteam:isNegated'] = true;
+          if (act.sourceText) vpNode['tagteam:sourceText'] = act.sourceText;
+          graphNodes.push(vpNode);
+
+          // ── DICE (Tier 2) ──
+          const diceNode = {
+            '@id': diceId,
+            '@type': ['DirectiveInformationContentEntity', 'InformationContentEntity', 'owl:NamedIndividual'],
+            'rdfs:label': `${deontic.category.split(':').pop()} Directive: ${act.modalVerb || act.modality}`,
+            'prescribes': { '@id': planSpecId },
+            'tagteam:modalMarker': act.modalVerb || null,
+            'tagteam:deonticCategory': { '@id': deontic.category },
+          };
+          graphNodes.push(diceNode);
+
+          // ── PlanSpecification (Tier 2) ──
+          const planSpecNode = {
+            '@id': planSpecId,
+            '@type': ['PlanSpecification', 'InformationContentEntity', 'owl:NamedIndividual'],
+            'rdfs:label': `Plan: ${act.lemma}`,
+            'tagteam:prescribedActType': act.lemma,
+          };
+
+          // Store entity text for deferred Tier 2 IRI resolution (runs after Tier 2 creation)
+          // Stamp role labels for deferred resolution
+          const _at = act._prescribedAgentText;
+          const _pt = act._prescribedPatientText;
+          if (_at) planSpecNode['_agentText'] = _at;
+          if (_pt) planSpecNode['_patientText'] = _pt;
+          if (act._prescribedRecipientText) planSpecNode['_recipientText'] = act._prescribedRecipientText;
+          graphNodes.push(planSpecNode);
+
+          // ── RealizableEntity (Tier 2) — only if category emits one ──
+          if (deontic.reType) {
+            const reId = `${this.options.namespace}:${deontic.reType}_${this._sanitizeId(act._prescribedAgentText || act.verb)}_${this._hashText(diceId).substring(0, 8)}`;
+            const reNode = {
+              '@id': reId,
+              '@type': [deontic.reType, 'owl:NamedIndividual'],
+              'rdfs:label': `${deontic.reType}: ${act.lemma}`,
+              'tagteam:deonticCategory': { '@id': deontic.category },
+              'tagteam:fulfillmentState': { '@id': 'tagteam:Pending' },
+              'is_prescribed_by': { '@id': diceId },
+              'isSpecifiedBy': { '@id': planSpecId },
+            };
+            // inheres_in resolved in post-Tier2 pass
+            graphNodes.push(reNode);
+
+            // Track for ConjunctiveObligation
+            if (deontic.reType === 'Obligation') {
+              modalObligations.push({
+                obligationId: reId,
+                actVerb: act.lemma,
+                modalVerb: act.modalVerb,
+              });
+            }
+          }
+
+        } else {
+          // ── Current path: IntentionalAct (non-modal) ──
+          const actNode = {
+            '@id': `${this.options.namespace}:Act_${this._sanitizeId(act.verb)}`,
+            '@type': ['IntentionalAct', 'tagteam:VerbPhrase'],
+            'rdfs:label': act.verb,
+            'tagteam:lemma': act.lemma,
+            'tagteam:verb': act.lemma,
+            'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
+          };
+          if (act.isPassive) actNode['tagteam:isPassive'] = true;
+          if (act.isNegated) actNode['tagteam:isNegated'] = true;
+          if (act.isCopular) actNode['tagteam:isCopular'] = true;
+          graphNodes.push(actNode);
+        }
+      }
+
+      // ── ConjunctiveObligation: group obligations from coordinated verbs ──
+      if (modalObligations.length >= 2) {
+        // Check if they share the same modal scope (same modalVerb)
+        const byModal = {};
+        for (const mo of modalObligations) {
+          const key = mo.modalVerb || '_default';
+          if (!byModal[key]) byModal[key] = [];
+          byModal[key].push(mo);
+        }
+        for (const key of Object.keys(byModal)) {
+          const group = byModal[key];
+          if (group.length >= 2) {
+            const conjId = `${this.options.namespace}:ConjunctiveObligation_${this._hashText(group.map(g => g.obligationId).join('+')).substring(0, 12)}`;
+            const conjNode = {
+              '@id': conjId,
+              '@type': ['tagteam:ConjunctiveObligation', 'owl:NamedIndividual'],
+              'rdfs:label': `Conjunctive Obligation: ${group.map(g => g.actVerb).join(' + ')}`,
+              'tagteam:hasConjunct': group.map(g => ({ '@id': g.obligationId })),
+              'tagteam:fulfillmentState': { '@id': 'tagteam:Pending' },
+            };
+            graphNodes.push(conjNode);
+          }
+        }
       }
 
       // Convert structural assertions to JSON-LD nodes
@@ -1929,7 +2158,9 @@ class SemanticGraphBuilder {
       }
 
       // Convert roles to JSON-LD nodes
+      // RDM: Skip roles for modal acts — agent/patient go on PlanSpec instead
       for (const role of roles) {
+        if (modalActVerbIds.has(role.actId)) continue; // Modal act → role on PlanSpec, not Role node
         const roleLabel = role.label || role.role;
         const roleNode = {
           '@id': `${this.options.namespace}:Role_${this._sanitizeId(role.entity)}_${this._sanitizeId(roleLabel)}`,
@@ -1957,10 +2188,16 @@ class SemanticGraphBuilder {
           lemmatizer: this.lemmatizer
         });
 
-        // Filter entity nodes (exclude Acts, Roles, Assertions)
+        // Filter entity nodes (exclude Acts, Roles, Assertions, Directives, PlanSpecs, RealizableEntities, VerbPhrases)
         const referentNodes = graphNodes.filter(n => {
           const t = [].concat(n['@type'] || []);
-          return !t.some(x => x.includes('Act') || x.includes('Role') || x.includes('Assertion'));
+          return !t.some(x =>
+            x.includes('Act') || x.includes('Role') || x.includes('Assertion') ||
+            x.includes('Directive') || x.includes('PlanSpec') ||
+            x.includes('Obligation') || x.includes('Permission') ||
+            x.includes('Prohibition') || x.includes('Intention') ||
+            x.includes('VerbPhrase')
+          );
         });
 
         // Bootstrap tagteam:denotesType from @type[0] BEFORE overwriting, then clean Tier 1
@@ -2018,6 +2255,43 @@ class SemanticGraphBuilder {
 
         for (const t2 of tier2Entities) {
           graphNodes.push(t2);
+        }
+
+        // ── RDM: Resolve PlanSpec agent/patient and RE inheres_in to Tier 2 IRIs ──
+        // This runs AFTER Tier 2 entities are created, so _findTier2ByLabel works.
+        for (const node of graphNodes) {
+          const types = [].concat(node['@type'] || []);
+
+          // Resolve PlanSpec prescribedAgent/Patient/Recipient from stored labels
+          if (types.includes('PlanSpecification') || types.includes('tagteam:PlanSpecification')) {
+            const labelProps = [
+              ['_agentText', 'tagteam:prescribedAgent'],
+              ['_patientText', 'tagteam:prescribedPatient'],
+              ['_recipientText', 'tagteam:prescribedRecipient'],
+            ];
+            for (const [labelKey, targetProp] of labelProps) {
+              if (node[labelKey]) {
+                const t2 = this._findTier2ByLabel(graphNodes, node[labelKey]);
+                if (t2) node[targetProp] = { '@id': t2['@id'] };
+                delete node[labelKey];
+              }
+            }
+          }
+
+          // Resolve RE inheres_in from PlanSpec's prescribedAgent
+          if (types.includes('Obligation') || types.includes('Permission') ||
+              types.includes('Prohibition') || types.includes('Intention') ||
+              types.includes('tagteam:ConjunctiveObligation')) {
+            if (!node['inheres_in']) {
+              const specId = node['isSpecifiedBy'] && (node['isSpecifiedBy']['@id'] || node['isSpecifiedBy']);
+              if (specId) {
+                const spec = graphNodes.find(n => n['@id'] === specId);
+                if (spec && spec['tagteam:prescribedAgent']) {
+                  node['inheres_in'] = spec['tagteam:prescribedAgent'];
+                }
+              }
+            }
+          }
         }
 
         // --- FT-03: Upgrade StructuralAssertions to Tier 2 triples ---

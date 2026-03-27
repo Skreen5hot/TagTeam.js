@@ -99,27 +99,58 @@ class TreeEntityExtractor {
    * @param {DepTree} depTree - Parsed dependency tree
    * @returns {{ entities: Entity[], aliasMap: Map<string, string> }}
    */
-  extract(depTree) {
+  extract(depTree, options) {
+    const opts = options || {};
     const entities = [];
     const aliasMap = new Map();
     const seenHeads = new Set(); // Prevent duplicate entity extraction
 
-    // Step 0: Extract root nouns as entities (roots that are not verbs
+    // Locked spans from ComplexDesignatorDetector (§5.1b)
+    // Token indices covered by locked spans — skip normal extraction for these
+    const lockedSpans = opts.lockedSpans || [];
+    const lockedTokens = new Set();
+    for (const span of lockedSpans) {
+      for (let t = span.startToken; t <= span.endToken; t++) {
+        lockedTokens.add(t);
+      }
+    }
+
+    // Step 0: Inject locked span entities FIRST
+    // These override the dep tree — the CDD surface-form detection takes priority
+    for (const span of lockedSpans) {
+      const spanTokens = [];
+      const spanIndices = [];
+      for (let t = span.startToken; t <= span.endToken; t++) {
+        spanTokens.push(depTree.tokens[t - 1]);
+        spanIndices.push(t);
+        seenHeads.add(t);
+      }
+      entities.push({
+        fullText: span.text,
+        headId: span.startToken,
+        indices: spanIndices,
+        type: 'Organization', // CDD detects proper names → Organization default
+        role: 'locked',
+        source: 'ComplexDesignatorDetector'
+      });
+    }
+
+    // Step 1: Extract root nouns as entities (roots that are not verbs
     // may be copular predicates or standalone noun phrases)
     const roots = depTree.getRoots();
     for (const rootId of roots) {
+      if (lockedTokens.has(rootId)) continue; // Skip tokens inside locked spans
       const rootTag = depTree.tags[rootId - 1];
       const children = depTree.getChildren(rootId);
       const hasCop = children.some(c => c.label === 'cop');
-      // Root nouns that are copular predicates — don't extract as entities
-      // Root nouns without cop that have nsubj children — they're predicates in verb-less parses
-      // But root nouns in relative clause parses (e.g., "The doctor who ... left") — extract as entity
       if (!TEE_VERB_TAGS.has(rootTag) && !hasCop) {
         const hasNsubj = children.some(c => c.label === 'nsubj' || c.label === 'nsubj:pass');
         if (!hasNsubj && !seenHeads.has(rootId)) {
           seenHeads.add(rootId);
           const entity = this._buildEntity(depTree, rootId, 'root');
           if (entity) {
+            // RC-3: If entity span overlaps a locked span, skip it
+            if (this._overlapsLockedSpan(entity, lockedTokens)) continue;
             this._extractAliases(depTree, entity, aliasMap);
             entities.push(entity);
           }
@@ -127,39 +158,50 @@ class TreeEntityExtractor {
       }
     }
 
-    // Step 1: Find all entity-bearing positions
+    // Step 2: Find all entity-bearing positions
     for (const arc of depTree.arcs) {
       if (!ENTITY_BEARING_LABELS.has(arc.label)) continue;
       if (seenHeads.has(arc.dependent)) continue;
+      if (lockedTokens.has(arc.dependent)) continue; // Skip tokens inside locked spans
 
       const entityHead = arc.dependent;
       seenHeads.add(entityHead);
 
-      // Step 2: Check for coordination — may need to split
+      // Step 3: Check for coordination — may need to split
       const coordResult = this._handleCoordination(depTree, entityHead, arc.label, seenHeads);
       if (coordResult) {
-        // Coordination was split into multiple entities
         for (const entity of coordResult) {
+          if (this._overlapsLockedSpan(entity, lockedTokens)) continue;
           this._extractAliases(depTree, entity, aliasMap);
           entities.push(entity);
         }
         continue;
       }
 
-      // Step 3: Build entity span from subtree
+      // Step 4: Build entity span from subtree
       const entity = this._buildEntity(depTree, entityHead, arc.label);
       if (!entity) continue;
+      if (this._overlapsLockedSpan(entity, lockedTokens)) continue;
 
-      // Step 4: Extract aliases from appositions
+      // Step 5: Extract aliases from appositions
       this._extractAliases(depTree, entity, aliasMap);
 
       entities.push(entity);
     }
 
-    // Step 5: Alias promotion — resolve later mentions via aliasMap
+    // Step 6: Alias promotion — resolve later mentions via aliasMap
     this._promoteAliases(entities, aliasMap);
 
     return { entities, aliasMap };
+  }
+
+  /**
+   * Check if an entity's token indices overlap with locked span tokens.
+   * @private
+   */
+  _overlapsLockedSpan(entity, lockedTokens) {
+    if (!entity.indices || lockedTokens.size === 0) return false;
+    return entity.indices.some(idx => lockedTokens.has(idx));
   }
 
   /**
@@ -340,8 +382,11 @@ class TreeEntityExtractor {
       if (isHead && child.label === 'case') continue;
       // Skip additional labels (e.g., 'cc' for split conjunct entities)
       if (skipLabels.length > 0 && skipLabels.includes(child.label)) continue;
-      // Skip conj children that have cop dependents (copular predicates, not coordination)
+      // Skip conj children that are verbs (RC-3: prevents "Immigration" absorbing "deported")
+      // or that have cop dependents (copular predicates, not coordination)
       if (child.label === 'conj') {
+        const conjTag = depTree.tags[child.dependent - 1];
+        if (TEE_VERB_TAGS.has(conjTag)) continue; // Verb conjunct → not part of entity
         const conjChildren = depTree._children.get(child.dependent) || [];
         const hasCop = conjChildren.some(c => c.label === 'cop');
         if (hasCop) continue; // This conj is a copular predicate → skip
