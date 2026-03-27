@@ -1,7 +1,7 @@
 /*!
  * TagTeam.js - Two-Tier Semantic Graph Engine
  * Version: 7.0 (v2 Phase 2: Dependency Parser)
- * Date: 2026-03-26
+ * Date: 2026-03-27
  *
  * A client-side JavaScript library for extracting semantic roles from natural language text
  *
@@ -309596,10 +309596,29 @@ class JSONLDSerializer {
       Empowered:       { '@id': 'tagteam:Empowered' },
       Protected:       { '@id': 'tagteam:Protected' },
 
+      // ─────── RDM: Deontic Category Individuals ───────
+      UnconditionalObligation: { '@id': 'tagteam:UnconditionalObligation' },
+      DefeasibleObligation:    { '@id': 'tagteam:DefeasibleObligation' },
+      DeclaredIntention:       { '@id': 'tagteam:DeclaredIntention' },
+      GrantedPermission:       { '@id': 'tagteam:GrantedPermission' },
+      UnconditionalProhibition:{ '@id': 'tagteam:UnconditionalProhibition' },
+
+      // ─────── RDM: Fulfillment State Individuals ───────
+      Pending:         { '@id': 'tagteam:Pending' },
+      Discharged:      { '@id': 'tagteam:Discharged' },
+      Violated:        { '@id': 'tagteam:Violated' },
+
       // ─────── TagTeam Classes — Graph Structure ───────
-      DirectiveContent:        { '@id': 'tagteam:DirectiveContent' },
-      ScarcityAssertion:       { '@id': 'tagteam:ScarcityAssertion' },
-      InterpretationContext:   { '@id': 'tagteam:InterpretationContext' },
+      DirectiveContent:                      { '@id': 'tagteam:DirectiveContent' },
+      DirectiveInformationContentEntity:     { '@id': 'tagteam:DirectiveInformationContentEntity' },
+      PlanSpecification:                     { '@id': 'tagteam:PlanSpecification' },
+      Obligation:                            { '@id': 'tagteam:Obligation' },
+      Permission:                            { '@id': 'tagteam:Permission' },
+      Prohibition:                           { '@id': 'tagteam:Prohibition' },
+      Intention:                             { '@id': 'tagteam:Intention' },
+      ConjunctiveObligation:                 { '@id': 'tagteam:ConjunctiveObligation' },
+      ScarcityAssertion:                     { '@id': 'tagteam:ScarcityAssertion' },
+      InterpretationContext:                 { '@id': 'tagteam:InterpretationContext' },
 
       // ─────── TagTeam Classes — Curation Workflow ───────
       AutomatedDetection: { '@id': 'tagteam:AutomatedDetection' },
@@ -309761,6 +309780,19 @@ class JSONLDSerializer {
       aggregationMethod:   { '@id': 'tagteam:aggregationMethod' },
       modalType:           { '@id': 'tagteam:modalType' },
       modalMarker:         { '@id': 'tagteam:modalMarker' },
+
+      // ─────── RDM: Realist Deontic Modeling (v1.2.1) ───────
+      deonticCategory:            { '@id': 'tagteam:deonticCategory',            '@type': '@id' },
+      interpretationConfidence:   { '@id': 'tagteam:interpretationConfidence',   '@type': 'xsd:float' },
+      fulfillmentState:           { '@id': 'tagteam:fulfillmentState',           '@type': '@id' },
+      prescribedActType:          { '@id': 'tagteam:prescribedActType' },
+      prescribedActClass:         { '@id': 'tagteam:prescribedActClass',         '@type': '@id' },
+      prescribedAgent:            { '@id': 'tagteam:prescribedAgent',            '@type': '@id' },
+      prescribedPatient:          { '@id': 'tagteam:prescribedPatient',          '@type': '@id' },
+      prescribedRecipient:        { '@id': 'tagteam:prescribedRecipient',        '@type': '@id' },
+      isSpecifiedBy:              { '@id': 'tagteam:isSpecifiedBy',              '@type': '@id' },
+      is_prescribed_by:           { '@id': 'tagteam:is_prescribed_by',           '@type': '@id' },
+      hasConjunct:                { '@id': 'tagteam:hasConjunct',                '@type': '@id', '@container': '@set' },
       scarcityMarker:      { '@id': 'tagteam:scarcityMarker' },
       evidenceText:        { '@id': 'tagteam:evidenceText' },
       classificationLabel: { '@id': 'tagteam:classificationLabel' },
@@ -322707,6 +322739,11 @@ class TreeActExtractor {
    */
   _extractEmbeddedActs(depTree, parentId, acts, structuralAssertions) {
     const children = depTree.getChildren(parentId);
+    // Get parent act's modal info for inheritance to conj children
+    const parentTag = depTree.tags[parentId - 1];
+    const parentAct = VERB_TAGS.has(parentTag)
+      ? acts.find(a => a.verbId === parentId)
+      : null;
 
     for (const child of children) {
       if (child.label === 'advcl' || child.label === 'acl:relcl' || child.label === 'acl') {
@@ -322715,6 +322752,25 @@ class TreeActExtractor {
           const embeddedChildren = depTree.getChildren(child.dependent);
           const act = this._buildAct(depTree, child.dependent, embeddedChildren);
           if (act) acts.push(act);
+        }
+      }
+      // Coordinated verbs: conj children inherit the parent's modal
+      if (child.label === 'conj') {
+        const conjTag = depTree.tags[child.dependent - 1];
+        if (VERB_TAGS.has(conjTag)) {
+          const conjChildren = depTree.getChildren(child.dependent);
+          const act = this._buildAct(depTree, child.dependent, conjChildren);
+          if (act) {
+            // Inherit modal from parent if conj doesn't have its own
+            if (!act.modality && parentAct && parentAct.modality) {
+              act.modalVerb = parentAct.modalVerb;
+              act.modality = parentAct.modality;
+              act.actualityStatus = parentAct.actualityStatus;
+              act.deonticType = parentAct.deonticType;
+              act.sourceText = (parentAct.modalVerb || '') + ' ' + act.verb;
+            }
+            acts.push(act);
+          }
         }
       }
     }
@@ -323429,6 +323485,20 @@ class ConfidenceAnnotator {
  * @module graph/SemanticGraphBuilder
  * @version 3.0.0
  */
+
+// ── Realist Deontic Modeling (RDM) ──────────────────────────────
+// Maps modality string → deontic category, RE type, and default confidence.
+// See docs/development/realist-deontic-modeling-v1.2.1.md §4.
+const DEONTIC_CATEGORY_TABLE = {
+  'obligation':     { category: 'tagteam:UnconditionalObligation', reType: 'Obligation',  confidence: 0.95 },
+  'recommendation': { category: 'tagteam:DefeasibleObligation',    reType: 'Obligation',  confidence: 0.85 },
+  'intention':      { category: 'tagteam:DeclaredIntention',       reType: 'Intention',   confidence: 0.75 },
+  'permission':     { category: 'tagteam:GrantedPermission',       reType: 'Permission',  confidence: 0.70 },
+  'ability':        { category: 'tagteam:GrantedPermission',       reType: 'Permission',  confidence: 0.70 },
+  'prohibition':    { category: 'tagteam:UnconditionalProhibition',reType: 'Prohibition', confidence: 0.90 },
+  'hypothetical':   { category: 'tagteam:Hypothetical',            reType: null,          confidence: 0.80 },
+  'possibility':    { category: 'tagteam:Hypothetical',            reType: null,          confidence: 0.80 },
+};
 
 // Core infrastructure modules
 // Phase 5.3: Ambiguity detection (optional)
@@ -324391,6 +324461,26 @@ class SemanticGraphBuilder {
   }
 
   /**
+   * Find a Tier 2 entity node by label match (case-insensitive).
+   * Tier 2 nodes have is_subject_of.
+   * @param {Array} graphNodes - Current graph nodes
+   * @param {string} label - Entity label to match
+   * @returns {Object|null}
+   * @private
+   */
+  _findTier2ByLabel(graphNodes, label) {
+    if (!label) return null;
+    // Strip leading determiners ("The committee" → "committee") for matching
+    // Tier 2 labels are lowercase without determiners
+    const stripped = label.toLowerCase().replace(/^(the|a|an|this|that|these|those)\s+/i, '');
+    return graphNodes.find(n => {
+      if (!n['is_subject_of']) return false;
+      const t2Label = (n['rdfs:label'] || '').toLowerCase();
+      return t2Label === stripped || t2Label.includes(stripped) || stripped.includes(t2Label);
+    }) || null;
+  }
+
+  /**
    * Map CDD character-based spans to 1-indexed token index ranges.
    * @param {Array} cdSpans - CDD spans with { text, start, end, components }
    * @param {string[]} tokens - Token strings from tokenizer
@@ -325237,39 +325327,149 @@ class SemanticGraphBuilder {
         graphNodes.push(entityNode);
       }
 
-      // Convert acts to JSON-LD nodes
+      // ── Realist Deontic Modeling: Act Assembly ──────────────────
+      // Modal acts → VerbPhrase (Tier 1) + DICE + PlanSpec + RealizableEntity (Tier 2)
+      // Non-modal acts → IntentionalAct (current path, unchanged)
+      // See docs/development/realist-deontic-modeling-v1.2.1.md
+
+      // Pre-scan: resolve modal role mappings and stamp onto act objects
+      const modalActVerbIds = new Set();
+
       for (const act of acts) {
-        const actNode = {
-          '@id': `${this.options.namespace}:Act_${this._sanitizeId(act.verb)}`,
-          '@type': ['IntentionalAct', 'tagteam:VerbPhrase'],
-          'rdfs:label': act.verb,
-          'tagteam:lemma': act.lemma,
-          'tagteam:verb': act.lemma,
-        };
-        if (act.isPassive) actNode['tagteam:isPassive'] = true;
-        if (act.isNegated) actNode['tagteam:isNegated'] = true;
-        if (act.isCopular) actNode['tagteam:isCopular'] = true;
-        // Modal detection properties
-        if (act.modality) actNode['tagteam:modality'] = act.modality;
-        if (act.deonticType) actNode['tagteam:deonticType'] = act.deonticType;
-        if (act.modalVerb) actNode['tagteam:modalVerb'] = act.modalVerb;
-        if (act.sourceText) actNode['tagteam:sourceText'] = act.sourceText;
-        // Actuality status: modal-derived or default Actual
-        actNode['tagteam:actualityStatus'] = act.actualityStatus
-          ? { '@id': act.actualityStatus }
-          : { '@id': 'tagteam:Actual' };
-        graphNodes.push(actNode);
+        if (act.modality) {
+          modalActVerbIds.add(act.verbId);
+          // Resolve agent/patient from roles — stamp directly onto act
+          const actRoles = roles.filter(r => r.actId === act.verbId);
+          const agentRole = actRoles.find(r => r.label === 'AgentRole');
+          const patientRole = actRoles.find(r => r.label === 'PatientRole');
+          const recipientRole = actRoles.find(r => r.label === 'RecipientRole');
+          act._prescribedAgentText = agentRole ? agentRole.entity : null;
+          act._prescribedPatientText = patientRole ? patientRole.entity : null;
+          act._prescribedRecipientText = recipientRole ? recipientRole.entity : null;
+        }
       }
 
-      // Create DirectiveContent nodes for modal acts
-      if (this.directiveExtractor) {
-        const actNodes = graphNodes.filter(n => {
-          const types = [].concat(n['@type'] || []);
-          return types.includes('IntentionalAct') && n['tagteam:modality'];
-        });
-        if (actNodes.length > 0) {
-          const directives = this.directiveExtractor.extract(actNodes, text);
-          for (const d of directives) graphNodes.push(d);
+      // Track modal obligations for ConjunctiveObligation grouping
+      const modalObligations = []; // { obligationId, actVerb, modalVerb }
+
+      for (const act of acts) {
+        const deontic = act.modality ? DEONTIC_CATEGORY_TABLE[act.modality] : null;
+
+        if (deontic) {
+          // ── Realist path: VerbPhrase (Tier 1) ──
+          const vpId = `${this.options.namespace}:VP_${this._sanitizeId(act.modalVerb || '')}_${this._sanitizeId(act.verb)}`;
+          const diceId = `${this.options.namespace}:Directive_${this._sanitizeId(act.modalVerb || '')}_${this._hashText(act.verb + (act.modality || '')).substring(0, 12)}`;
+          const planSpecId = `${this.options.namespace}:PlanSpec_${this._sanitizeId(act.verb)}_${this._hashText(act.verb + text).substring(0, 8)}`;
+
+          const vpNode = {
+            '@id': vpId,
+            '@type': ['tagteam:DiscourseReferent', 'tagteam:VerbPhrase'],
+            'rdfs:label': act.verb,
+            'tagteam:lemma': act.lemma,
+            'tagteam:verb': act.lemma,
+            'tagteam:modalMarker': act.modalVerb || null,
+            'tagteam:modality': act.modality,
+            'tagteam:deonticCategory': { '@id': deontic.category },
+            'tagteam:interpretationConfidence': deontic.confidence,
+            'is_about': { '@id': diceId },
+          };
+          if (act.isPassive) vpNode['tagteam:isPassive'] = true;
+          if (act.isNegated) vpNode['tagteam:isNegated'] = true;
+          if (act.sourceText) vpNode['tagteam:sourceText'] = act.sourceText;
+          graphNodes.push(vpNode);
+
+          // ── DICE (Tier 2) ──
+          const diceNode = {
+            '@id': diceId,
+            '@type': ['DirectiveInformationContentEntity', 'InformationContentEntity', 'owl:NamedIndividual'],
+            'rdfs:label': `${deontic.category.split(':').pop()} Directive: ${act.modalVerb || act.modality}`,
+            'prescribes': { '@id': planSpecId },
+            'tagteam:modalMarker': act.modalVerb || null,
+            'tagteam:deonticCategory': { '@id': deontic.category },
+          };
+          graphNodes.push(diceNode);
+
+          // ── PlanSpecification (Tier 2) ──
+          const planSpecNode = {
+            '@id': planSpecId,
+            '@type': ['PlanSpecification', 'InformationContentEntity', 'owl:NamedIndividual'],
+            'rdfs:label': `Plan: ${act.lemma}`,
+            'tagteam:prescribedActType': act.lemma,
+          };
+
+          // Store entity text for deferred Tier 2 IRI resolution (runs after Tier 2 creation)
+          // Stamp role labels for deferred resolution
+          const _at = act._prescribedAgentText;
+          const _pt = act._prescribedPatientText;
+          if (_at) planSpecNode['_agentText'] = _at;
+          if (_pt) planSpecNode['_patientText'] = _pt;
+          if (act._prescribedRecipientText) planSpecNode['_recipientText'] = act._prescribedRecipientText;
+          graphNodes.push(planSpecNode);
+
+          // ── RealizableEntity (Tier 2) — only if category emits one ──
+          if (deontic.reType) {
+            const reId = `${this.options.namespace}:${deontic.reType}_${this._sanitizeId(act._prescribedAgentText || act.verb)}_${this._hashText(diceId).substring(0, 8)}`;
+            const reNode = {
+              '@id': reId,
+              '@type': [deontic.reType, 'owl:NamedIndividual'],
+              'rdfs:label': `${deontic.reType}: ${act.lemma}`,
+              'tagteam:deonticCategory': { '@id': deontic.category },
+              'tagteam:fulfillmentState': { '@id': 'tagteam:Pending' },
+              'is_prescribed_by': { '@id': diceId },
+              'isSpecifiedBy': { '@id': planSpecId },
+            };
+            // inheres_in resolved in post-Tier2 pass
+            graphNodes.push(reNode);
+
+            // Track for ConjunctiveObligation
+            if (deontic.reType === 'Obligation') {
+              modalObligations.push({
+                obligationId: reId,
+                actVerb: act.lemma,
+                modalVerb: act.modalVerb,
+              });
+            }
+          }
+
+        } else {
+          // ── Current path: IntentionalAct (non-modal) ──
+          const actNode = {
+            '@id': `${this.options.namespace}:Act_${this._sanitizeId(act.verb)}`,
+            '@type': ['IntentionalAct', 'tagteam:VerbPhrase'],
+            'rdfs:label': act.verb,
+            'tagteam:lemma': act.lemma,
+            'tagteam:verb': act.lemma,
+            'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
+          };
+          if (act.isPassive) actNode['tagteam:isPassive'] = true;
+          if (act.isNegated) actNode['tagteam:isNegated'] = true;
+          if (act.isCopular) actNode['tagteam:isCopular'] = true;
+          graphNodes.push(actNode);
+        }
+      }
+
+      // ── ConjunctiveObligation: group obligations from coordinated verbs ──
+      if (modalObligations.length >= 2) {
+        // Check if they share the same modal scope (same modalVerb)
+        const byModal = {};
+        for (const mo of modalObligations) {
+          const key = mo.modalVerb || '_default';
+          if (!byModal[key]) byModal[key] = [];
+          byModal[key].push(mo);
+        }
+        for (const key of Object.keys(byModal)) {
+          const group = byModal[key];
+          if (group.length >= 2) {
+            const conjId = `${this.options.namespace}:ConjunctiveObligation_${this._hashText(group.map(g => g.obligationId).join('+')).substring(0, 12)}`;
+            const conjNode = {
+              '@id': conjId,
+              '@type': ['tagteam:ConjunctiveObligation', 'owl:NamedIndividual'],
+              'rdfs:label': `Conjunctive Obligation: ${group.map(g => g.actVerb).join(' + ')}`,
+              'tagteam:hasConjunct': group.map(g => ({ '@id': g.obligationId })),
+              'tagteam:fulfillmentState': { '@id': 'tagteam:Pending' },
+            };
+            graphNodes.push(conjNode);
+          }
         }
       }
 
@@ -325289,7 +325489,9 @@ class SemanticGraphBuilder {
       }
 
       // Convert roles to JSON-LD nodes
+      // RDM: Skip roles for modal acts — agent/patient go on PlanSpec instead
       for (const role of roles) {
+        if (modalActVerbIds.has(role.actId)) continue; // Modal act → role on PlanSpec, not Role node
         const roleLabel = role.label || role.role;
         const roleNode = {
           '@id': `${this.options.namespace}:Role_${this._sanitizeId(role.entity)}_${this._sanitizeId(roleLabel)}`,
@@ -325317,10 +325519,16 @@ class SemanticGraphBuilder {
           lemmatizer: this.lemmatizer
         });
 
-        // Filter entity nodes (exclude Acts, Roles, Assertions, Directives)
+        // Filter entity nodes (exclude Acts, Roles, Assertions, Directives, PlanSpecs, RealizableEntities, VerbPhrases)
         const referentNodes = graphNodes.filter(n => {
           const t = [].concat(n['@type'] || []);
-          return !t.some(x => x.includes('Act') || x.includes('Role') || x.includes('Assertion') || x.includes('Directive'));
+          return !t.some(x =>
+            x.includes('Act') || x.includes('Role') || x.includes('Assertion') ||
+            x.includes('Directive') || x.includes('PlanSpec') ||
+            x.includes('Obligation') || x.includes('Permission') ||
+            x.includes('Prohibition') || x.includes('Intention') ||
+            x.includes('VerbPhrase')
+          );
         });
 
         // Bootstrap tagteam:denotesType from @type[0] BEFORE overwriting, then clean Tier 1
@@ -325378,6 +325586,43 @@ class SemanticGraphBuilder {
 
         for (const t2 of tier2Entities) {
           graphNodes.push(t2);
+        }
+
+        // ── RDM: Resolve PlanSpec agent/patient and RE inheres_in to Tier 2 IRIs ──
+        // This runs AFTER Tier 2 entities are created, so _findTier2ByLabel works.
+        for (const node of graphNodes) {
+          const types = [].concat(node['@type'] || []);
+
+          // Resolve PlanSpec prescribedAgent/Patient/Recipient from stored labels
+          if (types.includes('PlanSpecification') || types.includes('tagteam:PlanSpecification')) {
+            const labelProps = [
+              ['_agentText', 'tagteam:prescribedAgent'],
+              ['_patientText', 'tagteam:prescribedPatient'],
+              ['_recipientText', 'tagteam:prescribedRecipient'],
+            ];
+            for (const [labelKey, targetProp] of labelProps) {
+              if (node[labelKey]) {
+                const t2 = this._findTier2ByLabel(graphNodes, node[labelKey]);
+                if (t2) node[targetProp] = { '@id': t2['@id'] };
+                delete node[labelKey];
+              }
+            }
+          }
+
+          // Resolve RE inheres_in from PlanSpec's prescribedAgent
+          if (types.includes('Obligation') || types.includes('Permission') ||
+              types.includes('Prohibition') || types.includes('Intention') ||
+              types.includes('tagteam:ConjunctiveObligation')) {
+            if (!node['inheres_in']) {
+              const specId = node['isSpecifiedBy'] && (node['isSpecifiedBy']['@id'] || node['isSpecifiedBy']);
+              if (specId) {
+                const spec = graphNodes.find(n => n['@id'] === specId);
+                if (spec && spec['tagteam:prescribedAgent']) {
+                  node['inheres_in'] = spec['tagteam:prescribedAgent'];
+                }
+              }
+            }
+          }
         }
 
         // --- FT-03: Upgrade StructuralAssertions to Tier 2 triples ---
@@ -326281,7 +326526,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 272 | 536c471 | 2026-03-26T18:24:21.476Z',
+    BUILD: 'build 274 | 8c8ccc3 | 2026-03-27T10:09:40.728Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,

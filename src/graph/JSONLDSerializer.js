@@ -121,10 +121,29 @@ class JSONLDSerializer {
       Empowered:       { '@id': 'tagteam:Empowered' },
       Protected:       { '@id': 'tagteam:Protected' },
 
+      // ─────── RDM: Deontic Category Individuals ───────
+      UnconditionalObligation: { '@id': 'tagteam:UnconditionalObligation' },
+      DefeasibleObligation:    { '@id': 'tagteam:DefeasibleObligation' },
+      DeclaredIntention:       { '@id': 'tagteam:DeclaredIntention' },
+      GrantedPermission:       { '@id': 'tagteam:GrantedPermission' },
+      UnconditionalProhibition:{ '@id': 'tagteam:UnconditionalProhibition' },
+
+      // ─────── RDM: Fulfillment State Individuals ───────
+      Pending:         { '@id': 'tagteam:Pending' },
+      Discharged:      { '@id': 'tagteam:Discharged' },
+      Violated:        { '@id': 'tagteam:Violated' },
+
       // ─────── TagTeam Classes — Graph Structure ───────
-      DirectiveContent:        { '@id': 'tagteam:DirectiveContent' },
-      ScarcityAssertion:       { '@id': 'tagteam:ScarcityAssertion' },
-      InterpretationContext:   { '@id': 'tagteam:InterpretationContext' },
+      DirectiveContent:                      { '@id': 'tagteam:DirectiveContent' },
+      DirectiveInformationContentEntity:     { '@id': 'tagteam:DirectiveInformationContentEntity' },
+      PlanSpecification:                     { '@id': 'tagteam:PlanSpecification' },
+      Obligation:                            { '@id': 'tagteam:Obligation' },
+      Permission:                            { '@id': 'tagteam:Permission' },
+      Prohibition:                           { '@id': 'tagteam:Prohibition' },
+      Intention:                             { '@id': 'tagteam:Intention' },
+      ConjunctiveObligation:                 { '@id': 'tagteam:ConjunctiveObligation' },
+      ScarcityAssertion:                     { '@id': 'tagteam:ScarcityAssertion' },
+      InterpretationContext:                 { '@id': 'tagteam:InterpretationContext' },
 
       // ─────── TagTeam Classes — Curation Workflow ───────
       AutomatedDetection: { '@id': 'tagteam:AutomatedDetection' },
@@ -286,6 +305,19 @@ class JSONLDSerializer {
       aggregationMethod:   { '@id': 'tagteam:aggregationMethod' },
       modalType:           { '@id': 'tagteam:modalType' },
       modalMarker:         { '@id': 'tagteam:modalMarker' },
+
+      // ─────── RDM: Realist Deontic Modeling (v1.2.1) ───────
+      deonticCategory:            { '@id': 'tagteam:deonticCategory',            '@type': '@id' },
+      interpretationConfidence:   { '@id': 'tagteam:interpretationConfidence',   '@type': 'xsd:float' },
+      fulfillmentState:           { '@id': 'tagteam:fulfillmentState',           '@type': '@id' },
+      prescribedActType:          { '@id': 'tagteam:prescribedActType' },
+      prescribedActClass:         { '@id': 'tagteam:prescribedActClass',         '@type': '@id' },
+      prescribedAgent:            { '@id': 'tagteam:prescribedAgent',            '@type': '@id' },
+      prescribedPatient:          { '@id': 'tagteam:prescribedPatient',          '@type': '@id' },
+      prescribedRecipient:        { '@id': 'tagteam:prescribedRecipient',        '@type': '@id' },
+      isSpecifiedBy:              { '@id': 'tagteam:isSpecifiedBy',              '@type': '@id' },
+      is_prescribed_by:           { '@id': 'tagteam:is_prescribed_by',           '@type': '@id' },
+      hasConjunct:                { '@id': 'tagteam:hasConjunct',                '@type': '@id', '@container': '@set' },
       scarcityMarker:      { '@id': 'tagteam:scarcityMarker' },
       evidenceText:        { '@id': 'tagteam:evidenceText' },
       classificationLabel: { '@id': 'tagteam:classificationLabel' },

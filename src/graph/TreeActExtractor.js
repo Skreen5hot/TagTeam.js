@@ -582,6 +582,11 @@ class TreeActExtractor {
    */
   _extractEmbeddedActs(depTree, parentId, acts, structuralAssertions) {
     const children = depTree.getChildren(parentId);
+    // Get parent act's modal info for inheritance to conj children
+    const parentTag = depTree.tags[parentId - 1];
+    const parentAct = VERB_TAGS.has(parentTag)
+      ? acts.find(a => a.verbId === parentId)
+      : null;
 
     for (const child of children) {
       if (child.label === 'advcl' || child.label === 'acl:relcl' || child.label === 'acl') {
@@ -590,6 +595,25 @@ class TreeActExtractor {
           const embeddedChildren = depTree.getChildren(child.dependent);
           const act = this._buildAct(depTree, child.dependent, embeddedChildren);
           if (act) acts.push(act);
+        }
+      }
+      // Coordinated verbs: conj children inherit the parent's modal
+      if (child.label === 'conj') {
+        const conjTag = depTree.tags[child.dependent - 1];
+        if (VERB_TAGS.has(conjTag)) {
+          const conjChildren = depTree.getChildren(child.dependent);
+          const act = this._buildAct(depTree, child.dependent, conjChildren);
+          if (act) {
+            // Inherit modal from parent if conj doesn't have its own
+            if (!act.modality && parentAct && parentAct.modality) {
+              act.modalVerb = parentAct.modalVerb;
+              act.modality = parentAct.modality;
+              act.actualityStatus = parentAct.actualityStatus;
+              act.deonticType = parentAct.deonticType;
+              act.sourceText = (parentAct.modalVerb || '') + ' ' + act.verb;
+            }
+            acts.push(act);
+          }
         }
       }
     }
