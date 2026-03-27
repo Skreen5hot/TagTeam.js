@@ -326502,6 +326502,14 @@ class SemanticGraphBuilder {
         }
       }
 
+      // Attach @context so buildGraph() returns a complete JSON-LD document.
+      // Downstream consumers (jsonld.js, SPARQL, RDF parsers) need @context
+      // to resolve compact terms like "prescribes", "inheres_in" to full IRIs.
+      if (!graph['@context']) {
+        var serializer = new JSONLDSerializer();
+        graph['@context'] = serializer._buildContext();
+      }
+
       return graph;
     },
 
@@ -326581,7 +326589,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 281 | 9f2abf3 | 2026-03-27T23:21:13.263Z',
+    BUILD: 'build 282 | 4a71ba4 | 2026-03-27T23:30:06.385Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
