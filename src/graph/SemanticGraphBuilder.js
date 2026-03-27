@@ -1069,11 +1069,23 @@ class SemanticGraphBuilder {
     if (!label) return null;
     // Strip leading determiners ("The committee" → "committee") for matching
     // Tier 2 labels are lowercase without determiners
-    const stripped = label.toLowerCase().replace(/^(the|a|an|this|that|these|those)\s+/i, '');
+    const STRIP_RE = /^(the|a|an|this|that|these|those|both|each|neither|all|every)\s+/i;
+    const stripped = label.toLowerCase().replace(STRIP_RE, '');
+    // Simple plural normalization: strip trailing 's', 'es', 'ies'→'y' for matching
+    const normalize = (s) => {
+      if (s.endsWith('ies')) return s.slice(0, -3) + 'y';
+      if (s.endsWith('es')) return s.slice(0, -2);
+      if (s.endsWith('s') && !s.endsWith('ss')) return s.slice(0, -1);
+      return s;
+    };
+    const normStripped = normalize(stripped);
     return graphNodes.find(n => {
       if (!n['is_subject_of']) return false;
-      const t2Label = (n['rdfs:label'] || '').toLowerCase();
-      return t2Label === stripped || t2Label.includes(stripped) || stripped.includes(t2Label);
+      const t2Label = (n['rdfs:label'] || '').toLowerCase().replace(STRIP_RE, '');
+      const normT2 = normalize(t2Label);
+      return t2Label === stripped || normT2 === normStripped ||
+             t2Label.includes(stripped) || stripped.includes(t2Label) ||
+             normT2.includes(normStripped) || normStripped.includes(normT2);
     }) || null;
   }
 
@@ -2278,7 +2290,35 @@ class SemanticGraphBuilder {
             }
           }
 
-          // Resolve RE inheres_in from PlanSpec's prescribedAgent
+        }
+
+        // ── RDM: Propagate agent/patient across conjunct PlanSpecs ──
+        // When coordinated verbs share a modal ("shall review and approve"),
+        // the first PlanSpec gets agent/patient but subsequent ones may not.
+        // Copy from the first resolved PlanSpec to subsequent unresolved ones.
+        const allPlanSpecs = graphNodes.filter(n => {
+          const t = [].concat(n['@type'] || []);
+          return t.includes('PlanSpecification') || t.includes('tagteam:PlanSpecification');
+        });
+        if (allPlanSpecs.length >= 2) {
+          const donor = allPlanSpecs.find(ps => ps['tagteam:prescribedAgent']);
+          if (donor) {
+            for (const ps of allPlanSpecs) {
+              if (!ps['tagteam:prescribedAgent'] && donor['tagteam:prescribedAgent']) {
+                ps['tagteam:prescribedAgent'] = donor['tagteam:prescribedAgent'];
+              }
+              if (!ps['tagteam:prescribedPatient'] && donor['tagteam:prescribedPatient']) {
+                ps['tagteam:prescribedPatient'] = donor['tagteam:prescribedPatient'];
+              }
+            }
+          }
+        }
+
+        // ── Continue RE resolution ──
+        for (const node of graphNodes) {
+          const types = [].concat(node['@type'] || []);
+
+          // Resolve RE inheres_in from PlanSpec's prescribedAgent (or prescribedPatient for passive)
           if (types.includes('Obligation') || types.includes('Permission') ||
               types.includes('Prohibition') || types.includes('Intention') ||
               types.includes('tagteam:ConjunctiveObligation')) {
@@ -2286,8 +2326,13 @@ class SemanticGraphBuilder {
               const specId = node['isSpecifiedBy'] && (node['isSpecifiedBy']['@id'] || node['isSpecifiedBy']);
               if (specId) {
                 const spec = graphNodes.find(n => n['@id'] === specId);
-                if (spec && spec['tagteam:prescribedAgent']) {
-                  node['inheres_in'] = spec['tagteam:prescribedAgent'];
+                if (spec) {
+                  if (spec['tagteam:prescribedAgent']) {
+                    node['inheres_in'] = spec['tagteam:prescribedAgent'];
+                  } else if (spec['tagteam:prescribedPatient']) {
+                    // Passive modal: no explicit agent, bearer is the passive subject (patient)
+                    node['inheres_in'] = spec['tagteam:prescribedPatient'];
+                  }
                 }
               }
             }
