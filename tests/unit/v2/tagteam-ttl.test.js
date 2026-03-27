@@ -152,6 +152,52 @@ describe('P0-TTL: tagteam.ttl Schema Validation', () => {
     expect(schemaDefines(':ontologyMatchInflection')).toBe(true);
   });
 
+  test('P0-TTL-8: RDM v1.2.1 classes declared', () => {
+    expect(schemaDefines(':DirectiveInformationContentEntity')).toBe(true);
+    expect(schemaDefines(':PlanSpecification')).toBe(true);
+    expect(schemaDefines(':Obligation')).toBe(true);
+    expect(schemaDefines(':Permission')).toBe(true);
+    expect(schemaDefines(':Prohibition')).toBe(true);
+    expect(schemaDefines(':Intention')).toBe(true);
+    expect(schemaDefines(':ConjunctiveObligation')).toBe(true);
+    expect(schemaDefines(':DeonticCategory')).toBe(true);
+    expect(schemaDefines(':FulfillmentState')).toBe(true);
+  });
+
+  test('P0-TTL-9: RDM deontic category individuals declared', () => {
+    expect(schemaDefines(':UnconditionalObligation')).toBe(true);
+    expect(schemaDefines(':DefeasibleObligation')).toBe(true);
+    expect(schemaDefines(':DeclaredIntention')).toBe(true);
+    expect(schemaDefines(':GrantedPermission')).toBe(true);
+    expect(schemaDefines(':UnconditionalProhibition')).toBe(true);
+  });
+
+  test('P0-TTL-10: RDM fulfillment state individuals declared', () => {
+    expect(schemaDefines(':Pending')).toBe(true);
+    expect(schemaDefines(':Discharged')).toBe(true);
+    expect(schemaDefines(':Violated')).toBe(true);
+  });
+
+  test('P0-TTL-11: RDM properties declared', () => {
+    expect(schemaDefines(':isSpecifiedBy')).toBe(true);
+    expect(schemaDefines(':is_prescribed_by')).toBe(true);
+    expect(schemaDefines(':prescribedActType')).toBe(true);
+    expect(schemaDefines(':prescribedAgent')).toBe(true);
+    expect(schemaDefines(':prescribedPatient')).toBe(true);
+    expect(schemaDefines(':prescribedRecipient')).toBe(true);
+    expect(schemaDefines(':deonticCategory')).toBe(true);
+    expect(schemaDefines(':fulfillmentState')).toBe(true);
+    expect(schemaDefines(':hasConjunct')).toBe(true);
+    expect(schemaDefines(':interpretationConfidence')).toBe(true);
+    expect(schemaDefines(':prescribedActClass')).toBe(true);
+  });
+
+  test('P0-TTL-12: prescribes domain updated to DICE', () => {
+    // prescribes should reference DirectiveInformationContentEntity, not DirectiveContent
+    expect(schemaContent).toContain('DirectiveInformationContentEntity');
+    expect(schemaContent).toContain('PlanSpecification');
+  });
+
   test('P0-TTL-7: Schema does NOT define removed values classes', () => {
     // Values classes removed in v4.0.0
     expect(schemaDefines(':ValueAssertionEvent')).toBe(false);

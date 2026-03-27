@@ -81,7 +81,7 @@
     rdfs:subClassOf :DeonticContent, cco:InformationContentEntity ;
     rdfs:label "Directive Content"@en ;
     skos:prefLabel "Directive Content"@en ;
-    skos:definition "A deontic information content entity that denotes a mandate, instruction, or prohibition requiring specific actions."@en ;
+    skos:definition "DEPRECATED — Superseded by DirectiveInformationContentEntity (RDM v1.2.1). The old DirectiveContent emitted IntentionalAct nodes for modal verbs (ghost acts). Retained for backward compatibility with pre-RDM consumers."@en ;
     rdfs:comment "Subclass of DeonticContent for explicit directives. Also aligned with cco:InformationContentEntity for CCO compatibility."@en .
 
 :ScarcityAssertion
@@ -397,19 +397,19 @@ not just recording them as text strings in :qualifierText."""@en ;
     a owl:ObjectProperty ;
     rdfs:label "prescribes"@en ;
     skos:prefLabel "prescribes"@en ;
-    skos:definition "A relation that holds between a directive information content entity and an act that the directive specifies as required or obligatory."@en ;
+    skos:definition "Links a DirectiveInformationContentEntity to the PlanSpecification it prescribes. (RDM v1.2.1: domain updated from DirectiveContent to DICE, range from Process to PlanSpecification.)"@en ;
     rdfs:subPropertyOf cco:prescribes ;
-    rdfs:domain :DirectiveContent ;
-    rdfs:range bfo:BFO_0000015 ;
+    rdfs:domain :DirectiveInformationContentEntity ;
+    rdfs:range :PlanSpecification ;
     owl:inverseOf :prescribed_by .
 
 :prescribed_by
     a owl:ObjectProperty ;
     rdfs:label "prescribed by"@en ;
     skos:prefLabel "prescribed by"@en ;
-    skos:definition "An object property that relates an act to the directive content entity that prescribes it."@en ;
-    rdfs:domain bfo:BFO_0000015 ;
-    rdfs:range :DirectiveContent ;
+    skos:definition "Inverse of prescribes. Links a PlanSpecification to the DICE that prescribed it."@en ;
+    rdfs:domain :PlanSpecification ;
+    rdfs:range :DirectiveInformationContentEntity ;
     owl:inverseOf :prescribes .
 
 
@@ -1049,6 +1049,246 @@ not just recording them as text strings in :qualifierText."""@en ;
     rdfs:label "ontology match OWL type"@en ;
     skos:definition "The OWL category (owl:Class or owl:NamedIndividual) of the matched ontology entity."@en ;
     rdfs:range xsd:string .
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# REALIST DEONTIC MODELING (RDM) v1.2.1
+# Added: 2026-03-27
+# Spec: docs/development/realist-deontic-modeling-v1.2.1.md
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# ─────────────────────────────────────────────────────────────────────────────────
+# RDM CLASSES (9)
+# ─────────────────────────────────────────────────────────────────────────────────
+
+:DirectiveInformationContentEntity rdf:type owl:Class ;
+    rdfs:subClassOf cco:InformationContentEntity ;
+    rdfs:label "Directive Information Content Entity"@en ;
+    skos:definition "An information content entity representing a normative speech act that prescribes, permits, or prohibits an act. Records the provenance of a directive (who said it, which modal marker) while the PlanSpecification it prescribes defines the content (what it requires)."@en ;
+    rdfs:comment "Supersedes :DirectiveContent. The DICE is the speech act; the PlanSpecification is the specification."@en .
+
+:PlanSpecification rdf:type owl:Class ;
+    rdfs:subClassOf cco:InformationContentEntity ;
+    rdfs:label "Plan Specification"@en ;
+    skos:definition "An information content entity describing the content of a prescribed act: the act type, prescribed agent, prescribed patient, and optionally a reference to a domain ontology act class. Does not instantiate the act."@en ;
+    rdfs:comment "Defines the realization conditions of a deontic entity. A RealizableEntity links to its PlanSpecification via isSpecifiedBy."@en .
+
+:Obligation rdf:type owl:Class ;
+    rdfs:subClassOf bfo:BFO_0000017 ;  # bfo:RealizableEntity
+    rdfs:label "Obligation"@en ;
+    skos:definition "A realizable entity inhering in a bearer that prescribes performance of a specified act. Created at parse time with fulfillmentState Pending; transitions to Discharged when realized by an actual act, or Violated when the deadline passes or conditions are breached."@en .
+
+:Permission rdf:type owl:Class ;
+    rdfs:subClassOf bfo:BFO_0000017 ;  # bfo:RealizableEntity
+    rdfs:label "Permission"@en ;
+    skos:definition "A realizable entity inhering in a bearer that authorizes (but does not require) performance of a specified act."@en .
+
+:Prohibition rdf:type owl:Class ;
+    rdfs:subClassOf bfo:BFO_0000017 ;  # bfo:RealizableEntity
+    rdfs:label "Prohibition"@en ;
+    skos:definition "A realizable entity inhering in a bearer that forbids performance of a specified act. Violation occurs if the prohibited act is performed."@en .
+
+:Intention rdf:type owl:Class ;
+    rdfs:subClassOf bfo:BFO_0000017 ;  # bfo:RealizableEntity
+    rdfs:label "Intention"@en ;
+    skos:definition "A realizable entity inhering in a bearer representing a self-committed future act. Typically expressed via 'will' in regulatory text."@en .
+
+:ConjunctiveObligation rdf:type owl:Class ;
+    rdfs:subClassOf :Obligation ;
+    rdfs:label "Conjunctive Obligation"@en ;
+    skos:definition "An obligation composed of multiple conjunct obligations from coordinated verbs (e.g., 'shall review and approve'). Discharged only when ALL conjuncts are discharged. Subclasses Obligation so that queries for '?x a Obligation' automatically include compound obligations."@en .
+
+:DeonticCategory rdf:type owl:Class ;
+    rdfs:label "Deontic Category"@en ;
+    skos:definition "An enumeration class for discrete deontic classifications. Instances represent categorically distinct speech acts (e.g., unconditional obligation vs. defeasible obligation), not points on a continuous scale."@en ;
+    rdfs:comment "The interpretationConfidence property is separate and reflects parser certainty, not normative force."@en .
+
+:FulfillmentState rdf:type owl:Class ;
+    rdfs:label "Fulfillment State"@en ;
+    skos:definition "An enumeration class for the lifecycle states of a realizable deontic entity: Pending (created, not yet discharged), Discharged (realized by an actual act), Violated (deadline passed or prohibited act performed)."@en .
+
+
+# ─────────────────────────────────────────────────────────────────────────────────
+# DEONTIC CATEGORY INDIVIDUALS (6)
+# ─────────────────────────────────────────────────────────────────────────────────
+
+:UnconditionalObligation rdf:type owl:NamedIndividual , :DeonticCategory ;
+    rdfs:label "Unconditional Obligation"@en ;
+    skos:definition "A non-defeasible duty. Typical modals: must, shall, have to, need to."@en ;
+    :defaultConfidence 0.95 .
+
+:DefeasibleObligation rdf:type owl:NamedIndividual , :DeonticCategory ;
+    rdfs:label "Defeasible Obligation"@en ;
+    skos:definition "A recommendation or overridable duty. Typical modals: should, ought to."@en ;
+    :defaultConfidence 0.85 .
+
+:DeclaredIntention rdf:type owl:NamedIndividual , :DeonticCategory ;
+    rdfs:label "Declared Intention"@en ;
+    skos:definition "A self-committed future act. Typical modal: will (in regulatory/legal context)."@en ;
+    :defaultConfidence 0.75 .
+
+:GrantedPermission rdf:type owl:NamedIndividual , :DeonticCategory ;
+    rdfs:label "Granted Permission"@en ;
+    skos:definition "An authorization to act. Typical modals: may, can."@en ;
+    :defaultConfidence 0.70 .
+
+:UnconditionalProhibition rdf:type owl:NamedIndividual , :DeonticCategory ;
+    rdfs:label "Unconditional Prohibition"@en ;
+    skos:definition "An absolute forbiddance. Typical modals: must not, shall not, may not, cannot."@en ;
+    :defaultConfidence 0.90 .
+
+# Hypothetical is dual-typed: both DeonticCategory (for RDM) and ActualityStatus (legacy)
+:Hypothetical rdf:type owl:NamedIndividual , :DeonticCategory , :ActualityStatus ;
+    rdfs:label "Hypothetical"@en ;
+    skos:definition "A possible but non-actual scenario with no deontic force. Typical modals: could, would, might. No RealizableEntity is emitted for hypotheticals."@en ;
+    :defaultConfidence 0.80 ;
+    rdfs:comment "Dual-typed as both DeonticCategory and ActualityStatus for backward compatibility."@en .
+
+
+# ─────────────────────────────────────────────────────────────────────────────────
+# FULFILLMENT STATE INDIVIDUALS (3)
+# ─────────────────────────────────────────────────────────────────────────────────
+
+:Pending rdf:type owl:NamedIndividual , :FulfillmentState ;
+    rdfs:label "Pending"@en ;
+    skos:definition "The deontic entity exists and has not yet been discharged or violated. Set by TagTeam at parse time."@en .
+
+:Discharged rdf:type owl:NamedIndividual , :FulfillmentState ;
+    rdfs:label "Discharged"@en ;
+    skos:definition "The deontic entity has been realized by an actual act. Set by downstream consumers via bfo:realizes assertion."@en .
+
+:Violated rdf:type owl:NamedIndividual , :FulfillmentState ;
+    rdfs:label "Violated"@en ;
+    skos:definition "The deontic entity has been breached: deadline passed for obligation, or prohibited act performed. Set by downstream consumers."@en .
+
+
+# ─────────────────────────────────────────────────────────────────────────────────
+# RDM PROPERTIES — OBJECT PROPERTIES (12)
+# ─────────────────────────────────────────────────────────────────────────────────
+
+# NOTE: prescribes already exists in tagteam.ttl — UPDATE its domain/range in place:
+# :prescribes rdf:type owl:ObjectProperty ;
+#     rdfs:domain :DirectiveInformationContentEntity ;
+#     rdfs:range :PlanSpecification ;
+#     rdfs:label "prescribes"@en ;
+#     skos:definition "Links a DirectiveInformationContentEntity to the PlanSpecification it prescribes."@en .
+
+:isSpecifiedBy rdf:type owl:ObjectProperty ;
+    rdfs:domain bfo:BFO_0000017 ;  # bfo:RealizableEntity
+    rdfs:range :PlanSpecification ;
+    rdfs:label "is specified by"@en ;
+    skos:definition "Links a RealizableEntity (Obligation, Permission, etc.) directly to its PlanSpecification. Enables 3-hop queries from agent to act type: Agent → Obligation → PlanSpec → actType."@en .
+
+:is_prescribed_by rdf:type owl:ObjectProperty ;
+    rdfs:domain bfo:BFO_0000017 ;  # bfo:RealizableEntity
+    rdfs:range :DirectiveInformationContentEntity ;
+    rdfs:label "is prescribed by"@en ;
+    skos:definition "Links a RealizableEntity to the DirectiveInformationContentEntity that prescribed it. Provides provenance: which document, which modal marker."@en .
+
+:prescribedAgent rdf:type owl:ObjectProperty ;
+    rdfs:domain :PlanSpecification ;
+    rdfs:range bfo:BFO_0000004 ;  # bfo:IndependentContinuant
+    rdfs:label "prescribed agent"@en ;
+    skos:definition "The entity prescribed to perform the act. For passive voice, resolved from the oblique ('by X')."@en .
+
+:prescribedPatient rdf:type owl:ObjectProperty ;
+    rdfs:domain :PlanSpecification ;
+    rdfs:range bfo:BFO_0000001 ;  # bfo:Entity
+    rdfs:label "prescribed patient"@en ;
+    skos:definition "The entity prescribed to undergo or receive the act."@en .
+
+:prescribedRecipient rdf:type owl:ObjectProperty ;
+    rdfs:domain :PlanSpecification ;
+    rdfs:range bfo:BFO_0000004 ;  # bfo:IndependentContinuant
+    rdfs:label "prescribed recipient"@en ;
+    skos:definition "The entity prescribed as the recipient of the act (for ditransitive verbs)."@en .
+
+:prescribedActClass rdf:type owl:ObjectProperty ;
+    rdfs:domain :PlanSpecification ;
+    rdfs:range owl:Class ;
+    rdfs:label "prescribed act class"@en ;
+    skos:definition "Optional reference to an OWL class in a domain ontology's act taxonomy. Convenience property for downstream consumers."@en .
+
+:deonticCategory rdf:type owl:ObjectProperty ;
+    rdfs:range :DeonticCategory ;
+    rdfs:label "deontic category"@en ;
+    skos:definition "The discrete deontic classification of a modal expression or deontic entity. Values are instances of DeonticCategory."@en ;
+    rdfs:comment "Domain intentionally unspecified: used on VerbPhrase, DICE, and RealizableEntity nodes."@en .
+
+:fulfillmentState rdf:type owl:ObjectProperty ;
+    rdfs:domain bfo:BFO_0000017 ;  # bfo:RealizableEntity
+    rdfs:range :FulfillmentState ;
+    rdfs:label "fulfillment state"@en ;
+    skos:definition "The lifecycle state of a deontic entity: Pending, Discharged, or Violated."@en .
+
+:hasConjunct rdf:type owl:ObjectProperty ;
+    rdfs:domain :ConjunctiveObligation ;
+    rdfs:range :Obligation ;
+    rdfs:label "has conjunct"@en ;
+    skos:definition "Links a ConjunctiveObligation to each of its component Obligations. Range is Obligation (not Permission or Intention) per spec."@en .
+
+:violationEvidence rdf:type owl:ObjectProperty ;
+    rdfs:label "violation evidence"@en ;
+    skos:definition "Links a Violated deontic entity to the evidence of its violation (e.g., the prohibited act that was performed)."@en .
+
+
+# ─────────────────────────────────────────────────────────────────────────────────
+# RDM PROPERTIES — DATATYPE PROPERTIES (5)
+# ─────────────────────────────────────────────────────────────────────────────────
+
+:prescribedActType rdf:type owl:DatatypeProperty ;
+    rdfs:domain :PlanSpecification ;
+    rdfs:range xsd:string ;
+    rdfs:label "prescribed act type"@en ;
+    skos:definition "The verb lemma of the prescribed act (e.g., 'review', 'approve', 'disclose')."@en .
+
+:interpretationConfidence rdf:type owl:DatatypeProperty ;
+    rdfs:range xsd:float ;
+    rdfs:label "interpretation confidence"@en ;
+    skos:definition "Parser confidence in the deontic classification (0.0–1.0). Reflects parsing certainty, NOT normative force. 'Should' at 0.85 confidence is still categorically DefeasibleObligation, not 85% of an UnconditionalObligation."@en .
+
+:disambiguationNote rdf:type owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "disambiguation note"@en ;
+    skos:definition "Human-readable note explaining classification ambiguity (e.g., 'Possible epistemic reading' for 'must be in pain')."@en .
+
+:realizedAt rdf:type owl:DatatypeProperty ;
+    rdfs:range xsd:dateTime ;
+    rdfs:label "realized at"@en ;
+    skos:definition "Timestamp when a deontic entity was discharged. Set by downstream consumers on transition to Discharged state."@en .
+
+:violatedAt rdf:type owl:DatatypeProperty ;
+    rdfs:range xsd:dateTime ;
+    rdfs:label "violated at"@en ;
+    skos:definition "Timestamp when a deontic entity was violated. Set by downstream consumers on transition to Violated state."@en .
+
+:defaultConfidence rdf:type owl:DatatypeProperty ;
+    rdfs:domain :DeonticCategory ;
+    rdfs:range xsd:float ;
+    rdfs:label "default confidence"@en ;
+    skos:definition "The default interpretationConfidence assigned to this deontic category when no contextual disambiguation applies."@en .
+
+
+# ─────────────────────────────────────────────────────────────────────────────────
+# LEGACY DEPRECATION NOTES
+# ─────────────────────────────────────────────────────────────────────────────────
+
+# The following class is retained for backward compatibility but superseded by RDM.
+# :DirectiveContent — DEPRECATED
+# Superseded by: :DirectiveInformationContentEntity
+# The old DirectiveContent emitted IntentionalAct nodes for modal verbs (ghost acts).
+# The new DICE emits VerbPhrase + PlanSpecification + RealizableEntity per RDM v1.2.1.
+# Existing consumers checking for DirectiveContent should migrate to DICE.
+
+# NOTE: Update the existing :prescribes declaration in tagteam.ttl:
+# - Change rdfs:domain from :DirectiveContent to :DirectiveInformationContentEntity
+# - Add rdfs:range :PlanSpecification
+# - The property remains for linking DICE → PlanSpec (was DICE → Act in legacy model)
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# END RDM §9 BLOCK
+# ═══════════════════════════════════════════════════════════════════════════════
 
 
 # =============================================================================
