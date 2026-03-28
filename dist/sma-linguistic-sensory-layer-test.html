@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SMA Linguistic Sensory Layer Test Suite v1.2</title>
+  <style>
+    :root {
+      --pass: #22c55e;
+      --fail: #ef4444;
+      --skip: #f59e0b;
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --border: #334155;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'SF Mono', 'Consolas', monospace;
+      background: var(--bg);
+      color: var(--text);
+      padding: 2rem;
+      line-height: 1.5;
+    }
+    h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .subtitle { color: var(--muted); margin-bottom: 2rem; font-size: 0.875rem; }
+    .summary {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background: var(--surface);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    .summary-item { display: flex; flex-direction: column; }
+    .summary-label { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; }
+    .summary-value { font-size: 1.5rem; font-weight: bold; }
+    .summary-value.pass { color: var(--pass); }
+    .summary-value.fail { color: var(--fail); }
+    .summary-value.skip { color: var(--skip); }
+    
+    .workstream {
+      margin-bottom: 2rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .workstream-header {
+      background: var(--surface);
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+    .workstream-header:hover { background: #263548; }
+    .workstream-title { font-weight: bold; }
+    .workstream-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+    .workstream-badge.pass { background: var(--pass); color: #000; }
+    .workstream-badge.fail { background: var(--fail); color: #fff; }
+    .workstream-badge.skip { background: var(--skip); color: #000; }
+    
+    .test-group {
+      border-top: 1px solid var(--border);
+      padding: 1rem;
+    }
+    .test-group-title {
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .test {
+      display: grid;
+      grid-template-columns: 100px 1fr auto;
+      gap: 1rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+      align-items: start;
+    }
+    .test:last-child { border-bottom: none; }
+    .test-id { font-weight: bold; color: var(--muted); }
+    .test-content { }
+    .test-input { color: #60a5fa; margin-bottom: 0.25rem; }
+    .test-assert { color: var(--muted); font-size: 0.875rem; }
+    .test-status {
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    .test-status.pass { background: var(--pass); color: #000; }
+    .test-status.fail { background: var(--fail); color: #fff; }
+    .test-status.skip { background: var(--skip); color: #000; }
+    
+    .test-details {
+      grid-column: 1 / -1;
+      margin-top: 0.5rem;
+      padding: 0.75rem;
+      background: #0c1222;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      white-space: pre-wrap;
+      overflow-x: auto;
+    }
+    .test-details.error { border-left: 3px solid var(--fail); }
+    .test-details.success { border-left: 3px solid var(--pass); }
+    
+    .controls {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    button {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-primary { background: #3b82f6; color: white; }
+    .btn-primary:hover { background: #2563eb; }
+    .btn-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { background: #263548; }
+    
+    .tagteam-input {
+      width: 100%;
+      padding: 0.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+    }
+    .tagteam-input:focus { outline: none; border-color: #3b82f6; }
+    
+    .loading { color: var(--muted); font-style: italic; }
+    
+    #graph-output {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      max-height: 400px;
+      overflow: auto;
+      font-size: 0.8rem;
+      white-space: pre-wrap;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>SMA Linguistic Sensory Layer Test Suite</h1>
+  <p class="subtitle">Spec v1.2 FINAL — WS-A: Stative Predicate Extraction</p>
+  
+  <div class="controls">
+    <button class="btn-primary" onclick="runAllTests()">Run All Tests</button>
+    <button class="btn-secondary" onclick="runWSA()">Run WS-A Only</button>
+    <button class="btn-secondary" onclick="toggleOutput()">Toggle Graph Output</button>
+  </div>
+  
+  <input type="text" class="tagteam-input" id="custom-input" placeholder="Enter custom sentence to test...">
+  <button class="btn-secondary" onclick="testCustom()" style="margin-bottom: 2rem;">Test Custom</button>
+  
+  <div class="summary" id="summary">
+    <div class="summary-item">
+      <span class="summary-label">Total</span>
+      <span class="summary-value" id="total-count">—</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">Pass</span>
+      <span class="summary-value pass" id="pass-count">—</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">Fail</span>
+      <span class="summary-value fail" id="fail-count">—</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">Skip</span>
+      <span class="summary-value skip" id="skip-count">—</span>
+    </div>
+  </div>
+  
+  <pre id="graph-output"></pre>
+  
+  <div id="test-container"></div>
+  
+  <script>
+    // =========================================================================
+    // TEST DEFINITIONS — SMA Linguistic Sensory Layer v1.2
+    // =========================================================================
+    
+    const TEST_SUITES = {
+      'WS-A': {
+        name: 'WS-A: Stative Predicate Extraction',
+        priority: 'P0',
+        groups: {
+          'pattern-1-adjectival': {
+            name: 'Pattern 1: Adjectival Copular → QualityAssertion + Quality',
+            tests: [
+              {
+                id: 'AC-STA-01',
+                input: 'The child is hungry.',
+                assert: 'QualityAssertion node exists with @type including tagteam:QualityAssertion',
+                validate: (graph) => hasNodeWithType(graph, 'tagteam:QualityAssertion')
+              },
+              {
+                id: 'AC-STA-02',
+                input: 'The child is hungry.',
+                assert: 'QualityAssertion tagteam:assertedQuality = "hungry"',
+                validate: (graph) => hasNodeWithProperty(graph, 'tagteam:QualityAssertion', 'tagteam:assertedQuality', 'hungry')
+              },
+              {
+                id: 'AC-STA-03',
+                input: 'The child is hungry.',
+                assert: 'Quality node (Tier 2) with @type including bfo:BFO_0000019',
+                validate: (graph) => hasNodeWithType(graph, 'bfo:BFO_0000019')
+              },
+              {
+                id: 'AC-STA-04',
+                input: 'The child is hungry.',
+                assert: 'Quality bfo:BFO_0000052 (inheres_in) → child Tier 2 entity',
+                validate: (graph) => {
+                  const quality = findNodeWithType(graph, 'bfo:BFO_0000019');
+                  if (!quality) return { pass: false, reason: 'No Quality node found' };
+                  const inheresIn = quality['bfo:BFO_0000052'];
+                  if (!inheresIn) return { pass: false, reason: 'Quality lacks bfo:BFO_0000052 (inheres_in)' };
+                  return { pass: true, reason: `inheres_in: ${JSON.stringify(inheresIn)}` };
+                }
+              },
+              {
+                id: 'AC-STA-05',
+                input: 'The child is hungry.',
+                assert: 'Quality tagteam:grounding = null (slot present)',
+                validate: (graph) => {
+                  const quality = findNodeWithType(graph, 'bfo:BFO_0000019');
+                  if (!quality) return { pass: false, reason: 'No Quality node found' };
+                  if (!('tagteam:grounding' in quality)) return { pass: false, reason: 'grounding slot not present' };
+                  return { pass: quality['tagteam:grounding'] === null, reason: `grounding = ${quality['tagteam:grounding']}` };
+                }
+              },
+              {
+                id: 'AC-STA-06',
+                input: 'The child is hungry.',
+                assert: 'No IntentionalAct for "hungry" (excluding ParsingAct)',
+                validate: (graph) => noGhostAct(graph)
+              },
+              {
+                id: 'AC-STA-07',
+                input: 'The soup is hot.',
+                assert: 'QualityAssertion with assertedQuality: "hot"',
+                validate: (graph) => hasNodeWithProperty(graph, 'tagteam:QualityAssertion', 'tagteam:assertedQuality', 'hot')
+              }
+            ]
+          },
+          'pattern-2-nominal': {
+            name: 'Pattern 2: Nominal Copular → RoleAssertion',
+            tests: [
+              {
+                id: 'AC-STA-08',
+                input: 'The child is a student.',
+                assert: 'Node with @type including bfo:BFO_0000023 (Role)',
+                validate: (graph) => hasNodeWithType(graph, 'bfo:BFO_0000023')
+              },
+              {
+                id: 'AC-STA-09',
+                input: 'The child is a student.',
+                assert: 'Role bfo:BFO_0000052 → child Tier 2 entity',
+                validate: (graph) => {
+                  const role = findNodeWithType(graph, 'bfo:BFO_0000023');
+                  if (!role) return { pass: false, reason: 'No Role node found' };
+                  const inheresIn = role['bfo:BFO_0000052'];
+                  if (!inheresIn) return { pass: false, reason: 'Role lacks bfo:BFO_0000052' };
+                  return { pass: true, reason: `inheres_in: ${JSON.stringify(inheresIn)}` };
+                }
+              }
+            ]
+          },
+          'pattern-3-possessive': {
+            name: 'Pattern 3: Possessive Stative → QualityAssertion',
+            tests: [
+              {
+                id: 'AC-STA-10',
+                input: 'Dogs have fur.',
+                assert: 'QualityAssertion with assertedQuality: "fur"',
+                validate: (graph) => hasNodeWithProperty(graph, 'tagteam:QualityAssertion', 'tagteam:assertedQuality', 'fur')
+              },
+              {
+                id: 'AC-STA-11',
+                input: 'Dogs have fur.',
+                assert: 'Quality node with tagteam:kindLevel: true',
+                validate: (graph) => {
+                  const quality = findNodeWithType(graph, 'bfo:BFO_0000019');
+                  if (!quality) return { pass: false, reason: 'No Quality node found' };
+                  return { pass: quality['tagteam:kindLevel'] === true, reason: `kindLevel = ${quality['tagteam:kindLevel']}` };
+                }
+              },
+              {
+                id: 'AC-STA-12',
+                input: 'Dogs have fur.',
+                assert: 'No IntentionalAct, no AgentRole',
+                validate: (graph) => {
+                  const ghostCheck = noGhostAct(graph);
+                  if (!ghostCheck.pass) return ghostCheck;
+                  const nodes = getGraphNodes(graph);
+                  const agentRole = nodes.find(n => (n['tagteam:roleType'] || n['rdfs:label'] || '').includes('AgentRole'));
+                  if (agentRole) return { pass: false, reason: 'AgentRole found for stative verb' };
+                  return { pass: true, reason: 'No ghost act, no AgentRole' };
+                }
+              },
+              {
+                id: 'AC-STA-13',
+                input: 'The committee has a meeting.',
+                assert: 'IntentionalAct emitted (event-noun blacklist bypass)',
+                validate: (graph) => {
+                  const act = findNodeWithType(graph, 'IntentionalAct', true);
+                  if (!act) return { pass: false, reason: 'No IntentionalAct found — event-noun blacklist may have incorrectly fired' };
+                  return { pass: true, reason: 'IntentionalAct correctly emitted for event-noun' };
+                }
+              }
+            ]
+          },
+          'pattern-4-locative': {
+            name: 'Pattern 4: Locative Copular',
+            tests: [
+              {
+                id: 'AC-STA-14',
+                input: 'The book is on the table.',
+                assert: 'StructuralAssertion with locative relation',
+                validate: (graph) => hasNodeWithType(graph, 'tagteam:StructuralAssertion')
+              }
+            ]
+          },
+          'pattern-5-evidential': {
+            name: 'Pattern 5: Evidential Copular',
+            tests: [
+              {
+                id: 'AC-STA-15',
+                input: 'She seems tired.',
+                assert: 'QualityAssertion with tagteam:evidentialMarker: "seem"',
+                validate: (graph) => {
+                  const qa = findNodeWithType(graph, 'tagteam:QualityAssertion');
+                  if (!qa) return { pass: false, reason: 'No QualityAssertion found' };
+                  const marker = qa['tagteam:evidentialMarker'];
+                  return { pass: marker === 'seem', reason: `evidentialMarker = ${marker}` };
+                }
+              },
+              {
+                id: 'AC-STA-16',
+                input: 'She seems tired.',
+                assert: 'QualityAssertion epistemicStatus = Observational',
+                validate: (graph) => {
+                  const qa = findNodeWithType(graph, 'tagteam:QualityAssertion');
+                  if (!qa) return { pass: false, reason: 'No QualityAssertion found' };
+                  const status = qa['tagteam:epistemicStatus'];
+                  const isObs = status && (status === 'tagteam:Observational' || status['@id']?.includes('Observational'));
+                  return { pass: isObs, reason: `epistemicStatus = ${JSON.stringify(status)}` };
+                }
+              },
+              {
+                id: 'AC-STA-17',
+                input: 'She seems tired.',
+                assert: 'Quality node epistemicStatus = Observational',
+                validate: (graph) => {
+                  const q = findNodeWithType(graph, 'bfo:BFO_0000019');
+                  if (!q) return { pass: false, reason: 'No Quality node found' };
+                  const status = q['tagteam:epistemicStatus'];
+                  const isObs = status && (status === 'tagteam:Observational' || status['@id']?.includes('Observational'));
+                  return { pass: isObs, reason: `Quality epistemicStatus = ${JSON.stringify(status)}` };
+                }
+              }
+            ]
+          },
+          'bug-fixes': {
+            name: 'Bug Fixes (from initial plan)',
+            tests: [
+              {
+                id: 'AC-STA-18',
+                input: 'Water consists of hydrogen and oxygen.',
+                assert: 'Subject entity = "Water" (not "water consist")',
+                validate: (graph) => {
+                  const entities = findAllNodesWithType(graph, 'tagteam:DiscourseReferent');
+                  const water = entities.find(e => {
+                    const label = e['rdfs:label'] || e['tagteam:text'] || '';
+                    return label.toLowerCase().includes('water');
+                  });
+                  if (!water) return { pass: false, reason: 'No water entity found' };
+                  const label = water['rdfs:label'] || water['tagteam:text'] || '';
+                  const clean = !label.toLowerCase().includes('consist');
+                  return { pass: clean, reason: `Entity label: "${label}"` };
+                }
+              },
+              {
+                id: 'AC-STA-19',
+                input: 'Water consists of hydrogen and oxygen.',
+                assert: 'StructuralAssertion links BOTH "hydrogen" and "oxygen"',
+                validate: (graph) => {
+                  const sa = findNodeWithType(graph, 'tagteam:StructuralAssertion');
+                  if (!sa) return { pass: false, reason: 'No StructuralAssertion found' };
+                  // Check for multiple objects linked
+                  const objects = sa['tagteam:hasObject'] || sa['tagteam:object'] || [];
+                  const objArray = Array.isArray(objects) ? objects : [objects];
+                  return { pass: objArray.length >= 2, reason: `Objects linked: ${objArray.length}` };
+                }
+              },
+              {
+                id: 'AC-STA-20',
+                input: 'The group includes five members.',
+                assert: 'No IntentionalAct (excluding ParsingAct)',
+                validate: (graph) => noGhostAct(graph)
+              }
+            ]
+          },
+          'non-regression': {
+            name: 'Non-Regression (eventive verbs unchanged)',
+            tests: [
+              {
+                id: 'AC-STA-21',
+                input: 'The doctor treats the patient.',
+                assert: 'IntentionalAct + AgentRole + PatientRole',
+                validate: (graph) => {
+                  const act = findNodeWithType(graph, 'IntentionalAct', true);
+                  if (!act) return { pass: false, reason: 'No IntentionalAct found' };
+                  const nodes = getGraphNodes(graph);
+                  const agent = nodes.find(n => (n['tagteam:roleType'] || n['rdfs:label'] || '').includes('AgentRole'));
+                  const patient = nodes.find(n => (n['tagteam:roleType'] || n['rdfs:label'] || '').includes('PatientRole'));
+                  return { 
+                    pass: agent && patient, 
+                    reason: `AgentRole: ${!!agent}, PatientRole: ${!!patient}` 
+                  };
+                }
+              },
+              {
+                id: 'AC-STA-22',
+                input: 'The committee shall review the proposal.',
+                assert: 'DICE + PlanSpec + Obligation (RDM path)',
+                validate: (graph) => {
+                  const dice = findNodeWithType(graph, 'DirectiveInformationContentEntity');
+                  const planSpec = findNodeWithType(graph, 'PlanSpecification');
+                  const obligation = findNodeWithType(graph, 'Obligation');
+                  return {
+                    pass: dice || planSpec || obligation,
+                    reason: `DICE: ${!!dice}, PlanSpec: ${!!planSpec}, Obligation: ${!!obligation}`
+                  };
+                }
+              },
+              {
+                id: 'AC-STA-23',
+                input: 'CBP is a component of DHS.',
+                assert: 'StructuralAssertion (copular predication)',
+                validate: (graph) => hasNodeWithType(graph, 'tagteam:StructuralAssertion')
+              }
+            ]
+          },
+          'edge-cases': {
+            name: 'Edge Cases (Advisory mitigations)',
+            tests: [
+              {
+                id: 'AC-STA-28',
+                input: 'The book is by the author.',
+                assert: 'NOT classified as locative (authorship relation)',
+                validate: (graph) => {
+                  const sa = findNodeWithType(graph, 'tagteam:StructuralAssertion');
+                  if (!sa) return { pass: false, reason: 'No StructuralAssertion found' };
+                  const relType = sa['tagteam:relationType'] || sa['tagteam:relation'] || '';
+                  const isLocative = relType.toLowerCase().includes('locat');
+                  return { pass: !isLocative, reason: `Relation type: ${relType || '(none)'}` };
+                }
+              },
+              {
+                id: 'AC-STA-29',
+                input: 'He has to submit the form.',
+                assert: 'NOT stative (modal "have to" → RDM or act path)',
+                validate: (graph) => {
+                  // Should NOT produce QualityAssertion for "have to"
+                  const qa = findNodeWithType(graph, 'tagteam:QualityAssertion');
+                  if (qa) {
+                    const quality = qa['tagteam:assertedQuality'];
+                    if (quality === 'submit' || quality === 'form') {
+                      return { pass: false, reason: 'QualityAssertion incorrectly emitted for modal "have to"' };
+                    }
+                  }
+                  return { pass: true, reason: 'Modal "have to" correctly bypassed stative path' };
+                }
+              }
+            ]
+          }
+        }
+      },
+      'WS-B': {
+        name: 'WS-B: Narrative Negation',
+        priority: 'P1',
+        groups: {
+          'negation': {
+            name: 'Negated Narratives → EventDescription (Unrealized)',
+            tests: [
+              {
+                id: 'AC-NEG-01',
+                input: 'The parent did not feed the child.',
+                assert: 'No IntentionalAct node',
+                validate: (graph) => noGhostAct(graph),
+                skip: true,
+                skipReason: 'WS-B not yet implemented'
+              },
+              {
+                id: 'AC-NEG-02',
+                input: 'The parent did not feed the child.',
+                assert: 'EventDescription with realizationStatus: Unrealized',
+                validate: (graph) => {
+                  const ed = findNodeWithType(graph, 'tagteam:EventDescription');
+                  if (!ed) return { pass: false, reason: 'No EventDescription found' };
+                  const status = ed['tagteam:realizationStatus'];
+                  const isUnrealized = status && (status === 'tagteam:Unrealized' || status['@id']?.includes('Unrealized'));
+                  return { pass: isUnrealized, reason: `realizationStatus = ${JSON.stringify(status)}` };
+                },
+                skip: true,
+                skipReason: 'WS-B not yet implemented'
+              }
+            ]
+          }
+        }
+      },
+      'WS-C': {
+        name: 'WS-C: EventDescription Class',
+        priority: 'P1',
+        groups: {
+          'event-description': {
+            name: 'Affirmative Narratives → EventDescription (Realized)',
+            tests: [
+              {
+                id: 'AC-EVT-01',
+                input: 'The parent fed the child.',
+                assert: 'EventDescription with realizationStatus: Realized',
+                validate: (graph) => {
+                  const ed = findNodeWithType(graph, 'tagteam:EventDescription');
+                  if (!ed) return { pass: false, reason: 'No EventDescription found' };
+                  const status = ed['tagteam:realizationStatus'];
+                  const isRealized = status && (status === 'tagteam:Realized' || status['@id']?.includes('Realized'));
+                  return { pass: isRealized, reason: `realizationStatus = ${JSON.stringify(status)}` };
+                },
+                skip: true,
+                skipReason: 'WS-C not yet implemented'
+              }
+            ]
+          }
+        }
+      }
+    };
+    
+    // =========================================================================
+    // VALIDATION HELPERS
+    // =========================================================================
+    
+    function getGraphNodes(graph) {
+      if (!graph) return [];
+      if (graph['@graph']) return graph['@graph'];
+      if (Array.isArray(graph)) return graph;
+      return [graph];
+    }
+    
+    function normalizeType(type) {
+      if (!type) return [];
+      if (Array.isArray(type)) return type;
+      return [type];
+    }
+    
+    function hasNodeWithType(graph, targetType) {
+      const node = findNodeWithType(graph, targetType);
+      return { pass: !!node, reason: node ? `Found: ${node['@id']}` : `No ${targetType} found` };
+    }
+    
+    function findNodeWithType(graph, targetType, excludeParsingAct = false) {
+      const nodes = getGraphNodes(graph);
+      return nodes.find(node => {
+        const types = normalizeType(node['@type']);
+        const matches = types.some(t => t.includes(targetType.replace(':', '/')) || t.includes(targetType) || t === targetType);
+        if (!matches) return false;
+        if (excludeParsingAct) {
+          const label = node['rdfs:label'] || '';
+          const id = node['@id'] || '';
+          if (label.includes('Parsing') || id.includes('ParsingAct')) return false;
+        }
+        return true;
+      });
+    }
+    
+    function findAllNodesWithType(graph, targetType) {
+      const nodes = getGraphNodes(graph);
+      return nodes.filter(node => {
+        const types = normalizeType(node['@type']);
+        return types.some(t => t.includes(targetType.replace(':', '/')) || t.includes(targetType) || t === targetType);
+      });
+    }
+    
+    function hasNodeWithProperty(graph, nodeType, propName, propValue) {
+      const nodes = getGraphNodes(graph);
+      const node = nodes.find(n => {
+        const types = normalizeType(n['@type']);
+        const typeMatch = types.some(t => t.includes(nodeType.replace(':', '/')) || t.includes(nodeType));
+        if (!typeMatch) return false;
+        const val = n[propName];
+        return val === propValue || val?.['@value'] === propValue;
+      });
+      return { 
+        pass: !!node, 
+        reason: node ? `${propName} = "${node[propName]}"` : `No ${nodeType} with ${propName}="${propValue}"` 
+      };
+    }
+    
+    function noGhostAct(graph) {
+      const nodes = getGraphNodes(graph);
+      const ghostAct = nodes.find(node => {
+        const types = normalizeType(node['@type']);
+        const isAct = types.some(t => t.includes('IntentionalAct'));
+        if (!isAct) return false;
+        // Exclude system ParsingAct
+        const label = node['rdfs:label'] || '';
+        const id = node['@id'] || '';
+        if (label.includes('Parsing') || label.includes('parsing') || id.includes('ParsingAct')) return false;
+        return true;
+      });
+      return { 
+        pass: !ghostAct, 
+        reason: ghostAct ? `Ghost IntentionalAct found: ${ghostAct['@id']}` : 'No ghost acts' 
+      };
+    }
+    
+    // =========================================================================
+    // TEST RUNNER
+    // =========================================================================
+    
+    let testResults = [];
+    let currentGraph = null;
+    
+    async function parseWithTagTeam(text) {
+      // Check if TagTeam is available
+      if (typeof TagTeam === 'undefined' && typeof buildGraph === 'undefined') {
+        return { error: 'TagTeam not loaded. Include tagteam.bundle.js before running tests.' };
+      }
+      
+      try {
+        const parser = typeof TagTeam !== 'undefined' ? TagTeam : { buildGraph };
+        const graph = await parser.buildGraph(text);
+        return graph;
+      } catch (e) {
+        return { error: e.message };
+      }
+    }
+    
+    async function runTest(test) {
+      if (test.skip) {
+        return { ...test, status: 'skip', reason: test.skipReason };
+      }
+      
+      try {
+        const graph = await parseWithTagTeam(test.input);
+        
+        if (graph.error) {
+          return { ...test, status: 'fail', reason: `Parse error: ${graph.error}` };
+        }
+        
+        currentGraph = graph;
+        const result = test.validate(graph);
+        
+        if (typeof result === 'boolean') {
+          return { ...test, status: result ? 'pass' : 'fail', reason: '' };
+        }
+        
+        return { ...test, status: result.pass ? 'pass' : 'fail', reason: result.reason };
+      } catch (e) {
+        return { ...test, status: 'fail', reason: `Error: ${e.message}` };
+      }
+    }
+    
+    async function runAllTests() {
+      testResults = [];
+      const container = document.getElementById('test-container');
+      container.innerHTML = '<p class="loading">Running tests...</p>';
+      
+      for (const [wsId, ws] of Object.entries(TEST_SUITES)) {
+        for (const [groupId, group] of Object.entries(ws.groups)) {
+          for (const test of group.tests) {
+            const result = await runTest(test);
+            testResults.push({ ...result, workstream: wsId, group: groupId });
+          }
+        }
+      }
+      
+      renderResults();
+    }
+    
+    async function runWSA() {
+      testResults = [];
+      const container = document.getElementById('test-container');
+      container.innerHTML = '<p class="loading">Running WS-A tests...</p>';
+      
+      const ws = TEST_SUITES['WS-A'];
+      for (const [groupId, group] of Object.entries(ws.groups)) {
+        for (const test of group.tests) {
+          const result = await runTest(test);
+          testResults.push({ ...result, workstream: 'WS-A', group: groupId });
+        }
+      }
+      
+      renderResults();
+    }
+    
+    async function testCustom() {
+      const input = document.getElementById('custom-input').value.trim();
+      if (!input) return;
+      
+      const graph = await parseWithTagTeam(input);
+      currentGraph = graph;
+      
+      const output = document.getElementById('graph-output');
+      output.style.display = 'block';
+      output.textContent = JSON.stringify(graph, null, 2);
+    }
+    
+    function toggleOutput() {
+      const output = document.getElementById('graph-output');
+      output.style.display = output.style.display === 'none' ? 'block' : 'none';
+      if (currentGraph) {
+        output.textContent = JSON.stringify(currentGraph, null, 2);
+      }
+    }
+    
+    function renderResults() {
+      const container = document.getElementById('test-container');
+      
+      // Update summary
+      const total = testResults.length;
+      const pass = testResults.filter(t => t.status === 'pass').length;
+      const fail = testResults.filter(t => t.status === 'fail').length;
+      const skip = testResults.filter(t => t.status === 'skip').length;
+      
+      document.getElementById('total-count').textContent = total;
+      document.getElementById('pass-count').textContent = pass;
+      document.getElementById('fail-count').textContent = fail;
+      document.getElementById('skip-count').textContent = skip;
+      
+      // Group by workstream
+      const byWS = {};
+      for (const result of testResults) {
+        if (!byWS[result.workstream]) byWS[result.workstream] = [];
+        byWS[result.workstream].push(result);
+      }
+      
+      let html = '';
+      
+      for (const [wsId, results] of Object.entries(byWS)) {
+        const ws = TEST_SUITES[wsId];
+        const wsPass = results.filter(t => t.status === 'pass').length;
+        const wsFail = results.filter(t => t.status === 'fail').length;
+        const wsSkip = results.filter(t => t.status === 'skip').length;
+        const wsStatus = wsFail > 0 ? 'fail' : wsSkip === results.length ? 'skip' : 'pass';
+        
+        html += `
+          <div class="workstream">
+            <div class="workstream-header">
+              <span class="workstream-title">${ws.name}</span>
+              <span class="workstream-badge ${wsStatus}">${wsPass}/${results.length - wsSkip} pass</span>
+            </div>
+        `;
+        
+        // Group by test group
+        const byGroup = {};
+        for (const result of results) {
+          if (!byGroup[result.group]) byGroup[result.group] = [];
+          byGroup[result.group].push(result);
+        }
+        
+        for (const [groupId, groupResults] of Object.entries(byGroup)) {
+          const group = ws.groups[groupId];
+          html += `
+            <div class="test-group">
+              <div class="test-group-title">${group.name}</div>
+          `;
+          
+          for (const result of groupResults) {
+            html += `
+              <div class="test">
+                <span class="test-id">${result.id}</span>
+                <div class="test-content">
+                  <div class="test-input">"${result.input}"</div>
+                  <div class="test-assert">${result.assert}</div>
+                </div>
+                <span class="test-status ${result.status}">${result.status}</span>
+                ${result.reason ? `<div class="test-details ${result.status === 'pass' ? 'success' : 'error'}">${result.reason}</div>` : ''}
+              </div>
+            `;
+          }
+          
+          html += '</div>';
+        }
+        
+        html += '</div>';
+      }
+      
+      container.innerHTML = html;
+    }
+    
+    // Initial render of test structure (no results yet)
+    function renderTestStructure() {
+      const container = document.getElementById('test-container');
+      let html = '';
+      
+      for (const [wsId, ws] of Object.entries(TEST_SUITES)) {
+        html += `
+          <div class="workstream">
+            <div class="workstream-header">
+              <span class="workstream-title">${ws.name}</span>
+              <span class="workstream-badge skip">not run</span>
+            </div>
+        `;
+        
+        for (const [groupId, group] of Object.entries(ws.groups)) {
+          html += `
+            <div class="test-group">
+              <div class="test-group-title">${group.name}</div>
+          `;
+          
+          for (const test of group.tests) {
+            html += `
+              <div class="test">
+                <span class="test-id">${test.id}</span>
+                <div class="test-content">
+                  <div class="test-input">"${test.input}"</div>
+                  <div class="test-assert">${test.assert}</div>
+                </div>
+                <span class="test-status skip">${test.skip ? 'skip' : '—'}</span>
+              </div>
+            `;
+          }
+          
+          html += '</div>';
+        }
+        
+        html += '</div>';
+      }
+      
+      container.innerHTML = html;
+    }
+    
+    // Initialize
+    renderTestStructure();
+  </script>
+  
+  <!-- Load TagTeam bundle from same directory -->
+  <script src="tagteam.js?v=20260328"></script>
+</body>
+</html>

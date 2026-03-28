@@ -173,17 +173,30 @@ class TreeActExtractor {
         // Existential: "There is X" — root is the verb "is" with expl "There"
         const assertion = this._handleExistential(depTree, rootId, children);
         if (assertion) structuralAssertions.push(assertion);
-      } else if (this._isPossessive(rootWord, rootTag, children)) {
-        // Possessive: "X has Y" — verb lemma "have" + obj, no aux
+      } else if (this._isPossessive(rootWord, rootTag, children, depTree)) {
+        // Possessive stative: "X has Y" — emit only StructuralAssertion, no IntentionalAct
+        // Tag as quality_assertion for SGB to upgrade to QualityAssertion + Quality
         const assertion = this._handlePossessive(depTree, rootId, children);
-        if (assertion) structuralAssertions.push(assertion);
-        // Also create an act for "has"
-        const act = this._buildAct(depTree, rootId, children);
-        if (act) {
-          act.type = 'possessive';
-          act.pattern = 'possessive';
-          acts.push(act);
+        if (assertion) {
+          assertion.pattern = 'quality_assertion';
+          assertion.predicateTag = 'NN'; // object is a noun (quality/part)
+          // Get the object word for quality extraction
+          const objChild = children.find(c => c.label === 'obj');
+          if (objChild) {
+            assertion.predicateText = depTree.tokens[objChild.dependent - 1];
+            assertion.predicateTag = depTree.tags[objChild.dependent - 1];
+          }
+          structuralAssertions.push(assertion);
         }
+        // NO _buildAct() — suppresses ghost IntentionalAct
+      } else if (this._isEvidentialCopula(rootWord, rootTag, children, depTree)) {
+        // Evidential copula: "She seems tired" — perception verb + xcomp adjective
+        const assertion = this._handleEvidentialCopula(depTree, rootId, children);
+        if (assertion) structuralAssertions.push(assertion);
+      } else if (this._isStativeVerb(rootWord, rootTag, children)) {
+        // Non-copular stative verb: "include", "contain", "comprise"
+        const assertion = this._handleStativeVerb(depTree, rootId, children);
+        if (assertion) structuralAssertions.push(assertion);
       } else {
         // Check for multi-word modal: root is "have"/"need"/"ought" with xcomp child
         const multiWordResult = this._checkMultiWordModal(depTree, rootId, children);
@@ -392,7 +405,8 @@ class TreeActExtractor {
     const caseChild = children.find(c => c.label === 'case');
     if (caseChild) {
       const prep = caseChild.word.toLowerCase();
-      if (['in', 'at', 'on', 'near', 'by', 'under', 'above', 'behind'].includes(prep)) {
+      if (['in', 'at', 'on', 'near', 'under', 'above', 'behind'].includes(prep)) {
+        // Note: "by" excluded — too ambiguous (authorship "by the author", agency "by the officer")
         // Locative copular: "X is in Y"
         return {
           type: 'copular',
@@ -445,6 +459,7 @@ class TreeActExtractor {
       subjectId: subjectChild.dependent,
       objectId,
       predicateText: predicateWord,
+      predicateTag,
     };
   }
 
@@ -480,13 +495,39 @@ class TreeActExtractor {
    * Check if a verb is a possessive construction.
    * Possessive = verb lemma "have" + obj child + no aux child.
    */
-  _isPossessive(word, tag, children) {
+  /**
+   * Event-noun blacklist: nouns that denote events, not things.
+   * "The committee has a meeting" → NOT stative (event-noun).
+   */
+  static get EVENT_NOUN_BLACKLIST() {
+    return new Set([
+      'meeting', 'surgery', 'flight', 'appointment', 'conference',
+      'session', 'trial', 'hearing', 'examination', 'interview',
+      'wedding', 'funeral', 'party', 'ceremony', 'celebration',
+      'game', 'match', 'race', 'competition', 'concert', 'performance',
+      'lesson', 'class', 'lecture', 'seminar', 'workshop',
+      'trip', 'journey', 'vacation', 'tour', 'visit',
+      'conversation', 'discussion', 'debate', 'argument', 'fight',
+      'operation', 'procedure', 'transaction', 'deal', 'negotiation'
+    ]);
+  }
+
+  _isPossessive(word, tag, children, depTree) {
     const lemma = this._lemmatize(word, tag);
     if (lemma !== 'have') return false;
 
-    const hasObj = children.some(c => c.label === 'obj');
+    const objChild = children.find(c => c.label === 'obj');
+    if (!objChild) return false;
     const hasAux = children.some(c => c.label === 'aux' || c.label === 'aux:pass');
-    return hasObj && !hasAux;
+    if (hasAux) return false;
+
+    // Event-noun check: if the object is an event noun, this is NOT possessive stative
+    if (depTree) {
+      const objLemma = this._lemmatize(depTree.tokens[objChild.dependent - 1], depTree.tags[objChild.dependent - 1]);
+      if (TreeActExtractor.EVENT_NOUN_BLACKLIST.has(objLemma)) return false;
+    }
+
+    return true;
   }
 
   /**
@@ -511,6 +552,138 @@ class TreeActExtractor {
       relation: 'has_possession',
       subjectId: subjectChild.dependent,
       objectId: objectChild.dependent,
+    };
+  }
+
+  /**
+   * Evidential/perception copula verbs.
+   */
+  /**
+   * Non-copular stative verbs that denote relations, not acts.
+   * Maps verb lemma → ontological relation.
+   */
+  static get STATIVE_VERB_MAP() {
+    return {
+      'include': 'has_member_part',
+      'contain': 'has_continuant_part',
+      'comprise': 'has_member_part',
+      'consist': 'has_continuant_part',
+      'encompass': 'has_continuant_part',
+    };
+  }
+
+  /**
+   * Check if a verb is a non-copular stative verb.
+   */
+  _isStativeVerb(word, tag, children) {
+    if (!VERB_TAGS.has(tag)) return false;
+    // Modal verbs override stative: "must include" → RDM path, not stative
+    const hasModal = children.some(c => c.label === 'aux' && c.word && c.word.toUpperCase() !== c.word);
+    if (hasModal) {
+      const modalChild = children.find(c => c.label === 'aux');
+      if (modalChild && MODAL_TABLE[modalChild.word.toLowerCase()]) return false;
+    }
+    const lemma = this._lemmatize(word, tag);
+    const lower = word.toLowerCase();
+    // Check both lemma and raw word (lemmatizer may over-strip: "includes" → "includ")
+    const matchesStative = TreeActExtractor.STATIVE_VERB_MAP[lemma] ||
+                           TreeActExtractor.STATIVE_VERB_MAP[lower] ||
+                           Object.keys(TreeActExtractor.STATIVE_VERB_MAP).some(k => lower.startsWith(k));
+    if (!matchesStative) return false;
+    // Must have obj or nmod child (the thing being included/contained)
+    return children.some(c => c.label === 'obj' || c.label === 'nmod');
+  }
+
+  /**
+   * Handle non-copular stative verb: "The group includes five members"
+   */
+  _handleStativeVerb(depTree, verbId, children) {
+    const word = depTree.tokens[verbId - 1];
+    const tag = depTree.tags[verbId - 1];
+    const lemma = this._lemmatize(word, tag);
+    const lower = word.toLowerCase();
+    const matchedKey = Object.keys(TreeActExtractor.STATIVE_VERB_MAP).find(k =>
+      lemma === k || lower === k || lower.startsWith(k)
+    );
+    const relation = matchedKey ? TreeActExtractor.STATIVE_VERB_MAP[matchedKey] : null;
+
+    const subjectChild = children.find(c => c.label === 'nsubj' || c.label === 'nsubj:pass');
+    const objectChild = children.find(c => c.label === 'obj') || children.find(c => c.label === 'nmod');
+
+    if (!subjectChild) return null;
+
+    const subjectSubtree = depTree.getEntitySubtree(subjectChild.dependent);
+    let objectText = null;
+    let objectId = null;
+    if (objectChild) {
+      const objectSubtree = depTree.getEntitySubtree(objectChild.dependent);
+      objectText = objectSubtree.tokens.join(' ');
+      objectId = objectChild.dependent;
+    }
+
+    return {
+      type: 'stative_verb',
+      pattern: 'stative_relation',
+      subject: subjectSubtree.tokens.join(' '),
+      object: objectText,
+      copula: word,
+      negated: this._detectNegation(children),
+      relation: relation,
+      predicateId: verbId,
+      subjectId: subjectChild.dependent,
+      objectId: objectId,
+      predicateText: lemma,
+      predicateTag: tag,
+    };
+  }
+
+  static get EVIDENTIAL_VERBS() {
+    return new Set(['seem', 'appear', 'look', 'sound', 'feel', 'taste', 'smell']);
+  }
+
+  /**
+   * Check if a verb is an evidential copula ("She seems tired").
+   * Pattern 5: root is perception verb + xcomp adjective.
+   */
+  _isEvidentialCopula(word, tag, children, depTree) {
+    const lemma = this._lemmatize(word, tag);
+    if (!TreeActExtractor.EVIDENTIAL_VERBS.has(lemma)) return false;
+    if (!VERB_TAGS.has(tag)) return false;
+    // Must have xcomp child that is an adjective
+    const xcompChild = children.find(c => c.label === 'xcomp');
+    if (!xcompChild) return false;
+    const xcompTag = depTree.tags[xcompChild.dependent - 1];
+    return xcompTag === 'JJ' || xcompTag === 'JJR' || xcompTag === 'JJS';
+  }
+
+  /**
+   * Handle evidential copula: "She seems tired"
+   * Returns a StructuralAssertion with evidential metadata.
+   */
+  _handleEvidentialCopula(depTree, verbId, children) {
+    const xcompChild = children.find(c => c.label === 'xcomp');
+    if (!xcompChild) return null;
+
+    const subjectChild = children.find(c => c.label === 'nsubj' || c.label === 'nsubj:pass');
+    if (!subjectChild) return null;
+
+    const subjectSubtree = depTree.getEntitySubtree(subjectChild.dependent);
+    const qualityWord = depTree.tokens[xcompChild.dependent - 1];
+    const evidentialLemma = this._lemmatize(depTree.tokens[verbId - 1], depTree.tags[verbId - 1]);
+
+    return {
+      type: 'evidential_copular',
+      pattern: 'quality_assertion',
+      subject: subjectSubtree.tokens.join(' '),
+      object: null,
+      copula: depTree.tokens[verbId - 1],
+      negated: this._detectNegation(children),
+      relation: null,
+      predicateId: xcompChild.dependent,
+      subjectId: subjectChild.dependent,
+      predicateText: qualityWord,
+      predicateTag: depTree.tags[xcompChild.dependent - 1],
+      evidentialMarker: evidentialLemma,
     };
   }
 

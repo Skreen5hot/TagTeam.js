@@ -142,6 +142,8 @@ class JSONLDSerializer {
       Prohibition:                           { '@id': 'tagteam:Prohibition' },
       Intention:                             { '@id': 'tagteam:Intention' },
       ConjunctiveObligation:                 { '@id': 'tagteam:ConjunctiveObligation' },
+      DeonticCategory:                       { '@id': 'tagteam:DeonticCategory' },
+      FulfillmentState:                      { '@id': 'tagteam:FulfillmentState' },
       ScarcityAssertion:                     { '@id': 'tagteam:ScarcityAssertion' },
       InterpretationContext:                 { '@id': 'tagteam:InterpretationContext' },
 
@@ -318,6 +320,22 @@ class JSONLDSerializer {
       isSpecifiedBy:              { '@id': 'tagteam:isSpecifiedBy',              '@type': '@id' },
       is_prescribed_by:           { '@id': 'tagteam:is_prescribed_by',           '@type': '@id' },
       hasConjunct:                { '@id': 'tagteam:hasConjunct',                '@type': '@id', '@container': '@set' },
+      disambiguationNote:         { '@id': 'tagteam:disambiguationNote' },
+      realizedAt:                 { '@id': 'tagteam:realizedAt',                 '@type': 'xsd:dateTime' },
+      violatedAt:                 { '@id': 'tagteam:violatedAt',                 '@type': 'xsd:dateTime' },
+      violationEvidence:          { '@id': 'tagteam:violationEvidence',          '@type': '@id' },
+
+      // ─────── SMA: Stative Quality Properties ───────
+      assertedQuality:            { '@id': 'tagteam:assertedQuality' },
+      qualityType:                { '@id': 'tagteam:qualityType' },
+      grounding:                  { '@id': 'tagteam:grounding',                  '@type': '@id' },
+      kindLevel:                  { '@id': 'tagteam:kindLevel',                  '@type': 'xsd:boolean' },
+      observedAt:                 { '@id': 'tagteam:observedAt',                 '@type': 'xsd:dateTime' },
+      evidentialMarker:           { '@id': 'tagteam:evidentialMarker' },
+      copulaLemma:                { '@id': 'tagteam:copulaLemma' },
+      assertionSubject:           { '@id': 'tagteam:assertionSubject' },
+      QualityAssertion:           { '@id': 'tagteam:QualityAssertion' },
+
       scarcityMarker:      { '@id': 'tagteam:scarcityMarker' },
       evidenceText:        { '@id': 'tagteam:evidenceText' },
       classificationLabel: { '@id': 'tagteam:classificationLabel' },

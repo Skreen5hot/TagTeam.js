@@ -1,7 +1,7 @@
 /*!
  * TagTeam.js - Two-Tier Semantic Graph Engine
  * Version: 7.0 (v2 Phase 2: Dependency Parser)
- * Date: 2026-03-27
+ * Date: 2026-03-28
  *
  * A client-side JavaScript library for extracting semantic roles from natural language text
  *
@@ -309617,6 +309617,8 @@ class JSONLDSerializer {
       Prohibition:                           { '@id': 'tagteam:Prohibition' },
       Intention:                             { '@id': 'tagteam:Intention' },
       ConjunctiveObligation:                 { '@id': 'tagteam:ConjunctiveObligation' },
+      DeonticCategory:                       { '@id': 'tagteam:DeonticCategory' },
+      FulfillmentState:                      { '@id': 'tagteam:FulfillmentState' },
       ScarcityAssertion:                     { '@id': 'tagteam:ScarcityAssertion' },
       InterpretationContext:                 { '@id': 'tagteam:InterpretationContext' },
 
@@ -309793,6 +309795,22 @@ class JSONLDSerializer {
       isSpecifiedBy:              { '@id': 'tagteam:isSpecifiedBy',              '@type': '@id' },
       is_prescribed_by:           { '@id': 'tagteam:is_prescribed_by',           '@type': '@id' },
       hasConjunct:                { '@id': 'tagteam:hasConjunct',                '@type': '@id', '@container': '@set' },
+      disambiguationNote:         { '@id': 'tagteam:disambiguationNote' },
+      realizedAt:                 { '@id': 'tagteam:realizedAt',                 '@type': 'xsd:dateTime' },
+      violatedAt:                 { '@id': 'tagteam:violatedAt',                 '@type': 'xsd:dateTime' },
+      violationEvidence:          { '@id': 'tagteam:violationEvidence',          '@type': '@id' },
+
+      // ─────── SMA: Stative Quality Properties ───────
+      assertedQuality:            { '@id': 'tagteam:assertedQuality' },
+      qualityType:                { '@id': 'tagteam:qualityType' },
+      grounding:                  { '@id': 'tagteam:grounding',                  '@type': '@id' },
+      kindLevel:                  { '@id': 'tagteam:kindLevel',                  '@type': 'xsd:boolean' },
+      observedAt:                 { '@id': 'tagteam:observedAt',                 '@type': 'xsd:dateTime' },
+      evidentialMarker:           { '@id': 'tagteam:evidentialMarker' },
+      copulaLemma:                { '@id': 'tagteam:copulaLemma' },
+      assertionSubject:           { '@id': 'tagteam:assertionSubject' },
+      QualityAssertion:           { '@id': 'tagteam:QualityAssertion' },
+
       scarcityMarker:      { '@id': 'tagteam:scarcityMarker' },
       evidenceText:        { '@id': 'tagteam:evidenceText' },
       classificationLabel: { '@id': 'tagteam:classificationLabel' },
@@ -322330,17 +322348,30 @@ class TreeActExtractor {
         // Existential: "There is X" — root is the verb "is" with expl "There"
         const assertion = this._handleExistential(depTree, rootId, children);
         if (assertion) structuralAssertions.push(assertion);
-      } else if (this._isPossessive(rootWord, rootTag, children)) {
-        // Possessive: "X has Y" — verb lemma "have" + obj, no aux
+      } else if (this._isPossessive(rootWord, rootTag, children, depTree)) {
+        // Possessive stative: "X has Y" — emit only StructuralAssertion, no IntentionalAct
+        // Tag as quality_assertion for SGB to upgrade to QualityAssertion + Quality
         const assertion = this._handlePossessive(depTree, rootId, children);
-        if (assertion) structuralAssertions.push(assertion);
-        // Also create an act for "has"
-        const act = this._buildAct(depTree, rootId, children);
-        if (act) {
-          act.type = 'possessive';
-          act.pattern = 'possessive';
-          acts.push(act);
+        if (assertion) {
+          assertion.pattern = 'quality_assertion';
+          assertion.predicateTag = 'NN'; // object is a noun (quality/part)
+          // Get the object word for quality extraction
+          const objChild = children.find(c => c.label === 'obj');
+          if (objChild) {
+            assertion.predicateText = depTree.tokens[objChild.dependent - 1];
+            assertion.predicateTag = depTree.tags[objChild.dependent - 1];
+          }
+          structuralAssertions.push(assertion);
         }
+        // NO _buildAct() — suppresses ghost IntentionalAct
+      } else if (this._isEvidentialCopula(rootWord, rootTag, children, depTree)) {
+        // Evidential copula: "She seems tired" — perception verb + xcomp adjective
+        const assertion = this._handleEvidentialCopula(depTree, rootId, children);
+        if (assertion) structuralAssertions.push(assertion);
+      } else if (this._isStativeVerb(rootWord, rootTag, children)) {
+        // Non-copular stative verb: "include", "contain", "comprise"
+        const assertion = this._handleStativeVerb(depTree, rootId, children);
+        if (assertion) structuralAssertions.push(assertion);
       } else {
         // Check for multi-word modal: root is "have"/"need"/"ought" with xcomp child
         const multiWordResult = this._checkMultiWordModal(depTree, rootId, children);
@@ -322549,7 +322580,8 @@ class TreeActExtractor {
     const caseChild = children.find(c => c.label === 'case');
     if (caseChild) {
       const prep = caseChild.word.toLowerCase();
-      if (['in', 'at', 'on', 'near', 'by', 'under', 'above', 'behind'].includes(prep)) {
+      if (['in', 'at', 'on', 'near', 'under', 'above', 'behind'].includes(prep)) {
+        // Note: "by" excluded — too ambiguous (authorship "by the author", agency "by the officer")
         // Locative copular: "X is in Y"
         return {
           type: 'copular',
@@ -322602,6 +322634,7 @@ class TreeActExtractor {
       subjectId: subjectChild.dependent,
       objectId,
       predicateText: predicateWord,
+      predicateTag,
     };
   }
 
@@ -322637,13 +322670,39 @@ class TreeActExtractor {
    * Check if a verb is a possessive construction.
    * Possessive = verb lemma "have" + obj child + no aux child.
    */
-  _isPossessive(word, tag, children) {
+  /**
+   * Event-noun blacklist: nouns that denote events, not things.
+   * "The committee has a meeting" → NOT stative (event-noun).
+   */
+  static get EVENT_NOUN_BLACKLIST() {
+    return new Set([
+      'meeting', 'surgery', 'flight', 'appointment', 'conference',
+      'session', 'trial', 'hearing', 'examination', 'interview',
+      'wedding', 'funeral', 'party', 'ceremony', 'celebration',
+      'game', 'match', 'race', 'competition', 'concert', 'performance',
+      'lesson', 'class', 'lecture', 'seminar', 'workshop',
+      'trip', 'journey', 'vacation', 'tour', 'visit',
+      'conversation', 'discussion', 'debate', 'argument', 'fight',
+      'operation', 'procedure', 'transaction', 'deal', 'negotiation'
+    ]);
+  }
+
+  _isPossessive(word, tag, children, depTree) {
     const lemma = this._lemmatize(word, tag);
     if (lemma !== 'have') return false;
 
-    const hasObj = children.some(c => c.label === 'obj');
+    const objChild = children.find(c => c.label === 'obj');
+    if (!objChild) return false;
     const hasAux = children.some(c => c.label === 'aux' || c.label === 'aux:pass');
-    return hasObj && !hasAux;
+    if (hasAux) return false;
+
+    // Event-noun check: if the object is an event noun, this is NOT possessive stative
+    if (depTree) {
+      const objLemma = this._lemmatize(depTree.tokens[objChild.dependent - 1], depTree.tags[objChild.dependent - 1]);
+      if (TreeActExtractor.EVENT_NOUN_BLACKLIST.has(objLemma)) return false;
+    }
+
+    return true;
   }
 
   /**
@@ -322668,6 +322727,138 @@ class TreeActExtractor {
       relation: 'has_possession',
       subjectId: subjectChild.dependent,
       objectId: objectChild.dependent,
+    };
+  }
+
+  /**
+   * Evidential/perception copula verbs.
+   */
+  /**
+   * Non-copular stative verbs that denote relations, not acts.
+   * Maps verb lemma → ontological relation.
+   */
+  static get STATIVE_VERB_MAP() {
+    return {
+      'include': 'has_member_part',
+      'contain': 'has_continuant_part',
+      'comprise': 'has_member_part',
+      'consist': 'has_continuant_part',
+      'encompass': 'has_continuant_part',
+    };
+  }
+
+  /**
+   * Check if a verb is a non-copular stative verb.
+   */
+  _isStativeVerb(word, tag, children) {
+    if (!VERB_TAGS.has(tag)) return false;
+    // Modal verbs override stative: "must include" → RDM path, not stative
+    const hasModal = children.some(c => c.label === 'aux' && c.word && c.word.toUpperCase() !== c.word);
+    if (hasModal) {
+      const modalChild = children.find(c => c.label === 'aux');
+      if (modalChild && MODAL_TABLE[modalChild.word.toLowerCase()]) return false;
+    }
+    const lemma = this._lemmatize(word, tag);
+    const lower = word.toLowerCase();
+    // Check both lemma and raw word (lemmatizer may over-strip: "includes" → "includ")
+    const matchesStative = TreeActExtractor.STATIVE_VERB_MAP[lemma] ||
+                           TreeActExtractor.STATIVE_VERB_MAP[lower] ||
+                           Object.keys(TreeActExtractor.STATIVE_VERB_MAP).some(k => lower.startsWith(k));
+    if (!matchesStative) return false;
+    // Must have obj or nmod child (the thing being included/contained)
+    return children.some(c => c.label === 'obj' || c.label === 'nmod');
+  }
+
+  /**
+   * Handle non-copular stative verb: "The group includes five members"
+   */
+  _handleStativeVerb(depTree, verbId, children) {
+    const word = depTree.tokens[verbId - 1];
+    const tag = depTree.tags[verbId - 1];
+    const lemma = this._lemmatize(word, tag);
+    const lower = word.toLowerCase();
+    const matchedKey = Object.keys(TreeActExtractor.STATIVE_VERB_MAP).find(k =>
+      lemma === k || lower === k || lower.startsWith(k)
+    );
+    const relation = matchedKey ? TreeActExtractor.STATIVE_VERB_MAP[matchedKey] : null;
+
+    const subjectChild = children.find(c => c.label === 'nsubj' || c.label === 'nsubj:pass');
+    const objectChild = children.find(c => c.label === 'obj') || children.find(c => c.label === 'nmod');
+
+    if (!subjectChild) return null;
+
+    const subjectSubtree = depTree.getEntitySubtree(subjectChild.dependent);
+    let objectText = null;
+    let objectId = null;
+    if (objectChild) {
+      const objectSubtree = depTree.getEntitySubtree(objectChild.dependent);
+      objectText = objectSubtree.tokens.join(' ');
+      objectId = objectChild.dependent;
+    }
+
+    return {
+      type: 'stative_verb',
+      pattern: 'stative_relation',
+      subject: subjectSubtree.tokens.join(' '),
+      object: objectText,
+      copula: word,
+      negated: this._detectNegation(children),
+      relation: relation,
+      predicateId: verbId,
+      subjectId: subjectChild.dependent,
+      objectId: objectId,
+      predicateText: lemma,
+      predicateTag: tag,
+    };
+  }
+
+  static get EVIDENTIAL_VERBS() {
+    return new Set(['seem', 'appear', 'look', 'sound', 'feel', 'taste', 'smell']);
+  }
+
+  /**
+   * Check if a verb is an evidential copula ("She seems tired").
+   * Pattern 5: root is perception verb + xcomp adjective.
+   */
+  _isEvidentialCopula(word, tag, children, depTree) {
+    const lemma = this._lemmatize(word, tag);
+    if (!TreeActExtractor.EVIDENTIAL_VERBS.has(lemma)) return false;
+    if (!VERB_TAGS.has(tag)) return false;
+    // Must have xcomp child that is an adjective
+    const xcompChild = children.find(c => c.label === 'xcomp');
+    if (!xcompChild) return false;
+    const xcompTag = depTree.tags[xcompChild.dependent - 1];
+    return xcompTag === 'JJ' || xcompTag === 'JJR' || xcompTag === 'JJS';
+  }
+
+  /**
+   * Handle evidential copula: "She seems tired"
+   * Returns a StructuralAssertion with evidential metadata.
+   */
+  _handleEvidentialCopula(depTree, verbId, children) {
+    const xcompChild = children.find(c => c.label === 'xcomp');
+    if (!xcompChild) return null;
+
+    const subjectChild = children.find(c => c.label === 'nsubj' || c.label === 'nsubj:pass');
+    if (!subjectChild) return null;
+
+    const subjectSubtree = depTree.getEntitySubtree(subjectChild.dependent);
+    const qualityWord = depTree.tokens[xcompChild.dependent - 1];
+    const evidentialLemma = this._lemmatize(depTree.tokens[verbId - 1], depTree.tags[verbId - 1]);
+
+    return {
+      type: 'evidential_copular',
+      pattern: 'quality_assertion',
+      subject: subjectSubtree.tokens.join(' '),
+      object: null,
+      copula: depTree.tokens[verbId - 1],
+      negated: this._detectNegation(children),
+      relation: null,
+      predicateId: xcompChild.dependent,
+      subjectId: subjectChild.dependent,
+      predicateText: qualityWord,
+      predicateTag: depTree.tags[xcompChild.dependent - 1],
+      evidentialMarker: evidentialLemma,
     };
   }
 
@@ -325490,18 +325681,108 @@ class SemanticGraphBuilder {
       }
 
       // Convert structural assertions to JSON-LD nodes
+      // Layer 4a: Adjectival and evidential copulars → QualityAssertion + bfo:Quality
+      const _ADJ_TAGS = new Set(['JJ', 'JJR', 'JJS']);
       for (const sa of structuralAssertions) {
-        const assertionNode = {
-          '@id': `${this.options.namespace}:Assertion_${this._sanitizeId(sa.subject || 'unknown')}`,
-          '@type': [sa.negated ? 'tagteam:NegatedStructuralAssertion' : 'tagteam:StructuralAssertion'],
-          'tagteam:subject': sa.subject,
-          'tagteam:pattern': sa.pattern,
-        };
-        if (sa.relation) assertionNode['tagteam:relation'] = sa.relation;
-        if (sa.object) assertionNode['tagteam:object'] = sa.object;
-        if (sa.copula) assertionNode['tagteam:copula'] = sa.copula;
-        if (sa.negated) assertionNode['tagteam:negated'] = true;
-        graphNodes.push(assertionNode);
+        const isAdjectivalCopular = sa.predicateTag && _ADJ_TAGS.has(sa.predicateTag) && sa.type === 'copular';
+        const isEvidentialCopular = sa.type === 'evidential_copular';
+        const isPossessiveQuality = sa.pattern === 'quality_assertion' && sa.type === 'possessive';
+
+        if (isAdjectivalCopular || isEvidentialCopular || isPossessiveQuality) {
+          // ─�� QualityAssertion (Tier 1) + Quality (Tier 2) ──
+          const qualityWord = (sa.predicateText || '').toLowerCase();
+          const qaId = `${this.options.namespace}:QualityAssertion_${this._sanitizeId(qualityWord)}_${this._hashText((sa.subject || '') + qualityWord).substring(0, 8)}`;
+          const qualityId = `${this.options.namespace}:Quality_${this._sanitizeId(qualityWord)}_${this._hashText((sa.subject || '') + qualityWord).substring(0, 8)}`;
+
+          const qaNode = {
+            '@id': qaId,
+            '@type': ['tagteam:QualityAssertion', 'tagteam:StructuralAssertion'],
+            'rdfs:label': `Quality assertion: ${sa.subject || ''} \u2192 ${qualityWord}`,
+            'tagteam:assertedQuality': qualityWord,
+            'tagteam:assertionSubject': sa.subject,
+            'tagteam:pattern': 'quality_assertion',
+            'is_about': { '@id': qualityId },
+          };
+          if (sa.copula) qaNode['tagteam:copulaLemma'] = sa.copula;
+          if (sa.negated) qaNode['tagteam:negated'] = true;
+          if (sa.evidentialMarker) {
+            qaNode['tagteam:evidentialMarker'] = sa.evidentialMarker;
+            qaNode['tagteam:epistemicStatus'] = { '@id': 'tagteam:Observational' };
+          }
+          graphNodes.push(qaNode);
+
+          const qualityNode = {
+            '@id': qualityId,
+            '@type': ['bfo:BFO_0000019', 'owl:NamedIndividual'],
+            'rdfs:label': qualityWord,
+            'tagteam:qualityType': qualityWord,
+            'tagteam:grounding': null,
+            'tagteam:observedAt': this.buildTimestamp,
+          };
+          if (sa.evidentialMarker) {
+            qualityNode['tagteam:epistemicStatus'] = { '@id': 'tagteam:Observational' };
+          }
+          // kindLevel: check if the subject entity is generic (bare plural, universal)
+          if (sa.subject) {
+            // Find the subject entity node — at this point in the pipeline,
+            // entity nodes still have original @type (before Tier 1 sweep)
+            const subjectReferent = graphNodes.find(n => {
+              if (!n['rdfs:label']) return false;
+              return (n['rdfs:label']).toLowerCase() === sa.subject.toLowerCase() &&
+                     n['tagteam:genericityCategory']; // only match nodes with genericity info
+            });
+            if (subjectReferent) {
+              const genCat = subjectReferent['tagteam:genericityCategory'];
+              if (genCat === 'GEN' || genCat === 'UNIV' || genCat === 'KIND') {
+                qualityNode['tagteam:kindLevel'] = true;
+              }
+            }
+          }
+          // inheres_in bearer resolved after Tier 2 creation
+          qualityNode['_bearerText'] = sa.subject;
+          graphNodes.push(qualityNode);
+
+        } else if (sa.type === 'copular' && sa.pattern === 'predication' && sa.predicateTag &&
+                   !_ADJ_TAGS.has(sa.predicateTag) && !sa.relation) {
+          // ── Nominal copular → RoleAssertion + bfo:Role ──
+          // "The child is a student" → student is a Role that inheres_in child
+          const roleWord = (sa.predicateText || '').toLowerCase();
+          const roleId = `${this.options.namespace}:Role_${this._sanitizeId(roleWord)}_${this._hashText((sa.subject || '') + roleWord).substring(0, 8)}`;
+
+          const roleAssertionNode = {
+            '@id': `${this.options.namespace}:RoleAssertion_${this._sanitizeId(roleWord)}_${this._hashText((sa.subject || '') + roleWord).substring(0, 8)}`,
+            '@type': ['tagteam:RoleAssertion', 'tagteam:StructuralAssertion'],
+            'rdfs:label': `Role assertion: ${sa.subject || ''} \u2192 ${roleWord}`,
+            'tagteam:assertionSubject': sa.subject,
+            'tagteam:pattern': 'role_assertion',
+            'is_about': { '@id': roleId },
+          };
+          if (sa.copula) roleAssertionNode['tagteam:copulaLemma'] = sa.copula;
+          graphNodes.push(roleAssertionNode);
+
+          const roleNode = {
+            '@id': roleId,
+            '@type': ['bfo:BFO_0000023', 'owl:NamedIndividual'],
+            'rdfs:label': roleWord,
+            'tagteam:roleType': roleWord,
+          };
+          roleNode['_bearerText'] = sa.subject;
+          graphNodes.push(roleNode);
+
+        } else {
+          // ── Standard StructuralAssertion ──
+          const assertionNode = {
+            '@id': `${this.options.namespace}:Assertion_${this._sanitizeId(sa.subject || 'unknown')}`,
+            '@type': [sa.negated ? 'tagteam:NegatedStructuralAssertion' : 'tagteam:StructuralAssertion'],
+            'tagteam:subject': sa.subject,
+            'tagteam:pattern': sa.pattern,
+          };
+          if (sa.relation) assertionNode['tagteam:relation'] = sa.relation;
+          if (sa.object) assertionNode['tagteam:object'] = sa.object;
+          if (sa.copula) assertionNode['tagteam:copula'] = sa.copula;
+          if (sa.negated) assertionNode['tagteam:negated'] = true;
+          graphNodes.push(assertionNode);
+        }
       }
 
       // Convert roles to JSON-LD nodes
@@ -325543,7 +325824,7 @@ class SemanticGraphBuilder {
             x.includes('Directive') || x.includes('PlanSpec') ||
             x.includes('Obligation') || x.includes('Permission') ||
             x.includes('Prohibition') || x.includes('Intention') ||
-            x.includes('VerbPhrase')
+            x.includes('VerbPhrase') || x.includes('BFO_0000019') || x.includes('BFO_0000023') // bfo:Quality, bfo:Role
           );
         });
 
@@ -325625,6 +325906,17 @@ class SemanticGraphBuilder {
             }
           }
 
+          // Resolve Quality/Role bearer (inheres_in) from stored _bearerText
+          if (types.includes('bfo:BFO_0000019') || types.includes('bfo:BFO_0000023')) {
+            if (node['_bearerText']) {
+              const t2 = this._findTier2ByLabel(graphNodes, node['_bearerText']);
+              if (t2) {
+                node['bfo:BFO_0000052'] = { '@id': t2['@id'] };
+                node['inheres_in'] = { '@id': t2['@id'] };
+              }
+              delete node['_bearerText'];
+            }
+          }
         }
 
         // ── RDM: Propagate agent/patient across conjunct PlanSpecs ──
@@ -326496,6 +326788,14 @@ class SemanticGraphBuilder {
         }
       }
 
+      // Attach @context so buildGraph() returns a complete JSON-LD document.
+      // Downstream consumers (jsonld.js, SPARQL, RDF parsers) need @context
+      // to resolve compact terms like "prescribes", "inheres_in" to full IRIs.
+      if (!graph['@context']) {
+        var serializer = new JSONLDSerializer();
+        graph['@context'] = serializer._buildContext();
+      }
+
       return graph;
     },
 
@@ -326575,7 +326875,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 278 | 392f4d1 | 2026-03-27T14:04:34.227Z',
+    BUILD: 'build 282 | 92a06ab | 2026-03-28T09:16:12.369Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,

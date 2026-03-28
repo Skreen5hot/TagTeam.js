@@ -2155,18 +2155,108 @@ class SemanticGraphBuilder {
       }
 
       // Convert structural assertions to JSON-LD nodes
+      // Layer 4a: Adjectival and evidential copulars → QualityAssertion + bfo:Quality
+      const _ADJ_TAGS = new Set(['JJ', 'JJR', 'JJS']);
       for (const sa of structuralAssertions) {
-        const assertionNode = {
-          '@id': `${this.options.namespace}:Assertion_${this._sanitizeId(sa.subject || 'unknown')}`,
-          '@type': [sa.negated ? 'tagteam:NegatedStructuralAssertion' : 'tagteam:StructuralAssertion'],
-          'tagteam:subject': sa.subject,
-          'tagteam:pattern': sa.pattern,
-        };
-        if (sa.relation) assertionNode['tagteam:relation'] = sa.relation;
-        if (sa.object) assertionNode['tagteam:object'] = sa.object;
-        if (sa.copula) assertionNode['tagteam:copula'] = sa.copula;
-        if (sa.negated) assertionNode['tagteam:negated'] = true;
-        graphNodes.push(assertionNode);
+        const isAdjectivalCopular = sa.predicateTag && _ADJ_TAGS.has(sa.predicateTag) && sa.type === 'copular';
+        const isEvidentialCopular = sa.type === 'evidential_copular';
+        const isPossessiveQuality = sa.pattern === 'quality_assertion' && sa.type === 'possessive';
+
+        if (isAdjectivalCopular || isEvidentialCopular || isPossessiveQuality) {
+          // ─�� QualityAssertion (Tier 1) + Quality (Tier 2) ──
+          const qualityWord = (sa.predicateText || '').toLowerCase();
+          const qaId = `${this.options.namespace}:QualityAssertion_${this._sanitizeId(qualityWord)}_${this._hashText((sa.subject || '') + qualityWord).substring(0, 8)}`;
+          const qualityId = `${this.options.namespace}:Quality_${this._sanitizeId(qualityWord)}_${this._hashText((sa.subject || '') + qualityWord).substring(0, 8)}`;
+
+          const qaNode = {
+            '@id': qaId,
+            '@type': ['tagteam:QualityAssertion', 'tagteam:StructuralAssertion'],
+            'rdfs:label': `Quality assertion: ${sa.subject || ''} \u2192 ${qualityWord}`,
+            'tagteam:assertedQuality': qualityWord,
+            'tagteam:assertionSubject': sa.subject,
+            'tagteam:pattern': 'quality_assertion',
+            'is_about': { '@id': qualityId },
+          };
+          if (sa.copula) qaNode['tagteam:copulaLemma'] = sa.copula;
+          if (sa.negated) qaNode['tagteam:negated'] = true;
+          if (sa.evidentialMarker) {
+            qaNode['tagteam:evidentialMarker'] = sa.evidentialMarker;
+            qaNode['tagteam:epistemicStatus'] = { '@id': 'tagteam:Observational' };
+          }
+          graphNodes.push(qaNode);
+
+          const qualityNode = {
+            '@id': qualityId,
+            '@type': ['bfo:BFO_0000019', 'owl:NamedIndividual'],
+            'rdfs:label': qualityWord,
+            'tagteam:qualityType': qualityWord,
+            'tagteam:grounding': null,
+            'tagteam:observedAt': this.buildTimestamp,
+          };
+          if (sa.evidentialMarker) {
+            qualityNode['tagteam:epistemicStatus'] = { '@id': 'tagteam:Observational' };
+          }
+          // kindLevel: check if the subject entity is generic (bare plural, universal)
+          if (sa.subject) {
+            // Find the subject entity node — at this point in the pipeline,
+            // entity nodes still have original @type (before Tier 1 sweep)
+            const subjectReferent = graphNodes.find(n => {
+              if (!n['rdfs:label']) return false;
+              return (n['rdfs:label']).toLowerCase() === sa.subject.toLowerCase() &&
+                     n['tagteam:genericityCategory']; // only match nodes with genericity info
+            });
+            if (subjectReferent) {
+              const genCat = subjectReferent['tagteam:genericityCategory'];
+              if (genCat === 'GEN' || genCat === 'UNIV' || genCat === 'KIND') {
+                qualityNode['tagteam:kindLevel'] = true;
+              }
+            }
+          }
+          // inheres_in bearer resolved after Tier 2 creation
+          qualityNode['_bearerText'] = sa.subject;
+          graphNodes.push(qualityNode);
+
+        } else if (sa.type === 'copular' && sa.pattern === 'predication' && sa.predicateTag &&
+                   !_ADJ_TAGS.has(sa.predicateTag) && !sa.relation) {
+          // ── Nominal copular → RoleAssertion + bfo:Role ──
+          // "The child is a student" → student is a Role that inheres_in child
+          const roleWord = (sa.predicateText || '').toLowerCase();
+          const roleId = `${this.options.namespace}:Role_${this._sanitizeId(roleWord)}_${this._hashText((sa.subject || '') + roleWord).substring(0, 8)}`;
+
+          const roleAssertionNode = {
+            '@id': `${this.options.namespace}:RoleAssertion_${this._sanitizeId(roleWord)}_${this._hashText((sa.subject || '') + roleWord).substring(0, 8)}`,
+            '@type': ['tagteam:RoleAssertion', 'tagteam:StructuralAssertion'],
+            'rdfs:label': `Role assertion: ${sa.subject || ''} \u2192 ${roleWord}`,
+            'tagteam:assertionSubject': sa.subject,
+            'tagteam:pattern': 'role_assertion',
+            'is_about': { '@id': roleId },
+          };
+          if (sa.copula) roleAssertionNode['tagteam:copulaLemma'] = sa.copula;
+          graphNodes.push(roleAssertionNode);
+
+          const roleNode = {
+            '@id': roleId,
+            '@type': ['bfo:BFO_0000023', 'owl:NamedIndividual'],
+            'rdfs:label': roleWord,
+            'tagteam:roleType': roleWord,
+          };
+          roleNode['_bearerText'] = sa.subject;
+          graphNodes.push(roleNode);
+
+        } else {
+          // ── Standard StructuralAssertion ──
+          const assertionNode = {
+            '@id': `${this.options.namespace}:Assertion_${this._sanitizeId(sa.subject || 'unknown')}`,
+            '@type': [sa.negated ? 'tagteam:NegatedStructuralAssertion' : 'tagteam:StructuralAssertion'],
+            'tagteam:subject': sa.subject,
+            'tagteam:pattern': sa.pattern,
+          };
+          if (sa.relation) assertionNode['tagteam:relation'] = sa.relation;
+          if (sa.object) assertionNode['tagteam:object'] = sa.object;
+          if (sa.copula) assertionNode['tagteam:copula'] = sa.copula;
+          if (sa.negated) assertionNode['tagteam:negated'] = true;
+          graphNodes.push(assertionNode);
+        }
       }
 
       // Convert roles to JSON-LD nodes
@@ -2208,7 +2298,7 @@ class SemanticGraphBuilder {
             x.includes('Directive') || x.includes('PlanSpec') ||
             x.includes('Obligation') || x.includes('Permission') ||
             x.includes('Prohibition') || x.includes('Intention') ||
-            x.includes('VerbPhrase')
+            x.includes('VerbPhrase') || x.includes('BFO_0000019') || x.includes('BFO_0000023') // bfo:Quality, bfo:Role
           );
         });
 
@@ -2290,6 +2380,17 @@ class SemanticGraphBuilder {
             }
           }
 
+          // Resolve Quality/Role bearer (inheres_in) from stored _bearerText
+          if (types.includes('bfo:BFO_0000019') || types.includes('bfo:BFO_0000023')) {
+            if (node['_bearerText']) {
+              const t2 = this._findTier2ByLabel(graphNodes, node['_bearerText']);
+              if (t2) {
+                node['bfo:BFO_0000052'] = { '@id': t2['@id'] };
+                node['inheres_in'] = { '@id': t2['@id'] };
+              }
+              delete node['_bearerText'];
+            }
+          }
         }
 
         // ── RDM: Propagate agent/patient across conjunct PlanSpecs ──
