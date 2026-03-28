@@ -322368,6 +322368,10 @@ class TreeActExtractor {
         // Evidential copula: "She seems tired" — perception verb + xcomp adjective
         const assertion = this._handleEvidentialCopula(depTree, rootId, children);
         if (assertion) structuralAssertions.push(assertion);
+      } else if (this._isStativeVerb(rootWord, rootTag, children)) {
+        // Non-copular stative verb: "include", "contain", "comprise"
+        const assertion = this._handleStativeVerb(depTree, rootId, children);
+        if (assertion) structuralAssertions.push(assertion);
       } else {
         // Check for multi-word modal: root is "have"/"need"/"ought" with xcomp child
         const multiWordResult = this._checkMultiWordModal(depTree, rootId, children);
@@ -322729,6 +322733,85 @@ class TreeActExtractor {
   /**
    * Evidential/perception copula verbs.
    */
+  /**
+   * Non-copular stative verbs that denote relations, not acts.
+   * Maps verb lemma → ontological relation.
+   */
+  static get STATIVE_VERB_MAP() {
+    return {
+      'include': 'has_member_part',
+      'contain': 'has_continuant_part',
+      'comprise': 'has_member_part',
+      'consist': 'has_continuant_part',
+      'encompass': 'has_continuant_part',
+    };
+  }
+
+  /**
+   * Check if a verb is a non-copular stative verb.
+   */
+  _isStativeVerb(word, tag, children) {
+    if (!VERB_TAGS.has(tag)) return false;
+    // Modal verbs override stative: "must include" → RDM path, not stative
+    const hasModal = children.some(c => c.label === 'aux' && c.word && c.word.toUpperCase() !== c.word);
+    if (hasModal) {
+      const modalChild = children.find(c => c.label === 'aux');
+      if (modalChild && MODAL_TABLE[modalChild.word.toLowerCase()]) return false;
+    }
+    const lemma = this._lemmatize(word, tag);
+    const lower = word.toLowerCase();
+    // Check both lemma and raw word (lemmatizer may over-strip: "includes" → "includ")
+    const matchesStative = TreeActExtractor.STATIVE_VERB_MAP[lemma] ||
+                           TreeActExtractor.STATIVE_VERB_MAP[lower] ||
+                           Object.keys(TreeActExtractor.STATIVE_VERB_MAP).some(k => lower.startsWith(k));
+    if (!matchesStative) return false;
+    // Must have obj or nmod child (the thing being included/contained)
+    return children.some(c => c.label === 'obj' || c.label === 'nmod');
+  }
+
+  /**
+   * Handle non-copular stative verb: "The group includes five members"
+   */
+  _handleStativeVerb(depTree, verbId, children) {
+    const word = depTree.tokens[verbId - 1];
+    const tag = depTree.tags[verbId - 1];
+    const lemma = this._lemmatize(word, tag);
+    const lower = word.toLowerCase();
+    const matchedKey = Object.keys(TreeActExtractor.STATIVE_VERB_MAP).find(k =>
+      lemma === k || lower === k || lower.startsWith(k)
+    );
+    const relation = matchedKey ? TreeActExtractor.STATIVE_VERB_MAP[matchedKey] : null;
+
+    const subjectChild = children.find(c => c.label === 'nsubj' || c.label === 'nsubj:pass');
+    const objectChild = children.find(c => c.label === 'obj') || children.find(c => c.label === 'nmod');
+
+    if (!subjectChild) return null;
+
+    const subjectSubtree = depTree.getEntitySubtree(subjectChild.dependent);
+    let objectText = null;
+    let objectId = null;
+    if (objectChild) {
+      const objectSubtree = depTree.getEntitySubtree(objectChild.dependent);
+      objectText = objectSubtree.tokens.join(' ');
+      objectId = objectChild.dependent;
+    }
+
+    return {
+      type: 'stative_verb',
+      pattern: 'stative_relation',
+      subject: subjectSubtree.tokens.join(' '),
+      object: objectText,
+      copula: word,
+      negated: this._detectNegation(children),
+      relation: relation,
+      predicateId: verbId,
+      subjectId: subjectChild.dependent,
+      objectId: objectId,
+      predicateText: lemma,
+      predicateTag: tag,
+    };
+  }
+
   static get EVIDENTIAL_VERBS() {
     return new Set(['seem', 'appear', 'look', 'sound', 'feel', 'taste', 'smell']);
   }
@@ -326792,7 +326875,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 282 | 872c055 | 2026-03-28T09:06:35.885Z',
+    BUILD: 'build 282 | 92a06ab | 2026-03-28T09:18:01.976Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
