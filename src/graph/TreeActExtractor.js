@@ -184,6 +184,10 @@ class TreeActExtractor {
           act.pattern = 'possessive';
           acts.push(act);
         }
+      } else if (this._isEvidentialCopula(rootWord, rootTag, children, depTree)) {
+        // Evidential copula: "She seems tired" — perception verb + xcomp adjective
+        const assertion = this._handleEvidentialCopula(depTree, rootId, children);
+        if (assertion) structuralAssertions.push(assertion);
       } else {
         // Check for multi-word modal: root is "have"/"need"/"ought" with xcomp child
         const multiWordResult = this._checkMultiWordModal(depTree, rootId, children);
@@ -445,6 +449,7 @@ class TreeActExtractor {
       subjectId: subjectChild.dependent,
       objectId,
       predicateText: predicateWord,
+      predicateTag,
     };
   }
 
@@ -511,6 +516,59 @@ class TreeActExtractor {
       relation: 'has_possession',
       subjectId: subjectChild.dependent,
       objectId: objectChild.dependent,
+    };
+  }
+
+  /**
+   * Evidential/perception copula verbs.
+   */
+  static get EVIDENTIAL_VERBS() {
+    return new Set(['seem', 'appear', 'look', 'sound', 'feel', 'taste', 'smell']);
+  }
+
+  /**
+   * Check if a verb is an evidential copula ("She seems tired").
+   * Pattern 5: root is perception verb + xcomp adjective.
+   */
+  _isEvidentialCopula(word, tag, children, depTree) {
+    const lemma = this._lemmatize(word, tag);
+    if (!TreeActExtractor.EVIDENTIAL_VERBS.has(lemma)) return false;
+    if (!VERB_TAGS.has(tag)) return false;
+    // Must have xcomp child that is an adjective
+    const xcompChild = children.find(c => c.label === 'xcomp');
+    if (!xcompChild) return false;
+    const xcompTag = depTree.tags[xcompChild.dependent - 1];
+    return xcompTag === 'JJ' || xcompTag === 'JJR' || xcompTag === 'JJS';
+  }
+
+  /**
+   * Handle evidential copula: "She seems tired"
+   * Returns a StructuralAssertion with evidential metadata.
+   */
+  _handleEvidentialCopula(depTree, verbId, children) {
+    const xcompChild = children.find(c => c.label === 'xcomp');
+    if (!xcompChild) return null;
+
+    const subjectChild = children.find(c => c.label === 'nsubj' || c.label === 'nsubj:pass');
+    if (!subjectChild) return null;
+
+    const subjectSubtree = depTree.getEntitySubtree(subjectChild.dependent);
+    const qualityWord = depTree.tokens[xcompChild.dependent - 1];
+    const evidentialLemma = this._lemmatize(depTree.tokens[verbId - 1], depTree.tags[verbId - 1]);
+
+    return {
+      type: 'evidential_copular',
+      pattern: 'quality_assertion',
+      subject: subjectSubtree.tokens.join(' '),
+      object: null,
+      copula: depTree.tokens[verbId - 1],
+      negated: this._detectNegation(children),
+      relation: null,
+      predicateId: xcompChild.dependent,
+      subjectId: subjectChild.dependent,
+      predicateText: qualityWord,
+      predicateTag: depTree.tags[xcompChild.dependent - 1],
+      evidentialMarker: evidentialLemma,
     };
   }
 
