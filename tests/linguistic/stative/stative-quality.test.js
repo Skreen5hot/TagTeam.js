@@ -145,6 +145,63 @@ describe('Pattern 5: Evidential Copular', function() {
 });
 
 // ═══════════════════════════════════════════════════════════════
+// Pattern 3: Possessive Stative + Event-Noun Blacklist
+// ═══════════════════════════════════════════════════════════════
+
+describe('Pattern 3: Possessive Stative', function() {
+
+  test('AC-STA-10: "Dogs have fur" → QualityAssertion with assertedQuality "fur"', () => {
+    const graph = parseToGraph('Dogs have fur.', TREE_OPTS);
+    const qa = findQualityAssertion(graph, 'fur');
+    expect(qa).toBeTruthy();
+    expect(qa['tagteam:assertedQuality']).toBe('fur');
+  });
+
+  test('AC-STA-11: "Dogs have fur" → Quality with kindLevel true', () => {
+    const graph = parseToGraph('Dogs have fur.', TREE_OPTS);
+    const q = findQualityNode(graph, 'fur');
+    expect(q).toBeTruthy();
+    // kindLevel should be true for bare plural generic subject
+    expect(q['tagteam:kindLevel']).toBe(true);
+  });
+
+  test('AC-STA-12: "Dogs have fur" → no IntentionalAct, no AgentRole', () => {
+    const graph = parseToGraph('Dogs have fur.', TREE_OPTS);
+    // No ghost IntentionalAct for "have"
+    expect(hasNoGhostAct(graph, 'have')).toBeTruthy();
+    // No AgentRole
+    const roles = (graph['@graph'] || []).filter(n =>
+      [].concat(n['@type'] || []).includes('Role') &&
+      (n['tagteam:roleType'] === 'AgentRole' || n['rdfs:label'] === 'AgentRole')
+    );
+    expect(roles.length).toBe(0);
+  });
+
+  test('AC-STA-13: "The committee has a meeting" → IntentionalAct (event-noun)', () => {
+    const graph = parseToGraph('The committee has a meeting.', TREE_OPTS);
+    // "meeting" is an event-noun — should NOT be stative
+    const act = semantic.findNode(graph, n => {
+      const types = [].concat(n['@type'] || []);
+      return types.includes('IntentionalAct') && !(n['@id'] || '').includes('ParsingAct');
+    });
+    expect(act).toBeTruthy();
+  });
+
+  test('AC-STA-29: "He has to submit the form" → RDM path (not stative)', () => {
+    const graph = parseToGraph('He has to submit the form.', TREE_OPTS);
+    // Should route to RDM, not stative
+    const dice = semantic.findNode(graph, n =>
+      [].concat(n['@type'] || []).some(t => t.includes('DirectiveInformationContentEntity'))
+    );
+    expect(dice).toBeTruthy();
+    // No QualityAssertion
+    const qa = findQualityAssertion(graph, null);
+    expect(qa).toBeFalsy();
+  });
+
+});
+
+// ═══════════════════════════════════════════════════════════════
 // Non-Regression
 // ═══════════════════════════════════════════════════════════════
 

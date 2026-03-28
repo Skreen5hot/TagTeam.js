@@ -324,6 +324,18 @@ class JSONLDSerializer {
       realizedAt:                 { '@id': 'tagteam:realizedAt',                 '@type': 'xsd:dateTime' },
       violatedAt:                 { '@id': 'tagteam:violatedAt',                 '@type': 'xsd:dateTime' },
       violationEvidence:          { '@id': 'tagteam:violationEvidence',          '@type': '@id' },
+
+      // ─────── SMA: Stative Quality Properties ───────
+      assertedQuality:            { '@id': 'tagteam:assertedQuality' },
+      qualityType:                { '@id': 'tagteam:qualityType' },
+      grounding:                  { '@id': 'tagteam:grounding',                  '@type': '@id' },
+      kindLevel:                  { '@id': 'tagteam:kindLevel',                  '@type': 'xsd:boolean' },
+      observedAt:                 { '@id': 'tagteam:observedAt',                 '@type': 'xsd:dateTime' },
+      evidentialMarker:           { '@id': 'tagteam:evidentialMarker' },
+      copulaLemma:                { '@id': 'tagteam:copulaLemma' },
+      assertionSubject:           { '@id': 'tagteam:assertionSubject' },
+      QualityAssertion:           { '@id': 'tagteam:QualityAssertion' },
+
       scarcityMarker:      { '@id': 'tagteam:scarcityMarker' },
       evidenceText:        { '@id': 'tagteam:evidenceText' },
       classificationLabel: { '@id': 'tagteam:classificationLabel' },

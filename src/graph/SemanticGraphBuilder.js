@@ -2160,8 +2160,9 @@ class SemanticGraphBuilder {
       for (const sa of structuralAssertions) {
         const isAdjectivalCopular = sa.predicateTag && _ADJ_TAGS.has(sa.predicateTag) && sa.type === 'copular';
         const isEvidentialCopular = sa.type === 'evidential_copular';
+        const isPossessiveQuality = sa.pattern === 'quality_assertion' && sa.type === 'possessive';
 
-        if (isAdjectivalCopular || isEvidentialCopular) {
+        if (isAdjectivalCopular || isEvidentialCopular || isPossessiveQuality) {
           // ─�� QualityAssertion (Tier 1) + Quality (Tier 2) ──
           const qualityWord = (sa.predicateText || '').toLowerCase();
           const qaId = `${this.options.namespace}:QualityAssertion_${this._sanitizeId(qualityWord)}_${this._hashText((sa.subject || '') + qualityWord).substring(0, 8)}`;
@@ -2194,6 +2195,22 @@ class SemanticGraphBuilder {
           };
           if (sa.evidentialMarker) {
             qualityNode['tagteam:epistemicStatus'] = { '@id': 'tagteam:Observational' };
+          }
+          // kindLevel: check if the subject entity is generic (bare plural, universal)
+          if (sa.subject) {
+            // Find the subject entity node — at this point in the pipeline,
+            // entity nodes still have original @type (before Tier 1 sweep)
+            const subjectReferent = graphNodes.find(n => {
+              if (!n['rdfs:label']) return false;
+              return (n['rdfs:label']).toLowerCase() === sa.subject.toLowerCase() &&
+                     n['tagteam:genericityCategory']; // only match nodes with genericity info
+            });
+            if (subjectReferent) {
+              const genCat = subjectReferent['tagteam:genericityCategory'];
+              if (genCat === 'GEN' || genCat === 'UNIV' || genCat === 'KIND') {
+                qualityNode['tagteam:kindLevel'] = true;
+              }
+            }
           }
           // inheres_in bearer resolved after Tier 2 creation
           qualityNode['_bearerText'] = sa.subject;

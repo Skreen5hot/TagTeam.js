@@ -173,17 +173,22 @@ class TreeActExtractor {
         // Existential: "There is X" — root is the verb "is" with expl "There"
         const assertion = this._handleExistential(depTree, rootId, children);
         if (assertion) structuralAssertions.push(assertion);
-      } else if (this._isPossessive(rootWord, rootTag, children)) {
-        // Possessive: "X has Y" — verb lemma "have" + obj, no aux
+      } else if (this._isPossessive(rootWord, rootTag, children, depTree)) {
+        // Possessive stative: "X has Y" — emit only StructuralAssertion, no IntentionalAct
+        // Tag as quality_assertion for SGB to upgrade to QualityAssertion + Quality
         const assertion = this._handlePossessive(depTree, rootId, children);
-        if (assertion) structuralAssertions.push(assertion);
-        // Also create an act for "has"
-        const act = this._buildAct(depTree, rootId, children);
-        if (act) {
-          act.type = 'possessive';
-          act.pattern = 'possessive';
-          acts.push(act);
+        if (assertion) {
+          assertion.pattern = 'quality_assertion';
+          assertion.predicateTag = 'NN'; // object is a noun (quality/part)
+          // Get the object word for quality extraction
+          const objChild = children.find(c => c.label === 'obj');
+          if (objChild) {
+            assertion.predicateText = depTree.tokens[objChild.dependent - 1];
+            assertion.predicateTag = depTree.tags[objChild.dependent - 1];
+          }
+          structuralAssertions.push(assertion);
         }
+        // NO _buildAct() — suppresses ghost IntentionalAct
       } else if (this._isEvidentialCopula(rootWord, rootTag, children, depTree)) {
         // Evidential copula: "She seems tired" — perception verb + xcomp adjective
         const assertion = this._handleEvidentialCopula(depTree, rootId, children);
@@ -485,13 +490,39 @@ class TreeActExtractor {
    * Check if a verb is a possessive construction.
    * Possessive = verb lemma "have" + obj child + no aux child.
    */
-  _isPossessive(word, tag, children) {
+  /**
+   * Event-noun blacklist: nouns that denote events, not things.
+   * "The committee has a meeting" → NOT stative (event-noun).
+   */
+  static get EVENT_NOUN_BLACKLIST() {
+    return new Set([
+      'meeting', 'surgery', 'flight', 'appointment', 'conference',
+      'session', 'trial', 'hearing', 'examination', 'interview',
+      'wedding', 'funeral', 'party', 'ceremony', 'celebration',
+      'game', 'match', 'race', 'competition', 'concert', 'performance',
+      'lesson', 'class', 'lecture', 'seminar', 'workshop',
+      'trip', 'journey', 'vacation', 'tour', 'visit',
+      'conversation', 'discussion', 'debate', 'argument', 'fight',
+      'operation', 'procedure', 'transaction', 'deal', 'negotiation'
+    ]);
+  }
+
+  _isPossessive(word, tag, children, depTree) {
     const lemma = this._lemmatize(word, tag);
     if (lemma !== 'have') return false;
 
-    const hasObj = children.some(c => c.label === 'obj');
+    const objChild = children.find(c => c.label === 'obj');
+    if (!objChild) return false;
     const hasAux = children.some(c => c.label === 'aux' || c.label === 'aux:pass');
-    return hasObj && !hasAux;
+    if (hasAux) return false;
+
+    // Event-noun check: if the object is an event noun, this is NOT possessive stative
+    if (depTree) {
+      const objLemma = this._lemmatize(depTree.tokens[objChild.dependent - 1], depTree.tags[objChild.dependent - 1]);
+      if (TreeActExtractor.EVENT_NOUN_BLACKLIST.has(objLemma)) return false;
+    }
+
+    return true;
   }
 
   /**
