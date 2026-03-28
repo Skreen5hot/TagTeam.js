@@ -2216,6 +2216,33 @@ class SemanticGraphBuilder {
           qualityNode['_bearerText'] = sa.subject;
           graphNodes.push(qualityNode);
 
+        } else if (sa.type === 'copular' && sa.pattern === 'predication' && sa.predicateTag &&
+                   !_ADJ_TAGS.has(sa.predicateTag) && !sa.relation) {
+          // ── Nominal copular → RoleAssertion + bfo:Role ──
+          // "The child is a student" → student is a Role that inheres_in child
+          const roleWord = (sa.predicateText || '').toLowerCase();
+          const roleId = `${this.options.namespace}:Role_${this._sanitizeId(roleWord)}_${this._hashText((sa.subject || '') + roleWord).substring(0, 8)}`;
+
+          const roleAssertionNode = {
+            '@id': `${this.options.namespace}:RoleAssertion_${this._sanitizeId(roleWord)}_${this._hashText((sa.subject || '') + roleWord).substring(0, 8)}`,
+            '@type': ['tagteam:RoleAssertion', 'tagteam:StructuralAssertion'],
+            'rdfs:label': `Role assertion: ${sa.subject || ''} \u2192 ${roleWord}`,
+            'tagteam:assertionSubject': sa.subject,
+            'tagteam:pattern': 'role_assertion',
+            'is_about': { '@id': roleId },
+          };
+          if (sa.copula) roleAssertionNode['tagteam:copulaLemma'] = sa.copula;
+          graphNodes.push(roleAssertionNode);
+
+          const roleNode = {
+            '@id': roleId,
+            '@type': ['bfo:BFO_0000023', 'owl:NamedIndividual'],
+            'rdfs:label': roleWord,
+            'tagteam:roleType': roleWord,
+          };
+          roleNode['_bearerText'] = sa.subject;
+          graphNodes.push(roleNode);
+
         } else {
           // ── Standard StructuralAssertion ──
           const assertionNode = {
@@ -2271,7 +2298,7 @@ class SemanticGraphBuilder {
             x.includes('Directive') || x.includes('PlanSpec') ||
             x.includes('Obligation') || x.includes('Permission') ||
             x.includes('Prohibition') || x.includes('Intention') ||
-            x.includes('VerbPhrase') || x.includes('BFO_0000019') // bfo:Quality
+            x.includes('VerbPhrase') || x.includes('BFO_0000019') || x.includes('BFO_0000023') // bfo:Quality, bfo:Role
           );
         });
 
@@ -2353,8 +2380,8 @@ class SemanticGraphBuilder {
             }
           }
 
-          // Resolve Quality bearer (inheres_in) from stored _bearerText
-          if (types.includes('bfo:BFO_0000019')) {
+          // Resolve Quality/Role bearer (inheres_in) from stored _bearerText
+          if (types.includes('bfo:BFO_0000019') || types.includes('bfo:BFO_0000023')) {
             if (node['_bearerText']) {
               const t2 = this._findTier2ByLabel(graphNodes, node['_bearerText']);
               if (t2) {

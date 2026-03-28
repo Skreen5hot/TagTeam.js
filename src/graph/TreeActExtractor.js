@@ -401,7 +401,8 @@ class TreeActExtractor {
     const caseChild = children.find(c => c.label === 'case');
     if (caseChild) {
       const prep = caseChild.word.toLowerCase();
-      if (['in', 'at', 'on', 'near', 'by', 'under', 'above', 'behind'].includes(prep)) {
+      if (['in', 'at', 'on', 'near', 'under', 'above', 'behind'].includes(prep)) {
+        // Note: "by" excluded — too ambiguous (authorship "by the author", agency "by the officer")
         // Locative copular: "X is in Y"
         return {
           type: 'copular',

@@ -202,6 +202,67 @@ describe('Pattern 3: Possessive Stative', function() {
 });
 
 // ═══════════════════════════════════════════════════════════════
+// Pattern 2: Nominal Copular → RoleAssertion
+// ═══════════════════════════════════════════════════════════════
+
+describe('Pattern 2: Nominal Copular', function() {
+
+  test('AC-STA-08: "The child is a student" → Role node (bfo:BFO_0000023)', () => {
+    const graph = parseToGraph('The child is a student.', TREE_OPTS);
+    const role = semantic.findNode(graph, n => {
+      const types = [].concat(n['@type'] || []);
+      return types.some(t => t.includes('BFO_0000023'));
+    });
+    expect(role).toBeTruthy();
+  });
+
+  test('AC-STA-09: Role inheres_in → child Tier 2 entity', () => {
+    const graph = parseToGraph('The child is a student.', TREE_OPTS);
+    const role = semantic.findNode(graph, n => {
+      const types = [].concat(n['@type'] || []);
+      return types.some(t => t.includes('BFO_0000023'));
+    });
+    expect(role).toBeTruthy();
+    const bearerId = resolveId(role['bfo:BFO_0000052']) || resolveId(role['inheres_in']);
+    expect(bearerId).toBeTruthy();
+  });
+
+});
+
+// ═══════════════════════════════════════════════════════════════
+// Pattern 4: Locative Copular
+// ═══════════════════════════════════════════════════════════════
+
+describe('Pattern 4: Locative Copular', function() {
+
+  test('AC-STA-14: "The book is on the table" → StructuralAssertion with locative', () => {
+    const graph = parseToGraph('The book is on the table.', TREE_OPTS);
+    const sa = semantic.findNode(graph, n => {
+      const types = [].concat(n['@type'] || []);
+      return types.some(t => t.includes('StructuralAssertion'));
+    });
+    expect(sa).toBeTruthy();
+    // Should have locative pattern or located_in relation
+    const pattern = sa['tagteam:pattern'] || '';
+    const relation = sa['tagteam:relation'] || '';
+    expect(pattern === 'locative' || relation.includes('located')).toBeTruthy();
+  });
+
+  test('AC-STA-28: "The book is by the author" → NOT locative', () => {
+    const graph = parseToGraph('The book is by the author.', TREE_OPTS);
+    const sa = semantic.findNode(graph, n => {
+      const types = [].concat(n['@type'] || []);
+      return types.some(t => t.includes('StructuralAssertion'));
+    });
+    expect(sa).toBeTruthy();
+    // Should NOT have located_in relation — "by" here is authorship
+    const relation = sa['tagteam:relation'] || '';
+    expect(relation.includes('located')).toBeFalsy();
+  });
+
+});
+
+// ═══════════════════════════════════════════════════════════════
 // Non-Regression
 // ═══════════════════════════════════════════════════════════════
 
