@@ -309799,6 +309799,18 @@ class JSONLDSerializer {
       realizedAt:                 { '@id': 'tagteam:realizedAt',                 '@type': 'xsd:dateTime' },
       violatedAt:                 { '@id': 'tagteam:violatedAt',                 '@type': 'xsd:dateTime' },
       violationEvidence:          { '@id': 'tagteam:violationEvidence',          '@type': '@id' },
+
+      // ─────── SMA: Stative Quality Properties ───────
+      assertedQuality:            { '@id': 'tagteam:assertedQuality' },
+      qualityType:                { '@id': 'tagteam:qualityType' },
+      grounding:                  { '@id': 'tagteam:grounding',                  '@type': '@id' },
+      kindLevel:                  { '@id': 'tagteam:kindLevel',                  '@type': 'xsd:boolean' },
+      observedAt:                 { '@id': 'tagteam:observedAt',                 '@type': 'xsd:dateTime' },
+      evidentialMarker:           { '@id': 'tagteam:evidentialMarker' },
+      copulaLemma:                { '@id': 'tagteam:copulaLemma' },
+      assertionSubject:           { '@id': 'tagteam:assertionSubject' },
+      QualityAssertion:           { '@id': 'tagteam:QualityAssertion' },
+
       scarcityMarker:      { '@id': 'tagteam:scarcityMarker' },
       evidenceText:        { '@id': 'tagteam:evidenceText' },
       classificationLabel: { '@id': 'tagteam:classificationLabel' },
@@ -322336,17 +322348,22 @@ class TreeActExtractor {
         // Existential: "There is X" — root is the verb "is" with expl "There"
         const assertion = this._handleExistential(depTree, rootId, children);
         if (assertion) structuralAssertions.push(assertion);
-      } else if (this._isPossessive(rootWord, rootTag, children)) {
-        // Possessive: "X has Y" — verb lemma "have" + obj, no aux
+      } else if (this._isPossessive(rootWord, rootTag, children, depTree)) {
+        // Possessive stative: "X has Y" — emit only StructuralAssertion, no IntentionalAct
+        // Tag as quality_assertion for SGB to upgrade to QualityAssertion + Quality
         const assertion = this._handlePossessive(depTree, rootId, children);
-        if (assertion) structuralAssertions.push(assertion);
-        // Also create an act for "has"
-        const act = this._buildAct(depTree, rootId, children);
-        if (act) {
-          act.type = 'possessive';
-          act.pattern = 'possessive';
-          acts.push(act);
+        if (assertion) {
+          assertion.pattern = 'quality_assertion';
+          assertion.predicateTag = 'NN'; // object is a noun (quality/part)
+          // Get the object word for quality extraction
+          const objChild = children.find(c => c.label === 'obj');
+          if (objChild) {
+            assertion.predicateText = depTree.tokens[objChild.dependent - 1];
+            assertion.predicateTag = depTree.tags[objChild.dependent - 1];
+          }
+          structuralAssertions.push(assertion);
         }
+        // NO _buildAct() — suppresses ghost IntentionalAct
       } else if (this._isEvidentialCopula(rootWord, rootTag, children, depTree)) {
         // Evidential copula: "She seems tired" — perception verb + xcomp adjective
         const assertion = this._handleEvidentialCopula(depTree, rootId, children);
@@ -322648,13 +322665,39 @@ class TreeActExtractor {
    * Check if a verb is a possessive construction.
    * Possessive = verb lemma "have" + obj child + no aux child.
    */
-  _isPossessive(word, tag, children) {
+  /**
+   * Event-noun blacklist: nouns that denote events, not things.
+   * "The committee has a meeting" → NOT stative (event-noun).
+   */
+  static get EVENT_NOUN_BLACKLIST() {
+    return new Set([
+      'meeting', 'surgery', 'flight', 'appointment', 'conference',
+      'session', 'trial', 'hearing', 'examination', 'interview',
+      'wedding', 'funeral', 'party', 'ceremony', 'celebration',
+      'game', 'match', 'race', 'competition', 'concert', 'performance',
+      'lesson', 'class', 'lecture', 'seminar', 'workshop',
+      'trip', 'journey', 'vacation', 'tour', 'visit',
+      'conversation', 'discussion', 'debate', 'argument', 'fight',
+      'operation', 'procedure', 'transaction', 'deal', 'negotiation'
+    ]);
+  }
+
+  _isPossessive(word, tag, children, depTree) {
     const lemma = this._lemmatize(word, tag);
     if (lemma !== 'have') return false;
 
-    const hasObj = children.some(c => c.label === 'obj');
+    const objChild = children.find(c => c.label === 'obj');
+    if (!objChild) return false;
     const hasAux = children.some(c => c.label === 'aux' || c.label === 'aux:pass');
-    return hasObj && !hasAux;
+    if (hasAux) return false;
+
+    // Event-noun check: if the object is an event noun, this is NOT possessive stative
+    if (depTree) {
+      const objLemma = this._lemmatize(depTree.tokens[objChild.dependent - 1], depTree.tags[objChild.dependent - 1]);
+      if (TreeActExtractor.EVENT_NOUN_BLACKLIST.has(objLemma)) return false;
+    }
+
+    return true;
   }
 
   /**
@@ -325559,8 +325602,9 @@ class SemanticGraphBuilder {
       for (const sa of structuralAssertions) {
         const isAdjectivalCopular = sa.predicateTag && _ADJ_TAGS.has(sa.predicateTag) && sa.type === 'copular';
         const isEvidentialCopular = sa.type === 'evidential_copular';
+        const isPossessiveQuality = sa.pattern === 'quality_assertion' && sa.type === 'possessive';
 
-        if (isAdjectivalCopular || isEvidentialCopular) {
+        if (isAdjectivalCopular || isEvidentialCopular || isPossessiveQuality) {
           // ─�� QualityAssertion (Tier 1) + Quality (Tier 2) ──
           const qualityWord = (sa.predicateText || '').toLowerCase();
           const qaId = `${this.options.namespace}:QualityAssertion_${this._sanitizeId(qualityWord)}_${this._hashText((sa.subject || '') + qualityWord).substring(0, 8)}`;
@@ -325593,6 +325637,22 @@ class SemanticGraphBuilder {
           };
           if (sa.evidentialMarker) {
             qualityNode['tagteam:epistemicStatus'] = { '@id': 'tagteam:Observational' };
+          }
+          // kindLevel: check if the subject entity is generic (bare plural, universal)
+          if (sa.subject) {
+            // Find the subject entity node — at this point in the pipeline,
+            // entity nodes still have original @type (before Tier 1 sweep)
+            const subjectReferent = graphNodes.find(n => {
+              if (!n['rdfs:label']) return false;
+              return (n['rdfs:label']).toLowerCase() === sa.subject.toLowerCase() &&
+                     n['tagteam:genericityCategory']; // only match nodes with genericity info
+            });
+            if (subjectReferent) {
+              const genCat = subjectReferent['tagteam:genericityCategory'];
+              if (genCat === 'GEN' || genCat === 'UNIV' || genCat === 'KIND') {
+                qualityNode['tagteam:kindLevel'] = true;
+              }
+            }
           }
           // inheres_in bearer resolved after Tier 2 creation
           qualityNode['_bearerText'] = sa.subject;
@@ -326704,7 +326764,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 282 | b863279 | 2026-03-28T08:36:55.857Z',
+    BUILD: 'build 282 | e81147d | 2026-03-28T08:58:52.016Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
