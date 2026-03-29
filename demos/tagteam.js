@@ -309810,8 +309810,18 @@ class JSONLDSerializer {
       copulaLemma:                { '@id': 'tagteam:copulaLemma' },
       assertionSubject:           { '@id': 'tagteam:assertionSubject',           '@type': '@id' },
       epistemicStatus:            { '@id': 'tagteam:epistemicStatus',            '@type': '@id' },
+      actType:                    { '@id': 'tagteam:actType' },
+      agent:                      { '@id': 'tagteam:agent',                      '@type': '@id' },
+      patient:                    { '@id': 'tagteam:patient',                    '@type': '@id' },
+      realizationStatus:          { '@id': 'tagteam:realizationStatus',          '@type': '@id' },
+      describedBy:                { '@id': 'tagteam:describedBy',                '@type': '@id' },
       QualityAssertion:           { '@id': 'tagteam:QualityAssertion' },
       RoleAssertion:              { '@id': 'tagteam:RoleAssertion' },
+      ActSpecification:           { '@id': 'tagteam:ActSpecification' },
+      EventDescription:           { '@id': 'tagteam:EventDescription' },
+      RealizationStatus:          { '@id': 'tagteam:RealizationStatus' },
+      Realized:                   { '@id': 'tagteam:Realized' },
+      Unrealized:                 { '@id': 'tagteam:Unrealized' },
       EpistemicStatus:            { '@id': 'tagteam:EpistemicStatus' },
       Asserted:                   { '@id': 'tagteam:Asserted' },
       Observational:              { '@id': 'tagteam:Observational' },
@@ -322230,6 +322240,53 @@ const IRREGULAR_LEMMAS = {
   'done': 'do',
   'went': 'go',
   'gone': 'go',
+  'fed': 'feed',
+  'led': 'lead',
+  'held': 'hold',
+  'kept': 'keep',
+  'met': 'meet',
+  'paid': 'pay',
+  'sold': 'sell',
+  'told': 'tell',
+  'found': 'find',
+  'wrote': 'write',
+  'written': 'write',
+  'ran': 'run',
+  'knew': 'know',
+  'known': 'know',
+  'spoke': 'speak',
+  'spoken': 'speak',
+  'began': 'begin',
+  'begun': 'begin',
+  'broke': 'break',
+  'broken': 'break',
+  'chose': 'choose',
+  'chosen': 'choose',
+  'fell': 'fall',
+  'fallen': 'fall',
+  'flew': 'fly',
+  'flown': 'fly',
+  'slept': 'sleep',
+  'woke': 'wake',
+  'woken': 'wake',
+  'sang': 'sing',
+  'sung': 'sing',
+  'swam': 'swim',
+  'swum': 'swim',
+  'drank': 'drink',
+  'drunk': 'drink',
+  'drew': 'draw',
+  'drawn': 'draw',
+  'fought': 'fight',
+  'thought': 'think',
+  'bought': 'buy',
+  'brought': 'bring',
+  'caught': 'catch',
+  'taught': 'teach',
+  'built': 'build',
+  'spent': 'spend',
+  'lent': 'lend',
+  'bent': 'bend',
   'said': 'say',
   'made': 'make',
   'took': 'take',
@@ -325623,7 +325680,7 @@ class SemanticGraphBuilder {
           // ── PlanSpecification (Tier 2) ──
           const planSpecNode = {
             '@id': planSpecId,
-            '@type': ['PlanSpecification', 'InformationContentEntity', 'owl:NamedIndividual'],
+            '@type': ['PlanSpecification', 'ActSpecification', 'InformationContentEntity', 'owl:NamedIndividual'],
             'rdfs:label': `Plan: ${act.lemma}`,
             'tagteam:prescribedActType': act.lemma,
           };
@@ -325663,14 +325720,57 @@ class SemanticGraphBuilder {
           }
 
         } else {
-          // ── Current path: IntentionalAct (non-modal) ──
+          // ── WS-C: Narrative path — VerbPhrase (Tier 1) + EventDescription + IntentionalAct ──
+          const actId = `${this.options.namespace}:Act_${this._sanitizeId(act.verb)}`;
+          const eventDescId = `${this.options.namespace}:EventDesc_${this._sanitizeId(act.lemma)}_${this._hashText(act.verb + text).substring(0, 8)}`;
+          const vpId = `${this.options.namespace}:VP_${this._sanitizeId(act.verb)}`;
+
+          // VerbPhrase (Tier 1) — discourse referent for the verb phrase
+          const vpNode = {
+            '@id': vpId,
+            '@type': ['tagteam:DiscourseReferent', 'tagteam:VerbPhrase'],
+            'rdfs:label': act.verb,
+            'tagteam:lemma': act.lemma,
+            'tagteam:verb': act.lemma,
+            'tagteam:denotesType': 'EventDescription',
+            'is_about': { '@id': eventDescId },
+          };
+          if (act.isPassive) vpNode['tagteam:isPassive'] = true;
+          if (act.isNegated) vpNode['tagteam:isNegated'] = true;
+          // mentionId for VP (AC-3.22b compatibility)
+          if (act.verbId) {
+            const verbIdx = act.verbId - 1;
+            let charStart = 0;
+            for (let ci = 0; ci < verbIdx && ci < tokens.length; ci++) charStart += tokens[ci].length + 1;
+            vpNode['tagteam:mentionId'] = `s0:v${act.verbId}:${charStart}-${charStart + (tokens[verbIdx] || '').length}`;
+          }
+          graphNodes.push(vpNode);
+
+          // EventDescription (Tier 2) — structural content of the narrative
+          const eventDescNode = {
+            '@id': eventDescId,
+            '@type': ['EventDescription', 'ActSpecification', 'owl:NamedIndividual'],
+            'rdfs:label': `Event: ${act.lemma}`,
+            'tagteam:actType': act.lemma,
+            'tagteam:realizationStatus': { '@id': 'tagteam:Realized' },
+          };
+          // Agent/patient resolved in post-Tier2 pass (same pattern as PlanSpec)
+          const actRoles = roles.filter(r => r.actId === act.verbId);
+          const agentRole = actRoles.find(r => r.label === 'AgentRole');
+          const patientRole = actRoles.find(r => r.label === 'PatientRole');
+          if (agentRole) eventDescNode['_agentText'] = agentRole.entity;
+          if (patientRole) eventDescNode['_patientText'] = patientRole.entity;
+          graphNodes.push(eventDescNode);
+
+          // IntentionalAct (Tier 2) — the actual BFO Process
           const actNode = {
-            '@id': `${this.options.namespace}:Act_${this._sanitizeId(act.verb)}`,
-            '@type': ['IntentionalAct', 'tagteam:VerbPhrase'],
+            '@id': actId,
+            '@type': ['IntentionalAct', 'owl:NamedIndividual'],
             'rdfs:label': act.verb,
             'tagteam:lemma': act.lemma,
             'tagteam:verb': act.lemma,
             'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
+            'tagteam:describedBy': { '@id': eventDescId },
           };
           if (act.isPassive) actNode['tagteam:isPassive'] = true;
           if (act.isNegated) actNode['tagteam:isNegated'] = true;
@@ -325869,7 +325969,8 @@ class SemanticGraphBuilder {
             x.includes('Directive') || x.includes('PlanSpec') ||
             x.includes('Obligation') || x.includes('Permission') ||
             x.includes('Prohibition') || x.includes('Intention') ||
-            x.includes('VerbPhrase') || x.includes('BFO_0000019') || x.includes('BFO_0000023') // bfo:Quality, bfo:Role
+            x.includes('VerbPhrase') || x.includes('EventDescription') ||
+            x.includes('BFO_0000019') || x.includes('BFO_0000023') // bfo:Quality, bfo:Role
           );
         });
 
@@ -325934,6 +326035,21 @@ class SemanticGraphBuilder {
         // This runs AFTER Tier 2 entities are created, so _findTier2ByLabel works.
         for (const node of graphNodes) {
           const types = [].concat(node['@type'] || []);
+
+          // Resolve EventDescription agent/patient from stored labels
+          if (types.includes('EventDescription') || types.includes('tagteam:EventDescription')) {
+            const edLabelProps = [
+              ['_agentText', 'tagteam:agent'],
+              ['_patientText', 'tagteam:patient'],
+            ];
+            for (const [labelKey, targetProp] of edLabelProps) {
+              if (node[labelKey]) {
+                const t2 = this._findTier2ByLabel(graphNodes, node[labelKey]);
+                if (t2) node[targetProp] = { '@id': t2['@id'] };
+                delete node[labelKey];
+              }
+            }
+          }
 
           // Resolve PlanSpec prescribedAgent/Patient/Recipient from stored labels
           if (types.includes('PlanSpecification') || types.includes('tagteam:PlanSpecification')) {
@@ -326085,13 +326201,9 @@ class SemanticGraphBuilder {
         }
       }
 
-      // Mark act nodes as VerbPhrase ICE
-      for (const node of graphNodes) {
-        const types = [].concat(node['@type'] || []);
-        if (types.includes('IntentionalAct') && !types.includes('tagteam:VerbPhrase')) {
-          node['@type'].push('tagteam:VerbPhrase');
-        }
-      }
+      // NOTE: Pre-WS-C code that marked IntentionalAct as VerbPhrase was removed.
+      // IntentionalAct is a Tier 2 BFO Process. VerbPhrase is Tier 1 discourse.
+      // They are now separate nodes (BUG-WS-C-01 fix).
 
       // --- Provenance: IBE + Agent + IntentionalAct (parsing) ---
       const ibeNode = this.informationStaircaseBuilder.createInputIBE(text, this.buildTimestamp);
@@ -326920,7 +327032,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 285 | 9fb2ab5 | 2026-03-29T09:54:18.137Z',
+    BUILD: 'build 289 | fec567e | 2026-03-29T12:02:12.753Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
