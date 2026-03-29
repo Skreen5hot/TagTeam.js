@@ -459,6 +459,7 @@ class TreeActExtractor {
       subjectId: subjectChild.dependent,
       objectId,
       predicateText: predicateWord,
+      predicateFullText: this._getPredicateNounPhrase(depTree, predicateId),
       predicateTag,
     };
   }
@@ -635,6 +636,24 @@ class TreeActExtractor {
       predicateText: lemma,
       predicateTag: tag,
     };
+  }
+
+  /**
+   * Get just the noun phrase for a copular predicate, excluding nsubj, cop, punct.
+   * "student" with det "a" → "a student"
+   * Avoids getEntitySubtree which pulls in the entire clause.
+   */
+  _getPredicateNounPhrase(depTree, predicateId) {
+    const indices = [predicateId];
+    const children = depTree.getChildren(predicateId);
+    for (const child of children) {
+      // Include only NP-internal dependents: det, amod, compound, nummod, flat
+      if (['det', 'amod', 'compound', 'nummod', 'flat', 'flat:name'].includes(child.label)) {
+        indices.push(child.dependent);
+      }
+    }
+    indices.sort((a, b) => a - b);
+    return indices.map(i => depTree.tokens[i - 1]).join(' ');
   }
 
   static get EVIDENTIAL_VERBS() {

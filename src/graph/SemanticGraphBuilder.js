@@ -2240,11 +2240,24 @@ class SemanticGraphBuilder {
           if (sa.copula) roleAssertionNode['tagteam:copulaLemma'] = sa.copula;
           graphNodes.push(roleAssertionNode);
 
+          // Create Tier 1 DiscourseReferent for the predicate noun ("a student")
+          const predicateFullText = sa.predicateFullText || sa.predicateText || roleWord;
+          const predicateRefId = `${this.options.namespace}:${this._sanitizeId(predicateFullText)}`;
+          const predicateRefNode = {
+            '@id': predicateRefId,
+            '@type': ['tagteam:DiscourseReferent'],
+            'rdfs:label': predicateFullText,
+            'tagteam:denotesType': 'Role',
+            'is_about': { '@id': roleId },
+          };
+          graphNodes.push(predicateRefNode);
+
           const roleNode = {
             '@id': roleId,
             '@type': ['bfo:BFO_0000023', 'owl:NamedIndividual'],
             'rdfs:label': roleWord,
             'tagteam:roleType': roleWord,
+            'is_subject_of': { '@id': predicateRefId },
           };
           roleNode['_bearerText'] = sa.subject;
           graphNodes.push(roleNode);
@@ -2299,6 +2312,8 @@ class SemanticGraphBuilder {
         // Filter entity nodes (exclude Acts, Roles, Assertions, Directives, PlanSpecs, RealizableEntities, VerbPhrases)
         const referentNodes = graphNodes.filter(n => {
           const t = [].concat(n['@type'] || []);
+          // Skip nodes already linked to Tier 2 by assertion handlers (e.g., predicate referents)
+          if (n['is_about']) return false;
           return !t.some(x =>
             x.includes('Act') || x.includes('Role') || x.includes('Assertion') ||
             x.includes('Directive') || x.includes('PlanSpec') ||
