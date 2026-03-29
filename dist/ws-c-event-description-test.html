@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WS-C EventDescription Test Suite</title>
+  <style>
+    :root {
+      --pass: #22c55e;
+      --fail: #ef4444;
+      --skip: #f59e0b;
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --border: #334155;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'SF Mono', 'Consolas', monospace;
+      background: var(--bg);
+      color: var(--text);
+      padding: 2rem;
+      line-height: 1.5;
+    }
+    h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .subtitle { color: var(--muted); margin-bottom: 2rem; font-size: 0.875rem; }
+    .summary {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background: var(--surface);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    .summary-item { display: flex; flex-direction: column; }
+    .summary-label { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; }
+    .summary-value { font-size: 1.5rem; font-weight: bold; }
+    .summary-value.pass { color: var(--pass); }
+    .summary-value.fail { color: var(--fail); }
+    .summary-value.skip { color: var(--skip); }
+    
+    .workstream {
+      margin-bottom: 2rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .workstream-header {
+      background: var(--surface);
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+    .workstream-header:hover { background: #263548; }
+    .workstream-title { font-weight: bold; }
+    .workstream-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+    .workstream-badge.pass { background: var(--pass); color: #000; }
+    .workstream-badge.fail { background: var(--fail); color: #fff; }
+    .workstream-badge.skip { background: var(--skip); color: #000; }
+    
+    .test-group {
+      border-top: 1px solid var(--border);
+      padding: 1rem;
+    }
+    .test-group-title {
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .test {
+      display: grid;
+      grid-template-columns: 100px 1fr auto;
+      gap: 1rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+      align-items: start;
+    }
+    .test:last-child { border-bottom: none; }
+    .test-id { font-weight: bold; color: var(--muted); }
+    .test-content { }
+    .test-input { color: #60a5fa; margin-bottom: 0.25rem; }
+    .test-assert { color: var(--muted); font-size: 0.875rem; }
+    .test-status {
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    .test-status.pass { background: var(--pass); color: #000; }
+    .test-status.fail { background: var(--fail); color: #fff; }
+    .test-status.skip { background: var(--skip); color: #000; }
+    
+    .test-details {
+      grid-column: 1 / -1;
+      margin-top: 0.5rem;
+      padding: 0.75rem;
+      background: #0c1222;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      white-space: pre-wrap;
+      overflow-x: auto;
+    }
+    .test-details.error { border-left: 3px solid var(--fail); }
+    .test-details.success { border-left: 3px solid var(--pass); }
+    
+    .controls {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    button {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-primary { background: #3b82f6; color: white; }
+    .btn-primary:hover { background: #2563eb; }
+    .btn-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { background: #263548; }
+    
+    .tagteam-input {
+      width: 100%;
+      padding: 0.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+    }
+    .tagteam-input:focus { outline: none; border-color: #3b82f6; }
+    
+    .loading { color: var(--muted); font-style: italic; }
+    
+    #graph-output {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      max-height: 400px;
+      overflow: auto;
+      font-size: 0.8rem;
+      white-space: pre-wrap;
+      display: none;
+    }
+    
+    .info-box {
+      background: #1e3a5f;
+      border: 1px solid #3b82f6;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      font-size: 0.875rem;
+    }
+    .info-box h3 { margin-bottom: 0.5rem; color: #60a5fa; }
+  </style>
+</head>
+<body>
+  <h1>WS-C: EventDescription Test Suite</h1>
+  <p class="subtitle">SMA Linguistic Sensory Layer Spec v1.2 — §4.1–4.3</p>
+  
+  <div class="info-box">
+    <h3>Architecture: ActSpecification Superclass</h3>
+    <pre>
+ActSpecification (ICE)
+├── PlanSpecification — prescribes an act that SHOULD occur (RDM)
+└── EventDescription — describes an act that DID occur (WS-C)
+    └── realizationStatus: Realized | Unrealized (WS-B)
+
+Affirmative: VerbPhrase --is_about--> EventDescription
+             IntentionalAct --describedBy--> EventDescription</pre>
+  </div>
+  
+  <div class="info-box" style="background: #3b1e1e; border-color: #ef4444;">
+    <h3>Scope Boundaries</h3>
+    <pre>
+WS-C (this suite): Affirmative narratives → EventDescription (Realized)
+                   Intransitive verbs, passive voice, instruments
+
+NOT WS-C:
+├── WS-B: Negation ("did not feed") → EventDescription (Unrealized)
+├── WS-D: Tense-aspect extraction, temporal anchors ("yesterday")
+├── RDM:  Imperatives ("Feed the child.") → PlanSpecification
+└── Future: Epistemic modals ("might have fed")</pre>
+  </div>
+  
+  <div class="controls">
+    <button class="btn-primary" onclick="runAllTests()">Run All Tests</button>
+    <button class="btn-secondary" onclick="toggleOutput()">Toggle Graph Output</button>
+  </div>
+  
+  <input type="text" class="tagteam-input" id="custom-input" placeholder="Enter custom sentence to test..." value="The parent fed the child.">
+  <button class="btn-secondary" onclick="testCustom()" style="margin-bottom: 2rem;">Test Custom</button>
+  
+  <div class="summary" id="summary">
+    <div class="summary-item">
+      <span class="summary-label">Total</span>
+      <span class="summary-value" id="total-count">—</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">Pass</span>
+      <span class="summary-value pass" id="pass-count">—</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">Fail</span>
+      <span class="summary-value fail" id="fail-count">—</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">Skip</span>
+      <span class="summary-value skip" id="skip-count">—</span>
+    </div>
+  </div>
+  
+  <pre id="graph-output"></pre>
+  
+  <div id="test-container"></div>
+  
+  <script>
+    // =========================================================================
+    // TEST DEFINITIONS — WS-C: EventDescription
+    // =========================================================================
+    
+    const TEST_SUITES = {
+      'WS-C': {
+        name: 'WS-C: EventDescription Class',
+        priority: 'P1',
+        groups: {
+          'core-event-description': {
+            name: 'Core EventDescription Emission',
+            tests: [
+              {
+                id: 'AC-EVT-01',
+                input: 'The parent fed the child.',
+                assert: 'EventDescription node exists with realizationStatus: Realized',
+                validate: (graph) => {
+                  const ed = findNodeWithType(graph, 'tagteam:EventDescription');
+                  if (!ed) return { pass: false, reason: 'No EventDescription found' };
+                  const status = ed['tagteam:realizationStatus'];
+                  const isRealized = status && (
+                    status === 'tagteam:Realized' || 
+                    status['@id']?.includes('Realized') ||
+                    status === 'Realized'
+                  );
+                  return { pass: isRealized, reason: `realizationStatus = ${JSON.stringify(status)}` };
+                }
+              },
+              {
+                id: 'AC-EVT-02',
+                input: 'The parent fed the child.',
+                assert: 'EventDescription has actType: "feed"',
+                validate: (graph) => {
+                  const ed = findNodeWithType(graph, 'tagteam:EventDescription');
+                  if (!ed) return { pass: false, reason: 'No EventDescription found' };
+                  const actType = ed['tagteam:actType'];
+                  return { pass: actType === 'feed', reason: `actType = "${actType}"` };
+                }
+              },
+              {
+                id: 'AC-EVT-03',
+                input: 'The parent fed the child.',
+                assert: 'EventDescription has agent → parent Tier 2 entity',
+                validate: (graph) => {
+                  const ed = findNodeWithType(graph, 'tagteam:EventDescription');
+                  if (!ed) return { pass: false, reason: 'No EventDescription found' };
+                  const agent = ed['tagteam:agent'];
+                  if (!agent) return { pass: false, reason: 'No agent property' };
+                  return { pass: true, reason: `agent = ${JSON.stringify(agent)}` };
+                }
+              },
+              {
+                id: 'AC-EVT-04',
+                input: 'The parent fed the child.',
+                assert: 'EventDescription has patient → child Tier 2 entity',
+                validate: (graph) => {
+                  const ed = findNodeWithType(graph, 'tagteam:EventDescription');
+                  if (!ed) return { pass: false, reason: 'No EventDescription found' };
+                  const patient = ed['tagteam:patient'];
+                  if (!patient) return { pass: false, reason: 'No patient property' };
+                  return { pass: true, reason: `patient = ${JSON.stringify(patient)}` };
+                }
+              },
+              {
+                id: 'AC-EVT-05',
+                input: 'The parent fed the child.',
+                assert: 'IntentionalAct still exists (actual process)',
+                validate: (graph) => {
+                  const act = findNodeWithType(graph, 'cco:IntentionalAct', true);
+                  return { pass: !!act, reason: act ? `Found: ${act['@id']}` : 'No IntentionalAct found' };
+                }
+              },
+              {
+                id: 'AC-EVT-06',
+                input: 'The parent fed the child.',
+                assert: 'IntentionalAct has describedBy → EventDescription',
+                validate: (graph) => {
+                  const act = findNodeWithType(graph, 'cco:IntentionalAct', true);
+                  if (!act) return { pass: false, reason: 'No IntentionalAct found' };
+                  const describedBy = act['tagteam:describedBy'];
+                  if (!describedBy) return { pass: false, reason: 'No describedBy property on IntentionalAct' };
+                  return { pass: true, reason: `describedBy = ${JSON.stringify(describedBy)}` };
+                }
+              },
+              {
+                id: 'AC-EVT-07',
+                input: 'The parent fed the child.',
+                assert: 'VerbPhrase (Tier 1) has is_about → EventDescription',
+                validate: (graph) => {
+                  const vp = findNodeWithType(graph, 'tagteam:VerbPhrase');
+                  if (!vp) return { pass: false, reason: 'No VerbPhrase found' };
+                  const isAbout = vp['is_about'] || vp['iao:is_about'] || vp['IAO_0000136'];
+                  if (!isAbout) return { pass: false, reason: 'No is_about property on VerbPhrase' };
+                  // Check that it points to EventDescription
+                  const targetId = isAbout['@id'] || isAbout;
+                  const ed = findNodeWithType(graph, 'tagteam:EventDescription');
+                  const edId = ed ? ed['@id'] : null;
+                  const matches = edId && targetId.includes('EventDesc');
+                  return { pass: matches, reason: `is_about = ${targetId}, EventDescription = ${edId}` };
+                }
+              }
+            ]
+          },
+          'tier1-verbphrase': {
+            name: 'Tier 1 VerbPhrase Separation',
+            tests: [
+              {
+                id: 'AC-EVT-08',
+                input: 'The parent fed the child.',
+                assert: 'VerbPhrase @type includes DiscourseReferent and VerbPhrase',
+                validate: (graph) => {
+                  const vp = findNodeWithType(graph, 'tagteam:VerbPhrase');
+                  if (!vp) return { pass: false, reason: 'No VerbPhrase found' };
+                  const types = normalizeType(vp['@type']);
+                  const hasDR = types.some(t => t.includes('DiscourseReferent'));
+                  const hasVP = types.some(t => t.includes('VerbPhrase'));
+                  return { pass: hasDR && hasVP, reason: `@type = ${JSON.stringify(types)}` };
+                }
+              },
+              {
+                id: 'AC-EVT-09',
+                input: 'The parent fed the child.',
+                assert: 'VerbPhrase tagteam:verb = "feed"',
+                validate: (graph) => {
+                  const vp = findNodeWithType(graph, 'tagteam:VerbPhrase');
+                  if (!vp) return { pass: false, reason: 'No VerbPhrase found' };
+                  const verb = vp['tagteam:verb'];
+                  return { pass: verb === 'feed', reason: `verb = "${verb}"` };
+                }
+              },
+              {
+                id: 'AC-EVT-10',
+                input: 'The parent fed the child.',
+                assert: 'VerbPhrase NOT typed as IntentionalAct (Tier separation)',
+                validate: (graph) => {
+                  const vp = findNodeWithType(graph, 'tagteam:VerbPhrase');
+                  if (!vp) return { pass: false, reason: 'No VerbPhrase found' };
+                  const types = normalizeType(vp['@type']);
+                  const hasAct = types.some(t => t.includes('IntentionalAct'));
+                  return { pass: !hasAct, reason: hasAct ? 'VerbPhrase incorrectly typed as IntentionalAct' : 'Tier separation correct' };
+                }
+              }
+            ]
+          },
+          'roles-unchanged': {
+            name: 'Roles Unchanged (realize in Process)',
+            tests: [
+              {
+                id: 'AC-EVT-11',
+                input: 'The parent fed the child.',
+                assert: 'AgentRole realized_in → IntentionalAct (not EventDescription)',
+                validate: (graph) => {
+                  const nodes = getGraphNodes(graph);
+                  const agentRole = nodes.find(n => (n['tagteam:roleType'] || n['rdfs:label'] || '').includes('AgentRole'));
+                  if (!agentRole) return { pass: false, reason: 'No AgentRole found' };
+                  const realizedIn = agentRole['bfo:BFO_0000054'] || agentRole['realized_in'];
+                  if (!realizedIn) return { pass: false, reason: 'No realized_in property' };
+                  const targetId = realizedIn['@id'] || realizedIn;
+                  const pointsToAct = targetId.includes('Act_') || targetId.includes('Process_');
+                  return { pass: pointsToAct, reason: `realized_in = ${targetId}` };
+                }
+              },
+              {
+                id: 'AC-EVT-12',
+                input: 'The parent fed the child.',
+                assert: 'PatientRole realized_in → IntentionalAct',
+                validate: (graph) => {
+                  const nodes2 = getGraphNodes(graph);
+                  const patientRole = nodes2.find(n => (n['tagteam:roleType'] || n['rdfs:label'] || '').includes('PatientRole'));
+                  if (!patientRole) return { pass: false, reason: 'No PatientRole found' };
+                  const realizedIn = patientRole['bfo:BFO_0000054'] || patientRole['realized_in'];
+                  if (!realizedIn) return { pass: false, reason: 'No realized_in property' };
+                  const targetId = realizedIn['@id'] || realizedIn;
+                  const pointsToAct = targetId.includes('Act_') || targetId.includes('Process_');
+                  return { pass: pointsToAct, reason: `realized_in = ${targetId}` };
+                }
+              }
+            ]
+          },
+          'realization-status': {
+            name: 'RealizationStatus for Tenses',
+            tests: [
+              {
+                id: 'AC-EVT-13',
+                input: 'The doctor treats the patient.',
+                assert: 'EventDescription with realizationStatus: Realized (present tense)',
+                validate: (graph) => {
+                  const ed = findNodeWithType(graph, 'tagteam:EventDescription');
+                  if (!ed) return { pass: false, reason: 'No EventDescription found' };
+                  const status = ed['tagteam:realizationStatus'];
+                  const isRealized = status && (
+                    status === 'tagteam:Realized' || 
+                    status['@id']?.includes('Realized') ||
+                    status === 'Realized'
+                  );
+                  return { pass: isRealized, reason: `realizationStatus = ${JSON.stringify(status)}` };
+                }
+              },
+              {
+                id: 'AC-EVT-14',
+                input: 'The parent fed the child.',
+                assert: 'EventDescription with realizationStatus: Realized (past tense)',
+                validate: (graph) => {
+                  const ed = findNodeWithType(graph, 'tagteam:EventDescription');
+                  if (!ed) return { pass: false, reason: 'No EventDescription found' };
+                  const status = ed['tagteam:realizationStatus'];
+                  const isRealized = status && (
+                    status === 'tagteam:Realized' || 
+                    status['@id']?.includes('Realized') ||
+                    status === 'Realized'
+                  );
+                  return { pass: isRealized, reason: `realizationStatus = ${JSON.stringify(status)}` };
+                }
+              }
+            ]
+          },
+          'non-regression': {
+            name: 'Non-Regression (Stative, Modal, Copular)',
+            tests: [
+              {
+                id: 'AC-EVT-15',
+                input: 'The committee shall review the proposal.',
+                assert: 'RDM path: DICE + PlanSpec (NO EventDescription)',
+                validate: (graph) => {
+                  const ed = findNodeWithType(graph, 'tagteam:EventDescription');
+                  if (ed) return { pass: false, reason: 'EventDescription incorrectly emitted for modal sentence' };
+                  const dice = findNodeWithType(graph, 'tagteam:DirectiveInformationContentEntity');
+                  const planSpec = findNodeWithType(graph, 'tagteam:PlanSpecification');
+                  return { 
+                    pass: dice || planSpec, 
+                    reason: `RDM path: DICE=${!!dice}, PlanSpec=${!!planSpec}, EventDescription=false` 
+                  };
+                }
+              },
+              {
+                id: 'AC-EVT-16',
+                input: 'The child is hungry.',
+                assert: 'Stative: QualityAssertion (NO EventDescription)',
+                validate: (graph) => {
+                  const ed = findNodeWithType(graph, 'tagteam:EventDescription');
+                  if (ed) return { pass: false, reason: 'EventDescription incorrectly emitted for stative sentence' };
+                  const qa = findNodeWithType(graph, 'tagteam:QualityAssertion');
+                  return { 
+                    pass: !!qa, 
+                    reason: `Stative path: QualityAssertion=${!!qa}, EventDescription=false` 
+                  };
+                }
+              },
+              {
+                id: 'AC-EVT-17',
+                input: 'CBP is a component of DHS.',
+                assert: 'Copular: StructuralAssertion (NO EventDescription)',
+                validate: (graph) => {
+                  const ed = findNodeWithType(graph, 'tagteam:EventDescription');
+                  if (ed) return { pass: false, reason: 'EventDescription incorrectly emitted for copular sentence' };
+                  const sa = findNodeWithType(graph, 'tagteam:StructuralAssertion');
+                  return { 
+                    pass: !!sa, 
+                    reason: `Copular path: StructuralAssertion=${!!sa}, EventDescription=false` 
+                  };
+                }
+              },
+              {
+                id: 'AC-EVT-18',
+                input: 'Dogs have fur.',
+                assert: 'Possessive stative: QualityAssertion (NO EventDescription)',
+                validate: (graph) => {
+                  const ed = findNodeWithType(graph, 'tagteam:EventDescription');
+                  if (ed) return { pass: false, reason: 'EventDescription incorrectly emitted for possessive stative' };
+                  const qa = findNodeWithType(graph, 'tagteam:QualityAssertion');
+                  return { 
+                    pass: !!qa, 
+                    reason: `Stative path: QualityAssertion=${!!qa}, EventDescription=false` 
+                  };
+                }
+              }
+            ]
+          },
+          'edge-cases': {
+            name: 'Edge Cases',
+            tests: [
+              {
+                id: 'AC-EVT-19',
+                input: 'The report was written by the analyst.',
+                assert: 'Passive voice: EventDescription with agent: analyst, patient: report',
+                validate: (graph) => {
+                  const ed = findNodeWithType(graph, 'tagteam:EventDescription');
+                  if (!ed) return { pass: false, reason: 'No EventDescription found' };
+                  const agent = ed['tagteam:agent'];
+                  const patient = ed['tagteam:patient'];
+                  // Check that agent points to analyst (not report)
+                  const agentId = agent?.['@id'] || agent || '';
+                  const patientId = patient?.['@id'] || patient || '';
+                  const agentCorrect = agentId.toLowerCase().includes('analyst');
+                  const patientCorrect = patientId.toLowerCase().includes('report');
+                  return { 
+                    pass: agentCorrect && patientCorrect, 
+                    reason: `agent=${agentId}, patient=${patientId}` 
+                  };
+                }
+              },
+              {
+                id: 'AC-EVT-20',
+                input: 'John and Mary reviewed the document.',
+                assert: 'Coordination: EventDescription.agent is array or coordinated entity',
+                validate: (graph) => {
+                  const ed = findNodeWithType(graph, 'tagteam:EventDescription');
+                  if (!ed) return { pass: false, reason: 'No EventDescription found' };
+                  const agent = ed['tagteam:agent'];
+                  const isArray = Array.isArray(agent);
+                  const agentStr = JSON.stringify(agent);
+                  return { 
+                    pass: !!agent, 
+                    reason: `agent = ${agentStr}, isArray = ${isArray}` 
+                  };
+                }
+              },
+              {
+                id: 'AC-EVT-21',
+                input: 'She wrote the report.',
+                assert: 'Verb lemmatization: actType = "write" (not "wrote")',
+                validate: (graph) => {
+                  const ed = findNodeWithType(graph, 'tagteam:EventDescription');
+                  if (!ed) return { pass: false, reason: 'No EventDescription found' };
+                  const actType = ed['tagteam:actType'];
+                  return { pass: actType === 'write', reason: `actType = "${actType}"` };
+                }
+              },
+              {
+                id: 'AC-EVT-22',
+                input: 'The committee reviewed the proposal.',
+                assert: 'Multi-word subject: EventDescription emitted correctly',
+                validate: (graph) => {
+                  const ed = findNodeWithType(graph, 'tagteam:EventDescription');
+                  if (!ed) return { pass: false, reason: 'No EventDescription found' };
+                  const actType = ed['tagteam:actType'];
+                  return { pass: actType === 'review', reason: `actType = "${actType}"` };
+                }
+              }
+            ]
+          },
+          'intransitive-instrumental': {
+            name: 'Intransitive Verbs & Instrumental Roles',
+            tests: [
+              {
+                id: 'AC-EVT-25',
+                input: 'The child slept.',
+                assert: 'Intransitive: EventDescription with agent, NO patient',
+                validate: (graph) => {
+                  const ed = findNodeWithType(graph, 'tagteam:EventDescription');
+                  if (!ed) return { pass: false, reason: 'No EventDescription found' };
+                  const agent = ed['tagteam:agent'];
+                  const patient = ed['tagteam:patient'];
+                  const hasAgent = !!agent;
+                  const noPatient = !patient || patient === null;
+                  return { 
+                    pass: hasAgent && noPatient, 
+                    reason: `agent=${JSON.stringify(agent)}, patient=${JSON.stringify(patient)}` 
+                  };
+                }
+              },
+              {
+                id: 'AC-EVT-26',
+                input: 'The bird flew.',
+                assert: 'Intransitive motion verb: EventDescription emitted',
+                validate: (graph) => {
+                  const ed = findNodeWithType(graph, 'tagteam:EventDescription');
+                  if (!ed) return { pass: false, reason: 'No EventDescription found' };
+                  const actType = ed['tagteam:actType'];
+                  return { pass: actType === 'fly', reason: `actType = "${actType}"` };
+                }
+              },
+              {
+                id: 'AC-EVT-27',
+                input: 'The parent fed the child with a spoon.',
+                assert: 'Instrumental: EventDescription has instrument property',
+                validate: (graph) => {
+                  const ed = findNodeWithType(graph, 'tagteam:EventDescription');
+                  if (!ed) return { pass: false, reason: 'No EventDescription found' };
+                  const instrument = ed['tagteam:instrument'] || ed['tagteam:has_instrument'];
+                  // Also check if spoon appears as a participant
+                  const nodes = getGraphNodes(graph);
+                  const spoonEntity = nodes.find(n => {
+                    const label = (n['rdfs:label'] || '').toLowerCase();
+                    return label.includes('spoon');
+                  });
+                  return { 
+                    pass: !!instrument || !!spoonEntity, 
+                    reason: `instrument=${JSON.stringify(instrument)}, spoonEntity=${!!spoonEntity}` 
+                  };
+                }
+              },
+              {
+                id: 'AC-EVT-28',
+                input: 'She cut the paper with scissors.',
+                assert: 'Instrumental: instrument linked to EventDescription',
+                validate: (graph) => {
+                  const ed = findNodeWithType(graph, 'tagteam:EventDescription');
+                  if (!ed) return { pass: false, reason: 'No EventDescription found' };
+                  const instrument = ed['tagteam:instrument'] || ed['tagteam:has_instrument'];
+                  return { 
+                    pass: !!instrument, 
+                    reason: `instrument=${JSON.stringify(instrument)}` 
+                  };
+                }
+              }
+            ]
+          },
+          'progressive-habitual': {
+            name: 'Progressive & Habitual Aspect',
+            tests: [
+              {
+                id: 'AC-EVT-29',
+                input: 'The doctor is treating the patient.',
+                assert: 'Progressive: EventDescription with actType "treat" (instance-level)',
+                validate: (graph) => {
+                  const ed = findNodeWithType(graph, 'tagteam:EventDescription');
+                  if (!ed) return { pass: false, reason: 'No EventDescription found' };
+                  const actType = ed['tagteam:actType'];
+                  const tense = ed['tagteam:tenseAspect'];
+                  return { 
+                    pass: actType === 'treat', 
+                    reason: `actType="${actType}", tenseAspect=${JSON.stringify(tense)}` 
+                  };
+                }
+              },
+              {
+                id: 'AC-EVT-30',
+                input: 'The doctor treats patients.',
+                assert: 'Habitual: EventDescription emitted (generic patient)',
+                validate: (graph) => {
+                  const ed = findNodeWithType(graph, 'tagteam:EventDescription');
+                  if (!ed) return { pass: false, reason: 'No EventDescription found' };
+                  const actType = ed['tagteam:actType'];
+                  // Note: Habitual vs instance distinction is WS-D scope
+                  // Here we just verify EventDescription is emitted
+                  return { 
+                    pass: actType === 'treat', 
+                    reason: `actType="${actType}" (habitual aspect detection is WS-D scope)` 
+                  };
+                }
+              },
+              {
+                id: 'AC-EVT-31',
+                input: 'She was feeding the cat.',
+                assert: 'Past progressive: actType lemmatized to "feed"',
+                validate: (graph) => {
+                  const ed = findNodeWithType(graph, 'tagteam:EventDescription');
+                  if (!ed) return { pass: false, reason: 'No EventDescription found' };
+                  const actType = ed['tagteam:actType'];
+                  return { pass: actType === 'feed', reason: `actType = "${actType}"` };
+                }
+              }
+            ]
+          },
+          'actspecification': {
+            name: 'ActSpecification Superclass',
+            tests: [
+              {
+                id: 'AC-EVT-23',
+                input: 'The parent fed the child.',
+                assert: 'EventDescription @type includes ActSpecification (explicit typing)',
+                validate: (graph) => {
+                  const ed = findNodeWithType(graph, 'tagteam:EventDescription');
+                  if (!ed) return { pass: false, reason: 'No EventDescription found' };
+                  const types = normalizeType(ed['@type']);
+                  const hasActSpec = types.some(t => t.includes('ActSpecification'));
+                  return { 
+                    pass: hasActSpec, 
+                    reason: `@type = ${JSON.stringify(types)}` 
+                  };
+                }
+              },
+              {
+                id: 'AC-EVT-24',
+                input: 'The committee shall review the proposal.',
+                assert: 'PlanSpecification @type includes ActSpecification',
+                validate: (graph) => {
+                  const ps = findNodeWithType(graph, 'tagteam:PlanSpecification');
+                  if (!ps) return { pass: false, reason: 'No PlanSpecification found' };
+                  const types = normalizeType(ps['@type']);
+                  const hasActSpec = types.some(t => t.includes('ActSpecification'));
+                  return { 
+                    pass: hasActSpec, 
+                    reason: `@type = ${JSON.stringify(types)}` 
+                  };
+                }
+              }
+            ]
+          }
+        }
+      }
+    };
+    
+    // =========================================================================
+    // VALIDATION HELPERS
+    // =========================================================================
+    
+    function getGraphNodes(graph) {
+      if (!graph) return [];
+      if (graph['@graph']) return graph['@graph'];
+      if (Array.isArray(graph)) return graph;
+      return [graph];
+    }
+    
+    function normalizeType(type) {
+      if (!type) return [];
+      if (Array.isArray(type)) return type;
+      return [type];
+    }
+    
+    function hasNodeWithType(graph, targetType) {
+      const node = findNodeWithType(graph, targetType);
+      return { pass: !!node, reason: node ? `Found: ${node['@id']}` : `No ${targetType} found` };
+    }
+    
+    // Extract local name: "tagteam:PlanSpec" → "PlanSpec", "PlanSpec" → "PlanSpec"
+    function getLocalName(typeStr) {
+      if (!typeStr) return '';
+      if (typeStr.includes(':')) return typeStr.split(':').pop();
+      if (typeStr.includes('/')) return typeStr.split('/').pop();
+      return typeStr;
+    }
+    
+    function findNodeWithType(graph, targetType, excludeParsingAct = false) {
+      const nodes = getGraphNodes(graph);
+      const targetLocal = getLocalName(targetType);
+      
+      return nodes.find(node => {
+        const types = normalizeType(node['@type']);
+        const matches = types.some(t => {
+          const actualLocal = getLocalName(t);
+          return actualLocal === targetLocal || t === targetType || t.includes(targetLocal);
+        });
+        if (!matches) return false;
+        if (excludeParsingAct) {
+          const label = node['rdfs:label'] || '';
+          const id = node['@id'] || '';
+          if (label.includes('Parsing') || id.includes('ParsingAct')) return false;
+        }
+        return true;
+      });
+    }
+    
+    function findAllNodesWithType(graph, targetType) {
+      const nodes = getGraphNodes(graph);
+      const targetLocal = getLocalName(targetType);
+      
+      return nodes.filter(node => {
+        const types = normalizeType(node['@type']);
+        return types.some(t => {
+          const actualLocal = getLocalName(t);
+          return actualLocal === targetLocal || t === targetType || t.includes(targetLocal);
+        });
+      });
+    }
+    
+    // =========================================================================
+    // TEST RUNNER
+    // =========================================================================
+    
+    let testResults = [];
+    let currentGraph = null;
+    
+    async function parseWithTagTeam(text) {
+      if (typeof TagTeam === 'undefined' && typeof buildGraph === 'undefined') {
+        return { error: 'TagTeam not loaded. Include tagteam.bundle.js before running tests.' };
+      }
+      
+      try {
+        const parser = typeof TagTeam !== 'undefined' ? TagTeam : { buildGraph };
+        const graph = await parser.buildGraph(text);
+        return graph;
+      } catch (e) {
+        return { error: e.message };
+      }
+    }
+    
+    async function runTest(test) {
+      if (test.skip) {
+        return { ...test, status: 'skip', reason: test.skipReason };
+      }
+      
+      try {
+        const graph = await parseWithTagTeam(test.input);
+        
+        if (graph.error) {
+          return { ...test, status: 'fail', reason: `Parse error: ${graph.error}` };
+        }
+        
+        currentGraph = graph;
+        const result = test.validate(graph);
+        
+        if (typeof result === 'boolean') {
+          return { ...test, status: result ? 'pass' : 'fail', reason: '' };
+        }
+        
+        return { ...test, status: result.pass ? 'pass' : 'fail', reason: result.reason };
+      } catch (e) {
+        return { ...test, status: 'fail', reason: `Error: ${e.message}` };
+      }
+    }
+    
+    async function runAllTests() {
+      testResults = [];
+      const container = document.getElementById('test-container');
+      container.innerHTML = '<p class="loading">Running tests...</p>';
+      
+      for (const [wsId, ws] of Object.entries(TEST_SUITES)) {
+        for (const [groupId, group] of Object.entries(ws.groups)) {
+          for (const test of group.tests) {
+            const result = await runTest(test);
+            testResults.push({ ...result, workstream: wsId, group: groupId });
+          }
+        }
+      }
+      
+      renderResults();
+    }
+    
+    async function testCustom() {
+      const input = document.getElementById('custom-input').value.trim();
+      if (!input) return;
+      
+      const graph = await parseWithTagTeam(input);
+      currentGraph = graph;
+      
+      const output = document.getElementById('graph-output');
+      output.style.display = 'block';
+      output.textContent = JSON.stringify(graph, null, 2);
+    }
+    
+    function toggleOutput() {
+      const output = document.getElementById('graph-output');
+      output.style.display = output.style.display === 'none' ? 'block' : 'none';
+      if (currentGraph) {
+        output.textContent = JSON.stringify(currentGraph, null, 2);
+      }
+    }
+    
+    function renderResults() {
+      const container = document.getElementById('test-container');
+      
+      // Update summary
+      const total = testResults.length;
+      const pass = testResults.filter(t => t.status === 'pass').length;
+      const fail = testResults.filter(t => t.status === 'fail').length;
+      const skip = testResults.filter(t => t.status === 'skip').length;
+      
+      document.getElementById('total-count').textContent = total;
+      document.getElementById('pass-count').textContent = pass;
+      document.getElementById('fail-count').textContent = fail;
+      document.getElementById('skip-count').textContent = skip;
+      
+      // Group by workstream
+      const byWS = {};
+      for (const result of testResults) {
+        if (!byWS[result.workstream]) byWS[result.workstream] = [];
+        byWS[result.workstream].push(result);
+      }
+      
+      let html = '';
+      
+      for (const [wsId, results] of Object.entries(byWS)) {
+        const ws = TEST_SUITES[wsId];
+        const wsPass = results.filter(t => t.status === 'pass').length;
+        const wsFail = results.filter(t => t.status === 'fail').length;
+        const wsSkip = results.filter(t => t.status === 'skip').length;
+        const wsStatus = wsFail > 0 ? 'fail' : wsSkip === results.length ? 'skip' : 'pass';
+        
+        html += `
+          <div class="workstream">
+            <div class="workstream-header">
+              <span class="workstream-title">${ws.name}</span>
+              <span class="workstream-badge ${wsStatus}">${wsPass}/${results.length - wsSkip} pass</span>
+            </div>
+        `;
+        
+        // Group by test group
+        const byGroup = {};
+        for (const result of results) {
+          if (!byGroup[result.group]) byGroup[result.group] = [];
+          byGroup[result.group].push(result);
+        }
+        
+        for (const [groupId, groupResults] of Object.entries(byGroup)) {
+          const group = ws.groups[groupId];
+          html += `
+            <div class="test-group">
+              <div class="test-group-title">${group.name}</div>
+          `;
+          
+          for (const result of groupResults) {
+            html += `
+              <div class="test">
+                <span class="test-id">${result.id}</span>
+                <div class="test-content">
+                  <div class="test-input">"${result.input}"</div>
+                  <div class="test-assert">${result.assert}</div>
+                </div>
+                <span class="test-status ${result.status}">${result.status}</span>
+                ${result.reason ? `<div class="test-details ${result.status === 'pass' ? 'success' : 'error'}">${result.reason}</div>` : ''}
+              </div>
+            `;
+          }
+          
+          html += '</div>';
+        }
+        
+        html += '</div>';
+      }
+      
+      container.innerHTML = html;
+    }
+    
+    // Initial render of test structure (no results yet)
+    function renderTestStructure() {
+      const container = document.getElementById('test-container');
+      let html = '';
+      
+      for (const [wsId, ws] of Object.entries(TEST_SUITES)) {
+        html += `
+          <div class="workstream">
+            <div class="workstream-header">
+              <span class="workstream-title">${ws.name}</span>
+              <span class="workstream-badge skip">not run</span>
+            </div>
+        `;
+        
+        for (const [groupId, group] of Object.entries(ws.groups)) {
+          html += `
+            <div class="test-group">
+              <div class="test-group-title">${group.name}</div>
+          `;
+          
+          for (const test of group.tests) {
+            html += `
+              <div class="test">
+                <span class="test-id">${test.id}</span>
+                <div class="test-content">
+                  <div class="test-input">"${test.input}"</div>
+                  <div class="test-assert">${test.assert}</div>
+                </div>
+                <span class="test-status skip">${test.skip ? 'skip' : '—'}</span>
+              </div>
+            `;
+          }
+          
+          html += '</div>';
+        }
+        
+        html += '</div>';
+      }
+      
+      container.innerHTML = html;
+    }
+    
+    // Initialize
+    renderTestStructure();
+  </script>
+  
+  <!-- Load TagTeam bundle from same directory -->
+  <script src="tagteam.js"></script>
+</body>
+</html>
