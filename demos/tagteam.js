@@ -309541,8 +309541,8 @@ class JSONLDSerializer {
       // ═══════ Namespace Prefixes ═══════
       bfo:     'http://purl.obolibrary.org/obo/',
       cco:     'https://www.commoncoreontologies.org/',
-      tagteam: 'http://tagteam.fandaws.org/ontology/',
-      inst:    'http://tagteam.fandaws.org/instance/',
+      tagteam: 'http://tagteam.fandaws.com/ontology/',
+      inst:    'http://tagteam.fandaws.com/instance/',
       rdf:     'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
       rdfs:    'http://www.w3.org/2000/01/rdf-schema#',
       owl:     'http://www.w3.org/2002/07/owl#',
@@ -327032,7 +327032,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 289 | fec567e | 2026-03-29T12:02:12.753Z',
+    BUILD: 'build 290 | 6e2914e | 2026-03-29T12:31:29.213Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,

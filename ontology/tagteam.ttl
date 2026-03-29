@@ -1,4 +1,4 @@
-@prefix : <http://tagteam.fandaws.org/ontology/> .
+@prefix : <http://tagteam.fandaws.com/ontology/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -33,9 +33,9 @@
 # License: CC-BY-4.0
 # =============================================================================
 
-<http://tagteam.fandaws.org/ontology/>
+<http://tagteam.fandaws.com/ontology/>
     a owl:Ontology ;
-    owl:versionIRI <http://tagteam.fandaws.org/ontology/4.1.0/> ;
+    owl:versionIRI <http://tagteam.fandaws.com/ontology/4.1.0/> ;
     owl:versionInfo "4.1.0"^^xsd:string ;
     dc:title "TagTeam Semantic Parsing Ontology"@en ;
     dc:description "A unified ontology for domain-neutral semantic parsing with BFO/CCO alignment. Provides vocabulary for parsing artifacts, speech acts, clause segmentation, structural assertions, deontic modality, scarcity detection, and ontology matching."@en ;

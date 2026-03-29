@@ -66,8 +66,8 @@ class JSONLDSerializer {
       // ═══════ Namespace Prefixes ═══════
       bfo:     'http://purl.obolibrary.org/obo/',
       cco:     'https://www.commoncoreontologies.org/',
-      tagteam: 'http://tagteam.fandaws.org/ontology/',
-      inst:    'http://tagteam.fandaws.org/instance/',
+      tagteam: 'http://tagteam.fandaws.com/ontology/',
+      inst:    'http://tagteam.fandaws.com/instance/',
       rdf:     'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
       rdfs:    'http://www.w3.org/2000/01/rdf-schema#',
       owl:     'http://www.w3.org/2002/07/owl#',
