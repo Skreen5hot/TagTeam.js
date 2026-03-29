@@ -2073,7 +2073,7 @@ class SemanticGraphBuilder {
           // ── PlanSpecification (Tier 2) ──
           const planSpecNode = {
             '@id': planSpecId,
-            '@type': ['PlanSpecification', 'InformationContentEntity', 'owl:NamedIndividual'],
+            '@type': ['PlanSpecification', 'ActSpecification', 'InformationContentEntity', 'owl:NamedIndividual'],
             'rdfs:label': `Plan: ${act.lemma}`,
             'tagteam:prescribedActType': act.lemma,
           };
@@ -2125,7 +2125,7 @@ class SemanticGraphBuilder {
             'rdfs:label': act.verb,
             'tagteam:lemma': act.lemma,
             'tagteam:verb': act.lemma,
-            'tagteam:denotesType': 'Event',
+            'tagteam:denotesType': 'EventDescription',
             'is_about': { '@id': eventDescId },
           };
           if (act.isPassive) vpNode['tagteam:isPassive'] = true;
@@ -2142,7 +2142,7 @@ class SemanticGraphBuilder {
           // EventDescription (Tier 2) — structural content of the narrative
           const eventDescNode = {
             '@id': eventDescId,
-            '@type': ['EventDescription', 'owl:NamedIndividual'],
+            '@type': ['EventDescription', 'ActSpecification', 'owl:NamedIndividual'],
             'rdfs:label': `Event: ${act.lemma}`,
             'tagteam:actType': act.lemma,
             'tagteam:realizationStatus': { '@id': 'tagteam:Realized' },
@@ -2594,13 +2594,9 @@ class SemanticGraphBuilder {
         }
       }
 
-      // Mark act nodes as VerbPhrase ICE
-      for (const node of graphNodes) {
-        const types = [].concat(node['@type'] || []);
-        if (types.includes('IntentionalAct') && !types.includes('tagteam:VerbPhrase')) {
-          node['@type'].push('tagteam:VerbPhrase');
-        }
-      }
+      // NOTE: Pre-WS-C code that marked IntentionalAct as VerbPhrase was removed.
+      // IntentionalAct is a Tier 2 BFO Process. VerbPhrase is Tier 1 discourse.
+      // They are now separate nodes (BUG-WS-C-01 fix).
 
       // --- Provenance: IBE + Agent + IntentionalAct (parsing) ---
       const ibeNode = this.informationStaircaseBuilder.createInputIBE(text, this.buildTimestamp);
