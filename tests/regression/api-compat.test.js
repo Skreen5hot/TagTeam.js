@@ -185,12 +185,11 @@ test('buildGraph() returns @graph array', () => {
   assert(result['@graph'].length > 0, '@graph should not be empty');
 });
 
-test('buildGraph() acts use tagteam:VerbPhrase (tree format)', () => {
+test('buildGraph() has separate VerbPhrase nodes (WS-C tree format)', () => {
   const graph = TagTeam.buildGraph('The doctor treated the patient');
-  const acts = getActs(graph);
-  assert(acts.length > 0, 'buildGraph should produce at least one act');
-  assert(acts.every(a => (a['@type'] || []).includes('tagteam:VerbPhrase')),
-    'buildGraph acts should be typed as tagteam:VerbPhrase (tree pipeline)');
+  const nodes = graph['@graph'] || [];
+  const vps = nodes.filter(n => (n['@type'] || []).includes('tagteam:VerbPhrase') && !(n['@type'] || []).includes('IntentionalAct'));
+  assert(vps.length > 0, 'buildGraph should produce separate VerbPhrase nodes (WS-C)');
 });
 
 test('buildGraph() Tier 1 entities lack owl:NamedIndividual (tree format)', () => {
@@ -286,15 +285,13 @@ test('buildTreeGraph() produces same format as buildGraph()', () => {
   const treeResult = TagTeam.buildTreeGraph('The analyst reviewed the report');
   const defaultResult = TagTeam.buildGraph('The analyst reviewed the report');
 
-  // Both should have VerbPhrase acts
-  const treeActs = getActs(treeResult);
-  const defaultActs = getActs(defaultResult);
-  assert(treeActs.length > 0, 'buildTreeGraph should produce acts');
-  assert(defaultActs.length > 0, 'buildGraph should produce acts');
-  assert(treeActs.every(a => (a['@type'] || []).includes('tagteam:VerbPhrase')),
-    'buildTreeGraph acts should have VerbPhrase');
-  assert(defaultActs.every(a => (a['@type'] || []).includes('tagteam:VerbPhrase')),
-    'buildGraph acts should have VerbPhrase');
+  // WS-C: Both should have separate VerbPhrase nodes (not on IntentionalAct)
+  const treeNodes = treeResult['@graph'] || [];
+  const defaultNodes = defaultResult['@graph'] || [];
+  const treeVPs = treeNodes.filter(n => (n['@type']||[]).includes('tagteam:VerbPhrase') && !(n['@type']||[]).includes('IntentionalAct'));
+  const defaultVPs = defaultNodes.filter(n => (n['@type']||[]).includes('tagteam:VerbPhrase') && !(n['@type']||[]).includes('IntentionalAct'));
+  assert(treeVPs.length > 0, 'buildTreeGraph should produce VerbPhrase nodes');
+  assert(defaultVPs.length > 0, 'buildGraph should produce VerbPhrase nodes');
 
   // Both should lack owl:NamedIndividual on Tier 1
   const treeT1 = getTier1Entities(treeResult);
@@ -333,8 +330,10 @@ test('buildGraph({useLegacy:true}) then buildGraph(): tree format preserved', ()
   const tree = TagTeam.buildGraph(testText);
   const acts = getActs(tree);
   assert(acts.length > 0, 'Tree output should have acts');
-  assert(acts.every(a => (a['@type'] || []).includes('tagteam:VerbPhrase')),
-    'Tree acts should retain VerbPhrase after legacy pipeline call');
+  // WS-C: VerbPhrase is separate from IntentionalAct
+  const treeNodes = tree['@graph'] || [];
+  const vps = treeNodes.filter(n => (n['@type']||[]).includes('tagteam:VerbPhrase') && !(n['@type']||[]).includes('IntentionalAct'));
+  assert(vps.length > 0, 'Tree VerbPhrase nodes should exist after legacy pipeline call');
   const t1 = getTier1Entities(tree);
   assert(t1.length > 0, 'Tree output should have Tier 1 entities');
   assert(t1.every(e => !(e['@type'] || []).includes('owl:NamedIndividual')),

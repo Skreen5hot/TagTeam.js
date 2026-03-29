@@ -226,16 +226,15 @@ test('Passive voice: doctor maps to Person Tier 2', () => {
 
 console.log(`\n${C.cyan}--- VerbPhrase ICE ---${C.reset}`);
 
-test('Act nodes have tagteam:VerbPhrase in @type', () => {
+test('VerbPhrase nodes exist as separate Tier 1 discourse referents (WS-C)', () => {
   const graph = buildTreeGraph(SENTENCES.svo);
   const nodes = getNodes(graph);
-  // Exclude provenance ParsingAct — it's IntentionalAct but not a text-extracted VerbPhrase
-  const acts = findByType(nodes, 'IntentionalAct').filter(a => !(a['@id'] || '').includes('ParsingAct'));
-  assert(acts.length >= 1, 'No text-extracted acts found');
-  for (const act of acts) {
-    const types = [].concat(act['@type'] || []);
-    assert(types.includes('tagteam:VerbPhrase'), `Act ${act['@id']} missing tagteam:VerbPhrase`);
-  }
+  // WS-C: VerbPhrase is now a separate Tier 1 node, not on IntentionalAct
+  const vps = nodes.filter(n => {
+    const types = [].concat(n['@type'] || []);
+    return types.includes('tagteam:VerbPhrase') && !types.includes('IntentionalAct');
+  });
+  assert(vps.length >= 1, 'No separate VerbPhrase nodes found');
 });
 
 // ============================================================================
@@ -266,11 +265,15 @@ test('ICE nodes (entities + acts) link to IBE via is_concretized_by', () => {
       `Expected is_concretized_by → ${ibe['@id']}, got ${iri}`);
   }
 
-  // Text-extracted acts (exclude provenance ParsingAct — it IS the act of processing, not an extracted ICE)
-  const acts = findByType(nodes, 'IntentionalAct').filter(a => !(a['@id'] || '').includes('ParsingAct'));
-  for (const act of acts) {
-    assert(act['is_concretized_by'],
-      `Act ${act['@id']} missing is_concretized_by`);
+  // WS-C: VerbPhrase (Tier 1) links to IBE. IntentionalAct (Tier 2 Process) does not.
+  // Check VerbPhrase nodes instead of IntentionalAct.
+  const vps = nodes.filter(n => {
+    const types = [].concat(n['@type'] || []);
+    return types.includes('tagteam:VerbPhrase') && !types.includes('IntentionalAct');
+  });
+  for (const vp of vps) {
+    assert(vp['is_concretized_by'],
+      `VerbPhrase ${vp['@id']} missing is_concretized_by`);
   }
 });
 

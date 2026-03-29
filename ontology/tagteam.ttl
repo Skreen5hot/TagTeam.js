@@ -1381,5 +1381,74 @@ not just recording them as text strings in :qualifierText."""@en ;
 
 
 # =============================================================================
+# WS-C: EVENT DESCRIPTION + ACT SPECIFICATION
+# Added: 2026-03-29
+# Spec: docs/sma-linguistic-sensory-layer-v1.2-final.md §4
+# =============================================================================
+
+# ─── Classes (3) ─────────────────────────────────────────────────────────────
+
+:ActSpecification rdf:type owl:Class ;
+    rdfs:subClassOf cco:InformationContentEntity ;
+    rdfs:label "Act Specification"@en ;
+    skos:definition "An abstract superclass for ICEs that specify the structure of an act (agent, patient, act type) without asserting its realization or obligation status. Enables structural matching between PlanSpecification (deontic) and EventDescription (narrative)."@en .
+
+:EventDescription rdf:type owl:Class ;
+    rdfs:subClassOf :ActSpecification ;
+    rdfs:label "Event Description"@en ;
+    skos:definition "An ICE describing an act that DID occur (realizationStatus: Realized) or DID NOT occur (realizationStatus: Unrealized). Used in narrative contexts. The actual BFO Process (if realized) is linked via describedBy."@en .
+
+:RealizationStatus rdf:type owl:Class ;
+    rdfs:label "Realization Status"@en ;
+    skos:definition "An enumeration class for whether a described event actually occurred: Realized or Unrealized."@en .
+
+# ─── Update PlanSpecification superclass ─────────────────────────────────────
+# NOTE: PlanSpecification already declared in RDM block.
+# Add subClassOf ActSpecification (additive, not breaking).
+# OWL allows multiple subClassOf declarations.
+:PlanSpecification rdfs:subClassOf :ActSpecification .
+
+# ─── Realization Status Individuals (2) ──────────────────────────────────────
+
+:Realized rdf:type owl:NamedIndividual , :RealizationStatus ;
+    rdfs:label "Realized"@en ;
+    skos:definition "The described event occurred. An IntentionalAct (BFO Process) exists and is linked via describedBy."@en .
+
+:Unrealized rdf:type owl:NamedIndividual , :RealizationStatus ;
+    rdfs:label "Unrealized"@en ;
+    skos:definition "The described event did not occur. No IntentionalAct is emitted. Used for negated narratives (WS-B)."@en .
+
+# ─── Properties (5) ──────────────────────────────────────────────────────────
+
+:actType rdf:type owl:DatatypeProperty ;
+    rdfs:domain :ActSpecification ;
+    rdfs:range xsd:string ;
+    rdfs:label "act type"@en ;
+    skos:definition "The verb lemma of the described or prescribed act (e.g., 'feed', 'review', 'disclose'). Shared across EventDescription and PlanSpecification."@en .
+
+:agent rdf:type owl:ObjectProperty ;
+    rdfs:domain :ActSpecification ;
+    rdfs:label "agent"@en ;
+    skos:definition "The entity that performs (or would perform) the act. On EventDescription, this is the actual agent. On PlanSpecification, use prescribedAgent instead."@en .
+
+:patient rdf:type owl:ObjectProperty ;
+    rdfs:domain :ActSpecification ;
+    rdfs:label "patient"@en ;
+    skos:definition "The entity that undergoes (or would undergo) the act."@en .
+
+:realizationStatus rdf:type owl:ObjectProperty ;
+    rdfs:domain :EventDescription ;
+    rdfs:range :RealizationStatus ;
+    rdfs:label "realization status"@en ;
+    skos:definition "Whether the described event actually occurred (Realized) or did not occur (Unrealized)."@en .
+
+:describedBy rdf:type owl:ObjectProperty ;
+    rdfs:domain bfo:BFO_0000015 ;  # bfo:Process
+    rdfs:range :EventDescription ;
+    rdfs:label "described by"@en ;
+    skos:definition "Links an actual BFO Process to the EventDescription ICE that describes it. Only present when realizationStatus is Realized."@en .
+
+
+# =============================================================================
 # END OF ONTOLOGY
 # =============================================================================

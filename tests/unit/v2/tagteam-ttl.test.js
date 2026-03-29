@@ -212,6 +212,22 @@ describe('P0-TTL: tagteam.ttl Schema Validation', () => {
     expect(schemaDefines(':observedAt')).toBe(true);
   });
 
+  test('P0-TTL-15: WS-C EventDescription classes declared', () => {
+    expect(schemaDefines(':ActSpecification')).toBe(true);
+    expect(schemaDefines(':EventDescription')).toBe(true);
+    expect(schemaDefines(':RealizationStatus')).toBe(true);
+    expect(schemaDefines(':Realized')).toBe(true);
+    expect(schemaDefines(':Unrealized')).toBe(true);
+  });
+
+  test('P0-TTL-16: WS-C EventDescription properties declared', () => {
+    expect(schemaDefines(':actType')).toBe(true);
+    expect(schemaDefines(':agent')).toBe(true);
+    expect(schemaDefines(':patient')).toBe(true);
+    expect(schemaDefines(':realizationStatus')).toBe(true);
+    expect(schemaDefines(':describedBy')).toBe(true);
+  });
+
   test('P0-TTL-12: prescribes domain updated to DICE', () => {
     // prescribes should reference DirectiveInformationContentEntity, not DirectiveContent
     expect(schemaContent).toContain('DirectiveInformationContentEntity');
