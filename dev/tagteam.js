@@ -309808,8 +309808,13 @@ class JSONLDSerializer {
       observedAt:                 { '@id': 'tagteam:observedAt',                 '@type': 'xsd:dateTime' },
       evidentialMarker:           { '@id': 'tagteam:evidentialMarker' },
       copulaLemma:                { '@id': 'tagteam:copulaLemma' },
-      assertionSubject:           { '@id': 'tagteam:assertionSubject' },
+      assertionSubject:           { '@id': 'tagteam:assertionSubject',           '@type': '@id' },
+      epistemicStatus:            { '@id': 'tagteam:epistemicStatus',            '@type': '@id' },
       QualityAssertion:           { '@id': 'tagteam:QualityAssertion' },
+      RoleAssertion:              { '@id': 'tagteam:RoleAssertion' },
+      EpistemicStatus:            { '@id': 'tagteam:EpistemicStatus' },
+      Asserted:                   { '@id': 'tagteam:Asserted' },
+      Observational:              { '@id': 'tagteam:Observational' },
 
       scarcityMarker:      { '@id': 'tagteam:scarcityMarker' },
       evidenceText:        { '@id': 'tagteam:evidenceText' },
@@ -326915,7 +326920,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 285 | 9fb2ab5 | 2026-03-29T09:47:19.343Z',
+    BUILD: 'build 286 | 97b437b | 2026-03-29T09:59:36.273Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
