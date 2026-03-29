@@ -1292,5 +1292,94 @@ not just recording them as text strings in :qualifierText."""@en ;
 
 
 # =============================================================================
+# SMA LINGUISTIC SENSORY LAYER v1.2 — STATIVE PREDICATE CLASSES
+# Added: 2026-03-29
+# Spec: docs/sma-linguistic-sensory-layer-v1.2-final.md
+# =============================================================================
+
+# ─── Classes (3) ─────────────────────────────────────────────────────────────
+
+:QualityAssertion rdf:type owl:Class ;
+    rdfs:subClassOf :StructuralAssertion ;
+    rdfs:label "Quality Assertion"@en ;
+    skos:definition "A structural assertion that a continuant bears a quality. Emitted for adjectival copulars ('is hungry'), possessive statives ('has fur'), and evidential copulars ('seems tired'). Links to a bfo:Quality Tier 2 node via is_about."@en .
+
+:RoleAssertion rdf:type owl:Class ;
+    rdfs:subClassOf :StructuralAssertion ;
+    rdfs:label "Role Assertion"@en ;
+    skos:definition "A structural assertion that a continuant bears a role. Emitted for nominal copulars ('is a student'). Links to a bfo:Role Tier 2 node via is_about."@en .
+
+:EpistemicStatus rdf:type owl:Class ;
+    rdfs:label "Epistemic Status"@en ;
+    skos:definition "An enumeration class for the certainty level of an assertion. Asserted = speaker states as fact. Observational = speaker reports an observation via evidential copula (seem, appear, look)."@en .
+
+# ─── Epistemic Status Individuals (2) ────────────────────────────────────────
+
+:Asserted rdf:type owl:NamedIndividual , :EpistemicStatus ;
+    rdfs:label "Asserted"@en ;
+    skos:definition "The speaker asserts the quality or state as fact."@en .
+
+:Observational rdf:type owl:NamedIndividual , :EpistemicStatus ;
+    rdfs:label "Observational"@en ;
+    skos:definition "The speaker reports an observation via evidential copula (seem, appear, look, sound, feel). The quality is not asserted as absolute ground truth."@en .
+
+# ─── Properties — Object Properties (3) ──────────────────────────────────────
+
+:assertionSubject rdf:type owl:ObjectProperty ;
+    rdfs:label "assertion subject"@en ;
+    skos:definition "Links a QualityAssertion or RoleAssertion to the Tier 1 DiscourseReferent that is the subject of the assertion. IRI reference per FT-03."@en .
+
+:grounding rdf:type owl:ObjectProperty ;
+    rdfs:domain bfo:BFO_0000019 ;  # bfo:Quality
+    rdfs:range :ActSpecification ;
+    rdfs:label "grounding"@en ;
+    skos:definition "Links a Quality to the ActSpecification (EventDescription or PlanSpecification) that causally grounds it. Populated by downstream services (CSS), not by TagTeam. Set to null at parse time."@en .
+
+:epistemicStatus rdf:type owl:ObjectProperty ;
+    rdfs:range :EpistemicStatus ;
+    rdfs:label "epistemic status"@en ;
+    skos:definition "The certainty level of an assertion or quality. Used on QualityAssertion and bfo:Quality nodes."@en ;
+    rdfs:comment "Domain intentionally unspecified: used on both Tier 1 assertions and Tier 2 quality nodes."@en .
+
+# ─── Properties — Datatype Properties (6) ────────────────────────────────────
+
+:assertedQuality rdf:type owl:DatatypeProperty ;
+    rdfs:domain :QualityAssertion ;
+    rdfs:range xsd:string ;
+    rdfs:label "asserted quality"@en ;
+    skos:definition "The adjective lemma or quality noun extracted from the predicate (e.g., 'hungry', 'hot', 'fur')."@en .
+
+:qualityType rdf:type owl:DatatypeProperty ;
+    rdfs:domain bfo:BFO_0000019 ;  # bfo:Quality
+    rdfs:range xsd:string ;
+    rdfs:label "quality type"@en ;
+    skos:definition "The quality type label on a Tier 2 Quality node. Same value as assertedQuality; downstream services map to rich taxonomy."@en .
+
+:kindLevel rdf:type owl:DatatypeProperty ;
+    rdfs:domain bfo:BFO_0000019 ;  # bfo:Quality
+    rdfs:range xsd:boolean ;
+    rdfs:label "kind level"@en ;
+    skos:definition "True if this quality is asserted at the kind level (generic subject, e.g., 'Dogs have fur'). False or absent for instance-level qualities."@en .
+
+:observedAt rdf:type owl:DatatypeProperty ;
+    rdfs:domain bfo:BFO_0000019 ;  # bfo:Quality
+    rdfs:range xsd:dateTime ;
+    rdfs:label "observed at"@en ;
+    skos:definition "Parse timestamp for state observation. Records when TagTeam extracted this quality."@en .
+
+:evidentialMarker rdf:type owl:DatatypeProperty ;
+    rdfs:domain :QualityAssertion ;
+    rdfs:range xsd:string ;
+    rdfs:label "evidential marker"@en ;
+    skos:definition "The perception verb lemma that signals evidential modality (e.g., 'seem', 'appear', 'look'). Absent for non-evidential assertions."@en .
+
+:copulaLemma rdf:type owl:DatatypeProperty ;
+    rdfs:domain :StructuralAssertion ;
+    rdfs:range xsd:string ;
+    rdfs:label "copula lemma"@en ;
+    skos:definition "The copula verb lemma from the source sentence (e.g., 'be' for 'is', 'seem' for 'seems')."@en .
+
+
+# =============================================================================
 # END OF ONTOLOGY
 # =============================================================================

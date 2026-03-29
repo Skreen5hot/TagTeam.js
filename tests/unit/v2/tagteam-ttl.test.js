@@ -192,6 +192,26 @@ describe('P0-TTL: tagteam.ttl Schema Validation', () => {
     expect(schemaDefines(':prescribedActClass')).toBe(true);
   });
 
+  test('P0-TTL-13: SMA stative classes declared', () => {
+    expect(schemaDefines(':QualityAssertion')).toBe(true);
+    expect(schemaDefines(':RoleAssertion')).toBe(true);
+    expect(schemaDefines(':EpistemicStatus')).toBe(true);
+    expect(schemaDefines(':Asserted')).toBe(true);
+    expect(schemaDefines(':Observational')).toBe(true);
+  });
+
+  test('P0-TTL-14: SMA stative properties declared', () => {
+    expect(schemaDefines(':assertedQuality')).toBe(true);
+    expect(schemaDefines(':qualityType')).toBe(true);
+    expect(schemaDefines(':grounding')).toBe(true);
+    expect(schemaDefines(':kindLevel')).toBe(true);
+    expect(schemaDefines(':evidentialMarker')).toBe(true);
+    expect(schemaDefines(':epistemicStatus')).toBe(true);
+    expect(schemaDefines(':copulaLemma')).toBe(true);
+    expect(schemaDefines(':assertionSubject')).toBe(true);
+    expect(schemaDefines(':observedAt')).toBe(true);
+  });
+
   test('P0-TTL-12: prescribes domain updated to DICE', () => {
     // prescribes should reference DirectiveInformationContentEntity, not DirectiveContent
     expect(schemaContent).toContain('DirectiveInformationContentEntity');
