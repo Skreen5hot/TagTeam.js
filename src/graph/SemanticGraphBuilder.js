@@ -2168,12 +2168,15 @@ class SemanticGraphBuilder {
           const qaId = `${this.options.namespace}:QualityAssertion_${this._sanitizeId(qualityWord)}_${this._hashText((sa.subject || '') + qualityWord).substring(0, 8)}`;
           const qualityId = `${this.options.namespace}:Quality_${this._sanitizeId(qualityWord)}_${this._hashText((sa.subject || '') + qualityWord).substring(0, 8)}`;
 
+          // Resolve subject to Tier 1 DiscourseReferent IRI (FT-03: no string literals in provenance)
+          const subjectIRI = sa.subject ? `${this.options.namespace}:${this._sanitizeId(sa.subject)}` : null;
+
           const qaNode = {
             '@id': qaId,
             '@type': ['tagteam:QualityAssertion', 'tagteam:StructuralAssertion'],
             'rdfs:label': `Quality assertion: ${sa.subject || ''} \u2192 ${qualityWord}`,
             'tagteam:assertedQuality': qualityWord,
-            'tagteam:assertionSubject': sa.subject,
+            'tagteam:assertionSubject': subjectIRI ? { '@id': subjectIRI } : null,
             'tagteam:pattern': 'quality_assertion',
             'is_about': { '@id': qualityId },
           };
@@ -2223,11 +2226,14 @@ class SemanticGraphBuilder {
           const roleWord = (sa.predicateText || '').toLowerCase();
           const roleId = `${this.options.namespace}:Role_${this._sanitizeId(roleWord)}_${this._hashText((sa.subject || '') + roleWord).substring(0, 8)}`;
 
+          // Resolve subject to Tier 1 DiscourseReferent IRI (FT-03: no string literals in provenance)
+          const roleSubjectIRI = sa.subject ? `${this.options.namespace}:${this._sanitizeId(sa.subject)}` : null;
+
           const roleAssertionNode = {
             '@id': `${this.options.namespace}:RoleAssertion_${this._sanitizeId(roleWord)}_${this._hashText((sa.subject || '') + roleWord).substring(0, 8)}`,
             '@type': ['tagteam:RoleAssertion', 'tagteam:StructuralAssertion'],
             'rdfs:label': `Role assertion: ${sa.subject || ''} \u2192 ${roleWord}`,
-            'tagteam:assertionSubject': sa.subject,
+            'tagteam:assertionSubject': roleSubjectIRI ? { '@id': roleSubjectIRI } : null,
             'tagteam:pattern': 'role_assertion',
             'is_about': { '@id': roleId },
           };
