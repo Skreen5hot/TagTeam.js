@@ -52,8 +52,16 @@
     "gold:generate": "node tests/gold/generate-baseline.js",
     "gold:evaluate": "node tests/gold/evaluate.js",
     "gold:evaluate:verbose": "node tests/gold/evaluate.js --verbose",
-    "test:ci": "npm run test:phase0 && npm run test:phase1 && npm run test:phase2 && npm run test:phase3a && npm run test:phase3b && npm run test:two-tier && npm run test:component && npm run test:adversarial && npm run test:sanitization && npm run test:bundle && npm run test:regression && npm run test:api-compat && npm run test:binary",
-    "test:ci:full": "npm run test:ci && npm run benchmark && npm run gold:evaluate"
+    "test:shacl": "node tests/shacl/shacl-validator.test.js && node tests/shacl/shacl-negative.test.js",
+    "test:shacl:frontier": "node tests/shacl/shacl-frontier.test.js",
+    "test:rdm": "node tests/linguistic/deontic/realist-deontic-modeling.test.js",
+    "test:stative": "node tests/linguistic/stative/stative-quality.test.js",
+    "test:narrative": "node tests/linguistic/narrative/event-description.test.js",
+    "test:entity": "node tests/linguistic/entity-boundary/entity-fragmentation.test.js",
+    "test:corpus": "node tests/corpus/corpus-regression.test.js",
+    "test:ttl-schema": "node tests/unit/v2/tagteam-ttl.test.js",
+    "test:ci": "npm run test:phase0 && npm run test:phase1 && npm run test:phase2 && npm run test:phase3a && npm run test:phase3b && npm run test:two-tier && npm run test:component && npm run test:adversarial && npm run test:sanitization && npm run test:bundle && npm run test:regression && npm run test:api-compat && npm run test:binary && npm run test:shacl && npm run test:rdm && npm run test:stative && npm run test:narrative && npm run test:entity && npm run test:corpus && npm run test:ttl-schema",
+    "test:ci:full": "npm run test:ci && npm run test:shacl:frontier && npm run benchmark && npm run gold:evaluate"
   },
   "keywords": [
     "nlp",

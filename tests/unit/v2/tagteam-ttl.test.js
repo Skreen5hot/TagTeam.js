@@ -4,7 +4,7 @@
  * Phase 0 — validates that the unified TagTeam ontology defines all required
  * classes, properties, and individuals from core, v2, and v3.
  *
- * Namespace: http://tagteam.fandaws.org/ontology/
+ * Namespace: http://tagteam.fandaws.com/ontology/
  * Single authoritative file consolidating core + structural + BFO bridges.
  *
  * Test IDs: P0-TTL-1 through P0-TTL-7
@@ -37,14 +37,14 @@ describe('P0-TTL: tagteam.ttl Schema Validation', () => {
     expect(schemaContent.length).toBeGreaterThan(0);
 
     // Must have prefix declarations
-    expect(schemaContent).toContain('@prefix : <http://tagteam.fandaws.org/ontology/>');
+    expect(schemaContent).toContain('@prefix : <http://tagteam.fandaws.com/ontology/>');
     expect(schemaContent).toContain('@prefix owl:');
     expect(schemaContent).toContain('@prefix rdfs:');
     expect(schemaContent).toContain('@prefix cco:');
     expect(schemaContent).toContain('@prefix skos:');
 
     // Must declare itself as an ontology
-    expect(schemaContent).toContain('<http://tagteam.fandaws.org/ontology/>');
+    expect(schemaContent).toContain('<http://tagteam.fandaws.com/ontology/>');
     expect(schemaContent).toContain('a owl:Ontology');
 
     // Must have version info

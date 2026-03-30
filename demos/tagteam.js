@@ -1,7 +1,7 @@
 /*!
  * TagTeam.js - Two-Tier Semantic Graph Engine
  * Version: 7.0 (v2 Phase 2: Dependency Parser)
- * Date: 2026-03-29
+ * Date: 2026-03-30
  *
  * A client-side JavaScript library for extracting semantic roles from natural language text
  *
@@ -322284,6 +322284,21 @@ const IRREGULAR_LEMMAS = {
   'caught': 'catch',
   'taught': 'teach',
   'built': 'build',
+  'arrived': 'arrive',
+  'approved': 'approve',
+  'received': 'receive',
+  'achieved': 'achieve',
+  'believed': 'believe',
+  'removed': 'remove',
+  'moved': 'move',
+  'loved': 'love',
+  'lived': 'live',
+  'served': 'serve',
+  'observed': 'observe',
+  'improved': 'improve',
+  'involved': 'involve',
+  'produced': 'produce',
+  'reduced': 'reduce',
   'spent': 'spend',
   'lent': 'lend',
   'bent': 'bend',
@@ -325664,6 +325679,14 @@ class SemanticGraphBuilder {
           if (act.isPassive) vpNode['tagteam:isPassive'] = true;
           if (act.isNegated) vpNode['tagteam:isNegated'] = true;
           if (act.sourceText) vpNode['tagteam:sourceText'] = act.sourceText;
+          vpNode['tagteam:denotesType'] = 'Directive';
+          // mentionId for SHACL compliance
+          if (act.verbId) {
+            const verbIdx = act.verbId - 1;
+            let charStart = 0;
+            for (let ci = 0; ci < verbIdx && ci < tokens.length; ci++) charStart += tokens[ci].length + 1;
+            vpNode['tagteam:mentionId'] = `s0:v${act.verbId}:${charStart}-${charStart + (tokens[verbIdx] || '').length}`;
+          }
           graphNodes.push(vpNode);
 
           // ── DICE (Tier 2) ──
@@ -327032,7 +327055,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 290 | 6e2914e | 2026-03-29T12:31:29.213Z',
+    BUILD: 'build 293 | 45979a8 | 2026-03-30T11:07:07.669Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
