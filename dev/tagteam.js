@@ -299384,7 +299384,10 @@ const KNOWN_ACRONYMS = new Set([
   'AIDS', 'HIV', 'NATO', 'UNESCO', 'UNICEF', 'NASA', 'WHO',
   'OECD', 'ICSID', 'UNAIDS', 'IMF', 'WTO', 'EU', 'UN', 'OPEC',
   'ASEAN', 'NAFTA', 'FBI', 'CIA', 'NSA', 'IRS', 'EPA', 'CDC',
-  'NIH', 'HHS', 'DOJ', 'DOD', 'DOS', 'DOE', 'USAID'
+  'NIH', 'HHS', 'DOJ', 'DOD', 'DOS', 'DOE', 'USAID',
+  'CMS', 'DHS', 'USCIS', 'SAVE', 'AE', 'AEs', 'OMB', 'FIPS',
+  'CBP', 'ICE', 'TSA', 'FEMA', 'CISA', 'FLETC', 'GAO', 'OIG',
+  'PPACA', 'CFR', 'USC', 'OMB'
 ]);
 
 /**
@@ -299742,12 +299745,18 @@ class ComplexDesignatorDetector {
     // Then check each item for capitalized sequences
     const items = [];
 
+    // Only run list detection if the text actually contains list separators
+    if (!text.includes(',')) return items;
+
     // Pattern: items separated by ", " with optional "and " before last
     // Remove leading "the " from the whole text first
     const cleanText = text.replace(/^the\s+/i, '');
 
     // Split on list separators
     const parts = cleanText.split(/,\s*(?:and\s+)?|,\s+/);
+
+    // Don't treat a single unsplit chunk as a "list item"
+    if (parts.length < 2) return items;
 
     for (const part of parts) {
       const trimmed = part.replace(/^(?:the\s+|and\s+)/i, '').trim();
@@ -299758,11 +299767,11 @@ class ComplexDesignatorDetector {
       if (tokens.length > 0 && tokens.some(t => this._isCapitalizedOrAcronym(t))) {
         const span = this._consumeComplexDesignator(tokens, 0);
         if (span) {
-          // Adjust positions relative to original text
+          // Adjust positions relative to original text using the span's own char offsets
           const idx = text.indexOf(trimmed);
           if (idx >= 0) {
-            span.start = idx;
-            span.end = idx + trimmed.length;
+            span.start = idx + span.start;
+            span.end = idx + span.end;
           }
           items.push(span);
         }
@@ -322317,6 +322326,30 @@ const IRREGULAR_LEMMAS = {
   'transported': 'transport',
   'located': 'locate',
   'based': 'base',
+  // VBZ forms where -es stripping over-truncates (stem ends in 'e')
+  'agrees': 'agree',
+  'advises': 'advise',
+  'provides': 'provide',
+  'discloses': 'disclose',
+  'requires': 'require',
+  'ensures': 'ensure',
+  'produces': 'produce',
+  'reduces': 'reduce',
+  'causes': 'cause',
+  'includes': 'include',
+  'involves': 'involve',
+  'receives': 'receive',
+  'achieves': 'achieve',
+  'removes': 'remove',
+  'improves': 'improve',
+  'serves': 'serve',
+  'observes': 'observe',
+  'manages': 'manage',
+  'describes': 'describe',
+  'determines': 'determine',
+  'operates': 'operate',
+  'locates': 'locate',
+  'collaborates': 'collaborate',
 };
 
 /**
@@ -322386,6 +322419,7 @@ const MULTI_WORD_MODAL_LEMMAS = {
   'have': 'obligation',
   'need': 'obligation',
   'ought': 'recommendation',  // "ought to" → DefeasibleObligation (spec §4)
+  'agree': 'intention',       // "agrees to provide" → DeclaredIntention (commissive)
 };
 
 // ============================================================================
@@ -323038,7 +323072,22 @@ class TreeActExtractor {
         if (VERB_TAGS.has(embeddedTag)) {
           const embeddedChildren = depTree.getChildren(child.dependent);
           const act = this._buildAct(depTree, child.dependent, embeddedChildren);
-          if (act) acts.push(act);
+          if (act) {
+            // Inherit deontic modality from parent ONLY for non-finite verbs.
+            // Finite verbs (VBD, VBZ, VBP) have independent tense — they describe
+            // actual events, not prescribed ones. VBN in reduced relatives ("data
+            // received from USCIS") also describes completed events.
+            // Non-finite forms (VB base, VBG gerund) are within the deontic scope.
+            const FINITE_TAGS = new Set(['VBD', 'VBZ', 'VBP', 'VBN']);
+            if (!act.modality && parentAct && parentAct.modality && !FINITE_TAGS.has(embeddedTag)) {
+              act.modalVerb = parentAct.modalVerb;
+              act.modality = parentAct.modality;
+              act.actualityStatus = parentAct.actualityStatus;
+              act.deonticType = parentAct.deonticType;
+              act.sourceText = (parentAct.modalVerb || '') + ' ' + act.verb;
+            }
+            acts.push(act);
+          }
           // Recurse into embedded clause to find deeper acts (e.g., ccomp inside acl)
           this._extractEmbeddedActs(depTree, child.dependent, acts, structuralAssertions);
         }
@@ -324420,6 +324469,7 @@ class SemanticGraphBuilder {
       '@type': ['IntentionalAct', 'owl:NamedIndividual'],
       'rdfs:label': 'Semantic parsing act',
       'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
+      'tagteam:systemGenerated': true,
       'has_input': { '@id': ibeNode['@id'] },
       'has_agent': { '@id': parserAgentNode['@id'] },
       'tagteam:instantiated_at': this.buildTimestamp
@@ -326254,6 +326304,7 @@ class SemanticGraphBuilder {
         '@type': ['IntentionalAct', 'owl:NamedIndividual'],
         'rdfs:label': 'Semantic parsing act',
         'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
+        'tagteam:systemGenerated': true,
         'has_input': { '@id': ibeNode['@id'] },
         'has_agent': { '@id': parserAgentNode['@id'] },
         'has_output': iceNodes.map(n => ({ '@id': n['@id'] })),
@@ -327055,7 +327106,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 294 | da4a837 | 2026-03-30T11:40:27.271Z',
+    BUILD: 'build 300 | dfbcc22 | 2026-03-30T18:06:16.235Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
