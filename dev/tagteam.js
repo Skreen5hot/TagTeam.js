@@ -322284,6 +322284,21 @@ const IRREGULAR_LEMMAS = {
   'caught': 'catch',
   'taught': 'teach',
   'built': 'build',
+  'arrived': 'arrive',
+  'approved': 'approve',
+  'received': 'receive',
+  'achieved': 'achieve',
+  'believed': 'believe',
+  'removed': 'remove',
+  'moved': 'move',
+  'loved': 'love',
+  'lived': 'live',
+  'served': 'serve',
+  'observed': 'observe',
+  'improved': 'improve',
+  'involved': 'involve',
+  'produced': 'produce',
+  'reduced': 'reduce',
   'spent': 'spend',
   'lent': 'lend',
   'bent': 'bend',
@@ -327040,7 +327055,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 293 | 45979a8 | 2026-03-30T11:05:49.281Z',
+    BUILD: 'build 294 | df48ffa | 2026-03-30T11:11:46.301Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
