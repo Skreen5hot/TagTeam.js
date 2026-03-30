@@ -1,0 +1,777 @@
+# =============================================================================
+# TagTeam SHACL Validation Shapes v1.3.1
+# Canonical Namespace: http://tagteam.fandaws.org/ontology/
+# Generated: 2026-03-30
+# =============================================================================
+
+@prefix sh:      <http://www.w3.org/ns/shacl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix bfo:     <http://purl.obolibrary.org/obo/> .
+@prefix cco:     <https://www.commoncoreontologies.org/> .
+@prefix tagteam: <http://tagteam.fandaws.org/ontology/> .
+@prefix ttshacl: <http://tagteam.fandaws.org/shacl/> .
+
+# =============================================================================
+# PREFIX DECLARATIONS FOR SPARQL PORTABILITY
+# =============================================================================
+
+ttshacl:PrefixDeclarations
+  a owl:Ontology ;
+  sh:declare [
+    sh:prefix "tagteam" ;
+    sh:namespace "http://tagteam.fandaws.org/ontology/"^^xsd:anyURI
+  ] ;
+  sh:declare [
+    sh:prefix "cco" ;
+    sh:namespace "https://www.commoncoreontologies.org/"^^xsd:anyURI
+  ] ;
+  sh:declare [
+    sh:prefix "bfo" ;
+    sh:namespace "http://purl.obolibrary.org/obo/"^^xsd:anyURI
+  ] ;
+  sh:declare [
+    sh:prefix "rdfs" ;
+    sh:namespace "http://www.w3.org/2000/01/rdf-schema#"^^xsd:anyURI
+  ] ;
+  sh:declare [
+    sh:prefix "xsd" ;
+    sh:namespace "http://www.w3.org/2001/XMLSchema#"^^xsd:anyURI
+  ] .
+
+# =============================================================================
+# TIER 1: DISCOURSE LAYER SHAPES
+# =============================================================================
+
+ttshacl:DiscourseReferentShape
+  a sh:NodeShape ;
+  sh:targetClass tagteam:DiscourseReferent ;
+  sh:name "Discourse Referent Shape" ;
+  
+  sh:property [
+    sh:path tagteam:mentionId ;
+    sh:datatype xsd:string ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "DiscourseReferent MUST have exactly one mentionId"
+  ] ;
+  
+  sh:property [
+    sh:path rdfs:label ;
+    sh:datatype xsd:string ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "DiscourseReferent MUST have exactly one rdfs:label"
+  ] ;
+  
+  sh:property [
+    sh:path tagteam:denotesType ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:in ( "Person" "Organization" "Entity" "Location" "EventDescription" "Event" "Directive" "Quality" "Structure" "Role" ) ;
+    sh:message "DiscourseReferent MUST have denotesType from controlled vocabulary"
+  ] ;
+  
+  sh:property [
+    sh:path tagteam:is_about ;
+    sh:minCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:message "DiscourseReferent MUST have at least one is_about"
+  ] ;
+  
+  sh:property [
+    sh:path tagteam:is_concretized_by ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:message "DiscourseReferent MUST link to source IBE"
+  ] ;
+  
+  sh:not [ sh:class cco:IntentionalAct ] ;
+  sh:not [ sh:class cco:Role ] ;
+  sh:not [ sh:class tagteam:EventDescription ] .
+
+
+ttshacl:VerbPhraseShape
+  a sh:NodeShape ;
+  sh:targetClass tagteam:VerbPhrase ;
+  sh:name "Verb Phrase Shape" ;
+  
+  sh:property [
+    sh:path tagteam:lemma ;
+    sh:datatype xsd:string ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "VerbPhrase MUST have exactly one lemma"
+  ] ;
+  
+  sh:property [
+    sh:path tagteam:verb ;
+    sh:datatype xsd:string ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "VerbPhrase MUST have exactly one verb"
+  ] ;
+  
+  sh:property [
+    sh:path tagteam:is_about ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:message "VerbPhrase MUST have exactly one is_about"
+  ] ;
+  
+  sh:property [
+    sh:path tagteam:modalMarker ;
+    sh:in ( "shall" "must" "should" "may" "can" "will" ) ;
+    sh:message "modalMarker must be from controlled vocabulary"
+  ] ;
+  
+  sh:not [ sh:class cco:IntentionalAct ] ;
+  sh:not [ sh:class bfo:BFO_0000015 ] ;
+  sh:not [ sh:class tagteam:EventDescription ] .
+
+# =============================================================================
+# TIER 2: ICE SHAPES
+# =============================================================================
+
+ttshacl:EventDescriptionShape
+  a sh:NodeShape ;
+  sh:targetClass tagteam:EventDescription ;
+  sh:name "Event Description Shape" ;
+  
+  sh:property [
+    sh:path tagteam:actType ;
+    sh:datatype xsd:string ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "EventDescription MUST have exactly one actType"
+  ] ;
+  
+  sh:property [
+    sh:path tagteam:realizationStatus ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:message "EventDescription MUST have exactly one realizationStatus"
+  ] ;
+  
+  sh:or (
+    [ sh:property [ sh:path tagteam:agent ; sh:minCount 1 ] ]
+    [ sh:property [ sh:path tagteam:patient ; sh:minCount 1 ] ]
+  ) ;
+  
+  sh:property [
+    sh:path tagteam:instrument ;
+    sh:nodeKind sh:IRI
+  ] ;
+  
+  sh:not [ sh:class tagteam:VerbPhrase ] ;
+  sh:not [ sh:class tagteam:DiscourseReferent ] ;
+  
+  sh:property [
+    sh:path tagteam:mentionId ;
+    sh:maxCount 0 ;
+    sh:message "EventDescription MUST NOT have mentionId"
+  ] .
+
+
+ttshacl:QualityAssertionShape
+  a sh:NodeShape ;
+  sh:targetClass tagteam:QualityAssertion ;
+  sh:name "Quality Assertion Shape" ;
+  
+  sh:property [
+    sh:path tagteam:assertedQuality ;
+    sh:datatype xsd:string ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "QualityAssertion MUST have assertedQuality"
+  ] ;
+  
+  sh:property [
+    sh:path tagteam:assertionSubject ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:message "QualityAssertion MUST have assertionSubject"
+  ] .
+
+
+ttshacl:StructuralAssertionShape
+  a sh:NodeShape ;
+  sh:targetClass tagteam:StructuralAssertion ;
+  sh:name "Structural Assertion Shape" ;
+  
+  sh:property [
+    sh:path tagteam:hasSubject ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:message "StructuralAssertion MUST have hasSubject"
+  ] ;
+  
+  sh:property [
+    sh:path tagteam:hasObject ;
+    sh:minCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:message "StructuralAssertion MUST have at least one hasObject"
+  ] .
+
+
+ttshacl:PlanSpecificationShape
+  a sh:NodeShape ;
+  sh:targetClass tagteam:PlanSpecification ;
+  sh:name "Plan Specification Shape" ;
+  
+  sh:property [
+    sh:path tagteam:prescribedActType ;
+    sh:datatype xsd:string ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "PlanSpecification MUST have prescribedActType"
+  ] ;
+  
+  sh:property [
+    sh:path tagteam:prescribedAgent ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:message "PlanSpecification MUST have prescribedAgent"
+  ] .
+
+
+ttshacl:DirectiveICEShape
+  a sh:NodeShape ;
+  sh:targetClass tagteam:DirectiveInformationContentEntity ;
+  sh:name "Directive ICE Shape" ;
+  
+  sh:property [
+    sh:path tagteam:modalMarker ;
+    sh:datatype xsd:string ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:in ( "shall" "must" "should" "may" "can" "will" ) ;
+    sh:message "DICE MUST have modalMarker from controlled vocabulary"
+  ] ;
+  
+  sh:property [
+    sh:path tagteam:prescribes ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:message "DICE MUST prescribe a PlanSpecification"
+  ] .
+
+# =============================================================================
+# TIER 2: PROCESS & ROLE SHAPES
+# =============================================================================
+
+ttshacl:IntentionalActShape
+  a sh:NodeShape ;
+  sh:target [
+    a sh:SPARQLTarget ;
+    sh:prefixes ttshacl:PrefixDeclarations ;
+    sh:select """
+      PREFIX tagteam: <http://tagteam.fandaws.org/ontology/>
+      PREFIX cco: <https://www.commoncoreontologies.org/>
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+      SELECT ?this
+      WHERE {
+        ?this a cco:IntentionalAct .
+        OPTIONAL { ?this rdfs:label ?label }
+        # Exclude system-generated acts (explicit property OR fallback heuristic)
+        FILTER (
+          NOT EXISTS { ?this tagteam:systemGenerated true }
+          && !CONTAINS(LCASE(COALESCE(STR(?label), "")), "parsing")
+          && !CONTAINS(STR(?this), "Parsing")
+          && !CONTAINS(STR(?this), "System")
+        )
+      }
+    """
+  ] ;
+  sh:name "Intentional Act Shape" ;
+  
+  sh:property [
+    sh:path tagteam:actualityStatus ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:message "IntentionalAct MUST have actualityStatus"
+  ] ;
+  
+  sh:property [
+    sh:path tagteam:describedBy ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:message "IntentionalAct MUST have describedBy"
+  ] ;
+  
+  sh:not [ sh:class tagteam:VerbPhrase ] ;
+  sh:not [ sh:class tagteam:DiscourseReferent ] ;
+  
+  sh:property [
+    sh:path tagteam:mentionId ;
+    sh:maxCount 0 ;
+    sh:message "IntentionalAct MUST NOT have mentionId"
+  ] .
+
+
+ttshacl:AgentRoleShape
+  a sh:NodeShape ;
+  sh:targetClass cco:AgentRole ;
+  sh:name "Agent Role Shape" ;
+  
+  sh:property [
+    sh:path bfo:BFO_0000052 ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:message "AgentRole MUST inhere in one entity"
+  ] ;
+  
+  sh:property [
+    sh:path bfo:BFO_0000054 ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:message "AgentRole MUST be realized in one process"
+  ] .
+
+
+ttshacl:PatientRoleShape
+  a sh:NodeShape ;
+  sh:targetClass cco:PatientRole ;
+  sh:name "Patient Role Shape" ;
+  
+  sh:property [
+    sh:path bfo:BFO_0000052 ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:message "PatientRole MUST inhere in one entity"
+  ] ;
+  
+  sh:property [
+    sh:path bfo:BFO_0000054 ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:message "PatientRole MUST be realized in one process"
+  ] .
+
+
+ttshacl:InstrumentalRoleShape
+  a sh:NodeShape ;
+  sh:targetClass tagteam:InstrumentalRole ;
+  sh:name "Instrumental Role Shape" ;
+  
+  sh:property [
+    sh:path bfo:BFO_0000052 ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:message "InstrumentalRole MUST inhere in one entity"
+  ] ;
+  
+  sh:property [
+    sh:path bfo:BFO_0000054 ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:message "InstrumentalRole MUST be realized in one process"
+  ] .
+
+# =============================================================================
+# ENTITY SHAPES
+# =============================================================================
+
+ttshacl:EntityShape
+  a sh:NodeShape ;
+  sh:target [
+    a sh:SPARQLTarget ;
+    sh:prefixes ttshacl:PrefixDeclarations ;
+    sh:select """
+      PREFIX tagteam: <http://tagteam.fandaws.org/ontology/>
+      PREFIX cco: <https://www.commoncoreontologies.org/>
+      PREFIX bfo: <http://purl.obolibrary.org/obo/>
+      PREFIX owl: <http://www.w3.org/2002/07/owl#>
+      SELECT ?this
+      WHERE {
+        ?this a owl:NamedIndividual .
+        {
+          { ?this a bfo:BFO_0000040 }
+          UNION { ?this a cco:Person }
+          UNION { ?this a cco:Organization }
+          UNION { ?this a cco:Artifact }
+        }
+        FILTER NOT EXISTS { ?this a tagteam:DiscourseReferent }
+        FILTER NOT EXISTS { ?this a tagteam:EventDescription }
+      }
+    """
+  ] ;
+  sh:name "Entity Shape" ;
+  
+  sh:property [
+    sh:path rdfs:label ;
+    sh:datatype xsd:string ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "Entity MUST have exactly one rdfs:label"
+  ] ;
+  
+  sh:property [
+    sh:path tagteam:is_subject_of ;
+    sh:minCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:message "Entity MUST link back to at least one DiscourseReferent"
+  ] .
+
+
+ttshacl:EntityDisjointnessRule
+  a sh:NodeShape ;
+  sh:targetClass cco:Person ;
+  sh:name "Person-Organization Disjointness" ;
+  sh:severity sh:Violation ;
+  
+  sh:not [ sh:class cco:Organization ] ;
+  sh:message "Entity MUST NOT be both Person and Organization" .
+
+# =============================================================================
+# PROVENANCE SHAPES
+# =============================================================================
+
+ttshacl:InformationBearingEntityShape
+  a sh:NodeShape ;
+  sh:targetClass cco:InformationBearingEntity ;
+  sh:name "IBE Shape" ;
+  
+  sh:property [
+    sh:path cco:has_text_value ;
+    sh:datatype xsd:string ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "IBE MUST have has_text_value"
+  ] ;
+  
+  sh:property [
+    sh:path tagteam:received_at ;
+    sh:datatype xsd:dateTime ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "IBE MUST have received_at"
+  ] .
+
+
+ttshacl:ProvenanceChainShape
+  a sh:NodeShape ;
+  sh:targetClass tagteam:DiscourseReferent ;
+  sh:name "Provenance Chain Shape" ;
+  
+  sh:property [
+    sh:path tagteam:is_concretized_by ;
+    sh:minCount 1 ;
+    sh:class cco:InformationBearingEntity ;
+    sh:message "DiscourseReferent MUST trace to IBE"
+  ] .
+
+# =============================================================================
+# CROSS-TIER INTEGRITY CONSTRAINTS
+# =============================================================================
+
+ttshacl:TierSeparationRule
+  a sh:NodeShape ;
+  sh:target [
+    a sh:SPARQLTarget ;
+    sh:prefixes ttshacl:PrefixDeclarations ;
+    sh:select """
+      PREFIX tagteam: <http://tagteam.fandaws.org/ontology/>
+      PREFIX cco: <https://www.commoncoreontologies.org/>
+      SELECT ?this WHERE {
+        ?this a tagteam:VerbPhrase .
+        ?this a cco:IntentionalAct .
+      }
+    """
+  ] ;
+  sh:name "Tier Separation Rule" ;
+  sh:severity sh:Violation ;
+  sh:sparql [
+    sh:prefixes ttshacl:PrefixDeclarations ;
+    sh:message "Node MUST NOT be both VerbPhrase and IntentionalAct" ;
+    sh:select "SELECT $this WHERE { }"
+  ] .
+
+
+ttshacl:StativeExclusionRule
+  a sh:NodeShape ;
+  sh:target [
+    a sh:SPARQLTarget ;
+    sh:prefixes ttshacl:PrefixDeclarations ;
+    sh:select """
+      PREFIX tagteam: <http://tagteam.fandaws.org/ontology/>
+      SELECT ?this WHERE {
+        ?vp tagteam:is_about ?this .
+        { ?this a tagteam:QualityAssertion }
+        UNION { ?this a tagteam:StructuralAssertion }
+      }
+    """
+  ] ;
+  sh:name "Stative Exclusion Rule" ;
+  sh:severity sh:Violation ;
+  sh:sparql [
+    sh:prefixes ttshacl:PrefixDeclarations ;
+    sh:message "Stative assertion coexists with IntentionalAct" ;
+    sh:select """
+      PREFIX tagteam: <http://tagteam.fandaws.org/ontology/>
+      PREFIX cco: <https://www.commoncoreontologies.org/>
+      SELECT $this ?act WHERE {
+        ?vp tagteam:is_about $this .
+        ?vp tagteam:is_about ?act .
+        ?act a cco:IntentionalAct .
+        FILTER(?act != $this)
+      }
+    """
+  ] .
+
+
+ttshacl:RoleRealizationTargetRule
+  a sh:NodeShape ;
+  sh:target [
+    a sh:SPARQLTarget ;
+    sh:prefixes ttshacl:PrefixDeclarations ;
+    sh:select """
+      PREFIX cco: <https://www.commoncoreontologies.org/>
+      PREFIX tagteam: <http://tagteam.fandaws.org/ontology/>
+      SELECT ?this WHERE {
+        { ?this a cco:AgentRole }
+        UNION { ?this a cco:PatientRole }
+        UNION { ?this a tagteam:InstrumentalRole }
+      }
+    """
+  ] ;
+  sh:name "Role Realization Target Rule" ;
+  sh:severity sh:Violation ;
+  sh:sparql [
+    sh:prefixes ttshacl:PrefixDeclarations ;
+    sh:message "Role realized_in MUST point to IntentionalAct" ;
+    sh:select """
+      PREFIX bfo: <http://purl.obolibrary.org/obo/>
+      PREFIX tagteam: <http://tagteam.fandaws.org/ontology/>
+      SELECT $this ?target WHERE {
+        $this bfo:BFO_0000054 ?target .
+        ?target a tagteam:EventDescription .
+      }
+    """
+  ] .
+
+
+ttshacl:NegationRealizationConsistencyRule
+  a sh:NodeShape ;
+  sh:targetClass tagteam:VerbPhrase ;
+  sh:name "Negation-Realization Consistency" ;
+  sh:severity sh:Violation ;
+  sh:sparql [
+    sh:prefixes ttshacl:PrefixDeclarations ;
+    sh:message "Negated VP points to Realized ED" ;
+    sh:select """
+      PREFIX tagteam: <http://tagteam.fandaws.org/ontology/>
+      SELECT $this ?ed ?status WHERE {
+        $this tagteam:negated true .
+        $this tagteam:is_about ?ed .
+        ?ed a tagteam:EventDescription .
+        ?ed tagteam:realizationStatus ?status .
+        FILTER(
+          ?status = tagteam:Realized ||
+          STR(?status) = "Realized" ||
+          STR(?status) = "http://tagteam.fandaws.org/ontology/Realized"
+        )
+      }
+    """
+  ] .
+
+
+ttshacl:NegatedNoProcessRule
+  a sh:NodeShape ;
+  sh:targetClass tagteam:VerbPhrase ;
+  sh:name "Negated No Process Rule" ;
+  sh:severity sh:Violation ;
+  sh:sparql [
+    sh:prefixes ttshacl:PrefixDeclarations ;
+    sh:message "Negated VP linked to IntentionalAct" ;
+    sh:select """
+      PREFIX tagteam: <http://tagteam.fandaws.org/ontology/>
+      PREFIX cco: <https://www.commoncoreontologies.org/>
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+      SELECT $this ?act WHERE {
+        $this tagteam:negated true .
+        $this tagteam:is_about ?ed .
+        ?act tagteam:describedBy ?ed .
+        ?act a cco:IntentionalAct .
+        OPTIONAL { ?act rdfs:label ?label }
+        FILTER (
+          NOT EXISTS { ?act tagteam:systemGenerated true }
+          && !CONTAINS(LCASE(COALESCE(STR(?label), "")), "parsing")
+          && !CONTAINS(STR(?act), "Parsing")
+          && !CONTAINS(STR(?act), "System")
+        )
+      }
+    """
+  ] .
+
+
+ttshacl:InstrumentConsistencyRule
+  a sh:NodeShape ;
+  sh:targetClass tagteam:EventDescription ;
+  sh:severity sh:Warning ;
+  sh:name "Instrument Consistency Rule" ;
+  sh:sparql [
+    sh:prefixes ttshacl:PrefixDeclarations ;
+    sh:message "ED has instrument but no InstrumentalRole" ;
+    sh:select """
+      PREFIX tagteam: <http://tagteam.fandaws.org/ontology/>
+      PREFIX bfo: <http://purl.obolibrary.org/obo/>
+      SELECT $this ?instrument WHERE {
+        $this tagteam:instrument ?instrument .
+        FILTER NOT EXISTS {
+          ?role a tagteam:InstrumentalRole .
+          ?role bfo:BFO_0000052 ?instrument .
+        }
+      }
+    """
+  ] .
+
+
+ttshacl:LemmaActTypeConsistencyRule
+  a sh:NodeShape ;
+  sh:targetClass tagteam:VerbPhrase ;
+  sh:severity sh:Warning ;
+  sh:name "Lemma-ActType Consistency" ;
+  sh:sparql [
+    sh:prefixes ttshacl:PrefixDeclarations ;
+    sh:message "VP.lemma != ED.actType" ;
+    sh:select """
+      PREFIX tagteam: <http://tagteam.fandaws.org/ontology/>
+      SELECT $this ?lemma ?actType WHERE {
+        $this tagteam:lemma ?lemma .
+        $this tagteam:is_about ?ed .
+        ?ed a tagteam:EventDescription .
+        ?ed tagteam:actType ?actType .
+        FILTER(?lemma != ?actType)
+      }
+    """
+  ] .
+
+# =============================================================================
+# ANTI-PATTERN DETECTION
+# =============================================================================
+
+ttshacl:GhostActDetection
+  a sh:NodeShape ;
+  sh:target [
+    a sh:SPARQLTarget ;
+    sh:prefixes ttshacl:PrefixDeclarations ;
+    sh:select """
+      PREFIX cco: <https://www.commoncoreontologies.org/>
+      PREFIX tagteam: <http://tagteam.fandaws.org/ontology/>
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+      SELECT ?this WHERE {
+        ?this a cco:IntentionalAct .
+        OPTIONAL { ?this rdfs:label ?label }
+        FILTER (
+          NOT EXISTS { ?this tagteam:systemGenerated true }
+          && !CONTAINS(LCASE(COALESCE(STR(?label), "")), "parsing")
+          && !CONTAINS(STR(?this), "Parsing")
+          && !CONTAINS(STR(?this), "System")
+        )
+      }
+    """
+  ] ;
+  sh:name "Ghost Act Detection" ;
+  sh:severity sh:Violation ;
+  sh:property [
+    sh:path tagteam:describedBy ;
+    sh:minCount 1 ;
+    sh:message "IntentionalAct without describedBy is ghost act"
+  ] .
+
+
+ttshacl:OrphanEventDescriptionDetection
+  a sh:NodeShape ;
+  sh:targetClass tagteam:EventDescription ;
+  sh:name "Orphan ED Detection" ;
+  sh:severity sh:Warning ;
+  sh:sparql [
+    sh:prefixes ttshacl:PrefixDeclarations ;
+    sh:message "Realized ED not linked from IntentionalAct" ;
+    sh:select """
+      PREFIX tagteam: <http://tagteam.fandaws.org/ontology/>
+      PREFIX cco: <https://www.commoncoreontologies.org/>
+      SELECT $this WHERE {
+        $this a tagteam:EventDescription .
+        $this tagteam:realizationStatus ?status .
+        FILTER(
+          ?status = tagteam:Realized ||
+          STR(?status) = "Realized" ||
+          STR(?status) = "http://tagteam.fandaws.org/ontology/Realized"
+        )
+        FILTER NOT EXISTS {
+          ?act tagteam:describedBy $this .
+          ?act a cco:IntentionalAct .
+        }
+      }
+    """
+  ] .
+
+
+ttshacl:TierPollutionDetection
+  a sh:NodeShape ;
+  sh:target [
+    a sh:SPARQLTarget ;
+    sh:prefixes ttshacl:PrefixDeclarations ;
+    sh:select """
+      PREFIX cco: <https://www.commoncoreontologies.org/>
+      PREFIX tagteam: <http://tagteam.fandaws.org/ontology/>
+      SELECT ?this WHERE {
+        { ?this a cco:IntentionalAct }
+        UNION { ?this a tagteam:EventDescription }
+      }
+    """
+  ] ;
+  sh:name "Tier Pollution Detection" ;
+  sh:severity sh:Violation ;
+  sh:property [
+    sh:path tagteam:mentionId ;
+    sh:maxCount 0 ;
+    sh:message "Tier 2 node has mentionId"
+  ] ;
+  sh:property [
+    sh:path tagteam:sourceText ;
+    sh:maxCount 0 ;
+    sh:message "Tier 2 node has sourceText"
+  ] .
+
+
+ttshacl:DeprecatedDenotesTypeDetection
+  a sh:NodeShape ;
+  sh:targetClass tagteam:VerbPhrase ;
+  sh:name "Deprecated denotesType Detection" ;
+  sh:severity sh:Warning ;
+  sh:sparql [
+    sh:prefixes ttshacl:PrefixDeclarations ;
+    sh:message "denotesType='Event' is DEPRECATED" ;
+    sh:select """
+      PREFIX tagteam: <http://tagteam.fandaws.org/ontology/>
+      SELECT $this ?denotesType WHERE {
+        $this tagteam:denotesType ?denotesType .
+        FILTER(?denotesType = "Event")
+      }
+    """
+  ] .
+
+# =============================================================================
+# END OF SHAPES
+# =============================================================================
+```

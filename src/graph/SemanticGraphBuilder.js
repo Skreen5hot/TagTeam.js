@@ -2057,6 +2057,14 @@ class SemanticGraphBuilder {
           if (act.isPassive) vpNode['tagteam:isPassive'] = true;
           if (act.isNegated) vpNode['tagteam:isNegated'] = true;
           if (act.sourceText) vpNode['tagteam:sourceText'] = act.sourceText;
+          vpNode['tagteam:denotesType'] = 'Directive';
+          // mentionId for SHACL compliance
+          if (act.verbId) {
+            const verbIdx = act.verbId - 1;
+            let charStart = 0;
+            for (let ci = 0; ci < verbIdx && ci < tokens.length; ci++) charStart += tokens[ci].length + 1;
+            vpNode['tagteam:mentionId'] = `s0:v${act.verbId}:${charStart}-${charStart + (tokens[verbIdx] || '').length}`;
+          }
           graphNodes.push(vpNode);
 
           // ── DICE (Tier 2) ──
