@@ -726,6 +726,7 @@ class SemanticGraphBuilder {
       '@type': ['IntentionalAct', 'owl:NamedIndividual'],
       'rdfs:label': 'Semantic parsing act',
       'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
+      'tagteam:systemGenerated': true,
       'has_input': { '@id': ibeNode['@id'] },
       'has_agent': { '@id': parserAgentNode['@id'] },
       'tagteam:instantiated_at': this.buildTimestamp
@@ -2632,6 +2633,7 @@ class SemanticGraphBuilder {
         '@type': ['IntentionalAct', 'owl:NamedIndividual'],
         'rdfs:label': 'Semantic parsing act',
         'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
+        'tagteam:systemGenerated': true,
         'has_input': { '@id': ibeNode['@id'] },
         'has_agent': { '@id': parserAgentNode['@id'] },
         'has_output': iceNodes.map(n => ({ '@id': n['@id'] })),

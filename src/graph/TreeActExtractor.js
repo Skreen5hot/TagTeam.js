@@ -127,6 +127,30 @@ const IRREGULAR_LEMMAS = {
   'transported': 'transport',
   'located': 'locate',
   'based': 'base',
+  // VBZ forms where -es stripping over-truncates (stem ends in 'e')
+  'agrees': 'agree',
+  'advises': 'advise',
+  'provides': 'provide',
+  'discloses': 'disclose',
+  'requires': 'require',
+  'ensures': 'ensure',
+  'produces': 'produce',
+  'reduces': 'reduce',
+  'causes': 'cause',
+  'includes': 'include',
+  'involves': 'involve',
+  'receives': 'receive',
+  'achieves': 'achieve',
+  'removes': 'remove',
+  'improves': 'improve',
+  'serves': 'serve',
+  'observes': 'observe',
+  'manages': 'manage',
+  'describes': 'describe',
+  'determines': 'determine',
+  'operates': 'operate',
+  'locates': 'locate',
+  'collaborates': 'collaborate',
 };
 
 /**
@@ -196,6 +220,7 @@ const MULTI_WORD_MODAL_LEMMAS = {
   'have': 'obligation',
   'need': 'obligation',
   'ought': 'recommendation',  // "ought to" → DefeasibleObligation (spec §4)
+  'agree': 'intention',       // "agrees to provide" → DeclaredIntention (commissive)
 };
 
 // ============================================================================
@@ -848,7 +873,22 @@ class TreeActExtractor {
         if (VERB_TAGS.has(embeddedTag)) {
           const embeddedChildren = depTree.getChildren(child.dependent);
           const act = this._buildAct(depTree, child.dependent, embeddedChildren);
-          if (act) acts.push(act);
+          if (act) {
+            // Inherit deontic modality from parent ONLY for non-finite verbs.
+            // Finite verbs (VBD, VBZ, VBP) have independent tense — they describe
+            // actual events, not prescribed ones. VBN in reduced relatives ("data
+            // received from USCIS") also describes completed events.
+            // Non-finite forms (VB base, VBG gerund) are within the deontic scope.
+            const FINITE_TAGS = new Set(['VBD', 'VBZ', 'VBP', 'VBN']);
+            if (!act.modality && parentAct && parentAct.modality && !FINITE_TAGS.has(embeddedTag)) {
+              act.modalVerb = parentAct.modalVerb;
+              act.modality = parentAct.modality;
+              act.actualityStatus = parentAct.actualityStatus;
+              act.deonticType = parentAct.deonticType;
+              act.sourceText = (parentAct.modalVerb || '') + ' ' + act.verb;
+            }
+            acts.push(act);
+          }
           // Recurse into embedded clause to find deeper acts (e.g., ccomp inside acl)
           this._extractEmbeddedActs(depTree, child.dependent, acts, structuralAssertions);
         }

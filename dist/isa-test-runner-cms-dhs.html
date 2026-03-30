@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISA Test Corpus: CMS-DHS MOA | TagTeam Validation</title>
+    <style>
+        :root {
+            --pass: #22c55e;
+            --fail: #ef4444;
+            --partial: #f59e0b;
+            --skip: #6b7280;
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #e2e8f0;
+            --border: #334155;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding: 2rem;
+            line-height: 1.6;
+        }
+        h1, h2, h3 { font-weight: 600; }
+        h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        h2 { font-size: 1.1rem; margin: 1.5rem 0 0.75rem; color: #94a3b8; }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .meta { font-size: 0.85rem; color: #64748b; }
+        
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .stat {
+            background: var(--card);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        .stat-label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+        }
+        .stat.pass .stat-value { color: var(--pass); }
+        .stat.fail .stat-value { color: var(--fail); }
+        .stat.partial .stat-value { color: var(--partial); }
+        
+        .tier {
+            background: var(--card);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        .tier-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255,255,255,0.02);
+            cursor: pointer;
+            user-select: none;
+        }
+        .tier-header:hover { background: rgba(255,255,255,0.05); }
+        .tier-title {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .tier-badge {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        .tier-badge.required { background: #3b82f6; }
+        .tier-badge.partial { background: var(--partial); }
+        .tier-badge.document { background: var(--skip); }
+        
+        .tier-stats {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+        }
+        .tier-stats span { display: flex; align-items: center; gap: 0.25rem; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; }
+        .dot.pass { background: var(--pass); }
+        .dot.fail { background: var(--fail); }
+        .dot.partial { background: var(--partial); }
+        
+        .tier-body { display: none; padding: 0 1rem 1rem; }
+        .tier.open .tier-body { display: block; }
+        
+        .test {
+            display: grid;
+            grid-template-columns: 80px 1fr auto;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+        .test:last-child { border-bottom: none; }
+        
+        .test-id {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+        .test-sentence {
+            color: #cbd5e1;
+        }
+        .test-meta {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-top: 0.25rem;
+        }
+        .test-result {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .result-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+        .result-icon.pass { background: var(--pass); color: white; }
+        .result-icon.fail { background: var(--fail); color: white; }
+        .result-icon.partial { background: var(--partial); color: white; }
+        .result-icon.pending { background: var(--border); color: #94a3b8; }
+        
+        .controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        button.primary {
+            background: #3b82f6;
+            color: white;
+        }
+        button.secondary {
+            background: var(--card);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .progress {
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--pass), #3b82f6);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .threshold-bar {
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            margin-top: 0.5rem;
+            position: relative;
+            overflow: visible;
+        }
+        .threshold-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+        .threshold-fill.pass { background: var(--pass); }
+        .threshold-fill.fail { background: var(--fail); }
+        .threshold-marker {
+            position: absolute;
+            top: -4px;
+            width: 2px;
+            height: 16px;
+            background: white;
+            transform: translateX(-50%);
+        }
+        .threshold-label {
+            position: absolute;
+            top: 16px;
+            font-size: 0.65rem;
+            color: #64748b;
+            transform: translateX(-50%);
+        }
+
+        #output {
+            background: #0d1117;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 1rem;
+            display: none;
+        }
+        #output.visible { display: block; }
+        
+        .error-detail {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 3px solid var(--fail);
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: #fca5a5;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div>
+        <h1>ISA Test Corpus: CMS-DHS Data Exchange MOA</h1>
+        <div class="meta">
+            CMS Agreement No. 2023-10 | 40 test sentences | TagTeam.buildGraph() + SHACL Shape Validation
+        </div>
+    </div>
+    <div class="meta" style="text-align: right;">
+        <div id="timestamp">Not yet run</div>
+        <div id="runtime"></div>
+    </div>
+</div>
+
+<div class="controls">
+    <button class="primary" id="runAll" onclick="runAllTests()">▶ Run All Tests</button>
+    <button class="secondary" onclick="expandAll()">Expand All</button>
+    <button class="secondary" onclick="collapseAll()">Collapse All</button>
+    <button class="secondary" onclick="exportResults()">Export JSON</button>
+</div>
+
+<div class="progress">
+    <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<div class="summary">
+    <div class="stat pass">
+        <div class="stat-value" id="passCount">—</div>
+        <div class="stat-label">Passed</div>
+    </div>
+    <div class="stat fail">
+        <div class="stat-value" id="failCount">—</div>
+        <div class="stat-label">Failed</div>
+    </div>
+    <div class="stat partial">
+        <div class="stat-value" id="partialCount">—</div>
+        <div class="stat-label">Partial</div>
+    </div>
+    <div class="stat">
+        <div class="stat-value" id="passRate">—%</div>
+        <div class="stat-label">Pass Rate</div>
+    </div>
+</div>
+
+<div id="tiers"></div>
+
+<div id="output"></div>
+
+<script src="tagteam.js?v=20260330b"></script>
+<script>
+// Test Corpus Data
+const corpus = {
+    tiers: [
+        {
+            id: 'tier1-cms',
+            name: 'Tier 1: CMS Obligations',
+            badge: 'REQUIRED',
+            badgeClass: 'required',
+            threshold: 0.88,
+            tests: [
+                { id: 'CMS-01', sentence: 'CMS agrees to provide USCIS with the following information for the purpose of immigration status or naturalized/acquired citizenship verification.', source: 'II.A.1', type: 'Deontic-Commissive', complexity: 'Low' },
+                { id: 'CMS-02', sentence: 'CMS, through the Hub, may disclose to AEs the data received from USCIS under this Agreement for the purpose of determining eligibility.', source: 'II.A.2', type: 'Deontic-Permissive', complexity: 'Medium' },
+                { id: 'CMS-03', sentence: 'CMS will notify the USCIS Safeguards and Recordkeeping Procedures Contact immediately whenever it is suspected a violation of this Agreement has occurred.', source: 'II.A.4', type: 'Deontic-Commissive', complexity: 'Medium' },
+                { id: 'CMS-04', sentence: 'CMS will make available upon request system security assessments and other evidence for the purpose of making risk-based decisions.', source: 'II.A.5', type: 'Deontic-Commissive', complexity: 'Medium' },
+                { id: 'CMS-05', sentence: 'CMS shall allow USCIS to monitor and review all records and documents under CMS possession and control.', source: 'II.A.6', type: 'Deontic-Directive', complexity: 'Low' },
+                { id: 'CMS-06', sentence: 'CMS shall provide USCIS with data and information regarding operation of the data services Hub for USCIS monitoring and compliance purposes.', source: 'II.A.7', type: 'Deontic-Directive', complexity: 'Medium' },
+                { id: 'CMS-07', sentence: 'CMS shall provide this data and information to USCIS not later than 30 days after USCIS makes a written request for the information.', source: 'II.A.7', type: 'Deontic-Directive+Temporal', complexity: 'High', knownIssue: 'Temporal constraint extraction' },
+                { id: 'CMS-08', sentence: 'CMS will contact the AE and discuss corrective action to investigate the source of suspected fraudulent activity within twenty-four hours.', source: 'II.A.9', type: 'Deontic-Commissive+Temporal', complexity: 'High', knownIssue: 'Temporal constraint extraction' },
+                { id: 'CMS-09', sentence: 'CMS will enter into agreements with AEs that bind the AE to comply with the privacy and security requirements set forth in this Agreement.', source: 'II.A.10', type: 'Deontic-Commissive', complexity: 'Medium' },
+                { id: 'CMS-10', sentence: 'CMS will report this Data Exchange Agreement to OMB and to the appropriate Committees of Congress for review.', source: 'II.A.13', type: 'Deontic-Commissive', complexity: 'Low' },
+            ]
+        },
+        {
+            id: 'tier1-uscis',
+            name: 'Tier 1: USCIS Obligations',
+            badge: 'REQUIRED',
+            badgeClass: 'required',
+            threshold: 0.88,
+            tests: [
+                { id: 'USCIS-01', sentence: 'USCIS agrees to make available the SAVE Program to CMS as an electronic method for determining whether Applicant information is consistent with information available through the USCIS VIS.', source: 'II.B.1', type: 'Deontic-Commissive', complexity: 'High' },
+                { id: 'USCIS-02', sentence: 'USCIS agrees to provide the Hub with a response on each inquiry.', source: 'II.B.2', type: 'Deontic-Commissive', complexity: 'Low' },
+                { id: 'USCIS-03', sentence: 'USCIS agrees to provide CMS with training materials required for the use of the SAVE Program.', source: 'II.B.3', type: 'Deontic-Commissive', complexity: 'Low' },
+                { id: 'USCIS-04', sentence: 'USCIS agrees to provide a sufficient number of primary verification user codes to assure the effective implementation of the verification procedures.', source: 'II.B.4', type: 'Deontic-Commissive', complexity: 'Medium' },
+                { id: 'USCIS-05', sentence: 'USCIS will conduct an additional verification search of available databases when an electronic request for additional verification is submitted.', source: 'II.B.6', type: 'Deontic-Commissive+Conditional', complexity: 'Medium' },
+                { id: 'USCIS-06', sentence: 'USCIS will advise the AE through the Hub if USCIS is unable to verify the Applicant immigration status.', source: 'II.B.7', type: 'Deontic-Commissive+Conditional', complexity: 'Medium' },
+                { id: 'USCIS-07', sentence: 'USCIS will collaborate with CMS to address any information security matters associated with enabling this functionality.', source: 'II.B.8', type: 'Deontic-Commissive', complexity: 'Low' },
+            ]
+        },
+        {
+            id: 'tier1-joint',
+            name: 'Tier 1: Joint Obligations',
+            badge: 'REQUIRED',
+            badgeClass: 'required',
+            threshold: 0.88,
+            tests: [
+                { id: 'JOINT-01', sentence: 'Both Parties shall maintain a level of security that is commensurate with the risk and magnitude of harm.', source: 'VIII.1', type: 'Deontic-Directive', complexity: 'Medium' },
+                { id: 'JOINT-02', sentence: 'Both Parties shall comply with the limitations on use and disclosure under all applicable federal laws.', source: 'VIII.2', type: 'Deontic-Directive', complexity: 'Low' },
+                { id: 'JOINT-03', sentence: 'The Party experiencing the incident will notify the other agency System Security Contact within one hour of discovering the incident.', source: 'VIII.5', type: 'Deontic-Commissive+Temporal', complexity: 'High', knownIssue: 'Temporal constraint extraction' },
+                { id: 'JOINT-04', sentence: 'Both Parties will restrict access to the matched data to only those authorized users who need it to perform their official duties.', source: 'VIII.8', type: 'Deontic-Directive', complexity: 'Medium' },
+                { id: 'JOINT-05', sentence: 'All data in transit will be encrypted using algorithms that meet the requirements of FIPS 140-3.', source: 'VIII.11', type: 'Deontic-Directive', complexity: 'Medium' },
+            ]
+        },
+        {
+            id: 'tier1-prohib',
+            name: 'Tier 1: Prohibitions',
+            badge: 'REQUIRED',
+            badgeClass: 'required',
+            threshold: 0.88,
+            tests: [
+                { id: 'PROHIB-01', sentence: 'CMS and AEs may not deny an application based on a verification response that fails to verify applicant information unless the AE completes all SAVE prompts.', source: 'VI.A.4', type: 'Deontic-Prohibitive+Conditional', complexity: 'High', knownIssue: 'Negation + conditional' },
+                { id: 'PROHIB-02', sentence: 'CMS and AEs may not suspend, terminate, reduce, or make a final denial regarding federal benefit program eligibility without first providing the Applicant the opportunity to contest.', source: 'VI.A.5', type: 'Deontic-Prohibitive+Conditional', complexity: 'Very High', knownIssue: 'Multiple verbs + negation' },
+                { id: 'PROHIB-03', sentence: 'The Parties will not use the data to extract information concerning individuals for any purpose not specified by this Agreement.', source: 'IX.B', type: 'Deontic-Prohibitive', complexity: 'Medium' },
+            ]
+        },
+        {
+            id: 'tier2-stative',
+            name: 'Tier 2: Stative Predicates',
+            badge: 'REQUIRED',
+            badgeClass: 'required',
+            threshold: 0.90,
+            tests: [
+                { id: 'STAT-01', sentence: 'CMS is the Recipient Agency in this data exchange program.', source: 'I.A', type: 'Stative-Role', complexity: 'Low', knownIssue: 'Dep parser fragments copular — no cop relation emitted' },
+                { id: 'STAT-02', sentence: 'DHS/USCIS is the Source Agency.', source: 'I.A', type: 'Stative-Role', complexity: 'Low', knownIssue: 'Slash tokenization + dep parse fragmentation' },
+                { id: 'STAT-03', sentence: 'The responsible component for CMS is the Center for Consumer Information and Insurance Oversight.', source: 'I.A', type: 'Stative-Role', complexity: 'Medium' },
+                { id: 'STAT-04', sentence: 'The Hub is the CMS-managed electronic service to interface among connecting entities.', source: 'I.C.13', type: 'Stative-Quality', complexity: 'Medium' },
+                { id: 'STAT-05', sentence: 'The term of this Agreement is eighteen months.', source: 'XIII.B', type: 'Stative-Temporal', complexity: 'Low' },
+                { id: 'STAT-06', sentence: 'The Effective Date of this Agreement will be October 20, 2023.', source: 'XIII.A', type: 'Stative-Temporal', complexity: 'Low' },
+            ]
+        },
+        {
+            id: 'tier3-complex',
+            name: 'Tier 3: Complex/Conditional',
+            badge: 'PARTIAL OK',
+            badgeClass: 'partial',
+            threshold: 0.53,
+            tests: [
+                { id: 'CPLX-01', sentence: 'CMS, through the Hub, may request verification for individuals currently enrolled whose immigration status has an expiration date or condition.', source: 'II.A.3', type: 'Complex', complexity: 'High', knownIssue: 'Nested relative clause' },
+                { id: 'CPLX-02', sentence: 'If USCIS cannot verify immigration status on initial electronic verification, the AE will be prompted to institute additional verification.', source: 'VI.A.2', type: 'Conditional', complexity: 'High', knownIssue: 'Conditional chain' },
+                { id: 'CPLX-03', sentence: 'The Applicant will have 90 days from the date of notice of the inconsistency to resolve the inconsistency or to present satisfactory documentary evidence.', source: 'VI.C.1', type: 'Temporal+Disjunctive', complexity: 'High', knownIssue: 'Temporal anchor + OR' },
+                { id: 'CPLX-04', sentence: 'Notwithstanding any other provision in the Agreement, DHS may suspend or terminate this Agreement without prior notice upon a determination that there has been a breach.', source: 'XIII.F', type: 'Exception', complexity: 'Very High', knownIssue: 'Exception clause + passive' },
+                { id: 'CPLX-05', sentence: 'Neither Party shall be liable for any injury unless such injury is compensable under the Federal Tort Claims Act.', source: 'XIV.B', type: 'Negation+Exception', complexity: 'Very High', knownIssue: 'Double negation' },
+            ]
+        },
+        {
+            id: 'tier4-fail',
+            name: 'Tier 4: Expected Failures',
+            badge: 'DOCUMENT',
+            badgeClass: 'document',
+            threshold: 0,
+            tests: [
+                { id: 'FAIL-01', sentence: 'This Agreement is executed to implement certain health care reform provisions of the PPACA codified at 42 U.S.C. 18001.', source: 'I.B.2', type: 'Passive+Citation', complexity: 'High', knownIssue: 'Passive voice + legal citation', expectedFail: true },
+                { id: 'FAIL-02', sentence: 'See also 45 CFR 155.305(f) and (g).', source: 'I.B.3', type: 'Fragment', complexity: 'N/A', knownIssue: 'Non-sentence imperative', expectedFail: true },
+                { id: 'FAIL-03', sentence: 'SAVE will reject non-electronic verification requests.', source: 'II.B.6', type: 'System-Agent', complexity: 'Medium', knownIssue: 'System as grammatical agent', expectedFail: true },
+                { id: 'FAIL-04', sentence: '1. Last Name 2. First Name 3. Middle Name 4. Date of Birth', source: 'IV.C.1', type: 'Enumeration', complexity: 'N/A', knownIssue: 'Enumerated list without verbs', expectedFail: true },
+            ]
+        }
+    ]
+};
+
+// State
+let results = {};
+let startTime = null;
+
+// Render tiers
+function renderTiers() {
+    const container = document.getElementById('tiers');
+    container.innerHTML = corpus.tiers.map(tier => `
+        <div class="tier" id="tier-${tier.id}">
+            <div class="tier-header" onclick="toggleTier('${tier.id}')">
+                <div class="tier-title">
+                    ${tier.name}
+                    <span class="tier-badge ${tier.badgeClass}">${tier.badge}</span>
+                </div>
+                <div class="tier-stats">
+                    <span><span class="dot pass"></span> <span id="${tier.id}-pass">0</span></span>
+                    <span><span class="dot fail"></span> <span id="${tier.id}-fail">0</span></span>
+                    <span>${tier.tests.length} tests</span>
+                </div>
+            </div>
+            <div class="tier-body">
+                <div class="threshold-bar">
+                    <div class="threshold-fill" id="${tier.id}-fill" style="width: 0%"></div>
+                    <div class="threshold-marker" style="left: ${tier.threshold * 100}%"></div>
+                    <div class="threshold-label" style="left: ${tier.threshold * 100}%">${Math.round(tier.threshold * 100)}%</div>
+                </div>
+                ${tier.tests.map(test => `
+                    <div class="test" id="test-${test.id}">
+                        <div class="test-id">${test.id}</div>
+                        <div>
+                            <div class="test-sentence">${test.sentence}</div>
+                            <div class="test-meta">
+                                ${test.source} | ${test.type} | ${test.complexity}
+                                ${test.knownIssue ? ` | ⚠️ ${test.knownIssue}` : ''}
+                            </div>
+                            <div class="error-detail" id="error-${test.id}" style="display: none;"></div>
+                        </div>
+                        <div class="test-result">
+                            <div class="result-icon pending" id="result-${test.id}">?</div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `).join('');
+}
+
+function toggleTier(tierId) {
+    document.getElementById(`tier-${tierId}`).classList.toggle('open');
+}
+
+function expandAll() {
+    document.querySelectorAll('.tier').forEach(t => t.classList.add('open'));
+}
+
+function collapseAll() {
+    document.querySelectorAll('.tier').forEach(t => t.classList.remove('open'));
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TagTeam Graph Helpers
+// ═══════════════════════════════════════════════════════════════
+
+function getNodes(graph) { return graph['@graph'] || []; }
+
+function hasType(node, typeFragment) {
+    const types = [].concat(node['@type'] || []);
+    return types.some(t => t.includes(typeFragment));
+}
+
+function hasTypeExact(node, typeName) {
+    const types = [].concat(node['@type'] || []);
+    const pattern = new RegExp('(^|[:#/])' + typeName + '$');
+    return types.some(t => pattern.test(t));
+}
+
+function resolveId(v) { return v ? (v['@id'] || v) : null; }
+
+function isSystemAct(n) {
+    return (n['rdfs:label'] || '').toLowerCase().includes('parsing') ||
+           (n['@id'] || '').includes('ParsingAct');
+}
+
+function findVPs(nodes) {
+    return nodes.filter(n => hasType(n, 'VerbPhrase') && !hasType(n, 'IntentionalAct'));
+}
+
+function findDICEs(nodes) {
+    return nodes.filter(n => hasType(n, 'DirectiveInformationContentEntity'));
+}
+
+function findPlanSpecs(nodes) {
+    return nodes.filter(n => hasType(n, 'PlanSpecification'));
+}
+
+function findRealizableEntities(nodes) {
+    return nodes.filter(n =>
+        hasTypeExact(n, 'Obligation') || hasTypeExact(n, 'Permission') ||
+        hasTypeExact(n, 'Prohibition') || hasTypeExact(n, 'Intention')
+    );
+}
+
+function findQualityAssertions(nodes) {
+    return nodes.filter(n => hasType(n, 'QualityAssertion'));
+}
+
+function findRoleAssertions(nodes) {
+    return nodes.filter(n => hasType(n, 'RoleAssertion'));
+}
+
+function findEventDescriptions(nodes) {
+    return nodes.filter(n => hasType(n, 'EventDescription'));
+}
+
+function findIntentionalActs(nodes) {
+    return nodes.filter(n => hasType(n, 'IntentionalAct') && !isSystemAct(n));
+}
+
+function findDiscourseReferents(nodes) {
+    return nodes.filter(n => hasType(n, 'DiscourseReferent'));
+}
+
+function findStructuralAssertions(nodes) {
+    return nodes.filter(n => hasType(n, 'StructuralAssertion'));
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SHACL Shape Validators (strict — SHACL Spec v1.3.0)
+// ═══════════════════════════════════════════════════════════════
+
+const VALID_DENOTES_TYPES = new Set([
+    'Person', 'Organization', 'Entity', 'Location',
+    'EventDescription', 'Event', 'Directive', 'Quality',
+    'Structure', 'Role', 'InformationContentEntity'
+]);
+
+function validateDiscourseReferent(node) {
+    const violations = [];
+    if (!node['tagteam:mentionId']) violations.push('DR: Missing mentionId');
+    if (!node['tagteam:denotesType']) violations.push('DR: Missing denotesType');
+    else if (!VALID_DENOTES_TYPES.has(node['tagteam:denotesType'])) {
+        violations.push('DR: Invalid denotesType "' + node['tagteam:denotesType'] + '"');
+    }
+    if (!node['rdfs:label']) violations.push('DR: Missing rdfs:label');
+    if (!node['is_about']) violations.push('DR: Missing is_about (no Tier 2 link)');
+    return violations;
+}
+
+function validateVerbPhrase(node) {
+    const violations = [];
+    if (!node['tagteam:lemma'] && !node['tagteam:verb']) violations.push('VP: Missing lemma/verb');
+    if (!node['tagteam:mentionId']) violations.push('VP: Missing mentionId');
+    if (!node['tagteam:denotesType']) violations.push('VP: Missing denotesType');
+    if (!node['is_about']) violations.push('VP: Missing is_about');
+    return violations;
+}
+
+function validateEventDescription(node) {
+    const violations = [];
+    if (!node['tagteam:actType']) violations.push('ED: Missing actType');
+    if (!node['tagteam:realizationStatus']) violations.push('ED: Missing realizationStatus');
+    if (!node['tagteam:agent'] && !node['tagteam:patient']) {
+        violations.push('ED: Missing agent AND patient (§7.1.3 participant coverage)');
+    }
+    return violations;
+}
+
+function validatePlanSpec(node) {
+    const violations = [];
+    if (!node['tagteam:prescribedActType'] && !node['tagteam:prescribedActClass']) {
+        violations.push('PS: Missing prescribedActType');
+    }
+    if (!node['tagteam:prescribedAgent']) violations.push('PS: Missing prescribedAgent');
+    return violations;
+}
+
+function validateDICE(node) {
+    const violations = [];
+    if (!node['prescribes']) violations.push('DICE: Missing prescribes (no PlanSpec link)');
+    if (!node['tagteam:deonticCategory']) violations.push('DICE: Missing deonticCategory');
+    return violations;
+}
+
+function validateRealizableEntity(node) {
+    const violations = [];
+    if (!node['tagteam:deonticCategory']) violations.push('RE: Missing deonticCategory');
+    if (!node['tagteam:fulfillmentState']) violations.push('RE: Missing fulfillmentState');
+    if (!node['is_prescribed_by']) violations.push('RE: Missing is_prescribed_by');
+    if (!node['isSpecifiedBy']) violations.push('RE: Missing isSpecifiedBy');
+    return violations;
+}
+
+function validateQualityAssertion(node) {
+    const violations = [];
+    if (!node['tagteam:assertionSubject']) violations.push('QA: Missing assertionSubject');
+    if (!node['tagteam:assertedQuality'] && !node['tagteam:qualityType']) {
+        violations.push('QA: Missing assertedQuality/qualityType');
+    }
+    return violations;
+}
+
+function validateIntentionalAct(node) {
+    const violations = [];
+    if (!node['tagteam:actualityStatus']) violations.push('IA: Missing actualityStatus');
+    if (!node['tagteam:describedBy']) violations.push('IA: Missing describedBy (ghost act)');
+    // Tier separation: IntentionalAct must NOT carry VerbPhrase type
+    if (hasType(node, 'VerbPhrase')) violations.push('IA: Tier leakage — has VerbPhrase in @type');
+    return violations;
+}
+
+function validateParsingAct(nodes) {
+    const violations = [];
+    const pa = nodes.find(n => (n['rdfs:label'] || '').includes('parsing') || (n['@id'] || '').includes('ParsingAct'));
+    if (pa) {
+        if (!pa['tagteam:systemGenerated']) violations.push('ParsingAct: Missing systemGenerated flag (§16.3)');
+    }
+    return violations;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Validation function — real TagTeam integration
+// ═══════════════════════════════════════════════════════════════
+
+async function validateSentence(test) {
+    // Yield to UI
+    await new Promise(r => setTimeout(r, 0));
+
+    // Expected failures — run TagTeam but report as expected fail
+    if (test.expectedFail) {
+        try {
+            const graph = TagTeam.buildGraph(test.sentence);
+            const nodes = getNodes(graph);
+            return {
+                status: 'fail',
+                reason: test.knownIssue || 'Expected failure',
+                graph: summarizeGraph(nodes)
+            };
+        } catch (e) {
+            return { status: 'fail', reason: 'Parse error: ' + e.message };
+        }
+    }
+
+    try {
+        const graph = TagTeam.buildGraph(test.sentence);
+        const nodes = getNodes(graph);
+        const type = test.type || '';
+        const violations = [];
+        const checks = {};
+
+        // ══════════════════════════════════════════════
+        // CROSS-CUTTING SHACL CHECKS (all sentence types)
+        // ══════════════════════════════════════════════
+
+        // ── Validate all DiscourseReferents (§3.1) ──
+        const refs = findDiscourseReferents(nodes);
+        refs.forEach(r => {
+            const v = validateDiscourseReferent(r);
+            v.forEach(msg => violations.push(msg));
+        });
+        if (refs.length === 0) violations.push('No DiscourseReferents emitted');
+        checks.discourseReferents = refs.length;
+
+        // ── Validate all VerbPhrases (§4.1) ──
+        const vps = findVPs(nodes);
+        vps.forEach(vp => {
+            const v = validateVerbPhrase(vp);
+            v.forEach(msg => violations.push(msg));
+        });
+
+        // ── Validate all EventDescriptions (§7.1.3 participant coverage) ──
+        const eds = findEventDescriptions(nodes);
+        eds.forEach(ed => {
+            const v = validateEventDescription(ed);
+            v.forEach(msg => violations.push(msg));
+        });
+        checks.eventDescriptions = eds.length;
+
+        // ── Validate all IntentionalActs (§7.2) ──
+        const allActs = findIntentionalActs(nodes);
+        allActs.forEach(act => {
+            const v = validateIntentionalAct(act);
+            v.forEach(msg => violations.push(msg));
+        });
+
+        // ── Validate ParsingAct (§16.3) ──
+        const paViolations = validateParsingAct(nodes);
+        paViolations.forEach(msg => violations.push(msg));
+
+        // ══════════════════════════════════════════════
+        // TYPE-SPECIFIC VALIDATION
+        // ══════════════════════════════════════════════
+
+        if (type.startsWith('Deontic')) {
+            if (vps.length === 0) violations.push('No VerbPhrase for deontic sentence');
+            checks.verbPhrases = vps.length;
+
+            const dices = findDICEs(nodes);
+            const planSpecs = findPlanSpecs(nodes);
+            const res = findRealizableEntities(nodes);
+
+            checks.diceCount = dices.length;
+            checks.planSpecCount = planSpecs.length;
+            checks.realizableEntities = res.length;
+
+            if (dices.length === 0) violations.push('No DirectiveICE emitted');
+            if (planSpecs.length === 0) violations.push('No PlanSpecification emitted');
+
+            // Validate DICE shapes
+            dices.forEach(d => {
+                const v = validateDICE(d);
+                v.forEach(msg => violations.push(msg));
+            });
+
+            // Validate PlanSpec shapes (strict — agent required)
+            planSpecs.forEach(ps => {
+                const v = validatePlanSpec(ps);
+                v.forEach(msg => violations.push(msg));
+            });
+
+            // Validate RE shapes
+            res.forEach(re => {
+                const v = validateRealizableEntity(re);
+                v.forEach(msg => violations.push(msg));
+            });
+
+            // Ghost act detection (RDM rule) — deontic sentences must NOT emit IntentionalAct
+            if (allActs.length > 0) violations.push('Ghost IntentionalAct detected (RDM violation)');
+
+            // Deontic subtype checks
+            if (type.includes('Prohibitive')) {
+                const hasProhib = res.some(n => hasTypeExact(n, 'Prohibition'));
+                if (!hasProhib) violations.push('Missing Prohibition RE');
+                checks.hasProhibition = hasProhib;
+            }
+            if (type.includes('Permissive')) {
+                const hasPerm = res.some(n => hasTypeExact(n, 'Permission'));
+                if (!hasPerm) violations.push('Missing Permission RE');
+                checks.hasPermission = hasPerm;
+            }
+            if (type.includes('Directive') && !type.includes('Prohibitive')) {
+                const hasObl = res.some(n => hasTypeExact(n, 'Obligation'));
+                if (!hasObl) violations.push('Missing Obligation RE');
+                checks.hasObligation = hasObl;
+            }
+            if (type.includes('Commissive')) {
+                const hasOblOrInt = res.some(n => hasTypeExact(n, 'Obligation') || hasTypeExact(n, 'Intention'));
+                if (!hasOblOrInt) violations.push('Missing Obligation/Intention RE');
+                checks.hasObligationOrIntention = hasOblOrInt;
+            }
+
+        } else if (type.startsWith('Stative')) {
+            const qas = findQualityAssertions(nodes);
+            const ras = findRoleAssertions(nodes);
+            const sas = findStructuralAssertions(nodes);
+
+            checks.qualityAssertions = qas.length;
+            checks.roleAssertions = ras.length;
+            checks.structuralAssertions = sas.length;
+
+            if (qas.length === 0 && ras.length === 0 && sas.length === 0) {
+                violations.push('No QualityAssertion, RoleAssertion, or StructuralAssertion');
+            }
+            if (allActs.length > 0) violations.push('Unexpected IntentionalAct in stative sentence');
+
+            qas.forEach(qa => {
+                const v = validateQualityAssertion(qa);
+                v.forEach(msg => violations.push(msg));
+            });
+
+            if (type.includes('Role')) {
+                if (ras.length === 0 && qas.length === 0 && sas.length === 0) {
+                    violations.push('Expected RoleAssertion or StructuralAssertion for Stative-Role');
+                }
+            }
+
+        } else if (type.startsWith('Complex') || type.startsWith('Conditional') ||
+                   type.startsWith('Temporal') || type.startsWith('Exception') ||
+                   type.startsWith('Negation')) {
+            if (vps.length === 0) violations.push('No VerbPhrase for complex sentence');
+            const dices = findDICEs(nodes);
+            const qas = findQualityAssertions(nodes);
+            const semanticNodes = dices.length + eds.length + qas.length;
+            checks.semanticNodes = semanticNodes;
+            if (semanticNodes === 0) violations.push('No semantic layer nodes (DICE/ED/QA)');
+
+        } else {
+            if (vps.length === 0) violations.push('No VerbPhrase emitted');
+        }
+
+        // ══════════════════════════════════════════════
+        // SCORING — strict: any violation is a failure
+        // ══════════════════════════════════════════════
+        const graphSummary = summarizeGraph(nodes);
+
+        if (violations.length === 0) {
+            return { status: 'pass', graph: graphSummary, checks: checks };
+        } else if (violations.length === 1) {
+            // Single violation = partial (minor gap)
+            return {
+                status: 'partial',
+                reason: violations.join('; '),
+                graph: graphSummary,
+                checks: checks
+            };
+        } else {
+            // 2+ violations = fail
+            return {
+                status: 'fail',
+                reason: violations.join('; '),
+                graph: graphSummary,
+                checks: checks
+            };
+        }
+
+    } catch (e) {
+        return { status: 'fail', reason: 'Parse error: ' + e.message };
+    }
+}
+
+function summarizeGraph(nodes) {
+    const summary = {
+        totalNodes: nodes.length,
+        discourseReferents: findDiscourseReferents(nodes).length,
+        verbPhrases: findVPs(nodes).length,
+        diceNodes: findDICEs(nodes).length,
+        planSpecs: findPlanSpecs(nodes).length,
+        realizableEntities: findRealizableEntities(nodes).length,
+        qualityAssertions: findQualityAssertions(nodes).length,
+        roleAssertions: findRoleAssertions(nodes).length,
+        eventDescriptions: findEventDescriptions(nodes).length,
+        intentionalActs: findIntentionalActs(nodes).length,
+        structuralAssertions: findStructuralAssertions(nodes).length
+    };
+
+    // Extract key details from first VP
+    const vp = findVPs(nodes)[0];
+    if (vp) {
+        summary.verbPhrase = {
+            lemma: vp['tagteam:lemma'] || vp['tagteam:verb'],
+            modalMarker: vp['tagteam:modalMarker'] || null,
+            denotesType: vp['tagteam:denotesType'] || null
+        };
+    }
+
+    // Extract from first DICE
+    const dice = findDICEs(nodes)[0];
+    if (dice) {
+        summary.directiveICE = {
+            deonticCategory: resolveId(dice['tagteam:deonticCategory']),
+            fulfillmentState: resolveId(dice['tagteam:fulfillmentState'])
+        };
+    }
+
+    // Extract from first PlanSpec
+    const ps = findPlanSpecs(nodes)[0];
+    if (ps) {
+        summary.planSpecification = {
+            prescribedActType: ps['tagteam:prescribedActType'],
+            prescribedAgent: resolveId(ps['tagteam:prescribedAgent']),
+            prescribedPatient: resolveId(ps['tagteam:prescribedPatient'])
+        };
+    }
+
+    // Extract from first QA/RA
+    const qa = findQualityAssertions(nodes)[0];
+    if (qa) {
+        summary.qualityAssertion = {
+            assertedQuality: qa['tagteam:assertedQuality'] || qa['tagteam:qualityType'],
+            assertionSubject: resolveId(qa['tagteam:assertionSubject']),
+            epistemicStatus: resolveId(qa['tagteam:epistemicStatus'])
+        };
+    }
+
+    return summary;
+}
+
+async function runAllTests() {
+    const btn = document.getElementById('runAll');
+
+    if (typeof TagTeam === 'undefined' || typeof TagTeam.buildGraph !== 'function') {
+        alert('TagTeam.buildGraph() not available. Ensure tagteam.js is loaded.');
+        return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = '⏳ Running...';
+
+    startTime = Date.now();
+    results = {};
+    
+    let completed = 0;
+    const total = corpus.tiers.reduce((sum, t) => sum + t.tests.length, 0);
+    
+    for (const tier of corpus.tiers) {
+        for (const test of tier.tests) {
+            const result = await validateSentence(test);
+            results[test.id] = result;
+            
+            // Update UI
+            const icon = document.getElementById(`result-${test.id}`);
+            icon.className = `result-icon ${result.status}`;
+            icon.textContent = result.status === 'pass' ? '✓' : result.status === 'partial' ? '~' : '✗';
+            
+            if (result.reason) {
+                const errorEl = document.getElementById(`error-${test.id}`);
+                errorEl.textContent = result.reason;
+                errorEl.style.display = 'block';
+            }
+            
+            completed++;
+            document.getElementById('progressBar').style.width = `${(completed / total) * 100}%`;
+        }
+        
+        // Update tier stats
+        updateTierStats(tier);
+    }
+    
+    updateSummary();
+    
+    const runtime = ((Date.now() - startTime) / 1000).toFixed(2);
+    document.getElementById('timestamp').textContent = new Date().toLocaleString();
+    document.getElementById('runtime').textContent = `Runtime: ${runtime}s`;
+    
+    btn.disabled = false;
+    btn.textContent = '▶ Run All Tests';
+}
+
+function updateTierStats(tier) {
+    const tierResults = tier.tests.map(t => results[t.id]).filter(Boolean);
+    const pass = tierResults.filter(r => r.status === 'pass').length;
+    const fail = tierResults.filter(r => r.status === 'fail').length;
+    const rate = tierResults.length > 0 ? pass / tierResults.length : 0;
+    
+    document.getElementById(`${tier.id}-pass`).textContent = pass;
+    document.getElementById(`${tier.id}-fail`).textContent = fail;
+    
+    const fill = document.getElementById(`${tier.id}-fill`);
+    fill.style.width = `${rate * 100}%`;
+    fill.className = `threshold-fill ${rate >= tier.threshold ? 'pass' : 'fail'}`;
+}
+
+function updateSummary() {
+    const all = Object.values(results);
+    const pass = all.filter(r => r.status === 'pass').length;
+    const fail = all.filter(r => r.status === 'fail').length;
+    const partial = all.filter(r => r.status === 'partial').length;
+    
+    document.getElementById('passCount').textContent = pass;
+    document.getElementById('failCount').textContent = fail;
+    document.getElementById('partialCount').textContent = partial;
+    document.getElementById('passRate').textContent = all.length > 0 
+        ? `${Math.round((pass / all.length) * 100)}%` 
+        : '—%';
+}
+
+function exportResults() {
+    const data = {
+        document: 'CMS-DHS Data Exchange MOA 2023-10',
+        engine: 'TagTeam.buildGraph() + SHACL Shape Validation',
+        timestamp: new Date().toISOString(),
+        runtime: startTime ? `${((Date.now() - startTime) / 1000).toFixed(2)}s` : null,
+        summary: {
+            total: Object.keys(results).length,
+            pass: Object.values(results).filter(r => r.status === 'pass').length,
+            fail: Object.values(results).filter(r => r.status === 'fail').length,
+            partial: Object.values(results).filter(r => r.status === 'partial').length
+        },
+        tiers: corpus.tiers.map(tier => {
+            const tierResults = tier.tests.map(t => results[t.id]).filter(Boolean);
+            const pass = tierResults.filter(r => r.status === 'pass').length;
+            return {
+                name: tier.name,
+                threshold: tier.threshold,
+                passRate: tierResults.length > 0 ? (pass / tierResults.length) : 0,
+                meetsThreshold: tierResults.length > 0 ? (pass / tierResults.length) >= tier.threshold : false,
+                tests: tier.tests.map(test => ({
+                    id: test.id,
+                    sentence: test.sentence,
+                    source: test.source,
+                    type: test.type,
+                    result: results[test.id] || { status: 'pending' }
+                }))
+            };
+        })
+    };
+    
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `isa-test-results-${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+}
+
+// Initialize
+renderTiers();
+</script>
+
+</body>
+</html>

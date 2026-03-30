@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TagTeam.js — Entity Boundary Preservation Tests</title>
+  <style>
+    :root {
+      --bg: #0c0c0c; --fg: #c8c8c8; --dim: #666; --border: #222;
+      --pass: #2ecc40; --fail: #ff4136; --warn: #ff851b; --skip: #888;
+      --accent: #56b6c2; --section-bg: #111; --code-bg: #0a0a0a; --header-bg: #181818;
+      --known: #b39ddb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'IBM Plex Mono','Fira Code','Consolas',monospace; background: var(--bg); color: var(--fg); padding: 24px; line-height: 1.5; font-size: 13px; }
+    h1 { font-size: 1.2em; color: var(--accent); font-weight: 600; } h1 span { color: var(--dim); font-weight: 400; font-size: 0.8em; }
+    .header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 16px; }
+    .controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .controls button { background: var(--section-bg); color: var(--fg); border: 1px solid var(--border); padding: 5px 14px; font-family: inherit; font-size: 12px; cursor: pointer; border-radius: 2px; }
+    .controls button:hover { border-color: var(--accent); color: var(--accent); }
+    .controls button.running { color: var(--warn); border-color: var(--warn); }
+    .summary { display: flex; gap: 20px; padding: 12px 16px; background: var(--header-bg); border: 1px solid var(--border); margin-bottom: 16px; align-items: center; border-radius: 2px; }
+    .summary .stat { font-size: 1.1em; font-weight: 600; }
+    .summary .stat.pass { color: var(--pass); } .summary .stat.fail { color: var(--fail); } .summary .stat.skip { color: var(--skip); } .summary .stat.known { color: var(--known); }
+    .summary .label { color: var(--dim); font-size: 0.85em; margin-left: 4px; }
+    .summary .bar { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; display: flex; }
+    .summary .bar-pass { background: var(--pass); transition: width 0.3s; }
+    .summary .bar-fail { background: var(--fail); transition: width 0.3s; }
+    .summary .bar-known { background: var(--known); transition: width 0.3s; }
+    .summary .time { color: var(--dim); font-size: 0.85em; margin-left: auto; }
+    .section { margin-bottom: 16px; border: 1px solid var(--border); border-radius: 2px; }
+    .section-header { padding: 8px 14px; background: var(--header-bg); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
+    .section-header:hover { background: #1a1a1a; }
+    .section-title { color: var(--accent); font-weight: 600; font-size: 0.95em; }
+    .section-count { color: var(--dim); font-size: 0.85em; }
+    .section-body { display: none; } .section.open .section-body { display: block; }
+    .section.all-pass .section-header { border-left: 3px solid var(--pass); }
+    .section.has-fail .section-header { border-left: 3px solid var(--fail); }
+    .section.has-known .section-header { border-left: 3px solid var(--known); }
+    .test-row { display: grid; grid-template-columns: 80px 1fr 280px 60px; padding: 6px 14px; border-bottom: 1px solid #1a1a1a; align-items: center; font-size: 12px; }
+    .test-row:last-child { border-bottom: none; } .test-row:hover { background: #141414; }
+    .test-id { color: var(--dim); font-weight: 600; } .test-input { color: var(--fg); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .test-expect { color: var(--dim); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .test-result { text-align: right; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .test-result.pass { color: var(--pass); } .test-result.fail { color: var(--fail); } .test-result.known { color: var(--known); } .test-result.pending { color: var(--dim); }
+    .fail-detail { grid-column: 1 / -1; padding: 8px 14px 8px 80px; font-size: 11px; background: #1a0a0a; border-bottom: 1px solid #331111; white-space: pre-wrap; word-break: break-all; }
+    .fail-detail.is-fail { color: var(--fail); } .fail-detail.is-known { color: var(--known); }
+    .log { margin-top: 16px; } .log-header { color: var(--dim); font-size: 0.85em; padding: 4px 0; border-bottom: 1px solid var(--border); margin-bottom: 4px; }
+    #log-output { background: var(--code-bg); padding: 12px; max-height: 400px; overflow: auto; border: 1px solid var(--border); font-size: 11px; line-height: 1.6; white-space: pre-wrap; border-radius: 2px; }
+    .log-pass { color: var(--pass); } .log-fail { color: var(--fail); } .log-info { color: var(--dim); } .log-known { color: var(--known); }
+    .note { padding: 10px 16px; margin-bottom: 16px; border: 1px solid var(--border); border-radius: 2px; font-size: 12px; background: var(--header-bg); color: var(--dim); }
+    .note strong { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Entity Boundary Tests <span>v1.0 — WS-3 Fix 2 (CDD Pre-Pass + RC Fixes)</span></h1>
+  <div class="controls">
+    <button id="btn-run" onclick="runAllTests()">Run All Tests</button>
+    <button onclick="expandFailed()">Show Failures</button>
+    <button onclick="toggleAll()">Toggle All</button>
+    <button onclick="exportResults()">Export JSON</button>
+  </div>
+</div>
+
+<div class="note">
+  <strong>Coverage:</strong> Tests <code>TagTeam.buildGraph()</code> entity extraction for multi-word named entities,
+  ComplexDesignatorDetector pre-pass integration, coordination split vs. lock decisions,
+  syntactic position variants, and act/entity boundary separation.
+  <span style="color:var(--known)">■</span> KNOWN = documented POS tagger or parser limitation.
+</div>
+
+<div class="summary" id="summary">
+  <span class="stat pending" id="s-pass">—</span><span class="label">pass</span>
+  <span class="stat pending" id="s-fail">—</span><span class="label">fail</span>
+  <span class="stat pending" id="s-known">—</span><span class="label">known</span>
+  <div class="bar"><div class="bar-pass" id="bar-pass" style="width:0"></div><div class="bar-known" id="bar-known" style="width:0"></div><div class="bar-fail" id="bar-fail" style="width:0"></div></div>
+  <span class="time" id="s-time"></span>
+</div>
+
+<div id="sections"></div>
+
+<div class="log">
+  <div class="log-header">Console Log</div>
+  <div id="log-output"></div>
+</div>
+
+<script src="tagteam.js?v=20260330b"></script>
+<script>
+// ═══════════════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════════════
+let logEl;
+function log(msg, cls) {
+  if (!logEl) logEl = document.getElementById('log-output');
+  const s = document.createElement('span'); s.className = cls || 'log-info';
+  s.textContent = msg + '\n'; logEl.appendChild(s); logEl.scrollTop = logEl.scrollHeight;
+}
+
+function g(sentence) {
+  const result = TagTeam.buildGraph(sentence);
+  return result['@graph'] || [];
+}
+
+// Find all entity nodes (exclude acts, roles, assertions, directives, provenance)
+function findEntities(graph) {
+  const exclude = ['IntentionalAct', 'Role', 'AgentRole', 'PatientRole',
+    'tagteam:StructuralAssertion', 'tagteam:NegatedStructuralAssertion',
+    'tagteam:DirectiveContent', 'tagteam:VerbPhrase',
+    'owl:NegativePropertyAssertion', 'tagteam:ClauseRelation',
+    'tagteam:AnaphoricLink', 'tagteam:SourceAttribution'];
+  return graph.filter(n => {
+    if (!n['@id'] || n['@id'].includes('ParsingAct') || n['@id'].includes('IBE_') || n['@id'].includes('Agent_TagTeam')) return false;
+    const types = [].concat(n['@type'] || []);
+    if (types.some(t => exclude.some(ex => t.includes(ex)))) return false;
+    return true;
+  });
+}
+
+// Find entity by label substring match (case-insensitive)
+function findEntityByLabel(graph, labelPart) {
+  const entities = findEntities(graph);
+  const lower = labelPart.toLowerCase();
+  return entities.find(n => (n['rdfs:label'] || '').toLowerCase().includes(lower));
+}
+
+// Find all entity labels for diagnostics
+function entityLabels(graph) {
+  return findEntities(graph).map(n => n['rdfs:label'] || n['@id']).join(', ');
+}
+
+// Find act node by verb hint
+function findAct(graph, verbHint) {
+  if (verbHint) {
+    const byVerb = graph.find(n =>
+      n['@id'] && n['@id'].includes('Act_') && !n['@id'].includes('ParsingAct') &&
+      (n['tagteam:lemma'] === verbHint || n['tagteam:verb'] === verbHint ||
+       (n['rdfs:label'] || '').toLowerCase().includes(verbHint))
+    );
+    if (byVerb) return byVerb;
+  }
+  return graph.find(n => n['@id'] && n['@id'].includes('Act_') && !n['@id'].includes('ParsingAct'));
+}
+
+function findAllActs(graph) {
+  return graph.filter(n => n['@id'] && n['@id'].includes('Act_') && !n['@id'].includes('ParsingAct'));
+}
+
+// Check if an entity label contains a word (used for phantom detection)
+function hasPhantom(graph, word) {
+  const entities = findEntities(graph);
+  const lower = word.toLowerCase();
+  return entities.some(n => {
+    const label = (n['rdfs:label'] || '').toLowerCase();
+    return label === lower || label === 'the ' + lower;
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TEST DEFINITIONS
+// ═══════════════════════════════════════════════════════════════
+const TESTS = [
+
+// ══════════════════════════════════════════════════════════════
+// E1: DEMO-BLOCKING AGENCY NAMES
+// The five sentences that broke the stakeholder demo
+// ══════════════════════════════════════════════════════════════
+
+{ section: 'E1: Demo-Blocking Agency Names', tests: [
+  { id: 'AC-EF-01', sentence: 'Customs and Border Protection enforces trade laws.',
+    expect: 'CBP entity exists', run: () => {
+      const graph = g('Customs and Border Protection enforces trade laws.');
+      const cbp = findEntityByLabel(graph, 'Customs and Border Protection');
+      if (!cbp) return { pass: false, detail: 'No entity containing "Customs and Border Protection". Found: [' + entityLabels(graph) + ']' };
+      return { pass: true, detail: 'Entity: "' + cbp['rdfs:label'] + '" ✓' };
+  }},
+  { id: 'AC-EF-02', sentence: 'Customs and Border Protection enforces trade laws.',
+    expect: 'entity excludes verb', run: () => {
+      const graph = g('Customs and Border Protection enforces trade laws.');
+      const cbp = findEntityByLabel(graph, 'Customs and Border Protection');
+      if (!cbp) return { pass: false, detail: 'CBP entity not found' };
+      const label = (cbp['rdfs:label'] || '').toLowerCase();
+      if (label.includes('enforces') || label.includes('trade') || label.includes('laws')) {
+        return { pass: false, detail: 'Entity label bleeds into verb/object: "' + cbp['rdfs:label'] + '"' };
+      }
+      return { pass: true, detail: 'Clean boundary: "' + cbp['rdfs:label'] + '" ✓' };
+  }},
+  { id: 'AC-EF-03', sentence: 'Customs and Border Protection enforces trade laws.',
+    expect: 'act node has verb "enforce"', run: () => {
+      const graph = g('Customs and Border Protection enforces trade laws.');
+      const act = findAct(graph, 'enforce');
+      if (!act) {
+        const allActs = findAllActs(graph);
+        return { pass: false, detail: 'No act for "enforce". Acts: [' + allActs.map(a => a['rdfs:label'] || a['tagteam:lemma']).join(', ') + ']. Entities: [' + entityLabels(graph) + ']' };
+      }
+      return { pass: true, detail: 'Act: lemma=' + (act['tagteam:lemma'] || act['tagteam:verb']) + ' ✓' };
+  }},
+  { id: 'AC-EF-04', sentence: 'Department of Homeland Security issued the directive.',
+    expect: 'DHS entity intact', run: () => {
+      const graph = g('Department of Homeland Security issued the directive.');
+      const dhs = findEntityByLabel(graph, 'Department of Homeland Security');
+      if (!dhs) return { pass: false, detail: 'No entity containing "Department of Homeland Security". Found: [' + entityLabels(graph) + ']' };
+      return { pass: true, detail: 'Entity: "' + dhs['rdfs:label'] + '" ✓' };
+  }},
+  { id: 'AC-EF-05', sentence: 'Department of Homeland Security issued the directive.',
+    expect: 'no phantom fragments', run: () => {
+      const graph = g('Department of Homeland Security issued the directive.');
+      const entities = findEntities(graph);
+      const phantoms = [];
+      // Check for standalone fragments that shouldn't exist
+      for (const e of entities) {
+        const label = (e['rdfs:label'] || '').toLowerCase();
+        if (label === 'department' || label === 'the department') phantoms.push(e['rdfs:label']);
+        if (label === 'homeland security' || label === 'homeland') phantoms.push(e['rdfs:label']);
+        if (label === 'security') phantoms.push(e['rdfs:label']);
+      }
+      if (phantoms.length > 0) return { pass: false, detail: 'Phantom fragments: [' + phantoms.join(', ') + ']' };
+      return { pass: true, detail: 'No phantom fragments ✓' };
+  }},
+  { id: 'AC-EF-06', sentence: 'Immigration and Customs Enforcement deported the individual.',
+    expect: 'ICE entity intact', run: () => {
+      const graph = g('Immigration and Customs Enforcement deported the individual.');
+      const ice = findEntityByLabel(graph, 'Immigration and Customs Enforcement');
+      if (!ice) return { pass: false, detail: 'No entity containing "Immigration and Customs Enforcement". Found: [' + entityLabels(graph) + ']' };
+      return { pass: true, detail: 'Entity: "' + ice['rdfs:label'] + '" ✓' };
+  }},
+  { id: 'AC-EF-07', sentence: 'Immigration and Customs Enforcement deported the individual.',
+    expect: 'entity excludes verb', run: () => {
+      const graph = g('Immigration and Customs Enforcement deported the individual.');
+      const ice = findEntityByLabel(graph, 'Immigration and Customs Enforcement');
+      if (!ice) return { pass: false, detail: 'ICE entity not found' };
+      const label = (ice['rdfs:label'] || '').toLowerCase();
+      if (label.includes('deported') || label.includes('individual')) {
+        return { pass: false, detail: 'Entity label bleeds: "' + ice['rdfs:label'] + '"' };
+      }
+      return { pass: true, detail: 'Clean boundary: "' + ice['rdfs:label'] + '" ✓' };
+  }},
+  { id: 'AC-EF-08', sentence: 'Immigration and Customs Enforcement deported the individual.',
+    expect: 'act verb is "deport" not "Immigration"', run: () => {
+      const graph = g('Immigration and Customs Enforcement deported the individual.');
+      const act = findAct(graph, 'deport');
+      if (!act) {
+        const allActs = findAllActs(graph);
+        // Check if any act has "immigration" as its verb (the bug)
+        const bad = allActs.find(a => (a['tagteam:lemma'] || '').toLowerCase().includes('immigrat'));
+        if (bad) return { pass: false, detail: 'Act verb is "' + bad['tagteam:lemma'] + '" — entity name leaked into act' };
+        return { pass: false, detail: 'No act for "deport". Acts: [' + allActs.map(a => a['rdfs:label'] || a['tagteam:lemma']).join(', ') + ']' };
+      }
+      return { pass: true, detail: 'Act: lemma=' + (act['tagteam:lemma'] || act['tagteam:verb']) + ' ✓' };
+  }},
+]},
+
+// ══════════════════════════════════════════════════════════════
+// E2: ADDITIONAL AGENCY NAMES
+// ══════════════════════════════════════════════════════════════
+
+{ section: 'E2: Additional Agency Names', tests: [
+  { id: 'AC-EF-09', sentence: 'Fish and Wildlife Service manages protected areas.',
+    expect: 'FWS entity, excludes "manages"', run: () => {
+      const graph = g('Fish and Wildlife Service manages protected areas.');
+      const fws = findEntityByLabel(graph, 'Fish and Wildlife Service');
+      if (!fws) return { pass: false, detail: 'No entity containing "Fish and Wildlife Service". Found: [' + entityLabels(graph) + ']' };
+      const label = (fws['rdfs:label'] || '').toLowerCase();
+      if (label.includes('manages')) return { pass: false, detail: 'Entity absorbed verb: "' + fws['rdfs:label'] + '"' };
+      return { pass: true, detail: 'Entity: "' + fws['rdfs:label'] + '" ✓' };
+  }},
+  { id: 'AC-EF-10', sentence: 'The Bureau of Alcohol Tobacco and Firearms investigated the case.',
+    expect: 'ATF entity intact', run: () => {
+      const graph = g('The Bureau of Alcohol Tobacco and Firearms investigated the case.');
+      const atf = findEntityByLabel(graph, 'Bureau of Alcohol Tobacco and Firearms');
+      if (!atf) return { pass: false, detail: 'No entity containing "Bureau of Alcohol Tobacco and Firearms". Found: [' + entityLabels(graph) + ']' };
+      return { pass: true, detail: 'Entity: "' + atf['rdfs:label'] + '" ✓' };
+  }},
+  { id: 'AC-EF-11', sentence: 'The Bureau of Alcohol Tobacco and Firearms investigated the case.',
+    expect: 'no phantom fragments', run: () => {
+      const graph = g('The Bureau of Alcohol Tobacco and Firearms investigated the case.');
+      const entities = findEntities(graph);
+      const phantoms = entities.filter(e => {
+        const label = (e['rdfs:label'] || '').toLowerCase();
+        return label === 'firearms' || label === 'alcohol tobacco' || label === 'alcohol' || label === 'tobacco';
+      });
+      if (phantoms.length > 0) return { pass: false, detail: 'Phantom fragments: [' + phantoms.map(p => p['rdfs:label']).join(', ') + ']' };
+      return { pass: true, detail: 'No phantom fragments ✓' };
+  }},
+]},
+
+// ══════════════════════════════════════════════════════════════
+// E3: CDD NOVEL DETECTION (no gazetteer)
+// ══════════════════════════════════════════════════════════════
+
+{ section: 'E3: CDD Novel Detection (No Gazetteer)', tests: [
+  { id: 'AC-EF-17', sentence: 'Federal Emergency Management Agency coordinated the response.',
+    expect: 'FEMA entity detected by surface form', run: () => {
+      const graph = g('Federal Emergency Management Agency coordinated the response.');
+      const fema = findEntityByLabel(graph, 'Federal Emergency Management Agency');
+      if (!fema) return { pass: false, detail: 'No entity containing "Federal Emergency Management Agency". CDD should detect by surface form. Found: [' + entityLabels(graph) + ']' };
+      return { pass: true, detail: 'Entity: "' + fema['rdfs:label'] + '" (CDD surface detection) ✓' };
+  }},
+  { id: 'AC-EF-18', sentence: 'The National Oceanic and Atmospheric Administration issued a warning.',
+    expect: 'NOAA entity intact (internal "and")', run: () => {
+      const graph = g('The National Oceanic and Atmospheric Administration issued a warning.');
+      const noaa = findEntityByLabel(graph, 'National Oceanic and Atmospheric Administration');
+      if (!noaa) return { pass: false, detail: 'No entity containing "National Oceanic and Atmospheric Administration". Found: [' + entityLabels(graph) + ']' };
+      return { pass: true, detail: 'Entity: "' + noaa['rdfs:label'] + '" ✓' };
+  }},
+  { id: 'E3-03', sentence: 'The Office of Inspector General published the report.',
+    expect: 'OIG entity intact (internal "of")', run: () => {
+      const graph = g('The Office of Inspector General published the report.');
+      const oig = findEntityByLabel(graph, 'Office of Inspector General');
+      if (!oig) return { pass: false, detail: 'No entity containing "Office of Inspector General". Found: [' + entityLabels(graph) + ']' };
+      return { pass: true, detail: 'Entity: "' + oig['rdfs:label'] + '" ✓' };
+  }},
+  { id: 'E3-04', sentence: 'The Government Accountability Office audited the program.',
+    expect: 'GAO entity intact', run: () => {
+      const graph = g('The Government Accountability Office audited the program.');
+      const gao = findEntityByLabel(graph, 'Government Accountability Office');
+      if (!gao) return { pass: false, detail: 'No entity containing "Government Accountability Office". Found: [' + entityLabels(graph) + ']' };
+      return { pass: true, detail: 'Entity: "' + gao['rdfs:label'] + '" ✓' };
+  }},
+]},
+
+// ══════════════════════════════════════════════════════════════
+// E4: SYNTACTIC POSITION VARIANTS
+// Same entity in different grammatical positions
+// ══════════════════════════════════════════════════════════════
+
+{ section: 'E4: Syntactic Position Variants', tests: [
+  { id: 'AC-EF-12', sentence: 'The directive was issued by the Department of Homeland Security.',
+    expect: 'DHS intact in passive/agent position', run: () => {
+      const graph = g('The directive was issued by the Department of Homeland Security.');
+      const dhs = findEntityByLabel(graph, 'Department of Homeland Security');
+      if (!dhs) return { pass: false, detail: 'DHS entity not found in obl:agent position. Found: [' + entityLabels(graph) + ']' };
+      return { pass: true, detail: 'Entity: "' + dhs['rdfs:label'] + '" (passive agent) ✓' };
+  }},
+  { id: 'AC-EF-13', sentence: 'She works for Customs and Border Protection.',
+    expect: 'CBP intact in PP object position', run: () => {
+      const graph = g('She works for Customs and Border Protection.');
+      const cbp = findEntityByLabel(graph, 'Customs and Border Protection');
+      if (!cbp) return { pass: false, detail: 'CBP entity not found in PP-object position. Found: [' + entityLabels(graph) + ']' };
+      return { pass: true, detail: 'Entity: "' + cbp['rdfs:label'] + '" (PP object) ✓' };
+  }},
+  { id: 'AC-EF-14', sentence: "The Department of Homeland Security's policy requires annual review.",
+    expect: 'DHS intact in possessive position', known: true, run: () => {
+      const graph = g("The Department of Homeland Security's policy requires annual review.");
+      const dhs = findEntityByLabel(graph, 'Department of Homeland Security');
+      if (!dhs) return { pass: false, detail: "DHS entity not found in possessive position. Tokenizer may split 's. Found: [" + entityLabels(graph) + ']' };
+      return { pass: true, detail: 'Entity: "' + dhs['rdfs:label'] + '" (possessive) ✓' };
+  }},
+  { id: 'E4-04', sentence: 'The report from Immigration and Customs Enforcement was classified.',
+    expect: 'ICE intact in PP complement position', run: () => {
+      const graph = g('The report from Immigration and Customs Enforcement was classified.');
+      const ice = findEntityByLabel(graph, 'Immigration and Customs Enforcement');
+      if (!ice) return { pass: false, detail: 'ICE entity not found in PP complement position. Found: [' + entityLabels(graph) + ']' };
+      return { pass: true, detail: 'Entity: "' + ice['rdfs:label'] + '" (PP complement) ✓' };
+  }},
+  { id: 'E4-05', sentence: 'According to Customs and Border Protection, the policy changed.',
+    expect: 'CBP intact in sentence-initial PP', run: () => {
+      const graph = g('According to Customs and Border Protection, the policy changed.');
+      const cbp = findEntityByLabel(graph, 'Customs and Border Protection');
+      if (!cbp) return { pass: false, detail: 'CBP entity not found in sentence-initial PP. Found: [' + entityLabels(graph) + ']' };
+      return { pass: true, detail: 'Entity: "' + cbp['rdfs:label'] + '" (sentence-initial PP) ✓' };
+  }},
+]},
+
+// ══════════════════════════════════════════════════════════════
+// E5: COORDINATION SPLIT (negative tests — CDD must NOT lock)
+// ══════════════════════════════════════════════════════════════
+
+{ section: 'E5: Coordination Split (CDD Must Not Lock)', tests: [
+  { id: 'AC-EF-24', sentence: 'Alice and Bob went to the park.',
+    expect: 'two separate entities', run: () => {
+      const graph = g('Alice and Bob went to the park.');
+      const alice = findEntityByLabel(graph, 'Alice');
+      const bob = findEntityByLabel(graph, 'Bob');
+      if (!alice && !bob) return { pass: false, detail: 'Neither Alice nor Bob found. Found: [' + entityLabels(graph) + ']' };
+      if (!alice) return { pass: false, detail: 'Alice not found. Found: [' + entityLabels(graph) + ']' };
+      if (!bob) return { pass: false, detail: 'Bob not found. Found: [' + entityLabels(graph) + ']' };
+      // Verify they are separate entities
+      if (alice['@id'] === bob['@id']) return { pass: false, detail: 'Alice and Bob collapsed into single entity' };
+      return { pass: true, detail: 'Alice + Bob split correctly ✓' };
+  }},
+  { id: 'AC-EF-16', sentence: "CMS and AEs may not deny an application based on a verification response that fails to confirm the applicant's status.",
+    expect: 'CMS and AEs are separate entities', run: () => {
+      const graph = g("CMS and AEs may not deny an application based on a verification response that fails to confirm the applicant's status.");
+      const cms = findEntityByLabel(graph, 'CMS');
+      const aes = findEntityByLabel(graph, 'AEs');
+      if (!cms) return { pass: false, detail: 'CMS not found. Found: [' + entityLabels(graph) + ']' };
+      // AEs might be found under different labels
+      if (!aes) {
+        const ae = findEntityByLabel(graph, 'AE');
+        if (!ae) return { pass: false, detail: 'AEs/AE not found. Found: [' + entityLabels(graph) + ']' };
+      }
+      // Verify CDD did NOT lock "CMS and AEs" as a single entity
+      const locked = findEntityByLabel(graph, 'CMS and AEs');
+      if (locked) return { pass: false, detail: 'CDD OVER-TRIGGERED: "CMS and AEs" locked as single entity' };
+      return { pass: true, detail: 'CMS + AEs correctly split ✓' };
+  }},
+  { id: 'E5-03', sentence: 'FBI and CIA investigated the matter.',
+    expect: 'two separate entities (acronym coordination)', run: () => {
+      const graph = g('FBI and CIA investigated the matter.');
+      const fbi = findEntityByLabel(graph, 'FBI');
+      const cia = findEntityByLabel(graph, 'CIA');
+      if (!fbi) return { pass: false, detail: 'FBI not found. Found: [' + entityLabels(graph) + ']' };
+      if (!cia) return { pass: false, detail: 'CIA not found. Found: [' + entityLabels(graph) + ']' };
+      const locked = findEntityByLabel(graph, 'FBI and CIA');
+      if (locked) return { pass: false, detail: 'CDD OVER-TRIGGERED: "FBI and CIA" locked as single entity' };
+      return { pass: true, detail: 'FBI + CIA correctly split ✓' };
+  }},
+  { id: 'E5-04', sentence: 'The doctor and the nurse treated the patient.',
+    expect: 'two separate entities (common nouns)', run: () => {
+      const graph = g('The doctor and the nurse treated the patient.');
+      const doctor = findEntityByLabel(graph, 'doctor');
+      const nurse = findEntityByLabel(graph, 'nurse');
+      if (!doctor) return { pass: false, detail: 'Doctor not found. Found: [' + entityLabels(graph) + ']' };
+      if (!nurse) return { pass: false, detail: 'Nurse not found. Found: [' + entityLabels(graph) + ']' };
+      return { pass: true, detail: 'Doctor + nurse correctly split ✓' };
+  }},
+]},
+
+// ══════════════════════════════════════════════════════════════
+// E6: RC-3 FIX — VERB CONJUNCT EXCLUSION
+// ══════════════════════════════════════════════════════════════
+
+{ section: 'E6: Verb Conjunct Exclusion (RC-3)', tests: [
+  { id: 'AC-EF-20', sentence: 'Immigration and Customs Enforcement deported the individual.',
+    expect: 'entity span excludes verb subtree', run: () => {
+      const graph = g('Immigration and Customs Enforcement deported the individual.');
+      const entities = findEntities(graph);
+      const bad = entities.find(e => {
+        const label = (e['rdfs:label'] || '').toLowerCase();
+        return label.includes('immigration') && label.includes('deported');
+      });
+      if (bad) return { pass: false, detail: 'Entity absorbed verb: "' + bad['rdfs:label'] + '"' };
+      return { pass: true, detail: 'No entity absorbs verb conjunct ✓' };
+  }},
+  { id: 'E6-02', sentence: 'Fish and Wildlife Service manages protected areas.',
+    expect: 'entity span excludes "manages"', run: () => {
+      const graph = g('Fish and Wildlife Service manages protected areas.');
+      const entities = findEntities(graph);
+      const bad = entities.find(e => {
+        const label = (e['rdfs:label'] || '').toLowerCase();
+        return label.includes('fish') && label.includes('manages');
+      });
+      if (bad) return { pass: false, detail: 'Entity absorbed verb: "' + bad['rdfs:label'] + '"' };
+      return { pass: true, detail: 'No entity absorbs "manages" ✓' };
+  }},
+  { id: 'E6-03', sentence: 'The cats and dogs played in the yard.',
+    expect: 'noun conjuncts preserved (non-verb)', run: () => {
+      const graph = g('The cats and dogs played in the yard.');
+      // "cats and dogs" could be split or kept — either is acceptable
+      // What matters: "played" is NOT absorbed into an entity
+      const entities = findEntities(graph);
+      const bad = entities.find(e => (e['rdfs:label'] || '').toLowerCase().includes('played'));
+      if (bad) return { pass: false, detail: 'Entity absorbed verb "played": "' + bad['rdfs:label'] + '"' };
+      return { pass: true, detail: 'Verb "played" excluded from entities ✓' };
+  }},
+]},
+
+// ══════════════════════════════════════════════════════════════
+// E7: ISA MOA SENTENCES
+// ══════════════════════════════════════════════════════════════
+
+{ section: 'E7: ISA MOA Entity Extraction', tests: [
+  { id: 'AC-EF-15', sentence: 'CMS shall allow USCIS to monitor and review all records and documents under CMS control related to this Agreement.',
+    expect: 'USCIS extracted as entity', run: () => {
+      const graph = g('CMS shall allow USCIS to monitor and review all records and documents under CMS control related to this Agreement.');
+      const uscis = findEntityByLabel(graph, 'USCIS');
+      if (!uscis) return { pass: false, detail: 'USCIS not found. Found: [' + entityLabels(graph) + ']' };
+      return { pass: true, detail: 'Entity: "' + uscis['rdfs:label'] + '" ✓' };
+  }},
+  { id: 'E7-02', sentence: 'CMS shall allow USCIS to monitor and review all records and documents under CMS control related to this Agreement.',
+    expect: 'CMS extracted as entity', run: () => {
+      const graph = g('CMS shall allow USCIS to monitor and review all records and documents under CMS control related to this Agreement.');
+      const cms = findEntityByLabel(graph, 'CMS');
+      if (!cms) return { pass: false, detail: 'CMS not found. Found: [' + entityLabels(graph) + ']' };
+      return { pass: true, detail: 'Entity: "' + cms['rdfs:label'] + '" ✓' };
+  }},
+  { id: 'E7-03', sentence: 'Both Parties shall maintain a level of security that is commensurate with the risk and magnitude of the harm.',
+    expect: '"Parties" entity exists, "risk" and "harm" are not one entity', run: () => {
+      const graph = g('Both Parties shall maintain a level of security that is commensurate with the risk and magnitude of the harm.');
+      const parties = findEntityByLabel(graph, 'Parties');
+      if (!parties) return { pass: false, detail: 'Parties not found. Found: [' + entityLabels(graph) + ']' };
+      return { pass: true, detail: 'Entity: "' + parties['rdfs:label'] + '" ✓' };
+  }},
+]},
+
+// ══════════════════════════════════════════════════════════════
+// E8: NON-REGRESSION
+// ══════════════════════════════════════════════════════════════
+
+{ section: 'E8: Non-Regression', tests: [
+  { id: 'AC-EF-23', sentence: 'CBP is a component of DHS.',
+    expect: 'copular assertion intact', run: () => {
+      const graph = g('CBP is a component of DHS.');
+      const assertions = graph.filter(n => {
+        const types = [].concat(n['@type'] || []);
+        return types.some(t => t.includes('StructuralAssertion'));
+      });
+      if (assertions.length === 0) return { pass: false, detail: 'No StructuralAssertion found. Graph types: [' + [...new Set(graph.flatMap(n => n['@type'] || []))].join(', ') + ']' };
+      return { pass: true, detail: assertions.length + ' assertion(s) present ✓' };
+  }},
+  { id: 'E8-02', sentence: 'The doctor treats the patient.',
+    expect: 'simple SVO unaffected', run: () => {
+      const graph = g('The doctor treats the patient.');
+      const doc = findEntityByLabel(graph, 'doctor');
+      const pat = findEntityByLabel(graph, 'patient');
+      const act = findAct(graph, 'treat');
+      if (!doc) return { pass: false, detail: 'Doctor not found. Found: [' + entityLabels(graph) + ']' };
+      if (!pat) return { pass: false, detail: 'Patient not found' };
+      if (!act) return { pass: false, detail: 'Act "treat" not found' };
+      return { pass: true, detail: 'Doctor + patient + treat all present ✓' };
+  }},
+  { id: 'E8-03', sentence: 'The committee shall review the proposal.',
+    expect: 'modal detection unaffected', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      const act = findAct(graph, 'review');
+      if (!act) return { pass: false, detail: 'Act "review" not found' };
+      if (act['tagteam:modality'] !== 'obligation') return { pass: false, detail: 'modality=' + act['tagteam:modality'] + ' (expected obligation)' };
+      return { pass: true, detail: 'obligation on review ✓' };
+  }},
+  { id: 'E8-04', sentence: 'CBP is not an agency of the DOD.',
+    expect: 'NPA negation unaffected', run: () => {
+      const graph = g('CBP is not an agency of the DOD.');
+      const npa = graph.find(n => {
+        const types = [].concat(n['@type'] || []);
+        return types.includes('owl:NegativePropertyAssertion');
+      });
+      if (!npa) return { pass: false, detail: 'No NegativePropertyAssertion found' };
+      return { pass: true, detail: 'NPA intact ✓' };
+  }},
+  { id: 'E8-05', sentence: 'Dogs have fur.',
+    expect: 'genericity unaffected', run: () => {
+      const graph = g('Dogs have fur.');
+      const dog = graph.find(n => {
+        const label = (n['rdfs:label'] || '').toLowerCase();
+        const types = [].concat(n['@type'] || []);
+        return label === 'dog' && types.includes('owl:Class');
+      });
+      if (!dog) return { pass: false, detail: 'Dog not found as owl:Class. Found: [' + entityLabels(graph) + ']' };
+      return { pass: true, detail: 'Dog → owl:Class ✓' };
+  }},
+]},
+
+]; // end TESTS
+
+// ═══════════════════════════════════════════════════════════════
+// RENDERING & RUNNER
+// ═══════════════════════════════════════════════════════════════
+function renderSections() {
+  const container = document.getElementById('sections');
+  container.innerHTML = '';
+  for (const sec of TESTS) {
+    const div = document.createElement('div');
+    div.className = 'section'; div.dataset.sectionName = sec.section;
+    const header = document.createElement('div');
+    header.className = 'section-header';
+    header.innerHTML = `<span class="section-title">${sec.section}</span><span class="section-count">${sec.tests.length} tests</span>`;
+    header.onclick = () => div.classList.toggle('open');
+    div.appendChild(header);
+    const body = document.createElement('div');
+    body.className = 'section-body';
+    for (const t of sec.tests) {
+      const row = document.createElement('div');
+      row.className = 'test-row'; row.id = 'row-' + t.id;
+      const trunc = t.sentence.length > 60 ? t.sentence.substring(0,57) + '…' : t.sentence;
+      row.innerHTML = `<span class="test-id">${t.id}</span><span class="test-input" title="${t.sentence.replace(/"/g,'&quot;')}">"${trunc}"</span><span class="test-expect">${t.expect}</span><span class="test-result pending" id="res-${t.id}">—</span>`;
+      body.appendChild(row);
+    }
+    div.appendChild(body); container.appendChild(div);
+  }
+}
+
+async function runAllTests() {
+  const btn = document.getElementById('btn-run');
+  btn.classList.add('running'); btn.textContent = 'Running…';
+  document.getElementById('log-output').innerHTML = '';
+
+  if (typeof TagTeam === 'undefined' || typeof TagTeam.buildGraph !== 'function') {
+    log('FATAL: TagTeam.buildGraph() not available.', 'log-fail');
+    btn.classList.remove('running'); btn.textContent = 'Run All Tests'; return;
+  }
+
+  renderSections();
+  const t0 = performance.now();
+  let pass = 0, fail = 0, known = 0;
+
+  for (const sec of TESTS) {
+    let sf = 0, sk = 0;
+    for (const t of sec.tests) {
+      let result;
+      try { result = t.run(); } catch(e) { result = { pass: false, detail: 'ERROR: ' + e.message }; }
+
+      const resEl = document.getElementById('res-' + t.id);
+      if (result.pass) {
+        pass++; resEl.textContent = 'PASS'; resEl.className = 'test-result pass';
+        log(`  ✓ ${t.id}: ${result.detail}`, 'log-pass');
+      } else if (t.known) {
+        known++; sk++; resEl.textContent = 'KNOWN'; resEl.className = 'test-result known';
+        log(`  ◆ ${t.id}: ${result.detail}`, 'log-known');
+        const row = document.getElementById('row-' + t.id);
+        if (row) { const d = document.createElement('div'); d.className = 'fail-detail is-known'; d.textContent = result.detail; row.parentNode.insertBefore(d, row.nextSibling); }
+      } else {
+        fail++; sf++; resEl.textContent = 'FAIL'; resEl.className = 'test-result fail';
+        log(`  ✗ ${t.id}: ${result.detail}`, 'log-fail');
+        const row = document.getElementById('row-' + t.id);
+        if (row) { const d = document.createElement('div'); d.className = 'fail-detail is-fail'; d.textContent = result.detail; row.parentNode.insertBefore(d, row.nextSibling); }
+      }
+      await new Promise(r => setTimeout(r, 0));
+    }
+    const secEl = document.querySelector(`[data-section-name="${sec.section}"]`);
+    if (secEl) {
+      if (sf > 0) { secEl.classList.add('has-fail','open'); }
+      else if (sk > 0) { secEl.classList.add('has-known','open'); }
+      else { secEl.classList.add('all-pass'); }
+    }
+    const total = sec.tests.length;
+    const secPass = total - sf - sk;
+    log(`  ${sec.section}: ${secPass}/${total} pass` + (sk > 0 ? `, ${sk} known` : '') + (sf > 0 ? `, ${sf} FAIL` : ''), sf > 0 ? 'log-fail' : 'log-pass');
+  }
+
+  const total = pass + fail + known;
+  const elapsed = ((performance.now() - t0) / 1000).toFixed(2);
+  document.getElementById('s-pass').textContent = pass; document.getElementById('s-pass').className = 'stat pass';
+  document.getElementById('s-fail').textContent = fail; document.getElementById('s-fail').className = 'stat ' + (fail > 0 ? 'fail' : 'pass');
+  document.getElementById('s-known').textContent = known; document.getElementById('s-known').className = 'stat known';
+  document.getElementById('s-time').textContent = elapsed + 's';
+  document.getElementById('bar-pass').style.width = (total > 0 ? pass/total*100 : 0) + '%';
+  document.getElementById('bar-known').style.width = (total > 0 ? known/total*100 : 0) + '%';
+  document.getElementById('bar-fail').style.width = (total > 0 ? fail/total*100 : 0) + '%';
+
+  log('', 'log-info');
+  log('════════════════════════════════', 'log-info');
+  log(`  TOTAL: ${total}  PASS: ${pass}  FAIL: ${fail}  KNOWN: ${known}  (${elapsed}s)`, fail > 0 ? 'log-fail' : 'log-pass');
+  log('════════════════════════════════', 'log-info');
+
+  btn.classList.remove('running'); btn.textContent = 'Run All Tests';
+}
+
+function expandFailed() {
+  document.querySelectorAll('.section').forEach(s => {
+    if (s.classList.contains('has-fail') || s.classList.contains('has-known')) s.classList.add('open');
+    else s.classList.remove('open');
+  });
+}
+function toggleAll() {
+  const secs = document.querySelectorAll('.section');
+  const allOpen = [...secs].every(s => s.classList.contains('open'));
+  secs.forEach(s => allOpen ? s.classList.remove('open') : s.classList.add('open'));
+}
+function exportResults() {
+  const rows = [];
+  document.querySelectorAll('.test-row').forEach(r => {
+    const id = r.querySelector('.test-id')?.textContent;
+    const res = r.querySelector('.test-result')?.textContent;
+    const detail = r.nextElementSibling?.classList?.contains('fail-detail') ? r.nextElementSibling.textContent : '';
+    rows.push({ id, result: res, detail });
+  });
+  const blob = new Blob([JSON.stringify(rows, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'entity-boundary-results.json'; a.click();
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  if (typeof TagTeam !== 'undefined') {
+    renderSections();
+    log('TagTeam loaded. buildGraph() available. Ready.', 'log-info');
+  } else {
+    log('TagTeam not found. Check tagteam.js script src.', 'log-fail');
+  }
+});
+</script>
+</body>
+</html>

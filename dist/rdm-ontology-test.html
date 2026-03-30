@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TagTeam.js — RDM Ontology Test Suite</title>
+  <style>
+    :root {
+      --bg: #0c0c0c; --fg: #c8c8c8; --dim: #666; --border: #222;
+      --pass: #2ecc40; --fail: #ff4136; --warn: #ff851b;
+      --accent: #e5c07b; --section-bg: #111; --code-bg: #0a0a0a; --header-bg: #181818;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'IBM Plex Mono','Fira Code','Consolas',monospace; background: var(--bg); color: var(--fg); padding: 24px; line-height: 1.5; font-size: 13px; }
+    h1 { font-size: 1.2em; color: var(--accent); font-weight: 600; } h1 span { color: var(--dim); font-weight: 400; font-size: 0.8em; }
+    .header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 16px; }
+    .controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .controls button { background: var(--section-bg); color: var(--fg); border: 1px solid var(--border); padding: 5px 14px; font-family: inherit; font-size: 12px; cursor: pointer; border-radius: 2px; }
+    .controls button:hover { border-color: var(--accent); color: var(--accent); }
+    .controls input[type="file"] { display: none; }
+    .file-label { background: var(--section-bg); color: var(--fg); border: 1px solid var(--border); padding: 5px 14px; font-size: 12px; cursor: pointer; border-radius: 2px; display: inline-block; }
+    .file-label:hover { border-color: var(--accent); color: var(--accent); }
+    .summary { display: flex; gap: 20px; padding: 12px 16px; background: var(--header-bg); border: 1px solid var(--border); margin-bottom: 16px; align-items: center; border-radius: 2px; }
+    .summary .stat { font-size: 1.1em; font-weight: 600; }
+    .summary .stat.pass { color: var(--pass); } .summary .stat.fail { color: var(--fail); }
+    .summary .label { color: var(--dim); font-size: 0.85em; margin-left: 4px; }
+    .summary .bar { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; display: flex; }
+    .summary .bar-pass { background: var(--pass); transition: width 0.3s; }
+    .summary .bar-fail { background: var(--fail); transition: width 0.3s; }
+    .section { margin-bottom: 16px; border: 1px solid var(--border); border-radius: 2px; }
+    .section-header { padding: 8px 14px; background: var(--header-bg); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+    .section-header:hover { background: #1a1a1a; }
+    .section-title { color: var(--accent); font-weight: 600; font-size: 0.95em; }
+    .section-count { color: var(--dim); font-size: 0.85em; }
+    .section-body { display: none; } .section.open .section-body { display: block; }
+    .section.all-pass .section-header { border-left: 3px solid var(--pass); }
+    .section.has-fail .section-header { border-left: 3px solid var(--fail); }
+    .test-row { display: grid; grid-template-columns: 100px 1fr 60px; padding: 6px 14px; border-bottom: 1px solid #1a1a1a; align-items: center; font-size: 12px; }
+    .test-row:last-child { border-bottom: none; }
+    .test-id { color: var(--dim); font-weight: 600; }
+    .test-expect { color: var(--fg); }
+    .test-result { text-align: right; font-weight: 700; font-size: 11px; }
+    .test-result.pass { color: var(--pass); }
+    .test-result.fail { color: var(--fail); }
+    .test-result.pending { color: var(--dim); }
+    .fail-detail { grid-column: 1 / -1; padding: 8px 14px 8px 100px; font-size: 11px; background: #1a0a0a; border-bottom: 1px solid #331111; color: var(--fail); }
+    .note { padding: 10px 16px; margin-bottom: 16px; border: 1px solid var(--border); border-radius: 2px; font-size: 12px; background: var(--header-bg); color: var(--dim); }
+    .note strong { color: var(--accent); }
+    #log { background: var(--code-bg); padding: 12px; max-height: 300px; overflow: auto; border: 1px solid var(--border); font-size: 11px; line-height: 1.6; white-space: pre-wrap; margin-top: 16px; border-radius: 2px; }
+    .log-pass { color: var(--pass); } .log-fail { color: var(--fail); } .log-info { color: var(--dim); }
+    .status-box { padding: 16px; margin-bottom: 16px; border-radius: 4px; text-align: center; }
+    .status-box.waiting { background: #1a1a1a; border: 1px dashed var(--border); color: var(--dim); }
+    .status-box.loaded { background: #0a1a0a; border: 1px solid var(--pass); color: var(--pass); }
+    .status-box.error { background: #1a0a0a; border: 1px solid var(--fail); color: var(--fail); }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>RDM Ontology Tests <span>TTL + @context validation</span></h1>
+  <div class="controls">
+    <label class="file-label">
+      Load tagteam.ttl
+      <input type="file" id="ttl-file" accept=".ttl,.turtle" onchange="loadTTL(this)">
+    </label>
+    <button onclick="runTests()">Run Tests</button>
+    <button onclick="toggleAll()">Toggle All</button>
+  </div>
+</div>
+
+<div class="note">
+  <strong>Instructions:</strong> 
+  1. Load <code>ontology/tagteam.ttl</code> to test TTL declarations.
+  2. TagTeam.js must be present to test @context.
+  Tests verify all RDM v1.2.1 classes, individuals, and properties are declared.
+</div>
+
+<div class="status-box waiting" id="ttl-status">
+  TTL not loaded — click "Load tagteam.ttl" to begin
+</div>
+
+<div class="summary" id="summary" style="display:none;">
+  <span class="stat pending" id="s-pass">—</span><span class="label">pass</span>
+  <span class="stat pending" id="s-fail">—</span><span class="label">fail</span>
+  <div class="bar"><div class="bar-pass" id="bar-pass" style="width:0"></div><div class="bar-fail" id="bar-fail" style="width:0"></div></div>
+</div>
+
+<div id="sections"></div>
+
+<div id="log"></div>
+
+<script src="tagteam.js?v=20260330b"></script>
+<script>
+// ═══════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════
+let ttlContent = null;
+let ttlLines = [];
+
+// ═══════════════════════════════════════════════════════════════
+// TTL LOADING
+// ═══════════════════════════════════════════════════════════════
+function loadTTL(input) {
+  if (!input.files || !input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    ttlContent = e.target.result;
+    ttlLines = ttlContent.split('\n');
+    const status = document.getElementById('ttl-status');
+    status.className = 'status-box loaded';
+    status.textContent = '✓ TTL loaded: ' + input.files[0].name + ' (' + ttlLines.length + ' lines)';
+    log('TTL loaded: ' + ttlLines.length + ' lines', 'log-info');
+  };
+  reader.onerror = function() {
+    const status = document.getElementById('ttl-status');
+    status.className = 'status-box error';
+    status.textContent = '✗ Failed to read file';
+  };
+  reader.readAsText(input.files[0]);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TTL HELPERS
+// ═══════════════════════════════════════════════════════════════
+function ttlHas(pattern) {
+  if (!ttlContent) return false;
+  if (pattern instanceof RegExp) return pattern.test(ttlContent);
+  return ttlContent.includes(pattern);
+}
+
+function ttlHasClass(className) {
+  // Match: :ClassName rdf:type owl:Class OR tagteam:ClassName rdf:type owl:Class
+  // Also: :ClassName a owl:Class (Turtle shorthand)
+  const p1 = new RegExp(`(?:^|\\s):${className}\\s+rdf:type\\s+owl:Class`, 'im');
+  const p2 = new RegExp(`(?:^|\\s):${className}\\s+a\\s+owl:Class`, 'im');
+  const p3 = new RegExp(`tagteam:${className}\\s+rdf:type\\s+owl:Class`, 'i');
+  const p4 = new RegExp(`tagteam:${className}\\s+a\\s+owl:Class`, 'i');
+  return p1.test(ttlContent) || p2.test(ttlContent) || p3.test(ttlContent) || p4.test(ttlContent);
+}
+
+function ttlHasSubClassOf(className, superClass) {
+  // superClass might be :X, tagteam:X, cco:X, bfo:X, etc.
+  const p1 = new RegExp(`:${className}[^.]*rdfs:subClassOf\\s+${superClass}`, 'is');
+  const p2 = new RegExp(`tagteam:${className}[^.]*rdfs:subClassOf\\s+${superClass}`, 'is');
+  // Also check if superClass uses : prefix when we passed tagteam:
+  const superAlt = superClass.replace('tagteam:', ':');
+  const p3 = new RegExp(`:${className}[^.]*rdfs:subClassOf\\s+${superAlt}`, 'is');
+  return p1.test(ttlContent) || p2.test(ttlContent) || p3.test(ttlContent);
+}
+
+function ttlHasIndividual(indName, typeName) {
+  // Match: :IndName rdf:type owl:NamedIndividual , :TypeName
+  // Or variations with 'a' instead of 'rdf:type'
+  // Accept both : and tagteam: prefixes
+  const p1 = new RegExp(`:${indName}\\s+rdf:type[^;.]*:${typeName}`, 'is');
+  const p2 = new RegExp(`:${indName}\\s+a[^;.]*:${typeName}`, 'is');
+  const p3 = new RegExp(`tagteam:${indName}\\s+rdf:type[^;.]*tagteam:${typeName}`, 'is');
+  const p4 = new RegExp(`tagteam:${indName}\\s+a[^;.]*tagteam:${typeName}`, 'is');
+  return p1.test(ttlContent) || p2.test(ttlContent) || p3.test(ttlContent) || p4.test(ttlContent);
+}
+
+function ttlHasProperty(propName, propType) {
+  // propType = 'owl:ObjectProperty' or 'owl:DatatypeProperty'
+  // Accept both : and tagteam: prefixes
+  const p1 = new RegExp(`(?:^|\\s):${propName}\\s+rdf:type\\s+${propType}`, 'im');
+  const p2 = new RegExp(`(?:^|\\s):${propName}\\s+a\\s+${propType}`, 'im');
+  const p3 = new RegExp(`tagteam:${propName}\\s+rdf:type\\s+${propType}`, 'i');
+  const p4 = new RegExp(`tagteam:${propName}\\s+a\\s+${propType}`, 'i');
+  return p1.test(ttlContent) || p2.test(ttlContent) || p3.test(ttlContent) || p4.test(ttlContent);
+}
+
+function ttlHasPropertyDomain(propName, domainClass) {
+  // Accept both : and tagteam: prefixes for property name
+  // domainClass might use :, tagteam:, bfo:, cco:, etc.
+  const p1 = new RegExp(`:${propName}[^.]*rdfs:domain\\s+${domainClass}`, 'is');
+  const p2 = new RegExp(`tagteam:${propName}[^.]*rdfs:domain\\s+${domainClass}`, 'is');
+  // Also check if domainClass uses : when we passed tagteam:
+  const domainAlt = domainClass.replace('tagteam:', ':');
+  const p3 = new RegExp(`:${propName}[^.]*rdfs:domain\\s+${domainAlt}`, 'is');
+  return p1.test(ttlContent) || p2.test(ttlContent) || p3.test(ttlContent);
+}
+
+function ttlHasPropertyRange(propName, rangeClass) {
+  // Accept both : and tagteam: prefixes for property name
+  // rangeClass might use :, tagteam:, xsd:, bfo:, owl:, etc.
+  const p1 = new RegExp(`:${propName}[^.]*rdfs:range\\s+${rangeClass}`, 'is');
+  const p2 = new RegExp(`tagteam:${propName}[^.]*rdfs:range\\s+${rangeClass}`, 'is');
+  // Also check if rangeClass uses : when we passed tagteam:
+  const rangeAlt = rangeClass.replace('tagteam:', ':');
+  const p3 = new RegExp(`:${propName}[^.]*rdfs:range\\s+${rangeAlt}`, 'is');
+  return p1.test(ttlContent) || p2.test(ttlContent) || p3.test(ttlContent);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// @CONTEXT HELPERS
+// ═══════════════════════════════════════════════════════════════
+function contextHas(term) {
+  if (typeof TagTeam === 'undefined') return null;
+  if (typeof TagTeam.buildGraph !== 'function') return null;
+  
+  // Build a minimal graph to extract @context
+  try {
+    const result = TagTeam.buildGraph('test');
+    const ctx = result['@context'] || {};
+    
+    // Check for term (might be in different forms)
+    if (ctx[term]) return true;
+    if (ctx['tagteam:' + term]) return true;
+    
+    // Check nested
+    for (const key in ctx) {
+      if (key === term || key === 'tagteam:' + term) return true;
+      const val = ctx[key];
+      if (typeof val === 'object' && val['@id']) {
+        if (val['@id'] === 'tagteam:' + term) return true;
+      }
+    }
+    return false;
+  } catch (e) {
+    return null;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TEST DEFINITIONS
+// ═══════════════════════════════════════════════════════════════
+const TESTS = [
+
+// ── TTL Classes ──────────────────────────────────────────────────
+{ section: 'TTL Classes (9)', tests: [
+  { id: 'AC-TTL-01', expect: 'DirectiveInformationContentEntity declared as owl:Class', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasClass('DirectiveInformationContentEntity')) return { pass: false, detail: 'Class not found' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-01b', expect: 'DICE subClassOf cco:InformationContentEntity', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasSubClassOf('DirectiveInformationContentEntity', 'cco:InformationContentEntity')) 
+      return { pass: false, detail: 'subClassOf not found' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-02', expect: 'PlanSpecification declared as owl:Class', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasClass('PlanSpecification')) return { pass: false, detail: 'Class not found' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-03', expect: 'Obligation declared as owl:Class', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasClass('Obligation')) return { pass: false, detail: 'Class not found' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-04', expect: 'Permission declared as owl:Class', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasClass('Permission')) return { pass: false, detail: 'Class not found' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-05', expect: 'Prohibition declared as owl:Class', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasClass('Prohibition')) return { pass: false, detail: 'Class not found' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-06', expect: 'Intention declared as owl:Class', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasClass('Intention')) return { pass: false, detail: 'Class not found' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-07', expect: 'ConjunctiveObligation declared, subClassOf Obligation', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasClass('ConjunctiveObligation')) return { pass: false, detail: 'Class not found' };
+    if (!ttlHasSubClassOf('ConjunctiveObligation', 'tagteam:Obligation'))
+      return { pass: false, detail: 'subClassOf Obligation not found' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-08', expect: 'DeonticCategory declared as owl:Class', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasClass('DeonticCategory')) return { pass: false, detail: 'Class not found' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-09', expect: 'FulfillmentState declared as owl:Class', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasClass('FulfillmentState')) return { pass: false, detail: 'Class not found' };
+    return { pass: true };
+  }},
+]},
+
+// ── DeonticCategory Individuals ──────────────────────────────────
+{ section: 'DeonticCategory Individuals (6)', tests: [
+  { id: 'AC-TTL-10a', expect: 'UnconditionalObligation typed as DeonticCategory', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasIndividual('UnconditionalObligation', 'DeonticCategory')) 
+      return { pass: false, detail: 'Individual not found or not typed' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-10b', expect: 'DefeasibleObligation typed as DeonticCategory', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasIndividual('DefeasibleObligation', 'DeonticCategory')) 
+      return { pass: false, detail: 'Individual not found or not typed' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-10c', expect: 'DeclaredIntention typed as DeonticCategory', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasIndividual('DeclaredIntention', 'DeonticCategory')) 
+      return { pass: false, detail: 'Individual not found or not typed' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-10d', expect: 'GrantedPermission typed as DeonticCategory', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasIndividual('GrantedPermission', 'DeonticCategory')) 
+      return { pass: false, detail: 'Individual not found or not typed' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-10e', expect: 'UnconditionalProhibition typed as DeonticCategory', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasIndividual('UnconditionalProhibition', 'DeonticCategory')) 
+      return { pass: false, detail: 'Individual not found or not typed' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-10f', expect: 'Hypothetical typed as DeonticCategory', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasIndividual('Hypothetical', 'DeonticCategory')) 
+      return { pass: false, detail: 'Individual not found or not typed' };
+    return { pass: true };
+  }},
+]},
+
+// ── FulfillmentState Individuals ─────────────────────────────────
+{ section: 'FulfillmentState Individuals (3)', tests: [
+  { id: 'AC-TTL-11a', expect: 'Pending typed as FulfillmentState', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasIndividual('Pending', 'FulfillmentState')) 
+      return { pass: false, detail: 'Individual not found or not typed' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-11b', expect: 'Discharged typed as FulfillmentState', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasIndividual('Discharged', 'FulfillmentState')) 
+      return { pass: false, detail: 'Individual not found or not typed' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-11c', expect: 'Violated typed as FulfillmentState', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasIndividual('Violated', 'FulfillmentState')) 
+      return { pass: false, detail: 'Individual not found or not typed' };
+    return { pass: true };
+  }},
+]},
+
+// ── Object Properties ────────────────────────────────────────────
+{ section: 'Object Properties (10)', tests: [
+  { id: 'AC-TTL-12', expect: 'prescribes domain=DICE, range=PlanSpec', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHas(':prescribes') && !ttlHas('tagteam:prescribes')) return { pass: false, detail: 'Property not found' };
+    // Check domain update
+    if (!ttlHasPropertyDomain('prescribes', 'tagteam:DirectiveInformationContentEntity') &&
+        !ttlHasPropertyDomain('prescribes', ':DirectiveInformationContentEntity'))
+      return { pass: false, detail: 'Domain not updated to DICE' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-13', expect: 'isSpecifiedBy declared as ObjectProperty', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasProperty('isSpecifiedBy', 'owl:ObjectProperty')) 
+      return { pass: false, detail: 'Property not found' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-13b', expect: 'is_prescribed_by declared as ObjectProperty', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasProperty('is_prescribed_by', 'owl:ObjectProperty')) 
+      return { pass: false, detail: 'Property not found' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-15', expect: 'prescribedAgent declared, domain=PlanSpec', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasProperty('prescribedAgent', 'owl:ObjectProperty')) 
+      return { pass: false, detail: 'Property not found' };
+    if (!ttlHasPropertyDomain('prescribedAgent', 'tagteam:PlanSpecification'))
+      return { pass: false, detail: 'Domain not PlanSpecification' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-16', expect: 'prescribedPatient declared, domain=PlanSpec', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasProperty('prescribedPatient', 'owl:ObjectProperty')) 
+      return { pass: false, detail: 'Property not found' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-16b', expect: 'prescribedRecipient declared', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasProperty('prescribedRecipient', 'owl:ObjectProperty')) 
+      return { pass: false, detail: 'Property not found' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-17', expect: 'deonticCategory declared, range=DeonticCategory', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasProperty('deonticCategory', 'owl:ObjectProperty')) 
+      return { pass: false, detail: 'Property not found' };
+    if (!ttlHasPropertyRange('deonticCategory', 'tagteam:DeonticCategory'))
+      return { pass: false, detail: 'Range not DeonticCategory' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-18', expect: 'fulfillmentState declared, range=FulfillmentState', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasProperty('fulfillmentState', 'owl:ObjectProperty')) 
+      return { pass: false, detail: 'Property not found' };
+    if (!ttlHasPropertyRange('fulfillmentState', 'tagteam:FulfillmentState'))
+      return { pass: false, detail: 'Range not FulfillmentState' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-19', expect: 'hasConjunct domain=ConjunctiveObligation, range=Obligation', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasProperty('hasConjunct', 'owl:ObjectProperty')) 
+      return { pass: false, detail: 'Property not found' };
+    if (!ttlHasPropertyDomain('hasConjunct', 'tagteam:ConjunctiveObligation'))
+      return { pass: false, detail: 'Domain not ConjunctiveObligation' };
+    if (!ttlHasPropertyRange('hasConjunct', 'tagteam:Obligation'))
+      return { pass: false, detail: 'Range not Obligation' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-19b', expect: 'violationEvidence declared', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasProperty('violationEvidence', 'owl:ObjectProperty')) 
+      return { pass: false, detail: 'Property not found' };
+    return { pass: true };
+  }},
+]},
+
+// ── Datatype Properties ──────────────────────────────────────────
+{ section: 'Datatype Properties (5)', tests: [
+  { id: 'AC-TTL-14', expect: 'prescribedActType declared, range=xsd:string', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasProperty('prescribedActType', 'owl:DatatypeProperty')) 
+      return { pass: false, detail: 'Property not found' };
+    if (!ttlHasPropertyRange('prescribedActType', 'xsd:string'))
+      return { pass: false, detail: 'Range not xsd:string' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-20', expect: 'interpretationConfidence declared, range=xsd:float', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasProperty('interpretationConfidence', 'owl:DatatypeProperty')) 
+      return { pass: false, detail: 'Property not found' };
+    if (!ttlHasPropertyRange('interpretationConfidence', 'xsd:float'))
+      return { pass: false, detail: 'Range not xsd:float' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-21', expect: 'disambiguationNote declared', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasProperty('disambiguationNote', 'owl:DatatypeProperty')) 
+      return { pass: false, detail: 'Property not found' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-22', expect: 'realizedAt declared, range=xsd:dateTime', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasProperty('realizedAt', 'owl:DatatypeProperty')) 
+      return { pass: false, detail: 'Property not found' };
+    if (!ttlHasPropertyRange('realizedAt', 'xsd:dateTime'))
+      return { pass: false, detail: 'Range not xsd:dateTime' };
+    return { pass: true };
+  }},
+  { id: 'AC-TTL-23', expect: 'violatedAt declared, range=xsd:dateTime', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasProperty('violatedAt', 'owl:DatatypeProperty')) 
+      return { pass: false, detail: 'Property not found' };
+    if (!ttlHasPropertyRange('violatedAt', 'xsd:dateTime'))
+      return { pass: false, detail: 'Range not xsd:dateTime' };
+    return { pass: true };
+  }},
+]},
+
+// ── @context Completeness ────────────────────────────────────────
+{ section: '@context Completeness (6)', tests: [
+  { id: 'AC-CTX-01', expect: 'DeonticCategory in @context', run: () => {
+    const has = contextHas('DeonticCategory');
+    if (has === null) return { pass: false, detail: 'TagTeam not loaded' };
+    if (!has) return { pass: false, detail: 'Not in @context' };
+    return { pass: true };
+  }},
+  { id: 'AC-CTX-02', expect: 'FulfillmentState in @context', run: () => {
+    const has = contextHas('FulfillmentState');
+    if (has === null) return { pass: false, detail: 'TagTeam not loaded' };
+    if (!has) return { pass: false, detail: 'Not in @context' };
+    return { pass: true };
+  }},
+  { id: 'AC-CTX-03', expect: 'disambiguationNote in @context', run: () => {
+    const has = contextHas('disambiguationNote');
+    if (has === null) return { pass: false, detail: 'TagTeam not loaded' };
+    if (!has) return { pass: false, detail: 'Not in @context' };
+    return { pass: true };
+  }},
+  { id: 'AC-CTX-04', expect: 'realizedAt in @context', run: () => {
+    const has = contextHas('realizedAt');
+    if (has === null) return { pass: false, detail: 'TagTeam not loaded' };
+    if (!has) return { pass: false, detail: 'Not in @context' };
+    return { pass: true };
+  }},
+  { id: 'AC-CTX-05', expect: 'violatedAt in @context', run: () => {
+    const has = contextHas('violatedAt');
+    if (has === null) return { pass: false, detail: 'TagTeam not loaded' };
+    if (!has) return { pass: false, detail: 'Not in @context' };
+    return { pass: true };
+  }},
+  { id: 'AC-CTX-06', expect: 'violationEvidence in @context', run: () => {
+    const has = contextHas('violationEvidence');
+    if (has === null) return { pass: false, detail: 'TagTeam not loaded' };
+    if (!has) return { pass: false, detail: 'Not in @context' };
+    return { pass: true };
+  }},
+]},
+
+// ── Legacy Compatibility ─────────────────────────────────────────
+{ section: 'Legacy Compatibility (3)', tests: [
+  { id: 'AC-LC-01', expect: 'DirectiveContent retained (deprecated)', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHas('tagteam:DirectiveContent') && !ttlHas(':DirectiveContent'))
+      return { pass: false, detail: 'DirectiveContent removed (should be retained)' };
+    return { pass: true };
+  }},
+  { id: 'AC-LC-02', expect: 'ActualityStatus individuals retained', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHas(':Actual') && !ttlHas('tagteam:Actual')) return { pass: false, detail: 'Actual not found' };
+    return { pass: true };
+  }},
+  { id: 'AC-LC-03', expect: 'Hypothetical dual-typed (DeonticCategory + ActualityStatus)', run: () => {
+    if (!ttlContent) return { pass: false, detail: 'TTL not loaded' };
+    if (!ttlHasIndividual('Hypothetical', 'DeonticCategory'))
+      return { pass: false, detail: 'Not typed as DeonticCategory' };
+    if (!ttlHasIndividual('Hypothetical', 'ActualityStatus'))
+      return { pass: false, detail: 'Not typed as ActualityStatus' };
+    return { pass: true };
+  }},
+]},
+
+]; // end TESTS
+
+// ═══════════════════════════════════════════════════════════════
+// RUNNER
+// ═══════════════════════════════════════════════════════════════
+function log(msg, cls) {
+  const el = document.getElementById('log');
+  const span = document.createElement('span');
+  span.className = cls || 'log-info';
+  span.textContent = msg + '\n';
+  el.appendChild(span);
+  el.scrollTop = el.scrollHeight;
+}
+
+function renderSections() {
+  const container = document.getElementById('sections');
+  container.innerHTML = '';
+  for (const sec of TESTS) {
+    const div = document.createElement('div');
+    div.className = 'section';
+    div.dataset.section = sec.section;
+    div.innerHTML = `
+      <div class="section-header" onclick="this.parentNode.classList.toggle('open')">
+        <span class="section-title">${sec.section}</span>
+        <span class="section-count">${sec.tests.length} tests</span>
+      </div>
+      <div class="section-body"></div>
+    `;
+    const body = div.querySelector('.section-body');
+    for (const t of sec.tests) {
+      const row = document.createElement('div');
+      row.className = 'test-row';
+      row.id = 'row-' + t.id;
+      row.innerHTML = `
+        <span class="test-id">${t.id}</span>
+        <span class="test-expect">${t.expect}</span>
+        <span class="test-result pending" id="res-${t.id}">—</span>
+      `;
+      body.appendChild(row);
+    }
+    container.appendChild(div);
+  }
+}
+
+function runTests() {
+  document.getElementById('log').innerHTML = '';
+  document.getElementById('summary').style.display = 'flex';
+  renderSections();
+  
+  let pass = 0, fail = 0;
+  
+  for (const sec of TESTS) {
+    let secFail = 0;
+    log(`\n▸ ${sec.section}`, 'log-info');
+    
+    for (const t of sec.tests) {
+      let result;
+      try {
+        result = t.run();
+      } catch (e) {
+        result = { pass: false, detail: 'ERROR: ' + e.message };
+      }
+      
+      const resEl = document.getElementById('res-' + t.id);
+      if (result.pass) {
+        pass++;
+        resEl.textContent = 'PASS';
+        resEl.className = 'test-result pass';
+        log(`  ✓ ${t.id}`, 'log-pass');
+      } else {
+        fail++;
+        secFail++;
+        resEl.textContent = 'FAIL';
+        resEl.className = 'test-result fail';
+        log(`  ✗ ${t.id}: ${result.detail}`, 'log-fail');
+        
+        // Add detail row
+        const row = document.getElementById('row-' + t.id);
+        const detail = document.createElement('div');
+        detail.className = 'fail-detail';
+        detail.textContent = result.detail;
+        row.parentNode.insertBefore(detail, row.nextSibling);
+      }
+    }
+    
+    const secEl = document.querySelector(`[data-section="${sec.section}"]`);
+    if (secFail > 0) {
+      secEl.classList.add('has-fail', 'open');
+    } else {
+      secEl.classList.add('all-pass');
+    }
+  }
+  
+  const total = pass + fail;
+  document.getElementById('s-pass').textContent = pass;
+  document.getElementById('s-pass').className = 'stat pass';
+  document.getElementById('s-fail').textContent = fail;
+  document.getElementById('s-fail').className = 'stat ' + (fail > 0 ? 'fail' : 'pass');
+  document.getElementById('bar-pass').style.width = (total > 0 ? pass/total*100 : 0) + '%';
+  document.getElementById('bar-fail').style.width = (total > 0 ? fail/total*100 : 0) + '%';
+  
+  log(`\n════════════════════════════════`, 'log-info');
+  log(`  TOTAL: ${total}  PASS: ${pass}  FAIL: ${fail}`, fail > 0 ? 'log-fail' : 'log-pass');
+  log(`════════════════════════════════`, 'log-info');
+}
+
+function toggleAll() {
+  const secs = document.querySelectorAll('.section');
+  const allOpen = [...secs].every(s => s.classList.contains('open'));
+  secs.forEach(s => allOpen ? s.classList.remove('open') : s.classList.add('open'));
+}
+
+// Init
+renderSections();
+if (typeof TagTeam !== 'undefined') {
+  log('TagTeam.js loaded', 'log-pass');
+} else {
+  log('TagTeam.js not found — @context tests will fail', 'log-fail');
+}
+</script>
+</body>
+</html>

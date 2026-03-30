@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TagTeam.js — BFO/CCO Graph Topology Tests (TDD)</title>
+  <style>
+    :root {
+      --bg: #0c0c0c; --fg: #c8c8c8; --dim: #666; --border: #222;
+      --pass: #2ecc40; --fail: #ff4136; --warn: #ff851b; --skip: #888;
+      --accent: #c678dd; --section-bg: #111; --code-bg: #0a0a0a; --header-bg: #181818;
+      --known: #b39ddb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'IBM Plex Mono','Fira Code','Consolas',monospace; background: var(--bg); color: var(--fg); padding: 24px; line-height: 1.5; font-size: 13px; }
+    h1 { font-size: 1.2em; color: var(--accent); font-weight: 600; } h1 span { color: var(--dim); font-weight: 400; font-size: 0.8em; }
+    .header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 16px; }
+    .controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .controls button { background: var(--section-bg); color: var(--fg); border: 1px solid var(--border); padding: 5px 14px; font-family: inherit; font-size: 12px; cursor: pointer; border-radius: 2px; }
+    .controls button:hover { border-color: var(--accent); color: var(--accent); }
+    .controls button.running { color: var(--warn); border-color: var(--warn); }
+    .summary { display: flex; gap: 20px; padding: 12px 16px; background: var(--header-bg); border: 1px solid var(--border); margin-bottom: 16px; align-items: center; border-radius: 2px; }
+    .summary .stat { font-size: 1.1em; font-weight: 600; }
+    .summary .stat.pass { color: var(--pass); } .summary .stat.fail { color: var(--fail); } .summary .stat.skip { color: var(--skip); } .summary .stat.known { color: var(--known); }
+    .summary .label { color: var(--dim); font-size: 0.85em; margin-left: 4px; }
+    .summary .bar { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; display: flex; }
+    .summary .bar-pass { background: var(--pass); transition: width 0.3s; }
+    .summary .bar-fail { background: var(--fail); transition: width 0.3s; }
+    .summary .bar-known { background: var(--known); transition: width 0.3s; }
+    .summary .time { color: var(--dim); font-size: 0.85em; margin-left: auto; }
+    .section { margin-bottom: 16px; border: 1px solid var(--border); border-radius: 2px; }
+    .section-header { padding: 8px 14px; background: var(--header-bg); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
+    .section-header:hover { background: #1a1a1a; }
+    .section-title { color: var(--accent); font-weight: 600; font-size: 0.95em; }
+    .section-count { color: var(--dim); font-size: 0.85em; }
+    .section-body { display: none; } .section.open .section-body { display: block; }
+    .section.all-pass .section-header { border-left: 3px solid var(--pass); }
+    .section.has-fail .section-header { border-left: 3px solid var(--fail); }
+    .section.has-known .section-header { border-left: 3px solid var(--known); }
+    .test-row { display: grid; grid-template-columns: 72px 1fr 240px 60px; padding: 6px 14px; border-bottom: 1px solid #1a1a1a; align-items: center; font-size: 12px; }
+    .test-row:last-child { border-bottom: none; } .test-row:hover { background: #141414; }
+    .test-id { color: var(--dim); font-weight: 600; } .test-input { color: var(--fg); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .test-expect { color: var(--dim); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .test-result { text-align: right; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .test-result.pass { color: var(--pass); } .test-result.fail { color: var(--fail); } .test-result.known { color: var(--known); } .test-result.pending { color: var(--dim); }
+    .fail-detail { grid-column: 1 / -1; padding: 8px 14px 8px 72px; font-size: 11px; background: #1a0a0a; border-bottom: 1px solid #331111; white-space: pre-wrap; word-break: break-all; }
+    .fail-detail.is-fail { color: var(--fail); } .fail-detail.is-known { color: var(--known); }
+    .log { margin-top: 16px; } .log-header { color: var(--dim); font-size: 0.85em; padding: 4px 0; border-bottom: 1px solid var(--border); margin-bottom: 4px; }
+    #log-output { background: var(--code-bg); padding: 12px; max-height: 300px; overflow: auto; border: 1px solid var(--border); font-size: 11px; line-height: 1.6; white-space: pre-wrap; border-radius: 2px; }
+    .log-pass { color: var(--pass); } .log-fail { color: var(--fail); } .log-info { color: var(--dim); } .log-known { color: var(--known); }
+    .note { padding: 10px 16px; margin-bottom: 16px; border: 1px solid var(--border); border-radius: 2px; font-size: 12px; background: var(--header-bg); color: var(--dim); }
+    .note strong { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Semantic Graph Test Runner <span>v1.1 — BFO/CCO JSON-LD Topology (TDD Edition)</span></h1>
+  <div class="controls">
+    <button id="btn-run" onclick="runAllTests()">Run All Tests</button>
+    <button onclick="expandFailed()">Show Failures</button>
+    <button onclick="toggleAll()">Toggle All</button>
+    <button onclick="exportResults()">Export JSON</button>
+  </div>
+</div>
+
+<div class="note">
+  <strong>API:</strong> These tests inspect the final JSON-LD array to verify formal BFO compliance. Includes strict TDD targets for next sprint.
+</div>
+
+<div class="summary" id="summary">
+  <span class="stat pending" id="s-pass">—</span><span class="label">pass</span>
+  <span class="stat pending" id="s-fail">—</span><span class="label">fail</span>
+  <span class="stat pending" id="s-known">—</span><span class="label">known</span>
+  <div class="bar"><div class="bar-pass" id="bar-pass" style="width:0"></div><div class="bar-known" id="bar-known" style="width:0"></div><div class="bar-fail" id="bar-fail" style="width:0"></div></div>
+  <span class="time" id="s-time"></span>
+</div>
+
+<div id="sections"></div>
+
+<div class="log">
+  <div class="log-header">Console Log</div>
+  <div id="log-output"></div>
+</div>
+
+<script src="tagteam.js?v=20260330b"></script>
+<script>
+// ═══════════════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════════════
+let logEl;
+function log(msg, cls) {
+  if (!logEl) logEl = document.getElementById('log-output');
+  const s = document.createElement('span'); s.className = cls || 'log-info';
+  s.textContent = msg + '\n'; logEl.appendChild(s); logEl.scrollTop = logEl.scrollHeight;
+}
+
+// ⚠️ DEVELOPER NOTE: Map this to your function that returns the `@graph` array
+function getGraph(sentence) {
+  const result = TagTeam.buildGraph(sentence);
+  return result['@graph'] || result || [];
+}
+
+// Fixed helper: specifically finds a Tier 2 physical node by excluding linguistic DRs
+function findTier2NodeByLabel(graph, label, exact = false) {
+  return graph.find(n => {
+    const isMatch = exact ? n['rdfs:label'] === label : n['rdfs:label']?.toLowerCase() === label.toLowerCase();
+    const isNotLinguistic = !(n['@type'] || []).includes('tagteam:DiscourseReferent');
+    return isMatch && isNotLinguistic;
+  });
+}
+
+function findNodesByType(graph, typeStr) {
+  return graph.filter(n => [].concat(n['@type'] || []).includes(typeStr));
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TEST DEFINITIONS
+// ═══════════════════════════════════════════════════════════════
+const TESTS = [
+
+// ── T1: Tier 1 & Tier 2 Separation ───────────────────────────
+{ section: 'T1: Tier 1/Tier 2 Strict Separation', tests: [
+  { id: 'T1-01', sentence: 'The doctor treated the patient.',
+    expect: 'Tier 1 nodes lack physical CCO types', run: () => {
+      const g = getGraph('The doctor treated the patient.');
+      // Find Tier 1 specifically
+      const t1Node = g.find(n => n['rdfs:label'] === 'The doctor' && [].concat(n['@type'] || []).includes('tagteam:DiscourseReferent'));
+      if (!t1Node) return { pass: false, detail: 'Could not find DiscourseReferent node' };
+      
+      const types = [].concat(t1Node['@type'] || []);
+      if (types.includes('Person') || types.includes('cco:Person')) return { pass: false, detail: 'FAIL: Dual-typing detected. Node carries "Person" type.' };
+      if (!t1Node['tagteam:denotesType']) return { pass: false, detail: 'Missing metadata denotesType' };
+      return { pass: true, detail: 'Tier 1 correctly typed as DR only ✓' };
+  }},
+  { id: 'T1-02', sentence: 'The doctor treated the patient.',
+    expect: 'Tier 2 back-links via is_subject_of', run: () => {
+      const g = getGraph('The doctor treated the patient.');
+      const t2Node = findTier2NodeByLabel(g, 'doctor');
+      if (!t2Node) return { pass: false, detail: 'Could not find Tier 2 real-world node' };
+      if (!t2Node['is_subject_of']) return { pass: false, detail: 'Missing is_subject_of back-link to Tier 1' };
+      return { pass: true, detail: 'Tier 2 back-link present ✓' };
+  }},
+  { id: 'T1-03', sentence: 'The doctor treated the patient.',
+    expect: 'Roles inhere in Tier 2 (Real-World Entity)', run: () => {
+      const g = getGraph('The doctor treated the patient.');
+      const roles = findNodesByType(g, 'Role');
+      if (roles.length === 0) return { pass: false, detail: 'No Role nodes found' };
+      
+      const agentRole = roles.find(r => r['tagteam:roleType'] === 'AgentRole');
+      if (!agentRole['inheres_in']) return { pass: false, detail: 'Missing inheres_in property on Role' };
+      
+      const bearerId = agentRole['inheres_in']['@id'];
+      const bearerNode = g.find(n => n['@id'] === bearerId);
+      
+      if (bearerNode['@type'].includes('tagteam:DiscourseReferent')) {
+          return { pass: false, detail: 'FAIL: Role inheres in a linguistic Tier 1 node.' };
+      }
+      return { pass: true, detail: 'Role correctly inheres in Tier 2 entity ✓' };
+  }}
+]},
+
+// ── T2: FT-03 Structural Assertions (OWA) ────────────────────
+{ section: 'T2: FT-03 Formal Triples & Negation', tests: [
+  { id: 'T2-01', sentence: 'CBP is a component of DHS.',
+    expect: 'Tier 2 node contains ontological property', run: () => {
+      const g = getGraph('CBP is a component of DHS.');
+      const dhsNode = findTier2NodeByLabel(g, 'dhs');
+      const cbpNode = findTier2NodeByLabel(g, 'cbp');
+      
+      if (!dhsNode || !cbpNode) return { pass: false, detail: 'Missing Tier 2 organizations' };
+      
+      if (!dhsNode['has_continuant_part']) {
+        return { pass: false, detail: 'FAIL: No has_continuant_part emitted on Tier 2 DHS node.' };
+      }
+      if (dhsNode['has_continuant_part']['@id'] !== cbpNode['@id']) return { pass: false, detail: 'Property points to wrong entity' };
+      return { pass: true, detail: 'Tier 2 direct property emitted with correct directionality ✓' };
+  }},
+  { id: 'T2-02', sentence: 'The headquarters is located in Washington.',
+    expect: 'Upgraded StructuralAssertion provenance node', run: () => {
+      const g = getGraph('The headquarters is located in Washington.');
+      const assertion = findNodesByType(g, 'tagteam:StructuralAssertion')[0];
+      
+      if (!assertion) return { pass: false, detail: 'No StructuralAssertion node found' };
+      if (typeof assertion['tagteam:subject'] === 'string') return { pass: false, detail: 'FAIL: Legacy string literal detected' };
+      if (!assertion['assertionSubject'] || !assertion['assertionSubject']['@id']) return { pass: false, detail: 'Missing assertionSubject IRI ref' };
+      return { pass: true, detail: 'StructuralAssertion upgraded to IRI provenance ✓' };
+  }},
+  { id: 'T2-03', sentence: 'CBP is not an agency of the DOD.',
+    expect: 'Emits owl:NegativePropertyAssertion', run: () => {
+      const g = getGraph('CBP is not an agency of the DOD.');
+      const npa = findNodesByType(g, 'owl:NegativePropertyAssertion')[0];
+      
+      if (!npa) return { pass: false, detail: 'FAIL: No NegativePropertyAssertion node generated. Open World Assumption violated.' };
+      if (!npa['owl:sourceIndividual'] || !npa['owl:targetIndividual']) return { pass: false, detail: 'NPA missing source/target' };
+      return { pass: true, detail: 'Formal OWL DL negation node emitted ✓' };
+  }}
+]},
+
+// ── T3: Genericity & Typing ──────────────────────────────────
+{ section: 'T3: Genericity to OWL Typology', tests: [
+  { id: 'T3-01', sentence: 'Dogs have fur.',
+    expect: 'Generic entity typed as owl:Class', run: () => {
+      const g = getGraph('Dogs have fur.');
+      const dogNode = findTier2NodeByLabel(g, 'dog');
+      if (!dogNode) return { pass: false, detail: 'Dog node not found' };
+      
+      const types = [].concat(dogNode['@type'] || []);
+      if (!types.includes('owl:Class')) return { pass: false, detail: 'Generic node missing owl:Class. Found: ' + JSON.stringify(types) };
+      return { pass: true, detail: 'Generic node typed as owl:Class ✓' };
+  }},
+  { id: 'T3-02', sentence: 'The doctor treated the patient.',
+    expect: 'Instance typed as owl:NamedIndividual', run: () => {
+      const g = getGraph('The doctor treated the patient.');
+      const docNode = findTier2NodeByLabel(g, 'doctor');
+      
+      const types = [].concat(docNode['@type'] || []);
+      if (!types.includes('owl:NamedIndividual')) return { pass: false, detail: 'Instance missing owl:NamedIndividual' };
+      return { pass: true, detail: 'Instance node typed as NamedIndividual ✓' };
+  }}
+]},
+
+// ── T4: Process Validation (TDD Target) ──────────────────────
+{ section: 'T4: Process / Act Validation (TDD)', tests: [
+  { id: 'T4-01', sentence: 'The nurse gave the patient medication.',
+    expect: 'Act node typed as IntentionalAct/Process', run: () => {
+      const g = getGraph('The nurse gave the patient medication.');
+      const actNode = g.find(n => n['@id'] && n['@id'].includes('Act_'));
+      if (!actNode) return { pass: false, detail: 'FAIL: Could not find Act node.' };
+      
+      const types = [].concat(actNode['@type'] || []);
+      if (!types.includes('IntentionalAct') && !types.includes('Process') && !types.includes('Act')) {
+        return { pass: false, detail: 'FAIL: Act missing ontological process types. Found: ' + JSON.stringify(types) };
+      }
+      return { pass: true, detail: 'Act node properly typed as IntentionalAct/Process ✓' };
+  }}
+]},
+
+// ── T5: Literal Negation (TDD Target) ────────────────────────
+{ section: 'T5: Data Property Negation (TDD)', tests: [
+  { id: 'T5-01', sentence: 'The temperature is not 90 degrees.',
+    expect: 'Emits owl:NegativeDataPropertyAssertion', run: () => {
+      const g = getGraph('The temperature is not 90 degrees.');
+      const ndpa = findNodesByType(g, 'owl:NegativeDataPropertyAssertion')[0];
+      
+      if (!ndpa) return { pass: false, detail: 'FAIL (TDD Target): No NegativeDataPropertyAssertion node generated for literal negation.' };
+      if (!ndpa['owl:sourceIndividual'] || !ndpa['owl:targetValue']) {
+        return { pass: false, detail: 'FAIL: NDPA missing sourceIndividual or targetValue.' };
+      }
+      if (ndpa['owl:targetIndividual']) {
+        return { pass: false, detail: 'FAIL: Used targetIndividual instead of targetValue for literal.' };
+      }
+      return { pass: true, detail: 'Formal OWL DL NegativeDataPropertyAssertion emitted ✓' };
+  }}
+]},
+
+// ── T6: T-Box Restrictions (TDD Target) ──────────────────────
+{ section: 'T6: Genericity Inheritance / T-Box (TDD)', tests: [
+  { id: 'T6-01', sentence: 'Dogs have fur.',
+    expect: 'Generic classes use OWL Restrictions', run: () => {
+      const g = getGraph('Dogs have fur.');
+      const dogNode = findTier2NodeByLabel(g, 'dog');
+      if (!dogNode) return { pass: false, detail: 'Dog node not found' };
+      
+      // Since "Dog" is an owl:Class, properties like has_possession should be nested in restrictions
+      const subClasses = [].concat(dogNode['rdfs:subClassOf'] || []);
+      const hasRestriction = subClasses.some(sc => sc['@type'] === 'owl:Restriction' || sc['@type']?.includes('owl:Restriction'));
+      
+      if (!hasRestriction) {
+        return { pass: false, detail: 'FAIL (TDD Target): Generic class node lacks owl:Restriction. It is currently using flat A-Box properties on a T-Box class.' };
+      }
+      return { pass: true, detail: 'Generic class uses correct T-Box OWL Restrictions ✓' };
+  }}
+]}
+
+]; // end TESTS
+
+// ═══════════════════════════════════════════════════════════════
+// RENDERING & RUNNER
+// ═══════════════════════════════════════════════════════════════
+function renderSections() {
+  const container = document.getElementById('sections');
+  container.innerHTML = '';
+  for (const sec of TESTS) {
+    const div = document.createElement('div');
+    div.className = 'section'; div.dataset.sectionName = sec.section;
+    const header = document.createElement('div');
+    header.className = 'section-header';
+    header.innerHTML = `<span class="section-title">${sec.section}</span><span class="section-count">${sec.tests.length} tests</span>`;
+    header.onclick = () => div.classList.toggle('open');
+    div.appendChild(header);
+    const body = document.createElement('div');
+    body.className = 'section-body';
+    for (const t of sec.tests) {
+      const row = document.createElement('div');
+      row.className = 'test-row'; row.id = 'row-' + t.id;
+      const trunc = t.sentence.length > 60 ? t.sentence.substring(0,57) + '…' : t.sentence;
+      row.innerHTML = `<span class="test-id">${t.id}</span><span class="test-input" title="${t.sentence.replace(/"/g,'&quot;')}">"${trunc}"</span><span class="test-expect">${t.expect}</span><span class="test-result pending" id="res-${t.id}">—</span>`;
+      body.appendChild(row);
+    }
+    div.appendChild(body); container.appendChild(div);
+  }
+}
+
+async function runAllTests() {
+  const btn = document.getElementById('btn-run');
+  btn.classList.add('running'); btn.textContent = 'Running…';
+  document.getElementById('log-output').innerHTML = '';
+
+  renderSections();
+  const t0 = performance.now();
+  let pass = 0, fail = 0, known = 0;
+
+  for (const sec of TESTS) {
+    let sf = 0, sk = 0;
+    for (const t of sec.tests) {
+      let result;
+      try { result = t.run(); } catch(e) { result = { pass: false, detail: 'ERROR: ' + e.message }; }
+
+      const resEl = document.getElementById('res-' + t.id);
+      if (result.pass) {
+        pass++; resEl.textContent = 'PASS'; resEl.className = 'test-result pass';
+        log(`  ✓ ${t.id}: ${result.detail}`, 'log-pass');
+      } else if (t.known) {
+        known++; sk++; resEl.textContent = 'KNOWN'; resEl.className = 'test-result known';
+        log(`  ◆ ${t.id}: ${result.detail}`, 'log-known');
+        const row = document.getElementById('row-' + t.id);
+        if (row) { const d = document.createElement('div'); d.className = 'fail-detail is-known'; d.textContent = result.detail; row.parentNode.insertBefore(d, row.nextSibling); }
+      } else {
+        fail++; sf++; resEl.textContent = 'FAIL'; resEl.className = 'test-result fail';
+        log(`  ✗ ${t.id}: ${result.detail}`, 'log-fail');
+        const row = document.getElementById('row-' + t.id);
+        if (row) { const d = document.createElement('div'); d.className = 'fail-detail is-fail'; d.textContent = result.detail; row.parentNode.insertBefore(d, row.nextSibling); }
+      }
+      await new Promise(r => setTimeout(r, 0));
+    }
+    const secEl = document.querySelector(`[data-section-name="${sec.section}"]`);
+    if (secEl) {
+      if (sf > 0) { secEl.classList.add('has-fail','open'); }
+      else if (sk > 0) { secEl.classList.add('has-known','open'); }
+      else { secEl.classList.add('all-pass'); }
+    }
+    const total = sec.tests.length;
+    const secPass = total - sf - sk;
+    log(`  ${sec.section}: ${secPass}/${total} pass` + (sk > 0 ? `, ${sk} known` : '') + (sf > 0 ? `, ${sf} FAIL` : ''), sf > 0 ? 'log-fail' : 'log-pass');
+  }
+
+  const total = pass + fail + known;
+  const elapsed = ((performance.now() - t0) / 1000).toFixed(2);
+  document.getElementById('s-pass').textContent = pass; document.getElementById('s-pass').className = 'stat pass';
+  document.getElementById('s-fail').textContent = fail; document.getElementById('s-fail').className = 'stat ' + (fail > 0 ? 'fail' : 'pass');
+  document.getElementById('s-known').textContent = known; document.getElementById('s-known').className = 'stat known';
+  document.getElementById('s-time').textContent = elapsed + 's';
+  document.getElementById('bar-pass').style.width = (total > 0 ? pass/total*100 : 0) + '%';
+  document.getElementById('bar-known').style.width = (total > 0 ? known/total*100 : 0) + '%';
+  document.getElementById('bar-fail').style.width = (total > 0 ? fail/total*100 : 0) + '%';
+
+  btn.classList.remove('running'); btn.textContent = 'Run All Tests';
+}
+
+function expandFailed() {
+  document.querySelectorAll('.section').forEach(s => {
+    if (s.classList.contains('has-fail') || s.classList.contains('has-known')) s.classList.add('open');
+    else s.classList.remove('open');
+  });
+}
+function toggleAll() {
+  const secs = document.querySelectorAll('.section');
+  const allOpen = [...secs].every(s => s.classList.contains('open'));
+  secs.forEach(s => allOpen ? s.classList.remove('open') : s.classList.add('open'));
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  renderSections();
+});
+</script>
+</body>
+</html>
