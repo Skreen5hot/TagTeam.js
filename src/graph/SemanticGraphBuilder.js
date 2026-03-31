@@ -2294,12 +2294,13 @@ class SemanticGraphBuilder {
           graphNodes.push(vpNode);
 
           // EventDescription (Tier 2) — structural content of the narrative
+          // WS-B: Negated acts get Unrealized status (Realist Non-Event Principle)
           const eventDescNode = {
             '@id': eventDescId,
             '@type': ['EventDescription', 'ActSpecification', 'owl:NamedIndividual'],
             'rdfs:label': `Event: ${act.lemma}`,
             'tagteam:actType': act.lemma,
-            'tagteam:realizationStatus': { '@id': 'tagteam:Realized' },
+            'tagteam:realizationStatus': { '@id': act.isNegated ? 'tagteam:Unrealized' : 'tagteam:Realized' },
           };
           // Agent/patient resolved in post-Tier2 pass (same pattern as PlanSpec)
           const actRoles = roles.filter(r => r.actId === act.verbId);
@@ -2309,20 +2310,22 @@ class SemanticGraphBuilder {
           if (patientRole) eventDescNode['_patientText'] = patientRole.entity;
           graphNodes.push(eventDescNode);
 
-          // IntentionalAct (Tier 2) — the actual BFO Process
-          const actNode = {
-            '@id': actId,
-            '@type': ['IntentionalAct', 'owl:NamedIndividual'],
-            'rdfs:label': act.verb,
-            'tagteam:lemma': act.lemma,
-            'tagteam:verb': act.lemma,
-            'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
-            'tagteam:describedBy': { '@id': eventDescId },
-          };
-          if (act.isPassive) actNode['tagteam:isPassive'] = true;
-          if (act.isNegated) actNode['tagteam:isNegated'] = true;
-          if (act.isCopular) actNode['tagteam:isCopular'] = true;
-          graphNodes.push(actNode);
+          // WS-B: Do NOT emit IntentionalAct for negated events
+          // BFO realist commitment: no Process (Occurrent) for events that didn't happen
+          if (!act.isNegated) {
+            const actNode = {
+              '@id': actId,
+              '@type': ['IntentionalAct', 'owl:NamedIndividual'],
+              'rdfs:label': act.verb,
+              'tagteam:lemma': act.lemma,
+              'tagteam:verb': act.lemma,
+              'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
+              'tagteam:describedBy': { '@id': eventDescId },
+            };
+            if (act.isPassive) actNode['tagteam:isPassive'] = true;
+            if (act.isCopular) actNode['tagteam:isCopular'] = true;
+            graphNodes.push(actNode);
+          }
         }
       }
 
@@ -2483,10 +2486,15 @@ class SemanticGraphBuilder {
         }
       }
 
+      // WS-B: Track negated act verbIds — Role nodes are not emitted for unrealized events
+      const negatedActVerbIds = new Set(acts.filter(a => a.isNegated && !a.modality).map(a => a.verbId));
+
       // Convert roles to JSON-LD nodes
       // RDM: Skip roles for modal acts — agent/patient go on PlanSpec instead
+      // WS-B: Skip roles for negated acts — thematic roles are on EventDescription, not BFO Role nodes
       for (const role of roles) {
         if (modalActVerbIds.has(role.actId)) continue; // Modal act → role on PlanSpec, not Role node
+        if (negatedActVerbIds.has(role.actId)) continue; // Negated act → no realized_in, roles on ED
         const roleLabel = role.label || role.role;
         const roleNode = {
           '@id': `${this.options.namespace}:Role_${this._sanitizeId(role.entity)}_${this._sanitizeId(roleLabel)}`,
