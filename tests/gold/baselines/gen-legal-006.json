@@ -5,7 +5,7 @@
   "tags": [
     "legal"
   ],
-  "generatedAt": "2026-02-28T11:17:37.655Z",
+  "generatedAt": "2026-03-31T15:13:48.699Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -31,12 +31,17 @@
     {
       "text": "The clerk",
       "type": "Entity",
-      "id": "inst:The_clerk"
+      "id": "inst:DR_The_clerk_m1"
     },
     {
       "text": "the proceedings",
       "type": "Entity",
-      "id": "inst:the_proceedings"
+      "id": "inst:DR_the_proceedings_m1"
+    },
+    {
+      "text": "recorded",
+      "type": "EventDescription",
+      "id": "inst:VP_recorded"
     }
   ],
   "extractedRoles": [
@@ -52,7 +57,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_clerk",
+        "@id": "inst:DR_The_clerk_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -71,7 +76,7 @@
         }
       },
       {
-        "@id": "inst:the_proceedings",
+        "@id": "inst:DR_the_proceedings_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -88,15 +93,56 @@
         }
       },
       {
-        "@id": "inst:Act_recorded",
+        "@id": "inst:VP_recorded",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "recorded",
         "tagteam:lemma": "record",
+        "tagteam:verb": "record",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_record_3486ce6f"
+        },
+        "tagteam:mentionId": "s0:v3:10-18",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_86a5633a35b1"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_record_3486ce6f",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: record",
+        "tagteam:actType": "record",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Clerk_d9e192e2d65a"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Proceeding_512881f96608"
+        }
+      },
+      {
+        "@id": "inst:Act_recorded",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "recorded",
+        "tagteam:lemma": "record",
+        "tagteam:verb": "record",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_record_3486ce6f"
         }
       },
       {
@@ -140,11 +186,10 @@
         "rdfs:label": "clerk",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.655Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.698Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_86a5633a35b1",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_clerk"
+          "@id": "inst:DR_The_clerk_m1"
         },
         "is_bearer_of": [
           {
@@ -160,11 +205,10 @@
         ],
         "rdfs:label": "proceeding",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.655Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.698Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_86a5633a35b1",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_proceedings"
+          "@id": "inst:DR_the_proceedings_m1"
         },
         "is_bearer_of": [
           {
@@ -182,7 +226,7 @@
         "has_text_value": "The clerk recorded the proceedings",
         "tagteam:char_count": 34,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-28T11:17:37.648Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.693Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -211,6 +255,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_86a5633a35b1"
         },
@@ -219,16 +264,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_clerk"
+            "@id": "inst:DR_The_clerk_m1"
           },
           {
-            "@id": "inst:the_proceedings"
+            "@id": "inst:DR_the_proceedings_m1"
           },
           {
-            "@id": "inst:Act_recorded"
+            "@id": "inst:VP_recorded"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.648Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.693Z"
       }
     ]
   }

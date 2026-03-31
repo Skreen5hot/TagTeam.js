@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:35.708Z",
+  "generatedAt": "2026-03-31T15:13:46.632Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -24,19 +24,19 @@
     {
       "text": "TSA",
       "type": "Organization",
-      "id": "inst:TSA"
+      "id": "inst:DR_TSA_m1"
     },
     {
       "text": "transportation security",
       "type": "Entity",
-      "id": "inst:transportation_security"
+      "id": "inst:DR_transportation_security_m1"
     }
   ],
   "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:TSA",
+        "@id": "inst:DR_TSA_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -56,7 +56,7 @@
         }
       },
       {
-        "@id": "inst:transportation_security",
+        "@id": "inst:DR_transportation_security_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -73,20 +73,37 @@
         }
       },
       {
-        "@id": "inst:Assertion_TSA",
+        "@id": "inst:QualityAssertion_responsible_37218c30",
         "@type": [
+          "tagteam:QualityAssertion",
           "tagteam:StructuralAssertion"
         ],
-        "tagteam:pattern": "predication",
-        "tagteam:copula": "is",
-        "assertionSubject": {
+        "rdfs:label": "Quality assertion: TSA → responsible",
+        "tagteam:assertedQuality": "responsible",
+        "tagteam:assertionSubject": {
           "@id": "inst:TSA"
         },
-        "assertionObject": {
-          "@id": "inst:transportation_security"
+        "tagteam:pattern": "quality_assertion",
+        "is_about": {
+          "@id": "inst:Quality_responsible_37218c30"
         },
-        "assertedRelation": {
-          "@id": "has_function"
+        "tagteam:copulaLemma": "is"
+      },
+      {
+        "@id": "inst:Quality_responsible_37218c30",
+        "@type": [
+          "bfo:BFO_0000019",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "responsible",
+        "tagteam:qualityType": "responsible",
+        "tagteam:grounding": null,
+        "tagteam:observedAt": "2026-03-31T15:13:46.624Z",
+        "bfo:BFO_0000052": {
+          "@id": "inst:Organization_Tsa_6c93509d4b92"
+        },
+        "inheres_in": {
+          "@id": "inst:Organization_Tsa_6c93509d4b92"
         }
       },
       {
@@ -98,14 +115,10 @@
         "rdfs:label": "tsa",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.708Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.632Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_27346421d44a",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:TSA"
-        },
-        "has_function": {
-          "@id": "inst:Entity_Transportation_Security_f9c9dfebc318"
+          "@id": "inst:DR_TSA_m1"
         }
       },
       {
@@ -116,11 +129,10 @@
         ],
         "rdfs:label": "transportation security",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.708Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.632Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_27346421d44a",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:transportation_security"
+          "@id": "inst:DR_transportation_security_m1"
         }
       },
       {
@@ -133,7 +145,7 @@
         "has_text_value": "TSA is responsible for transportation security",
         "tagteam:char_count": 46,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-28T11:17:35.699Z"
+        "tagteam:received_at": "2026-03-31T15:13:46.624Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -162,6 +174,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_27346421d44a"
         },
@@ -170,13 +183,13 @@
         },
         "has_output": [
           {
-            "@id": "inst:TSA"
+            "@id": "inst:DR_TSA_m1"
           },
           {
-            "@id": "inst:transportation_security"
+            "@id": "inst:DR_transportation_security_m1"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.699Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.624Z"
       }
     ]
   }

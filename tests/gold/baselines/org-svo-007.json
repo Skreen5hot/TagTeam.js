@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-28T11:17:35.877Z",
+  "generatedAt": "2026-03-31T15:13:46.822Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -33,12 +33,17 @@
     {
       "text": "The analyst",
       "type": "Person",
-      "id": "inst:The_analyst"
+      "id": "inst:DR_The_analyst_m1"
     },
     {
       "text": "the intelligence briefing",
       "type": "Entity",
-      "id": "inst:the_intelligence_briefing"
+      "id": "inst:DR_the_intelligence_briefing_m1"
+    },
+    {
+      "text": "prepared",
+      "type": "EventDescription",
+      "id": "inst:VP_prepared"
     }
   ],
   "extractedRoles": [
@@ -54,7 +59,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_analyst",
+        "@id": "inst:DR_The_analyst_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -73,7 +78,7 @@
         }
       },
       {
-        "@id": "inst:the_intelligence_briefing",
+        "@id": "inst:DR_the_intelligence_briefing_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -90,15 +95,59 @@
         }
       },
       {
-        "@id": "inst:Act_prepared",
+        "@id": "inst:VP_prepared",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "prepared",
         "tagteam:lemma": "prepar",
+        "tagteam:verb": "prepar",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_prepar_0b7f0055"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v3:12-20",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5d7e68cf95fa"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_prepar_0b7f0055",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: prepar",
+        "tagteam:actType": "prepar",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Person_Analyst_fa2a9f228cd0"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Intelligence_Brief_1c551671f14a"
+        }
+      },
+      {
+        "@id": "inst:Act_prepared",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "prepared",
+        "tagteam:lemma": "prepar",
+        "tagteam:verb": "prepar",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_prepar_0b7f0055"
         }
       },
       {
@@ -142,11 +191,10 @@
         "rdfs:label": "analyst",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.877Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.822Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5d7e68cf95fa",
-        "tagteam:denotesType": "Person",
         "is_subject_of": {
-          "@id": "inst:The_analyst"
+          "@id": "inst:DR_The_analyst_m1"
         },
         "is_bearer_of": [
           {
@@ -162,11 +210,10 @@
         ],
         "rdfs:label": "intelligence brief",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.877Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.822Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5d7e68cf95fa",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_intelligence_briefing"
+          "@id": "inst:DR_the_intelligence_briefing_m1"
         },
         "is_bearer_of": [
           {
@@ -184,7 +231,7 @@
         "has_text_value": "The analyst prepared the intelligence briefing",
         "tagteam:char_count": 46,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-28T11:17:35.869Z"
+        "tagteam:received_at": "2026-03-31T15:13:46.813Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -213,6 +260,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_5d7e68cf95fa"
         },
@@ -221,16 +269,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_analyst"
+            "@id": "inst:DR_The_analyst_m1"
           },
           {
-            "@id": "inst:the_intelligence_briefing"
+            "@id": "inst:DR_the_intelligence_briefing_m1"
           },
           {
-            "@id": "inst:Act_prepared"
+            "@id": "inst:VP_prepared"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.869Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.813Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:36.133Z",
+  "generatedAt": "2026-03-31T15:13:47.113Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -41,12 +41,17 @@
     {
       "text": "The director and the deputy",
       "type": "Person",
-      "id": "inst:The_director_and_the_deputy"
+      "id": "inst:DR_The_director_and_the_deputy_m1"
     },
     {
       "text": "the mission",
       "type": "Entity",
-      "id": "inst:the_mission"
+      "id": "inst:DR_the_mission_m1"
+    },
+    {
+      "text": "authorized",
+      "type": "EventDescription",
+      "id": "inst:VP_authorized"
     }
   ],
   "extractedRoles": [
@@ -62,7 +67,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_director_and_the_deputy",
+        "@id": "inst:DR_The_director_and_the_deputy_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -81,7 +86,7 @@
         }
       },
       {
-        "@id": "inst:the_mission",
+        "@id": "inst:DR_the_mission_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -98,15 +103,59 @@
         }
       },
       {
-        "@id": "inst:Act_authorized",
+        "@id": "inst:VP_authorized",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "authorized",
-        "tagteam:lemma": "authoriz",
+        "tagteam:lemma": "authorize",
+        "tagteam:verb": "authorize",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_authorize_406db784"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v6:28-38",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_fd3482a97e5f"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_authorize_406db784",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: authorize",
+        "tagteam:actType": "authorize",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Person_Director_And_The_Deputy_c82b672de631"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Mission_30d3ed41ba96"
+        }
+      },
+      {
+        "@id": "inst:Act_authorized",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "authorized",
+        "tagteam:lemma": "authorize",
+        "tagteam:verb": "authorize",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_authorize_406db784"
         }
       },
       {
@@ -150,11 +199,10 @@
         "rdfs:label": "director and the deputy",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.132Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.112Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_fd3482a97e5f",
-        "tagteam:denotesType": "Person",
         "is_subject_of": {
-          "@id": "inst:The_director_and_the_deputy"
+          "@id": "inst:DR_The_director_and_the_deputy_m1"
         },
         "is_bearer_of": [
           {
@@ -170,11 +218,10 @@
         ],
         "rdfs:label": "mission",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.132Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.112Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_fd3482a97e5f",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_mission"
+          "@id": "inst:DR_the_mission_m1"
         },
         "is_bearer_of": [
           {
@@ -192,7 +239,7 @@
         "has_text_value": "The director and the deputy authorized the mission",
         "tagteam:char_count": 50,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-28T11:17:36.124Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.103Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -221,6 +268,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_fd3482a97e5f"
         },
@@ -229,16 +277,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_director_and_the_deputy"
+            "@id": "inst:DR_The_director_and_the_deputy_m1"
           },
           {
-            "@id": "inst:the_mission"
+            "@id": "inst:DR_the_mission_m1"
           },
           {
-            "@id": "inst:Act_authorized"
+            "@id": "inst:VP_authorized"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.124Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.103Z"
       }
     ]
   }

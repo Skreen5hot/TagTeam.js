@@ -7,7 +7,7 @@
     "keep",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:36.251Z",
+  "generatedAt": "2026-03-31T15:13:47.246Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -31,38 +31,43 @@
   ],
   "extractedEntities": [
     {
-      "text": "Fish and Wildlife Service manages",
-      "type": "Entity",
-      "id": "inst:Fish_and_Wildlife_Service_manages"
+      "text": "Fish and Wildlife Service",
+      "type": "Organization",
+      "id": "inst:DR_Fish_and_Wildlife_Service_m1"
     },
     {
       "text": "areas",
       "type": "Entity",
-      "id": "inst:areas"
+      "id": "inst:DR_areas_m1"
+    },
+    {
+      "text": "protected",
+      "type": "EventDescription",
+      "id": "inst:VP_protected"
     }
   ],
   "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:Fish_and_Wildlife_Service_manages",
+        "@id": "inst:DR_Fish_and_Wildlife_Service_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
-        "rdfs:label": "Fish and Wildlife Service manages",
-        "tagteam:mentionId": "s0:h5:0-33",
+        "rdfs:label": "Fish and Wildlife Service",
+        "tagteam:mentionId": "s0:h1:0-25",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Entity_Fish_And_Wildlife_Service_Manage_62b4cdbd13f1"
+          "@id": "inst:Organization_Fish_And_Wildlife_Service_e6278e118e07"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0256746c2cb5"
         }
       },
       {
-        "@id": "inst:areas",
+        "@id": "inst:DR_areas_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -79,54 +84,64 @@
         }
       },
       {
-        "@id": "inst:Act_manages",
+        "@id": "inst:VP_protected",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
-        "rdfs:label": "manages",
-        "tagteam:lemma": "manages",
+        "rdfs:label": "protected",
+        "tagteam:lemma": "protect",
+        "tagteam:verb": "protect",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_protect_fed1d74e"
+        },
+        "tagteam:mentionId": "s0:v6:34-43",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0256746c2cb5"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_protect_fed1d74e",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: protect",
+        "tagteam:actType": "protect",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
         }
       },
       {
         "@id": "inst:Act_protected",
         "@type": [
           "IntentionalAct",
-          "tagteam:VerbPhrase"
+          "owl:NamedIndividual"
         ],
         "rdfs:label": "protected",
         "tagteam:lemma": "protect",
-        "is_concretized_by": {
-          "@id": "inst:Input_Text_IBE_0256746c2cb5"
+        "tagteam:verb": "protect",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_protect_fed1d74e"
         }
       },
       {
-        "@id": "inst:Act_areas",
+        "@id": "inst:Organization_Fish_And_Wildlife_Service_e6278e118e07",
         "@type": [
-          "IntentionalAct",
-          "tagteam:VerbPhrase"
-        ],
-        "rdfs:label": "areas",
-        "tagteam:lemma": "areas",
-        "is_concretized_by": {
-          "@id": "inst:Input_Text_IBE_0256746c2cb5"
-        }
-      },
-      {
-        "@id": "inst:Entity_Fish_And_Wildlife_Service_Manage_62b4cdbd13f1",
-        "@type": [
-          "Entity",
+          "Organization",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "fish and wildlife service manage",
+        "rdfs:label": "fish and wildlife service",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.251Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.246Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0256746c2cb5",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:Fish_and_Wildlife_Service_manages"
+          "@id": "inst:DR_Fish_and_Wildlife_Service_m1"
         }
       },
       {
@@ -137,11 +152,10 @@
         ],
         "rdfs:label": "area",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.251Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.246Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0256746c2cb5",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:areas"
+          "@id": "inst:DR_areas_m1"
         }
       },
       {
@@ -154,7 +168,7 @@
         "has_text_value": "Fish and Wildlife Service manages protected areas",
         "tagteam:char_count": 49,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-28T11:17:36.243Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.238Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -183,6 +197,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_0256746c2cb5"
         },
@@ -191,22 +206,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:Fish_and_Wildlife_Service_manages"
+            "@id": "inst:DR_Fish_and_Wildlife_Service_m1"
           },
           {
-            "@id": "inst:areas"
+            "@id": "inst:DR_areas_m1"
           },
           {
-            "@id": "inst:Act_manages"
-          },
-          {
-            "@id": "inst:Act_protected"
-          },
-          {
-            "@id": "inst:Act_areas"
+            "@id": "inst:VP_protected"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.243Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.238Z"
       }
     ]
   }

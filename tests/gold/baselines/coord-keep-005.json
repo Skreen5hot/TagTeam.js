@@ -7,7 +7,7 @@
     "keep",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:36.260Z",
+  "generatedAt": "2026-03-31T15:13:47.259Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -31,63 +31,52 @@
   ],
   "extractedEntities": [
     {
-      "text": "Immigration and Customs Enforcement deported the individual",
-      "type": "Entity",
-      "id": "inst:Immigration_and_Customs_Enforcement_deported_the_individual"
-    },
-    {
-      "text": "Enforcement",
-      "type": "Entity",
-      "id": "inst:Enforcement"
+      "text": "Immigration and Customs Enforcement",
+      "type": "Organization",
+      "id": "inst:DR_Immigration_and_Customs_Enforcement_m1"
     },
     {
       "text": "the individual",
       "type": "Entity",
-      "id": "inst:the_individual"
+      "id": "inst:DR_the_individual_m1"
+    },
+    {
+      "text": "deported",
+      "type": "EventDescription",
+      "id": "inst:VP_deported"
     }
   ],
-  "extractedRoles": [],
+  "extractedRoles": [
+    {
+      "entity": "immigration and customs enforcement",
+      "role": "Agent"
+    },
+    {
+      "entity": "individual",
+      "role": "Patient"
+    }
+  ],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:Immigration_and_Customs_Enforcement_deported_the_individual",
+        "@id": "inst:DR_Immigration_and_Customs_Enforcement_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
-        "rdfs:label": "Immigration and Customs Enforcement deported the individual",
-        "tagteam:mentionId": "s0:h1:0-59",
+        "rdfs:label": "Immigration and Customs Enforcement",
+        "tagteam:mentionId": "s0:h1:0-35",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Entity_Immigration_And_Customs_Enforcement_Deported_The_Individual_e1c6d15a9f21"
+          "@id": "inst:Organization_Immigration_And_Customs_Enforcement_5b00d19a4440"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_627b40b5c203"
         }
       },
       {
-        "@id": "inst:Enforcement",
-        "@type": [
-          "tagteam:DiscourseReferent"
-        ],
-        "rdfs:label": "Enforcement",
-        "tagteam:mentionId": "s0:h4:24-35",
-        "tagteam:parseConfidence": "high",
-        "tagteam:parseProbability": 0.9272,
-        "tagteam:genericityCategory": "INST",
-        "tagteam:genericityConfidence": 0.9,
-        "tagteam:genericityBasis": "proper_noun",
-        "tagteam:denotesType": "Entity",
-        "is_about": {
-          "@id": "inst:Entity_Enforcement_7ece7100083c"
-        },
-        "is_concretized_by": {
-          "@id": "inst:Input_Text_IBE_627b40b5c203"
-        }
-      },
-      {
-        "@id": "inst:the_individual",
+        "@id": "inst:DR_the_individual_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -104,47 +93,111 @@
         }
       },
       {
-        "@id": "inst:Act_Immigration",
+        "@id": "inst:VP_deported",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
-        "rdfs:label": "Immigration",
-        "tagteam:lemma": "immigration",
+        "rdfs:label": "deported",
+        "tagteam:lemma": "deport",
+        "tagteam:verb": "deport",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_deport_28dd7510"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v5:36-44",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_627b40b5c203"
         }
       },
       {
-        "@id": "inst:Entity_Immigration_And_Customs_Enforcement_Deported_The_Individual_e1c6d15a9f21",
+        "@id": "inst:EventDesc_deport_28dd7510",
         "@type": [
-          "Entity",
+          "EventDescription",
+          "ActSpecification",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "immigration and customs enforcement deported the individual",
-        "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.260Z",
-        "tagteam:instantiated_by": "inst:Input_Text_IBE_627b40b5c203",
-        "tagteam:denotesType": "Entity",
-        "is_subject_of": {
-          "@id": "inst:Immigration_and_Customs_Enforcement_deported_the_individual"
+        "rdfs:label": "Event: deport",
+        "tagteam:actType": "deport",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Organization_Immigration_And_Customs_Enforcement_5b00d19a4440"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Individual_b5dd784ee486"
         }
       },
       {
-        "@id": "inst:Entity_Enforcement_7ece7100083c",
+        "@id": "inst:Act_deported",
         "@type": [
-          "Entity",
+          "IntentionalAct",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "enforcement",
-        "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.260Z",
-        "tagteam:instantiated_by": "inst:Input_Text_IBE_627b40b5c203",
-        "tagteam:denotesType": "Entity",
-        "is_subject_of": {
-          "@id": "inst:Enforcement"
+        "rdfs:label": "deported",
+        "tagteam:lemma": "deport",
+        "tagteam:verb": "deport",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_deport_28dd7510"
         }
+      },
+      {
+        "@id": "inst:Role_Immigration_and_Customs_Enforcement_AgentRole",
+        "@type": [
+          "Role"
+        ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
+        "inheres_in": {
+          "@id": "inst:Organization_Immigration_And_Customs_Enforcement_5b00d19a4440"
+        },
+        "realized_in": {
+          "@id": "inst:Act_deported"
+        },
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
+        "@id": "inst:Role_the_individual_PatientRole",
+        "@type": [
+          "Role"
+        ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
+        "inheres_in": {
+          "@id": "inst:Entity_Individual_b5dd784ee486"
+        },
+        "realized_in": {
+          "@id": "inst:Act_deported"
+        },
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:Organization_Immigration_And_Customs_Enforcement_5b00d19a4440",
+        "@type": [
+          "Organization",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "immigration and customs enforcement",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.259Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_627b40b5c203",
+        "is_subject_of": {
+          "@id": "inst:DR_Immigration_and_Customs_Enforcement_m1"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_Immigration_and_Customs_Enforcement_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Individual_b5dd784ee486",
@@ -154,12 +207,16 @@
         ],
         "rdfs:label": "individual",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.260Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.259Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_627b40b5c203",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_individual"
-        }
+          "@id": "inst:DR_the_individual_m1"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_individual_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_627b40b5c203",
@@ -171,7 +228,7 @@
         "has_text_value": "Immigration and Customs Enforcement deported the individual",
         "tagteam:char_count": 59,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-28T11:17:36.253Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.250Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -200,6 +257,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_627b40b5c203"
         },
@@ -208,19 +266,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:Immigration_and_Customs_Enforcement_deported_the_individual"
+            "@id": "inst:DR_Immigration_and_Customs_Enforcement_m1"
           },
           {
-            "@id": "inst:Enforcement"
+            "@id": "inst:DR_the_individual_m1"
           },
           {
-            "@id": "inst:the_individual"
-          },
-          {
-            "@id": "inst:Act_Immigration"
+            "@id": "inst:VP_deported"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.253Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.250Z"
       }
     ]
   }

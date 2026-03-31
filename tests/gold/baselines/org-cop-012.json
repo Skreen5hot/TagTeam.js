@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:35.761Z",
+  "generatedAt": "2026-03-31T15:13:46.688Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -23,20 +23,20 @@
   "extractedEntities": [
     {
       "text": "NASA",
-      "type": "Entity",
-      "id": "inst:NASA"
+      "type": "Organization",
+      "id": "inst:DR_NASA_m1"
     },
     {
       "text": "the federal government",
       "type": "Entity",
-      "id": "inst:the_federal_government"
+      "id": "inst:DR_the_federal_government_m1"
     }
   ],
   "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:NASA",
+        "@id": "inst:DR_NASA_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -47,16 +47,16 @@
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.95,
         "tagteam:genericityBasis": "named_entity",
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Entity_Nasa_ecfd584970d3"
+          "@id": "inst:Organization_Nasa_846c9a106f39"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_6a98fd9c5a58"
         }
       },
       {
-        "@id": "inst:the_federal_government",
+        "@id": "inst:DR_the_federal_government_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -80,29 +80,28 @@
         "tagteam:pattern": "predication",
         "tagteam:copula": "is",
         "assertionSubject": {
-          "@id": "inst:NASA"
+          "@id": "inst:DR_NASA_m1"
         },
         "assertionObject": {
-          "@id": "inst:the_federal_government"
+          "@id": "inst:DR_the_federal_government_m1"
         },
         "assertedRelation": {
           "@id": "member_part_of"
         }
       },
       {
-        "@id": "inst:Entity_Nasa_ecfd584970d3",
+        "@id": "inst:Organization_Nasa_846c9a106f39",
         "@type": [
-          "Entity",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "nasa",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.761Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.688Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6a98fd9c5a58",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:NASA"
+          "@id": "inst:DR_NASA_m1"
         },
         "member_part_of": {
           "@id": "inst:Entity_Federal_Government_a5882d865777"
@@ -116,11 +115,10 @@
         ],
         "rdfs:label": "federal government",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.761Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.688Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6a98fd9c5a58",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_federal_government"
+          "@id": "inst:DR_the_federal_government_m1"
         }
       },
       {
@@ -133,7 +131,7 @@
         "has_text_value": "NASA is an independent agency of the federal government",
         "tagteam:char_count": 55,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-28T11:17:35.751Z"
+        "tagteam:received_at": "2026-03-31T15:13:46.677Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -162,6 +160,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_6a98fd9c5a58"
         },
@@ -170,13 +169,13 @@
         },
         "has_output": [
           {
-            "@id": "inst:NASA"
+            "@id": "inst:DR_NASA_m1"
           },
           {
-            "@id": "inst:the_federal_government"
+            "@id": "inst:DR_the_federal_government_m1"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.751Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.677Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "ditransitive",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:37.324Z",
+  "generatedAt": "2026-03-31T15:13:48.367Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -40,12 +40,17 @@
     {
       "text": "The chief",
       "type": "Entity",
-      "id": "inst:The_chief"
+      "id": "inst:DR_The_chief_m1"
     },
     {
       "text": "the team",
       "type": "Organization",
-      "id": "inst:the_team"
+      "id": "inst:DR_the_team_m1"
+    },
+    {
+      "text": "passed",
+      "type": "EventDescription",
+      "id": "inst:VP_passed"
     }
   ],
   "extractedRoles": [
@@ -61,7 +66,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_chief",
+        "@id": "inst:DR_The_chief_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -80,7 +85,7 @@
         }
       },
       {
-        "@id": "inst:the_team",
+        "@id": "inst:DR_the_team_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -97,15 +102,59 @@
         }
       },
       {
-        "@id": "inst:Act_passed",
+        "@id": "inst:VP_passed",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "passed",
         "tagteam:lemma": "pass",
+        "tagteam:verb": "pass",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_pass_1deb843c"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v3:10-16",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3a158b03938b"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_pass_1deb843c",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: pass",
+        "tagteam:actType": "pass",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Chief_a940943603d2"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Organization_Team_2297213bf695"
+        }
+      },
+      {
+        "@id": "inst:Act_passed",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "passed",
+        "tagteam:lemma": "pass",
+        "tagteam:verb": "pass",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_pass_1deb843c"
         }
       },
       {
@@ -149,11 +198,10 @@
         "rdfs:label": "chief",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.324Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.366Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3a158b03938b",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_chief"
+          "@id": "inst:DR_The_chief_m1"
         },
         "is_bearer_of": [
           {
@@ -169,11 +217,10 @@
         ],
         "rdfs:label": "team",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.324Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.366Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3a158b03938b",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:the_team"
+          "@id": "inst:DR_the_team_m1"
         },
         "is_bearer_of": [
           {
@@ -191,7 +238,7 @@
         "has_text_value": "The chief passed the team the intelligence briefing",
         "tagteam:char_count": 51,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-28T11:17:37.316Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.359Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -220,6 +267,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_3a158b03938b"
         },
@@ -228,16 +276,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_chief"
+            "@id": "inst:DR_The_chief_m1"
           },
           {
-            "@id": "inst:the_team"
+            "@id": "inst:DR_the_team_m1"
           },
           {
-            "@id": "inst:Act_passed"
+            "@id": "inst:VP_passed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.316Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.359Z"
       }
     ]
   }

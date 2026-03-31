@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:36.866Z",
+  "generatedAt": "2026-03-31T15:13:47.923Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -21,14 +21,29 @@
   "expectedRoles": [],
   "extractedEntities": [
     {
+      "text": "CBP",
+      "type": "Organization",
+      "id": "inst:DR_CBP_m1"
+    },
+    {
       "text": "Preclearance",
       "type": "Entity",
-      "id": "inst:Preclearance"
+      "id": "inst:DR_Preclearance_m1"
     },
     {
       "text": "travelers",
       "type": "Entity",
-      "id": "inst:travelers"
+      "id": "inst:DR_travelers_m1"
+    },
+    {
+      "text": "inspecting",
+      "type": "EventDescription",
+      "id": "inst:VP_inspecting"
+    },
+    {
+      "text": "a CBP program",
+      "type": "Role",
+      "id": "inst:a_CBP_program"
     },
     {
       "text": "preclearance",
@@ -45,7 +60,24 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:Preclearance",
+        "@id": "inst:DR_CBP_m1",
+        "@type": [
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "CBP",
+        "tagteam:mentionId": "s0:h4:18-21",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9433,
+        "tagteam:denotesType": "Organization",
+        "is_about": {
+          "@id": "inst:Organization_Cbp_b5e5b80797df"
+        },
+        "is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_c74835b2caa5"
+        }
+      },
+      {
+        "@id": "inst:DR_Preclearance_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -64,7 +96,7 @@
         }
       },
       {
-        "@id": "inst:travelers",
+        "@id": "inst:DR_travelers_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -81,25 +113,103 @@
         }
       },
       {
-        "@id": "inst:Act_inspecting",
+        "@id": "inst:VP_inspecting",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "inspecting",
         "tagteam:lemma": "inspect",
+        "tagteam:verb": "inspect",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_inspect_325d5447"
+        },
+        "tagteam:mentionId": "s0:v7:34-44",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c74835b2caa5"
         }
       },
       {
-        "@id": "inst:Assertion_Preclearance",
+        "@id": "inst:EventDesc_inspect_325d5447",
         "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: inspect",
+        "tagteam:actType": "inspect",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Traveler_b62c12a37871"
+        }
+      },
+      {
+        "@id": "inst:Act_inspecting",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "inspecting",
+        "tagteam:lemma": "inspect",
+        "tagteam:verb": "inspect",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_inspect_325d5447"
+        }
+      },
+      {
+        "@id": "inst:RoleAssertion_program_cb7ee405",
+        "@type": [
+          "tagteam:RoleAssertion",
           "tagteam:StructuralAssertion"
         ],
-        "tagteam:subject": "Preclearance",
-        "tagteam:pattern": "predication",
-        "tagteam:copula": "is"
+        "rdfs:label": "Role assertion: Preclearance → program",
+        "tagteam:assertionSubject": {
+          "@id": "inst:Preclearance"
+        },
+        "tagteam:pattern": "role_assertion",
+        "is_about": {
+          "@id": "inst:Role_program_cb7ee405"
+        },
+        "tagteam:copulaLemma": "is"
+      },
+      {
+        "@id": "inst:a_CBP_program",
+        "@type": [
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "a CBP program",
+        "tagteam:denotesType": "Role",
+        "is_about": {
+          "@id": "inst:Role_program_cb7ee405"
+        },
+        "tagteam:mentionId": "s0:p5:22-35",
+        "is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_c74835b2caa5"
+        }
+      },
+      {
+        "@id": "inst:Role_program_cb7ee405",
+        "@type": [
+          "bfo:BFO_0000023",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "program",
+        "tagteam:roleType": "program",
+        "is_subject_of": {
+          "@id": "inst:a_CBP_program"
+        },
+        "bfo:BFO_0000052": {
+          "@id": "inst:Entity_Preclearance_19236c348b23"
+        },
+        "inheres_in": {
+          "@id": "inst:Entity_Preclearance_19236c348b23"
+        }
       },
       {
         "@id": "inst:Role_travelers_PatientRole",
@@ -118,6 +228,20 @@
         "tagteam:parseProbability": 0.6583
       },
       {
+        "@id": "inst:Organization_Cbp_b5e5b80797df",
+        "@type": [
+          "Organization",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "cbp",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.922Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_c74835b2caa5",
+        "is_subject_of": {
+          "@id": "inst:DR_CBP_m1"
+        }
+      },
+      {
         "@id": "inst:Entity_Preclearance_19236c348b23",
         "@type": [
           "Entity",
@@ -130,11 +254,10 @@
         "tagteam:nominatedClassLabel": "Preclearance",
         "tagteam:nominationBasis": "unknown",
         "tagteam:requiresOntologyResolution": true,
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.865Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.922Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c74835b2caa5",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:Preclearance"
+          "@id": "inst:DR_Preclearance_m1"
         }
       },
       {
@@ -145,11 +268,10 @@
         ],
         "rdfs:label": "traveler",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.866Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.922Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c74835b2caa5",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:travelers"
+          "@id": "inst:DR_travelers_m1"
         },
         "is_bearer_of": [
           {
@@ -167,7 +289,7 @@
         "has_text_value": "Preclearance is a CBP program for inspecting travelers abroad",
         "tagteam:char_count": 61,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-28T11:17:36.854Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.912Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -196,6 +318,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_c74835b2caa5"
         },
@@ -204,16 +327,22 @@
         },
         "has_output": [
           {
-            "@id": "inst:Preclearance"
+            "@id": "inst:DR_CBP_m1"
           },
           {
-            "@id": "inst:travelers"
+            "@id": "inst:DR_Preclearance_m1"
           },
           {
-            "@id": "inst:Act_inspecting"
+            "@id": "inst:DR_travelers_m1"
+          },
+          {
+            "@id": "inst:VP_inspecting"
+          },
+          {
+            "@id": "inst:a_CBP_program"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.854Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.912Z"
       }
     ]
   }

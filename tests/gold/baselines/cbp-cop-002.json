@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:36.811Z",
+  "generatedAt": "2026-03-31T15:13:47.858Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -21,45 +21,50 @@
   "expectedRoles": [],
   "extractedEntities": [
     {
-      "text": "A port of entry",
+      "text": "A port",
       "type": "Entity",
-      "id": "inst:A_port_of_entry"
+      "id": "inst:DR_A_port_m1"
     },
     {
       "text": "entry",
       "type": "Entity",
-      "id": "inst:entry"
+      "id": "inst:DR_entry_m1"
     },
     {
-      "text": "port of entry",
+      "text": "an authorized crossing point",
+      "type": "Role",
+      "id": "inst:an_authorized_crossing_point"
+    },
+    {
+      "text": "port",
       "type": "Entity",
-      "id": "inst:Entity_Port_Of_Entry_67a87db4aa07"
+      "id": "inst:Entity_Port_14c82d06a9d4"
     }
   ],
   "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:A_port_of_entry",
+        "@id": "inst:DR_A_port_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
-        "rdfs:label": "A port of entry",
-        "tagteam:mentionId": "s0:h2:0-15",
-        "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.7804,
+        "rdfs:label": "A port",
+        "tagteam:mentionId": "s0:h2:0-6",
+        "tagteam:parseConfidence": "high",
+        "tagteam:parseProbability": 0.9272,
         "tagteam:genericityCategory": "GEN",
         "tagteam:genericityConfidence": 0.75,
         "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Port_Of_Entry_67a87db4aa07"
+          "@id": "inst:Entity_Port_14c82d06a9d4"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_1b6eef99bb8f"
         }
       },
       {
-        "@id": "inst:entry",
+        "@id": "inst:DR_entry_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -76,32 +81,71 @@
         }
       },
       {
-        "@id": "inst:Assertion_A_port_of_entry",
+        "@id": "inst:RoleAssertion_point_a545d028",
         "@type": [
+          "tagteam:RoleAssertion",
           "tagteam:StructuralAssertion"
         ],
-        "tagteam:subject": "A port of entry",
-        "tagteam:pattern": "predication",
-        "tagteam:copula": "is"
+        "rdfs:label": "Role assertion: A port of entry → point",
+        "tagteam:assertionSubject": {
+          "@id": "inst:A_port_of_entry"
+        },
+        "tagteam:pattern": "role_assertion",
+        "is_about": {
+          "@id": "inst:Role_point_a545d028"
+        },
+        "tagteam:copulaLemma": "is"
       },
       {
-        "@id": "inst:Entity_Port_Of_Entry_67a87db4aa07",
+        "@id": "inst:an_authorized_crossing_point",
+        "@type": [
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "an authorized crossing point",
+        "tagteam:denotesType": "Role",
+        "is_about": {
+          "@id": "inst:Role_point_a545d028"
+        },
+        "tagteam:mentionId": "s0:p9:42-70",
+        "is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_1b6eef99bb8f"
+        }
+      },
+      {
+        "@id": "inst:Role_point_a545d028",
+        "@type": [
+          "bfo:BFO_0000023",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "point",
+        "tagteam:roleType": "point",
+        "is_subject_of": {
+          "@id": "inst:an_authorized_crossing_point"
+        },
+        "bfo:BFO_0000052": {
+          "@id": "inst:Entity_Port_14c82d06a9d4"
+        },
+        "inheres_in": {
+          "@id": "inst:Entity_Port_14c82d06a9d4"
+        }
+      },
+      {
+        "@id": "inst:Entity_Port_14c82d06a9d4",
         "@type": [
           "Entity",
           "owl:Class"
         ],
-        "rdfs:label": "port of entry",
+        "rdfs:label": "port",
         "tagteam:genericityCategory": "GEN",
         "tagteam:typeBasis": "type-mapping",
         "tagteam:classNominationStatus": "unresolved",
-        "tagteam:nominatedClassLabel": "Port Of Entry",
+        "tagteam:nominatedClassLabel": "Port",
         "tagteam:nominationBasis": "unknown",
         "tagteam:requiresOntologyResolution": true,
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.811Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.858Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1b6eef99bb8f",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:A_port_of_entry"
+          "@id": "inst:DR_A_port_m1"
         }
       },
       {
@@ -112,11 +156,10 @@
         ],
         "rdfs:label": "entry",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.811Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.858Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1b6eef99bb8f",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:entry"
+          "@id": "inst:DR_entry_m1"
         }
       },
       {
@@ -129,7 +172,7 @@
         "has_text_value": "A port of entry is an authorized crossing point",
         "tagteam:char_count": 47,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-28T11:17:36.803Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.847Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -158,6 +201,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_1b6eef99bb8f"
         },
@@ -166,13 +210,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:A_port_of_entry"
+            "@id": "inst:DR_A_port_m1"
           },
           {
-            "@id": "inst:entry"
+            "@id": "inst:DR_entry_m1"
+          },
+          {
+            "@id": "inst:an_authorized_crossing_point"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.803Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.847Z"
       }
     ]
   }

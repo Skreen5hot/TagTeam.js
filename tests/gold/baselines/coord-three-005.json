@@ -7,7 +7,7 @@
     "coordination",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:36.565Z",
+  "generatedAt": "2026-03-31T15:13:47.582Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -49,17 +49,22 @@
     {
       "text": "the deputy and the chief of staff",
       "type": "Entity",
-      "id": "inst:the_deputy_and_the_chief_of_staff"
+      "id": "inst:DR_the_deputy_and_the_chief_of_staff_m1"
     },
     {
       "text": "staff",
       "type": "Entity",
-      "id": "inst:staff"
+      "id": "inst:DR_staff_m1"
     },
     {
       "text": "the plan",
       "type": "Entity",
-      "id": "inst:the_plan"
+      "id": "inst:DR_the_plan_m1"
+    },
+    {
+      "text": "approved",
+      "type": "EventDescription",
+      "id": "inst:VP_approved"
     }
   ],
   "extractedRoles": [
@@ -75,7 +80,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:the_deputy_and_the_chief_of_staff",
+        "@id": "inst:DR_the_deputy_and_the_chief_of_staff_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -94,7 +99,7 @@
         }
       },
       {
-        "@id": "inst:staff",
+        "@id": "inst:DR_staff_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -111,7 +116,7 @@
         }
       },
       {
-        "@id": "inst:the_plan",
+        "@id": "inst:DR_the_plan_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -128,15 +133,59 @@
         }
       },
       {
-        "@id": "inst:Act_approved",
+        "@id": "inst:VP_approved",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "approved",
-        "tagteam:lemma": "approv",
+        "tagteam:lemma": "approve",
+        "tagteam:verb": "approve",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_approve_c9486a4f"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v12:51-59",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d95632251760"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_approve_c9486a4f",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: approve",
+        "tagteam:actType": "approve",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Deputy_And_The_Chief_Of_Staff_42b3c28ffd65"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Plan_ba3bb69f1ff6"
+        }
+      },
+      {
+        "@id": "inst:Act_approved",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "approved",
+        "tagteam:lemma": "approve",
+        "tagteam:verb": "approve",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_approve_c9486a4f"
         }
       },
       {
@@ -180,11 +229,10 @@
         "rdfs:label": "deputy and the chief of staff",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.565Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.582Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d95632251760",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_deputy_and_the_chief_of_staff"
+          "@id": "inst:DR_the_deputy_and_the_chief_of_staff_m1"
         },
         "is_bearer_of": [
           {
@@ -200,11 +248,10 @@
         ],
         "rdfs:label": "staff",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.565Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.582Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d95632251760",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:staff"
+          "@id": "inst:DR_staff_m1"
         }
       },
       {
@@ -215,11 +262,10 @@
         ],
         "rdfs:label": "plan",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.565Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.582Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d95632251760",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_plan"
+          "@id": "inst:DR_the_plan_m1"
         },
         "is_bearer_of": [
           {
@@ -237,7 +283,7 @@
         "has_text_value": "The director, the deputy, and the chief of staff approved the plan",
         "tagteam:char_count": 66,
         "tagteam:word_count": 12,
-        "tagteam:received_at": "2026-02-28T11:17:36.552Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.568Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -266,6 +312,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_d95632251760"
         },
@@ -274,19 +321,19 @@
         },
         "has_output": [
           {
-            "@id": "inst:the_deputy_and_the_chief_of_staff"
+            "@id": "inst:DR_the_deputy_and_the_chief_of_staff_m1"
           },
           {
-            "@id": "inst:staff"
+            "@id": "inst:DR_staff_m1"
           },
           {
-            "@id": "inst:the_plan"
+            "@id": "inst:DR_the_plan_m1"
           },
           {
-            "@id": "inst:Act_approved"
+            "@id": "inst:VP_approved"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.552Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.568Z"
       }
     ]
   }

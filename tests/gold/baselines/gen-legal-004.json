@@ -5,7 +5,7 @@
   "tags": [
     "legal"
   ],
-  "generatedAt": "2026-02-28T11:17:37.627Z",
+  "generatedAt": "2026-03-31T15:13:48.678Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -31,12 +31,17 @@
     {
       "text": "The judge",
       "type": "Person",
-      "id": "inst:The_judge"
+      "id": "inst:DR_The_judge_m1"
     },
     {
       "text": "a restraining order",
       "type": "Entity",
-      "id": "inst:a_restraining_order"
+      "id": "inst:DR_a_restraining_order_m1"
+    },
+    {
+      "text": "issued",
+      "type": "EventDescription",
+      "id": "inst:VP_issued"
     }
   ],
   "extractedRoles": [
@@ -52,7 +57,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_judge",
+        "@id": "inst:DR_The_judge_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -71,7 +76,7 @@
         }
       },
       {
-        "@id": "inst:a_restraining_order",
+        "@id": "inst:DR_a_restraining_order_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -88,15 +93,56 @@
         }
       },
       {
-        "@id": "inst:Act_issued",
+        "@id": "inst:VP_issued",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "issued",
         "tagteam:lemma": "issu",
+        "tagteam:verb": "issu",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_issu_617d0316"
+        },
+        "tagteam:mentionId": "s0:v3:10-16",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e4fda6cfb5f4"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_issu_617d0316",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: issu",
+        "tagteam:actType": "issu",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Person_Judge_e1eb7958b65d"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Restraining_Order_885c5f4edb40"
+        }
+      },
+      {
+        "@id": "inst:Act_issued",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "issued",
+        "tagteam:lemma": "issu",
+        "tagteam:verb": "issu",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_issu_617d0316"
         }
       },
       {
@@ -140,11 +186,10 @@
         "rdfs:label": "judge",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.627Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.678Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e4fda6cfb5f4",
-        "tagteam:denotesType": "Person",
         "is_subject_of": {
-          "@id": "inst:The_judge"
+          "@id": "inst:DR_The_judge_m1"
         },
         "is_bearer_of": [
           {
@@ -160,11 +205,10 @@
         ],
         "rdfs:label": "restraining order",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.627Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.678Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e4fda6cfb5f4",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:a_restraining_order"
+          "@id": "inst:DR_a_restraining_order_m1"
         },
         "is_bearer_of": [
           {
@@ -182,7 +226,7 @@
         "has_text_value": "The judge issued a restraining order",
         "tagteam:char_count": 36,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-28T11:17:37.620Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.672Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -211,6 +255,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_e4fda6cfb5f4"
         },
@@ -219,16 +264,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_judge"
+            "@id": "inst:DR_The_judge_m1"
           },
           {
-            "@id": "inst:a_restraining_order"
+            "@id": "inst:DR_a_restraining_order_m1"
           },
           {
-            "@id": "inst:Act_issued"
+            "@id": "inst:VP_issued"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.620Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.672Z"
       }
     ]
   }

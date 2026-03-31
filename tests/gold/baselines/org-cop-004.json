@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:35.651Z",
+  "generatedAt": "2026-03-31T15:13:46.576Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -24,19 +24,19 @@
     {
       "text": "FEMA",
       "type": "Organization",
-      "id": "inst:FEMA"
+      "id": "inst:DR_FEMA_m1"
     },
     {
       "text": "disaster relief",
       "type": "Entity",
-      "id": "inst:disaster_relief"
+      "id": "inst:DR_disaster_relief_m1"
     }
   ],
   "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:FEMA",
+        "@id": "inst:DR_FEMA_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -56,7 +56,7 @@
         }
       },
       {
-        "@id": "inst:disaster_relief",
+        "@id": "inst:DR_disaster_relief_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -73,20 +73,37 @@
         }
       },
       {
-        "@id": "inst:Assertion_FEMA",
+        "@id": "inst:QualityAssertion_responsible_71565669",
         "@type": [
+          "tagteam:QualityAssertion",
           "tagteam:StructuralAssertion"
         ],
-        "tagteam:pattern": "predication",
-        "tagteam:copula": "is",
-        "assertionSubject": {
+        "rdfs:label": "Quality assertion: FEMA → responsible",
+        "tagteam:assertedQuality": "responsible",
+        "tagteam:assertionSubject": {
           "@id": "inst:FEMA"
         },
-        "assertionObject": {
-          "@id": "inst:disaster_relief"
+        "tagteam:pattern": "quality_assertion",
+        "is_about": {
+          "@id": "inst:Quality_responsible_71565669"
         },
-        "assertedRelation": {
-          "@id": "has_function"
+        "tagteam:copulaLemma": "is"
+      },
+      {
+        "@id": "inst:Quality_responsible_71565669",
+        "@type": [
+          "bfo:BFO_0000019",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "responsible",
+        "tagteam:qualityType": "responsible",
+        "tagteam:grounding": null,
+        "tagteam:observedAt": "2026-03-31T15:13:46.548Z",
+        "bfo:BFO_0000052": {
+          "@id": "inst:Organization_Fema_0d8c90d21042"
+        },
+        "inheres_in": {
+          "@id": "inst:Organization_Fema_0d8c90d21042"
         }
       },
       {
@@ -98,14 +115,10 @@
         "rdfs:label": "fema",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.651Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.575Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_661547ea796b",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:FEMA"
-        },
-        "has_function": {
-          "@id": "inst:Entity_Disaster_Relief_5b9a57e19ff6"
+          "@id": "inst:DR_FEMA_m1"
         }
       },
       {
@@ -116,11 +129,10 @@
         ],
         "rdfs:label": "disaster relief",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.651Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.575Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_661547ea796b",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:disaster_relief"
+          "@id": "inst:DR_disaster_relief_m1"
         }
       },
       {
@@ -133,7 +145,7 @@
         "has_text_value": "FEMA is responsible for disaster relief",
         "tagteam:char_count": 39,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-28T11:17:35.641Z"
+        "tagteam:received_at": "2026-03-31T15:13:46.548Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -162,6 +174,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_661547ea796b"
         },
@@ -170,13 +183,13 @@
         },
         "has_output": [
           {
-            "@id": "inst:FEMA"
+            "@id": "inst:DR_FEMA_m1"
           },
           {
-            "@id": "inst:disaster_relief"
+            "@id": "inst:DR_disaster_relief_m1"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.641Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.548Z"
       }
     ]
   }

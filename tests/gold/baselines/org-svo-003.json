@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-28T11:17:35.831Z",
+  "generatedAt": "2026-03-31T15:13:46.770Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -33,12 +33,17 @@
     {
       "text": "The committee",
       "type": "Entity",
-      "id": "inst:The_committee"
+      "id": "inst:DR_The_committee_m1"
     },
     {
       "text": "the proposal",
       "type": "Entity",
-      "id": "inst:the_proposal"
+      "id": "inst:DR_the_proposal_m1"
+    },
+    {
+      "text": "reviewed",
+      "type": "EventDescription",
+      "id": "inst:VP_reviewed"
     }
   ],
   "extractedRoles": [
@@ -54,7 +59,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_committee",
+        "@id": "inst:DR_The_committee_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -73,7 +78,7 @@
         }
       },
       {
-        "@id": "inst:the_proposal",
+        "@id": "inst:DR_the_proposal_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -90,15 +95,59 @@
         }
       },
       {
-        "@id": "inst:Act_reviewed",
+        "@id": "inst:VP_reviewed",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "reviewed",
         "tagteam:lemma": "review",
+        "tagteam:verb": "review",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_review_ca2bdb1f"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v3:14-22",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_aaaf63c68cad"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_review_ca2bdb1f",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: review",
+        "tagteam:actType": "review",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Committee_e6598c1ac781"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Proposal_1b8abc202cfe"
+        }
+      },
+      {
+        "@id": "inst:Act_reviewed",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "reviewed",
+        "tagteam:lemma": "review",
+        "tagteam:verb": "review",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_review_ca2bdb1f"
         }
       },
       {
@@ -142,11 +191,10 @@
         "rdfs:label": "committee",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.831Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.770Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_aaaf63c68cad",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_committee"
+          "@id": "inst:DR_The_committee_m1"
         },
         "is_bearer_of": [
           {
@@ -162,11 +210,10 @@
         ],
         "rdfs:label": "proposal",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.831Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.770Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_aaaf63c68cad",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_proposal"
+          "@id": "inst:DR_the_proposal_m1"
         },
         "is_bearer_of": [
           {
@@ -184,7 +231,7 @@
         "has_text_value": "The committee reviewed the proposal",
         "tagteam:char_count": 35,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-28T11:17:35.824Z"
+        "tagteam:received_at": "2026-03-31T15:13:46.761Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -213,6 +260,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_aaaf63c68cad"
         },
@@ -221,16 +269,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_committee"
+            "@id": "inst:DR_The_committee_m1"
           },
           {
-            "@id": "inst:the_proposal"
+            "@id": "inst:DR_the_proposal_m1"
           },
           {
-            "@id": "inst:Act_reviewed"
+            "@id": "inst:VP_reviewed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.824Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.761Z"
       }
     ]
   }

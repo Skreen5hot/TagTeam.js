@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:35.637Z",
+  "generatedAt": "2026-03-31T15:13:46.543Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -23,20 +23,20 @@
   "extractedEntities": [
     {
       "text": "Border Patrol",
-      "type": "Entity",
-      "id": "inst:Border_Patrol"
+      "type": "Organization",
+      "id": "inst:DR_Border_Patrol_m1"
     },
     {
       "text": "CBP",
       "type": "Organization",
-      "id": "inst:CBP"
+      "id": "inst:DR_CBP_m1"
     }
   ],
   "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:Border_Patrol",
+        "@id": "inst:DR_Border_Patrol_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -47,16 +47,16 @@
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
         "tagteam:genericityBasis": "proper_noun",
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Entity_Border_Patrol_53d563094e39"
+          "@id": "inst:Organization_Border_Patrol_442b7ad9bf01"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_cdf9fc9ce709"
         }
       },
       {
-        "@id": "inst:CBP",
+        "@id": "inst:DR_CBP_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -80,29 +80,28 @@
         "tagteam:pattern": "predication",
         "tagteam:copula": "is",
         "assertionSubject": {
-          "@id": "inst:Border_Patrol"
+          "@id": "inst:DR_Border_Patrol_m1"
         },
         "assertionObject": {
-          "@id": "inst:CBP"
+          "@id": "inst:DR_CBP_m1"
         },
         "assertedRelation": {
           "@id": "member_part_of"
         }
       },
       {
-        "@id": "inst:Entity_Border_Patrol_53d563094e39",
+        "@id": "inst:Organization_Border_Patrol_442b7ad9bf01",
         "@type": [
-          "Entity",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "border patrol",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.637Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.542Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_cdf9fc9ce709",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:Border_Patrol"
+          "@id": "inst:DR_Border_Patrol_m1"
         },
         "member_part_of": {
           "@id": "inst:Organization_Cbp_746cc17756d4"
@@ -116,11 +115,10 @@
         ],
         "rdfs:label": "cbp",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.637Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.542Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_cdf9fc9ce709",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:CBP"
+          "@id": "inst:DR_CBP_m1"
         }
       },
       {
@@ -133,7 +131,7 @@
         "has_text_value": "Border Patrol is the enforcement arm of CBP",
         "tagteam:char_count": 43,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-28T11:17:35.558Z"
+        "tagteam:received_at": "2026-03-31T15:13:46.490Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -162,6 +160,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_cdf9fc9ce709"
         },
@@ -170,13 +169,13 @@
         },
         "has_output": [
           {
-            "@id": "inst:Border_Patrol"
+            "@id": "inst:DR_Border_Patrol_m1"
           },
           {
-            "@id": "inst:CBP"
+            "@id": "inst:DR_CBP_m1"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.558Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.490Z"
       }
     ]
   }

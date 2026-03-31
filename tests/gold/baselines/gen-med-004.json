@@ -6,7 +6,7 @@
     "medical",
     "treatment"
   ],
-  "generatedAt": "2026-02-28T11:17:37.532Z",
+  "generatedAt": "2026-03-31T15:13:48.582Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,12 +32,17 @@
     {
       "text": "The pharmacist",
       "type": "Person",
-      "id": "inst:The_pharmacist"
+      "id": "inst:DR_The_pharmacist_m1"
     },
     {
       "text": "the medication",
       "type": "Artifact",
-      "id": "inst:the_medication"
+      "id": "inst:DR_the_medication_m1"
+    },
+    {
+      "text": "dispensed",
+      "type": "EventDescription",
+      "id": "inst:VP_dispensed"
     }
   ],
   "extractedRoles": [
@@ -53,7 +58,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_pharmacist",
+        "@id": "inst:DR_The_pharmacist_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -72,7 +77,7 @@
         }
       },
       {
-        "@id": "inst:the_medication",
+        "@id": "inst:DR_the_medication_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -89,15 +94,59 @@
         }
       },
       {
-        "@id": "inst:Act_dispensed",
+        "@id": "inst:VP_dispensed",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "dispensed",
         "tagteam:lemma": "dispens",
+        "tagteam:verb": "dispens",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_dispens_c362aa78"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v3:15-24",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_6b7f7e63d5bd"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_dispens_c362aa78",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: dispens",
+        "tagteam:actType": "dispens",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Person_Pharmacist_3de0667ece07"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Artifact_Medication_c3014cef9409"
+        }
+      },
+      {
+        "@id": "inst:Act_dispensed",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "dispensed",
+        "tagteam:lemma": "dispens",
+        "tagteam:verb": "dispens",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_dispens_c362aa78"
         }
       },
       {
@@ -141,11 +190,10 @@
         "rdfs:label": "pharmacist",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.532Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.582Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6b7f7e63d5bd",
-        "tagteam:denotesType": "Person",
         "is_subject_of": {
-          "@id": "inst:The_pharmacist"
+          "@id": "inst:DR_The_pharmacist_m1"
         },
         "is_bearer_of": [
           {
@@ -161,11 +209,10 @@
         ],
         "rdfs:label": "medication",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.532Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.582Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6b7f7e63d5bd",
-        "tagteam:denotesType": "Artifact",
         "is_subject_of": {
-          "@id": "inst:the_medication"
+          "@id": "inst:DR_the_medication_m1"
         },
         "is_bearer_of": [
           {
@@ -183,7 +230,7 @@
         "has_text_value": "The pharmacist dispensed the medication",
         "tagteam:char_count": 39,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-28T11:17:37.524Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.575Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -212,6 +259,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_6b7f7e63d5bd"
         },
@@ -220,16 +268,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_pharmacist"
+            "@id": "inst:DR_The_pharmacist_m1"
           },
           {
-            "@id": "inst:the_medication"
+            "@id": "inst:DR_the_medication_m1"
           },
           {
-            "@id": "inst:Act_dispensed"
+            "@id": "inst:VP_dispensed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.524Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.575Z"
       }
     ]
   }

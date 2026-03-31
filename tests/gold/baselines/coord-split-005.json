@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:36.145Z",
+  "generatedAt": "2026-03-31T15:13:47.125Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -41,17 +41,22 @@
     {
       "text": "FEMA",
       "type": "Organization",
-      "id": "inst:FEMA"
+      "id": "inst:DR_FEMA_m1"
     },
     {
-      "text": "the Red Cross",
-      "type": "Entity",
-      "id": "inst:the_Red_Cross"
+      "text": "Red Cross",
+      "type": "Organization",
+      "id": "inst:DR_Red_Cross_m1"
     },
     {
       "text": "disaster",
       "type": "Entity",
-      "id": "inst:disaster"
+      "id": "inst:DR_disaster_m1"
+    },
+    {
+      "text": "provided",
+      "type": "EventDescription",
+      "id": "inst:VP_provided"
     }
   ],
   "extractedRoles": [
@@ -71,7 +76,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:FEMA",
+        "@id": "inst:DR_FEMA_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -91,26 +96,24 @@
         }
       },
       {
-        "@id": "inst:the_Red_Cross",
+        "@id": "inst:DR_Red_Cross_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
-        "rdfs:label": "the Red Cross",
-        "tagteam:mentionId": "s0:h5:9-22",
+        "rdfs:label": "Red Cross",
+        "tagteam:mentionId": "s0:h4:13-22",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:genericityCategory": "INST",
-        "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Entity_Red_Cross_31a50495ed55"
+          "@id": "inst:Organization_Red_Cross_e276cae7cb89"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a2e2db536cca"
         }
       },
       {
-        "@id": "inst:disaster",
+        "@id": "inst:DR_disaster_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -127,15 +130,59 @@
         }
       },
       {
-        "@id": "inst:Act_provided",
+        "@id": "inst:VP_provided",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "provided",
-        "tagteam:lemma": "provid",
+        "tagteam:lemma": "provide",
+        "tagteam:verb": "provide",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_provide_59e120da"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v6:23-31",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a2e2db536cca"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_provide_59e120da",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: provide",
+        "tagteam:actType": "provide",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Organization_Fema_54efed114947"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Disaster_fab9b4aa0e28"
+        }
+      },
+      {
+        "@id": "inst:Act_provided",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "provided",
+        "tagteam:lemma": "provide",
+        "tagteam:verb": "provide",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_provide_59e120da"
         }
       },
       {
@@ -155,20 +202,20 @@
         "tagteam:parseProbability": 0.9433
       },
       {
-        "@id": "inst:Role_the_Red_Cross_AgentRole",
+        "@id": "inst:Role_Red_Cross_AgentRole",
         "@type": [
           "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
         "inheres_in": {
-          "@id": "inst:Entity_Red_Cross_31a50495ed55"
+          "@id": "inst:Organization_Red_Cross_e276cae7cb89"
         },
         "realized_in": {
           "@id": "inst:Act_provided"
         },
-        "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.889
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
       },
       {
         "@id": "inst:Role_disaster_PatientRole",
@@ -195,11 +242,10 @@
         "rdfs:label": "fema",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.144Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.125Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a2e2db536cca",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:FEMA"
+          "@id": "inst:DR_FEMA_m1"
         },
         "is_bearer_of": [
           {
@@ -208,23 +254,21 @@
         ]
       },
       {
-        "@id": "inst:Entity_Red_Cross_31a50495ed55",
+        "@id": "inst:Organization_Red_Cross_e276cae7cb89",
         "@type": [
-          "Entity",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "red cross",
-        "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.144Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.125Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a2e2db536cca",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_Red_Cross"
+          "@id": "inst:DR_Red_Cross_m1"
         },
         "is_bearer_of": [
           {
-            "@id": "inst:Role_the_Red_Cross_AgentRole"
+            "@id": "inst:Role_Red_Cross_AgentRole"
           }
         ]
       },
@@ -236,11 +280,10 @@
         ],
         "rdfs:label": "disaster",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.144Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.125Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a2e2db536cca",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:disaster"
+          "@id": "inst:DR_disaster_m1"
         },
         "is_bearer_of": [
           {
@@ -258,7 +301,7 @@
         "has_text_value": "FEMA and the Red Cross provided disaster relief",
         "tagteam:char_count": 47,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-28T11:17:36.135Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.116Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -287,6 +330,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_a2e2db536cca"
         },
@@ -295,19 +339,19 @@
         },
         "has_output": [
           {
-            "@id": "inst:FEMA"
+            "@id": "inst:DR_FEMA_m1"
           },
           {
-            "@id": "inst:the_Red_Cross"
+            "@id": "inst:DR_Red_Cross_m1"
           },
           {
-            "@id": "inst:disaster"
+            "@id": "inst:DR_disaster_m1"
           },
           {
-            "@id": "inst:Act_provided"
+            "@id": "inst:VP_provided"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.135Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.116Z"
       }
     ]
   }

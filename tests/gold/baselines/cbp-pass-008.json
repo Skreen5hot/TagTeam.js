@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:37.080Z",
+  "generatedAt": "2026-03-31T15:13:48.161Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -28,12 +28,17 @@
     {
       "text": "The suspect",
       "type": "Person",
-      "id": "inst:The_suspect"
+      "id": "inst:DR_The_suspect_m1"
     },
     {
       "text": "federal custody",
       "type": "Entity",
-      "id": "inst:federal_custody"
+      "id": "inst:DR_federal_custody_m1"
+    },
+    {
+      "text": "transferred",
+      "type": "EventDescription",
+      "id": "inst:VP_transferred"
     }
   ],
   "extractedRoles": [
@@ -49,7 +54,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_suspect",
+        "@id": "inst:DR_The_suspect_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -68,7 +73,7 @@
         }
       },
       {
-        "@id": "inst:federal_custody",
+        "@id": "inst:DR_federal_custody_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -85,17 +90,56 @@
         }
       },
       {
-        "@id": "inst:Act_transferred",
+        "@id": "inst:VP_transferred",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "transferred",
         "tagteam:lemma": "transferr",
+        "tagteam:verb": "transferr",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_transferr_bb9bb5ff"
+        },
         "tagteam:isPassive": true,
+        "tagteam:mentionId": "s0:v4:16-27",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_635a40f0651d"
         }
+      },
+      {
+        "@id": "inst:EventDesc_transferr_bb9bb5ff",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: transferr",
+        "tagteam:actType": "transferr",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Person_Suspect_380b62766e30"
+        }
+      },
+      {
+        "@id": "inst:Act_transferred",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "transferred",
+        "tagteam:lemma": "transferr",
+        "tagteam:verb": "transferr",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_transferr_bb9bb5ff"
+        },
+        "tagteam:isPassive": true
       },
       {
         "@id": "inst:Role_The_suspect_PatientRole",
@@ -139,11 +183,10 @@
         "rdfs:label": "suspect",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.080Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.161Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_635a40f0651d",
-        "tagteam:denotesType": "Person",
         "is_subject_of": {
-          "@id": "inst:The_suspect"
+          "@id": "inst:DR_The_suspect_m1"
         },
         "is_bearer_of": [
           {
@@ -159,11 +202,10 @@
         ],
         "rdfs:label": "federal custody",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.080Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.161Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_635a40f0651d",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:federal_custody"
+          "@id": "inst:DR_federal_custody_m1"
         },
         "is_bearer_of": [
           {
@@ -181,7 +223,7 @@
         "has_text_value": "The suspect was transferred to federal custody",
         "tagteam:char_count": 46,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-28T11:17:37.073Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.151Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -210,6 +252,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_635a40f0651d"
         },
@@ -218,16 +261,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_suspect"
+            "@id": "inst:DR_The_suspect_m1"
           },
           {
-            "@id": "inst:federal_custody"
+            "@id": "inst:DR_federal_custody_m1"
           },
           {
-            "@id": "inst:Act_transferred"
+            "@id": "inst:VP_transferred"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.073Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.151Z"
       }
     ]
   }

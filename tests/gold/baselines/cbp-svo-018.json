@@ -7,7 +7,7 @@
     "cbp",
     "operations"
   ],
-  "generatedAt": "2026-02-28T11:17:36.763Z",
+  "generatedAt": "2026-03-31T15:13:47.808Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -33,12 +33,17 @@
     {
       "text": "The watch commander",
       "type": "Entity",
-      "id": "inst:The_watch_commander"
+      "id": "inst:DR_The_watch_commander_m1"
     },
     {
       "text": "the lockdown",
       "type": "Entity",
-      "id": "inst:the_lockdown"
+      "id": "inst:DR_the_lockdown_m1"
+    },
+    {
+      "text": "initiated",
+      "type": "EventDescription",
+      "id": "inst:VP_initiated"
     }
   ],
   "extractedRoles": [
@@ -54,7 +59,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_watch_commander",
+        "@id": "inst:DR_The_watch_commander_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -73,7 +78,7 @@
         }
       },
       {
-        "@id": "inst:the_lockdown",
+        "@id": "inst:DR_the_lockdown_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -90,15 +95,56 @@
         }
       },
       {
-        "@id": "inst:Act_initiated",
+        "@id": "inst:VP_initiated",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "initiated",
         "tagteam:lemma": "initiat",
+        "tagteam:verb": "initiat",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_initiat_e9f8f0e2"
+        },
+        "tagteam:mentionId": "s0:v4:20-29",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_11221ca027fb"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_initiat_e9f8f0e2",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: initiat",
+        "tagteam:actType": "initiat",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Watch_Commander_d8137dd4ce9d"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Lockdown_b8928cb4b2bb"
+        }
+      },
+      {
+        "@id": "inst:Act_initiated",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "initiated",
+        "tagteam:lemma": "initiat",
+        "tagteam:verb": "initiat",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_initiat_e9f8f0e2"
         }
       },
       {
@@ -142,11 +188,10 @@
         "rdfs:label": "watch commander",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.763Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.807Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_11221ca027fb",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_watch_commander"
+          "@id": "inst:DR_The_watch_commander_m1"
         },
         "is_bearer_of": [
           {
@@ -162,11 +207,10 @@
         ],
         "rdfs:label": "lockdown",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.763Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.807Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_11221ca027fb",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_lockdown"
+          "@id": "inst:DR_the_lockdown_m1"
         },
         "is_bearer_of": [
           {
@@ -184,7 +228,7 @@
         "has_text_value": "The watch commander initiated the lockdown",
         "tagteam:char_count": 42,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-28T11:17:36.757Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.800Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -213,6 +257,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_11221ca027fb"
         },
@@ -221,16 +266,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_watch_commander"
+            "@id": "inst:DR_The_watch_commander_m1"
           },
           {
-            "@id": "inst:the_lockdown"
+            "@id": "inst:DR_the_lockdown_m1"
           },
           {
-            "@id": "inst:Act_initiated"
+            "@id": "inst:VP_initiated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.757Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.800Z"
       }
     ]
   }

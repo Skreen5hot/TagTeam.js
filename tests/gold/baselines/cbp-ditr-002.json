@@ -6,7 +6,7 @@
     "ditransitive",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:37.269Z",
+  "generatedAt": "2026-03-31T15:13:48.331Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -40,12 +40,17 @@
     {
       "text": "The headquarters",
       "type": "Entity",
-      "id": "inst:The_headquarters"
+      "id": "inst:DR_The_headquarters_m1"
     },
     {
       "text": "the sector",
       "type": "Entity",
-      "id": "inst:the_sector"
+      "id": "inst:DR_the_sector_m1"
+    },
+    {
+      "text": "sent",
+      "type": "EventDescription",
+      "id": "inst:VP_sent"
     }
   ],
   "extractedRoles": [
@@ -61,7 +66,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_headquarters",
+        "@id": "inst:DR_The_headquarters_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -80,7 +85,7 @@
         }
       },
       {
-        "@id": "inst:the_sector",
+        "@id": "inst:DR_the_sector_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -97,15 +102,59 @@
         }
       },
       {
-        "@id": "inst:Act_sent",
+        "@id": "inst:VP_sent",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "sent",
         "tagteam:lemma": "send",
+        "tagteam:verb": "send",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_send_df7ebcaf"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v3:17-21",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_208d3324efc8"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_send_df7ebcaf",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: send",
+        "tagteam:actType": "send",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Headquarter_997263a49aa6"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Sector_21a4c1ac8347"
+        }
+      },
+      {
+        "@id": "inst:Act_sent",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "sent",
+        "tagteam:lemma": "send",
+        "tagteam:verb": "send",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_send_df7ebcaf"
         }
       },
       {
@@ -149,11 +198,10 @@
         "rdfs:label": "headquarter",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.268Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.331Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_208d3324efc8",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_headquarters"
+          "@id": "inst:DR_The_headquarters_m1"
         },
         "is_bearer_of": [
           {
@@ -169,11 +217,10 @@
         ],
         "rdfs:label": "sector",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.268Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.331Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_208d3324efc8",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_sector"
+          "@id": "inst:DR_the_sector_m1"
         },
         "is_bearer_of": [
           {
@@ -191,7 +238,7 @@
         "has_text_value": "The headquarters sent the sector updated guidelines",
         "tagteam:char_count": 51,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-28T11:17:37.256Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.323Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -220,6 +267,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_208d3324efc8"
         },
@@ -228,16 +276,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_headquarters"
+            "@id": "inst:DR_The_headquarters_m1"
           },
           {
-            "@id": "inst:the_sector"
+            "@id": "inst:DR_the_sector_m1"
           },
           {
-            "@id": "inst:Act_sent"
+            "@id": "inst:VP_sent"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.256Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.323Z"
       }
     ]
   }

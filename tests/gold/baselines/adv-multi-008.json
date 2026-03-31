@@ -6,7 +6,7 @@
     "multi-clause",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:38.115Z",
+  "generatedAt": "2026-03-31T15:13:49.151Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -48,22 +48,32 @@
     {
       "text": "The commander",
       "type": "Entity",
-      "id": "inst:The_commander"
+      "id": "inst:DR_The_commander_m1"
     },
     {
       "text": "the plan and the team",
       "type": "Entity",
-      "id": "inst:the_plan_and_the_team"
+      "id": "inst:DR_the_plan_and_the_team_m1"
     },
     {
       "text": "the mission",
       "type": "Entity",
-      "id": "inst:the_mission"
+      "id": "inst:DR_the_mission_m1"
     },
     {
       "text": "dawn",
       "type": "Entity",
-      "id": "inst:dawn"
+      "id": "inst:DR_dawn_m1"
+    },
+    {
+      "text": "reviewed",
+      "type": "EventDescription",
+      "id": "inst:VP_reviewed"
+    },
+    {
+      "text": "executed",
+      "type": "EventDescription",
+      "id": "inst:VP_executed"
     }
   ],
   "extractedRoles": [
@@ -74,12 +84,20 @@
     {
       "entity": "plan and the team",
       "role": "Patient"
+    },
+    {
+      "entity": "mission",
+      "role": "Patient"
+    },
+    {
+      "entity": "dawn",
+      "role": "Location"
     }
   ],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_commander",
+        "@id": "inst:DR_The_commander_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -98,7 +116,7 @@
         }
       },
       {
-        "@id": "inst:the_plan_and_the_team",
+        "@id": "inst:DR_the_plan_and_the_team_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -115,7 +133,7 @@
         }
       },
       {
-        "@id": "inst:the_mission",
+        "@id": "inst:DR_the_mission_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -132,7 +150,7 @@
         }
       },
       {
-        "@id": "inst:dawn",
+        "@id": "inst:DR_dawn_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -149,15 +167,112 @@
         }
       },
       {
-        "@id": "inst:Act_reviewed",
+        "@id": "inst:VP_reviewed",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "reviewed",
         "tagteam:lemma": "review",
+        "tagteam:verb": "review",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_review_2ab70ef4"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v3:14-22",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_9113ce68dbc8"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_review_2ab70ef4",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: review",
+        "tagteam:actType": "review",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Commander_f439e9702ac9"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Plan_And_The_Team_166f13650fec"
+        }
+      },
+      {
+        "@id": "inst:Act_reviewed",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "reviewed",
+        "tagteam:lemma": "review",
+        "tagteam:verb": "review",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_review_2ab70ef4"
+        }
+      },
+      {
+        "@id": "inst:VP_executed",
+        "@type": [
+          "tagteam:DiscourseReferent",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "executed",
+        "tagteam:lemma": "execute",
+        "tagteam:verb": "execute",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_execute_cce81f8d"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v9:45-53",
+        "is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_9113ce68dbc8"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_execute_cce81f8d",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: execute",
+        "tagteam:actType": "execute",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Mission_dcffa39f775b"
+        }
+      },
+      {
+        "@id": "inst:Act_executed",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "executed",
+        "tagteam:lemma": "execute",
+        "tagteam:verb": "execute",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_execute_cce81f8d"
         }
       },
       {
@@ -193,6 +308,39 @@
         "tagteam:parseProbability": 0.8492
       },
       {
+        "@id": "inst:Role_the_mission_PatientRole",
+        "@type": [
+          "Role"
+        ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
+        "inheres_in": {
+          "@id": "inst:Entity_Mission_dcffa39f775b"
+        },
+        "realized_in": {
+          "@id": "inst:Act_executed"
+        },
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:Role_dawn_LocationRole",
+        "@type": [
+          "Role"
+        ],
+        "rdfs:label": "LocationRole",
+        "tagteam:roleType": "LocationRole",
+        "inheres_in": {
+          "@id": "inst:Entity_Dawn_b7a1c9d8d9db"
+        },
+        "realized_in": {
+          "@id": "inst:Act_executed"
+        },
+        "tagteam:preposition": "at",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
         "@id": "inst:Entity_Commander_f439e9702ac9",
         "@type": [
           "Entity",
@@ -201,11 +349,10 @@
         "rdfs:label": "commander",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.115Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.151Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9113ce68dbc8",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_commander"
+          "@id": "inst:DR_The_commander_m1"
         },
         "is_bearer_of": [
           {
@@ -221,11 +368,10 @@
         ],
         "rdfs:label": "plan and the team",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.115Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.151Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9113ce68dbc8",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_plan_and_the_team"
+          "@id": "inst:DR_the_plan_and_the_team_m1"
         },
         "is_bearer_of": [
           {
@@ -241,12 +387,16 @@
         ],
         "rdfs:label": "mission",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.115Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.151Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9113ce68dbc8",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_mission"
-        }
+          "@id": "inst:DR_the_mission_m1"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_mission_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Dawn_b7a1c9d8d9db",
@@ -256,12 +406,16 @@
         ],
         "rdfs:label": "dawn",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.115Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.151Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9113ce68dbc8",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:dawn"
-        }
+          "@id": "inst:DR_dawn_m1"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_dawn_LocationRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_9113ce68dbc8",
@@ -273,7 +427,7 @@
         "has_text_value": "The commander reviewed the plan and the team executed the mission at dawn",
         "tagteam:char_count": 73,
         "tagteam:word_count": 13,
-        "tagteam:received_at": "2026-02-28T11:17:38.106Z"
+        "tagteam:received_at": "2026-03-31T15:13:49.138Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -302,6 +456,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_9113ce68dbc8"
         },
@@ -310,22 +465,25 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_commander"
+            "@id": "inst:DR_The_commander_m1"
           },
           {
-            "@id": "inst:the_plan_and_the_team"
+            "@id": "inst:DR_the_plan_and_the_team_m1"
           },
           {
-            "@id": "inst:the_mission"
+            "@id": "inst:DR_the_mission_m1"
           },
           {
-            "@id": "inst:dawn"
+            "@id": "inst:DR_dawn_m1"
           },
           {
-            "@id": "inst:Act_reviewed"
+            "@id": "inst:VP_reviewed"
+          },
+          {
+            "@id": "inst:VP_executed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.106Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.138Z"
       }
     ]
   }

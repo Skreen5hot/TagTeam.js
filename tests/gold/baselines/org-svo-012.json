@@ -8,7 +8,7 @@
     "action",
     "pp"
   ],
-  "generatedAt": "2026-02-28T11:17:35.939Z",
+  "generatedAt": "2026-03-31T15:13:46.884Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -42,17 +42,22 @@
     {
       "text": "The marshal",
       "type": "Entity",
-      "id": "inst:The_marshal"
+      "id": "inst:DR_The_marshal_m1"
     },
     {
       "text": "the prisoner",
       "type": "Entity",
-      "id": "inst:the_prisoner"
+      "id": "inst:DR_the_prisoner_m1"
     },
     {
       "text": "the courthouse",
       "type": "Entity",
-      "id": "inst:the_courthouse"
+      "id": "inst:DR_the_courthouse_m1"
+    },
+    {
+      "text": "transported",
+      "type": "EventDescription",
+      "id": "inst:VP_transported"
     }
   ],
   "extractedRoles": [
@@ -68,7 +73,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_marshal",
+        "@id": "inst:DR_The_marshal_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -85,7 +90,7 @@
         }
       },
       {
-        "@id": "inst:the_prisoner",
+        "@id": "inst:DR_the_prisoner_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -102,7 +107,7 @@
         }
       },
       {
-        "@id": "inst:the_courthouse",
+        "@id": "inst:DR_the_courthouse_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -119,27 +124,53 @@
         }
       },
       {
-        "@id": "inst:Act_marshal",
+        "@id": "inst:VP_transported",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
-        "rdfs:label": "marshal",
-        "tagteam:lemma": "marshal",
+        "rdfs:label": "transported",
+        "tagteam:lemma": "transport",
+        "tagteam:verb": "transport",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_transport_dc15f203"
+        },
+        "tagteam:mentionId": "s0:v3:12-23",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_61ebb3f0ac09"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_transport_dc15f203",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: transport",
+        "tagteam:actType": "transport",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Prisoner_f7058b5ed8bc"
         }
       },
       {
         "@id": "inst:Act_transported",
         "@type": [
           "IntentionalAct",
-          "tagteam:VerbPhrase"
+          "owl:NamedIndividual"
         ],
         "rdfs:label": "transported",
         "tagteam:lemma": "transport",
-        "is_concretized_by": {
-          "@id": "inst:Input_Text_IBE_61ebb3f0ac09"
+        "tagteam:verb": "transport",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_transport_dc15f203"
         }
       },
       {
@@ -183,11 +214,10 @@
         ],
         "rdfs:label": "marshal",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.939Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.884Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_61ebb3f0ac09",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_marshal"
+          "@id": "inst:DR_The_marshal_m1"
         }
       },
       {
@@ -198,11 +228,10 @@
         ],
         "rdfs:label": "prisoner",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.939Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.884Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_61ebb3f0ac09",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_prisoner"
+          "@id": "inst:DR_the_prisoner_m1"
         },
         "is_bearer_of": [
           {
@@ -218,11 +247,10 @@
         ],
         "rdfs:label": "courthouse",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.939Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.884Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_61ebb3f0ac09",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_courthouse"
+          "@id": "inst:DR_the_courthouse_m1"
         },
         "is_bearer_of": [
           {
@@ -240,7 +268,7 @@
         "has_text_value": "The marshal transported the prisoner to the courthouse",
         "tagteam:char_count": 54,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-28T11:17:35.928Z"
+        "tagteam:received_at": "2026-03-31T15:13:46.875Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -269,6 +297,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_61ebb3f0ac09"
         },
@@ -277,22 +306,19 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_marshal"
+            "@id": "inst:DR_The_marshal_m1"
           },
           {
-            "@id": "inst:the_prisoner"
+            "@id": "inst:DR_the_prisoner_m1"
           },
           {
-            "@id": "inst:the_courthouse"
+            "@id": "inst:DR_the_courthouse_m1"
           },
           {
-            "@id": "inst:Act_marshal"
-          },
-          {
-            "@id": "inst:Act_transported"
+            "@id": "inst:VP_transported"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.928Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.875Z"
       }
     ]
   }

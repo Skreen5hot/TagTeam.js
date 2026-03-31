@@ -7,7 +7,7 @@
     "keep",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:36.171Z",
+  "generatedAt": "2026-03-31T15:13:47.151Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -31,56 +31,43 @@
   ],
   "extractedEntities": [
     {
-      "text": "Customs and Border Protection enforces trade laws",
-      "type": "Entity",
-      "id": "inst:Customs_and_Border_Protection_enforces_trade_laws"
+      "text": "Customs and Border Protection",
+      "type": "Organization",
+      "id": "inst:DR_Customs_and_Border_Protection_m1"
     }
   ],
   "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:Customs_and_Border_Protection_enforces_trade_laws",
+        "@id": "inst:DR_Customs_and_Border_Protection_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
-        "rdfs:label": "Customs and Border Protection enforces trade laws",
-        "tagteam:mentionId": "s0:h7:0-49",
+        "rdfs:label": "Customs and Border Protection",
+        "tagteam:mentionId": "s0:h1:0-29",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Entity_Customs_And_Border_Protection_Enforces_Trade_Law_8dd687d112c2"
+          "@id": "inst:Organization_Customs_And_Border_Protection_a21649108c00"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_930054f1010a"
         }
       },
       {
-        "@id": "inst:Act_laws",
+        "@id": "inst:Organization_Customs_And_Border_Protection_a21649108c00",
         "@type": [
-          "IntentionalAct",
-          "tagteam:VerbPhrase"
-        ],
-        "rdfs:label": "laws",
-        "tagteam:lemma": "laws",
-        "is_concretized_by": {
-          "@id": "inst:Input_Text_IBE_930054f1010a"
-        }
-      },
-      {
-        "@id": "inst:Entity_Customs_And_Border_Protection_Enforces_Trade_Law_8dd687d112c2",
-        "@type": [
-          "Entity",
+          "Organization",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "customs and border protection enforces trade law",
+        "rdfs:label": "customs and border protection",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.171Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.151Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_930054f1010a",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:Customs_and_Border_Protection_enforces_trade_laws"
+          "@id": "inst:DR_Customs_and_Border_Protection_m1"
         }
       },
       {
@@ -93,7 +80,7 @@
         "has_text_value": "Customs and Border Protection enforces trade laws",
         "tagteam:char_count": 49,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-28T11:17:36.163Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.142Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -122,6 +109,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_930054f1010a"
         },
@@ -130,13 +118,10 @@
         },
         "has_output": [
           {
-            "@id": "inst:Customs_and_Border_Protection_enforces_trade_laws"
-          },
-          {
-            "@id": "inst:Act_laws"
+            "@id": "inst:DR_Customs_and_Border_Protection_m1"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.163Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.142Z"
       }
     ]
   }

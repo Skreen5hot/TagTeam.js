@@ -7,7 +7,7 @@
     "cbp",
     "operations"
   ],
-  "generatedAt": "2026-02-28T11:17:36.620Z",
+  "generatedAt": "2026-03-31T15:13:47.645Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -33,17 +33,22 @@
     {
       "text": "The field operations",
       "type": "Entity",
-      "id": "inst:The_field_operations"
+      "id": "inst:DR_The_field_operations_m1"
     },
     {
-      "text": "the ports of entry",
+      "text": "the ports",
       "type": "Entity",
-      "id": "inst:the_ports_of_entry"
+      "id": "inst:DR_the_ports_m1"
     },
     {
       "text": "entry",
       "type": "Entity",
-      "id": "inst:entry"
+      "id": "inst:DR_entry_m1"
+    },
+    {
+      "text": "directorate",
+      "type": "EventDescription",
+      "id": "inst:VP_directorate"
     }
   ],
   "extractedRoles": [
@@ -52,14 +57,14 @@
       "role": "Agent"
     },
     {
-      "entity": "ports of entry",
+      "entity": "port",
       "role": "Patient"
     }
   ],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_field_operations",
+        "@id": "inst:DR_The_field_operations_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -78,24 +83,24 @@
         }
       },
       {
-        "@id": "inst:the_ports_of_entry",
+        "@id": "inst:DR_the_ports_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
-        "rdfs:label": "the ports of entry",
-        "tagteam:mentionId": "s0:h7:41-59",
+        "rdfs:label": "the ports",
+        "tagteam:mentionId": "s0:h7:41-50",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
         "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Ports_Of_Entry_f43e3a5b4044"
+          "@id": "inst:Entity_Port_599b5b07650c"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_2189b3fcc3ba"
         }
       },
       {
-        "@id": "inst:entry",
+        "@id": "inst:DR_entry_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -112,15 +117,59 @@
         }
       },
       {
-        "@id": "inst:Act_directorate",
+        "@id": "inst:VP_directorate",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "directorate",
         "tagteam:lemma": "directorate",
+        "tagteam:verb": "directorate",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_directorate_16cc648f"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePresentTense"
+        },
+        "tagteam:mentionId": "s0:v4:21-32",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_2189b3fcc3ba"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_directorate_16cc648f",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: directorate",
+        "tagteam:actType": "directorate",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Field_Operation_509e875aa707"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Port_599b5b07650c"
+        }
+      },
+      {
+        "@id": "inst:Act_directorate",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "directorate",
+        "tagteam:lemma": "directorate",
+        "tagteam:verb": "directorate",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_directorate_16cc648f"
         }
       },
       {
@@ -140,14 +189,14 @@
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Role_the_ports_of_entry_PatientRole",
+        "@id": "inst:Role_the_ports_PatientRole",
         "@type": [
           "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
         "inheres_in": {
-          "@id": "inst:Entity_Ports_Of_Entry_f43e3a5b4044"
+          "@id": "inst:Entity_Port_599b5b07650c"
         },
         "realized_in": {
           "@id": "inst:Act_directorate"
@@ -164,11 +213,10 @@
         "rdfs:label": "field operation",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.620Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.645Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2189b3fcc3ba",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_field_operations"
+          "@id": "inst:DR_The_field_operations_m1"
         },
         "is_bearer_of": [
           {
@@ -177,22 +225,21 @@
         ]
       },
       {
-        "@id": "inst:Entity_Ports_Of_Entry_f43e3a5b4044",
+        "@id": "inst:Entity_Port_599b5b07650c",
         "@type": [
           "Entity",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "ports of entry",
+        "rdfs:label": "port",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.620Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.645Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2189b3fcc3ba",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_ports_of_entry"
+          "@id": "inst:DR_the_ports_m1"
         },
         "is_bearer_of": [
           {
-            "@id": "inst:Role_the_ports_of_entry_PatientRole"
+            "@id": "inst:Role_the_ports_PatientRole"
           }
         ]
       },
@@ -204,11 +251,10 @@
         ],
         "rdfs:label": "entry",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.620Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.645Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_2189b3fcc3ba",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:entry"
+          "@id": "inst:DR_entry_m1"
         }
       },
       {
@@ -221,7 +267,7 @@
         "has_text_value": "The field operations directorate managed the ports of entry",
         "tagteam:char_count": 59,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-28T11:17:36.611Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.636Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -250,6 +296,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_2189b3fcc3ba"
         },
@@ -258,19 +305,19 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_field_operations"
+            "@id": "inst:DR_The_field_operations_m1"
           },
           {
-            "@id": "inst:the_ports_of_entry"
+            "@id": "inst:DR_the_ports_m1"
           },
           {
-            "@id": "inst:entry"
+            "@id": "inst:DR_entry_m1"
           },
           {
-            "@id": "inst:Act_directorate"
+            "@id": "inst:VP_directorate"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.611Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.636Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "relative-clause",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:37.866Z",
+  "generatedAt": "2026-03-31T15:13:48.901Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -36,34 +36,52 @@
     {
       "text": "The officer",
       "type": "Person",
-      "id": "inst:The_officer"
+      "id": "inst:DR_The_officer_m1"
     },
     {
       "text": "who",
       "type": "Organization",
-      "id": "inst:who"
+      "id": "inst:DR_who_m1"
     },
     {
       "text": "the interview",
       "type": "Entity",
-      "id": "inst:the_interview"
+      "id": "inst:DR_the_interview_m1"
     },
     {
       "text": "the findings",
       "type": "Entity",
-      "id": "inst:the_findings"
+      "id": "inst:DR_the_findings_m1"
+    },
+    {
+      "text": "conducted",
+      "type": "EventDescription",
+      "id": "inst:VP_conducted"
+    },
+    {
+      "text": "documented",
+      "type": "EventDescription",
+      "id": "inst:VP_documented"
     }
   ],
   "extractedRoles": [
     {
       "entity": "who",
       "role": "Agent"
+    },
+    {
+      "entity": "interview",
+      "role": "Agent"
+    },
+    {
+      "entity": "finding",
+      "role": "Patient"
     }
   ],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_officer",
+        "@id": "inst:DR_The_officer_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -80,7 +98,7 @@
         }
       },
       {
-        "@id": "inst:who",
+        "@id": "inst:DR_who_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -100,7 +118,7 @@
         }
       },
       {
-        "@id": "inst:the_interview",
+        "@id": "inst:DR_the_interview_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -119,7 +137,7 @@
         }
       },
       {
-        "@id": "inst:the_findings",
+        "@id": "inst:DR_the_findings_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -136,27 +154,112 @@
         }
       },
       {
-        "@id": "inst:Act_officer",
+        "@id": "inst:VP_conducted",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
-        "rdfs:label": "officer",
-        "tagteam:lemma": "officer",
+        "rdfs:label": "conducted",
+        "tagteam:lemma": "conduct",
+        "tagteam:verb": "conduct",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_conduct_9df4f104"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v4:16-25",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0abd0485984a"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_conduct_9df4f104",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: conduct",
+        "tagteam:actType": "conduct",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Organization_Who_53233a9382b0"
         }
       },
       {
         "@id": "inst:Act_conducted",
         "@type": [
           "IntentionalAct",
-          "tagteam:VerbPhrase"
+          "owl:NamedIndividual"
         ],
         "rdfs:label": "conducted",
         "tagteam:lemma": "conduct",
+        "tagteam:verb": "conduct",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_conduct_9df4f104"
+        }
+      },
+      {
+        "@id": "inst:VP_documented",
+        "@type": [
+          "tagteam:DiscourseReferent",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "documented",
+        "tagteam:lemma": "document",
+        "tagteam:verb": "document",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_document_3d517c69"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v7:40-50",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0abd0485984a"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_document_3d517c69",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: document",
+        "tagteam:actType": "document",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Interview_6f9cc5a8efea"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Finding_c218c53c66e5"
+        }
+      },
+      {
+        "@id": "inst:Act_documented",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "documented",
+        "tagteam:lemma": "document",
+        "tagteam:verb": "document",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_document_3d517c69"
         }
       },
       {
@@ -176,6 +279,38 @@
         "tagteam:parseProbability": 0.7804
       },
       {
+        "@id": "inst:Role_the_interview_AgentRole",
+        "@type": [
+          "Role"
+        ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
+        "inheres_in": {
+          "@id": "inst:Entity_Interview_6f9cc5a8efea"
+        },
+        "realized_in": {
+          "@id": "inst:Act_documented"
+        },
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804
+      },
+      {
+        "@id": "inst:Role_the_findings_PatientRole",
+        "@type": [
+          "Role"
+        ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
+        "inheres_in": {
+          "@id": "inst:Entity_Finding_c218c53c66e5"
+        },
+        "realized_in": {
+          "@id": "inst:Act_documented"
+        },
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.7804
+      },
+      {
         "@id": "inst:Person_Officer_b2d5f259ed73",
         "@type": [
           "Person",
@@ -183,11 +318,10 @@
         ],
         "rdfs:label": "officer",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.865Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.901Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0abd0485984a",
-        "tagteam:denotesType": "Person",
         "is_subject_of": {
-          "@id": "inst:The_officer"
+          "@id": "inst:DR_The_officer_m1"
         }
       },
       {
@@ -199,11 +333,10 @@
         "rdfs:label": "who",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.865Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.901Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0abd0485984a",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:who"
+          "@id": "inst:DR_who_m1"
         },
         "is_bearer_of": [
           {
@@ -220,12 +353,16 @@
         "rdfs:label": "interview",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.865Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.901Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0abd0485984a",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_interview"
-        }
+          "@id": "inst:DR_the_interview_m1"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_interview_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Finding_c218c53c66e5",
@@ -235,12 +372,16 @@
         ],
         "rdfs:label": "finding",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.865Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.901Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0abd0485984a",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_findings"
-        }
+          "@id": "inst:DR_the_findings_m1"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_findings_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_0abd0485984a",
@@ -252,7 +393,7 @@
         "has_text_value": "The officer who conducted the interview documented the findings",
         "tagteam:char_count": 63,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-28T11:17:37.856Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.890Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -281,6 +422,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_0abd0485984a"
         },
@@ -289,25 +431,25 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_officer"
+            "@id": "inst:DR_The_officer_m1"
           },
           {
-            "@id": "inst:who"
+            "@id": "inst:DR_who_m1"
           },
           {
-            "@id": "inst:the_interview"
+            "@id": "inst:DR_the_interview_m1"
           },
           {
-            "@id": "inst:the_findings"
+            "@id": "inst:DR_the_findings_m1"
           },
           {
-            "@id": "inst:Act_officer"
+            "@id": "inst:VP_conducted"
           },
           {
-            "@id": "inst:Act_conducted"
+            "@id": "inst:VP_documented"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.856Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.890Z"
       }
     ]
   }

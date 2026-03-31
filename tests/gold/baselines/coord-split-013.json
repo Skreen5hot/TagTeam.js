@@ -7,7 +7,7 @@
     "split",
     "military"
   ],
-  "generatedAt": "2026-02-28T11:17:36.298Z",
+  "generatedAt": "2026-03-31T15:13:47.297Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -41,12 +41,17 @@
     {
       "text": "The captain and the lieutenant",
       "type": "Entity",
-      "id": "inst:The_captain_and_the_lieutenant"
+      "id": "inst:DR_The_captain_and_the_lieutenant_m1"
     },
     {
       "text": "the team",
       "type": "Organization",
-      "id": "inst:the_team"
+      "id": "inst:DR_the_team_m1"
+    },
+    {
+      "text": "briefed",
+      "type": "EventDescription",
+      "id": "inst:VP_briefed"
     }
   ],
   "extractedRoles": [
@@ -62,7 +67,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_captain_and_the_lieutenant",
+        "@id": "inst:DR_The_captain_and_the_lieutenant_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -81,7 +86,7 @@
         }
       },
       {
-        "@id": "inst:the_team",
+        "@id": "inst:DR_the_team_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -98,15 +103,59 @@
         }
       },
       {
-        "@id": "inst:Act_briefed",
+        "@id": "inst:VP_briefed",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "briefed",
         "tagteam:lemma": "brief",
+        "tagteam:verb": "brief",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_brief_7db20f49"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v6:31-38",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b507a2e3cebb"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_brief_7db20f49",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: brief",
+        "tagteam:actType": "brief",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Captain_And_The_Lieutenant_814731b4d0b1"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Organization_Team_98d3651976cd"
+        }
+      },
+      {
+        "@id": "inst:Act_briefed",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "briefed",
+        "tagteam:lemma": "brief",
+        "tagteam:verb": "brief",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_brief_7db20f49"
         }
       },
       {
@@ -150,11 +199,10 @@
         "rdfs:label": "captain and the lieutenant",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.298Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.297Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b507a2e3cebb",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_captain_and_the_lieutenant"
+          "@id": "inst:DR_The_captain_and_the_lieutenant_m1"
         },
         "is_bearer_of": [
           {
@@ -170,11 +218,10 @@
         ],
         "rdfs:label": "team",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.298Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.297Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b507a2e3cebb",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:the_team"
+          "@id": "inst:DR_the_team_m1"
         },
         "is_bearer_of": [
           {
@@ -192,7 +239,7 @@
         "has_text_value": "The captain and the lieutenant briefed the team",
         "tagteam:char_count": 47,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-28T11:17:36.291Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.286Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -221,6 +268,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_b507a2e3cebb"
         },
@@ -229,16 +277,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_captain_and_the_lieutenant"
+            "@id": "inst:DR_The_captain_and_the_lieutenant_m1"
           },
           {
-            "@id": "inst:the_team"
+            "@id": "inst:DR_the_team_m1"
           },
           {
-            "@id": "inst:Act_briefed"
+            "@id": "inst:VP_briefed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.291Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.286Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-28T11:17:36.077Z",
+  "generatedAt": "2026-03-31T15:13:47.035Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -41,12 +41,17 @@
     {
       "text": "The commander",
       "type": "Entity",
-      "id": "inst:The_commander"
+      "id": "inst:DR_The_commander_m1"
     },
     {
       "text": "the team",
       "type": "Organization",
-      "id": "inst:the_team"
+      "id": "inst:DR_the_team_m1"
+    },
+    {
+      "text": "gave",
+      "type": "EventDescription",
+      "id": "inst:VP_gave"
     }
   ],
   "extractedRoles": [
@@ -62,7 +67,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_commander",
+        "@id": "inst:DR_The_commander_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -81,7 +86,7 @@
         }
       },
       {
-        "@id": "inst:the_team",
+        "@id": "inst:DR_the_team_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -98,15 +103,59 @@
         }
       },
       {
-        "@id": "inst:Act_gave",
+        "@id": "inst:VP_gave",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "gave",
         "tagteam:lemma": "give",
+        "tagteam:verb": "give",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_give_a3b2313c"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v3:14-18",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_04b1e6715106"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_give_a3b2313c",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: give",
+        "tagteam:actType": "give",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Commander_63a08986ac4b"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Organization_Team_e81839881a24"
+        }
+      },
+      {
+        "@id": "inst:Act_gave",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "gave",
+        "tagteam:lemma": "give",
+        "tagteam:verb": "give",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_give_a3b2313c"
         }
       },
       {
@@ -150,11 +199,10 @@
         "rdfs:label": "commander",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.077Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.035Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_04b1e6715106",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_commander"
+          "@id": "inst:DR_The_commander_m1"
         },
         "is_bearer_of": [
           {
@@ -170,11 +218,10 @@
         ],
         "rdfs:label": "team",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.077Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.035Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_04b1e6715106",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:the_team"
+          "@id": "inst:DR_the_team_m1"
         },
         "is_bearer_of": [
           {
@@ -192,7 +239,7 @@
         "has_text_value": "The commander gave the team new orders",
         "tagteam:char_count": 38,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-28T11:17:36.068Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.025Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -221,6 +268,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_04b1e6715106"
         },
@@ -229,16 +277,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_commander"
+            "@id": "inst:DR_The_commander_m1"
           },
           {
-            "@id": "inst:the_team"
+            "@id": "inst:DR_the_team_m1"
           },
           {
-            "@id": "inst:Act_gave"
+            "@id": "inst:VP_gave"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.068Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.025Z"
       }
     ]
   }

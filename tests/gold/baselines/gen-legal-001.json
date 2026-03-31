@@ -5,7 +5,7 @@
   "tags": [
     "legal"
   ],
-  "generatedAt": "2026-02-28T11:17:37.597Z",
+  "generatedAt": "2026-03-31T15:13:48.645Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -39,17 +39,22 @@
     {
       "text": "The attorney",
       "type": "Entity",
-      "id": "inst:The_attorney"
+      "id": "inst:DR_The_attorney_m1"
     },
     {
       "text": "the motion",
       "type": "Entity",
-      "id": "inst:the_motion"
+      "id": "inst:DR_the_motion_m1"
     },
     {
       "text": "the court",
       "type": "Entity",
-      "id": "inst:the_court"
+      "id": "inst:DR_the_court_m1"
+    },
+    {
+      "text": "filed",
+      "type": "EventDescription",
+      "id": "inst:VP_filed"
     }
   ],
   "extractedRoles": [
@@ -69,7 +74,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_attorney",
+        "@id": "inst:DR_The_attorney_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -88,7 +93,7 @@
         }
       },
       {
-        "@id": "inst:the_motion",
+        "@id": "inst:DR_the_motion_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -105,7 +110,7 @@
         }
       },
       {
-        "@id": "inst:the_court",
+        "@id": "inst:DR_the_court_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -122,15 +127,59 @@
         }
       },
       {
-        "@id": "inst:Act_filed",
+        "@id": "inst:VP_filed",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "filed",
         "tagteam:lemma": "fil",
+        "tagteam:verb": "fil",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_fil_44e95fda"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v3:13-18",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_de74f4703d67"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_fil_44e95fda",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: fil",
+        "tagteam:actType": "fil",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Attorney_dcf90848c268"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Motion_c181aade2d1a"
+        }
+      },
+      {
+        "@id": "inst:Act_filed",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "filed",
+        "tagteam:lemma": "fil",
+        "tagteam:verb": "fil",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_fil_44e95fda"
         }
       },
       {
@@ -191,11 +240,10 @@
         "rdfs:label": "attorney",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.597Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.644Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_de74f4703d67",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_attorney"
+          "@id": "inst:DR_The_attorney_m1"
         },
         "is_bearer_of": [
           {
@@ -211,11 +259,10 @@
         ],
         "rdfs:label": "motion",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.597Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.644Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_de74f4703d67",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_motion"
+          "@id": "inst:DR_the_motion_m1"
         },
         "is_bearer_of": [
           {
@@ -231,11 +278,10 @@
         ],
         "rdfs:label": "court",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.597Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.644Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_de74f4703d67",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_court"
+          "@id": "inst:DR_the_court_m1"
         },
         "is_bearer_of": [
           {
@@ -253,7 +299,7 @@
         "has_text_value": "The attorney filed the motion with the court",
         "tagteam:char_count": 44,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-28T11:17:37.589Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.638Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -282,6 +328,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_de74f4703d67"
         },
@@ -290,19 +337,19 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_attorney"
+            "@id": "inst:DR_The_attorney_m1"
           },
           {
-            "@id": "inst:the_motion"
+            "@id": "inst:DR_the_motion_m1"
           },
           {
-            "@id": "inst:the_court"
+            "@id": "inst:DR_the_court_m1"
           },
           {
-            "@id": "inst:Act_filed"
+            "@id": "inst:VP_filed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.589Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.638Z"
       }
     ]
   }

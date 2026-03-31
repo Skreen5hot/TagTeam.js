@@ -7,7 +7,7 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:36.476Z",
+  "generatedAt": "2026-03-31T15:13:47.484Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -33,12 +33,17 @@
     {
       "text": "The territory",
       "type": "Entity",
-      "id": "inst:The_territory"
+      "id": "inst:DR_The_territory_m1"
     },
     {
       "text": "the planning committee",
       "type": "Entity",
-      "id": "inst:the_planning_committee"
+      "id": "inst:DR_the_planning_committee_m1"
+    },
+    {
+      "text": "divided",
+      "type": "EventDescription",
+      "id": "inst:VP_divided"
     }
   ],
   "extractedRoles": [
@@ -54,7 +59,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_territory",
+        "@id": "inst:DR_The_territory_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -73,7 +78,7 @@
         }
       },
       {
-        "@id": "inst:the_planning_committee",
+        "@id": "inst:DR_the_planning_committee_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -90,17 +95,59 @@
         }
       },
       {
-        "@id": "inst:Act_divided",
+        "@id": "inst:VP_divided",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "divided",
         "tagteam:lemma": "divid",
+        "tagteam:verb": "divid",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_divid_21cf5710"
+        },
         "tagteam:isPassive": true,
+        "tagteam:mentionId": "s0:v4:18-25",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ccd0b0692fff"
         }
+      },
+      {
+        "@id": "inst:EventDesc_divid_21cf5710",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: divid",
+        "tagteam:actType": "divid",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Planning_Committee_0c80af8aad99"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Territory_d346ddab37af"
+        }
+      },
+      {
+        "@id": "inst:Act_divided",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "divided",
+        "tagteam:lemma": "divid",
+        "tagteam:verb": "divid",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_divid_21cf5710"
+        },
+        "tagteam:isPassive": true
       },
       {
         "@id": "inst:Role_The_territory_PatientRole",
@@ -143,11 +190,10 @@
         "rdfs:label": "territory",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.476Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.484Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ccd0b0692fff",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_territory"
+          "@id": "inst:DR_The_territory_m1"
         },
         "is_bearer_of": [
           {
@@ -163,11 +209,10 @@
         ],
         "rdfs:label": "planning committee",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.476Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.484Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ccd0b0692fff",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_planning_committee"
+          "@id": "inst:DR_the_planning_committee_m1"
         },
         "is_bearer_of": [
           {
@@ -185,7 +230,7 @@
         "has_text_value": "The territory was divided by the planning committee",
         "tagteam:char_count": 51,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-28T11:17:36.467Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.473Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -214,6 +259,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_ccd0b0692fff"
         },
@@ -222,16 +268,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_territory"
+            "@id": "inst:DR_The_territory_m1"
           },
           {
-            "@id": "inst:the_planning_committee"
+            "@id": "inst:DR_the_planning_committee_m1"
           },
           {
-            "@id": "inst:Act_divided"
+            "@id": "inst:VP_divided"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.467Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.473Z"
       }
     ]
   }

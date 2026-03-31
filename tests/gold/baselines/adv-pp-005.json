@@ -6,7 +6,7 @@
     "nested-pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:37.824Z",
+  "generatedAt": "2026-03-31T15:13:48.859Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -40,27 +40,32 @@
     {
       "text": "The inspector",
       "type": "Person",
-      "id": "inst:The_inspector"
+      "id": "inst:DR_The_inspector_m1"
     },
     {
       "text": "the cargo",
       "type": "Entity",
-      "id": "inst:the_cargo"
+      "id": "inst:DR_the_cargo_m1"
     },
     {
       "text": "the container",
       "type": "Entity",
-      "id": "inst:the_container"
+      "id": "inst:DR_the_container_m1"
     },
     {
-      "text": "the port of entry",
+      "text": "the port",
       "type": "Entity",
-      "id": "inst:the_port_of_entry"
+      "id": "inst:DR_the_port_m1"
     },
     {
       "text": "entry",
       "type": "Entity",
-      "id": "inst:entry"
+      "id": "inst:DR_entry_m1"
+    },
+    {
+      "text": "examined",
+      "type": "EventDescription",
+      "id": "inst:VP_examined"
     }
   ],
   "extractedRoles": [
@@ -77,14 +82,14 @@
       "role": "Location"
     },
     {
-      "entity": "port of entry",
+      "entity": "port",
       "role": "Location"
     }
   ],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_inspector",
+        "@id": "inst:DR_The_inspector_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -103,7 +108,7 @@
         }
       },
       {
-        "@id": "inst:the_cargo",
+        "@id": "inst:DR_the_cargo_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -120,7 +125,7 @@
         }
       },
       {
-        "@id": "inst:the_container",
+        "@id": "inst:DR_the_container_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -137,24 +142,24 @@
         }
       },
       {
-        "@id": "inst:the_port_of_entry",
+        "@id": "inst:DR_the_port_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
-        "rdfs:label": "the port of entry",
-        "tagteam:mentionId": "s0:h11:53-70",
+        "rdfs:label": "the port",
+        "tagteam:mentionId": "s0:h11:53-61",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
         "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Port_Of_Entry_1815d2d7a993"
+          "@id": "inst:Entity_Port_4262eb1f65ef"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_49fea0f990d9"
         }
       },
       {
-        "@id": "inst:entry",
+        "@id": "inst:DR_entry_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -171,15 +176,59 @@
         }
       },
       {
-        "@id": "inst:Act_examined",
+        "@id": "inst:VP_examined",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "examined",
         "tagteam:lemma": "examin",
+        "tagteam:verb": "examin",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_examin_bab4d3bc"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v3:14-22",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_49fea0f990d9"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_examin_bab4d3bc",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: examin",
+        "tagteam:actType": "examin",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Person_Inspector_e4ece74adf7d"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Cargo_961a8e4ad7d2"
+        }
+      },
+      {
+        "@id": "inst:Act_examined",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "examined",
+        "tagteam:lemma": "examin",
+        "tagteam:verb": "examin",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_examin_bab4d3bc"
         }
       },
       {
@@ -232,14 +281,14 @@
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Role_the_port_of_entry_LocationRole",
+        "@id": "inst:Role_the_port_LocationRole",
         "@type": [
           "Role"
         ],
         "rdfs:label": "LocationRole",
         "tagteam:roleType": "LocationRole",
         "inheres_in": {
-          "@id": "inst:Entity_Port_Of_Entry_1815d2d7a993"
+          "@id": "inst:Entity_Port_4262eb1f65ef"
         },
         "realized_in": {
           "@id": "inst:Act_examined"
@@ -257,11 +306,10 @@
         "rdfs:label": "inspector",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.823Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.858Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_49fea0f990d9",
-        "tagteam:denotesType": "Person",
         "is_subject_of": {
-          "@id": "inst:The_inspector"
+          "@id": "inst:DR_The_inspector_m1"
         },
         "is_bearer_of": [
           {
@@ -277,11 +325,10 @@
         ],
         "rdfs:label": "cargo",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.823Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.858Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_49fea0f990d9",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_cargo"
+          "@id": "inst:DR_the_cargo_m1"
         },
         "is_bearer_of": [
           {
@@ -297,11 +344,10 @@
         ],
         "rdfs:label": "container",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.823Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.858Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_49fea0f990d9",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_container"
+          "@id": "inst:DR_the_container_m1"
         },
         "is_bearer_of": [
           {
@@ -310,22 +356,21 @@
         ]
       },
       {
-        "@id": "inst:Entity_Port_Of_Entry_1815d2d7a993",
+        "@id": "inst:Entity_Port_4262eb1f65ef",
         "@type": [
           "Entity",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "port of entry",
+        "rdfs:label": "port",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.823Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.858Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_49fea0f990d9",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_port_of_entry"
+          "@id": "inst:DR_the_port_m1"
         },
         "is_bearer_of": [
           {
-            "@id": "inst:Role_the_port_of_entry_LocationRole"
+            "@id": "inst:Role_the_port_LocationRole"
           }
         ]
       },
@@ -337,11 +382,10 @@
         ],
         "rdfs:label": "entry",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.823Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.858Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_49fea0f990d9",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:entry"
+          "@id": "inst:DR_entry_m1"
         }
       },
       {
@@ -354,7 +398,7 @@
         "has_text_value": "The inspector examined the cargo in the container at the port of entry",
         "tagteam:char_count": 70,
         "tagteam:word_count": 13,
-        "tagteam:received_at": "2026-02-28T11:17:37.814Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.849Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -383,6 +427,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_49fea0f990d9"
         },
@@ -391,25 +436,25 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_inspector"
+            "@id": "inst:DR_The_inspector_m1"
           },
           {
-            "@id": "inst:the_cargo"
+            "@id": "inst:DR_the_cargo_m1"
           },
           {
-            "@id": "inst:the_container"
+            "@id": "inst:DR_the_container_m1"
           },
           {
-            "@id": "inst:the_port_of_entry"
+            "@id": "inst:DR_the_port_m1"
           },
           {
-            "@id": "inst:entry"
+            "@id": "inst:DR_entry_m1"
           },
           {
-            "@id": "inst:Act_examined"
+            "@id": "inst:VP_examined"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.814Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.849Z"
       }
     ]
   }

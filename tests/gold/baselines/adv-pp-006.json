@@ -6,7 +6,7 @@
     "nested-pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:38.027Z",
+  "generatedAt": "2026-03-31T15:13:49.056Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -40,22 +40,27 @@
     {
       "text": "The team",
       "type": "Organization",
-      "id": "inst:The_team"
+      "id": "inst:DR_The_team_m1"
     },
     {
       "text": "the weapons",
       "type": "Entity",
-      "id": "inst:the_weapons"
+      "id": "inst:DR_the_weapons_m1"
     },
     {
       "text": "the vehicle near the checkpoint",
       "type": "Entity",
-      "id": "inst:the_vehicle_near_the_checkpoint"
+      "id": "inst:DR_the_vehicle_near_the_checkpoint_m1"
     },
     {
       "text": "the border",
       "type": "Entity",
-      "id": "inst:the_border"
+      "id": "inst:DR_the_border_m1"
+    },
+    {
+      "text": "recovered",
+      "type": "EventDescription",
+      "id": "inst:VP_recovered"
     }
   ],
   "extractedRoles": [
@@ -79,7 +84,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_team",
+        "@id": "inst:DR_The_team_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -98,7 +103,7 @@
         }
       },
       {
-        "@id": "inst:the_weapons",
+        "@id": "inst:DR_the_weapons_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -115,7 +120,7 @@
         }
       },
       {
-        "@id": "inst:the_vehicle_near_the_checkpoint",
+        "@id": "inst:DR_the_vehicle_near_the_checkpoint_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -132,7 +137,7 @@
         }
       },
       {
-        "@id": "inst:the_border",
+        "@id": "inst:DR_the_border_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -149,15 +154,59 @@
         }
       },
       {
-        "@id": "inst:Act_recovered",
+        "@id": "inst:VP_recovered",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "recovered",
         "tagteam:lemma": "recover",
+        "tagteam:verb": "recover",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_recover_d8a493a9"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v3:9-18",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_5cc8383356e0"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_recover_d8a493a9",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: recover",
+        "tagteam:actType": "recover",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Organization_Team_9bc38f6fda57"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Weapon_c5bf7e46fee8"
+        }
+      },
+      {
+        "@id": "inst:Act_recovered",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "recovered",
+        "tagteam:lemma": "recover",
+        "tagteam:verb": "recover",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_recover_d8a493a9"
         }
       },
       {
@@ -235,11 +284,10 @@
         "rdfs:label": "team",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.027Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.056Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5cc8383356e0",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:The_team"
+          "@id": "inst:DR_The_team_m1"
         },
         "is_bearer_of": [
           {
@@ -255,11 +303,10 @@
         ],
         "rdfs:label": "weapon",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.027Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.056Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5cc8383356e0",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_weapons"
+          "@id": "inst:DR_the_weapons_m1"
         },
         "is_bearer_of": [
           {
@@ -275,11 +322,10 @@
         ],
         "rdfs:label": "vehicle near the checkpoint",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.027Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.056Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5cc8383356e0",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_vehicle_near_the_checkpoint"
+          "@id": "inst:DR_the_vehicle_near_the_checkpoint_m1"
         },
         "is_bearer_of": [
           {
@@ -295,11 +341,10 @@
         ],
         "rdfs:label": "border",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.027Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.056Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_5cc8383356e0",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_border"
+          "@id": "inst:DR_the_border_m1"
         },
         "is_bearer_of": [
           {
@@ -317,7 +362,7 @@
         "has_text_value": "The team recovered the weapons from the vehicle near the checkpoint at the border",
         "tagteam:char_count": 81,
         "tagteam:word_count": 14,
-        "tagteam:received_at": "2026-02-28T11:17:38.011Z"
+        "tagteam:received_at": "2026-03-31T15:13:49.046Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -346,6 +391,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_5cc8383356e0"
         },
@@ -354,22 +400,22 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_team"
+            "@id": "inst:DR_The_team_m1"
           },
           {
-            "@id": "inst:the_weapons"
+            "@id": "inst:DR_the_weapons_m1"
           },
           {
-            "@id": "inst:the_vehicle_near_the_checkpoint"
+            "@id": "inst:DR_the_vehicle_near_the_checkpoint_m1"
           },
           {
-            "@id": "inst:the_border"
+            "@id": "inst:DR_the_border_m1"
           },
           {
-            "@id": "inst:Act_recovered"
+            "@id": "inst:VP_recovered"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.011Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.046Z"
       }
     ]
   }

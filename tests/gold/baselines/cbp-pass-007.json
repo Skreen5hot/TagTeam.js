@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:37.070Z",
+  "generatedAt": "2026-03-31T15:13:48.147Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,12 +32,17 @@
     {
       "text": "The narcotics",
       "type": "Entity",
-      "id": "inst:The_narcotics"
+      "id": "inst:DR_The_narcotics_m1"
     },
     {
       "text": "a hidden compartment",
       "type": "Entity",
-      "id": "inst:a_hidden_compartment"
+      "id": "inst:DR_a_hidden_compartment_m1"
+    },
+    {
+      "text": "discovered",
+      "type": "EventDescription",
+      "id": "inst:VP_discovered"
     }
   ],
   "extractedRoles": [
@@ -53,7 +58,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_narcotics",
+        "@id": "inst:DR_The_narcotics_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -72,7 +77,7 @@
         }
       },
       {
-        "@id": "inst:a_hidden_compartment",
+        "@id": "inst:DR_a_hidden_compartment_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -89,17 +94,59 @@
         }
       },
       {
-        "@id": "inst:Act_discovered",
+        "@id": "inst:VP_discovered",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "discovered",
         "tagteam:lemma": "discover",
+        "tagteam:verb": "discover",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_discover_b12a3bf2"
+        },
         "tagteam:isPassive": true,
+        "tagteam:mentionId": "s0:v4:19-29",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e19973411aea"
         }
+      },
+      {
+        "@id": "inst:EventDesc_discover_b12a3bf2",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: discover",
+        "tagteam:actType": "discover",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Hidden_Compartment_ce278df1b05d"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Narcotic_9874eff78185"
+        }
+      },
+      {
+        "@id": "inst:Act_discovered",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "discovered",
+        "tagteam:lemma": "discover",
+        "tagteam:verb": "discover",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_discover_b12a3bf2"
+        },
+        "tagteam:isPassive": true
       },
       {
         "@id": "inst:Role_The_narcotics_PatientRole",
@@ -142,11 +189,10 @@
         "rdfs:label": "narcotic",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.070Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.147Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e19973411aea",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_narcotics"
+          "@id": "inst:DR_The_narcotics_m1"
         },
         "is_bearer_of": [
           {
@@ -162,11 +208,10 @@
         ],
         "rdfs:label": "hidden compartment",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.070Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.147Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e19973411aea",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:a_hidden_compartment"
+          "@id": "inst:DR_a_hidden_compartment_m1"
         },
         "is_bearer_of": [
           {
@@ -184,7 +229,7 @@
         "has_text_value": "The narcotics were discovered in a hidden compartment",
         "tagteam:char_count": 53,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-28T11:17:37.061Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.138Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -213,6 +258,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_e19973411aea"
         },
@@ -221,16 +267,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_narcotics"
+            "@id": "inst:DR_The_narcotics_m1"
           },
           {
-            "@id": "inst:a_hidden_compartment"
+            "@id": "inst:DR_a_hidden_compartment_m1"
           },
           {
-            "@id": "inst:Act_discovered"
+            "@id": "inst:VP_discovered"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.061Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.138Z"
       }
     ]
   }

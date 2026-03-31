@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:35.554Z",
+  "generatedAt": "2026-03-31T15:13:46.486Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -24,24 +24,26 @@
     {
       "text": "The FBI",
       "type": "Organization",
-      "id": "inst:The_FBI"
+      "id": "inst:DR_The_FBI_m1"
+    },
+    {
+      "text": "a federal enforcement agency",
+      "type": "Role",
+      "id": "inst:a_federal_enforcement_agency"
     }
   ],
   "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_FBI",
+        "@id": "inst:DR_The_FBI_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The FBI",
-        "tagteam:mentionId": "s0:h2:0-7",
+        "tagteam:mentionId": "s0:h1:0-7",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
-        "tagteam:genericityCategory": "INST",
-        "tagteam:genericityConfidence": 0.95,
-        "tagteam:genericityBasis": "named_entity",
         "tagteam:denotesType": "Organization",
         "is_about": {
           "@id": "inst:Organization_Fbi_afcb27dd40c9"
@@ -51,13 +53,53 @@
         }
       },
       {
-        "@id": "inst:Assertion_The_FBI",
+        "@id": "inst:RoleAssertion_agency_b8411b78",
         "@type": [
+          "tagteam:RoleAssertion",
           "tagteam:StructuralAssertion"
         ],
-        "tagteam:subject": "The FBI",
-        "tagteam:pattern": "predication",
-        "tagteam:copula": "is"
+        "rdfs:label": "Role assertion: The FBI → agency",
+        "tagteam:assertionSubject": {
+          "@id": "inst:The_FBI"
+        },
+        "tagteam:pattern": "role_assertion",
+        "is_about": {
+          "@id": "inst:Role_agency_b8411b78"
+        },
+        "tagteam:copulaLemma": "is"
+      },
+      {
+        "@id": "inst:a_federal_enforcement_agency",
+        "@type": [
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "a federal enforcement agency",
+        "tagteam:denotesType": "Role",
+        "is_about": {
+          "@id": "inst:Role_agency_b8411b78"
+        },
+        "tagteam:mentionId": "s0:p8:37-65",
+        "is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_e2954bda045a"
+        }
+      },
+      {
+        "@id": "inst:Role_agency_b8411b78",
+        "@type": [
+          "bfo:BFO_0000023",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "agency",
+        "tagteam:roleType": "agency",
+        "is_subject_of": {
+          "@id": "inst:a_federal_enforcement_agency"
+        },
+        "bfo:BFO_0000052": {
+          "@id": "inst:Organization_Fbi_afcb27dd40c9"
+        },
+        "inheres_in": {
+          "@id": "inst:Organization_Fbi_afcb27dd40c9"
+        }
       },
       {
         "@id": "inst:Organization_Fbi_afcb27dd40c9",
@@ -66,13 +108,11 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "fbi",
-        "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.553Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.484Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e2954bda045a",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:The_FBI"
+          "@id": "inst:DR_The_FBI_m1"
         }
       },
       {
@@ -85,7 +125,7 @@
         "has_text_value": "The FBI is a federal law enforcement agency",
         "tagteam:char_count": 43,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-28T11:17:35.537Z"
+        "tagteam:received_at": "2026-03-31T15:13:46.469Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -114,6 +154,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_e2954bda045a"
         },
@@ -122,10 +163,13 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_FBI"
+            "@id": "inst:DR_The_FBI_m1"
+          },
+          {
+            "@id": "inst:a_federal_enforcement_agency"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.537Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.469Z"
       }
     ]
   }

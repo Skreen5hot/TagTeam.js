@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:35.666Z",
+  "generatedAt": "2026-03-31T15:13:46.592Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -24,28 +24,26 @@
     {
       "text": "The Department of Justice",
       "type": "Organization",
-      "id": "inst:The_Department_of_Justice"
+      "id": "inst:DR_The_Department_of_Justice_m1"
     },
     {
-      "text": "Justice",
-      "type": "Entity",
-      "id": "inst:Justice"
+      "text": "a level department",
+      "type": "Role",
+      "id": "inst:a_level_department"
     }
   ],
   "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_Department_of_Justice",
+        "@id": "inst:DR_The_Department_of_Justice_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The Department of Justice",
-        "tagteam:mentionId": "s0:h2:0-25",
+        "tagteam:mentionId": "s0:h1:0-25",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
-        "tagteam:genericityCategory": "INST",
-        "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "Organization",
         "is_about": {
           "@id": "inst:Organization_Department_Of_Justice_89db8fa54b38"
@@ -55,30 +53,53 @@
         }
       },
       {
-        "@id": "inst:Justice",
+        "@id": "inst:RoleAssertion_department_2365dc00",
+        "@type": [
+          "tagteam:RoleAssertion",
+          "tagteam:StructuralAssertion"
+        ],
+        "rdfs:label": "Role assertion: The Department of Justice → department",
+        "tagteam:assertionSubject": {
+          "@id": "inst:The_Department_of_Justice"
+        },
+        "tagteam:pattern": "role_assertion",
+        "is_about": {
+          "@id": "inst:Role_department_2365dc00"
+        },
+        "tagteam:copulaLemma": "is"
+      },
+      {
+        "@id": "inst:a_level_department",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
-        "rdfs:label": "Justice",
-        "tagteam:mentionId": "s0:h4:18-25",
-        "tagteam:parseConfidence": "high",
-        "tagteam:parseProbability": 0.9272,
-        "tagteam:denotesType": "Entity",
+        "rdfs:label": "a level department",
+        "tagteam:denotesType": "Role",
         "is_about": {
-          "@id": "inst:Entity_Justice_13b049cc409f"
+          "@id": "inst:Role_department_2365dc00"
         },
+        "tagteam:mentionId": "s0:p10:47-65",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d2e8d9af4275"
         }
       },
       {
-        "@id": "inst:Assertion_The_Department_of_Justice",
+        "@id": "inst:Role_department_2365dc00",
         "@type": [
-          "tagteam:StructuralAssertion"
+          "bfo:BFO_0000023",
+          "owl:NamedIndividual"
         ],
-        "tagteam:subject": "The Department of Justice",
-        "tagteam:pattern": "predication",
-        "tagteam:copula": "is"
+        "rdfs:label": "department",
+        "tagteam:roleType": "department",
+        "is_subject_of": {
+          "@id": "inst:a_level_department"
+        },
+        "bfo:BFO_0000052": {
+          "@id": "inst:Organization_Department_Of_Justice_89db8fa54b38"
+        },
+        "inheres_in": {
+          "@id": "inst:Organization_Department_Of_Justice_89db8fa54b38"
+        }
       },
       {
         "@id": "inst:Organization_Department_Of_Justice_89db8fa54b38",
@@ -87,28 +108,11 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "department of justice",
-        "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.666Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.592Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d2e8d9af4275",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:The_Department_of_Justice"
-        }
-      },
-      {
-        "@id": "inst:Entity_Justice_13b049cc409f",
-        "@type": [
-          "Entity",
-          "owl:NamedIndividual"
-        ],
-        "rdfs:label": "justice",
-        "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.666Z",
-        "tagteam:instantiated_by": "inst:Input_Text_IBE_d2e8d9af4275",
-        "tagteam:denotesType": "Entity",
-        "is_subject_of": {
-          "@id": "inst:Justice"
+          "@id": "inst:DR_The_Department_of_Justice_m1"
         }
       },
       {
@@ -121,7 +125,7 @@
         "has_text_value": "The Department of Justice is a cabinet-level department",
         "tagteam:char_count": 55,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-28T11:17:35.654Z"
+        "tagteam:received_at": "2026-03-31T15:13:46.580Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -150,6 +154,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_d2e8d9af4275"
         },
@@ -158,13 +163,13 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_Department_of_Justice"
+            "@id": "inst:DR_The_Department_of_Justice_m1"
           },
           {
-            "@id": "inst:Justice"
+            "@id": "inst:a_level_department"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.654Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.580Z"
       }
     ]
   }

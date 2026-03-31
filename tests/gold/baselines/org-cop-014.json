@@ -6,7 +6,7 @@
     "copular",
     "definitional"
   ],
-  "generatedAt": "2026-02-28T11:17:35.788Z",
+  "generatedAt": "2026-03-31T15:13:46.715Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -23,7 +23,12 @@
     {
       "text": "A field office",
       "type": "Facility",
-      "id": "inst:A_field_office"
+      "id": "inst:DR_A_field_office_m1"
+    },
+    {
+      "text": "a regional operational unit",
+      "type": "Role",
+      "id": "inst:a_regional_operational_unit"
     },
     {
       "text": "field office",
@@ -35,7 +40,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:A_field_office",
+        "@id": "inst:DR_A_field_office_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -54,13 +59,53 @@
         }
       },
       {
-        "@id": "inst:Assertion_A_field_office",
+        "@id": "inst:RoleAssertion_unit_5bf00f08",
         "@type": [
+          "tagteam:RoleAssertion",
           "tagteam:StructuralAssertion"
         ],
-        "tagteam:subject": "A field office",
-        "tagteam:pattern": "predication",
-        "tagteam:copula": "is"
+        "rdfs:label": "Role assertion: A field office → unit",
+        "tagteam:assertionSubject": {
+          "@id": "inst:A_field_office"
+        },
+        "tagteam:pattern": "role_assertion",
+        "is_about": {
+          "@id": "inst:Role_unit_5bf00f08"
+        },
+        "tagteam:copulaLemma": "is"
+      },
+      {
+        "@id": "inst:a_regional_operational_unit",
+        "@type": [
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "a regional operational unit",
+        "tagteam:denotesType": "Role",
+        "is_about": {
+          "@id": "inst:Role_unit_5bf00f08"
+        },
+        "tagteam:mentionId": "s0:p8:41-68",
+        "is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_7836a7e31d07"
+        }
+      },
+      {
+        "@id": "inst:Role_unit_5bf00f08",
+        "@type": [
+          "bfo:BFO_0000023",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "unit",
+        "tagteam:roleType": "unit",
+        "is_subject_of": {
+          "@id": "inst:a_regional_operational_unit"
+        },
+        "bfo:BFO_0000052": {
+          "@id": "inst:Facility_Field_Office_d8bc4f4d77b2"
+        },
+        "inheres_in": {
+          "@id": "inst:Facility_Field_Office_d8bc4f4d77b2"
+        }
       },
       {
         "@id": "inst:Facility_Field_Office_d8bc4f4d77b2",
@@ -75,11 +120,10 @@
         "tagteam:nominatedClassLabel": "Field Office",
         "tagteam:nominationBasis": "unknown",
         "tagteam:requiresOntologyResolution": true,
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.787Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.715Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7836a7e31d07",
-        "tagteam:denotesType": "Facility",
         "is_subject_of": {
-          "@id": "inst:A_field_office"
+          "@id": "inst:DR_A_field_office_m1"
         }
       },
       {
@@ -92,7 +136,7 @@
         "has_text_value": "A field office is a regional operational unit",
         "tagteam:char_count": 45,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-28T11:17:35.778Z"
+        "tagteam:received_at": "2026-03-31T15:13:46.706Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -121,6 +165,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_7836a7e31d07"
         },
@@ -129,10 +174,13 @@
         },
         "has_output": [
           {
-            "@id": "inst:A_field_office"
+            "@id": "inst:DR_A_field_office_m1"
+          },
+          {
+            "@id": "inst:a_regional_operational_unit"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.778Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.706Z"
       }
     ]
   }

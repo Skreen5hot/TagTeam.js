@@ -8,7 +8,7 @@
     "action",
     "pp"
   ],
-  "generatedAt": "2026-02-28T11:17:36.008Z",
+  "generatedAt": "2026-03-31T15:13:46.961Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -38,17 +38,22 @@
     {
       "text": "The auditor",
       "type": "Entity",
-      "id": "inst:The_auditor"
+      "id": "inst:DR_The_auditor_m1"
     },
     {
       "text": "discrepancies",
       "type": "Entity",
-      "id": "inst:discrepancies"
+      "id": "inst:DR_discrepancies_m1"
     },
     {
       "text": "the records",
       "type": "Entity",
-      "id": "inst:the_records"
+      "id": "inst:DR_the_records_m1"
+    },
+    {
+      "text": "discovered",
+      "type": "EventDescription",
+      "id": "inst:VP_discovered"
     }
   ],
   "extractedRoles": [
@@ -64,7 +69,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_auditor",
+        "@id": "inst:DR_The_auditor_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -81,7 +86,7 @@
         }
       },
       {
-        "@id": "inst:discrepancies",
+        "@id": "inst:DR_discrepancies_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -98,7 +103,7 @@
         }
       },
       {
-        "@id": "inst:the_records",
+        "@id": "inst:DR_the_records_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -115,27 +120,53 @@
         }
       },
       {
-        "@id": "inst:Act_auditor",
+        "@id": "inst:VP_discovered",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
-        "rdfs:label": "auditor",
-        "tagteam:lemma": "auditor",
+        "rdfs:label": "discovered",
+        "tagteam:lemma": "discover",
+        "tagteam:verb": "discover",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_discover_4617dcfd"
+        },
+        "tagteam:mentionId": "s0:v3:12-22",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_111e711f71dc"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_discover_4617dcfd",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: discover",
+        "tagteam:actType": "discover",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Discrepancy_2736ca0ab5cf"
         }
       },
       {
         "@id": "inst:Act_discovered",
         "@type": [
           "IntentionalAct",
-          "tagteam:VerbPhrase"
+          "owl:NamedIndividual"
         ],
         "rdfs:label": "discovered",
         "tagteam:lemma": "discover",
-        "is_concretized_by": {
-          "@id": "inst:Input_Text_IBE_111e711f71dc"
+        "tagteam:verb": "discover",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_discover_4617dcfd"
         }
       },
       {
@@ -179,11 +210,10 @@
         ],
         "rdfs:label": "auditor",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.007Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.960Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_111e711f71dc",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_auditor"
+          "@id": "inst:DR_The_auditor_m1"
         }
       },
       {
@@ -194,11 +224,10 @@
         ],
         "rdfs:label": "discrepancy",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.008Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.961Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_111e711f71dc",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:discrepancies"
+          "@id": "inst:DR_discrepancies_m1"
         },
         "is_bearer_of": [
           {
@@ -214,11 +243,10 @@
         ],
         "rdfs:label": "record",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.008Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.961Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_111e711f71dc",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_records"
+          "@id": "inst:DR_the_records_m1"
         },
         "is_bearer_of": [
           {
@@ -236,7 +264,7 @@
         "has_text_value": "The auditor discovered discrepancies in the records",
         "tagteam:char_count": 51,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-28T11:17:35.999Z"
+        "tagteam:received_at": "2026-03-31T15:13:46.953Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -265,6 +293,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_111e711f71dc"
         },
@@ -273,22 +302,19 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_auditor"
+            "@id": "inst:DR_The_auditor_m1"
           },
           {
-            "@id": "inst:discrepancies"
+            "@id": "inst:DR_discrepancies_m1"
           },
           {
-            "@id": "inst:the_records"
+            "@id": "inst:DR_the_records_m1"
           },
           {
-            "@id": "inst:Act_auditor"
-          },
-          {
-            "@id": "inst:Act_discovered"
+            "@id": "inst:VP_discovered"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.999Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.953Z"
       }
     ]
   }

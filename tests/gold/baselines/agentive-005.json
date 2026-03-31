@@ -7,7 +7,7 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:36.492Z",
+  "generatedAt": "2026-03-31T15:13:47.497Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -33,12 +33,17 @@
     {
       "text": "The shipment",
       "type": "Entity",
-      "id": "inst:The_shipment"
+      "id": "inst:DR_The_shipment_m1"
     },
     {
       "text": "the customs inspector",
       "type": "Person",
-      "id": "inst:the_customs_inspector"
+      "id": "inst:DR_the_customs_inspector_m1"
+    },
+    {
+      "text": "classified",
+      "type": "EventDescription",
+      "id": "inst:VP_classified"
     }
   ],
   "extractedRoles": [
@@ -54,7 +59,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_shipment",
+        "@id": "inst:DR_The_shipment_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -73,7 +78,7 @@
         }
       },
       {
-        "@id": "inst:the_customs_inspector",
+        "@id": "inst:DR_the_customs_inspector_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -90,17 +95,59 @@
         }
       },
       {
-        "@id": "inst:Act_classified",
+        "@id": "inst:VP_classified",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "classified",
         "tagteam:lemma": "classify",
+        "tagteam:verb": "classify",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_classify_efd7444c"
+        },
         "tagteam:isPassive": true,
+        "tagteam:mentionId": "s0:v4:17-27",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_62f9fb95d513"
         }
+      },
+      {
+        "@id": "inst:EventDesc_classify_efd7444c",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: classify",
+        "tagteam:actType": "classify",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Person_Customs_Inspector_7a7bb4212384"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Shipment_6e4a1e6da973"
+        }
+      },
+      {
+        "@id": "inst:Act_classified",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "classified",
+        "tagteam:lemma": "classify",
+        "tagteam:verb": "classify",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_classify_efd7444c"
+        },
+        "tagteam:isPassive": true
       },
       {
         "@id": "inst:Role_The_shipment_PatientRole",
@@ -143,11 +190,10 @@
         "rdfs:label": "shipment",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.492Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.497Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_62f9fb95d513",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_shipment"
+          "@id": "inst:DR_The_shipment_m1"
         },
         "is_bearer_of": [
           {
@@ -163,11 +209,10 @@
         ],
         "rdfs:label": "customs inspector",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.492Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.497Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_62f9fb95d513",
-        "tagteam:denotesType": "Person",
         "is_subject_of": {
-          "@id": "inst:the_customs_inspector"
+          "@id": "inst:DR_the_customs_inspector_m1"
         },
         "is_bearer_of": [
           {
@@ -185,7 +230,7 @@
         "has_text_value": "The shipment was classified by the customs inspector",
         "tagteam:char_count": 52,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-28T11:17:36.481Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.489Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -214,6 +259,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_62f9fb95d513"
         },
@@ -222,16 +268,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_shipment"
+            "@id": "inst:DR_The_shipment_m1"
           },
           {
-            "@id": "inst:the_customs_inspector"
+            "@id": "inst:DR_the_customs_inspector_m1"
           },
           {
-            "@id": "inst:Act_classified"
+            "@id": "inst:VP_classified"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.481Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.489Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:36.991Z",
+  "generatedAt": "2026-03-31T15:13:48.058Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,17 +32,22 @@
     {
       "text": "The cargo",
       "type": "Entity",
-      "id": "inst:The_cargo"
+      "id": "inst:DR_The_cargo_m1"
     },
     {
       "text": "customs",
       "type": "Entity",
-      "id": "inst:customs"
+      "id": "inst:DR_customs_m1"
     },
     {
       "text": "officers",
       "type": "Entity",
-      "id": "inst:officers"
+      "id": "inst:DR_officers_m1"
+    },
+    {
+      "text": "seized",
+      "type": "EventDescription",
+      "id": "inst:VP_seized"
     },
     {
       "text": "officer",
@@ -56,18 +61,18 @@
       "role": "Patient"
     },
     {
-      "entity": "customs",
+      "entity": "custom",
       "role": "Agent"
     },
     {
       "entity": "officer",
-      "role": "Agent"
+      "role": "Patient"
     }
   ],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_cargo",
+        "@id": "inst:DR_The_cargo_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -86,7 +91,7 @@
         }
       },
       {
-        "@id": "inst:customs",
+        "@id": "inst:DR_customs_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -96,14 +101,14 @@
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Customs_5d53f2c6f8ff"
+          "@id": "inst:Entity_Custom_3b039792373b"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a68110377e00"
         }
       },
       {
-        "@id": "inst:officers",
+        "@id": "inst:DR_officers_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -123,17 +128,59 @@
         }
       },
       {
-        "@id": "inst:Act_seized",
+        "@id": "inst:VP_seized",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "seized",
         "tagteam:lemma": "seiz",
+        "tagteam:verb": "seiz",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_seiz_e6687440"
+        },
         "tagteam:isPassive": true,
+        "tagteam:mentionId": "s0:v4:14-20",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a68110377e00"
         }
+      },
+      {
+        "@id": "inst:EventDesc_seiz_e6687440",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: seiz",
+        "tagteam:actType": "seiz",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Custom_3b039792373b"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Cargo_f75ed432471a"
+        }
+      },
+      {
+        "@id": "inst:Act_seized",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "seized",
+        "tagteam:lemma": "seiz",
+        "tagteam:verb": "seiz",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_seiz_e6687440"
+        },
+        "tagteam:isPassive": true
       },
       {
         "@id": "inst:Role_The_cargo_PatientRole",
@@ -159,7 +206,7 @@
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
         "inheres_in": {
-          "@id": "inst:Entity_Customs_5d53f2c6f8ff"
+          "@id": "inst:Entity_Custom_3b039792373b"
         },
         "realized_in": {
           "@id": "inst:Act_seized"
@@ -168,12 +215,12 @@
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Role_officers_AgentRole",
+        "@id": "inst:Role_officers_PatientRole",
         "@type": [
           "Role"
         ],
-        "rdfs:label": "AgentRole",
-        "tagteam:roleType": "AgentRole",
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
         "inheres_in": {
           "@id": "inst:Entity_Officer_898d8b80122d"
         },
@@ -192,11 +239,10 @@
         "rdfs:label": "cargo",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.991Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.058Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a68110377e00",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_cargo"
+          "@id": "inst:DR_The_cargo_m1"
         },
         "is_bearer_of": [
           {
@@ -205,18 +251,17 @@
         ]
       },
       {
-        "@id": "inst:Entity_Customs_5d53f2c6f8ff",
+        "@id": "inst:Entity_Custom_3b039792373b",
         "@type": [
           "Entity",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "customs",
+        "rdfs:label": "custom",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.991Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.058Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a68110377e00",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:customs"
+          "@id": "inst:DR_customs_m1"
         },
         "is_bearer_of": [
           {
@@ -237,15 +282,14 @@
         "tagteam:nominatedClassLabel": "Officer",
         "tagteam:nominationBasis": "bare_plural",
         "tagteam:requiresOntologyResolution": true,
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.991Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.058Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a68110377e00",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:officers"
+          "@id": "inst:DR_officers_m1"
         },
         "is_bearer_of": [
           {
-            "@id": "inst:Role_officers_AgentRole"
+            "@id": "inst:Role_officers_PatientRole"
           }
         ]
       },
@@ -259,7 +303,7 @@
         "has_text_value": "The cargo was seized by customs officers",
         "tagteam:char_count": 40,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-28T11:17:36.984Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.049Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -288,6 +332,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_a68110377e00"
         },
@@ -296,19 +341,19 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_cargo"
+            "@id": "inst:DR_The_cargo_m1"
           },
           {
-            "@id": "inst:customs"
+            "@id": "inst:DR_customs_m1"
           },
           {
-            "@id": "inst:officers"
+            "@id": "inst:DR_officers_m1"
           },
           {
-            "@id": "inst:Act_seized"
+            "@id": "inst:VP_seized"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.984Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.049Z"
       }
     ]
   }

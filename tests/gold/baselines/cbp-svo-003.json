@@ -7,7 +7,7 @@
     "cbp",
     "surveillance"
   ],
-  "generatedAt": "2026-02-28T11:17:36.599Z",
+  "generatedAt": "2026-03-31T15:13:47.621Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -33,12 +33,17 @@
     {
       "text": "The patrol unit",
       "type": "Entity",
-      "id": "inst:The_patrol_unit"
+      "id": "inst:DR_The_patrol_unit_m1"
     },
     {
       "text": "the crossing",
       "type": "Entity",
-      "id": "inst:the_crossing"
+      "id": "inst:DR_the_crossing_m1"
+    },
+    {
+      "text": "monitored",
+      "type": "EventDescription",
+      "id": "inst:VP_monitored"
     }
   ],
   "extractedRoles": [
@@ -54,7 +59,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_patrol_unit",
+        "@id": "inst:DR_The_patrol_unit_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -73,7 +78,7 @@
         }
       },
       {
-        "@id": "inst:the_crossing",
+        "@id": "inst:DR_the_crossing_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -90,15 +95,59 @@
         }
       },
       {
-        "@id": "inst:Act_monitored",
+        "@id": "inst:VP_monitored",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "monitored",
         "tagteam:lemma": "monitor",
+        "tagteam:verb": "monitor",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_monitor_c773e55a"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v4:16-25",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_20f0c438164c"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_monitor_c773e55a",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: monitor",
+        "tagteam:actType": "monitor",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Patrol_Unit_e72005c723dc"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Cros_83dd84a87545"
+        }
+      },
+      {
+        "@id": "inst:Act_monitored",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "monitored",
+        "tagteam:lemma": "monitor",
+        "tagteam:verb": "monitor",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_monitor_c773e55a"
         }
       },
       {
@@ -142,11 +191,10 @@
         "rdfs:label": "patrol unit",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.598Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.621Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_20f0c438164c",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_patrol_unit"
+          "@id": "inst:DR_The_patrol_unit_m1"
         },
         "is_bearer_of": [
           {
@@ -162,11 +210,10 @@
         ],
         "rdfs:label": "cros",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.598Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.621Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_20f0c438164c",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_crossing"
+          "@id": "inst:DR_the_crossing_m1"
         },
         "is_bearer_of": [
           {
@@ -184,7 +231,7 @@
         "has_text_value": "The patrol unit monitored the crossing",
         "tagteam:char_count": 38,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-28T11:17:36.591Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.613Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -213,6 +260,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_20f0c438164c"
         },
@@ -221,16 +269,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_patrol_unit"
+            "@id": "inst:DR_The_patrol_unit_m1"
           },
           {
-            "@id": "inst:the_crossing"
+            "@id": "inst:DR_the_crossing_m1"
           },
           {
-            "@id": "inst:Act_monitored"
+            "@id": "inst:VP_monitored"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.591Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.613Z"
       }
     ]
   }

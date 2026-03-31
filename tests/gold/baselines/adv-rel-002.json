@@ -6,7 +6,7 @@
     "relative-clause",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:37.851Z",
+  "generatedAt": "2026-03-31T15:13:48.887Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -28,29 +28,43 @@
     {
       "text": "The vehicle",
       "type": "Entity",
-      "id": "inst:The_vehicle"
+      "id": "inst:DR_The_vehicle_m1"
     },
     {
       "text": "that",
       "type": "Entity",
-      "id": "inst:that"
+      "id": "inst:DR_that_m1"
     },
     {
       "text": "the border",
       "type": "Entity",
-      "id": "inst:the_border"
+      "id": "inst:DR_the_border_m1"
+    },
+    {
+      "text": "crossed",
+      "type": "EventDescription",
+      "id": "inst:VP_crossed"
+    },
+    {
+      "text": "intercepted",
+      "type": "EventDescription",
+      "id": "inst:VP_intercepted"
     }
   ],
   "extractedRoles": [
     {
       "entity": "that",
       "role": "Agent"
+    },
+    {
+      "entity": "border",
+      "role": "Patient"
     }
   ],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_vehicle",
+        "@id": "inst:DR_The_vehicle_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -67,7 +81,7 @@
         }
       },
       {
-        "@id": "inst:that",
+        "@id": "inst:DR_that_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -90,7 +104,7 @@
         }
       },
       {
-        "@id": "inst:the_border",
+        "@id": "inst:DR_the_border_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -109,28 +123,109 @@
         }
       },
       {
-        "@id": "inst:Act_vehicle",
+        "@id": "inst:VP_crossed",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
-        "rdfs:label": "vehicle",
-        "tagteam:lemma": "vehicle",
+        "rdfs:label": "crossed",
+        "tagteam:lemma": "cross",
+        "tagteam:verb": "cross",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_cross_9f679c52"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v4:17-24",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_03a72b1781ed"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_cross_9f679c52",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: cross",
+        "tagteam:actType": "cross",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_That_b615e1b5687a"
         }
       },
       {
         "@id": "inst:Act_crossed",
         "@type": [
           "IntentionalAct",
-          "tagteam:VerbPhrase"
+          "owl:NamedIndividual"
         ],
         "rdfs:label": "crossed",
         "tagteam:lemma": "cross",
+        "tagteam:verb": "cross",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_cross_9f679c52"
+        }
+      },
+      {
+        "@id": "inst:VP_intercepted",
+        "@type": [
+          "tagteam:DiscourseReferent",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "intercepted",
+        "tagteam:lemma": "intercept",
+        "tagteam:verb": "intercept",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_intercept_6bfc1a75"
+        },
+        "tagteam:isPassive": true,
+        "tagteam:mentionId": "s0:v8:40-51",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_03a72b1781ed"
         }
+      },
+      {
+        "@id": "inst:EventDesc_intercept_6bfc1a75",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: intercept",
+        "tagteam:actType": "intercept",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Border_6026a72aac30"
+        }
+      },
+      {
+        "@id": "inst:Act_intercepted",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "intercepted",
+        "tagteam:lemma": "intercept",
+        "tagteam:verb": "intercept",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_intercept_6bfc1a75"
+        },
+        "tagteam:isPassive": true
       },
       {
         "@id": "inst:Role_that_AgentRole",
@@ -149,6 +244,22 @@
         "tagteam:parseProbability": 0.6583
       },
       {
+        "@id": "inst:Role_the_border_PatientRole",
+        "@type": [
+          "Role"
+        ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
+        "inheres_in": {
+          "@id": "inst:Entity_Border_6026a72aac30"
+        },
+        "realized_in": {
+          "@id": "inst:Act_intercepted"
+        },
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
         "@id": "inst:Entity_Vehicle_44a25f0fd3e7",
         "@type": [
           "Entity",
@@ -156,11 +267,10 @@
         ],
         "rdfs:label": "vehicle",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.851Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.887Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_03a72b1781ed",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_vehicle"
+          "@id": "inst:DR_The_vehicle_m1"
         }
       },
       {
@@ -172,11 +282,10 @@
         "rdfs:label": "that",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.851Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.887Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_03a72b1781ed",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:that"
+          "@id": "inst:DR_that_m1"
         },
         "is_bearer_of": [
           {
@@ -193,12 +302,16 @@
         "rdfs:label": "border",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.851Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.887Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_03a72b1781ed",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_border"
-        }
+          "@id": "inst:DR_the_border_m1"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_border_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_03a72b1781ed",
@@ -210,7 +323,7 @@
         "has_text_value": "The vehicle that crossed the border was intercepted",
         "tagteam:char_count": 51,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-28T11:17:37.841Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.878Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -239,6 +352,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_03a72b1781ed"
         },
@@ -247,22 +361,22 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_vehicle"
+            "@id": "inst:DR_The_vehicle_m1"
           },
           {
-            "@id": "inst:that"
+            "@id": "inst:DR_that_m1"
           },
           {
-            "@id": "inst:the_border"
+            "@id": "inst:DR_the_border_m1"
           },
           {
-            "@id": "inst:Act_vehicle"
+            "@id": "inst:VP_crossed"
           },
           {
-            "@id": "inst:Act_crossed"
+            "@id": "inst:VP_intercepted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.841Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.878Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "cbp",
     "inspection"
   ],
-  "generatedAt": "2026-02-28T11:17:36.587Z",
+  "generatedAt": "2026-03-31T15:13:47.610Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -33,12 +33,17 @@
     {
       "text": "The customs officer",
       "type": "Person",
-      "id": "inst:The_customs_officer"
+      "id": "inst:DR_The_customs_officer_m1"
     },
     {
       "text": "the cargo",
       "type": "Entity",
-      "id": "inst:the_cargo"
+      "id": "inst:DR_the_cargo_m1"
+    },
+    {
+      "text": "inspected",
+      "type": "EventDescription",
+      "id": "inst:VP_inspected"
     }
   ],
   "extractedRoles": [
@@ -54,7 +59,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_customs_officer",
+        "@id": "inst:DR_The_customs_officer_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -73,7 +78,7 @@
         }
       },
       {
-        "@id": "inst:the_cargo",
+        "@id": "inst:DR_the_cargo_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -90,15 +95,59 @@
         }
       },
       {
-        "@id": "inst:Act_inspected",
+        "@id": "inst:VP_inspected",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "inspected",
         "tagteam:lemma": "inspect",
+        "tagteam:verb": "inspect",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_inspect_2cc7736e"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v4:20-29",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c6281c2782d6"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_inspect_2cc7736e",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: inspect",
+        "tagteam:actType": "inspect",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Person_Customs_Officer_5d50b312b1f9"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Cargo_6a25ee55243b"
+        }
+      },
+      {
+        "@id": "inst:Act_inspected",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "inspected",
+        "tagteam:lemma": "inspect",
+        "tagteam:verb": "inspect",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_inspect_2cc7736e"
         }
       },
       {
@@ -142,11 +191,10 @@
         "rdfs:label": "customs officer",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.587Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.609Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c6281c2782d6",
-        "tagteam:denotesType": "Person",
         "is_subject_of": {
-          "@id": "inst:The_customs_officer"
+          "@id": "inst:DR_The_customs_officer_m1"
         },
         "is_bearer_of": [
           {
@@ -162,11 +210,10 @@
         ],
         "rdfs:label": "cargo",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.587Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.609Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c6281c2782d6",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_cargo"
+          "@id": "inst:DR_the_cargo_m1"
         },
         "is_bearer_of": [
           {
@@ -184,7 +231,7 @@
         "has_text_value": "The customs officer inspected the cargo",
         "tagteam:char_count": 39,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-28T11:17:36.580Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.602Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -213,6 +260,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_c6281c2782d6"
         },
@@ -221,16 +269,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_customs_officer"
+            "@id": "inst:DR_The_customs_officer_m1"
           },
           {
-            "@id": "inst:the_cargo"
+            "@id": "inst:DR_the_cargo_m1"
           },
           {
-            "@id": "inst:Act_inspected"
+            "@id": "inst:VP_inspected"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.580Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.602Z"
       }
     ]
   }

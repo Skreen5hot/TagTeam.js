@@ -7,7 +7,7 @@
     "cbp",
     "leadership"
   ],
-  "generatedAt": "2026-02-28T11:17:36.681Z",
+  "generatedAt": "2026-03-31T15:13:47.712Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -33,12 +33,17 @@
     {
       "text": "The commissioner",
       "type": "Entity",
-      "id": "inst:The_commissioner"
+      "id": "inst:DR_The_commissioner_m1"
     },
     {
       "text": "a directive",
       "type": "Entity",
-      "id": "inst:a_directive"
+      "id": "inst:DR_a_directive_m1"
+    },
+    {
+      "text": "issued",
+      "type": "EventDescription",
+      "id": "inst:VP_issued"
     }
   ],
   "extractedRoles": [
@@ -50,7 +55,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_commissioner",
+        "@id": "inst:DR_The_commissioner_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -67,7 +72,7 @@
         }
       },
       {
-        "@id": "inst:a_directive",
+        "@id": "inst:DR_a_directive_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -84,27 +89,53 @@
         }
       },
       {
-        "@id": "inst:Act_commissioner",
+        "@id": "inst:VP_issued",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
-        "rdfs:label": "commissioner",
-        "tagteam:lemma": "commissioner",
+        "rdfs:label": "issued",
+        "tagteam:lemma": "issu",
+        "tagteam:verb": "issu",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_issu_108c2d18"
+        },
+        "tagteam:mentionId": "s0:v3:17-23",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_591c3ce46791"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_issu_108c2d18",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: issu",
+        "tagteam:actType": "issu",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Directive_02e5c793520c"
         }
       },
       {
         "@id": "inst:Act_issued",
         "@type": [
           "IntentionalAct",
-          "tagteam:VerbPhrase"
+          "owl:NamedIndividual"
         ],
         "rdfs:label": "issued",
         "tagteam:lemma": "issu",
-        "is_concretized_by": {
-          "@id": "inst:Input_Text_IBE_591c3ce46791"
+        "tagteam:verb": "issu",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_issu_108c2d18"
         }
       },
       {
@@ -131,11 +162,10 @@
         ],
         "rdfs:label": "commissioner",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.681Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.712Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_591c3ce46791",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_commissioner"
+          "@id": "inst:DR_The_commissioner_m1"
         }
       },
       {
@@ -146,11 +176,10 @@
         ],
         "rdfs:label": "directive",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.681Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.712Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_591c3ce46791",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:a_directive"
+          "@id": "inst:DR_a_directive_m1"
         },
         "is_bearer_of": [
           {
@@ -168,7 +197,7 @@
         "has_text_value": "The commissioner issued a directive",
         "tagteam:char_count": 35,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-28T11:17:36.674Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.705Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -197,6 +226,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_591c3ce46791"
         },
@@ -205,19 +235,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_commissioner"
+            "@id": "inst:DR_The_commissioner_m1"
           },
           {
-            "@id": "inst:a_directive"
+            "@id": "inst:DR_a_directive_m1"
           },
           {
-            "@id": "inst:Act_commissioner"
-          },
-          {
-            "@id": "inst:Act_issued"
+            "@id": "inst:VP_issued"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.674Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.705Z"
       }
     ]
   }

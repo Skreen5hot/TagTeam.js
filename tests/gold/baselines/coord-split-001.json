@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:36.100Z",
+  "generatedAt": "2026-03-31T15:13:47.068Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -41,17 +41,22 @@
     {
       "text": "The FBI",
       "type": "Organization",
-      "id": "inst:The_FBI"
+      "id": "inst:DR_The_FBI_m1"
     },
     {
       "text": "CIA",
       "type": "Organization",
-      "id": "inst:CIA"
+      "id": "inst:DR_CIA_m1"
     },
     {
       "text": "the operation",
       "type": "Entity",
-      "id": "inst:the_operation"
+      "id": "inst:DR_the_operation_m1"
+    },
+    {
+      "text": "coordinated",
+      "type": "EventDescription",
+      "id": "inst:VP_coordinated"
     }
   ],
   "extractedRoles": [
@@ -71,7 +76,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_FBI",
+        "@id": "inst:DR_The_FBI_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -91,7 +96,7 @@
         }
       },
       {
-        "@id": "inst:CIA",
+        "@id": "inst:DR_CIA_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -111,7 +116,7 @@
         }
       },
       {
-        "@id": "inst:the_operation",
+        "@id": "inst:DR_the_operation_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -128,15 +133,59 @@
         }
       },
       {
-        "@id": "inst:Act_coordinated",
+        "@id": "inst:VP_coordinated",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "coordinated",
         "tagteam:lemma": "coordinat",
+        "tagteam:verb": "coordinat",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_coordinat_a95f4f48"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v5:16-27",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b6c622a3894c"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_coordinat_a95f4f48",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: coordinat",
+        "tagteam:actType": "coordinat",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Organization_Fbi_80c764422e83"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Operation_8d36b12af994"
+        }
+      },
+      {
+        "@id": "inst:Act_coordinated",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "coordinated",
+        "tagteam:lemma": "coordinat",
+        "tagteam:verb": "coordinat",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_coordinat_a95f4f48"
         }
       },
       {
@@ -196,11 +245,10 @@
         "rdfs:label": "fbi",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.099Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.067Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b6c622a3894c",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:The_FBI"
+          "@id": "inst:DR_The_FBI_m1"
         },
         "is_bearer_of": [
           {
@@ -217,11 +265,10 @@
         "rdfs:label": "cia",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.099Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.067Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b6c622a3894c",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:CIA"
+          "@id": "inst:DR_CIA_m1"
         },
         "is_bearer_of": [
           {
@@ -237,11 +284,10 @@
         ],
         "rdfs:label": "operation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.099Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.067Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b6c622a3894c",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_operation"
+          "@id": "inst:DR_the_operation_m1"
         },
         "is_bearer_of": [
           {
@@ -259,7 +305,7 @@
         "has_text_value": "The FBI and CIA coordinated the operation",
         "tagteam:char_count": 41,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-28T11:17:36.092Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.056Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -288,6 +334,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_b6c622a3894c"
         },
@@ -296,19 +343,19 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_FBI"
+            "@id": "inst:DR_The_FBI_m1"
           },
           {
-            "@id": "inst:CIA"
+            "@id": "inst:DR_CIA_m1"
           },
           {
-            "@id": "inst:the_operation"
+            "@id": "inst:DR_the_operation_m1"
           },
           {
-            "@id": "inst:Act_coordinated"
+            "@id": "inst:VP_coordinated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.092Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.056Z"
       }
     ]
   }

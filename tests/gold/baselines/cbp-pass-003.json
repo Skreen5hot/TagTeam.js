@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:37.016Z",
+  "generatedAt": "2026-03-31T15:13:48.088Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -28,12 +28,17 @@
     {
       "text": "The traveler",
       "type": "Entity",
-      "id": "inst:The_traveler"
+      "id": "inst:DR_The_traveler_m1"
     },
     {
       "text": "secondary inspection",
       "type": "Entity",
-      "id": "inst:secondary_inspection"
+      "id": "inst:DR_secondary_inspection_m1"
+    },
+    {
+      "text": "referred",
+      "type": "EventDescription",
+      "id": "inst:VP_referred"
     }
   ],
   "extractedRoles": [
@@ -49,7 +54,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_traveler",
+        "@id": "inst:DR_The_traveler_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -68,7 +73,7 @@
         }
       },
       {
-        "@id": "inst:secondary_inspection",
+        "@id": "inst:DR_secondary_inspection_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -85,17 +90,56 @@
         }
       },
       {
-        "@id": "inst:Act_referred",
+        "@id": "inst:VP_referred",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "referred",
         "tagteam:lemma": "referr",
+        "tagteam:verb": "referr",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_referr_0a0120d2"
+        },
         "tagteam:isPassive": true,
+        "tagteam:mentionId": "s0:v4:17-25",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e01a3da3904b"
         }
+      },
+      {
+        "@id": "inst:EventDesc_referr_0a0120d2",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: referr",
+        "tagteam:actType": "referr",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Traveler_6d219b32f72f"
+        }
+      },
+      {
+        "@id": "inst:Act_referred",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "referred",
+        "tagteam:lemma": "referr",
+        "tagteam:verb": "referr",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_referr_0a0120d2"
+        },
+        "tagteam:isPassive": true
       },
       {
         "@id": "inst:Role_The_traveler_PatientRole",
@@ -139,11 +183,10 @@
         "rdfs:label": "traveler",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.016Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.088Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e01a3da3904b",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_traveler"
+          "@id": "inst:DR_The_traveler_m1"
         },
         "is_bearer_of": [
           {
@@ -159,11 +202,10 @@
         ],
         "rdfs:label": "secondary inspection",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.016Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.088Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e01a3da3904b",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:secondary_inspection"
+          "@id": "inst:DR_secondary_inspection_m1"
         },
         "is_bearer_of": [
           {
@@ -181,7 +223,7 @@
         "has_text_value": "The traveler was referred to secondary inspection",
         "tagteam:char_count": 49,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-28T11:17:37.007Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.075Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -210,6 +252,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_e01a3da3904b"
         },
@@ -218,16 +261,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_traveler"
+            "@id": "inst:DR_The_traveler_m1"
           },
           {
-            "@id": "inst:secondary_inspection"
+            "@id": "inst:DR_secondary_inspection_m1"
           },
           {
-            "@id": "inst:Act_referred"
+            "@id": "inst:VP_referred"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.007Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.075Z"
       }
     ]
   }

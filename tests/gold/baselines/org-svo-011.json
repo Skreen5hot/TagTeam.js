@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-28T11:17:35.924Z",
+  "generatedAt": "2026-03-31T15:13:46.870Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -33,12 +33,17 @@
     {
       "text": "The agency",
       "type": "Organization",
-      "id": "inst:The_agency"
+      "id": "inst:DR_The_agency_m1"
     },
     {
       "text": "additional personnel",
       "type": "Entity",
-      "id": "inst:additional_personnel"
+      "id": "inst:DR_additional_personnel_m1"
+    },
+    {
+      "text": "deployed",
+      "type": "EventDescription",
+      "id": "inst:VP_deployed"
     }
   ],
   "extractedRoles": [
@@ -54,7 +59,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_agency",
+        "@id": "inst:DR_The_agency_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -73,7 +78,7 @@
         }
       },
       {
-        "@id": "inst:additional_personnel",
+        "@id": "inst:DR_additional_personnel_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -90,15 +95,59 @@
         }
       },
       {
-        "@id": "inst:Act_deployed",
+        "@id": "inst:VP_deployed",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "deployed",
         "tagteam:lemma": "deploy",
+        "tagteam:verb": "deploy",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_deploy_c677b0bf"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v3:11-19",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_48aebb4bb95e"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_deploy_c677b0bf",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: deploy",
+        "tagteam:actType": "deploy",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Organization_Agency_a24708564956"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Additional_Personnel_1980740ffd51"
+        }
+      },
+      {
+        "@id": "inst:Act_deployed",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "deployed",
+        "tagteam:lemma": "deploy",
+        "tagteam:verb": "deploy",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_deploy_c677b0bf"
         }
       },
       {
@@ -142,11 +191,10 @@
         "rdfs:label": "agency",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.924Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.870Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_48aebb4bb95e",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:The_agency"
+          "@id": "inst:DR_The_agency_m1"
         },
         "is_bearer_of": [
           {
@@ -162,11 +210,10 @@
         ],
         "rdfs:label": "additional personnel",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.924Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.870Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_48aebb4bb95e",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:additional_personnel"
+          "@id": "inst:DR_additional_personnel_m1"
         },
         "is_bearer_of": [
           {
@@ -184,7 +231,7 @@
         "has_text_value": "The agency deployed additional personnel",
         "tagteam:char_count": 40,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-28T11:17:35.916Z"
+        "tagteam:received_at": "2026-03-31T15:13:46.860Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -213,6 +260,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_48aebb4bb95e"
         },
@@ -221,16 +269,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_agency"
+            "@id": "inst:DR_The_agency_m1"
           },
           {
-            "@id": "inst:additional_personnel"
+            "@id": "inst:DR_additional_personnel_m1"
           },
           {
-            "@id": "inst:Act_deployed"
+            "@id": "inst:VP_deployed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.916Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.860Z"
       }
     ]
   }

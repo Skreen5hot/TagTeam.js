@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:35.678Z",
+  "generatedAt": "2026-03-31T15:13:46.605Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -24,19 +24,19 @@
     {
       "text": "ICE",
       "type": "Organization",
-      "id": "inst:ICE"
+      "id": "inst:DR_ICE_m1"
     },
     {
       "text": "DHS",
       "type": "Organization",
-      "id": "inst:DHS"
+      "id": "inst:DR_DHS_m1"
     }
   ],
   "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:ICE",
+        "@id": "inst:DR_ICE_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -56,7 +56,7 @@
         }
       },
       {
-        "@id": "inst:DHS",
+        "@id": "inst:DR_DHS_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -80,10 +80,10 @@
         "tagteam:pattern": "predication",
         "tagteam:copula": "is",
         "assertionSubject": {
-          "@id": "inst:ICE"
+          "@id": "inst:DR_ICE_m1"
         },
         "assertionObject": {
-          "@id": "inst:DHS"
+          "@id": "inst:DR_DHS_m1"
         },
         "assertedRelation": {
           "@id": "continuant_part_of"
@@ -98,11 +98,10 @@
         "rdfs:label": "ice",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.677Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.605Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_58542db56a45",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:ICE"
+          "@id": "inst:DR_ICE_m1"
         },
         "continuant_part_of": {
           "@id": "inst:Organization_Dhs_1a42f95d4b42"
@@ -116,11 +115,10 @@
         ],
         "rdfs:label": "dhs",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.677Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.605Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_58542db56a45",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:DHS"
+          "@id": "inst:DR_DHS_m1"
         }
       },
       {
@@ -133,7 +131,7 @@
         "has_text_value": "ICE is an agency within DHS",
         "tagteam:char_count": 27,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-28T11:17:35.670Z"
+        "tagteam:received_at": "2026-03-31T15:13:46.597Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -162,6 +160,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_58542db56a45"
         },
@@ -170,13 +169,13 @@
         },
         "has_output": [
           {
-            "@id": "inst:ICE"
+            "@id": "inst:DR_ICE_m1"
           },
           {
-            "@id": "inst:DHS"
+            "@id": "inst:DR_DHS_m1"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.670Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.597Z"
       }
     ]
   }

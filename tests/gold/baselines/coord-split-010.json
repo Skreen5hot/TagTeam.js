@@ -7,7 +7,7 @@
     "split",
     "legal"
   ],
-  "generatedAt": "2026-02-28T11:17:36.241Z",
+  "generatedAt": "2026-03-31T15:13:47.233Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -41,12 +41,17 @@
     {
       "text": "The prosecutor and the defense attorney",
       "type": "Entity",
-      "id": "inst:The_prosecutor_and_the_defense_attorney"
+      "id": "inst:DR_The_prosecutor_and_the_defense_attorney_m1"
     },
     {
       "text": "the court",
       "type": "Entity",
-      "id": "inst:the_court"
+      "id": "inst:DR_the_court_m1"
+    },
+    {
+      "text": "addressed",
+      "type": "EventDescription",
+      "id": "inst:VP_addressed"
     }
   ],
   "extractedRoles": [
@@ -62,7 +67,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_prosecutor_and_the_defense_attorney",
+        "@id": "inst:DR_The_prosecutor_and_the_defense_attorney_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -81,7 +86,7 @@
         }
       },
       {
-        "@id": "inst:the_court",
+        "@id": "inst:DR_the_court_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -98,15 +103,59 @@
         }
       },
       {
-        "@id": "inst:Act_addressed",
+        "@id": "inst:VP_addressed",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "addressed",
         "tagteam:lemma": "address",
+        "tagteam:verb": "address",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_address_7463862d"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v7:40-49",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_7cd57943d605"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_address_7463862d",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: address",
+        "tagteam:actType": "address",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Prosecutor_And_The_Defense_Attorney_0e0140902512"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Court_68a18b4cf136"
+        }
+      },
+      {
+        "@id": "inst:Act_addressed",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "addressed",
+        "tagteam:lemma": "address",
+        "tagteam:verb": "address",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_address_7463862d"
         }
       },
       {
@@ -150,11 +199,10 @@
         "rdfs:label": "prosecutor and the defense attorney",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.241Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.233Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7cd57943d605",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_prosecutor_and_the_defense_attorney"
+          "@id": "inst:DR_The_prosecutor_and_the_defense_attorney_m1"
         },
         "is_bearer_of": [
           {
@@ -170,11 +218,10 @@
         ],
         "rdfs:label": "court",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.241Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.233Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_7cd57943d605",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_court"
+          "@id": "inst:DR_the_court_m1"
         },
         "is_bearer_of": [
           {
@@ -192,7 +239,7 @@
         "has_text_value": "The prosecutor and the defense attorney addressed the court",
         "tagteam:char_count": 59,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-28T11:17:36.231Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.225Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -221,6 +268,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_7cd57943d605"
         },
@@ -229,16 +277,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_prosecutor_and_the_defense_attorney"
+            "@id": "inst:DR_The_prosecutor_and_the_defense_attorney_m1"
           },
           {
-            "@id": "inst:the_court"
+            "@id": "inst:DR_the_court_m1"
           },
           {
-            "@id": "inst:Act_addressed"
+            "@id": "inst:VP_addressed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.231Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.225Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:36.980Z",
+  "generatedAt": "2026-03-31T15:13:48.045Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -23,19 +23,19 @@
     {
       "text": "SENTRI",
       "type": "Entity",
-      "id": "inst:SENTRI"
+      "id": "inst:DR_SENTRI_m1"
     },
     {
       "text": "low risk travelers",
       "type": "Entity",
-      "id": "inst:low_risk_travelers"
+      "id": "inst:DR_low_risk_travelers_m1"
     }
   ],
   "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:SENTRI",
+        "@id": "inst:DR_SENTRI_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -55,7 +55,7 @@
         }
       },
       {
-        "@id": "inst:low_risk_travelers",
+        "@id": "inst:DR_low_risk_travelers_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -79,10 +79,10 @@
         "tagteam:pattern": "predication",
         "tagteam:copula": "is",
         "assertionSubject": {
-          "@id": "inst:SENTRI"
+          "@id": "inst:DR_SENTRI_m1"
         },
         "assertionObject": {
-          "@id": "inst:low_risk_travelers"
+          "@id": "inst:DR_low_risk_travelers_m1"
         },
         "assertedRelation": {
           "@id": "has_function"
@@ -97,11 +97,10 @@
         "rdfs:label": "sentri",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.980Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.045Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d3178ba20d7b",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:SENTRI"
+          "@id": "inst:DR_SENTRI_m1"
         },
         "has_function": {
           "@id": "inst:Entity_Low_Risk_Traveler_0f96fca6d06a"
@@ -115,11 +114,10 @@
         ],
         "rdfs:label": "low risk traveler",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.980Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.045Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d3178ba20d7b",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:low_risk_travelers"
+          "@id": "inst:DR_low_risk_travelers_m1"
         }
       },
       {
@@ -132,7 +130,7 @@
         "has_text_value": "SENTRI is a border crossing program for low-risk travelers",
         "tagteam:char_count": 58,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-28T11:17:36.969Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.036Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -161,6 +159,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_d3178ba20d7b"
         },
@@ -169,13 +168,13 @@
         },
         "has_output": [
           {
-            "@id": "inst:SENTRI"
+            "@id": "inst:DR_SENTRI_m1"
           },
           {
-            "@id": "inst:low_risk_travelers"
+            "@id": "inst:DR_low_risk_travelers_m1"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.969Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.036Z"
       }
     ]
   }

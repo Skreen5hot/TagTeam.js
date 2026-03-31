@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:36.824Z",
+  "generatedAt": "2026-03-31T15:13:47.874Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -22,44 +22,37 @@
   "extractedEntities": [
     {
       "text": "The Border Patrol",
-      "type": "Entity",
-      "id": "inst:The_Border_Patrol"
+      "type": "Organization",
+      "id": "inst:DR_The_Border_Patrol_m1"
     },
     {
       "text": "CBP",
       "type": "Organization",
-      "id": "inst:CBP"
+      "id": "inst:DR_CBP_m1"
     }
   ],
   "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_Border_Patrol",
+        "@id": "inst:DR_The_Border_Patrol_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The Border Patrol",
-        "tagteam:mentionId": "s0:h3:0-17",
+        "tagteam:mentionId": "s0:h1:0-17",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:genericityCategory": "AMB",
-        "tagteam:genericityConfidence": 0.6,
-        "tagteam:genericityBasis": "institutional_the",
-        "tagteam:genericityAlternative": {
-          "tagteam:category": "GEN",
-          "tagteam:confidence": 0.4
-        },
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Entity_Border_Patrol_c11c3801547a"
+          "@id": "inst:Organization_Border_Patrol_6d222d853358"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_8bb25944146c"
         }
       },
       {
-        "@id": "inst:CBP",
+        "@id": "inst:DR_CBP_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -83,29 +76,27 @@
         "tagteam:pattern": "predication",
         "tagteam:copula": "is",
         "assertionSubject": {
-          "@id": "inst:The_Border_Patrol"
+          "@id": "inst:DR_The_Border_Patrol_m1"
         },
         "assertionObject": {
-          "@id": "inst:CBP"
+          "@id": "inst:DR_CBP_m1"
         },
         "assertedRelation": {
           "@id": "member_part_of"
         }
       },
       {
-        "@id": "inst:Entity_Border_Patrol_c11c3801547a",
+        "@id": "inst:Organization_Border_Patrol_6d222d853358",
         "@type": [
-          "Entity",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "border patrol",
-        "tagteam:genericityCategory": "AMB",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.824Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.873Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_8bb25944146c",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_Border_Patrol"
+          "@id": "inst:DR_The_Border_Patrol_m1"
         },
         "member_part_of": {
           "@id": "inst:Organization_Cbp_27df34882a16"
@@ -119,11 +110,10 @@
         ],
         "rdfs:label": "cbp",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.824Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.873Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_8bb25944146c",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:CBP"
+          "@id": "inst:DR_CBP_m1"
         }
       },
       {
@@ -136,7 +126,7 @@
         "has_text_value": "The Border Patrol is the mobile enforcement arm of CBP",
         "tagteam:char_count": 54,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-28T11:17:36.815Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.864Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -165,6 +155,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_8bb25944146c"
         },
@@ -173,13 +164,13 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_Border_Patrol"
+            "@id": "inst:DR_The_Border_Patrol_m1"
           },
           {
-            "@id": "inst:CBP"
+            "@id": "inst:DR_CBP_m1"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.815Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.864Z"
       }
     ]
   }

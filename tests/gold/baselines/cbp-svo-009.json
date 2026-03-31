@@ -7,7 +7,7 @@
     "cbp",
     "processing"
   ],
-  "generatedAt": "2026-02-28T11:17:36.672Z",
+  "generatedAt": "2026-03-31T15:13:47.699Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -33,12 +33,17 @@
     {
       "text": "The processing center",
       "type": "Entity",
-      "id": "inst:The_processing_center"
+      "id": "inst:DR_The_processing_center_m1"
     },
     {
       "text": "the encounter",
       "type": "Entity",
-      "id": "inst:the_encounter"
+      "id": "inst:DR_the_encounter_m1"
+    },
+    {
+      "text": "documented",
+      "type": "EventDescription",
+      "id": "inst:VP_documented"
     }
   ],
   "extractedRoles": [
@@ -54,7 +59,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_processing_center",
+        "@id": "inst:DR_The_processing_center_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -73,7 +78,7 @@
         }
       },
       {
-        "@id": "inst:the_encounter",
+        "@id": "inst:DR_the_encounter_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -90,15 +95,59 @@
         }
       },
       {
-        "@id": "inst:Act_documented",
+        "@id": "inst:VP_documented",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "documented",
         "tagteam:lemma": "document",
+        "tagteam:verb": "document",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_document_efae6b8f"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v4:22-32",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_6e0c8dbd1a80"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_document_efae6b8f",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: document",
+        "tagteam:actType": "document",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Processing_Center_0e55608bef9e"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Encounter_1b15a5a48541"
+        }
+      },
+      {
+        "@id": "inst:Act_documented",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "documented",
+        "tagteam:lemma": "document",
+        "tagteam:verb": "document",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_document_efae6b8f"
         }
       },
       {
@@ -142,11 +191,10 @@
         "rdfs:label": "processing center",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.672Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.699Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6e0c8dbd1a80",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_processing_center"
+          "@id": "inst:DR_The_processing_center_m1"
         },
         "is_bearer_of": [
           {
@@ -162,11 +210,10 @@
         ],
         "rdfs:label": "encounter",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.672Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.699Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6e0c8dbd1a80",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_encounter"
+          "@id": "inst:DR_the_encounter_m1"
         },
         "is_bearer_of": [
           {
@@ -184,7 +231,7 @@
         "has_text_value": "The processing center documented the encounter",
         "tagteam:char_count": 46,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-28T11:17:36.665Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.691Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -213,6 +260,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_6e0c8dbd1a80"
         },
@@ -221,16 +269,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_processing_center"
+            "@id": "inst:DR_The_processing_center_m1"
           },
           {
-            "@id": "inst:the_encounter"
+            "@id": "inst:DR_the_encounter_m1"
           },
           {
-            "@id": "inst:Act_documented"
+            "@id": "inst:VP_documented"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.665Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.691Z"
       }
     ]
   }
