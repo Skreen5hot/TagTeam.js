@@ -14,12 +14,20 @@
       "type": "Person"
     },
     {
-      "text": "the office of professional responsibility",
-      "type": "Organization"
+      "text": "the office",
+      "type": "Facility"
+    },
+    {
+      "text": "professional responsibility",
+      "type": "Entity"
     },
     {
       "text": "the complaint",
-      "type": "InformationContentEntity"
+      "type": "Entity"
+    },
+    {
+      "text": "reviewed",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

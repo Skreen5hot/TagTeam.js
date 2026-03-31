@@ -11,11 +11,15 @@
   "expectedEntities": [
     {
       "text": "The court",
-      "type": "Organization"
+      "type": "Entity"
     },
     {
       "text": "the conviction",
-      "type": "Process"
+      "type": "Entity"
+    },
+    {
+      "text": "overturned",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

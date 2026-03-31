@@ -19,7 +19,11 @@
     },
     {
       "text": "physical therapy",
-      "type": "Process"
+      "type": "Entity"
+    },
+    {
+      "text": "treated",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

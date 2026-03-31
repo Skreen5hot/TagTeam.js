@@ -15,11 +15,15 @@
     },
     {
       "text": "a merger",
-      "type": "Process"
+      "type": "Entity"
     },
     {
       "text": "its competitor",
-      "type": "Organization"
+      "type": "Entity"
+    },
+    {
+      "text": "announced",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
@@ -30,6 +34,10 @@
     {
       "entity": "merger",
       "role": "Patient"
+    },
+    {
+      "entity": "its competitor",
+      "role": "Instrument"
     }
   ],
   "extractedEntities": [

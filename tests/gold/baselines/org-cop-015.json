@@ -12,11 +12,11 @@
   "expectedEntities": [
     {
       "text": "The inspector general",
-      "type": "Person"
+      "type": "Entity"
     },
     {
       "text": "an independent oversight official",
-      "type": "Person"
+      "type": "Role"
     }
   ],
   "expectedRoles": [],

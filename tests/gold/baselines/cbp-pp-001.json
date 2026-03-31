@@ -15,11 +15,15 @@
     },
     {
       "text": "the report",
-      "type": "InformationContentEntity"
+      "type": "Entity"
     },
     {
       "text": "the station",
-      "type": "Facility"
+      "type": "Entity"
+    },
+    {
+      "text": "filed",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

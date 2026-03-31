@@ -19,11 +19,19 @@
     },
     {
       "text": "the container",
-      "type": "Artifact"
+      "type": "Entity"
     },
     {
-      "text": "the port of entry",
-      "type": "Facility"
+      "text": "the port",
+      "type": "Entity"
+    },
+    {
+      "text": "entry",
+      "type": "Entity"
+    },
+    {
+      "text": "examined",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
@@ -34,6 +42,14 @@
     {
       "entity": "cargo",
       "role": "Patient"
+    },
+    {
+      "entity": "container",
+      "role": "Location"
+    },
+    {
+      "entity": "port",
+      "role": "Location"
     }
   ],
   "extractedEntities": [

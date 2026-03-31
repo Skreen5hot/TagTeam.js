@@ -16,12 +16,16 @@
     },
     {
       "text": "the directive",
-      "type": "InformationContentEntity"
+      "type": "Entity"
+    },
+    {
+      "text": "issued",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
     {
-      "entity": "Department of Homeland Security",
+      "entity": "department of homeland security",
       "role": "Agent"
     },
     {

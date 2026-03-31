@@ -15,11 +15,15 @@
     },
     {
       "text": "intelligence",
-      "type": "InformationContentEntity"
+      "type": "Entity"
     },
     {
       "text": "multiple sources",
       "type": "Entity"
+    },
+    {
+      "text": "gathered",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
@@ -32,7 +36,7 @@
       "role": "Patient"
     },
     {
-      "entity": "sources",
+      "entity": "multiple source",
       "role": "Source"
     }
   ],

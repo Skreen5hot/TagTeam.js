@@ -16,11 +16,15 @@
     },
     {
       "text": "a report",
-      "type": "InformationContentEntity"
+      "type": "Entity"
     },
     {
       "text": "the office",
-      "type": "Organization"
+      "type": "Facility"
+    },
+    {
+      "text": "filed",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
@@ -31,6 +35,10 @@
     {
       "entity": "report",
       "role": "Patient"
+    },
+    {
+      "entity": "office",
+      "role": "Instrument"
     }
   ],
   "extractedEntities": [

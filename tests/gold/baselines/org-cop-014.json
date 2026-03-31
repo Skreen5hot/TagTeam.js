@@ -11,11 +11,15 @@
   "expectedEntities": [
     {
       "text": "A field office",
-      "type": "Organization"
+      "type": "Facility"
     },
     {
       "text": "a regional operational unit",
-      "type": "Organization"
+      "type": "Role"
+    },
+    {
+      "text": "field office",
+      "type": "Facility"
     }
   ],
   "expectedRoles": [],

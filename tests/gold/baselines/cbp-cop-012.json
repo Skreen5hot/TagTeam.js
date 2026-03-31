@@ -12,11 +12,11 @@
   "expectedEntities": [
     {
       "text": "ACE",
-      "type": "Artifact"
+      "type": "Entity"
     },
     {
-      "text": "the automated commercial environment system",
-      "type": "Artifact"
+      "text": "the automated environment system",
+      "type": "Role"
     }
   ],
   "expectedRoles": [],

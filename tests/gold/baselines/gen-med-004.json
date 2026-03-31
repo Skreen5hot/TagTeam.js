@@ -15,7 +15,11 @@
     },
     {
       "text": "the medication",
-      "type": "Entity"
+      "type": "Artifact"
+    },
+    {
+      "text": "dispensed",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

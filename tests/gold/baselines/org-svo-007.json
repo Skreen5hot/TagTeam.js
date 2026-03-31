@@ -16,7 +16,11 @@
     },
     {
       "text": "the intelligence briefing",
-      "type": "InformationContentEntity"
+      "type": "Entity"
+    },
+    {
+      "text": "prepared",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
@@ -25,7 +29,7 @@
       "role": "Agent"
     },
     {
-      "entity": "intelligence briefing",
+      "entity": "intelligence brief",
       "role": "Patient"
     }
   ],

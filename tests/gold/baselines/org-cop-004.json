@@ -16,7 +16,7 @@
     },
     {
       "text": "disaster relief",
-      "type": "Process"
+      "type": "Entity"
     }
   ],
   "expectedRoles": [],

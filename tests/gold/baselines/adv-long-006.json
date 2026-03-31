@@ -11,20 +11,28 @@
   "expectedEntities": [
     {
       "text": "The congressional oversight committee",
+      "type": "Entity"
+    },
+    {
+      "text": "homeland security",
       "type": "Organization"
     },
     {
       "text": "a hearing",
-      "type": "Process"
+      "type": "Entity"
+    },
+    {
+      "text": "held",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
     {
-      "entity": "oversight committee",
+      "entity": "congressional oversight committee",
       "role": "Agent"
     },
     {
-      "entity": "hearing",
+      "entity": "hear",
       "role": "Patient"
     }
   ],

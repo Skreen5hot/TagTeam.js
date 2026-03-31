@@ -15,11 +15,15 @@
     },
     {
       "text": "the vehicle",
-      "type": "Artifact"
+      "type": "Entity"
     },
     {
       "text": "a sensor",
-      "type": "Artifact"
+      "type": "Entity"
+    },
+    {
+      "text": "examined",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

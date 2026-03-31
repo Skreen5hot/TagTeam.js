@@ -11,15 +11,19 @@
   "expectedEntities": [
     {
       "text": "The regulator",
-      "type": "Person"
+      "type": "Entity"
     },
     {
       "text": "the corporation",
-      "type": "Organization"
+      "type": "Entity"
     },
     {
       "text": "violations",
-      "type": "Process"
+      "type": "Entity"
+    },
+    {
+      "text": "fined",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
@@ -30,6 +34,10 @@
     {
       "entity": "corporation",
       "role": "Patient"
+    },
+    {
+      "entity": "violation",
+      "role": "Beneficiary"
     }
   ],
   "extractedEntities": [

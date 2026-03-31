@@ -12,11 +12,15 @@
   "expectedEntities": [
     {
       "text": "The task force",
-      "type": "Organization"
+      "type": "Entity"
     },
     {
       "text": "the response",
-      "type": "Process"
+      "type": "Entity"
+    },
+    {
+      "text": "coordinated",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

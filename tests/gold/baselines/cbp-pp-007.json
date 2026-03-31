@@ -11,7 +11,7 @@
   "expectedEntities": [
     {
       "text": "The office",
-      "type": "Organization"
+      "type": "Facility"
     },
     {
       "text": "the data",
@@ -19,7 +19,11 @@
     },
     {
       "text": "headquarters",
-      "type": "Facility"
+      "type": "Entity"
+    },
+    {
+      "text": "transmitted",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
@@ -28,11 +32,11 @@
       "role": "Agent"
     },
     {
-      "entity": "data",
+      "entity": "datum",
       "role": "Patient"
     },
     {
-      "entity": "headquarters",
+      "entity": "headquarter",
       "role": "Goal"
     }
   ],

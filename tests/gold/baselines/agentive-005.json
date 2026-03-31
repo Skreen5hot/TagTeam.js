@@ -17,16 +17,20 @@
     {
       "text": "the customs inspector",
       "type": "Person"
+    },
+    {
+      "text": "classified",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
     {
-      "entity": "customs inspector",
-      "role": "Agent"
-    },
-    {
       "entity": "shipment",
       "role": "Patient"
+    },
+    {
+      "entity": "customs inspector",
+      "role": "Agent"
     }
   ],
   "extractedEntities": [

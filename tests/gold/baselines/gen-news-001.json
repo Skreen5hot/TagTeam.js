@@ -11,11 +11,15 @@
   "expectedEntities": [
     {
       "text": "The president",
-      "type": "Person"
+      "type": "Entity"
     },
     {
       "text": "the executive order",
-      "type": "InformationContentEntity"
+      "type": "Entity"
+    },
+    {
+      "text": "signed",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

@@ -12,11 +12,15 @@
   "expectedEntities": [
     {
       "text": "The procurement office",
-      "type": "Organization"
+      "type": "Facility"
     },
     {
       "text": "new equipment",
       "type": "Artifact"
+    },
+    {
+      "text": "acquired",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
@@ -25,7 +29,7 @@
       "role": "Agent"
     },
     {
-      "entity": "equipment",
+      "entity": "new equipment",
       "role": "Patient"
     }
   ],

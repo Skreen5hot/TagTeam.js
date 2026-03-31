@@ -15,7 +15,7 @@
     },
     {
       "text": "the documents",
-      "type": "InformationContentEntity"
+      "type": "Entity"
     },
     {
       "text": "the officer",
@@ -24,6 +24,14 @@
     {
       "text": "the driver",
       "type": "Person"
+    },
+    {
+      "text": "examined",
+      "type": "EventDescription"
+    },
+    {
+      "text": "interviewed",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
@@ -32,7 +40,7 @@
       "role": "Agent"
     },
     {
-      "entity": "documents",
+      "entity": "document",
       "role": "Patient"
     },
     {

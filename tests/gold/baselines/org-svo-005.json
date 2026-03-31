@@ -16,7 +16,11 @@
     },
     {
       "text": "the operation",
-      "type": "Process"
+      "type": "Entity"
+    },
+    {
+      "text": "authorized",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

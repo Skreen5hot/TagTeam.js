@@ -17,16 +17,20 @@
     {
       "text": "the tracking team",
       "type": "Organization"
+    },
+    {
+      "text": "located",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
     {
-      "entity": "tracking team",
-      "role": "Agent"
-    },
-    {
       "entity": "suspect",
       "role": "Patient"
+    },
+    {
+      "entity": "tracking team",
+      "role": "Agent"
     }
   ],
   "extractedEntities": [

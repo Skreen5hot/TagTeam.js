@@ -12,11 +12,15 @@
   "expectedEntities": [
     {
       "text": "The targeting center",
-      "type": "Organization"
+      "type": "Entity"
     },
     {
       "text": "the container",
-      "type": "Artifact"
+      "type": "Entity"
+    },
+    {
+      "text": "flagged",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

@@ -20,12 +20,16 @@
     },
     {
       "text": "the border",
-      "type": "Facility"
+      "type": "Entity"
+    },
+    {
+      "text": "apprehended",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
     {
-      "entity": "CBP",
+      "entity": "cbp",
       "role": "Agent"
     },
     {

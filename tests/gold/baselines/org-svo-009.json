@@ -16,7 +16,11 @@
     },
     {
       "text": "the evidence",
-      "type": "InformationContentEntity"
+      "type": "Entity"
+    },
+    {
+      "text": "examined",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

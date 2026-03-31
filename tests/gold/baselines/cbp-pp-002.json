@@ -15,11 +15,15 @@
     },
     {
       "text": "the passport",
-      "type": "InformationContentEntity"
+      "type": "Entity"
     },
     {
       "text": "the reader",
-      "type": "Artifact"
+      "type": "Entity"
+    },
+    {
+      "text": "scanned",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

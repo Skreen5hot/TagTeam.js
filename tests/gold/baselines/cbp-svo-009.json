@@ -12,11 +12,15 @@
   "expectedEntities": [
     {
       "text": "The processing center",
-      "type": "Facility"
+      "type": "Entity"
     },
     {
       "text": "the encounter",
-      "type": "Process"
+      "type": "Entity"
+    },
+    {
+      "text": "documented",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

@@ -11,11 +11,19 @@
   "expectedEntities": [
     {
       "text": "The governor",
-      "type": "Person"
+      "type": "Entity"
     },
     {
-      "text": "a state of emergency",
-      "type": "Process"
+      "text": "a state",
+      "type": "Entity"
+    },
+    {
+      "text": "emergency",
+      "type": "Entity"
+    },
+    {
+      "text": "declared",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
@@ -24,7 +32,7 @@
       "role": "Agent"
     },
     {
-      "entity": "state of emergency",
+      "entity": "state",
       "role": "Patient"
     }
   ],

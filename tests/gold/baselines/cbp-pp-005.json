@@ -19,7 +19,11 @@
     },
     {
       "text": "the operation",
-      "type": "Process"
+      "type": "Entity"
+    },
+    {
+      "text": "briefed",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
@@ -29,7 +33,11 @@
     },
     {
       "entity": "team",
-      "role": "Recipient"
+      "role": "Patient"
+    },
+    {
+      "entity": "operation",
+      "role": "Location"
     }
   ],
   "extractedEntities": [

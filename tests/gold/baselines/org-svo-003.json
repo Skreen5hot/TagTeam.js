@@ -12,11 +12,15 @@
   "expectedEntities": [
     {
       "text": "The committee",
-      "type": "Organization"
+      "type": "Entity"
     },
     {
       "text": "the proposal",
-      "type": "InformationContentEntity"
+      "type": "Entity"
+    },
+    {
+      "text": "reviewed",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

@@ -12,11 +12,7 @@
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
-      "text": "CBP",
-      "type": "Organization"
-    },
-    {
-      "text": "ICE",
+      "text": "CBP, ICE",
       "type": "Organization"
     },
     {

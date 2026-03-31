@@ -12,21 +12,25 @@
   "expectedEntities": [
     {
       "text": "The territory",
-      "type": "GeopoliticalOrganization"
+      "type": "Entity"
     },
     {
       "text": "the planning committee",
-      "type": "Organization"
+      "type": "Entity"
+    },
+    {
+      "text": "divided",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
     {
-      "entity": "planning committee",
-      "role": "Agent"
-    },
-    {
       "entity": "territory",
       "role": "Patient"
+    },
+    {
+      "entity": "planning committee",
+      "role": "Agent"
     }
   ],
   "extractedEntities": [

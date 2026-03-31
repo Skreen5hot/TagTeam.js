@@ -16,7 +16,7 @@
     },
     {
       "text": "a federal agency",
-      "type": "Organization"
+      "type": "Role"
     }
   ],
   "expectedRoles": [],

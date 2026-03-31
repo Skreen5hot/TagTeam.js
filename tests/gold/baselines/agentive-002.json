@@ -16,17 +16,21 @@
     },
     {
       "text": "the canine unit",
-      "type": "Organization"
+      "type": "Entity"
+    },
+    {
+      "text": "identified",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
     {
-      "entity": "canine unit",
-      "role": "Agent"
-    },
-    {
       "entity": "contraband",
       "role": "Patient"
+    },
+    {
+      "entity": "canine unit",
+      "role": "Agent"
     }
   ],
   "extractedEntities": [

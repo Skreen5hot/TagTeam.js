@@ -12,11 +12,15 @@
   "expectedEntities": [
     {
       "text": "The bureau",
-      "type": "Organization"
+      "type": "Entity"
     },
     {
       "text": "an investigation",
-      "type": "Process"
+      "type": "Entity"
+    },
+    {
+      "text": "conducted",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

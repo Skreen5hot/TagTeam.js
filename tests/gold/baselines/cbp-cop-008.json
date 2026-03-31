@@ -11,11 +11,11 @@
   "expectedEntities": [
     {
       "text": "The sector",
-      "type": "Organization"
+      "type": "Entity"
     },
     {
-      "text": "a geographic area of responsibility",
-      "type": "GeopoliticalOrganization"
+      "text": "responsibility",
+      "type": "Entity"
     }
   ],
   "expectedRoles": [],

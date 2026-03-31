@@ -16,12 +16,20 @@
     {
       "text": "federal custody",
       "type": "Entity"
+    },
+    {
+      "text": "transferred",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
     {
       "entity": "suspect",
       "role": "Patient"
+    },
+    {
+      "entity": "federal custody",
+      "role": "Goal"
     }
   ],
   "extractedEntities": [

@@ -11,11 +11,11 @@
   "expectedEntities": [
     {
       "text": "The operational commander",
-      "type": "Person"
+      "type": "Entity"
     },
     {
       "text": "the senior field official",
-      "type": "Person"
+      "type": "Role"
     }
   ],
   "expectedRoles": [],

@@ -11,12 +11,12 @@
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
-      "text": "C-TPAT",
-      "type": "Process"
+      "text": "C TPAT a voluntary trade partnership program",
+      "type": "Entity"
     },
     {
-      "text": "a voluntary trade partnership program",
-      "type": "Process"
+      "text": "TPAT",
+      "type": "Entity"
     }
   ],
   "expectedRoles": [],

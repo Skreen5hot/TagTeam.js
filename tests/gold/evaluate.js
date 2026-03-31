@@ -73,16 +73,21 @@ function entityTextMatch(extracted, gold) {
 // ============================================================================
 
 const ROLE_SYNONYMS = {
-  'Patient': ['Patient', 'Theme'],
-  'Theme': ['Theme', 'Patient'],
-  'Goal': ['Goal', 'Destination'],
-  'Destination': ['Destination', 'Goal'],
-  'Location': ['Location'],
-  'Agent': ['Agent'],
-  'Recipient': ['Recipient'],
-  'Beneficiary': ['Beneficiary'],
-  'Instrument': ['Instrument'],
-  'Source': ['Source']
+  'Patient': ['Patient', 'PatientRole', 'Theme'],
+  'Theme': ['Theme', 'Patient', 'PatientRole'],
+  'Goal': ['Goal', 'Destination', 'DestinationRole'],
+  'Destination': ['Destination', 'DestinationRole', 'Goal'],
+  'Location': ['Location', 'LocationRole'],
+  'Agent': ['Agent', 'AgentRole'],
+  'Recipient': ['Recipient', 'RecipientRole'],
+  'Beneficiary': ['Beneficiary', 'BeneficiaryRole'],
+  'Instrument': ['Instrument', 'InstrumentRole'],
+  'Source': ['Source', 'SourceRole'],
+  'Condition': ['Condition', 'ConditionRole'],
+  'Temporal': ['Temporal', 'TemporalRole'],
+  'Topic': ['Topic', 'TopicRole'],
+  'Oblique': ['Oblique', 'ObliqueRole'],
+  'Participant': ['Participant', 'ParticipantRole'],
 };
 
 function roleMatch(extracted, gold) {
@@ -140,7 +145,7 @@ function extractFromGraph(graph) {
     const isAct = types.some(t =>
       t.includes('Act') || t.includes('IntentionalAct') ||
       t.includes('Process') || t === 'tagteam:VerbPhrase'
-    );
+    ) && !node['tagteam:systemGenerated']; // Skip ParsingAct
     const isRole = types.some(t => t.includes('Role'));
     const isAssertion = types.some(t => t.includes('StructuralAssertion'));
 
@@ -164,8 +169,9 @@ function extractFromGraph(graph) {
       });
     }
 
-    // Tree pipeline: Role nodes with inheres_in (bearer)
-    if (isRole && node['inheres_in']) {
+    // Tree pipeline: Role nodes with inheres_in (bearer) AND realized_in (act participation)
+    // Skip stative BFO Role nodes (from copular assertions) — they have inheres_in but no realized_in
+    if (isRole && node['inheres_in'] && node['realized_in']) {
       const bearerRef = node['inheres_in'];
       const bearerId = typeof bearerRef === 'string' ? bearerRef : (bearerRef['@id'] || bearerRef);
       const bearerLabel = idToLabel[bearerId] || bearerId;

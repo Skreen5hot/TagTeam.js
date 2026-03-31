@@ -11,11 +11,15 @@
   "expectedEntities": [
     {
       "text": "The union",
-      "type": "Organization"
+      "type": "Entity"
     },
     {
       "text": "the contract",
-      "type": "InformationContentEntity"
+      "type": "Entity"
+    },
+    {
+      "text": "ratified",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

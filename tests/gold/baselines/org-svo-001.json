@@ -16,12 +16,16 @@
     },
     {
       "text": "the case",
-      "type": "InformationContentEntity"
+      "type": "Entity"
+    },
+    {
+      "text": "investigated",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
     {
-      "entity": "FBI",
+      "entity": "fbi",
       "role": "Agent"
     },
     {

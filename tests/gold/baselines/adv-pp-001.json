@@ -15,11 +15,23 @@
     },
     {
       "text": "the report",
-      "type": "InformationContentEntity"
+      "type": "Entity"
     },
     {
       "text": "the office",
-      "type": "Organization"
+      "type": "Facility"
+    },
+    {
+      "text": "the building",
+      "type": "Facility"
+    },
+    {
+      "text": "the campus",
+      "type": "Entity"
+    },
+    {
+      "text": "filed",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
@@ -33,6 +45,14 @@
     },
     {
       "entity": "office",
+      "role": "Location"
+    },
+    {
+      "entity": "build",
+      "role": "Location"
+    },
+    {
+      "entity": "campu",
       "role": "Location"
     }
   ],

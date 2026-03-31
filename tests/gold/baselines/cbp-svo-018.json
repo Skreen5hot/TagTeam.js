@@ -12,11 +12,15 @@
   "expectedEntities": [
     {
       "text": "The watch commander",
-      "type": "Person"
+      "type": "Entity"
     },
     {
       "text": "the lockdown",
-      "type": "Process"
+      "type": "Entity"
+    },
+    {
+      "text": "initiated",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

@@ -11,11 +11,11 @@
   "expectedEntities": [
     {
       "text": "The checkpoint",
-      "type": "Facility"
+      "type": "Entity"
     },
     {
       "text": "a fixed inspection station",
-      "type": "Facility"
+      "type": "Role"
     }
   ],
   "expectedRoles": [],

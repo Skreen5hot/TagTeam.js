@@ -20,16 +20,20 @@
     },
     {
       "text": "the operation",
-      "type": "Process"
+      "type": "Entity"
+    },
+    {
+      "text": "coordinated",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
     {
-      "entity": "FBI",
+      "entity": "fbi",
       "role": "Agent"
     },
     {
-      "entity": "CIA",
+      "entity": "cia",
       "role": "Agent"
     },
     {

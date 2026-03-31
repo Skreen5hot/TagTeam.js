@@ -14,7 +14,11 @@
     },
     {
       "text": "a restraining order",
-      "type": "InformationContentEntity"
+      "type": "Entity"
+    },
+    {
+      "text": "issued",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

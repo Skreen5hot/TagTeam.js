@@ -11,15 +11,23 @@
   "expectedEntities": [
     {
       "text": "The task force",
-      "type": "Organization"
+      "type": "Entity"
     },
     {
       "text": "the network",
-      "type": "Organization"
+      "type": "Entity"
+    },
+    {
+      "text": "smugglers",
+      "type": "Entity"
     },
     {
       "text": "the border",
-      "type": "Facility"
+      "type": "Entity"
+    },
+    {
+      "text": "investigated",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

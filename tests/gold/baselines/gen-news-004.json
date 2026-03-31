@@ -11,11 +11,15 @@
   "expectedEntities": [
     {
       "text": "The journalist",
-      "type": "Person"
+      "type": "Entity"
     },
     {
       "text": "the investigation findings",
-      "type": "InformationContentEntity"
+      "type": "Entity"
+    },
+    {
+      "text": "published",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
@@ -24,7 +28,7 @@
       "role": "Agent"
     },
     {
-      "entity": "investigation findings",
+      "entity": "investigation finding",
       "role": "Patient"
     }
   ],
