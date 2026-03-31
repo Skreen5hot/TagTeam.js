@@ -243,4 +243,61 @@ function correctCopularFragmentation(arcs, tokens, tags) {
   return arcs;
 }
 
-module.exports = { correctDitransitives, correctCopularFragmentation, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
+/**
+ * Correct misparse where NN is root and VBN/VBD is acl (reduced relative).
+ *
+ * Pattern: "The organization submitted the report"
+ *   Parser produces: organization(root), submitted(acl→organization), report(obj→submitted)
+ *   Correct: submitted(root), organization(nsubj→submitted), report(obj→submitted)
+ *
+ * Detection: Single NN/NNS/NNP root with exactly one VBN/VBD child labeled acl,
+ * and the VBN has an obj child (transitive verb).
+ *
+ * @param {Array} arcs - Raw arc array
+ * @param {string[]} tokens - 0-indexed token array
+ * @param {string[]} tags - 0-indexed POS tag array
+ * @returns {Array} Modified arcs
+ */
+function correctNounRootVerbAcl(arcs, tokens, tags) {
+  // Find the single root
+  const rootArcs = arcs.filter(a => a.label === 'root' && a.head === 0);
+  if (rootArcs.length !== 1) return arcs;
+
+  const rootArc = rootArcs[0];
+  const rootId = rootArc.dependent;
+  const rootTag = tags[rootId - 1];
+
+  // Root must be a noun
+  if (!rootTag || !rootTag.startsWith('NN')) return arcs;
+
+  // Find acl child that is VBN or VBD
+  const aclArc = arcs.find(a =>
+    a.head === rootId && a.label === 'acl' &&
+    (tags[a.dependent - 1] === 'VBN' || tags[a.dependent - 1] === 'VBD')
+  );
+  if (!aclArc) return arcs;
+
+  const verbId = aclArc.dependent;
+
+  // Verb must have an obj child (transitive — confirms it's a real verb, not a modifier)
+  const hasObj = arcs.some(a => a.head === verbId && a.label === 'obj');
+  if (!hasObj) return arcs;
+
+  // Rewrite: verb becomes root, noun becomes nsubj of verb
+  rootArc.label = 'nsubj';
+  rootArc.head = verbId;
+
+  aclArc.label = 'root';
+  aclArc.head = 0;
+
+  // Reattach punct from old root to new root
+  for (const arc of arcs) {
+    if (arc.label === 'punct' && arc.head === rootId) {
+      arc.head = verbId;
+    }
+  }
+
+  return arcs;
+}
+
+module.exports = { correctDitransitives, correctCopularFragmentation, correctNounRootVerbAcl, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };

@@ -1068,7 +1068,7 @@ ${depTreeCorrector}
 
   // Shim: after stripCommonJS, only the inner functions survive.
   // SemanticGraphBuilder checks typeof DepTreeCorrector !== 'undefined'.
-  const DepTreeCorrector = { correctDitransitives, correctCopularFragmentation, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
+  const DepTreeCorrector = { correctDitransitives, correctCopularFragmentation, correctNounRootVerbAcl, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
 
   // ============================================================================
   // §9.5: GENERICITY DETECTOR
@@ -1241,19 +1241,23 @@ ${semanticGraphBuilder}
       }
     }
 
-    // F-4: Update denotesType on Tier 1 DRs to match upgraded Tier 2 types
+    // F-4: Update denotesType ONLY when the matched class is in the §3.1 controlled vocabulary.
+    // CCO class names like "Report" stay at Tier 2 only; "Organization", "Person" propagate to Tier 1.
+    var DENOTES_TYPE_VOCAB = {
+      'Person': true, 'Organization': true, 'Entity': true, 'Location': true,
+      'InformationContentEntity': true, 'Artifact': true, 'Event': true,
+      'EventDescription': true, 'Directive': true, 'Quality': true, 'Structure': true, 'Role': true
+    };
     for (var i = 0; i < nodes.length; i++) {
       var node = nodes[i];
-      if (!node['is_subject_of']) continue;
+      if (!node['is_subject_of'] || node['tagteam:typeBasis'] !== 'ontology-match') continue;
       var t1Ref = node['is_subject_of'];
       var t1Id = t1Ref && t1Ref['@id'] ? t1Ref['@id'] : null;
-      if (t1Id && nodeIndex[t1Id]) {
-        var t1Node = nodeIndex[t1Id];
-        var nodeTypes = [].concat(node['@type'] || []);
-        var primaryType = nodeTypes.find(function(t) { return t !== 'owl:NamedIndividual' && t !== 'owl:Class'; });
-        if (primaryType && t1Node['tagteam:denotesType'] && node['tagteam:typeBasis'] === 'ontology-match') {
-          t1Node['tagteam:denotesType'] = primaryType;
-        }
+      if (!t1Id || !nodeIndex[t1Id]) continue;
+      var nodeTypes = [].concat(node['@type'] || []);
+      var primaryType = nodeTypes.find(function(t) { return t !== 'owl:NamedIndividual' && t !== 'owl:Class'; });
+      if (primaryType && DENOTES_TYPE_VOCAB[primaryType]) {
+        nodeIndex[t1Id]['tagteam:denotesType'] = primaryType;
       }
     }
   }

@@ -1889,6 +1889,10 @@ class SemanticGraphBuilder {
         if (_DepTreeCorrector.correctCopularFragmentation) {
           _DepTreeCorrector.correctCopularFragmentation(parseResult.arcs, tokens, tags);
         }
+        // Noun-root + VBN-acl correction — "The organization submitted the report"
+        if (_DepTreeCorrector.correctNounRootVerbAcl) {
+          _DepTreeCorrector.correctNounRootVerbAcl(parseResult.arcs, tokens, tags);
+        }
       }
 
       const depTree = new _DepTree(parseResult.arcs, tokens, tags);
