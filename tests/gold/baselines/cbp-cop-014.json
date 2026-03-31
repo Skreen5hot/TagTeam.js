@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:36.965Z",
+  "generatedAt": "2026-03-31T15:13:48.032Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -23,14 +23,19 @@
     {
       "text": "The operational commander",
       "type": "Entity",
-      "id": "inst:The_operational_commander"
+      "id": "inst:DR_The_operational_commander_m1"
+    },
+    {
+      "text": "the senior field official",
+      "type": "Role",
+      "id": "inst:the_senior_field_official"
     }
   ],
   "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_operational_commander",
+        "@id": "inst:DR_The_operational_commander_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -54,13 +59,53 @@
         }
       },
       {
-        "@id": "inst:Assertion_The_operational_commander",
+        "@id": "inst:RoleAssertion_official_79c4ec8a",
         "@type": [
+          "tagteam:RoleAssertion",
           "tagteam:StructuralAssertion"
         ],
-        "tagteam:subject": "The operational commander",
-        "tagteam:pattern": "predication",
-        "tagteam:copula": "is"
+        "rdfs:label": "Role assertion: The operational commander → official",
+        "tagteam:assertionSubject": {
+          "@id": "inst:The_operational_commander"
+        },
+        "tagteam:pattern": "role_assertion",
+        "is_about": {
+          "@id": "inst:Role_official_79c4ec8a"
+        },
+        "tagteam:copulaLemma": "is"
+      },
+      {
+        "@id": "inst:the_senior_field_official",
+        "@type": [
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the senior field official",
+        "tagteam:denotesType": "Role",
+        "is_about": {
+          "@id": "inst:Role_official_79c4ec8a"
+        },
+        "tagteam:mentionId": "s0:p8:46-71",
+        "is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_e8d1038bae92"
+        }
+      },
+      {
+        "@id": "inst:Role_official_79c4ec8a",
+        "@type": [
+          "bfo:BFO_0000023",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "official",
+        "tagteam:roleType": "official",
+        "is_subject_of": {
+          "@id": "inst:the_senior_field_official"
+        },
+        "bfo:BFO_0000052": {
+          "@id": "inst:Entity_Operational_Commander_f692dbc6f14f"
+        },
+        "inheres_in": {
+          "@id": "inst:Entity_Operational_Commander_f692dbc6f14f"
+        }
       },
       {
         "@id": "inst:Entity_Operational_Commander_f692dbc6f14f",
@@ -71,11 +116,10 @@
         "rdfs:label": "operational commander",
         "tagteam:genericityCategory": "AMB",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.965Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.031Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e8d1038bae92",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_operational_commander"
+          "@id": "inst:DR_The_operational_commander_m1"
         }
       },
       {
@@ -88,7 +132,7 @@
         "has_text_value": "The operational commander is the senior field official",
         "tagteam:char_count": 54,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-28T11:17:36.957Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.022Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -117,6 +161,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_e8d1038bae92"
         },
@@ -125,10 +170,13 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_operational_commander"
+            "@id": "inst:DR_The_operational_commander_m1"
+          },
+          {
+            "@id": "inst:the_senior_field_official"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.957Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.022Z"
       }
     ]
   }

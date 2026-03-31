@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:37.179Z",
+  "generatedAt": "2026-03-31T15:13:48.268Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -40,17 +40,22 @@
     {
       "text": "The office",
       "type": "Facility",
-      "id": "inst:The_office"
+      "id": "inst:DR_The_office_m1"
     },
     {
       "text": "the data",
       "type": "InformationContentEntity",
-      "id": "inst:the_data"
+      "id": "inst:DR_the_data_m1"
     },
     {
       "text": "headquarters",
       "type": "Entity",
-      "id": "inst:headquarters"
+      "id": "inst:DR_headquarters_m1"
+    },
+    {
+      "text": "transmitted",
+      "type": "EventDescription",
+      "id": "inst:VP_transmitted"
     }
   ],
   "extractedRoles": [
@@ -70,7 +75,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_office",
+        "@id": "inst:DR_The_office_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -89,7 +94,7 @@
         }
       },
       {
-        "@id": "inst:the_data",
+        "@id": "inst:DR_the_data_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -106,7 +111,7 @@
         }
       },
       {
-        "@id": "inst:headquarters",
+        "@id": "inst:DR_headquarters_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -123,15 +128,56 @@
         }
       },
       {
-        "@id": "inst:Act_transmitted",
+        "@id": "inst:VP_transmitted",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "transmitted",
         "tagteam:lemma": "transmitt",
+        "tagteam:verb": "transmitt",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_transmitt_1492f746"
+        },
+        "tagteam:mentionId": "s0:v3:11-22",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c18f302a5480"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_transmitt_1492f746",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: transmitt",
+        "tagteam:actType": "transmitt",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Facility_Office_b6bdd9a4d894"
+        },
+        "tagteam:patient": {
+          "@id": "inst:InformationContentEntity_Datum_5a9bfd617625"
+        }
+      },
+      {
+        "@id": "inst:Act_transmitted",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "transmitted",
+        "tagteam:lemma": "transmitt",
+        "tagteam:verb": "transmitt",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_transmitt_1492f746"
         }
       },
       {
@@ -192,11 +238,10 @@
         "rdfs:label": "office",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.178Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.268Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c18f302a5480",
-        "tagteam:denotesType": "Facility",
         "is_subject_of": {
-          "@id": "inst:The_office"
+          "@id": "inst:DR_The_office_m1"
         },
         "is_bearer_of": [
           {
@@ -212,11 +257,10 @@
         ],
         "rdfs:label": "datum",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.178Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.268Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c18f302a5480",
-        "tagteam:denotesType": "InformationContentEntity",
         "is_subject_of": {
-          "@id": "inst:the_data"
+          "@id": "inst:DR_the_data_m1"
         },
         "is_bearer_of": [
           {
@@ -232,11 +276,10 @@
         ],
         "rdfs:label": "headquarter",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.178Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.268Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c18f302a5480",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:headquarters"
+          "@id": "inst:DR_headquarters_m1"
         },
         "is_bearer_of": [
           {
@@ -254,7 +297,7 @@
         "has_text_value": "The office transmitted the data to headquarters",
         "tagteam:char_count": 47,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-28T11:17:37.171Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.260Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -283,6 +326,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_c18f302a5480"
         },
@@ -291,19 +335,19 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_office"
+            "@id": "inst:DR_The_office_m1"
           },
           {
-            "@id": "inst:the_data"
+            "@id": "inst:DR_the_data_m1"
           },
           {
-            "@id": "inst:headquarters"
+            "@id": "inst:DR_headquarters_m1"
           },
           {
-            "@id": "inst:Act_transmitted"
+            "@id": "inst:VP_transmitted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.171Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.260Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:35.532Z",
+  "generatedAt": "2026-03-31T15:13:46.466Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -24,19 +24,19 @@
     {
       "text": "CBP",
       "type": "Organization",
-      "id": "inst:CBP"
+      "id": "inst:DR_CBP_m1"
     },
     {
       "text": "DHS",
       "type": "Organization",
-      "id": "inst:DHS"
+      "id": "inst:DR_DHS_m1"
     }
   ],
   "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:CBP",
+        "@id": "inst:DR_CBP_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -56,7 +56,7 @@
         }
       },
       {
-        "@id": "inst:DHS",
+        "@id": "inst:DR_DHS_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -80,10 +80,10 @@
         "tagteam:pattern": "predication",
         "tagteam:copula": "is",
         "assertionSubject": {
-          "@id": "inst:CBP"
+          "@id": "inst:DR_CBP_m1"
         },
         "assertionObject": {
-          "@id": "inst:DHS"
+          "@id": "inst:DR_DHS_m1"
         },
         "assertedRelation": {
           "@id": "has_continuant_part"
@@ -98,11 +98,10 @@
         "rdfs:label": "cbp",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.530Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.465Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3937775d2119",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:CBP"
+          "@id": "inst:DR_CBP_m1"
         }
       },
       {
@@ -113,11 +112,10 @@
         ],
         "rdfs:label": "dhs",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.531Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.465Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3937775d2119",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:DHS"
+          "@id": "inst:DR_DHS_m1"
         },
         "has_continuant_part": {
           "@id": "inst:Organization_Cbp_95e914376016"
@@ -133,7 +131,7 @@
         "has_text_value": "CBP is a component of DHS",
         "tagteam:char_count": 25,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-28T11:17:35.453Z"
+        "tagteam:received_at": "2026-03-31T15:13:46.385Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -162,6 +160,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_3937775d2119"
         },
@@ -170,13 +169,13 @@
         },
         "has_output": [
           {
-            "@id": "inst:CBP"
+            "@id": "inst:DR_CBP_m1"
           },
           {
-            "@id": "inst:DHS"
+            "@id": "inst:DR_DHS_m1"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.453Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.385Z"
       }
     ]
   }

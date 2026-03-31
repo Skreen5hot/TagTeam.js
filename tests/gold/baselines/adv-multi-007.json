@@ -7,7 +7,7 @@
     "subordination",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:38.103Z",
+  "generatedAt": "2026-03-31T15:13:49.133Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -41,22 +41,27 @@
     {
       "text": "Because",
       "type": "Entity",
-      "id": "inst:Because"
+      "id": "inst:DR_Because_m1"
     },
     {
       "text": "the sensors",
       "type": "Entity",
-      "id": "inst:the_sensors"
+      "id": "inst:DR_the_sensors_m1"
     },
     {
       "text": "detected movement",
       "type": "Entity",
-      "id": "inst:detected_movement"
+      "id": "inst:DR_detected_movement_m1"
     },
     {
       "text": "the patrol",
       "type": "Entity",
-      "id": "inst:the_patrol"
+      "id": "inst:DR_the_patrol_m1"
+    },
+    {
+      "text": "responded",
+      "type": "EventDescription",
+      "id": "inst:VP_responded"
     }
   ],
   "extractedRoles": [
@@ -68,7 +73,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:Because",
+        "@id": "inst:DR_Because_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -85,7 +90,7 @@
         }
       },
       {
-        "@id": "inst:the_sensors",
+        "@id": "inst:DR_the_sensors_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -95,14 +100,14 @@
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Sensors_a59604baab18"
+          "@id": "inst:Entity_Sensor_604ab965e18f"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_075984563370"
         }
       },
       {
-        "@id": "inst:detected_movement",
+        "@id": "inst:DR_detected_movement_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -119,7 +124,7 @@
         }
       },
       {
-        "@id": "inst:the_patrol",
+        "@id": "inst:DR_the_patrol_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -138,51 +143,56 @@
         }
       },
       {
-        "@id": "inst:Act_Because",
+        "@id": "inst:VP_responded",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
-        "rdfs:label": "Because",
-        "tagteam:lemma": "because",
+        "rdfs:label": "responded",
+        "tagteam:lemma": "respond",
+        "tagteam:verb": "respond",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_respond_d56ddb51"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v8:49-58",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_075984563370"
         }
       },
       {
-        "@id": "inst:Act_sensors",
+        "@id": "inst:EventDesc_respond_d56ddb51",
         "@type": [
-          "IntentionalAct",
-          "tagteam:VerbPhrase"
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
         ],
-        "rdfs:label": "sensors",
-        "tagteam:lemma": "sensors",
-        "is_concretized_by": {
-          "@id": "inst:Input_Text_IBE_075984563370"
-        }
-      },
-      {
-        "@id": "inst:Act_movement",
-        "@type": [
-          "IntentionalAct",
-          "tagteam:VerbPhrase"
-        ],
-        "rdfs:label": "movement",
-        "tagteam:lemma": "movement",
-        "is_concretized_by": {
-          "@id": "inst:Input_Text_IBE_075984563370"
+        "rdfs:label": "Event: respond",
+        "tagteam:actType": "respond",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Patrol_f37459b78906"
         }
       },
       {
         "@id": "inst:Act_responded",
         "@type": [
           "IntentionalAct",
-          "tagteam:VerbPhrase"
+          "owl:NamedIndividual"
         ],
         "rdfs:label": "responded",
         "tagteam:lemma": "respond",
-        "is_concretized_by": {
-          "@id": "inst:Input_Text_IBE_075984563370"
+        "tagteam:verb": "respond",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_respond_d56ddb51"
         }
       },
       {
@@ -209,26 +219,24 @@
         ],
         "rdfs:label": "because",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.102Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.132Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_075984563370",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:Because"
+          "@id": "inst:DR_Because_m1"
         }
       },
       {
-        "@id": "inst:Entity_Sensors_a59604baab18",
+        "@id": "inst:Entity_Sensor_604ab965e18f",
         "@type": [
           "Entity",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "sensors",
+        "rdfs:label": "sensor",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.102Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.133Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_075984563370",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_sensors"
+          "@id": "inst:DR_the_sensors_m1"
         }
       },
       {
@@ -239,11 +247,10 @@
         ],
         "rdfs:label": "detected movement",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.102Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.133Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_075984563370",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:detected_movement"
+          "@id": "inst:DR_detected_movement_m1"
         }
       },
       {
@@ -255,11 +262,10 @@
         "rdfs:label": "patrol",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.102Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.133Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_075984563370",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_patrol"
+          "@id": "inst:DR_the_patrol_m1"
         },
         "is_bearer_of": [
           {
@@ -277,7 +283,7 @@
         "has_text_value": "Because the sensors detected movement the patrol responded immediately",
         "tagteam:char_count": 70,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-28T11:17:38.092Z"
+        "tagteam:received_at": "2026-03-31T15:13:49.120Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -306,6 +312,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_075984563370"
         },
@@ -314,31 +321,22 @@
         },
         "has_output": [
           {
-            "@id": "inst:Because"
+            "@id": "inst:DR_Because_m1"
           },
           {
-            "@id": "inst:the_sensors"
+            "@id": "inst:DR_the_sensors_m1"
           },
           {
-            "@id": "inst:detected_movement"
+            "@id": "inst:DR_detected_movement_m1"
           },
           {
-            "@id": "inst:the_patrol"
+            "@id": "inst:DR_the_patrol_m1"
           },
           {
-            "@id": "inst:Act_Because"
-          },
-          {
-            "@id": "inst:Act_sensors"
-          },
-          {
-            "@id": "inst:Act_movement"
-          },
-          {
-            "@id": "inst:Act_responded"
+            "@id": "inst:VP_responded"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.092Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.120Z"
       }
     ]
   }

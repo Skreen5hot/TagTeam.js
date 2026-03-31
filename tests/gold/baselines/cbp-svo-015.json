@@ -7,7 +7,7 @@
     "cbp",
     "intelligence"
   ],
-  "generatedAt": "2026-02-28T11:17:36.735Z",
+  "generatedAt": "2026-03-31T15:13:47.775Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -33,12 +33,17 @@
     {
       "text": "The targeting center",
       "type": "Entity",
-      "id": "inst:The_targeting_center"
+      "id": "inst:DR_The_targeting_center_m1"
     },
     {
       "text": "the container",
       "type": "Entity",
-      "id": "inst:the_container"
+      "id": "inst:DR_the_container_m1"
+    },
+    {
+      "text": "flagged",
+      "type": "EventDescription",
+      "id": "inst:VP_flagged"
     }
   ],
   "extractedRoles": [
@@ -54,7 +59,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_targeting_center",
+        "@id": "inst:DR_The_targeting_center_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -73,7 +78,7 @@
         }
       },
       {
-        "@id": "inst:the_container",
+        "@id": "inst:DR_the_container_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -90,15 +95,59 @@
         }
       },
       {
-        "@id": "inst:Act_flagged",
+        "@id": "inst:VP_flagged",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "flagged",
         "tagteam:lemma": "flagg",
+        "tagteam:verb": "flagg",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_flagg_0a680755"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v4:21-28",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_73134fecb475"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_flagg_0a680755",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: flagg",
+        "tagteam:actType": "flagg",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Targeting_Center_7f55116e1d07"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Container_7b81b9c63456"
+        }
+      },
+      {
+        "@id": "inst:Act_flagged",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "flagged",
+        "tagteam:lemma": "flagg",
+        "tagteam:verb": "flagg",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_flagg_0a680755"
         }
       },
       {
@@ -142,11 +191,10 @@
         "rdfs:label": "targeting center",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.735Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.774Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_73134fecb475",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_targeting_center"
+          "@id": "inst:DR_The_targeting_center_m1"
         },
         "is_bearer_of": [
           {
@@ -162,11 +210,10 @@
         ],
         "rdfs:label": "container",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.735Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.774Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_73134fecb475",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_container"
+          "@id": "inst:DR_the_container_m1"
         },
         "is_bearer_of": [
           {
@@ -184,7 +231,7 @@
         "has_text_value": "The targeting center flagged the container",
         "tagteam:char_count": 42,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-28T11:17:36.727Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.767Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -213,6 +260,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_73134fecb475"
         },
@@ -221,16 +269,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_targeting_center"
+            "@id": "inst:DR_The_targeting_center_m1"
           },
           {
-            "@id": "inst:the_container"
+            "@id": "inst:DR_the_container_m1"
           },
           {
-            "@id": "inst:Act_flagged"
+            "@id": "inst:VP_flagged"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.727Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.767Z"
       }
     ]
   }

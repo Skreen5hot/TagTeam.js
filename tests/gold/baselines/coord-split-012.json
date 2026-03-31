@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:36.287Z",
+  "generatedAt": "2026-03-31T15:13:47.282Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -39,43 +39,57 @@
   ],
   "extractedEntities": [
     {
-      "text": "DEA and FBI launched a joint investigation",
+      "text": "DEA",
       "type": "Entity",
-      "id": "inst:DEA_and_FBI_launched_a_joint_investigation"
+      "id": "inst:DR_DEA_m1"
     },
     {
       "text": "FBI",
       "type": "Organization",
-      "id": "inst:FBI"
+      "id": "inst:DR_FBI_m1"
     },
     {
       "text": "a joint investigation",
       "type": "Entity",
-      "id": "inst:a_joint_investigation"
+      "id": "inst:DR_a_joint_investigation_m1"
+    },
+    {
+      "text": "launched",
+      "type": "EventDescription",
+      "id": "inst:VP_launched"
     }
   ],
-  "extractedRoles": [],
+  "extractedRoles": [
+    {
+      "entity": "fbi",
+      "role": "Agent"
+    },
+    {
+      "entity": "joint investigation",
+      "role": "Patient"
+    }
+  ],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:DEA_and_FBI_launched_a_joint_investigation",
+        "@id": "inst:DR_DEA_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
-        "rdfs:label": "DEA and FBI launched a joint investigation",
-        "tagteam:mentionId": "s0:h1:0-42",
+        "rdfs:label": "DEA",
+        "tagteam:mentionId": "s0:h1:0-3",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Dea_And_Fbi_Launched_A_Joint_Investigation_70a38c2d0c2d"
+          "@id": "inst:Entity_Dea_2d005a3c0831"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d993275a2cdb"
         }
       },
       {
-        "@id": "inst:FBI",
+        "@id": "inst:DR_FBI_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -95,7 +109,7 @@
         }
       },
       {
-        "@id": "inst:a_joint_investigation",
+        "@id": "inst:DR_a_joint_investigation_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -112,30 +126,105 @@
         }
       },
       {
-        "@id": "inst:Act_DEA",
+        "@id": "inst:VP_launched",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
-        "rdfs:label": "DEA",
-        "tagteam:lemma": "dea",
+        "rdfs:label": "launched",
+        "tagteam:lemma": "launch",
+        "tagteam:verb": "launch",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_launch_ce6691c4"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v4:12-20",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d993275a2cdb"
         }
       },
       {
-        "@id": "inst:Entity_Dea_And_Fbi_Launched_A_Joint_Investigation_70a38c2d0c2d",
+        "@id": "inst:EventDesc_launch_ce6691c4",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: launch",
+        "tagteam:actType": "launch",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Organization_Fbi_68ed54055e67"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Joint_Investigation_069586c5dc16"
+        }
+      },
+      {
+        "@id": "inst:Act_launched",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "launched",
+        "tagteam:lemma": "launch",
+        "tagteam:verb": "launch",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_launch_ce6691c4"
+        }
+      },
+      {
+        "@id": "inst:Role_FBI_AgentRole",
+        "@type": [
+          "Role"
+        ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
+        "inheres_in": {
+          "@id": "inst:Organization_Fbi_68ed54055e67"
+        },
+        "realized_in": {
+          "@id": "inst:Act_launched"
+        },
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.8492
+      },
+      {
+        "@id": "inst:Role_a_joint_investigation_PatientRole",
+        "@type": [
+          "Role"
+        ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
+        "inheres_in": {
+          "@id": "inst:Entity_Joint_Investigation_069586c5dc16"
+        },
+        "realized_in": {
+          "@id": "inst:Act_launched"
+        },
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Entity_Dea_2d005a3c0831",
         "@type": [
           "Entity",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "dea and fbi launched a joint investigation",
+        "rdfs:label": "dea",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.287Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.281Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d993275a2cdb",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:DEA_and_FBI_launched_a_joint_investigation"
+          "@id": "inst:DR_DEA_m1"
         }
       },
       {
@@ -147,12 +236,16 @@
         "rdfs:label": "fbi",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.287Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.281Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d993275a2cdb",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:FBI"
-        }
+          "@id": "inst:DR_FBI_m1"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_FBI_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Joint_Investigation_069586c5dc16",
@@ -162,12 +255,16 @@
         ],
         "rdfs:label": "joint investigation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.287Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.281Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d993275a2cdb",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:a_joint_investigation"
-        }
+          "@id": "inst:DR_a_joint_investigation_m1"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_a_joint_investigation_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_d993275a2cdb",
@@ -179,7 +276,7 @@
         "has_text_value": "DEA and FBI launched a joint investigation",
         "tagteam:char_count": 42,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-28T11:17:36.278Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.274Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -208,6 +305,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_d993275a2cdb"
         },
@@ -216,19 +314,19 @@
         },
         "has_output": [
           {
-            "@id": "inst:DEA_and_FBI_launched_a_joint_investigation"
+            "@id": "inst:DR_DEA_m1"
           },
           {
-            "@id": "inst:FBI"
+            "@id": "inst:DR_FBI_m1"
           },
           {
-            "@id": "inst:a_joint_investigation"
+            "@id": "inst:DR_a_joint_investigation_m1"
           },
           {
-            "@id": "inst:Act_DEA"
+            "@id": "inst:VP_launched"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.278Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.274Z"
       }
     ]
   }

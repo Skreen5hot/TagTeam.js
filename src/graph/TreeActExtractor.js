@@ -151,6 +151,53 @@ const IRREGULAR_LEMMAS = {
   'operates': 'operate',
   'locates': 'locate',
   'collaborates': 'collaborate',
+  // VBD forms where -ed stripping over-truncates (stem ends in 'e')
+  'provided': 'provide',
+  'disclosed': 'disclose',
+  'required': 'require',
+  'ensured': 'ensure',
+  'included': 'include',
+  'described': 'describe',
+  'determined': 'determine',
+  'managed': 'manage',
+  'collaborated': 'collaborate',
+  'advised': 'advise',
+  'restricted': 'restrict',
+  'submitted': 'submit',
+  'encrypted': 'encrypt',
+  'conducted': 'conduct',
+  'suspended': 'suspend',
+  'terminated': 'terminate',
+  'maintained': 'maintain',
+  'complied': 'comply',
+  'notified': 'notify',
+  'verified': 'verify',
+  'reported': 'report',
+  'denied': 'deny',
+  'accessed': 'access',
+  'monitored': 'monitor',
+  'reviewed': 'review',
+  'contacted': 'contact',
+  'discussed': 'discuss',
+  'investigated': 'investigate',
+  'addressed': 'address',
+  'entered': 'enter',
+  'disclosed': 'disclose',
+  'prompted': 'prompt',
+  'resolved': 'resolve',
+  'presented': 'present',
+  'executed': 'execute',
+  'implemented': 'implement',
+  'specified': 'specify',
+  'associated': 'associate',
+  'requested': 'request',
+  'experienced': 'experience',
+  'discovered': 'discover',
+  'authorized': 'authorize',
+  'completed': 'complete',
+  'suspected': 'suspect',
+  'occurred': 'occur',
+  'violated': 'violate',
 };
 
 /**
@@ -362,6 +409,9 @@ class TreeActExtractor {
     // Modal detection: scan aux children for MD tag or known modal words
     const modal = this._detectModality(depTree, verbId, children);
 
+    // WS-D: Tense-aspect detection from POS tags + aux children
+    const tenseAspect = this._detectTenseAspect(depTree, verbId, tag, children);
+
     const act = {
       verb: word,
       lemma,
@@ -370,6 +420,7 @@ class TreeActExtractor {
       isCopular,
       isPassive,
       isNegated,
+      tenseAspect: tenseAspect,
     };
 
     if (modal) {
@@ -382,6 +433,62 @@ class TreeActExtractor {
     }
 
     return act;
+  }
+
+  /**
+   * WS-D: Detect tense-aspect from POS tag and auxiliary children.
+   *
+   * Pattern table:
+   *   VBD (no aux)         → SimplePastTense
+   *   VBZ/VBP (no aux)     → SimplePresentTense
+   *   is/are + VBG         → PresentProgressiveTense
+   *   was/were + VBG       → PastProgressiveTense
+   *   has/have + VBN       → PresentPerfectTense
+   *   had + VBN            → PastPerfectTense
+   *   MD:will + VB         → SimpleFutureTense (also handled by RDM)
+   *
+   * @param {DepTree} depTree
+   * @param {number} verbId
+   * @param {string} verbTag - POS tag of the main verb
+   * @param {Array} children - Direct children of this verb
+   * @returns {string|null} TenseAspect individual name or null
+   */
+  _detectTenseAspect(depTree, verbId, verbTag, children) {
+    // Find aux children
+    const auxChildren = children.filter(c => c.label === 'aux' || c.label === 'aux:pass');
+    const auxWords = auxChildren.map(c => depTree.tokens[c.dependent - 1].toLowerCase());
+    const auxTags = auxChildren.map(c => depTree.tags[c.dependent - 1]);
+
+    // Progressive: aux "is/are/was/were" + main verb VBG
+    if (verbTag === 'VBG') {
+      const hasPastAux = auxWords.some(w => w === 'was' || w === 'were');
+      const hasPresentAux = auxWords.some(w => w === 'is' || w === 'are' || w === 'am');
+      if (hasPastAux) return 'PastProgressiveTense';
+      if (hasPresentAux) return 'PresentProgressiveTense';
+    }
+
+    // Perfect: aux "has/have/had" + main verb VBN
+    if (verbTag === 'VBN') {
+      const hasHad = auxWords.some(w => w === 'had');
+      const hasHasHave = auxWords.some(w => w === 'has' || w === 'have');
+      if (hasHad) return 'PastPerfectTense';
+      if (hasHasHave) return 'PresentPerfectTense';
+      // Bare VBN with no aux — passive or reduced relative, not a tense marker
+      return null;
+    }
+
+    // Future: aux MD "will" + main verb VB
+    if (verbTag === 'VB' && auxTags.some(t => t === 'MD')) {
+      return 'SimpleFutureTense';
+    }
+
+    // Simple past: VBD with no perfect/progressive aux
+    if (verbTag === 'VBD') return 'SimplePastTense';
+
+    // Simple present: VBZ/VBP with no progressive/perfect aux
+    if (verbTag === 'VBZ' || verbTag === 'VBP') return 'SimplePresentTense';
+
+    return null;
   }
 
   /**
@@ -1131,6 +1238,7 @@ class TreeActExtractor {
     if (IRREGULAR_LEMMAS[lower]) return IRREGULAR_LEMMAS[lower];
 
     // Simple suffix-based lemmatization
+    // Note: verbs whose stem ends in 'e' (provide→provided) should be in IRREGULAR_LEMMAS
     if (tag === 'VBD' || tag === 'VBN') {
       if (lower.endsWith('ied')) return lower.slice(0, -3) + 'y';
       if (lower.endsWith('ed')) return lower.slice(0, -2);

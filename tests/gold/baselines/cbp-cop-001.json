@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:36.800Z",
+  "generatedAt": "2026-03-31T15:13:47.843Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -22,61 +22,37 @@
   "extractedEntities": [
     {
       "text": "The Office of Field Operations",
-      "type": "Facility",
-      "id": "inst:The_Office_of_Field_Operations"
-    },
-    {
-      "text": "Field Operations",
-      "type": "Entity",
-      "id": "inst:Field_Operations"
+      "type": "Organization",
+      "id": "inst:DR_The_Office_of_Field_Operations_m1"
     },
     {
       "text": "CBP",
       "type": "Organization",
-      "id": "inst:CBP"
+      "id": "inst:DR_CBP_m1"
     }
   ],
   "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_Office_of_Field_Operations",
+        "@id": "inst:DR_The_Office_of_Field_Operations_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The Office of Field Operations",
-        "tagteam:mentionId": "s0:h2:0-30",
+        "tagteam:mentionId": "s0:h1:0-30",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
-        "tagteam:genericityCategory": "INST",
-        "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Facility",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Facility_Office_Of_Field_Operation_fe3ad43ba33e"
+          "@id": "inst:Organization_Office_Of_Field_Operation_18312c47be0b"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a8f0a8fb8925"
         }
       },
       {
-        "@id": "inst:Field_Operations",
-        "@type": [
-          "tagteam:DiscourseReferent"
-        ],
-        "rdfs:label": "Field Operations",
-        "tagteam:mentionId": "s0:h4:14-30",
-        "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.6583,
-        "tagteam:denotesType": "Entity",
-        "is_about": {
-          "@id": "inst:Entity_Field_Operation_2989e280f905"
-        },
-        "is_concretized_by": {
-          "@id": "inst:Input_Text_IBE_a8f0a8fb8925"
-        }
-      },
-      {
-        "@id": "inst:CBP",
+        "@id": "inst:DR_CBP_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -100,44 +76,27 @@
         "tagteam:pattern": "predication",
         "tagteam:copula": "is",
         "assertionSubject": {
-          "@id": "inst:The_Office_of_Field_Operations"
+          "@id": "inst:DR_The_Office_of_Field_Operations_m1"
         },
         "assertionObject": {
-          "@id": "inst:CBP"
+          "@id": "inst:DR_CBP_m1"
         },
         "assertedRelation": {
           "@id": "has_continuant_part"
         }
       },
       {
-        "@id": "inst:Facility_Office_Of_Field_Operation_fe3ad43ba33e",
+        "@id": "inst:Organization_Office_Of_Field_Operation_18312c47be0b",
         "@type": [
-          "Facility",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "office of field operation",
-        "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.799Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.843Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a8f0a8fb8925",
-        "tagteam:denotesType": "Facility",
         "is_subject_of": {
-          "@id": "inst:The_Office_of_Field_Operations"
-        }
-      },
-      {
-        "@id": "inst:Entity_Field_Operation_2989e280f905",
-        "@type": [
-          "Entity",
-          "owl:NamedIndividual"
-        ],
-        "rdfs:label": "field operation",
-        "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.799Z",
-        "tagteam:instantiated_by": "inst:Input_Text_IBE_a8f0a8fb8925",
-        "tagteam:denotesType": "Entity",
-        "is_subject_of": {
-          "@id": "inst:Field_Operations"
+          "@id": "inst:DR_The_Office_of_Field_Operations_m1"
         }
       },
       {
@@ -148,14 +107,13 @@
         ],
         "rdfs:label": "cbp",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.799Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.843Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a8f0a8fb8925",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:CBP"
+          "@id": "inst:DR_CBP_m1"
         },
         "has_continuant_part": {
-          "@id": "inst:Facility_Office_Of_Field_Operation_fe3ad43ba33e"
+          "@id": "inst:Organization_Office_Of_Field_Operation_18312c47be0b"
         }
       },
       {
@@ -168,7 +126,7 @@
         "has_text_value": "The Office of Field Operations is the largest component of CBP",
         "tagteam:char_count": 62,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-28T11:17:36.788Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.831Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -197,6 +155,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_a8f0a8fb8925"
         },
@@ -205,16 +164,13 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_Office_of_Field_Operations"
+            "@id": "inst:DR_The_Office_of_Field_Operations_m1"
           },
           {
-            "@id": "inst:Field_Operations"
-          },
-          {
-            "@id": "inst:CBP"
+            "@id": "inst:DR_CBP_m1"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.788Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.831Z"
       }
     ]
   }

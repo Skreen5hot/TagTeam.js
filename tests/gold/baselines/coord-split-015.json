@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:36.322Z",
+  "generatedAt": "2026-03-31T15:13:47.325Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -37,19 +37,19 @@
     {
       "text": "State and local authorities",
       "type": "Entity",
-      "id": "inst:State_and_local_authorities"
+      "id": "inst:DR_State_and_local_authorities_m1"
     },
     {
       "text": "the search",
       "type": "Entity",
-      "id": "inst:the_search"
+      "id": "inst:DR_the_search_m1"
     }
   ],
   "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:State_and_local_authorities",
+        "@id": "inst:DR_State_and_local_authorities_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -66,7 +66,7 @@
         }
       },
       {
-        "@id": "inst:the_search",
+        "@id": "inst:DR_the_search_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -83,18 +83,6 @@
         }
       },
       {
-        "@id": "inst:Act_State",
-        "@type": [
-          "IntentionalAct",
-          "tagteam:VerbPhrase"
-        ],
-        "rdfs:label": "State",
-        "tagteam:lemma": "state",
-        "is_concretized_by": {
-          "@id": "inst:Input_Text_IBE_51c1431487b2"
-        }
-      },
-      {
         "@id": "inst:Entity_State_And_Local_Authority_f1eb70403c12",
         "@type": [
           "Entity",
@@ -102,11 +90,10 @@
         ],
         "rdfs:label": "state and local authority",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.322Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.325Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_51c1431487b2",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:State_and_local_authorities"
+          "@id": "inst:DR_State_and_local_authorities_m1"
         }
       },
       {
@@ -117,11 +104,10 @@
         ],
         "rdfs:label": "search",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.322Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.325Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_51c1431487b2",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_search"
+          "@id": "inst:DR_the_search_m1"
         }
       },
       {
@@ -134,7 +120,7 @@
         "has_text_value": "State and local authorities assisted in the search",
         "tagteam:char_count": 50,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-28T11:17:36.313Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.317Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -163,6 +149,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_51c1431487b2"
         },
@@ -171,16 +158,13 @@
         },
         "has_output": [
           {
-            "@id": "inst:State_and_local_authorities"
+            "@id": "inst:DR_State_and_local_authorities_m1"
           },
           {
-            "@id": "inst:the_search"
-          },
-          {
-            "@id": "inst:Act_State"
+            "@id": "inst:DR_the_search_m1"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.313Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.317Z"
       }
     ]
   }

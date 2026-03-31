@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:37.058Z",
+  "generatedAt": "2026-03-31T15:13:48.134Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -28,12 +28,17 @@
     {
       "text": "The new policy",
       "type": "Entity",
-      "id": "inst:The_new_policy"
+      "id": "inst:DR_The_new_policy_m1"
     },
     {
       "text": "all field offices",
       "type": "Entity",
-      "id": "inst:all_field_offices"
+      "id": "inst:DR_all_field_offices_m1"
+    },
+    {
+      "text": "implemented",
+      "type": "EventDescription",
+      "id": "inst:VP_implemented"
     }
   ],
   "extractedRoles": [
@@ -45,7 +50,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_new_policy",
+        "@id": "inst:DR_The_new_policy_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -64,7 +69,7 @@
         }
       },
       {
-        "@id": "inst:all_field_offices",
+        "@id": "inst:DR_all_field_offices_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -81,17 +86,56 @@
         }
       },
       {
-        "@id": "inst:Act_implemented",
+        "@id": "inst:VP_implemented",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "implemented",
         "tagteam:lemma": "implement",
+        "tagteam:verb": "implement",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_implement_6b93089e"
+        },
         "tagteam:isPassive": true,
+        "tagteam:mentionId": "s0:v5:19-30",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_78446384e317"
         }
+      },
+      {
+        "@id": "inst:EventDesc_implement_6b93089e",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: implement",
+        "tagteam:actType": "implement",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_New_Policy_ebaec6c94f1c"
+        }
+      },
+      {
+        "@id": "inst:Act_implemented",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "implemented",
+        "tagteam:lemma": "implement",
+        "tagteam:verb": "implement",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_implement_6b93089e"
+        },
+        "tagteam:isPassive": true
       },
       {
         "@id": "inst:Role_The_new_policy_PatientRole",
@@ -135,11 +179,10 @@
         "rdfs:label": "new policy",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.058Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.134Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_78446384e317",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_new_policy"
+          "@id": "inst:DR_The_new_policy_m1"
         },
         "is_bearer_of": [
           {
@@ -155,11 +198,10 @@
         ],
         "rdfs:label": "all field office",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.058Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.134Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_78446384e317",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:all_field_offices"
+          "@id": "inst:DR_all_field_offices_m1"
         },
         "is_bearer_of": [
           {
@@ -177,7 +219,7 @@
         "has_text_value": "The new policy was implemented across all field offices",
         "tagteam:char_count": 55,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-28T11:17:37.048Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.125Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -206,6 +248,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_78446384e317"
         },
@@ -214,16 +257,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_new_policy"
+            "@id": "inst:DR_The_new_policy_m1"
           },
           {
-            "@id": "inst:all_field_offices"
+            "@id": "inst:DR_all_field_offices_m1"
           },
           {
-            "@id": "inst:Act_implemented"
+            "@id": "inst:VP_implemented"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.048Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.125Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "relative-clause",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:37.879Z",
+  "generatedAt": "2026-03-31T15:13:48.916Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,17 +32,22 @@
     {
       "text": "The policy",
       "type": "Entity",
-      "id": "inst:The_policy"
+      "id": "inst:DR_The_policy_m1"
     },
     {
       "text": "the committee",
       "type": "Entity",
-      "id": "inst:the_committee"
+      "id": "inst:DR_the_committee_m1"
     },
     {
       "text": "effect",
       "type": "Entity",
-      "id": "inst:effect"
+      "id": "inst:DR_effect_m1"
+    },
+    {
+      "text": "took",
+      "type": "EventDescription",
+      "id": "inst:VP_took"
     }
   ],
   "extractedRoles": [
@@ -58,7 +63,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_policy",
+        "@id": "inst:DR_The_policy_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -75,7 +80,7 @@
         }
       },
       {
-        "@id": "inst:the_committee",
+        "@id": "inst:DR_the_committee_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -94,7 +99,7 @@
         }
       },
       {
-        "@id": "inst:effect",
+        "@id": "inst:DR_effect_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -111,27 +116,59 @@
         }
       },
       {
-        "@id": "inst:Act_policy",
+        "@id": "inst:VP_took",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
-        "rdfs:label": "policy",
-        "tagteam:lemma": "policy",
+        "rdfs:label": "took",
+        "tagteam:lemma": "take",
+        "tagteam:verb": "take",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_take_7e8aa18a"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v7:39-43",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a6a4984e3fd6"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_take_7e8aa18a",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: take",
+        "tagteam:actType": "take",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Committee_2d61742371fe"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Effect_bf143dc696fd"
         }
       },
       {
         "@id": "inst:Act_took",
         "@type": [
           "IntentionalAct",
-          "tagteam:VerbPhrase"
+          "owl:NamedIndividual"
         ],
         "rdfs:label": "took",
         "tagteam:lemma": "take",
-        "is_concretized_by": {
-          "@id": "inst:Input_Text_IBE_a6a4984e3fd6"
+        "tagteam:verb": "take",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_take_7e8aa18a"
         }
       },
       {
@@ -174,11 +211,10 @@
         ],
         "rdfs:label": "policy",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.879Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.916Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a6a4984e3fd6",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_policy"
+          "@id": "inst:DR_The_policy_m1"
         }
       },
       {
@@ -190,11 +226,10 @@
         "rdfs:label": "committee",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.879Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.916Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a6a4984e3fd6",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_committee"
+          "@id": "inst:DR_the_committee_m1"
         },
         "is_bearer_of": [
           {
@@ -210,11 +245,10 @@
         ],
         "rdfs:label": "effect",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.879Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.916Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a6a4984e3fd6",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:effect"
+          "@id": "inst:DR_effect_m1"
         },
         "is_bearer_of": [
           {
@@ -232,7 +266,7 @@
         "has_text_value": "The policy that the committee approved took effect immediately",
         "tagteam:char_count": 62,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-28T11:17:37.869Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.906Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -261,6 +295,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_a6a4984e3fd6"
         },
@@ -269,22 +304,19 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_policy"
+            "@id": "inst:DR_The_policy_m1"
           },
           {
-            "@id": "inst:the_committee"
+            "@id": "inst:DR_the_committee_m1"
           },
           {
-            "@id": "inst:effect"
+            "@id": "inst:DR_effect_m1"
           },
           {
-            "@id": "inst:Act_policy"
-          },
-          {
-            "@id": "inst:Act_took"
+            "@id": "inst:VP_took"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.869Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.906Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "cbp",
     "operations"
   ],
-  "generatedAt": "2026-02-28T11:17:36.632Z",
+  "generatedAt": "2026-03-31T15:13:47.658Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -33,12 +33,17 @@
     {
       "text": "The sector chief",
       "type": "Entity",
-      "id": "inst:The_sector_chief"
+      "id": "inst:DR_The_sector_chief_m1"
     },
     {
       "text": "additional resources",
       "type": "Entity",
-      "id": "inst:additional_resources"
+      "id": "inst:DR_additional_resources_m1"
+    },
+    {
+      "text": "deployed",
+      "type": "EventDescription",
+      "id": "inst:VP_deployed"
     }
   ],
   "extractedRoles": [
@@ -47,14 +52,14 @@
       "role": "Patient"
     },
     {
-      "entity": "additional resources",
+      "entity": "additional resource",
       "role": "Agent"
     }
   ],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_sector_chief",
+        "@id": "inst:DR_The_sector_chief_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -73,7 +78,7 @@
         }
       },
       {
-        "@id": "inst:additional_resources",
+        "@id": "inst:DR_additional_resources_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -83,24 +88,66 @@
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Additional_Resources_ba6490374395"
+          "@id": "inst:Entity_Additional_Resource_c50427005f44"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e4400b4f4de2"
         }
       },
       {
-        "@id": "inst:Act_deployed",
+        "@id": "inst:VP_deployed",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "deployed",
         "tagteam:lemma": "deploy",
+        "tagteam:verb": "deploy",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_deploy_03e17bf6"
+        },
         "tagteam:isPassive": true,
+        "tagteam:mentionId": "s0:v4:17-25",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e4400b4f4de2"
         }
+      },
+      {
+        "@id": "inst:EventDesc_deploy_03e17bf6",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: deploy",
+        "tagteam:actType": "deploy",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Additional_Resource_c50427005f44"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Sector_Chief_48b489c406e8"
+        }
+      },
+      {
+        "@id": "inst:Act_deployed",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "deployed",
+        "tagteam:lemma": "deploy",
+        "tagteam:verb": "deploy",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_deploy_03e17bf6"
+        },
+        "tagteam:isPassive": true
       },
       {
         "@id": "inst:Role_The_sector_chief_PatientRole",
@@ -126,7 +173,7 @@
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
         "inheres_in": {
-          "@id": "inst:Entity_Additional_Resources_ba6490374395"
+          "@id": "inst:Entity_Additional_Resource_c50427005f44"
         },
         "realized_in": {
           "@id": "inst:Act_deployed"
@@ -143,11 +190,10 @@
         "rdfs:label": "sector chief",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.631Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.658Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e4400b4f4de2",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_sector_chief"
+          "@id": "inst:DR_The_sector_chief_m1"
         },
         "is_bearer_of": [
           {
@@ -156,18 +202,17 @@
         ]
       },
       {
-        "@id": "inst:Entity_Additional_Resources_ba6490374395",
+        "@id": "inst:Entity_Additional_Resource_c50427005f44",
         "@type": [
           "Entity",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "additional resources",
+        "rdfs:label": "additional resource",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.631Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.658Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e4400b4f4de2",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:additional_resources"
+          "@id": "inst:DR_additional_resources_m1"
         },
         "is_bearer_of": [
           {
@@ -185,7 +230,7 @@
         "has_text_value": "The sector chief deployed additional resources",
         "tagteam:char_count": 46,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-28T11:17:36.623Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.649Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -214,6 +259,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_e4400b4f4de2"
         },
@@ -222,16 +268,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_sector_chief"
+            "@id": "inst:DR_The_sector_chief_m1"
           },
           {
-            "@id": "inst:additional_resources"
+            "@id": "inst:DR_additional_resources_m1"
           },
           {
-            "@id": "inst:Act_deployed"
+            "@id": "inst:VP_deployed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.623Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.649Z"
       }
     ]
   }

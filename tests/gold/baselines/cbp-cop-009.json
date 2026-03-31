@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:36.905Z",
+  "generatedAt": "2026-03-31T15:13:47.967Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -23,14 +23,19 @@
     {
       "text": "The checkpoint",
       "type": "Entity",
-      "id": "inst:The_checkpoint"
+      "id": "inst:DR_The_checkpoint_m1"
+    },
+    {
+      "text": "a fixed inspection station",
+      "type": "Role",
+      "id": "inst:a_fixed_inspection_station"
     }
   ],
   "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_checkpoint",
+        "@id": "inst:DR_The_checkpoint_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -54,13 +59,53 @@
         }
       },
       {
-        "@id": "inst:Assertion_The_checkpoint",
+        "@id": "inst:RoleAssertion_station_de1db299",
         "@type": [
+          "tagteam:RoleAssertion",
           "tagteam:StructuralAssertion"
         ],
-        "tagteam:subject": "The checkpoint",
-        "tagteam:pattern": "predication",
-        "tagteam:copula": "is"
+        "rdfs:label": "Role assertion: The checkpoint → station",
+        "tagteam:assertionSubject": {
+          "@id": "inst:The_checkpoint"
+        },
+        "tagteam:pattern": "role_assertion",
+        "is_about": {
+          "@id": "inst:Role_station_de1db299"
+        },
+        "tagteam:copulaLemma": "is"
+      },
+      {
+        "@id": "inst:a_fixed_inspection_station",
+        "@type": [
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "a fixed inspection station",
+        "tagteam:denotesType": "Role",
+        "is_about": {
+          "@id": "inst:Role_station_de1db299"
+        },
+        "tagteam:mentionId": "s0:p7:37-63",
+        "is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_0388adf8a5e3"
+        }
+      },
+      {
+        "@id": "inst:Role_station_de1db299",
+        "@type": [
+          "bfo:BFO_0000023",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "station",
+        "tagteam:roleType": "station",
+        "is_subject_of": {
+          "@id": "inst:a_fixed_inspection_station"
+        },
+        "bfo:BFO_0000052": {
+          "@id": "inst:Entity_Checkpoint_b2f2ff4a2431"
+        },
+        "inheres_in": {
+          "@id": "inst:Entity_Checkpoint_b2f2ff4a2431"
+        }
       },
       {
         "@id": "inst:Entity_Checkpoint_b2f2ff4a2431",
@@ -71,11 +116,10 @@
         "rdfs:label": "checkpoint",
         "tagteam:genericityCategory": "AMB",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.905Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.967Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0388adf8a5e3",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_checkpoint"
+          "@id": "inst:DR_The_checkpoint_m1"
         }
       },
       {
@@ -88,7 +132,7 @@
         "has_text_value": "The checkpoint is a fixed inspection station",
         "tagteam:char_count": 44,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-28T11:17:36.896Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.958Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -117,6 +161,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_0388adf8a5e3"
         },
@@ -125,10 +170,13 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_checkpoint"
+            "@id": "inst:DR_The_checkpoint_m1"
+          },
+          {
+            "@id": "inst:a_fixed_inspection_station"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.896Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.958Z"
       }
     ]
   }

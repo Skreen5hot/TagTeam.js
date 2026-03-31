@@ -6,7 +6,7 @@
     "long-np",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:37.701Z",
+  "generatedAt": "2026-03-31T15:13:48.736Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -30,19 +30,24 @@
   ],
   "extractedEntities": [
     {
-      "text": "The newly appointed deputy commissioner of field operations",
+      "text": "The newly appointed deputy commissioner",
       "type": "Entity",
-      "id": "inst:The_newly_appointed_deputy_commissioner_of_field_operations"
+      "id": "inst:DR_The_newly_appointed_deputy_commissioner_m1"
     },
     {
       "text": "field operations",
       "type": "Entity",
-      "id": "inst:field_operations"
+      "id": "inst:DR_field_operations_m1"
     },
     {
       "text": "the memorandum",
       "type": "Entity",
-      "id": "inst:the_memorandum"
+      "id": "inst:DR_the_memorandum_m1"
+    },
+    {
+      "text": "issued",
+      "type": "EventDescription",
+      "id": "inst:VP_issued"
     }
   ],
   "extractedRoles": [
@@ -54,24 +59,24 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_newly_appointed_deputy_commissioner_of_field_operations",
+        "@id": "inst:DR_The_newly_appointed_deputy_commissioner_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
-        "rdfs:label": "The newly appointed deputy commissioner of field operations",
-        "tagteam:mentionId": "s0:h5:0-59",
+        "rdfs:label": "The newly appointed deputy commissioner",
+        "tagteam:mentionId": "s0:h5:0-39",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Newly_Appointed_Deputy_Commissioner_Of_Field_Operation_670c59af6e5d"
+          "@id": "inst:Entity_Newly_Appointed_Deputy_Commissioner_bf4ef3e60d59"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_913620ff359a"
         }
       },
       {
-        "@id": "inst:field_operations",
+        "@id": "inst:DR_field_operations_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -88,7 +93,7 @@
         }
       },
       {
-        "@id": "inst:the_memorandum",
+        "@id": "inst:DR_the_memorandum_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -105,27 +110,53 @@
         }
       },
       {
-        "@id": "inst:Act_commissioner",
+        "@id": "inst:VP_issued",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
-        "rdfs:label": "commissioner",
-        "tagteam:lemma": "commissioner",
+        "rdfs:label": "issued",
+        "tagteam:lemma": "issu",
+        "tagteam:verb": "issu",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_issu_c6ac9002"
+        },
+        "tagteam:mentionId": "s0:v9:60-66",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_913620ff359a"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_issu_c6ac9002",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: issu",
+        "tagteam:actType": "issu",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Memorandum_f713698a82f9"
         }
       },
       {
         "@id": "inst:Act_issued",
         "@type": [
           "IntentionalAct",
-          "tagteam:VerbPhrase"
+          "owl:NamedIndividual"
         ],
         "rdfs:label": "issued",
         "tagteam:lemma": "issu",
-        "is_concretized_by": {
-          "@id": "inst:Input_Text_IBE_913620ff359a"
+        "tagteam:verb": "issu",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_issu_c6ac9002"
         }
       },
       {
@@ -145,18 +176,17 @@
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Entity_Newly_Appointed_Deputy_Commissioner_Of_Field_Operation_670c59af6e5d",
+        "@id": "inst:Entity_Newly_Appointed_Deputy_Commissioner_bf4ef3e60d59",
         "@type": [
           "Entity",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "newly appointed deputy commissioner of field operation",
+        "rdfs:label": "newly appointed deputy commissioner",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.701Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.735Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_913620ff359a",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_newly_appointed_deputy_commissioner_of_field_operations"
+          "@id": "inst:DR_The_newly_appointed_deputy_commissioner_m1"
         }
       },
       {
@@ -167,11 +197,10 @@
         ],
         "rdfs:label": "field operation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.701Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.735Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_913620ff359a",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:field_operations"
+          "@id": "inst:DR_field_operations_m1"
         }
       },
       {
@@ -182,11 +211,10 @@
         ],
         "rdfs:label": "memorandum",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.701Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.735Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_913620ff359a",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_memorandum"
+          "@id": "inst:DR_the_memorandum_m1"
         },
         "is_bearer_of": [
           {
@@ -204,7 +232,7 @@
         "has_text_value": "The newly appointed deputy commissioner of field operations issued the memorandum",
         "tagteam:char_count": 81,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-28T11:17:37.688Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.724Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -233,6 +261,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_913620ff359a"
         },
@@ -241,22 +270,19 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_newly_appointed_deputy_commissioner_of_field_operations"
+            "@id": "inst:DR_The_newly_appointed_deputy_commissioner_m1"
           },
           {
-            "@id": "inst:field_operations"
+            "@id": "inst:DR_field_operations_m1"
           },
           {
-            "@id": "inst:the_memorandum"
+            "@id": "inst:DR_the_memorandum_m1"
           },
           {
-            "@id": "inst:Act_commissioner"
-          },
-          {
-            "@id": "inst:Act_issued"
+            "@id": "inst:VP_issued"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.688Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.724Z"
       }
     ]
   }

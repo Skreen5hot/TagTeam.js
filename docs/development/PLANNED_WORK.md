@@ -973,8 +973,8 @@ Tier C (IPFS/HIRI): On-demand per-atom fetch, ~50-200ms per miss
 
 | Metric | Value | Target | Status |
 |--------|-------|--------|--------|
-| Entity F1 | 89.6% | ≥88% | ✅ |
-| Role F1 | 57.8% | ≥85% | ❌ (baselined) |
+| Entity F1 | 91.5% | ≥88% | ✅ (was 89.6%) |
+| Role F1 | 60.1% | ≥85% | ❌ (was 57.8%, P=60.8% R=88.1%) |
 | POS accuracy | 93.5% | ≥96% | ⚠️ (accepted) |
 | UAS | 85.3% | ≥90% | ⚠️ (accepted) |
 | LAS | 83.2% | ≥88% | ⚠️ (accepted) |
@@ -984,7 +984,7 @@ Tier C (IPFS/HIRI): On-demand per-atom fetch, ~50-200ms per miss
 | Stative tests | 23/23 (2 skip RC-1) | All pass | ✅ |
 | Narrative tests | 19/19 | All pass | ✅ |
 | Entity boundary | 18/18 (2 skip RC-1) | All pass | ✅ |
-| SHACL tests | 91 (14+27+50) | 88 pass, 3 frontier | ✅ |
+| SHACL tests | 91 (14+27+50) | 47/50 frontier, 3 known | ✅ |
 | Tagger tests | 141/141 | All pass | ✅ |
 | Bundle tests | 53/53 | All pass | ✅ |
 | Corpus regression | 15/15 | All pass | ✅ |

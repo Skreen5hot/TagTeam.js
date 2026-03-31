@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:35.737Z",
+  "generatedAt": "2026-03-31T15:13:46.662Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -24,14 +24,19 @@
     {
       "text": "DEA",
       "type": "Entity",
-      "id": "inst:DEA"
+      "id": "inst:DR_DEA_m1"
+    },
+    {
+      "text": "the primary federal enforcement agency",
+      "type": "Role",
+      "id": "inst:the_primary_federal_enforcement_agency"
     }
   ],
   "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:DEA",
+        "@id": "inst:DR_DEA_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -51,13 +56,53 @@
         }
       },
       {
-        "@id": "inst:Assertion_DEA",
+        "@id": "inst:RoleAssertion_agency_bd4542af",
         "@type": [
+          "tagteam:RoleAssertion",
           "tagteam:StructuralAssertion"
         ],
-        "tagteam:subject": "DEA",
-        "tagteam:pattern": "predication",
-        "tagteam:copula": "is"
+        "rdfs:label": "Role assertion: DEA → agency",
+        "tagteam:assertionSubject": {
+          "@id": "inst:DEA"
+        },
+        "tagteam:pattern": "role_assertion",
+        "is_about": {
+          "@id": "inst:Role_agency_bd4542af"
+        },
+        "tagteam:copulaLemma": "is"
+      },
+      {
+        "@id": "inst:the_primary_federal_enforcement_agency",
+        "@type": [
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the primary federal enforcement agency",
+        "tagteam:denotesType": "Role",
+        "is_about": {
+          "@id": "inst:Role_agency_bd4542af"
+        },
+        "tagteam:mentionId": "s0:p8:44-82",
+        "is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_0abf6643e39e"
+        }
+      },
+      {
+        "@id": "inst:Role_agency_bd4542af",
+        "@type": [
+          "bfo:BFO_0000023",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "agency",
+        "tagteam:roleType": "agency",
+        "is_subject_of": {
+          "@id": "inst:the_primary_federal_enforcement_agency"
+        },
+        "bfo:BFO_0000052": {
+          "@id": "inst:Entity_Dea_93d7fea72317"
+        },
+        "inheres_in": {
+          "@id": "inst:Entity_Dea_93d7fea72317"
+        }
       },
       {
         "@id": "inst:Entity_Dea_93d7fea72317",
@@ -68,11 +113,10 @@
         "rdfs:label": "dea",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.737Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.662Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0abf6643e39e",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:DEA"
+          "@id": "inst:DR_DEA_m1"
         }
       },
       {
@@ -85,7 +129,7 @@
         "has_text_value": "DEA is the primary federal drug enforcement agency",
         "tagteam:char_count": 50,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-28T11:17:35.727Z"
+        "tagteam:received_at": "2026-03-31T15:13:46.654Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -114,6 +158,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_0abf6643e39e"
         },
@@ -122,10 +167,13 @@
         },
         "has_output": [
           {
-            "@id": "inst:DEA"
+            "@id": "inst:DR_DEA_m1"
+          },
+          {
+            "@id": "inst:the_primary_federal_enforcement_agency"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.727Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.654Z"
       }
     ]
   }

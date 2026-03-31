@@ -6,7 +6,7 @@
     "academic",
     "research"
   ],
-  "generatedAt": "2026-02-28T11:17:37.487Z",
+  "generatedAt": "2026-03-31T15:13:48.539Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,12 +32,17 @@
     {
       "text": "The team",
       "type": "Organization",
-      "id": "inst:The_team"
+      "id": "inst:DR_The_team_m1"
     },
     {
       "text": "the experiment",
       "type": "Entity",
-      "id": "inst:the_experiment"
+      "id": "inst:DR_the_experiment_m1"
+    },
+    {
+      "text": "replicated",
+      "type": "EventDescription",
+      "id": "inst:VP_replicated"
     }
   ],
   "extractedRoles": [
@@ -53,7 +58,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_team",
+        "@id": "inst:DR_The_team_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -72,7 +77,7 @@
         }
       },
       {
-        "@id": "inst:the_experiment",
+        "@id": "inst:DR_the_experiment_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -89,15 +94,59 @@
         }
       },
       {
-        "@id": "inst:Act_replicated",
+        "@id": "inst:VP_replicated",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "replicated",
         "tagteam:lemma": "replicat",
+        "tagteam:verb": "replicat",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_replicat_57078e1b"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v3:9-19",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_b21af55d2390"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_replicat_57078e1b",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: replicat",
+        "tagteam:actType": "replicat",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Organization_Team_abff526f57a4"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Experiment_04b8e8223b9d"
+        }
+      },
+      {
+        "@id": "inst:Act_replicated",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "replicated",
+        "tagteam:lemma": "replicat",
+        "tagteam:verb": "replicat",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_replicat_57078e1b"
         }
       },
       {
@@ -141,11 +190,10 @@
         "rdfs:label": "team",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.486Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.539Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b21af55d2390",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:The_team"
+          "@id": "inst:DR_The_team_m1"
         },
         "is_bearer_of": [
           {
@@ -161,11 +209,10 @@
         ],
         "rdfs:label": "experiment",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.486Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.539Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_b21af55d2390",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_experiment"
+          "@id": "inst:DR_the_experiment_m1"
         },
         "is_bearer_of": [
           {
@@ -183,7 +230,7 @@
         "has_text_value": "The team replicated the experiment",
         "tagteam:char_count": 34,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-28T11:17:37.481Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.531Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -212,6 +259,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_b21af55d2390"
         },
@@ -220,16 +268,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_team"
+            "@id": "inst:DR_The_team_m1"
           },
           {
-            "@id": "inst:the_experiment"
+            "@id": "inst:DR_the_experiment_m1"
           },
           {
-            "@id": "inst:Act_replicated"
+            "@id": "inst:VP_replicated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.481Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.531Z"
       }
     ]
   }

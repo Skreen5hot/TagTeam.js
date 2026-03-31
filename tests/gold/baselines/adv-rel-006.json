@@ -6,7 +6,7 @@
     "relative-clause",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:38.061Z",
+  "generatedAt": "2026-03-31T15:13:49.083Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -36,34 +36,52 @@
     {
       "text": "The suspect",
       "type": "Person",
-      "id": "inst:The_suspect"
+      "id": "inst:DR_The_suspect_m1"
     },
     {
       "text": "who",
       "type": "Organization",
-      "id": "inst:who"
+      "id": "inst:DR_who_m1"
     },
     {
       "text": "the scene",
       "type": "Entity",
-      "id": "inst:the_scene"
+      "id": "inst:DR_the_scene_m1"
     },
     {
       "text": "the patrol",
       "type": "Entity",
-      "id": "inst:the_patrol"
+      "id": "inst:DR_the_patrol_m1"
+    },
+    {
+      "text": "fled",
+      "type": "EventDescription",
+      "id": "inst:VP_fled"
+    },
+    {
+      "text": "apprehended",
+      "type": "EventDescription",
+      "id": "inst:VP_apprehended"
     }
   ],
   "extractedRoles": [
     {
       "entity": "who",
       "role": "Agent"
+    },
+    {
+      "entity": "scene",
+      "role": "Patient"
+    },
+    {
+      "entity": "patrol",
+      "role": "Agent"
     }
   ],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_suspect",
+        "@id": "inst:DR_The_suspect_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -80,7 +98,7 @@
         }
       },
       {
-        "@id": "inst:who",
+        "@id": "inst:DR_who_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -100,7 +118,7 @@
         }
       },
       {
-        "@id": "inst:the_scene",
+        "@id": "inst:DR_the_scene_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -119,7 +137,7 @@
         }
       },
       {
-        "@id": "inst:the_patrol",
+        "@id": "inst:DR_the_patrol_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -136,28 +154,112 @@
         }
       },
       {
-        "@id": "inst:Act_suspect",
+        "@id": "inst:VP_fled",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
-        "rdfs:label": "suspect",
-        "tagteam:lemma": "suspect",
+        "rdfs:label": "fled",
+        "tagteam:lemma": "fl",
+        "tagteam:verb": "fl",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_fl_bf49cf08"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v4:16-20",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ea1319c8181c"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_fl_bf49cf08",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: fl",
+        "tagteam:actType": "fl",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Organization_Who_b4977e3c4530"
         }
       },
       {
         "@id": "inst:Act_fled",
         "@type": [
           "IntentionalAct",
-          "tagteam:VerbPhrase"
+          "owl:NamedIndividual"
         ],
         "rdfs:label": "fled",
         "tagteam:lemma": "fl",
+        "tagteam:verb": "fl",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_fl_bf49cf08"
+        }
+      },
+      {
+        "@id": "inst:VP_apprehended",
+        "@type": [
+          "tagteam:DiscourseReferent",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "apprehended",
+        "tagteam:lemma": "apprehend",
+        "tagteam:verb": "apprehend",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_apprehend_13973898"
+        },
+        "tagteam:isPassive": true,
+        "tagteam:mentionId": "s0:v8:35-46",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ea1319c8181c"
         }
+      },
+      {
+        "@id": "inst:EventDesc_apprehend_13973898",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: apprehend",
+        "tagteam:actType": "apprehend",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Patrol_1071748399e7"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Scene_55e533a5e82b"
+        }
+      },
+      {
+        "@id": "inst:Act_apprehended",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "apprehended",
+        "tagteam:lemma": "apprehend",
+        "tagteam:verb": "apprehend",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_apprehend_13973898"
+        },
+        "tagteam:isPassive": true
       },
       {
         "@id": "inst:Role_who_AgentRole",
@@ -176,6 +278,38 @@
         "tagteam:parseProbability": 0.7804
       },
       {
+        "@id": "inst:Role_the_scene_PatientRole",
+        "@type": [
+          "Role"
+        ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
+        "inheres_in": {
+          "@id": "inst:Entity_Scene_55e533a5e82b"
+        },
+        "realized_in": {
+          "@id": "inst:Act_apprehended"
+        },
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:Role_the_patrol_AgentRole",
+        "@type": [
+          "Role"
+        ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
+        "inheres_in": {
+          "@id": "inst:Entity_Patrol_1071748399e7"
+        },
+        "realized_in": {
+          "@id": "inst:Act_apprehended"
+        },
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
         "@id": "inst:Person_Suspect_49097baf71fa",
         "@type": [
           "Person",
@@ -183,11 +317,10 @@
         ],
         "rdfs:label": "suspect",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.061Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.082Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ea1319c8181c",
-        "tagteam:denotesType": "Person",
         "is_subject_of": {
-          "@id": "inst:The_suspect"
+          "@id": "inst:DR_The_suspect_m1"
         }
       },
       {
@@ -199,11 +332,10 @@
         "rdfs:label": "who",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.061Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.082Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ea1319c8181c",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:who"
+          "@id": "inst:DR_who_m1"
         },
         "is_bearer_of": [
           {
@@ -220,12 +352,16 @@
         "rdfs:label": "scene",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.061Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.082Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ea1319c8181c",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_scene"
-        }
+          "@id": "inst:DR_the_scene_m1"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_scene_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Patrol_1071748399e7",
@@ -235,12 +371,16 @@
         ],
         "rdfs:label": "patrol",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.061Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.082Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ea1319c8181c",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_patrol"
-        }
+          "@id": "inst:DR_the_patrol_m1"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_patrol_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_ea1319c8181c",
@@ -252,7 +392,7 @@
         "has_text_value": "The suspect who fled the scene was apprehended by the patrol",
         "tagteam:char_count": 60,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-28T11:17:38.047Z"
+        "tagteam:received_at": "2026-03-31T15:13:49.073Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -281,6 +421,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_ea1319c8181c"
         },
@@ -289,25 +430,25 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_suspect"
+            "@id": "inst:DR_The_suspect_m1"
           },
           {
-            "@id": "inst:who"
+            "@id": "inst:DR_who_m1"
           },
           {
-            "@id": "inst:the_scene"
+            "@id": "inst:DR_the_scene_m1"
           },
           {
-            "@id": "inst:the_patrol"
+            "@id": "inst:DR_the_patrol_m1"
           },
           {
-            "@id": "inst:Act_suspect"
+            "@id": "inst:VP_fled"
           },
           {
-            "@id": "inst:Act_fled"
+            "@id": "inst:VP_apprehended"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.047Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.073Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:35.798Z",
+  "generatedAt": "2026-03-31T15:13:46.727Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -24,14 +24,19 @@
     {
       "text": "The inspector general",
       "type": "Entity",
-      "id": "inst:The_inspector_general"
+      "id": "inst:DR_The_inspector_general_m1"
+    },
+    {
+      "text": "an independent oversight official",
+      "type": "Role",
+      "id": "inst:an_independent_oversight_official"
     }
   ],
   "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_inspector_general",
+        "@id": "inst:DR_The_inspector_general_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -55,13 +60,53 @@
         }
       },
       {
-        "@id": "inst:Assertion_The_inspector_general",
+        "@id": "inst:RoleAssertion_official_a67313b9",
         "@type": [
+          "tagteam:RoleAssertion",
           "tagteam:StructuralAssertion"
         ],
-        "tagteam:subject": "The inspector general",
-        "tagteam:pattern": "predication",
-        "tagteam:copula": "is"
+        "rdfs:label": "Role assertion: The inspector general → official",
+        "tagteam:assertionSubject": {
+          "@id": "inst:The_inspector_general"
+        },
+        "tagteam:pattern": "role_assertion",
+        "is_about": {
+          "@id": "inst:Role_official_a67313b9"
+        },
+        "tagteam:copulaLemma": "is"
+      },
+      {
+        "@id": "inst:an_independent_oversight_official",
+        "@type": [
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "an independent oversight official",
+        "tagteam:denotesType": "Role",
+        "is_about": {
+          "@id": "inst:Role_official_a67313b9"
+        },
+        "tagteam:mentionId": "s0:p8:50-83",
+        "is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_db6064c89dbb"
+        }
+      },
+      {
+        "@id": "inst:Role_official_a67313b9",
+        "@type": [
+          "bfo:BFO_0000023",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "official",
+        "tagteam:roleType": "official",
+        "is_subject_of": {
+          "@id": "inst:an_independent_oversight_official"
+        },
+        "bfo:BFO_0000052": {
+          "@id": "inst:Entity_Inspector_General_045ed4768061"
+        },
+        "inheres_in": {
+          "@id": "inst:Entity_Inspector_General_045ed4768061"
+        }
       },
       {
         "@id": "inst:Entity_Inspector_General_045ed4768061",
@@ -72,11 +117,10 @@
         "rdfs:label": "inspector general",
         "tagteam:genericityCategory": "AMB",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.798Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.726Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_db6064c89dbb",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_inspector_general"
+          "@id": "inst:DR_The_inspector_general_m1"
         }
       },
       {
@@ -89,7 +133,7 @@
         "has_text_value": "The inspector general is an independent oversight official",
         "tagteam:char_count": 58,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-28T11:17:35.790Z"
+        "tagteam:received_at": "2026-03-31T15:13:46.719Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -118,6 +162,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_db6064c89dbb"
         },
@@ -126,10 +171,13 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_inspector_general"
+            "@id": "inst:DR_The_inspector_general_m1"
+          },
+          {
+            "@id": "inst:an_independent_oversight_official"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.790Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.719Z"
       }
     ]
   }

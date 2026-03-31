@@ -6,7 +6,7 @@
     "medical",
     "treatment"
   ],
-  "generatedAt": "2026-02-28T11:17:37.545Z",
+  "generatedAt": "2026-03-31T15:13:48.595Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -40,17 +40,22 @@
     {
       "text": "The hospital",
       "type": "Organization",
-      "id": "inst:The_hospital"
+      "id": "inst:DR_The_hospital_m1"
     },
     {
       "text": "the patient",
       "type": "Person",
-      "id": "inst:the_patient"
+      "id": "inst:DR_the_patient_m1"
     },
     {
       "text": "the intensive care unit",
       "type": "Entity",
-      "id": "inst:the_intensive_care_unit"
+      "id": "inst:DR_the_intensive_care_unit_m1"
+    },
+    {
+      "text": "admitted",
+      "type": "EventDescription",
+      "id": "inst:VP_admitted"
     }
   ],
   "extractedRoles": [
@@ -70,7 +75,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_hospital",
+        "@id": "inst:DR_The_hospital_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -89,7 +94,7 @@
         }
       },
       {
-        "@id": "inst:the_patient",
+        "@id": "inst:DR_the_patient_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -106,7 +111,7 @@
         }
       },
       {
-        "@id": "inst:the_intensive_care_unit",
+        "@id": "inst:DR_the_intensive_care_unit_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -123,15 +128,59 @@
         }
       },
       {
-        "@id": "inst:Act_admitted",
+        "@id": "inst:VP_admitted",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "admitted",
         "tagteam:lemma": "admitt",
+        "tagteam:verb": "admitt",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_admitt_15c392f1"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v3:13-21",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_bdc26060bf87"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_admitt_15c392f1",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: admitt",
+        "tagteam:actType": "admitt",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Organization_Hospital_2e487f5a18dc"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Person_Patient_8ad6062c2b2d"
+        }
+      },
+      {
+        "@id": "inst:Act_admitted",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "admitted",
+        "tagteam:lemma": "admitt",
+        "tagteam:verb": "admitt",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_admitt_15c392f1"
         }
       },
       {
@@ -192,11 +241,10 @@
         "rdfs:label": "hospital",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.544Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.595Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdc26060bf87",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:The_hospital"
+          "@id": "inst:DR_The_hospital_m1"
         },
         "is_bearer_of": [
           {
@@ -212,11 +260,10 @@
         ],
         "rdfs:label": "patient",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.544Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.595Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdc26060bf87",
-        "tagteam:denotesType": "Person",
         "is_subject_of": {
-          "@id": "inst:the_patient"
+          "@id": "inst:DR_the_patient_m1"
         },
         "is_bearer_of": [
           {
@@ -232,11 +279,10 @@
         ],
         "rdfs:label": "intensive care unit",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.544Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.595Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdc26060bf87",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_intensive_care_unit"
+          "@id": "inst:DR_the_intensive_care_unit_m1"
         },
         "is_bearer_of": [
           {
@@ -254,7 +300,7 @@
         "has_text_value": "The hospital admitted the patient to the intensive care unit",
         "tagteam:char_count": 60,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-28T11:17:37.536Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.586Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -283,6 +329,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_bdc26060bf87"
         },
@@ -291,19 +338,19 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_hospital"
+            "@id": "inst:DR_The_hospital_m1"
           },
           {
-            "@id": "inst:the_patient"
+            "@id": "inst:DR_the_patient_m1"
           },
           {
-            "@id": "inst:the_intensive_care_unit"
+            "@id": "inst:DR_the_intensive_care_unit_m1"
           },
           {
-            "@id": "inst:Act_admitted"
+            "@id": "inst:VP_admitted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.536Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.586Z"
       }
     ]
   }

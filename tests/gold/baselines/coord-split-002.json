@@ -8,7 +8,7 @@
     "copular",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:36.111Z",
+  "generatedAt": "2026-03-31T15:13:47.084Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -27,21 +27,38 @@
   "expectedRoles": [],
   "extractedEntities": [
     {
-      "text": "CBP and ICE",
-      "type": "Organization",
-      "id": "inst:CBP_and_ICE"
-    },
-    {
       "text": "DHS",
       "type": "Organization",
-      "id": "inst:DHS"
+      "id": "inst:DR_DHS_m1"
+    },
+    {
+      "text": "CBP and ICE",
+      "type": "Organization",
+      "id": "inst:DR_CBP_and_ICE_m1"
     }
   ],
   "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:CBP_and_ICE",
+        "@id": "inst:DR_DHS_m1",
+        "@type": [
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "DHS",
+        "tagteam:mentionId": "s0:h7:30-33",
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583,
+        "tagteam:denotesType": "Organization",
+        "is_about": {
+          "@id": "inst:Organization_Dhs_d8abbb274711"
+        },
+        "is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_6f7877c05cfe"
+        }
+      },
+      {
+        "@id": "inst:DR_CBP_and_ICE_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -61,23 +78,6 @@
         }
       },
       {
-        "@id": "inst:DHS",
-        "@type": [
-          "tagteam:DiscourseReferent"
-        ],
-        "rdfs:label": "DHS",
-        "tagteam:mentionId": "s0:h7:30-33",
-        "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.6583,
-        "tagteam:denotesType": "Organization",
-        "is_about": {
-          "@id": "inst:Organization_Dhs_d8abbb274711"
-        },
-        "is_concretized_by": {
-          "@id": "inst:Input_Text_IBE_6f7877c05cfe"
-        }
-      },
-      {
         "@id": "inst:Assertion_CBP_and_ICE",
         "@type": [
           "tagteam:StructuralAssertion"
@@ -85,13 +85,27 @@
         "tagteam:pattern": "predication",
         "tagteam:copula": "are",
         "assertionSubject": {
-          "@id": "inst:CBP_and_ICE"
+          "@id": "inst:DR_CBP_and_ICE_m1"
         },
         "assertionObject": {
-          "@id": "inst:DHS"
+          "@id": "inst:DR_DHS_m1"
         },
         "assertedRelation": {
           "@id": "member_part_of"
+        }
+      },
+      {
+        "@id": "inst:Organization_Dhs_d8abbb274711",
+        "@type": [
+          "Organization",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "dhs",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.084Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_6f7877c05cfe",
+        "is_subject_of": {
+          "@id": "inst:DR_DHS_m1"
         }
       },
       {
@@ -103,29 +117,13 @@
         "rdfs:label": "cbp and ice",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.111Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.084Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6f7877c05cfe",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:CBP_and_ICE"
+          "@id": "inst:DR_CBP_and_ICE_m1"
         },
         "member_part_of": {
           "@id": "inst:Organization_Dhs_d8abbb274711"
-        }
-      },
-      {
-        "@id": "inst:Organization_Dhs_d8abbb274711",
-        "@type": [
-          "Organization",
-          "owl:NamedIndividual"
-        ],
-        "rdfs:label": "dhs",
-        "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.111Z",
-        "tagteam:instantiated_by": "inst:Input_Text_IBE_6f7877c05cfe",
-        "tagteam:denotesType": "Organization",
-        "is_subject_of": {
-          "@id": "inst:DHS"
         }
       },
       {
@@ -138,7 +136,7 @@
         "has_text_value": "CBP and ICE are components of DHS",
         "tagteam:char_count": 33,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-28T11:17:36.104Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.073Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -167,6 +165,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_6f7877c05cfe"
         },
@@ -175,13 +174,13 @@
         },
         "has_output": [
           {
-            "@id": "inst:CBP_and_ICE"
+            "@id": "inst:DR_DHS_m1"
           },
           {
-            "@id": "inst:DHS"
+            "@id": "inst:DR_CBP_and_ICE_m1"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.104Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.073Z"
       }
     ]
   }

@@ -1,25 +1,25 @@
 {
-  "timestamp": "2026-02-28T11:17:47.541Z",
+  "timestamp": "2026-03-31T15:14:38.904Z",
   "sentenceCount": 200,
   "entityF1": {
-    "precision": 0.8975409836065574,
-    "recall": 0.8938775510204081,
-    "f1": 0.8957055214723927
+    "precision": 0.9076305220883534,
+    "recall": 0.9224489795918367,
+    "f1": 0.9149797570850202
   },
   "roleF1": {
-    "precision": 0.502868068833652,
-    "recall": 0.6795865633074936,
-    "f1": 0.578021978021978
+    "precision": 0.5127737226277372,
+    "recall": 0.7260981912144703,
+    "f1": 0.6010695187165775
   },
   "copularAccuracy": 0.96875,
-  "coordinationAccuracy": 0.8,
+  "coordinationAccuracy": 0.85,
   "subsets": {
     "organizational": {
       "count": 43,
       "entityF1": {
-        "precision": 0.9662921348314607,
-        "recall": 0.8958333333333334,
-        "f1": 0.9297297297297298
+        "precision": 0.9680851063829787,
+        "recall": 0.9479166666666666,
+        "f1": 0.9578947368421052
       },
       "roleF1": {
         "precision": 0.46534653465346537,
@@ -30,14 +30,14 @@
     "coordination": {
       "count": 20,
       "entityF1": {
-        "precision": 0.8888888888888888,
+        "precision": 0.975609756097561,
         "recall": 0.7407407407407407,
-        "f1": 0.808080808080808
+        "f1": 0.8421052631578947
       },
       "roleF1": {
-        "precision": 0.5,
-        "recall": 0.46,
-        "f1": 0.4791666666666667
+        "precision": 0.56,
+        "recall": 0.56,
+        "f1": 0.56
       }
     },
     "stative-passive": {
@@ -56,27 +56,27 @@
     "three-way-coord": {
       "count": 5,
       "entityF1": {
-        "precision": 0.9333333333333333,
-        "recall": 0.7,
-        "f1": 0.8
+        "precision": 0.9375,
+        "recall": 0.75,
+        "f1": 0.8333333333333334
       },
       "roleF1": {
-        "precision": 0.375,
-        "recall": 0.1875,
-        "f1": 0.25
+        "precision": 0.46153846153846156,
+        "recall": 0.375,
+        "f1": 0.41379310344827586
       }
     },
     "cbp-domain": {
       "count": 60,
       "entityF1": {
-        "precision": 0.9015151515151515,
-        "recall": 0.875,
-        "f1": 0.8880597014925373
+        "precision": 0.9071428571428571,
+        "recall": 0.9338235294117647,
+        "f1": 0.9202898550724637
       },
       "roleF1": {
-        "precision": 0.4774193548387097,
+        "precision": 0.4805194805194805,
         "recall": 0.7326732673267327,
-        "f1": 0.5781250000000001
+        "f1": 0.580392156862745
       }
     },
     "general": {
@@ -100,9 +100,9 @@
         "f1": 0.8640776699029126
       },
       "roleF1": {
-        "precision": 0.5053763440860215,
-        "recall": 0.6025641025641025,
-        "f1": 0.5497076023391813
+        "precision": 0.5181818181818182,
+        "recall": 0.7307692307692307,
+        "f1": 0.6063829787234042
       }
     }
   },
@@ -122,13 +122,13 @@
     },
     {
       "id": "org-cop-002",
-      "entityF1": 0.6666666666666666,
+      "entityF1": 0.5,
       "roleF1": 0,
-      "entityPrecision": 1,
+      "entityPrecision": 0.5,
       "entityRecall": 0.5,
       "rolePrecision": 0,
       "roleRecall": 0,
-      "extractedEntities": 1,
+      "extractedEntities": 2,
       "goldEntities": 2,
       "extractedRoles": 1,
       "goldRoles": 0
@@ -161,10 +161,10 @@
     },
     {
       "id": "org-cop-005",
-      "entityF1": 0.5,
+      "entityF1": 1,
       "roleF1": 0,
-      "entityPrecision": 0.5,
-      "entityRecall": 0.5,
+      "entityPrecision": 1,
+      "entityRecall": 1,
       "rolePrecision": 0,
       "roleRecall": 0,
       "extractedEntities": 2,
@@ -187,13 +187,13 @@
     },
     {
       "id": "org-cop-007",
-      "entityF1": 0.6666666666666666,
+      "entityF1": 1,
       "roleF1": 0,
       "entityPrecision": 1,
-      "entityRecall": 0.5,
+      "entityRecall": 1,
       "rolePrecision": 0,
       "roleRecall": 0,
-      "extractedEntities": 1,
+      "extractedEntities": 2,
       "goldEntities": 2,
       "extractedRoles": 1,
       "goldRoles": 0
@@ -226,26 +226,26 @@
     },
     {
       "id": "org-cop-010",
-      "entityF1": 0.6666666666666666,
+      "entityF1": 0.5,
       "roleF1": 0,
-      "entityPrecision": 1,
+      "entityPrecision": 0.5,
       "entityRecall": 0.5,
       "rolePrecision": 0,
       "roleRecall": 0,
-      "extractedEntities": 1,
+      "extractedEntities": 2,
       "goldEntities": 2,
       "extractedRoles": 1,
       "goldRoles": 0
     },
     {
       "id": "org-cop-011",
-      "entityF1": 0.6666666666666666,
+      "entityF1": 1,
       "roleF1": 0,
       "entityPrecision": 1,
-      "entityRecall": 0.5,
+      "entityRecall": 1,
       "rolePrecision": 0,
       "roleRecall": 0,
-      "extractedEntities": 1,
+      "extractedEntities": 2,
       "goldEntities": 2,
       "extractedRoles": 1,
       "goldRoles": 0
@@ -265,6 +265,19 @@
     },
     {
       "id": "org-cop-013",
+      "entityF1": 1,
+      "roleF1": 0,
+      "entityPrecision": 1,
+      "entityRecall": 1,
+      "rolePrecision": 0,
+      "roleRecall": 0,
+      "extractedEntities": 2,
+      "goldEntities": 2,
+      "extractedRoles": 1,
+      "goldRoles": 0
+    },
+    {
+      "id": "org-cop-014",
       "entityF1": 0.8,
       "roleF1": 0,
       "entityPrecision": 0.6666666666666666,
@@ -277,27 +290,14 @@
       "goldRoles": 0
     },
     {
-      "id": "org-cop-014",
-      "entityF1": 0.5,
+      "id": "org-cop-015",
+      "entityF1": 1,
       "roleF1": 0,
-      "entityPrecision": 0.5,
-      "entityRecall": 0.5,
+      "entityPrecision": 1,
+      "entityRecall": 1,
       "rolePrecision": 0,
       "roleRecall": 0,
       "extractedEntities": 2,
-      "goldEntities": 2,
-      "extractedRoles": 1,
-      "goldRoles": 0
-    },
-    {
-      "id": "org-cop-015",
-      "entityF1": 0.6666666666666666,
-      "roleF1": 0,
-      "entityPrecision": 1,
-      "entityRecall": 0.5,
-      "rolePrecision": 0,
-      "roleRecall": 0,
-      "extractedEntities": 1,
       "goldEntities": 2,
       "extractedRoles": 1,
       "goldRoles": 0
@@ -694,13 +694,13 @@
     },
     {
       "id": "coord-keep-001",
-      "entityF1": 0.8,
+      "entityF1": 1,
       "roleF1": 0.8,
-      "entityPrecision": 0.6666666666666666,
+      "entityPrecision": 1,
       "entityRecall": 1,
       "rolePrecision": 0.6666666666666666,
       "roleRecall": 1,
-      "extractedEntities": 3,
+      "extractedEntities": 2,
       "goldEntities": 2,
       "extractedRoles": 3,
       "goldRoles": 2
@@ -720,15 +720,15 @@
     },
     {
       "id": "coord-keep-003",
-      "entityF1": 0.6666666666666666,
-      "roleF1": 0.6666666666666666,
-      "entityPrecision": 0.5,
+      "entityF1": 1,
+      "roleF1": 0.8,
+      "entityPrecision": 1,
       "entityRecall": 1,
-      "rolePrecision": 0.5,
+      "rolePrecision": 0.6666666666666666,
       "roleRecall": 1,
-      "extractedEntities": 4,
+      "extractedEntities": 2,
       "goldEntities": 2,
-      "extractedRoles": 4,
+      "extractedRoles": 3,
       "goldRoles": 2
     },
     {
@@ -811,15 +811,15 @@
     },
     {
       "id": "coord-keep-005",
-      "entityF1": 0.8,
-      "roleF1": 0,
-      "entityPrecision": 0.6666666666666666,
+      "entityF1": 1,
+      "roleF1": 0.8,
+      "entityPrecision": 1,
       "entityRecall": 1,
-      "rolePrecision": 0,
-      "roleRecall": 0,
-      "extractedEntities": 3,
+      "rolePrecision": 0.6666666666666666,
+      "roleRecall": 1,
+      "extractedEntities": 2,
       "goldEntities": 2,
-      "extractedRoles": 1,
+      "extractedRoles": 3,
       "goldRoles": 2
     },
     {
@@ -838,14 +838,14 @@
     {
       "id": "coord-split-012",
       "entityF1": 1,
-      "roleF1": 0,
+      "roleF1": 0.6666666666666666,
       "entityPrecision": 1,
       "entityRecall": 1,
-      "rolePrecision": 0,
-      "roleRecall": 0,
+      "rolePrecision": 0.6666666666666666,
+      "roleRecall": 0.6666666666666666,
       "extractedEntities": 3,
       "goldEntities": 3,
-      "extractedRoles": 1,
+      "extractedRoles": 3,
       "goldRoles": 3
     },
     {
@@ -864,14 +864,14 @@
     {
       "id": "coord-split-014",
       "entityF1": 0.8,
-      "roleF1": 0,
+      "roleF1": 0.4,
       "entityPrecision": 1,
       "entityRecall": 0.6666666666666666,
-      "rolePrecision": 0,
-      "roleRecall": 0,
+      "rolePrecision": 0.5,
+      "roleRecall": 0.3333333333333333,
       "extractedEntities": 2,
       "goldEntities": 3,
-      "extractedRoles": 1,
+      "extractedRoles": 2,
       "goldRoles": 3
     },
     {
@@ -1059,25 +1059,25 @@
     {
       "id": "coord-three-001",
       "entityF1": 0.8571428571428571,
+      "roleF1": 0.5714285714285715,
+      "entityPrecision": 1,
+      "entityRecall": 0.75,
+      "rolePrecision": 0.6666666666666666,
+      "roleRecall": 0.5,
+      "extractedEntities": 3,
+      "goldEntities": 4,
+      "extractedRoles": 3,
+      "goldRoles": 4
+    },
+    {
+      "id": "coord-three-002",
+      "entityF1": 0.8571428571428571,
       "roleF1": 0,
       "entityPrecision": 1,
       "entityRecall": 0.75,
       "rolePrecision": 0,
       "roleRecall": 0,
       "extractedEntities": 3,
-      "goldEntities": 4,
-      "extractedRoles": 1,
-      "goldRoles": 4
-    },
-    {
-      "id": "coord-three-002",
-      "entityF1": 0.6666666666666666,
-      "roleF1": 0,
-      "entityPrecision": 1,
-      "entityRecall": 0.5,
-      "rolePrecision": 0,
-      "roleRecall": 0,
-      "extractedEntities": 2,
       "goldEntities": 4,
       "extractedRoles": 1,
       "goldRoles": 0
@@ -1085,14 +1085,14 @@
     {
       "id": "coord-three-003",
       "entityF1": 0.8571428571428571,
-      "roleF1": 0.3333333333333333,
+      "roleF1": 0.5714285714285715,
       "entityPrecision": 1,
       "entityRecall": 0.75,
-      "rolePrecision": 0.5,
-      "roleRecall": 0.25,
+      "rolePrecision": 0.6666666666666666,
+      "roleRecall": 0.5,
       "extractedEntities": 3,
       "goldEntities": 4,
-      "extractedRoles": 2,
+      "extractedRoles": 3,
       "goldRoles": 4
     },
     {
@@ -1105,7 +1105,7 @@
       "roleRecall": 0,
       "extractedEntities": 4,
       "goldEntities": 4,
-      "extractedRoles": 1,
+      "extractedRoles": 3,
       "goldRoles": 4
     },
     {
@@ -1214,15 +1214,15 @@
     },
     {
       "id": "cbp-svo-008",
-      "entityF1": 0.5,
+      "entityF1": 0.8,
       "roleF1": 0,
-      "entityPrecision": 0.5,
-      "entityRecall": 0.5,
+      "entityPrecision": 0.6666666666666666,
+      "entityRecall": 1,
       "rolePrecision": 0,
       "roleRecall": 0,
-      "extractedEntities": 2,
+      "extractedEntities": 3,
       "goldEntities": 2,
-      "extractedRoles": 2,
+      "extractedRoles": 1,
       "goldRoles": 2
     },
     {
@@ -1383,26 +1383,26 @@
     },
     {
       "id": "cbp-cop-001",
-      "entityF1": 0.8,
+      "entityF1": 1,
       "roleF1": 0,
-      "entityPrecision": 0.6666666666666666,
+      "entityPrecision": 1,
       "entityRecall": 1,
       "rolePrecision": 0,
       "roleRecall": 0,
-      "extractedEntities": 3,
+      "extractedEntities": 2,
       "goldEntities": 2,
       "extractedRoles": 1,
       "goldRoles": 0
     },
     {
       "id": "cbp-cop-002",
-      "entityF1": 0.4,
+      "entityF1": 0.6666666666666666,
       "roleF1": 0,
-      "entityPrecision": 0.3333333333333333,
-      "entityRecall": 0.5,
+      "entityPrecision": 0.5,
+      "entityRecall": 1,
       "rolePrecision": 0,
       "roleRecall": 0,
-      "extractedEntities": 3,
+      "extractedEntities": 4,
       "goldEntities": 2,
       "extractedRoles": 1,
       "goldRoles": 0
@@ -1422,13 +1422,13 @@
     },
     {
       "id": "cbp-cop-004",
-      "entityF1": 0.6666666666666666,
+      "entityF1": 1,
       "roleF1": 0,
       "entityPrecision": 1,
-      "entityRecall": 0.5,
+      "entityRecall": 1,
       "rolePrecision": 0,
       "roleRecall": 0,
-      "extractedEntities": 1,
+      "extractedEntities": 2,
       "goldEntities": 2,
       "extractedRoles": 1,
       "goldRoles": 0
@@ -1448,26 +1448,26 @@
     },
     {
       "id": "cbp-cop-006",
-      "entityF1": 0.4,
+      "entityF1": 0.5714285714285715,
       "roleF1": 0,
-      "entityPrecision": 0.3333333333333333,
-      "entityRecall": 0.5,
+      "entityPrecision": 0.4,
+      "entityRecall": 1,
       "rolePrecision": 0,
       "roleRecall": 0,
-      "extractedEntities": 3,
+      "extractedEntities": 5,
       "goldEntities": 2,
       "extractedRoles": 2,
       "goldRoles": 0
     },
     {
       "id": "cbp-cop-007",
-      "entityF1": 0.6666666666666666,
+      "entityF1": 1,
       "roleF1": 0,
       "entityPrecision": 1,
-      "entityRecall": 0.5,
+      "entityRecall": 1,
       "rolePrecision": 0,
       "roleRecall": 0,
-      "extractedEntities": 1,
+      "extractedEntities": 2,
       "goldEntities": 2,
       "extractedRoles": 1,
       "goldRoles": 0
@@ -1487,26 +1487,26 @@
     },
     {
       "id": "cbp-cop-009",
-      "entityF1": 0.6666666666666666,
+      "entityF1": 1,
       "roleF1": 0,
       "entityPrecision": 1,
-      "entityRecall": 0.5,
+      "entityRecall": 1,
       "rolePrecision": 0,
       "roleRecall": 0,
-      "extractedEntities": 1,
+      "extractedEntities": 2,
       "goldEntities": 2,
       "extractedRoles": 1,
       "goldRoles": 0
     },
     {
       "id": "cbp-cop-010",
-      "entityF1": 0.6666666666666666,
+      "entityF1": 1,
       "roleF1": 0,
       "entityPrecision": 1,
-      "entityRecall": 0.5,
+      "entityRecall": 1,
       "rolePrecision": 0,
       "roleRecall": 0,
-      "extractedEntities": 1,
+      "extractedEntities": 2,
       "goldEntities": 2,
       "extractedRoles": 1,
       "goldRoles": 0
@@ -1526,13 +1526,13 @@
     },
     {
       "id": "cbp-cop-012",
-      "entityF1": 0.6666666666666666,
+      "entityF1": 0.5,
       "roleF1": 0,
-      "entityPrecision": 1,
+      "entityPrecision": 0.5,
       "entityRecall": 0.5,
       "rolePrecision": 0,
       "roleRecall": 0,
-      "extractedEntities": 1,
+      "extractedEntities": 2,
       "goldEntities": 2,
       "extractedRoles": 1,
       "goldRoles": 0
@@ -1552,13 +1552,13 @@
     },
     {
       "id": "cbp-cop-014",
-      "entityF1": 0.6666666666666666,
+      "entityF1": 1,
       "roleF1": 0,
       "entityPrecision": 1,
-      "entityRecall": 0.5,
+      "entityRecall": 1,
       "rolePrecision": 0,
       "roleRecall": 0,
-      "extractedEntities": 1,
+      "extractedEntities": 2,
       "goldEntities": 2,
       "extractedRoles": 1,
       "goldRoles": 0
@@ -1617,13 +1617,13 @@
     },
     {
       "id": "cbp-pass-004",
-      "entityF1": 0.8,
+      "entityF1": 1,
       "roleF1": 0.8,
-      "entityPrecision": 0.6666666666666666,
+      "entityPrecision": 1,
       "entityRecall": 1,
       "rolePrecision": 0.6666666666666666,
       "roleRecall": 1,
-      "extractedEntities": 3,
+      "extractedEntities": 2,
       "goldEntities": 2,
       "extractedRoles": 3,
       "goldRoles": 2
@@ -2346,14 +2346,14 @@
     {
       "id": "adv-long-005",
       "entityF1": 0.8,
-      "roleF1": 0,
+      "roleF1": 0.5,
       "entityPrecision": 0.6666666666666666,
       "entityRecall": 1,
-      "rolePrecision": 0,
-      "roleRecall": 0,
+      "rolePrecision": 0.5,
+      "roleRecall": 0.5,
       "extractedEntities": 3,
       "goldEntities": 2,
-      "extractedRoles": 1,
+      "extractedRoles": 2,
       "goldRoles": 2
     },
     {
@@ -2457,20 +2457,20 @@
       "roleRecall": 0,
       "extractedEntities": 3,
       "goldEntities": 2,
-      "extractedRoles": 2,
+      "extractedRoles": 3,
       "goldRoles": 1
     },
     {
       "id": "adv-rel-003",
       "entityF1": 0.8571428571428571,
-      "roleF1": 0,
+      "roleF1": 0.3333333333333333,
       "entityPrecision": 0.75,
       "entityRecall": 1,
-      "rolePrecision": 0,
-      "roleRecall": 0,
+      "rolePrecision": 0.25,
+      "roleRecall": 0.5,
       "extractedEntities": 4,
       "goldEntities": 3,
-      "extractedRoles": 2,
+      "extractedRoles": 4,
       "goldRoles": 2
     },
     {
@@ -2502,66 +2502,66 @@
     {
       "id": "adv-multi-001",
       "entityF1": 1,
-      "roleF1": 0.6666666666666666,
+      "roleF1": 0.75,
       "entityPrecision": 1,
       "entityRecall": 1,
-      "rolePrecision": 1,
-      "roleRecall": 0.5,
+      "rolePrecision": 0.75,
+      "roleRecall": 0.75,
       "extractedEntities": 4,
       "goldEntities": 4,
-      "extractedRoles": 2,
+      "extractedRoles": 4,
       "goldRoles": 4
     },
     {
       "id": "adv-multi-002",
       "entityF1": 1,
-      "roleF1": 0.5714285714285715,
+      "roleF1": 0.888888888888889,
       "entityPrecision": 1,
       "entityRecall": 1,
-      "rolePrecision": 0.6666666666666666,
-      "roleRecall": 0.5,
+      "rolePrecision": 0.8,
+      "roleRecall": 1,
       "extractedEntities": 4,
       "goldEntities": 4,
-      "extractedRoles": 3,
+      "extractedRoles": 5,
       "goldRoles": 4
     },
     {
       "id": "adv-multi-003",
       "entityF1": 0.6666666666666666,
-      "roleF1": 0.6666666666666666,
+      "roleF1": 0.5714285714285715,
       "entityPrecision": 0.6666666666666666,
       "entityRecall": 0.6666666666666666,
-      "rolePrecision": 0.6666666666666666,
+      "rolePrecision": 0.5,
       "roleRecall": 0.6666666666666666,
       "extractedEntities": 3,
       "goldEntities": 3,
-      "extractedRoles": 3,
+      "extractedRoles": 4,
       "goldRoles": 3
     },
     {
       "id": "adv-multi-004",
       "entityF1": 1,
-      "roleF1": 0.6666666666666666,
+      "roleF1": 0.8571428571428571,
       "entityPrecision": 1,
       "entityRecall": 1,
-      "rolePrecision": 0.6666666666666666,
-      "roleRecall": 0.6666666666666666,
+      "rolePrecision": 0.75,
+      "roleRecall": 1,
       "extractedEntities": 3,
       "goldEntities": 3,
-      "extractedRoles": 3,
+      "extractedRoles": 4,
       "goldRoles": 3
     },
     {
       "id": "adv-multi-005",
       "entityF1": 1,
-      "roleF1": 0,
+      "roleF1": 0.6666666666666666,
       "entityPrecision": 1,
       "entityRecall": 1,
-      "rolePrecision": 0,
-      "roleRecall": 0,
+      "rolePrecision": 0.5,
+      "roleRecall": 1,
       "extractedEntities": 3,
       "goldEntities": 3,
-      "extractedRoles": 2,
+      "extractedRoles": 4,
       "goldRoles": 2
     },
     {
@@ -2632,14 +2632,14 @@
     {
       "id": "adv-rel-006",
       "entityF1": 0.8571428571428571,
-      "roleF1": 0,
+      "roleF1": 0.3333333333333333,
       "entityPrecision": 0.75,
       "entityRecall": 1,
-      "rolePrecision": 0,
-      "roleRecall": 0,
+      "rolePrecision": 0.25,
+      "roleRecall": 0.5,
       "extractedEntities": 4,
       "goldEntities": 3,
-      "extractedRoles": 2,
+      "extractedRoles": 4,
       "goldRoles": 2
     },
     {
@@ -2658,14 +2658,14 @@
     {
       "id": "adv-rel-008",
       "entityF1": 1,
-      "roleF1": 0.4,
+      "roleF1": 0.3333333333333333,
       "entityPrecision": 1,
       "entityRecall": 1,
-      "rolePrecision": 0.5,
+      "rolePrecision": 0.3333333333333333,
       "roleRecall": 0.3333333333333333,
       "extractedEntities": 3,
       "goldEntities": 3,
-      "extractedRoles": 2,
+      "extractedRoles": 3,
       "goldRoles": 3
     },
     {
@@ -2684,14 +2684,14 @@
     {
       "id": "adv-multi-008",
       "entityF1": 0.75,
-      "roleF1": 0.8571428571428571,
+      "roleF1": 0.888888888888889,
       "entityPrecision": 0.75,
       "entityRecall": 0.75,
-      "rolePrecision": 1,
-      "roleRecall": 0.75,
+      "rolePrecision": 0.8,
+      "roleRecall": 1,
       "extractedEntities": 4,
       "goldEntities": 4,
-      "extractedRoles": 3,
+      "extractedRoles": 5,
       "goldRoles": 4
     },
     {

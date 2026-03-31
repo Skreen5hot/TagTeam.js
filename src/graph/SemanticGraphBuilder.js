@@ -2202,6 +2202,7 @@ class SemanticGraphBuilder {
           };
           if (act.isPassive) vpNode['tagteam:isPassive'] = true;
           if (act.isNegated) vpNode['tagteam:isNegated'] = true;
+          if (act.tenseAspect) vpNode['tagteam:tenseAspect'] = { '@id': `tagteam:${act.tenseAspect}` };
           if (act.sourceText) vpNode['tagteam:sourceText'] = act.sourceText;
           vpNode['tagteam:denotesType'] = 'Directive';
           // mentionId for SHACL compliance
@@ -2284,6 +2285,8 @@ class SemanticGraphBuilder {
           };
           if (act.isPassive) vpNode['tagteam:isPassive'] = true;
           if (act.isNegated) vpNode['tagteam:isNegated'] = true;
+          // WS-D: Tense-aspect annotation on VerbPhrase
+          if (act.tenseAspect) vpNode['tagteam:tenseAspect'] = { '@id': `tagteam:${act.tenseAspect}` };
           // mentionId for VP (AC-3.22b compatibility)
           if (act.verbId) {
             const verbIdx = act.verbId - 1;

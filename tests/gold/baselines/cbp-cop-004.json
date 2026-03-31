@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:36.837Z",
+  "generatedAt": "2026-03-31T15:13:47.889Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -23,14 +23,19 @@
     {
       "text": "TECS",
       "type": "Entity",
-      "id": "inst:TECS"
+      "id": "inst:DR_TECS_m1"
+    },
+    {
+      "text": "the enforcement database",
+      "type": "Role",
+      "id": "inst:the_enforcement_database"
     }
   ],
   "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:TECS",
+        "@id": "inst:DR_TECS_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -50,13 +55,53 @@
         }
       },
       {
-        "@id": "inst:Assertion_TECS",
+        "@id": "inst:RoleAssertion_database_0b4765b1",
         "@type": [
+          "tagteam:RoleAssertion",
           "tagteam:StructuralAssertion"
         ],
-        "tagteam:subject": "TECS",
-        "tagteam:pattern": "predication",
-        "tagteam:copula": "is"
+        "rdfs:label": "Role assertion: TECS → database",
+        "tagteam:assertionSubject": {
+          "@id": "inst:TECS"
+        },
+        "tagteam:pattern": "role_assertion",
+        "is_about": {
+          "@id": "inst:Role_database_0b4765b1"
+        },
+        "tagteam:copulaLemma": "is"
+      },
+      {
+        "@id": "inst:the_enforcement_database",
+        "@type": [
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "the enforcement database",
+        "tagteam:denotesType": "Role",
+        "is_about": {
+          "@id": "inst:Role_database_0b4765b1"
+        },
+        "tagteam:mentionId": "s0:p7:36-60",
+        "is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_e27204699a1a"
+        }
+      },
+      {
+        "@id": "inst:Role_database_0b4765b1",
+        "@type": [
+          "bfo:BFO_0000023",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "database",
+        "tagteam:roleType": "database",
+        "is_subject_of": {
+          "@id": "inst:the_enforcement_database"
+        },
+        "bfo:BFO_0000052": {
+          "@id": "inst:Entity_Tecs_da28760ecc5a"
+        },
+        "inheres_in": {
+          "@id": "inst:Entity_Tecs_da28760ecc5a"
+        }
       },
       {
         "@id": "inst:Entity_Tecs_da28760ecc5a",
@@ -67,11 +112,10 @@
         "rdfs:label": "tecs",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.837Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.889Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e27204699a1a",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:TECS"
+          "@id": "inst:DR_TECS_m1"
         }
       },
       {
@@ -84,7 +128,7 @@
         "has_text_value": "TECS is the primary law enforcement database",
         "tagteam:char_count": 44,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-28T11:17:36.828Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.878Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -113,6 +157,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_e27204699a1a"
         },
@@ -121,10 +166,13 @@
         },
         "has_output": [
           {
-            "@id": "inst:TECS"
+            "@id": "inst:DR_TECS_m1"
+          },
+          {
+            "@id": "inst:the_enforcement_database"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.828Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.878Z"
       }
     ]
   }

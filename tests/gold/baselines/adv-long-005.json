@@ -6,7 +6,7 @@
     "long-np",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:37.742Z",
+  "generatedAt": "2026-03-31T15:13:48.772Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -30,43 +30,53 @@
   ],
   "extractedEntities": [
     {
-      "text": "The assistant secretary for policy and planning approved the initiative",
+      "text": "The assistant secretary",
       "type": "Entity",
-      "id": "inst:The_assistant_secretary_for_policy_and_planning_approved_the_initiative"
+      "id": "inst:DR_The_assistant_secretary_m1"
     },
     {
       "text": "policy",
       "type": "Entity",
-      "id": "inst:policy"
+      "id": "inst:DR_policy_m1"
     },
     {
       "text": "the initiative",
       "type": "Entity",
-      "id": "inst:the_initiative"
+      "id": "inst:DR_the_initiative_m1"
+    },
+    {
+      "text": "approved",
+      "type": "EventDescription",
+      "id": "inst:VP_approved"
     }
   ],
-  "extractedRoles": [],
+  "extractedRoles": [
+    {
+      "entity": "initiative",
+      "role": "Patient"
+    }
+  ],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_assistant_secretary_for_policy_and_planning_approved_the_initiative",
+        "@id": "inst:DR_The_assistant_secretary_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
-        "rdfs:label": "The assistant secretary for policy and planning approved the initiative",
-        "tagteam:mentionId": "s0:h3:0-71",
+        "rdfs:label": "The assistant secretary",
+        "tagteam:mentionId": "s0:h3:0-23",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Assistant_Secretary_For_Policy_And_Planning_Approved_The_Initiative_534e8a556680"
+          "@id": "inst:Entity_Assistant_Secretary_d52b086e8e4e"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_cb8ef2a97a1b"
         }
       },
       {
-        "@id": "inst:policy",
+        "@id": "inst:DR_policy_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -83,7 +93,7 @@
         }
       },
       {
-        "@id": "inst:the_initiative",
+        "@id": "inst:DR_the_initiative_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -100,30 +110,85 @@
         }
       },
       {
-        "@id": "inst:Act_secretary",
+        "@id": "inst:VP_approved",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
-        "rdfs:label": "secretary",
-        "tagteam:lemma": "secretary",
+        "rdfs:label": "approved",
+        "tagteam:lemma": "approve",
+        "tagteam:verb": "approve",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_approve_e1a7826c"
+        },
+        "tagteam:isPassive": true,
+        "tagteam:mentionId": "s0:v8:48-56",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_cb8ef2a97a1b"
         }
       },
       {
-        "@id": "inst:Entity_Assistant_Secretary_For_Policy_And_Planning_Approved_The_Initiative_534e8a556680",
+        "@id": "inst:EventDesc_approve_e1a7826c",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: approve",
+        "tagteam:actType": "approve",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Initiative_80de852e167f"
+        }
+      },
+      {
+        "@id": "inst:Act_approved",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "approved",
+        "tagteam:lemma": "approve",
+        "tagteam:verb": "approve",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_approve_e1a7826c"
+        },
+        "tagteam:isPassive": true
+      },
+      {
+        "@id": "inst:Role_the_initiative_PatientRole",
+        "@type": [
+          "Role"
+        ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
+        "inheres_in": {
+          "@id": "inst:Entity_Initiative_80de852e167f"
+        },
+        "realized_in": {
+          "@id": "inst:Act_approved"
+        },
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:Entity_Assistant_Secretary_d52b086e8e4e",
         "@type": [
           "Entity",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "assistant secretary for policy and planning approved the initiative",
+        "rdfs:label": "assistant secretary",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.742Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.771Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_cb8ef2a97a1b",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_assistant_secretary_for_policy_and_planning_approved_the_initiative"
+          "@id": "inst:DR_The_assistant_secretary_m1"
         }
       },
       {
@@ -134,11 +199,10 @@
         ],
         "rdfs:label": "policy",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.742Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.771Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_cb8ef2a97a1b",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:policy"
+          "@id": "inst:DR_policy_m1"
         }
       },
       {
@@ -149,12 +213,16 @@
         ],
         "rdfs:label": "initiative",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.742Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.771Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_cb8ef2a97a1b",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_initiative"
-        }
+          "@id": "inst:DR_the_initiative_m1"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_initiative_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_cb8ef2a97a1b",
@@ -166,7 +234,7 @@
         "has_text_value": "The assistant secretary for policy and planning approved the initiative",
         "tagteam:char_count": 71,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-28T11:17:37.734Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.763Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -195,6 +263,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_cb8ef2a97a1b"
         },
@@ -203,19 +272,19 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_assistant_secretary_for_policy_and_planning_approved_the_initiative"
+            "@id": "inst:DR_The_assistant_secretary_m1"
           },
           {
-            "@id": "inst:policy"
+            "@id": "inst:DR_policy_m1"
           },
           {
-            "@id": "inst:the_initiative"
+            "@id": "inst:DR_the_initiative_m1"
           },
           {
-            "@id": "inst:Act_secretary"
+            "@id": "inst:VP_approved"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.734Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.763Z"
       }
     ]
   }

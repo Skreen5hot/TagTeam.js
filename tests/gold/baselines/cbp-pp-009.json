@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:37.199Z",
+  "generatedAt": "2026-03-31T15:13:48.293Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -40,17 +40,22 @@
     {
       "text": "The specialist",
       "type": "Person",
-      "id": "inst:The_specialist"
+      "id": "inst:DR_The_specialist_m1"
     },
     {
       "text": "samples",
       "type": "Entity",
-      "id": "inst:samples"
+      "id": "inst:DR_samples_m1"
     },
     {
       "text": "the shipment",
       "type": "Entity",
-      "id": "inst:the_shipment"
+      "id": "inst:DR_the_shipment_m1"
+    },
+    {
+      "text": "collected",
+      "type": "EventDescription",
+      "id": "inst:VP_collected"
     }
   ],
   "extractedRoles": [
@@ -66,7 +71,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_specialist",
+        "@id": "inst:DR_The_specialist_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -83,7 +88,7 @@
         }
       },
       {
-        "@id": "inst:samples",
+        "@id": "inst:DR_samples_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -100,7 +105,7 @@
         }
       },
       {
-        "@id": "inst:the_shipment",
+        "@id": "inst:DR_the_shipment_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -117,27 +122,53 @@
         }
       },
       {
-        "@id": "inst:Act_specialist",
+        "@id": "inst:VP_collected",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
-        "rdfs:label": "specialist",
-        "tagteam:lemma": "specialist",
+        "rdfs:label": "collected",
+        "tagteam:lemma": "collect",
+        "tagteam:verb": "collect",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_collect_4880db3a"
+        },
+        "tagteam:mentionId": "s0:v3:15-24",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_be0610f95ed1"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_collect_4880db3a",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: collect",
+        "tagteam:actType": "collect",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Sample_a7a0134a3c93"
         }
       },
       {
         "@id": "inst:Act_collected",
         "@type": [
           "IntentionalAct",
-          "tagteam:VerbPhrase"
+          "owl:NamedIndividual"
         ],
         "rdfs:label": "collected",
         "tagteam:lemma": "collect",
-        "is_concretized_by": {
-          "@id": "inst:Input_Text_IBE_be0610f95ed1"
+        "tagteam:verb": "collect",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_collect_4880db3a"
         }
       },
       {
@@ -181,11 +212,10 @@
         ],
         "rdfs:label": "specialist",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.199Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.293Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be0610f95ed1",
-        "tagteam:denotesType": "Person",
         "is_subject_of": {
-          "@id": "inst:The_specialist"
+          "@id": "inst:DR_The_specialist_m1"
         }
       },
       {
@@ -196,11 +226,10 @@
         ],
         "rdfs:label": "sample",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.199Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.293Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be0610f95ed1",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:samples"
+          "@id": "inst:DR_samples_m1"
         },
         "is_bearer_of": [
           {
@@ -216,11 +245,10 @@
         ],
         "rdfs:label": "shipment",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.199Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.293Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_be0610f95ed1",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_shipment"
+          "@id": "inst:DR_the_shipment_m1"
         },
         "is_bearer_of": [
           {
@@ -238,7 +266,7 @@
         "has_text_value": "The specialist collected samples from the shipment",
         "tagteam:char_count": 50,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-28T11:17:37.192Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.285Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -267,6 +295,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_be0610f95ed1"
         },
@@ -275,22 +304,19 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_specialist"
+            "@id": "inst:DR_The_specialist_m1"
           },
           {
-            "@id": "inst:samples"
+            "@id": "inst:DR_samples_m1"
           },
           {
-            "@id": "inst:the_shipment"
+            "@id": "inst:DR_the_shipment_m1"
           },
           {
-            "@id": "inst:Act_specialist"
-          },
-          {
-            "@id": "inst:Act_collected"
+            "@id": "inst:VP_collected"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.192Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.285Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:36.881Z",
+  "generatedAt": "2026-03-31T15:13:47.937Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -22,15 +22,20 @@
   "extractedEntities": [
     {
       "text": "Global Entry",
-      "type": "Entity",
-      "id": "inst:Global_Entry"
+      "type": "Organization",
+      "id": "inst:DR_Global_Entry_m1"
+    },
+    {
+      "text": "a trusted traveler program",
+      "type": "Role",
+      "id": "inst:a_trusted_traveler_program"
     }
   ],
   "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:Global_Entry",
+        "@id": "inst:DR_Global_Entry_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -41,37 +46,76 @@
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
         "tagteam:genericityBasis": "proper_noun",
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Entity_Global_Entry_4bba1d8ea00e"
+          "@id": "inst:Organization_Global_Entry_2738842ad7ac"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d804a7592ad0"
         }
       },
       {
-        "@id": "inst:Assertion_Global_Entry",
+        "@id": "inst:RoleAssertion_program_1380314a",
         "@type": [
+          "tagteam:RoleAssertion",
           "tagteam:StructuralAssertion"
         ],
-        "tagteam:subject": "Global Entry",
-        "tagteam:pattern": "predication",
-        "tagteam:copula": "is"
+        "rdfs:label": "Role assertion: Global Entry → program",
+        "tagteam:assertionSubject": {
+          "@id": "inst:Global_Entry"
+        },
+        "tagteam:pattern": "role_assertion",
+        "is_about": {
+          "@id": "inst:Role_program_1380314a"
+        },
+        "tagteam:copulaLemma": "is"
       },
       {
-        "@id": "inst:Entity_Global_Entry_4bba1d8ea00e",
+        "@id": "inst:a_trusted_traveler_program",
         "@type": [
-          "Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "a trusted traveler program",
+        "tagteam:denotesType": "Role",
+        "is_about": {
+          "@id": "inst:Role_program_1380314a"
+        },
+        "tagteam:mentionId": "s0:p7:35-61",
+        "is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_d804a7592ad0"
+        }
+      },
+      {
+        "@id": "inst:Role_program_1380314a",
+        "@type": [
+          "bfo:BFO_0000023",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "program",
+        "tagteam:roleType": "program",
+        "is_subject_of": {
+          "@id": "inst:a_trusted_traveler_program"
+        },
+        "bfo:BFO_0000052": {
+          "@id": "inst:Organization_Global_Entry_2738842ad7ac"
+        },
+        "inheres_in": {
+          "@id": "inst:Organization_Global_Entry_2738842ad7ac"
+        }
+      },
+      {
+        "@id": "inst:Organization_Global_Entry_2738842ad7ac",
+        "@type": [
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "global entry",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.880Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.937Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d804a7592ad0",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:Global_Entry"
+          "@id": "inst:DR_Global_Entry_m1"
         }
       },
       {
@@ -84,7 +128,7 @@
         "has_text_value": "Global Entry is a trusted traveler program",
         "tagteam:char_count": 42,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-28T11:17:36.871Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.927Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -113,6 +157,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_d804a7592ad0"
         },
@@ -121,10 +166,13 @@
         },
         "has_output": [
           {
-            "@id": "inst:Global_Entry"
+            "@id": "inst:DR_Global_Entry_m1"
+          },
+          {
+            "@id": "inst:a_trusted_traveler_program"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.871Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.927Z"
       }
     ]
   }

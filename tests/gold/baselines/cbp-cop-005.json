@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:36.851Z",
+  "generatedAt": "2026-03-31T15:13:47.906Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -26,44 +26,37 @@
   "extractedEntities": [
     {
       "text": "The CBP Academy",
-      "type": "Entity",
-      "id": "inst:The_CBP_Academy"
+      "type": "Organization",
+      "id": "inst:DR_The_CBP_Academy_m1"
     },
     {
       "text": "Georgia",
       "type": "Entity",
-      "id": "inst:Georgia"
+      "id": "inst:DR_Georgia_m1"
     }
   ],
   "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_CBP_Academy",
+        "@id": "inst:DR_The_CBP_Academy_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The CBP Academy",
-        "tagteam:mentionId": "s0:h3:0-15",
+        "tagteam:mentionId": "s0:h1:0-15",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.8492,
-        "tagteam:genericityCategory": "AMB",
-        "tagteam:genericityConfidence": 0.6,
-        "tagteam:genericityBasis": "institutional_the",
-        "tagteam:genericityAlternative": {
-          "tagteam:category": "GEN",
-          "tagteam:confidence": 0.4
-        },
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Entity_Cbp_Academy_c768ae6c9b3f"
+          "@id": "inst:Organization_Cbp_Academy_75a020ac4814"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_8c789bab23f6"
         }
       },
       {
-        "@id": "inst:Georgia",
+        "@id": "inst:DR_Georgia_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -87,29 +80,27 @@
         "tagteam:pattern": "predication",
         "tagteam:copula": "is",
         "assertionSubject": {
-          "@id": "inst:The_CBP_Academy"
+          "@id": "inst:DR_The_CBP_Academy_m1"
         },
         "assertionObject": {
-          "@id": "inst:Georgia"
+          "@id": "inst:DR_Georgia_m1"
         },
         "assertedRelation": {
           "@id": "located_in"
         }
       },
       {
-        "@id": "inst:Entity_Cbp_Academy_c768ae6c9b3f",
+        "@id": "inst:Organization_Cbp_Academy_75a020ac4814",
         "@type": [
-          "Entity",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "cbp academy",
-        "tagteam:genericityCategory": "AMB",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.851Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.906Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_8c789bab23f6",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_CBP_Academy"
+          "@id": "inst:DR_The_CBP_Academy_m1"
         },
         "located_in": {
           "@id": "inst:Entity_Georgia_fc659f259d0d"
@@ -123,11 +114,10 @@
         ],
         "rdfs:label": "georgia",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.851Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.906Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_8c789bab23f6",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:Georgia"
+          "@id": "inst:DR_Georgia_m1"
         }
       },
       {
@@ -140,7 +130,7 @@
         "has_text_value": "The CBP Academy is a training facility in Georgia",
         "tagteam:char_count": 49,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-28T11:17:36.840Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.894Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -169,6 +159,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_8c789bab23f6"
         },
@@ -177,13 +168,13 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_CBP_Academy"
+            "@id": "inst:DR_The_CBP_Academy_m1"
           },
           {
-            "@id": "inst:Georgia"
+            "@id": "inst:DR_Georgia_m1"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.840Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.894Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:36.408Z",
+  "generatedAt": "2026-03-31T15:13:47.418Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -24,12 +24,17 @@
     {
       "text": "The region",
       "type": "Entity",
-      "id": "inst:The_region"
+      "id": "inst:DR_The_region_m1"
     },
     {
       "text": "five operational sectors",
       "type": "Entity",
-      "id": "inst:five_operational_sectors"
+      "id": "inst:DR_five_operational_sectors_m1"
+    },
+    {
+      "text": "divided",
+      "type": "EventDescription",
+      "id": "inst:VP_divided"
     }
   ],
   "extractedRoles": [
@@ -41,7 +46,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_region",
+        "@id": "inst:DR_The_region_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -60,7 +65,7 @@
         }
       },
       {
-        "@id": "inst:five_operational_sectors",
+        "@id": "inst:DR_five_operational_sectors_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -70,24 +75,63 @@
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Five_Operational_Sectors_7394cc6d4b9f"
+          "@id": "inst:Entity_Five_Operational_Sector_41f608c94761"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3c52822f2a0b"
         }
       },
       {
-        "@id": "inst:Act_divided",
+        "@id": "inst:VP_divided",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "divided",
         "tagteam:lemma": "divid",
+        "tagteam:verb": "divid",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_divid_ca57dac5"
+        },
         "tagteam:isPassive": true,
+        "tagteam:mentionId": "s0:v4:14-21",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_3c52822f2a0b"
         }
+      },
+      {
+        "@id": "inst:EventDesc_divid_ca57dac5",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: divid",
+        "tagteam:actType": "divid",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Region_a746b3ba0c66"
+        }
+      },
+      {
+        "@id": "inst:Act_divided",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "divided",
+        "tagteam:lemma": "divid",
+        "tagteam:verb": "divid",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_divid_ca57dac5"
+        },
+        "tagteam:isPassive": true
       },
       {
         "@id": "inst:Role_The_region_PatientRole",
@@ -113,7 +157,7 @@
         "rdfs:label": "ObliqueRole",
         "tagteam:roleType": "ObliqueRole",
         "inheres_in": {
-          "@id": "inst:Entity_Five_Operational_Sectors_7394cc6d4b9f"
+          "@id": "inst:Entity_Five_Operational_Sector_41f608c94761"
         },
         "realized_in": {
           "@id": "inst:Act_divided"
@@ -131,11 +175,10 @@
         "rdfs:label": "region",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.408Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.418Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3c52822f2a0b",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_region"
+          "@id": "inst:DR_The_region_m1"
         },
         "is_bearer_of": [
           {
@@ -144,18 +187,17 @@
         ]
       },
       {
-        "@id": "inst:Entity_Five_Operational_Sectors_7394cc6d4b9f",
+        "@id": "inst:Entity_Five_Operational_Sector_41f608c94761",
         "@type": [
           "Entity",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "five operational sectors",
+        "rdfs:label": "five operational sector",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.408Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.418Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_3c52822f2a0b",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:five_operational_sectors"
+          "@id": "inst:DR_five_operational_sectors_m1"
         },
         "is_bearer_of": [
           {
@@ -173,7 +215,7 @@
         "has_text_value": "The region is divided into five operational sectors",
         "tagteam:char_count": 51,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-28T11:17:36.398Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.410Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -202,6 +244,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_3c52822f2a0b"
         },
@@ -210,16 +253,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_region"
+            "@id": "inst:DR_The_region_m1"
           },
           {
-            "@id": "inst:five_operational_sectors"
+            "@id": "inst:DR_five_operational_sectors_m1"
           },
           {
-            "@id": "inst:Act_divided"
+            "@id": "inst:VP_divided"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.398Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.410Z"
       }
     ]
   }

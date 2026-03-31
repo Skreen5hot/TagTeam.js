@@ -7,7 +7,7 @@
     "passive",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:36.392Z",
+  "generatedAt": "2026-03-31T15:13:47.406Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -24,12 +24,17 @@
     {
       "text": "The department",
       "type": "Organization",
-      "id": "inst:The_department"
+      "id": "inst:DR_The_department_m1"
     },
     {
       "text": "several divisions",
       "type": "Entity",
-      "id": "inst:several_divisions"
+      "id": "inst:DR_several_divisions_m1"
+    },
+    {
+      "text": "composed",
+      "type": "EventDescription",
+      "id": "inst:VP_composed"
     }
   ],
   "extractedRoles": [
@@ -41,7 +46,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_department",
+        "@id": "inst:DR_The_department_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -60,7 +65,7 @@
         }
       },
       {
-        "@id": "inst:several_divisions",
+        "@id": "inst:DR_several_divisions_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -70,24 +75,63 @@
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Several_Divisions_87e128f635d6"
+          "@id": "inst:Entity_Several_Division_e2b06683077f"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a85a47690bea"
         }
       },
       {
-        "@id": "inst:Act_composed",
+        "@id": "inst:VP_composed",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "composed",
         "tagteam:lemma": "compos",
+        "tagteam:verb": "compos",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_compos_4db1173e"
+        },
         "tagteam:isPassive": true,
+        "tagteam:mentionId": "s0:v4:18-26",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a85a47690bea"
         }
+      },
+      {
+        "@id": "inst:EventDesc_compos_4db1173e",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: compos",
+        "tagteam:actType": "compos",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Organization_Department_c5562413b96e"
+        }
+      },
+      {
+        "@id": "inst:Act_composed",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "composed",
+        "tagteam:lemma": "compos",
+        "tagteam:verb": "compos",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_compos_4db1173e"
+        },
+        "tagteam:isPassive": true
       },
       {
         "@id": "inst:Role_The_department_PatientRole",
@@ -113,7 +157,7 @@
         "rdfs:label": "ObliqueRole",
         "tagteam:roleType": "ObliqueRole",
         "inheres_in": {
-          "@id": "inst:Entity_Several_Divisions_87e128f635d6"
+          "@id": "inst:Entity_Several_Division_e2b06683077f"
         },
         "realized_in": {
           "@id": "inst:Act_composed"
@@ -131,11 +175,10 @@
         "rdfs:label": "department",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.392Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.406Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a85a47690bea",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:The_department"
+          "@id": "inst:DR_The_department_m1"
         },
         "is_bearer_of": [
           {
@@ -144,18 +187,17 @@
         ]
       },
       {
-        "@id": "inst:Entity_Several_Divisions_87e128f635d6",
+        "@id": "inst:Entity_Several_Division_e2b06683077f",
         "@type": [
           "Entity",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "several divisions",
+        "rdfs:label": "several division",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.392Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.406Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a85a47690bea",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:several_divisions"
+          "@id": "inst:DR_several_divisions_m1"
         },
         "is_bearer_of": [
           {
@@ -173,7 +215,7 @@
         "has_text_value": "The department is composed of several divisions",
         "tagteam:char_count": 47,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-28T11:17:36.383Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.398Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -202,6 +244,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_a85a47690bea"
         },
@@ -210,16 +253,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_department"
+            "@id": "inst:DR_The_department_m1"
           },
           {
-            "@id": "inst:several_divisions"
+            "@id": "inst:DR_several_divisions_m1"
           },
           {
-            "@id": "inst:Act_composed"
+            "@id": "inst:VP_composed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.383Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.398Z"
       }
     ]
   }

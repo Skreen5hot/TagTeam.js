@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-28T11:17:35.864Z",
+  "generatedAt": "2026-03-31T15:13:46.809Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -33,12 +33,17 @@
     {
       "text": "The officer",
       "type": "Person",
-      "id": "inst:The_officer"
+      "id": "inst:DR_The_officer_m1"
     },
     {
       "text": "the individual",
       "type": "Entity",
-      "id": "inst:the_individual"
+      "id": "inst:DR_the_individual_m1"
+    },
+    {
+      "text": "detained",
+      "type": "EventDescription",
+      "id": "inst:VP_detained"
     }
   ],
   "extractedRoles": [
@@ -54,7 +59,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_officer",
+        "@id": "inst:DR_The_officer_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -73,7 +78,7 @@
         }
       },
       {
-        "@id": "inst:the_individual",
+        "@id": "inst:DR_the_individual_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -90,15 +95,59 @@
         }
       },
       {
-        "@id": "inst:Act_detained",
+        "@id": "inst:VP_detained",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "detained",
         "tagteam:lemma": "detain",
+        "tagteam:verb": "detain",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_detain_857357af"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v3:12-20",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_6e24e7fb5edc"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_detain_857357af",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: detain",
+        "tagteam:actType": "detain",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Person_Officer_3f5d9f2f7ad0"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Individual_43d1002f3a3a"
+        }
+      },
+      {
+        "@id": "inst:Act_detained",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "detained",
+        "tagteam:lemma": "detain",
+        "tagteam:verb": "detain",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_detain_857357af"
         }
       },
       {
@@ -142,11 +191,10 @@
         "rdfs:label": "officer",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.864Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.809Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6e24e7fb5edc",
-        "tagteam:denotesType": "Person",
         "is_subject_of": {
-          "@id": "inst:The_officer"
+          "@id": "inst:DR_The_officer_m1"
         },
         "is_bearer_of": [
           {
@@ -162,11 +210,10 @@
         ],
         "rdfs:label": "individual",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.864Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.809Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_6e24e7fb5edc",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_individual"
+          "@id": "inst:DR_the_individual_m1"
         },
         "is_bearer_of": [
           {
@@ -184,7 +231,7 @@
         "has_text_value": "The officer detained the individual",
         "tagteam:char_count": 35,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-28T11:17:35.855Z"
+        "tagteam:received_at": "2026-03-31T15:13:46.802Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -213,6 +260,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_6e24e7fb5edc"
         },
@@ -221,16 +269,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_officer"
+            "@id": "inst:DR_The_officer_m1"
           },
           {
-            "@id": "inst:the_individual"
+            "@id": "inst:DR_the_individual_m1"
           },
           {
-            "@id": "inst:Act_detained"
+            "@id": "inst:VP_detained"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.855Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.802Z"
       }
     ]
   }

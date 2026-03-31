@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-28T11:17:35.913Z",
+  "generatedAt": "2026-03-31T15:13:46.857Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -33,12 +33,17 @@
     {
       "text": "The secretary",
       "type": "Entity",
-      "id": "inst:The_secretary"
+      "id": "inst:DR_The_secretary_m1"
     },
     {
       "text": "a statement",
       "type": "Entity",
-      "id": "inst:a_statement"
+      "id": "inst:DR_a_statement_m1"
+    },
+    {
+      "text": "issued",
+      "type": "EventDescription",
+      "id": "inst:VP_issued"
     }
   ],
   "extractedRoles": [
@@ -50,7 +55,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_secretary",
+        "@id": "inst:DR_The_secretary_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -67,7 +72,7 @@
         }
       },
       {
-        "@id": "inst:a_statement",
+        "@id": "inst:DR_a_statement_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -84,27 +89,53 @@
         }
       },
       {
-        "@id": "inst:Act_secretary",
+        "@id": "inst:VP_issued",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
-        "rdfs:label": "secretary",
-        "tagteam:lemma": "secretary",
+        "rdfs:label": "issued",
+        "tagteam:lemma": "issu",
+        "tagteam:verb": "issu",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_issu_53423f99"
+        },
+        "tagteam:mentionId": "s0:v3:14-20",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c2b4c510415a"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_issu_53423f99",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: issu",
+        "tagteam:actType": "issu",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Statement_3dc3cb29367a"
         }
       },
       {
         "@id": "inst:Act_issued",
         "@type": [
           "IntentionalAct",
-          "tagteam:VerbPhrase"
+          "owl:NamedIndividual"
         ],
         "rdfs:label": "issued",
         "tagteam:lemma": "issu",
-        "is_concretized_by": {
-          "@id": "inst:Input_Text_IBE_c2b4c510415a"
+        "tagteam:verb": "issu",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_issu_53423f99"
         }
       },
       {
@@ -131,11 +162,10 @@
         ],
         "rdfs:label": "secretary",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.912Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.857Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c2b4c510415a",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_secretary"
+          "@id": "inst:DR_The_secretary_m1"
         }
       },
       {
@@ -146,11 +176,10 @@
         ],
         "rdfs:label": "statement",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.913Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.857Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c2b4c510415a",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:a_statement"
+          "@id": "inst:DR_a_statement_m1"
         },
         "is_bearer_of": [
           {
@@ -168,7 +197,7 @@
         "has_text_value": "The secretary issued a statement",
         "tagteam:char_count": 32,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-28T11:17:35.906Z"
+        "tagteam:received_at": "2026-03-31T15:13:46.850Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -197,6 +226,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_c2b4c510415a"
         },
@@ -205,19 +235,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_secretary"
+            "@id": "inst:DR_The_secretary_m1"
           },
           {
-            "@id": "inst:a_statement"
+            "@id": "inst:DR_a_statement_m1"
           },
           {
-            "@id": "inst:Act_secretary"
-          },
-          {
-            "@id": "inst:Act_issued"
+            "@id": "inst:VP_issued"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.906Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.850Z"
       }
     ]
   }

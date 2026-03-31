@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:37.146Z",
+  "generatedAt": "2026-03-31T15:13:48.233Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -40,17 +40,22 @@
     {
       "text": "The analyst",
       "type": "Person",
-      "id": "inst:The_analyst"
+      "id": "inst:DR_The_analyst_m1"
     },
     {
       "text": "intelligence",
       "type": "Entity",
-      "id": "inst:intelligence"
+      "id": "inst:DR_intelligence_m1"
     },
     {
       "text": "multiple sources",
       "type": "Entity",
-      "id": "inst:multiple_sources"
+      "id": "inst:DR_multiple_sources_m1"
+    },
+    {
+      "text": "gathered",
+      "type": "EventDescription",
+      "id": "inst:VP_gathered"
     }
   ],
   "extractedRoles": [
@@ -70,7 +75,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_analyst",
+        "@id": "inst:DR_The_analyst_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -89,7 +94,7 @@
         }
       },
       {
-        "@id": "inst:intelligence",
+        "@id": "inst:DR_intelligence_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -106,7 +111,7 @@
         }
       },
       {
-        "@id": "inst:multiple_sources",
+        "@id": "inst:DR_multiple_sources_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -123,15 +128,59 @@
         }
       },
       {
-        "@id": "inst:Act_gathered",
+        "@id": "inst:VP_gathered",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "gathered",
         "tagteam:lemma": "gather",
+        "tagteam:verb": "gather",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_gather_fedb2242"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v3:12-20",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_052be27bb329"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_gather_fedb2242",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: gather",
+        "tagteam:actType": "gather",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Person_Analyst_c2268b798096"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Intelligence_0a3815f4392e"
+        }
+      },
+      {
+        "@id": "inst:Act_gathered",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "gathered",
+        "tagteam:lemma": "gather",
+        "tagteam:verb": "gather",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_gather_fedb2242"
         }
       },
       {
@@ -192,11 +241,10 @@
         "rdfs:label": "analyst",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.146Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.233Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_052be27bb329",
-        "tagteam:denotesType": "Person",
         "is_subject_of": {
-          "@id": "inst:The_analyst"
+          "@id": "inst:DR_The_analyst_m1"
         },
         "is_bearer_of": [
           {
@@ -212,11 +260,10 @@
         ],
         "rdfs:label": "intelligence",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.146Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.233Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_052be27bb329",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:intelligence"
+          "@id": "inst:DR_intelligence_m1"
         },
         "is_bearer_of": [
           {
@@ -232,11 +279,10 @@
         ],
         "rdfs:label": "multiple source",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.146Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.233Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_052be27bb329",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:multiple_sources"
+          "@id": "inst:DR_multiple_sources_m1"
         },
         "is_bearer_of": [
           {
@@ -254,7 +300,7 @@
         "has_text_value": "The analyst gathered intelligence from multiple sources",
         "tagteam:char_count": 55,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-28T11:17:37.139Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.225Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -283,6 +329,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_052be27bb329"
         },
@@ -291,19 +338,19 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_analyst"
+            "@id": "inst:DR_The_analyst_m1"
           },
           {
-            "@id": "inst:intelligence"
+            "@id": "inst:DR_intelligence_m1"
           },
           {
-            "@id": "inst:multiple_sources"
+            "@id": "inst:DR_multiple_sources_m1"
           },
           {
-            "@id": "inst:Act_gathered"
+            "@id": "inst:VP_gathered"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.139Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.225Z"
       }
     ]
   }

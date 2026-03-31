@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-28T11:17:36.065Z",
+  "generatedAt": "2026-03-31T15:13:47.022Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -33,12 +33,17 @@
     {
       "text": "The policy",
       "type": "Entity",
-      "id": "inst:The_policy"
+      "id": "inst:DR_The_policy_m1"
     },
     {
       "text": "the committee",
       "type": "Entity",
-      "id": "inst:the_committee"
+      "id": "inst:DR_the_committee_m1"
+    },
+    {
+      "text": "approved",
+      "type": "EventDescription",
+      "id": "inst:VP_approved"
     }
   ],
   "extractedRoles": [
@@ -54,7 +59,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_policy",
+        "@id": "inst:DR_The_policy_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -73,7 +78,7 @@
         }
       },
       {
-        "@id": "inst:the_committee",
+        "@id": "inst:DR_the_committee_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -90,17 +95,59 @@
         }
       },
       {
-        "@id": "inst:Act_approved",
+        "@id": "inst:VP_approved",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "approved",
-        "tagteam:lemma": "approv",
+        "tagteam:lemma": "approve",
+        "tagteam:verb": "approve",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_approve_cd897dc8"
+        },
         "tagteam:isPassive": true,
+        "tagteam:mentionId": "s0:v4:15-23",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_85ce02b56051"
         }
+      },
+      {
+        "@id": "inst:EventDesc_approve_cd897dc8",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: approve",
+        "tagteam:actType": "approve",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Committee_8859766e5b7f"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Policy_436c6620d8ac"
+        }
+      },
+      {
+        "@id": "inst:Act_approved",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "approved",
+        "tagteam:lemma": "approve",
+        "tagteam:verb": "approve",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_approve_cd897dc8"
+        },
+        "tagteam:isPassive": true
       },
       {
         "@id": "inst:Role_The_policy_PatientRole",
@@ -143,11 +190,10 @@
         "rdfs:label": "policy",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.065Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.022Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_85ce02b56051",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_policy"
+          "@id": "inst:DR_The_policy_m1"
         },
         "is_bearer_of": [
           {
@@ -163,11 +209,10 @@
         ],
         "rdfs:label": "committee",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.065Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.022Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_85ce02b56051",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_committee"
+          "@id": "inst:DR_the_committee_m1"
         },
         "is_bearer_of": [
           {
@@ -185,7 +230,7 @@
         "has_text_value": "The policy was approved by the committee",
         "tagteam:char_count": 40,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-28T11:17:36.055Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.013Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -214,6 +259,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_85ce02b56051"
         },
@@ -222,16 +268,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_policy"
+            "@id": "inst:DR_The_policy_m1"
           },
           {
-            "@id": "inst:the_committee"
+            "@id": "inst:DR_the_committee_m1"
           },
           {
-            "@id": "inst:Act_approved"
+            "@id": "inst:VP_approved"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.055Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.013Z"
       }
     ]
   }

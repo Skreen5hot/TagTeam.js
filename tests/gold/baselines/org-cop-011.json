@@ -7,7 +7,7 @@
     "definitional",
     "intelligence"
   ],
-  "generatedAt": "2026-02-28T11:17:35.748Z",
+  "generatedAt": "2026-03-31T15:13:46.673Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -24,24 +24,26 @@
     {
       "text": "The CIA",
       "type": "Organization",
-      "id": "inst:The_CIA"
+      "id": "inst:DR_The_CIA_m1"
+    },
+    {
+      "text": "an intelligence agency",
+      "type": "Role",
+      "id": "inst:an_intelligence_agency"
     }
   ],
   "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_CIA",
+        "@id": "inst:DR_The_CIA_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The CIA",
-        "tagteam:mentionId": "s0:h2:0-7",
+        "tagteam:mentionId": "s0:h1:0-7",
         "tagteam:parseConfidence": "high",
         "tagteam:parseProbability": 0.9433,
-        "tagteam:genericityCategory": "INST",
-        "tagteam:genericityConfidence": 0.95,
-        "tagteam:genericityBasis": "named_entity",
         "tagteam:denotesType": "Organization",
         "is_about": {
           "@id": "inst:Organization_Cia_b61bfc2ec448"
@@ -51,13 +53,53 @@
         }
       },
       {
-        "@id": "inst:Assertion_The_CIA",
+        "@id": "inst:RoleAssertion_agency_08bf9e9b",
         "@type": [
+          "tagteam:RoleAssertion",
           "tagteam:StructuralAssertion"
         ],
-        "tagteam:subject": "The CIA",
-        "tagteam:pattern": "predication",
-        "tagteam:copula": "is"
+        "rdfs:label": "Role assertion: The CIA → agency",
+        "tagteam:assertionSubject": {
+          "@id": "inst:The_CIA"
+        },
+        "tagteam:pattern": "role_assertion",
+        "is_about": {
+          "@id": "inst:Role_agency_08bf9e9b"
+        },
+        "tagteam:copulaLemma": "is"
+      },
+      {
+        "@id": "inst:an_intelligence_agency",
+        "@type": [
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "an intelligence agency",
+        "tagteam:denotesType": "Role",
+        "is_about": {
+          "@id": "inst:Role_agency_08bf9e9b"
+        },
+        "tagteam:mentionId": "s0:p6:27-49",
+        "is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_bf96c6493def"
+        }
+      },
+      {
+        "@id": "inst:Role_agency_08bf9e9b",
+        "@type": [
+          "bfo:BFO_0000023",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "agency",
+        "tagteam:roleType": "agency",
+        "is_subject_of": {
+          "@id": "inst:an_intelligence_agency"
+        },
+        "bfo:BFO_0000052": {
+          "@id": "inst:Organization_Cia_b61bfc2ec448"
+        },
+        "inheres_in": {
+          "@id": "inst:Organization_Cia_b61bfc2ec448"
+        }
       },
       {
         "@id": "inst:Organization_Cia_b61bfc2ec448",
@@ -66,13 +108,11 @@
           "owl:NamedIndividual"
         ],
         "rdfs:label": "cia",
-        "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.748Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.673Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bf96c6493def",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:The_CIA"
+          "@id": "inst:DR_The_CIA_m1"
         }
       },
       {
@@ -85,7 +125,7 @@
         "has_text_value": "The CIA is an intelligence agency",
         "tagteam:char_count": 33,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-28T11:17:35.740Z"
+        "tagteam:received_at": "2026-03-31T15:13:46.666Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -114,6 +154,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_bf96c6493def"
         },
@@ -122,10 +163,13 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_CIA"
+            "@id": "inst:DR_The_CIA_m1"
+          },
+          {
+            "@id": "inst:an_intelligence_agency"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.740Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.666Z"
       }
     ]
   }

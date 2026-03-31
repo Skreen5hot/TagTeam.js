@@ -5,7 +5,7 @@
   "tags": [
     "legal"
   ],
-  "generatedAt": "2026-02-28T11:17:37.617Z",
+  "generatedAt": "2026-03-31T15:13:48.666Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -35,17 +35,22 @@
     {
       "text": "The plaintiff",
       "type": "Entity",
-      "id": "inst:The_plaintiff"
+      "id": "inst:DR_The_plaintiff_m1"
     },
     {
       "text": "the defendant",
       "type": "Entity",
-      "id": "inst:the_defendant"
+      "id": "inst:DR_the_defendant_m1"
     },
     {
       "text": "damages",
       "type": "Entity",
-      "id": "inst:damages"
+      "id": "inst:DR_damages_m1"
+    },
+    {
+      "text": "sued",
+      "type": "EventDescription",
+      "id": "inst:VP_sued"
     }
   ],
   "extractedRoles": [
@@ -65,7 +70,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_plaintiff",
+        "@id": "inst:DR_The_plaintiff_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -84,7 +89,7 @@
         }
       },
       {
-        "@id": "inst:the_defendant",
+        "@id": "inst:DR_the_defendant_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -101,7 +106,7 @@
         }
       },
       {
-        "@id": "inst:damages",
+        "@id": "inst:DR_damages_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -118,15 +123,59 @@
         }
       },
       {
-        "@id": "inst:Act_sued",
+        "@id": "inst:VP_sued",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "sued",
         "tagteam:lemma": "su",
+        "tagteam:verb": "su",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_su_f86faebf"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v3:14-18",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_bac952cf5615"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_su_f86faebf",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: su",
+        "tagteam:actType": "su",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Plaintiff_9d9efe332c96"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Defendant_cf9d79c8bc7d"
+        }
+      },
+      {
+        "@id": "inst:Act_sued",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "sued",
+        "tagteam:lemma": "su",
+        "tagteam:verb": "su",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_su_f86faebf"
         }
       },
       {
@@ -187,11 +236,10 @@
         "rdfs:label": "plaintiff",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.617Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.666Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bac952cf5615",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_plaintiff"
+          "@id": "inst:DR_The_plaintiff_m1"
         },
         "is_bearer_of": [
           {
@@ -207,11 +255,10 @@
         ],
         "rdfs:label": "defendant",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.617Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.666Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bac952cf5615",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_defendant"
+          "@id": "inst:DR_the_defendant_m1"
         },
         "is_bearer_of": [
           {
@@ -227,11 +274,10 @@
         ],
         "rdfs:label": "damage",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.617Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.666Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bac952cf5615",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:damages"
+          "@id": "inst:DR_damages_m1"
         },
         "is_bearer_of": [
           {
@@ -249,7 +295,7 @@
         "has_text_value": "The plaintiff sued the defendant for damages",
         "tagteam:char_count": 44,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-28T11:17:37.609Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.660Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -278,6 +324,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_bac952cf5615"
         },
@@ -286,19 +333,19 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_plaintiff"
+            "@id": "inst:DR_The_plaintiff_m1"
           },
           {
-            "@id": "inst:the_defendant"
+            "@id": "inst:DR_the_defendant_m1"
           },
           {
-            "@id": "inst:damages"
+            "@id": "inst:DR_damages_m1"
           },
           {
-            "@id": "inst:Act_sued"
+            "@id": "inst:VP_sued"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.609Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.660Z"
       }
     ]
   }

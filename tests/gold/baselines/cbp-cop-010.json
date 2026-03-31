@@ -6,7 +6,7 @@
     "copular",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:36.916Z",
+  "generatedAt": "2026-03-31T15:13:47.981Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -22,55 +22,96 @@
   "extractedEntities": [
     {
       "text": "The National Targeting Center",
-      "type": "Entity",
-      "id": "inst:The_National_Targeting_Center"
+      "type": "Organization",
+      "id": "inst:DR_The_National_Targeting_Center_m1"
+    },
+    {
+      "text": "a counterterrorism facility",
+      "type": "Role",
+      "id": "inst:a_counterterrorism_facility"
     }
   ],
   "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_National_Targeting_Center",
+        "@id": "inst:DR_The_National_Targeting_Center_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The National Targeting Center",
-        "tagteam:mentionId": "s0:h4:0-29",
+        "tagteam:mentionId": "s0:h1:0-29",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
-        "tagteam:genericityCategory": "INST",
-        "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Entity_National_Targeting_Center_d7381fc5f056"
+          "@id": "inst:Organization_National_Targeting_Center_b42c642f04cd"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_08772ce93de7"
         }
       },
       {
-        "@id": "inst:Assertion_The_National_Targeting_Center",
+        "@id": "inst:RoleAssertion_facility_cf20109f",
         "@type": [
+          "tagteam:RoleAssertion",
           "tagteam:StructuralAssertion"
         ],
-        "tagteam:subject": "The National Targeting Center",
-        "tagteam:pattern": "predication",
-        "tagteam:copula": "is"
+        "rdfs:label": "Role assertion: The National Targeting Center → facility",
+        "tagteam:assertionSubject": {
+          "@id": "inst:The_National_Targeting_Center"
+        },
+        "tagteam:pattern": "role_assertion",
+        "is_about": {
+          "@id": "inst:Role_facility_cf20109f"
+        },
+        "tagteam:copulaLemma": "is"
       },
       {
-        "@id": "inst:Entity_National_Targeting_Center_d7381fc5f056",
+        "@id": "inst:a_counterterrorism_facility",
         "@type": [
-          "Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "a counterterrorism facility",
+        "tagteam:denotesType": "Role",
+        "is_about": {
+          "@id": "inst:Role_facility_cf20109f"
+        },
+        "tagteam:mentionId": "s0:p8:52-79",
+        "is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_08772ce93de7"
+        }
+      },
+      {
+        "@id": "inst:Role_facility_cf20109f",
+        "@type": [
+          "bfo:BFO_0000023",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "facility",
+        "tagteam:roleType": "facility",
+        "is_subject_of": {
+          "@id": "inst:a_counterterrorism_facility"
+        },
+        "bfo:BFO_0000052": {
+          "@id": "inst:Organization_National_Targeting_Center_b42c642f04cd"
+        },
+        "inheres_in": {
+          "@id": "inst:Organization_National_Targeting_Center_b42c642f04cd"
+        }
+      },
+      {
+        "@id": "inst:Organization_National_Targeting_Center_b42c642f04cd",
+        "@type": [
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "national targeting center",
-        "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.915Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.980Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_08772ce93de7",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_National_Targeting_Center"
+          "@id": "inst:DR_The_National_Targeting_Center_m1"
         }
       },
       {
@@ -83,7 +124,7 @@
         "has_text_value": "The National Targeting Center is a counterterrorism facility",
         "tagteam:char_count": 60,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-28T11:17:36.908Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.972Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -112,6 +153,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_08772ce93de7"
         },
@@ -120,10 +162,13 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_National_Targeting_Center"
+            "@id": "inst:DR_The_National_Targeting_Center_m1"
+          },
+          {
+            "@id": "inst:a_counterterrorism_facility"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.908Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.972Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "long-np",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:37.992Z",
+  "generatedAt": "2026-03-31T15:13:49.030Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -30,19 +30,29 @@
   ],
   "extractedEntities": [
     {
-      "text": "The joint interagency task force on narcotics",
+      "text": "The joint interagency task force",
       "type": "Entity",
-      "id": "inst:The_joint_interagency_task_force_on_narcotics"
+      "id": "inst:DR_The_joint_interagency_task_force_m1"
     },
     {
       "text": "narcotics",
       "type": "Entity",
-      "id": "inst:narcotics"
+      "id": "inst:DR_narcotics_m1"
     },
     {
       "text": "the contraband",
       "type": "Entity",
-      "id": "inst:the_contraband"
+      "id": "inst:DR_the_contraband_m1"
+    },
+    {
+      "text": "trafficking",
+      "type": "EventDescription",
+      "id": "inst:VP_trafficking"
+    },
+    {
+      "text": "seized",
+      "type": "EventDescription",
+      "id": "inst:VP_seized"
     }
   ],
   "extractedRoles": [
@@ -54,24 +64,24 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_joint_interagency_task_force_on_narcotics",
+        "@id": "inst:DR_The_joint_interagency_task_force_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
-        "rdfs:label": "The joint interagency task force on narcotics",
-        "tagteam:mentionId": "s0:h5:0-45",
+        "rdfs:label": "The joint interagency task force",
+        "tagteam:mentionId": "s0:h5:0-32",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Joint_Interagency_Task_Force_On_Narcotic_13f5a5f753d3"
+          "@id": "inst:Entity_Joint_Interagency_Task_Force_ac5c3ea1df11"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_9713858a7e9d"
         }
       },
       {
-        "@id": "inst:narcotics",
+        "@id": "inst:DR_narcotics_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -88,7 +98,7 @@
         }
       },
       {
-        "@id": "inst:the_contraband",
+        "@id": "inst:DR_the_contraband_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -105,39 +115,100 @@
         }
       },
       {
-        "@id": "inst:Act_force",
+        "@id": "inst:VP_trafficking",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
-        "rdfs:label": "force",
-        "tagteam:lemma": "force",
+        "rdfs:label": "trafficking",
+        "tagteam:lemma": "traffick",
+        "tagteam:verb": "traffick",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_traffick_ae198f29"
+        },
+        "tagteam:mentionId": "s0:v8:46-57",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_9713858a7e9d"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_traffick_ae198f29",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: traffick",
+        "tagteam:actType": "traffick",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
         }
       },
       {
         "@id": "inst:Act_trafficking",
         "@type": [
           "IntentionalAct",
-          "tagteam:VerbPhrase"
+          "owl:NamedIndividual"
         ],
         "rdfs:label": "trafficking",
         "tagteam:lemma": "traffick",
+        "tagteam:verb": "traffick",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_traffick_ae198f29"
+        }
+      },
+      {
+        "@id": "inst:VP_seized",
+        "@type": [
+          "tagteam:DiscourseReferent",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "seized",
+        "tagteam:lemma": "seiz",
+        "tagteam:verb": "seiz",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_seiz_2353195a"
+        },
+        "tagteam:mentionId": "s0:v9:58-64",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_9713858a7e9d"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_seiz_2353195a",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: seiz",
+        "tagteam:actType": "seiz",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Contraband_b8340d991d6f"
         }
       },
       {
         "@id": "inst:Act_seized",
         "@type": [
           "IntentionalAct",
-          "tagteam:VerbPhrase"
+          "owl:NamedIndividual"
         ],
         "rdfs:label": "seized",
         "tagteam:lemma": "seiz",
-        "is_concretized_by": {
-          "@id": "inst:Input_Text_IBE_9713858a7e9d"
+        "tagteam:verb": "seiz",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_seiz_2353195a"
         }
       },
       {
@@ -157,18 +228,17 @@
         "tagteam:parseProbability": 0.3683
       },
       {
-        "@id": "inst:Entity_Joint_Interagency_Task_Force_On_Narcotic_13f5a5f753d3",
+        "@id": "inst:Entity_Joint_Interagency_Task_Force_ac5c3ea1df11",
         "@type": [
           "Entity",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "joint interagency task force on narcotic",
+        "rdfs:label": "joint interagency task force",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.992Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.030Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9713858a7e9d",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_joint_interagency_task_force_on_narcotics"
+          "@id": "inst:DR_The_joint_interagency_task_force_m1"
         }
       },
       {
@@ -179,11 +249,10 @@
         ],
         "rdfs:label": "narcotic",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.992Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.030Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9713858a7e9d",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:narcotics"
+          "@id": "inst:DR_narcotics_m1"
         }
       },
       {
@@ -194,11 +263,10 @@
         ],
         "rdfs:label": "contraband",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.992Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.030Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_9713858a7e9d",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_contraband"
+          "@id": "inst:DR_the_contraband_m1"
         },
         "is_bearer_of": [
           {
@@ -216,7 +284,7 @@
         "has_text_value": "The joint interagency task force on narcotics trafficking seized the contraband",
         "tagteam:char_count": 79,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-28T11:17:37.979Z"
+        "tagteam:received_at": "2026-03-31T15:13:49.020Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -245,6 +313,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_9713858a7e9d"
         },
@@ -253,25 +322,22 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_joint_interagency_task_force_on_narcotics"
+            "@id": "inst:DR_The_joint_interagency_task_force_m1"
           },
           {
-            "@id": "inst:narcotics"
+            "@id": "inst:DR_narcotics_m1"
           },
           {
-            "@id": "inst:the_contraband"
+            "@id": "inst:DR_the_contraband_m1"
           },
           {
-            "@id": "inst:Act_force"
+            "@id": "inst:VP_trafficking"
           },
           {
-            "@id": "inst:Act_trafficking"
-          },
-          {
-            "@id": "inst:Act_seized"
+            "@id": "inst:VP_seized"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.979Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.020Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "cbp",
     "enforcement"
   ],
-  "generatedAt": "2026-02-28T11:17:36.660Z",
+  "generatedAt": "2026-03-31T15:13:47.687Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -31,9 +31,19 @@
   ],
   "extractedEntities": [
     {
+      "text": "The K-",
+      "type": "Organization",
+      "id": "inst:DR_The_K-_m1"
+    },
+    {
       "text": "narcotics",
       "type": "Entity",
-      "id": "inst:narcotics"
+      "id": "inst:DR_narcotics_m1"
+    },
+    {
+      "text": "detected",
+      "type": "EventDescription",
+      "id": "inst:VP_detected"
     },
     {
       "text": "narcotic",
@@ -41,16 +51,28 @@
       "id": "inst:Entity_Narcotic_b73c35009c13"
     }
   ],
-  "extractedRoles": [
-    {
-      "entity": "narcotic",
-      "role": "Agent"
-    }
-  ],
+  "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:narcotics",
+        "@id": "inst:DR_The_K-_m1",
+        "@type": [
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "The K-",
+        "tagteam:mentionId": "s0:h1:0-9",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683,
+        "tagteam:denotesType": "Organization",
+        "is_about": {
+          "@id": "inst:Organization_K_5f2f805f5e74"
+        },
+        "is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_df84be1b3615"
+        }
+      },
+      {
+        "@id": "inst:DR_narcotics_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -70,44 +92,65 @@
         }
       },
       {
-        "@id": "inst:Act_handler",
+        "@id": "inst:VP_detected",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
-        "rdfs:label": "handler",
-        "tagteam:lemma": "handler",
+        "rdfs:label": "detected",
+        "tagteam:lemma": "detect",
+        "tagteam:verb": "detect",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_detect_5870030c"
+        },
+        "tagteam:mentionId": "s0:v6:18-26",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_df84be1b3615"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_detect_5870030c",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: detect",
+        "tagteam:actType": "detect",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
         }
       },
       {
         "@id": "inst:Act_detected",
         "@type": [
           "IntentionalAct",
-          "tagteam:VerbPhrase"
+          "owl:NamedIndividual"
         ],
         "rdfs:label": "detected",
         "tagteam:lemma": "detect",
-        "is_concretized_by": {
-          "@id": "inst:Input_Text_IBE_df84be1b3615"
+        "tagteam:verb": "detect",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_detect_5870030c"
         }
       },
       {
-        "@id": "inst:Role_narcotics_AgentRole",
+        "@id": "inst:Organization_K_5f2f805f5e74",
         "@type": [
-          "Role"
+          "Organization",
+          "owl:NamedIndividual"
         ],
-        "rdfs:label": "AgentRole",
-        "tagteam:roleType": "AgentRole",
-        "inheres_in": {
-          "@id": "inst:Entity_Narcotic_b73c35009c13"
-        },
-        "realized_in": {
-          "@id": "inst:Act_handler"
-        },
-        "tagteam:parseConfidence": "low",
-        "tagteam:parseProbability": 0.3683
+        "rdfs:label": "k-",
+        "tagteam:typeBasis": "type-mapping",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.687Z",
+        "tagteam:instantiated_by": "inst:Input_Text_IBE_df84be1b3615",
+        "is_subject_of": {
+          "@id": "inst:DR_The_K-_m1"
+        }
       },
       {
         "@id": "inst:Entity_Narcotic_b73c35009c13",
@@ -122,17 +165,11 @@
         "tagteam:nominatedClassLabel": "Narcotic",
         "tagteam:nominationBasis": "bare_plural",
         "tagteam:requiresOntologyResolution": true,
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.660Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.687Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_df84be1b3615",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:narcotics"
-        },
-        "is_bearer_of": [
-          {
-            "@id": "inst:Role_narcotics_AgentRole"
-          }
-        ]
+          "@id": "inst:DR_narcotics_m1"
+        }
       },
       {
         "@id": "inst:Input_Text_IBE_df84be1b3615",
@@ -144,7 +181,7 @@
         "has_text_value": "The K-9 handler detected narcotics",
         "tagteam:char_count": 34,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-28T11:17:36.649Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.675Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -173,6 +210,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_df84be1b3615"
         },
@@ -181,16 +219,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:narcotics"
+            "@id": "inst:DR_The_K-_m1"
           },
           {
-            "@id": "inst:Act_handler"
+            "@id": "inst:DR_narcotics_m1"
           },
           {
-            "@id": "inst:Act_detected"
+            "@id": "inst:VP_detected"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.649Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.675Z"
       }
     ]
   }

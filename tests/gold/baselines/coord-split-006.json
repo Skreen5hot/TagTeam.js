@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:36.191Z",
+  "generatedAt": "2026-03-31T15:13:47.177Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -41,12 +41,17 @@
     {
       "text": "Agents and officers",
       "type": "Entity",
-      "id": "inst:Agents_and_officers"
+      "id": "inst:DR_Agents_and_officers_m1"
     },
     {
       "text": "the raid",
       "type": "Entity",
-      "id": "inst:the_raid"
+      "id": "inst:DR_the_raid_m1"
+    },
+    {
+      "text": "conducted",
+      "type": "EventDescription",
+      "id": "inst:VP_conducted"
     },
     {
       "text": "agents and officer",
@@ -67,7 +72,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:Agents_and_officers",
+        "@id": "inst:DR_Agents_and_officers_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -87,7 +92,7 @@
         }
       },
       {
-        "@id": "inst:the_raid",
+        "@id": "inst:DR_the_raid_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -104,15 +109,59 @@
         }
       },
       {
-        "@id": "inst:Act_conducted",
+        "@id": "inst:VP_conducted",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "conducted",
         "tagteam:lemma": "conduct",
+        "tagteam:verb": "conduct",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_conduct_5c62b4b9"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v4:20-29",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_602fdc0a1601"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_conduct_5c62b4b9",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: conduct",
+        "tagteam:actType": "conduct",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Agents_And_Officer_1254fac6a876"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Raid_0166913511eb"
+        }
+      },
+      {
+        "@id": "inst:Act_conducted",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "conducted",
+        "tagteam:lemma": "conduct",
+        "tagteam:verb": "conduct",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_conduct_5c62b4b9"
         }
       },
       {
@@ -160,11 +209,10 @@
         "tagteam:nominatedClassLabel": "Agents And Officer",
         "tagteam:nominationBasis": "bare_plural",
         "tagteam:requiresOntologyResolution": true,
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.190Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.177Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_602fdc0a1601",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:Agents_and_officers"
+          "@id": "inst:DR_Agents_and_officers_m1"
         },
         "is_bearer_of": [
           {
@@ -180,11 +228,10 @@
         ],
         "rdfs:label": "raid",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.190Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.177Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_602fdc0a1601",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_raid"
+          "@id": "inst:DR_the_raid_m1"
         },
         "is_bearer_of": [
           {
@@ -202,7 +249,7 @@
         "has_text_value": "Agents and officers conducted the raid",
         "tagteam:char_count": 38,
         "tagteam:word_count": 6,
-        "tagteam:received_at": "2026-02-28T11:17:36.184Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.168Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -231,6 +278,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_602fdc0a1601"
         },
@@ -239,16 +287,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:Agents_and_officers"
+            "@id": "inst:DR_Agents_and_officers_m1"
           },
           {
-            "@id": "inst:the_raid"
+            "@id": "inst:DR_the_raid_m1"
           },
           {
-            "@id": "inst:Act_conducted"
+            "@id": "inst:VP_conducted"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.184Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.168Z"
       }
     ]
   }

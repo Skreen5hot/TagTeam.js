@@ -6,7 +6,7 @@
     "relative-clause",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:38.088Z",
+  "generatedAt": "2026-03-31T15:13:49.115Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -40,29 +40,43 @@
     {
       "text": "The report",
       "type": "Entity",
-      "id": "inst:The_report"
+      "id": "inst:DR_The_report_m1"
     },
     {
       "text": "the analyst",
       "type": "Person",
-      "id": "inst:the_analyst"
+      "id": "inst:DR_the_analyst_m1"
     },
     {
       "text": "the director",
       "type": "Person",
-      "id": "inst:the_director"
+      "id": "inst:DR_the_director_m1"
+    },
+    {
+      "text": "compiled",
+      "type": "EventDescription",
+      "id": "inst:VP_compiled"
+    },
+    {
+      "text": "forwarded",
+      "type": "EventDescription",
+      "id": "inst:VP_forwarded"
     }
   ],
   "extractedRoles": [
     {
       "entity": "analyst",
       "role": "Agent"
+    },
+    {
+      "entity": "director",
+      "role": "Goal"
     }
   ],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_report",
+        "@id": "inst:DR_The_report_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -79,7 +93,7 @@
         }
       },
       {
-        "@id": "inst:the_analyst",
+        "@id": "inst:DR_the_analyst_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -98,7 +112,7 @@
         }
       },
       {
-        "@id": "inst:the_director",
+        "@id": "inst:DR_the_director_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -115,28 +129,106 @@
         }
       },
       {
-        "@id": "inst:Act_report",
+        "@id": "inst:VP_compiled",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
-        "rdfs:label": "report",
-        "tagteam:lemma": "report",
+        "rdfs:label": "compiled",
+        "tagteam:lemma": "compil",
+        "tagteam:verb": "compil",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_compil_a6e10738"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v6:28-36",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ffc6ed551e17"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_compil_a6e10738",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: compil",
+        "tagteam:actType": "compil",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Person_Analyst_cd5cf19e7db3"
         }
       },
       {
         "@id": "inst:Act_compiled",
         "@type": [
           "IntentionalAct",
-          "tagteam:VerbPhrase"
+          "owl:NamedIndividual"
         ],
         "rdfs:label": "compiled",
         "tagteam:lemma": "compil",
+        "tagteam:verb": "compil",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_compil_a6e10738"
+        }
+      },
+      {
+        "@id": "inst:VP_forwarded",
+        "@type": [
+          "tagteam:DiscourseReferent",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "forwarded",
+        "tagteam:lemma": "forward",
+        "tagteam:verb": "forward",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_forward_5836f3ac"
+        },
+        "tagteam:isPassive": true,
+        "tagteam:mentionId": "s0:v8:41-50",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ffc6ed551e17"
         }
+      },
+      {
+        "@id": "inst:EventDesc_forward_5836f3ac",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: forward",
+        "tagteam:actType": "forward",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        }
+      },
+      {
+        "@id": "inst:Act_forwarded",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "forwarded",
+        "tagteam:lemma": "forward",
+        "tagteam:verb": "forward",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_forward_5836f3ac"
+        },
+        "tagteam:isPassive": true
       },
       {
         "@id": "inst:Role_the_analyst_AgentRole",
@@ -155,6 +247,23 @@
         "tagteam:parseProbability": 0.3683
       },
       {
+        "@id": "inst:Role_the_director_DestinationRole",
+        "@type": [
+          "Role"
+        ],
+        "rdfs:label": "DestinationRole",
+        "tagteam:roleType": "DestinationRole",
+        "inheres_in": {
+          "@id": "inst:Person_Director_e67c7e73b289"
+        },
+        "realized_in": {
+          "@id": "inst:Act_forwarded"
+        },
+        "tagteam:preposition": "to",
+        "tagteam:parseConfidence": "low",
+        "tagteam:parseProbability": 0.3683
+      },
+      {
         "@id": "inst:Entity_Report_13a099a832dd",
         "@type": [
           "Entity",
@@ -162,11 +271,10 @@
         ],
         "rdfs:label": "report",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.088Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.115Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ffc6ed551e17",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_report"
+          "@id": "inst:DR_The_report_m1"
         }
       },
       {
@@ -178,11 +286,10 @@
         "rdfs:label": "analyst",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.088Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.115Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ffc6ed551e17",
-        "tagteam:denotesType": "Person",
         "is_subject_of": {
-          "@id": "inst:the_analyst"
+          "@id": "inst:DR_the_analyst_m1"
         },
         "is_bearer_of": [
           {
@@ -198,12 +305,16 @@
         ],
         "rdfs:label": "director",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.088Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.115Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ffc6ed551e17",
-        "tagteam:denotesType": "Person",
         "is_subject_of": {
-          "@id": "inst:the_director"
-        }
+          "@id": "inst:DR_the_director_m1"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_director_DestinationRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_ffc6ed551e17",
@@ -215,7 +326,7 @@
         "has_text_value": "The report that the analyst compiled was forwarded to the director",
         "tagteam:char_count": 66,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-28T11:17:38.079Z"
+        "tagteam:received_at": "2026-03-31T15:13:49.104Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -244,6 +355,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_ffc6ed551e17"
         },
@@ -252,22 +364,22 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_report"
+            "@id": "inst:DR_The_report_m1"
           },
           {
-            "@id": "inst:the_analyst"
+            "@id": "inst:DR_the_analyst_m1"
           },
           {
-            "@id": "inst:the_director"
+            "@id": "inst:DR_the_director_m1"
           },
           {
-            "@id": "inst:Act_report"
+            "@id": "inst:VP_compiled"
           },
           {
-            "@id": "inst:Act_compiled"
+            "@id": "inst:VP_forwarded"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.079Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.104Z"
       }
     ]
   }

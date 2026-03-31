@@ -7,7 +7,7 @@
     "keep",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:36.182Z",
+  "generatedAt": "2026-03-31T15:13:47.164Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -31,33 +31,24 @@
   ],
   "extractedEntities": [
     {
-      "text": "The Bureau of Alcohol Tobacco",
-      "type": "Entity",
-      "id": "inst:The_Bureau_of_Alcohol_Tobacco"
-    },
-    {
-      "text": "Firearms",
-      "type": "Entity",
-      "id": "inst:Firearms"
-    },
-    {
-      "text": "Alcohol Tobacco",
-      "type": "Entity",
-      "id": "inst:Alcohol_Tobacco"
+      "text": "The Bureau of Alcohol Tobacco and Firearms",
+      "type": "Organization",
+      "id": "inst:DR_The_Bureau_of_Alcohol_Tobacco_and_Firearms_m1"
     },
     {
       "text": "the case",
       "type": "Entity",
-      "id": "inst:the_case"
+      "id": "inst:DR_the_case_m1"
+    },
+    {
+      "text": "investigated",
+      "type": "EventDescription",
+      "id": "inst:VP_investigated"
     }
   ],
   "extractedRoles": [
     {
-      "entity": "bureau of alcohol tobacco",
-      "role": "Agent"
-    },
-    {
-      "entity": "firearm",
+      "entity": "bureau of alcohol tobacco and firearm",
       "role": "Agent"
     },
     {
@@ -68,63 +59,24 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_Bureau_of_Alcohol_Tobacco",
+        "@id": "inst:DR_The_Bureau_of_Alcohol_Tobacco_and_Firearms_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
-        "rdfs:label": "The Bureau of Alcohol Tobacco",
-        "tagteam:mentionId": "s0:h2:0-29",
+        "rdfs:label": "The Bureau of Alcohol Tobacco and Firearms",
+        "tagteam:mentionId": "s0:h1:0-42",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
-        "tagteam:genericityCategory": "INST",
-        "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Entity_Bureau_Of_Alcohol_Tobacco_9fd0bb3ff0e5"
+          "@id": "inst:Organization_Bureau_Of_Alcohol_Tobacco_And_Firearm_8db00a7fe1e8"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_8033fe818429"
         }
       },
       {
-        "@id": "inst:Firearms",
-        "@type": [
-          "tagteam:DiscourseReferent"
-        ],
-        "rdfs:label": "Firearms",
-        "tagteam:mentionId": "s0:h7:34-42",
-        "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.889,
-        "tagteam:genericityCategory": "INST",
-        "tagteam:genericityConfidence": 0.9,
-        "tagteam:genericityBasis": "proper_noun",
-        "tagteam:denotesType": "Entity",
-        "is_about": {
-          "@id": "inst:Entity_Firearm_cf8d17cbab95"
-        },
-        "is_concretized_by": {
-          "@id": "inst:Input_Text_IBE_8033fe818429"
-        }
-      },
-      {
-        "@id": "inst:Alcohol_Tobacco",
-        "@type": [
-          "tagteam:DiscourseReferent"
-        ],
-        "rdfs:label": "Alcohol Tobacco",
-        "tagteam:mentionId": "s0:h4:14-29",
-        "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.7804,
-        "tagteam:denotesType": "Entity",
-        "is_about": {
-          "@id": "inst:Entity_Alcohol_Tobacco_068d43da7be7"
-        },
-        "is_concretized_by": {
-          "@id": "inst:Input_Text_IBE_8033fe818429"
-        }
-      },
-      {
-        "@id": "inst:the_case",
+        "@id": "inst:DR_the_case_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -141,42 +93,70 @@
         }
       },
       {
-        "@id": "inst:Act_investigated",
+        "@id": "inst:VP_investigated",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "investigated",
-        "tagteam:lemma": "investigat",
+        "tagteam:lemma": "investigate",
+        "tagteam:verb": "investigate",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_investigate_0eaf0aff"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v8:43-55",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_8033fe818429"
         }
       },
       {
-        "@id": "inst:Role_The_Bureau_of_Alcohol_Tobacco_AgentRole",
+        "@id": "inst:EventDesc_investigate_0eaf0aff",
         "@type": [
-          "Role"
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
         ],
-        "rdfs:label": "AgentRole",
-        "tagteam:roleType": "AgentRole",
-        "inheres_in": {
-          "@id": "inst:Entity_Bureau_Of_Alcohol_Tobacco_9fd0bb3ff0e5"
+        "rdfs:label": "Event: investigate",
+        "tagteam:actType": "investigate",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
         },
-        "realized_in": {
-          "@id": "inst:Act_investigated"
+        "tagteam:agent": {
+          "@id": "inst:Organization_Bureau_Of_Alcohol_Tobacco_And_Firearm_8db00a7fe1e8"
         },
-        "tagteam:parseConfidence": "high",
-        "tagteam:parseProbability": 0.9479
+        "tagteam:patient": {
+          "@id": "inst:Entity_Case_4d787d340467"
+        }
       },
       {
-        "@id": "inst:Role_Firearms_AgentRole",
+        "@id": "inst:Act_investigated",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "investigated",
+        "tagteam:lemma": "investigate",
+        "tagteam:verb": "investigate",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_investigate_0eaf0aff"
+        }
+      },
+      {
+        "@id": "inst:Role_The_Bureau_of_Alcohol_Tobacco_and_Firearms_AgentRole",
         "@type": [
           "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
         "inheres_in": {
-          "@id": "inst:Entity_Firearm_cf8d17cbab95"
+          "@id": "inst:Organization_Bureau_Of_Alcohol_Tobacco_And_Firearm_8db00a7fe1e8"
         },
         "realized_in": {
           "@id": "inst:Act_investigated"
@@ -201,61 +181,23 @@
         "tagteam:parseProbability": 0.8492
       },
       {
-        "@id": "inst:Entity_Bureau_Of_Alcohol_Tobacco_9fd0bb3ff0e5",
+        "@id": "inst:Organization_Bureau_Of_Alcohol_Tobacco_And_Firearm_8db00a7fe1e8",
         "@type": [
-          "Entity",
+          "Organization",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "bureau of alcohol tobacco",
-        "tagteam:genericityCategory": "INST",
+        "rdfs:label": "bureau of alcohol tobacco and firearm",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.181Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.163Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_8033fe818429",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_Bureau_of_Alcohol_Tobacco"
+          "@id": "inst:DR_The_Bureau_of_Alcohol_Tobacco_and_Firearms_m1"
         },
         "is_bearer_of": [
           {
-            "@id": "inst:Role_The_Bureau_of_Alcohol_Tobacco_AgentRole"
+            "@id": "inst:Role_The_Bureau_of_Alcohol_Tobacco_and_Firearms_AgentRole"
           }
         ]
-      },
-      {
-        "@id": "inst:Entity_Firearm_cf8d17cbab95",
-        "@type": [
-          "Entity",
-          "owl:NamedIndividual"
-        ],
-        "rdfs:label": "firearm",
-        "tagteam:genericityCategory": "INST",
-        "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.181Z",
-        "tagteam:instantiated_by": "inst:Input_Text_IBE_8033fe818429",
-        "tagteam:denotesType": "Entity",
-        "is_subject_of": {
-          "@id": "inst:Firearms"
-        },
-        "is_bearer_of": [
-          {
-            "@id": "inst:Role_Firearms_AgentRole"
-          }
-        ]
-      },
-      {
-        "@id": "inst:Entity_Alcohol_Tobacco_068d43da7be7",
-        "@type": [
-          "Entity",
-          "owl:NamedIndividual"
-        ],
-        "rdfs:label": "alcohol tobacco",
-        "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.181Z",
-        "tagteam:instantiated_by": "inst:Input_Text_IBE_8033fe818429",
-        "tagteam:denotesType": "Entity",
-        "is_subject_of": {
-          "@id": "inst:Alcohol_Tobacco"
-        }
       },
       {
         "@id": "inst:Entity_Case_4d787d340467",
@@ -265,11 +207,10 @@
         ],
         "rdfs:label": "case",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.181Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.163Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_8033fe818429",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_case"
+          "@id": "inst:DR_the_case_m1"
         },
         "is_bearer_of": [
           {
@@ -287,7 +228,7 @@
         "has_text_value": "The Bureau of Alcohol Tobacco and Firearms investigated the case",
         "tagteam:char_count": 64,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-28T11:17:36.174Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.156Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -316,6 +257,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_8033fe818429"
         },
@@ -324,22 +266,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_Bureau_of_Alcohol_Tobacco"
+            "@id": "inst:DR_The_Bureau_of_Alcohol_Tobacco_and_Firearms_m1"
           },
           {
-            "@id": "inst:Firearms"
+            "@id": "inst:DR_the_case_m1"
           },
           {
-            "@id": "inst:Alcohol_Tobacco"
-          },
-          {
-            "@id": "inst:the_case"
-          },
-          {
-            "@id": "inst:Act_investigated"
+            "@id": "inst:VP_investigated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.174Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.156Z"
       }
     ]
   }

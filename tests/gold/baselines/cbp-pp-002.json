@@ -6,7 +6,7 @@
     "pp",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:37.125Z",
+  "generatedAt": "2026-03-31T15:13:48.209Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -40,17 +40,22 @@
     {
       "text": "The officer",
       "type": "Person",
-      "id": "inst:The_officer"
+      "id": "inst:DR_The_officer_m1"
     },
     {
       "text": "the passport",
       "type": "Entity",
-      "id": "inst:the_passport"
+      "id": "inst:DR_the_passport_m1"
     },
     {
       "text": "the reader",
       "type": "Entity",
-      "id": "inst:the_reader"
+      "id": "inst:DR_the_reader_m1"
+    },
+    {
+      "text": "scanned",
+      "type": "EventDescription",
+      "id": "inst:VP_scanned"
     }
   ],
   "extractedRoles": [
@@ -70,7 +75,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_officer",
+        "@id": "inst:DR_The_officer_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -89,7 +94,7 @@
         }
       },
       {
-        "@id": "inst:the_passport",
+        "@id": "inst:DR_the_passport_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -106,7 +111,7 @@
         }
       },
       {
-        "@id": "inst:the_reader",
+        "@id": "inst:DR_the_reader_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -123,15 +128,59 @@
         }
       },
       {
-        "@id": "inst:Act_scanned",
+        "@id": "inst:VP_scanned",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "scanned",
         "tagteam:lemma": "scann",
+        "tagteam:verb": "scann",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_scann_f5fce46f"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v3:12-19",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_e2e7fbde9186"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_scann_f5fce46f",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: scann",
+        "tagteam:actType": "scann",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Person_Officer_d6b851ab4997"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Passport_9987147a419f"
+        }
+      },
+      {
+        "@id": "inst:Act_scanned",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "scanned",
+        "tagteam:lemma": "scann",
+        "tagteam:verb": "scann",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_scann_f5fce46f"
         }
       },
       {
@@ -192,11 +241,10 @@
         "rdfs:label": "officer",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.125Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.209Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e2e7fbde9186",
-        "tagteam:denotesType": "Person",
         "is_subject_of": {
-          "@id": "inst:The_officer"
+          "@id": "inst:DR_The_officer_m1"
         },
         "is_bearer_of": [
           {
@@ -212,11 +260,10 @@
         ],
         "rdfs:label": "passport",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.125Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.209Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e2e7fbde9186",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_passport"
+          "@id": "inst:DR_the_passport_m1"
         },
         "is_bearer_of": [
           {
@@ -232,11 +279,10 @@
         ],
         "rdfs:label": "reader",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.125Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.209Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_e2e7fbde9186",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_reader"
+          "@id": "inst:DR_the_reader_m1"
         },
         "is_bearer_of": [
           {
@@ -254,7 +300,7 @@
         "has_text_value": "The officer scanned the passport with the reader",
         "tagteam:char_count": 48,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-28T11:17:37.117Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.200Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -283,6 +329,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_e2e7fbde9186"
         },
@@ -291,19 +338,19 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_officer"
+            "@id": "inst:DR_The_officer_m1"
           },
           {
-            "@id": "inst:the_passport"
+            "@id": "inst:DR_the_passport_m1"
           },
           {
-            "@id": "inst:the_reader"
+            "@id": "inst:DR_the_reader_m1"
           },
           {
-            "@id": "inst:Act_scanned"
+            "@id": "inst:VP_scanned"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.117Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.200Z"
       }
     ]
   }

@@ -6,7 +6,7 @@
     "passive",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:37.044Z",
+  "generatedAt": "2026-03-31T15:13:48.121Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,12 +32,17 @@
     {
       "text": "The intelligence report",
       "type": "Entity",
-      "id": "inst:The_intelligence_report"
+      "id": "inst:DR_The_intelligence_report_m1"
     },
     {
       "text": "all sectors",
       "type": "Entity",
-      "id": "inst:all_sectors"
+      "id": "inst:DR_all_sectors_m1"
+    },
+    {
+      "text": "distributed",
+      "type": "EventDescription",
+      "id": "inst:VP_distributed"
     }
   ],
   "extractedRoles": [
@@ -46,14 +51,14 @@
       "role": "Patient"
     },
     {
-      "entity": "all sectors",
+      "entity": "all sector",
       "role": "Goal"
     }
   ],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_intelligence_report",
+        "@id": "inst:DR_The_intelligence_report_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -72,7 +77,7 @@
         }
       },
       {
-        "@id": "inst:all_sectors",
+        "@id": "inst:DR_all_sectors_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -82,24 +87,63 @@
         "tagteam:parseProbability": 0.6583,
         "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_All_Sectors_6ae41ba8784e"
+          "@id": "inst:Entity_All_Sector_0df9dd6ea980"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_357d63a0aa17"
         }
       },
       {
-        "@id": "inst:Act_distributed",
+        "@id": "inst:VP_distributed",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "distributed",
         "tagteam:lemma": "distribut",
+        "tagteam:verb": "distribut",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_distribut_8c3d9774"
+        },
         "tagteam:isPassive": true,
+        "tagteam:mentionId": "s0:v5:28-39",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_357d63a0aa17"
         }
+      },
+      {
+        "@id": "inst:EventDesc_distribut_8c3d9774",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: distribut",
+        "tagteam:actType": "distribut",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Intelligence_Report_aec20948d905"
+        }
+      },
+      {
+        "@id": "inst:Act_distributed",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "distributed",
+        "tagteam:lemma": "distribut",
+        "tagteam:verb": "distribut",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_distribut_8c3d9774"
+        },
+        "tagteam:isPassive": true
       },
       {
         "@id": "inst:Role_The_intelligence_report_PatientRole",
@@ -125,7 +169,7 @@
         "rdfs:label": "DestinationRole",
         "tagteam:roleType": "DestinationRole",
         "inheres_in": {
-          "@id": "inst:Entity_All_Sectors_6ae41ba8784e"
+          "@id": "inst:Entity_All_Sector_0df9dd6ea980"
         },
         "realized_in": {
           "@id": "inst:Act_distributed"
@@ -143,11 +187,10 @@
         "rdfs:label": "intelligence report",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.044Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.121Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_357d63a0aa17",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_intelligence_report"
+          "@id": "inst:DR_The_intelligence_report_m1"
         },
         "is_bearer_of": [
           {
@@ -156,18 +199,17 @@
         ]
       },
       {
-        "@id": "inst:Entity_All_Sectors_6ae41ba8784e",
+        "@id": "inst:Entity_All_Sector_0df9dd6ea980",
         "@type": [
           "Entity",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "all sectors",
+        "rdfs:label": "all sector",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.044Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.121Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_357d63a0aa17",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:all_sectors"
+          "@id": "inst:DR_all_sectors_m1"
         },
         "is_bearer_of": [
           {
@@ -185,7 +227,7 @@
         "has_text_value": "The intelligence report was distributed to all sectors",
         "tagteam:char_count": 54,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-28T11:17:37.035Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.112Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -214,6 +256,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_357d63a0aa17"
         },
@@ -222,16 +265,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_intelligence_report"
+            "@id": "inst:DR_The_intelligence_report_m1"
           },
           {
-            "@id": "inst:all_sectors"
+            "@id": "inst:DR_all_sectors_m1"
           },
           {
-            "@id": "inst:Act_distributed"
+            "@id": "inst:VP_distributed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.035Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.112Z"
       }
     ]
   }

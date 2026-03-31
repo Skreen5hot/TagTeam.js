@@ -6,7 +6,7 @@
     "multi-clause",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:37.921Z",
+  "generatedAt": "2026-03-31T15:13:48.964Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -48,22 +48,32 @@
     {
       "text": "The director",
       "type": "Person",
-      "id": "inst:The_director"
+      "id": "inst:DR_The_director_m1"
     },
     {
       "text": "the operation",
       "type": "Entity",
-      "id": "inst:the_operation"
+      "id": "inst:DR_the_operation_m1"
     },
     {
       "text": "the supervisor",
       "type": "Person",
-      "id": "inst:the_supervisor"
+      "id": "inst:DR_the_supervisor_m1"
     },
     {
       "text": "the execution",
       "type": "Entity",
-      "id": "inst:the_execution"
+      "id": "inst:DR_the_execution_m1"
+    },
+    {
+      "text": "authorized",
+      "type": "EventDescription",
+      "id": "inst:VP_authorized"
+    },
+    {
+      "text": "delayed",
+      "type": "EventDescription",
+      "id": "inst:VP_delayed"
     }
   ],
   "extractedRoles": [
@@ -74,12 +84,20 @@
     {
       "entity": "operation",
       "role": "Patient"
+    },
+    {
+      "entity": "supervisor",
+      "role": "Agent"
+    },
+    {
+      "entity": "execution",
+      "role": "Patient"
     }
   ],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_director",
+        "@id": "inst:DR_The_director_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -98,7 +116,7 @@
         }
       },
       {
-        "@id": "inst:the_operation",
+        "@id": "inst:DR_the_operation_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -115,7 +133,7 @@
         }
       },
       {
-        "@id": "inst:the_supervisor",
+        "@id": "inst:DR_the_supervisor_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -134,7 +152,7 @@
         }
       },
       {
-        "@id": "inst:the_execution",
+        "@id": "inst:DR_the_execution_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -151,15 +169,115 @@
         }
       },
       {
-        "@id": "inst:Act_authorized",
+        "@id": "inst:VP_authorized",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "authorized",
-        "tagteam:lemma": "authoriz",
+        "tagteam:lemma": "authorize",
+        "tagteam:verb": "authorize",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_authorize_92643973"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v3:13-23",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c507cb076f74"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_authorize_92643973",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: authorize",
+        "tagteam:actType": "authorize",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Person_Director_a1fef1584295"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Operation_92163c223afe"
+        }
+      },
+      {
+        "@id": "inst:Act_authorized",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "authorized",
+        "tagteam:lemma": "authorize",
+        "tagteam:verb": "authorize",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_authorize_92643973"
+        }
+      },
+      {
+        "@id": "inst:VP_delayed",
+        "@type": [
+          "tagteam:DiscourseReferent",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "delayed",
+        "tagteam:lemma": "delay",
+        "tagteam:verb": "delay",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_delay_69885447"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v9:57-64",
+        "is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_c507cb076f74"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_delay_69885447",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: delay",
+        "tagteam:actType": "delay",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Person_Supervisor_2fc0a09a1cdb"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Execution_890bb3f4f7c3"
+        }
+      },
+      {
+        "@id": "inst:Act_delayed",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "delayed",
+        "tagteam:lemma": "delay",
+        "tagteam:verb": "delay",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_delay_69885447"
         }
       },
       {
@@ -195,6 +313,38 @@
         "tagteam:parseProbability": 0.889
       },
       {
+        "@id": "inst:Role_the_supervisor_AgentRole",
+        "@type": [
+          "Role"
+        ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
+        "inheres_in": {
+          "@id": "inst:Person_Supervisor_2fc0a09a1cdb"
+        },
+        "realized_in": {
+          "@id": "inst:Act_delayed"
+        },
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
+        "@id": "inst:Role_the_execution_PatientRole",
+        "@type": [
+          "Role"
+        ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
+        "inheres_in": {
+          "@id": "inst:Entity_Execution_890bb3f4f7c3"
+        },
+        "realized_in": {
+          "@id": "inst:Act_delayed"
+        },
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.889
+      },
+      {
         "@id": "inst:Person_Director_a1fef1584295",
         "@type": [
           "Person",
@@ -203,11 +353,10 @@
         "rdfs:label": "director",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.921Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.964Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c507cb076f74",
-        "tagteam:denotesType": "Person",
         "is_subject_of": {
-          "@id": "inst:The_director"
+          "@id": "inst:DR_The_director_m1"
         },
         "is_bearer_of": [
           {
@@ -223,11 +372,10 @@
         ],
         "rdfs:label": "operation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.921Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.964Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c507cb076f74",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_operation"
+          "@id": "inst:DR_the_operation_m1"
         },
         "is_bearer_of": [
           {
@@ -244,12 +392,16 @@
         "rdfs:label": "supervisor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.921Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.964Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c507cb076f74",
-        "tagteam:denotesType": "Person",
         "is_subject_of": {
-          "@id": "inst:the_supervisor"
-        }
+          "@id": "inst:DR_the_supervisor_m1"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_supervisor_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Entity_Execution_890bb3f4f7c3",
@@ -259,12 +411,16 @@
         ],
         "rdfs:label": "execution",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.921Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.964Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c507cb076f74",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_execution"
-        }
+          "@id": "inst:DR_the_execution_m1"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_execution_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_c507cb076f74",
@@ -276,7 +432,7 @@
         "has_text_value": "The director authorized the operation but the supervisor delayed the execution",
         "tagteam:char_count": 78,
         "tagteam:word_count": 11,
-        "tagteam:received_at": "2026-02-28T11:17:37.913Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.951Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -305,6 +461,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_c507cb076f74"
         },
@@ -313,22 +470,25 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_director"
+            "@id": "inst:DR_The_director_m1"
           },
           {
-            "@id": "inst:the_operation"
+            "@id": "inst:DR_the_operation_m1"
           },
           {
-            "@id": "inst:the_supervisor"
+            "@id": "inst:DR_the_supervisor_m1"
           },
           {
-            "@id": "inst:the_execution"
+            "@id": "inst:DR_the_execution_m1"
           },
           {
-            "@id": "inst:Act_authorized"
+            "@id": "inst:VP_authorized"
+          },
+          {
+            "@id": "inst:VP_delayed"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.913Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.951Z"
       }
     ]
   }

@@ -7,7 +7,7 @@
     "definitional",
     "military"
   ],
-  "generatedAt": "2026-02-28T11:17:35.724Z",
+  "generatedAt": "2026-03-31T15:13:46.649Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -23,39 +23,37 @@
   "extractedEntities": [
     {
       "text": "The Coast Guard",
-      "type": "Person",
-      "id": "inst:The_Coast_Guard"
+      "type": "Organization",
+      "id": "inst:DR_The_Coast_Guard_m1"
     },
     {
       "text": "the armed forces",
       "type": "Entity",
-      "id": "inst:the_armed_forces"
+      "id": "inst:DR_the_armed_forces_m1"
     }
   ],
   "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_Coast_Guard",
+        "@id": "inst:DR_The_Coast_Guard_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The Coast Guard",
-        "tagteam:mentionId": "s0:h3:0-15",
+        "tagteam:mentionId": "s0:h1:0-15",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.6583,
-        "tagteam:genericityCategory": "INST",
-        "tagteam:genericityConfidence": 0.9,
-        "tagteam:denotesType": "Person",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Person_Coast_Guard_8ad859159af5"
+          "@id": "inst:Organization_Coast_Guard_e8c853303677"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_ceab63bf2523"
         }
       },
       {
-        "@id": "inst:the_armed_forces",
+        "@id": "inst:DR_the_armed_forces_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -79,29 +77,27 @@
         "tagteam:pattern": "predication",
         "tagteam:copula": "is",
         "assertionSubject": {
-          "@id": "inst:The_Coast_Guard"
+          "@id": "inst:DR_The_Coast_Guard_m1"
         },
         "assertionObject": {
-          "@id": "inst:the_armed_forces"
+          "@id": "inst:DR_the_armed_forces_m1"
         },
         "assertedRelation": {
           "@id": "member_part_of"
         }
       },
       {
-        "@id": "inst:Person_Coast_Guard_8ad859159af5",
+        "@id": "inst:Organization_Coast_Guard_e8c853303677",
         "@type": [
-          "Person",
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "coast guard",
-        "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.724Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.648Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ceab63bf2523",
-        "tagteam:denotesType": "Person",
         "is_subject_of": {
-          "@id": "inst:The_Coast_Guard"
+          "@id": "inst:DR_The_Coast_Guard_m1"
         },
         "member_part_of": {
           "@id": "inst:Entity_Armed_Force_5be7a75536cc"
@@ -115,11 +111,10 @@
         ],
         "rdfs:label": "armed force",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.724Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.648Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_ceab63bf2523",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_armed_forces"
+          "@id": "inst:DR_the_armed_forces_m1"
         }
       },
       {
@@ -132,7 +127,7 @@
         "has_text_value": "The Coast Guard is a branch of the armed forces",
         "tagteam:char_count": 47,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-28T11:17:35.711Z"
+        "tagteam:received_at": "2026-03-31T15:13:46.637Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -161,6 +156,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_ceab63bf2523"
         },
@@ -169,13 +165,13 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_Coast_Guard"
+            "@id": "inst:DR_The_Coast_Guard_m1"
           },
           {
-            "@id": "inst:the_armed_forces"
+            "@id": "inst:DR_the_armed_forces_m1"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.711Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.637Z"
       }
     ]
   }

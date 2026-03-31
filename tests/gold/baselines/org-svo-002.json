@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-28T11:17:35.822Z",
+  "generatedAt": "2026-03-31T15:13:46.755Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -41,17 +41,22 @@
     {
       "text": "CBP",
       "type": "Organization",
-      "id": "inst:CBP"
+      "id": "inst:DR_CBP_m1"
     },
     {
       "text": "the suspect",
       "type": "Person",
-      "id": "inst:the_suspect"
+      "id": "inst:DR_the_suspect_m1"
     },
     {
       "text": "the border",
       "type": "Entity",
-      "id": "inst:the_border"
+      "id": "inst:DR_the_border_m1"
+    },
+    {
+      "text": "apprehended",
+      "type": "EventDescription",
+      "id": "inst:VP_apprehended"
     }
   ],
   "extractedRoles": [
@@ -71,7 +76,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:CBP",
+        "@id": "inst:DR_CBP_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -91,7 +96,7 @@
         }
       },
       {
-        "@id": "inst:the_suspect",
+        "@id": "inst:DR_the_suspect_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -108,7 +113,7 @@
         }
       },
       {
-        "@id": "inst:the_border",
+        "@id": "inst:DR_the_border_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -125,15 +130,59 @@
         }
       },
       {
-        "@id": "inst:Act_apprehended",
+        "@id": "inst:VP_apprehended",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "apprehended",
         "tagteam:lemma": "apprehend",
+        "tagteam:verb": "apprehend",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_apprehend_7e68971b"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v2:4-15",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_fd4cf6ffec2e"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_apprehend_7e68971b",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: apprehend",
+        "tagteam:actType": "apprehend",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Organization_Cbp_1e0a8cbcedd1"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Person_Suspect_6281039006d8"
+        }
+      },
+      {
+        "@id": "inst:Act_apprehended",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "apprehended",
+        "tagteam:lemma": "apprehend",
+        "tagteam:verb": "apprehend",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_apprehend_7e68971b"
         }
       },
       {
@@ -194,11 +243,10 @@
         "rdfs:label": "cbp",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.821Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.755Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_fd4cf6ffec2e",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:CBP"
+          "@id": "inst:DR_CBP_m1"
         },
         "is_bearer_of": [
           {
@@ -214,11 +262,10 @@
         ],
         "rdfs:label": "suspect",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.821Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.755Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_fd4cf6ffec2e",
-        "tagteam:denotesType": "Person",
         "is_subject_of": {
-          "@id": "inst:the_suspect"
+          "@id": "inst:DR_the_suspect_m1"
         },
         "is_bearer_of": [
           {
@@ -234,11 +281,10 @@
         ],
         "rdfs:label": "border",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.821Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.755Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_fd4cf6ffec2e",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_border"
+          "@id": "inst:DR_the_border_m1"
         },
         "is_bearer_of": [
           {
@@ -256,7 +302,7 @@
         "has_text_value": "CBP apprehended the suspect at the border",
         "tagteam:char_count": 41,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-28T11:17:35.814Z"
+        "tagteam:received_at": "2026-03-31T15:13:46.745Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -285,6 +331,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_fd4cf6ffec2e"
         },
@@ -293,19 +340,19 @@
         },
         "has_output": [
           {
-            "@id": "inst:CBP"
+            "@id": "inst:DR_CBP_m1"
           },
           {
-            "@id": "inst:the_suspect"
+            "@id": "inst:DR_the_suspect_m1"
           },
           {
-            "@id": "inst:the_border"
+            "@id": "inst:DR_the_border_m1"
           },
           {
-            "@id": "inst:Act_apprehended"
+            "@id": "inst:VP_apprehended"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.814Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.745Z"
       }
     ]
   }

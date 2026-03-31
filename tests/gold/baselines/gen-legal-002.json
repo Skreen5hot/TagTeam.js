@@ -5,7 +5,7 @@
   "tags": [
     "legal"
   ],
-  "generatedAt": "2026-02-28T11:17:37.607Z",
+  "generatedAt": "2026-03-31T15:13:48.656Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -31,12 +31,17 @@
     {
       "text": "The jury",
       "type": "Entity",
-      "id": "inst:The_jury"
+      "id": "inst:DR_The_jury_m1"
     },
     {
       "text": "the verdict",
       "type": "Entity",
-      "id": "inst:the_verdict"
+      "id": "inst:DR_the_verdict_m1"
+    },
+    {
+      "text": "delivered",
+      "type": "EventDescription",
+      "id": "inst:VP_delivered"
     }
   ],
   "extractedRoles": [
@@ -52,7 +57,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_jury",
+        "@id": "inst:DR_The_jury_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -71,7 +76,7 @@
         }
       },
       {
-        "@id": "inst:the_verdict",
+        "@id": "inst:DR_the_verdict_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -88,15 +93,59 @@
         }
       },
       {
-        "@id": "inst:Act_delivered",
+        "@id": "inst:VP_delivered",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "delivered",
         "tagteam:lemma": "deliver",
+        "tagteam:verb": "deliver",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_deliver_41b8d46b"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v3:9-18",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_bdf10feb9b2b"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_deliver_41b8d46b",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: deliver",
+        "tagteam:actType": "deliver",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Jury_11bfbc158934"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Verdict_1001707536e4"
+        }
+      },
+      {
+        "@id": "inst:Act_delivered",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "delivered",
+        "tagteam:lemma": "deliver",
+        "tagteam:verb": "deliver",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_deliver_41b8d46b"
         }
       },
       {
@@ -140,11 +189,10 @@
         "rdfs:label": "jury",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.606Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.655Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdf10feb9b2b",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_jury"
+          "@id": "inst:DR_The_jury_m1"
         },
         "is_bearer_of": [
           {
@@ -160,11 +208,10 @@
         ],
         "rdfs:label": "verdict",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.606Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.655Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_bdf10feb9b2b",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_verdict"
+          "@id": "inst:DR_the_verdict_m1"
         },
         "is_bearer_of": [
           {
@@ -182,7 +229,7 @@
         "has_text_value": "The jury delivered the verdict",
         "tagteam:char_count": 30,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-28T11:17:37.600Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.649Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -211,6 +258,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_bdf10feb9b2b"
         },
@@ -219,16 +267,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_jury"
+            "@id": "inst:DR_The_jury_m1"
           },
           {
-            "@id": "inst:the_verdict"
+            "@id": "inst:DR_the_verdict_m1"
           },
           {
-            "@id": "inst:Act_delivered"
+            "@id": "inst:VP_delivered"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.600Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.649Z"
       }
     ]
   }

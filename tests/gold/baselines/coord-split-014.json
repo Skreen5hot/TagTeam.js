@@ -7,7 +7,7 @@
     "split",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:36.310Z",
+  "generatedAt": "2026-03-31T15:13:47.312Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -39,38 +39,48 @@
   ],
   "extractedEntities": [
     {
-      "text": "The senator and the representative sponsored the bill",
+      "text": "The senator",
       "type": "Entity",
-      "id": "inst:The_senator_and_the_representative_sponsored_the_bill"
+      "id": "inst:DR_The_senator_m1"
     },
     {
       "text": "the bill",
       "type": "Person",
-      "id": "inst:the_bill"
+      "id": "inst:DR_the_bill_m1"
+    },
+    {
+      "text": "sponsored",
+      "type": "EventDescription",
+      "id": "inst:VP_sponsored"
     }
   ],
-  "extractedRoles": [],
+  "extractedRoles": [
+    {
+      "entity": "bill",
+      "role": "Patient"
+    }
+  ],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_senator_and_the_representative_sponsored_the_bill",
+        "@id": "inst:DR_The_senator_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
-        "rdfs:label": "The senator and the representative sponsored the bill",
-        "tagteam:mentionId": "s0:h2:0-53",
+        "rdfs:label": "The senator",
+        "tagteam:mentionId": "s0:h2:0-11",
         "tagteam:parseConfidence": "low",
         "tagteam:parseProbability": 0.3683,
         "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Senator_And_The_Representative_Sponsored_The_Bill_def29102ef3b"
+          "@id": "inst:Entity_Senator_86ee7049117b"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_feb82c570d57"
         }
       },
       {
-        "@id": "inst:the_bill",
+        "@id": "inst:DR_the_bill_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -87,30 +97,83 @@
         }
       },
       {
-        "@id": "inst:Act_senator",
+        "@id": "inst:VP_sponsored",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
-        "rdfs:label": "senator",
-        "tagteam:lemma": "senator",
+        "rdfs:label": "sponsored",
+        "tagteam:lemma": "sponsor",
+        "tagteam:verb": "sponsor",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_sponsor_f750699e"
+        },
+        "tagteam:mentionId": "s0:v6:35-44",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_feb82c570d57"
         }
       },
       {
-        "@id": "inst:Entity_Senator_And_The_Representative_Sponsored_The_Bill_def29102ef3b",
+        "@id": "inst:EventDesc_sponsor_f750699e",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: sponsor",
+        "tagteam:actType": "sponsor",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Person_Bill_dba8b9637085"
+        }
+      },
+      {
+        "@id": "inst:Act_sponsored",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "sponsored",
+        "tagteam:lemma": "sponsor",
+        "tagteam:verb": "sponsor",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_sponsor_f750699e"
+        }
+      },
+      {
+        "@id": "inst:Role_the_bill_PatientRole",
+        "@type": [
+          "Role"
+        ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
+        "inheres_in": {
+          "@id": "inst:Person_Bill_dba8b9637085"
+        },
+        "realized_in": {
+          "@id": "inst:Act_sponsored"
+        },
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:Entity_Senator_86ee7049117b",
         "@type": [
           "Entity",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "senator and the representative sponsored the bill",
+        "rdfs:label": "senator",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.310Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.311Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_feb82c570d57",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_senator_and_the_representative_sponsored_the_bill"
+          "@id": "inst:DR_The_senator_m1"
         }
       },
       {
@@ -121,12 +184,16 @@
         ],
         "rdfs:label": "bill",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.310Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.311Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_feb82c570d57",
-        "tagteam:denotesType": "Person",
         "is_subject_of": {
-          "@id": "inst:the_bill"
-        }
+          "@id": "inst:DR_the_bill_m1"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_bill_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_feb82c570d57",
@@ -138,7 +205,7 @@
         "has_text_value": "The senator and the representative sponsored the bill",
         "tagteam:char_count": 53,
         "tagteam:word_count": 8,
-        "tagteam:received_at": "2026-02-28T11:17:36.302Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.302Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -167,6 +234,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_feb82c570d57"
         },
@@ -175,16 +243,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_senator_and_the_representative_sponsored_the_bill"
+            "@id": "inst:DR_The_senator_m1"
           },
           {
-            "@id": "inst:the_bill"
+            "@id": "inst:DR_the_bill_m1"
           },
           {
-            "@id": "inst:Act_senator"
+            "@id": "inst:VP_sponsored"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.302Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.302Z"
       }
     ]
   }

@@ -100,10 +100,17 @@ class TreeRoleMapper {
       return this._handleOblique(child, depTree, entity, act);
     }
 
+    // Passive role flip: if act is passive and label is nsubj (not nsubj:pass),
+    // the dep parser missed the :pass suffix — flip to PatientRole
+    let effectiveLabel = label;
+    if (label === 'nsubj' && act.isPassive) {
+      effectiveLabel = 'nsubj:pass'; // Force patient mapping for passive subjects
+    }
+
     // Use RoleMappingContract for standard label mapping
     const mapping = RoleMappingContract
-      ? RoleMappingContract.mapUDToRole(label)
-      : this._fallbackMapping(label);
+      ? RoleMappingContract.mapUDToRole(effectiveLabel)
+      : this._fallbackMapping(effectiveLabel);
 
     if (!mapping) return null;
 
@@ -115,7 +122,7 @@ class TreeRoleMapper {
       act: act.verb,
       actId: act.verbId,
       udLabel: label,
-      note: mapping.note,
+      note: mapping.note + (label !== effectiveLabel ? ' (passive-flipped)' : ''),
     };
   }
 
@@ -164,8 +171,8 @@ class TreeRoleMapper {
         note = `Oblique subtyped by "${preposition}"`;
       }
     } else if (preposition) {
-      // Fallback oblique mapping without contract
-      role = this._fallbackObliqueMapping(preposition);
+      // Fallback oblique mapping without contract — verb-aware
+      role = this._fallbackObliqueMapping(preposition, act.lemma);
       note = `Oblique subtyped by "${preposition}" (fallback)`;
     }
 
@@ -250,7 +257,30 @@ class TreeRoleMapper {
   /**
    * Fallback oblique subtyping when RoleMappingContract is unavailable.
    */
-  _fallbackObliqueMapping(preposition) {
+  _fallbackObliqueMapping(preposition, actLemma) {
+    // Verb-specific preposition overrides (highest priority)
+    const verbSpecific = {
+      'provide_to': 'RecipientRole',
+      'provide_with': 'PatientRole',
+      'disclose_to': 'RecipientRole',
+      'report_to': 'RecipientRole',
+      'submit_to': 'RecipientRole',
+      'send_to': 'RecipientRole',
+      'advise_through': 'InstrumentRole',
+      'disclose_through': 'InstrumentRole',
+      'interface_among': 'ParticipantRole',
+      'comply_with': 'PatientRole',
+      'encrypt_with': 'InstrumentRole',
+      'encrypt_using': 'InstrumentRole',
+      'collaborate_with': 'PatientRole',
+      'enter_into': 'PatientRole',
+    };
+    if (actLemma && preposition) {
+      const key = actLemma.toLowerCase() + '_' + preposition;
+      if (verbSpecific[key]) return verbSpecific[key];
+    }
+
+    // Generic preposition mapping (fallback)
     const map = {
       'for': 'BeneficiaryRole',
       'with': 'InstrumentRole',
@@ -258,10 +288,24 @@ class TreeRoleMapper {
       'in': 'LocationRole',
       'on': 'LocationRole',
       'from': 'SourceRole',
-      'to': 'DestinationRole',
+      'to': 'RecipientRole',
       'by': 'AgentRole',
       'about': 'TopicRole',
       'against': 'OpponentRole',
+      'through': 'InstrumentRole',
+      'via': 'InstrumentRole',
+      'under': 'ConditionRole',
+      'within': 'TemporalRole',
+      'upon': 'ConditionRole',
+      'during': 'TemporalRole',
+      'after': 'TemporalRole',
+      'before': 'TemporalRole',
+      'until': 'TemporalRole',
+      'between': 'LocationRole',
+      'among': 'LocationRole',
+      'regarding': 'TopicRole',
+      'concerning': 'TopicRole',
+      'using': 'InstrumentRole',
     };
     return map[preposition] || 'ObliqueRole';
   }

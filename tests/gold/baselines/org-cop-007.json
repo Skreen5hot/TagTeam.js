@@ -7,7 +7,7 @@
     "definitional",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:35.694Z",
+  "generatedAt": "2026-03-31T15:13:46.620Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -23,60 +23,96 @@
   "extractedEntities": [
     {
       "text": "The Secret Service",
-      "type": "Entity",
-      "id": "inst:The_Secret_Service"
+      "type": "Organization",
+      "id": "inst:DR_The_Secret_Service_m1"
+    },
+    {
+      "text": "a federal agency",
+      "type": "Role",
+      "id": "inst:a_federal_agency"
     }
   ],
   "extractedRoles": [],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_Secret_Service",
+        "@id": "inst:DR_The_Secret_Service_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
         "rdfs:label": "The Secret Service",
-        "tagteam:mentionId": "s0:h3:0-18",
+        "tagteam:mentionId": "s0:h1:0-18",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
-        "tagteam:genericityCategory": "AMB",
-        "tagteam:genericityConfidence": 0.6,
-        "tagteam:genericityBasis": "institutional_the",
-        "tagteam:genericityAlternative": {
-          "tagteam:category": "GEN",
-          "tagteam:confidence": 0.4
-        },
-        "tagteam:denotesType": "Entity",
+        "tagteam:denotesType": "Organization",
         "is_about": {
-          "@id": "inst:Entity_Secret_Service_523644adb51f"
+          "@id": "inst:Organization_Secret_Service_0b295ad4bcb2"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_c648675cc7aa"
         }
       },
       {
-        "@id": "inst:Assertion_The_Secret_Service",
+        "@id": "inst:RoleAssertion_agency_db174729",
         "@type": [
+          "tagteam:RoleAssertion",
           "tagteam:StructuralAssertion"
         ],
-        "tagteam:subject": "The Secret Service",
-        "tagteam:pattern": "predication",
-        "tagteam:copula": "is"
+        "rdfs:label": "Role assertion: The Secret Service → agency",
+        "tagteam:assertionSubject": {
+          "@id": "inst:The_Secret_Service"
+        },
+        "tagteam:pattern": "role_assertion",
+        "is_about": {
+          "@id": "inst:Role_agency_db174729"
+        },
+        "tagteam:copulaLemma": "is"
       },
       {
-        "@id": "inst:Entity_Secret_Service_523644adb51f",
+        "@id": "inst:a_federal_agency",
         "@type": [
-          "Entity",
+          "tagteam:DiscourseReferent"
+        ],
+        "rdfs:label": "a federal agency",
+        "tagteam:denotesType": "Role",
+        "is_about": {
+          "@id": "inst:Role_agency_db174729"
+        },
+        "tagteam:mentionId": "s0:p7:32-48",
+        "is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_c648675cc7aa"
+        }
+      },
+      {
+        "@id": "inst:Role_agency_db174729",
+        "@type": [
+          "bfo:BFO_0000023",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "agency",
+        "tagteam:roleType": "agency",
+        "is_subject_of": {
+          "@id": "inst:a_federal_agency"
+        },
+        "bfo:BFO_0000052": {
+          "@id": "inst:Organization_Secret_Service_0b295ad4bcb2"
+        },
+        "inheres_in": {
+          "@id": "inst:Organization_Secret_Service_0b295ad4bcb2"
+        }
+      },
+      {
+        "@id": "inst:Organization_Secret_Service_0b295ad4bcb2",
+        "@type": [
+          "Organization",
           "owl:NamedIndividual"
         ],
         "rdfs:label": "secret service",
-        "tagteam:genericityCategory": "AMB",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.694Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.620Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_c648675cc7aa",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_Secret_Service"
+          "@id": "inst:DR_The_Secret_Service_m1"
         }
       },
       {
@@ -89,7 +125,7 @@
         "has_text_value": "The Secret Service is a federal agency",
         "tagteam:char_count": 38,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-28T11:17:35.684Z"
+        "tagteam:received_at": "2026-03-31T15:13:46.610Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -118,6 +154,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_c648675cc7aa"
         },
@@ -126,10 +163,13 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_Secret_Service"
+            "@id": "inst:DR_The_Secret_Service_m1"
+          },
+          {
+            "@id": "inst:a_federal_agency"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.684Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.610Z"
       }
     ]
   }

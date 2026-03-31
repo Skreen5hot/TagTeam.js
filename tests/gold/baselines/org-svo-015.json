@@ -7,7 +7,7 @@
     "government",
     "action"
   ],
-  "generatedAt": "2026-02-28T11:17:35.973Z",
+  "generatedAt": "2026-03-31T15:13:46.924Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -33,12 +33,17 @@
     {
       "text": "The witness",
       "type": "Person",
-      "id": "inst:The_witness"
+      "id": "inst:DR_The_witness_m1"
     },
     {
       "text": "testimony",
       "type": "Entity",
-      "id": "inst:testimony"
+      "id": "inst:DR_testimony_m1"
+    },
+    {
+      "text": "provided",
+      "type": "EventDescription",
+      "id": "inst:VP_provided"
     }
   ],
   "extractedRoles": [
@@ -54,7 +59,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_witness",
+        "@id": "inst:DR_The_witness_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -73,7 +78,7 @@
         }
       },
       {
-        "@id": "inst:testimony",
+        "@id": "inst:DR_testimony_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -90,17 +95,56 @@
         }
       },
       {
-        "@id": "inst:Act_provided",
+        "@id": "inst:VP_provided",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "provided",
-        "tagteam:lemma": "provid",
+        "tagteam:lemma": "provide",
+        "tagteam:verb": "provide",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_provide_dd537939"
+        },
         "tagteam:isPassive": true,
+        "tagteam:mentionId": "s0:v3:12-20",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_775791190ffd"
         }
+      },
+      {
+        "@id": "inst:EventDesc_provide_dd537939",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: provide",
+        "tagteam:actType": "provide",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Person_Witness_ebe134d58b81"
+        }
+      },
+      {
+        "@id": "inst:Act_provided",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "provided",
+        "tagteam:lemma": "provide",
+        "tagteam:verb": "provide",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_provide_dd537939"
+        },
+        "tagteam:isPassive": true
       },
       {
         "@id": "inst:Role_The_witness_PatientRole",
@@ -143,11 +187,10 @@
         "rdfs:label": "witness",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.973Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.924Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_775791190ffd",
-        "tagteam:denotesType": "Person",
         "is_subject_of": {
-          "@id": "inst:The_witness"
+          "@id": "inst:DR_The_witness_m1"
         },
         "is_bearer_of": [
           {
@@ -163,11 +206,10 @@
         ],
         "rdfs:label": "testimony",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.973Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.924Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_775791190ffd",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:testimony"
+          "@id": "inst:DR_testimony_m1"
         },
         "is_bearer_of": [
           {
@@ -185,7 +227,7 @@
         "has_text_value": "The witness provided testimony",
         "tagteam:char_count": 30,
         "tagteam:word_count": 4,
-        "tagteam:received_at": "2026-02-28T11:17:35.966Z"
+        "tagteam:received_at": "2026-03-31T15:13:46.915Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -214,6 +256,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_775791190ffd"
         },
@@ -222,16 +265,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_witness"
+            "@id": "inst:DR_The_witness_m1"
           },
           {
-            "@id": "inst:testimony"
+            "@id": "inst:DR_testimony_m1"
           },
           {
-            "@id": "inst:Act_provided"
+            "@id": "inst:VP_provided"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:35.966Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:46.915Z"
       }
     ]
   }

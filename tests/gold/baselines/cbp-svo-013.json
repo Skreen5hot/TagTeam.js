@@ -7,7 +7,7 @@
     "cbp",
     "operations"
   ],
-  "generatedAt": "2026-02-28T11:17:36.714Z",
+  "generatedAt": "2026-03-31T15:13:47.752Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -33,7 +33,12 @@
     {
       "text": "The station commander",
       "type": "Entity",
-      "id": "inst:The_station_commander"
+      "id": "inst:DR_The_station_commander_m1"
+    },
+    {
+      "text": "authorized",
+      "type": "EventDescription",
+      "id": "inst:VP_authorized"
     }
   ],
   "extractedRoles": [
@@ -45,7 +50,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_station_commander",
+        "@id": "inst:DR_The_station_commander_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -64,17 +69,56 @@
         }
       },
       {
-        "@id": "inst:Act_authorized",
+        "@id": "inst:VP_authorized",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "authorized",
-        "tagteam:lemma": "authoriz",
+        "tagteam:lemma": "authorize",
+        "tagteam:verb": "authorize",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_authorize_6d0ce832"
+        },
         "tagteam:isPassive": true,
+        "tagteam:mentionId": "s0:v4:22-32",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_1739823fda8d"
         }
+      },
+      {
+        "@id": "inst:EventDesc_authorize_6d0ce832",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: authorize",
+        "tagteam:actType": "authorize",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Station_Commander_911ca6eb2444"
+        }
+      },
+      {
+        "@id": "inst:Act_authorized",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "authorized",
+        "tagteam:lemma": "authorize",
+        "tagteam:verb": "authorize",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_authorize_6d0ce832"
+        },
+        "tagteam:isPassive": true
       },
       {
         "@id": "inst:Role_The_station_commander_PatientRole",
@@ -101,11 +145,10 @@
         "rdfs:label": "station commander",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.714Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.752Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1739823fda8d",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_station_commander"
+          "@id": "inst:DR_The_station_commander_m1"
         },
         "is_bearer_of": [
           {
@@ -123,7 +166,7 @@
         "has_text_value": "The station commander authorized overtime",
         "tagteam:char_count": 41,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-28T11:17:36.707Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.745Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -152,6 +195,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_1739823fda8d"
         },
@@ -160,13 +204,13 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_station_commander"
+            "@id": "inst:DR_The_station_commander_m1"
           },
           {
-            "@id": "inst:Act_authorized"
+            "@id": "inst:VP_authorized"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.707Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.745Z"
       }
     ]
   }

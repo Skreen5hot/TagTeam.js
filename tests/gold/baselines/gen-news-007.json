@@ -6,7 +6,7 @@
     "news",
     "labor"
   ],
-  "generatedAt": "2026-02-28T11:17:37.402Z",
+  "generatedAt": "2026-03-31T15:13:48.438Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,12 +32,17 @@
     {
       "text": "The union",
       "type": "Entity",
-      "id": "inst:The_union"
+      "id": "inst:DR_The_union_m1"
     },
     {
       "text": "the contract",
       "type": "Entity",
-      "id": "inst:the_contract"
+      "id": "inst:DR_the_contract_m1"
+    },
+    {
+      "text": "ratified",
+      "type": "EventDescription",
+      "id": "inst:VP_ratified"
     }
   ],
   "extractedRoles": [
@@ -53,7 +58,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_union",
+        "@id": "inst:DR_The_union_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -72,7 +77,7 @@
         }
       },
       {
-        "@id": "inst:the_contract",
+        "@id": "inst:DR_the_contract_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -89,15 +94,59 @@
         }
       },
       {
-        "@id": "inst:Act_ratified",
+        "@id": "inst:VP_ratified",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "ratified",
         "tagteam:lemma": "ratify",
+        "tagteam:verb": "ratify",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_ratify_0c958045"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v3:10-18",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_99e5af5b7348"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_ratify_0c958045",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: ratify",
+        "tagteam:actType": "ratify",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Union_3dd2fbd20e38"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Contract_318c80b63927"
+        }
+      },
+      {
+        "@id": "inst:Act_ratified",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "ratified",
+        "tagteam:lemma": "ratify",
+        "tagteam:verb": "ratify",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_ratify_0c958045"
         }
       },
       {
@@ -141,11 +190,10 @@
         "rdfs:label": "union",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.402Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.438Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_99e5af5b7348",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_union"
+          "@id": "inst:DR_The_union_m1"
         },
         "is_bearer_of": [
           {
@@ -161,11 +209,10 @@
         ],
         "rdfs:label": "contract",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.402Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.438Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_99e5af5b7348",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_contract"
+          "@id": "inst:DR_the_contract_m1"
         },
         "is_bearer_of": [
           {
@@ -183,7 +230,7 @@
         "has_text_value": "The union ratified the contract",
         "tagteam:char_count": 31,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-28T11:17:37.396Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.431Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -212,6 +259,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_99e5af5b7348"
         },
@@ -220,16 +268,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_union"
+            "@id": "inst:DR_The_union_m1"
           },
           {
-            "@id": "inst:the_contract"
+            "@id": "inst:DR_the_contract_m1"
           },
           {
-            "@id": "inst:Act_ratified"
+            "@id": "inst:VP_ratified"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.396Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.431Z"
       }
     ]
   }

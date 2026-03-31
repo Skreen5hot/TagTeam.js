@@ -6,7 +6,7 @@
     "news",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:37.383Z",
+  "generatedAt": "2026-03-31T15:13:48.418Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,17 +32,22 @@
     {
       "text": "The governor",
       "type": "Entity",
-      "id": "inst:The_governor"
+      "id": "inst:DR_The_governor_m1"
     },
     {
-      "text": "a state of emergency",
+      "text": "a state",
       "type": "Entity",
-      "id": "inst:a_state_of_emergency"
+      "id": "inst:DR_a_state_m1"
     },
     {
       "text": "emergency",
       "type": "Entity",
-      "id": "inst:emergency"
+      "id": "inst:DR_emergency_m1"
+    },
+    {
+      "text": "declared",
+      "type": "EventDescription",
+      "id": "inst:VP_declared"
     }
   ],
   "extractedRoles": [
@@ -51,14 +56,14 @@
       "role": "Agent"
     },
     {
-      "entity": "state of emergency",
+      "entity": "state",
       "role": "Patient"
     }
   ],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_governor",
+        "@id": "inst:DR_The_governor_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -77,24 +82,24 @@
         }
       },
       {
-        "@id": "inst:a_state_of_emergency",
+        "@id": "inst:DR_a_state_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
-        "rdfs:label": "a state of emergency",
-        "tagteam:mentionId": "s0:h5:22-42",
+        "rdfs:label": "a state",
+        "tagteam:mentionId": "s0:h5:22-29",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.889,
         "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_State_Of_Emergency_8ee74420e42e"
+          "@id": "inst:Entity_State_eee8142d50ce"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_1af407d800b2"
         }
       },
       {
-        "@id": "inst:emergency",
+        "@id": "inst:DR_emergency_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -111,15 +116,59 @@
         }
       },
       {
-        "@id": "inst:Act_declared",
+        "@id": "inst:VP_declared",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "declared",
         "tagteam:lemma": "declar",
+        "tagteam:verb": "declar",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_declar_a0e9d3a3"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v3:13-21",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_1af407d800b2"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_declar_a0e9d3a3",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: declar",
+        "tagteam:actType": "declar",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Governor_f10b65e9045e"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_State_eee8142d50ce"
+        }
+      },
+      {
+        "@id": "inst:Act_declared",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "declared",
+        "tagteam:lemma": "declar",
+        "tagteam:verb": "declar",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_declar_a0e9d3a3"
         }
       },
       {
@@ -139,14 +188,14 @@
         "tagteam:parseProbability": 0.889
       },
       {
-        "@id": "inst:Role_a_state_of_emergency_PatientRole",
+        "@id": "inst:Role_a_state_PatientRole",
         "@type": [
           "Role"
         ],
         "rdfs:label": "PatientRole",
         "tagteam:roleType": "PatientRole",
         "inheres_in": {
-          "@id": "inst:Entity_State_Of_Emergency_8ee74420e42e"
+          "@id": "inst:Entity_State_eee8142d50ce"
         },
         "realized_in": {
           "@id": "inst:Act_declared"
@@ -163,11 +212,10 @@
         "rdfs:label": "governor",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.383Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.418Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1af407d800b2",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_governor"
+          "@id": "inst:DR_The_governor_m1"
         },
         "is_bearer_of": [
           {
@@ -176,22 +224,21 @@
         ]
       },
       {
-        "@id": "inst:Entity_State_Of_Emergency_8ee74420e42e",
+        "@id": "inst:Entity_State_eee8142d50ce",
         "@type": [
           "Entity",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "state of emergency",
+        "rdfs:label": "state",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.383Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.418Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1af407d800b2",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:a_state_of_emergency"
+          "@id": "inst:DR_a_state_m1"
         },
         "is_bearer_of": [
           {
-            "@id": "inst:Role_a_state_of_emergency_PatientRole"
+            "@id": "inst:Role_a_state_PatientRole"
           }
         ]
       },
@@ -203,11 +250,10 @@
         ],
         "rdfs:label": "emergency",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.383Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.418Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_1af407d800b2",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:emergency"
+          "@id": "inst:DR_emergency_m1"
         }
       },
       {
@@ -220,7 +266,7 @@
         "has_text_value": "The governor declared a state of emergency",
         "tagteam:char_count": 42,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-28T11:17:37.373Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.411Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -249,6 +295,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_1af407d800b2"
         },
@@ -257,19 +304,19 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_governor"
+            "@id": "inst:DR_The_governor_m1"
           },
           {
-            "@id": "inst:a_state_of_emergency"
+            "@id": "inst:DR_a_state_m1"
           },
           {
-            "@id": "inst:emergency"
+            "@id": "inst:DR_emergency_m1"
           },
           {
-            "@id": "inst:Act_declared"
+            "@id": "inst:VP_declared"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.373Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.411Z"
       }
     ]
   }

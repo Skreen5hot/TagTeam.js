@@ -6,7 +6,7 @@
     "long-np",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:37.755Z",
+  "generatedAt": "2026-03-31T15:13:48.785Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -30,24 +30,29 @@
   ],
   "extractedEntities": [
     {
-      "text": "The congressional oversight committee on homeland security",
+      "text": "The congressional oversight committee",
       "type": "Entity",
-      "id": "inst:The_congressional_oversight_committee_on_homeland_security"
+      "id": "inst:DR_The_congressional_oversight_committee_m1"
     },
     {
       "text": "homeland security",
       "type": "Organization",
-      "id": "inst:homeland_security"
+      "id": "inst:DR_homeland_security_m1"
     },
     {
       "text": "a hearing",
       "type": "Entity",
-      "id": "inst:a_hearing"
+      "id": "inst:DR_a_hearing_m1"
+    },
+    {
+      "text": "held",
+      "type": "EventDescription",
+      "id": "inst:VP_held"
     }
   ],
   "extractedRoles": [
     {
-      "entity": "congressional oversight committee on homeland security",
+      "entity": "congressional oversight committee",
       "role": "Agent"
     },
     {
@@ -58,26 +63,26 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_congressional_oversight_committee_on_homeland_security",
+        "@id": "inst:DR_The_congressional_oversight_committee_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
-        "rdfs:label": "The congressional oversight committee on homeland security",
-        "tagteam:mentionId": "s0:h4:0-58",
+        "rdfs:label": "The congressional oversight committee",
+        "tagteam:mentionId": "s0:h4:0-37",
         "tagteam:parseConfidence": "medium",
-        "tagteam:parseProbability": 0.6583,
+        "tagteam:parseProbability": 0.889,
         "tagteam:genericityCategory": "INST",
         "tagteam:genericityConfidence": 0.9,
         "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Congressional_Oversight_Committee_On_Homeland_Security_c078e541230e"
+          "@id": "inst:Entity_Congressional_Oversight_Committee_4427638c17e1"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d9c769f6a06d"
         }
       },
       {
-        "@id": "inst:homeland_security",
+        "@id": "inst:DR_homeland_security_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -94,7 +99,7 @@
         }
       },
       {
-        "@id": "inst:a_hearing",
+        "@id": "inst:DR_a_hearing_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -111,26 +116,70 @@
         }
       },
       {
-        "@id": "inst:Act_held",
+        "@id": "inst:VP_held",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "held",
-        "tagteam:lemma": "hel",
+        "tagteam:lemma": "hold",
+        "tagteam:verb": "hold",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_hold_794fa007"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v8:59-63",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_d9c769f6a06d"
         }
       },
       {
-        "@id": "inst:Role_The_congressional_oversight_committee_on_homeland_security_AgentRole",
+        "@id": "inst:EventDesc_hold_794fa007",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: hold",
+        "tagteam:actType": "hold",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Congressional_Oversight_Committee_4427638c17e1"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Hear_b7d16c8047e5"
+        }
+      },
+      {
+        "@id": "inst:Act_held",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "held",
+        "tagteam:lemma": "hold",
+        "tagteam:verb": "hold",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_hold_794fa007"
+        }
+      },
+      {
+        "@id": "inst:Role_The_congressional_oversight_committee_AgentRole",
         "@type": [
           "Role"
         ],
         "rdfs:label": "AgentRole",
         "tagteam:roleType": "AgentRole",
         "inheres_in": {
-          "@id": "inst:Entity_Congressional_Oversight_Committee_On_Homeland_Security_c078e541230e"
+          "@id": "inst:Entity_Congressional_Oversight_Committee_4427638c17e1"
         },
         "realized_in": {
           "@id": "inst:Act_held"
@@ -155,23 +204,22 @@
         "tagteam:parseProbability": 0.9272
       },
       {
-        "@id": "inst:Entity_Congressional_Oversight_Committee_On_Homeland_Security_c078e541230e",
+        "@id": "inst:Entity_Congressional_Oversight_Committee_4427638c17e1",
         "@type": [
           "Entity",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "congressional oversight committee on homeland security",
+        "rdfs:label": "congressional oversight committee",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.755Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.785Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d9c769f6a06d",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_congressional_oversight_committee_on_homeland_security"
+          "@id": "inst:DR_The_congressional_oversight_committee_m1"
         },
         "is_bearer_of": [
           {
-            "@id": "inst:Role_The_congressional_oversight_committee_on_homeland_security_AgentRole"
+            "@id": "inst:Role_The_congressional_oversight_committee_AgentRole"
           }
         ]
       },
@@ -183,11 +231,10 @@
         ],
         "rdfs:label": "homeland security",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.755Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.785Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d9c769f6a06d",
-        "tagteam:denotesType": "Organization",
         "is_subject_of": {
-          "@id": "inst:homeland_security"
+          "@id": "inst:DR_homeland_security_m1"
         }
       },
       {
@@ -198,11 +245,10 @@
         ],
         "rdfs:label": "hear",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.755Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.785Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_d9c769f6a06d",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:a_hearing"
+          "@id": "inst:DR_a_hearing_m1"
         },
         "is_bearer_of": [
           {
@@ -220,7 +266,7 @@
         "has_text_value": "The congressional oversight committee on homeland security held a hearing",
         "tagteam:char_count": 73,
         "tagteam:word_count": 10,
-        "tagteam:received_at": "2026-02-28T11:17:37.746Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.776Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -249,6 +295,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_d9c769f6a06d"
         },
@@ -257,19 +304,19 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_congressional_oversight_committee_on_homeland_security"
+            "@id": "inst:DR_The_congressional_oversight_committee_m1"
           },
           {
-            "@id": "inst:homeland_security"
+            "@id": "inst:DR_homeland_security_m1"
           },
           {
-            "@id": "inst:a_hearing"
+            "@id": "inst:DR_a_hearing_m1"
           },
           {
-            "@id": "inst:Act_held"
+            "@id": "inst:VP_held"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.746Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.776Z"
       }
     ]
   }

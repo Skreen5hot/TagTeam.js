@@ -7,7 +7,7 @@
     "subordination",
     "cbp"
   ],
-  "generatedAt": "2026-02-28T11:17:37.964Z",
+  "generatedAt": "2026-03-31T15:13:49.006Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -37,29 +37,47 @@
     {
       "text": "the alarm",
       "type": "Entity",
-      "id": "inst:the_alarm"
+      "id": "inst:DR_the_alarm_m1"
     },
     {
       "text": "the officers",
       "type": "Entity",
-      "id": "inst:the_officers"
+      "id": "inst:DR_the_officers_m1"
     },
     {
       "text": "the building",
       "type": "Facility",
-      "id": "inst:the_building"
+      "id": "inst:DR_the_building_m1"
+    },
+    {
+      "text": "sounded",
+      "type": "EventDescription",
+      "id": "inst:VP_sounded"
+    },
+    {
+      "text": "evacuated",
+      "type": "EventDescription",
+      "id": "inst:VP_evacuated"
     }
   ],
   "extractedRoles": [
     {
       "entity": "alarm",
       "role": "Agent"
+    },
+    {
+      "entity": "officer",
+      "role": "Agent"
+    },
+    {
+      "entity": "build",
+      "role": "Patient"
     }
   ],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:the_alarm",
+        "@id": "inst:DR_the_alarm_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -78,7 +96,7 @@
         }
       },
       {
-        "@id": "inst:the_officers",
+        "@id": "inst:DR_the_officers_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -97,7 +115,7 @@
         }
       },
       {
-        "@id": "inst:the_building",
+        "@id": "inst:DR_the_building_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -114,15 +132,112 @@
         }
       },
       {
-        "@id": "inst:Act_sounded",
+        "@id": "inst:VP_sounded",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "sounded",
         "tagteam:lemma": "sound",
+        "tagteam:verb": "sound",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_sound_329f51c2"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v4:15-22",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_0fad6b4c89c7"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_sound_329f51c2",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: sound",
+        "tagteam:actType": "sound",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Alarm_29b00a632dfa"
+        }
+      },
+      {
+        "@id": "inst:Act_sounded",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "sounded",
+        "tagteam:lemma": "sound",
+        "tagteam:verb": "sound",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_sound_329f51c2"
+        }
+      },
+      {
+        "@id": "inst:VP_evacuated",
+        "@type": [
+          "tagteam:DiscourseReferent",
+          "tagteam:VerbPhrase"
+        ],
+        "rdfs:label": "evacuated",
+        "tagteam:lemma": "evacuat",
+        "tagteam:verb": "evacuat",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_evacuat_ed07b494"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v7:36-45",
+        "is_concretized_by": {
+          "@id": "inst:Input_Text_IBE_0fad6b4c89c7"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_evacuat_ed07b494",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: evacuat",
+        "tagteam:actType": "evacuat",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Entity_Officer_18d605d4d94c"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Facility_Build_e72a3fd311be"
+        }
+      },
+      {
+        "@id": "inst:Act_evacuated",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "evacuated",
+        "tagteam:lemma": "evacuat",
+        "tagteam:verb": "evacuat",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_evacuat_ed07b494"
         }
       },
       {
@@ -142,6 +257,38 @@
         "tagteam:parseProbability": 0.8492
       },
       {
+        "@id": "inst:Role_the_officers_AgentRole",
+        "@type": [
+          "Role"
+        ],
+        "rdfs:label": "AgentRole",
+        "tagteam:roleType": "AgentRole",
+        "inheres_in": {
+          "@id": "inst:Entity_Officer_18d605d4d94c"
+        },
+        "realized_in": {
+          "@id": "inst:Act_evacuated"
+        },
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
+        "@id": "inst:Role_the_building_PatientRole",
+        "@type": [
+          "Role"
+        ],
+        "rdfs:label": "PatientRole",
+        "tagteam:roleType": "PatientRole",
+        "inheres_in": {
+          "@id": "inst:Facility_Build_e72a3fd311be"
+        },
+        "realized_in": {
+          "@id": "inst:Act_evacuated"
+        },
+        "tagteam:parseConfidence": "medium",
+        "tagteam:parseProbability": 0.6583
+      },
+      {
         "@id": "inst:Entity_Alarm_29b00a632dfa",
         "@type": [
           "Entity",
@@ -150,11 +297,10 @@
         "rdfs:label": "alarm",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.963Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.006Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0fad6b4c89c7",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_alarm"
+          "@id": "inst:DR_the_alarm_m1"
         },
         "is_bearer_of": [
           {
@@ -171,12 +317,16 @@
         "rdfs:label": "officer",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.963Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.006Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0fad6b4c89c7",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_officers"
-        }
+          "@id": "inst:DR_the_officers_m1"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_officers_AgentRole"
+          }
+        ]
       },
       {
         "@id": "inst:Facility_Build_e72a3fd311be",
@@ -186,12 +336,16 @@
         ],
         "rdfs:label": "build",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.963Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.006Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_0fad6b4c89c7",
-        "tagteam:denotesType": "Facility",
         "is_subject_of": {
-          "@id": "inst:the_building"
-        }
+          "@id": "inst:DR_the_building_m1"
+        },
+        "is_bearer_of": [
+          {
+            "@id": "inst:Role_the_building_PatientRole"
+          }
+        ]
       },
       {
         "@id": "inst:Input_Text_IBE_0fad6b4c89c7",
@@ -203,7 +357,7 @@
         "has_text_value": "When the alarm sounded the officers evacuated the building",
         "tagteam:char_count": 58,
         "tagteam:word_count": 9,
-        "tagteam:received_at": "2026-02-28T11:17:37.954Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.997Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -232,6 +386,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_0fad6b4c89c7"
         },
@@ -240,19 +395,22 @@
         },
         "has_output": [
           {
-            "@id": "inst:the_alarm"
+            "@id": "inst:DR_the_alarm_m1"
           },
           {
-            "@id": "inst:the_officers"
+            "@id": "inst:DR_the_officers_m1"
           },
           {
-            "@id": "inst:the_building"
+            "@id": "inst:DR_the_building_m1"
           },
           {
-            "@id": "inst:Act_sounded"
+            "@id": "inst:VP_sounded"
+          },
+          {
+            "@id": "inst:VP_evacuated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.954Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.997Z"
       }
     ]
   }

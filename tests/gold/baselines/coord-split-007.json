@@ -7,7 +7,7 @@
     "split",
     "passive"
   ],
-  "generatedAt": "2026-02-28T11:17:36.202Z",
+  "generatedAt": "2026-03-31T15:13:47.193Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -33,7 +33,12 @@
     {
       "text": "The suspect and the accomplice",
       "type": "Person",
-      "id": "inst:The_suspect_and_the_accomplice"
+      "id": "inst:DR_The_suspect_and_the_accomplice_m1"
+    },
+    {
+      "text": "arrested",
+      "type": "EventDescription",
+      "id": "inst:VP_arrested"
     }
   ],
   "extractedRoles": [
@@ -45,7 +50,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_suspect_and_the_accomplice",
+        "@id": "inst:DR_The_suspect_and_the_accomplice_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -64,17 +69,56 @@
         }
       },
       {
-        "@id": "inst:Act_arrested",
+        "@id": "inst:VP_arrested",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "arrested",
         "tagteam:lemma": "arrest",
+        "tagteam:verb": "arrest",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_arrest_413aaac9"
+        },
         "tagteam:isPassive": true,
+        "tagteam:mentionId": "s0:v7:36-44",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_28eb09ab1b77"
         }
+      },
+      {
+        "@id": "inst:EventDesc_arrest_413aaac9",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: arrest",
+        "tagteam:actType": "arrest",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Person_Suspect_And_The_Accomplice_e8e47ca3ecc7"
+        }
+      },
+      {
+        "@id": "inst:Act_arrested",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "arrested",
+        "tagteam:lemma": "arrest",
+        "tagteam:verb": "arrest",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_arrest_413aaac9"
+        },
+        "tagteam:isPassive": true
       },
       {
         "@id": "inst:Role_The_suspect_and_the_accomplice_PatientRole",
@@ -101,11 +145,10 @@
         "rdfs:label": "suspect and the accomplice",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.202Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.193Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_28eb09ab1b77",
-        "tagteam:denotesType": "Person",
         "is_subject_of": {
-          "@id": "inst:The_suspect_and_the_accomplice"
+          "@id": "inst:DR_The_suspect_and_the_accomplice_m1"
         },
         "is_bearer_of": [
           {
@@ -123,7 +166,7 @@
         "has_text_value": "The suspect and the accomplice were arrested",
         "tagteam:char_count": 44,
         "tagteam:word_count": 7,
-        "tagteam:received_at": "2026-02-28T11:17:36.193Z"
+        "tagteam:received_at": "2026-03-31T15:13:47.184Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -152,6 +195,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_28eb09ab1b77"
         },
@@ -160,13 +204,13 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_suspect_and_the_accomplice"
+            "@id": "inst:DR_The_suspect_and_the_accomplice_m1"
           },
           {
-            "@id": "inst:Act_arrested"
+            "@id": "inst:VP_arrested"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:36.193Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:47.184Z"
       }
     ]
   }

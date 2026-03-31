@@ -6,7 +6,7 @@
     "nested-pp",
     "government"
   ],
-  "generatedAt": "2026-02-28T11:17:38.127Z",
+  "generatedAt": "2026-03-31T15:13:49.164Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -32,22 +32,27 @@
     {
       "text": "The liaison",
       "type": "Entity",
-      "id": "inst:The_liaison"
+      "id": "inst:DR_The_liaison_m1"
     },
     {
       "text": "the embassy",
       "type": "Entity",
-      "id": "inst:the_embassy"
+      "id": "inst:DR_the_embassy_m1"
     },
     {
-      "text": "the capital of the neighboring country",
+      "text": "the capital",
       "type": "Entity",
-      "id": "inst:the_capital_of_the_neighboring_country"
+      "id": "inst:DR_the_capital_m1"
     },
     {
       "text": "the neighboring country",
       "type": "Entity",
-      "id": "inst:the_neighboring_country"
+      "id": "inst:DR_the_neighboring_country_m1"
+    },
+    {
+      "text": "coordinated",
+      "type": "EventDescription",
+      "id": "inst:VP_coordinated"
     }
   ],
   "extractedRoles": [
@@ -56,14 +61,14 @@
       "role": "Instrument"
     },
     {
-      "entity": "capital of the neighboring country",
+      "entity": "capital",
       "role": "Location"
     }
   ],
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_liaison",
+        "@id": "inst:DR_The_liaison_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -80,7 +85,7 @@
         }
       },
       {
-        "@id": "inst:the_embassy",
+        "@id": "inst:DR_the_embassy_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -97,24 +102,24 @@
         }
       },
       {
-        "@id": "inst:the_capital_of_the_neighboring_country",
+        "@id": "inst:DR_the_capital_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
-        "rdfs:label": "the capital of the neighboring country",
-        "tagteam:mentionId": "s0:h9:44-82",
+        "rdfs:label": "the capital",
+        "tagteam:mentionId": "s0:h9:44-55",
         "tagteam:parseConfidence": "medium",
         "tagteam:parseProbability": 0.7804,
         "tagteam:denotesType": "Entity",
         "is_about": {
-          "@id": "inst:Entity_Capital_Of_The_Neighboring_Country_e6244b3b6fb2"
+          "@id": "inst:Entity_Capital_dcdce82e8100"
         },
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_06c6729ecab7"
         }
       },
       {
-        "@id": "inst:the_neighboring_country",
+        "@id": "inst:DR_the_neighboring_country_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -131,27 +136,50 @@
         }
       },
       {
-        "@id": "inst:Act_liaison",
+        "@id": "inst:VP_coordinated",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
-        "rdfs:label": "liaison",
-        "tagteam:lemma": "liaison",
+        "rdfs:label": "coordinated",
+        "tagteam:lemma": "coordinat",
+        "tagteam:verb": "coordinat",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_coordinat_40f2b6a6"
+        },
+        "tagteam:mentionId": "s0:v3:12-23",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_06c6729ecab7"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_coordinat_40f2b6a6",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: coordinat",
+        "tagteam:actType": "coordinat",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
         }
       },
       {
         "@id": "inst:Act_coordinated",
         "@type": [
           "IntentionalAct",
-          "tagteam:VerbPhrase"
+          "owl:NamedIndividual"
         ],
         "rdfs:label": "coordinated",
         "tagteam:lemma": "coordinat",
-        "is_concretized_by": {
-          "@id": "inst:Input_Text_IBE_06c6729ecab7"
+        "tagteam:verb": "coordinat",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_coordinat_40f2b6a6"
         }
       },
       {
@@ -172,14 +200,14 @@
         "tagteam:parseProbability": 0.6583
       },
       {
-        "@id": "inst:Role_the_capital_of_the_neighboring_country_LocationRole",
+        "@id": "inst:Role_the_capital_LocationRole",
         "@type": [
           "Role"
         ],
         "rdfs:label": "LocationRole",
         "tagteam:roleType": "LocationRole",
         "inheres_in": {
-          "@id": "inst:Entity_Capital_Of_The_Neighboring_Country_e6244b3b6fb2"
+          "@id": "inst:Entity_Capital_dcdce82e8100"
         },
         "realized_in": {
           "@id": "inst:Act_coordinated"
@@ -196,11 +224,10 @@
         ],
         "rdfs:label": "liaison",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.127Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.164Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_06c6729ecab7",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:The_liaison"
+          "@id": "inst:DR_The_liaison_m1"
         }
       },
       {
@@ -211,11 +238,10 @@
         ],
         "rdfs:label": "embassy",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.127Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.164Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_06c6729ecab7",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_embassy"
+          "@id": "inst:DR_the_embassy_m1"
         },
         "is_bearer_of": [
           {
@@ -224,22 +250,21 @@
         ]
       },
       {
-        "@id": "inst:Entity_Capital_Of_The_Neighboring_Country_e6244b3b6fb2",
+        "@id": "inst:Entity_Capital_dcdce82e8100",
         "@type": [
           "Entity",
           "owl:NamedIndividual"
         ],
-        "rdfs:label": "capital of the neighboring country",
+        "rdfs:label": "capital",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.127Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.164Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_06c6729ecab7",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_capital_of_the_neighboring_country"
+          "@id": "inst:DR_the_capital_m1"
         },
         "is_bearer_of": [
           {
-            "@id": "inst:Role_the_capital_of_the_neighboring_country_LocationRole"
+            "@id": "inst:Role_the_capital_LocationRole"
           }
         ]
       },
@@ -251,11 +276,10 @@
         ],
         "rdfs:label": "neighboring country",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.127Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.164Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_06c6729ecab7",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_neighboring_country"
+          "@id": "inst:DR_the_neighboring_country_m1"
         }
       },
       {
@@ -268,7 +292,7 @@
         "has_text_value": "The liaison coordinated with the embassy in the capital of the neighboring country",
         "tagteam:char_count": 82,
         "tagteam:word_count": 13,
-        "tagteam:received_at": "2026-02-28T11:17:38.118Z"
+        "tagteam:received_at": "2026-03-31T15:13:49.155Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -297,6 +321,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_06c6729ecab7"
         },
@@ -305,25 +330,22 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_liaison"
+            "@id": "inst:DR_The_liaison_m1"
           },
           {
-            "@id": "inst:the_embassy"
+            "@id": "inst:DR_the_embassy_m1"
           },
           {
-            "@id": "inst:the_capital_of_the_neighboring_country"
+            "@id": "inst:DR_the_capital_m1"
           },
           {
-            "@id": "inst:the_neighboring_country"
+            "@id": "inst:DR_the_neighboring_country_m1"
           },
           {
-            "@id": "inst:Act_liaison"
-          },
-          {
-            "@id": "inst:Act_coordinated"
+            "@id": "inst:VP_coordinated"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:38.118Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:49.155Z"
       }
     ]
   }

@@ -5,7 +5,7 @@
   "tags": [
     "academic"
   ],
-  "generatedAt": "2026-02-28T11:17:37.454Z",
+  "generatedAt": "2026-03-31T15:13:48.498Z",
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
@@ -31,12 +31,17 @@
     {
       "text": "The student",
       "type": "Person",
-      "id": "inst:The_student"
+      "id": "inst:DR_The_student_m1"
     },
     {
       "text": "the dissertation",
       "type": "Entity",
-      "id": "inst:the_dissertation"
+      "id": "inst:DR_the_dissertation_m1"
+    },
+    {
+      "text": "defended",
+      "type": "EventDescription",
+      "id": "inst:VP_defended"
     }
   ],
   "extractedRoles": [
@@ -52,7 +57,7 @@
   "graph": {
     "@graph": [
       {
-        "@id": "inst:The_student",
+        "@id": "inst:DR_The_student_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -71,7 +76,7 @@
         }
       },
       {
-        "@id": "inst:the_dissertation",
+        "@id": "inst:DR_the_dissertation_m1",
         "@type": [
           "tagteam:DiscourseReferent"
         ],
@@ -88,15 +93,59 @@
         }
       },
       {
-        "@id": "inst:Act_defended",
+        "@id": "inst:VP_defended",
         "@type": [
-          "IntentionalAct",
+          "tagteam:DiscourseReferent",
           "tagteam:VerbPhrase"
         ],
         "rdfs:label": "defended",
         "tagteam:lemma": "defend",
+        "tagteam:verb": "defend",
+        "tagteam:denotesType": "EventDescription",
+        "is_about": {
+          "@id": "inst:EventDesc_defend_a92f4c4d"
+        },
+        "tagteam:tenseAspect": {
+          "@id": "tagteam:SimplePastTense"
+        },
+        "tagteam:mentionId": "s0:v3:12-20",
         "is_concretized_by": {
           "@id": "inst:Input_Text_IBE_a66dc85bd56e"
+        }
+      },
+      {
+        "@id": "inst:EventDesc_defend_a92f4c4d",
+        "@type": [
+          "EventDescription",
+          "ActSpecification",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "Event: defend",
+        "tagteam:actType": "defend",
+        "tagteam:realizationStatus": {
+          "@id": "tagteam:Realized"
+        },
+        "tagteam:agent": {
+          "@id": "inst:Person_Student_1c2a8493da68"
+        },
+        "tagteam:patient": {
+          "@id": "inst:Entity_Dissertation_8ba4c5bde4b6"
+        }
+      },
+      {
+        "@id": "inst:Act_defended",
+        "@type": [
+          "IntentionalAct",
+          "owl:NamedIndividual"
+        ],
+        "rdfs:label": "defended",
+        "tagteam:lemma": "defend",
+        "tagteam:verb": "defend",
+        "tagteam:actualityStatus": {
+          "@id": "tagteam:Actual"
+        },
+        "tagteam:describedBy": {
+          "@id": "inst:EventDesc_defend_a92f4c4d"
         }
       },
       {
@@ -140,11 +189,10 @@
         "rdfs:label": "student",
         "tagteam:genericityCategory": "INST",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.454Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.498Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a66dc85bd56e",
-        "tagteam:denotesType": "Person",
         "is_subject_of": {
-          "@id": "inst:The_student"
+          "@id": "inst:DR_The_student_m1"
         },
         "is_bearer_of": [
           {
@@ -160,11 +208,10 @@
         ],
         "rdfs:label": "dissertation",
         "tagteam:typeBasis": "type-mapping",
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.454Z",
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.498Z",
         "tagteam:instantiated_by": "inst:Input_Text_IBE_a66dc85bd56e",
-        "tagteam:denotesType": "Entity",
         "is_subject_of": {
-          "@id": "inst:the_dissertation"
+          "@id": "inst:DR_the_dissertation_m1"
         },
         "is_bearer_of": [
           {
@@ -182,7 +229,7 @@
         "has_text_value": "The student defended the dissertation",
         "tagteam:char_count": 37,
         "tagteam:word_count": 5,
-        "tagteam:received_at": "2026-02-28T11:17:37.448Z"
+        "tagteam:received_at": "2026-03-31T15:13:48.492Z"
       },
       {
         "@id": "inst:TagTeam_Parser_v3_0_0",
@@ -211,6 +258,7 @@
         "tagteam:actualityStatus": {
           "@id": "tagteam:Actual"
         },
+        "tagteam:systemGenerated": true,
         "has_input": {
           "@id": "inst:Input_Text_IBE_a66dc85bd56e"
         },
@@ -219,16 +267,16 @@
         },
         "has_output": [
           {
-            "@id": "inst:The_student"
+            "@id": "inst:DR_The_student_m1"
           },
           {
-            "@id": "inst:the_dissertation"
+            "@id": "inst:DR_the_dissertation_m1"
           },
           {
-            "@id": "inst:Act_defended"
+            "@id": "inst:VP_defended"
           }
         ],
-        "tagteam:instantiated_at": "2026-02-28T11:17:37.448Z"
+        "tagteam:instantiated_at": "2026-03-31T15:13:48.492Z"
       }
     ]
   }
