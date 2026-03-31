@@ -320782,11 +320782,68 @@ function correctCopularFragmentation(arcs, tokens, tags) {
   return arcs;
 }
 
+/**
+ * Correct misparse where NN is root and VBN/VBD is acl (reduced relative).
+ *
+ * Pattern: "The organization submitted the report"
+ *   Parser produces: organization(root), submitted(acl→organization), report(obj→submitted)
+ *   Correct: submitted(root), organization(nsubj→submitted), report(obj→submitted)
+ *
+ * Detection: Single NN/NNS/NNP root with exactly one VBN/VBD child labeled acl,
+ * and the VBN has an obj child (transitive verb).
+ *
+ * @param {Array} arcs - Raw arc array
+ * @param {string[]} tokens - 0-indexed token array
+ * @param {string[]} tags - 0-indexed POS tag array
+ * @returns {Array} Modified arcs
+ */
+function correctNounRootVerbAcl(arcs, tokens, tags) {
+  // Find the single root
+  const rootArcs = arcs.filter(a => a.label === 'root' && a.head === 0);
+  if (rootArcs.length !== 1) return arcs;
+
+  const rootArc = rootArcs[0];
+  const rootId = rootArc.dependent;
+  const rootTag = tags[rootId - 1];
+
+  // Root must be a noun
+  if (!rootTag || !rootTag.startsWith('NN')) return arcs;
+
+  // Find acl child that is VBN or VBD
+  const aclArc = arcs.find(a =>
+    a.head === rootId && a.label === 'acl' &&
+    (tags[a.dependent - 1] === 'VBN' || tags[a.dependent - 1] === 'VBD')
+  );
+  if (!aclArc) return arcs;
+
+  const verbId = aclArc.dependent;
+
+  // Verb must have an obj child (transitive — confirms it's a real verb, not a modifier)
+  const hasObj = arcs.some(a => a.head === verbId && a.label === 'obj');
+  if (!hasObj) return arcs;
+
+  // Rewrite: verb becomes root, noun becomes nsubj of verb
+  rootArc.label = 'nsubj';
+  rootArc.head = verbId;
+
+  aclArc.label = 'root';
+  aclArc.head = 0;
+
+  // Reattach punct from old root to new root
+  for (const arc of arcs) {
+    if (arc.label === 'punct' && arc.head === rootId) {
+      arc.head = verbId;
+    }
+  }
+
+  return arcs;
+}
+
 
 
   // Shim: after stripCommonJS, only the inner functions survive.
   // SemanticGraphBuilder checks typeof DepTreeCorrector !== 'undefined'.
-  const DepTreeCorrector = { correctDitransitives, correctCopularFragmentation, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
+  const DepTreeCorrector = { correctDitransitives, correctCopularFragmentation, correctNounRootVerbAcl, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
 
   // ============================================================================
   // §9.5: GENERICITY DETECTOR
@@ -325927,6 +325984,10 @@ class SemanticGraphBuilder {
         if (_DepTreeCorrector.correctCopularFragmentation) {
           _DepTreeCorrector.correctCopularFragmentation(parseResult.arcs, tokens, tags);
         }
+        // Noun-root + VBN-acl correction — "The organization submitted the report"
+        if (_DepTreeCorrector.correctNounRootVerbAcl) {
+          _DepTreeCorrector.correctNounRootVerbAcl(parseResult.arcs, tokens, tags);
+        }
       }
 
       const depTree = new _DepTree(parseResult.arcs, tokens, tags);
@@ -327403,19 +327464,23 @@ class SemanticGraphBuilder {
       }
     }
 
-    // F-4: Update denotesType on Tier 1 DRs to match upgraded Tier 2 types
+    // F-4: Update denotesType ONLY when the matched class is in the §3.1 controlled vocabulary.
+    // CCO class names like "Report" stay at Tier 2 only; "Organization", "Person" propagate to Tier 1.
+    var DENOTES_TYPE_VOCAB = {
+      'Person': true, 'Organization': true, 'Entity': true, 'Location': true,
+      'InformationContentEntity': true, 'Artifact': true, 'Event': true,
+      'EventDescription': true, 'Directive': true, 'Quality': true, 'Structure': true, 'Role': true
+    };
     for (var i = 0; i < nodes.length; i++) {
       var node = nodes[i];
-      if (!node['is_subject_of']) continue;
+      if (!node['is_subject_of'] || node['tagteam:typeBasis'] !== 'ontology-match') continue;
       var t1Ref = node['is_subject_of'];
       var t1Id = t1Ref && t1Ref['@id'] ? t1Ref['@id'] : null;
-      if (t1Id && nodeIndex[t1Id]) {
-        var t1Node = nodeIndex[t1Id];
-        var nodeTypes = [].concat(node['@type'] || []);
-        var primaryType = nodeTypes.find(function(t) { return t !== 'owl:NamedIndividual' && t !== 'owl:Class'; });
-        if (primaryType && t1Node['tagteam:denotesType'] && node['tagteam:typeBasis'] === 'ontology-match') {
-          t1Node['tagteam:denotesType'] = primaryType;
-        }
+      if (!t1Id || !nodeIndex[t1Id]) continue;
+      var nodeTypes = [].concat(node['@type'] || []);
+      var primaryType = nodeTypes.find(function(t) { return t !== 'owl:NamedIndividual' && t !== 'owl:Class'; });
+      if (primaryType && DENOTES_TYPE_VOCAB[primaryType]) {
+        nodeIndex[t1Id]['tagteam:denotesType'] = primaryType;
       }
     }
   }
@@ -327654,7 +327719,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 323 | 4b000a8 | 2026-03-31T17:45:33.712Z',
+    BUILD: 'build 325 | 6d828af | 2026-03-31T18:56:13.931Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
