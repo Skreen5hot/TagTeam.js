@@ -252,6 +252,22 @@ class TreeActExtractor {
       // Check for existential: root has an `expl` child
       const explChild = children.find(c => c.label === 'expl');
 
+      // Also check conj children for copular structure (fragmented "DHS/USCIS is the Source Agency")
+      if (!copChild) {
+        const conjChild = children.find(c => c.label === 'conj');
+        if (conjChild) {
+          const conjChildren = depTree.getChildren(conjChild.dependent);
+          const conjCop = conjChildren.find(c => c.label === 'cop');
+          if (conjCop) {
+            // The conj child IS the copular predicate — handle it directly
+            const assertion = this._handleCopular(depTree, conjChild.dependent, conjCop, conjChildren);
+            if (assertion) structuralAssertions.push(assertion);
+            // Skip normal processing of this root
+            continue;
+          }
+        }
+      }
+
       if (copChild) {
         // Copular construction: root is the PREDICATE, cop is the copula verb
         const assertion = this._handleCopular(depTree, rootId, copChild, children);

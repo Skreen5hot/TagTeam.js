@@ -1868,10 +1868,14 @@ class SemanticGraphBuilder {
       }
       const parseResult = depParser.parse(tokens, tags);
 
-      // Stage 4.1: Ditransitive arc correction (AC-4.3b)
-      // Rewrites compound→iobj for ditransitive verbs before tree construction
+      // Stage 4.1: Dependency arc corrections (before tree construction)
       if (_DepTreeCorrector) {
+        // AC-4.3b: Ditransitive compound→iobj rewrite
         _DepTreeCorrector.correctDitransitives(parseResult.arcs, tokens, tags);
+        // BC-4: Copular fragmentation repair — "CMS is the Recipient Agency" with multiple roots
+        if (_DepTreeCorrector.correctCopularFragmentation) {
+          _DepTreeCorrector.correctCopularFragmentation(parseResult.arcs, tokens, tags);
+        }
       }
 
       const depTree = new _DepTree(parseResult.arcs, tokens, tags);
