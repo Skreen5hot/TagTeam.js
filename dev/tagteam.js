@@ -309849,6 +309849,16 @@ class JSONLDSerializer {
       verb:                { '@id': 'tagteam:verb' },
       lemma:               { '@id': 'tagteam:lemma' },
       tense:               { '@id': 'tagteam:tense' },
+      aspect:              { '@id': 'tagteam:aspect' },
+      tenseAspect:         { '@id': 'tagteam:tenseAspect', '@type': '@id' },
+      // WS-D TenseAspect individuals
+      SimplePastTense:          { '@id': 'tagteam:SimplePastTense' },
+      SimplePresentTense:       { '@id': 'tagteam:SimplePresentTense' },
+      SimpleFutureTense:        { '@id': 'tagteam:SimpleFutureTense' },
+      PresentPerfectTense:      { '@id': 'tagteam:PresentPerfectTense' },
+      PastPerfectTense:         { '@id': 'tagteam:PastPerfectTense' },
+      PresentProgressiveTense:  { '@id': 'tagteam:PresentProgressiveTense' },
+      PastProgressiveTense:     { '@id': 'tagteam:PastProgressiveTense' },
       hasModalMarker:      { '@id': 'tagteam:hasModalMarker' },
       version:             { '@id': 'tagteam:version' },
       algorithm:           { '@id': 'tagteam:algorithm' },
@@ -322664,6 +322674,9 @@ class TreeActExtractor {
     // Modal detection: scan aux children for MD tag or known modal words
     const modal = this._detectModality(depTree, verbId, children);
 
+    // WS-D: Tense-aspect detection from POS tags + aux children
+    const tenseAspect = this._detectTenseAspect(depTree, verbId, tag, children);
+
     const act = {
       verb: word,
       lemma,
@@ -322672,6 +322685,7 @@ class TreeActExtractor {
       isCopular,
       isPassive,
       isNegated,
+      tenseAspect: tenseAspect,
     };
 
     if (modal) {
@@ -322684,6 +322698,62 @@ class TreeActExtractor {
     }
 
     return act;
+  }
+
+  /**
+   * WS-D: Detect tense-aspect from POS tag and auxiliary children.
+   *
+   * Pattern table:
+   *   VBD (no aux)         → SimplePastTense
+   *   VBZ/VBP (no aux)     → SimplePresentTense
+   *   is/are + VBG         → PresentProgressiveTense
+   *   was/were + VBG       → PastProgressiveTense
+   *   has/have + VBN       → PresentPerfectTense
+   *   had + VBN            → PastPerfectTense
+   *   MD:will + VB         → SimpleFutureTense (also handled by RDM)
+   *
+   * @param {DepTree} depTree
+   * @param {number} verbId
+   * @param {string} verbTag - POS tag of the main verb
+   * @param {Array} children - Direct children of this verb
+   * @returns {string|null} TenseAspect individual name or null
+   */
+  _detectTenseAspect(depTree, verbId, verbTag, children) {
+    // Find aux children
+    const auxChildren = children.filter(c => c.label === 'aux' || c.label === 'aux:pass');
+    const auxWords = auxChildren.map(c => depTree.tokens[c.dependent - 1].toLowerCase());
+    const auxTags = auxChildren.map(c => depTree.tags[c.dependent - 1]);
+
+    // Progressive: aux "is/are/was/were" + main verb VBG
+    if (verbTag === 'VBG') {
+      const hasPastAux = auxWords.some(w => w === 'was' || w === 'were');
+      const hasPresentAux = auxWords.some(w => w === 'is' || w === 'are' || w === 'am');
+      if (hasPastAux) return 'PastProgressiveTense';
+      if (hasPresentAux) return 'PresentProgressiveTense';
+    }
+
+    // Perfect: aux "has/have/had" + main verb VBN
+    if (verbTag === 'VBN') {
+      const hasHad = auxWords.some(w => w === 'had');
+      const hasHasHave = auxWords.some(w => w === 'has' || w === 'have');
+      if (hasHad) return 'PastPerfectTense';
+      if (hasHasHave) return 'PresentPerfectTense';
+      // Bare VBN with no aux — passive or reduced relative, not a tense marker
+      return null;
+    }
+
+    // Future: aux MD "will" + main verb VB
+    if (verbTag === 'VB' && auxTags.some(t => t === 'MD')) {
+      return 'SimpleFutureTense';
+    }
+
+    // Simple past: VBD with no perfect/progressive aux
+    if (verbTag === 'VBD') return 'SimplePastTense';
+
+    // Simple present: VBZ/VBP with no progressive/perfect aux
+    if (verbTag === 'VBZ' || verbTag === 'VBP') return 'SimplePresentTense';
+
+    return null;
   }
 
   /**
@@ -326004,6 +326074,7 @@ class SemanticGraphBuilder {
           };
           if (act.isPassive) vpNode['tagteam:isPassive'] = true;
           if (act.isNegated) vpNode['tagteam:isNegated'] = true;
+          if (act.tenseAspect) vpNode['tagteam:tenseAspect'] = { '@id': `tagteam:${act.tenseAspect}` };
           if (act.sourceText) vpNode['tagteam:sourceText'] = act.sourceText;
           vpNode['tagteam:denotesType'] = 'Directive';
           // mentionId for SHACL compliance
@@ -326086,6 +326157,8 @@ class SemanticGraphBuilder {
           };
           if (act.isPassive) vpNode['tagteam:isPassive'] = true;
           if (act.isNegated) vpNode['tagteam:isNegated'] = true;
+          // WS-D: Tense-aspect annotation on VerbPhrase
+          if (act.tenseAspect) vpNode['tagteam:tenseAspect'] = { '@id': `tagteam:${act.tenseAspect}` };
           // mentionId for VP (AC-3.22b compatibility)
           if (act.verbId) {
             const verbIdx = act.verbId - 1;
@@ -327398,7 +327471,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 311 | dae09f9 | 2026-03-31T13:39:04.153Z',
+    BUILD: 'build 313 | 3f7a4c6 | 2026-03-31T13:59:17.101Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
