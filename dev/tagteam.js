@@ -318240,8 +318240,15 @@ class OntologyTextTagger {
    * @returns {Object} Load result with { classCount, totalKeywords }
    */
   loadFromString(ttlContent) {
+    // Pre-process: collapse triple-quoted strings to single-quoted
+    // The TurtleParser doesn't handle """ multiline strings, causing it to
+    // lose sync and skip large blocks of the file (e.g., 1500+ CCO classes)
+    const normalizedTtl = ttlContent.replace(/"""([^]*?)"""/g, function(match, content) {
+      return '"' + content.replace(/\n/g, ' ').replace(/"/g, '\\"') + '"';
+    });
+
     const parser = new TurtleParser();
-    this._parseResult = parser.parse(ttlContent);
+    this._parseResult = parser.parse(normalizedTtl);
 
     // Normalize CCO opaque predicates to standard SKOS equivalents
     // cco:ont00001738 (designation) → skos:altLabel
@@ -327599,7 +327606,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 321 | 092a267 | 2026-03-31T16:59:27.404Z',
+    BUILD: 'build 322 | 1a3a7fd | 2026-03-31T17:22:53.717Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
