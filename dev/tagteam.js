@@ -325191,19 +325191,32 @@ class SemanticGraphBuilder {
     if (substring) return substring;
 
     // Pass 4: head-noun fallback for complex NPs ("all records and documents" → try "records")
-    // Extract the last word (typically the head noun in English NPs)
     const words = stripped.split(/\s+/);
     if (words.length > 1) {
       const headNoun = words[words.length - 1];
       const normHead = normalize(headNoun);
       const lemmaHead = this.lemmatizer ? this.lemmatizer.lemmatizePhrase(headNoun) : headNoun;
-      return t2Nodes.find(n => {
+      const headMatch = t2Nodes.find(n => {
         const t2Label = (n['rdfs:label'] || '').toLowerCase().replace(STRIP_RE, '');
         const normT2 = normalize(t2Label);
         return t2Label === headNoun || normT2 === normHead ||
                t2Label === lemmaHead || normalize(t2Label) === normalize(lemmaHead);
-      }) || null;
+      });
+      if (headMatch) return headMatch;
     }
+
+    // Pass 5 (F-6): Match via ontologyMatch evidence from loaded ontology
+    // If a Tier 2 node was enriched with ontologyMatch whose evidence matches the search label,
+    // use that node. Handles cases like "data" matching a node labeled "datum" that has
+    // ontologyMatch evidence "data" from skos:altLabel.
+    const ontMatch = t2Nodes.find(n => {
+      const matches = [].concat(n['ontologyMatch'] || []);
+      return matches.some(m => {
+        const ev = (m.ontologyMatchEvidence || m.ontologyMatchForm || '').toLowerCase();
+        return ev === stripped || ev === normStripped || ev === lemmaStripped;
+      });
+    });
+    if (ontMatch) return ontMatch;
 
     return null;
   }
@@ -327366,7 +327379,42 @@ class SemanticGraphBuilder {
             node['tagteam:classNominationStatus'] = 'resolved';
             node['tagteam:requiresOntologyResolution'] = false;
           }
+
+          // F-4: Type assignment from ontology — upgrade heuristic type to CCO class
+          // If the ontology match is an owl:Class and the node currently has a generic type
+          // (Entity, Artifact), replace with the matched class label for BFO accuracy.
+          var matchLabel = tag.label || '';
+          var owlType = tag.ontologyMatchOWLType || '';
+          if (matchLabel && owlType === 'owl:Class') {
+            var nodeTypes = [].concat(node['@type'] || []);
+            var GENERIC_TYPES = ['Entity', 'Artifact', 'bfo:BFO_0000001'];
+            var isGeneric = nodeTypes.some(function(t) { return GENERIC_TYPES.indexOf(t) >= 0; });
+            if (isGeneric) {
+              // Replace the generic type with the ontology class label
+              node['@type'] = nodeTypes.map(function(t) {
+                return GENERIC_TYPES.indexOf(t) >= 0 ? matchLabel : t;
+              });
+              node['tagteam:typeBasis'] = 'ontology-match';
+            }
+          }
+
           break; // One evidence match per tag is sufficient
+        }
+      }
+    }
+
+    // F-4: Update denotesType on Tier 1 DRs to match upgraded Tier 2 types
+    for (var i = 0; i < nodes.length; i++) {
+      var node = nodes[i];
+      if (!node['is_subject_of']) continue;
+      var t1Ref = node['is_subject_of'];
+      var t1Id = t1Ref && t1Ref['@id'] ? t1Ref['@id'] : null;
+      if (t1Id && nodeIndex[t1Id]) {
+        var t1Node = nodeIndex[t1Id];
+        var nodeTypes = [].concat(node['@type'] || []);
+        var primaryType = nodeTypes.find(function(t) { return t !== 'owl:NamedIndividual' && t !== 'owl:Class'; });
+        if (primaryType && t1Node['tagteam:denotesType'] && node['tagteam:typeBasis'] === 'ontology-match') {
+          t1Node['tagteam:denotesType'] = primaryType;
         }
       }
     }
@@ -327606,7 +327654,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 322 | dcab6f3 | 2026-03-31T17:32:19.125Z',
+    BUILD: 'build 323 | 4b000a8 | 2026-03-31T17:45:33.712Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
