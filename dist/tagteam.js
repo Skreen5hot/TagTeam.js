@@ -322033,9 +322033,25 @@ class TreeEntityExtractor {
       if (seenHeads.has(arc.dependent)) continue;
       if (lockedTokens.has(arc.dependent)) continue; // Skip tokens inside locked spans
 
-      // Skip interrogative pronouns (WP/WP$) — "Who", "What" are placeholders, not entities
+      // Interrogative pronouns (WP/WP$) — "Who", "What" are placeholders, not named entities.
+      // Emit as entity with correct placeholder type, NOT as Organization.
       const headTag = depTree.tags[arc.dependent - 1];
-      if (headTag === 'WP' || headTag === 'WP$') continue;
+      if (headTag === 'WP' || headTag === 'WP$') {
+        const word = depTree.tokens[arc.dependent - 1];
+        const wordLower = word.toLowerCase();
+        // "who/whom" → Person placeholder, "what/which" → Entity placeholder
+        const placeholderType = (wordLower === 'who' || wordLower === 'whom') ? 'Person' : 'Entity';
+        seenHeads.add(arc.dependent);
+        entities.push({
+          fullText: word,
+          headId: arc.dependent,
+          indices: [arc.dependent],
+          type: placeholderType,
+          role: arc.label,
+          source: 'interrogative-placeholder'
+        });
+        continue;
+      }
 
       const entityHead = arc.dependent;
       seenHeads.add(entityHead);
@@ -326457,10 +326473,9 @@ class SemanticGraphBuilder {
           const qualityId = `${this.options.namespace}:Quality_${this._sanitizeId(qualityWord)}_${this._hashText((sa.subject || '') + qualityWord).substring(0, 8)}`;
 
           // Resolve subject to Tier 1 DiscourseReferent IRI (FT-03: no string literals in provenance)
-          // Only resolve if the DR actually exists (skipped for interrogative pronouns)
           const subjectSanitized = sa.subject ? this._sanitizeId(sa.subject) : null;
-          const subjectIRI = subjectSanitized && entityTextToDrId[subjectSanitized]
-            ? entityTextToDrId[subjectSanitized]
+          const subjectIRI = subjectSanitized
+            ? (entityTextToDrId[subjectSanitized] || `${this.options.namespace}:DR_${subjectSanitized}_m1`)
             : null;
 
           const qaNode = {
@@ -326520,10 +326535,9 @@ class SemanticGraphBuilder {
 
           // Resolve subject to Tier 1 DiscourseReferent IRI (FT-03: no string literals in provenance)
           // Use entityTextToDrId map for §5.4i coreference-compatible DR IRIs
-          // If the subject DR doesn't exist (e.g., interrogative pronoun "Who"), leave null
           const roleSubjectSanitized = sa.subject ? this._sanitizeId(sa.subject) : null;
-          const roleSubjectIRI = roleSubjectSanitized && entityTextToDrId[roleSubjectSanitized]
-            ? entityTextToDrId[roleSubjectSanitized]
+          const roleSubjectIRI = roleSubjectSanitized
+            ? (entityTextToDrId[roleSubjectSanitized] || `${this.options.namespace}:DR_${roleSubjectSanitized}_m1`)
             : null;
 
           const roleAssertionNode = {
@@ -327732,7 +327746,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 326 | 6d828af | 2026-03-31T19:08:29.603Z',
+    BUILD: 'build 327 | 7807fa3 | 2026-03-31T20:35:07.733Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
