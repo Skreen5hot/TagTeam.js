@@ -164,6 +164,10 @@ class TreeEntityExtractor {
       if (seenHeads.has(arc.dependent)) continue;
       if (lockedTokens.has(arc.dependent)) continue; // Skip tokens inside locked spans
 
+      // Skip interrogative pronouns (WP/WP$) — "Who", "What" are placeholders, not entities
+      const headTag = depTree.tags[arc.dependent - 1];
+      if (headTag === 'WP' || headTag === 'WP$') continue;
+
       const entityHead = arc.dependent;
       seenHeads.add(entityHead);
 

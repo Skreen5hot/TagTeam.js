@@ -2389,7 +2389,11 @@ class SemanticGraphBuilder {
           const qualityId = `${this.options.namespace}:Quality_${this._sanitizeId(qualityWord)}_${this._hashText((sa.subject || '') + qualityWord).substring(0, 8)}`;
 
           // Resolve subject to Tier 1 DiscourseReferent IRI (FT-03: no string literals in provenance)
-          const subjectIRI = sa.subject ? `${this.options.namespace}:${this._sanitizeId(sa.subject)}` : null;
+          // Only resolve if the DR actually exists (skipped for interrogative pronouns)
+          const subjectSanitized = sa.subject ? this._sanitizeId(sa.subject) : null;
+          const subjectIRI = subjectSanitized && entityTextToDrId[subjectSanitized]
+            ? entityTextToDrId[subjectSanitized]
+            : null;
 
           const qaNode = {
             '@id': qaId,
@@ -2447,7 +2451,12 @@ class SemanticGraphBuilder {
           const roleId = `${this.options.namespace}:Role_${this._sanitizeId(roleWord)}_${this._hashText((sa.subject || '') + roleWord).substring(0, 8)}`;
 
           // Resolve subject to Tier 1 DiscourseReferent IRI (FT-03: no string literals in provenance)
-          const roleSubjectIRI = sa.subject ? `${this.options.namespace}:${this._sanitizeId(sa.subject)}` : null;
+          // Use entityTextToDrId map for §5.4i coreference-compatible DR IRIs
+          // If the subject DR doesn't exist (e.g., interrogative pronoun "Who"), leave null
+          const roleSubjectSanitized = sa.subject ? this._sanitizeId(sa.subject) : null;
+          const roleSubjectIRI = roleSubjectSanitized && entityTextToDrId[roleSubjectSanitized]
+            ? entityTextToDrId[roleSubjectSanitized]
+            : null;
 
           const roleAssertionNode = {
             '@id': `${this.options.namespace}:RoleAssertion_${this._sanitizeId(roleWord)}_${this._hashText((sa.subject || '') + roleWord).substring(0, 8)}`,
