@@ -327491,8 +327491,9 @@ class SemanticGraphBuilder {
       }
     }
 
-    // F-4: Update denotesType ONLY when the matched class is in the §3.1 controlled vocabulary.
-    // CCO class names like "Report" stay at Tier 2 only; "Organization", "Person" propagate to Tier 1.
+    // F-4: Update denotesType when the matched class maps to a §3.1 vocabulary term.
+    // Direct matches (Organization, Person) propagate directly.
+    // Indirect matches (Report → Artifact, Letter → Artifact) use CCO ancestry mapping.
     var DENOTES_TYPE_VOCAB = {
       'Person': true, 'Organization': true, 'Entity': true, 'Location': true,
       'InformationContentEntity': true, 'Artifact': true, 'Event': true,
@@ -327507,7 +327508,45 @@ class SemanticGraphBuilder {
       var nodeTypes = [].concat(node['@type'] || []);
       var primaryType = nodeTypes.find(function(t) { return t !== 'owl:NamedIndividual' && t !== 'owl:Class'; });
       if (primaryType && DENOTES_TYPE_VOCAB[primaryType]) {
+        // Direct match: class name IS a §3.1 vocab term
         nodeIndex[t1Id]['tagteam:denotesType'] = primaryType;
+      } else if (primaryType) {
+        // Indirect match: walk ontologyMatch IRI through CCO branch mapping
+        // CCO branches → §3.1 denotesType based on known superclass patterns
+        var matches = [].concat(node['ontologyMatch'] || []);
+        var matchIRI = matches.length > 0 ? (matches[0].ontologyMatchIRI || '') : '';
+        // Check the CCO source ontology annotation for branch classification
+        var sourceOnt = '';
+        for (var mi = 0; mi < matches.length; mi++) {
+          if (matches[mi].ontologyMatchLabel) {
+            sourceOnt = matches[mi].ontologyMatchLabel;
+            break;
+          }
+        }
+        // CCO ontology branch → §3.1 denotesType mapping
+        var CCO_BRANCH_MAP = {
+          'Agent Ontology': 'Person',
+          'Artifact Ontology': 'Artifact',
+          'Facility Ontology': 'Location',
+          'Geospatial Ontology': 'Location',
+          'Information Entity Ontology': 'InformationContentEntity',
+          'Event Ontology': 'Event',
+          'Quality Ontology': 'Quality',
+        };
+        // Try to resolve via the Tier 2 type name as a hint
+        var CCO_TYPE_BRANCH = {
+          'Report': 'Artifact', 'Document': 'Artifact', 'Letter': 'Artifact',
+          'Book': 'Artifact', 'Certificate': 'Artifact', 'Form': 'Artifact',
+          'Facility': 'Location', 'Building': 'Location', 'Room': 'Location',
+          'City': 'Location', 'Country': 'Location', 'Region': 'Location',
+          'GeopoliticalOrganization': 'Organization',
+          'GovernmentOrganization': 'Organization',
+          'CommercialOrganization': 'Organization',
+          'MilitaryOrganization': 'Organization',
+        };
+        if (CCO_TYPE_BRANCH[primaryType]) {
+          nodeIndex[t1Id]['tagteam:denotesType'] = CCO_TYPE_BRANCH[primaryType];
+        }
       }
     }
   }
@@ -327746,7 +327785,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 327 | 7807fa3 | 2026-03-31T20:35:07.733Z',
+    BUILD: 'build 328 | 5bab520 | 2026-03-31T22:50:55.857Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
