@@ -1,7 +1,7 @@
 /*!
  * TagTeam.js - Two-Tier Semantic Graph Engine
  * Version: 7.0 (v2 Phase 2: Dependency Parser)
- * Date: 2026-03-30
+ * Date: 2026-03-31
  *
  * A client-side JavaScript library for extracting semantic roles from natural language text
  *
@@ -322066,6 +322066,27 @@ class TreeEntityExtractor {
       if (isHead && child.label === 'case') continue;
       // Skip additional labels (e.g., 'cc' for split conjunct entities)
       if (skipLabels.length > 0 && skipLabels.includes(child.label)) continue;
+      // §5.4h: Exclude obl children — oblique arguments belong to the verb, not the noun
+      if (child.label === 'obl') continue;
+      // §5.4h: At head level, exclude cc (conjunction word itself doesn't belong to either entity)
+      if (isHead && child.label === 'cc') continue;
+      // §5.4h: At head level, split conj when conjuncts are clearly separate entities
+      // (standalone proper nouns like "CMS and USCIS"). Keep compound names
+      // ("Customs and Border Protection") and common noun coordination ("doctors and nurses").
+      if (isHead && child.label === 'conj') {
+        const conjChildren = depTree._children.get(child.dependent) || [];
+        const headChildren = depTree._children.get(nodeId) || [];
+        const conjHasCompound = conjChildren.some(c => c.label === 'compound');
+        const headHasCompound = headChildren.some(c => c.label === 'compound');
+        // If either side has compound children, it's likely a multi-word name — keep
+        if (!conjHasCompound && !headHasCompound) {
+          const headTag = depTree.tags[nodeId - 1];
+          const conjTag = depTree.tags[child.dependent - 1];
+          const NNP_TAGS = new Set(['NNP', 'NNPS']);
+          // Only split standalone proper nouns without compounds
+          if (NNP_TAGS.has(headTag) && NNP_TAGS.has(conjTag)) continue;
+        }
+      }
       // Skip conj children that are verbs (RC-3: prevents "Immigration" absorbing "deported")
       // or that have cop dependents (copular predicates, not coordination)
       if (child.label === 'conj') {
@@ -322074,6 +322095,13 @@ class TreeEntityExtractor {
         const conjChildren = depTree._children.get(child.dependent) || [];
         const hasCop = conjChildren.some(c => c.label === 'cop');
         if (hasCop) continue; // This conj is a copular predicate → skip
+      }
+      // §5.4h: At head level, exclude nmod children that have their own case preposition
+      // (indicates oblique/prepositional role, not part of the noun phrase)
+      if (isHead && child.label === 'nmod') {
+        const nmodChildren = depTree._children.get(child.dependent) || [];
+        const hasCase = nmodChildren.some(c => c.label === 'case');
+        if (hasCase) continue;
       }
       this._collectEntitySpan(depTree, child.dependent, indices, false, skipLabels);
     }
@@ -322507,7 +322535,19 @@ class TreeActExtractor {
       this._extractEmbeddedActs(depTree, rootId, acts, structuralAssertions);
     }
 
-    return { acts, structuralAssertions };
+    // BC-2: Filter out junk acts from mistagged tokens (punctuation, single chars,
+    // tokens that are clearly nouns misidentified as verbs by the dep parser)
+    const validActs = acts.filter(act => {
+      const lemma = act.lemma || '';
+      // Reject punctuation and single-character "verbs"
+      if (lemma.length <= 1) return false;
+      if (/^[^a-zA-Z]/.test(lemma)) return false;
+      // Reject tokens tagged as nouns that slipped through (NNP/NNS/NN mistagged as root)
+      if (act.tag && !VERB_TAGS.has(act.tag) && !act.modality) return false;
+      return true;
+    });
+
+    return { acts: validActs, structuralAssertions };
   }
 
   /**
@@ -324812,10 +324852,9 @@ class SemanticGraphBuilder {
   _findTier2ByLabel(graphNodes, label) {
     if (!label) return null;
     // Strip leading determiners ("The committee" → "committee") for matching
-    // Tier 2 labels are lowercase without determiners
     const STRIP_RE = /^(the|a|an|this|that|these|those|both|each|neither|all|every)\s+/i;
     const stripped = label.toLowerCase().replace(STRIP_RE, '');
-    // Simple plural normalization: strip trailing 's', 'es', 'ies'→'y' for matching
+    // Simple plural normalization
     const normalize = (s) => {
       if (s.endsWith('ies')) return s.slice(0, -3) + 'y';
       if (s.endsWith('es')) return s.slice(0, -2);
@@ -324823,14 +324862,54 @@ class SemanticGraphBuilder {
       return s;
     };
     const normStripped = normalize(stripped);
-    return graphNodes.find(n => {
-      if (!n['is_subject_of']) return false;
+    // Lemmatized form (handles "data"→"datum", "children"→"child", etc.)
+    const lemmaStripped = this.lemmatizer
+      ? this.lemmatizer.lemmatizePhrase(stripped)
+      : stripped;
+
+    // Tier 2 nodes have is_subject_of back-link
+    const t2Nodes = graphNodes.filter(n => n['is_subject_of']);
+
+    // Pass 1: exact or normalized match
+    const exact = t2Nodes.find(n => {
       const t2Label = (n['rdfs:label'] || '').toLowerCase().replace(STRIP_RE, '');
       const normT2 = normalize(t2Label);
-      return t2Label === stripped || normT2 === normStripped ||
-             t2Label.includes(stripped) || stripped.includes(t2Label) ||
+      return t2Label === stripped || normT2 === normStripped;
+    });
+    if (exact) return exact;
+
+    // Pass 2: lemmatized match (Tier 2 labels are already lemmatized by RealWorldEntityFactory)
+    const lemma = t2Nodes.find(n => {
+      const t2Label = (n['rdfs:label'] || '').toLowerCase().replace(STRIP_RE, '');
+      return t2Label === lemmaStripped || normalize(t2Label) === normalize(lemmaStripped);
+    });
+    if (lemma) return lemma;
+
+    // Pass 3: substring containment
+    const substring = t2Nodes.find(n => {
+      const t2Label = (n['rdfs:label'] || '').toLowerCase().replace(STRIP_RE, '');
+      const normT2 = normalize(t2Label);
+      return t2Label.includes(stripped) || stripped.includes(t2Label) ||
              normT2.includes(normStripped) || normStripped.includes(normT2);
-    }) || null;
+    });
+    if (substring) return substring;
+
+    // Pass 4: head-noun fallback for complex NPs ("all records and documents" → try "records")
+    // Extract the last word (typically the head noun in English NPs)
+    const words = stripped.split(/\s+/);
+    if (words.length > 1) {
+      const headNoun = words[words.length - 1];
+      const normHead = normalize(headNoun);
+      const lemmaHead = this.lemmatizer ? this.lemmatizer.lemmatizePhrase(headNoun) : headNoun;
+      return t2Nodes.find(n => {
+        const t2Label = (n['rdfs:label'] || '').toLowerCase().replace(STRIP_RE, '');
+        const normT2 = normalize(t2Label);
+        return t2Label === headNoun || normT2 === normHead ||
+               t2Label === lemmaHead || normalize(t2Label) === normalize(lemmaHead);
+      }) || null;
+    }
+
+    return null;
   }
 
   /**
@@ -325637,10 +325716,24 @@ class SemanticGraphBuilder {
       stages.current = 'buildGraph';
       const graphNodes = [];
 
+      // §5.4i: Track mention counts per entity label for unique DR IRIs
+      const mentionCounts = {};
+      // Map from entity text → first DR IRI (for role inheres_in resolution)
+      const entityTextToDrId = {};
+
       // Convert entities to JSON-LD nodes
       for (const entity of entities) {
+        // §5.4i: Generate unique IRI per mention — one DR per text span
+        const sanitizedLabel = this._sanitizeId(entity.fullText);
+        mentionCounts[sanitizedLabel] = (mentionCounts[sanitizedLabel] || 0) + 1;
+        const mentionIdx = mentionCounts[sanitizedLabel];
+        const drId = mentionIdx === 1
+          ? `${this.options.namespace}:DR_${sanitizedLabel}_m1`
+          : `${this.options.namespace}:DR_${sanitizedLabel}_m${mentionIdx}`;
+        // Track first mention for role→DR→Tier2 resolution chain
+        if (!entityTextToDrId[sanitizedLabel]) entityTextToDrId[sanitizedLabel] = drId;
         const entityNode = {
-          '@id': `${this.options.namespace}:${this._sanitizeId(entity.fullText)}`,
+          '@id': drId,
           '@type': [entity.type || 'Entity'],
           'rdfs:label': entity.fullText,
         };
@@ -325699,6 +325792,94 @@ class SemanticGraphBuilder {
           act._prescribedAgentText = agentRole ? agentRole.entity : null;
           act._prescribedPatientText = patientRole ? patientRole.entity : null;
           act._prescribedRecipientText = recipientRole ? recipientRole.entity : null;
+
+          // BC-3.1: For multi-word modals ("agrees to provide"), the nsubj is on the
+          // control verb, not the xcomp. Look up the control verb's nsubj as agent.
+          if (depTree && !act._prescribedAgentText && act.modalVerb) {
+            // Find the control verb — it's the head of the xcomp arc pointing to act.verbId
+            const xcompArc = depTree.arcs.find(a => a.label === 'xcomp' && a.dependent === act.verbId);
+            const controlVerbId = xcompArc ? xcompArc.head : null;
+            if (controlVerbId) {
+              const controlChildren = depTree.getChildren(controlVerbId) || [];
+              const nsubjChild = controlChildren.find(c => c.label === 'nsubj' || c.label === 'nsubj:pass');
+              if (nsubjChild) {
+                const nsubjEntity = entities.find(e =>
+                  e.headId === nsubjChild.dependent ||
+                  (e.indices && e.indices.includes(nsubjChild.dependent))
+                );
+                if (nsubjEntity) act._prescribedAgentText = nsubjEntity.fullText || nsubjEntity.text;
+              }
+            }
+          }
+
+          // BC-3: Fallback — if role mapper missed patient/recipient, traverse dep arcs directly
+          if (depTree && !act._prescribedPatientText) {
+            const verbChildren = depTree.getChildren(act.verbId) || [];
+            // Check obj child
+            const objChild = verbChildren.find(c => c.label === 'obj');
+            if (objChild) {
+              const objEntity = entities.find(e =>
+                e.headId === objChild.dependent ||
+                (e.indices && e.indices.includes(objChild.dependent))
+              );
+              if (objEntity) act._prescribedPatientText = objEntity.fullText || objEntity.text;
+            }
+            // Check xcomp → obj chain ("shall allow USCIS to monitor records")
+            // Also checks xcomp → conj → obj ("to monitor and review records")
+            if (!act._prescribedPatientText) {
+              const xcompChild = verbChildren.find(c => c.label === 'xcomp');
+              if (xcompChild) {
+                const xcompChildren = depTree.getChildren(xcompChild.dependent) || [];
+                // Direct obj of xcomp
+                let xcompObj = xcompChildren.find(c => c.label === 'obj');
+                // Fallback: obj of conj sibling of xcomp ("monitor and review records")
+                if (!xcompObj) {
+                  const conjChild = xcompChildren.find(c => c.label === 'conj');
+                  if (conjChild) {
+                    const conjChildren = depTree.getChildren(conjChild.dependent) || [];
+                    xcompObj = conjChildren.find(c => c.label === 'obj');
+                  }
+                }
+                if (xcompObj) {
+                  const xcompEntity = entities.find(e =>
+                    e.headId === xcompObj.dependent ||
+                    (e.indices && e.indices.includes(xcompObj.dependent))
+                  );
+                  if (xcompEntity) act._prescribedPatientText = xcompEntity.fullText || xcompEntity.text;
+                }
+              }
+            }
+          }
+          if (depTree && !act._prescribedRecipientText) {
+            const verbChildren = depTree.getChildren(act.verbId) || [];
+            // Check iobj child
+            const iobjChild = verbChildren.find(c => c.label === 'iobj');
+            if (iobjChild) {
+              const iobjEntity = entities.find(e =>
+                e.headId === iobjChild.dependent ||
+                (e.indices && e.indices.includes(iobjChild.dependent))
+              );
+              if (iobjEntity) act._prescribedRecipientText = iobjEntity.fullText || iobjEntity.text;
+            }
+            // Fallback: obl with "to" preposition as recipient
+            if (!act._prescribedRecipientText) {
+              const oblChildren = (depTree.getChildren(act.verbId) || []).filter(c => c.label === 'obl');
+              for (const oblChild of oblChildren) {
+                const oblKids = depTree.getChildren(oblChild.dependent) || [];
+                const caseChild = oblKids.find(c => c.label === 'case');
+                if (caseChild && depTree.tokens[caseChild.dependent - 1].toLowerCase() === 'to') {
+                  const oblEntity = entities.find(e =>
+                    e.headId === oblChild.dependent ||
+                    (e.indices && e.indices.includes(oblChild.dependent))
+                  );
+                  if (oblEntity) {
+                    act._prescribedRecipientText = oblEntity.fullText || oblEntity.text;
+                    break;
+                  }
+                }
+              }
+            }
+          }
         }
       }
 
@@ -326011,7 +326192,7 @@ class SemanticGraphBuilder {
           '@type': [role.role],
           'rdfs:label': roleLabel,
           'tagteam:roleType': roleLabel,
-          'inheres_in': { '@id': `${this.options.namespace}:${this._sanitizeId(role.entity)}` },
+          'inheres_in': { '@id': entityTextToDrId[this._sanitizeId(role.entity)] || `${this.options.namespace}:DR_${this._sanitizeId(role.entity)}_m1` },
           'realized_in': { '@id': `${this.options.namespace}:Act_${this._sanitizeId(role.act)}` },
         };
         if (role.preposition) roleNode['tagteam:preposition'] = role.preposition;
@@ -327106,7 +327287,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 300 | dfbcc22 | 2026-03-30T18:06:16.235Z',
+    BUILD: 'build 305 | aed1c29 | 2026-03-31T11:54:38.281Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
