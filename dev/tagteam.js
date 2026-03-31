@@ -322033,6 +322033,10 @@ class TreeEntityExtractor {
       if (seenHeads.has(arc.dependent)) continue;
       if (lockedTokens.has(arc.dependent)) continue; // Skip tokens inside locked spans
 
+      // Skip interrogative pronouns (WP/WP$) — "Who", "What" are placeholders, not entities
+      const headTag = depTree.tags[arc.dependent - 1];
+      if (headTag === 'WP' || headTag === 'WP$') continue;
+
       const entityHead = arc.dependent;
       seenHeads.add(entityHead);
 
@@ -326453,7 +326457,11 @@ class SemanticGraphBuilder {
           const qualityId = `${this.options.namespace}:Quality_${this._sanitizeId(qualityWord)}_${this._hashText((sa.subject || '') + qualityWord).substring(0, 8)}`;
 
           // Resolve subject to Tier 1 DiscourseReferent IRI (FT-03: no string literals in provenance)
-          const subjectIRI = sa.subject ? `${this.options.namespace}:${this._sanitizeId(sa.subject)}` : null;
+          // Only resolve if the DR actually exists (skipped for interrogative pronouns)
+          const subjectSanitized = sa.subject ? this._sanitizeId(sa.subject) : null;
+          const subjectIRI = subjectSanitized && entityTextToDrId[subjectSanitized]
+            ? entityTextToDrId[subjectSanitized]
+            : null;
 
           const qaNode = {
             '@id': qaId,
@@ -326511,7 +326519,12 @@ class SemanticGraphBuilder {
           const roleId = `${this.options.namespace}:Role_${this._sanitizeId(roleWord)}_${this._hashText((sa.subject || '') + roleWord).substring(0, 8)}`;
 
           // Resolve subject to Tier 1 DiscourseReferent IRI (FT-03: no string literals in provenance)
-          const roleSubjectIRI = sa.subject ? `${this.options.namespace}:${this._sanitizeId(sa.subject)}` : null;
+          // Use entityTextToDrId map for §5.4i coreference-compatible DR IRIs
+          // If the subject DR doesn't exist (e.g., interrogative pronoun "Who"), leave null
+          const roleSubjectSanitized = sa.subject ? this._sanitizeId(sa.subject) : null;
+          const roleSubjectIRI = roleSubjectSanitized && entityTextToDrId[roleSubjectSanitized]
+            ? entityTextToDrId[roleSubjectSanitized]
+            : null;
 
           const roleAssertionNode = {
             '@id': `${this.options.namespace}:RoleAssertion_${this._sanitizeId(roleWord)}_${this._hashText((sa.subject || '') + roleWord).substring(0, 8)}`,
@@ -327719,7 +327732,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 325 | 6d828af | 2026-03-31T18:56:13.931Z',
+    BUILD: 'build 327 | 7807fa3 | 2026-03-31T19:11:42.879Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
