@@ -1217,7 +1217,42 @@ ${semanticGraphBuilder}
             node['tagteam:classNominationStatus'] = 'resolved';
             node['tagteam:requiresOntologyResolution'] = false;
           }
+
+          // F-4: Type assignment from ontology — upgrade heuristic type to CCO class
+          // If the ontology match is an owl:Class and the node currently has a generic type
+          // (Entity, Artifact), replace with the matched class label for BFO accuracy.
+          var matchLabel = tag.label || '';
+          var owlType = tag.ontologyMatchOWLType || '';
+          if (matchLabel && owlType === 'owl:Class') {
+            var nodeTypes = [].concat(node['@type'] || []);
+            var GENERIC_TYPES = ['Entity', 'Artifact', 'bfo:BFO_0000001'];
+            var isGeneric = nodeTypes.some(function(t) { return GENERIC_TYPES.indexOf(t) >= 0; });
+            if (isGeneric) {
+              // Replace the generic type with the ontology class label
+              node['@type'] = nodeTypes.map(function(t) {
+                return GENERIC_TYPES.indexOf(t) >= 0 ? matchLabel : t;
+              });
+              node['tagteam:typeBasis'] = 'ontology-match';
+            }
+          }
+
           break; // One evidence match per tag is sufficient
+        }
+      }
+    }
+
+    // F-4: Update denotesType on Tier 1 DRs to match upgraded Tier 2 types
+    for (var i = 0; i < nodes.length; i++) {
+      var node = nodes[i];
+      if (!node['is_subject_of']) continue;
+      var t1Ref = node['is_subject_of'];
+      var t1Id = t1Ref && t1Ref['@id'] ? t1Ref['@id'] : null;
+      if (t1Id && nodeIndex[t1Id]) {
+        var t1Node = nodeIndex[t1Id];
+        var nodeTypes = [].concat(node['@type'] || []);
+        var primaryType = nodeTypes.find(function(t) { return t !== 'owl:NamedIndividual' && t !== 'owl:Class'; });
+        if (primaryType && t1Node['tagteam:denotesType'] && node['tagteam:typeBasis'] === 'ontology-match') {
+          t1Node['tagteam:denotesType'] = primaryType;
         }
       }
     }

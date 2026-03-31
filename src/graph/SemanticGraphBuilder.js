@@ -1112,19 +1112,32 @@ class SemanticGraphBuilder {
     if (substring) return substring;
 
     // Pass 4: head-noun fallback for complex NPs ("all records and documents" → try "records")
-    // Extract the last word (typically the head noun in English NPs)
     const words = stripped.split(/\s+/);
     if (words.length > 1) {
       const headNoun = words[words.length - 1];
       const normHead = normalize(headNoun);
       const lemmaHead = this.lemmatizer ? this.lemmatizer.lemmatizePhrase(headNoun) : headNoun;
-      return t2Nodes.find(n => {
+      const headMatch = t2Nodes.find(n => {
         const t2Label = (n['rdfs:label'] || '').toLowerCase().replace(STRIP_RE, '');
         const normT2 = normalize(t2Label);
         return t2Label === headNoun || normT2 === normHead ||
                t2Label === lemmaHead || normalize(t2Label) === normalize(lemmaHead);
-      }) || null;
+      });
+      if (headMatch) return headMatch;
     }
+
+    // Pass 5 (F-6): Match via ontologyMatch evidence from loaded ontology
+    // If a Tier 2 node was enriched with ontologyMatch whose evidence matches the search label,
+    // use that node. Handles cases like "data" matching a node labeled "datum" that has
+    // ontologyMatch evidence "data" from skos:altLabel.
+    const ontMatch = t2Nodes.find(n => {
+      const matches = [].concat(n['ontologyMatch'] || []);
+      return matches.some(m => {
+        const ev = (m.ontologyMatchEvidence || m.ontologyMatchForm || '').toLowerCase();
+        return ev === stripped || ev === normStripped || ev === lemmaStripped;
+      });
+    });
+    if (ontMatch) return ontMatch;
 
     return null;
   }
