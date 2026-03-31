@@ -295,7 +295,7 @@
 
 <div id="output"></div>
 
-<script src="tagteam.js?v=20260330b"></script>
+<script src="tagteam.js?v=20260331c"></script>
 <script>
 // Test Corpus Data
 const corpus = {
@@ -731,8 +731,12 @@ async function validateSentence(test) {
                 v.forEach(msg => violations.push(msg));
             });
 
-            // Ghost act detection (RDM rule) — deontic sentences must NOT emit IntentionalAct
-            if (allActs.length > 0) violations.push('Ghost IntentionalAct detected (RDM violation)');
+            // Ghost act detection (RDM rule) — deontic sentences should not emit
+            // IntentionalActs for the MODAL verb. However, subordinate-clause events
+            // ("data received from USCIS") are legitimate actual events with describedBy links.
+            // Only flag acts that lack describedBy (true ghosts).
+            const ghostActs = allActs.filter(a => !a['tagteam:describedBy']);
+            if (ghostActs.length > 0) violations.push('Ghost IntentionalAct without describedBy (RDM violation)');
 
             // Deontic subtype checks
             if (type.includes('Prohibitive')) {
@@ -887,6 +891,17 @@ async function runAllTests() {
 
     if (typeof TagTeam === 'undefined' || typeof TagTeam.buildGraph !== 'function') {
         alert('TagTeam.buildGraph() not available. Ensure tagteam.js is loaded.');
+        return;
+    }
+
+    // Bundle version check — verify Alpha.2 fixes are loaded
+    const testGraph = TagTeam.buildGraph('test');
+    const testNodes = testGraph['@graph'] || [];
+    const testPA = testNodes.find(n => (n['@id'] || '').includes('ParsingAct'));
+    const hasSysGen = testPA && testPA['tagteam:systemGenerated'] === true;
+    const hasDRPrefix = testNodes.some(n => (n['@id'] || '').startsWith('inst:DR_'));
+    if (!hasSysGen || !hasDRPrefix) {
+        alert('STALE BUNDLE DETECTED\\n\\nsystemGenerated: ' + hasSysGen + '\\nDR_ prefix: ' + hasDRPrefix + '\\n\\nThe browser is loading a cached tagteam.js. Try:\\n1. Ctrl+Shift+R (hard refresh)\\n2. Or open DevTools > Network > Disable cache > Reload');
         return;
     }
 
