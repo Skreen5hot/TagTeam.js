@@ -327390,7 +327390,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 309 | bb88e1a | 2026-03-31T13:01:37.034Z',
+    BUILD: 'build 309 | 61a27cf | 2026-03-31T13:04:21.200Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
