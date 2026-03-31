@@ -87,6 +87,24 @@ class OntologyTextTagger {
   loadFromString(ttlContent) {
     const parser = new TurtleParser();
     this._parseResult = parser.parse(ttlContent);
+
+    // Normalize CCO opaque predicates to standard SKOS equivalents
+    // cco:ont00001738 (designation) → skos:altLabel
+    // cco:ont00001740 (abbreviation) → skos:altLabel
+    if (this._parseResult && this._parseResult.triples) {
+      const CCO_PREDICATE_MAP = {
+        'cco:ont00001738': 'skos:altLabel',
+        'https://www.commoncoreontologies.org/ont00001738': 'skos:altLabel',
+        'cco:ont00001740': 'skos:altLabel',
+        'https://www.commoncoreontologies.org/ont00001740': 'skos:altLabel',
+      };
+      for (const triple of this._parseResult.triples) {
+        if (CCO_PREDICATE_MAP[triple.predicate]) {
+          triple.predicate = CCO_PREDICATE_MAP[triple.predicate];
+        }
+      }
+    }
+
     this.tagDefinitions = this.propertyMapper.extractDefinitions(this._parseResult);
 
     // In priority mode, supplement definitions for classes that were excluded
@@ -279,6 +297,24 @@ class OntologyTextTagger {
         keywords: allValues,
         propertyEvidence: evidence
       });
+    }
+
+    // Also enrich existing definitions with altLabel/designation values
+    // (classes that have rdfs:label but also have skos:altLabel from CCO normalization)
+    const PRIORITY_PROPS = ['skos:prefLabel', 'skos:altLabel', 'skos:notation', 'skos:hiddenLabel'];
+    for (const def of this.tagDefinitions) {
+      const subjectId = def.id || def.iri;
+      if (!subjectId) continue;
+      const existingKeywords = new Set(def.keywords.map(k => k.toLowerCase()));
+      for (const triple of this._parseResult.triples) {
+        if (triple.subject === subjectId && PRIORITY_PROPS.includes(triple.predicate)) {
+          const val = (triple.object || '').replace(/@\w+$/, '').trim();
+          if (val && !existingKeywords.has(val.toLowerCase())) {
+            def.keywords.push(val);
+            existingKeywords.add(val.toLowerCase());
+          }
+        }
+      }
     }
   }
 

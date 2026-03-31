@@ -11,17 +11,25 @@
   "expectedEntities": [
     {
       "text": "The traveler",
-      "type": "Person"
+      "type": "Entity"
     },
     {
       "text": "secondary inspection",
-      "type": "Process"
+      "type": "Entity"
+    },
+    {
+      "text": "referred",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
     {
       "entity": "traveler",
       "role": "Patient"
+    },
+    {
+      "entity": "secondary inspection",
+      "role": "Goal"
     }
   ],
   "extractedEntities": [

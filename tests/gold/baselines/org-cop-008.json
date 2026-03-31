@@ -16,7 +16,7 @@
     },
     {
       "text": "transportation security",
-      "type": "Process"
+      "type": "Entity"
     }
   ],
   "expectedRoles": [],

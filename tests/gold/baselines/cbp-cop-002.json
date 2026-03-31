@@ -10,12 +10,20 @@
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
-      "text": "A port of entry",
-      "type": "Facility"
+      "text": "A port",
+      "type": "Entity"
+    },
+    {
+      "text": "entry",
+      "type": "Entity"
     },
     {
       "text": "an authorized crossing point",
-      "type": "Facility"
+      "type": "Role"
+    },
+    {
+      "text": "port",
+      "type": "Entity"
     }
   ],
   "expectedRoles": [],

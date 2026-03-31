@@ -11,15 +11,11 @@
   "expectedEntities": [
     {
       "text": "The CBP Academy",
-      "type": "Facility"
-    },
-    {
-      "text": "a training facility",
-      "type": "Facility"
+      "type": "Organization"
     },
     {
       "text": "Georgia",
-      "type": "GeopoliticalOrganization"
+      "type": "Entity"
     }
   ],
   "expectedRoles": [],

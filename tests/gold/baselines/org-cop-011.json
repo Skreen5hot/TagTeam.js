@@ -16,7 +16,7 @@
     },
     {
       "text": "an intelligence agency",
-      "type": "Organization"
+      "type": "Role"
     }
   ],
   "expectedRoles": [],

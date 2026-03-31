@@ -14,12 +14,20 @@
       "type": "Person"
     },
     {
+      "text": "who",
+      "type": "Organization"
+    },
+    {
       "text": "the tunnel",
-      "type": "Facility"
+      "type": "Entity"
     },
     {
       "text": "the report",
-      "type": "InformationContentEntity"
+      "type": "Entity"
+    },
+    {
+      "text": "filed",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

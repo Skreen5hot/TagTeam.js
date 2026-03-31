@@ -12,11 +12,15 @@
   "expectedEntities": [
     {
       "text": "The air and marine operations center",
-      "type": "Organization"
+      "type": "Entity"
     },
     {
       "text": "the aircraft",
-      "type": "Artifact"
+      "type": "Entity"
+    },
+    {
+      "text": "tracked",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

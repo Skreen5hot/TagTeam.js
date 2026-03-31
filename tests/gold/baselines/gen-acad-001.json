@@ -15,11 +15,15 @@
     },
     {
       "text": "the study",
-      "type": "InformationContentEntity"
+      "type": "Entity"
     },
     {
-      "text": "a peer-reviewed journal",
-      "type": "InformationContentEntity"
+      "text": "a peer reviewed journal",
+      "type": "Entity"
+    },
+    {
+      "text": "published",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
@@ -30,6 +34,10 @@
     {
       "entity": "study",
       "role": "Patient"
+    },
+    {
+      "entity": "peer reviewed journal",
+      "role": "Location"
     }
   ],
   "extractedEntities": [

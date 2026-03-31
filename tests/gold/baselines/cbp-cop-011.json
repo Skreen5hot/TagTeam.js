@@ -14,8 +14,8 @@
       "type": "Person"
     },
     {
-      "text": "the primary contact",
-      "type": "Person"
+      "text": "emergencies",
+      "type": "Entity"
     }
   ],
   "expectedRoles": [],

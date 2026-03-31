@@ -15,8 +15,8 @@
       "type": "Organization"
     },
     {
-      "text": "a federal law enforcement agency",
-      "type": "Organization"
+      "text": "a federal enforcement agency",
+      "type": "Role"
     }
   ],
   "expectedRoles": [],

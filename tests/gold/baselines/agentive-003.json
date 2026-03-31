@@ -12,21 +12,25 @@
   "expectedEntities": [
     {
       "text": "The report",
-      "type": "InformationContentEntity"
+      "type": "Entity"
     },
     {
       "text": "the senior analyst",
       "type": "Person"
+    },
+    {
+      "text": "composed",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
     {
-      "entity": "senior analyst",
-      "role": "Agent"
-    },
-    {
       "entity": "report",
       "role": "Patient"
+    },
+    {
+      "entity": "senior analyst",
+      "role": "Agent"
     }
   ],
   "extractedEntities": [

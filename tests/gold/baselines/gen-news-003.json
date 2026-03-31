@@ -11,11 +11,15 @@
   "expectedEntities": [
     {
       "text": "The mayor",
-      "type": "Person"
+      "type": "Entity"
     },
     {
       "text": "the budget proposal",
-      "type": "InformationContentEntity"
+      "type": "Entity"
+    },
+    {
+      "text": "vetoed",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

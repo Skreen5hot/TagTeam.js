@@ -10,11 +10,15 @@
   "expectedEntities": [
     {
       "text": "The clerk",
-      "type": "Person"
+      "type": "Entity"
     },
     {
       "text": "the proceedings",
-      "type": "Process"
+      "type": "Entity"
+    },
+    {
+      "text": "recorded",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
@@ -23,7 +27,7 @@
       "role": "Agent"
     },
     {
-      "entity": "proceedings",
+      "entity": "proceeding",
       "role": "Patient"
     }
   ],

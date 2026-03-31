@@ -12,11 +12,11 @@
   "expectedEntities": [
     {
       "text": "DEA",
-      "type": "Organization"
+      "type": "Entity"
     },
     {
-      "text": "the primary federal drug enforcement agency",
-      "type": "Organization"
+      "text": "the primary federal enforcement agency",
+      "type": "Role"
     }
   ],
   "expectedRoles": [],

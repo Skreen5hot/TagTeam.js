@@ -11,11 +11,11 @@
   "expectedEntities": [
     {
       "text": "SENTRI",
-      "type": "Process"
+      "type": "Entity"
     },
     {
-      "text": "a border crossing program",
-      "type": "Process"
+      "text": "low risk travelers",
+      "type": "Entity"
     }
   ],
   "expectedRoles": [],

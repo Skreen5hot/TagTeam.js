@@ -11,11 +11,15 @@
   "expectedEntities": [
     {
       "text": "The board",
-      "type": "Organization"
+      "type": "Entity"
     },
     {
       "text": "the new treatment protocol",
-      "type": "InformationContentEntity"
+      "type": "Entity"
+    },
+    {
+      "text": "certified",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
@@ -24,7 +28,7 @@
       "role": "Agent"
     },
     {
-      "entity": "treatment protocol",
+      "entity": "new treatment protocol",
       "role": "Patient"
     }
   ],

@@ -12,11 +12,15 @@
   "expectedEntities": [
     {
       "text": "The patrol unit",
-      "type": "Organization"
+      "type": "Entity"
     },
     {
       "text": "the crossing",
-      "type": "Facility"
+      "type": "Entity"
+    },
+    {
+      "text": "monitored",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
@@ -25,7 +29,7 @@
       "role": "Agent"
     },
     {
-      "entity": "crossing",
+      "entity": "cros",
       "role": "Patient"
     }
   ],

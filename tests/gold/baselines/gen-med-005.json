@@ -11,7 +11,7 @@
   "expectedEntities": [
     {
       "text": "The hospital",
-      "type": "Facility"
+      "type": "Organization"
     },
     {
       "text": "the patient",
@@ -19,7 +19,11 @@
     },
     {
       "text": "the intensive care unit",
-      "type": "Facility"
+      "type": "Entity"
+    },
+    {
+      "text": "admitted",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

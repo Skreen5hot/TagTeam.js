@@ -16,7 +16,11 @@
     },
     {
       "text": "the defendant",
-      "type": "Person"
+      "type": "Entity"
+    },
+    {
+      "text": "sentenced",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

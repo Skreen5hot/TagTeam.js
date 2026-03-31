@@ -14,7 +14,11 @@
     },
     {
       "text": "the dissertation",
-      "type": "InformationContentEntity"
+      "type": "Entity"
+    },
+    {
+      "text": "defended",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

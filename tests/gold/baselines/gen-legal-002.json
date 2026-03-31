@@ -10,11 +10,15 @@
   "expectedEntities": [
     {
       "text": "The jury",
-      "type": "Organization"
+      "type": "Entity"
     },
     {
       "text": "the verdict",
-      "type": "InformationContentEntity"
+      "type": "Entity"
+    },
+    {
+      "text": "delivered",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

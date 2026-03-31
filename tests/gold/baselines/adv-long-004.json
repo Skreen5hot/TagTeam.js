@@ -15,12 +15,16 @@
     },
     {
       "text": "the evidence",
-      "type": "InformationContentEntity"
+      "type": "Entity"
+    },
+    {
+      "text": "analyzed",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
     {
-      "entity": "technician",
+      "entity": "experienced forensic laboratory technician",
       "role": "Agent"
     },
     {

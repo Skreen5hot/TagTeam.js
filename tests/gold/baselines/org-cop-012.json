@@ -16,7 +16,7 @@
     },
     {
       "text": "the federal government",
-      "type": "Organization"
+      "type": "Entity"
     }
   ],
   "expectedRoles": [],

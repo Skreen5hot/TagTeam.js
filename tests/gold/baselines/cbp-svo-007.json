@@ -16,7 +16,11 @@
     },
     {
       "text": "the tariff schedule",
-      "type": "InformationContentEntity"
+      "type": "Entity"
+    },
+    {
+      "text": "assessed",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

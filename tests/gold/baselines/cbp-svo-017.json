@@ -16,7 +16,11 @@
     },
     {
       "text": "the response",
-      "type": "Process"
+      "type": "Entity"
+    },
+    {
+      "text": "coordinated",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

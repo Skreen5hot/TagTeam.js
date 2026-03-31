@@ -11,16 +11,20 @@
   "expectedEntities": [
     {
       "text": "The counterfeit goods",
-      "type": "Artifact"
+      "type": "Entity"
     },
     {
       "text": "the port",
-      "type": "Facility"
+      "type": "Entity"
+    },
+    {
+      "text": "confiscated",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
     {
-      "entity": "goods",
+      "entity": "counterfeit good",
       "role": "Patient"
     },
     {

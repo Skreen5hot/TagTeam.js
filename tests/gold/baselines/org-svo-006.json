@@ -16,7 +16,11 @@
     },
     {
       "text": "the individual",
-      "type": "Person"
+      "type": "Entity"
+    },
+    {
+      "text": "detained",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

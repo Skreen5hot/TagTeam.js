@@ -12,21 +12,25 @@
   "expectedEntities": [
     {
       "text": "The sector chief",
-      "type": "Person"
+      "type": "Entity"
     },
     {
       "text": "additional resources",
       "type": "Entity"
+    },
+    {
+      "text": "deployed",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
     {
       "entity": "sector chief",
-      "role": "Agent"
+      "role": "Patient"
     },
     {
-      "entity": "resources",
-      "role": "Patient"
+      "entity": "additional resource",
+      "role": "Agent"
     }
   ],
   "extractedEntities": [

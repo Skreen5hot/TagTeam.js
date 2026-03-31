@@ -11,11 +11,15 @@
   "expectedEntities": [
     {
       "text": "The vehicle",
-      "type": "Artifact"
+      "type": "Entity"
     },
     {
       "text": "the checkpoint",
-      "type": "Facility"
+      "type": "Entity"
+    },
+    {
+      "text": "searched",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

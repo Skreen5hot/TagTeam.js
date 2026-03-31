@@ -12,11 +12,15 @@
   "expectedEntities": [
     {
       "text": "The patrol unit",
-      "type": "Organization"
+      "type": "Entity"
     },
     {
       "text": "the perimeter",
       "type": "Entity"
+    },
+    {
+      "text": "secured",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

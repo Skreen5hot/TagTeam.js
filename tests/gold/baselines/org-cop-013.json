@@ -11,12 +11,12 @@
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
-      "text": "The attorney general",
-      "type": "Person"
+      "text": "Department of Justice",
+      "type": "Organization"
     },
     {
-      "text": "the Department of Justice",
-      "type": "Organization"
+      "text": "The attorney general",
+      "type": "Entity"
     }
   ],
   "expectedRoles": [],

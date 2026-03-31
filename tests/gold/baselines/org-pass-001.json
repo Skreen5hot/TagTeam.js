@@ -16,17 +16,21 @@
     },
     {
       "text": "the officers",
-      "type": "Person"
+      "type": "Entity"
+    },
+    {
+      "text": "apprehended",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
     {
-      "entity": "officers",
-      "role": "Agent"
-    },
-    {
       "entity": "suspect",
       "role": "Patient"
+    },
+    {
+      "entity": "officer",
+      "role": "Agent"
     }
   ],
   "extractedEntities": [

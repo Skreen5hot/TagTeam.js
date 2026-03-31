@@ -10,15 +10,19 @@
   "expectedEntities": [
     {
       "text": "The plaintiff",
-      "type": "Person"
+      "type": "Entity"
     },
     {
       "text": "the defendant",
-      "type": "Person"
+      "type": "Entity"
     },
     {
       "text": "damages",
       "type": "Entity"
+    },
+    {
+      "text": "sued",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
@@ -29,6 +33,10 @@
     {
       "entity": "defendant",
       "role": "Patient"
+    },
+    {
+      "entity": "damage",
+      "role": "Beneficiary"
     }
   ],
   "extractedEntities": [

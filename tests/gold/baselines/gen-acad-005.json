@@ -11,7 +11,7 @@
   "expectedEntities": [
     {
       "text": "The lab",
-      "type": "Organization"
+      "type": "Entity"
     },
     {
       "text": "the samples",
@@ -19,7 +19,11 @@
     },
     {
       "text": "a spectrometer",
-      "type": "Artifact"
+      "type": "Entity"
+    },
+    {
+      "text": "analyzed",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
@@ -28,7 +32,7 @@
       "role": "Agent"
     },
     {
-      "entity": "samples",
+      "entity": "sample",
       "role": "Patient"
     },
     {

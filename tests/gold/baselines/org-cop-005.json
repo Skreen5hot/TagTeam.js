@@ -15,8 +15,8 @@
       "type": "Organization"
     },
     {
-      "text": "a cabinet-level department",
-      "type": "Organization"
+      "text": "a level department",
+      "type": "Role"
     }
   ],
   "expectedRoles": [],

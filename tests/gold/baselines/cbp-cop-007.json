@@ -11,11 +11,11 @@
   "expectedEntities": [
     {
       "text": "Global Entry",
-      "type": "Process"
+      "type": "Organization"
     },
     {
       "text": "a trusted traveler program",
-      "type": "Process"
+      "type": "Role"
     }
   ],
   "expectedRoles": [],

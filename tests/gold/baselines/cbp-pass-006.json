@@ -11,16 +11,20 @@
   "expectedEntities": [
     {
       "text": "The new policy",
-      "type": "InformationContentEntity"
+      "type": "Entity"
     },
     {
       "text": "all field offices",
-      "type": "Organization"
+      "type": "Entity"
+    },
+    {
+      "text": "implemented",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
     {
-      "entity": "policy",
+      "entity": "new policy",
       "role": "Patient"
     }
   ],

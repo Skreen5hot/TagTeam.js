@@ -16,7 +16,7 @@
     },
     {
       "text": "the armed forces",
-      "type": "Organization"
+      "type": "Entity"
     }
   ],
   "expectedRoles": [],

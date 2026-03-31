@@ -15,16 +15,20 @@
     },
     {
       "text": "the operations center",
-      "type": "Organization"
+      "type": "Entity"
     },
     {
       "text": "the assessment",
-      "type": "InformationContentEntity"
+      "type": "Entity"
+    },
+    {
+      "text": "reviewed",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
     {
-      "entity": "intelligence analyst",
+      "entity": "senior intelligence analyst",
       "role": "Agent"
     },
     {

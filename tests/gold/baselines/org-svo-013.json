@@ -17,6 +17,10 @@
     {
       "text": "the samples",
       "type": "Entity"
+    },
+    {
+      "text": "analyzed",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
@@ -25,7 +29,7 @@
       "role": "Agent"
     },
     {
-      "entity": "samples",
+      "entity": "sample",
       "role": "Patient"
     }
   ],

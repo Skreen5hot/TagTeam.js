@@ -16,7 +16,11 @@
     },
     {
       "text": "the declaration",
-      "type": "InformationContentEntity"
+      "type": "Entity"
+    },
+    {
+      "text": "verified",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

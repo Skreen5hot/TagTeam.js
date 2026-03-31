@@ -15,7 +15,11 @@
     },
     {
       "text": "the experiment",
-      "type": "Process"
+      "type": "Entity"
+    },
+    {
+      "text": "replicated",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

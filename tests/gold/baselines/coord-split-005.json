@@ -15,25 +15,29 @@
       "type": "Organization"
     },
     {
-      "text": "the Red Cross",
+      "text": "Red Cross",
       "type": "Organization"
     },
     {
-      "text": "disaster relief",
-      "type": "Process"
+      "text": "disaster",
+      "type": "Entity"
+    },
+    {
+      "text": "provided",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
     {
-      "entity": "FEMA",
+      "entity": "fema",
       "role": "Agent"
     },
     {
-      "entity": "Red Cross",
+      "entity": "red cross",
       "role": "Agent"
     },
     {
-      "entity": "disaster relief",
+      "entity": "disaster",
       "role": "Patient"
     }
   ],

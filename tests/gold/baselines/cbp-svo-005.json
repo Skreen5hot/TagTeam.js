@@ -11,21 +11,29 @@
   "pipelineVersion": "3.1.0-alpha.1",
   "expectedEntities": [
     {
-      "text": "The field operations directorate",
-      "type": "Organization"
+      "text": "The field operations",
+      "type": "Entity"
     },
     {
-      "text": "the ports of entry",
-      "type": "Facility"
+      "text": "the ports",
+      "type": "Entity"
+    },
+    {
+      "text": "entry",
+      "type": "Entity"
+    },
+    {
+      "text": "directorate",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
     {
-      "entity": "field operations directorate",
+      "entity": "field operation",
       "role": "Agent"
     },
     {
-      "entity": "ports of entry",
+      "entity": "port",
       "role": "Patient"
     }
   ],

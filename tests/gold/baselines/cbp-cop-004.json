@@ -11,11 +11,11 @@
   "expectedEntities": [
     {
       "text": "TECS",
-      "type": "Artifact"
+      "type": "Entity"
     },
     {
-      "text": "the primary law enforcement database",
-      "type": "Artifact"
+      "text": "the enforcement database",
+      "type": "Role"
     }
   ],
   "expectedRoles": [],

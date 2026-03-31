@@ -12,11 +12,15 @@
   "expectedEntities": [
     {
       "text": "The training division",
-      "type": "Organization"
+      "type": "Entity"
     },
     {
       "text": "the curriculum",
-      "type": "InformationContentEntity"
+      "type": "Entity"
+    },
+    {
+      "text": "developed",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

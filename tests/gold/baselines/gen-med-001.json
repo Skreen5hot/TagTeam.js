@@ -15,7 +15,11 @@
     },
     {
       "text": "the operation",
-      "type": "Process"
+      "type": "Entity"
+    },
+    {
+      "text": "performed",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [

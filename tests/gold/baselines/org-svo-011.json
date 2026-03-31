@@ -16,7 +16,11 @@
     },
     {
       "text": "additional personnel",
-      "type": "Person"
+      "type": "Entity"
+    },
+    {
+      "text": "deployed",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
@@ -25,7 +29,7 @@
       "role": "Agent"
     },
     {
-      "entity": "personnel",
+      "entity": "additional personnel",
       "role": "Patient"
     }
   ],

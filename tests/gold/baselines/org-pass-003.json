@@ -12,21 +12,25 @@
   "expectedEntities": [
     {
       "text": "The policy",
-      "type": "InformationContentEntity"
+      "type": "Entity"
     },
     {
       "text": "the committee",
-      "type": "Organization"
+      "type": "Entity"
+    },
+    {
+      "text": "approved",
+      "type": "EventDescription"
     }
   ],
   "expectedRoles": [
     {
-      "entity": "committee",
-      "role": "Agent"
-    },
-    {
       "entity": "policy",
       "role": "Patient"
+    },
+    {
+      "entity": "committee",
+      "role": "Agent"
     }
   ],
   "extractedEntities": [
