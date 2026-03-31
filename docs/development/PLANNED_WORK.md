@@ -1,7 +1,7 @@
 # TagTeam.js — Comprehensive Planned Work Document
 
-**Version**: 2.1
-**Date**: 2026-03-30
+**Version**: 3.0
+**Date**: 2026-03-31
 **Authority**: This document is the single source of truth for all planned, in-progress, and completed work. It supersedes fragmented references across specs, roadmaps, and planning files.
 
 ---
@@ -746,6 +746,42 @@ The method excludes `acl:relcl`, `acl`, `advcl`, `cop`, `punct`, and `appos` —
 3. Exclude `obl` children entirely from entity spans (oblique arguments belong to the verb, not the noun)
 4. Depth-limit `nmod` collection to 1 level (direct modifiers only, not chains)
 
+#### 5.4i Coreference Architecture — One DR per Mention (IRI Collision)
+
+**Severity:** HIGH — violates JSON-LD semantics and breaks graph visualization
+**Status:** Known issue — architectural fix required
+
+**Observed:** "CMS shall allow USCIS to monitor... under CMS possession and control." → Two `@graph` nodes share `"@id": "inst:CMS"` with different `mentionId` values (`s0:h1:0-3` and `s0:h14:76-79`). JSON-LD requires unique `@id` per node. D3 renders them as disconnected duplicate circles.
+
+**Principle:** Tier 1 is the linguistic surface — mentions, not meaning. A DiscourseReferent represents a specific span of text. The Entity at Tier 2 is what it refers to. Two mentions of "CMS" = two DRs → one shared Tier 2 Entity.
+
+**Current (wrong):**
+```
+{ "@id": "inst:CMS", "mentionId": "s0:h1:0-3" }
+{ "@id": "inst:CMS", "mentionId": "s0:h14:76-79" }
+```
+
+**Correct model:**
+```
+{ "@id": "inst:DR_CMS_m1", "mentionId": "s0:h1:0-3", "is_about": "inst:Entity_CMS" }
+{ "@id": "inst:DR_CMS_m2", "mentionId": "s0:h14:76-79", "is_about": "inst:Entity_CMS" }
+```
+
+**IRI pattern:** `inst:DR_{normalizedLabel}_m{mentionIndex}`
+
+**Why it matters:**
+1. **Provenance** — trace which mention triggered which obligation
+2. **Span accuracy** — each DR carries its own character offsets
+3. **Tier separation** — SHACL v1.3.1 §2.3 requires DRs as linguistic pointers, not semantic content
+4. **Coreference chains** — future anaphora resolution ("CMS... they... the agency") requires distinct DRs
+
+**Fix path:** In DR generation, maintain a mention counter per normalized label. Generate unique IRI per mention. All mentions share the same `is_about` target.
+
+```javascript
+// Before: const drId = `inst:${normalizedLabel}`;
+// After:  const drId = `inst:DR_${normalizedLabel}_m${mentionIndex}`;
+```
+
 ### 5.5 Roadmap Gaps
 
 | Item | Issue | Resolution |
@@ -844,31 +880,96 @@ The method excludes `acl:relcl`, `acl`, `advcl`, `cop`, `punct`, and `appos` —
 | 14 | Legal sign-off follow-up (AC-4.21) | — | External | — | |
 | 15 | POS tagger VBZ/NNS disambiguation (§5.4d, RC-1) | — | Medium | — | 4 tests skipped |
 | 16 | **NER hyper-aggressive chunking (§5.4h)** — Break `_collectEntitySpan` on `conj`/`cc` (sibling entities), exclude `obl` children, limit `nmod` depth at head level. 70-char single-entity spans must become 3+ distinct entities. | §5.4h | Medium | — | ISA entity boundaries, blocks BC-3 prescribedPatient |
-| 17 | SMA WS-B — Narrative negation | — | Medium | WS-C | Not started |
+| 17 | **Coreference: one DR per mention (§5.4i)** — Generate unique IRI per mention (`DR_{label}_m{idx}`), all sharing same `is_about` target. Fixes JSON-LD `@id` collision, D3 visualization, and enables future anaphora chains. | §5.4i | Medium | — | All multi-mention sentences |
+| 18 | SMA WS-B — Narrative negation | — | Medium | WS-C | Not started |
 
-### Tier 3: Ontological Completeness
+### Tier 2b: Fandaws HIRI Integration (NEW — reprioritized from Tier 4)
+
+**Rationale:** The original roadmap deferred Fandaws until "parser maturity" (Role F1 ≥75%, coord ≥90%). The ISA corpus analysis (2026-03-30) revealed that the 85.3% UAS dep parser is the root ceiling on accuracy. Rather than spending 10+ weeks improving the parser, integrating the Fandaws knowledge graph (150K+ terms, BFO/CCO-typed, HIRI-atomized on IPFS) provides a top-down correction signal that compensates for parser errors at every downstream layer. This **inverts the dependency**: Fandaws maturity enables parser error recovery, not the other way around.
+
+**Architecture: Three-Tier Resolution**
+
+```
+Tier A (compile-time): Bloom filter (~225KB) + core vocab (2K terms, ~500KB)
+  → Ships with bundle. Instant "might exist" check. Zero latency.
+
+Tier B (session cache): LRU in IndexedDB, ~5K entries, ~2MB
+  → Persists across parses within a session. Avoids re-fetching.
+
+Tier C (IPFS/HIRI): On-demand per-atom fetch, ~50-200ms per miss
+  → Full 150K graph access. Content-addressed, cacheable.
+```
+
+**Lookup flow per sentence:**
+1. Parse (current pipeline, ~15ms) → extract entity candidates
+2. Bloom filter check (Tier A, <1ms) → YES/NO per candidate
+3. Cache lookup (Tier B, <1ms) → HIT returns type, IRI, labels
+4. IPFS resolve (Tier C, async, cache miss only) → fetch HIRI atom
+5. Enrich graph: denotesType, Tier 2 IRI, selectional restrictions
+
+**API:** Async-capable `buildGraph()` with ontology config. Current sync API unchanged (backward compatible).
+
+| Phase | Work Item | Effort | Depends On | Target |
+|-------|-----------|--------|------------|--------|
+| F-1 | **Compiler: TTL → Bloom + Core Vocab** — Build-time script that reads Fandaws domain TTL files, extracts `rdfs:label`, `skos:altLabel`, `rdf:type`, `rdfs:domain`/`rdfs:range`. Outputs `bloom-filter.bin` (~225KB) and `core-vocabulary.json` (top 2K terms by frequency, ~500KB). | Medium | Fandaws TTL export | Week 1-2 |
+| F-2 | **Async Resolution Layer** — `FandawsResolver` class: Bloom check → LRU cache → IPFS gateway fallback. Returns `{ iri, type, labels[], domain, range }` per term. IndexedDB persistence for Tier B cache. | Medium | F-1 | Week 2-3 |
+| F-3 | **Wire into Entity Extraction** — Bloom-positive terms become span anchors in `TreeEntityExtractor` (same mechanism as CDD locked spans). If Fandaws says "system security assessments" is a known compound term, lock the span. Replaces heuristic NER boundary guessing. | Medium | F-2 | Week 3-4 |
+| F-4 | **Wire into Type Assignment** — `RealWorldEntityFactory` uses resolved HIRI type instead of heuristic `type-mapping`. `denotesType` set from BFO/CCO class. Replaces `@type[0]` bootstrap fallback. | Small | F-2 | Week 3-4 |
+| F-5 | **Wire into Selectional Preferences** — `SelectionalPreferences` module (currently unused) activated with domain/range from resolved class properties. Guides role assignment: if "provide" has range `InformationContentEntity`, "data" gets PatientRole not AgentRole. | Medium | F-4 | Week 4-5 |
+| F-6 | **Wire into `_findTier2ByLabel`** — Resolution pass uses canonical label + altLabels from Fandaws instead of string matching. "data" → `skos:altLabel "data"` on entity with `rdfs:label "Datum"` → exact match. Fixes BC-2/BC-3 label resolution. | Small | F-2 | Week 3 |
+| F-7 | **Domain Manifests** — Compile domain-specific vocab subsets (legal, medical, finance, ~500 terms each). Auto-detect domain from input text, prefetch relevant manifest. | Small | F-1 | Week 5 |
+
+**Expected impact on accuracy:**
+
+| Metric | Before Fandaws | After F-1→F-6 | Why |
+|--------|---------------|---------------|-----|
+| Entity typing | ~70% | ~92% | Lookup replaces heuristic |
+| NER boundary | ~80% | ~90% | Ontology-aware span anchoring |
+| Role F1 | 57.8% | ~72% | Selectional restrictions guide assignment |
+| ISA pass rate | 37.5% | ~78% | Entity + type + role improvements compound |
+| denotesType accuracy | ~60% | ~95% | Direct BFO/CCO class from graph |
+
+**Fandaws requirements (from Aaron):**
+- Export per-domain TTL files with: `rdfs:label`, `skos:altLabel`, `rdf:type` (BFO/CCO class), `rdfs:domain`/`rdfs:range`
+- HIRI content-addressed IRIs per atomized class
+- IPFS gateway endpoint for Tier C resolution
+- Confirmed available ✅
+
+### Tier 3: Ontological Completeness + SMA Continuation
 
 | # | Work Item | Effort | Depends On |
 |---|-----------|--------|------------|
-| 13 | §9.5.5 OWL Restriction Patterns (A-E) | Large | WS-A (stative) |
-| 14 | TypeClassifier module (§3.5) | Medium | — |
-| 15 | p50 latency optimization | Medium | — |
-| 16 | SMA WS-D — Tense-aspect | Medium | WS-C |
-| 17 | SMA WS-E — Deontic-narrative bridge | Medium | WS-B, WS-C |
+| 19 | §9.5.5 OWL Restriction Patterns (A-E) | Large | WS-A (stative) |
+| 20 | TypeClassifier module (§3.5) — **largely replaced by F-4** | Medium | F-4 |
+| 21 | p50 latency optimization | Medium | — |
+| 22 | SMA WS-D — Tense-aspect | Medium | WS-C |
+| 23 | SMA WS-E — Deontic-narrative bridge | Medium | WS-B, WS-C |
 
-### Tier 4: Deferred
+### Tier 4: Deferred (post-85% general)
 
 | # | Work Item | Effort | Depends On |
 |---|-----------|--------|------------|
-| 18 | Phase 5 Fandaws adapter (AC-5.1–5.14) | Large | Role F1 ≥75%, coord ≥90% |
-| 19 | Domain fine-tuning | Large | #18 |
-| 20 | Prefix subordination (V7 arch fix) | Very Large | — |
-| 21 | Relative clause support (V7 arch fix) | Very Large | — |
-| 22 | Mobile performance testing | Medium | Hardware |
+| 24 | Prefix subordination (V7 arch fix) | Very Large | — |
+| 25 | Relative clause support (V7 arch fix) | Very Large | — |
+| 26 | Mobile performance testing | Medium | Hardware |
+| 27 | Legal sign-off follow-up (AC-4.21) | External | — |
 
 ---
 
-## SECTION 8: KEY METRICS DASHBOARD (Updated 2026-03-30)
+## SECTION 8: RELEASE MILESTONES (Updated 2026-03-31)
+
+| Milestone | Target Pass Rate | Work Items | Target Date |
+|-----------|-----------------|------------|-------------|
+| **Alpha.2** | ~65% ISA | BC-2, BC-3, §5.4h NER, §5.4i coreference | +3 weeks (2026-04-21) |
+| **Alpha.3** | ~78% ISA | F-1→F-6 (Fandaws HIRI integration) | +5 weeks (2026-05-05) |
+| **Beta** | ~85% general | F-7 domain manifests + selectional preferences tuning | +7 weeks (2026-05-19) |
+| **Go off script** | ≥85% general | Stakeholders can test arbitrary input | Beta gate |
+
+**Critical path:** Tier 2 (#8, #9, #16, #17) → Tier 2b (F-1→F-6) → Beta
+
+---
+
+## SECTION 9: KEY METRICS DASHBOARD (Updated 2026-03-31)
 
 | Metric | Value | Target | Status |
 |--------|-------|--------|--------|
@@ -888,7 +989,7 @@ The method excludes `acl:relcl`, `acl`, `advcl`, `cop`, `punct`, and `appos` —
 | Bundle tests | 53/53 | All pass | ✅ |
 | Corpus regression | 15/15 | All pass | ✅ |
 | TTL schema | 16/16 | All pass | ✅ |
-| ISA corpus (CMS-DHS) | 15/40 pass (37.5%) | Tier-dependent | ❌ (5 bug clusters, 4 expected) |
+| ISA corpus (CMS-DHS) | 23/40 pass (57.5%) | Tier-dependent | ⚠️ 3/7 tiers at threshold (CMS 90%, Complex 60%, Tier 4) |
 | Bundle size | 10.95 MB | <15 MB | ✅ |
 | p50 latency | 15.95ms | <10ms | ❌ |
 | p95 latency | 27.44ms | <30ms | ✅ |
@@ -927,3 +1028,4 @@ The method excludes `acl:relcl`, `acl`, `advcl`, `cop`, `punct`, and `appos` —
 | 1.0 | 2026-02-20 | Initial comprehensive document |
 | 2.1 | 2026-03-30 | Added §5.4 ISA corpus failures. Updated Tier 1 to DONE, added Tier 1b SMA workstreams. 21 CI suites. |
 | 2.2 | 2026-03-30 | SME review: strict SHACL validator (37.5% pass), 5 bug clusters (BC-1 through BC-5), §5.4e-h added. Ghost act suppression refined to finite-verb check. systemGenerated flag added to ParsingAct. |
+| 3.0 | 2026-03-31 | **Roadmap inversion**: Fandaws HIRI integration reprioritized from Tier 4 to Tier 2b. Three-tier resolution architecture (Bloom + cache + IPFS). 7-phase implementation plan (F-1→F-7). §5.4i coreference added. Release milestones: Alpha.2 (65%), Alpha.3 (78%), Beta (85% general, "go off script" gate). Fandaws replaces dep parser accuracy work as primary path to 85%. |
