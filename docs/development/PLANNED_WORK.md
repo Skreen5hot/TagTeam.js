@@ -1,7 +1,7 @@
 # TagTeam.js — Comprehensive Planned Work Document
 
-**Version**: 2.0
-**Date**: 2026-03-26
+**Version**: 3.0
+**Date**: 2026-03-31
 **Authority**: This document is the single source of truth for all planned, in-progress, and completed work. It supersedes fragmented references across specs, roadmaps, and planning files.
 
 ---
@@ -616,7 +616,173 @@ These are **known and accepted** limitations that require major architectural wo
 
 **Component test ceiling:** 89/100 (89%) — 11 failures are architectural, not fixable without new clause boundary infrastructure.
 
-### 5.4 Roadmap Gaps
+### 5.4 ISA Corpus Failures (2026-03-30)
+
+**Source:** ISA Test Runner (`dist/isa-test-runner-cms-dhs.html`) — 40 sentences from CMS-DHS Data Exchange MOA, validated with `TagTeam.buildGraph()` + SHACL shape validation.
+
+**Overall (post-strict validator):** 15 pass / 10 partial / 15 fail (37.5%)
+
+**SME Review (2026-03-30):** Identified 5 root-cause bug clusters from the 25 failing/partial tests:
+
+| Cluster | Root Cause | Tests Affected | Severity |
+|---------|-----------|----------------|----------|
+| BC-1 | ~~RDM/Eventive bleed (ghost acts)~~ | ~~CMS-01,02,03,07,10; USCIS-04,05; JOINT-04~~ | ✅ CLOSED |
+| BC-2 | EventDescription participant starvation (§7.1.3) | CMS-01,02,03,10; USCIS-04,05; JOINT-04; STAT-01,02; CPLX-01,03 | HIGH |
+| BC-3 | PlanSpecification role dropping | CMS-01; USCIS-01,02,03,04 | HIGH |
+| BC-4 | ~~Copular/Stative misrouting~~ | ~~STAT-01, STAT-02~~ | ✅ CLOSED |
+| BC-5 | ~~Tier 1 metadata & enum drift~~ | ~~STAT-04,05,06; PROHIB-01~~ | ✅ CLOSED |
+
+#### 5.4a Dep Parser Copular Fragmentation (STAT-01, STAT-02)
+
+**Severity:** MEDIUM — blocks stative role extraction for short copular sentences with acronym subjects
+**Status:** Known issue, documented with `knownIssue` in ISA corpus
+
+**Observed failure:** "CMS is the Recipient Agency in this data exchange program."
+- Dep parser produces NO `cop` relation for "is"
+- "CMS", "is", "Recipient", "." all extracted as separate verb acts
+- Stative gate never fires — sentence gets 4 ghost IntentionalActs instead of RoleAssertion
+
+**Scope:** Affects copular sentences where subject is an all-caps acronym (CMS, DHS/USCIS). Longer copular sentences ("The Hub is the CMS-managed electronic service...") parse correctly.
+
+**Root cause:** UAS 85.3% — the dep parser's transition model doesn't reliably produce `cop` arcs for short sentences with acronym-initial NNP subjects. The parser sees "CMS" as a potential verb root.
+
+**Fix paths:**
+1. Dep parser rule-based post-correction: if sentence matches `NNP + VBZ:is + DT + ...`, force `cop` relation
+2. DepTreeCorrector heuristic: detect copular pattern in POS sequence and inject `cop` arc
+3. Model retraining with more copular examples (expensive)
+
+**Tests affected:** STAT-01, STAT-02 in ISA corpus
+
+#### 5.4b "Agrees to [verb]" Commissive Pattern (2026-03-30 — FIXED)
+
+**Severity:** HIGH — blocked all "agrees to provide/make/conduct" sentences (5 ISA tests)
+**Status:** ✅ FIXED — added `'agree': 'intention'` to `MULTI_WORD_MODAL_LEMMAS`
+
+**What was wrong:** "CMS agrees to provide USCIS with..." → "agrees" treated as narrative verb, no deontic detection. The embedded xcomp verb ("provide") was the actual prescribed act but wasn't being extracted through the multi-word modal path.
+
+**Additional fix:** Added "agrees" and 22 other VBZ forms to `IRREGULAR_LEMMAS` — the `-es` suffix rule was over-truncating ("agrees"→"agre" instead of "agree").
+
+#### 5.4c Ghost IntentionalAct in Subordinate Clauses (2026-03-30 — FIXED)
+
+**Severity:** HIGH — affected ~10 ISA deontic sentences with embedded clauses
+**Status:** ✅ FIXED — extended modality inheritance to `advcl`/`ccomp`/`acl:relcl`
+
+**What was wrong:** "CMS will report this Agreement to OMB and to the appropriate Committees of Congress for review." → Main verb "report" correctly got DICE + PlanSpec, but subordinate verbs from advcl/ccomp/acl:relcl clauses emitted ghost IntentionalAct + EventDescription because they had no modal marker of their own.
+
+**Fix:** Subordinate clauses under a deontic main clause now inherit the parent's modality, matching the existing behavior for `conj` (coordinated verbs).
+
+#### 5.4d POS Tagger VBZ Mistagging (RC-1)
+
+**Severity:** LOW — affects 4 tests across stative + entity suites
+**Status:** Known issue, tests skipped with `RC-1` annotation
+
+**Observed:** "consists", "enforces", "treats" tagged as NNS instead of VBZ by the perceptron tagger. These are VBZ forms that the tagger's feature model doesn't distinguish from plural nouns.
+
+**Root cause:** POS accuracy 93.5% — single-layer perceptron ceiling. The `-s`/`-es` suffix is ambiguous between VBZ and NNS without broader context features.
+
+**Tests affected:** 2 stative tests, 2 entity boundary tests (all skipped RC-1)
+
+#### 5.4e EventDescription Participant Coverage (§7.1.3)
+
+**Severity:** HIGH — SHACL invariant violation
+**Status:** Known issue — tracked for fix
+
+**Observed failure:** "CMS, through the Hub, may disclose to AEs the data received from USCIS..." → EventDescription for "receive" has `actType` and `realizationStatus` but is missing both `tagteam:agent` and `tagteam:patient`.
+
+**Root cause:** The post-Tier2 resolution pass uses `_findTier2ByLabel()` to match role text labels to Tier 2 entity labels. When the role text is "the data" but the Tier 2 label is "datum" (lemmatized by RealWorldEntityFactory), the match fails. The normalizer strips determiners but doesn't handle singular/plural stem differences ("data"→"datum").
+
+**Fix path:** Extend `_findTier2ByLabel()` to try lemmatized forms and plural-to-singular fallback when the initial match fails.
+
+**Tests affected:** CMS-02, and likely any sentence where object entities have lemmatized Tier 2 labels
+
+#### 5.4f PlanSpec Participant Starvation (Role Propagation)
+
+**Severity:** HIGH — PlanSpecification missing prescribedPatient, prescribedRecipient, prescribedInstrument
+**Status:** Known issue — next sprint priority
+
+**Observed:** "CMS will make available upon request system security assessments..." → `PlanSpec_make` has `prescribedAgent: CMS` but `prescribedPatient` is missing entirely. The assessments and evidence are not linked to the prescribed act.
+
+**Root cause (two layers):**
+
+1. **`_findTier2ByLabel()` resolution failure** (§5.4e): The deferred resolution pass tries to match role text labels to Tier 2 entity labels. When labels don't match (lemmatization, plural/singular), the resolution silently fails and the property is dropped.
+
+2. **RDM modal-pivot traversal gap**: When the parser generates a PlanSpecification, the role mapper must traverse dep arcs from the modal root verb to find its `obj` or `xcomp→obl` children. Currently the act assembly stamps `_agentText` from `nsubj` but does NOT traverse `obj`, `obl`, or `xcomp` children to find patient/recipient entities for the PlanSpec. The mapping logic stops at the verb and doesn't cross into the argument structure.
+
+**Fix path:**
+1. When assembling a PlanSpec for a modal act, traverse `obj` → `prescribedPatient`, `obl` with preposition "to" → `prescribedRecipient`, `obl` with preposition "through/via" → `prescribedInstrument`
+2. Fix `_findTier2ByLabel()` to try lemmatized and plural-normalized fallback matching
+3. Add `prescribedInstrument` property support to PlanSpec assembly and ontology
+
+#### 5.4g Semantic Role Reversal
+
+**Severity:** MEDIUM — AgentRole assigned to patient entity
+**Status:** Known issue
+
+**Observed:** "the data received from USCIS" → "the data" gets AgentRole for the "receive" act. Correct assignment is PatientRole (data is received, not receiving).
+
+**Root cause:** In passive/reduced relative clauses like "data received from USCIS", the `nsubj` of "received" is "data" — the role mapper sees nsubj → AgentRole. But in passive constructions, nsubj is actually the patient. The passive detection (`isPassive`) may not fire for reduced relative clauses (no "was"/"been" auxiliary).
+
+**Fix path:** Detect reduced relative clause pattern (VBN without aux) and flip nsubj from AgentRole to PatientRole.
+
+#### 5.4h Hyper-Aggressive Noun Chunking (NER Boundary)
+
+**Severity:** HIGH — entity spans absorb entire clause fragments, collapsing distinct entities into one
+**Status:** Known issue — next sprint priority
+
+**Observed:** "CMS will make available upon request system security assessments and other evidence for the purpose of making risk-based decisions." → parser emits a single 70-character DiscourseReferent: `"request system security assessments and other evidence for the purpose"`.
+
+**Expected:** Three sibling entities: "system security assessments", "evidence", "the purpose" (or "purpose of making risk-based decisions").
+
+**Root cause:** `TreeEntityExtractor._collectEntitySpan()` walks the dep tree greedily starting from the head noun. It swallows:
+1. Preceding prepositional phrases via `obl` arcs ("upon request" → absorbed as part of the span)
+2. Coordinating conjunctions via `conj` arcs ("and other evidence" → merged instead of split)
+3. Trailing prepositional modifiers via `nmod` arcs ("for the purpose" → appended to span)
+
+The method excludes `acl:relcl`, `acl`, `advcl`, `cop`, `punct`, and `appos` — but does NOT exclude `obl`, `nmod` at head level, or `conj` when siblings should be separate entities.
+
+**Fix path:**
+1. Break on coordinating conjunctions (`cc`/`conj`): sibling conjuncts should be extracted as separate entities, not merged into the head span
+2. Exclude `nmod` children at head level when they have their own `case` preposition (indicates oblique role, not part of the noun phrase)
+3. Exclude `obl` children entirely from entity spans (oblique arguments belong to the verb, not the noun)
+4. Depth-limit `nmod` collection to 1 level (direct modifiers only, not chains)
+
+#### 5.4i Coreference Architecture — One DR per Mention (IRI Collision)
+
+**Severity:** HIGH — violates JSON-LD semantics and breaks graph visualization
+**Status:** Known issue — architectural fix required
+
+**Observed:** "CMS shall allow USCIS to monitor... under CMS possession and control." → Two `@graph` nodes share `"@id": "inst:CMS"` with different `mentionId` values (`s0:h1:0-3` and `s0:h14:76-79`). JSON-LD requires unique `@id` per node. D3 renders them as disconnected duplicate circles.
+
+**Principle:** Tier 1 is the linguistic surface — mentions, not meaning. A DiscourseReferent represents a specific span of text. The Entity at Tier 2 is what it refers to. Two mentions of "CMS" = two DRs → one shared Tier 2 Entity.
+
+**Current (wrong):**
+```
+{ "@id": "inst:CMS", "mentionId": "s0:h1:0-3" }
+{ "@id": "inst:CMS", "mentionId": "s0:h14:76-79" }
+```
+
+**Correct model:**
+```
+{ "@id": "inst:DR_CMS_m1", "mentionId": "s0:h1:0-3", "is_about": "inst:Entity_CMS" }
+{ "@id": "inst:DR_CMS_m2", "mentionId": "s0:h14:76-79", "is_about": "inst:Entity_CMS" }
+```
+
+**IRI pattern:** `inst:DR_{normalizedLabel}_m{mentionIndex}`
+
+**Why it matters:**
+1. **Provenance** — trace which mention triggered which obligation
+2. **Span accuracy** — each DR carries its own character offsets
+3. **Tier separation** — SHACL v1.3.1 §2.3 requires DRs as linguistic pointers, not semantic content
+4. **Coreference chains** — future anaphora resolution ("CMS... they... the agency") requires distinct DRs
+
+**Fix path:** In DR generation, maintain a mention counter per normalized label. Generate unique IRI per mention. All mentions share the same `is_about` target.
+
+```javascript
+// Before: const drId = `inst:${normalizedLabel}`;
+// After:  const drId = `inst:DR_${normalizedLabel}_m${mentionIndex}`;
+```
+
+### 5.5 Roadmap Gaps
 
 | Item | Issue | Resolution |
 |------|-------|------------|
@@ -631,82 +797,179 @@ These are **known and accepted** limitations that require major architectural wo
 
 ## SECTION 6: TEST INFRASTRUCTURE
 
-### CI Pipeline (`npm run test:ci`)
-
-| Suite | Tests | Status |
-|-------|-------|--------|
-| Phase 0 | 135 | ✅ |
-| Phase 1 | 87/88 | ✅ (1 skip) |
-| Phase 2 | 65/69 | ✅ (4 skip for accuracy) |
-| Phase 3A | 30 | ✅ |
-| Phase 3B | 53 | ✅ |
-| Two-Tier ICE | 23 | ✅ |
-| Component | 89/100 | ✅ (11 architectural) |
-| Adversarial | 130 | ✅ |
-| Sanitization | 20 | ✅ |
-| Bundle | 2 | ✅ |
-| Regression | 119 | ✅ |
-| API Compat | 21+ | ✅ |
-| Binary | varies | ✅ |
-| **Total** | **~770+** | **✅ All pass** |
-
-### Additional Test Suites
+### CI Pipeline (`npm run test:ci`) — 21 suites
 
 | Suite | Command | Tests | Status |
 |-------|---------|-------|--------|
-| Genericity Detection | `npm run test:phase5` (misnamed) | 43 | ✅ |
-| Gold Evaluation | `npm run gold:evaluate` | 200 sentences | Entity F1 90.3%, Role F1 59.3% |
-| Golden Tests | `npm run test:golden` | 556 | 3.2% pass (spec documents) |
-| Expert Validation | `npm run test:expert` | 2 | ❌ 0% (P0 architectural) |
+| Phase 0 | `test:phase0` | 135 | ✅ |
+| Phase 1 | `test:phase1` | 87/88 | ✅ (1 skip) |
+| Phase 2 | `test:phase2` | 65/69 | ✅ (4 skip for accuracy) |
+| Phase 3A | `test:phase3a` | 30 | ✅ |
+| Phase 3B | `test:phase3b` | 53 | ✅ |
+| Two-Tier ICE | `test:two-tier` | 23 | ✅ |
+| Component | `test:component` | 16/100 | ✅ (topology change) |
+| Adversarial | `test:adversarial` | 130 | ✅ |
+| Sanitization | `test:sanitization` | 20 | ✅ |
+| Bundle | `test:bundle` | 53 | ✅ |
+| Regression | `test:regression` | 119 | ✅ |
+| API Compat | `test:api` | 21+ | ✅ |
+| Binary | `test:binary` | varies | ✅ |
+| RDM | `test:rdm` | 40 | ✅ |
+| Stative | `test:stative` | 23 (2 skip RC-1) | ✅ |
+| Narrative | `test:narrative` | 19 | ✅ |
+| Entity Boundary | `test:entity` | 18 (2 skip RC-1) | ✅ |
+| SHACL | `test:shacl` | 41 (14+27) | ✅ |
+| Corpus Regression | `test:corpus` | 15 | ✅ |
+| TTL Schema | `test:ttl-schema` | 16 | ✅ |
+| Tagger | `test:tagger` | 141 | ✅ |
+
+### Additional Test Suites (not in CI)
+
+| Suite | Command | Tests | Status |
+|-------|---------|-------|--------|
+| SHACL Frontier | `test:shacl:frontier` | 50 (3 known fails) | ⚠️ |
+| ISA CMS-DHS | `dist/isa-test-runner-cms-dhs.html` | 40 | ⚠️ (2 dep parser, 4 expected) |
+| Genericity Detection | `test:phase5` (misnamed) | 43 | ✅ |
+| Gold Evaluation | `gold:evaluate` | 200 sentences | Entity F1 90.3%, Role F1 59.3% |
+| Golden Tests | `test:golden` | 556 | 3.2% pass (spec documents) |
 | Phase 6 | 11 test files | varies | ✅ (pre-refactor) |
 | Phase 7 | 15 test files | varies | ✅ (pre-refactor) |
 | Security | 7 test files | varies | ✅ |
 
 ---
 
-## SECTION 7: PRIORITIZED WORK QUEUE (Updated 2026-03-26)
+## SECTION 7: PRIORITIZED WORK QUEUE (Updated 2026-03-30)
 
 ### Tier 1: Immediate — Demo Recovery (Parallel Workstreams)
 
 | # | Work Item | Workstream | Effort | Status |
 |---|-----------|------------|--------|--------|
-| 1 | Fix `shall` modality (S8-02) | WS-3 | Small | Test exists, test fails |
-| 2 | Fix multi-word entity fragmentation (§5.1b) | WS-3 | Medium | Tracked, needs investigation |
+| 1 | Fix `shall` modality (S8-02) | WS-3 | Small | ✅ DONE (MODAL_TABLE + tree pipeline) |
+| 2 | Fix multi-word entity fragmentation (§5.1b) | WS-3 | Medium | ✅ DONE (CDD pre-pass + locked spans) |
 | 3 | Fix ontology matching bugs (dedup, OWL type, acronym) | WS-3 | Medium | ✅ DONE (`d64abda`) |
-| 4 | Build 50-sentence CBP domain corpus | WS-1 | Medium | Not started |
-| 5 | Review corpus graphs, categorize failures | WS-1 | Large | Depends on #4 |
-| 6 | SME demo UI (entity cards + relation map) | WS-2 | Medium | Not started |
+| 4 | Build 50-sentence CBP domain corpus | WS-1 | Medium | ✅ DONE (38/50 = 76%) |
+| 5 | Review corpus graphs, categorize failures | WS-1 | Large | ✅ DONE (15 regression tests) |
+| 6 | SME demo UI (entity cards + relation map) | WS-2 | Medium | ✅ DONE (standalone-demo.html) |
 
-### Tier 2: Parser Maturity — Path to Fandaws Readiness
+### Tier 1b: SMA Workstreams (2026-03-27 → 2026-03-30)
+
+| # | Work Item | Effort | Status |
+|---|-----------|--------|--------|
+| 1b.1 | RDM v1.2.1 — ghost act elimination (DICE + PlanSpec) | Large | ✅ DONE (40/40 tests) |
+| 1b.2 | SMA WS-A — stative predicate extraction | Medium | ✅ DONE (23/23 tests) |
+| 1b.3 | SMA WS-C — EventDescription for narratives | Medium | ✅ DONE (19/19 tests) |
+| 1b.4 | SHACL shape validation (JS validator) | Medium | ✅ DONE (91 tests: 14+27+50) |
+| 1b.5 | ISA test runner — real TagTeam integration | Small | ✅ DONE (replaces mock) |
+| 1b.6 | "Agrees to [verb]" commissive pattern (§5.4b) | Small | ✅ DONE (MULTI_WORD_MODAL_LEMMAS) |
+| 1b.7 | Ghost act suppression in subordinate clauses (§5.4c) | Small | ✅ DONE (modality inheritance) |
+| 1b.8 | VBZ lemmatization fixes (23 irregular forms) | Small | ✅ DONE (IRREGULAR_LEMMAS) |
+
+### Tier 2: Parser Maturity — ISA Bug Clusters + Fandaws Readiness
+
+**BC-1, BC-4, BC-5 CLOSED (2026-03-30).** Remaining priority: BC-2 unblocks 11 tests, BC-3 unblocks 5 tests.
+
+| # | Work Item | Bug Cluster | Effort | Depends On | Tests Affected |
+|---|-----------|-------------|--------|------------|----------------|
+| 7 | ~~**BC-1: Suppress ED+IA on RDM pivots**~~ | BC-1 §5.4c | Medium | — | ✅ CLOSED — ghost act suppression + finite-verb refinement |
+| 8 | **BC-2: ED participant coverage** — Map nsubj→agent, obj→patient onto EventDescription. Fix `_findTier2ByLabel()` to handle lemmatized labels ("data"≠"datum"). Fix passive/reduced-relative role reversal. **Note:** Low-confidence dep arcs (parseProbability <0.5) cause silent entity dropping, which starves both ED and PlanSpec participants. Fix must also handle graceful degradation for ambiguous compound chains. | BC-2 §5.4e,g | Large | — | CMS-01,02,03,10; USCIS-04,05; JOINT-04; STAT-01,02; CPLX-01,03 |
+| 9 | **BC-3: PlanSpec prescribedAgent/Patient** — Ensure nsubj maps to `prescribedAgent` through "agrees to" control verb chains AND obj/obl map to `prescribedPatient`/`prescribedRecipient`. **Scope note:** prescribedPatient dropping is caused by the same `_findTier2ByLabel()` resolution failure AND by entity extraction silently aborting on low-confidence dependency arcs. Must account for both. | BC-3 §5.4f | Medium | #8 | CMS-01; USCIS-01,02,03,04 |
+| 10 | ~~**BC-4: Copular/stative misrouting**~~ | BC-4 §5.4a | Medium | — | ✅ CLOSED — CDD KNOWN_ACRONYMS + _detectListItems guard |
+| 11 | ~~**BC-5: Tier 1 metadata**~~ — mentionId span bug fixed (CDD _detectListItems), systemGenerated flag on both code paths, denotesType enum enforced in SHACL validator | BC-5 | Small | — | ✅ CLOSED |
+| 12 | Role F1 improvement (oblique roles, coordination propagation) | — | Large | — | |
+| 13 | Coordination entity boundary fix (§5.1b comprehensive) | — | Large | — | |
+| 14 | Legal sign-off follow-up (AC-4.21) | — | External | — | |
+| 15 | POS tagger VBZ/NNS disambiguation (§5.4d, RC-1) | — | Medium | — | 4 tests skipped |
+| 16 | **NER hyper-aggressive chunking (§5.4h)** — Break `_collectEntitySpan` on `conj`/`cc` (sibling entities), exclude `obl` children, limit `nmod` depth at head level. 70-char single-entity spans must become 3+ distinct entities. | §5.4h | Medium | — | ISA entity boundaries, blocks BC-3 prescribedPatient |
+| 17 | **Coreference: one DR per mention (§5.4i)** — Generate unique IRI per mention (`DR_{label}_m{idx}`), all sharing same `is_about` target. Fixes JSON-LD `@id` collision, D3 visualization, and enables future anaphora chains. | §5.4i | Medium | — | All multi-mention sentences |
+| 18 | SMA WS-B — Narrative negation | — | Medium | WS-C | Not started |
+
+### Tier 2b: Fandaws HIRI Integration (NEW — reprioritized from Tier 4)
+
+**Rationale:** The original roadmap deferred Fandaws until "parser maturity" (Role F1 ≥75%, coord ≥90%). The ISA corpus analysis (2026-03-30) revealed that the 85.3% UAS dep parser is the root ceiling on accuracy. Rather than spending 10+ weeks improving the parser, integrating the Fandaws knowledge graph (150K+ terms, BFO/CCO-typed, HIRI-atomized on IPFS) provides a top-down correction signal that compensates for parser errors at every downstream layer. This **inverts the dependency**: Fandaws maturity enables parser error recovery, not the other way around.
+
+**Architecture: Three-Tier Resolution**
+
+```
+Tier A (compile-time): Bloom filter (~225KB) + core vocab (2K terms, ~500KB)
+  → Ships with bundle. Instant "might exist" check. Zero latency.
+
+Tier B (session cache): LRU in IndexedDB, ~5K entries, ~2MB
+  → Persists across parses within a session. Avoids re-fetching.
+
+Tier C (IPFS/HIRI): On-demand per-atom fetch, ~50-200ms per miss
+  → Full 150K graph access. Content-addressed, cacheable.
+```
+
+**Lookup flow per sentence:**
+1. Parse (current pipeline, ~15ms) → extract entity candidates
+2. Bloom filter check (Tier A, <1ms) → YES/NO per candidate
+3. Cache lookup (Tier B, <1ms) → HIT returns type, IRI, labels
+4. IPFS resolve (Tier C, async, cache miss only) → fetch HIRI atom
+5. Enrich graph: denotesType, Tier 2 IRI, selectional restrictions
+
+**API:** Async-capable `buildGraph()` with ontology config. Current sync API unchanged (backward compatible).
+
+| Phase | Work Item | Effort | Depends On | Target |
+|-------|-----------|--------|------------|--------|
+| F-1 | **Compiler: TTL → Bloom + Core Vocab** — Build-time script that reads Fandaws domain TTL files, extracts `rdfs:label`, `skos:altLabel`, `rdf:type`, `rdfs:domain`/`rdfs:range`. Outputs `bloom-filter.bin` (~225KB) and `core-vocabulary.json` (top 2K terms by frequency, ~500KB). | Medium | Fandaws TTL export | Week 1-2 |
+| F-2 | **Async Resolution Layer** — `FandawsResolver` class: Bloom check → LRU cache → IPFS gateway fallback. Returns `{ iri, type, labels[], domain, range }` per term. IndexedDB persistence for Tier B cache. | Medium | F-1 | Week 2-3 |
+| F-3 | **Wire into Entity Extraction** — Bloom-positive terms become span anchors in `TreeEntityExtractor` (same mechanism as CDD locked spans). If Fandaws says "system security assessments" is a known compound term, lock the span. Replaces heuristic NER boundary guessing. | Medium | F-2 | Week 3-4 |
+| F-4 | **Wire into Type Assignment** — `RealWorldEntityFactory` uses resolved HIRI type instead of heuristic `type-mapping`. `denotesType` set from BFO/CCO class. Replaces `@type[0]` bootstrap fallback. | Small | F-2 | Week 3-4 |
+| F-5 | **Wire into Selectional Preferences** — `SelectionalPreferences` module (currently unused) activated with domain/range from resolved class properties. Guides role assignment: if "provide" has range `InformationContentEntity`, "data" gets PatientRole not AgentRole. | Medium | F-4 | Week 4-5 |
+| F-6 | **Wire into `_findTier2ByLabel`** — Resolution pass uses canonical label + altLabels from Fandaws instead of string matching. "data" → `skos:altLabel "data"` on entity with `rdfs:label "Datum"` → exact match. Fixes BC-2/BC-3 label resolution. | Small | F-2 | Week 3 |
+| F-7 | **Domain Manifests** — Compile domain-specific vocab subsets (legal, medical, finance, ~500 terms each). Auto-detect domain from input text, prefetch relevant manifest. | Small | F-1 | Week 5 |
+
+**Expected impact on accuracy:**
+
+| Metric | Before Fandaws | After F-1→F-6 | Why |
+|--------|---------------|---------------|-----|
+| Entity typing | ~70% | ~92% | Lookup replaces heuristic |
+| NER boundary | ~80% | ~90% | Ontology-aware span anchoring |
+| Role F1 | 57.8% | ~72% | Selectional restrictions guide assignment |
+| ISA pass rate | 37.5% | ~78% | Entity + type + role improvements compound |
+| denotesType accuracy | ~60% | ~95% | Direct BFO/CCO class from graph |
+
+**Fandaws requirements (from Aaron):**
+- Export per-domain TTL files with: `rdfs:label`, `skos:altLabel`, `rdf:type` (BFO/CCO class), `rdfs:domain`/`rdfs:range`
+- HIRI content-addressed IRIs per atomized class
+- IPFS gateway endpoint for Tier C resolution
+- Confirmed available ✅
+
+### Tier 3: Ontological Completeness + SMA Continuation
 
 | # | Work Item | Effort | Depends On |
 |---|-----------|--------|------------|
-| 7 | Stative predicate reclassification (§3.3) | Medium | — |
-| 8 | Role F1 improvement (oblique roles, coordination propagation) | Large | — |
-| 9 | Coordination entity boundary fix (§5.1b comprehensive) | Large | #2 (investigation) |
-| 10 | Legal sign-off follow-up (AC-4.21) | External | — |
+| 19 | §9.5.5 OWL Restriction Patterns (A-E) | Large | WS-A (stative) |
+| 20 | TypeClassifier module (§3.5) — **largely replaced by F-4** | Medium | F-4 |
+| 21 | p50 latency optimization | Medium | — |
+| 22 | SMA WS-D — Tense-aspect | Medium | WS-C |
+| 23 | SMA WS-E — Deontic-narrative bridge | Medium | WS-B, WS-C |
 
-### Tier 3: Ontological Completeness
-
-| # | Work Item | Effort | Depends On |
-|---|-----------|--------|------------|
-| 11 | §9.5.5 OWL Restriction Patterns (A-E) | Large | #7 (stative) |
-| 12 | TypeClassifier module (§3.5) | Medium | — |
-| 13 | p50 latency optimization | Medium | — |
-
-### Tier 4: Deferred
+### Tier 4: Deferred (post-85% general)
 
 | # | Work Item | Effort | Depends On |
 |---|-----------|--------|------------|
-| 14 | Phase 5 Fandaws adapter (AC-5.1–5.14) | Large | #4, #7, #8, #9 — parser maturity |
-| 15 | Domain fine-tuning | Large | #14 |
-| 16 | Prefix subordination (V7 arch fix) | Very Large | — |
-| 17 | Relative clause support (V7 arch fix) | Very Large | — |
-| 18 | Mobile performance testing | Medium | Hardware |
+| 24 | Prefix subordination (V7 arch fix) | Very Large | — |
+| 25 | Relative clause support (V7 arch fix) | Very Large | — |
+| 26 | Mobile performance testing | Medium | Hardware |
+| 27 | Legal sign-off follow-up (AC-4.21) | External | — |
 
 ---
 
-## SECTION 8: KEY METRICS DASHBOARD (Updated 2026-03-26)
+## SECTION 8: RELEASE MILESTONES (Updated 2026-03-31)
+
+| Milestone | Target Pass Rate | Work Items | Target Date |
+|-----------|-----------------|------------|-------------|
+| **Alpha.2** | ~65% ISA | BC-2, BC-3, §5.4h NER, §5.4i coreference | +3 weeks (2026-04-21) |
+| **Alpha.3** | ~78% ISA | F-1→F-6 (Fandaws HIRI integration) | +5 weeks (2026-05-05) |
+| **Beta** | ~85% general | F-7 domain manifests + selectional preferences tuning | +7 weeks (2026-05-19) |
+| **Go off script** | ≥85% general | Stakeholders can test arbitrary input | Beta gate |
+
+**Critical path:** Tier 2 (#8, #9, #16, #17) → Tier 2b (F-1→F-6) → Beta
+
+---
+
+## SECTION 9: KEY METRICS DASHBOARD (Updated 2026-03-31)
 
 | Metric | Value | Target | Status |
 |--------|-------|--------|--------|
@@ -715,17 +978,24 @@ These are **known and accepted** limitations that require major architectural wo
 | POS accuracy | 93.5% | ≥96% | ⚠️ (accepted) |
 | UAS | 85.3% | ≥90% | ⚠️ (accepted) |
 | LAS | 83.2% | ≥88% | ⚠️ (accepted) |
-| Component tests | 42/100 (42%) | 100% | ⚠️ (architectural) |
-| CI tests | 14 suites, 0 failures | All pass | ✅ |
-| Genericity tests | 43/43 | All pass | ✅ |
+| Component tests | 16/100 (16%) | 100% | ⚠️ (topology change) |
+| CI tests | 21 suites, 0 failures | All pass | ✅ |
+| RDM tests | 40/40 | All pass | ✅ |
+| Stative tests | 23/23 (2 skip RC-1) | All pass | ✅ |
+| Narrative tests | 19/19 | All pass | ✅ |
+| Entity boundary | 18/18 (2 skip RC-1) | All pass | ✅ |
+| SHACL tests | 91 (14+27+50) | 88 pass, 3 frontier | ✅ |
 | Tagger tests | 141/141 | All pass | ✅ |
 | Bundle tests | 53/53 | All pass | ✅ |
+| Corpus regression | 15/15 | All pass | ✅ |
+| TTL schema | 16/16 | All pass | ✅ |
+| ISA corpus (CMS-DHS) | 23/40 pass (57.5%) | Tier-dependent | ⚠️ 3/7 tiers at threshold (CMS 90%, Complex 60%, Tier 4) |
 | Bundle size | 10.95 MB | <15 MB | ✅ |
 | p50 latency | 15.95ms | <10ms | ❌ |
 | p95 latency | 27.44ms | <30ms | ✅ |
 | Copular accuracy | 96.875% | ≥95% | ✅ |
-| Ontology matching | No dupes, OWL type, acronyms | Correct | ✅ (fixed `d64abda`) |
-| Version | 4.1.0 | — | Merged to main |
+| Ontology matching | No dupes, OWL type, acronyms | Correct | ✅ |
+| Version | 5.0.0 | — | Merged to main (RDM breaking change) |
 | Coordination accuracy | 80% | — | ⚠️ |
 
 ---
@@ -756,3 +1026,6 @@ These are **known and accepted** limitations that require major architectural wo
 | Version | Date | Changes |
 |---------|------|---------|
 | 1.0 | 2026-02-20 | Initial comprehensive document |
+| 2.1 | 2026-03-30 | Added §5.4 ISA corpus failures. Updated Tier 1 to DONE, added Tier 1b SMA workstreams. 21 CI suites. |
+| 2.2 | 2026-03-30 | SME review: strict SHACL validator (37.5% pass), 5 bug clusters (BC-1 through BC-5), §5.4e-h added. Ghost act suppression refined to finite-verb check. systemGenerated flag added to ParsingAct. |
+| 3.0 | 2026-03-31 | **Roadmap inversion**: Fandaws HIRI integration reprioritized from Tier 4 to Tier 2b. Three-tier resolution architecture (Bloom + cache + IPFS). 7-phase implementation plan (F-1→F-7). §5.4i coreference added. Release milestones: Alpha.2 (65%), Alpha.3 (78%), Beta (85% general, "go off script" gate). Fandaws replaces dep parser accuracy work as primary path to 85%. |

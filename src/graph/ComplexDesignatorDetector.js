@@ -41,7 +41,10 @@ const KNOWN_ACRONYMS = new Set([
   'AIDS', 'HIV', 'NATO', 'UNESCO', 'UNICEF', 'NASA', 'WHO',
   'OECD', 'ICSID', 'UNAIDS', 'IMF', 'WTO', 'EU', 'UN', 'OPEC',
   'ASEAN', 'NAFTA', 'FBI', 'CIA', 'NSA', 'IRS', 'EPA', 'CDC',
-  'NIH', 'HHS', 'DOJ', 'DOD', 'DOS', 'DOE', 'USAID'
+  'NIH', 'HHS', 'DOJ', 'DOD', 'DOS', 'DOE', 'USAID',
+  'CMS', 'DHS', 'USCIS', 'SAVE', 'AE', 'AEs', 'OMB', 'FIPS',
+  'CBP', 'ICE', 'TSA', 'FEMA', 'CISA', 'FLETC', 'GAO', 'OIG',
+  'PPACA', 'CFR', 'USC', 'OMB'
 ]);
 
 /**
@@ -399,12 +402,18 @@ class ComplexDesignatorDetector {
     // Then check each item for capitalized sequences
     const items = [];
 
+    // Only run list detection if the text actually contains list separators
+    if (!text.includes(',')) return items;
+
     // Pattern: items separated by ", " with optional "and " before last
     // Remove leading "the " from the whole text first
     const cleanText = text.replace(/^the\s+/i, '');
 
     // Split on list separators
     const parts = cleanText.split(/,\s*(?:and\s+)?|,\s+/);
+
+    // Don't treat a single unsplit chunk as a "list item"
+    if (parts.length < 2) return items;
 
     for (const part of parts) {
       const trimmed = part.replace(/^(?:the\s+|and\s+)/i, '').trim();
@@ -415,11 +424,11 @@ class ComplexDesignatorDetector {
       if (tokens.length > 0 && tokens.some(t => this._isCapitalizedOrAcronym(t))) {
         const span = this._consumeComplexDesignator(tokens, 0);
         if (span) {
-          // Adjust positions relative to original text
+          // Adjust positions relative to original text using the span's own char offsets
           const idx = text.indexOf(trimmed);
           if (idx >= 0) {
-            span.start = idx;
-            span.end = idx + trimmed.length;
+            span.start = idx + span.start;
+            span.end = idx + span.end;
           }
           items.push(span);
         }

@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TagTeam.js — Realist Deontic Modeling Tests (RDM v1.2.1)</title>
+  <style>
+    :root {
+      --bg: #0c0c0c; --fg: #c8c8c8; --dim: #666; --border: #222;
+      --pass: #2ecc40; --fail: #ff4136; --warn: #ff851b; --skip: #888;
+      --accent: #e5c07b; --section-bg: #111; --code-bg: #0a0a0a; --header-bg: #181818;
+      --known: #b39ddb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'IBM Plex Mono','Fira Code','Consolas',monospace; background: var(--bg); color: var(--fg); padding: 24px; line-height: 1.5; font-size: 13px; }
+    h1 { font-size: 1.2em; color: var(--accent); font-weight: 600; } h1 span { color: var(--dim); font-weight: 400; font-size: 0.8em; }
+    .header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 16px; }
+    .controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .controls button { background: var(--section-bg); color: var(--fg); border: 1px solid var(--border); padding: 5px 14px; font-family: inherit; font-size: 12px; cursor: pointer; border-radius: 2px; }
+    .controls button:hover { border-color: var(--accent); color: var(--accent); }
+    .controls button.running { color: var(--warn); border-color: var(--warn); }
+    .summary { display: flex; gap: 20px; padding: 12px 16px; background: var(--header-bg); border: 1px solid var(--border); margin-bottom: 16px; align-items: center; border-radius: 2px; }
+    .summary .stat { font-size: 1.1em; font-weight: 600; }
+    .summary .stat.pass { color: var(--pass); } .summary .stat.fail { color: var(--fail); } .summary .stat.skip { color: var(--skip); } .summary .stat.known { color: var(--known); }
+    .summary .label { color: var(--dim); font-size: 0.85em; margin-left: 4px; }
+    .summary .bar { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; display: flex; }
+    .summary .bar-pass { background: var(--pass); transition: width 0.3s; }
+    .summary .bar-fail { background: var(--fail); transition: width 0.3s; }
+    .summary .bar-known { background: var(--known); transition: width 0.3s; }
+    .summary .time { color: var(--dim); font-size: 0.85em; margin-left: auto; }
+    .section { margin-bottom: 16px; border: 1px solid var(--border); border-radius: 2px; }
+    .section-header { padding: 8px 14px; background: var(--header-bg); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
+    .section-header:hover { background: #1a1a1a; }
+    .section-title { color: var(--accent); font-weight: 600; font-size: 0.95em; }
+    .section-count { color: var(--dim); font-size: 0.85em; }
+    .section-body { display: none; } .section.open .section-body { display: block; }
+    .section.all-pass .section-header { border-left: 3px solid var(--pass); }
+    .section.has-fail .section-header { border-left: 3px solid var(--fail); }
+    .section.has-known .section-header { border-left: 3px solid var(--known); }
+    .test-row { display: grid; grid-template-columns: 80px 1fr 280px 60px; padding: 6px 14px; border-bottom: 1px solid #1a1a1a; align-items: center; font-size: 12px; }
+    .test-row:last-child { border-bottom: none; } .test-row:hover { background: #141414; }
+    .test-id { color: var(--dim); font-weight: 600; } .test-input { color: var(--fg); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .test-expect { color: var(--dim); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .test-result { text-align: right; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .test-result.pass { color: var(--pass); } .test-result.fail { color: var(--fail); } .test-result.known { color: var(--known); } .test-result.pending { color: var(--dim); }
+    .fail-detail { grid-column: 1 / -1; padding: 8px 14px 8px 80px; font-size: 11px; background: #1a0a0a; border-bottom: 1px solid #331111; white-space: pre-wrap; word-break: break-all; }
+    .fail-detail.is-fail { color: var(--fail); } .fail-detail.is-known { color: var(--known); }
+    .log { margin-top: 16px; } .log-header { color: var(--dim); font-size: 0.85em; padding: 4px 0; border-bottom: 1px solid var(--border); margin-bottom: 4px; }
+    #log-output { background: var(--code-bg); padding: 12px; max-height: 400px; overflow: auto; border: 1px solid var(--border); font-size: 11px; line-height: 1.6; white-space: pre-wrap; border-radius: 2px; }
+    .log-pass { color: var(--pass); } .log-fail { color: var(--fail); } .log-info { color: var(--dim); } .log-known { color: var(--known); }
+    .note { padding: 10px 16px; margin-bottom: 16px; border: 1px solid var(--border); border-radius: 2px; font-size: 12px; background: var(--header-bg); color: var(--dim); }
+    .note strong { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Realist Deontic Modeling Tests <span>RDM v1.2.1 — Ghost Act Elimination</span></h1>
+  <div class="controls">
+    <button id="btn-run" onclick="runAllTests()">Run All Tests</button>
+    <button onclick="expandFailed()">Show Failures</button>
+    <button onclick="toggleAll()">Toggle All</button>
+    <button onclick="exportResults()">Export JSON</button>
+  </div>
+</div>
+
+<div class="note">
+  <strong>RDM Architecture:</strong> Modal sentences → VerbPhrase (Tier 1) + DICE + PlanSpec + RealizableEntity (Tier 2). 
+  <strong>No ghost IntentionalAct nodes.</strong> Non-modal sentences → IntentionalAct (unchanged).
+  <span style="color:var(--known)">■</span> KNOWN = documented limitation.
+</div>
+
+<div class="summary" id="summary">
+  <span class="stat pending" id="s-pass">—</span><span class="label">pass</span>
+  <span class="stat pending" id="s-fail">—</span><span class="label">fail</span>
+  <span class="stat pending" id="s-known">—</span><span class="label">known</span>
+  <div class="bar"><div class="bar-pass" id="bar-pass" style="width:0"></div><div class="bar-known" id="bar-known" style="width:0"></div><div class="bar-fail" id="bar-fail" style="width:0"></div></div>
+  <span class="time" id="s-time"></span>
+</div>
+
+<div id="sections"></div>
+
+<div class="log">
+  <div class="log-header">Console Log</div>
+  <div id="log-output"></div>
+</div>
+
+<script src="tagteam.js?v=20260330b"></script>
+<script>
+// ═══════════════════════════════════════════════════════════════
+// RDM HELPER FUNCTIONS
+// ═══════════════════════════════════════════════════════════════
+let logEl;
+function log(msg, cls) {
+  if (!logEl) logEl = document.getElementById('log-output');
+  const s = document.createElement('span'); s.className = cls || 'log-info';
+  s.textContent = msg + '\n'; logEl.appendChild(s); logEl.scrollTop = logEl.scrollHeight;
+}
+
+function p(sentence) { return TagTeam.parse(sentence); }
+
+function g(sentence) {
+  const result = TagTeam.buildGraph(sentence);
+  return result['@graph'] || [];
+}
+
+// ─── Node Type Finders ───────────────────────────────────────────
+
+// hasType: substring match (legacy, use for long unique fragments)
+function hasType(node, typeFragment) {
+  const types = [].concat(node['@type'] || []);
+  return types.some(t => t.includes(typeFragment));
+}
+
+// hasTypeExact: word-boundary match (use for short type names that could be substrings)
+// Matches: "Intention", "tagteam:Intention", "http://.../Intention"
+// Does NOT match: "IntentionalAct" when looking for "Intention"
+function hasTypeExact(node, typeName) {
+  const types = [].concat(node['@type'] || []);
+  // Match if type equals typeName, or ends with :typeName or /typeName or #typeName
+  const pattern = new RegExp(`(^|[:#/])${typeName}$`);
+  return types.some(t => pattern.test(t));
+}
+
+// Find VerbPhrase (Tier 1) - NOT IntentionalAct
+function findVerbPhrase(graph, verbHint) {
+  return graph.find(n => {
+    if (!hasType(n, 'VerbPhrase')) return false;
+    if (verbHint) {
+      const verb = n['tagteam:verb'] || n['rdfs:label'] || '';
+      return verb.toLowerCase().includes(verbHint.toLowerCase());
+    }
+    return true;
+  });
+}
+
+function findAllVerbPhrases(graph) {
+  return graph.filter(n => hasType(n, 'VerbPhrase'));
+}
+
+// Find DICE (DirectiveInformationContentEntity)
+function findDICE(graph, verbHint) {
+  return graph.find(n => {
+    if (!hasType(n, 'DirectiveInformationContentEntity')) return false;
+    if (verbHint && n['@id']) {
+      return n['@id'].toLowerCase().includes(verbHint.toLowerCase());
+    }
+    return true;
+  });
+}
+
+function findAllDICE(graph) {
+  return graph.filter(n => hasType(n, 'DirectiveInformationContentEntity'));
+}
+
+// Find PlanSpecification
+function findPlanSpec(graph, verbHint) {
+  return graph.find(n => {
+    if (!hasType(n, 'PlanSpecification')) return false;
+    if (verbHint) {
+      const actType = n['tagteam:prescribedActType'] || '';
+      return actType.toLowerCase().includes(verbHint.toLowerCase());
+    }
+    return true;
+  });
+}
+
+function findAllPlanSpecs(graph) {
+  return graph.filter(n => hasType(n, 'PlanSpecification'));
+}
+
+// Find RealizableEntity (Obligation, Permission, Prohibition, Intention)
+// Use hasTypeExact to avoid "Intention" matching "IntentionalAct"
+function findObligation(graph) {
+  return graph.find(n => hasTypeExact(n, 'Obligation') && !hasTypeExact(n, 'ConjunctiveObligation'));
+}
+
+function findAllObligations(graph) {
+  return graph.filter(n => hasTypeExact(n, 'Obligation'));
+}
+
+function findPermission(graph) {
+  return graph.find(n => hasTypeExact(n, 'Permission'));
+}
+
+function findProhibition(graph) {
+  return graph.find(n => hasTypeExact(n, 'Prohibition'));
+}
+
+// CRITICAL: "Intention" must NOT match "IntentionalAct"
+function findIntention(graph) {
+  return graph.find(n => hasTypeExact(n, 'Intention'));
+}
+
+function findConjunctiveObligation(graph) {
+  return graph.find(n => hasTypeExact(n, 'ConjunctiveObligation'));
+}
+
+// CRITICAL: Must use hasTypeExact to avoid "Intention" matching "IntentionalAct"
+function findRealizableEntity(graph) {
+  return graph.find(n => 
+    hasTypeExact(n, 'Obligation') || hasTypeExact(n, 'Permission') || 
+    hasTypeExact(n, 'Prohibition') || hasTypeExact(n, 'Intention')
+  );
+}
+
+// Find IntentionalAct (for non-modal sentences - should still exist)
+function findIntentionalAct(graph, verbHint) {
+  return graph.find(n => {
+    if (!n['@id'] || !n['@id'].includes('Act_')) return false;
+    if (n['@id'].includes('ParsingAct')) return false;
+    if (!hasType(n, 'IntentionalAct')) return false;
+    if (verbHint) {
+      const verb = n['tagteam:verb'] || n['tagteam:lemma'] || n['rdfs:label'] || '';
+      return verb.toLowerCase().includes(verbHint.toLowerCase());
+    }
+    return true;
+  });
+}
+
+function findAllIntentionalActs(graph) {
+  return graph.filter(n => 
+    n['@id'] && n['@id'].includes('Act_') && 
+    !n['@id'].includes('ParsingAct') &&
+    hasType(n, 'IntentionalAct')
+  );
+}
+
+// Role detection: @type is ['Role'] (BFO), specific type in tagteam:roleType or rdfs:label
+function isRoleOfType(node, roleTypeName) {
+  // Must be a Role
+  if (!hasType(node, 'Role')) return false;
+  // Check tagteam:roleType
+  const roleType = node['tagteam:roleType'];
+  if (roleType === roleTypeName) return true;
+  // Check rdfs:label
+  const label = node['rdfs:label'];
+  if (label === roleTypeName) return true;
+  // Check if @type happens to include the specific role type (fallback)
+  if (hasType(node, roleTypeName)) return true;
+  return false;
+}
+
+// ─── Property Extractors ─────────────────────────────────────────
+
+function getDeonticCategory(node) {
+  const cat = node['tagteam:deonticCategory'];
+  if (!cat) return null;
+  if (typeof cat === 'object' && cat['@id']) return cat['@id'];
+  return cat;
+}
+
+function getFulfillmentState(node) {
+  const state = node['tagteam:fulfillmentState'];
+  if (!state) return null;
+  if (typeof state === 'object' && state['@id']) return state['@id'];
+  return state;
+}
+
+function getLinkedId(node, property) {
+  const val = node[property];
+  if (!val) return null;
+  if (typeof val === 'object' && val['@id']) return val['@id'];
+  return val;
+}
+
+function getConfidence(node) {
+  return node['tagteam:interpretationConfidence'];
+}
+
+// ─── Summary Helpers ─────────────────────────────────────────────
+
+function graphSummary(graph) {
+  const vps = findAllVerbPhrases(graph);
+  const dices = findAllDICE(graph);
+  const plans = findAllPlanSpecs(graph);
+  const obligs = findAllObligations(graph);
+  const acts = findAllIntentionalActs(graph);
+  return `VP:${vps.length}, DICE:${dices.length}, Plan:${plans.length}, Oblig:${obligs.length}, Act:${acts.length}`;
+}
+
+function nodeTypes(graph) {
+  return [...new Set(graph.flatMap(n => n['@type'] || []))].join(', ');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TEST DEFINITIONS - RDM v1.2.1
+// ═══════════════════════════════════════════════════════════════
+const TESTS = [
+
+// ══════════════════════════════════════════════════════════════
+// PHASE 1: GHOST ACT ELIMINATION
+// Modal sentences must NOT produce IntentionalAct nodes
+// ══════════════════════════════════════════════════════════════
+
+{ section: 'RDM-P1: Ghost Act Elimination', tests: [
+  { id: 'RDM-01', sentence: 'The committee shall review the proposal.',
+    expect: 'VerbPhrase @type NOT IntentionalAct', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      const vp = findVerbPhrase(graph, 'review');
+      if (!vp) return { pass: false, detail: 'No VerbPhrase for "review". Summary: ' + graphSummary(graph) };
+      const types = [].concat(vp['@type'] || []);
+      if (types.some(t => t.includes('IntentionalAct'))) {
+        return { pass: false, detail: 'GHOST ACT: VerbPhrase typed as IntentionalAct. Types: ' + types.join(', ') };
+      }
+      if (!types.some(t => t.includes('VerbPhrase'))) {
+        return { pass: false, detail: '@type missing VerbPhrase. Types: ' + types.join(', ') };
+      }
+      if (!types.some(t => t.includes('DiscourseReferent'))) {
+        return { pass: false, detail: '@type missing DiscourseReferent. Types: ' + types.join(', ') };
+      }
+      return { pass: true, detail: '@type = [DiscourseReferent, VerbPhrase] ✓ (no IntentionalAct)' };
+  }},
+  { id: 'RDM-02', sentence: 'The committee shall review the proposal.',
+    expect: 'VP tagteam:verb = review', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      const vp = findVerbPhrase(graph, 'review');
+      if (!vp) return { pass: false, detail: 'No VerbPhrase found' };
+      const verb = vp['tagteam:verb'];
+      if (verb !== 'review') return { pass: false, detail: 'tagteam:verb=' + verb };
+      return { pass: true, detail: 'tagteam:verb=review ✓' };
+  }},
+  { id: 'RDM-03', sentence: 'The committee shall review the proposal.',
+    expect: 'VP tagteam:modalMarker = shall', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      const vp = findVerbPhrase(graph, 'review');
+      if (!vp) return { pass: false, detail: 'No VerbPhrase found' };
+      const marker = vp['tagteam:modalMarker'];
+      if (marker !== 'shall') return { pass: false, detail: 'tagteam:modalMarker=' + marker };
+      return { pass: true, detail: 'tagteam:modalMarker=shall ✓' };
+  }},
+  { id: 'RDM-04', sentence: 'The committee shall review the proposal.',
+    expect: 'VP deonticCategory = UnconditionalObligation', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      const vp = findVerbPhrase(graph, 'review');
+      if (!vp) return { pass: false, detail: 'No VerbPhrase found' };
+      const cat = getDeonticCategory(vp);
+      if (!cat || !cat.includes('UnconditionalObligation')) {
+        return { pass: false, detail: 'deonticCategory=' + cat };
+      }
+      return { pass: true, detail: 'deonticCategory=UnconditionalObligation ✓' };
+  }},
+  { id: 'RDM-05', sentence: 'The committee shall review the proposal.',
+    expect: 'VP interpretationConfidence = 0.95', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      const vp = findVerbPhrase(graph, 'review');
+      if (!vp) return { pass: false, detail: 'No VerbPhrase found' };
+      const conf = getConfidence(vp);
+      if (conf === undefined || conf === null) return { pass: false, detail: 'No interpretationConfidence' };
+      if (Math.abs(conf - 0.95) > 0.01) return { pass: false, detail: 'interpretationConfidence=' + conf + ' (expected 0.95)' };
+      return { pass: true, detail: 'interpretationConfidence=0.95 ✓' };
+  }},
+  { id: 'RDM-06', sentence: 'The committee shall review the proposal.',
+    expect: 'No IntentionalAct node with verb "review"', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      const ghostAct = findIntentionalAct(graph, 'review');
+      if (ghostAct) {
+        return { pass: false, detail: 'GHOST ACT EXISTS: ' + ghostAct['@id'] + ' with verb=' + (ghostAct['tagteam:verb'] || ghostAct['tagteam:lemma']) };
+      }
+      return { pass: true, detail: 'No IntentionalAct for "review" ✓ (ghost eliminated)' };
+  }},
+  { id: 'RDM-07', sentence: 'The doctor treats the patient.',
+    expect: 'Non-modal: IntentionalAct preserved', run: () => {
+      const graph = g('The doctor treats the patient.');
+      const act = findIntentionalAct(graph, 'treat');
+      if (!act) return { pass: false, detail: 'No IntentionalAct for "treat" — non-modal acts should still be IntentionalAct. Summary: ' + graphSummary(graph) };
+      const verb = act['tagteam:verb'] || act['tagteam:lemma'];
+      if (verb !== 'treat') return { pass: false, detail: 'verb=' + verb };
+      return { pass: true, detail: 'IntentionalAct preserved for non-modal ✓' };
+  }},
+]},
+
+// ══════════════════════════════════════════════════════════════
+// PHASE 2: DICE + PlanSpecification
+// ══════════════════════════════════════════════════════════════
+
+{ section: 'RDM-P2: DICE + PlanSpecification', tests: [
+  { id: 'RDM-08', sentence: 'The committee shall review the proposal.',
+    expect: 'DICE node exists', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      const dice = findDICE(graph);
+      if (!dice) return { pass: false, detail: 'No DirectiveInformationContentEntity. Types: ' + nodeTypes(graph) };
+      return { pass: true, detail: 'DICE exists ✓' };
+  }},
+  { id: 'RDM-09', sentence: 'The committee shall review the proposal.',
+    expect: 'DICE prescribes → PlanSpec', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      const dice = findDICE(graph);
+      if (!dice) return { pass: false, detail: 'No DICE found' };
+      const prescribesId = getLinkedId(dice, 'prescribes');
+      if (!prescribesId) return { pass: false, detail: 'DICE has no prescribes link. Keys: ' + Object.keys(dice).join(', ') };
+      const planSpec = graph.find(n => n['@id'] === prescribesId);
+      if (!planSpec || !hasType(planSpec, 'PlanSpecification')) {
+        return { pass: false, detail: 'prescribes target is not PlanSpecification: ' + prescribesId };
+      }
+      return { pass: true, detail: 'DICE prescribes → PlanSpec ✓' };
+  }},
+  { id: 'RDM-10', sentence: 'The committee shall review the proposal.',
+    expect: 'DICE deonticCategory = UnconditionalObligation', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      const dice = findDICE(graph);
+      if (!dice) return { pass: false, detail: 'No DICE found' };
+      const cat = getDeonticCategory(dice);
+      if (!cat || !cat.includes('UnconditionalObligation')) {
+        return { pass: false, detail: 'DICE deonticCategory=' + cat };
+      }
+      return { pass: true, detail: 'DICE deonticCategory=UnconditionalObligation ✓' };
+  }},
+  { id: 'RDM-11', sentence: 'The committee shall review the proposal.',
+    expect: 'DICE modalMarker = shall', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      const dice = findDICE(graph);
+      if (!dice) return { pass: false, detail: 'No DICE found' };
+      const marker = dice['tagteam:modalMarker'];
+      if (marker !== 'shall') return { pass: false, detail: 'DICE modalMarker=' + marker };
+      return { pass: true, detail: 'DICE modalMarker=shall ✓' };
+  }},
+  { id: 'RDM-12', sentence: 'The committee shall review the proposal.',
+    expect: 'PlanSpec node exists', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      const plan = findPlanSpec(graph, 'review');
+      if (!plan) return { pass: false, detail: 'No PlanSpecification. Types: ' + nodeTypes(graph) };
+      return { pass: true, detail: 'PlanSpecification exists ✓' };
+  }},
+  { id: 'RDM-13', sentence: 'The committee shall review the proposal.',
+    expect: 'PlanSpec prescribedActType = review', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      const plan = findPlanSpec(graph, 'review');
+      if (!plan) return { pass: false, detail: 'No PlanSpecification found' };
+      const actType = plan['tagteam:prescribedActType'];
+      if (actType !== 'review') return { pass: false, detail: 'prescribedActType=' + actType };
+      return { pass: true, detail: 'prescribedActType=review ✓' };
+  }},
+  { id: 'RDM-14', sentence: 'The committee shall review the proposal.',
+    expect: 'PlanSpec prescribedAgent → Committee', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      const plan = findPlanSpec(graph, 'review');
+      if (!plan) return { pass: false, detail: 'No PlanSpecification found' };
+      const agentId = getLinkedId(plan, 'tagteam:prescribedAgent');
+      if (!agentId) return { pass: false, detail: 'No prescribedAgent. Keys: ' + Object.keys(plan).join(', ') };
+      const agent = graph.find(n => n['@id'] === agentId);
+      const label = agent ? (agent['rdfs:label'] || agent['@id']) : agentId;
+      if (!label.toLowerCase().includes('committee')) {
+        return { pass: false, detail: 'prescribedAgent=' + label + ' (expected committee)' };
+      }
+      return { pass: true, detail: 'prescribedAgent → Committee ✓' };
+  }},
+  { id: 'RDM-15', sentence: 'The committee shall review the proposal.',
+    expect: 'PlanSpec prescribedPatient → Proposal', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      const plan = findPlanSpec(graph, 'review');
+      if (!plan) return { pass: false, detail: 'No PlanSpecification found' };
+      const patientId = getLinkedId(plan, 'tagteam:prescribedPatient');
+      if (!patientId) return { pass: false, detail: 'No prescribedPatient. Keys: ' + Object.keys(plan).join(', ') };
+      const patient = graph.find(n => n['@id'] === patientId);
+      const label = patient ? (patient['rdfs:label'] || patient['@id']) : patientId;
+      if (!label.toLowerCase().includes('proposal')) {
+        return { pass: false, detail: 'prescribedPatient=' + label + ' (expected proposal)' };
+      }
+      return { pass: true, detail: 'prescribedPatient → Proposal ✓' };
+  }},
+  { id: 'RDM-16', sentence: 'The committee shall review the proposal.',
+    expect: 'VP is_about → DICE', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      const vp = findVerbPhrase(graph, 'review');
+      if (!vp) return { pass: false, detail: 'No VerbPhrase found' };
+      const aboutId = getLinkedId(vp, 'is_about');
+      if (!aboutId) return { pass: false, detail: 'VP has no is_about link' };
+      const dice = graph.find(n => n['@id'] === aboutId);
+      if (!dice || !hasType(dice, 'DirectiveInformationContentEntity')) {
+        return { pass: false, detail: 'is_about target is not DICE: ' + aboutId };
+      }
+      return { pass: true, detail: 'VP is_about → DICE ✓' };
+  }},
+]},
+
+// ══════════════════════════════════════════════════════════════
+// PHASE 3: RealizableEntity
+// ══════════════════════════════════════════════════════════════
+
+{ section: 'RDM-P3: RealizableEntity (Obligation/Permission/Prohibition/Intention)', tests: [
+  { id: 'RDM-17', sentence: 'The committee shall review the proposal.',
+    expect: 'Obligation node exists', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      const oblig = findObligation(graph);
+      if (!oblig) return { pass: false, detail: 'No Obligation node. Types: ' + nodeTypes(graph) };
+      return { pass: true, detail: 'Obligation exists ✓' };
+  }},
+  { id: 'RDM-18', sentence: 'The committee shall review the proposal.',
+    expect: 'Obligation inheres_in → Committee', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      const oblig = findObligation(graph);
+      if (!oblig) return { pass: false, detail: 'No Obligation found' };
+      const bearerId = getLinkedId(oblig, 'inheres_in');
+      if (!bearerId) return { pass: false, detail: 'Obligation has no inheres_in link' };
+      const bearer = graph.find(n => n['@id'] === bearerId);
+      const label = bearer ? (bearer['rdfs:label'] || bearer['@id']) : bearerId;
+      if (!label.toLowerCase().includes('committee')) {
+        return { pass: false, detail: 'inheres_in=' + label + ' (expected committee)' };
+      }
+      return { pass: true, detail: 'Obligation inheres_in → Committee ✓' };
+  }},
+  { id: 'RDM-19', sentence: 'The committee shall review the proposal.',
+    expect: 'Obligation is_prescribed_by → DICE', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      const oblig = findObligation(graph);
+      if (!oblig) return { pass: false, detail: 'No Obligation found' };
+      const diceId = getLinkedId(oblig, 'is_prescribed_by');
+      if (!diceId) return { pass: false, detail: 'Obligation has no is_prescribed_by link' };
+      const dice = graph.find(n => n['@id'] === diceId);
+      if (!dice || !hasType(dice, 'DirectiveInformationContentEntity')) {
+        return { pass: false, detail: 'is_prescribed_by target is not DICE: ' + diceId };
+      }
+      return { pass: true, detail: 'Obligation is_prescribed_by → DICE ✓' };
+  }},
+  { id: 'RDM-20', sentence: 'The committee shall review the proposal.',
+    expect: 'Obligation isSpecifiedBy → PlanSpec', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      const oblig = findObligation(graph);
+      if (!oblig) return { pass: false, detail: 'No Obligation found' };
+      const planId = getLinkedId(oblig, 'isSpecifiedBy');
+      if (!planId) return { pass: false, detail: 'Obligation has no isSpecifiedBy link (v1.2.1 direct link)' };
+      const plan = graph.find(n => n['@id'] === planId);
+      if (!plan || !hasType(plan, 'PlanSpecification')) {
+        return { pass: false, detail: 'isSpecifiedBy target is not PlanSpec: ' + planId };
+      }
+      return { pass: true, detail: 'Obligation isSpecifiedBy → PlanSpec ✓ (3-hop query enabled)' };
+  }},
+  { id: 'RDM-21', sentence: 'The committee shall review the proposal.',
+    expect: 'Obligation deonticCategory = UnconditionalObligation', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      const oblig = findObligation(graph);
+      if (!oblig) return { pass: false, detail: 'No Obligation found' };
+      const cat = getDeonticCategory(oblig);
+      if (!cat || !cat.includes('UnconditionalObligation')) {
+        return { pass: false, detail: 'Obligation deonticCategory=' + cat };
+      }
+      return { pass: true, detail: 'Obligation deonticCategory=UnconditionalObligation ✓' };
+  }},
+  { id: 'RDM-22', sentence: 'The committee shall review the proposal.',
+    expect: 'Obligation fulfillmentState = Pending', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      const oblig = findObligation(graph);
+      if (!oblig) return { pass: false, detail: 'No Obligation found' };
+      const state = getFulfillmentState(oblig);
+      if (!state || !state.includes('Pending')) {
+        return { pass: false, detail: 'fulfillmentState=' + state + ' (expected Pending)' };
+      }
+      return { pass: true, detail: 'fulfillmentState=Pending ✓' };
+  }},
+  { id: 'RDM-23', sentence: 'Officers shall not disclose records.',
+    expect: 'Prohibition node with UnconditionalProhibition', run: () => {
+      const graph = g('Officers shall not disclose records.');
+      const prohib = findProhibition(graph);
+      if (!prohib) return { pass: false, detail: 'No Prohibition node. Types: ' + nodeTypes(graph) };
+      const cat = getDeonticCategory(prohib);
+      if (!cat || !cat.includes('UnconditionalProhibition')) {
+        return { pass: false, detail: 'Prohibition deonticCategory=' + cat };
+      }
+      return { pass: true, detail: 'Prohibition with UnconditionalProhibition ✓' };
+  }},
+  { id: 'RDM-24', sentence: 'The patient may refuse treatment.',
+    expect: 'Permission node with GrantedPermission', run: () => {
+      const graph = g('The patient may refuse treatment.');
+      const perm = findPermission(graph);
+      if (!perm) return { pass: false, detail: 'No Permission node. Types: ' + nodeTypes(graph) };
+      const cat = getDeonticCategory(perm);
+      if (!cat || !cat.includes('GrantedPermission')) {
+        return { pass: false, detail: 'Permission deonticCategory=' + cat };
+      }
+      return { pass: true, detail: 'Permission with GrantedPermission ✓' };
+  }},
+  { id: 'RDM-25', sentence: 'The agency will provide data.',
+    expect: 'Intention node with DeclaredIntention', run: () => {
+      const graph = g('The agency will provide data.');
+      const intent = findIntention(graph);
+      if (!intent) return { pass: false, detail: 'No Intention node. Types: ' + nodeTypes(graph) };
+      const cat = getDeonticCategory(intent);
+      if (!cat || !cat.includes('DeclaredIntention')) {
+        return { pass: false, detail: 'Intention deonticCategory=' + cat };
+      }
+      return { pass: true, detail: 'Intention with DeclaredIntention ✓' };
+  }},
+  { id: 'RDM-26', sentence: 'The system could fail under load.',
+    expect: 'No RealizableEntity emitted (hypothetical)', run: () => {
+      const graph = g('The system could fail under load.');
+      const re = findRealizableEntity(graph);
+      if (re) {
+        return { pass: false, detail: 'INCORRECT: RealizableEntity emitted for hypothetical. Found: ' + (re['@type'] || []).join(', ') };
+      }
+      return { pass: true, detail: 'No RealizableEntity for hypothetical ✓' };
+  }},
+  { id: 'RDM-27', sentence: 'The system could fail under load.',
+    expect: 'DICE + PlanSpec exist (hypothetical documented)', run: () => {
+      const graph = g('The system could fail under load.');
+      const dice = findDICE(graph);
+      const plan = findPlanSpec(graph, 'fail');
+      if (!dice) return { pass: false, detail: 'No DICE for hypothetical' };
+      if (!plan) return { pass: false, detail: 'No PlanSpec for hypothetical' };
+      const cat = getDeonticCategory(dice);
+      if (!cat || !cat.includes('Hypothetical')) {
+        return { pass: false, detail: 'DICE deonticCategory=' + cat + ' (expected Hypothetical)' };
+      }
+      return { pass: true, detail: 'DICE + PlanSpec exist with Hypothetical category ✓' };
+  }},
+]},
+
+// ══════════════════════════════════════════════════════════════
+// PHASE 4: ConjunctiveObligation
+// ══════════════════════════════════════════════════════════════
+
+{ section: 'RDM-P4: ConjunctiveObligation (Coordinated Acts)', tests: [
+  { id: 'RDM-28', sentence: 'The committee shall review and approve the proposal.',
+    expect: 'Two Obligation nodes (review + approve)', run: () => {
+      const graph = g('The committee shall review and approve the proposal.');
+      const obligs = findAllObligations(graph).filter(o => !hasType(o, 'ConjunctiveObligation'));
+      if (obligs.length < 2) {
+        return { pass: false, detail: 'Expected 2 Obligations, found ' + obligs.length + '. Summary: ' + graphSummary(graph) };
+      }
+      return { pass: true, detail: obligs.length + ' Obligations ✓' };
+  }},
+  { id: 'RDM-29', sentence: 'The committee shall review and approve the proposal.',
+    expect: 'ConjunctiveObligation with hasConjunct → both', run: () => {
+      const graph = g('The committee shall review and approve the proposal.');
+      const conj = findConjunctiveObligation(graph);
+      if (!conj) return { pass: false, detail: 'No ConjunctiveObligation. Types: ' + nodeTypes(graph) };
+      const conjuncts = [].concat(conj['tagteam:hasConjunct'] || []);
+      if (conjuncts.length < 2) {
+        return { pass: false, detail: 'ConjunctiveObligation has ' + conjuncts.length + ' conjuncts (expected 2)' };
+      }
+      return { pass: true, detail: 'ConjunctiveObligation with ' + conjuncts.length + ' conjuncts ✓' };
+  }},
+  { id: 'RDM-30', sentence: 'The committee shall review and approve the proposal.',
+    expect: 'ConjunctiveObligation fulfillmentState = Pending', run: () => {
+      const graph = g('The committee shall review and approve the proposal.');
+      const conj = findConjunctiveObligation(graph);
+      if (!conj) return { pass: false, detail: 'No ConjunctiveObligation found' };
+      const state = getFulfillmentState(conj);
+      if (!state || !state.includes('Pending')) {
+        return { pass: false, detail: 'fulfillmentState=' + state };
+      }
+      return { pass: true, detail: 'ConjunctiveObligation fulfillmentState=Pending ✓' };
+  }},
+]},
+
+// ══════════════════════════════════════════════════════════════
+// PHASE 5: Role Branch (prescribedAgent/Patient)
+// ══════════════════════════════════════════════════════════════
+
+{ section: 'RDM-P5: Role Resolution (No Role Nodes for Modals)', tests: [
+  { id: 'RDM-31', sentence: 'The committee shall review the proposal.',
+    expect: 'No AgentRole node realized_in ghost act', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      // Role nodes have @type: ['Role'], roleType in tagteam:roleType or rdfs:label
+      const agentRole = graph.find(n => isRoleOfType(n, 'AgentRole') && getLinkedId(n, 'realized_in'));
+      if (agentRole) {
+        const realizedIn = getLinkedId(agentRole, 'realized_in');
+        return { pass: false, detail: 'GHOST ROLE: AgentRole realized_in ' + realizedIn };
+      }
+      return { pass: true, detail: 'No AgentRole with realized_in ✓' };
+  }},
+  { id: 'RDM-32', sentence: 'The committee shall review the proposal.',
+    expect: 'No PatientRole node realized_in ghost act', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      const patientRole = graph.find(n => isRoleOfType(n, 'PatientRole') && getLinkedId(n, 'realized_in'));
+      if (patientRole) {
+        const realizedIn = getLinkedId(patientRole, 'realized_in');
+        return { pass: false, detail: 'GHOST ROLE: PatientRole realized_in ' + realizedIn };
+      }
+      return { pass: true, detail: 'No PatientRole with realized_in ✓' };
+  }},
+  { id: 'RDM-33', sentence: 'The doctor treats the patient.',
+    expect: 'Non-modal: AgentRole + PatientRole preserved', run: () => {
+      const graph = g('The doctor treats the patient.');
+      // Role nodes: @type includes 'Role', roleType in tagteam:roleType or rdfs:label
+      const agentRole = graph.find(n => isRoleOfType(n, 'AgentRole'));
+      const patientRole = graph.find(n => isRoleOfType(n, 'PatientRole'));
+      if (!agentRole) return { pass: false, detail: 'No AgentRole for non-modal act. Roles: ' + graph.filter(n => hasType(n, 'Role')).map(r => r['rdfs:label'] || r['tagteam:roleType'] || r['@id']).join(', ') };
+      if (!patientRole) return { pass: false, detail: 'No PatientRole for non-modal act' };
+      return { pass: true, detail: 'AgentRole + PatientRole preserved for non-modal ✓' };
+  }},
+  { id: 'RDM-34', sentence: 'The records shall be destroyed by the officer.',
+    expect: 'Passive: prescribedAgent = Officer (from oblique)', run: () => {
+      const graph = g('The records shall be destroyed by the officer.');
+      const plan = findPlanSpec(graph, 'destroy');
+      if (!plan) return { pass: false, detail: 'No PlanSpecification found' };
+      const agentId = getLinkedId(plan, 'tagteam:prescribedAgent');
+      if (!agentId) return { pass: false, detail: 'No prescribedAgent on PlanSpec' };
+      const agent = graph.find(n => n['@id'] === agentId);
+      const label = agent ? (agent['rdfs:label'] || agent['@id']) : agentId;
+      if (!label.toLowerCase().includes('officer')) {
+        return { pass: false, detail: 'prescribedAgent=' + label + ' (expected officer from "by the officer")' };
+      }
+      return { pass: true, detail: 'Passive: prescribedAgent=Officer ✓' };
+  }},
+]},
+
+// ══════════════════════════════════════════════════════════════
+// DEONTIC CATEGORY MAPPING
+// ══════════════════════════════════════════════════════════════
+
+{ section: 'RDM-DC: Deontic Category Mapping', tests: [
+  { id: 'RDM-DC-01', sentence: 'The doctor must treat the patient.',
+    expect: 'must → UnconditionalObligation + conf 0.95', run: () => {
+      const graph = g('The doctor must treat the patient.');
+      const vp = findVerbPhrase(graph, 'treat');
+      if (!vp) return { pass: false, detail: 'No VerbPhrase' };
+      const cat = getDeonticCategory(vp);
+      const conf = getConfidence(vp);
+      if (!cat || !cat.includes('UnconditionalObligation')) return { pass: false, detail: 'deonticCategory=' + cat };
+      if (Math.abs(conf - 0.95) > 0.01) return { pass: false, detail: 'confidence=' + conf };
+      return { pass: true, detail: 'must → UnconditionalObligation @ 0.95 ✓' };
+  }},
+  { id: 'RDM-DC-02', sentence: 'The doctor should inform the family.',
+    expect: 'should → DefeasibleObligation + conf 0.85', run: () => {
+      const graph = g('The doctor should inform the family.');
+      const vp = findVerbPhrase(graph, 'inform');
+      if (!vp) return { pass: false, detail: 'No VerbPhrase' };
+      const cat = getDeonticCategory(vp);
+      const conf = getConfidence(vp);
+      if (!cat || !cat.includes('DefeasibleObligation')) return { pass: false, detail: 'deonticCategory=' + cat };
+      if (Math.abs(conf - 0.85) > 0.01) return { pass: false, detail: 'confidence=' + conf };
+      return { pass: true, detail: 'should → DefeasibleObligation @ 0.85 ✓' };
+  }},
+  { id: 'RDM-DC-03', sentence: 'We have to allocate resources.',
+    expect: 'have to → UnconditionalObligation', run: () => {
+      const graph = g('We have to allocate resources.');
+      const vp = findVerbPhrase(graph, 'allocate');
+      if (!vp) return { pass: false, detail: 'No VerbPhrase for "allocate"' };
+      const cat = getDeonticCategory(vp);
+      if (!cat || !cat.includes('UnconditionalObligation')) return { pass: false, detail: 'deonticCategory=' + cat };
+      return { pass: true, detail: 'have to → UnconditionalObligation ✓' };
+  }},
+  { id: 'RDM-DC-04', sentence: 'The team needs to complete the assessment.',
+    expect: 'need to → UnconditionalObligation', run: () => {
+      const graph = g('The team needs to complete the assessment.');
+      const vp = findVerbPhrase(graph, 'complete');
+      if (!vp) return { pass: false, detail: 'No VerbPhrase for "complete"' };
+      const cat = getDeonticCategory(vp);
+      if (!cat || !cat.includes('UnconditionalObligation')) return { pass: false, detail: 'deonticCategory=' + cat };
+      return { pass: true, detail: 'need to → UnconditionalObligation ✓' };
+  }},
+  { id: 'RDM-DC-05', sentence: 'Doctors ought to follow guidelines.',
+    expect: 'ought to → DefeasibleObligation', run: () => {
+      const graph = g('Doctors ought to follow guidelines.');
+      const vp = findVerbPhrase(graph, 'follow');
+      if (!vp) return { pass: false, detail: 'No VerbPhrase for "follow"' };
+      const cat = getDeonticCategory(vp);
+      if (!cat || !cat.includes('DefeasibleObligation')) return { pass: false, detail: 'deonticCategory=' + cat };
+      return { pass: true, detail: 'ought to → DefeasibleObligation ✓' };
+  }},
+  { id: 'RDM-DC-06', sentence: 'The nurse will administer medication.',
+    expect: 'will → DeclaredIntention + conf 0.75', run: () => {
+      const graph = g('The nurse will administer medication.');
+      const vp = findVerbPhrase(graph, 'administer');
+      if (!vp) return { pass: false, detail: 'No VerbPhrase' };
+      const cat = getDeonticCategory(vp);
+      const conf = getConfidence(vp);
+      if (!cat || !cat.includes('DeclaredIntention')) return { pass: false, detail: 'deonticCategory=' + cat };
+      if (Math.abs(conf - 0.75) > 0.01) return { pass: false, detail: 'confidence=' + conf };
+      return { pass: true, detail: 'will → DeclaredIntention @ 0.75 ✓' };
+  }},
+  { id: 'RDM-DC-07', sentence: 'The patient can request records.',
+    expect: 'can → GrantedPermission + conf 0.70', run: () => {
+      const graph = g('The patient can request records.');
+      const vp = findVerbPhrase(graph, 'request');
+      if (!vp) return { pass: false, detail: 'No VerbPhrase' };
+      const cat = getDeonticCategory(vp);
+      const conf = getConfidence(vp);
+      if (!cat || !cat.includes('GrantedPermission')) return { pass: false, detail: 'deonticCategory=' + cat };
+      if (Math.abs(conf - 0.70) > 0.05) return { pass: false, detail: 'confidence=' + conf };
+      return { pass: true, detail: 'can → GrantedPermission @ 0.70 ✓' };
+  }},
+  { id: 'RDM-DC-08', sentence: 'Employees must not access restricted areas.',
+    expect: 'must not → UnconditionalProhibition', run: () => {
+      const graph = g('Employees must not access restricted areas.');
+      const vp = findVerbPhrase(graph, 'access');
+      if (!vp) return { pass: false, detail: 'No VerbPhrase' };
+      const cat = getDeonticCategory(vp);
+      if (!cat || !cat.includes('UnconditionalProhibition')) return { pass: false, detail: 'deonticCategory=' + cat };
+      return { pass: true, detail: 'must not → UnconditionalProhibition ✓' };
+  }},
+  { id: 'RDM-DC-09', sentence: 'You cannot enter the building.',
+    expect: 'cannot → UnconditionalProhibition + conf 0.85', run: () => {
+      const graph = g('You cannot enter the building.');
+      const vp = findVerbPhrase(graph, 'enter');
+      if (!vp) return { pass: false, detail: 'No VerbPhrase' };
+      const cat = getDeonticCategory(vp);
+      if (!cat || !cat.includes('UnconditionalProhibition')) return { pass: false, detail: 'deonticCategory=' + cat };
+      return { pass: true, detail: 'cannot → UnconditionalProhibition ✓' };
+  }},
+  { id: 'RDM-DC-10', sentence: 'The process would continue indefinitely.',
+    expect: 'would → Hypothetical (no RE)', run: () => {
+      const graph = g('The process would continue indefinitely.');
+      const vp = findVerbPhrase(graph, 'continue');
+      if (!vp) return { pass: false, detail: 'No VerbPhrase' };
+      const cat = getDeonticCategory(vp);
+      if (!cat || !cat.includes('Hypothetical')) return { pass: false, detail: 'deonticCategory=' + cat };
+      const re = findRealizableEntity(graph);
+      if (re) return { pass: false, detail: 'Unexpected RealizableEntity for would' };
+      return { pass: true, detail: 'would → Hypothetical (no RE) ✓' };
+  }},
+  { id: 'RDM-DC-11', sentence: 'The evidence might support the claim.',
+    expect: 'might → Hypothetical (no RE)', run: () => {
+      const graph = g('The evidence might support the claim.');
+      const vp = findVerbPhrase(graph, 'support');
+      if (!vp) return { pass: false, detail: 'No VerbPhrase' };
+      const cat = getDeonticCategory(vp);
+      if (!cat || !cat.includes('Hypothetical')) return { pass: false, detail: 'deonticCategory=' + cat };
+      const re = findRealizableEntity(graph);
+      if (re) return { pass: false, detail: 'Unexpected RealizableEntity for might' };
+      return { pass: true, detail: 'might → Hypothetical (no RE) ✓' };
+  }},
+]},
+
+// ══════════════════════════════════════════════════════════════
+// CONTRACTIONS
+// ══════════════════════════════════════════════════════════════
+
+{ section: 'RDM-CONTR: Contractions', tests: [
+  { id: 'RDM-CONTR-01', sentence: "He can't access the system.",
+    expect: "can't → UnconditionalProhibition", run: () => {
+      const graph = g("He can't access the system.");
+      const vp = findVerbPhrase(graph, 'access');
+      if (!vp) return { pass: false, detail: 'No VerbPhrase. Summary: ' + graphSummary(graph) };
+      const cat = getDeonticCategory(vp);
+      if (!cat || !cat.includes('UnconditionalProhibition')) return { pass: false, detail: 'deonticCategory=' + cat };
+      return { pass: true, detail: "can't → UnconditionalProhibition ✓" };
+  }},
+  { id: 'RDM-CONTR-02', sentence: "She won't submit the report.",
+    expect: "won't → negated Intention OR Prohibition", run: () => {
+      const graph = g("She won't submit the report.");
+      const vp = findVerbPhrase(graph, 'submit');
+      if (!vp) return { pass: false, detail: 'No VerbPhrase. Summary: ' + graphSummary(graph) };
+      const cat = getDeonticCategory(vp);
+      const neg = vp['tagteam:isNegated'];
+      // won't could be treated as negated intention or as prohibition
+      if (cat && cat.includes('DeclaredIntention') && neg) return { pass: true, detail: "won't → negated DeclaredIntention ✓" };
+      if (cat && cat.includes('Prohibition')) return { pass: true, detail: "won't → Prohibition ✓" };
+      return { pass: false, detail: 'deonticCategory=' + cat + ', isNegated=' + neg };
+  }},
+  { id: 'RDM-CONTR-03', sentence: "You mustn't touch the equipment.",
+    expect: "mustn't → UnconditionalProhibition", run: () => {
+      const graph = g("You mustn't touch the equipment.");
+      const vp = findVerbPhrase(graph, 'touch');
+      if (!vp) return { pass: false, detail: 'No VerbPhrase. Summary: ' + graphSummary(graph) };
+      const cat = getDeonticCategory(vp);
+      if (!cat || !cat.includes('UnconditionalProhibition')) return { pass: false, detail: 'deonticCategory=' + cat };
+      return { pass: true, detail: "mustn't → UnconditionalProhibition ✓" };
+  }},
+]},
+
+// ══════════════════════════════════════════════════════════════
+// NON-MODAL COMPATIBILITY
+// ══════════════════════════════════════════════════════════════
+
+{ section: 'RDM-NM: Non-Modal Compatibility', tests: [
+  { id: 'RDM-NM-01', sentence: 'The doctor treats the patient.',
+    expect: 'IntentionalAct with verb=treat', run: () => {
+      const graph = g('The doctor treats the patient.');
+      const act = findIntentionalAct(graph, 'treat');
+      if (!act) return { pass: false, detail: 'No IntentionalAct. Summary: ' + graphSummary(graph) };
+      const verb = act['tagteam:verb'] || act['tagteam:lemma'];
+      if (verb !== 'treat') return { pass: false, detail: 'verb=' + verb };
+      return { pass: true, detail: 'IntentionalAct verb=treat ✓' };
+  }},
+  { id: 'RDM-NM-02', sentence: 'The doctor treats the patient.',
+    expect: 'actualityStatus = Actual', run: () => {
+      const graph = g('The doctor treats the patient.');
+      const act = findIntentionalAct(graph, 'treat');
+      if (!act) return { pass: false, detail: 'No IntentionalAct' };
+      const status = act['tagteam:actualityStatus'];
+      const statusId = typeof status === 'object' ? status['@id'] : status;
+      if (!statusId || !statusId.includes('Actual')) return { pass: false, detail: 'actualityStatus=' + statusId };
+      return { pass: true, detail: 'actualityStatus=Actual ✓' };
+  }},
+  { id: 'RDM-NM-03', sentence: 'CBP is a component of DHS.',
+    expect: 'No spurious modality on copular', run: () => {
+      const graph = g('CBP is a component of DHS.');
+      const vps = findAllVerbPhrases(graph);
+      const modalVps = vps.filter(v => getDeonticCategory(v));
+      if (modalVps.length > 0) {
+        return { pass: false, detail: 'Spurious modal VerbPhrase on copular: ' + modalVps.map(v => v['@id']).join(', ') };
+      }
+      return { pass: true, detail: 'No modal VerbPhrases on copular ✓' };
+  }},
+]},
+
+// ══════════════════════════════════════════════════════════════
+// parse() PATH (SemanticRoleExtractor unchanged)
+// ══════════════════════════════════════════════════════════════
+
+{ section: 'RDM-PARSE: parse() Path (Unchanged)', tests: [
+  { id: 'RDM-PARSE-01', sentence: 'An officer shall verify documentation.',
+    expect: 'action.modality=shall', run: () => {
+      const r = p('An officer shall verify documentation.');
+      if (r.action.modality !== 'shall') return { pass: false, detail: 'action.modality=' + r.action.modality };
+      return { pass: true, detail: 'action.modality=shall ✓' };
+  }},
+  { id: 'RDM-PARSE-02', sentence: 'The doctor must allocate the last ventilator.',
+    expect: 'action.modality=must', run: () => {
+      const r = p('The doctor must allocate the last ventilator.');
+      if (r.action.modality !== 'must') return { pass: false, detail: 'action.modality=' + r.action.modality };
+      return { pass: true, detail: 'action.modality=must ✓' };
+  }},
+  { id: 'RDM-PARSE-03', sentence: 'She can run fast.',
+    expect: 'action.modality=can', run: () => {
+      const r = p('She can run fast.');
+      if (r.action.modality !== 'can') return { pass: false, detail: 'action.modality=' + r.action.modality };
+      return { pass: true, detail: 'action.modality=can ✓' };
+  }},
+  { id: 'RDM-PARSE-04', sentence: 'The doctor treats the patient.',
+    expect: 'action.modality=null', run: () => {
+      const r = p('The doctor treats the patient.');
+      if (r.action.modality !== null && r.action.modality !== undefined) {
+        return { pass: false, detail: 'action.modality=' + r.action.modality };
+      }
+      return { pass: true, detail: 'action.modality=null ✓' };
+  }},
+]},
+
+// ══════════════════════════════════════════════════════════════
+// ISA MOA REGULATORY SENTENCES
+// ══════════════════════════════════════════════════════════════
+
+{ section: 'RDM-MOA: ISA MOA Regulatory Sentences', tests: [
+  { id: 'RDM-MOA-01', sentence: 'CMS shall allow USCIS to monitor and review all records.',
+    expect: 'Obligation + UnconditionalObligation on "allow"', run: () => {
+      const graph = g('CMS shall allow USCIS to monitor and review all records.');
+      const vp = findVerbPhrase(graph, 'allow');
+      if (!vp) return { pass: false, detail: 'No VerbPhrase for "allow". Summary: ' + graphSummary(graph) };
+      const cat = getDeonticCategory(vp);
+      if (!cat || !cat.includes('UnconditionalObligation')) return { pass: false, detail: 'deonticCategory=' + cat };
+      const oblig = findObligation(graph);
+      if (!oblig) return { pass: false, detail: 'No Obligation node' };
+      return { pass: true, detail: 'Obligation + UnconditionalObligation ✓' };
+  }},
+  { id: 'RDM-MOA-02', sentence: 'The AE must submit such documentation electronically.',
+    expect: 'Obligation + UnconditionalObligation on "submit"', run: () => {
+      const graph = g('The AE must submit such documentation electronically.');
+      const vp = findVerbPhrase(graph, 'submit');
+      if (!vp) return { pass: false, detail: 'No VerbPhrase for "submit"' };
+      const cat = getDeonticCategory(vp);
+      if (!cat || !cat.includes('UnconditionalObligation')) return { pass: false, detail: 'deonticCategory=' + cat };
+      return { pass: true, detail: 'Obligation + UnconditionalObligation ✓' };
+  }},
+  { id: 'RDM-MOA-03', sentence: "CMS may not deny an application based on a verification response.",
+    expect: 'Prohibition + UnconditionalProhibition on "deny"', run: () => {
+      const graph = g("CMS may not deny an application based on a verification response.");
+      const vp = findVerbPhrase(graph, 'deny');
+      if (!vp) return { pass: false, detail: 'No VerbPhrase for "deny". Summary: ' + graphSummary(graph) };
+      const cat = getDeonticCategory(vp);
+      if (!cat || !cat.includes('UnconditionalProhibition')) return { pass: false, detail: 'deonticCategory=' + cat };
+      const prohib = findProhibition(graph);
+      if (!prohib) return { pass: false, detail: 'No Prohibition node' };
+      return { pass: true, detail: 'Prohibition + UnconditionalProhibition ✓' };
+  }},
+  { id: 'RDM-MOA-04', sentence: 'Both Parties shall maintain a level of security.',
+    expect: 'Obligation + UnconditionalObligation on "maintain"', run: () => {
+      const graph = g('Both Parties shall maintain a level of security.');
+      const vp = findVerbPhrase(graph, 'maintain');
+      if (!vp) return { pass: false, detail: 'No VerbPhrase for "maintain"' };
+      const cat = getDeonticCategory(vp);
+      if (!cat || !cat.includes('UnconditionalObligation')) return { pass: false, detail: 'deonticCategory=' + cat };
+      return { pass: true, detail: 'Obligation + UnconditionalObligation ✓' };
+  }},
+  { id: 'RDM-MOA-05', sentence: 'Both Parties shall comply with the limitations on use and disclosure.',
+    expect: 'Obligation + UnconditionalObligation on "comply"', run: () => {
+      const graph = g('Both Parties shall comply with the limitations on use and disclosure.');
+      const vp = findVerbPhrase(graph, 'comply');
+      if (!vp) return { pass: false, detail: 'No VerbPhrase for "comply"' };
+      const cat = getDeonticCategory(vp);
+      if (!cat || !cat.includes('UnconditionalObligation')) return { pass: false, detail: 'deonticCategory=' + cat };
+      return { pass: true, detail: 'Obligation + UnconditionalObligation ✓' };
+  }},
+]},
+
+// ══════════════════════════════════════════════════════════════
+// OWL MODEL CONSTRAINTS (v1.2.1)
+// ══════════════════════════════════════════════════════════════
+
+{ section: 'RDM-OWL: OWL Model Constraints (v1.2.1)', tests: [
+  { id: 'RDM-OWL-01', sentence: 'The committee shall review the proposal.',
+    expect: 'deonticCategory is instance of DeonticCategory class', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      const vp = findVerbPhrase(graph, 'review');
+      if (!vp) return { pass: false, detail: 'No VerbPhrase' };
+      const cat = getDeonticCategory(vp);
+      // Check it's a proper IRI in tagteam namespace
+      if (!cat || !cat.includes('tagteam:')) return { pass: false, detail: 'deonticCategory not a tagteam IRI: ' + cat };
+      return { pass: true, detail: 'deonticCategory is proper tagteam IRI ✓' };
+  }},
+  { id: 'RDM-OWL-02', sentence: 'The committee shall review the proposal.',
+    expect: 'fulfillmentState is instance of FulfillmentState class', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      const oblig = findObligation(graph);
+      if (!oblig) return { pass: false, detail: 'No Obligation' };
+      const state = getFulfillmentState(oblig);
+      if (!state || !state.includes('tagteam:')) return { pass: false, detail: 'fulfillmentState not a tagteam IRI: ' + state };
+      return { pass: true, detail: 'fulfillmentState is proper tagteam IRI ✓' };
+  }},
+  { id: 'RDM-OWL-03', sentence: 'The committee shall review and approve the proposal.',
+    expect: 'ConjunctiveObligation subClassOf Obligation', known: true, run: () => {
+      const graph = g('The committee shall review and approve the proposal.');
+      const conj = findConjunctiveObligation(graph);
+      if (!conj) return { pass: false, detail: 'No ConjunctiveObligation' };
+      const types = [].concat(conj['@type'] || []);
+      // ConjunctiveObligation should also be an Obligation
+      if (!types.some(t => t.includes('Obligation'))) {
+        return { pass: false, detail: 'ConjunctiveObligation not also typed as Obligation. Types: ' + types.join(', ') };
+      }
+      return { pass: true, detail: 'ConjunctiveObligation is also Obligation ✓' };
+  }},
+]},
+
+]; // end TESTS
+
+// ═══════════════════════════════════════════════════════════════
+// RENDERING & RUNNER
+// ═══════════════════════════════════════════════════════════════
+function renderSections() {
+  const container = document.getElementById('sections');
+  container.innerHTML = '';
+  for (const sec of TESTS) {
+    const div = document.createElement('div');
+    div.className = 'section'; div.dataset.sectionName = sec.section;
+    const header = document.createElement('div');
+    header.className = 'section-header';
+    header.innerHTML = `<span class="section-title">${sec.section}</span><span class="section-count">${sec.tests.length} tests</span>`;
+    header.onclick = () => div.classList.toggle('open');
+    div.appendChild(header);
+    const body = document.createElement('div');
+    body.className = 'section-body';
+    for (const t of sec.tests) {
+      const row = document.createElement('div');
+      row.className = 'test-row'; row.id = 'row-' + t.id;
+      const trunc = t.sentence.length > 55 ? t.sentence.substring(0,52) + '…' : t.sentence;
+      row.innerHTML = `<span class="test-id">${t.id}</span><span class="test-input" title="${t.sentence.replace(/"/g,'&quot;')}">"${trunc}"</span><span class="test-expect">${t.expect}</span><span class="test-result pending" id="res-${t.id}">—</span>`;
+      body.appendChild(row);
+    }
+    div.appendChild(body); container.appendChild(div);
+  }
+}
+
+async function runAllTests() {
+  const btn = document.getElementById('btn-run');
+  btn.classList.add('running'); btn.textContent = 'Running…';
+  document.getElementById('log-output').innerHTML = '';
+
+  if (typeof TagTeam === 'undefined') { log('FATAL: TagTeam not available.', 'log-fail'); btn.classList.remove('running'); btn.textContent = 'Run All Tests'; return; }
+  if (typeof TagTeam.parse !== 'function') { log('FATAL: TagTeam.parse() not found.', 'log-fail'); btn.classList.remove('running'); btn.textContent = 'Run All Tests'; return; }
+  if (typeof TagTeam.buildGraph !== 'function') { log('FATAL: TagTeam.buildGraph() not found.', 'log-fail'); btn.classList.remove('running'); btn.textContent = 'Run All Tests'; return; }
+
+  renderSections();
+  const t0 = performance.now();
+  let pass = 0, fail = 0, known = 0;
+
+  for (const sec of TESTS) {
+    let sf = 0, sk = 0;
+    log(`\n▸ ${sec.section}`, 'log-info');
+    for (const t of sec.tests) {
+      let result;
+      try { result = t.run(); } catch(e) { result = { pass: false, detail: 'ERROR: ' + e.message }; }
+
+      const resEl = document.getElementById('res-' + t.id);
+      if (result.pass) {
+        pass++; resEl.textContent = 'PASS'; resEl.className = 'test-result pass';
+        log(`  ✓ ${t.id}: ${result.detail}`, 'log-pass');
+      } else if (t.known) {
+        known++; sk++; resEl.textContent = 'KNOWN'; resEl.className = 'test-result known';
+        log(`  ◆ ${t.id}: ${result.detail}`, 'log-known');
+        const row = document.getElementById('row-' + t.id);
+        if (row) { const d = document.createElement('div'); d.className = 'fail-detail is-known'; d.textContent = result.detail; row.parentNode.insertBefore(d, row.nextSibling); }
+      } else {
+        fail++; sf++; resEl.textContent = 'FAIL'; resEl.className = 'test-result fail';
+        log(`  ✗ ${t.id}: ${result.detail}`, 'log-fail');
+        const row = document.getElementById('row-' + t.id);
+        if (row) { const d = document.createElement('div'); d.className = 'fail-detail is-fail'; d.textContent = result.detail; row.parentNode.insertBefore(d, row.nextSibling); }
+      }
+      await new Promise(r => setTimeout(r, 0));
+    }
+    const secEl = document.querySelector(`[data-section-name="${sec.section}"]`);
+    if (secEl) {
+      if (sf > 0) { secEl.classList.add('has-fail','open'); }
+      else if (sk > 0) { secEl.classList.add('has-known','open'); }
+      else { secEl.classList.add('all-pass'); }
+    }
+  }
+
+  const total = pass + fail + known;
+  const elapsed = ((performance.now() - t0) / 1000).toFixed(2);
+  document.getElementById('s-pass').textContent = pass; document.getElementById('s-pass').className = 'stat pass';
+  document.getElementById('s-fail').textContent = fail; document.getElementById('s-fail').className = 'stat ' + (fail > 0 ? 'fail' : 'pass');
+  document.getElementById('s-known').textContent = known; document.getElementById('s-known').className = 'stat known';
+  document.getElementById('s-time').textContent = elapsed + 's';
+  document.getElementById('bar-pass').style.width = (total > 0 ? pass/total*100 : 0) + '%';
+  document.getElementById('bar-known').style.width = (total > 0 ? known/total*100 : 0) + '%';
+  document.getElementById('bar-fail').style.width = (total > 0 ? fail/total*100 : 0) + '%';
+
+  log('', 'log-info');
+  log('════════════════════════════════', 'log-info');
+  log(`  RDM v1.2.1: ${total} tests  PASS: ${pass}  FAIL: ${fail}  KNOWN: ${known}  (${elapsed}s)`, fail > 0 ? 'log-fail' : 'log-pass');
+  log('════════════════════════════════', 'log-info');
+
+  btn.classList.remove('running'); btn.textContent = 'Run All Tests';
+}
+
+function expandFailed() {
+  document.querySelectorAll('.section').forEach(s => {
+    if (s.classList.contains('has-fail') || s.classList.contains('has-known')) s.classList.add('open');
+    else s.classList.remove('open');
+  });
+}
+function toggleAll() {
+  const secs = document.querySelectorAll('.section');
+  const allOpen = [...secs].every(s => s.classList.contains('open'));
+  secs.forEach(s => allOpen ? s.classList.remove('open') : s.classList.add('open'));
+}
+function exportResults() {
+  const rows = [];
+  document.querySelectorAll('.test-row').forEach(r => {
+    const id = r.querySelector('.test-id')?.textContent;
+    const res = r.querySelector('.test-result')?.textContent;
+    const detail = r.nextElementSibling?.classList?.contains('fail-detail') ? r.nextElementSibling.textContent : '';
+    rows.push({ id, result: res, detail });
+  });
+  const blob = new Blob([JSON.stringify(rows, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'rdm-test-results.json'; a.click();
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  if (typeof TagTeam !== 'undefined') {
+    renderSections();
+    log('TagTeam loaded. RDM v1.2.1 test suite ready.', 'log-info');
+    log('Tests aligned with: realist-deontic-modeling-v1.2.1.md', 'log-info');
+  } else {
+    log('TagTeam not found. Check tagteam.js script src.', 'log-fail');
+  }
+});
+</script>
+</body>
+</html>

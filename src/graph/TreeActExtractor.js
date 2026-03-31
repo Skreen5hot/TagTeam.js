@@ -127,6 +127,30 @@ const IRREGULAR_LEMMAS = {
   'transported': 'transport',
   'located': 'locate',
   'based': 'base',
+  // VBZ forms where -es stripping over-truncates (stem ends in 'e')
+  'agrees': 'agree',
+  'advises': 'advise',
+  'provides': 'provide',
+  'discloses': 'disclose',
+  'requires': 'require',
+  'ensures': 'ensure',
+  'produces': 'produce',
+  'reduces': 'reduce',
+  'causes': 'cause',
+  'includes': 'include',
+  'involves': 'involve',
+  'receives': 'receive',
+  'achieves': 'achieve',
+  'removes': 'remove',
+  'improves': 'improve',
+  'serves': 'serve',
+  'observes': 'observe',
+  'manages': 'manage',
+  'describes': 'describe',
+  'determines': 'determine',
+  'operates': 'operate',
+  'locates': 'locate',
+  'collaborates': 'collaborate',
 };
 
 /**
@@ -196,6 +220,7 @@ const MULTI_WORD_MODAL_LEMMAS = {
   'have': 'obligation',
   'need': 'obligation',
   'ought': 'recommendation',  // "ought to" → DefeasibleObligation (spec §4)
+  'agree': 'intention',       // "agrees to provide" → DeclaredIntention (commissive)
 };
 
 // ============================================================================
@@ -226,6 +251,22 @@ class TreeActExtractor {
       const copChild = children.find(c => c.label === 'cop');
       // Check for existential: root has an `expl` child
       const explChild = children.find(c => c.label === 'expl');
+
+      // Also check conj children for copular structure (fragmented "DHS/USCIS is the Source Agency")
+      if (!copChild) {
+        const conjChild = children.find(c => c.label === 'conj');
+        if (conjChild) {
+          const conjChildren = depTree.getChildren(conjChild.dependent);
+          const conjCop = conjChildren.find(c => c.label === 'cop');
+          if (conjCop) {
+            // The conj child IS the copular predicate — handle it directly
+            const assertion = this._handleCopular(depTree, conjChild.dependent, conjCop, conjChildren);
+            if (assertion) structuralAssertions.push(assertion);
+            // Skip normal processing of this root
+            continue;
+          }
+        }
+      }
 
       if (copChild) {
         // Copular construction: root is the PREDICATE, cop is the copula verb
@@ -283,7 +324,19 @@ class TreeActExtractor {
       this._extractEmbeddedActs(depTree, rootId, acts, structuralAssertions);
     }
 
-    return { acts, structuralAssertions };
+    // BC-2: Filter out junk acts from mistagged tokens (punctuation, single chars,
+    // tokens that are clearly nouns misidentified as verbs by the dep parser)
+    const validActs = acts.filter(act => {
+      const lemma = act.lemma || '';
+      // Reject punctuation and single-character "verbs"
+      if (lemma.length <= 1) return false;
+      if (/^[^a-zA-Z]/.test(lemma)) return false;
+      // Reject tokens tagged as nouns that slipped through (NNP/NNS/NN mistagged as root)
+      if (act.tag && !VERB_TAGS.has(act.tag) && !act.modality) return false;
+      return true;
+    });
+
+    return { acts: validActs, structuralAssertions };
   }
 
   /**
@@ -848,7 +901,22 @@ class TreeActExtractor {
         if (VERB_TAGS.has(embeddedTag)) {
           const embeddedChildren = depTree.getChildren(child.dependent);
           const act = this._buildAct(depTree, child.dependent, embeddedChildren);
-          if (act) acts.push(act);
+          if (act) {
+            // Inherit deontic modality from parent ONLY for non-finite verbs.
+            // Finite verbs (VBD, VBZ, VBP) have independent tense — they describe
+            // actual events, not prescribed ones. VBN in reduced relatives ("data
+            // received from USCIS") also describes completed events.
+            // Non-finite forms (VB base, VBG gerund) are within the deontic scope.
+            const FINITE_TAGS = new Set(['VBD', 'VBZ', 'VBP', 'VBN']);
+            if (!act.modality && parentAct && parentAct.modality && !FINITE_TAGS.has(embeddedTag)) {
+              act.modalVerb = parentAct.modalVerb;
+              act.modality = parentAct.modality;
+              act.actualityStatus = parentAct.actualityStatus;
+              act.deonticType = parentAct.deonticType;
+              act.sourceText = (parentAct.modalVerb || '') + ' ' + act.verb;
+            }
+            acts.push(act);
+          }
           // Recurse into embedded clause to find deeper acts (e.g., ccomp inside acl)
           this._extractEmbeddedActs(depTree, child.dependent, acts, structuralAssertions);
         }

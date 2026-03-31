@@ -382,6 +382,27 @@ class TreeEntityExtractor {
       if (isHead && child.label === 'case') continue;
       // Skip additional labels (e.g., 'cc' for split conjunct entities)
       if (skipLabels.length > 0 && skipLabels.includes(child.label)) continue;
+      // §5.4h: Exclude obl children — oblique arguments belong to the verb, not the noun
+      if (child.label === 'obl') continue;
+      // §5.4h: At head level, exclude cc (conjunction word itself doesn't belong to either entity)
+      if (isHead && child.label === 'cc') continue;
+      // §5.4h: At head level, split conj when conjuncts are clearly separate entities
+      // (standalone proper nouns like "CMS and USCIS"). Keep compound names
+      // ("Customs and Border Protection") and common noun coordination ("doctors and nurses").
+      if (isHead && child.label === 'conj') {
+        const conjChildren = depTree._children.get(child.dependent) || [];
+        const headChildren = depTree._children.get(nodeId) || [];
+        const conjHasCompound = conjChildren.some(c => c.label === 'compound');
+        const headHasCompound = headChildren.some(c => c.label === 'compound');
+        // If either side has compound children, it's likely a multi-word name — keep
+        if (!conjHasCompound && !headHasCompound) {
+          const headTag = depTree.tags[nodeId - 1];
+          const conjTag = depTree.tags[child.dependent - 1];
+          const NNP_TAGS = new Set(['NNP', 'NNPS']);
+          // Only split standalone proper nouns without compounds
+          if (NNP_TAGS.has(headTag) && NNP_TAGS.has(conjTag)) continue;
+        }
+      }
       // Skip conj children that are verbs (RC-3: prevents "Immigration" absorbing "deported")
       // or that have cop dependents (copular predicates, not coordination)
       if (child.label === 'conj') {
@@ -390,6 +411,13 @@ class TreeEntityExtractor {
         const conjChildren = depTree._children.get(child.dependent) || [];
         const hasCop = conjChildren.some(c => c.label === 'cop');
         if (hasCop) continue; // This conj is a copular predicate → skip
+      }
+      // §5.4h: At head level, exclude nmod children that have their own case preposition
+      // (indicates oblique/prepositional role, not part of the noun phrase)
+      if (isHead && child.label === 'nmod') {
+        const nmodChildren = depTree._children.get(child.dependent) || [];
+        const hasCase = nmodChildren.some(c => c.label === 'case');
+        if (hasCase) continue;
       }
       this._collectEntitySpan(depTree, child.dependent, indices, false, skipLabels);
     }

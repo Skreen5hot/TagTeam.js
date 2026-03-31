@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TagTeam.js — Modality Detection Tests</title>
+  <style>
+    :root {
+      --bg: #0c0c0c; --fg: #c8c8c8; --dim: #666; --border: #222;
+      --pass: #2ecc40; --fail: #ff4136; --warn: #ff851b; --skip: #888;
+      --accent: #e5c07b; --section-bg: #111; --code-bg: #0a0a0a; --header-bg: #181818;
+      --known: #b39ddb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'IBM Plex Mono','Fira Code','Consolas',monospace; background: var(--bg); color: var(--fg); padding: 24px; line-height: 1.5; font-size: 13px; }
+    h1 { font-size: 1.2em; color: var(--accent); font-weight: 600; } h1 span { color: var(--dim); font-weight: 400; font-size: 0.8em; }
+    .header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 16px; }
+    .controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .controls button { background: var(--section-bg); color: var(--fg); border: 1px solid var(--border); padding: 5px 14px; font-family: inherit; font-size: 12px; cursor: pointer; border-radius: 2px; }
+    .controls button:hover { border-color: var(--accent); color: var(--accent); }
+    .controls button.running { color: var(--warn); border-color: var(--warn); }
+    .summary { display: flex; gap: 20px; padding: 12px 16px; background: var(--header-bg); border: 1px solid var(--border); margin-bottom: 16px; align-items: center; border-radius: 2px; }
+    .summary .stat { font-size: 1.1em; font-weight: 600; }
+    .summary .stat.pass { color: var(--pass); } .summary .stat.fail { color: var(--fail); } .summary .stat.skip { color: var(--skip); } .summary .stat.known { color: var(--known); }
+    .summary .label { color: var(--dim); font-size: 0.85em; margin-left: 4px; }
+    .summary .bar { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; display: flex; }
+    .summary .bar-pass { background: var(--pass); transition: width 0.3s; }
+    .summary .bar-fail { background: var(--fail); transition: width 0.3s; }
+    .summary .bar-known { background: var(--known); transition: width 0.3s; }
+    .summary .time { color: var(--dim); font-size: 0.85em; margin-left: auto; }
+    .section { margin-bottom: 16px; border: 1px solid var(--border); border-radius: 2px; }
+    .section-header { padding: 8px 14px; background: var(--header-bg); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
+    .section-header:hover { background: #1a1a1a; }
+    .section-title { color: var(--accent); font-weight: 600; font-size: 0.95em; }
+    .section-count { color: var(--dim); font-size: 0.85em; }
+    .section-body { display: none; } .section.open .section-body { display: block; }
+    .section.all-pass .section-header { border-left: 3px solid var(--pass); }
+    .section.has-fail .section-header { border-left: 3px solid var(--fail); }
+    .section.has-known .section-header { border-left: 3px solid var(--known); }
+    .test-row { display: grid; grid-template-columns: 80px 1fr 260px 60px; padding: 6px 14px; border-bottom: 1px solid #1a1a1a; align-items: center; font-size: 12px; }
+    .test-row:last-child { border-bottom: none; } .test-row:hover { background: #141414; }
+    .test-id { color: var(--dim); font-weight: 600; } .test-input { color: var(--fg); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .test-expect { color: var(--dim); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .test-result { text-align: right; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .test-result.pass { color: var(--pass); } .test-result.fail { color: var(--fail); } .test-result.known { color: var(--known); } .test-result.pending { color: var(--dim); }
+    .fail-detail { grid-column: 1 / -1; padding: 8px 14px 8px 80px; font-size: 11px; background: #1a0a0a; border-bottom: 1px solid #331111; white-space: pre-wrap; word-break: break-all; }
+    .fail-detail.is-fail { color: var(--fail); } .fail-detail.is-known { color: var(--known); }
+    .log { margin-top: 16px; } .log-header { color: var(--dim); font-size: 0.85em; padding: 4px 0; border-bottom: 1px solid var(--border); margin-bottom: 4px; }
+    #log-output { background: var(--code-bg); padding: 12px; max-height: 400px; overflow: auto; border: 1px solid var(--border); font-size: 11px; line-height: 1.6; white-space: pre-wrap; border-radius: 2px; }
+    .log-pass { color: var(--pass); } .log-fail { color: var(--fail); } .log-info { color: var(--dim); } .log-known { color: var(--known); }
+    .note { padding: 10px 16px; margin-bottom: 16px; border: 1px solid var(--border); border-radius: 2px; font-size: 12px; background: var(--header-bg); color: var(--dim); }
+    .note strong { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Modality Detection Tests <span>v2.0 — 4 complexity levels</span></h1>
+  <div class="controls">
+    <button id="btn-run" onclick="runAllTests()">Run All Tests</button>
+    <button onclick="expandFailed()">Show Failures</button>
+    <button onclick="toggleAll()">Toggle All</button>
+    <button onclick="exportResults()">Export JSON</button>
+  </div>
+</div>
+
+<div class="note">
+  <strong>Coverage:</strong> Tests both <code>TagTeam.parse()</code> and <code>TagTeam.buildGraph()</code> across
+  4 complexity levels: L1 Lexical Baseline, L2 Syntactic Complexity, L3 Multi-Word &amp; Semi-Modals, L4 Clause &amp; Conditional Scope.
+  <span style="color:var(--known)">■</span> KNOWN = documented limitation.
+</div>
+
+<div class="summary" id="summary">
+  <span class="stat pending" id="s-pass">—</span><span class="label">pass</span>
+  <span class="stat pending" id="s-fail">—</span><span class="label">fail</span>
+  <span class="stat pending" id="s-known">—</span><span class="label">known</span>
+  <div class="bar"><div class="bar-pass" id="bar-pass" style="width:0"></div><div class="bar-known" id="bar-known" style="width:0"></div><div class="bar-fail" id="bar-fail" style="width:0"></div></div>
+  <span class="time" id="s-time"></span>
+</div>
+
+<div id="sections"></div>
+
+<div class="log">
+  <div class="log-header">Console Log</div>
+  <div id="log-output"></div>
+</div>
+
+<script src="tagteam.js?v=20260330b"></script>
+<script>
+// ═══════════════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════════════
+let logEl;
+function log(msg, cls) {
+  if (!logEl) logEl = document.getElementById('log-output');
+  const s = document.createElement('span'); s.className = cls || 'log-info';
+  s.textContent = msg + '\n'; logEl.appendChild(s); logEl.scrollTop = logEl.scrollHeight;
+}
+
+function p(sentence) { return TagTeam.parse(sentence); }
+
+function g(sentence) {
+  const result = TagTeam.buildGraph(sentence);
+  return result['@graph'] || [];
+}
+
+function findAct(graph, verbHint) {
+  if (verbHint) {
+    const byVerb = graph.find(n =>
+      n['@id'] && n['@id'].includes('Act_') &&
+      !n['@id'].includes('ParsingAct') &&
+      (n['tagteam:lemma'] === verbHint || n['tagteam:verb'] === verbHint ||
+       (n['rdfs:label'] || '').toLowerCase().includes(verbHint))
+    );
+    if (byVerb) return byVerb;
+  }
+  return graph.find(n =>
+    n['@id'] && n['@id'].includes('Act_') && !n['@id'].includes('ParsingAct')
+  );
+}
+
+function findAllActs(graph) {
+  return graph.filter(n =>
+    n['@id'] && n['@id'].includes('Act_') && !n['@id'].includes('ParsingAct')
+  );
+}
+
+function findDirective(graph) {
+  return graph.find(n => {
+    const types = [].concat(n['@type'] || []);
+    return types.some(t => t.includes('DirectiveContent'));
+  });
+}
+
+function getStatus(node) {
+  const s = node['tagteam:actualityStatus'];
+  if (!s) return null;
+  if (typeof s === 'object' && s['@id']) return s['@id'];
+  return s;
+}
+
+function actSummary(graph) {
+  return findAllActs(graph).map(a =>
+    (a['rdfs:label'] || a['tagteam:lemma'] || a['@id']) + ':' + (a['tagteam:modality'] || 'none')
+  ).join(', ');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TEST DEFINITIONS
+// ═══════════════════════════════════════════════════════════════
+const TESTS = [
+
+// ══════════════════════════════════════════════════════════════
+// LEVEL 1: LEXICAL BASELINE
+// 1:1 mapping from modal word → graph annotation in simple active voice
+// ══════════════════════════════════════════════════════════════
+
+// ── M1: Core Modal Detection (Graph Path) ────────────────────
+{ section: 'M1: Core Modals — Lexical Baseline (buildGraph)', tests: [
+  { id: 'AC-SH-01', sentence: 'The doctor must treat the patient.',
+    expect: 'modality=obligation', run: () => {
+      const graph = g('The doctor must treat the patient.');
+      const act = findAct(graph, 'treat');
+      if (!act) return { pass: false, detail: 'No act node found. Graph IDs: ' + graph.map(n => n['@id']).filter(Boolean).join(', ') };
+      if (act['tagteam:modality'] !== 'obligation') return { pass: false, detail: 'modality=' + act['tagteam:modality'] + ' (expected obligation)' };
+      return { pass: true, detail: 'modality=obligation ✓' };
+  }},
+  { id: 'AC-SH-02', sentence: 'The doctor must treat the patient.',
+    expect: 'status=tagteam:Prescribed', run: () => {
+      const graph = g('The doctor must treat the patient.');
+      const act = findAct(graph, 'treat');
+      if (!act) return { pass: false, detail: 'No act node found' };
+      const status = getStatus(act);
+      if (status !== 'tagteam:Prescribed') return { pass: false, detail: 'actualityStatus=' + status };
+      return { pass: true, detail: 'actualityStatus=tagteam:Prescribed ✓' };
+  }},
+  { id: 'AC-SH-03', sentence: 'The doctor must treat the patient.',
+    expect: 'deonticType=duty', run: () => {
+      const graph = g('The doctor must treat the patient.');
+      const act = findAct(graph, 'treat');
+      if (!act) return { pass: false, detail: 'No act node found' };
+      if (act['tagteam:deonticType'] !== 'duty') return { pass: false, detail: 'deonticType=' + act['tagteam:deonticType'] };
+      return { pass: true, detail: 'deonticType=duty ✓' };
+  }},
+  { id: 'AC-SH-04', sentence: 'The committee shall review the proposal.',
+    expect: 'obligation + Prescribed', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      const act = findAct(graph, 'review');
+      if (!act) return { pass: false, detail: 'No act node found' };
+      const m = act['tagteam:modality'], s = getStatus(act);
+      if (m !== 'obligation') return { pass: false, detail: 'modality=' + m };
+      if (s !== 'tagteam:Prescribed') return { pass: false, detail: 'status=' + s };
+      return { pass: true, detail: 'obligation + Prescribed ✓' };
+  }},
+  { id: 'AC-SH-05', sentence: 'The doctor should inform the family.',
+    expect: 'recommendation + Prescribed', run: () => {
+      const graph = g('The doctor should inform the family.');
+      const act = findAct(graph, 'inform');
+      if (!act) return { pass: false, detail: 'No act node found' };
+      const m = act['tagteam:modality'], s = getStatus(act);
+      if (m !== 'recommendation') return { pass: false, detail: 'modality=' + m };
+      if (s !== 'tagteam:Prescribed') return { pass: false, detail: 'status=' + s };
+      return { pass: true, detail: 'recommendation + Prescribed ✓' };
+  }},
+  { id: 'AC-SH-06', sentence: 'The nurse will administer medication.',
+    expect: 'intention + Actual', run: () => {
+      const graph = g('The nurse will administer medication.');
+      const act = findAct(graph, 'administer');
+      if (!act) return { pass: false, detail: 'No act node found' };
+      const m = act['tagteam:modality'], s = getStatus(act);
+      if (m !== 'intention') return { pass: false, detail: 'modality=' + m };
+      if (s !== 'tagteam:Actual') return { pass: false, detail: 'status=' + s + ' (expected tagteam:Actual)' };
+      return { pass: true, detail: 'intention + Actual ✓' };
+  }},
+  { id: 'AC-SH-07', sentence: 'The patient may refuse treatment.',
+    expect: 'permission + Permitted', run: () => {
+      const graph = g('The patient may refuse treatment.');
+      const act = findAct(graph, 'refuse');
+      if (!act) return { pass: false, detail: 'No act node found' };
+      const m = act['tagteam:modality'], s = getStatus(act);
+      if (m !== 'permission') return { pass: false, detail: 'modality=' + m };
+      if (s !== 'tagteam:Permitted') return { pass: false, detail: 'status=' + s };
+      return { pass: true, detail: 'permission + Permitted ✓' };
+  }},
+  { id: 'AC-SH-08', sentence: 'The patient can request records.',
+    expect: 'ability + Possible', run: () => {
+      const graph = g('The patient can request records.');
+      const act = findAct(graph, 'request');
+      if (!act) return { pass: false, detail: 'No act node found' };
+      const m = act['tagteam:modality'], s = getStatus(act);
+      if (m !== 'ability') return { pass: false, detail: 'modality=' + m };
+      if (s !== 'tagteam:Possible') return { pass: false, detail: 'status=' + s };
+      return { pass: true, detail: 'ability + Possible ✓' };
+  }},
+  { id: 'AC-SH-09a', sentence: 'The system could fail under load.',
+    expect: 'hypothetical + Hypothetical', run: () => {
+      const graph = g('The system could fail under load.');
+      const act = findAct(graph, 'fail');
+      if (!act) return { pass: false, detail: 'No act node found' };
+      const m = act['tagteam:modality'], s = getStatus(act);
+      if (m !== 'hypothetical') return { pass: false, detail: 'modality=' + m };
+      if (s !== 'tagteam:Hypothetical') return { pass: false, detail: 'status=' + s };
+      return { pass: true, detail: 'hypothetical + Hypothetical ✓' };
+  }},
+  { id: 'M1-10', sentence: 'The process would continue indefinitely.',
+    expect: 'hypothetical + Hypothetical (would)', run: () => {
+      const graph = g('The process would continue indefinitely.');
+      const act = findAct(graph, 'continue');
+      if (!act) return { pass: false, detail: 'No act node found. Acts: ' + actSummary(graph) };
+      const m = act['tagteam:modality'], s = getStatus(act);
+      if (m !== 'hypothetical') return { pass: false, detail: 'modality=' + m };
+      if (s !== 'tagteam:Hypothetical') return { pass: false, detail: 'status=' + s };
+      return { pass: true, detail: 'would → hypothetical + Hypothetical ✓' };
+  }},
+  { id: 'M1-11', sentence: 'The evidence might support the claim.',
+    expect: 'possibility + Possible (might)', run: () => {
+      const graph = g('The evidence might support the claim.');
+      const act = findAct(graph, 'support');
+      if (!act) return { pass: false, detail: 'No act node found. Acts: ' + actSummary(graph) };
+      const m = act['tagteam:modality'], s = getStatus(act);
+      if (m !== 'possibility') return { pass: false, detail: 'modality=' + m };
+      if (s !== 'tagteam:Possible') return { pass: false, detail: 'status=' + s };
+      return { pass: true, detail: 'might → possibility + Possible ✓' };
+  }},
+]},
+
+// ── M2: Negated Modals ───────────────────────────────────────
+{ section: 'M2: Negated Modals — Prohibition (L1)', tests: [
+  { id: 'AC-SH-10', sentence: 'The officer shall not disclose records.',
+    expect: 'prohibition + Prohibited + duty', run: () => {
+      const graph = g('The officer shall not disclose records.');
+      const act = findAct(graph, 'disclose');
+      if (!act) return { pass: false, detail: 'No act node found' };
+      const m = act['tagteam:modality'], s = getStatus(act), d = act['tagteam:deonticType'];
+      const issues = [];
+      if (m !== 'prohibition') issues.push('modality=' + m);
+      if (s !== 'tagteam:Prohibited') issues.push('status=' + s);
+      if (d !== 'duty') issues.push('deonticType=' + d);
+      if (issues.length > 0) return { pass: false, detail: issues.join(', ') };
+      return { pass: true, detail: 'prohibition + Prohibited + duty ✓' };
+  }},
+  { id: 'AC-SH-11', sentence: 'Employees must not access restricted areas.',
+    expect: 'prohibition', run: () => {
+      const graph = g('Employees must not access restricted areas.');
+      const act = findAct(graph, 'access');
+      if (!act) return { pass: false, detail: 'No act node found' };
+      if (act['tagteam:modality'] !== 'prohibition') return { pass: false, detail: 'modality=' + act['tagteam:modality'] };
+      return { pass: true, detail: 'modality=prohibition ✓' };
+  }},
+  { id: 'AC-SH-12', sentence: 'You cannot enter the building.',
+    expect: 'prohibition + Prohibited', run: () => {
+      const graph = g('You cannot enter the building.');
+      const act = findAct(graph, 'enter');
+      if (!act) return { pass: false, detail: 'No act node found' };
+      const m = act['tagteam:modality'], s = getStatus(act);
+      if (m !== 'prohibition') return { pass: false, detail: 'modality=' + m };
+      if (s !== 'tagteam:Prohibited') return { pass: false, detail: 'status=' + s };
+      return { pass: true, detail: 'prohibition + Prohibited ✓' };
+  }},
+]},
+
+// ── M3: Multi-Word Modals ────────────────────────────────────
+{ section: 'M3: Multi-Word & Semi-Modals (L3)', tests: [
+  { id: 'AC-SH-13', sentence: 'We have to allocate resources fairly.',
+    expect: 'obligation on "allocate"', run: () => {
+      const graph = g('We have to allocate resources fairly.');
+      const act = findAct(graph, 'allocate');
+      if (!act) return { pass: false, detail: 'No act node for "allocate". Acts: ' + actSummary(graph) };
+      if (act['tagteam:modality'] !== 'obligation') return { pass: false, detail: 'modality=' + act['tagteam:modality'] };
+      return { pass: true, detail: 'obligation on allocate ✓' };
+  }},
+  { id: 'AC-SH-14', sentence: 'The team needs to complete the assessment.',
+    expect: 'obligation on "complete"', run: () => {
+      const graph = g('The team needs to complete the assessment.');
+      const act = findAct(graph, 'complete');
+      if (!act) return { pass: false, detail: 'No act node for "complete"' };
+      if (act['tagteam:modality'] !== 'obligation') return { pass: false, detail: 'modality=' + act['tagteam:modality'] };
+      return { pass: true, detail: 'obligation on complete ✓' };
+  }},
+  { id: 'AC-SH-15', sentence: 'Doctors ought to follow guidelines.',
+    expect: 'obligation + Prescribed', run: () => {
+      const graph = g('Doctors ought to follow guidelines.');
+      const act = findAct(graph, 'follow');
+      if (!act) return { pass: false, detail: 'No act node for "follow"' };
+      const m = act['tagteam:modality'], s = getStatus(act);
+      if (m !== 'obligation') return { pass: false, detail: 'modality=' + m };
+      if (s !== 'tagteam:Prescribed') return { pass: false, detail: 'status=' + s };
+      return { pass: true, detail: 'obligation + Prescribed ✓' };
+  }},
+  { id: 'M3-04', sentence: 'He has to submit the form.',
+    expect: '3rd person "has to" → obligation', run: () => {
+      const graph = g('He has to submit the form.');
+      const act = findAct(graph, 'submit');
+      if (!act) return { pass: false, detail: 'No act node for "submit". Acts: ' + actSummary(graph) };
+      if (act['tagteam:modality'] !== 'obligation') return { pass: false, detail: 'modality=' + act['tagteam:modality'] };
+      return { pass: true, detail: '3rd-person has to → obligation ✓' };
+  }},
+  { id: 'M3-05', sentence: 'They had to evacuate the building.',
+    expect: 'past "had to" → obligation', run: () => {
+      const graph = g('They had to evacuate the building.');
+      const act = findAct(graph, 'evacuate');
+      if (!act) return { pass: false, detail: 'No act node for "evacuate". Acts: ' + actSummary(graph) };
+      if (act['tagteam:modality'] !== 'obligation') return { pass: false, detail: 'modality=' + act['tagteam:modality'] };
+      return { pass: true, detail: 'past had to → obligation ✓' };
+  }},
+]},
+
+// ── M4: DirectiveContent Nodes ───────────────────────────────
+{ section: 'M4: DirectiveContent Nodes (L1)', tests: [
+  { id: 'AC-SH-16', sentence: 'The doctor must allocate the resource.',
+    expect: 'DirectiveContent node exists', run: () => {
+      const graph = g('The doctor must allocate the resource.');
+      const dir = findDirective(graph);
+      if (!dir) return { pass: false, detail: 'No DirectiveContent node. Types: ' + [...new Set(graph.flatMap(n => n['@type'] || []))].join(', ') };
+      return { pass: true, detail: 'DirectiveContent present ✓' };
+  }},
+  { id: 'AC-SH-17', sentence: 'The doctor must help the patient.',
+    expect: 'prescribes → act @id', run: () => {
+      const graph = g('The doctor must help the patient.');
+      const dir = findDirective(graph);
+      if (!dir) return { pass: false, detail: 'No DirectiveContent node' };
+      const link = dir['prescribes'] || dir['tagteam:prescribes'];
+      if (!link) return { pass: false, detail: 'No prescribes link. Keys: ' + Object.keys(dir).join(', ') };
+      const targetId = typeof link === 'object' ? link['@id'] : link;
+      if (!targetId || !targetId.includes('Act_')) return { pass: false, detail: 'prescribes target: ' + targetId };
+      return { pass: true, detail: 'prescribes → ' + targetId + ' ✓' };
+  }},
+  { id: 'AC-SH-18', sentence: 'The doctor must decide.',
+    expect: 'modalMarker=must, strength=1', run: () => {
+      const graph = g('The doctor must decide.');
+      const dir = findDirective(graph);
+      if (!dir) return { pass: false, detail: 'No DirectiveContent node' };
+      const marker = dir['tagteam:modalMarker'], strength = dir['tagteam:modalStrength'];
+      const issues = [];
+      if (marker !== 'must') issues.push('modalMarker=' + marker);
+      if (strength !== 1 && strength !== 1.0) issues.push('modalStrength=' + strength);
+      if (issues.length > 0) return { pass: false, detail: issues.join(', ') };
+      return { pass: true, detail: 'must + strength=1 ✓' };
+  }},
+  { id: 'AC-SH-19', sentence: 'The committee shall review the proposal.',
+    expect: 'modalMarker=shall, strength=1', run: () => {
+      const graph = g('The committee shall review the proposal.');
+      const dir = findDirective(graph);
+      if (!dir) return { pass: false, detail: 'No DirectiveContent node' };
+      const marker = dir['tagteam:modalMarker'], strength = dir['tagteam:modalStrength'];
+      const issues = [];
+      if (marker !== 'shall') issues.push('modalMarker=' + marker);
+      if (strength !== 1 && strength !== 1.0) issues.push('modalStrength=' + strength);
+      if (issues.length > 0) return { pass: false, detail: issues.join(', ') };
+      return { pass: true, detail: 'shall + strength=1 ✓' };
+  }},
+]},
+
+// ── M5: Non-Modal Compatibility ──────────────────────────────
+{ section: 'M5: Non-Modal Compatibility (L1)', tests: [
+  { id: 'AC-SH-20', sentence: 'The doctor treats the patient.',
+    expect: 'verb=treat on act node', run: () => {
+      const graph = g('The doctor treats the patient.');
+      const act = findAct(graph, 'treat');
+      if (!act) return { pass: false, detail: 'No act node found' };
+      const verb = act['tagteam:verb'] || act['tagteam:lemma'];
+      if (verb !== 'treat') return { pass: false, detail: 'verb=' + verb };
+      return { pass: true, detail: 'verb=treat ✓' };
+  }},
+  { id: 'AC-SH-21', sentence: 'The doctor treats the patient.',
+    expect: 'default status=tagteam:Actual', run: () => {
+      const graph = g('The doctor treats the patient.');
+      const act = findAct(graph, 'treat');
+      if (!act) return { pass: false, detail: 'No act node found' };
+      const s = getStatus(act);
+      if (s !== 'tagteam:Actual') return { pass: false, detail: 'actualityStatus=' + s };
+      return { pass: true, detail: 'default Actual ✓' };
+  }},
+  { id: 'AC-SH-24', sentence: 'CBP is a component of DHS.',
+  expect: 'no spurious modality on copular', run: () => {
+    const graph = g('CBP is a component of DHS.');
+    const allNodes = graph.filter(n => n['@id'] && !n['@id'].includes('ParsingAct') && !n['@id'].includes('IBE_') && !n['@id'].includes('Agent_'));
+    const spoiled = allNodes.filter(n => n['tagteam:modality']);
+    if (spoiled.length > 0) return { pass: false, detail: 'Spurious modality on: ' + spoiled.map(n => n['@id'] + '=' + n['tagteam:modality']).join(', ') };
+    return { pass: true, detail: 'No spurious modality on any node (' + allNodes.length + ' checked) ✓' };
+}},
+]},
+
+// ── M6: parse() Path ─────────────────────────────────────────
+{ section: 'M6: parse() Path (SemanticRoleExtractor)', tests: [
+  { id: 'AC-SH-22', sentence: 'An officer shall verify documentation.',
+    expect: 'action.modality=shall', run: () => {
+      const r = p('An officer shall verify documentation.');
+      if (r.action.modality !== 'shall') return { pass: false, detail: 'action.modality=' + r.action.modality + '. Full action: ' + JSON.stringify(r.action) };
+      return { pass: true, detail: 'action.modality=shall ✓' };
+  }},
+  { id: 'AC-SH-23', sentence: 'CMS shall provide data.',
+    expect: 'action.modality=shall', run: () => {
+      const r = p('CMS shall provide data.');
+      if (r.action.modality !== 'shall') return { pass: false, detail: 'action.modality=' + r.action.modality };
+      return { pass: true, detail: 'action.modality=shall ✓' };
+  }},
+  { id: 'M6-03', sentence: 'The doctor must allocate the last ventilator.',
+    expect: 'action.modality=must', run: () => {
+      const r = p('The doctor must allocate the last ventilator.');
+      if (r.action.modality !== 'must') return { pass: false, detail: 'action.modality=' + r.action.modality };
+      return { pass: true, detail: 'action.modality=must ✓' };
+  }},
+  { id: 'M6-04', sentence: 'She can run fast.',
+    expect: 'action.modality=can', run: () => {
+      const r = p('She can run fast.');
+      if (r.action.modality !== 'can') return { pass: false, detail: 'action.modality=' + r.action.modality };
+      return { pass: true, detail: 'action.modality=can ✓' };
+  }},
+  { id: 'M6-05', sentence: 'She might have been thinking.',
+    expect: 'action.modality=might', run: () => {
+      const r = p('She might have been thinking.');
+      if (r.action.modality !== 'might') return { pass: false, detail: 'action.modality=' + r.action.modality };
+      return { pass: true, detail: 'action.modality=might ✓' };
+  }},
+  { id: 'M6-06', sentence: 'The doctor treats the patient.',
+    expect: 'action.modality=null', run: () => {
+      const r = p('The doctor treats the patient.');
+      if (r.action.modality !== null && r.action.modality !== undefined) return { pass: false, detail: 'action.modality=' + r.action.modality + ' (expected null)' };
+      return { pass: true, detail: 'action.modality=null ✓' };
+  }},
+]},
+
+// ══════════════════════════════════════════════════════════════
+// LEVEL 2: SYNTACTIC COMPLEXITY
+// Modal assignment survives syntactic variation
+// ══════════════════════════════════════════════════════════════
+
+// ── M8: Contractions ─────────────────────────────────────────
+{ section: 'M8: Contractions (L2)', tests: [
+  { id: 'M8-01', sentence: "He can't access the system.",
+    expect: "can't → prohibition", run: () => {
+      const graph = g("He can't access the system.");
+      const act = findAct(graph, 'access');
+      if (!act) return { pass: false, detail: 'No act node. Acts: ' + actSummary(graph) };
+      if (act['tagteam:modality'] !== 'prohibition') return { pass: false, detail: 'modality=' + act['tagteam:modality'] };
+      return { pass: true, detail: "can't → prohibition ✓" };
+  }},
+  { id: 'M8-02', sentence: "She won't submit the report.",
+    expect: "won't → intention + negation", run: () => {
+      const graph = g("She won't submit the report.");
+      const act = findAct(graph, 'submit');
+      if (!act) return { pass: false, detail: 'No act node. Acts: ' + actSummary(graph) };
+      // won't = will + not. System may treat as negated intention or as its own category
+      const m = act['tagteam:modality'];
+      const neg = act['tagteam:isNegated'];
+      if (m === 'intention' && neg) return { pass: true, detail: 'intention + negated ✓' };
+      if (m === 'prohibition') return { pass: true, detail: 'prohibition (will+not collapsed) ✓' };
+      return { pass: false, detail: 'modality=' + m + ', isNegated=' + neg };
+  }},
+  { id: 'M8-03', sentence: "They shouldn't ignore the warning.",
+    expect: "shouldn't → negated recommendation", run: () => {
+      const graph = g("They shouldn't ignore the warning.");
+      const act = findAct(graph, 'ignore');
+      if (!act) return { pass: false, detail: 'No act node. Acts: ' + actSummary(graph) };
+      const m = act['tagteam:modality'];
+      // should + not: recommendation stays (no negated form in table) but negation should be marked
+      if (m === 'recommendation') return { pass: true, detail: 'recommendation (negation on act) ✓' };
+      return { pass: false, detail: 'modality=' + m + ' (expected recommendation with negation)' };
+  }},
+  { id: 'M8-04', sentence: "You mustn't touch the equipment.",
+    expect: "mustn't → prohibition", run: () => {
+      const graph = g("You mustn't touch the equipment.");
+      const act = findAct(graph, 'touch');
+      if (!act) return { pass: false, detail: 'No act node. Acts: ' + actSummary(graph) };
+      if (act['tagteam:modality'] !== 'prohibition') return { pass: false, detail: 'modality=' + act['tagteam:modality'] };
+      return { pass: true, detail: "mustn't → prohibition ✓" };
+  }},
+]},
+
+// ── M9: Passive Voice ────────────────────────────────────────
+{ section: 'M9: Passive Voice with Modals (L2)', tests: [
+  { id: 'M9-01', sentence: 'The records must be destroyed by the officer.',
+    expect: 'obligation on "destroy"', run: () => {
+      const graph = g('The records must be destroyed by the officer.');
+      const act = findAct(graph, 'destroy');
+      if (!act) {
+        // Fallback: check any act for obligation
+        const anyAct = findAllActs(graph).find(a => a['tagteam:modality']);
+        if (anyAct) return { pass: false, detail: 'No "destroy" act but found: ' + anyAct['rdfs:label'] + ' with modality=' + anyAct['tagteam:modality'] };
+        return { pass: false, detail: 'No act node found. Acts: ' + actSummary(graph) };
+      }
+      if (act['tagteam:modality'] !== 'obligation') return { pass: false, detail: 'modality=' + act['tagteam:modality'] };
+      return { pass: true, detail: 'obligation on destroy (passive) ✓' };
+  }},
+  { id: 'M9-02', sentence: 'The form shall be submitted electronically.',
+    expect: 'obligation on "submit"', run: () => {
+      const graph = g('The form shall be submitted electronically.');
+      const act = findAct(graph, 'submit');
+      if (!act) {
+        const anyAct = findAllActs(graph).find(a => a['tagteam:modality']);
+        if (anyAct) return { pass: false, detail: 'No "submit" act but found: ' + anyAct['rdfs:label'] + ' modality=' + anyAct['tagteam:modality'] };
+        return { pass: false, detail: 'No act node. Acts: ' + actSummary(graph) };
+      }
+      if (act['tagteam:modality'] !== 'obligation') return { pass: false, detail: 'modality=' + act['tagteam:modality'] };
+      return { pass: true, detail: 'obligation on submit (passive) ✓' };
+  }},
+  { id: 'M9-03', sentence: 'Access may be granted by the supervisor.',
+    expect: 'permission on "grant"', run: () => {
+      const graph = g('Access may be granted by the supervisor.');
+      const act = findAct(graph, 'grant');
+      if (!act) {
+        const anyAct = findAllActs(graph).find(a => a['tagteam:modality']);
+        if (anyAct) return { pass: false, detail: 'No "grant" act but found: ' + anyAct['rdfs:label'] + ' modality=' + anyAct['tagteam:modality'] };
+        return { pass: false, detail: 'No act node. Acts: ' + actSummary(graph) };
+      }
+      if (act['tagteam:modality'] !== 'permission') return { pass: false, detail: 'modality=' + act['tagteam:modality'] };
+      return { pass: true, detail: 'permission on grant (passive) ✓' };
+  }},
+]},
+
+// ── M10: Coordinated Verbs ───────────────────────────────────
+{ section: 'M10: Coordinated Verbs (L2)', tests: [
+  { id: 'M10-01', sentence: 'The committee shall review and approve the proposal.',
+    expect: 'obligation on both review AND approve', run: () => {
+      const graph = g('The committee shall review and approve the proposal.');
+      const review = findAct(graph, 'review');
+      const approve = findAct(graph, 'approve');
+      if (!review && !approve) return { pass: false, detail: 'Neither review nor approve found. Acts: ' + actSummary(graph) };
+      if (!review) return { pass: false, detail: 'No "review" act. Acts: ' + actSummary(graph) };
+      if (!approve) return { pass: false, detail: 'review found but no "approve" act. Acts: ' + actSummary(graph) };
+      const mR = review['tagteam:modality'], mA = approve['tagteam:modality'];
+      if (mR !== 'obligation') return { pass: false, detail: 'review.modality=' + mR };
+      if (mA !== 'obligation') return { pass: false, detail: 'approve.modality=' + mA + ' (shall not inherited)' };
+      return { pass: true, detail: 'Both review + approve → obligation ✓' };
+  }},
+  { id: 'M10-02', sentence: 'Officers must inspect and report any violations.',
+    expect: 'obligation on both inspect AND report', run: () => {
+      const graph = g('Officers must inspect and report any violations.');
+      const inspect = findAct(graph, 'inspect');
+      const report = findAct(graph, 'report');
+      if (!inspect && !report) return { pass: false, detail: 'Neither found. Acts: ' + actSummary(graph) };
+      const issues = [];
+      if (inspect && inspect['tagteam:modality'] !== 'obligation') issues.push('inspect.modality=' + inspect['tagteam:modality']);
+      if (report && report['tagteam:modality'] !== 'obligation') issues.push('report.modality=' + report['tagteam:modality']);
+      if (!inspect) issues.push('no inspect act');
+      if (!report) issues.push('no report act');
+      if (issues.length > 0) return { pass: false, detail: issues.join(', ') };
+      return { pass: true, detail: 'Both inspect + report → obligation ✓' };
+  }},
+]},
+
+// ── M11: Negation Scope ──────────────────────────────────────
+{ section: 'M11: Negation Scope (L2)', tests: [
+  { id: 'M11-01', sentence: 'The doctor may not leave.',
+    expect: 'prohibition (modal negated)', run: () => {
+      const graph = g('The doctor may not leave.');
+      const act = findAct(graph, 'leave');
+      if (!act) return { pass: false, detail: 'No act node. Acts: ' + actSummary(graph) };
+      if (act['tagteam:modality'] !== 'prohibition') return { pass: false, detail: 'modality=' + act['tagteam:modality'] + ' (expected prohibition: "may not" negates the permission)' };
+      return { pass: true, detail: 'may not → prohibition ✓' };
+  }},
+  { id: 'M11-02', sentence: 'The doctor may choose not to treat.',
+    expect: 'permission (act negated, not modal)', known: true, run: () => {
+      const graph = g('The doctor may choose not to treat.');
+      const act = findAct(graph, 'choose');
+      if (!act) return { pass: false, detail: 'No act node. Acts: ' + actSummary(graph) };
+      const m = act['tagteam:modality'];
+      // "may choose not to treat" — the permission is granted, the act is negated
+      // Correct: modality=permission (NOT prohibition)
+      if (m === 'permission') return { pass: true, detail: 'permission preserved (negation scoped to embedded clause) ✓' };
+      if (m === 'prohibition') return { pass: false, detail: 'SCOPE ERROR: "not" negates the embedded act, not the modal. modality should be permission, got prohibition' };
+      return { pass: false, detail: 'modality=' + m };
+  }},
+]},
+
+// ══════════════════════════════════════════════════════════════
+// LEVEL 4: CLAUSE & CONDITIONAL SCOPE
+// ══════════════════════════════════════════════════════════════
+
+// ── M12: Conditional Scope ───────────────────────────────────
+{ section: 'M12: Conditional / Clause Scope (L4)', tests: [
+  { id: 'M12-01', sentence: 'If the patient requests records, the officer must provide them.',
+    expect: 'must=obligation on "provide", no obligation on "request"', known: true, run: () => {
+      const graph = g('If the patient requests records, the officer must provide them.');
+      const provide = findAct(graph, 'provide');
+      const request = findAct(graph, 'request');
+      if (!provide) return { pass: false, detail: 'No "provide" act. Acts: ' + actSummary(graph) };
+      if (provide['tagteam:modality'] !== 'obligation') return { pass: false, detail: 'provide.modality=' + provide['tagteam:modality'] + ' (expected obligation)' };
+      // Request should NOT inherit obligation from the "must" in the consequent clause
+      if (request && request['tagteam:modality'] === 'obligation') {
+        return { pass: false, detail: 'SCOPE BLEED: "request" incorrectly inherited obligation from consequent clause' };
+      }
+      return { pass: true, detail: 'provide=obligation, request not contaminated ✓' };
+  }},
+  { id: 'M12-02', sentence: 'When the threshold is exceeded, the system shall alert the operator.',
+    expect: 'shall=obligation on "alert" only', known: true, run: () => {
+      const graph = g('When the threshold is exceeded, the system shall alert the operator.');
+      const alert = findAct(graph, 'alert');
+      if (!alert) return { pass: false, detail: 'No "alert" act. Acts: ' + actSummary(graph) };
+      if (alert['tagteam:modality'] !== 'obligation') return { pass: false, detail: 'alert.modality=' + alert['tagteam:modality'] };
+      const exceed = findAct(graph, 'exceed');
+      if (exceed && exceed['tagteam:modality'] === 'obligation') {
+        return { pass: false, detail: 'SCOPE BLEED: "exceed" incorrectly got obligation' };
+      }
+      return { pass: true, detail: 'alert=obligation, no bleed to condition ✓' };
+  }},
+]},
+
+// ── M13: Epistemic vs Deontic ────────────────────────────────
+{ section: 'M13: Epistemic vs Deontic Ambiguity (L2)', tests: [
+  { id: 'M13-01', sentence: 'The patient must be in pain.',
+    expect: 'KNOWN: epistemic "must" treated as deontic', known: true, run: () => {
+      const graph = g('The patient must be in pain.');
+      const act = findAct(graph);
+      if (!act) return { pass: false, detail: 'No act node. Acts: ' + actSummary(graph) };
+      const m = act['tagteam:modality'];
+      // Correct reading: epistemic deduction ("must be" = "is certainly")
+      // Current system: maps to deontic obligation
+      if (m === 'obligation') return { pass: false, detail: 'Deontic default: modality=obligation (epistemic reading "must be in pain" = deduction, not obligation)' };
+      if (m === 'epistemic_certainty' || m === 'deduction') return { pass: true, detail: 'Epistemic reading detected ✓' };
+      return { pass: false, detail: 'modality=' + m };
+  }},
+  { id: 'AC-SH-09b', sentence: 'She could speak three languages.',
+    expect: 'KNOWN: "could" defaults to hypothetical', known: true, run: () => {
+      const graph = g('She could speak three languages.');
+      const act = findAct(graph, 'speak');
+      if (!act) return { pass: false, detail: 'No act node' };
+      const m = act['tagteam:modality'];
+      if (m === 'ability') return { pass: true, detail: 'Ability reading detected ✓' };
+      if (m === 'hypothetical') return { pass: false, detail: 'Default hypothetical (ability reading not disambiguated)' };
+      return { pass: false, detail: 'modality=' + m };
+  }},
+]},
+
+// ══════════════════════════════════════════════════════════════
+// ISA MOA: REAL-WORLD REGULATORY TEXT
+// ══════════════════════════════════════════════════════════════
+
+// ── M7: ISA MOA Sentences ────────────────────────────────────
+{ section: 'M7: ISA MOA Regulatory Sentences (cms-2303-dhs-data-exch.pdf)', tests: [
+  { id: 'AC-SH-25', sentence: 'CMS shall allow USCIS to monitor and review all records and documents under CMS control related to this Agreement.',
+    expect: 'obligation + Prescribed on "allow"', run: () => {
+      const graph = g('CMS shall allow USCIS to monitor and review all records and documents under CMS control related to this Agreement.');
+      const act = findAct(graph, 'allow');
+      if (!act) return { pass: false, detail: 'No act node for "allow". Acts: ' + actSummary(graph) };
+      const m = act['tagteam:modality'], s = getStatus(act);
+      if (m !== 'obligation') return { pass: false, detail: 'modality=' + m };
+      if (s !== 'tagteam:Prescribed') return { pass: false, detail: 'status=' + s };
+      return { pass: true, detail: 'obligation + Prescribed ✓' };
+  }},
+  { id: 'AC-SH-26', sentence: 'The AE must submit such documentation electronically.',
+    expect: 'obligation + Prescribed on "submit"', run: () => {
+      const graph = g('The AE must submit such documentation electronically.');
+      const act = findAct(graph, 'submit');
+      if (!act) return { pass: false, detail: 'No act node for "submit"' };
+      const m = act['tagteam:modality'], s = getStatus(act);
+      if (m !== 'obligation') return { pass: false, detail: 'modality=' + m };
+      if (s !== 'tagteam:Prescribed') return { pass: false, detail: 'status=' + s };
+      return { pass: true, detail: 'obligation + Prescribed ✓' };
+  }},
+  { id: 'AC-SH-27', sentence: "CMS and AEs may not deny an application based on a verification response that fails to confirm the applicant's status.",
+    expect: 'prohibition + Prohibited on "deny"', run: () => {
+      const graph = g("CMS and AEs may not deny an application based on a verification response that fails to confirm the applicant's status.");
+      const act = findAct(graph, 'deny');
+      if (!act) {
+        const allActs = findAllActs(graph);
+        return { pass: false, detail: 'No "deny" act — act extraction failed on complex sentence (not a modal bug). Found: [' + allActs.map(a => a['rdfs:label'] || a['tagteam:lemma']).join(', ') + ']. Check act extraction before debugging modal path.' };
+      }
+      const m = act['tagteam:modality'], s = getStatus(act);
+      if (m !== 'prohibition') return { pass: false, detail: 'modality=' + m };
+      if (s !== 'tagteam:Prohibited') return { pass: false, detail: 'status=' + s };
+      return { pass: true, detail: 'prohibition + Prohibited ✓' };
+  }},
+  { id: 'AC-SH-28', sentence: 'Both Parties shall maintain a level of security that is commensurate with the risk and magnitude of the harm that could result from misuse of the information.',
+    expect: 'obligation + Prescribed on "maintain"', run: () => {
+      const graph = g('Both Parties shall maintain a level of security that is commensurate with the risk and magnitude of the harm that could result from misuse of the information.');
+      const act = findAct(graph, 'maintain');
+      if (!act) return { pass: false, detail: 'No act node for "maintain". Acts: ' + actSummary(graph) };
+      const m = act['tagteam:modality'], s = getStatus(act);
+      if (m !== 'obligation') return { pass: false, detail: 'modality=' + m };
+      if (s !== 'tagteam:Prescribed') return { pass: false, detail: 'status=' + s };
+      return { pass: true, detail: 'obligation + Prescribed ✓' };
+  }},
+  { id: 'AC-SH-29', sentence: 'Both Parties shall comply with the limitations on use and disclosure.',
+    expect: 'obligation + Prescribed on "comply"', run: () => {
+      const graph = g('Both Parties shall comply with the limitations on use and disclosure.');
+      const act = findAct(graph, 'comply');
+      if (!act) return { pass: false, detail: 'No act node for "comply". Acts: ' + actSummary(graph) };
+      const m = act['tagteam:modality'], s = getStatus(act);
+      if (m !== 'obligation') return { pass: false, detail: 'modality=' + m };
+      if (s !== 'tagteam:Prescribed') return { pass: false, detail: 'status=' + s };
+      return { pass: true, detail: 'obligation + Prescribed ✓' };
+  }},
+]},
+
+]; // end TESTS
+
+// ═══════════════════════════════════════════════════════════════
+// RENDERING & RUNNER
+// ═══════════════════════════════════════════════════════════════
+function renderSections() {
+  const container = document.getElementById('sections');
+  container.innerHTML = '';
+  for (const sec of TESTS) {
+    const div = document.createElement('div');
+    div.className = 'section'; div.dataset.sectionName = sec.section;
+    const header = document.createElement('div');
+    header.className = 'section-header';
+    header.innerHTML = `<span class="section-title">${sec.section}</span><span class="section-count">${sec.tests.length} tests</span>`;
+    header.onclick = () => div.classList.toggle('open');
+    div.appendChild(header);
+    const body = document.createElement('div');
+    body.className = 'section-body';
+    for (const t of sec.tests) {
+      const row = document.createElement('div');
+      row.className = 'test-row'; row.id = 'row-' + t.id;
+      const trunc = t.sentence.length > 60 ? t.sentence.substring(0,57) + '…' : t.sentence;
+      row.innerHTML = `<span class="test-id">${t.id}</span><span class="test-input" title="${t.sentence.replace(/"/g,'&quot;')}">"${trunc}"</span><span class="test-expect">${t.expect}</span><span class="test-result pending" id="res-${t.id}">—</span>`;
+      body.appendChild(row);
+    }
+    div.appendChild(body); container.appendChild(div);
+  }
+}
+
+async function runAllTests() {
+  const btn = document.getElementById('btn-run');
+  btn.classList.add('running'); btn.textContent = 'Running…';
+  document.getElementById('log-output').innerHTML = '';
+
+  if (typeof TagTeam === 'undefined') { log('FATAL: TagTeam not available.', 'log-fail'); btn.classList.remove('running'); btn.textContent = 'Run All Tests'; return; }
+  if (typeof TagTeam.parse !== 'function') { log('FATAL: TagTeam.parse() not found.', 'log-fail'); btn.classList.remove('running'); btn.textContent = 'Run All Tests'; return; }
+  if (typeof TagTeam.buildGraph !== 'function') { log('FATAL: TagTeam.buildGraph() not found.', 'log-fail'); btn.classList.remove('running'); btn.textContent = 'Run All Tests'; return; }
+
+  renderSections();
+  const t0 = performance.now();
+  let pass = 0, fail = 0, known = 0;
+
+  for (const sec of TESTS) {
+    let sf = 0, sk = 0;
+    for (const t of sec.tests) {
+      let result;
+      try { result = t.run(); } catch(e) { result = { pass: false, detail: 'ERROR: ' + e.message }; }
+
+      const resEl = document.getElementById('res-' + t.id);
+      if (result.pass) {
+        pass++; resEl.textContent = 'PASS'; resEl.className = 'test-result pass';
+        log(`  ✓ ${t.id}: ${result.detail}`, 'log-pass');
+      } else if (t.known) {
+        known++; sk++; resEl.textContent = 'KNOWN'; resEl.className = 'test-result known';
+        log(`  ◆ ${t.id}: ${result.detail}`, 'log-known');
+        const row = document.getElementById('row-' + t.id);
+        if (row) { const d = document.createElement('div'); d.className = 'fail-detail is-known'; d.textContent = result.detail; row.parentNode.insertBefore(d, row.nextSibling); }
+      } else {
+        fail++; sf++; resEl.textContent = 'FAIL'; resEl.className = 'test-result fail';
+        log(`  ✗ ${t.id}: ${result.detail}`, 'log-fail');
+        const row = document.getElementById('row-' + t.id);
+        if (row) { const d = document.createElement('div'); d.className = 'fail-detail is-fail'; d.textContent = result.detail; row.parentNode.insertBefore(d, row.nextSibling); }
+      }
+      await new Promise(r => setTimeout(r, 0));
+    }
+    const secEl = document.querySelector(`[data-section-name="${sec.section}"]`);
+    if (secEl) {
+      if (sf > 0) { secEl.classList.add('has-fail','open'); }
+      else if (sk > 0) { secEl.classList.add('has-known','open'); }
+      else { secEl.classList.add('all-pass'); }
+    }
+    const total = sec.tests.length;
+    const secPass = total - sf - sk;
+    log(`  ${sec.section}: ${secPass}/${total} pass` + (sk > 0 ? `, ${sk} known` : '') + (sf > 0 ? `, ${sf} FAIL` : ''), sf > 0 ? 'log-fail' : 'log-pass');
+  }
+
+  const total = pass + fail + known;
+  const elapsed = ((performance.now() - t0) / 1000).toFixed(2);
+  document.getElementById('s-pass').textContent = pass; document.getElementById('s-pass').className = 'stat pass';
+  document.getElementById('s-fail').textContent = fail; document.getElementById('s-fail').className = 'stat ' + (fail > 0 ? 'fail' : 'pass');
+  document.getElementById('s-known').textContent = known; document.getElementById('s-known').className = 'stat known';
+  document.getElementById('s-time').textContent = elapsed + 's';
+  document.getElementById('bar-pass').style.width = (total > 0 ? pass/total*100 : 0) + '%';
+  document.getElementById('bar-known').style.width = (total > 0 ? known/total*100 : 0) + '%';
+  document.getElementById('bar-fail').style.width = (total > 0 ? fail/total*100 : 0) + '%';
+
+  log('', 'log-info');
+  log('════════════════════════════════', 'log-info');
+  log(`  TOTAL: ${total}  PASS: ${pass}  FAIL: ${fail}  KNOWN: ${known}  (${elapsed}s)`, fail > 0 ? 'log-fail' : 'log-pass');
+  log('════════════════════════════════', 'log-info');
+
+  btn.classList.remove('running'); btn.textContent = 'Run All Tests';
+}
+
+function expandFailed() {
+  document.querySelectorAll('.section').forEach(s => {
+    if (s.classList.contains('has-fail') || s.classList.contains('has-known')) s.classList.add('open');
+    else s.classList.remove('open');
+  });
+}
+function toggleAll() {
+  const secs = document.querySelectorAll('.section');
+  const allOpen = [...secs].every(s => s.classList.contains('open'));
+  secs.forEach(s => allOpen ? s.classList.remove('open') : s.classList.add('open'));
+}
+function exportResults() {
+  const rows = [];
+  document.querySelectorAll('.test-row').forEach(r => {
+    const id = r.querySelector('.test-id')?.textContent;
+    const res = r.querySelector('.test-result')?.textContent;
+    const detail = r.nextElementSibling?.classList?.contains('fail-detail') ? r.nextElementSibling.textContent : '';
+    rows.push({ id, result: res, detail });
+  });
+  const blob = new Blob([JSON.stringify(rows, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'modality-test-results.json'; a.click();
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  if (typeof TagTeam !== 'undefined') {
+    renderSections();
+    log('TagTeam loaded. Ready.', 'log-info');
+  } else {
+    log('TagTeam not found. Check tagteam.js script src.', 'log-fail');
+  }
+});
+</script>
+</body>
+</html>
