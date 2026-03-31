@@ -728,6 +728,29 @@ function escHtml(s) {
 document.getElementById('in').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') analyze();
 });
+
+// Auto-load CCO merged ontology on startup
+(function() {
+  var statusEl = document.getElementById('ontology-status');
+  if (statusEl) statusEl.textContent = 'Loading CCO ontology...';
+
+  fetch('cco-merged.ttl')
+    .then(function(r) { return r.ok ? r.text() : Promise.reject('HTTP ' + r.status); })
+    .then(function(ttl) {
+      currentOntologyTagger = TagTeam.OntologyTextTagger.fromTTL(ttl, {
+        propertyMap: { keywords: 'rdfs:label', label: 'rdfs:label' }
+      });
+      var stats = currentOntologyTagger.getStats();
+      if (statusEl) statusEl.textContent = stats.classCount + ' CCO classes loaded (auto)';
+      // Show ontology tab if it exists
+      var ontTab = document.getElementById('ontology-tab-btn');
+      if (ontTab) ontTab.style.display = '';
+    })
+    .catch(function(err) {
+      if (statusEl) statusEl.textContent = 'CCO auto-load failed: ' + err;
+      console.warn('CCO auto-load failed:', err);
+    });
+})();
 </script>
 
 </body>
