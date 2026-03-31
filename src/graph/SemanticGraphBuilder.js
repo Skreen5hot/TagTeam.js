@@ -2486,10 +2486,15 @@ class SemanticGraphBuilder {
         }
       }
 
+      // WS-B: Track negated act verbIds — Role nodes are not emitted for unrealized events
+      const negatedActVerbIds = new Set(acts.filter(a => a.isNegated && !a.modality).map(a => a.verbId));
+
       // Convert roles to JSON-LD nodes
       // RDM: Skip roles for modal acts — agent/patient go on PlanSpec instead
+      // WS-B: Skip roles for negated acts — thematic roles are on EventDescription, not BFO Role nodes
       for (const role of roles) {
         if (modalActVerbIds.has(role.actId)) continue; // Modal act → role on PlanSpec, not Role node
+        if (negatedActVerbIds.has(role.actId)) continue; // Negated act → no realized_in, roles on ED
         const roleLabel = role.label || role.role;
         const roleNode = {
           '@id': `${this.options.namespace}:Role_${this._sanitizeId(role.entity)}_${this._sanitizeId(roleLabel)}`,
