@@ -320654,11 +320654,86 @@ function correctDitransitives(arcs, tokens, tags) {
   return arcs;
 }
 
+/**
+ * Detect and correct fragmented copular sentences.
+ *
+ * Pattern: Multiple roots where one is VBZ "is"/"are" and others are nouns.
+ * The dep parser failed to produce the standard copular structure:
+ *   predicate as root, subject as nsubj, copula as cop.
+ *
+ * Example: "CMS is the Recipient Agency" parsed as 4 roots: CMS, is, Recipient, .
+ * Corrected to: Agency/Recipient as root, CMS as nsubj, is as cop.
+ *
+ * @param {Array} arcs - Raw arc array
+ * @param {string[]} tokens - 0-indexed token array
+ * @param {string[]} tags - 0-indexed POS tag array
+ * @returns {Array} Modified arcs
+ */
+function correctCopularFragmentation(arcs, tokens, tags) {
+  // Find all root arcs
+  const rootArcs = arcs.filter(a => a.label === 'root' && a.head === 0);
+  if (rootArcs.length < 2) return arcs; // Need multiple roots to detect fragmentation
+
+  // Find VBZ "is"/"are" among roots
+  const copulaRootArc = rootArcs.find(a => {
+    const tag = tags[a.dependent - 1];
+    const word = tokens[a.dependent - 1].toLowerCase();
+    return tag === 'VBZ' && (word === 'is' || word === 'are');
+  });
+  if (!copulaRootArc) return arcs;
+
+  const copulaId = copulaRootArc.dependent;
+
+  // Find subject candidate: root NNP/NNS/NN that precedes the copula
+  const subjectArc = rootArcs.find(a => {
+    const tag = tags[a.dependent - 1];
+    return a.dependent < copulaId && (tag === 'NNP' || tag === 'NNPS' || tag === 'NNS' || tag === 'NN');
+  });
+  if (!subjectArc) return arcs;
+
+  // Find predicate candidate: root NN/NNP/JJ that follows the copula (skip punct)
+  const predicateArc = rootArcs.find(a => {
+    const tag = tags[a.dependent - 1];
+    return a.dependent > copulaId && (tag === 'NN' || tag === 'NNP' || tag === 'NNPS' || tag === 'JJ');
+  });
+  if (!predicateArc) return arcs;
+
+  const subjectId = subjectArc.dependent;
+  const predicateId = predicateArc.dependent;
+
+  // Rewrite: predicate becomes the sole root, subject becomes nsubj, copula becomes cop
+  subjectArc.label = 'nsubj';
+  subjectArc.head = predicateId;
+
+  copulaRootArc.label = 'cop';
+  copulaRootArc.head = predicateId;
+
+  // Any det before predicate that's still a root or misattached → attach to predicate
+  for (const arc of arcs) {
+    if (arc.label === 'det' && arc.head === 0) {
+      if (arc.dependent > copulaId && arc.dependent < predicateId) {
+        arc.head = predicateId;
+      }
+    }
+  }
+
+  // Reattach punct to predicate
+  for (const arc of rootArcs) {
+    const tag = tags[arc.dependent - 1];
+    if (tag === '.' || tag === ',' || tokens[arc.dependent - 1] === '.') {
+      arc.label = 'punct';
+      arc.head = predicateId;
+    }
+  }
+
+  return arcs;
+}
+
 
 
   // Shim: after stripCommonJS, only the inner functions survive.
   // SemanticGraphBuilder checks typeof DepTreeCorrector !== 'undefined'.
-  const DepTreeCorrector = { correctDitransitives, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
+  const DepTreeCorrector = { correctDitransitives, correctCopularFragmentation, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
 
   // ============================================================================
   // §9.5: GENERICITY DETECTOR
@@ -322478,6 +322553,22 @@ class TreeActExtractor {
       const copChild = children.find(c => c.label === 'cop');
       // Check for existential: root has an `expl` child
       const explChild = children.find(c => c.label === 'expl');
+
+      // Also check conj children for copular structure (fragmented "DHS/USCIS is the Source Agency")
+      if (!copChild) {
+        const conjChild = children.find(c => c.label === 'conj');
+        if (conjChild) {
+          const conjChildren = depTree.getChildren(conjChild.dependent);
+          const conjCop = conjChildren.find(c => c.label === 'cop');
+          if (conjCop) {
+            // The conj child IS the copular predicate — handle it directly
+            const assertion = this._handleCopular(depTree, conjChild.dependent, conjCop, conjChildren);
+            if (assertion) structuralAssertions.push(assertion);
+            // Skip normal processing of this root
+            continue;
+          }
+        }
+      }
 
       if (copChild) {
         // Copular construction: root is the PREDICATE, cop is the copula verb
@@ -325610,10 +325701,14 @@ class SemanticGraphBuilder {
       }
       const parseResult = depParser.parse(tokens, tags);
 
-      // Stage 4.1: Ditransitive arc correction (AC-4.3b)
-      // Rewrites compound→iobj for ditransitive verbs before tree construction
+      // Stage 4.1: Dependency arc corrections (before tree construction)
       if (_DepTreeCorrector) {
+        // AC-4.3b: Ditransitive compound→iobj rewrite
         _DepTreeCorrector.correctDitransitives(parseResult.arcs, tokens, tags);
+        // BC-4: Copular fragmentation repair — "CMS is the Recipient Agency" with multiple roots
+        if (_DepTreeCorrector.correctCopularFragmentation) {
+          _DepTreeCorrector.correctCopularFragmentation(parseResult.arcs, tokens, tags);
+        }
       }
 
       const depTree = new _DepTree(parseResult.arcs, tokens, tags);
@@ -327287,7 +327382,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 305 | aed1c29 | 2026-03-31T11:54:38.281Z',
+    BUILD: 'build 308 | 0ca7453 | 2026-03-31T12:07:32.260Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
