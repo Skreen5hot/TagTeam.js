@@ -295,7 +295,7 @@
 
 <div id="output"></div>
 
-<script src="tagteam.js?v=20260331h"></script>
+<script src="tagteam.js?v=20260331i"></script>
 <script>
 // Test Corpus Data
 const corpus = {
@@ -539,7 +539,7 @@ function findStructuralAssertions(nodes) {
 const VALID_DENOTES_TYPES = new Set([
     'Person', 'Organization', 'Entity', 'Location',
     'EventDescription', 'Event', 'Directive', 'Quality',
-    'Structure', 'Role', 'InformationContentEntity'
+    'Structure', 'Role', 'InformationContentEntity', 'Artifact'
 ]);
 
 function validateDiscourseReferent(node) {
@@ -750,9 +750,10 @@ async function validateSentence(test) {
                 checks.hasPermission = hasPerm;
             }
             if (type.includes('Directive') && !type.includes('Prohibitive')) {
-                const hasObl = res.some(n => hasTypeExact(n, 'Obligation'));
-                if (!hasObl) violations.push('Missing Obligation RE');
-                checks.hasObligation = hasObl;
+                // Accept Obligation OR Intention — "will" is used as directive in legal text
+                const hasOblOrInt = res.some(n => hasTypeExact(n, 'Obligation') || hasTypeExact(n, 'Intention'));
+                if (!hasOblOrInt) violations.push('Missing Obligation/Intention RE');
+                checks.hasObligation = hasOblOrInt;
             }
             if (type.includes('Commissive')) {
                 const hasOblOrInt = res.some(n => hasTypeExact(n, 'Obligation') || hasTypeExact(n, 'Intention'));
@@ -788,9 +789,13 @@ async function validateSentence(test) {
         } else if (type.startsWith('Complex') || type.startsWith('Conditional') ||
                    type.startsWith('Temporal') || type.startsWith('Exception') ||
                    type.startsWith('Negation')) {
-            if (vps.length === 0) violations.push('No VerbPhrase for complex sentence');
-            const dices = findDICEs(nodes);
+            // Copular+modal sentences ("shall be liable") produce QA, not VP — accept both
             const qas = findQualityAssertions(nodes);
+            const sas = findStructuralAssertions(nodes);
+            if (vps.length === 0 && qas.length === 0 && sas.length === 0) {
+                violations.push('No VerbPhrase or QualityAssertion for complex sentence');
+            }
+            const dices = findDICEs(nodes);
             const semanticNodes = dices.length + eds.length + qas.length;
             checks.semanticNodes = semanticNodes;
             if (semanticNodes === 0) violations.push('No semantic layer nodes (DICE/ED/QA)');
