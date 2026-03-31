@@ -326096,12 +326096,13 @@ class SemanticGraphBuilder {
           graphNodes.push(vpNode);
 
           // EventDescription (Tier 2) — structural content of the narrative
+          // WS-B: Negated acts get Unrealized status (Realist Non-Event Principle)
           const eventDescNode = {
             '@id': eventDescId,
             '@type': ['EventDescription', 'ActSpecification', 'owl:NamedIndividual'],
             'rdfs:label': `Event: ${act.lemma}`,
             'tagteam:actType': act.lemma,
-            'tagteam:realizationStatus': { '@id': 'tagteam:Realized' },
+            'tagteam:realizationStatus': { '@id': act.isNegated ? 'tagteam:Unrealized' : 'tagteam:Realized' },
           };
           // Agent/patient resolved in post-Tier2 pass (same pattern as PlanSpec)
           const actRoles = roles.filter(r => r.actId === act.verbId);
@@ -326111,20 +326112,22 @@ class SemanticGraphBuilder {
           if (patientRole) eventDescNode['_patientText'] = patientRole.entity;
           graphNodes.push(eventDescNode);
 
-          // IntentionalAct (Tier 2) — the actual BFO Process
-          const actNode = {
-            '@id': actId,
-            '@type': ['IntentionalAct', 'owl:NamedIndividual'],
-            'rdfs:label': act.verb,
-            'tagteam:lemma': act.lemma,
-            'tagteam:verb': act.lemma,
-            'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
-            'tagteam:describedBy': { '@id': eventDescId },
-          };
-          if (act.isPassive) actNode['tagteam:isPassive'] = true;
-          if (act.isNegated) actNode['tagteam:isNegated'] = true;
-          if (act.isCopular) actNode['tagteam:isCopular'] = true;
-          graphNodes.push(actNode);
+          // WS-B: Do NOT emit IntentionalAct for negated events
+          // BFO realist commitment: no Process (Occurrent) for events that didn't happen
+          if (!act.isNegated) {
+            const actNode = {
+              '@id': actId,
+              '@type': ['IntentionalAct', 'owl:NamedIndividual'],
+              'rdfs:label': act.verb,
+              'tagteam:lemma': act.lemma,
+              'tagteam:verb': act.lemma,
+              'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
+              'tagteam:describedBy': { '@id': eventDescId },
+            };
+            if (act.isPassive) actNode['tagteam:isPassive'] = true;
+            if (act.isCopular) actNode['tagteam:isCopular'] = true;
+            graphNodes.push(actNode);
+          }
         }
       }
 
@@ -327390,7 +327393,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 309 | 61a27cf | 2026-03-31T13:04:21.200Z',
+    BUILD: 'build 310 | b0107ec | 2026-03-31T13:19:16.735Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
