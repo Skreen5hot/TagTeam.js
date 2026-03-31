@@ -151,6 +151,53 @@ const IRREGULAR_LEMMAS = {
   'operates': 'operate',
   'locates': 'locate',
   'collaborates': 'collaborate',
+  // VBD forms where -ed stripping over-truncates (stem ends in 'e')
+  'provided': 'provide',
+  'disclosed': 'disclose',
+  'required': 'require',
+  'ensured': 'ensure',
+  'included': 'include',
+  'described': 'describe',
+  'determined': 'determine',
+  'managed': 'manage',
+  'collaborated': 'collaborate',
+  'advised': 'advise',
+  'restricted': 'restrict',
+  'submitted': 'submit',
+  'encrypted': 'encrypt',
+  'conducted': 'conduct',
+  'suspended': 'suspend',
+  'terminated': 'terminate',
+  'maintained': 'maintain',
+  'complied': 'comply',
+  'notified': 'notify',
+  'verified': 'verify',
+  'reported': 'report',
+  'denied': 'deny',
+  'accessed': 'access',
+  'monitored': 'monitor',
+  'reviewed': 'review',
+  'contacted': 'contact',
+  'discussed': 'discuss',
+  'investigated': 'investigate',
+  'addressed': 'address',
+  'entered': 'enter',
+  'disclosed': 'disclose',
+  'prompted': 'prompt',
+  'resolved': 'resolve',
+  'presented': 'present',
+  'executed': 'execute',
+  'implemented': 'implement',
+  'specified': 'specify',
+  'associated': 'associate',
+  'requested': 'request',
+  'experienced': 'experience',
+  'discovered': 'discover',
+  'authorized': 'authorize',
+  'completed': 'complete',
+  'suspected': 'suspect',
+  'occurred': 'occur',
+  'violated': 'violate',
 };
 
 /**
@@ -1191,6 +1238,7 @@ class TreeActExtractor {
     if (IRREGULAR_LEMMAS[lower]) return IRREGULAR_LEMMAS[lower];
 
     // Simple suffix-based lemmatization
+    // Note: verbs whose stem ends in 'e' (provide→provided) should be in IRREGULAR_LEMMAS
     if (tag === 'VBD' || tag === 'VBN') {
       if (lower.endsWith('ied')) return lower.slice(0, -3) + 'y';
       if (lower.endsWith('ed')) return lower.slice(0, -2);
