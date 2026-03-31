@@ -2447,6 +2447,14 @@ class SemanticGraphBuilder {
             'tagteam:denotesType': 'Role',
             'is_about': { '@id': roleId },
           };
+          // Compute mentionId from predicate position in token array
+          if (sa.predicateId && tokens) {
+            const predIdx = sa.predicateId - 1;
+            let predCharStart = 0;
+            for (let ci = 0; ci < predIdx && ci < tokens.length; ci++) predCharStart += tokens[ci].length + 1;
+            const predCharEnd = predCharStart + (predicateFullText || '').length;
+            predicateRefNode['tagteam:mentionId'] = `s0:p${sa.predicateId}:${predCharStart}-${predCharEnd}`;
+          }
           graphNodes.push(predicateRefNode);
 
           const roleNode = {
