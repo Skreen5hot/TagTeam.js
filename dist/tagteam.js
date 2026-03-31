@@ -322535,7 +322535,19 @@ class TreeActExtractor {
       this._extractEmbeddedActs(depTree, rootId, acts, structuralAssertions);
     }
 
-    return { acts, structuralAssertions };
+    // BC-2: Filter out junk acts from mistagged tokens (punctuation, single chars,
+    // tokens that are clearly nouns misidentified as verbs by the dep parser)
+    const validActs = acts.filter(act => {
+      const lemma = act.lemma || '';
+      // Reject punctuation and single-character "verbs"
+      if (lemma.length <= 1) return false;
+      if (/^[^a-zA-Z]/.test(lemma)) return false;
+      // Reject tokens tagged as nouns that slipped through (NNP/NNS/NN mistagged as root)
+      if (act.tag && !VERB_TAGS.has(act.tag) && !act.modality) return false;
+      return true;
+    });
+
+    return { acts: validActs, structuralAssertions };
   }
 
   /**
@@ -327275,7 +327287,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 303 | dfbcc22 | 2026-03-31T10:42:48.320Z',
+    BUILD: 'build 304 | 809a5b2 | 2026-03-31T11:46:48.704Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
