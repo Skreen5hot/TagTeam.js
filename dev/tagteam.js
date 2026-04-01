@@ -320827,19 +320827,36 @@ function correctNounRootVerbAcl(arcs, tokens, tags) {
   if (!rootTag || !rootTag.startsWith('NN')) return arcs;
 
   // Find acl child that is VBN or VBD — check root AND nmod children of root
+  // Find VBN/VBD child labeled acl or amod that should be the main verb
   let aclArc = arcs.find(a =>
-    a.head === rootId && a.label === 'acl' &&
+    a.head === rootId && (a.label === 'acl' || a.label === 'amod') &&
     (tags[a.dependent - 1] === 'VBN' || tags[a.dependent - 1] === 'VBD')
   );
-  // Also check nmod children of root for acl (deep: "officer of org reviewed report")
+  // Check nmod children of root for acl (deep: "officer of org reviewed report")
   if (!aclArc) {
     const nmodChildren = arcs.filter(a => a.head === rootId && a.label === 'nmod');
     for (const nmod of nmodChildren) {
       aclArc = arcs.find(a =>
-        a.head === nmod.dependent && a.label === 'acl' &&
+        a.head === nmod.dependent && (a.label === 'acl' || a.label === 'amod') &&
         (tags[a.dependent - 1] === 'VBN' || tags[a.dependent - 1] === 'VBD')
       );
       if (aclArc) break;
+    }
+  }
+  // Check obj children of root for amod VBN ("facilities reported incidents" where
+  // reported is amod of incidents which is obj of facilities)
+  if (!aclArc) {
+    const objChildren = arcs.filter(a => a.head === rootId && a.label === 'obj');
+    for (const obj of objChildren) {
+      aclArc = arcs.find(a =>
+        a.head === obj.dependent && a.label === 'amod' &&
+        (tags[a.dependent - 1] === 'VBN' || tags[a.dependent - 1] === 'VBD')
+      );
+      if (aclArc) {
+        // Special case: the obj becomes the real obj of the verb, reattach
+        obj.head = aclArc.dependent;
+        break;
+      }
     }
   }
   if (!aclArc) return arcs;
@@ -322727,6 +322744,18 @@ const IRREGULAR_LEMMAS = {
   'suspected': 'suspect',
   'occurred': 'occur',
   'violated': 'violate',
+  'filed': 'file',
+  'hired': 'hire',
+  'classified': 'classify',
+  'authorized': 'authorize',
+  'revised': 'revise',
+  'described': 'describe',
+  'recognized': 'recognize',
+  'analyzed': 'analyze',
+  'organized': 'organize',
+  'utilized': 'utilize',
+  'finalized': 'finalize',
+  'supervised': 'supervise',
 };
 
 /**
@@ -328021,7 +328050,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 339 | a5686f7 | 2026-04-01T12:33:49.984Z',
+    BUILD: 'build 340 | f062529 | 2026-04-01T12:41:48.362Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
