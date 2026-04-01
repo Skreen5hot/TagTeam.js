@@ -320826,11 +320826,22 @@ function correctNounRootVerbAcl(arcs, tokens, tags) {
   // Root must be a noun
   if (!rootTag || !rootTag.startsWith('NN')) return arcs;
 
-  // Find acl child that is VBN or VBD
-  const aclArc = arcs.find(a =>
+  // Find acl child that is VBN or VBD — check root AND nmod children of root
+  let aclArc = arcs.find(a =>
     a.head === rootId && a.label === 'acl' &&
     (tags[a.dependent - 1] === 'VBN' || tags[a.dependent - 1] === 'VBD')
   );
+  // Also check nmod children of root for acl (deep: "officer of org reviewed report")
+  if (!aclArc) {
+    const nmodChildren = arcs.filter(a => a.head === rootId && a.label === 'nmod');
+    for (const nmod of nmodChildren) {
+      aclArc = arcs.find(a =>
+        a.head === nmod.dependent && a.label === 'acl' &&
+        (tags[a.dependent - 1] === 'VBN' || tags[a.dependent - 1] === 'VBD')
+      );
+      if (aclArc) break;
+    }
+  }
   if (!aclArc) return arcs;
 
   const verbId = aclArc.dependent;
@@ -320856,11 +320867,68 @@ function correctNounRootVerbAcl(arcs, tokens, tags) {
   return arcs;
 }
 
+/**
+ * Correct fragmented modal sentences where NN, MD, and VB are all roots.
+ *
+ * Pattern: "No organization shall disclose information"
+ *   Parser: organization(root), shall(root), disclose(root), .(root)
+ *   Correct: disclose(root), organization(nsubj), shall(aux)
+ *
+ * @param {Array} arcs
+ * @param {string[]} tokens
+ * @param {string[]} tags
+ * @returns {Array}
+ */
+function correctModalFragmentation(arcs, tokens, tags) {
+  const rootArcs = arcs.filter(a => a.label === 'root' && a.head === 0);
+  if (rootArcs.length < 3) return arcs;
+
+  // Find MD root and VB root
+  const mdRoot = rootArcs.find(a => tags[a.dependent - 1] === 'MD');
+  const vbRoot = rootArcs.find(a => {
+    const t = tags[a.dependent - 1];
+    return t === 'VB' || t === 'VBP';
+  });
+  const nnRoot = rootArcs.find(a => {
+    const t = tags[a.dependent - 1];
+    return t && t.startsWith('NN') && a !== mdRoot && a !== vbRoot;
+  });
+
+  if (!mdRoot || !vbRoot || !nnRoot) return arcs;
+
+  const verbId = vbRoot.dependent;
+  const mdId = mdRoot.dependent;
+  const nnId = nnRoot.dependent;
+
+  // NN must precede MD which must precede VB
+  if (!(nnId < mdId && mdId < verbId)) return arcs;
+
+  // Rewrite: VB becomes sole root, NN becomes nsubj, MD becomes aux
+  nnRoot.label = 'nsubj';
+  nnRoot.head = verbId;
+
+  mdRoot.label = 'aux';
+  mdRoot.head = verbId;
+
+  // Reattach punct
+  for (const arc of rootArcs) {
+    if (arc !== vbRoot && arc !== nnRoot && arc !== mdRoot) {
+      const t = tags[arc.dependent - 1];
+      if (t === '.' || t === ',' || tokens[arc.dependent - 1] === '.') {
+        arc.label = 'punct';
+        arc.head = verbId;
+      }
+    }
+  }
+
+  return arcs;
+}
+
 
 
   // Shim: after stripCommonJS, only the inner functions survive.
   // SemanticGraphBuilder checks typeof DepTreeCorrector !== 'undefined'.
-  const DepTreeCorrector = { correctDitransitives, correctCopularFragmentation, correctNounRootVerbAcl, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
+  const DepTreeCorrector = { correctDitransitives, correctCopularFragmentation, correctNounRootVerbAcl, correctModalFragmentation, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
 
   // ============================================================================
   // §9.5: GENERICITY DETECTOR
@@ -326032,6 +326100,10 @@ class SemanticGraphBuilder {
         if (_DepTreeCorrector.correctNounRootVerbAcl) {
           _DepTreeCorrector.correctNounRootVerbAcl(parseResult.arcs, tokens, tags);
         }
+        // Modal fragmentation — "No organization shall disclose" with NN+MD+VB as separate roots
+        if (_DepTreeCorrector.correctModalFragmentation) {
+          _DepTreeCorrector.correctModalFragmentation(parseResult.arcs, tokens, tags);
+        }
       }
 
       const depTree = new _DepTree(parseResult.arcs, tokens, tags);
@@ -327908,7 +327980,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 336 | a9ac506 | 2026-04-01T10:04:33.362Z',
+    BUILD: 'build 337 | 1601a72 | 2026-04-01T10:13:00.455Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
