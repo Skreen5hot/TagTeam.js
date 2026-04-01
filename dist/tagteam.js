@@ -327628,6 +327628,38 @@ class SemanticGraphBuilder {
         }
       }
     }
+
+    // F-5: Selectional preference validation — use ontology types to detect role misassignment.
+    // BFO constraint: Agents should be animate/agentive continuants (Person, Organization),
+    // not information entities (Report, Document) or abstract entities (Purpose, Level).
+    // If an AgentRole bearer is typed as ICE/Artifact by ontology match, flip to PatientRole.
+    var AGENT_TYPES = { 'Person': 1, 'Organization': 1, 'GeopoliticalOrganization': 1,
+      'GovernmentOrganization': 1, 'CommercialOrganization': 1, 'MilitaryOrganization': 1 };
+    var NON_AGENT_TYPES = { 'Report': 1, 'Document': 1, 'Artifact': 1, 'InformationContentEntity': 1,
+      'Letter': 1, 'Certificate': 1, 'Form': 1, 'Facility': 1, 'Quality': 1 };
+
+    for (var i = 0; i < nodes.length; i++) {
+      var node = nodes[i];
+      var types = [].concat(node['@type'] || []);
+      if (!types.includes('Role')) continue;
+      var roleType = node['tagteam:roleType'] || node['rdfs:label'] || '';
+      if (roleType !== 'AgentRole') continue;
+
+      // Find the bearer entity via inheres_in
+      var bearerRef = node['inheres_in'];
+      var bearerId = bearerRef ? (bearerRef['@id'] || bearerRef) : null;
+      if (!bearerId || !nodeIndex[bearerId]) continue;
+      var bearer = nodeIndex[bearerId];
+      var bearerTypes = [].concat(bearer['@type'] || []);
+      var bearerPrimary = bearerTypes.find(function(t) { return t !== 'owl:NamedIndividual' && t !== 'owl:Class'; });
+
+      // Check: if bearer is a non-agent type, flip to PatientRole
+      if (bearerPrimary && NON_AGENT_TYPES[bearerPrimary]) {
+        node['tagteam:roleType'] = 'PatientRole';
+        node['rdfs:label'] = 'PatientRole';
+        node['tagteam:selectionalCorrection'] = 'F-5: ' + bearerPrimary + ' is not agentive';
+      }
+    }
   }
 
   // Token-level match helper: handles single-word and multi-word evidence
@@ -327869,7 +327901,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 333 | 68cedb1 | 2026-04-01T09:24:30.906Z',
+    BUILD: 'build 334 | 127db0e | 2026-04-01T09:33:14.969Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
