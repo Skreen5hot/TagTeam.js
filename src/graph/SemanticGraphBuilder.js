@@ -1804,21 +1804,54 @@ class SemanticGraphBuilder {
     const allGraphNodes = [];
     const sentenceMetadata = [];
     const sentenceNodeRanges = []; // Track [startIdx, endIdx] per sentence
+    let firstDebug = null; // Capture _debug from first parsed sentence
+
+    // Compute document-level identifiers upfront (needed by sentence sub-parses)
+    const parsingActId = this._hashText(originalText).substring(0, 8);
+    const ibeIri = `inst:Input_Text_IBE_${this._hashText(originalText)}`;
+
+    let firstParsedSentence = true;
 
     for (const sent of segResult.sentences) {
+      // Skip section headers — no parsing, no Tier 1 nodes (§5.1.3 Rule B-4)
+      if (sent.segmentationType === 'section-header-inline') {
+        sentenceNodeRanges.push({ start: allGraphNodes.length, end: allGraphNodes.length });
+        sentenceMetadata.push({
+          sentenceIndex: sent.sentenceIndex,
+          text: sent.text,
+          tokenSpan: sent.tokenSpan,
+          tokens: sent.tokens,
+          tags: [],
+          root: null,
+          arcs: [],
+          modalMarker: null,
+          segmentationType: 'section-header-inline',
+          logicalConnector: sent.logicalConnector || null,
+          listMarker: sent.listMarker || null,
+          isParenthetical: false,
+          parentSentenceIndex: null,
+        });
+        continue;
+      }
+
       const nodeCountBefore = allGraphNodes.length;
       // Parse each sentence independently — _skipSegmentation prevents re-segmentation
-      const sentResult = this._buildWithTreeExtractors(sent.text, {
+      // Use _cleanText if available (parenthetical sentinel case)
+      const textToParse = sent._cleanText || sent.text;
+      const sentResult = this._buildWithTreeExtractors(textToParse, {
         ...buildOptions,
         _skipSegmentation: true,
         _sentenceIndex: sent.sentenceIndex,
+        _documentIbeIri: ibeIri,
       });
 
-      // Collect graph nodes (skip infrastructure nodes after first sentence)
+      // Collect graph nodes (skip infrastructure nodes after first parsed sentence)
       const nodes = sentResult['@graph'] || [];
-      if (sent.sentenceIndex === 0) {
-        // First sentence: include all nodes (IBE, ParsingAct, Parser Agent)
+      if (firstParsedSentence) {
+        // First parsed sentence: include all nodes (IBE, ParsingAct, Parser Agent)
         allGraphNodes.push(...nodes);
+        firstParsedSentence = false;
+        if (sentResult._debug) firstDebug = sentResult._debug;
       } else {
         // Subsequent sentences: include semantic nodes only, skip IBE/ParsingAct/Agent
         for (const node of nodes) {
@@ -1843,22 +1876,33 @@ class SemanticGraphBuilder {
       // Record node range for this sentence
       sentenceNodeRanges.push({ start: nodeCountBefore, end: allGraphNodes.length });
 
-      // Collect sentence metadata
+      // Collect sentence metadata — stamp segmenter fields onto parser metadata
       if (sentResult._metadata && sentResult._metadata.sentences) {
         const sentMd = sentResult._metadata.sentences[0];
         sentMd.sentenceIndex = sent.sentenceIndex;
         sentMd.tokenSpan = sent.tokenSpan;
+        sentMd.segmentationType = sent.segmentationType || 'standard';
+        sentMd.logicalConnector = sent.logicalConnector || null;
+        sentMd.listMarker = sent.listMarker || null;
+        sentMd.isParenthetical = sent.isParenthetical || false;
+        sentMd.parentSentenceIndex = sent.parentSentenceIndex ?? null;
+        // Override tokens for parenthetical sentinel
+        if (sent._sentinelTokens) {
+          sentMd.tokens = sent._sentinelTokens;
+        }
         sentenceMetadata.push(sentMd);
       }
     }
 
     // Step 6: Build SentenceCluster nodes and stamp sentenceIndex on Tier 1 nodes
-    const parsingActId = this._hashText(originalText).substring(0, 8);
-    const ibeIri = `inst:Input_Text_IBE_${this._hashText(originalText)}`;
     const sentenceClusters = [];
 
     for (let si = 0; si < segResult.sentences.length; si++) {
       const sent = segResult.sentences[si];
+
+      // Skip cluster creation for section headers (§5.1.3 Rule B-4)
+      if (sent.segmentationType === 'section-header-inline') continue;
+
       const range = sentenceNodeRanges[si] || { start: 0, end: allGraphNodes.length };
 
       // Find Tier 1 nodes from this sentence using tracked node range
@@ -1900,7 +1944,7 @@ class SemanticGraphBuilder {
       parsingAct['tagteam:has_sentence_cluster'] = sentenceClusters.map(c => ({ '@id': c['@id'] }));
     }
 
-    return {
+    const result = {
       '@graph': allGraphNodes,
       _metadata: {
         pipeline: 'tree-based',
@@ -1915,6 +1959,8 @@ class SemanticGraphBuilder {
         roles: allGraphNodes.filter(n => [].concat(n['@type'] || []).includes('Role')).length,
       }
     };
+    if (firstDebug) result._debug = firstDebug;
+    return result;
   }
 
   _buildWithTreeExtractors(text, buildOptions) {
@@ -1952,11 +1998,10 @@ class SemanticGraphBuilder {
 
       if (_SentenceSegmenter && !buildOptions._skipSegmentation) {
         const segResult = _SentenceSegmenter.segment(normalized);
-        if (segResult.sentences.length > 1) {
-          // Multi-sentence: process each independently, merge results
+        if (segResult.sentences.length >= 1) {
+          // All segmented inputs: process through forest path for SentenceCluster construction
           return this._buildForest(segResult, text, normalized, buildOptions);
         }
-        // Single sentence: fall through to existing pipeline
       }
 
       // Stage 2: Tokenization
@@ -2193,29 +2238,13 @@ class SemanticGraphBuilder {
         genericityMap = genericityDetector.classify(entities, depTree, tags, buildOptions);
       }
 
-      // Stage 8: Assign mention IDs (AC-3.22)
-      // Format: "s{sentenceIdx}:h{headId}:{charStart}-{charEnd}"
-      const sentenceIdx = 0; // Single-sentence pipeline for now
+      // Stage 8: Assign mention IDs (§5.3.3)
+      // Format: "{parsingActId}:s{sentenceIndex}:m{headTokenIndex}"
+      const sentenceIdx = buildOptions._sentenceIndex || 0;
+      const paId = buildOptions._parsingActId || this._hashText(text).substring(0, 8);
       for (const entity of entities) {
         const headId = entity.headId || 0;
-        // Compute character offsets from token positions
-        let charStart = 0;
-        let charEnd = 0;
-        if (entity.indices && entity.indices.length > 0) {
-          // Token indices are 1-based; compute char offsets from token positions in text
-          const minIdx = Math.min(...entity.indices);
-          const maxIdx = Math.max(...entity.indices);
-          // Approximate char offsets from token positions
-          charStart = 0;
-          for (let i = 0; i < minIdx - 1 && i < tokens.length; i++) {
-            charStart += tokens[i].length + 1; // +1 for space
-          }
-          charEnd = charStart;
-          for (let i = minIdx - 1; i <= maxIdx - 1 && i < tokens.length; i++) {
-            charEnd += tokens[i].length + (i < maxIdx - 1 ? 1 : 0);
-          }
-        }
-        entity.mentionId = `s${sentenceIdx}:h${headId}:${charStart}-${charEnd}`;
+        entity.mentionId = `${paId}:s${sentenceIdx}:m${headId}`;
       }
 
       // Build JSON-LD graph from extracted data
@@ -2249,9 +2278,16 @@ class SemanticGraphBuilder {
         if (entity.resolvedVia) {
           entityNode['tagteam:resolvedVia'] = entity.resolvedVia;
         }
-        // Mention ID (AC-3.22)
+        // Mention ID (§5.3.3)
         if (entity.mentionId) {
           entityNode['tagteam:mentionId'] = entity.mentionId;
+        }
+        // Document token span (§4.2) — 0-based sentence-relative indices
+        // Entity indices are 1-based from the extractor; convert to 0-based
+        if (entity.indices && entity.indices.length > 0) {
+          const minIdx = Math.min(...entity.indices) - 1;
+          const maxIdx = Math.max(...entity.indices) - 1;
+          entityNode['tagteam:documentTokenSpan'] = [minIdx, maxIdx];
         }
         // Confidence annotations (AC-3.16)
         if (confidenceAnnotator) {
@@ -2418,12 +2454,9 @@ class SemanticGraphBuilder {
           if (act.tenseAspect) vpNode['tagteam:tenseAspect'] = { '@id': `tagteam:${act.tenseAspect}` };
           if (act.sourceText) vpNode['tagteam:sourceText'] = act.sourceText;
           vpNode['tagteam:denotesType'] = 'Directive';
-          // mentionId for SHACL compliance
+          // mentionId for SHACL compliance (§5.3.3)
           if (act.verbId) {
-            const verbIdx = act.verbId - 1;
-            let charStart = 0;
-            for (let ci = 0; ci < verbIdx && ci < tokens.length; ci++) charStart += tokens[ci].length + 1;
-            vpNode['tagteam:mentionId'] = `s0:v${act.verbId}:${charStart}-${charStart + (tokens[verbIdx] || '').length}`;
+            vpNode['tagteam:mentionId'] = `${paId}:s${sentenceIdx}:m${act.verbId}`;
           }
           graphNodes.push(vpNode);
 
@@ -2501,11 +2534,9 @@ class SemanticGraphBuilder {
           // WS-D: Tense-aspect annotation on VerbPhrase
           if (act.tenseAspect) vpNode['tagteam:tenseAspect'] = { '@id': `tagteam:${act.tenseAspect}` };
           // mentionId for VP (AC-3.22b compatibility)
+          // mentionId for VP (§5.3.3)
           if (act.verbId) {
-            const verbIdx = act.verbId - 1;
-            let charStart = 0;
-            for (let ci = 0; ci < verbIdx && ci < tokens.length; ci++) charStart += tokens[ci].length + 1;
-            vpNode['tagteam:mentionId'] = `s0:v${act.verbId}:${charStart}-${charStart + (tokens[verbIdx] || '').length}`;
+            vpNode['tagteam:mentionId'] = `${paId}:s${sentenceIdx}:m${act.verbId}`;
           }
           graphNodes.push(vpNode);
 
@@ -2579,7 +2610,7 @@ class SemanticGraphBuilder {
         const isPossessiveQuality = sa.pattern === 'quality_assertion' && sa.type === 'possessive';
 
         if (isAdjectivalCopular || isEvidentialCopular || isPossessiveQuality) {
-          // ─�� QualityAssertion (Tier 1) + Quality (Tier 2) ──
+          // ── QualityAssertion (Tier 1) + Quality (Tier 2) ──
           const qualityWord = (sa.predicateText || '').toLowerCase();
           const qaId = `${this.options.namespace}:QualityAssertion_${this._sanitizeId(qualityWord)}_${this._hashText((sa.subject || '') + qualityWord).substring(0, 8)}`;
           const qualityId = `${this.options.namespace}:Quality_${this._sanitizeId(qualityWord)}_${this._hashText((sa.subject || '') + qualityWord).substring(0, 8)}`;
@@ -2673,13 +2704,9 @@ class SemanticGraphBuilder {
             'tagteam:denotesType': 'Role',
             'is_about': { '@id': roleId },
           };
-          // Compute mentionId from predicate position in token array
-          if (sa.predicateId && tokens) {
-            const predIdx = sa.predicateId - 1;
-            let predCharStart = 0;
-            for (let ci = 0; ci < predIdx && ci < tokens.length; ci++) predCharStart += tokens[ci].length + 1;
-            const predCharEnd = predCharStart + (predicateFullText || '').length;
-            predicateRefNode['tagteam:mentionId'] = `s0:p${sa.predicateId}:${predCharStart}-${predCharEnd}`;
+          // mentionId for predicate (§5.3.3)
+          if (sa.predicateId) {
+            predicateRefNode['tagteam:mentionId'] = `${paId}:s${sentenceIdx}:m${sa.predicateId}`;
           }
           graphNodes.push(predicateRefNode);
 
@@ -2998,11 +3025,14 @@ class SemanticGraphBuilder {
       graphNodes.push(parserAgentNode);
 
       // Link all ICE nodes to IBE via is_concretized_by (BFO_0000058)
+      // When _documentIbeIri is set (forest path), use the document-level IBE
+      // to ensure all Tier 1 nodes share the same provenance target (§3.3)
+      const provenanceIri = buildOptions._documentIbeIri || ibeNode['@id'];
       const iceTypes = ['tagteam:DiscourseReferent', 'tagteam:VerbPhrase'];
       for (const node of graphNodes) {
         const types = [].concat(node['@type'] || []);
         if (iceTypes.some(t => types.includes(t)) && !node['is_concretized_by']) {
-          node['is_concretized_by'] = { '@id': ibeNode['@id'] };
+          node['is_concretized_by'] = { '@id': provenanceIri };
         }
       }
 
