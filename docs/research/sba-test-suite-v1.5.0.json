@@ -1,0 +1,699 @@
+{
+  "test_suite_name": "TagTeam SBA Validation Suite",
+  "version": "1.5.0",
+  "previous_version": "1.4.0",
+  "target_parser_build": "Alpha.2",
+  "spec_reference": "TT-SPEC-SBA v1.3",
+  "framework": "CCO/BFO Semantic Mapping",
+  "total_tests": 26,
+
+  "change_log": {
+    "from_v1.4.0_to_v1.5.0": [
+      "SBA-012: tokenization_note extended with 'Vote No.' terminal-abbreviation edge case and required heuristic.",
+      "SBA-015: Added missing success criterion sentences[1].segmentationType === 'numbered-list' — the original only asserted sentences[0].",
+      "SBA-023 added: Non-qualifying parenthetical (Wave 2) — parenthetical too short and verbless; must NOT be extracted. Closes coverage gap 1 from v1.4.0.",
+      "SBA-024 added: Single-agent coordinated VP (Wave 3) — one subject, two verbs; produces two VerbPhrase nodes. Complement to SBA-007. Closes coverage gap 3 from v1.4.0.",
+      "SBA-025 added: TokenSpanCardinalityError injection (Wave 1 negative test) — tokenSpan implies 6 tokens but tokens array has 3; projection must throw. Closes coverage gap 2 from v1.4.0.",
+      "coverage_matrix.remaining_coverage_gaps cleared to empty — all three gaps from v1.4.0 are now closed."
+    ]
+  },
+
+  "test_harness_notes": [
+    "SBA-011 and SBA-025 are NEGATIVE TESTS. The harness MUST assert that the error/violation fires. A clean result is a test FAILURE for both.",
+    "SBA-013 is an INTEGRATION TEST requiring two independent buildGraph() invocations with separate parsingActIds. Run as a pre-flight check before corpus migration.",
+    "SBA-020 and SBA-022 are marked spec_gap_present: true. They cannot produce deterministic tokenization assertions until the flagged gaps are closed. Run as discovery tests only.",
+    "Wave assignments are normative. Tests marked Wave 2 or Wave 3 MUST NOT run against a Wave 1 build."
+  ],
+
+  "test_cases": [
+    {
+      "id": "SBA-001",
+      "name": "Relative Indexing Reset Clock",
+      "wave": 1,
+      "goal": "Verify that arc head and dependent values reset to sentence-relative 0-based indexing for each new sentence tree. Confirms the Relative-Indexing Contract (§3.4).",
+      "input": "The Person submitted the Credential. The Organization reviewed the Report.",
+      "token_trace": {
+        "S0_sentence_relative": "0:The 1:Person 2:submitted 3:the 4:Credential 5:.",
+        "S1_sentence_relative": "0:The 1:Organization 2:reviewed 3:the 4:Report 5:.",
+        "S1_global_if_wrong": "6:The 7:Organization 8:reviewed 9:the 10:Report 11:."
+      },
+      "expected_behavior": {
+        "metadata": "Two entries in the sentences array.",
+        "arcs": "index 1 ('Organization') has head: 2 ('reviewed'), not global head: 8."
+      },
+      "success_criteria": [
+        "sentences[1].root is strictly within [0, sentences[1].tokens.length).",
+        "No arc head or dependent value in Sentence 1 is >= sentences[0].tokens.length.",
+        "Harness MUST assert sentences[1].root === 2 AND sentences[1].root !== 8 — both assertions required to confirm indexing mode."
+      ]
+    },
+
+    {
+      "id": "SBA-002",
+      "name": "Hard Boundary Resolution (Period)",
+      "wave": 1,
+      "goal": "Validate that a standard period hard boundary triggers a correct forest split in Wave 1 (Rule B-1 only). Baseline for all other boundary tests.",
+      "input": "The IncorporatedOrganization issued the ActOfAuthorization. The Person did not sign the Document.",
+      "expected_behavior": {
+        "tier_1_records": "Both SentenceRecords created with logicalConnector: null.",
+        "tier_1_relationship": "No SentenceRelationship nodes emitted. sentenceRelationships === []."
+      },
+      "success_criteria": [
+        "SBA_ForestStructureShape (§6.1) passes.",
+        "sentences.length === 2.",
+        "sentences[0].logicalConnector === null.",
+        "sentences[1].logicalConnector === null.",
+        "sentenceRelationships is an empty array (present but empty, not absent)."
+      ]
+    },
+
+    {
+      "id": "SBA-002b",
+      "name": "Semicolon Soft Boundary Resolution",
+      "wave": 2,
+      "goal": "Validate that semicolons trigger a forest split while producing a SentenceRelationship node with correct logicalConnector and relationshipType. Tests Rule B-3 and SBA_SentenceRelationshipShape.",
+      "input": "The IncorporatedOrganization issued the ActOfAuthorization; however, the Person did not sign the Document.",
+      "expected_behavior": {
+        "tier_1_records": "Both SentenceRecords contain logicalConnector: 'semicolon'. Semicolon token consumed — absent from both tokens arrays.",
+        "tier_1_relationship": "SentenceRelationship with logicalConnector: 'semicolon' and relationshipType: 'contrast' (derived from first token 'however')."
+      },
+      "success_criteria": [
+        "sentences.length === 2.",
+        "sentences[0].logicalConnector === 'semicolon'.",
+        "sentences[1].logicalConnector === 'semicolon'.",
+        "sentenceRelationships[0].relationshipType === 'contrast'.",
+        "sentenceRelationships[0].logicalConnector === 'semicolon'.",
+        "SBA_ForestStructureShape (§6.1) passes: no arcs cross the semicolon boundary.",
+        "SBA_SentenceRelationshipShape (§6.5) passes: adjacency, uniqueness, and type-consistency satisfied."
+      ]
+    },
+
+    {
+      "id": "SBA-003",
+      "name": "Cross-Boundary Mention Initialization (Pre-Anaphora)",
+      "wave": 1,
+      "goal": "Ensure pronouns across sentence boundaries receive their own unique Tier 1 DiscourseReferent with correct sentenceIndex and mentionId, preparing the graph for WS-E anaphora resolution.",
+      "input": "The GovernmentOrganization reviewed the Credential. It was approved.",
+      "expected_behavior": {
+        "tier_1": "Two distinct DiscourseReferents: DR_GovOrg (sentenceIndex: 0) and DR_It (sentenceIndex: 1)."
+      },
+      "success_criteria": [
+        "The pronoun 'It' receives its own DiscourseReferent node.",
+        "DR_It.tagteam:sentenceIndex === 1.",
+        "DR_It.tagteam:mentionId matches pattern {parsingActId}:s1:m{headTokenIndex}.",
+        "DR_It.tagteam:mentionId !== DR_GovOrg.tagteam:mentionId.",
+        "Note: Tier 2 coreference resolution is WS-E scope. is_about convergence is NOT evaluated here."
+      ]
+    },
+
+    {
+      "id": "SBA-004",
+      "name": "Acronym/Abbreviation Boundary Guard",
+      "wave": 1,
+      "goal": "Verify that periods within entries in abbreviation-lexicon.json do not trigger false sentence splits.",
+      "input": "The U.S. GeopoliticalEntity coordinates with the DHS regarding the Report.",
+      "expected_behavior": {
+        "segmenter": "Consults abbreviation-lexicon.json. 'U.S.' in standard tier — boundary suppressed.",
+        "metadata": "Exactly one entry in the sentences array."
+      },
+      "success_criteria": [
+        "sentences.length === 1.",
+        "No false split occurs at 'U.S.'",
+        "Entity labels are correctly extracted without truncation."
+      ]
+    },
+
+    {
+      "id": "SBA-005",
+      "name": "Parenthetical Nested Forest Extraction",
+      "wave": 2,
+      "goal": "Validate that a parenthetical meeting all three extraction criteria (modal, finite verb, > 5 tokens) is extracted as a child SentenceRecord. Contrast with SBA-023 which tests the non-qualifying case.",
+      "input": "The Facility (which must comply with all applicable healthcare directives) submitted the report.",
+      "expected_behavior": {
+        "primary_tree": "Enclosing sentence with ['(', '...', ')'] sentinel at extraction site.",
+        "child_tree": "Extracted: contains modal ('must'), finite verb ('comply'), exceeds 5 tokens."
+      },
+      "success_criteria": [
+        "sentences.length === 2.",
+        "Child SentenceRecord has isParenthetical: true.",
+        "Child SentenceRecord has parentSentenceIndex === 0.",
+        "Child SentenceRecord has segmentationType: 'parenthetical'.",
+        "Enclosing sentence tokens array contains ['(', '...', ')'] sentinel at extraction position.",
+        "Wave 1 builds MUST produce isParenthetical: false on all records — run only on Wave 2 builds."
+      ]
+    },
+
+    {
+      "id": "SBA-006",
+      "name": "Deontic Logic Isolation (SBA Layer)",
+      "wave": 1,
+      "goal": "Verify that negation syntax in one forest tree is structurally isolated from the next. The 'neg' arc must be strictly bound within its sentence.",
+      "input": "The Person did not submit the Credential. The Organization must revoke the ActOfAuthorization.",
+      "expected_behavior": {
+        "sentence_0": "The 'neg' dependency arc for 'not' is strictly bound within Sentence 0's token range.",
+        "sentence_1": "Parsed independently. Modal 'must' belongs to Sentence 1 only."
+      },
+      "success_criteria": [
+        "The 'neg' arc in Sentence 0 has both head and dependent strictly within sentences[0].tokens.length.",
+        "No arc in Sentence 1 references any token index that would correspond to 'not' in Sentence 0.",
+        "Note: Tier 2 outcomes (Unrealized vs UnconditionalObligation) are tested in the companion RDM test suite."
+      ]
+    },
+
+    {
+      "id": "SBA-007",
+      "name": "Coordination Decomposition — Dual-Subject Conjunction",
+      "wave": 3,
+      "goal": "Validate that two independent clauses joined by a conjunction produce ONE SentenceRecord with TWO distinct VerbPhrase nodes. Conjunctions do not trigger sentence boundaries. Complement: SBA-024 tests the single-subject case.",
+      "input": "The Person approved the Document and the IncorporatedOrganization filed the Report.",
+      "expected_behavior": {
+        "metadata": "Exactly ONE entry in the sentences array. 'and' does not trigger Rules B-1 through B-4.",
+        "tier_1": "TWO VerbPhrase nodes from the single SentenceRecord via coordination decomposition (§7)."
+      },
+      "success_criteria": [
+        "sentences.length === 1.",
+        "Output graph contains exactly 2 VerbPhrase nodes.",
+        "Both VerbPhrase nodes have tagteam:sentenceIndex === 0.",
+        "VP for 'approved' has tagteam:coordinatedVPIndex === 0.",
+        "VP for 'filed' has tagteam:coordinatedVPIndex === 1.",
+        "Both VerbPhrases appear in the same SentenceCluster."
+      ]
+    },
+
+    {
+      "id": "SBA-008",
+      "name": "Three-Sentence Sequential Forest — sentenceIndex Monotonicity",
+      "wave": 1,
+      "goal": "Verify that a three-sentence input produces three SentenceRecords with strictly monotonic sentenceIndex values and that no arc uses an index valid only in a different tree.",
+      "input": "The Person executed the Contract. The Organization reviewed the Submission. The Authority approved the Agreement.",
+      "token_trace": {
+        "S0_document": "[0]The [1]Person [2]executed [3]the [4]Contract [5].",
+        "S1_document": "[6]The [7]Organization [8]reviewed [9]the [10]Submission [11].",
+        "S2_document": "[12]The [13]Authority [14]approved [15]the [16]Agreement [17].",
+        "S1_root_if_correct": 2,
+        "S1_root_if_global_wrong": 8
+      },
+      "expected_behavior": {
+        "metadata": "sentences.length === 3. sentenceIndex values are [0, 1, 2] with no gaps.",
+        "arcs": "sentences[1].root === 2. sentences[2] arcs all within [0, 5]."
+      },
+      "success_criteria": [
+        "sentences[0].sentenceIndex === 0 AND sentences[1].sentenceIndex === 1 AND sentences[2].sentenceIndex === 2.",
+        "sentences[1].root === 2. Harness MUST also assert sentences[1].root !== 8.",
+        "For all arcs in sentences[2]: arc.head < sentences[2].tokens.length AND arc.dependent < sentences[2].tokens.length.",
+        "SBA_ForestStructureShape passes on all three trees."
+      ]
+    },
+
+    {
+      "id": "SBA-009",
+      "name": "SentenceCluster Partition Integrity",
+      "wave": 1,
+      "goal": "Verify that has_sentence_cluster correctly partitions Tier 1 nodes into sentence-scoped clusters with no cross-cluster membership. Tests SBA_SentenceClusterShape.",
+      "input": "The Person submitted the Form. The Organization processed the Request.",
+      "expected_behavior": {
+        "clusters": "has_sentence_cluster contains 2 entries: cluster_s0 and cluster_s1.",
+        "partitioning": "cluster_s0 contains DR_Person and DR_Form only. cluster_s1 contains DR_Organization and DR_Request only."
+      },
+      "success_criteria": [
+        "has_sentence_cluster.length === 2.",
+        "DR for 'Person' (sentenceIndex: 0) does NOT appear in cluster_s1.hasDiscourseReferent.",
+        "DR for 'Organization' (sentenceIndex: 1) does NOT appear in cluster_s0.hasDiscourseReferent.",
+        "Each VerbPhrase appears in exactly one cluster whose sentenceIndex matches the VP's tagteam:sentenceIndex.",
+        "SBA_SentenceClusterShape passes: no MissingClusterViolation or SentenceClusterViolation."
+      ]
+    },
+
+    {
+      "id": "SBA-010",
+      "name": "Single-Sentence Migration Regression",
+      "wave": 1,
+      "goal": "Verify that buildGraph() on a single sentence produces a fully populated sentences array with all v1.3 schema fields at correct defaults. Primary regression guard for corpus fixture migration.",
+      "input": "The Person submitted the Credential.",
+      "expected_behavior": {
+        "metadata": "sentences.length === 1. All v1.3 fields present with correct defaults. Deprecated flat fields absent."
+      },
+      "success_criteria": [
+        "sentences.length === 1.",
+        "sentences[0].sentenceIndex === 0.",
+        "sentenceRelationships is present as an empty array (not absent).",
+        "sentences[0].logicalConnector === null.",
+        "sentences[0].listMarker === null.",
+        "sentences[0].isParenthetical === false.",
+        "sentences[0].parentSentenceIndex === null.",
+        "has_sentence_cluster.length === 1.",
+        "Deprecated flat field _metadata.root is ABSENT from output.",
+        "SBA_SentenceClusterShape passes."
+      ]
+    },
+
+    {
+      "id": "SBA-011",
+      "name": "Poison Pill — Cross-Sentence Arc Injection",
+      "wave": 1,
+      "test_type": "negative",
+      "expected_to_fail": true,
+      "expected_violation": "ForestStructureViolation",
+      "expected_shape": "SBA_ForestStructureShape (§6.1)",
+      "goal": "Verify that SBA_ForestStructureShape detects and rejects a manually injected out-of-bounds arc. Primary regression guard for the Segment-First Invariant and the Relative-Indexing Contract.",
+      "input": "INJECTED_FIXTURE — inject the fixture below directly into the SHACL validator. Do not use text parsing.",
+      "injected_fixture": {
+        "_metadata": {
+          "inputText": "The Person submitted.",
+          "parsingActId": "pa-poison-pill-001",
+          "ibeIri": "inst:Input_Text_IBE_poison",
+          "sentenceRelationships": [],
+          "sentences": [
+            {
+              "sentenceIndex": 0,
+              "text": "The Person submitted.",
+              "tokenSpan": [0, 3],
+              "tokens": ["The", "Person", "submitted", "."],
+              "root": 2,
+              "arcs": [
+                { "dep": "nsubj", "head": 2, "dependent": 1 },
+                { "dep": "INJECTED_VIOLATION", "head": 9, "dependent": 1 }
+              ],
+              "modalMarker": null,
+              "segmentationType": "standard",
+              "logicalConnector": null,
+              "listMarker": null,
+              "isParenthetical": false,
+              "parentSentenceIndex": null
+            }
+          ]
+        },
+        "violation_note": "head: 9 is out of bounds for a 4-token sentence (valid range [0, 3]). Simulates the global-index bug."
+      },
+      "success_criteria": [
+        "SBA_ForestStructureShape fires: validator reports ForestStructureViolation.",
+        "Violation message references the out-of-bounds index (9) and sentence token count (4).",
+        "Violation message contains the text 'Relative-Indexing Contract'.",
+        "TEST PASSES ONLY WHEN THE SHAPE FIRES. A clean SHACL result is a test FAILURE."
+      ]
+    },
+
+    {
+      "id": "SBA-012",
+      "name": "Abbreviation Lexicon — Mid-Sentence Suppression with Correct Terminal Boundary",
+      "wave": 1,
+      "goal": "Verify that an abbreviation in the lexicon is suppressed mid-sentence while the correct sentence-terminal period still triggers Rule B-1. Tests that lexicon suppression does not prevent legitimate boundaries.",
+      "input": "The Delegation met at No. 15 Main Street. CMS reviewed the report.",
+      "tokenization_note": "Assumes 'No.' is tokenized as a single token per spaCy-compatible rules. If the implementation tokenizes 'No.' as ['No', '.'], the lexicon MUST store both forms or normalize tokens before lookup. EDGE CASE — DOCUMENTED: A sentence ending in 'Vote No.' should still trigger a boundary, because 'No.' in this terminal position functions as a sentence-ending word rather than a mid-clause abbreviation. The segmenter will eventually need a heuristic that detects when an abbreviation occupies an absolute clause-terminal position and is followed by an uppercase token — in that case, the boundary should fire even if the token is in the lexicon. This heuristic is not in scope for Wave 1 but should be added to the Wave 2 backlog.",
+      "expected_behavior": {
+        "segmenter": "'No.' suppressed (in lexicon). Rule B-1 fires at the standalone '.' after 'Street' — followed by uppercase 'CMS', preceding span contains finite verb 'met'.",
+        "metadata": "sentences.length === 2. sentences[0] contains 'No. 15 Main Street'. sentences[1] starts with 'CMS'."
+      },
+      "success_criteria": [
+        "sentences.length === 2 (not 3, which would indicate a false split at 'No.').",
+        "sentences[0].tokens contains 'No.' without triggering segmentation.",
+        "sentences[1].tokens[0] === 'CMS'.",
+        "sentences[0].logicalConnector === null.",
+        "sentences[1].logicalConnector === null."
+      ]
+    },
+
+    {
+      "id": "SBA-013",
+      "name": "Tier 2 IRI Determinism Across Independent ParsingActs",
+      "wave": 1,
+      "test_type": "integration",
+      "goal": "Verify that two independent parser invocations both encountering the same named entity produce the identical Tier 2 IRI. Architectural prerequisite for cross-input identity in the document service. Must run before corpus migration.",
+      "inputs": [
+        "CMS shall provide access to all records.",
+        "CMS must report quarterly to the oversight committee."
+      ],
+      "invocation_protocol": "Call buildGraph() independently for each input with separate parsingActIds and ibeIris. Tier 2 IRI for 'CMS' must be string-identical across both.",
+      "expected_behavior": {
+        "both_invocations": "Both produce a Tier 2 node for 'CMS'. Both Tier 2 IRIs are identical strings. Neither IRI contains the parsingActId, a UUID, or any timestamp.",
+        "failure_mode": "If the IRI contains the parsingActId or any randomness, the document service cannot merge graphs by entity — cross-input identity is broken."
+      },
+      "success_criteria": [
+        "tier2_iri(invocation_1, 'CMS') === tier2_iri(invocation_2, 'CMS') — strict string equality.",
+        "Neither Tier 2 IRI contains the string value of parsingActId from invocation_1.",
+        "Neither Tier 2 IRI contains the string value of parsingActId from invocation_2.",
+        "Running the test three times in sequence produces the same IRI all three times.",
+        "FAILURE MODE: IRI containing 'uuid', a timestamp, or a parsingActId requires removing parse-time randomness before corpus migration proceeds."
+      ]
+    },
+
+    {
+      "id": "SBA-014",
+      "name": "IBE Provenance Chain Across Sentences",
+      "wave": 2,
+      "goal": "Verify that all DiscourseReferent and VerbPhrase nodes from all sentences within a single ParsingAct share the same is_concretized_by IRI. Tests SBA_IBEProvenanceShape.",
+      "input": "The Organization issued the Directive. The Person must comply.",
+      "expected_behavior": {
+        "ibe": "Exactly one inst:Input_Text_IBE_{uuid} node for this ParsingAct.",
+        "provenance": "All DRs and VPs from both sentences carry tagteam:is_concretized_by pointing to the same IBE IRI."
+      },
+      "success_criteria": [
+        "Count of distinct is_concretized_by targets across all Tier 1 nodes === 1.",
+        "The single shared target IRI matches _metadata.ibeIri.",
+        "SentenceClusters also carry tagteam:ibeIri pointing to the same IRI.",
+        "SBA_IBEProvenanceShape passes: no IBEProvenanceViolation."
+      ]
+    },
+
+    {
+      "id": "SBA-015",
+      "name": "Numbered List Segmentation with List Marker Stripping",
+      "wave": 2,
+      "goal": "Validate Rule B-2: numbered list items split into separate SentenceRecords with markers stripped from tokens and stored in listMarker. logicalConnector is 'enumeration' on both records.",
+      "input": "1. CMS shall provide access. 2. USCIS shall monitor records.",
+      "expected_behavior": {
+        "segmenter": "Rule B-2 fires at '1.' and '2.' (line-start markers). Markers stripped before passing to parser.",
+        "records": "sentences[0].listMarker === '1.'. sentences[1].listMarker === '2.'. Neither tokens array contains the marker.",
+        "relationship": "One SentenceRelationship with logicalConnector: 'enumeration' and relationshipType: 'enumeration'."
+      },
+      "success_criteria": [
+        "sentences.length === 2.",
+        "sentences[0].listMarker === '1.'.",
+        "sentences[1].listMarker === '2.'.",
+        "sentences[0].tokens does NOT contain '1.' at any index.",
+        "sentences[1].tokens does NOT contain '2.' at any index.",
+        "sentences[0].segmentationType === 'numbered-list'.",
+        "sentences[1].segmentationType === 'numbered-list'.",
+        "sentences[0].logicalConnector === 'enumeration'.",
+        "sentences[1].logicalConnector === 'enumeration'.",
+        "sentenceRelationships[0].relationshipType === 'enumeration'.",
+        "SBA_SentenceRelationshipShape passes."
+      ]
+    },
+
+    {
+      "id": "SBA-016",
+      "name": "Section Header Suppression — No Tier 1 Nodes from Header",
+      "wave": 2,
+      "goal": "Validate Rule B-4: a section header produces a SentenceRecord with segmentationType 'section-header-inline' and zero Tier 1 output. The graph builder skips it (§5.3.1). No SentenceCluster is created for the header.",
+      "input": "Access Controls. CMS shall restrict access to authorized personnel only.",
+      "expected_behavior": {
+        "metadata": "sentences.length === 2. sentences[0].segmentationType === 'section-header-inline'.",
+        "tier_1": "Zero DiscourseReferent or VerbPhrase nodes with tagteam:sentenceIndex === 0.",
+        "cluster": "has_sentence_cluster.length === 1 — only for sentences[1]."
+      },
+      "success_criteria": [
+        "sentences[0].segmentationType === 'section-header-inline'.",
+        "No DiscourseReferent in the output has tagteam:sentenceIndex === 0.",
+        "No VerbPhrase in the output has tagteam:sentenceIndex === 0.",
+        "has_sentence_cluster.length === 1.",
+        "The single cluster has tagteam:sentenceIndex === 1.",
+        "has_output contains nodes only from sentences[1]."
+      ]
+    },
+
+    {
+      "id": "SBA-017",
+      "name": "Legal-Proviso vs. Contrast Disambiguation",
+      "wave": 2,
+      "goal": "Verify that 'notwithstanding' produces relationshipType 'legal-proviso' and NOT 'contrast'. Critical federal regulatory semantic distinction.",
+      "input": "CMS shall provide access to records; notwithstanding any other provision, USCIS may restrict disclosure.",
+      "expected_behavior": {
+        "relationship": "sentenceRelationships[0].relationshipType === 'legal-proviso', derived from 'notwithstanding' as first token of sentences[1]."
+      },
+      "success_criteria": [
+        "sentenceRelationships[0].relationshipType === 'legal-proviso'.",
+        "sentenceRelationships[0].relationshipType !== 'contrast' — harness MUST assert inequality explicitly.",
+        "sentenceRelationships[0].logicalConnector === 'semicolon'.",
+        "sentences[0].logicalConnector === 'semicolon'.",
+        "sentences[1].logicalConnector === 'semicolon'.",
+        "SBA_SentenceRelationshipShape passes: RelationshipTypeConsistencyViolation does NOT fire."
+      ]
+    },
+
+    {
+      "id": "SBA-018",
+      "name": "Rule B-3 False-Positive Guard — Continuation Fragment Rejection",
+      "wave": 2,
+      "goal": "Verify that Rule B-3's independent-subject guard correctly rejects a semicolon where the second clause is a continuation fragment. Must produce ONE sentence.",
+      "input": "CMS shall provide access to all records; including historical records and archived files.",
+      "analysis": "'including historical records and archived files' has no independent syntactic subject. Independent-subject guard must reject this split.",
+      "expected_behavior": {
+        "segmenter": "Rule B-3 evaluates: second clause has no independent subject. Guard fails. No split.",
+        "metadata": "sentences.length === 1. sentenceRelationships === []."
+      },
+      "success_criteria": [
+        "sentences.length === 1.",
+        "sentenceRelationships is an empty array.",
+        "The semicolon is NOT consumed — it appears in sentences[0].tokens.",
+        "SBA_SentenceRelationshipShape passes (empty sentenceRelationships is valid)."
+      ]
+    },
+
+    {
+      "id": "SBA-019",
+      "name": "Multi-Token Mention headTokenIndex",
+      "wave": 1,
+      "goal": "Verify that a multi-token entity span produces a mentionId whose headTokenIndex is the sentence-relative index of the dependency head of the span — not ordinal counting and not always the first token.",
+      "input": "The Centers for Medicare and Medicaid Services shall provide access.",
+      "token_trace": {
+        "sentence_relative": "0:The 1:Centers 2:for 3:Medicare 4:and 5:Medicaid 6:Services 7:shall 8:provide 9:access 10:.",
+        "entity_span": "tokens[1] through tokens[6]",
+        "head_determination": "The head token is the single token within [1, 6] with no incoming arc from within that span. Typically 'Services' (index 6) or 'Centers' (index 1) — parser-dependent. Harness must inspect arc structure to determine expected value."
+      },
+      "expected_behavior": {
+        "mentionId": "Format is {parsingActId}:s0:m{X} where X is the sentence-relative index of the dependency head of the entity span."
+      },
+      "success_criteria": [
+        "mentionId matches regex: ^.+:s0:m[0-9]+$",
+        "The headTokenIndex component (integer after ':m') is in range [1, 6].",
+        "The headTokenIndex is NOT 0 (ordinal counting).",
+        "The headTokenIndex corresponds to the token within [1, 6] with no incoming arc from another token within [1, 6].",
+        "tagteam:documentTokenSpan === [1, 6]."
+      ],
+      "alternate_inputs": [
+        {
+          "note": "Also run with this input to validate head selection on a different 4-word proper noun span.",
+          "input": "The standard is the Global Area Reference System. It was adopted globally.",
+          "entity_span": "tokens[3] through tokens[6] in sentences[0] ('Global Area Reference System')",
+          "expected": "mentionId for the entity ends in ':m{X}' where X is in [3, 6]. DR for 'It' in sentences[1] has mentionId ending in ':s1:m0'."
+        }
+      ]
+    },
+
+    {
+      "id": "SBA-020",
+      "name": "Mathematical Symbol Tokenization Guard (CCO Lexical Hazard)",
+      "wave": 1,
+      "spec_gap_present": true,
+      "spec_gap_id": "GAP-001",
+      "goal": "Verify that a sentence boundary immediately following a mathematical symbol string is correctly detected, and that the expression does not corrupt arc indices or produce a false internal split.",
+      "input": "The pressure was measured in kgf/cm^2. The mass was one Kilogram Measurement Unit.",
+      "cco_instances": [
+        "cco:ont00001432 (Kilogram Force Per Square Centimeter, skos:altLabel 'kgf/cm^2')",
+        "cco:ont00001477 (Kilogram Measurement Unit)"
+      ],
+      "expected_behavior": {
+        "metadata": "sentences.length === 2. Hard boundary correctly detected after the mathematical expression.",
+        "pending_decision": "Expected tokenization of 'kgf/cm^2' is UNDECIDED. Candidates: (a) single token, (b) ['kgf', '/', 'cm^2'], (c) ['kgf', '/', 'cm', '^', '2']. Cannot assert deterministically until GAP-001 is resolved."
+      },
+      "success_criteria": [
+        "sentences.length === 2 — regardless of how 'kgf/cm^2' is tokenized, the sentence boundary must be detected.",
+        "SBA_ForestStructureShape passes: all arc indices in both sentences are within their respective token bounds.",
+        "PENDING: assert specific tokenization of 'kgf/cm^2' once §5.1.1 is extended to cover mathematical notation.",
+        "ACTION REQUIRED: resolve GAP-001 before Wave 1 sign-off."
+      ]
+    },
+
+    {
+      "id": "SBA-021",
+      "name": "Hyphenated Multi-Word CCO Entity in Semicolon Split",
+      "wave": 2,
+      "goal": "Validate that a multi-word hyphenated CCO Named Individual label does not corrupt arc structure when the enclosing sentence is split by a semicolon. 'Twenty-Four-Hour' must tokenize as a single compound token per §5.1.1.",
+      "input": "The log utilizes the Twenty-Four-Hour Clock Time System; however, the satellite uses Ephemeris Time.",
+      "cco_instances": [
+        "cco:ont00001439 (Twenty-Four-Hour Clock Time System)",
+        "cco:ont00001417 (Ephemeris Time)"
+      ],
+      "expected_behavior": {
+        "segmenter": "Rule B-3 fires at the semicolon. 'Twenty-Four-Hour' is one hyphenated token per §5.1.1.",
+        "relationship": "SentenceRelationship with logicalConnector: 'semicolon' and relationshipType: 'contrast'."
+      },
+      "success_criteria": [
+        "sentences.length === 2.",
+        "sentences[0].logicalConnector === 'semicolon'.",
+        "sentences[1].logicalConnector === 'semicolon'.",
+        "sentenceRelationships[0].relationshipType === 'contrast'.",
+        "sentences[0].tokens contains 'Twenty-Four-Hour' as a single token (not split at hyphens).",
+        "SBA_ForestStructureShape passes: no arc in sentences[0] has head >= sentences[0].tokens.length.",
+        "SBA_ForestStructureShape passes: no arc in sentences[1] has head >= sentences[1].tokens.length.",
+        "SBA_SentenceRelationshipShape passes."
+      ]
+    },
+
+    {
+      "id": "SBA-022",
+      "name": "Colon and Hyphen Time Notation Guard (CCO Lexical Hazard)",
+      "wave": 1,
+      "spec_gap_present": true,
+      "spec_gap_id": "GAP-002",
+      "goal": "Verify that the colon in a timezone offset string does not trigger a false sentence split, and that the hyphen does not corrupt compound token detection.",
+      "input": "The server in Newfoundland runs on GMT-3:30 regarding local logs.",
+      "cco_instances": [
+        "cco:ont00001395 (GMT-3:30, Newfoundland Standard Time offset)"
+      ],
+      "expected_behavior": {
+        "segmenter": "No boundary fires. Neither colon nor hyphen in 'GMT-3:30' triggers Rules B-1 through B-4.",
+        "metadata": "Exactly one entry in the sentences array."
+      },
+      "success_criteria": [
+        "sentences.length === 1.",
+        "No forest split occurs at the colon or hyphen in 'GMT-3:30'.",
+        "Entity label is extracted without truncation.",
+        "PENDING: assert specific tokenization of 'GMT-3:30' once §5.1.1 is extended or 'GMT-3:30' is added to abbreviation-lexicon.json standard tier.",
+        "ACTION REQUIRED: resolve GAP-002 before Wave 2 sign-off."
+      ]
+    },
+
+    {
+      "id": "SBA-023",
+      "name": "Non-Qualifying Parenthetical — Extraction Must NOT Fire",
+      "wave": 2,
+      "goal": "Verify that a parenthetical failing at least one of the three extraction criteria (modal verb, finite verb, > 5 tokens) is treated as part of the enclosing sentence. No child SentenceRecord is created, no sentinel placeholder is inserted, and isParenthetical remains false. Contrast with SBA-005 which tests the qualifying case.",
+      "input": "The document (a brief summary) was filed.",
+      "parenthetical_analysis": {
+        "content": "'a brief summary'",
+        "contains_finite_verb": false,
+        "contains_modal_verb": false,
+        "token_count": 3,
+        "exceeds_5_tokens": false,
+        "criteria_met": 0,
+        "extraction_decision": "MUST NOT extract — zero of three criteria satisfied."
+      },
+      "expected_behavior": {
+        "metadata": "sentences.length === 1. The parenthetical content stays in the primary tokens array as normal tokens.",
+        "tokens": "sentences[0].tokens includes '(', 'a', 'brief', 'summary', ')' as regular tokens at their natural positions.",
+        "no_sentinel": "No ['(', '...', ')'] placeholder is inserted. No child SentenceRecord exists."
+      },
+      "success_criteria": [
+        "sentences.length === 1.",
+        "sentences[0].isParenthetical === false.",
+        "sentences[0].parentSentenceIndex === null.",
+        "sentences[0].tokens contains '(' and ')' as normal tokens (not a sentinel replacement).",
+        "sentences[0].tokens contains 'a', 'brief', 'summary' as normal tokens within the array.",
+        "has_sentence_cluster.length === 1.",
+        "No second SentenceRecord exists in the output with isParenthetical: true."
+      ]
+    },
+
+    {
+      "id": "SBA-024",
+      "name": "Coordination Decomposition — Single-Subject Dual-Verb",
+      "wave": 3,
+      "goal": "Validate that a single agent with two coordinated verbs produces ONE SentenceRecord with TWO distinct VerbPhrase nodes, both referencing the same subject. Complement to SBA-007 (which tests two different subjects). Tests the shared-agent coordination pattern critical for multi-obligation regulatory sentences.",
+      "input": "CMS shall review and approve the report.",
+      "parse_analysis": {
+        "subject": "CMS (nsubj of both verbs, shared)",
+        "verb_1": "'review' at sentence-relative index 2 (coordinatedVPIndex: 0)",
+        "verb_2": "'approve' at sentence-relative index 4 (coordinatedVPIndex: 1)",
+        "modal": "'shall' inherited by both VP nodes",
+        "conjunction": "'and' — does not trigger sentence split"
+      },
+      "expected_behavior": {
+        "metadata": "Exactly ONE entry in the sentences array.",
+        "tier_1": "TWO VerbPhrase nodes: one for 'review' (coordinatedVPIndex: 0), one for 'approve' (coordinatedVPIndex: 1). Both carry sentenceIndex: 0.",
+        "shared_agent": "Both VPs reference the same DiscourseReferent for 'CMS'."
+      },
+      "success_criteria": [
+        "sentences.length === 1.",
+        "Output graph contains exactly 2 VerbPhrase nodes.",
+        "Both VerbPhrase nodes have tagteam:sentenceIndex === 0.",
+        "VP for 'review' has tagteam:coordinatedVPIndex === 0.",
+        "VP for 'approve' has tagteam:coordinatedVPIndex === 1.",
+        "Both VerbPhrases appear in the same SentenceCluster.",
+        "Both VerbPhrases reference the same DiscourseReferent IRI for 'CMS' as their prescribed agent.",
+        "Note: confirmation that both VPs generate obligations inhering in the same AgentRole is tested in the companion RDM test suite."
+      ]
+    },
+
+    {
+      "id": "SBA-025",
+      "name": "TokenSpanCardinalityError — Projection Integrity Guard",
+      "wave": 1,
+      "test_type": "negative",
+      "expected_to_fail": true,
+      "expected_error": "TokenSpanCardinalityError",
+      "expected_phase": "JSON-to-RDF Projection (§4.6.6) — before SHACL validation executes",
+      "goal": "Verify that the JSON-to-RDF Projection detects and rejects a SentenceRecord where tokenSpan implies a different token count than the tokens array actually contains. Structural companion to the Poison Pill (SBA-011): SBA-011 guards arc locality; SBA-025 guards span cardinality.",
+      "input": "INJECTED_FIXTURE — inject the fixture below directly into the JSON-to-RDF Projection. Do not use text parsing.",
+      "injected_fixture": {
+        "_metadata": {
+          "inputText": "The Person submitted.",
+          "parsingActId": "pa-cardinality-error-001",
+          "ibeIri": "inst:Input_Text_IBE_cardinality",
+          "sentenceRelationships": [],
+          "sentences": [
+            {
+              "sentenceIndex": 0,
+              "text": "The Person submitted.",
+              "tokenSpan": [0, 5],
+              "tokens": ["The", "Person", "submitted"],
+              "root": 2,
+              "arcs": [
+                { "dep": "nsubj", "head": 2, "dependent": 1 }
+              ],
+              "modalMarker": null,
+              "segmentationType": "standard",
+              "logicalConnector": null,
+              "listMarker": null,
+              "isParenthetical": false,
+              "parentSentenceIndex": null
+            }
+          ]
+        },
+        "cardinality_note": "tokenSpan: [0, 5] implies 5 - 0 + 1 = 6 tokens. tokens.length === 3. Mismatch: 6 ≠ 3. The projection MUST throw TokenSpanCardinalityError rather than silently emitting tagteam:tokenCount with a wrong value, which would cause SBA_ForestStructureShape to use 6 as the bounds-check denominator against a sentence that actually has 3 tokens."
+      },
+      "success_criteria": [
+        "TokenSpanCardinalityError is thrown during the JSON-to-RDF Projection phase.",
+        "The error is thrown BEFORE any SHACL shapes execute.",
+        "Error message specifies: tokenSpan [0, 5] implies 6 tokens, but tokens.length === 3.",
+        "No partial RDF output is emitted for the malformed SentenceRecord.",
+        "TEST PASSES ONLY WHEN THE ERROR IS THROWN. Successful projection without error is a test FAILURE."
+      ]
+    }
+  ],
+
+  "coverage_matrix": {
+    "shacl_shapes": {
+      "SBA_ForestStructureShape": ["SBA-001", "SBA-002", "SBA-008", "SBA-011 (negative)", "SBA-021"],
+      "SBA_SentenceIndexShape": ["SBA-001", "SBA-003", "SBA-006"],
+      "SBA_MentionPartitionShape": ["SBA-003", "SBA-019"],
+      "SBA_IBEProvenanceShape": ["SBA-014"],
+      "SBA_SentenceRelationshipShape": ["SBA-002b", "SBA-015", "SBA-017", "SBA-018", "SBA-021"],
+      "SBA_SentenceClusterShape": ["SBA-009", "SBA-010", "SBA-016"]
+    },
+    "boundary_rules": {
+      "Rule B-1 (standard period)": ["SBA-002", "SBA-004", "SBA-008", "SBA-010", "SBA-012", "SBA-020"],
+      "Rule B-2 (numbered list)": ["SBA-015"],
+      "Rule B-3 (semicolon conditional)": ["SBA-002b", "SBA-017", "SBA-018", "SBA-021"],
+      "Rule B-4 (section header)": ["SBA-016"],
+      "Parenthetical extraction — qualifying": ["SBA-005"],
+      "Parenthetical extraction — non-qualifying": ["SBA-023"]
+    },
+    "projection_integrity": {
+      "ForestStructureViolation (arc bounds)": ["SBA-011"],
+      "TokenSpanCardinalityError (span/array mismatch)": ["SBA-025"]
+    },
+    "open_spec_gaps": [
+      {
+        "id": "GAP-001",
+        "affects": ["SBA-020"],
+        "description": "Mathematical notation tokenization (kgf/cm^2, caret and slash) not defined in §5.1.1.",
+        "required_action": "Extend §5.1.1 or add explicit entries to abbreviation-lexicon.json. Resolve before Wave 1 sign-off."
+      },
+      {
+        "id": "GAP-002",
+        "affects": ["SBA-022"],
+        "description": "Timezone offset notation (GMT-3:30) with hyphen and colon ambiguity not resolved in §5.1.1.",
+        "required_action": "Add to abbreviation-lexicon.json standard tier or extend §5.1.1. Resolve before Wave 2 sign-off."
+      },
+      {
+        "id": "GAP-003",
+        "affects": ["SBA-012"],
+        "description": "Terminal-abbreviation heuristic not specified: 'Vote No.' should trigger a boundary even though 'No.' is in the lexicon, because it occupies absolute clause-terminal position followed by an uppercase token.",
+        "required_action": "Define terminal-position override rule in §5.1.3 Rule B-1 or as a post-processing heuristic. Add to Wave 2 backlog."
+      }
+    ],
+    "remaining_coverage_gaps": []
+  }
+}
