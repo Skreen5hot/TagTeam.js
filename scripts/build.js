@@ -128,6 +128,10 @@ const binaryModelLoaderPath = path.join(__dirname, '..', 'src', 'core', 'BinaryM
 // v2 Phase 4: Ditransitive arc corrector
 const depTreeCorrectorPath = path.join(__dirname, '..', 'src', 'core', 'DepTreeCorrector.js');
 
+// SBA v1.3: Sentence segmenter
+const sentenceSegmenterPath = path.join(__dirname, '..', 'src', 'nlp', 'SentenceSegmenter.js');
+const abbreviationLexiconPath = path.join(__dirname, '..', 'src', 'nlp', 'abbreviation-lexicon.json');
+
 // §9.5: Genericity detector
 const genericityDetectorPath = path.join(__dirname, '..', 'src', 'graph', 'GenericityDetector.js');
 
@@ -241,6 +245,10 @@ let binaryModelLoader = fs.readFileSync(binaryModelLoaderPath, 'utf8');
 
 // v2 Phase 4: Ditransitive arc corrector
 let depTreeCorrector = fs.readFileSync(depTreeCorrectorPath, 'utf8');
+
+// SBA v1.3: Sentence segmenter + lexicon
+let sentenceSegmenter = fs.readFileSync(sentenceSegmenterPath, 'utf8');
+const abbreviationLexicon = fs.readFileSync(abbreviationLexiconPath, 'utf8');
 
 // §9.5: Genericity detector
 let genericityDetector = fs.readFileSync(genericityDetectorPath, 'utf8');
@@ -550,6 +558,11 @@ console.log('  ✓ Converted RoleDetector to browser format');
 
 semanticGraphBuilder = stripCommonJS(semanticGraphBuilder, 'SemanticGraphBuilder');
 semanticGraphBuilder = stripBundleNodeCode(semanticGraphBuilder, 'SemanticGraphBuilder');
+// Strip the SentenceSegmenter require() fallback — the global shim handles it in browser
+semanticGraphBuilder = semanticGraphBuilder.replace(
+  /if \(!_SentenceSegmenter\) \{\s*try \{ _SentenceSegmenter = require\([^)]+\); \} catch\(e\) \{[^}]*\}\s*\}/,
+  '// SentenceSegmenter loaded via global shim in browser bundle'
+);
 console.log('  ✓ Converted SemanticGraphBuilder to browser format');
 
 jsonldSerializer = stripCommonJS(jsonldSerializer, 'JSONLDSerializer');
@@ -634,6 +647,26 @@ console.log('  ✓ Converted BinaryModelLoader to browser format');
 
 depTreeCorrector = stripCommonJS(depTreeCorrector, 'DepTreeCorrector');
 console.log('  ✓ Converted DepTreeCorrector to browser format');
+
+// SBA: Strip CommonJS from SentenceSegmenter (replace fs/path requires with inline lexicon)
+sentenceSegmenter = sentenceSegmenter
+  .replace(/const fs = require\('fs'\);/g, '')
+  .replace(/const path = require\('path'\);/g, '')
+  .replace(/module\.exports\s*=\s*\{[^}]*\};?/g, '')
+  .replace(/let ABBREVIATION_SET = null;/, 'let ABBREVIATION_SET = null;')
+  .replace(
+    /function loadAbbreviationLexicon\(\)[\s\S]*?return ABBREVIATION_SET;\s*\}/,
+    `function loadAbbreviationLexicon() {
+  if (ABBREVIATION_SET) return ABBREVIATION_SET;
+  var lexicon = ${abbreviationLexicon};
+  ABBREVIATION_SET = new Set();
+  ['standard', 'agency', 'custom'].forEach(function(tier) {
+    (lexicon[tier] || []).forEach(function(entry) { ABBREVIATION_SET.add(entry.toLowerCase()); });
+  });
+  return ABBREVIATION_SET;
+}`
+  );
+console.log('  ✓ Converted SentenceSegmenter to browser format');
 
 genericityDetector = stripCommonJS(genericityDetector, 'GenericityDetector');
 console.log('  ✓ Converted GenericityDetector to browser format');
@@ -1069,6 +1102,15 @@ ${depTreeCorrector}
   // Shim: after stripCommonJS, only the inner functions survive.
   // SemanticGraphBuilder checks typeof DepTreeCorrector !== 'undefined'.
   const DepTreeCorrector = { correctDitransitives, correctCopularFragmentation, correctNounRootVerbAcl, correctModalFragmentation, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
+
+  // ============================================================================
+  // SBA v1.3: SENTENCE SEGMENTER
+  // ============================================================================
+
+${sentenceSegmenter}
+
+  // Shim: SentenceSegmenter for browser — SemanticGraphBuilder uses dynamic import fallback
+  const SentenceSegmenter = { segment, loadAbbreviationLexicon, tokenizeWithPositions };
 
   // ============================================================================
   // §9.5: GENERICITY DETECTOR

@@ -1788,6 +1788,135 @@ class SemanticGraphBuilder {
    * @param {Object} buildOptions - Build options
    * @returns {Object} JSON-LD graph
    */
+
+  /**
+   * Build a forest graph from multiple segmented sentences.
+   * SBA v1.3 §3.1: Each sentence is parsed independently.
+   * Pipeline (tagger, dep parser) is initialized once and reused.
+   *
+   * @param {Object} segResult - Output from SentenceSegmenter.segment()
+   * @param {string} originalText - Original unsplit input text
+   * @param {string} normalizedText - Unicode-normalized text
+   * @param {Object} buildOptions - Build options
+   * @returns {Object} Merged JSON-LD graph with forest _metadata
+   */
+  _buildForest(segResult, originalText, normalizedText, buildOptions) {
+    const allGraphNodes = [];
+    const sentenceMetadata = [];
+    const sentenceNodeRanges = []; // Track [startIdx, endIdx] per sentence
+
+    for (const sent of segResult.sentences) {
+      const nodeCountBefore = allGraphNodes.length;
+      // Parse each sentence independently — _skipSegmentation prevents re-segmentation
+      const sentResult = this._buildWithTreeExtractors(sent.text, {
+        ...buildOptions,
+        _skipSegmentation: true,
+        _sentenceIndex: sent.sentenceIndex,
+      });
+
+      // Collect graph nodes (skip infrastructure nodes after first sentence)
+      const nodes = sentResult['@graph'] || [];
+      if (sent.sentenceIndex === 0) {
+        // First sentence: include all nodes (IBE, ParsingAct, Parser Agent)
+        allGraphNodes.push(...nodes);
+      } else {
+        // Subsequent sentences: include semantic nodes only, skip IBE/ParsingAct/Agent
+        for (const node of nodes) {
+          const id = node['@id'] || '';
+          if (id.includes('Input_Text_IBE') || id.includes('TagTeam_Parser') || id.includes('ParsingAct')) continue;
+          allGraphNodes.push(node);
+        }
+
+        // Add to first sentence's ParsingAct has_output
+        const parsingAct = allGraphNodes.find(n => (n['@id'] || '').includes('ParsingAct'));
+        if (parsingAct && parsingAct['has_output']) {
+          const newOutputs = nodes
+            .filter(n => {
+              const types = [].concat(n['@type'] || []);
+              return types.some(t => t.includes('DiscourseReferent') || t.includes('VerbPhrase'));
+            })
+            .map(n => ({ '@id': n['@id'] }));
+          parsingAct['has_output'].push(...newOutputs);
+        }
+      }
+
+      // Record node range for this sentence
+      sentenceNodeRanges.push({ start: nodeCountBefore, end: allGraphNodes.length });
+
+      // Collect sentence metadata
+      if (sentResult._metadata && sentResult._metadata.sentences) {
+        const sentMd = sentResult._metadata.sentences[0];
+        sentMd.sentenceIndex = sent.sentenceIndex;
+        sentMd.tokenSpan = sent.tokenSpan;
+        sentenceMetadata.push(sentMd);
+      }
+    }
+
+    // Step 6: Build SentenceCluster nodes and stamp sentenceIndex on Tier 1 nodes
+    const parsingActId = this._hashText(originalText).substring(0, 8);
+    const ibeIri = `inst:Input_Text_IBE_${this._hashText(originalText)}`;
+    const sentenceClusters = [];
+
+    for (let si = 0; si < segResult.sentences.length; si++) {
+      const sent = segResult.sentences[si];
+      const range = sentenceNodeRanges[si] || { start: 0, end: allGraphNodes.length };
+
+      // Find Tier 1 nodes from this sentence using tracked node range
+      const sentDRs = [];
+      const sentVPs = [];
+      for (let ni = range.start; ni < range.end; ni++) {
+        const node = allGraphNodes[ni];
+        const types = [].concat(node['@type'] || []);
+        const isDR = types.includes('tagteam:DiscourseReferent');
+        const isVP = types.some(t => t.includes('VerbPhrase'));
+        if (isDR && !isVP) {
+          node['tagteam:sentenceIndex'] = si;
+          sentDRs.push({ '@id': node['@id'] });
+        }
+        if (isVP) {
+          node['tagteam:sentenceIndex'] = si;
+          sentVPs.push({ '@id': node['@id'] });
+        }
+      }
+
+      // SentenceCluster node (§4.5)
+      const cluster = {
+        '@id': `inst:SentenceCluster_${parsingActId}_s${si}`,
+        '@type': ['tagteam:SentenceCluster'],
+        'tagteam:sentenceIndex': si,
+        'tagteam:hasDiscourseReferent': sentDRs,
+        'tagteam:hasVerbPhrase': sentVPs,
+        'tagteam:ibeIri': { '@id': ibeIri },
+        'tagteam:segmentationType': sent.segmentationType || 'standard',
+        'tagteam:logicalConnector': sent.logicalConnector || null,
+      };
+      sentenceClusters.push(cluster);
+      allGraphNodes.push(cluster);
+    }
+
+    // Add has_sentence_cluster to ParsingAct
+    const parsingAct = allGraphNodes.find(n => (n['@id'] || '').includes('ParsingAct'));
+    if (parsingAct) {
+      parsingAct['tagteam:has_sentence_cluster'] = sentenceClusters.map(c => ({ '@id': c['@id'] }));
+    }
+
+    return {
+      '@graph': allGraphNodes,
+      _metadata: {
+        pipeline: 'tree-based',
+        version: '3.2.0',
+        inputText: originalText,
+        buildTimestamp: this.buildTimestamp,
+        sentences: sentenceMetadata,
+        sentenceRelationships: segResult.sentenceRelationships || [],
+        entities: allGraphNodes.filter(n => [].concat(n['@type'] || []).includes('tagteam:DiscourseReferent') && ![].concat(n['@type'] || []).some(t => t.includes('VerbPhrase'))).length,
+        acts: allGraphNodes.filter(n => [].concat(n['@type'] || []).some(t => t.includes('IntentionalAct')) && !(n['rdfs:label'] || '').includes('parsing')).length,
+        structuralAssertions: allGraphNodes.filter(n => [].concat(n['@type'] || []).some(t => t.includes('StructuralAssertion'))).length,
+        roles: allGraphNodes.filter(n => [].concat(n['@type'] || []).includes('Role')).length,
+      }
+    };
+  }
+
   _buildWithTreeExtractors(text, buildOptions) {
     const stages = {};
     let autoLoaded = false;
@@ -1813,6 +1942,22 @@ class SemanticGraphBuilder {
         ? _UnicodeNormalizer
         : (_UnicodeNormalizer && _UnicodeNormalizer.normalizeUnicode) || (t => t);
       const normalized = normalizeUnicode(text);
+
+      // Stage 1.5: Sentence segmentation (SBA v1.3 §3.1 Segment-First Invariant)
+      // Split multi-sentence input into independent sentences BEFORE parsing.
+      let _SentenceSegmenter = (typeof SentenceSegmenter !== 'undefined') ? SentenceSegmenter : null;
+      if (!_SentenceSegmenter) {
+        try { _SentenceSegmenter = require('../nlp/SentenceSegmenter'); } catch(e) { /* not available */ }
+      }
+
+      if (_SentenceSegmenter && !buildOptions._skipSegmentation) {
+        const segResult = _SentenceSegmenter.segment(normalized);
+        if (segResult.sentences.length > 1) {
+          // Multi-sentence: process each independently, merge results
+          return this._buildForest(segResult, text, normalized, buildOptions);
+        }
+        // Single sentence: fall through to existing pipeline
+      }
 
       // Stage 2: Tokenization
       stages.current = 'tokenize';
