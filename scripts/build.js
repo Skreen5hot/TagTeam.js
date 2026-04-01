@@ -1432,7 +1432,12 @@ ${semanticGraphBuilder}
         // Tree pipeline (default)
         const builder = new SemanticGraphBuilder(options);
         _injectCachedModels(builder);
-        graph = builder.build(text, Object.assign({}, options, { useTreeExtractors: true }));
+        // F-3: Pass ontology tagger for span anchoring
+        var buildOpts = Object.assign({}, options, { useTreeExtractors: true });
+        if (options.ontology && typeof options.ontology.tagText === 'function') {
+          buildOpts._ontologyTagger = options.ontology;
+        }
+        graph = builder.build(text, buildOpts);
       }
 
       // Ontology enrichment: annotate Tier 2 entities with matched ontology classes.

@@ -1968,6 +1968,53 @@ class SemanticGraphBuilder {
         lockedSpans = this._mapCDDSpansToTokenIndices(filteredSpans, tokens, tokenObjs);
       }
 
+      // F-3: Ontology-aware span anchoring — if an ontology tagger is provided,
+      // find multi-word matches in the text and add them as locked spans.
+      // This prevents fragmentation of known ontology terms.
+      if (buildOptions._ontologyTagger && typeof buildOptions._ontologyTagger.tagText === 'function') {
+        const ontTags = buildOptions._ontologyTagger.tagText(text) || [];
+        for (const tag of ontTags) {
+          if (!tag.evidence) continue;
+          for (const ev of tag.evidence) {
+            if (ev.split(/\s+/).length < 2) continue; // Only multi-word terms
+            // Find the evidence text position in the input
+            const evLower = ev.toLowerCase();
+            const textLower = text.toLowerCase();
+            const charIdx = textLower.indexOf(evLower);
+            if (charIdx < 0) continue;
+            // Convert to a CDD-style span for token locking
+            const ontSpan = {
+              text: text.substring(charIdx, charIdx + ev.length),
+              start: charIdx,
+              end: charIdx + ev.length,
+              components: ev.split(/\s+/),
+              _endIndex: 0, // Will be resolved by _mapCDDSpansToTokenIndices
+              source: 'ontology-f3'
+            };
+            // Check it doesn't overlap an existing CDD locked span
+            const overlaps = lockedSpans.some(ls => {
+              const lsStart = ls.startToken;
+              const lsEnd = ls.endToken;
+              // Convert ontSpan to token range for overlap check
+              for (let ti = 0; ti < tokenObjs.length; ti++) {
+                const tok = tokenObjs[ti];
+                const tokStart = typeof tok === 'object' ? tok.start : 0;
+                if (tokStart >= charIdx && tokStart < charIdx + ev.length) {
+                  if (ti + 1 >= lsStart && ti + 1 <= lsEnd) return true;
+                }
+              }
+              return false;
+            });
+            if (!overlaps) {
+              const mapped = this._mapCDDSpansToTokenIndices([ontSpan], tokens, tokenObjs);
+              if (mapped.length > 0 && mapped[0].startToken !== mapped[0].endToken) {
+                lockedSpans.push(mapped[0]);
+              }
+            }
+          }
+        }
+      }
+
       // Stage 5: Tree-based entity extraction
       stages.current = 'extractEntities';
       const entityExtractor = new _TreeEntityExtractor({
