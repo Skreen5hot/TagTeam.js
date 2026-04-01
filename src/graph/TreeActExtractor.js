@@ -198,6 +198,18 @@ const IRREGULAR_LEMMAS = {
   'suspected': 'suspect',
   'occurred': 'occur',
   'violated': 'violate',
+  'filed': 'file',
+  'hired': 'hire',
+  'classified': 'classify',
+  'authorized': 'authorize',
+  'revised': 'revise',
+  'described': 'describe',
+  'recognized': 'recognize',
+  'analyzed': 'analyze',
+  'organized': 'organize',
+  'utilized': 'utilize',
+  'finalized': 'finalize',
+  'supervised': 'supervise',
 };
 
 /**
@@ -403,7 +415,7 @@ class TreeActExtractor {
 
     const lemma = this._lemmatize(word, tag);
     const isPassive = this._detectPassive(children);
-    const isNegated = this._detectNegation(children);
+    const isNegated = this._detectNegation(children, depTree);
     const isCopular = false;
 
     // Modal detection: scan aux children for MD tag or known modal words
@@ -430,6 +442,17 @@ class TreeActExtractor {
       if (modal.deonticType) act.deonticType = modal.deonticType;
       // Reconstruct source text for DirectiveExtractor
       act.sourceText = modal.modalVerb + ' ' + word;
+
+      // Subject-level negation flip: if isNegated (from "No X shall Y") but
+      // _detectModality didn't catch the negation, flip modality here
+      if (isNegated && !modal.isNegated) {
+        const modalWord = modal.modalVerb.toLowerCase().replace(/n't$/, '').replace(/not$/, '').trim();
+        const entry = MODAL_TABLE[modalWord];
+        if (entry && entry.negatedModality) {
+          act.modality = entry.negatedModality;
+          act.actualityStatus = entry.negatedStatus;
+        }
+      }
     }
 
     return act;
@@ -473,7 +496,11 @@ class TreeActExtractor {
       const hasHasHave = auxWords.some(w => w === 'has' || w === 'have');
       if (hasHad) return 'PastPerfectTense';
       if (hasHasHave) return 'PresentPerfectTense';
-      // Bare VBN with no aux — passive or reduced relative, not a tense marker
+      // Bare VBN with nsubj = past tense (POS tagger mistagged VBD as VBN)
+      // "The organization reviewed..." → VBN but has nsubj → SimplePast
+      const hasNsubj = children.some(c => c.label === 'nsubj' || c.label === 'nsubj:pass');
+      if (hasNsubj) return 'SimplePastTense';
+      // True bare VBN — passive or reduced relative, not a tense marker
       return null;
     }
 
@@ -621,7 +648,7 @@ class TreeActExtractor {
     const subjectText = subjectSubtree.tokens.join(' ');
 
     // Check for negation
-    const isNegated = this._detectNegation(children);
+    const isNegated = this._detectNegation(children, depTree);
 
     // Check for locative pattern: predicate has a `case` child (preposition)
     const caseChild = children.find(c => c.label === 'case');
@@ -708,7 +735,7 @@ class TreeActExtractor {
       subject: subjectText,
       object: null,
       copula: depTree.tokens[verbId - 1],
-      negated: this._detectNegation(children),
+      negated: this._detectNegation(children, depTree),
       relation: null,
       subjectId: subjectChild.dependent,
     };
@@ -771,7 +798,7 @@ class TreeActExtractor {
       subject: subjectSubtree.tokens.join(' '),
       object: objectSubtree.tokens.join(' '),
       copula: depTree.tokens[verbId - 1],
-      negated: this._detectNegation(children),
+      negated: this._detectNegation(children, depTree),
       relation: 'has_possession',
       subjectId: subjectChild.dependent,
       objectId: objectChild.dependent,
@@ -850,7 +877,7 @@ class TreeActExtractor {
       subject: subjectSubtree.tokens.join(' '),
       object: objectText,
       copula: word,
-      negated: this._detectNegation(children),
+      negated: this._detectNegation(children, depTree),
       relation: relation,
       predicateId: verbId,
       subjectId: subjectChild.dependent,
@@ -918,7 +945,7 @@ class TreeActExtractor {
       subject: subjectSubtree.tokens.join(' '),
       object: null,
       copula: depTree.tokens[verbId - 1],
-      negated: this._detectNegation(children),
+      negated: this._detectNegation(children, depTree),
       relation: null,
       predicateId: xcompChild.dependent,
       subjectId: subjectChild.dependent,
@@ -1043,6 +1070,10 @@ class TreeActExtractor {
               act.deonticType = parentAct.deonticType;
               act.sourceText = (parentAct.modalVerb || '') + ' ' + act.verb;
             }
+            // Inherit tenseAspect from parent if conj doesn't have its own
+            if (!act.tenseAspect && parentAct && parentAct.tenseAspect) {
+              act.tenseAspect = parentAct.tenseAspect;
+            }
             acts.push(act);
           }
         }
@@ -1108,8 +1139,9 @@ class TreeActExtractor {
    * Detect negation from children.
    * Negated if: advmod child with word "not"/"n't" or neg child.
    */
-  _detectNegation(children) {
-    return children.some(c => {
+  _detectNegation(children, depTree) {
+    // Direct negation: advmod "not"/"never" or neg relation on the verb
+    const directNeg = children.some(c => {
       if (c.label === 'advmod') {
         const word = c.word.toLowerCase();
         return word === 'not' || word === "n't" || word === 'never' || word === 'no';
@@ -1117,6 +1149,22 @@ class TreeActExtractor {
       if (c.label === 'neg') return true;
       return false;
     });
+    if (directNeg) return true;
+
+    // Subject-level negation: "No X shall Y" / "Neither X nor Y shall Z"
+    // Check if nsubj has a det with "no" or "neither"
+    if (depTree) {
+      const nsubjChild = children.find(c => c.label === 'nsubj' || c.label === 'nsubj:pass');
+      if (nsubjChild) {
+        const nsubjChildren = depTree.getChildren(nsubjChild.dependent) || [];
+        const negDet = nsubjChildren.some(c =>
+          c.label === 'det' && (c.word.toLowerCase() === 'no' || c.word.toLowerCase() === 'neither')
+        );
+        if (negDet) return true;
+      }
+    }
+
+    return false;
   }
 
   /**

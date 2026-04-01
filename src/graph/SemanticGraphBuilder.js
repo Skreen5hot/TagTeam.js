@@ -1893,6 +1893,10 @@ class SemanticGraphBuilder {
         if (_DepTreeCorrector.correctNounRootVerbAcl) {
           _DepTreeCorrector.correctNounRootVerbAcl(parseResult.arcs, tokens, tags);
         }
+        // Modal fragmentation — "No organization shall disclose" with NN+MD+VB as separate roots
+        if (_DepTreeCorrector.correctModalFragmentation) {
+          _DepTreeCorrector.correctModalFragmentation(parseResult.arcs, tokens, tags);
+        }
       }
 
       const depTree = new _DepTree(parseResult.arcs, tokens, tags);

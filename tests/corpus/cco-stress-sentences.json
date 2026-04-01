@@ -1,0 +1,197 @@
+{
+  "name": "CCO Stress Test Corpus",
+  "version": "1.0",
+  "date": "2026-04-01",
+  "description": "20 stress-test sentences designed to push parser limits using CCO vocabulary. Tests garden paths, passive deontic, stacked modals, long-distance dependencies, NER boundaries, modality edge cases, semantic role confusion, and multi-clause discourse.",
+  "ontology": "dist/cco-merged.ttl",
+  "sentences": [
+    {
+      "id": "BUG-01",
+      "sentence": "The report filed by the incorporated organization described the healthcare facility.",
+      "pattern": "Garden path (VBN acl vs main verb)",
+      "category": "bug-hunter",
+      "expectedEntities": ["report", "incorporated organization", "healthcare facility"],
+      "expectedOntologyMatches": ["Report", "Incorporated Organization", "Healthcare Facility"],
+      "expectedRoles": [{"entity": "report", "role": "Agent"}, {"entity": "healthcare facility", "role": "Patient"}],
+      "knownIssues": ["Parser may treat 'filed' as main verb instead of reduced relative clause"]
+    },
+    {
+      "id": "BUG-02",
+      "sentence": "The certificate shall be reviewed by the geopolitical organization.",
+      "pattern": "Passive deontic",
+      "category": "bug-hunter",
+      "expectedEntities": ["certificate", "geopolitical organization"],
+      "expectedDeontic": true,
+      "expectedOntologyMatches": ["Geopolitical Organization"],
+      "expectedRoles": [{"entity": "geopolitical organization", "role": "Agent"}, {"entity": "certificate", "role": "Patient"}],
+      "knownIssues": ["prescribedAgent may not resolve through passive 'by' phrase"]
+    },
+    {
+      "id": "BUG-03",
+      "sentence": "The person should have submitted the title document.",
+      "pattern": "Stacked modal (past modal)",
+      "category": "bug-hunter",
+      "expectedEntities": ["person", "title document"],
+      "expectedDeontic": true,
+      "expectedOntologyMatches": ["Person", "Title Document"],
+      "expectedTenseAspect": "PresentPerfectTense",
+      "knownIssues": ["Stacked modal 'should have' may not resolve tense or deontic force"]
+    },
+    {
+      "id": "BUG-04",
+      "sentence": "The document authorized the person to access the healthcare facility.",
+      "pattern": "Instrument as subject",
+      "category": "bug-hunter",
+      "expectedEntities": ["document", "person", "healthcare facility"],
+      "expectedOntologyMatches": ["Person", "Healthcare Facility"],
+      "knownIssues": ["F-5 should flip Document from AgentRole to PatientRole/Instrument"]
+    },
+    {
+      "id": "DEP-01",
+      "sentence": "The person that the incorporated organization hired last year approved the certificate.",
+      "pattern": "Long-distance dependency",
+      "category": "dep-parser",
+      "expectedEntities": ["person", "incorporated organization", "certificate"],
+      "expectedOntologyMatches": ["Person", "Incorporated Organization"],
+      "knownIssues": ["'approved' may not link back to 'person' as agent across relative clause"]
+    },
+    {
+      "id": "DEP-02",
+      "sentence": "The report the person the geopolitical organization hired wrote was approved.",
+      "pattern": "Center embedding (3 nested S-V pairs)",
+      "category": "dep-parser",
+      "expectedEntities": ["report", "person", "geopolitical organization"],
+      "expectedOntologyMatches": ["Report", "Person", "Geopolitical Organization"],
+      "knownIssues": ["Center embedding is known to break most parsers — expected failure"]
+    },
+    {
+      "id": "DEP-03",
+      "sentence": "The person submitted the title document to the organization in the healthcare facility on Tuesday.",
+      "pattern": "Right-branching PP chains",
+      "category": "dep-parser",
+      "expectedEntities": ["person", "title document", "organization", "healthcare facility"],
+      "expectedOntologyMatches": ["Person", "Title Document", "Organization", "Healthcare Facility"],
+      "knownIssues": ["PP attachment ambiguity: does 'in the facility' modify org, document, or submission?"]
+    },
+    {
+      "id": "NER-01",
+      "sentence": "The senior analysts and persons reviewed the document.",
+      "pattern": "Coordination with shared modifier",
+      "category": "ner-boundary",
+      "expectedEntities": ["analysts", "persons", "document"],
+      "expectedOntologyMatches": ["Person"],
+      "knownIssues": ["'senior' may modify only 'analysts' or both"]
+    },
+    {
+      "id": "NER-02",
+      "sentence": "The director, a person of the incorporated organization, approved the certificate.",
+      "pattern": "Appositive",
+      "category": "ner-boundary",
+      "expectedEntities": ["director", "person", "incorporated organization", "certificate"],
+      "expectedOntologyMatches": ["Person", "Incorporated Organization"],
+      "knownIssues": ["Parser may merge appositive into single entity or emit redundant Tier 2"]
+    },
+    {
+      "id": "NER-03",
+      "sentence": "The organization's compliance officer submitted the person's title document.",
+      "pattern": "Possessives",
+      "category": "ner-boundary",
+      "expectedEntities": ["organization", "compliance officer", "person", "title document"],
+      "expectedOntologyMatches": ["Organization", "Person", "Title Document"],
+      "knownIssues": ["Possessive 's may create entity boundary errors"]
+    },
+    {
+      "id": "NER-04",
+      "sentence": "Three healthcare facilities reported twelve incidents.",
+      "pattern": "Numeric NPs",
+      "category": "ner-boundary",
+      "expectedEntities": ["healthcare facilities", "incidents"],
+      "expectedOntologyMatches": ["Healthcare Facility"],
+      "knownIssues": ["'Three' and 'twelve' may be included in entity labels"]
+    },
+    {
+      "id": "MOD-01",
+      "sentence": "If the person fails to submit the certificate, the incorporated organization must notify the geopolitical organization.",
+      "pattern": "Conditional deontic",
+      "category": "modality",
+      "expectedEntities": ["person", "certificate", "incorporated organization", "geopolitical organization"],
+      "expectedDeontic": true,
+      "expectedOntologyMatches": ["Person", "Incorporated Organization", "Geopolitical Organization"],
+      "knownIssues": ["Bridge between negated antecedent and mandatory consequent may not resolve"]
+    },
+    {
+      "id": "MOD-02",
+      "sentence": "The incorporated organization cannot fail to disclose the document.",
+      "pattern": "Double negation",
+      "category": "modality",
+      "expectedEntities": ["incorporated organization", "document"],
+      "expectedOntologyMatches": ["Incorporated Organization"],
+      "knownIssues": ["Double negation 'cannot fail to' may not resolve to obligation"]
+    },
+    {
+      "id": "MOD-03",
+      "sentence": "The organization will have reviewed the report by Friday.",
+      "pattern": "Future perfect",
+      "category": "modality",
+      "expectedEntities": ["organization", "report"],
+      "expectedDeontic": true,
+      "expectedOntologyMatches": ["Organization", "Report"],
+      "knownIssues": ["Future perfect 'will have reviewed' may not get correct tense annotation"]
+    },
+    {
+      "id": "MOD-04",
+      "sentence": "The geopolitical organization reviews reports every quarter.",
+      "pattern": "Habitual aspect",
+      "category": "modality",
+      "expectedEntities": ["geopolitical organization", "reports"],
+      "expectedOntologyMatches": ["Geopolitical Organization", "Report"],
+      "knownIssues": ["Habitual aspect has no dedicated TenseAspect individual"]
+    },
+    {
+      "id": "ROLE-01",
+      "sentence": "The incorporated organization received the certificate from the person.",
+      "pattern": "Experiencer verb (receive)",
+      "category": "semantic-role",
+      "expectedEntities": ["incorporated organization", "certificate", "person"],
+      "expectedOntologyMatches": ["Incorporated Organization", "Person"],
+      "expectedRoles": [{"entity": "person", "role": "Source"}, {"entity": "certificate", "role": "Patient"}],
+      "knownIssues": ["Organization may be incorrectly assigned AgentRole — receiving is not agentive in BFO"]
+    },
+    {
+      "id": "ROLE-02",
+      "sentence": "The person met the organization's representative.",
+      "pattern": "Symmetric predicate",
+      "category": "semantic-role",
+      "expectedEntities": ["person", "representative"],
+      "expectedOntologyMatches": ["Person"],
+      "knownIssues": ["Symmetric predicates have no clear agent/patient distinction"]
+    },
+    {
+      "id": "ROLE-03",
+      "sentence": "The person classified the document as confidential.",
+      "pattern": "Resultative",
+      "category": "semantic-role",
+      "expectedEntities": ["person", "document"],
+      "expectedOntologyMatches": ["Person"],
+      "knownIssues": ["'confidential' should be QualityAssertion, not a role"]
+    },
+    {
+      "id": "DISC-01",
+      "sentence": "The person submitted the report. The incorporated organization reviewed it.",
+      "pattern": "Multi-sentence coreference",
+      "category": "discourse",
+      "expectedEntities": ["person", "report", "incorporated organization"],
+      "expectedOntologyMatches": ["Person", "Report", "Incorporated Organization"],
+      "knownIssues": ["'it' may not resolve to Report IRI — no cross-sentence coreference"]
+    },
+    {
+      "id": "DISC-02",
+      "sentence": "The person submitted the certificate, not the title document.",
+      "pattern": "Ellipsis / contrastive negation",
+      "category": "discourse",
+      "expectedEntities": ["person", "certificate", "title document"],
+      "expectedOntologyMatches": ["Person", "Title Document"],
+      "knownIssues": ["'not the title document' should generate Unrealized EventDescription for the TD"]
+    }
+  ]
+}

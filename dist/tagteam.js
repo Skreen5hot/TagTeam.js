@@ -320826,17 +320826,50 @@ function correctNounRootVerbAcl(arcs, tokens, tags) {
   // Root must be a noun
   if (!rootTag || !rootTag.startsWith('NN')) return arcs;
 
-  // Find acl child that is VBN or VBD
-  const aclArc = arcs.find(a =>
-    a.head === rootId && a.label === 'acl' &&
+  // Find acl child that is VBN or VBD — check root AND nmod children of root
+  // Find VBN/VBD child labeled acl or amod that should be the main verb
+  let aclArc = arcs.find(a =>
+    a.head === rootId && (a.label === 'acl' || a.label === 'amod') &&
     (tags[a.dependent - 1] === 'VBN' || tags[a.dependent - 1] === 'VBD')
   );
+  // Check nmod children of root for acl (deep: "officer of org reviewed report")
+  if (!aclArc) {
+    const nmodChildren = arcs.filter(a => a.head === rootId && a.label === 'nmod');
+    for (const nmod of nmodChildren) {
+      aclArc = arcs.find(a =>
+        a.head === nmod.dependent && (a.label === 'acl' || a.label === 'amod') &&
+        (tags[a.dependent - 1] === 'VBN' || tags[a.dependent - 1] === 'VBD')
+      );
+      if (aclArc) break;
+    }
+  }
+  // Check obj children of root for amod VBN ("facilities reported incidents" where
+  // reported is amod of incidents which is obj of facilities)
+  if (!aclArc) {
+    const objChildren = arcs.filter(a => a.head === rootId && a.label === 'obj');
+    for (const obj of objChildren) {
+      aclArc = arcs.find(a =>
+        a.head === obj.dependent && a.label === 'amod' &&
+        (tags[a.dependent - 1] === 'VBN' || tags[a.dependent - 1] === 'VBD')
+      );
+      if (aclArc) {
+        // Special case: the obj becomes the real obj of the verb, reattach
+        obj.head = aclArc.dependent;
+        break;
+      }
+    }
+  }
   if (!aclArc) return arcs;
 
   const verbId = aclArc.dependent;
 
   // Verb must have an obj child (transitive — confirms it's a real verb, not a modifier)
-  const hasObj = arcs.some(a => a.head === verbId && a.label === 'obj');
+  // Also check conj children for obj ("reviewed and approved the document")
+  let hasObj = arcs.some(a => a.head === verbId && a.label === 'obj');
+  if (!hasObj) {
+    const conjChildren = arcs.filter(a => a.head === verbId && a.label === 'conj');
+    hasObj = conjChildren.some(conj => arcs.some(a => a.head === conj.dependent && a.label === 'obj'));
+  }
   if (!hasObj) return arcs;
 
   // Rewrite: verb becomes root, noun becomes nsubj of verb
@@ -320856,11 +320889,68 @@ function correctNounRootVerbAcl(arcs, tokens, tags) {
   return arcs;
 }
 
+/**
+ * Correct fragmented modal sentences where NN, MD, and VB are all roots.
+ *
+ * Pattern: "No organization shall disclose information"
+ *   Parser: organization(root), shall(root), disclose(root), .(root)
+ *   Correct: disclose(root), organization(nsubj), shall(aux)
+ *
+ * @param {Array} arcs
+ * @param {string[]} tokens
+ * @param {string[]} tags
+ * @returns {Array}
+ */
+function correctModalFragmentation(arcs, tokens, tags) {
+  const rootArcs = arcs.filter(a => a.label === 'root' && a.head === 0);
+  if (rootArcs.length < 3) return arcs;
+
+  // Find MD root and VB root
+  const mdRoot = rootArcs.find(a => tags[a.dependent - 1] === 'MD');
+  const vbRoot = rootArcs.find(a => {
+    const t = tags[a.dependent - 1];
+    return t === 'VB' || t === 'VBP';
+  });
+  const nnRoot = rootArcs.find(a => {
+    const t = tags[a.dependent - 1];
+    return t && t.startsWith('NN') && a !== mdRoot && a !== vbRoot;
+  });
+
+  if (!mdRoot || !vbRoot || !nnRoot) return arcs;
+
+  const verbId = vbRoot.dependent;
+  const mdId = mdRoot.dependent;
+  const nnId = nnRoot.dependent;
+
+  // NN must precede MD which must precede VB
+  if (!(nnId < mdId && mdId < verbId)) return arcs;
+
+  // Rewrite: VB becomes sole root, NN becomes nsubj, MD becomes aux
+  nnRoot.label = 'nsubj';
+  nnRoot.head = verbId;
+
+  mdRoot.label = 'aux';
+  mdRoot.head = verbId;
+
+  // Reattach punct
+  for (const arc of rootArcs) {
+    if (arc !== vbRoot && arc !== nnRoot && arc !== mdRoot) {
+      const t = tags[arc.dependent - 1];
+      if (t === '.' || t === ',' || tokens[arc.dependent - 1] === '.') {
+        arc.label = 'punct';
+        arc.head = verbId;
+      }
+    }
+  }
+
+  return arcs;
+}
+
 
 
   // Shim: after stripCommonJS, only the inner functions survive.
   // SemanticGraphBuilder checks typeof DepTreeCorrector !== 'undefined'.
-  const DepTreeCorrector = { correctDitransitives, correctCopularFragmentation, correctNounRootVerbAcl, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
+  const DepTreeCorrector = { correctDitransitives, correctCopularFragmentation, correctNounRootVerbAcl, correctModalFragmentation, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
 
   // ============================================================================
   // §9.5: GENERICITY DETECTOR
@@ -322050,13 +322140,20 @@ class TreeEntityExtractor {
       if (seenHeads.has(arc.dependent)) continue;
       if (lockedTokens.has(arc.dependent)) continue; // Skip tokens inside locked spans
 
-      // Interrogative pronouns (WP/WP$) — "Who", "What" are placeholders, not named entities.
-      // Emit as entity with correct placeholder type, NOT as Organization.
+      // Pronouns (WP/WP$/WDT) — handle based on syntactic context
       const headTag = depTree.tags[arc.dependent - 1];
-      if (headTag === 'WP' || headTag === 'WP$') {
+      if (headTag === 'WP' || headTag === 'WP$' || headTag === 'WDT') {
+        // Check if this is inside a relative clause (head verb has acl:relcl arc)
+        // If so, skip entirely — relative pronouns are syntactic links, not referents
+        const headVerb = arc.head;
+        const isInRelClause = depTree.arcs.some(a =>
+          a.dependent === headVerb && (a.label === 'acl:relcl' || a.label === 'acl')
+        );
+        if (isInRelClause) continue; // Skip relative pronouns
+
+        // Interrogative pronouns — create placeholder entity
         const word = depTree.tokens[arc.dependent - 1];
         const wordLower = word.toLowerCase();
-        // "who/whom" → Person placeholder, "what/which" → Entity placeholder
         const placeholderType = (wordLower === 'who' || wordLower === 'whom') ? 'Person' : 'Entity';
         seenHeads.add(arc.dependent);
         entities.push({
@@ -322647,6 +322744,18 @@ const IRREGULAR_LEMMAS = {
   'suspected': 'suspect',
   'occurred': 'occur',
   'violated': 'violate',
+  'filed': 'file',
+  'hired': 'hire',
+  'classified': 'classify',
+  'authorized': 'authorize',
+  'revised': 'revise',
+  'described': 'describe',
+  'recognized': 'recognize',
+  'analyzed': 'analyze',
+  'organized': 'organize',
+  'utilized': 'utilize',
+  'finalized': 'finalize',
+  'supervised': 'supervise',
 };
 
 /**
@@ -322852,7 +322961,7 @@ class TreeActExtractor {
 
     const lemma = this._lemmatize(word, tag);
     const isPassive = this._detectPassive(children);
-    const isNegated = this._detectNegation(children);
+    const isNegated = this._detectNegation(children, depTree);
     const isCopular = false;
 
     // Modal detection: scan aux children for MD tag or known modal words
@@ -322879,6 +322988,17 @@ class TreeActExtractor {
       if (modal.deonticType) act.deonticType = modal.deonticType;
       // Reconstruct source text for DirectiveExtractor
       act.sourceText = modal.modalVerb + ' ' + word;
+
+      // Subject-level negation flip: if isNegated (from "No X shall Y") but
+      // _detectModality didn't catch the negation, flip modality here
+      if (isNegated && !modal.isNegated) {
+        const modalWord = modal.modalVerb.toLowerCase().replace(/n't$/, '').replace(/not$/, '').trim();
+        const entry = MODAL_TABLE[modalWord];
+        if (entry && entry.negatedModality) {
+          act.modality = entry.negatedModality;
+          act.actualityStatus = entry.negatedStatus;
+        }
+      }
     }
 
     return act;
@@ -322922,7 +323042,11 @@ class TreeActExtractor {
       const hasHasHave = auxWords.some(w => w === 'has' || w === 'have');
       if (hasHad) return 'PastPerfectTense';
       if (hasHasHave) return 'PresentPerfectTense';
-      // Bare VBN with no aux — passive or reduced relative, not a tense marker
+      // Bare VBN with nsubj = past tense (POS tagger mistagged VBD as VBN)
+      // "The organization reviewed..." → VBN but has nsubj → SimplePast
+      const hasNsubj = children.some(c => c.label === 'nsubj' || c.label === 'nsubj:pass');
+      if (hasNsubj) return 'SimplePastTense';
+      // True bare VBN — passive or reduced relative, not a tense marker
       return null;
     }
 
@@ -323070,7 +323194,7 @@ class TreeActExtractor {
     const subjectText = subjectSubtree.tokens.join(' ');
 
     // Check for negation
-    const isNegated = this._detectNegation(children);
+    const isNegated = this._detectNegation(children, depTree);
 
     // Check for locative pattern: predicate has a `case` child (preposition)
     const caseChild = children.find(c => c.label === 'case');
@@ -323157,7 +323281,7 @@ class TreeActExtractor {
       subject: subjectText,
       object: null,
       copula: depTree.tokens[verbId - 1],
-      negated: this._detectNegation(children),
+      negated: this._detectNegation(children, depTree),
       relation: null,
       subjectId: subjectChild.dependent,
     };
@@ -323220,7 +323344,7 @@ class TreeActExtractor {
       subject: subjectSubtree.tokens.join(' '),
       object: objectSubtree.tokens.join(' '),
       copula: depTree.tokens[verbId - 1],
-      negated: this._detectNegation(children),
+      negated: this._detectNegation(children, depTree),
       relation: 'has_possession',
       subjectId: subjectChild.dependent,
       objectId: objectChild.dependent,
@@ -323299,7 +323423,7 @@ class TreeActExtractor {
       subject: subjectSubtree.tokens.join(' '),
       object: objectText,
       copula: word,
-      negated: this._detectNegation(children),
+      negated: this._detectNegation(children, depTree),
       relation: relation,
       predicateId: verbId,
       subjectId: subjectChild.dependent,
@@ -323367,7 +323491,7 @@ class TreeActExtractor {
       subject: subjectSubtree.tokens.join(' '),
       object: null,
       copula: depTree.tokens[verbId - 1],
-      negated: this._detectNegation(children),
+      negated: this._detectNegation(children, depTree),
       relation: null,
       predicateId: xcompChild.dependent,
       subjectId: subjectChild.dependent,
@@ -323492,6 +323616,10 @@ class TreeActExtractor {
               act.deonticType = parentAct.deonticType;
               act.sourceText = (parentAct.modalVerb || '') + ' ' + act.verb;
             }
+            // Inherit tenseAspect from parent if conj doesn't have its own
+            if (!act.tenseAspect && parentAct && parentAct.tenseAspect) {
+              act.tenseAspect = parentAct.tenseAspect;
+            }
             acts.push(act);
           }
         }
@@ -323557,8 +323685,9 @@ class TreeActExtractor {
    * Detect negation from children.
    * Negated if: advmod child with word "not"/"n't" or neg child.
    */
-  _detectNegation(children) {
-    return children.some(c => {
+  _detectNegation(children, depTree) {
+    // Direct negation: advmod "not"/"never" or neg relation on the verb
+    const directNeg = children.some(c => {
       if (c.label === 'advmod') {
         const word = c.word.toLowerCase();
         return word === 'not' || word === "n't" || word === 'never' || word === 'no';
@@ -323566,6 +323695,22 @@ class TreeActExtractor {
       if (c.label === 'neg') return true;
       return false;
     });
+    if (directNeg) return true;
+
+    // Subject-level negation: "No X shall Y" / "Neither X nor Y shall Z"
+    // Check if nsubj has a det with "no" or "neither"
+    if (depTree) {
+      const nsubjChild = children.find(c => c.label === 'nsubj' || c.label === 'nsubj:pass');
+      if (nsubjChild) {
+        const nsubjChildren = depTree.getChildren(nsubjChild.dependent) || [];
+        const negDet = nsubjChildren.some(c =>
+          c.label === 'det' && (c.word.toLowerCase() === 'no' || c.word.toLowerCase() === 'neither')
+        );
+        if (negDet) return true;
+      }
+    }
+
+    return false;
   }
 
   /**
@@ -326025,6 +326170,10 @@ class SemanticGraphBuilder {
         if (_DepTreeCorrector.correctNounRootVerbAcl) {
           _DepTreeCorrector.correctNounRootVerbAcl(parseResult.arcs, tokens, tags);
         }
+        // Modal fragmentation — "No organization shall disclose" with NN+MD+VB as separate roots
+        if (_DepTreeCorrector.correctModalFragmentation) {
+          _DepTreeCorrector.correctModalFragmentation(parseResult.arcs, tokens, tags);
+        }
       }
 
       const depTree = new _DepTree(parseResult.arcs, tokens, tags);
@@ -327901,7 +328050,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 334 | 127db0e | 2026-04-01T09:33:14.969Z',
+    BUILD: 'build 339 | a5686f7 | 2026-04-01T12:37:40.441Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
