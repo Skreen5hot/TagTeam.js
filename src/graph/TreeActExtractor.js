@@ -198,6 +198,18 @@ const IRREGULAR_LEMMAS = {
   'suspected': 'suspect',
   'occurred': 'occur',
   'violated': 'violate',
+  'filed': 'file',
+  'hired': 'hire',
+  'classified': 'classify',
+  'authorized': 'authorize',
+  'revised': 'revise',
+  'described': 'describe',
+  'recognized': 'recognize',
+  'analyzed': 'analyze',
+  'organized': 'organize',
+  'utilized': 'utilize',
+  'finalized': 'finalize',
+  'supervised': 'supervise',
 };
 
 /**

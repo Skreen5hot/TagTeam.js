@@ -271,19 +271,36 @@ function correctNounRootVerbAcl(arcs, tokens, tags) {
   if (!rootTag || !rootTag.startsWith('NN')) return arcs;
 
   // Find acl child that is VBN or VBD — check root AND nmod children of root
+  // Find VBN/VBD child labeled acl or amod that should be the main verb
   let aclArc = arcs.find(a =>
-    a.head === rootId && a.label === 'acl' &&
+    a.head === rootId && (a.label === 'acl' || a.label === 'amod') &&
     (tags[a.dependent - 1] === 'VBN' || tags[a.dependent - 1] === 'VBD')
   );
-  // Also check nmod children of root for acl (deep: "officer of org reviewed report")
+  // Check nmod children of root for acl (deep: "officer of org reviewed report")
   if (!aclArc) {
     const nmodChildren = arcs.filter(a => a.head === rootId && a.label === 'nmod');
     for (const nmod of nmodChildren) {
       aclArc = arcs.find(a =>
-        a.head === nmod.dependent && a.label === 'acl' &&
+        a.head === nmod.dependent && (a.label === 'acl' || a.label === 'amod') &&
         (tags[a.dependent - 1] === 'VBN' || tags[a.dependent - 1] === 'VBD')
       );
       if (aclArc) break;
+    }
+  }
+  // Check obj children of root for amod VBN ("facilities reported incidents" where
+  // reported is amod of incidents which is obj of facilities)
+  if (!aclArc) {
+    const objChildren = arcs.filter(a => a.head === rootId && a.label === 'obj');
+    for (const obj of objChildren) {
+      aclArc = arcs.find(a =>
+        a.head === obj.dependent && a.label === 'amod' &&
+        (tags[a.dependent - 1] === 'VBN' || tags[a.dependent - 1] === 'VBD')
+      );
+      if (aclArc) {
+        // Special case: the obj becomes the real obj of the verb, reattach
+        obj.head = aclArc.dependent;
+        break;
+      }
     }
   }
   if (!aclArc) return arcs;
