@@ -1,0 +1,89 @@
+{
+  "name": "ISA Multi-Sentence Corpus",
+  "version": "1.0",
+  "date": "2026-04-01",
+  "description": "10 multi-sentence inputs from CMS-DHS MOA for Wave 1 SBA validation. Tests sentence segmentation, independent parsing, and SentenceCluster construction.",
+  "spec": "docs/tagteam-sentence-boundary-spec-v1.3.md §10",
+  "sentences": [
+    {
+      "id": "MS-01",
+      "input": "CMS shall allow USCIS to monitor records. USCIS shall report quarterly.",
+      "category": "two-sentence-standard",
+      "expectedSentences": 2,
+      "expectedDICEs": 2,
+      "description": "Two independent obligations with shared entity USCIS"
+    },
+    {
+      "id": "MS-02",
+      "input": "CMS will notify USCIS of any violations. USCIS will collaborate with CMS to address matters.",
+      "category": "two-sentence-standard",
+      "expectedSentences": 2,
+      "expectedDICEs": 3,
+      "description": "Two commissive obligations — 'collaborate' + 'address' both get DICEs"
+    },
+    {
+      "id": "MS-03",
+      "input": "Both Parties shall comply with limitations. Both Parties shall maintain security.",
+      "category": "two-sentence-standard",
+      "expectedSentences": 2,
+      "expectedDICEs": 2,
+      "description": "Identical subject in both sentences — tests coreference IRI stability"
+    },
+    {
+      "id": "MS-04",
+      "input": "CMS agrees to provide data. USCIS agrees to make the SAVE Program available.",
+      "category": "two-sentence-standard",
+      "expectedSentences": 2,
+      "expectedDICEs": 2,
+      "description": "Two commissive 'agrees to' patterns — tests multi-word modal"
+    },
+    {
+      "id": "MS-05",
+      "input": "CMS shall provide access to all records. USCIS may request additional records. Both Parties shall comply with applicable federal laws.",
+      "category": "three-plus-sentence",
+      "expectedSentences": 3,
+      "expectedDICEs": 3,
+      "description": "Three-obligation sequence — obligation, permission, obligation"
+    },
+    {
+      "id": "MS-06",
+      "input": "CMS will enter into agreements with AEs. CMS will report this Agreement to OMB. CMS will contact the AE to discuss corrective action.",
+      "category": "three-plus-sentence",
+      "expectedSentences": 3,
+      "expectedDICEs": 5,
+      "description": "Three commissive obligations — 'contact'+'discuss' and embedded verbs produce 5 DICEs"
+    },
+    {
+      "id": "MS-07",
+      "input": "The person submitted the report. The organization reviewed the report. The committee approved the document.",
+      "category": "three-plus-sentence",
+      "expectedSentences": 3,
+      "expectedDICEs": 0,
+      "description": "Three narrative sentences — no modals, no DICEs"
+    },
+    {
+      "id": "MS-08",
+      "input": "CMS shall provide USCIS with data. USCIS shall monitor records.",
+      "category": "ccomp-would-have-fired",
+      "expectedSentences": 2,
+      "expectedDICEs": 2,
+      "description": "Pre-SBA this produced ccomp between 'provide' and 'monitor'"
+    },
+    {
+      "id": "MS-09",
+      "input": "CMS shall allow USCIS to monitor and review all records and documents under CMS possession. USCIS shall report quarterly.",
+      "category": "ccomp-would-have-fired",
+      "expectedSentences": 2,
+      "expectedDICEs": 2,
+      "description": "Long first sentence with coordination — pre-SBA second sentence attached as ccomp"
+    },
+    {
+      "id": "MS-10",
+      "input": "The Parties will not use the data to extract information. CMS will report this Agreement to OMB.",
+      "category": "ccomp-would-have-fired",
+      "expectedSentences": 2,
+      "expectedDICEs": 3,
+      "description": "Prohibition ('use'+'extract') + commissive ('report') — 3 DICEs total"
+    }
+  ]
+}
