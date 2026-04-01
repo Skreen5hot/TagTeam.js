@@ -1,7 +1,7 @@
 /*!
  * TagTeam.js - Two-Tier Semantic Graph Engine
  * Version: 7.0 (v2 Phase 2: Dependency Parser)
- * Date: 2026-03-31
+ * Date: 2026-04-01
  *
  * A client-side JavaScript library for extracting semantic roles from natural language text
  *
@@ -318240,12 +318240,29 @@ class OntologyTextTagger {
    * @returns {Object} Load result with { classCount, totalKeywords }
    */
   loadFromString(ttlContent) {
-    // Pre-process: collapse triple-quoted strings to single-quoted
-    // The TurtleParser doesn't handle """ multiline strings, causing it to
-    // lose sync and skip large blocks of the file (e.g., 1500+ CCO classes)
-    const normalizedTtl = ttlContent.replace(/"""([^]*?)"""/g, function(match, content) {
+    // Pre-process: normalize constructs the lightweight TurtleParser can't handle
+    let normalizedTtl = ttlContent;
+
+    // 1. Collapse triple-quoted strings to single-quoted
+    normalizedTtl = normalizedTtl.replace(/"""([^]*?)"""/g, function(match, content) {
       return '"' + content.replace(/\n/g, ' ').replace(/"/g, '\\"') + '"';
     });
+
+    // 2. Remove inline blank node blocks (owl:Restriction, owl:Class expressions)
+    // These [ rdf:type owl:Restriction ; ... ] constructs in rdfs:subClassOf break parsing.
+    normalizedTtl = normalizedTtl.replace(/,?\s*\[\s*rdf:type\s+owl:(?:Restriction|Class)\b[\s\S]*?\]/g, '');
+
+    // 3. Escape # inside quoted strings on the SAME LINE — the TurtleParser treats
+    // # as comment start even inside "...", causing it to lose sync on URLs with
+    // fragment identifiers like "...Gamma_ray#Naming_conventions...".
+    // Process line-by-line to avoid cross-line matching.
+    normalizedTtl = normalizedTtl.split('\n').map(function(line) {
+      // Only process lines that have both a quoted string AND a # inside it
+      // Match: opening quote, content with #, closing quote — all on one line
+      return line.replace(/"([^"]*#[^"]*)"/g, function(match, inner) {
+        return '"' + inner.replace(/#/g, '%23') + '"';
+      });
+    }).join('\n');
 
     const parser = new TurtleParser();
     this._parseResult = parser.parse(normalizedTtl);
@@ -326052,6 +326069,53 @@ class SemanticGraphBuilder {
         lockedSpans = this._mapCDDSpansToTokenIndices(filteredSpans, tokens, tokenObjs);
       }
 
+      // F-3: Ontology-aware span anchoring — if an ontology tagger is provided,
+      // find multi-word matches in the text and add them as locked spans.
+      // This prevents fragmentation of known ontology terms.
+      if (buildOptions._ontologyTagger && typeof buildOptions._ontologyTagger.tagText === 'function') {
+        const ontTags = buildOptions._ontologyTagger.tagText(text) || [];
+        for (const tag of ontTags) {
+          if (!tag.evidence) continue;
+          for (const ev of tag.evidence) {
+            if (ev.split(/\s+/).length < 2) continue; // Only multi-word terms
+            // Find the evidence text position in the input
+            const evLower = ev.toLowerCase();
+            const textLower = text.toLowerCase();
+            const charIdx = textLower.indexOf(evLower);
+            if (charIdx < 0) continue;
+            // Convert to a CDD-style span for token locking
+            const ontSpan = {
+              text: text.substring(charIdx, charIdx + ev.length),
+              start: charIdx,
+              end: charIdx + ev.length,
+              components: ev.split(/\s+/),
+              _endIndex: 0, // Will be resolved by _mapCDDSpansToTokenIndices
+              source: 'ontology-f3'
+            };
+            // Check it doesn't overlap an existing CDD locked span
+            const overlaps = lockedSpans.some(ls => {
+              const lsStart = ls.startToken;
+              const lsEnd = ls.endToken;
+              // Convert ontSpan to token range for overlap check
+              for (let ti = 0; ti < tokenObjs.length; ti++) {
+                const tok = tokenObjs[ti];
+                const tokStart = typeof tok === 'object' ? tok.start : 0;
+                if (tokStart >= charIdx && tokStart < charIdx + ev.length) {
+                  if (ti + 1 >= lsStart && ti + 1 <= lsEnd) return true;
+                }
+              }
+              return false;
+            });
+            if (!overlaps) {
+              const mapped = this._mapCDDSpansToTokenIndices([ontSpan], tokens, tokenObjs);
+              if (mapped.length > 0 && mapped[0].startToken !== mapped[0].endToken) {
+                lockedSpans.push(mapped[0]);
+              }
+            }
+          }
+        }
+      }
+
       // Stage 5: Tree-based entity extraction
       stages.current = 'extractEntities';
       const entityExtractor = new _TreeEntityExtractor({
@@ -327446,7 +327510,22 @@ class SemanticGraphBuilder {
         if (tag.confidence < threshold) continue;
         var ev = tag.evidence || [];
         for (var ei = 0; ei < ev.length; ei++) {
-          var evLower = ev[ei].toLowerCase();
+          var evRaw = ev[ei];
+          var evLower = evRaw.toLowerCase();
+          // Skip evidence that matches common English function words — these produce
+          // false positives (e.g., "a" → Alpha Time Zone, "am" → Minute of Arc).
+          // Legitimate short abbreviations like "Hz", "kg" won't appear as entity labels.
+          var STOP_WORDS = { 'a': 1, 'an': 1, 'the': 1, 'is': 1, 'are': 1, 'am': 1, 'was': 1,
+            'were': 1, 'be': 1, 'been': 1, 'being': 1, 'have': 1, 'has': 1, 'had': 1,
+            'do': 1, 'does': 1, 'did': 1, 'will': 1, 'would': 1, 'could': 1, 'should': 1,
+            'may': 1, 'might': 1, 'shall': 1, 'can': 1, 'must': 1,
+            'i': 1, 'me': 1, 'my': 1, 'we': 1, 'us': 1, 'our': 1,
+            'he': 1, 'she': 1, 'it': 1, 'they': 1, 'them': 1,
+            'this': 1, 'that': 1, 'these': 1, 'those': 1,
+            'in': 1, 'on': 1, 'at': 1, 'to': 1, 'for': 1, 'of': 1, 'by': 1, 'with': 1,
+            'and': 1, 'or': 1, 'but': 1, 'not': 1, 'no': 1, 'if': 1, 'so': 1,
+            'as': 1, 'up': 1 };
+          if (STOP_WORDS[evLower]) continue;
           // Token-level match: try Tier 2 label first, then Tier 1 label
           var matched = _tokenMatch(evLower, t2Tokens) || _tokenMatch(evLower, t1Tokens);
           if (!matched) continue;
@@ -327682,7 +327761,12 @@ class SemanticGraphBuilder {
         // Tree pipeline (default)
         const builder = new SemanticGraphBuilder(options);
         _injectCachedModels(builder);
-        graph = builder.build(text, Object.assign({}, options, { useTreeExtractors: true }));
+        // F-3: Pass ontology tagger for span anchoring
+        var buildOpts = Object.assign({}, options, { useTreeExtractors: true });
+        if (options.ontology && typeof options.ontology.tagText === 'function') {
+          buildOpts._ontologyTagger = options.ontology;
+        }
+        graph = builder.build(text, buildOpts);
       }
 
       // Ontology enrichment: annotate Tier 2 entities with matched ontology classes.
@@ -327785,7 +327869,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 328 | 5bab520 | 2026-03-31T22:50:55.857Z',
+    BUILD: 'build 333 | 68cedb1 | 2026-04-01T09:24:30.906Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
