@@ -1,0 +1,281 @@
+@prefix sh:      <http://www.w3.org/ns/shacl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix tagteam: <https://tagteam.dev/ontology#> .
+
+# =============================================================================
+# SBA SHACL Shapes — Sentence Boundary Architecture v1.3
+#
+# Source: docs/tagteam-sentence-boundary-spec-v1.3.md §6
+# Prerequisite: JSON-to-RDF Projection (§4.6) must run before these shapes.
+# =============================================================================
+
+# §6.1 — Relative-Indexing Contract
+tagteam:SBA_ForestStructureShape
+  a sh:NodeShape ;
+  sh:targetClass tagteam:ParsingAct ;
+  sh:sparql [
+    sh:message """ForestStructureViolation (Relative-Indexing Contract): arc {$arc} in sentence
+      {$sentIdx} has {$field} = {$idx}, which is out of range for a sentence with {$tokenCount}
+      tokens. Arc indices MUST be sentence-relative (0-based into the sentence token array).
+      A value >= tokenCount indicates either (a) the parser received the full document string
+      instead of a single sentence [Segment-First Invariant violation, §3.1], or (b) the
+      TokenReIndexer converted sentence-relative indices to document-relative form
+      [Relative-Indexing Contract violation, §3.4].""" ;
+    sh:severity sh:Violation ;
+    sh:select """
+      SELECT $this ?arc ?sentIdx ?field ?idx ?tokenCount
+      WHERE {
+        $this tagteam:hasMetadata ?meta .
+        ?meta tagteam:hasSentence ?sent .
+        ?sent tagteam:sentenceIndex ?sentIdx ;
+              tagteam:tokenCount ?tokenCount ;
+              tagteam:hasArc ?arc .
+        {
+          BIND("head" AS ?field)
+          ?arc tagteam:head ?idx .
+          FILTER(?idx >= ?tokenCount || ?idx < 0)
+        } UNION {
+          BIND("dependent" AS ?field)
+          ?arc tagteam:dependent ?idx .
+          FILTER(?idx >= ?tokenCount || ?idx < 0)
+        }
+      }
+    """ ;
+  ] .
+
+# §6.2 — sentenceIndex on all Tier 1 nodes
+tagteam:SBA_SentenceIndexShape
+  a sh:NodeShape ;
+  sh:or (
+    [ sh:targetClass tagteam:DiscourseReferent ]
+    [ sh:targetClass tagteam:VerbPhrase ]
+  ) ;
+  sh:property [
+    sh:path tagteam:sentenceIndex ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:integer ;
+    sh:minInclusive 0 ;
+    sh:message "SentenceIndexViolation: DiscourseReferent or VerbPhrase missing required tagteam:sentenceIndex. Required on both node types since v1.1." ;
+    sh:severity sh:Violation ;
+  ] .
+
+# §6.3 — Mention spans don't cross sentence boundaries
+tagteam:SBA_MentionPartitionShape
+  a sh:NodeShape ;
+  sh:targetClass tagteam:ParsingAct ;
+  sh:sparql [
+    sh:message "MentionPartitionViolation: DiscourseReferent {$mention} has documentTokenSpan [{$spanStart}, {$spanEnd}] that crosses sentence boundary between sentence {$sentA} (ending at token {$boundaryA}) and sentence {$sentB} (starting at token {$boundaryB})." ;
+    sh:severity sh:Violation ;
+    sh:select """
+      SELECT $this ?mention ?spanStart ?spanEnd ?sentA ?boundaryA ?sentB ?boundaryB
+      WHERE {
+        $this tagteam:has_output ?mention .
+        ?mention a tagteam:DiscourseReferent ;
+                 tagteam:documentTokenSpan ?span ;
+                 tagteam:sentenceIndex ?sentA .
+        BIND(strbefore(str(?span), ",") AS ?spanStart)
+        BIND(strafter(str(?span), ",")  AS ?spanEnd)
+        $this tagteam:hasMetadata ?meta .
+        ?meta tagteam:hasSentence ?sentNodeA .
+        ?sentNodeA tagteam:sentenceIndex ?sentA ;
+                   tagteam:tokenSpanEnd ?boundaryA .
+        ?meta tagteam:hasSentence ?sentNodeB .
+        ?sentNodeB tagteam:sentenceIndex ?sentB ;
+                   tagteam:tokenSpanStart ?boundaryB .
+        FILTER(?sentB = ?sentA + 1)
+        FILTER(xsd:integer(?spanEnd) >= ?boundaryB)
+      }
+    """ ;
+  ] .
+
+# §6.4 — IBE IRI consistency across all Tier 1 nodes
+tagteam:SBA_IBEProvenanceShape
+  a sh:NodeShape ;
+  sh:targetClass tagteam:ParsingAct ;
+  sh:sparql [
+    sh:message "IBEProvenanceViolation: ParsingAct {$this} has output node {$node} pointing to IBE {$ibeB}, but the ParsingAct canonical IBE is {$ibeA}. All Tier 1 nodes must share the same is_concretized_by target." ;
+    sh:severity sh:Violation ;
+    sh:select """
+      SELECT DISTINCT $this ?node ?ibeA ?ibeB
+      WHERE {
+        $this tagteam:has_output ?anchorNode ;
+              tagteam:has_output ?node .
+        ?anchorNode tagteam:is_concretized_by ?ibeA .
+        ?node tagteam:is_concretized_by ?ibeB .
+        FILTER(?ibeA != ?ibeB)
+        FILTER(?node != ?anchorNode)
+      }
+    """ ;
+  ] .
+
+# §6.5 — SentenceRelationship integrity (5 constraint blocks)
+tagteam:SBA_SentenceRelationshipShape
+  a sh:NodeShape ;
+  sh:targetClass tagteam:ParsingAct ;
+
+  # Block 1: Missing relationship for soft-boundary sentences
+  sh:sparql [
+    sh:message """SentenceRelationshipViolation (missing): sentence {$sentIdx} has
+      segmentationType 'semicolon-conditional' or 'enumeration' but no SentenceRelationship
+      node links it to an adjacent sentence. Every soft-boundary split MUST produce a
+      SentenceRelationship record (§4.4).""" ;
+    sh:severity sh:Violation ;
+    sh:select """
+      SELECT $this ?sentIdx
+      WHERE {
+        $this tagteam:hasMetadata ?meta .
+        ?meta tagteam:hasSentence ?sent .
+        ?sent tagteam:sentenceIndex ?sentIdx ;
+              tagteam:segmentationType ?stype .
+        FILTER(?stype IN ("semicolon-conditional", "enumeration"))
+        FILTER NOT EXISTS {
+          $this tagteam:hasSentenceRelationship ?rel .
+          { ?rel tagteam:fromSentenceIndex ?sentIdx . }
+          UNION
+          { ?rel tagteam:toSentenceIndex ?sentIdx . }
+        }
+      }
+    """ ;
+  ] ;
+
+  # Block 2: Orphan relationship referencing non-existent sentence
+  sh:sparql [
+    sh:message """OrphanRelationshipViolation: SentenceRelationship {$rel} references
+      sentenceIndex {$sentIdx} which does not exist in _metadata.sentences.""" ;
+    sh:severity sh:Violation ;
+    sh:select """
+      SELECT $this ?rel ?sentIdx
+      WHERE {
+        $this tagteam:hasSentenceRelationship ?rel .
+        { ?rel tagteam:fromSentenceIndex ?sentIdx . }
+        UNION
+        { ?rel tagteam:toSentenceIndex ?sentIdx . }
+        FILTER NOT EXISTS {
+          $this tagteam:hasMetadata ?meta .
+          ?meta tagteam:hasSentence ?sent .
+          ?sent tagteam:sentenceIndex ?sentIdx .
+        }
+      }
+    """ ;
+  ] ;
+
+  # Block 3: Non-adjacent relationship
+  sh:sparql [
+    sh:message """RelationshipAdjacencyViolation: SentenceRelationship {$rel} links
+      sentences {$fromIdx} and {$toIdx}, but toSentenceIndex ({$toIdx}) must equal
+      fromSentenceIndex + 1 ({$expected}). SentenceRelationships may only link
+      immediately adjacent sentences.""" ;
+    sh:severity sh:Violation ;
+    sh:select """
+      SELECT $this ?rel ?fromIdx ?toIdx ?expected
+      WHERE {
+        $this tagteam:hasSentenceRelationship ?rel .
+        ?rel tagteam:fromSentenceIndex ?fromIdx ;
+             tagteam:toSentenceIndex   ?toIdx .
+        BIND(?fromIdx + 1 AS ?expected)
+        FILTER(?toIdx != ?expected)
+      }
+    """ ;
+  ] ;
+
+  # Block 4: Duplicate relationship for same sentence pair
+  sh:sparql [
+    sh:message """RelationshipDuplicateViolation: ParsingAct {$this} has two
+      SentenceRelationship nodes ({$rel1} and {$rel2}) both linking sentences
+      {$fromIdx} → {$toIdx}. At most one relationship is permitted per
+      adjacent sentence pair.""" ;
+    sh:severity sh:Violation ;
+    sh:select """
+      SELECT $this ?rel1 ?rel2 ?fromIdx ?toIdx
+      WHERE {
+        $this tagteam:hasSentenceRelationship ?rel1 ;
+              tagteam:hasSentenceRelationship ?rel2 .
+        ?rel1 tagteam:fromSentenceIndex ?fromIdx ;
+              tagteam:toSentenceIndex   ?toIdx .
+        ?rel2 tagteam:fromSentenceIndex ?fromIdx ;
+              tagteam:toSentenceIndex   ?toIdx .
+        FILTER(?rel1 != ?rel2)
+        FILTER(str(?rel1) < str(?rel2))
+      }
+    """ ;
+  ] ;
+
+  # Block 5: Type-consistency between connector and relationship type
+  sh:sparql [
+    sh:message """RelationshipTypeConsistencyViolation: SentenceRelationship {$rel}
+      has logicalConnector '{$connector}' but relationshipType '{$relType}' is
+      inconsistent with that connector. Enumeration connector requires
+      relationshipType 'enumeration'. Semicolon connector requires one of:
+      juxtaposition, elaboration, contrast, legal-proviso, legal-exception.""" ;
+    sh:severity sh:Violation ;
+    sh:select """
+      SELECT $this ?rel ?connector ?relType
+      WHERE {
+        $this tagteam:hasSentenceRelationship ?rel .
+        ?rel tagteam:logicalConnector ?connector ;
+             tagteam:relationshipType ?relType .
+        FILTER(
+          (?connector = "enumeration" && ?relType != "enumeration")
+          ||
+          (?connector = "semicolon"   && ?relType = "enumeration")
+          ||
+          (?connector = "semicolon"   && ?relType NOT IN (
+            "juxtaposition", "elaboration", "contrast",
+            "legal-proviso", "legal-exception"
+          ))
+        )
+      }
+    """ ;
+  ] .
+
+# §6.6 — SentenceCluster partition integrity
+tagteam:SBA_SentenceClusterShape
+  a sh:NodeShape ;
+  sh:targetClass tagteam:ParsingAct ;
+
+  # Block 1: Node in wrong cluster
+  sh:sparql [
+    sh:message """SentenceClusterViolation: node {$node} has sentenceIndex {$sentIdx}
+      but belongs to SentenceCluster {$cluster} with sentenceIndex {$clusterIdx}.
+      Every Tier 1 node must belong to the cluster whose sentenceIndex matches
+      its own sentenceIndex.""" ;
+    sh:severity sh:Violation ;
+    sh:select """
+      SELECT $this ?node ?sentIdx ?cluster ?clusterIdx
+      WHERE {
+        $this tagteam:has_sentence_cluster ?cluster .
+        ?cluster tagteam:sentenceIndex ?clusterIdx .
+        {
+          ?cluster tagteam:hasDiscourseReferent ?node .
+          ?node tagteam:sentenceIndex ?sentIdx .
+        } UNION {
+          ?cluster tagteam:hasVerbPhrase ?node .
+          ?node tagteam:sentenceIndex ?sentIdx .
+        }
+        FILTER(?sentIdx != ?clusterIdx)
+      }
+    """ ;
+  ] ;
+
+  # Block 2: Node missing from any cluster
+  sh:sparql [
+    sh:message """MissingClusterViolation: node {$node} (sentenceIndex {$sentIdx}) is in
+      has_output but is not listed in any SentenceCluster. Every Tier 1 node from a
+      non-header sentence MUST appear in the corresponding SentenceCluster.""" ;
+    sh:severity sh:Violation ;
+    sh:select """
+      SELECT $this ?node ?sentIdx
+      WHERE {
+        $this tagteam:has_output ?node .
+        ?node tagteam:sentenceIndex ?sentIdx .
+        FILTER NOT EXISTS {
+          $this tagteam:has_sentence_cluster ?cluster .
+          ?cluster tagteam:sentenceIndex ?sentIdx .
+          { ?cluster tagteam:hasDiscourseReferent ?node . }
+          UNION
+          { ?cluster tagteam:hasVerbPhrase ?node . }
+        }
+      }
+    """ ;
+  ] .

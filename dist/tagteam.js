@@ -302611,6 +302611,20 @@ class Tokenizer {
           tokenText += text[i];
           i++;
         }
+        // Handle hyphenated proper noun compounds: "Twenty-Four-Hour" stays as one token
+        // Only join when current token starts uppercase AND next part starts uppercase
+        // (UD-EWT splits lowercase hyphenated words like "decision-maker")
+        if (/^[A-Z]/.test(tokenText)) {
+          while (i < text.length && text[i] === '-' &&
+                 i + 1 < text.length && /[A-Z]/.test(text[i + 1])) {
+            tokenText += text[i]; // hyphen
+            i++;
+            while (i < text.length && this._isWordChar.test(text[i])) {
+              tokenText += text[i];
+              i++;
+            }
+          }
+        }
         // Handle abbreviations like "U.S." (letter.letter. pattern)
         if (tokenText.length === 1 && /[A-Z]/i.test(tokenText) &&
             i < text.length && text[i] === '.') {
@@ -320964,14 +320978,38 @@ function correctModalFragmentation(arcs, tokens, tags) {
  * Source: TagTeam Sentence Boundary Architecture Specification v1.3 §5.1
  * Authority: The Segment-First Invariant (§3.1)
  *
- * Wave 1: Rule B-1 only (standard hard sentence boundaries)
- * Waves 2-3: Rules B-2 (numbered lists), B-3 (semicolons), B-4 (headers)
+ * Wave 1: Rule B-1 (standard hard sentence boundaries)
+ * Wave 2: Rules B-2 (numbered lists), B-3 (semicolons), B-4 (headers),
+ *          parenthetical extraction, SentenceRelationship construction
  */
 
 'use strict';
 
 
 
+
+// ============================================================================
+// Constants
+// ============================================================================
+
+const SB_MODALS = new Set(['shall', 'must', 'may', 'should', 'will', 'can', 'could', 'would']);
+
+const SB_CONNECTIVES = new Set([
+  'however', 'notwithstanding', 'furthermore', 'moreover', 'additionally',
+  'therefore', 'thus', 'consequently', 'nevertheless', 'accordingly',
+  'including', 'also', 'otherwise'
+]);
+
+const SB_DETERMINERS = new Set([
+  'the', 'a', 'an', 'this', 'that', 'these', 'those',
+  'each', 'every', 'all', 'any'
+]);
+
+const SB_PRONOUNS = new Set(['it', 'he', 'she', 'they', 'we', 'i', 'you']);
+
+const SB_AUX_VERBS = new Set([
+  'is', 'are', 'was', 'were', 'has', 'have', 'had', 'do', 'does', 'did'
+]);
 
 // ============================================================================
 // Abbreviation Lexicon (§5.1.2)
@@ -321018,8 +321056,6 @@ function loadAbbreviationLexicon() {
  *
  * @param {string} inputText - Full input text
  * @param {Object} [options] - Options
- * @param {Object} [options.tokenizer] - Tokenizer instance (must have .tokenize(text))
- * @param {Object} [options.posTagger] - POS tagger instance (must have .tag(tokens))
  * @returns {SegmenterOutput}
  */
 function segment(inputText, options = {}) {
@@ -321029,26 +321065,39 @@ function segment(inputText, options = {}) {
 
   const abbreviations = loadAbbreviationLexicon();
   const text = inputText.trim();
+  const tokens = tokenizeWithPositions(text);
 
-  // Tokenize the full input to get token boundaries
-  // Use simple whitespace + punctuation split for boundary detection
-  const tokenBoundaries = tokenizeWithPositions(text);
-
-  if (tokenBoundaries.length === 0) {
+  if (tokens.length === 0) {
     return { sentences: [], sentenceRelationships: [], abbreviationsMatched: [], totalTokens: 0 };
   }
 
-  // Find sentence boundaries using Rule B-1
-  const boundaries = findBoundaries(tokenBoundaries, abbreviations, text);
+  // Phase 1: Check for list markers (Rule B-2) — highest priority
+  const listMarkers = detectListMarkers(tokens, text);
+  if (listMarkers.length > 0) {
+    return buildListResult(tokens, listMarkers, text);
+  }
 
-  // Split into sentence records
-  const sentences = buildSentenceRecords(tokenBoundaries, boundaries, text);
+  // Phase 2: Check for semicolons (Rule B-3)
+  const semicolonIdx = findSemicolon(tokens);
+  if (semicolonIdx !== -1 && checkSemicolonGuard(tokens, semicolonIdx)) {
+    return buildSemicolonResult(tokens, semicolonIdx, text);
+  }
+
+  // Phase 3: Find B-1 boundaries, refine with B-4 check
+  const boundaries = findBoundariesWithTypes(tokens, abbreviations, text);
+
+  // Phase 4: Build sentence records
+  const sentences = buildSentenceRecordsFromBoundaries(tokens, boundaries, text);
+
+  // Phase 5: Extract parentheticals
+  const { sentences: finalSentences, relationships: parenRelationships } =
+    extractParentheticals(sentences, tokens, text);
 
   return {
-    sentences,
-    sentenceRelationships: [], // Wave 1: no soft boundaries
+    sentences: finalSentences,
+    sentenceRelationships: parenRelationships,
     abbreviationsMatched: [],
-    totalTokens: tokenBoundaries.length
+    totalTokens: tokens.length
   };
 }
 
@@ -321062,11 +321111,9 @@ function segment(inputText, options = {}) {
  * @returns {Array<{text: string, start: number, end: number, index: number}>}
  */
 function tokenizeWithPositions(text) {
-  const abbreviations = loadAbbreviationLexicon();
   const tokens = [];
-  // Match: abbreviations with dots (U.S., e.g.), contractions, words, punctuation
-  // Abbreviation pattern checked first to consume multi-dot sequences
-  const regex = /([A-Za-z]\.(?:[A-Za-z]\.)+|[A-Za-z0-9]+'[A-Za-z]+|[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*|[.!?,;:()"\[\]{}])/g;
+  // Match: abbreviations with dots (U.S., e.g.), ellipsis, contractions, words, punctuation
+  const regex = /([A-Za-z]\.(?:[A-Za-z]\.)+|\.{3}|[A-Za-z0-9]+'[A-Za-z]+|[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*|[.!?,;:()"\[\]{}])/g;
   let match;
   while ((match = regex.exec(text)) !== null) {
     tokens.push({
@@ -321080,54 +321127,326 @@ function tokenizeWithPositions(text) {
 }
 
 // ============================================================================
-// Rule B-1: Standard Sentence Boundary (§5.1.3)
+// Rule B-2: Numbered List Item (§5.1.3)
 // ============================================================================
 
 /**
- * Find hard sentence boundaries.
+ * Detect numbered list markers in the token stream.
+ * A list marker is a digit or lowercase letter followed by '.' at the
+ * start of input or after sentence-ending punctuation.
  *
- * Rule B-1:
- * - tokens[p] is '.', '!', or '?'
- * - tokens[p-1] is NOT in the abbreviation lexicon
- * - tokens[p+1] exists and begins with an uppercase character
- *
- * @param {Array} tokens - Token boundaries
- * @param {Set} abbreviations - Abbreviation set
- * @param {string} text - Original text
- * @returns {number[]} Token indices of boundary punctuation
+ * @param {Array} tokens
+ * @param {string} text
+ * @returns {Array<{digitIdx: number, dotIdx: number, marker: string}>}
  */
-function findBoundaries(tokens, abbreviations, text) {
+function detectListMarkers(tokens, text) {
+  const markers = [];
+  for (let i = 0; i < tokens.length - 1; i++) {
+    const tok = tokens[i];
+    const nextTok = tokens[i + 1];
+
+    if (nextTok.text !== '.') continue;
+    if (!/^(\d+|[a-z])$/.test(tok.text)) continue;
+
+    // At start of input
+    if (i === 0) {
+      markers.push({ digitIdx: i, dotIdx: i + 1, marker: tok.text + '.' });
+      continue;
+    }
+
+    // After sentence-ending punctuation or newline
+    const prevTok = tokens[i - 1];
+    if (prevTok.text === '.' || prevTok.text === '!' || prevTok.text === '?') {
+      markers.push({ digitIdx: i, dotIdx: i + 1, marker: tok.text + '.' });
+      continue;
+    }
+
+    // After newline in original text
+    const textBetween = text.substring(prevTok.end, tok.start);
+    if (/\n/.test(textBetween)) {
+      markers.push({ digitIdx: i, dotIdx: i + 1, marker: tok.text + '.' });
+    }
+  }
+  return markers;
+}
+
+/**
+ * Build segmenter result for numbered list input (Rule B-2).
+ */
+function buildListResult(tokens, listMarkers, text) {
+  const sentences = [];
+
+  for (let m = 0; m < listMarkers.length; m++) {
+    const marker = listMarkers[m];
+    const startIdx = marker.dotIdx + 1;
+
+    // End: token before next marker's digit, or end of tokens
+    const endIdx = (m + 1 < listMarkers.length)
+      ? listMarkers[m + 1].digitIdx - 1
+      : tokens.length - 1;
+
+    if (startIdx > endIdx) continue;
+
+    const sentTokens = tokens.slice(startIdx, endIdx + 1);
+    const sentText = text.substring(tokens[startIdx].start, tokens[endIdx].end).trim();
+
+    sentences.push({
+      sentenceIndex: sentences.length,
+      text: sentText,
+      tokenSpan: [startIdx, endIdx],
+      tokens: sentTokens.map(t => t.text),
+      segmentationType: 'numbered-list',
+      logicalConnector: 'enumeration',
+      listMarker: marker.marker,
+      precedingModalContext: null,
+      isParenthetical: false,
+      parentSentenceIndex: null,
+    });
+  }
+
+  // Relationships between consecutive list items
+  const relationships = [];
+  for (let i = 0; i < sentences.length - 1; i++) {
+    relationships.push({
+      fromSentenceIndex: i,
+      toSentenceIndex: i + 1,
+      logicalConnector: 'enumeration',
+      relationshipType: 'enumeration',
+    });
+  }
+
+  return {
+    sentences,
+    sentenceRelationships: relationships,
+    abbreviationsMatched: [],
+    totalTokens: tokens.length
+  };
+}
+
+// ============================================================================
+// Rule B-3: Semicolon Conditional (§5.1.3)
+// ============================================================================
+
+/**
+ * Find the first semicolon token index.
+ */
+function findSemicolon(tokens) {
+  for (let i = 0; i < tokens.length; i++) {
+    if (tokens[i].text === ';') return i;
+  }
+  return -1;
+}
+
+/**
+ * Independent-subject guard: check that both spans around a semicolon
+ * have an independent subject (§5.1.3 Rule B-3).
+ */
+function checkSemicolonGuard(tokens, semiIdx) {
+  const before = tokens.slice(0, semiIdx);
+  const after = tokens.slice(semiIdx + 1);
+  return hasIndependentSubject(before) && hasIndependentSubject(after);
+}
+
+/**
+ * Check if a token span has an independent subject.
+ * After stripping leading connectives + comma, the first content word
+ * must be a determiner, pronoun, or capitalized word (proper noun).
+ */
+function hasIndependentSubject(tokens) {
+  if (tokens.length === 0) return false;
+
+  let startIdx = 0;
+
+  // Skip leading connective
+  if (SB_CONNECTIVES.has(tokens[0].text.toLowerCase())) {
+    startIdx = 1;
+    // Skip optional comma after connective
+    if (startIdx < tokens.length && tokens[startIdx].text === ',') startIdx++;
+  }
+
+  if (startIdx >= tokens.length) return false;
+
+  const firstContent = tokens[startIdx].text;
+  const firstContentLc = firstContent.toLowerCase();
+
+  if (SB_DETERMINERS.has(firstContentLc)) return true;
+  if (SB_PRONOUNS.has(firstContentLc)) return true;
+  if (/^[A-Z]/.test(firstContent) && !SB_CONNECTIVES.has(firstContentLc)) return true;
+
+  return false;
+}
+
+/**
+ * Build segmenter result for semicolon split (Rule B-3).
+ * The semicolon token is consumed — absent from both tokens arrays.
+ */
+function buildSemicolonResult(tokens, semiIdx, text) {
+  const beforeTokens = tokens.slice(0, semiIdx);
+  const afterTokens = tokens.slice(semiIdx + 1);
+
+  const sent0Text = text.substring(
+    beforeTokens[0].start,
+    beforeTokens[beforeTokens.length - 1].end
+  ).trim();
+
+  const sent1Text = text.substring(
+    afterTokens[0].start,
+    afterTokens[afterTokens.length - 1].end
+  ).trim();
+
+  const relType = detectRelationshipType(afterTokens);
+
+  const sentences = [
+    {
+      sentenceIndex: 0,
+      text: sent0Text,
+      tokenSpan: [0, semiIdx - 1],
+      tokens: beforeTokens.map(t => t.text),
+      segmentationType: 'semicolon-conditional',
+      logicalConnector: 'semicolon',
+      listMarker: null,
+      precedingModalContext: null,
+      isParenthetical: false,
+      parentSentenceIndex: null,
+    },
+    {
+      sentenceIndex: 1,
+      text: sent1Text,
+      tokenSpan: [semiIdx + 1, tokens.length - 1],
+      tokens: afterTokens.map(t => t.text),
+      segmentationType: 'semicolon-conditional',
+      logicalConnector: 'semicolon',
+      listMarker: null,
+      precedingModalContext: null,
+      isParenthetical: false,
+      parentSentenceIndex: null,
+    }
+  ];
+
+  const relationships = [{
+    fromSentenceIndex: 0,
+    toSentenceIndex: 1,
+    logicalConnector: 'semicolon',
+    relationshipType: relType,
+  }];
+
+  return {
+    sentences,
+    sentenceRelationships: relationships,
+    abbreviationsMatched: [],
+    totalTokens: tokens.length
+  };
+}
+
+/**
+ * Detect the relationship type from the first token(s) of the second clause.
+ * Normative algorithm from §4.4 — used by SentenceRelationship construction.
+ *
+ * Two-token phrases take priority over single tokens to handle
+ * "provided that", "subject to", etc. correctly.
+ */
+const LEGAL_PROVISO_MARKERS   = ['notwithstanding', 'subject to', 'pursuant to',
+                                  'in accordance with'];
+const LEGAL_EXCEPTION_MARKERS = ['provided that', 'except that', 'except where', 'unless'];
+const CONTRAST_MARKERS        = ['however', 'nevertheless', 'conversely'];
+const ELABORATION_MARKERS     = ['specifically', 'particularly', 'namely', 'that is'];
+
+function detectRelationshipType(afterTokens) {
+  if (afterTokens.length === 0) return 'juxtaposition';
+
+  const first  = afterTokens[0].text.toLowerCase();
+  const phrase = `${first} ${(afterTokens[1]?.text || '').toLowerCase()}`.trim();
+
+  if (LEGAL_EXCEPTION_MARKERS.includes(phrase) ||
+      LEGAL_EXCEPTION_MARKERS.includes(first))   return 'legal-exception';
+  if (LEGAL_PROVISO_MARKERS.includes(phrase) ||
+      LEGAL_PROVISO_MARKERS.includes(first))     return 'legal-proviso';
+  if (CONTRAST_MARKERS.includes(first))          return 'contrast';
+  if (ELABORATION_MARKERS.includes(first))       return 'elaboration';
+
+  return 'juxtaposition';
+}
+
+// ============================================================================
+// Rule B-4: Section Header (§5.1.3)
+// ============================================================================
+
+/**
+ * Check if a B-1 boundary is actually a section header (B-4).
+ * Preceding span must be a short capitalized noun phrase with no finite verb.
+ * Following span must have proper noun + modal within 5 tokens.
+ */
+function isSectionHeader(tokens, periodIdx) {
+  const preceding = tokens.slice(0, periodIdx);
+  if (preceding.length === 0 || preceding.length > 5) return false;
+
+  // Section headers don't start with determiners
+  const DETS = new Set(['the', 'a', 'an', 'this', 'that', 'these', 'those']);
+  if (DETS.has(preceding[0].text.toLowerCase())) return false;
+
+  // All words must be capitalized or small connecting words
+  const SMALL = new Set(['of', 'and', 'the', 'in', 'for', 'to', 'a', 'an', 'with', 'on', 'at', 'by']);
+  for (const t of preceding) {
+    if (SMALL.has(t.text.toLowerCase())) continue;
+    if (!/^[A-Z]/.test(t.text)) return false;
+  }
+
+  // Must have no finite verbs
+  for (const t of preceding) {
+    const lc = t.text.toLowerCase();
+    if (SB_MODALS.has(lc)) return false;
+    if (SB_AUX_VERBS.has(lc)) return false;
+    if (lc.endsWith('ed') && lc.length > 3) return false;
+    if (lc.endsWith('ing') && lc.length > 3) return false;
+  }
+
+  // Following span must have proper noun + modal within 5 tokens
+  const following = tokens.slice(periodIdx + 1, Math.min(periodIdx + 6, tokens.length));
+  let hasProperNoun = false, hasModal = false;
+  for (const t of following) {
+    if (/^[A-Z]/.test(t.text) && t.text.length > 1) hasProperNoun = true;
+    if (SB_MODALS.has(t.text.toLowerCase())) hasModal = true;
+  }
+
+  return hasProperNoun && hasModal;
+}
+
+// ============================================================================
+// Rule B-1: Standard Sentence Boundary (§5.1.3) + B-4 Refinement
+// ============================================================================
+
+/**
+ * Find sentence boundaries with type information.
+ * Each B-1 boundary is checked for B-4 refinement.
+ *
+ * @param {Array} tokens
+ * @param {Set} abbreviations
+ * @param {string} text
+ * @returns {Array<{tokenIndex: number, type: string}>}
+ */
+function findBoundariesWithTypes(tokens, abbreviations, text) {
   const boundaries = [];
 
   for (let i = 0; i < tokens.length; i++) {
     const tok = tokens[i].text;
-
-    // Must be sentence-ending punctuation
     if (tok !== '.' && tok !== '!' && tok !== '?') continue;
 
-    // Check preceding token is not an abbreviation
+    // Abbreviation guard
     if (i > 0) {
       const prevToken = tokens[i - 1].text;
-      // Check if prevToken + '.' forms an abbreviation
       const withDot = prevToken + '.';
-      if (abbreviations.has(withDot.toLowerCase()) || abbreviations.has(prevToken.toLowerCase())) {
-        continue; // Skip — this period is part of an abbreviation
-      }
-      // Also check if the token itself (already containing the dot) is an abbreviation
-      // e.g., "U.S." tokenized as a single token
-      if (abbreviations.has(prevToken.toLowerCase() + '.')) {
-        continue;
-      }
+      if (abbreviations.has(withDot.toLowerCase()) || abbreviations.has(prevToken.toLowerCase())) continue;
+      if (abbreviations.has(prevToken.toLowerCase() + '.')) continue;
     }
 
-    // Check following token exists and starts uppercase
-    if (i + 1 < tokens.length) {
-      const nextToken = tokens[i + 1].text;
-      if (nextToken && /^[A-Z]/.test(nextToken)) {
-        boundaries.push(i);
-      }
-    }
-    // If this is the last token, it's the final sentence boundary (no split needed)
+    // Next token must exist and start uppercase
+    if (i + 1 >= tokens.length) continue;
+    const nextToken = tokens[i + 1].text;
+    if (!nextToken || !/^[A-Z]/.test(nextToken)) continue;
+
+    // B-4 check: is this a section header boundary?
+    const type = isSectionHeader(tokens, i) ? 'section-header-inline' : 'standard';
+    boundaries.push({ tokenIndex: i, type });
   }
 
   return boundaries;
@@ -321138,16 +321457,10 @@ function findBoundaries(tokens, abbreviations, text) {
 // ============================================================================
 
 /**
- * Build SentenceRecord objects from token boundaries.
- *
- * @param {Array} tokens - All document tokens with positions
- * @param {number[]} boundaries - Token indices of boundary punctuation
- * @param {string} text - Original text
- * @returns {Array<SentenceRecord>}
+ * Build SentenceRecord objects from typed boundaries.
  */
-function buildSentenceRecords(tokens, boundaries, text) {
+function buildSentenceRecordsFromBoundaries(tokens, boundaries, text) {
   if (boundaries.length === 0) {
-    // Single sentence — entire input
     return [{
       sentenceIndex: 0,
       text: text,
@@ -321166,9 +321479,9 @@ function buildSentenceRecords(tokens, boundaries, text) {
   let sentStart = 0;
 
   for (let b = 0; b < boundaries.length; b++) {
-    const boundaryIdx = boundaries[b];
+    const boundary = boundaries[b];
+    const boundaryIdx = boundary.tokenIndex;
 
-    // Sentence includes tokens from sentStart through boundaryIdx (inclusive of punct)
     const sentTokens = tokens.slice(sentStart, boundaryIdx + 1);
     const sentText = text.substring(
       tokens[sentStart].start,
@@ -321180,7 +321493,7 @@ function buildSentenceRecords(tokens, boundaries, text) {
       text: sentText,
       tokenSpan: [sentStart, boundaryIdx],
       tokens: sentTokens.map(t => t.text),
-      segmentationType: 'standard',
+      segmentationType: boundary.type,
       logicalConnector: null,
       listMarker: null,
       precedingModalContext: null,
@@ -321214,6 +321527,90 @@ function buildSentenceRecords(tokens, boundaries, text) {
   }
 
   return sentences;
+}
+
+// ============================================================================
+// Parenthetical Extraction (§5.1.4)
+// ============================================================================
+
+/**
+ * Extract qualifying parentheticals as child SentenceRecords.
+ * Criteria: contains modal verb, contains finite verb, > 5 tokens.
+ */
+function extractParentheticals(sentences, allTokens, text) {
+  const updated = [];
+  const children = [];
+
+  for (const sent of sentences) {
+    const toks = sent.tokens;
+    const openIdx = toks.indexOf('(');
+    const closeIdx = toks.lastIndexOf(')');
+
+    if (openIdx === -1 || closeIdx === -1 || closeIdx <= openIdx + 1) {
+      updated.push(sent);
+      continue;
+    }
+
+    // Content between parentheses (exclusive)
+    const parenContent = toks.slice(openIdx + 1, closeIdx);
+
+    // Check all 3 extraction criteria (§5.1.4)
+    const hasModal = parenContent.some(t => SB_MODALS.has(t.toLowerCase()));
+    const hasVerb = parenContent.some(t => {
+      const lc = t.toLowerCase();
+      return SB_AUX_VERBS.has(lc) || SB_MODALS.has(lc);
+    });
+    const longEnough = parenContent.length > 5;
+
+    if (!hasModal || !hasVerb || !longEnough) {
+      updated.push(sent);
+      continue;
+    }
+
+    // Replace parenthetical content with sentinel in parent
+    const sentinelTokens = [
+      ...toks.slice(0, openIdx),
+      '(', '...', ')',
+      ...toks.slice(closeIdx + 1)
+    ];
+
+    // Parent sentence: text for parsing is the clean version (without parenthetical)
+    const beforeParen = toks.slice(0, openIdx);
+    const afterParen = toks.slice(closeIdx + 1);
+    const cleanText = [...beforeParen, ...afterParen].join(' ');
+
+    const parentSent = {
+      ...sent,
+      text: cleanText,
+      tokens: sentinelTokens,
+      _sentinelTokens: sentinelTokens,
+      _cleanText: cleanText,
+    };
+    updated.push(parentSent);
+
+    // Child sentence
+    const childText = parenContent.join(' ');
+    children.push({
+      sentenceIndex: -1, // renumbered below
+      text: childText,
+      tokenSpan: [sent.tokenSpan[0] + openIdx + 1, sent.tokenSpan[0] + closeIdx - 1],
+      tokens: parenContent,
+      segmentationType: 'parenthetical',
+      logicalConnector: null,
+      listMarker: null,
+      precedingModalContext: null,
+      isParenthetical: true,
+      parentSentenceIndex: sent.sentenceIndex,
+    });
+  }
+
+  // Append children and renumber
+  const all = [...updated, ...children];
+  for (let i = 0; i < all.length; i++) {
+    all[i].sentenceIndex = i;
+  }
+
+  return { sentences: all, relationships: [] };
 }
 
 // ============================================================================
@@ -326396,21 +326793,54 @@ class SemanticGraphBuilder {
     const allGraphNodes = [];
     const sentenceMetadata = [];
     const sentenceNodeRanges = []; // Track [startIdx, endIdx] per sentence
+    let firstDebug = null; // Capture _debug from first parsed sentence
+
+    // Compute document-level identifiers upfront (needed by sentence sub-parses)
+    const parsingActId = this._hashText(originalText).substring(0, 8);
+    const ibeIri = `inst:Input_Text_IBE_${this._hashText(originalText)}`;
+
+    let firstParsedSentence = true;
 
     for (const sent of segResult.sentences) {
+      // Skip section headers — no parsing, no Tier 1 nodes (§5.1.3 Rule B-4)
+      if (sent.segmentationType === 'section-header-inline') {
+        sentenceNodeRanges.push({ start: allGraphNodes.length, end: allGraphNodes.length });
+        sentenceMetadata.push({
+          sentenceIndex: sent.sentenceIndex,
+          text: sent.text,
+          tokenSpan: sent.tokenSpan,
+          tokens: sent.tokens,
+          tags: [],
+          root: null,
+          arcs: [],
+          modalMarker: null,
+          segmentationType: 'section-header-inline',
+          logicalConnector: sent.logicalConnector || null,
+          listMarker: sent.listMarker || null,
+          isParenthetical: false,
+          parentSentenceIndex: null,
+        });
+        continue;
+      }
+
       const nodeCountBefore = allGraphNodes.length;
       // Parse each sentence independently — _skipSegmentation prevents re-segmentation
-      const sentResult = this._buildWithTreeExtractors(sent.text, {
+      // Use _cleanText if available (parenthetical sentinel case)
+      const textToParse = sent._cleanText || sent.text;
+      const sentResult = this._buildWithTreeExtractors(textToParse, {
         ...buildOptions,
         _skipSegmentation: true,
         _sentenceIndex: sent.sentenceIndex,
+        _documentIbeIri: ibeIri,
       });
 
-      // Collect graph nodes (skip infrastructure nodes after first sentence)
+      // Collect graph nodes (skip infrastructure nodes after first parsed sentence)
       const nodes = sentResult['@graph'] || [];
-      if (sent.sentenceIndex === 0) {
-        // First sentence: include all nodes (IBE, ParsingAct, Parser Agent)
+      if (firstParsedSentence) {
+        // First parsed sentence: include all nodes (IBE, ParsingAct, Parser Agent)
         allGraphNodes.push(...nodes);
+        firstParsedSentence = false;
+        if (sentResult._debug) firstDebug = sentResult._debug;
       } else {
         // Subsequent sentences: include semantic nodes only, skip IBE/ParsingAct/Agent
         for (const node of nodes) {
@@ -326435,22 +326865,33 @@ class SemanticGraphBuilder {
       // Record node range for this sentence
       sentenceNodeRanges.push({ start: nodeCountBefore, end: allGraphNodes.length });
 
-      // Collect sentence metadata
+      // Collect sentence metadata — stamp segmenter fields onto parser metadata
       if (sentResult._metadata && sentResult._metadata.sentences) {
         const sentMd = sentResult._metadata.sentences[0];
         sentMd.sentenceIndex = sent.sentenceIndex;
         sentMd.tokenSpan = sent.tokenSpan;
+        sentMd.segmentationType = sent.segmentationType || 'standard';
+        sentMd.logicalConnector = sent.logicalConnector || null;
+        sentMd.listMarker = sent.listMarker || null;
+        sentMd.isParenthetical = sent.isParenthetical || false;
+        sentMd.parentSentenceIndex = sent.parentSentenceIndex ?? null;
+        // Override tokens for parenthetical sentinel
+        if (sent._sentinelTokens) {
+          sentMd.tokens = sent._sentinelTokens;
+        }
         sentenceMetadata.push(sentMd);
       }
     }
 
     // Step 6: Build SentenceCluster nodes and stamp sentenceIndex on Tier 1 nodes
-    const parsingActId = this._hashText(originalText).substring(0, 8);
-    const ibeIri = `inst:Input_Text_IBE_${this._hashText(originalText)}`;
     const sentenceClusters = [];
 
     for (let si = 0; si < segResult.sentences.length; si++) {
       const sent = segResult.sentences[si];
+
+      // Skip cluster creation for section headers (§5.1.3 Rule B-4)
+      if (sent.segmentationType === 'section-header-inline') continue;
+
       const range = sentenceNodeRanges[si] || { start: 0, end: allGraphNodes.length };
 
       // Find Tier 1 nodes from this sentence using tracked node range
@@ -326492,7 +326933,7 @@ class SemanticGraphBuilder {
       parsingAct['tagteam:has_sentence_cluster'] = sentenceClusters.map(c => ({ '@id': c['@id'] }));
     }
 
-    return {
+    const result = {
       '@graph': allGraphNodes,
       _metadata: {
         pipeline: 'tree-based',
@@ -326507,6 +326948,8 @@ class SemanticGraphBuilder {
         roles: allGraphNodes.filter(n => [].concat(n['@type'] || []).includes('Role')).length,
       }
     };
+    if (firstDebug) result._debug = firstDebug;
+    return result;
   }
 
   _buildWithTreeExtractors(text, buildOptions) {
@@ -326541,11 +326984,10 @@ class SemanticGraphBuilder {
 
       if (_SentenceSegmenter && !buildOptions._skipSegmentation) {
         const segResult = _SentenceSegmenter.segment(normalized);
-        if (segResult.sentences.length > 1) {
-          // Multi-sentence: process each independently, merge results
+        if (segResult.sentences.length >= 1) {
+          // All segmented inputs: process through forest path for SentenceCluster construction
           return this._buildForest(segResult, text, normalized, buildOptions);
         }
-        // Single sentence: fall through to existing pipeline
       }
 
       // Stage 2: Tokenization
@@ -326711,29 +327153,13 @@ class SemanticGraphBuilder {
         genericityMap = genericityDetector.classify(entities, depTree, tags, buildOptions);
       }
 
-      // Stage 8: Assign mention IDs (AC-3.22)
-      // Format: "s{sentenceIdx}:h{headId}:{charStart}-{charEnd}"
-      const sentenceIdx = 0; // Single-sentence pipeline for now
+      // Stage 8: Assign mention IDs (§5.3.3)
+      // Format: "{parsingActId}:s{sentenceIndex}:m{headTokenIndex}"
+      const sentenceIdx = buildOptions._sentenceIndex || 0;
+      const paId = buildOptions._parsingActId || this._hashText(text).substring(0, 8);
       for (const entity of entities) {
         const headId = entity.headId || 0;
-        // Compute character offsets from token positions
-        let charStart = 0;
-        let charEnd = 0;
-        if (entity.indices && entity.indices.length > 0) {
-          // Token indices are 1-based; compute char offsets from token positions in text
-          const minIdx = Math.min(...entity.indices);
-          const maxIdx = Math.max(...entity.indices);
-          // Approximate char offsets from token positions
-          charStart = 0;
-          for (let i = 0; i < minIdx - 1 && i < tokens.length; i++) {
-            charStart += tokens[i].length + 1; // +1 for space
-          }
-          charEnd = charStart;
-          for (let i = minIdx - 1; i <= maxIdx - 1 && i < tokens.length; i++) {
-            charEnd += tokens[i].length + (i < maxIdx - 1 ? 1 : 0);
-          }
-        }
-        entity.mentionId = `s${sentenceIdx}:h${headId}:${charStart}-${charEnd}`;
+        entity.mentionId = `${paId}:s${sentenceIdx}:m${headId}`;
       }
 
       // Build JSON-LD graph from extracted data
@@ -326767,9 +327193,16 @@ class SemanticGraphBuilder {
         if (entity.resolvedVia) {
           entityNode['tagteam:resolvedVia'] = entity.resolvedVia;
         }
-        // Mention ID (AC-3.22)
+        // Mention ID (§5.3.3)
         if (entity.mentionId) {
           entityNode['tagteam:mentionId'] = entity.mentionId;
+        }
+        // Document token span (§4.2) — 0-based sentence-relative indices
+        // Entity indices are 1-based from the extractor; convert to 0-based
+        if (entity.indices && entity.indices.length > 0) {
+          const minIdx = Math.min(...entity.indices) - 1;
+          const maxIdx = Math.max(...entity.indices) - 1;
+          entityNode['tagteam:documentTokenSpan'] = [minIdx, maxIdx];
         }
         // Confidence annotations (AC-3.16)
         if (confidenceAnnotator) {
@@ -326936,12 +327369,9 @@ class SemanticGraphBuilder {
           if (act.tenseAspect) vpNode['tagteam:tenseAspect'] = { '@id': `tagteam:${act.tenseAspect}` };
           if (act.sourceText) vpNode['tagteam:sourceText'] = act.sourceText;
           vpNode['tagteam:denotesType'] = 'Directive';
-          // mentionId for SHACL compliance
+          // mentionId for SHACL compliance (§5.3.3)
           if (act.verbId) {
-            const verbIdx = act.verbId - 1;
-            let charStart = 0;
-            for (let ci = 0; ci < verbIdx && ci < tokens.length; ci++) charStart += tokens[ci].length + 1;
-            vpNode['tagteam:mentionId'] = `s0:v${act.verbId}:${charStart}-${charStart + (tokens[verbIdx] || '').length}`;
+            vpNode['tagteam:mentionId'] = `${paId}:s${sentenceIdx}:m${act.verbId}`;
           }
           graphNodes.push(vpNode);
 
@@ -327019,11 +327449,9 @@ class SemanticGraphBuilder {
           // WS-D: Tense-aspect annotation on VerbPhrase
           if (act.tenseAspect) vpNode['tagteam:tenseAspect'] = { '@id': `tagteam:${act.tenseAspect}` };
           // mentionId for VP (AC-3.22b compatibility)
+          // mentionId for VP (§5.3.3)
           if (act.verbId) {
-            const verbIdx = act.verbId - 1;
-            let charStart = 0;
-            for (let ci = 0; ci < verbIdx && ci < tokens.length; ci++) charStart += tokens[ci].length + 1;
-            vpNode['tagteam:mentionId'] = `s0:v${act.verbId}:${charStart}-${charStart + (tokens[verbIdx] || '').length}`;
+            vpNode['tagteam:mentionId'] = `${paId}:s${sentenceIdx}:m${act.verbId}`;
           }
           graphNodes.push(vpNode);
 
@@ -327097,7 +327525,7 @@ class SemanticGraphBuilder {
         const isPossessiveQuality = sa.pattern === 'quality_assertion' && sa.type === 'possessive';
 
         if (isAdjectivalCopular || isEvidentialCopular || isPossessiveQuality) {
-          // ─�� QualityAssertion (Tier 1) + Quality (Tier 2) ──
+          // ── QualityAssertion (Tier 1) + Quality (Tier 2) ──
           const qualityWord = (sa.predicateText || '').toLowerCase();
           const qaId = `${this.options.namespace}:QualityAssertion_${this._sanitizeId(qualityWord)}_${this._hashText((sa.subject || '') + qualityWord).substring(0, 8)}`;
           const qualityId = `${this.options.namespace}:Quality_${this._sanitizeId(qualityWord)}_${this._hashText((sa.subject || '') + qualityWord).substring(0, 8)}`;
@@ -327191,13 +327619,9 @@ class SemanticGraphBuilder {
             'tagteam:denotesType': 'Role',
             'is_about': { '@id': roleId },
           };
-          // Compute mentionId from predicate position in token array
-          if (sa.predicateId && tokens) {
-            const predIdx = sa.predicateId - 1;
-            let predCharStart = 0;
-            for (let ci = 0; ci < predIdx && ci < tokens.length; ci++) predCharStart += tokens[ci].length + 1;
-            const predCharEnd = predCharStart + (predicateFullText || '').length;
-            predicateRefNode['tagteam:mentionId'] = `s0:p${sa.predicateId}:${predCharStart}-${predCharEnd}`;
+          // mentionId for predicate (§5.3.3)
+          if (sa.predicateId) {
+            predicateRefNode['tagteam:mentionId'] = `${paId}:s${sentenceIdx}:m${sa.predicateId}`;
           }
           graphNodes.push(predicateRefNode);
 
@@ -327516,11 +327940,14 @@ class SemanticGraphBuilder {
       graphNodes.push(parserAgentNode);
 
       // Link all ICE nodes to IBE via is_concretized_by (BFO_0000058)
+      // When _documentIbeIri is set (forest path), use the document-level IBE
+      // to ensure all Tier 1 nodes share the same provenance target (§3.3)
+      const provenanceIri = buildOptions._documentIbeIri || ibeNode['@id'];
       const iceTypes = ['tagteam:DiscourseReferent', 'tagteam:VerbPhrase'];
       for (const node of graphNodes) {
         const types = [].concat(node['@type'] || []);
         if (iceTypes.some(t => types.includes(t)) && !node['is_concretized_by']) {
-          node['is_concretized_by'] = { '@id': ibeNode['@id'] };
+          node['is_concretized_by'] = { '@id': provenanceIri };
         }
       }
 
@@ -328483,7 +328910,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 349 | 7ac4119 | 2026-04-01T15:34:58.293Z',
+    BUILD: 'build 359 | 72dca06 | 2026-04-01T20:55:54.090Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,

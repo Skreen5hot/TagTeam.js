@@ -1,7 +1,7 @@
 /*!
  * TagTeam.js - Two-Tier Semantic Graph Engine
  * Version: 7.0 (v2 Phase 2: Dependency Parser)
- * Date: 2026-03-30
+ * Date: 2026-04-01
  *
  * A client-side JavaScript library for extracting semantic roles from natural language text
  *
@@ -299384,7 +299384,10 @@ const KNOWN_ACRONYMS = new Set([
   'AIDS', 'HIV', 'NATO', 'UNESCO', 'UNICEF', 'NASA', 'WHO',
   'OECD', 'ICSID', 'UNAIDS', 'IMF', 'WTO', 'EU', 'UN', 'OPEC',
   'ASEAN', 'NAFTA', 'FBI', 'CIA', 'NSA', 'IRS', 'EPA', 'CDC',
-  'NIH', 'HHS', 'DOJ', 'DOD', 'DOS', 'DOE', 'USAID'
+  'NIH', 'HHS', 'DOJ', 'DOD', 'DOS', 'DOE', 'USAID',
+  'CMS', 'DHS', 'USCIS', 'SAVE', 'AE', 'AEs', 'OMB', 'FIPS',
+  'CBP', 'ICE', 'TSA', 'FEMA', 'CISA', 'FLETC', 'GAO', 'OIG',
+  'PPACA', 'CFR', 'USC', 'OMB'
 ]);
 
 /**
@@ -299742,12 +299745,18 @@ class ComplexDesignatorDetector {
     // Then check each item for capitalized sequences
     const items = [];
 
+    // Only run list detection if the text actually contains list separators
+    if (!text.includes(',')) return items;
+
     // Pattern: items separated by ", " with optional "and " before last
     // Remove leading "the " from the whole text first
     const cleanText = text.replace(/^the\s+/i, '');
 
     // Split on list separators
     const parts = cleanText.split(/,\s*(?:and\s+)?|,\s+/);
+
+    // Don't treat a single unsplit chunk as a "list item"
+    if (parts.length < 2) return items;
 
     for (const part of parts) {
       const trimmed = part.replace(/^(?:the\s+|and\s+)/i, '').trim();
@@ -299758,11 +299767,11 @@ class ComplexDesignatorDetector {
       if (tokens.length > 0 && tokens.some(t => this._isCapitalizedOrAcronym(t))) {
         const span = this._consumeComplexDesignator(tokens, 0);
         if (span) {
-          // Adjust positions relative to original text
+          // Adjust positions relative to original text using the span's own char offsets
           const idx = text.indexOf(trimmed);
           if (idx >= 0) {
-            span.start = idx;
-            span.end = idx + trimmed.length;
+            span.start = idx + span.start;
+            span.end = idx + span.end;
           }
           items.push(span);
         }
@@ -302386,9 +302395,11 @@ class RealWorldEntityFactory {
    * @private
    */
   _generateTier2IRI(normalizedLabel, tier2Type, documentIRI) {
-    // Build hash input: label + type + document scope (v2.2)
-    const scopeId = documentIRI || this.sessionId || 'default';
-    const hashInput = `${normalizedLabel}|${tier2Type}|${scopeId}`;
+    // Build hash input: label + type ONLY (no document scope)
+    // Tier 2 IRIs must be stable across ParsingActs so that a document service
+    // can merge graphs from independent parses by IRI equality.
+    // Two parses of any sentence containing "CMS" must produce the same Tier 2 IRI.
+    const hashInput = `${normalizedLabel}|${tier2Type}`;
 
     // Generate SHA-256 hash
     const hash = crypto
@@ -302599,6 +302610,20 @@ class Tokenizer {
         while (i < text.length && this._isWordChar.test(text[i])) {
           tokenText += text[i];
           i++;
+        }
+        // Handle hyphenated proper noun compounds: "Twenty-Four-Hour" stays as one token
+        // Only join when current token starts uppercase AND next part starts uppercase
+        // (UD-EWT splits lowercase hyphenated words like "decision-maker")
+        if (/^[A-Z]/.test(tokenText)) {
+          while (i < text.length && text[i] === '-' &&
+                 i + 1 < text.length && /[A-Z]/.test(text[i + 1])) {
+            tokenText += text[i]; // hyphen
+            i++;
+            while (i < text.length && this._isWordChar.test(text[i])) {
+              tokenText += text[i];
+              i++;
+            }
+          }
         }
         // Handle abbreviations like "U.S." (letter.letter. pattern)
         if (tokenText.length === 1 && /[A-Z]/i.test(tokenText) &&
@@ -309840,6 +309865,16 @@ class JSONLDSerializer {
       verb:                { '@id': 'tagteam:verb' },
       lemma:               { '@id': 'tagteam:lemma' },
       tense:               { '@id': 'tagteam:tense' },
+      aspect:              { '@id': 'tagteam:aspect' },
+      tenseAspect:         { '@id': 'tagteam:tenseAspect', '@type': '@id' },
+      // WS-D TenseAspect individuals
+      SimplePastTense:          { '@id': 'tagteam:SimplePastTense' },
+      SimplePresentTense:       { '@id': 'tagteam:SimplePresentTense' },
+      SimpleFutureTense:        { '@id': 'tagteam:SimpleFutureTense' },
+      PresentPerfectTense:      { '@id': 'tagteam:PresentPerfectTense' },
+      PastPerfectTense:         { '@id': 'tagteam:PastPerfectTense' },
+      PresentProgressiveTense:  { '@id': 'tagteam:PresentProgressiveTense' },
+      PastProgressiveTense:     { '@id': 'tagteam:PastProgressiveTense' },
       hasModalMarker:      { '@id': 'tagteam:hasModalMarker' },
       version:             { '@id': 'tagteam:version' },
       algorithm:           { '@id': 'tagteam:algorithm' },
@@ -318221,8 +318256,50 @@ class OntologyTextTagger {
    * @returns {Object} Load result with { classCount, totalKeywords }
    */
   loadFromString(ttlContent) {
+    // Pre-process: normalize constructs the lightweight TurtleParser can't handle
+    let normalizedTtl = ttlContent;
+
+    // 1. Collapse triple-quoted strings to single-quoted
+    normalizedTtl = normalizedTtl.replace(/"""([^]*?)"""/g, function(match, content) {
+      return '"' + content.replace(/\n/g, ' ').replace(/"/g, '\\"') + '"';
+    });
+
+    // 2. Remove inline blank node blocks (owl:Restriction, owl:Class expressions)
+    // These [ rdf:type owl:Restriction ; ... ] constructs in rdfs:subClassOf break parsing.
+    normalizedTtl = normalizedTtl.replace(/,?\s*\[\s*rdf:type\s+owl:(?:Restriction|Class)\b[\s\S]*?\]/g, '');
+
+    // 3. Escape # inside quoted strings on the SAME LINE — the TurtleParser treats
+    // # as comment start even inside "...", causing it to lose sync on URLs with
+    // fragment identifiers like "...Gamma_ray#Naming_conventions...".
+    // Process line-by-line to avoid cross-line matching.
+    normalizedTtl = normalizedTtl.split('\n').map(function(line) {
+      // Only process lines that have both a quoted string AND a # inside it
+      // Match: opening quote, content with #, closing quote — all on one line
+      return line.replace(/"([^"]*#[^"]*)"/g, function(match, inner) {
+        return '"' + inner.replace(/#/g, '%23') + '"';
+      });
+    }).join('\n');
+
     const parser = new TurtleParser();
-    this._parseResult = parser.parse(ttlContent);
+    this._parseResult = parser.parse(normalizedTtl);
+
+    // Normalize CCO opaque predicates to standard SKOS equivalents
+    // cco:ont00001738 (designation) → skos:altLabel
+    // cco:ont00001740 (abbreviation) → skos:altLabel
+    if (this._parseResult && this._parseResult.triples) {
+      const CCO_PREDICATE_MAP = {
+        'cco:ont00001738': 'skos:altLabel',
+        'https://www.commoncoreontologies.org/ont00001738': 'skos:altLabel',
+        'cco:ont00001740': 'skos:altLabel',
+        'https://www.commoncoreontologies.org/ont00001740': 'skos:altLabel',
+      };
+      for (const triple of this._parseResult.triples) {
+        if (CCO_PREDICATE_MAP[triple.predicate]) {
+          triple.predicate = CCO_PREDICATE_MAP[triple.predicate];
+        }
+      }
+    }
+
     this.tagDefinitions = this.propertyMapper.extractDefinitions(this._parseResult);
 
     // In priority mode, supplement definitions for classes that were excluded
@@ -318415,6 +318492,24 @@ class OntologyTextTagger {
         keywords: allValues,
         propertyEvidence: evidence
       });
+    }
+
+    // Also enrich existing definitions with altLabel/designation values
+    // (classes that have rdfs:label but also have skos:altLabel from CCO normalization)
+    const PRIORITY_PROPS = ['skos:prefLabel', 'skos:altLabel', 'skos:notation', 'skos:hiddenLabel'];
+    for (const def of this.tagDefinitions) {
+      const subjectId = def.id || def.iri;
+      if (!subjectId) continue;
+      const existingKeywords = new Set(def.keywords.map(k => k.toLowerCase()));
+      for (const triple of this._parseResult.triples) {
+        if (triple.subject === subjectId && PRIORITY_PROPS.includes(triple.predicate)) {
+          const val = (triple.object || '').replace(/@\w+$/, '').trim();
+          if (val && !existingKeywords.has(val.toLowerCase())) {
+            def.keywords.push(val);
+            existingKeywords.add(val.toLowerCase());
+          }
+        }
+      }
     }
   }
 
@@ -320645,11 +320740,888 @@ function correctDitransitives(arcs, tokens, tags) {
   return arcs;
 }
 
+/**
+ * Detect and correct fragmented copular sentences.
+ *
+ * Pattern: Multiple roots where one is VBZ "is"/"are" and others are nouns.
+ * The dep parser failed to produce the standard copular structure:
+ *   predicate as root, subject as nsubj, copula as cop.
+ *
+ * Example: "CMS is the Recipient Agency" parsed as 4 roots: CMS, is, Recipient, .
+ * Corrected to: Agency/Recipient as root, CMS as nsubj, is as cop.
+ *
+ * @param {Array} arcs - Raw arc array
+ * @param {string[]} tokens - 0-indexed token array
+ * @param {string[]} tags - 0-indexed POS tag array
+ * @returns {Array} Modified arcs
+ */
+function correctCopularFragmentation(arcs, tokens, tags) {
+  // Find all root arcs
+  const rootArcs = arcs.filter(a => a.label === 'root' && a.head === 0);
+  if (rootArcs.length < 2) return arcs; // Need multiple roots to detect fragmentation
+
+  // Find VBZ "is"/"are" among roots
+  const copulaRootArc = rootArcs.find(a => {
+    const tag = tags[a.dependent - 1];
+    const word = tokens[a.dependent - 1].toLowerCase();
+    return tag === 'VBZ' && (word === 'is' || word === 'are');
+  });
+  if (!copulaRootArc) return arcs;
+
+  const copulaId = copulaRootArc.dependent;
+
+  // Find subject candidate: root NNP/NNS/NN that precedes the copula
+  const subjectArc = rootArcs.find(a => {
+    const tag = tags[a.dependent - 1];
+    return a.dependent < copulaId && (tag === 'NNP' || tag === 'NNPS' || tag === 'NNS' || tag === 'NN');
+  });
+  if (!subjectArc) return arcs;
+
+  // Find predicate candidate: root NN/NNP/JJ that follows the copula (skip punct)
+  const predicateArc = rootArcs.find(a => {
+    const tag = tags[a.dependent - 1];
+    return a.dependent > copulaId && (tag === 'NN' || tag === 'NNP' || tag === 'NNPS' || tag === 'JJ');
+  });
+  if (!predicateArc) return arcs;
+
+  const subjectId = subjectArc.dependent;
+  const predicateId = predicateArc.dependent;
+
+  // Rewrite: predicate becomes the sole root, subject becomes nsubj, copula becomes cop
+  subjectArc.label = 'nsubj';
+  subjectArc.head = predicateId;
+
+  copulaRootArc.label = 'cop';
+  copulaRootArc.head = predicateId;
+
+  // Any det before predicate that's still a root or misattached → attach to predicate
+  for (const arc of arcs) {
+    if (arc.label === 'det' && arc.head === 0) {
+      if (arc.dependent > copulaId && arc.dependent < predicateId) {
+        arc.head = predicateId;
+      }
+    }
+  }
+
+  // Reattach punct to predicate
+  for (const arc of rootArcs) {
+    const tag = tags[arc.dependent - 1];
+    if (tag === '.' || tag === ',' || tokens[arc.dependent - 1] === '.') {
+      arc.label = 'punct';
+      arc.head = predicateId;
+    }
+  }
+
+  return arcs;
+}
+
+/**
+ * Correct misparse where NN is root and VBN/VBD is acl (reduced relative).
+ *
+ * Pattern: "The organization submitted the report"
+ *   Parser produces: organization(root), submitted(acl→organization), report(obj→submitted)
+ *   Correct: submitted(root), organization(nsubj→submitted), report(obj→submitted)
+ *
+ * Detection: Single NN/NNS/NNP root with exactly one VBN/VBD child labeled acl,
+ * and the VBN has an obj child (transitive verb).
+ *
+ * @param {Array} arcs - Raw arc array
+ * @param {string[]} tokens - 0-indexed token array
+ * @param {string[]} tags - 0-indexed POS tag array
+ * @returns {Array} Modified arcs
+ */
+function correctNounRootVerbAcl(arcs, tokens, tags) {
+  // Find the single root
+  const rootArcs = arcs.filter(a => a.label === 'root' && a.head === 0);
+  if (rootArcs.length !== 1) return arcs;
+
+  const rootArc = rootArcs[0];
+  const rootId = rootArc.dependent;
+  const rootTag = tags[rootId - 1];
+
+  // Root must be a noun
+  if (!rootTag || !rootTag.startsWith('NN')) return arcs;
+
+  // Find acl child that is VBN or VBD — check root AND nmod children of root
+  // Find VBN/VBD child labeled acl or amod that should be the main verb
+  let aclArc = arcs.find(a =>
+    a.head === rootId && (a.label === 'acl' || a.label === 'amod') &&
+    (tags[a.dependent - 1] === 'VBN' || tags[a.dependent - 1] === 'VBD')
+  );
+  // Check nmod children of root for acl (deep: "officer of org reviewed report")
+  if (!aclArc) {
+    const nmodChildren = arcs.filter(a => a.head === rootId && a.label === 'nmod');
+    for (const nmod of nmodChildren) {
+      aclArc = arcs.find(a =>
+        a.head === nmod.dependent && (a.label === 'acl' || a.label === 'amod') &&
+        (tags[a.dependent - 1] === 'VBN' || tags[a.dependent - 1] === 'VBD')
+      );
+      if (aclArc) break;
+    }
+  }
+  // Check obj children of root for amod VBN ("facilities reported incidents" where
+  // reported is amod of incidents which is obj of facilities)
+  if (!aclArc) {
+    const objChildren = arcs.filter(a => a.head === rootId && a.label === 'obj');
+    for (const obj of objChildren) {
+      aclArc = arcs.find(a =>
+        a.head === obj.dependent && a.label === 'amod' &&
+        (tags[a.dependent - 1] === 'VBN' || tags[a.dependent - 1] === 'VBD')
+      );
+      if (aclArc) {
+        // Special case: the obj becomes the real obj of the verb, reattach
+        obj.head = aclArc.dependent;
+        break;
+      }
+    }
+  }
+  if (!aclArc) return arcs;
+
+  const verbId = aclArc.dependent;
+
+  // Verb must have an obj child (transitive — confirms it's a real verb, not a modifier)
+  // Also check conj children for obj ("reviewed and approved the document")
+  let hasObj = arcs.some(a => a.head === verbId && a.label === 'obj');
+  if (!hasObj) {
+    const conjChildren = arcs.filter(a => a.head === verbId && a.label === 'conj');
+    hasObj = conjChildren.some(conj => arcs.some(a => a.head === conj.dependent && a.label === 'obj'));
+  }
+  if (!hasObj) return arcs;
+
+  // Rewrite: verb becomes root, noun becomes nsubj of verb
+  rootArc.label = 'nsubj';
+  rootArc.head = verbId;
+
+  aclArc.label = 'root';
+  aclArc.head = 0;
+
+  // Reattach punct from old root to new root
+  for (const arc of arcs) {
+    if (arc.label === 'punct' && arc.head === rootId) {
+      arc.head = verbId;
+    }
+  }
+
+  return arcs;
+}
+
+/**
+ * Correct fragmented modal sentences where NN, MD, and VB are all roots.
+ *
+ * Pattern: "No organization shall disclose information"
+ *   Parser: organization(root), shall(root), disclose(root), .(root)
+ *   Correct: disclose(root), organization(nsubj), shall(aux)
+ *
+ * @param {Array} arcs
+ * @param {string[]} tokens
+ * @param {string[]} tags
+ * @returns {Array}
+ */
+function correctModalFragmentation(arcs, tokens, tags) {
+  const rootArcs = arcs.filter(a => a.label === 'root' && a.head === 0);
+  if (rootArcs.length < 3) return arcs;
+
+  // Find MD root and VB root
+  const mdRoot = rootArcs.find(a => tags[a.dependent - 1] === 'MD');
+  const vbRoot = rootArcs.find(a => {
+    const t = tags[a.dependent - 1];
+    return t === 'VB' || t === 'VBP';
+  });
+  const nnRoot = rootArcs.find(a => {
+    const t = tags[a.dependent - 1];
+    return t && t.startsWith('NN') && a !== mdRoot && a !== vbRoot;
+  });
+
+  if (!mdRoot || !vbRoot || !nnRoot) return arcs;
+
+  const verbId = vbRoot.dependent;
+  const mdId = mdRoot.dependent;
+  const nnId = nnRoot.dependent;
+
+  // NN must precede MD which must precede VB
+  if (!(nnId < mdId && mdId < verbId)) return arcs;
+
+  // Rewrite: VB becomes sole root, NN becomes nsubj, MD becomes aux
+  nnRoot.label = 'nsubj';
+  nnRoot.head = verbId;
+
+  mdRoot.label = 'aux';
+  mdRoot.head = verbId;
+
+  // Reattach punct
+  for (const arc of rootArcs) {
+    if (arc !== vbRoot && arc !== nnRoot && arc !== mdRoot) {
+      const t = tags[arc.dependent - 1];
+      if (t === '.' || t === ',' || tokens[arc.dependent - 1] === '.') {
+        arc.label = 'punct';
+        arc.head = verbId;
+      }
+    }
+  }
+
+  return arcs;
+}
+
 
 
   // Shim: after stripCommonJS, only the inner functions survive.
   // SemanticGraphBuilder checks typeof DepTreeCorrector !== 'undefined'.
-  const DepTreeCorrector = { correctDitransitives, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
+  const DepTreeCorrector = { correctDitransitives, correctCopularFragmentation, correctNounRootVerbAcl, correctModalFragmentation, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
+
+  // ============================================================================
+  // SBA v1.3: SENTENCE SEGMENTER
+  // ============================================================================
+
+/**
+ * SentenceSegmenter.js — Split input text into sentence records
+ *
+ * Source: TagTeam Sentence Boundary Architecture Specification v1.3 §5.1
+ * Authority: The Segment-First Invariant (§3.1)
+ *
+ * Wave 1: Rule B-1 (standard hard sentence boundaries)
+ * Wave 2: Rules B-2 (numbered lists), B-3 (semicolons), B-4 (headers),
+ *          parenthetical extraction, SentenceRelationship construction
+ */
+
+'use strict';
+
+
+
+
+// ============================================================================
+// Constants
+// ============================================================================
+
+const SB_MODALS = new Set(['shall', 'must', 'may', 'should', 'will', 'can', 'could', 'would']);
+
+const SB_CONNECTIVES = new Set([
+  'however', 'notwithstanding', 'furthermore', 'moreover', 'additionally',
+  'therefore', 'thus', 'consequently', 'nevertheless', 'accordingly',
+  'including', 'also', 'otherwise'
+]);
+
+const SB_DETERMINERS = new Set([
+  'the', 'a', 'an', 'this', 'that', 'these', 'those',
+  'each', 'every', 'all', 'any'
+]);
+
+const SB_PRONOUNS = new Set(['it', 'he', 'she', 'they', 'we', 'i', 'you']);
+
+const SB_AUX_VERBS = new Set([
+  'is', 'are', 'was', 'were', 'has', 'have', 'had', 'do', 'does', 'did'
+]);
+
+// ============================================================================
+// Abbreviation Lexicon (§5.1.2)
+// ============================================================================
+
+let ABBREVIATION_SET = null;
+
+/**
+ * Load and merge the abbreviation lexicon from JSON file.
+ * @returns {Set<string>} Merged set of all abbreviation entries (lowercased)
+ */
+function loadAbbreviationLexicon() {
+  if (ABBREVIATION_SET) return ABBREVIATION_SET;
+  var lexicon = {
+  "standard": [
+    "U.S.", "U.S.C.", "Sec.", "No.", "Vol.", "Art.", "Fig.",
+    "et al.", "i.e.", "e.g.", "vs.", "approx.", "Dept.", "Div.",
+    "Est.", "Gov.", "Jr.", "Sr.", "Inc.", "Corp.", "etc.",
+    "Dr.", "Mr.", "Mrs.", "Ms.", "Prof.", "Rev.", "Gen.", "Lt.",
+    "Sgt.", "Col.", "Maj.", "Capt.", "Cmdr.", "Adm.",
+    "Jan.", "Feb.", "Mar.", "Apr.", "Jun.", "Jul.", "Aug.",
+    "Sep.", "Sept.", "Oct.", "Nov.", "Dec.",
+    "St.", "Ave.", "Blvd.", "Rd.", "Ln.", "Ct.",
+    "Assn.", "Bros.", "Co.", "Ltd.", "Mfg.",
+    "approx.", "dept.", "est.", "govt.", "natl.", "intl."
+  ],
+  "agency": [],
+  "custom": []
+}
+;
+  ABBREVIATION_SET = new Set();
+  ['standard', 'agency', 'custom'].forEach(function(tier) {
+    (lexicon[tier] || []).forEach(function(entry) { ABBREVIATION_SET.add(entry.toLowerCase()); });
+  });
+  return ABBREVIATION_SET;
+}
+
+// ============================================================================
+// SentenceSegmenter
+// ============================================================================
+
+/**
+ * Segment input text into sentence records.
+ *
+ * @param {string} inputText - Full input text
+ * @param {Object} [options] - Options
+ * @returns {SegmenterOutput}
+ */
+function segment(inputText, options = {}) {
+  if (!inputText || typeof inputText !== 'string') {
+    return { sentences: [], sentenceRelationships: [], abbreviationsMatched: [], totalTokens: 0 };
+  }
+
+  const abbreviations = loadAbbreviationLexicon();
+  const text = inputText.trim();
+  const tokens = tokenizeWithPositions(text);
+
+  if (tokens.length === 0) {
+    return { sentences: [], sentenceRelationships: [], abbreviationsMatched: [], totalTokens: 0 };
+  }
+
+  // Phase 1: Check for list markers (Rule B-2) — highest priority
+  const listMarkers = detectListMarkers(tokens, text);
+  if (listMarkers.length > 0) {
+    return buildListResult(tokens, listMarkers, text);
+  }
+
+  // Phase 2: Check for semicolons (Rule B-3)
+  const semicolonIdx = findSemicolon(tokens);
+  if (semicolonIdx !== -1 && checkSemicolonGuard(tokens, semicolonIdx)) {
+    return buildSemicolonResult(tokens, semicolonIdx, text);
+  }
+
+  // Phase 3: Find B-1 boundaries, refine with B-4 check
+  const boundaries = findBoundariesWithTypes(tokens, abbreviations, text);
+
+  // Phase 4: Build sentence records
+  const sentences = buildSentenceRecordsFromBoundaries(tokens, boundaries, text);
+
+  // Phase 5: Extract parentheticals
+  const { sentences: finalSentences, relationships: parenRelationships } =
+    extractParentheticals(sentences, tokens, text);
+
+  return {
+    sentences: finalSentences,
+    sentenceRelationships: parenRelationships,
+    abbreviationsMatched: [],
+    totalTokens: tokens.length
+  };
+}
+
+// ============================================================================
+// Tokenization (§5.1.1)
+// ============================================================================
+
+/**
+ * Tokenize text with character positions for boundary detection.
+ * @param {string} text
+ * @returns {Array<{text: string, start: number, end: number, index: number}>}
+ */
+function tokenizeWithPositions(text) {
+  const tokens = [];
+  // Match: abbreviations with dots (U.S., e.g.), ellipsis, contractions, words, punctuation
+  const regex = /([A-Za-z]\.(?:[A-Za-z]\.)+|\.{3}|[A-Za-z0-9]+'[A-Za-z]+|[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*|[.!?,;:()"\[\]{}])/g;
+  let match;
+  while ((match = regex.exec(text)) !== null) {
+    tokens.push({
+      text: match[1],
+      start: match.index,
+      end: match.index + match[1].length,
+      index: tokens.length
+    });
+  }
+  return tokens;
+}
+
+// ============================================================================
+// Rule B-2: Numbered List Item (§5.1.3)
+// ============================================================================
+
+/**
+ * Detect numbered list markers in the token stream.
+ * A list marker is a digit or lowercase letter followed by '.' at the
+ * start of input or after sentence-ending punctuation.
+ *
+ * @param {Array} tokens
+ * @param {string} text
+ * @returns {Array<{digitIdx: number, dotIdx: number, marker: string}>}
+ */
+function detectListMarkers(tokens, text) {
+  const markers = [];
+  for (let i = 0; i < tokens.length - 1; i++) {
+    const tok = tokens[i];
+    const nextTok = tokens[i + 1];
+
+    if (nextTok.text !== '.') continue;
+    if (!/^(\d+|[a-z])$/.test(tok.text)) continue;
+
+    // At start of input
+    if (i === 0) {
+      markers.push({ digitIdx: i, dotIdx: i + 1, marker: tok.text + '.' });
+      continue;
+    }
+
+    // After sentence-ending punctuation or newline
+    const prevTok = tokens[i - 1];
+    if (prevTok.text === '.' || prevTok.text === '!' || prevTok.text === '?') {
+      markers.push({ digitIdx: i, dotIdx: i + 1, marker: tok.text + '.' });
+      continue;
+    }
+
+    // After newline in original text
+    const textBetween = text.substring(prevTok.end, tok.start);
+    if (/\n/.test(textBetween)) {
+      markers.push({ digitIdx: i, dotIdx: i + 1, marker: tok.text + '.' });
+    }
+  }
+  return markers;
+}
+
+/**
+ * Build segmenter result for numbered list input (Rule B-2).
+ */
+function buildListResult(tokens, listMarkers, text) {
+  const sentences = [];
+
+  for (let m = 0; m < listMarkers.length; m++) {
+    const marker = listMarkers[m];
+    const startIdx = marker.dotIdx + 1;
+
+    // End: token before next marker's digit, or end of tokens
+    const endIdx = (m + 1 < listMarkers.length)
+      ? listMarkers[m + 1].digitIdx - 1
+      : tokens.length - 1;
+
+    if (startIdx > endIdx) continue;
+
+    const sentTokens = tokens.slice(startIdx, endIdx + 1);
+    const sentText = text.substring(tokens[startIdx].start, tokens[endIdx].end).trim();
+
+    sentences.push({
+      sentenceIndex: sentences.length,
+      text: sentText,
+      tokenSpan: [startIdx, endIdx],
+      tokens: sentTokens.map(t => t.text),
+      segmentationType: 'numbered-list',
+      logicalConnector: 'enumeration',
+      listMarker: marker.marker,
+      precedingModalContext: null,
+      isParenthetical: false,
+      parentSentenceIndex: null,
+    });
+  }
+
+  // Relationships between consecutive list items
+  const relationships = [];
+  for (let i = 0; i < sentences.length - 1; i++) {
+    relationships.push({
+      fromSentenceIndex: i,
+      toSentenceIndex: i + 1,
+      logicalConnector: 'enumeration',
+      relationshipType: 'enumeration',
+    });
+  }
+
+  return {
+    sentences,
+    sentenceRelationships: relationships,
+    abbreviationsMatched: [],
+    totalTokens: tokens.length
+  };
+}
+
+// ============================================================================
+// Rule B-3: Semicolon Conditional (§5.1.3)
+// ============================================================================
+
+/**
+ * Find the first semicolon token index.
+ */
+function findSemicolon(tokens) {
+  for (let i = 0; i < tokens.length; i++) {
+    if (tokens[i].text === ';') return i;
+  }
+  return -1;
+}
+
+/**
+ * Independent-subject guard: check that both spans around a semicolon
+ * have an independent subject (§5.1.3 Rule B-3).
+ */
+function checkSemicolonGuard(tokens, semiIdx) {
+  const before = tokens.slice(0, semiIdx);
+  const after = tokens.slice(semiIdx + 1);
+  return hasIndependentSubject(before) && hasIndependentSubject(after);
+}
+
+/**
+ * Check if a token span has an independent subject.
+ * After stripping leading connectives + comma, the first content word
+ * must be a determiner, pronoun, or capitalized word (proper noun).
+ */
+function hasIndependentSubject(tokens) {
+  if (tokens.length === 0) return false;
+
+  let startIdx = 0;
+
+  // Skip leading connective
+  if (SB_CONNECTIVES.has(tokens[0].text.toLowerCase())) {
+    startIdx = 1;
+    // Skip optional comma after connective
+    if (startIdx < tokens.length && tokens[startIdx].text === ',') startIdx++;
+  }
+
+  if (startIdx >= tokens.length) return false;
+
+  const firstContent = tokens[startIdx].text;
+  const firstContentLc = firstContent.toLowerCase();
+
+  if (SB_DETERMINERS.has(firstContentLc)) return true;
+  if (SB_PRONOUNS.has(firstContentLc)) return true;
+  if (/^[A-Z]/.test(firstContent) && !SB_CONNECTIVES.has(firstContentLc)) return true;
+
+  return false;
+}
+
+/**
+ * Build segmenter result for semicolon split (Rule B-3).
+ * The semicolon token is consumed — absent from both tokens arrays.
+ */
+function buildSemicolonResult(tokens, semiIdx, text) {
+  const beforeTokens = tokens.slice(0, semiIdx);
+  const afterTokens = tokens.slice(semiIdx + 1);
+
+  const sent0Text = text.substring(
+    beforeTokens[0].start,
+    beforeTokens[beforeTokens.length - 1].end
+  ).trim();
+
+  const sent1Text = text.substring(
+    afterTokens[0].start,
+    afterTokens[afterTokens.length - 1].end
+  ).trim();
+
+  const relType = detectRelationshipType(afterTokens);
+
+  const sentences = [
+    {
+      sentenceIndex: 0,
+      text: sent0Text,
+      tokenSpan: [0, semiIdx - 1],
+      tokens: beforeTokens.map(t => t.text),
+      segmentationType: 'semicolon-conditional',
+      logicalConnector: 'semicolon',
+      listMarker: null,
+      precedingModalContext: null,
+      isParenthetical: false,
+      parentSentenceIndex: null,
+    },
+    {
+      sentenceIndex: 1,
+      text: sent1Text,
+      tokenSpan: [semiIdx + 1, tokens.length - 1],
+      tokens: afterTokens.map(t => t.text),
+      segmentationType: 'semicolon-conditional',
+      logicalConnector: 'semicolon',
+      listMarker: null,
+      precedingModalContext: null,
+      isParenthetical: false,
+      parentSentenceIndex: null,
+    }
+  ];
+
+  const relationships = [{
+    fromSentenceIndex: 0,
+    toSentenceIndex: 1,
+    logicalConnector: 'semicolon',
+    relationshipType: relType,
+  }];
+
+  return {
+    sentences,
+    sentenceRelationships: relationships,
+    abbreviationsMatched: [],
+    totalTokens: tokens.length
+  };
+}
+
+/**
+ * Detect the relationship type from the first token(s) of the second clause.
+ * Normative algorithm from §4.4 — used by SentenceRelationship construction.
+ *
+ * Two-token phrases take priority over single tokens to handle
+ * "provided that", "subject to", etc. correctly.
+ */
+const LEGAL_PROVISO_MARKERS   = ['notwithstanding', 'subject to', 'pursuant to',
+                                  'in accordance with'];
+const LEGAL_EXCEPTION_MARKERS = ['provided that', 'except that', 'except where', 'unless'];
+const CONTRAST_MARKERS        = ['however', 'nevertheless', 'conversely'];
+const ELABORATION_MARKERS     = ['specifically', 'particularly', 'namely', 'that is'];
+
+function detectRelationshipType(afterTokens) {
+  if (afterTokens.length === 0) return 'juxtaposition';
+
+  const first  = afterTokens[0].text.toLowerCase();
+  const phrase = `${first} ${(afterTokens[1]?.text || '').toLowerCase()}`.trim();
+
+  if (LEGAL_EXCEPTION_MARKERS.includes(phrase) ||
+      LEGAL_EXCEPTION_MARKERS.includes(first))   return 'legal-exception';
+  if (LEGAL_PROVISO_MARKERS.includes(phrase) ||
+      LEGAL_PROVISO_MARKERS.includes(first))     return 'legal-proviso';
+  if (CONTRAST_MARKERS.includes(first))          return 'contrast';
+  if (ELABORATION_MARKERS.includes(first))       return 'elaboration';
+
+  return 'juxtaposition';
+}
+
+// ============================================================================
+// Rule B-4: Section Header (§5.1.3)
+// ============================================================================
+
+/**
+ * Check if a B-1 boundary is actually a section header (B-4).
+ * Preceding span must be a short capitalized noun phrase with no finite verb.
+ * Following span must have proper noun + modal within 5 tokens.
+ */
+function isSectionHeader(tokens, periodIdx) {
+  const preceding = tokens.slice(0, periodIdx);
+  if (preceding.length === 0 || preceding.length > 5) return false;
+
+  // Section headers don't start with determiners
+  const DETS = new Set(['the', 'a', 'an', 'this', 'that', 'these', 'those']);
+  if (DETS.has(preceding[0].text.toLowerCase())) return false;
+
+  // All words must be capitalized or small connecting words
+  const SMALL = new Set(['of', 'and', 'the', 'in', 'for', 'to', 'a', 'an', 'with', 'on', 'at', 'by']);
+  for (const t of preceding) {
+    if (SMALL.has(t.text.toLowerCase())) continue;
+    if (!/^[A-Z]/.test(t.text)) return false;
+  }
+
+  // Must have no finite verbs
+  for (const t of preceding) {
+    const lc = t.text.toLowerCase();
+    if (SB_MODALS.has(lc)) return false;
+    if (SB_AUX_VERBS.has(lc)) return false;
+    if (lc.endsWith('ed') && lc.length > 3) return false;
+    if (lc.endsWith('ing') && lc.length > 3) return false;
+  }
+
+  // Following span must have proper noun + modal within 5 tokens
+  const following = tokens.slice(periodIdx + 1, Math.min(periodIdx + 6, tokens.length));
+  let hasProperNoun = false, hasModal = false;
+  for (const t of following) {
+    if (/^[A-Z]/.test(t.text) && t.text.length > 1) hasProperNoun = true;
+    if (SB_MODALS.has(t.text.toLowerCase())) hasModal = true;
+  }
+
+  return hasProperNoun && hasModal;
+}
+
+// ============================================================================
+// Rule B-1: Standard Sentence Boundary (§5.1.3) + B-4 Refinement
+// ============================================================================
+
+/**
+ * Find sentence boundaries with type information.
+ * Each B-1 boundary is checked for B-4 refinement.
+ *
+ * @param {Array} tokens
+ * @param {Set} abbreviations
+ * @param {string} text
+ * @returns {Array<{tokenIndex: number, type: string}>}
+ */
+function findBoundariesWithTypes(tokens, abbreviations, text) {
+  const boundaries = [];
+
+  for (let i = 0; i < tokens.length; i++) {
+    const tok = tokens[i].text;
+    if (tok !== '.' && tok !== '!' && tok !== '?') continue;
+
+    // Abbreviation guard
+    if (i > 0) {
+      const prevToken = tokens[i - 1].text;
+      const withDot = prevToken + '.';
+      if (abbreviations.has(withDot.toLowerCase()) || abbreviations.has(prevToken.toLowerCase())) continue;
+      if (abbreviations.has(prevToken.toLowerCase() + '.')) continue;
+    }
+
+    // Next token must exist and start uppercase
+    if (i + 1 >= tokens.length) continue;
+    const nextToken = tokens[i + 1].text;
+    if (!nextToken || !/^[A-Z]/.test(nextToken)) continue;
+
+    // B-4 check: is this a section header boundary?
+    const type = isSectionHeader(tokens, i) ? 'section-header-inline' : 'standard';
+    boundaries.push({ tokenIndex: i, type });
+  }
+
+  return boundaries;
+}
+
+// ============================================================================
+// Sentence Record Construction
+// ============================================================================
+
+/**
+ * Build SentenceRecord objects from typed boundaries.
+ */
+function buildSentenceRecordsFromBoundaries(tokens, boundaries, text) {
+  if (boundaries.length === 0) {
+    return [{
+      sentenceIndex: 0,
+      text: text,
+      tokenSpan: [0, tokens.length - 1],
+      tokens: tokens.map(t => t.text),
+      segmentationType: 'standard',
+      logicalConnector: null,
+      listMarker: null,
+      precedingModalContext: null,
+      isParenthetical: false,
+      parentSentenceIndex: null,
+    }];
+  }
+
+  const sentences = [];
+  let sentStart = 0;
+
+  for (let b = 0; b < boundaries.length; b++) {
+    const boundary = boundaries[b];
+    const boundaryIdx = boundary.tokenIndex;
+
+    const sentTokens = tokens.slice(sentStart, boundaryIdx + 1);
+    const sentText = text.substring(
+      tokens[sentStart].start,
+      tokens[boundaryIdx].end
+    ).trim();
+
+    sentences.push({
+      sentenceIndex: sentences.length,
+      text: sentText,
+      tokenSpan: [sentStart, boundaryIdx],
+      tokens: sentTokens.map(t => t.text),
+      segmentationType: boundary.type,
+      logicalConnector: null,
+      listMarker: null,
+      precedingModalContext: null,
+      isParenthetical: false,
+      parentSentenceIndex: null,
+    });
+
+    sentStart = boundaryIdx + 1;
+  }
+
+  // Remaining tokens after last boundary → final sentence
+  if (sentStart < tokens.length) {
+    const sentTokens = tokens.slice(sentStart);
+    const sentText = text.substring(
+      tokens[sentStart].start,
+      tokens[tokens.length - 1].end
+    ).trim();
+
+    sentences.push({
+      sentenceIndex: sentences.length,
+      text: sentText,
+      tokenSpan: [sentStart, tokens.length - 1],
+      tokens: sentTokens.map(t => t.text),
+      segmentationType: 'standard',
+      logicalConnector: null,
+      listMarker: null,
+      precedingModalContext: null,
+      isParenthetical: false,
+      parentSentenceIndex: null,
+    });
+  }
+
+  return sentences;
+}
+
+// ============================================================================
+// Parenthetical Extraction (§5.1.4)
+// ============================================================================
+
+/**
+ * Extract qualifying parentheticals as child SentenceRecords.
+ * Criteria: contains modal verb, contains finite verb, > 5 tokens.
+ */
+function extractParentheticals(sentences, allTokens, text) {
+  const updated = [];
+  const children = [];
+
+  for (const sent of sentences) {
+    const toks = sent.tokens;
+    const openIdx = toks.indexOf('(');
+    const closeIdx = toks.lastIndexOf(')');
+
+    if (openIdx === -1 || closeIdx === -1 || closeIdx <= openIdx + 1) {
+      updated.push(sent);
+      continue;
+    }
+
+    // Content between parentheses (exclusive)
+    const parenContent = toks.slice(openIdx + 1, closeIdx);
+
+    // Check all 3 extraction criteria (§5.1.4)
+    const hasModal = parenContent.some(t => SB_MODALS.has(t.toLowerCase()));
+    const hasVerb = parenContent.some(t => {
+      const lc = t.toLowerCase();
+      return SB_AUX_VERBS.has(lc) || SB_MODALS.has(lc);
+    });
+    const longEnough = parenContent.length > 5;
+
+    if (!hasModal || !hasVerb || !longEnough) {
+      updated.push(sent);
+      continue;
+    }
+
+    // Replace parenthetical content with sentinel in parent
+    const sentinelTokens = [
+      ...toks.slice(0, openIdx),
+      '(', '...', ')',
+      ...toks.slice(closeIdx + 1)
+    ];
+
+    // Parent sentence: text for parsing is the clean version (without parenthetical)
+    const beforeParen = toks.slice(0, openIdx);
+    const afterParen = toks.slice(closeIdx + 1);
+    const cleanText = [...beforeParen, ...afterParen].join(' ');
+
+    const parentSent = {
+      ...sent,
+      text: cleanText,
+      tokens: sentinelTokens,
+      _sentinelTokens: sentinelTokens,
+      _cleanText: cleanText,
+    };
+    updated.push(parentSent);
+
+    // Child sentence
+    const childText = parenContent.join(' ');
+    children.push({
+      sentenceIndex: -1, // renumbered below
+      text: childText,
+      tokenSpan: [sent.tokenSpan[0] + openIdx + 1, sent.tokenSpan[0] + closeIdx - 1],
+      tokens: parenContent,
+      segmentationType: 'parenthetical',
+      logicalConnector: null,
+      listMarker: null,
+      precedingModalContext: null,
+      isParenthetical: true,
+      parentSentenceIndex: sent.sentenceIndex,
+    });
+  }
+
+  // Append children and renumber
+  const all = [...updated, ...children];
+  for (let i = 0; i < all.length; i++) {
+    all[i].sentenceIndex = i;
+  }
+
+  return { sentences: all, relationships: [] };
+}
+
+// ============================================================================
+// Exports
+// ============================================================================
+
+
+
+
+  // Shim: SentenceSegmenter for browser — SemanticGraphBuilder uses dynamic import fallback
+  const SentenceSegmenter = { segment, loadAbbreviationLexicon, tokenizeWithPositions };
 
   // ============================================================================
   // §9.5: GENERICITY DETECTOR
@@ -321839,6 +322811,33 @@ class TreeEntityExtractor {
       if (seenHeads.has(arc.dependent)) continue;
       if (lockedTokens.has(arc.dependent)) continue; // Skip tokens inside locked spans
 
+      // Pronouns (WP/WP$/WDT) — handle based on syntactic context
+      const headTag = depTree.tags[arc.dependent - 1];
+      if (headTag === 'WP' || headTag === 'WP$' || headTag === 'WDT') {
+        // Check if this is inside a relative clause (head verb has acl:relcl arc)
+        // If so, skip entirely — relative pronouns are syntactic links, not referents
+        const headVerb = arc.head;
+        const isInRelClause = depTree.arcs.some(a =>
+          a.dependent === headVerb && (a.label === 'acl:relcl' || a.label === 'acl')
+        );
+        if (isInRelClause) continue; // Skip relative pronouns
+
+        // Interrogative pronouns — create placeholder entity
+        const word = depTree.tokens[arc.dependent - 1];
+        const wordLower = word.toLowerCase();
+        const placeholderType = (wordLower === 'who' || wordLower === 'whom') ? 'Person' : 'Entity';
+        seenHeads.add(arc.dependent);
+        entities.push({
+          fullText: word,
+          headId: arc.dependent,
+          indices: [arc.dependent],
+          type: placeholderType,
+          role: arc.label,
+          source: 'interrogative-placeholder'
+        });
+        continue;
+      }
+
       const entityHead = arc.dependent;
       seenHeads.add(entityHead);
 
@@ -322057,6 +323056,27 @@ class TreeEntityExtractor {
       if (isHead && child.label === 'case') continue;
       // Skip additional labels (e.g., 'cc' for split conjunct entities)
       if (skipLabels.length > 0 && skipLabels.includes(child.label)) continue;
+      // §5.4h: Exclude obl children — oblique arguments belong to the verb, not the noun
+      if (child.label === 'obl') continue;
+      // §5.4h: At head level, exclude cc (conjunction word itself doesn't belong to either entity)
+      if (isHead && child.label === 'cc') continue;
+      // §5.4h: At head level, split conj when conjuncts are clearly separate entities
+      // (standalone proper nouns like "CMS and USCIS"). Keep compound names
+      // ("Customs and Border Protection") and common noun coordination ("doctors and nurses").
+      if (isHead && child.label === 'conj') {
+        const conjChildren = depTree._children.get(child.dependent) || [];
+        const headChildren = depTree._children.get(nodeId) || [];
+        const conjHasCompound = conjChildren.some(c => c.label === 'compound');
+        const headHasCompound = headChildren.some(c => c.label === 'compound');
+        // If either side has compound children, it's likely a multi-word name — keep
+        if (!conjHasCompound && !headHasCompound) {
+          const headTag = depTree.tags[nodeId - 1];
+          const conjTag = depTree.tags[child.dependent - 1];
+          const NNP_TAGS = new Set(['NNP', 'NNPS']);
+          // Only split standalone proper nouns without compounds
+          if (NNP_TAGS.has(headTag) && NNP_TAGS.has(conjTag)) continue;
+        }
+      }
       // Skip conj children that are verbs (RC-3: prevents "Immigration" absorbing "deported")
       // or that have cop dependents (copular predicates, not coordination)
       if (child.label === 'conj') {
@@ -322065,6 +323085,13 @@ class TreeEntityExtractor {
         const conjChildren = depTree._children.get(child.dependent) || [];
         const hasCop = conjChildren.some(c => c.label === 'cop');
         if (hasCop) continue; // This conj is a copular predicate → skip
+      }
+      // §5.4h: At head level, exclude nmod children that have their own case preposition
+      // (indicates oblique/prepositional role, not part of the noun phrase)
+      if (isHead && child.label === 'nmod') {
+        const nmodChildren = depTree._children.get(child.dependent) || [];
+        const hasCase = nmodChildren.some(c => c.label === 'case');
+        if (hasCase) continue;
       }
       this._collectEntitySpan(depTree, child.dependent, indices, false, skipLabels);
     }
@@ -322317,6 +323344,89 @@ const IRREGULAR_LEMMAS = {
   'transported': 'transport',
   'located': 'locate',
   'based': 'base',
+  // VBZ forms where -es stripping over-truncates (stem ends in 'e')
+  'agrees': 'agree',
+  'advises': 'advise',
+  'provides': 'provide',
+  'discloses': 'disclose',
+  'requires': 'require',
+  'ensures': 'ensure',
+  'produces': 'produce',
+  'reduces': 'reduce',
+  'causes': 'cause',
+  'includes': 'include',
+  'involves': 'involve',
+  'receives': 'receive',
+  'achieves': 'achieve',
+  'removes': 'remove',
+  'improves': 'improve',
+  'serves': 'serve',
+  'observes': 'observe',
+  'manages': 'manage',
+  'describes': 'describe',
+  'determines': 'determine',
+  'operates': 'operate',
+  'locates': 'locate',
+  'collaborates': 'collaborate',
+  // VBD forms where -ed stripping over-truncates (stem ends in 'e')
+  'provided': 'provide',
+  'disclosed': 'disclose',
+  'required': 'require',
+  'ensured': 'ensure',
+  'included': 'include',
+  'described': 'describe',
+  'determined': 'determine',
+  'managed': 'manage',
+  'collaborated': 'collaborate',
+  'advised': 'advise',
+  'restricted': 'restrict',
+  'submitted': 'submit',
+  'encrypted': 'encrypt',
+  'conducted': 'conduct',
+  'suspended': 'suspend',
+  'terminated': 'terminate',
+  'maintained': 'maintain',
+  'complied': 'comply',
+  'notified': 'notify',
+  'verified': 'verify',
+  'reported': 'report',
+  'denied': 'deny',
+  'accessed': 'access',
+  'monitored': 'monitor',
+  'reviewed': 'review',
+  'contacted': 'contact',
+  'discussed': 'discuss',
+  'investigated': 'investigate',
+  'addressed': 'address',
+  'entered': 'enter',
+  'disclosed': 'disclose',
+  'prompted': 'prompt',
+  'resolved': 'resolve',
+  'presented': 'present',
+  'executed': 'execute',
+  'implemented': 'implement',
+  'specified': 'specify',
+  'associated': 'associate',
+  'requested': 'request',
+  'experienced': 'experience',
+  'discovered': 'discover',
+  'authorized': 'authorize',
+  'completed': 'complete',
+  'suspected': 'suspect',
+  'occurred': 'occur',
+  'violated': 'violate',
+  'filed': 'file',
+  'hired': 'hire',
+  'classified': 'classify',
+  'authorized': 'authorize',
+  'revised': 'revise',
+  'described': 'describe',
+  'recognized': 'recognize',
+  'analyzed': 'analyze',
+  'organized': 'organize',
+  'utilized': 'utilize',
+  'finalized': 'finalize',
+  'supervised': 'supervise',
 };
 
 /**
@@ -322386,6 +323496,7 @@ const MULTI_WORD_MODAL_LEMMAS = {
   'have': 'obligation',
   'need': 'obligation',
   'ought': 'recommendation',  // "ought to" → DefeasibleObligation (spec §4)
+  'agree': 'intention',       // "agrees to provide" → DeclaredIntention (commissive)
 };
 
 // ============================================================================
@@ -322416,6 +323527,22 @@ class TreeActExtractor {
       const copChild = children.find(c => c.label === 'cop');
       // Check for existential: root has an `expl` child
       const explChild = children.find(c => c.label === 'expl');
+
+      // Also check conj children for copular structure (fragmented "DHS/USCIS is the Source Agency")
+      if (!copChild) {
+        const conjChild = children.find(c => c.label === 'conj');
+        if (conjChild) {
+          const conjChildren = depTree.getChildren(conjChild.dependent);
+          const conjCop = conjChildren.find(c => c.label === 'cop');
+          if (conjCop) {
+            // The conj child IS the copular predicate — handle it directly
+            const assertion = this._handleCopular(depTree, conjChild.dependent, conjCop, conjChildren);
+            if (assertion) structuralAssertions.push(assertion);
+            // Skip normal processing of this root
+            continue;
+          }
+        }
+      }
 
       if (copChild) {
         // Copular construction: root is the PREDICATE, cop is the copula verb
@@ -322473,7 +323600,19 @@ class TreeActExtractor {
       this._extractEmbeddedActs(depTree, rootId, acts, structuralAssertions);
     }
 
-    return { acts, structuralAssertions };
+    // BC-2: Filter out junk acts from mistagged tokens (punctuation, single chars,
+    // tokens that are clearly nouns misidentified as verbs by the dep parser)
+    const validActs = acts.filter(act => {
+      const lemma = act.lemma || '';
+      // Reject punctuation and single-character "verbs"
+      if (lemma.length <= 1) return false;
+      if (/^[^a-zA-Z]/.test(lemma)) return false;
+      // Reject tokens tagged as nouns that slipped through (NNP/NNS/NN mistagged as root)
+      if (act.tag && !VERB_TAGS.has(act.tag) && !act.modality) return false;
+      return true;
+    });
+
+    return { acts: validActs, structuralAssertions };
   }
 
   /**
@@ -322493,11 +323632,14 @@ class TreeActExtractor {
 
     const lemma = this._lemmatize(word, tag);
     const isPassive = this._detectPassive(children);
-    const isNegated = this._detectNegation(children);
+    const isNegated = this._detectNegation(children, depTree);
     const isCopular = false;
 
     // Modal detection: scan aux children for MD tag or known modal words
     const modal = this._detectModality(depTree, verbId, children);
+
+    // WS-D: Tense-aspect detection from POS tags + aux children
+    const tenseAspect = this._detectTenseAspect(depTree, verbId, tag, children);
 
     const act = {
       verb: word,
@@ -322507,6 +323649,7 @@ class TreeActExtractor {
       isCopular,
       isPassive,
       isNegated,
+      tenseAspect: tenseAspect,
     };
 
     if (modal) {
@@ -322516,9 +323659,80 @@ class TreeActExtractor {
       if (modal.deonticType) act.deonticType = modal.deonticType;
       // Reconstruct source text for DirectiveExtractor
       act.sourceText = modal.modalVerb + ' ' + word;
+
+      // Subject-level negation flip: if isNegated (from "No X shall Y") but
+      // _detectModality didn't catch the negation, flip modality here
+      if (isNegated && !modal.isNegated) {
+        const modalWord = modal.modalVerb.toLowerCase().replace(/n't$/, '').replace(/not$/, '').trim();
+        const entry = MODAL_TABLE[modalWord];
+        if (entry && entry.negatedModality) {
+          act.modality = entry.negatedModality;
+          act.actualityStatus = entry.negatedStatus;
+        }
+      }
     }
 
     return act;
+  }
+
+  /**
+   * WS-D: Detect tense-aspect from POS tag and auxiliary children.
+   *
+   * Pattern table:
+   *   VBD (no aux)         → SimplePastTense
+   *   VBZ/VBP (no aux)     → SimplePresentTense
+   *   is/are + VBG         → PresentProgressiveTense
+   *   was/were + VBG       → PastProgressiveTense
+   *   has/have + VBN       → PresentPerfectTense
+   *   had + VBN            → PastPerfectTense
+   *   MD:will + VB         → SimpleFutureTense (also handled by RDM)
+   *
+   * @param {DepTree} depTree
+   * @param {number} verbId
+   * @param {string} verbTag - POS tag of the main verb
+   * @param {Array} children - Direct children of this verb
+   * @returns {string|null} TenseAspect individual name or null
+   */
+  _detectTenseAspect(depTree, verbId, verbTag, children) {
+    // Find aux children
+    const auxChildren = children.filter(c => c.label === 'aux' || c.label === 'aux:pass');
+    const auxWords = auxChildren.map(c => depTree.tokens[c.dependent - 1].toLowerCase());
+    const auxTags = auxChildren.map(c => depTree.tags[c.dependent - 1]);
+
+    // Progressive: aux "is/are/was/were" + main verb VBG
+    if (verbTag === 'VBG') {
+      const hasPastAux = auxWords.some(w => w === 'was' || w === 'were');
+      const hasPresentAux = auxWords.some(w => w === 'is' || w === 'are' || w === 'am');
+      if (hasPastAux) return 'PastProgressiveTense';
+      if (hasPresentAux) return 'PresentProgressiveTense';
+    }
+
+    // Perfect: aux "has/have/had" + main verb VBN
+    if (verbTag === 'VBN') {
+      const hasHad = auxWords.some(w => w === 'had');
+      const hasHasHave = auxWords.some(w => w === 'has' || w === 'have');
+      if (hasHad) return 'PastPerfectTense';
+      if (hasHasHave) return 'PresentPerfectTense';
+      // Bare VBN with nsubj = past tense (POS tagger mistagged VBD as VBN)
+      // "The organization reviewed..." → VBN but has nsubj → SimplePast
+      const hasNsubj = children.some(c => c.label === 'nsubj' || c.label === 'nsubj:pass');
+      if (hasNsubj) return 'SimplePastTense';
+      // True bare VBN — passive or reduced relative, not a tense marker
+      return null;
+    }
+
+    // Future: aux MD "will" + main verb VB
+    if (verbTag === 'VB' && auxTags.some(t => t === 'MD')) {
+      return 'SimpleFutureTense';
+    }
+
+    // Simple past: VBD with no perfect/progressive aux
+    if (verbTag === 'VBD') return 'SimplePastTense';
+
+    // Simple present: VBZ/VBP with no progressive/perfect aux
+    if (verbTag === 'VBZ' || verbTag === 'VBP') return 'SimplePresentTense';
+
+    return null;
   }
 
   /**
@@ -322651,7 +323865,7 @@ class TreeActExtractor {
     const subjectText = subjectSubtree.tokens.join(' ');
 
     // Check for negation
-    const isNegated = this._detectNegation(children);
+    const isNegated = this._detectNegation(children, depTree);
 
     // Check for locative pattern: predicate has a `case` child (preposition)
     const caseChild = children.find(c => c.label === 'case');
@@ -322738,7 +323952,7 @@ class TreeActExtractor {
       subject: subjectText,
       object: null,
       copula: depTree.tokens[verbId - 1],
-      negated: this._detectNegation(children),
+      negated: this._detectNegation(children, depTree),
       relation: null,
       subjectId: subjectChild.dependent,
     };
@@ -322801,7 +324015,7 @@ class TreeActExtractor {
       subject: subjectSubtree.tokens.join(' '),
       object: objectSubtree.tokens.join(' '),
       copula: depTree.tokens[verbId - 1],
-      negated: this._detectNegation(children),
+      negated: this._detectNegation(children, depTree),
       relation: 'has_possession',
       subjectId: subjectChild.dependent,
       objectId: objectChild.dependent,
@@ -322880,7 +324094,7 @@ class TreeActExtractor {
       subject: subjectSubtree.tokens.join(' '),
       object: objectText,
       copula: word,
-      negated: this._detectNegation(children),
+      negated: this._detectNegation(children, depTree),
       relation: relation,
       predicateId: verbId,
       subjectId: subjectChild.dependent,
@@ -322948,7 +324162,7 @@ class TreeActExtractor {
       subject: subjectSubtree.tokens.join(' '),
       object: null,
       copula: depTree.tokens[verbId - 1],
-      negated: this._detectNegation(children),
+      negated: this._detectNegation(children, depTree),
       relation: null,
       predicateId: xcompChild.dependent,
       subjectId: subjectChild.dependent,
@@ -323038,7 +324252,22 @@ class TreeActExtractor {
         if (VERB_TAGS.has(embeddedTag)) {
           const embeddedChildren = depTree.getChildren(child.dependent);
           const act = this._buildAct(depTree, child.dependent, embeddedChildren);
-          if (act) acts.push(act);
+          if (act) {
+            // Inherit deontic modality from parent ONLY for non-finite verbs.
+            // Finite verbs (VBD, VBZ, VBP) have independent tense — they describe
+            // actual events, not prescribed ones. VBN in reduced relatives ("data
+            // received from USCIS") also describes completed events.
+            // Non-finite forms (VB base, VBG gerund) are within the deontic scope.
+            const FINITE_TAGS = new Set(['VBD', 'VBZ', 'VBP', 'VBN']);
+            if (!act.modality && parentAct && parentAct.modality && !FINITE_TAGS.has(embeddedTag)) {
+              act.modalVerb = parentAct.modalVerb;
+              act.modality = parentAct.modality;
+              act.actualityStatus = parentAct.actualityStatus;
+              act.deonticType = parentAct.deonticType;
+              act.sourceText = (parentAct.modalVerb || '') + ' ' + act.verb;
+            }
+            acts.push(act);
+          }
           // Recurse into embedded clause to find deeper acts (e.g., ccomp inside acl)
           this._extractEmbeddedActs(depTree, child.dependent, acts, structuralAssertions);
         }
@@ -323057,6 +324286,10 @@ class TreeActExtractor {
               act.actualityStatus = parentAct.actualityStatus;
               act.deonticType = parentAct.deonticType;
               act.sourceText = (parentAct.modalVerb || '') + ' ' + act.verb;
+            }
+            // Inherit tenseAspect from parent if conj doesn't have its own
+            if (!act.tenseAspect && parentAct && parentAct.tenseAspect) {
+              act.tenseAspect = parentAct.tenseAspect;
             }
             acts.push(act);
           }
@@ -323123,8 +324356,9 @@ class TreeActExtractor {
    * Detect negation from children.
    * Negated if: advmod child with word "not"/"n't" or neg child.
    */
-  _detectNegation(children) {
-    return children.some(c => {
+  _detectNegation(children, depTree) {
+    // Direct negation: advmod "not"/"never" or neg relation on the verb
+    const directNeg = children.some(c => {
       if (c.label === 'advmod') {
         const word = c.word.toLowerCase();
         return word === 'not' || word === "n't" || word === 'never' || word === 'no';
@@ -323132,6 +324366,22 @@ class TreeActExtractor {
       if (c.label === 'neg') return true;
       return false;
     });
+    if (directNeg) return true;
+
+    // Subject-level negation: "No X shall Y" / "Neither X nor Y shall Z"
+    // Check if nsubj has a det with "no" or "neither"
+    if (depTree) {
+      const nsubjChild = children.find(c => c.label === 'nsubj' || c.label === 'nsubj:pass');
+      if (nsubjChild) {
+        const nsubjChildren = depTree.getChildren(nsubjChild.dependent) || [];
+        const negDet = nsubjChildren.some(c =>
+          c.label === 'det' && (c.word.toLowerCase() === 'no' || c.word.toLowerCase() === 'neither')
+        );
+        if (negDet) return true;
+      }
+    }
+
+    return false;
   }
 
   /**
@@ -323253,6 +324503,7 @@ class TreeActExtractor {
     if (IRREGULAR_LEMMAS[lower]) return IRREGULAR_LEMMAS[lower];
 
     // Simple suffix-based lemmatization
+    // Note: verbs whose stem ends in 'e' (provide→provided) should be in IRREGULAR_LEMMAS
     if (tag === 'VBD' || tag === 'VBN') {
       if (lower.endsWith('ied')) return lower.slice(0, -3) + 'y';
       if (lower.endsWith('ed')) return lower.slice(0, -2);
@@ -323368,10 +324619,17 @@ class TreeRoleMapper {
       return this._handleOblique(child, depTree, entity, act);
     }
 
+    // Passive role flip: if act is passive and label is nsubj (not nsubj:pass),
+    // the dep parser missed the :pass suffix — flip to PatientRole
+    let effectiveLabel = label;
+    if (label === 'nsubj' && act.isPassive) {
+      effectiveLabel = 'nsubj:pass'; // Force patient mapping for passive subjects
+    }
+
     // Use RoleMappingContract for standard label mapping
     const mapping = RoleMappingContract
-      ? RoleMappingContract.mapUDToRole(label)
-      : this._fallbackMapping(label);
+      ? RoleMappingContract.mapUDToRole(effectiveLabel)
+      : this._fallbackMapping(effectiveLabel);
 
     if (!mapping) return null;
 
@@ -323383,7 +324641,7 @@ class TreeRoleMapper {
       act: act.verb,
       actId: act.verbId,
       udLabel: label,
-      note: mapping.note,
+      note: mapping.note + (label !== effectiveLabel ? ' (passive-flipped)' : ''),
     };
   }
 
@@ -323432,8 +324690,8 @@ class TreeRoleMapper {
         note = `Oblique subtyped by "${preposition}"`;
       }
     } else if (preposition) {
-      // Fallback oblique mapping without contract
-      role = this._fallbackObliqueMapping(preposition);
+      // Fallback oblique mapping without contract — verb-aware
+      role = this._fallbackObliqueMapping(preposition, act.lemma);
       note = `Oblique subtyped by "${preposition}" (fallback)`;
     }
 
@@ -323518,7 +324776,30 @@ class TreeRoleMapper {
   /**
    * Fallback oblique subtyping when RoleMappingContract is unavailable.
    */
-  _fallbackObliqueMapping(preposition) {
+  _fallbackObliqueMapping(preposition, actLemma) {
+    // Verb-specific preposition overrides (highest priority)
+    const verbSpecific = {
+      'provide_to': 'RecipientRole',
+      'provide_with': 'PatientRole',
+      'disclose_to': 'RecipientRole',
+      'report_to': 'RecipientRole',
+      'submit_to': 'RecipientRole',
+      'send_to': 'RecipientRole',
+      'advise_through': 'InstrumentRole',
+      'disclose_through': 'InstrumentRole',
+      'interface_among': 'ParticipantRole',
+      'comply_with': 'PatientRole',
+      'encrypt_with': 'InstrumentRole',
+      'encrypt_using': 'InstrumentRole',
+      'collaborate_with': 'PatientRole',
+      'enter_into': 'PatientRole',
+    };
+    if (actLemma && preposition) {
+      const key = actLemma.toLowerCase() + '_' + preposition;
+      if (verbSpecific[key]) return verbSpecific[key];
+    }
+
+    // Generic preposition mapping (fallback)
     const map = {
       'for': 'BeneficiaryRole',
       'with': 'InstrumentRole',
@@ -323526,10 +324807,24 @@ class TreeRoleMapper {
       'in': 'LocationRole',
       'on': 'LocationRole',
       'from': 'SourceRole',
-      'to': 'DestinationRole',
+      'to': 'RecipientRole',
       'by': 'AgentRole',
       'about': 'TopicRole',
       'against': 'OpponentRole',
+      'through': 'InstrumentRole',
+      'via': 'InstrumentRole',
+      'under': 'ConditionRole',
+      'within': 'TemporalRole',
+      'upon': 'ConditionRole',
+      'during': 'TemporalRole',
+      'after': 'TemporalRole',
+      'before': 'TemporalRole',
+      'until': 'TemporalRole',
+      'between': 'LocationRole',
+      'among': 'LocationRole',
+      'regarding': 'TopicRole',
+      'concerning': 'TopicRole',
+      'using': 'InstrumentRole',
     };
     return map[preposition] || 'ObliqueRole';
   }
@@ -324420,6 +325715,7 @@ class SemanticGraphBuilder {
       '@type': ['IntentionalAct', 'owl:NamedIndividual'],
       'rdfs:label': 'Semantic parsing act',
       'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
+      'tagteam:systemGenerated': true,
       'has_input': { '@id': ibeNode['@id'] },
       'has_agent': { '@id': parserAgentNode['@id'] },
       'tagteam:instantiated_at': this.buildTimestamp
@@ -324762,10 +326058,9 @@ class SemanticGraphBuilder {
   _findTier2ByLabel(graphNodes, label) {
     if (!label) return null;
     // Strip leading determiners ("The committee" → "committee") for matching
-    // Tier 2 labels are lowercase without determiners
     const STRIP_RE = /^(the|a|an|this|that|these|those|both|each|neither|all|every)\s+/i;
     const stripped = label.toLowerCase().replace(STRIP_RE, '');
-    // Simple plural normalization: strip trailing 's', 'es', 'ies'→'y' for matching
+    // Simple plural normalization
     const normalize = (s) => {
       if (s.endsWith('ies')) return s.slice(0, -3) + 'y';
       if (s.endsWith('es')) return s.slice(0, -2);
@@ -324773,14 +326068,67 @@ class SemanticGraphBuilder {
       return s;
     };
     const normStripped = normalize(stripped);
-    return graphNodes.find(n => {
-      if (!n['is_subject_of']) return false;
+    // Lemmatized form (handles "data"→"datum", "children"→"child", etc.)
+    const lemmaStripped = this.lemmatizer
+      ? this.lemmatizer.lemmatizePhrase(stripped)
+      : stripped;
+
+    // Tier 2 nodes have is_subject_of back-link
+    const t2Nodes = graphNodes.filter(n => n['is_subject_of']);
+
+    // Pass 1: exact or normalized match
+    const exact = t2Nodes.find(n => {
       const t2Label = (n['rdfs:label'] || '').toLowerCase().replace(STRIP_RE, '');
       const normT2 = normalize(t2Label);
-      return t2Label === stripped || normT2 === normStripped ||
-             t2Label.includes(stripped) || stripped.includes(t2Label) ||
+      return t2Label === stripped || normT2 === normStripped;
+    });
+    if (exact) return exact;
+
+    // Pass 2: lemmatized match (Tier 2 labels are already lemmatized by RealWorldEntityFactory)
+    const lemma = t2Nodes.find(n => {
+      const t2Label = (n['rdfs:label'] || '').toLowerCase().replace(STRIP_RE, '');
+      return t2Label === lemmaStripped || normalize(t2Label) === normalize(lemmaStripped);
+    });
+    if (lemma) return lemma;
+
+    // Pass 3: substring containment
+    const substring = t2Nodes.find(n => {
+      const t2Label = (n['rdfs:label'] || '').toLowerCase().replace(STRIP_RE, '');
+      const normT2 = normalize(t2Label);
+      return t2Label.includes(stripped) || stripped.includes(t2Label) ||
              normT2.includes(normStripped) || normStripped.includes(normT2);
-    }) || null;
+    });
+    if (substring) return substring;
+
+    // Pass 4: head-noun fallback for complex NPs ("all records and documents" → try "records")
+    const words = stripped.split(/\s+/);
+    if (words.length > 1) {
+      const headNoun = words[words.length - 1];
+      const normHead = normalize(headNoun);
+      const lemmaHead = this.lemmatizer ? this.lemmatizer.lemmatizePhrase(headNoun) : headNoun;
+      const headMatch = t2Nodes.find(n => {
+        const t2Label = (n['rdfs:label'] || '').toLowerCase().replace(STRIP_RE, '');
+        const normT2 = normalize(t2Label);
+        return t2Label === headNoun || normT2 === normHead ||
+               t2Label === lemmaHead || normalize(t2Label) === normalize(lemmaHead);
+      });
+      if (headMatch) return headMatch;
+    }
+
+    // Pass 5 (F-6): Match via ontologyMatch evidence from loaded ontology
+    // If a Tier 2 node was enriched with ontologyMatch whose evidence matches the search label,
+    // use that node. Handles cases like "data" matching a node labeled "datum" that has
+    // ontologyMatch evidence "data" from skos:altLabel.
+    const ontMatch = t2Nodes.find(n => {
+      const matches = [].concat(n['ontologyMatch'] || []);
+      return matches.some(m => {
+        const ev = (m.ontologyMatchEvidence || m.ontologyMatchForm || '').toLowerCase();
+        return ev === stripped || ev === normStripped || ev === lemmaStripped;
+      });
+    });
+    if (ontMatch) return ontMatch;
+
+    return null;
   }
 
   /**
@@ -325429,6 +326777,181 @@ class SemanticGraphBuilder {
    * @param {Object} buildOptions - Build options
    * @returns {Object} JSON-LD graph
    */
+
+  /**
+   * Build a forest graph from multiple segmented sentences.
+   * SBA v1.3 §3.1: Each sentence is parsed independently.
+   * Pipeline (tagger, dep parser) is initialized once and reused.
+   *
+   * @param {Object} segResult - Output from SentenceSegmenter.segment()
+   * @param {string} originalText - Original unsplit input text
+   * @param {string} normalizedText - Unicode-normalized text
+   * @param {Object} buildOptions - Build options
+   * @returns {Object} Merged JSON-LD graph with forest _metadata
+   */
+  _buildForest(segResult, originalText, normalizedText, buildOptions) {
+    const allGraphNodes = [];
+    const sentenceMetadata = [];
+    const sentenceNodeRanges = []; // Track [startIdx, endIdx] per sentence
+    let firstDebug = null; // Capture _debug from first parsed sentence
+
+    // Compute document-level identifiers upfront (needed by sentence sub-parses)
+    const parsingActId = this._hashText(originalText).substring(0, 8);
+    const ibeIri = `inst:Input_Text_IBE_${this._hashText(originalText)}`;
+
+    let firstParsedSentence = true;
+
+    for (const sent of segResult.sentences) {
+      // Skip section headers — no parsing, no Tier 1 nodes (§5.1.3 Rule B-4)
+      if (sent.segmentationType === 'section-header-inline') {
+        sentenceNodeRanges.push({ start: allGraphNodes.length, end: allGraphNodes.length });
+        sentenceMetadata.push({
+          sentenceIndex: sent.sentenceIndex,
+          text: sent.text,
+          tokenSpan: sent.tokenSpan,
+          tokens: sent.tokens,
+          tags: [],
+          root: null,
+          arcs: [],
+          modalMarker: null,
+          segmentationType: 'section-header-inline',
+          logicalConnector: sent.logicalConnector || null,
+          listMarker: sent.listMarker || null,
+          isParenthetical: false,
+          parentSentenceIndex: null,
+        });
+        continue;
+      }
+
+      const nodeCountBefore = allGraphNodes.length;
+      // Parse each sentence independently — _skipSegmentation prevents re-segmentation
+      // Use _cleanText if available (parenthetical sentinel case)
+      const textToParse = sent._cleanText || sent.text;
+      const sentResult = this._buildWithTreeExtractors(textToParse, {
+        ...buildOptions,
+        _skipSegmentation: true,
+        _sentenceIndex: sent.sentenceIndex,
+        _documentIbeIri: ibeIri,
+      });
+
+      // Collect graph nodes (skip infrastructure nodes after first parsed sentence)
+      const nodes = sentResult['@graph'] || [];
+      if (firstParsedSentence) {
+        // First parsed sentence: include all nodes (IBE, ParsingAct, Parser Agent)
+        allGraphNodes.push(...nodes);
+        firstParsedSentence = false;
+        if (sentResult._debug) firstDebug = sentResult._debug;
+      } else {
+        // Subsequent sentences: include semantic nodes only, skip IBE/ParsingAct/Agent
+        for (const node of nodes) {
+          const id = node['@id'] || '';
+          if (id.includes('Input_Text_IBE') || id.includes('TagTeam_Parser') || id.includes('ParsingAct')) continue;
+          allGraphNodes.push(node);
+        }
+
+        // Add to first sentence's ParsingAct has_output
+        const parsingAct = allGraphNodes.find(n => (n['@id'] || '').includes('ParsingAct'));
+        if (parsingAct && parsingAct['has_output']) {
+          const newOutputs = nodes
+            .filter(n => {
+              const types = [].concat(n['@type'] || []);
+              return types.some(t => t.includes('DiscourseReferent') || t.includes('VerbPhrase'));
+            })
+            .map(n => ({ '@id': n['@id'] }));
+          parsingAct['has_output'].push(...newOutputs);
+        }
+      }
+
+      // Record node range for this sentence
+      sentenceNodeRanges.push({ start: nodeCountBefore, end: allGraphNodes.length });
+
+      // Collect sentence metadata — stamp segmenter fields onto parser metadata
+      if (sentResult._metadata && sentResult._metadata.sentences) {
+        const sentMd = sentResult._metadata.sentences[0];
+        sentMd.sentenceIndex = sent.sentenceIndex;
+        sentMd.tokenSpan = sent.tokenSpan;
+        sentMd.segmentationType = sent.segmentationType || 'standard';
+        sentMd.logicalConnector = sent.logicalConnector || null;
+        sentMd.listMarker = sent.listMarker || null;
+        sentMd.isParenthetical = sent.isParenthetical || false;
+        sentMd.parentSentenceIndex = sent.parentSentenceIndex ?? null;
+        // Override tokens for parenthetical sentinel
+        if (sent._sentinelTokens) {
+          sentMd.tokens = sent._sentinelTokens;
+        }
+        sentenceMetadata.push(sentMd);
+      }
+    }
+
+    // Step 6: Build SentenceCluster nodes and stamp sentenceIndex on Tier 1 nodes
+    const sentenceClusters = [];
+
+    for (let si = 0; si < segResult.sentences.length; si++) {
+      const sent = segResult.sentences[si];
+
+      // Skip cluster creation for section headers (§5.1.3 Rule B-4)
+      if (sent.segmentationType === 'section-header-inline') continue;
+
+      const range = sentenceNodeRanges[si] || { start: 0, end: allGraphNodes.length };
+
+      // Find Tier 1 nodes from this sentence using tracked node range
+      const sentDRs = [];
+      const sentVPs = [];
+      for (let ni = range.start; ni < range.end; ni++) {
+        const node = allGraphNodes[ni];
+        const types = [].concat(node['@type'] || []);
+        const isDR = types.includes('tagteam:DiscourseReferent');
+        const isVP = types.some(t => t.includes('VerbPhrase'));
+        if (isDR && !isVP) {
+          node['tagteam:sentenceIndex'] = si;
+          sentDRs.push({ '@id': node['@id'] });
+        }
+        if (isVP) {
+          node['tagteam:sentenceIndex'] = si;
+          sentVPs.push({ '@id': node['@id'] });
+        }
+      }
+
+      // SentenceCluster node (§4.5)
+      const cluster = {
+        '@id': `inst:SentenceCluster_${parsingActId}_s${si}`,
+        '@type': ['tagteam:SentenceCluster'],
+        'tagteam:sentenceIndex': si,
+        'tagteam:hasDiscourseReferent': sentDRs,
+        'tagteam:hasVerbPhrase': sentVPs,
+        'tagteam:ibeIri': { '@id': ibeIri },
+        'tagteam:segmentationType': sent.segmentationType || 'standard',
+        'tagteam:logicalConnector': sent.logicalConnector || null,
+      };
+      sentenceClusters.push(cluster);
+      allGraphNodes.push(cluster);
+    }
+
+    // Add has_sentence_cluster to ParsingAct
+    const parsingAct = allGraphNodes.find(n => (n['@id'] || '').includes('ParsingAct'));
+    if (parsingAct) {
+      parsingAct['tagteam:has_sentence_cluster'] = sentenceClusters.map(c => ({ '@id': c['@id'] }));
+    }
+
+    const result = {
+      '@graph': allGraphNodes,
+      _metadata: {
+        pipeline: 'tree-based',
+        version: '3.2.0',
+        inputText: originalText,
+        buildTimestamp: this.buildTimestamp,
+        sentences: sentenceMetadata,
+        sentenceRelationships: segResult.sentenceRelationships || [],
+        entities: allGraphNodes.filter(n => [].concat(n['@type'] || []).includes('tagteam:DiscourseReferent') && ![].concat(n['@type'] || []).some(t => t.includes('VerbPhrase'))).length,
+        acts: allGraphNodes.filter(n => [].concat(n['@type'] || []).some(t => t.includes('IntentionalAct')) && !(n['rdfs:label'] || '').includes('parsing')).length,
+        structuralAssertions: allGraphNodes.filter(n => [].concat(n['@type'] || []).some(t => t.includes('StructuralAssertion'))).length,
+        roles: allGraphNodes.filter(n => [].concat(n['@type'] || []).includes('Role')).length,
+      }
+    };
+    if (firstDebug) result._debug = firstDebug;
+    return result;
+  }
+
   _buildWithTreeExtractors(text, buildOptions) {
     const stages = {};
     let autoLoaded = false;
@@ -325453,6 +326976,19 @@ class SemanticGraphBuilder {
         ? _UnicodeNormalizer
         : (_UnicodeNormalizer && _UnicodeNormalizer.normalizeUnicode) || (t => t);
       const normalized = normalizeUnicode(text);
+
+      // Stage 1.5: Sentence segmentation (SBA v1.3 §3.1 Segment-First Invariant)
+      // Split multi-sentence input into independent sentences BEFORE parsing.
+      let _SentenceSegmenter = (typeof SentenceSegmenter !== 'undefined') ? SentenceSegmenter : null;
+      // SentenceSegmenter loaded via global shim in browser bundle
+
+      if (_SentenceSegmenter && !buildOptions._skipSegmentation) {
+        const segResult = _SentenceSegmenter.segment(normalized);
+        if (segResult.sentences.length >= 1) {
+          // All segmented inputs: process through forest path for SentenceCluster construction
+          return this._buildForest(segResult, text, normalized, buildOptions);
+        }
+      }
 
       // Stage 2: Tokenization
       stages.current = 'tokenize';
@@ -325481,10 +327017,22 @@ class SemanticGraphBuilder {
       }
       const parseResult = depParser.parse(tokens, tags);
 
-      // Stage 4.1: Ditransitive arc correction (AC-4.3b)
-      // Rewrites compound→iobj for ditransitive verbs before tree construction
+      // Stage 4.1: Dependency arc corrections (before tree construction)
       if (_DepTreeCorrector) {
+        // AC-4.3b: Ditransitive compound→iobj rewrite
         _DepTreeCorrector.correctDitransitives(parseResult.arcs, tokens, tags);
+        // BC-4: Copular fragmentation repair — "CMS is the Recipient Agency" with multiple roots
+        if (_DepTreeCorrector.correctCopularFragmentation) {
+          _DepTreeCorrector.correctCopularFragmentation(parseResult.arcs, tokens, tags);
+        }
+        // Noun-root + VBN-acl correction — "The organization submitted the report"
+        if (_DepTreeCorrector.correctNounRootVerbAcl) {
+          _DepTreeCorrector.correctNounRootVerbAcl(parseResult.arcs, tokens, tags);
+        }
+        // Modal fragmentation — "No organization shall disclose" with NN+MD+VB as separate roots
+        if (_DepTreeCorrector.correctModalFragmentation) {
+          _DepTreeCorrector.correctModalFragmentation(parseResult.arcs, tokens, tags);
+        }
       }
 
       const depTree = new _DepTree(parseResult.arcs, tokens, tags);
@@ -325529,6 +327077,53 @@ class SemanticGraphBuilder {
         lockedSpans = this._mapCDDSpansToTokenIndices(filteredSpans, tokens, tokenObjs);
       }
 
+      // F-3: Ontology-aware span anchoring — if an ontology tagger is provided,
+      // find multi-word matches in the text and add them as locked spans.
+      // This prevents fragmentation of known ontology terms.
+      if (buildOptions._ontologyTagger && typeof buildOptions._ontologyTagger.tagText === 'function') {
+        const ontTags = buildOptions._ontologyTagger.tagText(text) || [];
+        for (const tag of ontTags) {
+          if (!tag.evidence) continue;
+          for (const ev of tag.evidence) {
+            if (ev.split(/\s+/).length < 2) continue; // Only multi-word terms
+            // Find the evidence text position in the input
+            const evLower = ev.toLowerCase();
+            const textLower = text.toLowerCase();
+            const charIdx = textLower.indexOf(evLower);
+            if (charIdx < 0) continue;
+            // Convert to a CDD-style span for token locking
+            const ontSpan = {
+              text: text.substring(charIdx, charIdx + ev.length),
+              start: charIdx,
+              end: charIdx + ev.length,
+              components: ev.split(/\s+/),
+              _endIndex: 0, // Will be resolved by _mapCDDSpansToTokenIndices
+              source: 'ontology-f3'
+            };
+            // Check it doesn't overlap an existing CDD locked span
+            const overlaps = lockedSpans.some(ls => {
+              const lsStart = ls.startToken;
+              const lsEnd = ls.endToken;
+              // Convert ontSpan to token range for overlap check
+              for (let ti = 0; ti < tokenObjs.length; ti++) {
+                const tok = tokenObjs[ti];
+                const tokStart = typeof tok === 'object' ? tok.start : 0;
+                if (tokStart >= charIdx && tokStart < charIdx + ev.length) {
+                  if (ti + 1 >= lsStart && ti + 1 <= lsEnd) return true;
+                }
+              }
+              return false;
+            });
+            if (!overlaps) {
+              const mapped = this._mapCDDSpansToTokenIndices([ontSpan], tokens, tokenObjs);
+              if (mapped.length > 0 && mapped[0].startToken !== mapped[0].endToken) {
+                lockedSpans.push(mapped[0]);
+              }
+            }
+          }
+        }
+      }
+
       // Stage 5: Tree-based entity extraction
       stages.current = 'extractEntities';
       const entityExtractor = new _TreeEntityExtractor({
@@ -325558,39 +327153,37 @@ class SemanticGraphBuilder {
         genericityMap = genericityDetector.classify(entities, depTree, tags, buildOptions);
       }
 
-      // Stage 8: Assign mention IDs (AC-3.22)
-      // Format: "s{sentenceIdx}:h{headId}:{charStart}-{charEnd}"
-      const sentenceIdx = 0; // Single-sentence pipeline for now
+      // Stage 8: Assign mention IDs (§5.3.3)
+      // Format: "{parsingActId}:s{sentenceIndex}:m{headTokenIndex}"
+      const sentenceIdx = buildOptions._sentenceIndex || 0;
+      const paId = buildOptions._parsingActId || this._hashText(text).substring(0, 8);
       for (const entity of entities) {
         const headId = entity.headId || 0;
-        // Compute character offsets from token positions
-        let charStart = 0;
-        let charEnd = 0;
-        if (entity.indices && entity.indices.length > 0) {
-          // Token indices are 1-based; compute char offsets from token positions in text
-          const minIdx = Math.min(...entity.indices);
-          const maxIdx = Math.max(...entity.indices);
-          // Approximate char offsets from token positions
-          charStart = 0;
-          for (let i = 0; i < minIdx - 1 && i < tokens.length; i++) {
-            charStart += tokens[i].length + 1; // +1 for space
-          }
-          charEnd = charStart;
-          for (let i = minIdx - 1; i <= maxIdx - 1 && i < tokens.length; i++) {
-            charEnd += tokens[i].length + (i < maxIdx - 1 ? 1 : 0);
-          }
-        }
-        entity.mentionId = `s${sentenceIdx}:h${headId}:${charStart}-${charEnd}`;
+        entity.mentionId = `${paId}:s${sentenceIdx}:m${headId}`;
       }
 
       // Build JSON-LD graph from extracted data
       stages.current = 'buildGraph';
       const graphNodes = [];
 
+      // §5.4i: Track mention counts per entity label for unique DR IRIs
+      const mentionCounts = {};
+      // Map from entity text → first DR IRI (for role inheres_in resolution)
+      const entityTextToDrId = {};
+
       // Convert entities to JSON-LD nodes
       for (const entity of entities) {
+        // §5.4i: Generate unique IRI per mention — one DR per text span
+        const sanitizedLabel = this._sanitizeId(entity.fullText);
+        mentionCounts[sanitizedLabel] = (mentionCounts[sanitizedLabel] || 0) + 1;
+        const mentionIdx = mentionCounts[sanitizedLabel];
+        const drId = mentionIdx === 1
+          ? `${this.options.namespace}:DR_${sanitizedLabel}_m1`
+          : `${this.options.namespace}:DR_${sanitizedLabel}_m${mentionIdx}`;
+        // Track first mention for role→DR→Tier2 resolution chain
+        if (!entityTextToDrId[sanitizedLabel]) entityTextToDrId[sanitizedLabel] = drId;
         const entityNode = {
-          '@id': `${this.options.namespace}:${this._sanitizeId(entity.fullText)}`,
+          '@id': drId,
           '@type': [entity.type || 'Entity'],
           'rdfs:label': entity.fullText,
         };
@@ -325600,9 +327193,16 @@ class SemanticGraphBuilder {
         if (entity.resolvedVia) {
           entityNode['tagteam:resolvedVia'] = entity.resolvedVia;
         }
-        // Mention ID (AC-3.22)
+        // Mention ID (§5.3.3)
         if (entity.mentionId) {
           entityNode['tagteam:mentionId'] = entity.mentionId;
+        }
+        // Document token span (§4.2) — 0-based sentence-relative indices
+        // Entity indices are 1-based from the extractor; convert to 0-based
+        if (entity.indices && entity.indices.length > 0) {
+          const minIdx = Math.min(...entity.indices) - 1;
+          const maxIdx = Math.max(...entity.indices) - 1;
+          entityNode['tagteam:documentTokenSpan'] = [minIdx, maxIdx];
         }
         // Confidence annotations (AC-3.16)
         if (confidenceAnnotator) {
@@ -325649,6 +327249,94 @@ class SemanticGraphBuilder {
           act._prescribedAgentText = agentRole ? agentRole.entity : null;
           act._prescribedPatientText = patientRole ? patientRole.entity : null;
           act._prescribedRecipientText = recipientRole ? recipientRole.entity : null;
+
+          // BC-3.1: For multi-word modals ("agrees to provide"), the nsubj is on the
+          // control verb, not the xcomp. Look up the control verb's nsubj as agent.
+          if (depTree && !act._prescribedAgentText && act.modalVerb) {
+            // Find the control verb — it's the head of the xcomp arc pointing to act.verbId
+            const xcompArc = depTree.arcs.find(a => a.label === 'xcomp' && a.dependent === act.verbId);
+            const controlVerbId = xcompArc ? xcompArc.head : null;
+            if (controlVerbId) {
+              const controlChildren = depTree.getChildren(controlVerbId) || [];
+              const nsubjChild = controlChildren.find(c => c.label === 'nsubj' || c.label === 'nsubj:pass');
+              if (nsubjChild) {
+                const nsubjEntity = entities.find(e =>
+                  e.headId === nsubjChild.dependent ||
+                  (e.indices && e.indices.includes(nsubjChild.dependent))
+                );
+                if (nsubjEntity) act._prescribedAgentText = nsubjEntity.fullText || nsubjEntity.text;
+              }
+            }
+          }
+
+          // BC-3: Fallback — if role mapper missed patient/recipient, traverse dep arcs directly
+          if (depTree && !act._prescribedPatientText) {
+            const verbChildren = depTree.getChildren(act.verbId) || [];
+            // Check obj child
+            const objChild = verbChildren.find(c => c.label === 'obj');
+            if (objChild) {
+              const objEntity = entities.find(e =>
+                e.headId === objChild.dependent ||
+                (e.indices && e.indices.includes(objChild.dependent))
+              );
+              if (objEntity) act._prescribedPatientText = objEntity.fullText || objEntity.text;
+            }
+            // Check xcomp → obj chain ("shall allow USCIS to monitor records")
+            // Also checks xcomp → conj → obj ("to monitor and review records")
+            if (!act._prescribedPatientText) {
+              const xcompChild = verbChildren.find(c => c.label === 'xcomp');
+              if (xcompChild) {
+                const xcompChildren = depTree.getChildren(xcompChild.dependent) || [];
+                // Direct obj of xcomp
+                let xcompObj = xcompChildren.find(c => c.label === 'obj');
+                // Fallback: obj of conj sibling of xcomp ("monitor and review records")
+                if (!xcompObj) {
+                  const conjChild = xcompChildren.find(c => c.label === 'conj');
+                  if (conjChild) {
+                    const conjChildren = depTree.getChildren(conjChild.dependent) || [];
+                    xcompObj = conjChildren.find(c => c.label === 'obj');
+                  }
+                }
+                if (xcompObj) {
+                  const xcompEntity = entities.find(e =>
+                    e.headId === xcompObj.dependent ||
+                    (e.indices && e.indices.includes(xcompObj.dependent))
+                  );
+                  if (xcompEntity) act._prescribedPatientText = xcompEntity.fullText || xcompEntity.text;
+                }
+              }
+            }
+          }
+          if (depTree && !act._prescribedRecipientText) {
+            const verbChildren = depTree.getChildren(act.verbId) || [];
+            // Check iobj child
+            const iobjChild = verbChildren.find(c => c.label === 'iobj');
+            if (iobjChild) {
+              const iobjEntity = entities.find(e =>
+                e.headId === iobjChild.dependent ||
+                (e.indices && e.indices.includes(iobjChild.dependent))
+              );
+              if (iobjEntity) act._prescribedRecipientText = iobjEntity.fullText || iobjEntity.text;
+            }
+            // Fallback: obl with "to" preposition as recipient
+            if (!act._prescribedRecipientText) {
+              const oblChildren = (depTree.getChildren(act.verbId) || []).filter(c => c.label === 'obl');
+              for (const oblChild of oblChildren) {
+                const oblKids = depTree.getChildren(oblChild.dependent) || [];
+                const caseChild = oblKids.find(c => c.label === 'case');
+                if (caseChild && depTree.tokens[caseChild.dependent - 1].toLowerCase() === 'to') {
+                  const oblEntity = entities.find(e =>
+                    e.headId === oblChild.dependent ||
+                    (e.indices && e.indices.includes(oblChild.dependent))
+                  );
+                  if (oblEntity) {
+                    act._prescribedRecipientText = oblEntity.fullText || oblEntity.text;
+                    break;
+                  }
+                }
+              }
+            }
+          }
         }
       }
 
@@ -325678,14 +327366,12 @@ class SemanticGraphBuilder {
           };
           if (act.isPassive) vpNode['tagteam:isPassive'] = true;
           if (act.isNegated) vpNode['tagteam:isNegated'] = true;
+          if (act.tenseAspect) vpNode['tagteam:tenseAspect'] = { '@id': `tagteam:${act.tenseAspect}` };
           if (act.sourceText) vpNode['tagteam:sourceText'] = act.sourceText;
           vpNode['tagteam:denotesType'] = 'Directive';
-          // mentionId for SHACL compliance
+          // mentionId for SHACL compliance (§5.3.3)
           if (act.verbId) {
-            const verbIdx = act.verbId - 1;
-            let charStart = 0;
-            for (let ci = 0; ci < verbIdx && ci < tokens.length; ci++) charStart += tokens[ci].length + 1;
-            vpNode['tagteam:mentionId'] = `s0:v${act.verbId}:${charStart}-${charStart + (tokens[verbIdx] || '').length}`;
+            vpNode['tagteam:mentionId'] = `${paId}:s${sentenceIdx}:m${act.verbId}`;
           }
           graphNodes.push(vpNode);
 
@@ -325760,22 +327446,23 @@ class SemanticGraphBuilder {
           };
           if (act.isPassive) vpNode['tagteam:isPassive'] = true;
           if (act.isNegated) vpNode['tagteam:isNegated'] = true;
+          // WS-D: Tense-aspect annotation on VerbPhrase
+          if (act.tenseAspect) vpNode['tagteam:tenseAspect'] = { '@id': `tagteam:${act.tenseAspect}` };
           // mentionId for VP (AC-3.22b compatibility)
+          // mentionId for VP (§5.3.3)
           if (act.verbId) {
-            const verbIdx = act.verbId - 1;
-            let charStart = 0;
-            for (let ci = 0; ci < verbIdx && ci < tokens.length; ci++) charStart += tokens[ci].length + 1;
-            vpNode['tagteam:mentionId'] = `s0:v${act.verbId}:${charStart}-${charStart + (tokens[verbIdx] || '').length}`;
+            vpNode['tagteam:mentionId'] = `${paId}:s${sentenceIdx}:m${act.verbId}`;
           }
           graphNodes.push(vpNode);
 
           // EventDescription (Tier 2) — structural content of the narrative
+          // WS-B: Negated acts get Unrealized status (Realist Non-Event Principle)
           const eventDescNode = {
             '@id': eventDescId,
             '@type': ['EventDescription', 'ActSpecification', 'owl:NamedIndividual'],
             'rdfs:label': `Event: ${act.lemma}`,
             'tagteam:actType': act.lemma,
-            'tagteam:realizationStatus': { '@id': 'tagteam:Realized' },
+            'tagteam:realizationStatus': { '@id': act.isNegated ? 'tagteam:Unrealized' : 'tagteam:Realized' },
           };
           // Agent/patient resolved in post-Tier2 pass (same pattern as PlanSpec)
           const actRoles = roles.filter(r => r.actId === act.verbId);
@@ -325785,20 +327472,22 @@ class SemanticGraphBuilder {
           if (patientRole) eventDescNode['_patientText'] = patientRole.entity;
           graphNodes.push(eventDescNode);
 
-          // IntentionalAct (Tier 2) — the actual BFO Process
-          const actNode = {
-            '@id': actId,
-            '@type': ['IntentionalAct', 'owl:NamedIndividual'],
-            'rdfs:label': act.verb,
-            'tagteam:lemma': act.lemma,
-            'tagteam:verb': act.lemma,
-            'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
-            'tagteam:describedBy': { '@id': eventDescId },
-          };
-          if (act.isPassive) actNode['tagteam:isPassive'] = true;
-          if (act.isNegated) actNode['tagteam:isNegated'] = true;
-          if (act.isCopular) actNode['tagteam:isCopular'] = true;
-          graphNodes.push(actNode);
+          // WS-B: Do NOT emit IntentionalAct for negated events
+          // BFO realist commitment: no Process (Occurrent) for events that didn't happen
+          if (!act.isNegated) {
+            const actNode = {
+              '@id': actId,
+              '@type': ['IntentionalAct', 'owl:NamedIndividual'],
+              'rdfs:label': act.verb,
+              'tagteam:lemma': act.lemma,
+              'tagteam:verb': act.lemma,
+              'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
+              'tagteam:describedBy': { '@id': eventDescId },
+            };
+            if (act.isPassive) actNode['tagteam:isPassive'] = true;
+            if (act.isCopular) actNode['tagteam:isCopular'] = true;
+            graphNodes.push(actNode);
+          }
         }
       }
 
@@ -325836,13 +327525,16 @@ class SemanticGraphBuilder {
         const isPossessiveQuality = sa.pattern === 'quality_assertion' && sa.type === 'possessive';
 
         if (isAdjectivalCopular || isEvidentialCopular || isPossessiveQuality) {
-          // ─�� QualityAssertion (Tier 1) + Quality (Tier 2) ──
+          // ── QualityAssertion (Tier 1) + Quality (Tier 2) ──
           const qualityWord = (sa.predicateText || '').toLowerCase();
           const qaId = `${this.options.namespace}:QualityAssertion_${this._sanitizeId(qualityWord)}_${this._hashText((sa.subject || '') + qualityWord).substring(0, 8)}`;
           const qualityId = `${this.options.namespace}:Quality_${this._sanitizeId(qualityWord)}_${this._hashText((sa.subject || '') + qualityWord).substring(0, 8)}`;
 
           // Resolve subject to Tier 1 DiscourseReferent IRI (FT-03: no string literals in provenance)
-          const subjectIRI = sa.subject ? `${this.options.namespace}:${this._sanitizeId(sa.subject)}` : null;
+          const subjectSanitized = sa.subject ? this._sanitizeId(sa.subject) : null;
+          const subjectIRI = subjectSanitized
+            ? (entityTextToDrId[subjectSanitized] || `${this.options.namespace}:DR_${subjectSanitized}_m1`)
+            : null;
 
           const qaNode = {
             '@id': qaId,
@@ -325900,7 +327592,11 @@ class SemanticGraphBuilder {
           const roleId = `${this.options.namespace}:Role_${this._sanitizeId(roleWord)}_${this._hashText((sa.subject || '') + roleWord).substring(0, 8)}`;
 
           // Resolve subject to Tier 1 DiscourseReferent IRI (FT-03: no string literals in provenance)
-          const roleSubjectIRI = sa.subject ? `${this.options.namespace}:${this._sanitizeId(sa.subject)}` : null;
+          // Use entityTextToDrId map for §5.4i coreference-compatible DR IRIs
+          const roleSubjectSanitized = sa.subject ? this._sanitizeId(sa.subject) : null;
+          const roleSubjectIRI = roleSubjectSanitized
+            ? (entityTextToDrId[roleSubjectSanitized] || `${this.options.namespace}:DR_${roleSubjectSanitized}_m1`)
+            : null;
 
           const roleAssertionNode = {
             '@id': `${this.options.namespace}:RoleAssertion_${this._sanitizeId(roleWord)}_${this._hashText((sa.subject || '') + roleWord).substring(0, 8)}`,
@@ -325923,6 +327619,10 @@ class SemanticGraphBuilder {
             'tagteam:denotesType': 'Role',
             'is_about': { '@id': roleId },
           };
+          // mentionId for predicate (§5.3.3)
+          if (sa.predicateId) {
+            predicateRefNode['tagteam:mentionId'] = `${paId}:s${sentenceIdx}:m${sa.predicateId}`;
+          }
           graphNodes.push(predicateRefNode);
 
           const roleNode = {
@@ -325951,17 +327651,22 @@ class SemanticGraphBuilder {
         }
       }
 
+      // WS-B: Track negated act verbIds — Role nodes are not emitted for unrealized events
+      const negatedActVerbIds = new Set(acts.filter(a => a.isNegated && !a.modality).map(a => a.verbId));
+
       // Convert roles to JSON-LD nodes
       // RDM: Skip roles for modal acts — agent/patient go on PlanSpec instead
+      // WS-B: Skip roles for negated acts — thematic roles are on EventDescription, not BFO Role nodes
       for (const role of roles) {
         if (modalActVerbIds.has(role.actId)) continue; // Modal act → role on PlanSpec, not Role node
+        if (negatedActVerbIds.has(role.actId)) continue; // Negated act → no realized_in, roles on ED
         const roleLabel = role.label || role.role;
         const roleNode = {
           '@id': `${this.options.namespace}:Role_${this._sanitizeId(role.entity)}_${this._sanitizeId(roleLabel)}`,
           '@type': [role.role],
           'rdfs:label': roleLabel,
           'tagteam:roleType': roleLabel,
-          'inheres_in': { '@id': `${this.options.namespace}:${this._sanitizeId(role.entity)}` },
+          'inheres_in': { '@id': entityTextToDrId[this._sanitizeId(role.entity)] || `${this.options.namespace}:DR_${this._sanitizeId(role.entity)}_m1` },
           'realized_in': { '@id': `${this.options.namespace}:Act_${this._sanitizeId(role.act)}` },
         };
         if (role.preposition) roleNode['tagteam:preposition'] = role.preposition;
@@ -326235,11 +327940,14 @@ class SemanticGraphBuilder {
       graphNodes.push(parserAgentNode);
 
       // Link all ICE nodes to IBE via is_concretized_by (BFO_0000058)
+      // When _documentIbeIri is set (forest path), use the document-level IBE
+      // to ensure all Tier 1 nodes share the same provenance target (§3.3)
+      const provenanceIri = buildOptions._documentIbeIri || ibeNode['@id'];
       const iceTypes = ['tagteam:DiscourseReferent', 'tagteam:VerbPhrase'];
       for (const node of graphNodes) {
         const types = [].concat(node['@type'] || []);
         if (iceTypes.some(t => types.includes(t)) && !node['is_concretized_by']) {
-          node['is_concretized_by'] = { '@id': ibeNode['@id'] };
+          node['is_concretized_by'] = { '@id': provenanceIri };
         }
       }
 
@@ -326254,6 +327962,7 @@ class SemanticGraphBuilder {
         '@type': ['IntentionalAct', 'owl:NamedIndividual'],
         'rdfs:label': 'Semantic parsing act',
         'tagteam:actualityStatus': { '@id': 'tagteam:Actual' },
+        'tagteam:systemGenerated': true,
         'has_input': { '@id': ibeNode['@id'] },
         'has_agent': { '@id': parserAgentNode['@id'] },
         'has_output': iceNodes.map(n => ({ '@id': n['@id'] })),
@@ -326275,12 +327984,28 @@ class SemanticGraphBuilder {
         '@graph': graphNodes,
         _metadata: {
           pipeline: 'tree-based',
-          version: '3.1.0-alpha.1',
+          version: '3.2.0',
           inputText: text,
           buildTimestamp: this.buildTimestamp,
-          tokens,
-          tags,
-          arcs: annotatedArcs,
+          // §4.2: Forest metadata — sentences array (v1.3 SBA spec)
+          sentences: [{
+            sentenceIndex: 0,
+            text: text,
+            tokenSpan: [0, tokens.length - 1],
+            tokens,
+            tags,
+            root: annotatedArcs.find(a => a.label === 'root' && a.head === 0)?.dependent ?? 0,
+            arcs: annotatedArcs,
+            modalMarker: acts.find(a => a.modalVerb)?.modalVerb || null,
+            segmentationType: 'standard',
+            logicalConnector: null,
+            listMarker: null,
+            precedingModalContext: null,
+            isParenthetical: false,
+            parentSentenceIndex: null,
+          }],
+          sentenceRelationships: [],
+          // Summary counts (convenience — not in SBA spec, retained for backward compat)
           entities: entities.length,
           acts: acts.length,
           structuralAssertions: structuralAssertions.length,
@@ -326794,7 +328519,22 @@ class SemanticGraphBuilder {
         if (tag.confidence < threshold) continue;
         var ev = tag.evidence || [];
         for (var ei = 0; ei < ev.length; ei++) {
-          var evLower = ev[ei].toLowerCase();
+          var evRaw = ev[ei];
+          var evLower = evRaw.toLowerCase();
+          // Skip evidence that matches common English function words — these produce
+          // false positives (e.g., "a" → Alpha Time Zone, "am" → Minute of Arc).
+          // Legitimate short abbreviations like "Hz", "kg" won't appear as entity labels.
+          var STOP_WORDS = { 'a': 1, 'an': 1, 'the': 1, 'is': 1, 'are': 1, 'am': 1, 'was': 1,
+            'were': 1, 'be': 1, 'been': 1, 'being': 1, 'have': 1, 'has': 1, 'had': 1,
+            'do': 1, 'does': 1, 'did': 1, 'will': 1, 'would': 1, 'could': 1, 'should': 1,
+            'may': 1, 'might': 1, 'shall': 1, 'can': 1, 'must': 1,
+            'i': 1, 'me': 1, 'my': 1, 'we': 1, 'us': 1, 'our': 1,
+            'he': 1, 'she': 1, 'it': 1, 'they': 1, 'them': 1,
+            'this': 1, 'that': 1, 'these': 1, 'those': 1,
+            'in': 1, 'on': 1, 'at': 1, 'to': 1, 'for': 1, 'of': 1, 'by': 1, 'with': 1,
+            'and': 1, 'or': 1, 'but': 1, 'not': 1, 'no': 1, 'if': 1, 'so': 1,
+            'as': 1, 'up': 1 };
+          if (STOP_WORDS[evLower]) continue;
           // Token-level match: try Tier 2 label first, then Tier 1 label
           var matched = _tokenMatch(evLower, t2Tokens) || _tokenMatch(evLower, t1Tokens);
           if (!matched) continue;
@@ -326815,8 +328555,118 @@ class SemanticGraphBuilder {
             node['tagteam:classNominationStatus'] = 'resolved';
             node['tagteam:requiresOntologyResolution'] = false;
           }
+
+          // F-4: Type assignment from ontology — upgrade heuristic type to CCO class
+          // If the ontology match is an owl:Class and the node currently has a generic type
+          // (Entity, Artifact), replace with the matched class label for BFO accuracy.
+          var matchLabel = tag.label || '';
+          var owlType = tag.ontologyMatchOWLType || '';
+          if (matchLabel && owlType === 'owl:Class') {
+            var nodeTypes = [].concat(node['@type'] || []);
+            var GENERIC_TYPES = ['Entity', 'Artifact', 'bfo:BFO_0000001'];
+            var isGeneric = nodeTypes.some(function(t) { return GENERIC_TYPES.indexOf(t) >= 0; });
+            if (isGeneric) {
+              // Replace the generic type with the ontology class label
+              node['@type'] = nodeTypes.map(function(t) {
+                return GENERIC_TYPES.indexOf(t) >= 0 ? matchLabel : t;
+              });
+              node['tagteam:typeBasis'] = 'ontology-match';
+            }
+          }
+
           break; // One evidence match per tag is sufficient
         }
+      }
+    }
+
+    // F-4: Update denotesType when the matched class maps to a §3.1 vocabulary term.
+    // Direct matches (Organization, Person) propagate directly.
+    // Indirect matches (Report → Artifact, Letter → Artifact) use CCO ancestry mapping.
+    var DENOTES_TYPE_VOCAB = {
+      'Person': true, 'Organization': true, 'Entity': true, 'Location': true,
+      'InformationContentEntity': true, 'Artifact': true, 'Event': true,
+      'EventDescription': true, 'Directive': true, 'Quality': true, 'Structure': true, 'Role': true
+    };
+    for (var i = 0; i < nodes.length; i++) {
+      var node = nodes[i];
+      if (!node['is_subject_of'] || node['tagteam:typeBasis'] !== 'ontology-match') continue;
+      var t1Ref = node['is_subject_of'];
+      var t1Id = t1Ref && t1Ref['@id'] ? t1Ref['@id'] : null;
+      if (!t1Id || !nodeIndex[t1Id]) continue;
+      var nodeTypes = [].concat(node['@type'] || []);
+      var primaryType = nodeTypes.find(function(t) { return t !== 'owl:NamedIndividual' && t !== 'owl:Class'; });
+      if (primaryType && DENOTES_TYPE_VOCAB[primaryType]) {
+        // Direct match: class name IS a §3.1 vocab term
+        nodeIndex[t1Id]['tagteam:denotesType'] = primaryType;
+      } else if (primaryType) {
+        // Indirect match: walk ontologyMatch IRI through CCO branch mapping
+        // CCO branches → §3.1 denotesType based on known superclass patterns
+        var matches = [].concat(node['ontologyMatch'] || []);
+        var matchIRI = matches.length > 0 ? (matches[0].ontologyMatchIRI || '') : '';
+        // Check the CCO source ontology annotation for branch classification
+        var sourceOnt = '';
+        for (var mi = 0; mi < matches.length; mi++) {
+          if (matches[mi].ontologyMatchLabel) {
+            sourceOnt = matches[mi].ontologyMatchLabel;
+            break;
+          }
+        }
+        // CCO ontology branch → §3.1 denotesType mapping
+        var CCO_BRANCH_MAP = {
+          'Agent Ontology': 'Person',
+          'Artifact Ontology': 'Artifact',
+          'Facility Ontology': 'Location',
+          'Geospatial Ontology': 'Location',
+          'Information Entity Ontology': 'InformationContentEntity',
+          'Event Ontology': 'Event',
+          'Quality Ontology': 'Quality',
+        };
+        // Try to resolve via the Tier 2 type name as a hint
+        var CCO_TYPE_BRANCH = {
+          'Report': 'Artifact', 'Document': 'Artifact', 'Letter': 'Artifact',
+          'Book': 'Artifact', 'Certificate': 'Artifact', 'Form': 'Artifact',
+          'Facility': 'Location', 'Building': 'Location', 'Room': 'Location',
+          'City': 'Location', 'Country': 'Location', 'Region': 'Location',
+          'GeopoliticalOrganization': 'Organization',
+          'GovernmentOrganization': 'Organization',
+          'CommercialOrganization': 'Organization',
+          'MilitaryOrganization': 'Organization',
+        };
+        if (CCO_TYPE_BRANCH[primaryType]) {
+          nodeIndex[t1Id]['tagteam:denotesType'] = CCO_TYPE_BRANCH[primaryType];
+        }
+      }
+    }
+
+    // F-5: Selectional preference validation — use ontology types to detect role misassignment.
+    // BFO constraint: Agents should be animate/agentive continuants (Person, Organization),
+    // not information entities (Report, Document) or abstract entities (Purpose, Level).
+    // If an AgentRole bearer is typed as ICE/Artifact by ontology match, flip to PatientRole.
+    var AGENT_TYPES = { 'Person': 1, 'Organization': 1, 'GeopoliticalOrganization': 1,
+      'GovernmentOrganization': 1, 'CommercialOrganization': 1, 'MilitaryOrganization': 1 };
+    var NON_AGENT_TYPES = { 'Report': 1, 'Document': 1, 'Artifact': 1, 'InformationContentEntity': 1,
+      'Letter': 1, 'Certificate': 1, 'Form': 1, 'Facility': 1, 'Quality': 1 };
+
+    for (var i = 0; i < nodes.length; i++) {
+      var node = nodes[i];
+      var types = [].concat(node['@type'] || []);
+      if (!types.includes('Role')) continue;
+      var roleType = node['tagteam:roleType'] || node['rdfs:label'] || '';
+      if (roleType !== 'AgentRole') continue;
+
+      // Find the bearer entity via inheres_in
+      var bearerRef = node['inheres_in'];
+      var bearerId = bearerRef ? (bearerRef['@id'] || bearerRef) : null;
+      if (!bearerId || !nodeIndex[bearerId]) continue;
+      var bearer = nodeIndex[bearerId];
+      var bearerTypes = [].concat(bearer['@type'] || []);
+      var bearerPrimary = bearerTypes.find(function(t) { return t !== 'owl:NamedIndividual' && t !== 'owl:Class'; });
+
+      // Check: if bearer is a non-agent type, flip to PatientRole
+      if (bearerPrimary && NON_AGENT_TYPES[bearerPrimary]) {
+        node['tagteam:roleType'] = 'PatientRole';
+        node['rdfs:label'] = 'PatientRole';
+        node['tagteam:selectionalCorrection'] = 'F-5: ' + bearerPrimary + ' is not agentive';
       }
     }
   }
@@ -326952,7 +328802,12 @@ class SemanticGraphBuilder {
         // Tree pipeline (default)
         const builder = new SemanticGraphBuilder(options);
         _injectCachedModels(builder);
-        graph = builder.build(text, Object.assign({}, options, { useTreeExtractors: true }));
+        // F-3: Pass ontology tagger for span anchoring
+        var buildOpts = Object.assign({}, options, { useTreeExtractors: true });
+        if (options.ontology && typeof options.ontology.tagText === 'function') {
+          buildOpts._ontologyTagger = options.ontology;
+        }
+        graph = builder.build(text, buildOpts);
       }
 
       // Ontology enrichment: annotate Tier 2 entities with matched ontology classes.
@@ -327055,7 +328910,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 293 | 45979a8 | 2026-03-30T11:07:07.669Z',
+    BUILD: 'build 359 | 72dca06 | 2026-04-01T20:55:54.090Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,

@@ -224,12 +224,12 @@ if (!posModelExists || !depModelExists) {
       assert(hasmentionIds,
         'AC-3.22b: All entity nodes have tagteam:mentionId');
 
-      // Check format: "s{sentenceIdx}:h{headId}:{charStart}-{charEnd}"
+      // Check format: "{parsingActId}:s{sentenceIndex}:m{headTokenIndex}" (§5.3.3)
       const mentionId = entityNodes[0]['tagteam:mentionId'];
       if (mentionId) {
-        const mentionPattern = /^s\d+:h\d+:\d+-\d+$/;
+        const mentionPattern = /^[a-f0-9]+:s\d+:m\d+$/;
         assert(mentionPattern.test(mentionId),
-          `AC-3.22c: mentionId matches format "s{N}:h{N}:{start}-{end}" (got "${mentionId}")`);
+          `AC-3.22c: mentionId matches format "{paId}:s{N}:m{N}" (got "${mentionId}")`);
       } else {
         assert(false, 'AC-3.22c: (skipped — no mentionId on first entity)');
       }

@@ -59,6 +59,20 @@ class Tokenizer {
           tokenText += text[i];
           i++;
         }
+        // Handle hyphenated proper noun compounds: "Twenty-Four-Hour" stays as one token
+        // Only join when current token starts uppercase AND next part starts uppercase
+        // (UD-EWT splits lowercase hyphenated words like "decision-maker")
+        if (/^[A-Z]/.test(tokenText)) {
+          while (i < text.length && text[i] === '-' &&
+                 i + 1 < text.length && /[A-Z]/.test(text[i + 1])) {
+            tokenText += text[i]; // hyphen
+            i++;
+            while (i < text.length && this._isWordChar.test(text[i])) {
+              tokenText += text[i];
+              i++;
+            }
+          }
+        }
         // Handle abbreviations like "U.S." (letter.letter. pattern)
         if (tokenText.length === 1 && /[A-Z]/i.test(tokenText) &&
             i < text.length && text[i] === '.') {
