@@ -358,9 +358,11 @@ class RealWorldEntityFactory {
    * @private
    */
   _generateTier2IRI(normalizedLabel, tier2Type, documentIRI) {
-    // Build hash input: label + type + document scope (v2.2)
-    const scopeId = documentIRI || this.sessionId || 'default';
-    const hashInput = `${normalizedLabel}|${tier2Type}|${scopeId}`;
+    // Build hash input: label + type ONLY (no document scope)
+    // Tier 2 IRIs must be stable across ParsingActs so that a document service
+    // can merge graphs from independent parses by IRI equality.
+    // Two parses of any sentence containing "CMS" must produce the same Tier 2 IRI.
+    const hashInput = `${normalizedLabel}|${tier2Type}`;
 
     // Generate SHA-256 hash
     const hash = crypto
