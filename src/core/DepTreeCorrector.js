@@ -291,7 +291,12 @@ function correctNounRootVerbAcl(arcs, tokens, tags) {
   const verbId = aclArc.dependent;
 
   // Verb must have an obj child (transitive — confirms it's a real verb, not a modifier)
-  const hasObj = arcs.some(a => a.head === verbId && a.label === 'obj');
+  // Also check conj children for obj ("reviewed and approved the document")
+  let hasObj = arcs.some(a => a.head === verbId && a.label === 'obj');
+  if (!hasObj) {
+    const conjChildren = arcs.filter(a => a.head === verbId && a.label === 'conj');
+    hasObj = conjChildren.some(conj => arcs.some(a => a.head === conj.dependent && a.label === 'obj'));
+  }
   if (!hasObj) return arcs;
 
   // Rewrite: verb becomes root, noun becomes nsubj of verb
