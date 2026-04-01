@@ -1,0 +1,16 @@
+{
+  "standard": [
+    "U.S.", "U.S.C.", "Sec.", "No.", "Vol.", "Art.", "Fig.",
+    "et al.", "i.e.", "e.g.", "vs.", "approx.", "Dept.", "Div.",
+    "Est.", "Gov.", "Jr.", "Sr.", "Inc.", "Corp.", "etc.",
+    "Dr.", "Mr.", "Mrs.", "Ms.", "Prof.", "Rev.", "Gen.", "Lt.",
+    "Sgt.", "Col.", "Maj.", "Capt.", "Cmdr.", "Adm.",
+    "Jan.", "Feb.", "Mar.", "Apr.", "Jun.", "Jul.", "Aug.",
+    "Sep.", "Sept.", "Oct.", "Nov.", "Dec.",
+    "St.", "Ave.", "Blvd.", "Rd.", "Ln.", "Ct.",
+    "Assn.", "Bros.", "Co.", "Ltd.", "Mfg.",
+    "approx.", "dept.", "est.", "govt.", "natl.", "intl."
+  ],
+  "agency": [],
+  "custom": []
+}

@@ -327142,12 +327142,28 @@ class SemanticGraphBuilder {
         '@graph': graphNodes,
         _metadata: {
           pipeline: 'tree-based',
-          version: '3.1.0-alpha.1',
+          version: '3.2.0',
           inputText: text,
           buildTimestamp: this.buildTimestamp,
-          tokens,
-          tags,
-          arcs: annotatedArcs,
+          // §4.2: Forest metadata — sentences array (v1.3 SBA spec)
+          sentences: [{
+            sentenceIndex: 0,
+            text: text,
+            tokenSpan: [0, tokens.length - 1],
+            tokens,
+            tags,
+            root: annotatedArcs.find(a => a.label === 'root' && a.head === 0)?.dependent ?? 0,
+            arcs: annotatedArcs,
+            modalMarker: acts.find(a => a.modalVerb)?.modalVerb || null,
+            segmentationType: 'standard',
+            logicalConnector: null,
+            listMarker: null,
+            precedingModalContext: null,
+            isParenthetical: false,
+            parentSentenceIndex: null,
+          }],
+          sentenceRelationships: [],
+          // Summary counts (convenience — not in SBA spec, retained for backward compat)
           entities: entities.length,
           acts: acts.length,
           structuralAssertions: structuralAssertions.length,
@@ -328052,7 +328068,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 340 | c8ad832 | 2026-04-01T14:17:36.982Z',
+    BUILD: 'build 341 | 16ea655 | 2026-04-01T14:32:17.556Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
