@@ -1897,8 +1897,10 @@ class SemanticGraphBuilder {
 
       // Stage 1.5: Sentence segmentation (SBA v1.3 §3.1 Segment-First Invariant)
       // Split multi-sentence input into independent sentences BEFORE parsing.
-      let _SentenceSegmenter;
-      try { _SentenceSegmenter = require('../nlp/SentenceSegmenter'); } catch(e) { /* browser — segmenter bundled separately */ }
+      let _SentenceSegmenter = (typeof SentenceSegmenter !== 'undefined') ? SentenceSegmenter : null;
+      if (!_SentenceSegmenter) {
+        try { _SentenceSegmenter = require('../nlp/SentenceSegmenter'); } catch(e) { /* not available */ }
+      }
 
       if (_SentenceSegmenter && !buildOptions._skipSegmentation) {
         const segResult = _SentenceSegmenter.segment(normalized);
