@@ -322050,13 +322050,20 @@ class TreeEntityExtractor {
       if (seenHeads.has(arc.dependent)) continue;
       if (lockedTokens.has(arc.dependent)) continue; // Skip tokens inside locked spans
 
-      // Interrogative pronouns (WP/WP$) — "Who", "What" are placeholders, not named entities.
-      // Emit as entity with correct placeholder type, NOT as Organization.
+      // Pronouns (WP/WP$/WDT) — handle based on syntactic context
       const headTag = depTree.tags[arc.dependent - 1];
-      if (headTag === 'WP' || headTag === 'WP$') {
+      if (headTag === 'WP' || headTag === 'WP$' || headTag === 'WDT') {
+        // Check if this is inside a relative clause (head verb has acl:relcl arc)
+        // If so, skip entirely — relative pronouns are syntactic links, not referents
+        const headVerb = arc.head;
+        const isInRelClause = depTree.arcs.some(a =>
+          a.dependent === headVerb && (a.label === 'acl:relcl' || a.label === 'acl')
+        );
+        if (isInRelClause) continue; // Skip relative pronouns
+
+        // Interrogative pronouns — create placeholder entity
         const word = depTree.tokens[arc.dependent - 1];
         const wordLower = word.toLowerCase();
-        // "who/whom" → Person placeholder, "what/which" → Entity placeholder
         const placeholderType = (wordLower === 'who' || wordLower === 'whom') ? 'Person' : 'Entity';
         seenHeads.add(arc.dependent);
         entities.push({
@@ -327901,7 +327908,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 334 | 127db0e | 2026-04-01T09:33:14.969Z',
+    BUILD: 'build 335 | c9ea291 | 2026-04-01T09:54:54.459Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
