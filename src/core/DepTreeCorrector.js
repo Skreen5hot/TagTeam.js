@@ -270,11 +270,22 @@ function correctNounRootVerbAcl(arcs, tokens, tags) {
   // Root must be a noun
   if (!rootTag || !rootTag.startsWith('NN')) return arcs;
 
-  // Find acl child that is VBN or VBD
-  const aclArc = arcs.find(a =>
+  // Find acl child that is VBN or VBD — check root AND nmod children of root
+  let aclArc = arcs.find(a =>
     a.head === rootId && a.label === 'acl' &&
     (tags[a.dependent - 1] === 'VBN' || tags[a.dependent - 1] === 'VBD')
   );
+  // Also check nmod children of root for acl (deep: "officer of org reviewed report")
+  if (!aclArc) {
+    const nmodChildren = arcs.filter(a => a.head === rootId && a.label === 'nmod');
+    for (const nmod of nmodChildren) {
+      aclArc = arcs.find(a =>
+        a.head === nmod.dependent && a.label === 'acl' &&
+        (tags[a.dependent - 1] === 'VBN' || tags[a.dependent - 1] === 'VBD')
+      );
+      if (aclArc) break;
+    }
+  }
   if (!aclArc) return arcs;
 
   const verbId = aclArc.dependent;
@@ -300,4 +311,61 @@ function correctNounRootVerbAcl(arcs, tokens, tags) {
   return arcs;
 }
 
-module.exports = { correctDitransitives, correctCopularFragmentation, correctNounRootVerbAcl, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
+/**
+ * Correct fragmented modal sentences where NN, MD, and VB are all roots.
+ *
+ * Pattern: "No organization shall disclose information"
+ *   Parser: organization(root), shall(root), disclose(root), .(root)
+ *   Correct: disclose(root), organization(nsubj), shall(aux)
+ *
+ * @param {Array} arcs
+ * @param {string[]} tokens
+ * @param {string[]} tags
+ * @returns {Array}
+ */
+function correctModalFragmentation(arcs, tokens, tags) {
+  const rootArcs = arcs.filter(a => a.label === 'root' && a.head === 0);
+  if (rootArcs.length < 3) return arcs;
+
+  // Find MD root and VB root
+  const mdRoot = rootArcs.find(a => tags[a.dependent - 1] === 'MD');
+  const vbRoot = rootArcs.find(a => {
+    const t = tags[a.dependent - 1];
+    return t === 'VB' || t === 'VBP';
+  });
+  const nnRoot = rootArcs.find(a => {
+    const t = tags[a.dependent - 1];
+    return t && t.startsWith('NN') && a !== mdRoot && a !== vbRoot;
+  });
+
+  if (!mdRoot || !vbRoot || !nnRoot) return arcs;
+
+  const verbId = vbRoot.dependent;
+  const mdId = mdRoot.dependent;
+  const nnId = nnRoot.dependent;
+
+  // NN must precede MD which must precede VB
+  if (!(nnId < mdId && mdId < verbId)) return arcs;
+
+  // Rewrite: VB becomes sole root, NN becomes nsubj, MD becomes aux
+  nnRoot.label = 'nsubj';
+  nnRoot.head = verbId;
+
+  mdRoot.label = 'aux';
+  mdRoot.head = verbId;
+
+  // Reattach punct
+  for (const arc of rootArcs) {
+    if (arc !== vbRoot && arc !== nnRoot && arc !== mdRoot) {
+      const t = tags[arc.dependent - 1];
+      if (t === '.' || t === ',' || tokens[arc.dependent - 1] === '.') {
+        arc.label = 'punct';
+        arc.head = verbId;
+      }
+    }
+  }
+
+  return arcs;
+}
+
+module.exports = { correctDitransitives, correctCopularFragmentation, correctNounRootVerbAcl, correctModalFragmentation, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
