@@ -327510,7 +327510,22 @@ class SemanticGraphBuilder {
         if (tag.confidence < threshold) continue;
         var ev = tag.evidence || [];
         for (var ei = 0; ei < ev.length; ei++) {
-          var evLower = ev[ei].toLowerCase();
+          var evRaw = ev[ei];
+          var evLower = evRaw.toLowerCase();
+          // Skip evidence that matches common English function words — these produce
+          // false positives (e.g., "a" → Alpha Time Zone, "am" → Minute of Arc).
+          // Legitimate short abbreviations like "Hz", "kg" won't appear as entity labels.
+          var STOP_WORDS = { 'a': 1, 'an': 1, 'the': 1, 'is': 1, 'are': 1, 'am': 1, 'was': 1,
+            'were': 1, 'be': 1, 'been': 1, 'being': 1, 'have': 1, 'has': 1, 'had': 1,
+            'do': 1, 'does': 1, 'did': 1, 'will': 1, 'would': 1, 'could': 1, 'should': 1,
+            'may': 1, 'might': 1, 'shall': 1, 'can': 1, 'must': 1,
+            'i': 1, 'me': 1, 'my': 1, 'we': 1, 'us': 1, 'our': 1,
+            'he': 1, 'she': 1, 'it': 1, 'they': 1, 'them': 1,
+            'this': 1, 'that': 1, 'these': 1, 'those': 1,
+            'in': 1, 'on': 1, 'at': 1, 'to': 1, 'for': 1, 'of': 1, 'by': 1, 'with': 1,
+            'and': 1, 'or': 1, 'but': 1, 'not': 1, 'no': 1, 'if': 1, 'so': 1,
+            'as': 1, 'up': 1 };
+          if (STOP_WORDS[evLower]) continue;
           // Token-level match: try Tier 2 label first, then Tier 1 label
           var matched = _tokenMatch(evLower, t2Tokens) || _tokenMatch(evLower, t1Tokens);
           if (!matched) continue;
@@ -327854,7 +327869,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 332 | 68cedb1 | 2026-04-01T09:18:00.787Z',
+    BUILD: 'build 334 | 127db0e | 2026-04-01T09:28:48.351Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
