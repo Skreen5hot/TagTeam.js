@@ -9,177 +9,530 @@
       "id": "COORD-01",
       "sentence": "The organization and the person signed the title document.",
       "pattern": "NP coordination (agent)",
-      "expectedEntities": ["organization", "person", "title document"],
-      "expectedRoles": [{"entity": "organization", "role": "Agent"}, {"entity": "person", "role": "Agent"}, {"entity": "title document", "role": "Patient"}],
-      "expectedOntologyMatches": ["Organization", "Person", "Title Document"],
+      "expectedEntities": [
+        "organization",
+        "person",
+        "title document"
+      ],
+      "expectedRoles": [
+        {
+          "entity": "organization",
+          "role": "Agent"
+        },
+        {
+          "entity": "person",
+          "role": "Agent"
+        },
+        {
+          "entity": "title document",
+          "role": "Patient"
+        }
+      ],
+      "expectedOntologyMatches": [
+        "Organization",
+        "Person",
+        "Title Document"
+      ],
       "knownIssues": []
     },
     {
       "id": "COORD-02",
       "sentence": "The person submitted the report and the certificate.",
       "pattern": "NP coordination (patient)",
-      "expectedEntities": ["person", "report", "certificate"],
-      "expectedRoles": [{"entity": "person", "role": "Agent"}, {"entity": "report", "role": "Patient"}, {"entity": "certificate", "role": "Patient"}],
-      "expectedOntologyMatches": ["Person", "Report"],
-      "knownIssues": ["Second conjunct 'certificate' may be dropped by NER"]
+      "expectedEntities": [
+        "person",
+        "report",
+        "certificate"
+      ],
+      "expectedRoles": [
+        {
+          "entity": "person",
+          "role": "Agent"
+        },
+        {
+          "entity": "report",
+          "role": "Patient"
+        },
+        {
+          "entity": "certificate",
+          "role": "Patient"
+        }
+      ],
+      "expectedOntologyMatches": [
+        "Person",
+        "Report"
+      ],
+      "knownIssues": [
+        "Second conjunct 'certificate' may be dropped by NER"
+      ]
     },
     {
       "id": "COORD-03",
       "sentence": "The organization reviewed and approved the document.",
       "pattern": "VP coordination",
-      "expectedEntities": ["organization", "document"],
-      "expectedRoles": [{"entity": "organization", "role": "Agent"}, {"entity": "document", "role": "Patient"}],
-      "expectedOntologyMatches": ["Organization"],
+      "expectedEntities": [
+        "organization",
+        "document"
+      ],
+      "expectedRoles": [
+        {
+          "entity": "organization",
+          "role": "Agent"
+        },
+        {
+          "entity": "document",
+          "role": "Patient"
+        }
+      ],
+      "expectedOntologyMatches": [
+        "Organization"
+      ],
       "expectedTenseAspect": "SimplePastTense",
-      "knownIssues": ["Coordinated VBD may not get tenseAspect on first VP"]
+      "knownIssues": [
+        "Coordinated VBD may not get tenseAspect on first VP"
+      ]
     },
     {
       "id": "SUB-01",
       "sentence": "If the person submits the report, the organization will review it.",
       "pattern": "Conditional (if-then)",
-      "expectedEntities": ["person", "report", "organization"],
+      "expectedEntities": [
+        "person",
+        "report",
+        "organization"
+      ],
       "expectedDeontic": true,
-      "expectedOntologyMatches": ["Person", "Report", "Organization"],
+      "expectedOntologyMatches": [
+        "Person",
+        "Report",
+        "Organization"
+      ],
       "knownIssues": []
     },
     {
       "id": "SUB-02",
       "sentence": "The organization reviewed the report after the person submitted it.",
       "pattern": "Temporal advcl",
-      "expectedEntities": ["organization", "report", "person"],
-      "expectedOntologyMatches": ["Organization", "Report", "Person"],
+      "expectedEntities": [
+        "organization",
+        "report",
+        "person"
+      ],
+      "expectedOntologyMatches": [
+        "Organization",
+        "Report",
+        "Person"
+      ],
       "knownIssues": []
     },
     {
       "id": "SUB-03",
       "sentence": "Because the person violated the agreement, the organization terminated the contract.",
       "pattern": "Causal advcl",
-      "expectedEntities": ["person", "agreement", "organization", "contract"],
-      "expectedOntologyMatches": ["Person", "Organization"],
-      "knownIssues": ["Period '.' may be extracted as entity (dep parser)"]
+      "expectedEntities": [
+        "person",
+        "agreement",
+        "organization",
+        "contract"
+      ],
+      "expectedOntologyMatches": [
+        "Person",
+        "Organization"
+      ],
+      "knownIssues": [
+        "Period '.' may be extracted as entity (dep parser)"
+      ]
     },
     {
       "id": "REL-01",
       "sentence": "The person who submitted the report was notified.",
       "pattern": "Subject relative clause",
-      "expectedEntities": ["person", "report"],
-      "expectedRoles": [{"entity": "person", "role": "Patient"}, {"entity": "report", "role": "Patient"}],
-      "expectedOntologyMatches": ["Person", "Report"],
+      "expectedEntities": [
+        "person",
+        "report"
+      ],
+      "expectedRoles": [
+        {
+          "entity": "person",
+          "role": "Patient"
+        },
+        {
+          "entity": "report",
+          "role": "Patient"
+        }
+      ],
+      "expectedOntologyMatches": [
+        "Person",
+        "Report"
+      ],
       "knownIssues": []
     },
     {
       "id": "REL-02",
       "sentence": "The report that the organization reviewed was approved.",
       "pattern": "Object relative clause",
-      "expectedEntities": ["report", "organization"],
-      "expectedOntologyMatches": ["Report", "Organization"],
-      "knownIssues": ["'that' tagged IN by POS tagger, not WDT — appears as entity"]
+      "expectedEntities": [
+        "report",
+        "organization"
+      ],
+      "expectedOntologyMatches": [
+        "Report",
+        "Organization"
+      ],
+      "knownIssues": [
+        "'that' tagged IN by POS tagger, not WDT — appears as entity"
+      ]
     },
     {
       "id": "PASS-01",
       "sentence": "The report was submitted by the person.",
       "pattern": "Passive with agent",
-      "expectedEntities": ["report", "person"],
-      "expectedRoles": [{"entity": "person", "role": "Agent"}, {"entity": "report", "role": "Patient"}],
-      "expectedOntologyMatches": ["Report", "Person"],
+      "expectedEntities": [
+        "report",
+        "person"
+      ],
+      "expectedRoles": [
+        {
+          "entity": "person",
+          "role": "Agent"
+        },
+        {
+          "entity": "report",
+          "role": "Patient"
+        }
+      ],
+      "expectedOntologyMatches": [
+        "Report",
+        "Person"
+      ],
       "knownIssues": []
     },
     {
       "id": "PASS-02",
       "sentence": "The title document was approved.",
       "pattern": "Passive without agent",
-      "expectedEntities": ["title document"],
-      "expectedOntologyMatches": ["Title Document"],
+      "expectedEntities": [
+        "title document"
+      ],
+      "expectedOntologyMatches": [
+        "Title Document"
+      ],
       "knownIssues": []
     },
     {
       "id": "NEG-D-01",
       "sentence": "The organization shall not disclose the document.",
       "pattern": "Modal negation (prohibition)",
-      "expectedEntities": ["organization", "document"],
+      "expectedEntities": [
+        "organization",
+        "document"
+      ],
       "expectedDeontic": true,
       "expectedProhibition": true,
-      "expectedOntologyMatches": ["Organization"],
+      "expectedOntologyMatches": [
+        "Organization"
+      ],
       "knownIssues": []
     },
     {
       "id": "NEG-D-02",
       "sentence": "The person did not submit the report.",
       "pattern": "Narrative negation",
-      "expectedEntities": ["person", "report"],
+      "expectedEntities": [
+        "person",
+        "report"
+      ],
       "expectedNegation": true,
       "expectedRealizationStatus": "Unrealized",
       "expectedIntentionalActs": 0,
-      "expectedOntologyMatches": ["Person", "Report"],
+      "expectedOntologyMatches": [
+        "Person",
+        "Report"
+      ],
       "knownIssues": []
     },
     {
       "id": "MW-01",
       "sentence": "The healthcare facility treated the person.",
       "pattern": "Multi-word subject",
-      "expectedEntities": ["healthcare facility", "person"],
-      "expectedOntologyMatches": ["Healthcare Facility", "Person"],
+      "expectedEntities": [
+        "healthcare facility",
+        "person"
+      ],
+      "expectedOntologyMatches": [
+        "Healthcare Facility",
+        "Person"
+      ],
       "knownIssues": []
     },
     {
       "id": "MW-02",
       "sentence": "The person visited the geopolitical organization.",
       "pattern": "Multi-word object",
-      "expectedEntities": ["person", "geopolitical organization"],
-      "expectedOntologyMatches": ["Person", "Geopolitical Organization"],
+      "expectedEntities": [
+        "person",
+        "geopolitical organization"
+      ],
+      "expectedOntologyMatches": [
+        "Person",
+        "Geopolitical Organization"
+      ],
       "knownIssues": []
     },
     {
       "id": "MW-03",
       "sentence": "The title document described the incorporated organization.",
       "pattern": "Two multi-word entities",
-      "expectedEntities": ["title document", "incorporated organization"],
-      "expectedOntologyMatches": ["Title Document", "Incorporated Organization"],
+      "expectedEntities": [
+        "title document",
+        "incorporated organization"
+      ],
+      "expectedOntologyMatches": [
+        "Title Document",
+        "Incorporated Organization"
+      ],
       "knownIssues": []
     },
     {
       "id": "STAT-O-01",
       "sentence": "The person is a member of the organization.",
       "pattern": "Stative role with CCO",
-      "expectedEntities": ["person", "organization"],
+      "expectedEntities": [
+        "person",
+        "organization"
+      ],
       "expectedStative": true,
-      "expectedOntologyMatches": ["Person", "Organization"],
+      "expectedOntologyMatches": [
+        "Person",
+        "Organization"
+      ],
       "knownIssues": []
     },
     {
       "id": "STAT-O-02",
       "sentence": "The healthcare facility is located in the city.",
       "pattern": "Stative location",
-      "expectedEntities": ["healthcare facility", "city"],
+      "expectedEntities": [
+        "healthcare facility",
+        "city"
+      ],
       "expectedStative": true,
-      "expectedOntologyMatches": ["Healthcare Facility"],
-      "knownIssues": ["'located in' may be extracted as entity"]
+      "expectedOntologyMatches": [
+        "Healthcare Facility"
+      ],
+      "knownIssues": [
+        "'located in' may be extracted as entity"
+      ]
     },
     {
       "id": "TENSE-01",
       "sentence": "The organization has reviewed the report.",
       "pattern": "Present perfect",
-      "expectedEntities": ["organization", "report"],
+      "expectedEntities": [
+        "organization",
+        "report"
+      ],
       "expectedTenseAspect": "PresentPerfectTense",
-      "expectedOntologyMatches": ["Organization", "Report"],
+      "expectedOntologyMatches": [
+        "Organization",
+        "Report"
+      ],
       "knownIssues": []
     },
     {
       "id": "TENSE-02",
       "sentence": "The person was submitting the document.",
       "pattern": "Past progressive",
-      "expectedEntities": ["person", "document"],
+      "expectedEntities": [
+        "person",
+        "document"
+      ],
       "expectedTenseAspect": "PastProgressiveTense",
-      "expectedOntologyMatches": ["Person"],
+      "expectedOntologyMatches": [
+        "Person"
+      ],
       "knownIssues": []
     },
     {
       "id": "TENSE-03",
       "sentence": "The organization had approved the certificate before the deadline.",
       "pattern": "Past perfect + temporal",
-      "expectedEntities": ["organization", "certificate", "deadline"],
+      "expectedEntities": [
+        "organization",
+        "certificate",
+        "deadline"
+      ],
       "expectedTenseAspect": "PastPerfectTense",
-      "expectedOntologyMatches": ["Organization"],
+      "expectedOntologyMatches": [
+        "Organization"
+      ],
+      "knownIssues": []
+    },
+    {
+      "id": "MIX-01",
+      "sentence": "The organization shall review the report and notify the person.",
+      "pattern": "Deontic + VP coordination",
+      "expectedEntities": [
+        "organization",
+        "report",
+        "person"
+      ],
+      "expectedDeontic": true,
+      "expectedOntologyMatches": [
+        "Organization",
+        "Report",
+        "Person"
+      ],
+      "knownIssues": []
+    },
+    {
+      "id": "MIX-02",
+      "sentence": "The person submitted the report but the organization did not approve it.",
+      "pattern": "Narrative + negation coordination",
+      "expectedEntities": [
+        "person",
+        "report",
+        "organization"
+      ],
+      "expectedOntologyMatches": [
+        "Person",
+        "Report",
+        "Organization"
+      ],
+      "knownIssues": []
+    },
+    {
+      "id": "MIX-03",
+      "sentence": "If the organization does not review the report, the person may appeal.",
+      "pattern": "Conditional + negation + permission",
+      "expectedEntities": [
+        "organization",
+        "report",
+        "person"
+      ],
+      "expectedDeontic": true,
+      "expectedOntologyMatches": [
+        "Organization",
+        "Report",
+        "Person"
+      ],
+      "knownIssues": []
+    },
+    {
+      "id": "DEEP-01",
+      "sentence": "The person who works at the healthcare facility submitted the report that described the incident.",
+      "pattern": "Double relative clause",
+      "expectedEntities": [
+        "person",
+        "healthcare facility",
+        "report",
+        "incident"
+      ],
+      "expectedOntologyMatches": [
+        "Person",
+        "Healthcare Facility",
+        "Report"
+      ],
+      "knownIssues": [
+        "that tagged IN by POS tagger — appears as entity"
+      ]
+    },
+    {
+      "id": "DEEP-02",
+      "sentence": "The organization required the person to submit the report before the deadline.",
+      "pattern": "Control verb + temporal",
+      "expectedEntities": [
+        "organization",
+        "person",
+        "report",
+        "deadline"
+      ],
+      "expectedOntologyMatches": [
+        "Organization",
+        "Person",
+        "Report"
+      ],
+      "knownIssues": []
+    },
+    {
+      "id": "DEEP-03",
+      "sentence": "The report that was submitted by the person who works at the facility was approved.",
+      "pattern": "Nested passive + relative",
+      "expectedEntities": [
+        "report",
+        "person",
+        "facility"
+      ],
+      "expectedOntologyMatches": [
+        "Report",
+        "Person"
+      ],
+      "knownIssues": [
+        "that tagged IN — appears as entity"
+      ]
+    },
+    {
+      "id": "GEN-01",
+      "sentence": "All persons must submit reports to the organization.",
+      "pattern": "Universal quantifier + deontic",
+      "expectedEntities": [
+        "persons",
+        "reports",
+        "organization"
+      ],
+      "expectedDeontic": true,
+      "expectedOntologyMatches": [
+        "Person",
+        "Report",
+        "Organization"
+      ],
+      "knownIssues": []
+    },
+    {
+      "id": "GEN-02",
+      "sentence": "No organization shall disclose personal information without consent.",
+      "pattern": "Negation quantifier + prohibition",
+      "expectedEntities": [
+        "organization",
+        "personal information",
+        "consent"
+      ],
+      "expectedDeontic": true,
+      "expectedProhibition": true,
+      "expectedOntologyMatches": [
+        "Organization"
+      ],
+      "knownIssues": [
+        "Unusual word order: shall/. may be extracted as entities, prohibition may not fire"
+      ]
+    },
+    {
+      "id": "LONG-01",
+      "sentence": "The senior compliance officer of the incorporated organization reviewed the annual performance report.",
+      "pattern": "Complex NPs with modifiers",
+      "expectedEntities": [
+        "compliance officer",
+        "incorporated organization",
+        "performance report"
+      ],
+      "expectedOntologyMatches": [
+        "Incorporated Organization"
+      ],
+      "knownIssues": [
+        "Dep parser may treat reviewed as modifier, not verb"
+      ]
+    },
+    {
+      "id": "LONG-02",
+      "sentence": "The encrypted title document containing sensitive personal information was classified as confidential.",
+      "pattern": "NP with participle modifier",
+      "expectedEntities": [
+        "title document",
+        "personal information"
+      ],
+      "expectedOntologyMatches": [
+        "Title Document"
+      ],
       "knownIssues": []
     }
   ]
