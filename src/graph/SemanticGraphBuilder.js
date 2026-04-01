@@ -1112,19 +1112,32 @@ class SemanticGraphBuilder {
     if (substring) return substring;
 
     // Pass 4: head-noun fallback for complex NPs ("all records and documents" → try "records")
-    // Extract the last word (typically the head noun in English NPs)
     const words = stripped.split(/\s+/);
     if (words.length > 1) {
       const headNoun = words[words.length - 1];
       const normHead = normalize(headNoun);
       const lemmaHead = this.lemmatizer ? this.lemmatizer.lemmatizePhrase(headNoun) : headNoun;
-      return t2Nodes.find(n => {
+      const headMatch = t2Nodes.find(n => {
         const t2Label = (n['rdfs:label'] || '').toLowerCase().replace(STRIP_RE, '');
         const normT2 = normalize(t2Label);
         return t2Label === headNoun || normT2 === normHead ||
                t2Label === lemmaHead || normalize(t2Label) === normalize(lemmaHead);
-      }) || null;
+      });
+      if (headMatch) return headMatch;
     }
+
+    // Pass 5 (F-6): Match via ontologyMatch evidence from loaded ontology
+    // If a Tier 2 node was enriched with ontologyMatch whose evidence matches the search label,
+    // use that node. Handles cases like "data" matching a node labeled "datum" that has
+    // ontologyMatch evidence "data" from skos:altLabel.
+    const ontMatch = t2Nodes.find(n => {
+      const matches = [].concat(n['ontologyMatch'] || []);
+      return matches.some(m => {
+        const ev = (m.ontologyMatchEvidence || m.ontologyMatchForm || '').toLowerCase();
+        return ev === stripped || ev === normStripped || ev === lemmaStripped;
+      });
+    });
+    if (ontMatch) return ontMatch;
 
     return null;
   }
@@ -1876,6 +1889,10 @@ class SemanticGraphBuilder {
         if (_DepTreeCorrector.correctCopularFragmentation) {
           _DepTreeCorrector.correctCopularFragmentation(parseResult.arcs, tokens, tags);
         }
+        // Noun-root + VBN-acl correction — "The organization submitted the report"
+        if (_DepTreeCorrector.correctNounRootVerbAcl) {
+          _DepTreeCorrector.correctNounRootVerbAcl(parseResult.arcs, tokens, tags);
+        }
       }
 
       const depTree = new _DepTree(parseResult.arcs, tokens, tags);
@@ -2372,7 +2389,10 @@ class SemanticGraphBuilder {
           const qualityId = `${this.options.namespace}:Quality_${this._sanitizeId(qualityWord)}_${this._hashText((sa.subject || '') + qualityWord).substring(0, 8)}`;
 
           // Resolve subject to Tier 1 DiscourseReferent IRI (FT-03: no string literals in provenance)
-          const subjectIRI = sa.subject ? `${this.options.namespace}:${this._sanitizeId(sa.subject)}` : null;
+          const subjectSanitized = sa.subject ? this._sanitizeId(sa.subject) : null;
+          const subjectIRI = subjectSanitized
+            ? (entityTextToDrId[subjectSanitized] || `${this.options.namespace}:DR_${subjectSanitized}_m1`)
+            : null;
 
           const qaNode = {
             '@id': qaId,
@@ -2430,7 +2450,11 @@ class SemanticGraphBuilder {
           const roleId = `${this.options.namespace}:Role_${this._sanitizeId(roleWord)}_${this._hashText((sa.subject || '') + roleWord).substring(0, 8)}`;
 
           // Resolve subject to Tier 1 DiscourseReferent IRI (FT-03: no string literals in provenance)
-          const roleSubjectIRI = sa.subject ? `${this.options.namespace}:${this._sanitizeId(sa.subject)}` : null;
+          // Use entityTextToDrId map for §5.4i coreference-compatible DR IRIs
+          const roleSubjectSanitized = sa.subject ? this._sanitizeId(sa.subject) : null;
+          const roleSubjectIRI = roleSubjectSanitized
+            ? (entityTextToDrId[roleSubjectSanitized] || `${this.options.namespace}:DR_${roleSubjectSanitized}_m1`)
+            : null;
 
           const roleAssertionNode = {
             '@id': `${this.options.namespace}:RoleAssertion_${this._sanitizeId(roleWord)}_${this._hashText((sa.subject || '') + roleWord).substring(0, 8)}`,

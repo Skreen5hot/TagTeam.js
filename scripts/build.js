@@ -1068,7 +1068,7 @@ ${depTreeCorrector}
 
   // Shim: after stripCommonJS, only the inner functions survive.
   // SemanticGraphBuilder checks typeof DepTreeCorrector !== 'undefined'.
-  const DepTreeCorrector = { correctDitransitives, correctCopularFragmentation, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
+  const DepTreeCorrector = { correctDitransitives, correctCopularFragmentation, correctNounRootVerbAcl, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
 
   // ============================================================================
   // §9.5: GENERICITY DETECTOR
@@ -1217,7 +1217,85 @@ ${semanticGraphBuilder}
             node['tagteam:classNominationStatus'] = 'resolved';
             node['tagteam:requiresOntologyResolution'] = false;
           }
+
+          // F-4: Type assignment from ontology — upgrade heuristic type to CCO class
+          // If the ontology match is an owl:Class and the node currently has a generic type
+          // (Entity, Artifact), replace with the matched class label for BFO accuracy.
+          var matchLabel = tag.label || '';
+          var owlType = tag.ontologyMatchOWLType || '';
+          if (matchLabel && owlType === 'owl:Class') {
+            var nodeTypes = [].concat(node['@type'] || []);
+            var GENERIC_TYPES = ['Entity', 'Artifact', 'bfo:BFO_0000001'];
+            var isGeneric = nodeTypes.some(function(t) { return GENERIC_TYPES.indexOf(t) >= 0; });
+            if (isGeneric) {
+              // Replace the generic type with the ontology class label
+              node['@type'] = nodeTypes.map(function(t) {
+                return GENERIC_TYPES.indexOf(t) >= 0 ? matchLabel : t;
+              });
+              node['tagteam:typeBasis'] = 'ontology-match';
+            }
+          }
+
           break; // One evidence match per tag is sufficient
+        }
+      }
+    }
+
+    // F-4: Update denotesType when the matched class maps to a §3.1 vocabulary term.
+    // Direct matches (Organization, Person) propagate directly.
+    // Indirect matches (Report → Artifact, Letter → Artifact) use CCO ancestry mapping.
+    var DENOTES_TYPE_VOCAB = {
+      'Person': true, 'Organization': true, 'Entity': true, 'Location': true,
+      'InformationContentEntity': true, 'Artifact': true, 'Event': true,
+      'EventDescription': true, 'Directive': true, 'Quality': true, 'Structure': true, 'Role': true
+    };
+    for (var i = 0; i < nodes.length; i++) {
+      var node = nodes[i];
+      if (!node['is_subject_of'] || node['tagteam:typeBasis'] !== 'ontology-match') continue;
+      var t1Ref = node['is_subject_of'];
+      var t1Id = t1Ref && t1Ref['@id'] ? t1Ref['@id'] : null;
+      if (!t1Id || !nodeIndex[t1Id]) continue;
+      var nodeTypes = [].concat(node['@type'] || []);
+      var primaryType = nodeTypes.find(function(t) { return t !== 'owl:NamedIndividual' && t !== 'owl:Class'; });
+      if (primaryType && DENOTES_TYPE_VOCAB[primaryType]) {
+        // Direct match: class name IS a §3.1 vocab term
+        nodeIndex[t1Id]['tagteam:denotesType'] = primaryType;
+      } else if (primaryType) {
+        // Indirect match: walk ontologyMatch IRI through CCO branch mapping
+        // CCO branches → §3.1 denotesType based on known superclass patterns
+        var matches = [].concat(node['ontologyMatch'] || []);
+        var matchIRI = matches.length > 0 ? (matches[0].ontologyMatchIRI || '') : '';
+        // Check the CCO source ontology annotation for branch classification
+        var sourceOnt = '';
+        for (var mi = 0; mi < matches.length; mi++) {
+          if (matches[mi].ontologyMatchLabel) {
+            sourceOnt = matches[mi].ontologyMatchLabel;
+            break;
+          }
+        }
+        // CCO ontology branch → §3.1 denotesType mapping
+        var CCO_BRANCH_MAP = {
+          'Agent Ontology': 'Person',
+          'Artifact Ontology': 'Artifact',
+          'Facility Ontology': 'Location',
+          'Geospatial Ontology': 'Location',
+          'Information Entity Ontology': 'InformationContentEntity',
+          'Event Ontology': 'Event',
+          'Quality Ontology': 'Quality',
+        };
+        // Try to resolve via the Tier 2 type name as a hint
+        var CCO_TYPE_BRANCH = {
+          'Report': 'Artifact', 'Document': 'Artifact', 'Letter': 'Artifact',
+          'Book': 'Artifact', 'Certificate': 'Artifact', 'Form': 'Artifact',
+          'Facility': 'Location', 'Building': 'Location', 'Room': 'Location',
+          'City': 'Location', 'Country': 'Location', 'Region': 'Location',
+          'GeopoliticalOrganization': 'Organization',
+          'GovernmentOrganization': 'Organization',
+          'CommercialOrganization': 'Organization',
+          'MilitaryOrganization': 'Organization',
+        };
+        if (CCO_TYPE_BRANCH[primaryType]) {
+          nodeIndex[t1Id]['tagteam:denotesType'] = CCO_TYPE_BRANCH[primaryType];
         }
       }
     }

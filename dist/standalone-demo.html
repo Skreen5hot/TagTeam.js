@@ -168,7 +168,7 @@
 </div>
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
-<script src="tagteam.js?v=20260331a"></script>
+<script src="tagteam.js?v=20260331s"></script>
 <script>
 // ═══════════════════════════════════════════════════════════════
 // STATE
@@ -414,7 +414,7 @@ function renderRelationMap(graph) {
     'has_agent', 'has_input', 'has_output', 'has_continuant_part', 'continuant_part_of',
     'member_part_of', 'located_in', 'has_possession',
     'tagteam:prescribedAgent', 'tagteam:prescribedPatient', 'tagteam:prescribedRecipient',
-    'tagteam:hasConjunct',
+    'tagteam:hasConjunct', 'tagteam:describedBy', 'tagteam:agent', 'tagteam:patient',
     'assertionSubject', 'assertionObject', 'assertedRelation'
   ];
 
@@ -564,7 +564,8 @@ function renderGraphView(graph) {
     'prescribes', 'is_prescribed_by', 'isSpecifiedBy', 'is_concretized_by',
     'has_continuant_part', 'continuant_part_of', 'located_in', 'has_possession',
     'tagteam:prescribedAgent', 'tagteam:prescribedPatient', 'tagteam:prescribedRecipient',
-    'tagteam:hasConjunct', 'assertionSubject', 'assertionObject'
+    'tagteam:hasConjunct', 'tagteam:describedBy', 'tagteam:agent', 'tagteam:patient',
+    'assertionSubject', 'assertionObject'
   ];
 
   for (var i = 0; i < graph.length; i++) {
@@ -728,6 +729,29 @@ function escHtml(s) {
 document.getElementById('in').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') analyze();
 });
+
+// Auto-load CCO merged ontology on startup
+(function() {
+  var statusEl = document.getElementById('ontology-status');
+  if (statusEl) statusEl.textContent = 'Loading CCO ontology...';
+
+  fetch('cco-merged.ttl')
+    .then(function(r) { return r.ok ? r.text() : Promise.reject('HTTP ' + r.status); })
+    .then(function(ttl) {
+      currentOntologyTagger = TagTeam.OntologyTextTagger.fromTTL(ttl, {
+        propertyMap: { keywords: 'rdfs:label', label: 'rdfs:label' }
+      });
+      var stats = currentOntologyTagger.getStats();
+      if (statusEl) statusEl.textContent = stats.classCount + ' CCO classes loaded (auto)';
+      // Show ontology tab if it exists
+      var ontTab = document.getElementById('ontology-tab-btn');
+      if (ontTab) ontTab.style.display = '';
+    })
+    .catch(function(err) {
+      if (statusEl) statusEl.textContent = 'CCO auto-load failed: ' + err;
+      console.warn('CCO auto-load failed:', err);
+    });
+})();
 </script>
 
 </body>

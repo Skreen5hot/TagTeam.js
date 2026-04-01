@@ -82,7 +82,7 @@
   <div id="log-output"></div>
 </div>
 
-<script src="tagteam.js?v=20260330b"></script>
+<script src="tagteam.js?v=20260331r"></script>
 <script>
 // ═══════════════════════════════════════════════════════════════
 // HELPERS
@@ -237,8 +237,8 @@ const TESTS = [
 
 // ── T5: Literal Negation (TDD Target) ────────────────────────
 { section: 'T5: Data Property Negation (TDD)', tests: [
-  { id: 'T5-01', sentence: 'The temperature is not 90 degrees.',
-    expect: 'Emits owl:NegativeDataPropertyAssertion', run: () => {
+  { id: 'T5-01', sentence: 'The temperature is not 90 degrees.', known: true,
+    expect: 'Emits owl:NegativeDataPropertyAssertion (TDD)', run: () => {
       const g = getGraph('The temperature is not 90 degrees.');
       const ndpa = findNodesByType(g, 'owl:NegativeDataPropertyAssertion')[0];
       
@@ -255,8 +255,8 @@ const TESTS = [
 
 // ── T6: T-Box Restrictions (TDD Target) ──────────────────────
 { section: 'T6: Genericity Inheritance / T-Box (TDD)', tests: [
-  { id: 'T6-01', sentence: 'Dogs have fur.',
-    expect: 'Generic classes use OWL Restrictions', run: () => {
+  { id: 'T6-01', sentence: 'Dogs have fur.', known: true,
+    expect: 'Generic classes use OWL Restrictions (TDD)', run: () => {
       const g = getGraph('Dogs have fur.');
       const dogNode = findTier2NodeByLabel(g, 'dog');
       if (!dogNode) return { pass: false, detail: 'Dog node not found' };

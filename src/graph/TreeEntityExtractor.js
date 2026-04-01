@@ -164,6 +164,26 @@ class TreeEntityExtractor {
       if (seenHeads.has(arc.dependent)) continue;
       if (lockedTokens.has(arc.dependent)) continue; // Skip tokens inside locked spans
 
+      // Interrogative pronouns (WP/WP$) — "Who", "What" are placeholders, not named entities.
+      // Emit as entity with correct placeholder type, NOT as Organization.
+      const headTag = depTree.tags[arc.dependent - 1];
+      if (headTag === 'WP' || headTag === 'WP$') {
+        const word = depTree.tokens[arc.dependent - 1];
+        const wordLower = word.toLowerCase();
+        // "who/whom" → Person placeholder, "what/which" → Entity placeholder
+        const placeholderType = (wordLower === 'who' || wordLower === 'whom') ? 'Person' : 'Entity';
+        seenHeads.add(arc.dependent);
+        entities.push({
+          fullText: word,
+          headId: arc.dependent,
+          indices: [arc.dependent],
+          type: placeholderType,
+          role: arc.label,
+          source: 'interrogative-placeholder'
+        });
+        continue;
+      }
+
       const entityHead = arc.dependent;
       seenHeads.add(entityHead);
 

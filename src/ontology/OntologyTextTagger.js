@@ -85,8 +85,15 @@ class OntologyTextTagger {
    * @returns {Object} Load result with { classCount, totalKeywords }
    */
   loadFromString(ttlContent) {
+    // Pre-process: collapse triple-quoted strings to single-quoted
+    // The TurtleParser doesn't handle """ multiline strings, causing it to
+    // lose sync and skip large blocks of the file (e.g., 1500+ CCO classes)
+    const normalizedTtl = ttlContent.replace(/"""([^]*?)"""/g, function(match, content) {
+      return '"' + content.replace(/\n/g, ' ').replace(/"/g, '\\"') + '"';
+    });
+
     const parser = new TurtleParser();
-    this._parseResult = parser.parse(ttlContent);
+    this._parseResult = parser.parse(normalizedTtl);
 
     // Normalize CCO opaque predicates to standard SKOS equivalents
     // cco:ont00001738 (designation) → skos:altLabel
