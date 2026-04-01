@@ -320955,6 +320955,278 @@ function correctModalFragmentation(arcs, tokens, tags) {
   const DepTreeCorrector = { correctDitransitives, correctCopularFragmentation, correctNounRootVerbAcl, correctModalFragmentation, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
 
   // ============================================================================
+  // SBA v1.3: SENTENCE SEGMENTER
+  // ============================================================================
+
+/**
+ * SentenceSegmenter.js — Split input text into sentence records
+ *
+ * Source: TagTeam Sentence Boundary Architecture Specification v1.3 §5.1
+ * Authority: The Segment-First Invariant (§3.1)
+ *
+ * Wave 1: Rule B-1 only (standard hard sentence boundaries)
+ * Waves 2-3: Rules B-2 (numbered lists), B-3 (semicolons), B-4 (headers)
+ */
+
+'use strict';
+
+
+
+
+// ============================================================================
+// Abbreviation Lexicon (§5.1.2)
+// ============================================================================
+
+let ABBREVIATION_SET = null;
+
+/**
+ * Load and merge the abbreviation lexicon from JSON file.
+ * @returns {Set<string>} Merged set of all abbreviation entries (lowercased)
+ */
+function loadAbbreviationLexicon() {
+  if (ABBREVIATION_SET) return ABBREVIATION_SET;
+  var lexicon = {
+  "standard": [
+    "U.S.", "U.S.C.", "Sec.", "No.", "Vol.", "Art.", "Fig.",
+    "et al.", "i.e.", "e.g.", "vs.", "approx.", "Dept.", "Div.",
+    "Est.", "Gov.", "Jr.", "Sr.", "Inc.", "Corp.", "etc.",
+    "Dr.", "Mr.", "Mrs.", "Ms.", "Prof.", "Rev.", "Gen.", "Lt.",
+    "Sgt.", "Col.", "Maj.", "Capt.", "Cmdr.", "Adm.",
+    "Jan.", "Feb.", "Mar.", "Apr.", "Jun.", "Jul.", "Aug.",
+    "Sep.", "Sept.", "Oct.", "Nov.", "Dec.",
+    "St.", "Ave.", "Blvd.", "Rd.", "Ln.", "Ct.",
+    "Assn.", "Bros.", "Co.", "Ltd.", "Mfg.",
+    "approx.", "dept.", "est.", "govt.", "natl.", "intl."
+  ],
+  "agency": [],
+  "custom": []
+}
+;
+  ABBREVIATION_SET = new Set();
+  ['standard', 'agency', 'custom'].forEach(function(tier) {
+    (lexicon[tier] || []).forEach(function(entry) { ABBREVIATION_SET.add(entry.toLowerCase()); });
+  });
+  return ABBREVIATION_SET;
+}
+
+// ============================================================================
+// SentenceSegmenter
+// ============================================================================
+
+/**
+ * Segment input text into sentence records.
+ *
+ * @param {string} inputText - Full input text
+ * @param {Object} [options] - Options
+ * @param {Object} [options.tokenizer] - Tokenizer instance (must have .tokenize(text))
+ * @param {Object} [options.posTagger] - POS tagger instance (must have .tag(tokens))
+ * @returns {SegmenterOutput}
+ */
+function segment(inputText, options = {}) {
+  if (!inputText || typeof inputText !== 'string') {
+    return { sentences: [], sentenceRelationships: [], abbreviationsMatched: [], totalTokens: 0 };
+  }
+
+  const abbreviations = loadAbbreviationLexicon();
+  const text = inputText.trim();
+
+  // Tokenize the full input to get token boundaries
+  // Use simple whitespace + punctuation split for boundary detection
+  const tokenBoundaries = tokenizeWithPositions(text);
+
+  if (tokenBoundaries.length === 0) {
+    return { sentences: [], sentenceRelationships: [], abbreviationsMatched: [], totalTokens: 0 };
+  }
+
+  // Find sentence boundaries using Rule B-1
+  const boundaries = findBoundaries(tokenBoundaries, abbreviations, text);
+
+  // Split into sentence records
+  const sentences = buildSentenceRecords(tokenBoundaries, boundaries, text);
+
+  return {
+    sentences,
+    sentenceRelationships: [], // Wave 1: no soft boundaries
+    abbreviationsMatched: [],
+    totalTokens: tokenBoundaries.length
+  };
+}
+
+// ============================================================================
+// Tokenization (§5.1.1)
+// ============================================================================
+
+/**
+ * Tokenize text with character positions for boundary detection.
+ * @param {string} text
+ * @returns {Array<{text: string, start: number, end: number, index: number}>}
+ */
+function tokenizeWithPositions(text) {
+  const abbreviations = loadAbbreviationLexicon();
+  const tokens = [];
+  // Match: abbreviations with dots (U.S., e.g.), contractions, words, punctuation
+  // Abbreviation pattern checked first to consume multi-dot sequences
+  const regex = /([A-Za-z]\.(?:[A-Za-z]\.)+|[A-Za-z0-9]+'[A-Za-z]+|[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*|[.!?,;:()"\[\]{}])/g;
+  let match;
+  while ((match = regex.exec(text)) !== null) {
+    tokens.push({
+      text: match[1],
+      start: match.index,
+      end: match.index + match[1].length,
+      index: tokens.length
+    });
+  }
+  return tokens;
+}
+
+// ============================================================================
+// Rule B-1: Standard Sentence Boundary (§5.1.3)
+// ============================================================================
+
+/**
+ * Find hard sentence boundaries.
+ *
+ * Rule B-1:
+ * - tokens[p] is '.', '!', or '?'
+ * - tokens[p-1] is NOT in the abbreviation lexicon
+ * - tokens[p+1] exists and begins with an uppercase character
+ *
+ * @param {Array} tokens - Token boundaries
+ * @param {Set} abbreviations - Abbreviation set
+ * @param {string} text - Original text
+ * @returns {number[]} Token indices of boundary punctuation
+ */
+function findBoundaries(tokens, abbreviations, text) {
+  const boundaries = [];
+
+  for (let i = 0; i < tokens.length; i++) {
+    const tok = tokens[i].text;
+
+    // Must be sentence-ending punctuation
+    if (tok !== '.' && tok !== '!' && tok !== '?') continue;
+
+    // Check preceding token is not an abbreviation
+    if (i > 0) {
+      const prevToken = tokens[i - 1].text;
+      // Check if prevToken + '.' forms an abbreviation
+      const withDot = prevToken + '.';
+      if (abbreviations.has(withDot.toLowerCase()) || abbreviations.has(prevToken.toLowerCase())) {
+        continue; // Skip — this period is part of an abbreviation
+      }
+      // Also check if the token itself (already containing the dot) is an abbreviation
+      // e.g., "U.S." tokenized as a single token
+      if (abbreviations.has(prevToken.toLowerCase() + '.')) {
+        continue;
+      }
+    }
+
+    // Check following token exists and starts uppercase
+    if (i + 1 < tokens.length) {
+      const nextToken = tokens[i + 1].text;
+      if (nextToken && /^[A-Z]/.test(nextToken)) {
+        boundaries.push(i);
+      }
+    }
+    // If this is the last token, it's the final sentence boundary (no split needed)
+  }
+
+  return boundaries;
+}
+
+// ============================================================================
+// Sentence Record Construction
+// ============================================================================
+
+/**
+ * Build SentenceRecord objects from token boundaries.
+ *
+ * @param {Array} tokens - All document tokens with positions
+ * @param {number[]} boundaries - Token indices of boundary punctuation
+ * @param {string} text - Original text
+ * @returns {Array<SentenceRecord>}
+ */
+function buildSentenceRecords(tokens, boundaries, text) {
+  if (boundaries.length === 0) {
+    // Single sentence — entire input
+    return [{
+      sentenceIndex: 0,
+      text: text,
+      tokenSpan: [0, tokens.length - 1],
+      tokens: tokens.map(t => t.text),
+      segmentationType: 'standard',
+      logicalConnector: null,
+      listMarker: null,
+      precedingModalContext: null,
+      isParenthetical: false,
+      parentSentenceIndex: null,
+    }];
+  }
+
+  const sentences = [];
+  let sentStart = 0;
+
+  for (let b = 0; b < boundaries.length; b++) {
+    const boundaryIdx = boundaries[b];
+
+    // Sentence includes tokens from sentStart through boundaryIdx (inclusive of punct)
+    const sentTokens = tokens.slice(sentStart, boundaryIdx + 1);
+    const sentText = text.substring(
+      tokens[sentStart].start,
+      tokens[boundaryIdx].end
+    ).trim();
+
+    sentences.push({
+      sentenceIndex: sentences.length,
+      text: sentText,
+      tokenSpan: [sentStart, boundaryIdx],
+      tokens: sentTokens.map(t => t.text),
+      segmentationType: 'standard',
+      logicalConnector: null,
+      listMarker: null,
+      precedingModalContext: null,
+      isParenthetical: false,
+      parentSentenceIndex: null,
+    });
+
+    sentStart = boundaryIdx + 1;
+  }
+
+  // Remaining tokens after last boundary → final sentence
+  if (sentStart < tokens.length) {
+    const sentTokens = tokens.slice(sentStart);
+    const sentText = text.substring(
+      tokens[sentStart].start,
+      tokens[tokens.length - 1].end
+    ).trim();
+
+    sentences.push({
+      sentenceIndex: sentences.length,
+      text: sentText,
+      tokenSpan: [sentStart, tokens.length - 1],
+      tokens: sentTokens.map(t => t.text),
+      segmentationType: 'standard',
+      logicalConnector: null,
+      listMarker: null,
+      precedingModalContext: null,
+      isParenthetical: false,
+      parentSentenceIndex: null,
+    });
+  }
+
+  return sentences;
+}
+
+// ============================================================================
+// Exports
+// ============================================================================
+
+
+
+
+  // Shim: SentenceSegmenter for browser — SemanticGraphBuilder uses dynamic import fallback
+  const SentenceSegmenter = { segment, loadAbbreviationLexicon, tokenizeWithPositions };
+
+  // ============================================================================
   // §9.5: GENERICITY DETECTOR
   // ============================================================================
 
@@ -326108,6 +326380,135 @@ class SemanticGraphBuilder {
    * @param {Object} buildOptions - Build options
    * @returns {Object} JSON-LD graph
    */
+
+  /**
+   * Build a forest graph from multiple segmented sentences.
+   * SBA v1.3 §3.1: Each sentence is parsed independently.
+   * Pipeline (tagger, dep parser) is initialized once and reused.
+   *
+   * @param {Object} segResult - Output from SentenceSegmenter.segment()
+   * @param {string} originalText - Original unsplit input text
+   * @param {string} normalizedText - Unicode-normalized text
+   * @param {Object} buildOptions - Build options
+   * @returns {Object} Merged JSON-LD graph with forest _metadata
+   */
+  _buildForest(segResult, originalText, normalizedText, buildOptions) {
+    const allGraphNodes = [];
+    const sentenceMetadata = [];
+    const sentenceNodeRanges = []; // Track [startIdx, endIdx] per sentence
+
+    for (const sent of segResult.sentences) {
+      const nodeCountBefore = allGraphNodes.length;
+      // Parse each sentence independently — _skipSegmentation prevents re-segmentation
+      const sentResult = this._buildWithTreeExtractors(sent.text, {
+        ...buildOptions,
+        _skipSegmentation: true,
+        _sentenceIndex: sent.sentenceIndex,
+      });
+
+      // Collect graph nodes (skip infrastructure nodes after first sentence)
+      const nodes = sentResult['@graph'] || [];
+      if (sent.sentenceIndex === 0) {
+        // First sentence: include all nodes (IBE, ParsingAct, Parser Agent)
+        allGraphNodes.push(...nodes);
+      } else {
+        // Subsequent sentences: include semantic nodes only, skip IBE/ParsingAct/Agent
+        for (const node of nodes) {
+          const id = node['@id'] || '';
+          if (id.includes('Input_Text_IBE') || id.includes('TagTeam_Parser') || id.includes('ParsingAct')) continue;
+          allGraphNodes.push(node);
+        }
+
+        // Add to first sentence's ParsingAct has_output
+        const parsingAct = allGraphNodes.find(n => (n['@id'] || '').includes('ParsingAct'));
+        if (parsingAct && parsingAct['has_output']) {
+          const newOutputs = nodes
+            .filter(n => {
+              const types = [].concat(n['@type'] || []);
+              return types.some(t => t.includes('DiscourseReferent') || t.includes('VerbPhrase'));
+            })
+            .map(n => ({ '@id': n['@id'] }));
+          parsingAct['has_output'].push(...newOutputs);
+        }
+      }
+
+      // Record node range for this sentence
+      sentenceNodeRanges.push({ start: nodeCountBefore, end: allGraphNodes.length });
+
+      // Collect sentence metadata
+      if (sentResult._metadata && sentResult._metadata.sentences) {
+        const sentMd = sentResult._metadata.sentences[0];
+        sentMd.sentenceIndex = sent.sentenceIndex;
+        sentMd.tokenSpan = sent.tokenSpan;
+        sentenceMetadata.push(sentMd);
+      }
+    }
+
+    // Step 6: Build SentenceCluster nodes and stamp sentenceIndex on Tier 1 nodes
+    const parsingActId = this._hashText(originalText).substring(0, 8);
+    const ibeIri = `inst:Input_Text_IBE_${this._hashText(originalText)}`;
+    const sentenceClusters = [];
+
+    for (let si = 0; si < segResult.sentences.length; si++) {
+      const sent = segResult.sentences[si];
+      const range = sentenceNodeRanges[si] || { start: 0, end: allGraphNodes.length };
+
+      // Find Tier 1 nodes from this sentence using tracked node range
+      const sentDRs = [];
+      const sentVPs = [];
+      for (let ni = range.start; ni < range.end; ni++) {
+        const node = allGraphNodes[ni];
+        const types = [].concat(node['@type'] || []);
+        const isDR = types.includes('tagteam:DiscourseReferent');
+        const isVP = types.some(t => t.includes('VerbPhrase'));
+        if (isDR && !isVP) {
+          node['tagteam:sentenceIndex'] = si;
+          sentDRs.push({ '@id': node['@id'] });
+        }
+        if (isVP) {
+          node['tagteam:sentenceIndex'] = si;
+          sentVPs.push({ '@id': node['@id'] });
+        }
+      }
+
+      // SentenceCluster node (§4.5)
+      const cluster = {
+        '@id': `inst:SentenceCluster_${parsingActId}_s${si}`,
+        '@type': ['tagteam:SentenceCluster'],
+        'tagteam:sentenceIndex': si,
+        'tagteam:hasDiscourseReferent': sentDRs,
+        'tagteam:hasVerbPhrase': sentVPs,
+        'tagteam:ibeIri': { '@id': ibeIri },
+        'tagteam:segmentationType': sent.segmentationType || 'standard',
+        'tagteam:logicalConnector': sent.logicalConnector || null,
+      };
+      sentenceClusters.push(cluster);
+      allGraphNodes.push(cluster);
+    }
+
+    // Add has_sentence_cluster to ParsingAct
+    const parsingAct = allGraphNodes.find(n => (n['@id'] || '').includes('ParsingAct'));
+    if (parsingAct) {
+      parsingAct['tagteam:has_sentence_cluster'] = sentenceClusters.map(c => ({ '@id': c['@id'] }));
+    }
+
+    return {
+      '@graph': allGraphNodes,
+      _metadata: {
+        pipeline: 'tree-based',
+        version: '3.2.0',
+        inputText: originalText,
+        buildTimestamp: this.buildTimestamp,
+        sentences: sentenceMetadata,
+        sentenceRelationships: segResult.sentenceRelationships || [],
+        entities: allGraphNodes.filter(n => [].concat(n['@type'] || []).includes('tagteam:DiscourseReferent') && ![].concat(n['@type'] || []).some(t => t.includes('VerbPhrase'))).length,
+        acts: allGraphNodes.filter(n => [].concat(n['@type'] || []).some(t => t.includes('IntentionalAct')) && !(n['rdfs:label'] || '').includes('parsing')).length,
+        structuralAssertions: allGraphNodes.filter(n => [].concat(n['@type'] || []).some(t => t.includes('StructuralAssertion'))).length,
+        roles: allGraphNodes.filter(n => [].concat(n['@type'] || []).includes('Role')).length,
+      }
+    };
+  }
+
   _buildWithTreeExtractors(text, buildOptions) {
     const stages = {};
     let autoLoaded = false;
@@ -326132,6 +326533,20 @@ class SemanticGraphBuilder {
         ? _UnicodeNormalizer
         : (_UnicodeNormalizer && _UnicodeNormalizer.normalizeUnicode) || (t => t);
       const normalized = normalizeUnicode(text);
+
+      // Stage 1.5: Sentence segmentation (SBA v1.3 §3.1 Segment-First Invariant)
+      // Split multi-sentence input into independent sentences BEFORE parsing.
+      let _SentenceSegmenter = (typeof SentenceSegmenter !== 'undefined') ? SentenceSegmenter : null;
+      // SentenceSegmenter loaded via global shim in browser bundle
+
+      if (_SentenceSegmenter && !buildOptions._skipSegmentation) {
+        const segResult = _SentenceSegmenter.segment(normalized);
+        if (segResult.sentences.length > 1) {
+          // Multi-sentence: process each independently, merge results
+          return this._buildForest(segResult, text, normalized, buildOptions);
+        }
+        // Single sentence: fall through to existing pipeline
+      }
 
       // Stage 2: Tokenization
       stages.current = 'tokenize';
@@ -328068,7 +328483,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 342 | efef535 | 2026-04-01T14:41:46.737Z',
+    BUILD: 'build 350 | 2a9ce0b | 2026-04-01T15:41:37.845Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
