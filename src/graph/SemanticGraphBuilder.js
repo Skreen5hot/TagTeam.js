@@ -1803,8 +1803,10 @@ class SemanticGraphBuilder {
   _buildForest(segResult, originalText, normalizedText, buildOptions) {
     const allGraphNodes = [];
     const sentenceMetadata = [];
+    const sentenceNodeRanges = []; // Track [startIdx, endIdx] per sentence
 
     for (const sent of segResult.sentences) {
+      const nodeCountBefore = allGraphNodes.length;
       // Parse each sentence independently — _skipSegmentation prevents re-segmentation
       const sentResult = this._buildWithTreeExtractors(sent.text, {
         ...buildOptions,
@@ -1838,6 +1840,9 @@ class SemanticGraphBuilder {
         }
       }
 
+      // Record node range for this sentence
+      sentenceNodeRanges.push({ start: nodeCountBefore, end: allGraphNodes.length });
+
       // Collect sentence metadata
       if (sentResult._metadata && sentResult._metadata.sentences) {
         const sentMd = sentResult._metadata.sentences[0];
@@ -1847,10 +1852,53 @@ class SemanticGraphBuilder {
       }
     }
 
-    // Stamp sentenceIndex on all Tier 1 nodes
-    // (Nodes from sentence 0 get sentenceIndex:0, sentence 1 gets sentenceIndex:1, etc.)
-    // Currently each per-sentence build produces sentenceIndex:0. Fix up here.
-    // This is a placeholder — proper per-sentence sentenceIndex injection in Step 6.
+    // Step 6: Build SentenceCluster nodes and stamp sentenceIndex on Tier 1 nodes
+    const parsingActId = this._hashText(originalText).substring(0, 8);
+    const ibeIri = `inst:Input_Text_IBE_${this._hashText(originalText)}`;
+    const sentenceClusters = [];
+
+    for (let si = 0; si < segResult.sentences.length; si++) {
+      const sent = segResult.sentences[si];
+      const range = sentenceNodeRanges[si] || { start: 0, end: allGraphNodes.length };
+
+      // Find Tier 1 nodes from this sentence using tracked node range
+      const sentDRs = [];
+      const sentVPs = [];
+      for (let ni = range.start; ni < range.end; ni++) {
+        const node = allGraphNodes[ni];
+        const types = [].concat(node['@type'] || []);
+        const isDR = types.includes('tagteam:DiscourseReferent');
+        const isVP = types.some(t => t.includes('VerbPhrase'));
+        if (isDR && !isVP) {
+          node['tagteam:sentenceIndex'] = si;
+          sentDRs.push({ '@id': node['@id'] });
+        }
+        if (isVP) {
+          node['tagteam:sentenceIndex'] = si;
+          sentVPs.push({ '@id': node['@id'] });
+        }
+      }
+
+      // SentenceCluster node (§4.5)
+      const cluster = {
+        '@id': `inst:SentenceCluster_${parsingActId}_s${si}`,
+        '@type': ['tagteam:SentenceCluster'],
+        'tagteam:sentenceIndex': si,
+        'tagteam:hasDiscourseReferent': sentDRs,
+        'tagteam:hasVerbPhrase': sentVPs,
+        'tagteam:ibeIri': { '@id': ibeIri },
+        'tagteam:segmentationType': sent.segmentationType || 'standard',
+        'tagteam:logicalConnector': sent.logicalConnector || null,
+      };
+      sentenceClusters.push(cluster);
+      allGraphNodes.push(cluster);
+    }
+
+    // Add has_sentence_cluster to ParsingAct
+    const parsingAct = allGraphNodes.find(n => (n['@id'] || '').includes('ParsingAct'));
+    if (parsingAct) {
+      parsingAct['tagteam:has_sentence_cluster'] = sentenceClusters.map(c => ({ '@id': c['@id'] }));
+    }
 
     return {
       '@graph': allGraphNodes,
