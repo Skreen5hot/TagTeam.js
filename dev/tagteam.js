@@ -318240,12 +318240,29 @@ class OntologyTextTagger {
    * @returns {Object} Load result with { classCount, totalKeywords }
    */
   loadFromString(ttlContent) {
-    // Pre-process: collapse triple-quoted strings to single-quoted
-    // The TurtleParser doesn't handle """ multiline strings, causing it to
-    // lose sync and skip large blocks of the file (e.g., 1500+ CCO classes)
-    const normalizedTtl = ttlContent.replace(/"""([^]*?)"""/g, function(match, content) {
+    // Pre-process: normalize constructs the lightweight TurtleParser can't handle
+    let normalizedTtl = ttlContent;
+
+    // 1. Collapse triple-quoted strings to single-quoted
+    normalizedTtl = normalizedTtl.replace(/"""([^]*?)"""/g, function(match, content) {
       return '"' + content.replace(/\n/g, ' ').replace(/"/g, '\\"') + '"';
     });
+
+    // 2. Remove inline blank node blocks (owl:Restriction, owl:Class expressions)
+    // These [ rdf:type owl:Restriction ; ... ] constructs in rdfs:subClassOf break parsing.
+    normalizedTtl = normalizedTtl.replace(/,?\s*\[\s*rdf:type\s+owl:(?:Restriction|Class)\b[\s\S]*?\]/g, '');
+
+    // 3. Escape # inside quoted strings on the SAME LINE — the TurtleParser treats
+    // # as comment start even inside "...", causing it to lose sync on URLs with
+    // fragment identifiers like "...Gamma_ray#Naming_conventions...".
+    // Process line-by-line to avoid cross-line matching.
+    normalizedTtl = normalizedTtl.split('\n').map(function(line) {
+      // Only process lines that have both a quoted string AND a # inside it
+      // Match: opening quote, content with #, closing quote — all on one line
+      return line.replace(/"([^"]*#[^"]*)"/g, function(match, inner) {
+        return '"' + inner.replace(/#/g, '%23') + '"';
+      });
+    }).join('\n');
 
     const parser = new TurtleParser();
     this._parseResult = parser.parse(normalizedTtl);
@@ -327837,7 +327854,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 330 | cb52c0a | 2026-04-01T08:48:51.439Z',
+    BUILD: 'build 332 | 68cedb1 | 2026-04-01T09:18:00.787Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
