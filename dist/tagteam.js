@@ -302395,9 +302395,11 @@ class RealWorldEntityFactory {
    * @private
    */
   _generateTier2IRI(normalizedLabel, tier2Type, documentIRI) {
-    // Build hash input: label + type + document scope (v2.2)
-    const scopeId = documentIRI || this.sessionId || 'default';
-    const hashInput = `${normalizedLabel}|${tier2Type}|${scopeId}`;
+    // Build hash input: label + type ONLY (no document scope)
+    // Tier 2 IRIs must be stable across ParsingActs so that a document service
+    // can merge graphs from independent parses by IRI equality.
+    // Two parses of any sentence containing "CMS" must produce the same Tier 2 IRI.
+    const hashInput = `${normalizedLabel}|${tier2Type}`;
 
     // Generate SHA-256 hash
     const hash = crypto
@@ -328050,7 +328052,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 339 | a5686f7 | 2026-04-01T12:37:40.441Z',
+    BUILD: 'build 340 | c8ad832 | 2026-04-01T14:17:36.982Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,

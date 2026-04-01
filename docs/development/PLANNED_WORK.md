@@ -782,6 +782,40 @@ The method excludes `acl:relcl`, `acl`, `advcl`, `cop`, `punct`, and `appos` —
 // After:  const drId = `inst:DR_${normalizedLabel}_m${mentionIndex}`;
 ```
 
+#### 5.4j Multi-Sentence Splitting Failure (2026-04-01)
+
+**Severity:** HIGH — affects all multi-sentence input
+**Status:** Known issue — next priority
+
+**Observed:** "Bob gave Fido to Tim. He didn't like it." → Parser treats period as punct, not sentence boundary. Token "like" (sentence 2) gets `ccomp → gave` (sentence 1). Entire input is one dependency tree.
+
+**Root cause:** The tree pipeline processes the full input as a single dependency parse. No sentence segmenter runs before `DependencyParser.parse()`. The dep parser attaches second-sentence tokens to first-sentence roots.
+
+**Impact:** All multi-sentence inputs produce cross-sentence dependency arcs. Pronouns ("He", "it") in sentence 2 cannot be resolved independently. WS-B negation works but the structural context is wrong.
+
+**Fix path:**
+1. Pre-split input on sentence boundaries (`.` `!` `?` followed by space + capital letter)
+2. Parse each sentence independently
+3. Link cross-sentence entities via coreference (WS-E future work)
+
+#### 5.4k Pronoun Identity vs Genericity Confusion (2026-04-01)
+
+**Severity:** LOW — cosmetic, does not affect graph structure
+**Status:** Known issue
+
+**Observed:** "He" in "He didn't like it" gets `genericityConfidence: 0.65` with alternative `GEN`. Personal pronouns (PRP) are always specific instances, never generic kinds. The ambiguity is **identity** (He = Bob or Tim?), not **genericity**.
+
+**Fix path:** GenericityDetector should skip PRP tags — pronouns are always INST.
+
+#### 5.4l Schema Naming: `isNegated` → `negated` (2026-04-01)
+
+**Severity:** LOW — spec alignment
+**Status:** Known issue
+
+**Observed:** Parser uses `tagteam:isNegated` but SHACL v1.3.0 spec uses `tagteam:negated`.
+
+**Fix path:** Rename property in SemanticGraphBuilder and JSONLDSerializer @context.
+
 ### 5.5 Roadmap Gaps
 
 | Item | Issue | Resolution |
