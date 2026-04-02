@@ -30,6 +30,24 @@ const DependencyParser = require(path.join(ROOT, 'src/core/DependencyParser'));
 const posModel = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/data/pos-weights-pruned.json'), 'utf8'));
 const depModel = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/data/dep-weights-pruned.json'), 'utf8'));
 
+// Load CCO ontology for entity type resolution (proxy for Fandaws)
+let ontologyTagger = null;
+try {
+  const OntologyTextTagger = require(path.join(ROOT, 'src/ontology/OntologyTextTagger'));
+  const ccoPath = path.join(ROOT, 'dist/cco-merged.ttl');
+  if (fs.existsSync(ccoPath)) {
+    const ccoTTL = fs.readFileSync(ccoPath, 'utf8');
+    ontologyTagger = OntologyTextTagger.fromTTL(ccoTTL, {
+      domain: 'cco',
+      propertyMap: { keywords: 'rdfs:label', label: 'rdfs:label' },
+    });
+    const classCount = ontologyTagger.getClassCount ? ontologyTagger.getClassCount() : '?';
+    console.log(`  CCO ontology loaded: ${classCount} classes`);
+  }
+} catch (e) {
+  console.log(`  CCO ontology not loaded: ${e.message}`);
+}
+
 // Load sentences
 const sentences = require('./sentences');
 
@@ -341,7 +359,9 @@ for (const sentence of filteredSentences) {
     const builder = new SemanticGraphBuilder({});
     builder._treePosTagger = new PerceptronTagger(posModel);
     builder._treeDepParser = new DependencyParser(depModel);
-    const graph = builder.build(sentence.text, { useTreeExtractors: true });
+    const buildOpts = { useTreeExtractors: true };
+    if (ontologyTagger) buildOpts._ontologyTagger = ontologyTagger;
+    const graph = builder.build(sentence.text, buildOpts);
 
     const { entities, roles } = extractFromGraph(graph);
     const entityMetrics = computeEntityF1(entities, sentence.expectedEntities);
