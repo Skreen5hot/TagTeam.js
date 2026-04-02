@@ -322377,6 +322377,35 @@ const RMC_STATIVE_PREDICATES = new Set([
 ]);
 
 // =============================================================================
+// PP Adjunct Suppression (TT-SPEC-RDM-C §5)
+// =============================================================================
+
+// Prepositions eligible for saturation-based adjunct suppression
+// to-PP excluded — handled by resolveToPPRole() in TT-SPEC-RDM-A
+// from-PP excluded — SourceRole is semantically required on transfer verbs
+// by-PP excluded — passive agent marker, handled separately
+const ADJUNCT_PREPOSITIONS = new Set(['in', 'at', 'on', 'with', 'for', 'near']);
+
+// Verbs whose PP arguments are semantically role-bearing even when saturated.
+// These verbs require their PP complement as an event participant, not an adjunct.
+// Suppression does NOT fire for these verbs.
+const ROLE_BEARING_PP_VERBS = new Set([
+  // Location-requiring verbs (at/in/on PP is integral)
+  'apprehend', 'apprehended', 'arrest', 'arrested',
+  'station', 'stationed', 'deploy', 'deployed',
+  'confiscate', 'confiscated',
+  // Instrument-requiring verbs (with PP is integral)
+  'scan', 'scanned', 'examine', 'examined',
+  'analyze', 'analyzed', 'treat', 'treated',
+  'inspect', 'inspected', 'test', 'tested',
+  // Transfer/directional verbs (to/from PP already excluded, but at/in may be relevant)
+  'file', 'filed', 'forward', 'forwarded',
+]);
+
+// Policy flag — enables suppression rule globally
+const PP_ADJUNCT_SUPPRESSION_ENABLED = true;
+
+// =============================================================================
 // to-PP Dependency Label Recognition (TT-SPEC-RDM-A §6.2)
 // =============================================================================
 
@@ -322386,6 +322415,14 @@ const TO_PP_DEP_LABELS = Object.freeze(new Set([
 
 const INFINITIVAL_TO_LABELS = Object.freeze(new Set([
   'aux', 'mark', 'xcomp'
+]));
+
+// =============================================================================
+// Role Propagation Arcs (TT-SPEC-ENT-A §6.2)
+// =============================================================================
+
+const ROLE_PROPAGATION_ARCS = Object.freeze(new Set([
+  'conj'   // coordinate nominal propagation — TT-SPEC-ENT-A §3.4, TT-SPEC-RDM-B §4
 ]));
 
 // =============================================================================
@@ -322420,7 +322457,7 @@ function mapCaseToOblique(preposition) {
 
   // Shim: after stripCommonJS, only inner constants/functions survive.
   // TreeRoleMapper references RoleMappingContract.mapUDToRole() etc.
-  const RoleMappingContract = { UD_TO_BFO_ROLE, CASE_TO_OBLIQUE_ROLE, RMC_DITRANSITIVE_VERBS, RMC_NON_ROLE_PP_VERBS_PASSIVE, RMC_STATIVE_PREDICATES, TO_PP_DEP_LABELS, INFINITIVAL_TO_LABELS, mapUDToRole, mapCaseToOblique };
+  const RoleMappingContract = { UD_TO_BFO_ROLE, CASE_TO_OBLIQUE_ROLE, RMC_DITRANSITIVE_VERBS, RMC_NON_ROLE_PP_VERBS_PASSIVE, RMC_STATIVE_PREDICATES, ROLE_PROPAGATION_ARCS, ADJUNCT_PREPOSITIONS, ROLE_BEARING_PP_VERBS, PP_ADJUNCT_SUPPRESSION_ENABLED, TO_PP_DEP_LABELS, INFINITIVAL_TO_LABELS, mapUDToRole, mapCaseToOblique };
 
   // ============================================================================
   // v2 PHASE 1: PERCEPTRON TAGGER (for tree pipeline browser support)
@@ -322874,6 +322911,14 @@ const HEAD_NOUN_TYPE_MAP = {
   'victim': 'Person', 'soldier': 'Person', 'pilot': 'Person',
   'driver': 'Person', 'chef': 'Person', 'artist': 'Person',
   'guard': 'Person', 'family': 'Agent',
+  // Persons — ISA/regulatory domain (CCO diagnostic expansion)
+  'commander': 'Person', 'captain': 'Person', 'lieutenant': 'Person',
+  'attorney': 'Person', 'prosecutor': 'Person', 'magistrate': 'Person',
+  'deputy': 'Person', 'chief': 'Person', 'secretary': 'Person',
+  'plaintiff': 'Person', 'defendant': 'Person', 'auditor': 'Person',
+  'instructor': 'Person', 'recruits': 'Person', 'recruit': 'Person',
+  'senator': 'Person', 'representative': 'Person', 'commissioner': 'Person',
+  'liaison': 'Person', 'handler': 'Person', 'patrol': 'Organization',
   // Artifacts
   'ventilator': 'Artifact', 'medication': 'Artifact', 'drug': 'Artifact',
   'medicine': 'Artifact', 'equipment': 'Artifact', 'server': 'Artifact',
@@ -322883,10 +322928,15 @@ const HEAD_NOUN_TYPE_MAP = {
   'credential': 'InformationContentEntity', 'data': 'InformationContentEntity',
   // Facilities
   'datacenter': 'Facility', 'facility': 'Facility', 'building': 'Facility',
-  'office': 'Facility',
+  'office': 'Organization', 'port': 'Facility', 'headquarters': 'Organization',
   // Organizations
   'hospital': 'Organization', 'department': 'Organization',
   'agency': 'Organization', 'company': 'Organization', 'team': 'Organization',
+  'laboratory': 'Organization',
+  'court': 'Organization', 'committee': 'Organization', 'board': 'Organization',
+  'bureau': 'Organization', 'council': 'Organization', 'commission': 'Organization',
+  'sector': 'Organization', 'sectors': 'Organization',
+  'division': 'Organization', 'unit': 'Organization',
 };
 
 /**
@@ -322920,6 +322970,8 @@ class TreeEntityExtractor {
    */
   extract(depTree, options) {
     const opts = options || {};
+    // Store ontology type hints for _classifyType (F-6 enrichment)
+    this._ontologyTypeHints = opts.ontologyTypeHints || null;
     const entities = [];
     const aliasMap = new Map();
     const seenHeads = new Set(); // Prevent duplicate entity extraction
@@ -323035,6 +323087,63 @@ class TreeEntityExtractor {
       entities.push(entity);
     }
 
+    // Step 5b: Pattern 2 — Verb-attached conjunct object recovery (TT-SPEC-ENT-A §4)
+    // When parser attaches coordinated objects as conj of verb (not conj of obj),
+    // the object entity is invisible. Recover nominal conj children of verbs.
+    for (const arc of depTree.arcs) {
+      if (arc.label !== 'root' && !(depTree.tags[arc.dependent - 1] || '').startsWith('VB')) continue;
+      const verbId = arc.dependent;
+      const verbChildren = depTree.getChildren(verbId);
+
+      // Only recover if verb has an obj (the primary object entity)
+      const objArc = verbChildren.find(c => c.label === 'obj');
+      if (!objArc) continue;
+
+      // Find the primary obj entity for coordinatedWith pointer
+      const primaryObjEntity = entities.find(e => e.indices && e.indices.includes(objArc.dependent));
+
+      for (const child of verbChildren) {
+        if (child.label !== 'conj') continue;
+        if (seenHeads.has(child.dependent)) continue;
+        if (lockedTokens.has(child.dependent)) continue;
+
+        const conjTag = depTree.tags[child.dependent - 1] || '';
+        // Guard G-3: Skip verbal conjuncts (VP coordination → SBA domain)
+        if (conjTag.startsWith('VB') || conjTag === 'AUX') continue;
+        // Must be nominal
+        if (!conjTag.startsWith('NN') && conjTag !== 'PRP') continue;
+
+        // Guard G-4: Require cc sibling
+        const conjChildren = depTree.getChildren(child.dependent);
+        const hasCC = conjChildren.some(c => c.label === 'cc' &&
+          ['and', 'or', 'nor', 'but'].includes((c.word || '').toLowerCase()));
+        // Also check cc as sibling of verb (parser sometimes attaches cc to verb)
+        const verbHasCC = verbChildren.some(c => c.label === 'cc' &&
+          ['and', 'or', 'nor', 'but'].includes((c.word || '').toLowerCase()));
+        if (!hasCC && !verbHasCC) continue;
+
+        // Guard G-5: Cross-clause check
+        const isSubjElsewhere = depTree.arcs.some(a =>
+          a.dependent === child.dependent &&
+          (a.label === 'nsubj' || a.label === 'nsubj:pass')
+        );
+        if (isSubjElsewhere) continue;
+
+        seenHeads.add(child.dependent);
+        const conjEntity = this._buildEntity(depTree, child.dependent, 'obj', { skipLabels: ['cc'] });
+        if (conjEntity) {
+          if (this._overlapsLockedSpan(conjEntity, lockedTokens)) continue;
+          // Stamp coordinatedWith pointer (§4.3) — resolved by TreeRoleMapper
+          if (primaryObjEntity && primaryObjEntity.mentionId) {
+            conjEntity.coordinatedWith = primaryObjEntity.mentionId;
+          } else if (primaryObjEntity) {
+            conjEntity.coordinatedWith = primaryObjEntity.headId;
+          }
+          entities.push(conjEntity);
+        }
+      }
+    }
+
     // Step 6: Alias promotion — resolve later mentions via aliasMap
     this._promoteAliases(entities, aliasMap);
 
@@ -323120,22 +323229,38 @@ class TreeEntityExtractor {
       return null; // Head has compounds → multi-word name → KEEP
     }
 
-    // Check if ALL conjuncts (including head) are NNP
-    const headTag = depTree.tags[headId - 1];
-    const allProperNouns = PROPER_NOUN_TAGS.has(headTag) &&
-      conjChildren.every(c => PROPER_NOUN_TAGS.has(c.tag));
-
-    if (!allProperNouns) {
-      return null; // Common nouns → KEEP
+    // Guard G-4: Verify cc sibling exists (no split without explicit conjunction)
+    // cc may be child of head OR child of any conjunct (parser varies)
+    let hasCC = children.some(c => c.label === 'cc' &&
+      ['and', 'or', 'nor', 'but'].includes((c.word || '').toLowerCase()));
+    if (!hasCC) {
+      for (const conj of conjChildren) {
+        const conjKids = depTree.getChildren(conj.dependent);
+        if (conjKids.some(c => c.label === 'cc' &&
+          ['and', 'or', 'nor', 'but'].includes((c.word || '').toLowerCase()))) {
+          hasCC = true;
+          break;
+        }
+      }
+    }
+    if (!hasCC) {
+      return null; // No explicit conjunction → KEEP (asyndetic coordination)
     }
 
-    // Gazetteer check removed: the compound-crossing check above (lines 181-192)
-    // is the authoritative guard against splitting multi-word names like
-    // "Customs and Border Protection". The gazetteer partial-miss heuristic
-    // was redundant and caused false KEEPs when one conjunct happened to be
-    // a gazetteer alias (e.g., "Bob" → Robert) but the other wasn't.
+    // Guard G-5: Cross-clause signal — if any conjunct is nsubj of a different verb,
+    // this may be cross-clause coordination, not intra-NP coordination
+    for (const conj of conjChildren) {
+      const conjAsSubj = depTree.arcs.find(a =>
+        a.dependent === conj.dependent &&
+        (a.label === 'nsubj' || a.label === 'nsubj:pass') &&
+        a.head !== headId
+      );
+      if (conjAsSubj) {
+        return null; // Conjunct is subject of another verb → cross-clause → KEEP
+      }
+    }
 
-    // All checks passed → SPLIT
+    // All guards passed → SPLIT (TT-SPEC-ENT-A §3.2)
     const result = [];
 
     // Mark conj children as seen
@@ -323369,8 +323494,22 @@ class TreeEntityExtractor {
       if (headLookup) return headLookup.type;
     }
 
-    // Head-noun type lookup (common nouns)
+    // Ontology type hints (F-6: single-word CCO/ISA domain matches)
     const headLower = (headWord || '').toLowerCase();
+    if (this._ontologyTypeHints && this._ontologyTypeHints.has(headLower)) {
+      const hintClass = this._ontologyTypeHints.get(headLower).toLowerCase();
+      // Map ontology class labels to CCO entity types via ISA parent classes
+      if (/person|commander|captain|lieutenant|attorney|prosecutor|magistrate|deputy|chief|secretary|plaintiff|defendant|auditor|instructor|recruit|senator|representative|commissioner|liaison|handler|officer|witness|regulator|traveler/i.test(hintClass)) return 'Person';
+      if (/organization|court|committee|board|bureau|council|commission|sector|division|unit|patrol|agency|laboratory|dea|atf/i.test(hintClass)) return 'Organization';
+      if (/facility|port|headquarters|embassy|campus|container/i.test(hintClass)) return 'Facility';
+      if (/vehicle|cargo|weapon|goods/i.test(hintClass)) return 'Artifact';
+      if (/evidence|testimony|regulation|order|instruction|plan|policy|grant|motion|memorandum|guideline|credential|initiative|investigation|record|study/i.test(hintClass)) return 'InformationContentEntity';
+      if (/geopolitical|border|capital/i.test(hintClass)) return 'GeopoliticalEntity';
+      // Generic fallback: use the class label directly if it's a known CCO type
+      if (/agent/i.test(hintClass)) return 'Agent';
+    }
+
+    // Head-noun type lookup (common nouns — fallback)
     if (HEAD_NOUN_TYPE_MAP[headLower]) {
       return HEAD_NOUN_TYPE_MAP[headLower];
     }
@@ -324744,12 +324883,10 @@ class TreeRoleMapper {
     const sentIdx = (context && context.sentenceIndex) || 0;
 
     // Build entity lookup with composite key: "${sentenceIndex}-${headTokenIndex}"
-    // Composite key prevents collisions across sentences in a multi-sentence forest (§4.2)
     const entityByHead = new Map();
     for (const entity of entities) {
       const key = `${sentIdx}-${entity.headId}`;
       entityByHead.set(key, entity);
-      // Also index by all indices in the entity span
       if (entity.indices) {
         for (const idx of entity.indices) {
           const spanKey = `${sentIdx}-${idx}`;
@@ -324764,6 +324901,10 @@ class TreeRoleMapper {
 
     // Stative predicate suppression set
     const stativeSet = RoleMappingContract && RoleMappingContract.RMC_STATIVE_PREDICATES;
+
+    // Adjunct suppression config
+    const adjunctPreps = RoleMappingContract && RoleMappingContract.ADJUNCT_PREPOSITIONS;
+    const suppressionEnabled = RoleMappingContract && RoleMappingContract.PP_ADJUNCT_SUPPRESSION_ENABLED;
 
     // Per-act role assignment — group by actId for coordination propagation
     const rolesByAct = new Map();
@@ -324782,12 +324923,81 @@ class TreeRoleMapper {
       const actRoles = [];
       const children = depTree.getChildren(verbId);
 
+      // ================================================================
+      // PASS 1: Core argument role assignment (TT-SPEC-RDM-C §6.1)
+      // Processes nsubj, nsubj:pass, obj, iobj, and obl:agent with by-prep.
+      // Fully populates actRoles with AgentRole/PatientRole/RecipientRole
+      // before Pass 2 reads saturation state.
+      // ================================================================
       for (const child of children) {
+        const label = child.label;
+
+        // Determine if this is a core argument or oblique
+        let isCoreArg = (label === 'nsubj' || label === 'nsubj:pass' ||
+                         label === 'obj' || label === 'iobj');
+
+        // obl:agent with "by" preposition is a core argument (passive agent)
+        if (label === 'obl:agent') {
+          const oblChildren = depTree.getChildren(child.dependent);
+          const caseChild = oblChildren.find(c => c.label === 'case');
+          const prep = caseChild ? caseChild.word.toLowerCase() : null;
+          if (prep === 'by') isCoreArg = true;
+          // obl:agent with non-by prep → Pass 2 (RDM-A §4.2 downgrade)
+        }
+
+        if (!isCoreArg) continue;
+
         const role = this._mapChildToRole(child, depTree, entityByHead, act, ctx);
         if (role) {
           actRoles.push(role);
           roles.push(role);
-          // Propagate role to coordinated conjuncts (UD: conj children inherit parent role)
+          this._propagateToConjuncts(child, depTree, entityByHead, act, role, roles, sentIdx);
+        }
+      }
+
+      // ================================================================
+      // PASS 2: Oblique PP role assignment with adjunct suppression
+      // (TT-SPEC-RDM-C §6.2)
+      // Reads actRoles (now complete from Pass 1) for saturation check.
+      // ================================================================
+      for (const child of children) {
+        const label = child.label;
+
+        // Only process obl arcs in Pass 2
+        let isOblique = (label === 'obl');
+
+        // obl:agent with non-by preposition → treat as plain obl (RDM-A §4.2)
+        if (label === 'obl:agent') {
+          const oblChildren = depTree.getChildren(child.dependent);
+          const caseChild = oblChildren.find(c => c.label === 'case');
+          const prep = caseChild ? caseChild.word.toLowerCase() : null;
+          if (prep !== 'by') isOblique = true;
+          // obl:agent with by → already handled in Pass 1
+        }
+
+        if (!isOblique) continue;
+
+        // Get the preposition for this obl
+        const oblChildren = depTree.getChildren(child.dependent);
+        const caseChild = oblChildren.find(c => c.label === 'case');
+        const preposition = caseChild ? caseChild.word.toLowerCase() : null;
+
+        // Adjunct suppression check (TT-SPEC-RDM-C §4)
+        // Only for non-to prepositions (to-PP handled by resolveToPPRole in _handleOblique)
+        if (suppressionEnabled && adjunctPreps && preposition && preposition !== 'to') {
+          const suppressed = this._shouldSuppressAdjunctPP(
+            act.verbId, preposition, child, actRoles, ctx
+          );
+          if (suppressed === 'SUPPRESS') {
+            continue; // Retained as DiscourseReferent, no RoleAssertion
+          }
+        }
+
+        // Not suppressed — assign role via existing _handleOblique path
+        const role = this._mapChildToRole(child, depTree, entityByHead, act, ctx);
+        if (role) {
+          actRoles.push(role);
+          roles.push(role);
           this._propagateToConjuncts(child, depTree, entityByHead, act, role, roles, sentIdx);
         }
       }
@@ -324798,7 +325008,103 @@ class TreeRoleMapper {
     // Pattern A: Shared-argument VP propagation (TT-SPEC-RDM-B §3)
     this._propagateSharedArguments(acts, rolesByAct, roles, sentIdx);
 
+    // Pattern 2: Resolve coordinatedWith pointers (TT-SPEC-ENT-A §4.3)
+    this._resolveCoordinatedWithRoles(entities, roles, entityByHead, sentIdx);
+
     return roles;
+  }
+
+  /**
+   * PP Adjunct Suppression predicate (TT-SPEC-RDM-C §4).
+   *
+   * When a verb is argument-saturated (has both AgentRole and PatientRole)
+   * and the PP head noun is non-animate, suppress the PP role.
+   *
+   * @returns {'SUPPRESS'|null}
+   */
+  _shouldSuppressAdjunctPP(verbId, preposition, child, assignedRoles, context) {
+    const adjunctPreps = RoleMappingContract && RoleMappingContract.ADJUNCT_PREPOSITIONS;
+    const roleBearingVerbs = RoleMappingContract && RoleMappingContract.ROLE_BEARING_PP_VERBS;
+
+    // Step 1: Preposition guard
+    if (!adjunctPreps || !adjunctPreps.has(preposition)) return null;
+
+    // Step 1b: Verb whitelist guard — verbs that require their PP complement
+    if (roleBearingVerbs) {
+      const verbRole = assignedRoles.find(r => r.actId === verbId);
+      const verbText = verbRole ? (verbRole.act || '').toLowerCase() : '';
+      if (roleBearingVerbs.has(verbText)) return null;
+    }
+
+    // Step 2: Saturation check — verb must have both Agent and Patient
+    const hasAgent = assignedRoles.some(r => r.label === 'AgentRole');
+    const hasPatient = assignedRoles.some(r => r.label === 'PatientRole');
+    if (!(hasAgent && hasPatient)) return null;
+
+    // Step 3: Animacy check — animate PP heads are not suppressed
+    const si = (context && context.sentenceIndex) || 0;
+    const entityByHead = context && context.entityByHead;
+    if (entityByHead) {
+      const entity = entityByHead.get(`${si}-${child.dependent}`);
+      if (entity && this._isAnimate(entity, context)) return null;
+    }
+
+    // Step 4: Suppress
+    return 'SUPPRESS';
+  }
+
+  /**
+   * Resolve coordinatedWith pointers from Pattern 2 conjunct object recovery.
+   * Copies the primary entity's role to the conjunct entity.
+   * Runs AFTER all standard role assignment and propagation passes (§6.3).
+   */
+  _resolveCoordinatedWithRoles(entities, allRoles, entityByHead, sentIdx) {
+    const si = sentIdx || 0;
+
+    // Build mentionId → entity index for pointer resolution
+    const mentionIdIndex = new Map();
+    for (const entity of entities) {
+      if (entity.mentionId) mentionIdIndex.set(entity.mentionId, entity);
+    }
+
+    for (const entity of entities) {
+      if (!entity.coordinatedWith) continue;
+
+      // Look up primary entity by mentionId or headId
+      let primaryEntity = mentionIdIndex.get(entity.coordinatedWith);
+      if (!primaryEntity) {
+        // Fallback: coordinatedWith might be a headId (number)
+        const key = `${si}-${entity.coordinatedWith}`;
+        primaryEntity = entityByHead.get(key);
+      }
+
+      if (!primaryEntity) {
+        if (typeof console !== 'undefined' && console.warn) {
+          console.warn(
+            `[TreeRoleMapper] _resolveCoordinatedWithRoles: ` +
+            `no entity found for coordinatedWith '${entity.coordinatedWith}'. ` +
+            `Role copy skipped for entity '${entity.fullText || entity.text}'.`
+          );
+        }
+        continue;
+      }
+
+      // Find roles assigned to the primary entity
+      const primaryRoles = allRoles.filter(r =>
+        r.entityId === primaryEntity.headId || r.entity === (primaryEntity.fullText || primaryEntity.text)
+      );
+
+      for (const primaryRole of primaryRoles) {
+        allRoles.push({
+          ...primaryRole,
+          entity: entity.fullText || entity.text,
+          entityId: entity.headId,
+          recoveredConjunct: true,
+          sourceEntityId: primaryEntity.headId,
+          note: `Role copied from coordinatedWith entity '${primaryEntity.fullText || primaryEntity.text}'`,
+        });
+      }
+    }
   }
 
   /**
@@ -327519,15 +327825,21 @@ class SemanticGraphBuilder {
         lockedSpans = this._mapCDDSpansToTokenIndices(filteredSpans, tokens, tokenObjs);
       }
 
-      // F-3: Ontology-aware span anchoring — if an ontology tagger is provided,
-      // find multi-word matches in the text and add them as locked spans.
-      // This prevents fragmentation of known ontology terms.
+      // F-3: Ontology-aware span anchoring + entity type hints
+      // Multi-word matches → locked spans (prevent fragmentation)
+      // Single-word matches → type hints for entity extractor (F-6 enrichment)
+      const ontologyTypeHints = new Map(); // token text → CCO class label
       if (buildOptions._ontologyTagger && typeof buildOptions._ontologyTagger.tagText === 'function') {
         const ontTags = buildOptions._ontologyTagger.tagText(text) || [];
         for (const tag of ontTags) {
           if (!tag.evidence) continue;
           for (const ev of tag.evidence) {
-            if (ev.split(/\s+/).length < 2) continue; // Only multi-word terms
+            // Single-word matches: store as type hints for entity extraction
+            if (ev.split(/\s+/).length < 2) {
+              const classLabel = tag.label || tag.classIRI || '';
+              if (classLabel) ontologyTypeHints.set(ev.toLowerCase(), classLabel);
+              continue;
+            }
             // Find the evidence text position in the input
             const evLower = ev.toLowerCase();
             const textLower = text.toLowerCase();
@@ -327571,7 +327883,7 @@ class SemanticGraphBuilder {
       const entityExtractor = new _TreeEntityExtractor({
         gazetteerNER: this._treeGazetteerNER || null
       });
-      const { entities, aliasMap } = entityExtractor.extract(depTree, { lockedSpans });
+      const { entities, aliasMap } = entityExtractor.extract(depTree, { lockedSpans, ontologyTypeHints });
 
       // Stage 6: Tree-based act extraction
       stages.current = 'extractActs';
@@ -329358,7 +329670,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 378 | a73b81a | 2026-04-02T13:30:12.458Z',
+    BUILD: 'build 388 | 0795925 | 2026-04-02T19:48:33.882Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
