@@ -60,9 +60,20 @@ class TreeRoleMapper {
 
     const ctx = { ...(context || {}), entities, entityByHead };
 
+    // Stative predicate suppression set
+    const stativeSet = RoleMappingContract && RoleMappingContract.RMC_STATIVE_PREDICATES;
+
     for (const act of acts) {
       const verbId = act.verbId;
       if (!verbId) continue;
+
+      // Suppress all roles for stative predicates in passive voice
+      // ("is known as", "is composed of", "is divided into" — no event, no roles)
+      if (act.isPassive && stativeSet) {
+        const verbLc = (act.verb || '').toLowerCase();
+        const lemmaLc = (act.lemma || '').toLowerCase();
+        if (stativeSet.has(verbLc) || stativeSet.has(lemmaLc)) continue;
+      }
 
       const children = depTree.getChildren(verbId);
 

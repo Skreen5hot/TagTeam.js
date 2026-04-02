@@ -74,6 +74,17 @@ const RMC_NON_ROLE_PP_VERBS_PASSIVE = new Set([
 ]);
 
 // =============================================================================
+// Stative Predicate Suppression — passive participles used adjectivally
+// =============================================================================
+
+const RMC_STATIVE_PREDICATES = new Set([
+  'known', 'composed', 'divided', 'located', 'based', 'situated',
+  'derived', 'classified', 'designated', 'defined', 'established',
+  'recognized', 'considered', 'regarded', 'named', 'called',
+  'organized', 'structured', 'comprised', 'constituted',
+]);
+
+// =============================================================================
 // to-PP Dependency Label Recognition (TT-SPEC-RDM-A §6.2)
 // =============================================================================
 
@@ -118,6 +129,7 @@ module.exports = {
   CASE_TO_OBLIQUE_ROLE,
   RMC_DITRANSITIVE_VERBS,
   RMC_NON_ROLE_PP_VERBS_PASSIVE,
+  RMC_STATIVE_PREDICATES,
   TO_PP_DEP_LABELS,
   INFINITIVAL_TO_LABELS,
   mapUDToRole,

@@ -1,15 +1,15 @@
 {
-  "timestamp": "2026-04-02T12:18:19.692Z",
+  "timestamp": "2026-04-02T12:41:34.584Z",
   "sentenceCount": 200,
   "entityF1": {
-    "precision": 0.9148073022312373,
-    "recall": 0.9204081632653062,
-    "f1": 0.9175991861648017
+    "precision": 0.9158316633266533,
+    "recall": 0.9326530612244898,
+    "f1": 0.9241658240647118
   },
   "roleF1": {
-    "precision": 0.834733893557423,
-    "recall": 0.7700258397932817,
-    "f1": 0.8010752688172043
+    "precision": 0.8494318181818182,
+    "recall": 0.772609819121447,
+    "f1": 0.8092016238159676
   },
   "copularAccuracy": 1,
   "coordinationAccuracy": 0.85,
@@ -17,14 +17,14 @@
     "organizational": {
       "count": 43,
       "entityF1": {
-        "precision": 0.9680851063829787,
-        "recall": 0.9479166666666666,
-        "f1": 0.9578947368421052
+        "precision": 0.9690721649484536,
+        "recall": 0.9791666666666666,
+        "f1": 0.9740932642487047
       },
       "roleF1": {
-        "precision": 0.8688524590163934,
-        "recall": 0.828125,
-        "f1": 0.8480000000000001
+        "precision": 0.890625,
+        "recall": 0.890625,
+        "f1": 0.890625
       }
     },
     "coordination": {
@@ -48,9 +48,9 @@
         "f1": 1
       },
       "roleF1": {
-        "precision": 0.7692307692307693,
-        "recall": 0.9090909090909091,
-        "f1": 0.8333333333333333
+        "precision": 1,
+        "recall": 0.18181818181818182,
+        "f1": 0.3076923076923077
       }
     },
     "three-way-coord": {
@@ -69,14 +69,14 @@
     "cbp-domain": {
       "count": 60,
       "entityF1": {
-        "precision": 0.8936170212765957,
-        "recall": 0.9264705882352942,
-        "f1": 0.9097472924187726
+        "precision": 0.8958333333333334,
+        "recall": 0.9485294117647058,
+        "f1": 0.9214285714285715
       },
       "roleF1": {
-        "precision": 0.8144329896907216,
-        "recall": 0.7821782178217822,
-        "f1": 0.7979797979797979
+        "precision": 0.84,
+        "recall": 0.8316831683168316,
+        "f1": 0.835820895522388
       }
     },
     "general": {
@@ -603,15 +603,15 @@
     },
     {
       "id": "org-ditr-001",
-      "entityF1": 0.8,
-      "roleF1": 0.4,
+      "entityF1": 1,
+      "roleF1": 0.6666666666666666,
       "entityPrecision": 1,
-      "entityRecall": 0.6666666666666666,
-      "rolePrecision": 0.5,
-      "roleRecall": 0.3333333333333333,
-      "extractedEntities": 2,
+      "entityRecall": 1,
+      "rolePrecision": 0.6666666666666666,
+      "roleRecall": 0.6666666666666666,
+      "extractedEntities": 3,
       "goldEntities": 3,
-      "extractedRoles": 2,
+      "extractedRoles": 3,
       "goldRoles": 3
     },
     {
@@ -902,28 +902,28 @@
     },
     {
       "id": "org-ditr-004",
-      "entityF1": 0.8,
-      "roleF1": 0.4,
+      "entityF1": 1,
+      "roleF1": 0.6666666666666666,
       "entityPrecision": 1,
-      "entityRecall": 0.6666666666666666,
-      "rolePrecision": 0.5,
-      "roleRecall": 0.3333333333333333,
-      "extractedEntities": 2,
+      "entityRecall": 1,
+      "rolePrecision": 0.6666666666666666,
+      "roleRecall": 0.6666666666666666,
+      "extractedEntities": 3,
       "goldEntities": 3,
-      "extractedRoles": 2,
+      "extractedRoles": 3,
       "goldRoles": 3
     },
     {
       "id": "org-ditr-005",
-      "entityF1": 0.8,
-      "roleF1": 0.4,
+      "entityF1": 1,
+      "roleF1": 1,
       "entityPrecision": 1,
-      "entityRecall": 0.6666666666666666,
-      "rolePrecision": 0.5,
-      "roleRecall": 0.3333333333333333,
-      "extractedEntities": 2,
+      "entityRecall": 1,
+      "rolePrecision": 1,
+      "roleRecall": 1,
+      "extractedEntities": 3,
       "goldEntities": 3,
-      "extractedRoles": 2,
+      "extractedRoles": 3,
       "goldRoles": 3
     },
     {
@@ -949,7 +949,7 @@
       "roleRecall": 0,
       "extractedEntities": 2,
       "goldEntities": 2,
-      "extractedRoles": 1,
+      "extractedRoles": 0,
       "goldRoles": 0
     },
     {
@@ -962,7 +962,7 @@
       "roleRecall": 0,
       "extractedEntities": 2,
       "goldEntities": 2,
-      "extractedRoles": 1,
+      "extractedRoles": 0,
       "goldRoles": 0
     },
     {
@@ -975,7 +975,7 @@
       "roleRecall": 0,
       "extractedEntities": 2,
       "goldEntities": 2,
-      "extractedRoles": 1,
+      "extractedRoles": 0,
       "goldRoles": 0
     },
     {
@@ -994,14 +994,14 @@
     {
       "id": "agentive-001",
       "entityF1": 1,
-      "roleF1": 1,
+      "roleF1": 0,
       "entityPrecision": 1,
       "entityRecall": 1,
-      "rolePrecision": 1,
-      "roleRecall": 1,
+      "rolePrecision": 0,
+      "roleRecall": 0,
       "extractedEntities": 2,
       "goldEntities": 2,
-      "extractedRoles": 2,
+      "extractedRoles": 0,
       "goldRoles": 2
     },
     {
@@ -1020,40 +1020,40 @@
     {
       "id": "agentive-003",
       "entityF1": 1,
-      "roleF1": 1,
+      "roleF1": 0,
       "entityPrecision": 1,
       "entityRecall": 1,
-      "rolePrecision": 1,
-      "roleRecall": 1,
+      "rolePrecision": 0,
+      "roleRecall": 0,
       "extractedEntities": 2,
       "goldEntities": 2,
-      "extractedRoles": 2,
+      "extractedRoles": 0,
       "goldRoles": 2
     },
     {
       "id": "agentive-004",
       "entityF1": 1,
-      "roleF1": 1,
+      "roleF1": 0,
       "entityPrecision": 1,
       "entityRecall": 1,
-      "rolePrecision": 1,
-      "roleRecall": 1,
+      "rolePrecision": 0,
+      "roleRecall": 0,
       "extractedEntities": 2,
       "goldEntities": 2,
-      "extractedRoles": 2,
+      "extractedRoles": 0,
       "goldRoles": 2
     },
     {
       "id": "agentive-005",
       "entityF1": 1,
-      "roleF1": 1,
+      "roleF1": 0,
       "entityPrecision": 1,
       "entityRecall": 1,
-      "rolePrecision": 1,
-      "roleRecall": 1,
+      "rolePrecision": 0,
+      "roleRecall": 0,
       "extractedEntities": 2,
       "goldEntities": 2,
-      "extractedRoles": 2,
+      "extractedRoles": 0,
       "goldRoles": 2
     },
     {
@@ -1851,15 +1851,15 @@
     },
     {
       "id": "cbp-ditr-002",
-      "entityF1": 0.8,
-      "roleF1": 0.4,
+      "entityF1": 1,
+      "roleF1": 0.6666666666666666,
       "entityPrecision": 1,
-      "entityRecall": 0.6666666666666666,
-      "rolePrecision": 0.5,
-      "roleRecall": 0.3333333333333333,
-      "extractedEntities": 2,
+      "entityRecall": 1,
+      "rolePrecision": 0.6666666666666666,
+      "roleRecall": 0.6666666666666666,
+      "extractedEntities": 3,
       "goldEntities": 3,
-      "extractedRoles": 2,
+      "extractedRoles": 3,
       "goldRoles": 3
     },
     {
@@ -1877,28 +1877,28 @@
     },
     {
       "id": "cbp-ditr-004",
-      "entityF1": 0.8,
-      "roleF1": 0.4,
+      "entityF1": 1,
+      "roleF1": 1,
       "entityPrecision": 1,
-      "entityRecall": 0.6666666666666666,
-      "rolePrecision": 0.5,
-      "roleRecall": 0.3333333333333333,
-      "extractedEntities": 2,
+      "entityRecall": 1,
+      "rolePrecision": 1,
+      "roleRecall": 1,
+      "extractedEntities": 3,
       "goldEntities": 3,
-      "extractedRoles": 2,
+      "extractedRoles": 3,
       "goldRoles": 3
     },
     {
       "id": "cbp-ditr-005",
-      "entityF1": 0.8,
-      "roleF1": 0.4,
+      "entityF1": 1,
+      "roleF1": 1,
       "entityPrecision": 1,
-      "entityRecall": 0.6666666666666666,
-      "rolePrecision": 0.5,
-      "roleRecall": 0.3333333333333333,
-      "extractedEntities": 2,
+      "entityRecall": 1,
+      "rolePrecision": 1,
+      "roleRecall": 1,
+      "extractedEntities": 3,
       "goldEntities": 3,
-      "extractedRoles": 2,
+      "extractedRoles": 3,
       "goldRoles": 3
     },
     {

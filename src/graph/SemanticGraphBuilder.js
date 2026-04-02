@@ -2087,7 +2087,11 @@ class SemanticGraphBuilder {
         if (_DepTreeCorrector.correctModalFragmentation) {
           _DepTreeCorrector.correctModalFragmentation(parseResult.arcs, tokens, tags);
         }
-        // Double-obj ditransitive — "gave the team new orders" with two obj arcs
+        // Orphan NP recovery — "gave the team new orders" where "orders" has no verb arc
+        if (_DepTreeCorrector.recoverDitransitiveOrphans) {
+          _DepTreeCorrector.recoverDitransitiveOrphans(parseResult.arcs, tokens, tags);
+        }
+        // Double-obj ditransitive — rewrite first obj → iobj after recovery
         if (_DepTreeCorrector.correctDoubleObjDitransitives) {
           _DepTreeCorrector.correctDoubleObjDitransitives(parseResult.arcs, tokens, tags);
         }

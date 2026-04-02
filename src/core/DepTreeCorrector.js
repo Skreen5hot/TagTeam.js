@@ -442,4 +442,67 @@ function correctDoubleObjDitransitives(arcs, tokens, tags) {
   return arcs;
 }
 
-module.exports = { correctDitransitives, correctDoubleObjDitransitives, correctCopularFragmentation, correctNounRootVerbAcl, correctModalFragmentation, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
+/**
+ * Recover misattached second arguments in ditransitive constructions.
+ *
+ * Pattern: ditransitive verb has exactly one obj, and a second noun argument
+ * attached with a wrong label (obl:unmarked, parataxis, advcl) that should be obj.
+ * Rewrite the wrong label to obj. Then correctDoubleObjDitransitives() promotes
+ * the first obj to iobj.
+ *
+ * Example: "The commander gave the team new orders"
+ *   Before: nsubj(commander→gave), obj(team→gave), obl:unmarked(orders→gave)
+ *   After:  obj(orders→gave), then double-obj: obj(team)→iobj(team)
+ *
+ * @param {Array} arcs
+ * @param {string[]} tokens
+ * @param {string[]} tags
+ * @returns {Array}
+ */
+function recoverDitransitiveOrphans(arcs, tokens, tags) {
+  const ditransitives = (typeof RMC_DITRANSITIVE_VERBS !== 'undefined')
+    ? RMC_DITRANSITIVE_VERBS : DITRANSITIVE_VERBS;
+
+  // Misattached labels that should be obj on ditransitive verbs
+  const MISATTACHED_LABELS = new Set(['obl:unmarked', 'parataxis', 'advcl']);
+
+  // Build head→children index
+  const childrenOf = new Map();
+  for (const arc of arcs) {
+    if (!childrenOf.has(arc.head)) childrenOf.set(arc.head, []);
+    childrenOf.get(arc.head).push(arc);
+  }
+
+  for (const arc of arcs) {
+    const verbId = arc.dependent;
+    const verbTag = tags[verbId - 1];
+    if (!verbTag || !verbTag.startsWith('VB')) continue;
+
+    const lemma = getLemma(tokens[verbId - 1]);
+    const verbLc = tokens[verbId - 1].toLowerCase();
+    if (!ditransitives.has(lemma) && !ditransitives.has(verbLc)) continue;
+
+    const verbChildren = childrenOf.get(verbId) || [];
+    const objArcs = verbChildren.filter(c => c.label === 'obj');
+    if (objArcs.length !== 1) continue;
+
+    const objId = objArcs[0].dependent;
+
+    // Find misattached noun argument after the obj
+    for (const child of verbChildren) {
+      if (!MISATTACHED_LABELS.has(child.label)) continue;
+      if (child.dependent <= objId) continue; // Must be after obj
+
+      const depTag = tags[child.dependent - 1];
+      if (!depTag || !depTag.startsWith('NN')) continue;
+
+      // Rewrite to obj
+      child.label = 'obj';
+      break; // One rewrite per verb
+    }
+  }
+
+  return arcs;
+}
+
+module.exports = { correctDitransitives, correctDoubleObjDitransitives, recoverDitransitiveOrphans, correctCopularFragmentation, correctNounRootVerbAcl, correctModalFragmentation, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
