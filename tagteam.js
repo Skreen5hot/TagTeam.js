@@ -321014,11 +321014,74 @@ function correctDoubleObjDitransitives(arcs, tokens, tags) {
   return arcs;
 }
 
+/**
+ * Recover misattached second arguments in ditransitive constructions.
+ *
+ * Pattern: ditransitive verb has exactly one obj, and a second noun argument
+ * attached with a wrong label (obl:unmarked, parataxis, advcl) that should be obj.
+ * Rewrite the wrong label to obj. Then correctDoubleObjDitransitives() promotes
+ * the first obj to iobj.
+ *
+ * Example: "The commander gave the team new orders"
+ *   Before: nsubj(commander→gave), obj(team→gave), obl:unmarked(orders→gave)
+ *   After:  obj(orders→gave), then double-obj: obj(team)→iobj(team)
+ *
+ * @param {Array} arcs
+ * @param {string[]} tokens
+ * @param {string[]} tags
+ * @returns {Array}
+ */
+function recoverDitransitiveOrphans(arcs, tokens, tags) {
+  const ditransitives = (typeof RMC_DITRANSITIVE_VERBS !== 'undefined')
+    ? RMC_DITRANSITIVE_VERBS : DITRANSITIVE_VERBS;
+
+  // Misattached labels that should be obj on ditransitive verbs
+  const MISATTACHED_LABELS = new Set(['obl:unmarked', 'parataxis', 'advcl']);
+
+  // Build head→children index
+  const childrenOf = new Map();
+  for (const arc of arcs) {
+    if (!childrenOf.has(arc.head)) childrenOf.set(arc.head, []);
+    childrenOf.get(arc.head).push(arc);
+  }
+
+  for (const arc of arcs) {
+    const verbId = arc.dependent;
+    const verbTag = tags[verbId - 1];
+    if (!verbTag || !verbTag.startsWith('VB')) continue;
+
+    const lemma = getLemma(tokens[verbId - 1]);
+    const verbLc = tokens[verbId - 1].toLowerCase();
+    if (!ditransitives.has(lemma) && !ditransitives.has(verbLc)) continue;
+
+    const verbChildren = childrenOf.get(verbId) || [];
+    const objArcs = verbChildren.filter(c => c.label === 'obj');
+    if (objArcs.length !== 1) continue;
+
+    const objId = objArcs[0].dependent;
+
+    // Find misattached noun argument after the obj
+    for (const child of verbChildren) {
+      if (!MISATTACHED_LABELS.has(child.label)) continue;
+      if (child.dependent <= objId) continue; // Must be after obj
+
+      const depTag = tags[child.dependent - 1];
+      if (!depTag || !depTag.startsWith('NN')) continue;
+
+      // Rewrite to obj
+      child.label = 'obj';
+      break; // One rewrite per verb
+    }
+  }
+
+  return arcs;
+}
+
 
 
   // Shim: after stripCommonJS, only the inner functions survive.
   // SemanticGraphBuilder checks typeof DepTreeCorrector !== 'undefined'.
-  const DepTreeCorrector = { correctDitransitives, correctDoubleObjDitransitives, correctCopularFragmentation, correctNounRootVerbAcl, correctModalFragmentation, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
+  const DepTreeCorrector = { correctDitransitives, correctDoubleObjDitransitives, recoverDitransitiveOrphans, correctCopularFragmentation, correctNounRootVerbAcl, correctModalFragmentation, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
 
   // ============================================================================
   // SBA v1.3: SENTENCE SEGMENTER
@@ -322300,6 +322363,17 @@ const RMC_NON_ROLE_PP_VERBS_PASSIVE = new Set([
 ]);
 
 // =============================================================================
+// Stative Predicate Suppression — passive participles used adjectivally
+// =============================================================================
+
+const RMC_STATIVE_PREDICATES = new Set([
+  'known', 'composed', 'divided', 'located', 'based', 'situated',
+  'derived', 'classified', 'designated', 'defined', 'established',
+  'recognized', 'considered', 'regarded', 'named', 'called',
+  'organized', 'structured', 'comprised', 'constituted',
+]);
+
+// =============================================================================
 // to-PP Dependency Label Recognition (TT-SPEC-RDM-A §6.2)
 // =============================================================================
 
@@ -322343,7 +322417,7 @@ function mapCaseToOblique(preposition) {
 
   // Shim: after stripCommonJS, only inner constants/functions survive.
   // TreeRoleMapper references RoleMappingContract.mapUDToRole() etc.
-  const RoleMappingContract = { UD_TO_BFO_ROLE, CASE_TO_OBLIQUE_ROLE, RMC_DITRANSITIVE_VERBS, RMC_NON_ROLE_PP_VERBS_PASSIVE, TO_PP_DEP_LABELS, INFINITIVAL_TO_LABELS, mapUDToRole, mapCaseToOblique };
+  const RoleMappingContract = { UD_TO_BFO_ROLE, CASE_TO_OBLIQUE_ROLE, RMC_DITRANSITIVE_VERBS, RMC_NON_ROLE_PP_VERBS_PASSIVE, RMC_STATIVE_PREDICATES, TO_PP_DEP_LABELS, INFINITIVAL_TO_LABELS, mapUDToRole, mapCaseToOblique };
 
   // ============================================================================
   // v2 PHASE 1: PERCEPTRON TAGGER (for tree pipeline browser support)
@@ -324674,9 +324748,20 @@ class TreeRoleMapper {
 
     const ctx = { ...(context || {}), entities, entityByHead };
 
+    // Stative predicate suppression set
+    const stativeSet = RoleMappingContract && RoleMappingContract.RMC_STATIVE_PREDICATES;
+
     for (const act of acts) {
       const verbId = act.verbId;
       if (!verbId) continue;
+
+      // Suppress all roles for stative predicates in passive voice
+      // ("is known as", "is composed of", "is divided into" — no event, no roles)
+      if (act.isPassive && stativeSet) {
+        const verbLc = (act.verb || '').toLowerCase();
+        const lemmaLc = (act.lemma || '').toLowerCase();
+        if (stativeSet.has(verbLc) || stativeSet.has(lemmaLc)) continue;
+      }
 
       const children = depTree.getChildren(verbId);
 
@@ -327267,7 +327352,11 @@ class SemanticGraphBuilder {
         if (_DepTreeCorrector.correctModalFragmentation) {
           _DepTreeCorrector.correctModalFragmentation(parseResult.arcs, tokens, tags);
         }
-        // Double-obj ditransitive — "gave the team new orders" with two obj arcs
+        // Orphan NP recovery — "gave the team new orders" where "orders" has no verb arc
+        if (_DepTreeCorrector.recoverDitransitiveOrphans) {
+          _DepTreeCorrector.recoverDitransitiveOrphans(parseResult.arcs, tokens, tags);
+        }
+        // Double-obj ditransitive — rewrite first obj → iobj after recovery
         if (_DepTreeCorrector.correctDoubleObjDitransitives) {
           _DepTreeCorrector.correctDoubleObjDitransitives(parseResult.arcs, tokens, tags);
         }
@@ -329151,7 +329240,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 372 | 509ea7f | 2026-04-02T12:30:25.131Z',
+    BUILD: 'build 374 | 87e7b1d | 2026-04-02T12:46:23.726Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
