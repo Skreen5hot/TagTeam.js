@@ -318,6 +318,8 @@ class OntologyTextTagger {
         label: label,
         type: cls.type,
         owlType: this.propertyMapper._resolveOWLType(cls.id, this._parseResult),
+        // Collect all rdf:type values for this IRI (Bug 2: type promotion)
+        rdfTypes: this._parseResult.getClasses().filter(c => c.id === cls.id).map(c => c.type).filter(t => t !== 'owl:NamedIndividual' && t !== 'owl:Class'),
         keywords: allValues,
         propertyEvidence: evidence
       });
@@ -433,7 +435,8 @@ class OntologyTextTagger {
       polarity,
       domain: this.domain,
       iri: def.iri || def.id,
-      ontologyMatchOWLType: def.owlType || 'owl:Class'
+      ontologyMatchOWLType: def.owlType || 'owl:Class',
+      rdfTypes: def.rdfTypes || [],
     };
 
     // Add category if present
@@ -793,7 +796,8 @@ class OntologyTextTagger {
       ontologyMatchType: matchInfo.matchType,
       ontologyMatchForm: matchInfo.originalForm,
       ontologyMatchInflection: matchInfo.inflection,
-      ontologyMatchOWLType: def.owlType || 'owl:Class'
+      ontologyMatchOWLType: def.owlType || 'owl:Class',
+      rdfTypes: def.rdfTypes || [],
     };
   }
 

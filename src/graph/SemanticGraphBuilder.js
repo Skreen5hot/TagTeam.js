@@ -2182,9 +2182,33 @@ class SemanticGraphBuilder {
             // Single-word matches: store as type hints for entity extraction
             if (ev.split(/\s+/).length < 2) {
               const classLabel = tag.label || tag.classIRI || '';
-              if (classLabel) ontologyTypeHints.set(ev.toLowerCase(), classLabel);
+              if (classLabel) {
+                ontologyTypeHints.set(ev.toLowerCase(), {
+                  label: classLabel,
+                  rdfTypes: tag.rdfTypes || [],
+                  iri: tag.iri || '',
+                  confidence: tag.confidence || 0,
+                });
+              }
               continue;
             }
+            // Multi-word matches: also store type hints for each word
+            // so _classifyType can resolve type for entities from locked spans
+            const classLabel = tag.label || tag.classIRI || '';
+            if (classLabel) {
+              for (const word of ev.split(/\s+/)) {
+                const wl = word.toLowerCase();
+                if (wl.length > 2 && !ontologyTypeHints.has(wl)) { // Don't overwrite existing
+                  ontologyTypeHints.set(wl, {
+                    label: classLabel,
+                    rdfTypes: tag.rdfTypes || [],
+                    iri: tag.iri || '',
+                    confidence: tag.confidence || 0,
+                  });
+                }
+              }
+            }
+
             // Find the evidence text position in the input
             const evLower = ev.toLowerCase();
             const textLower = text.toLowerCase();
@@ -2233,7 +2257,44 @@ class SemanticGraphBuilder {
       // Stage 6: Tree-based act extraction
       stages.current = 'extractActs';
       const actExtractor = new _TreeActExtractor();
-      const { acts, structuralAssertions } = actExtractor.extract(depTree);
+      let { acts, structuralAssertions } = actExtractor.extract(depTree);
+
+      // Bug 1 fix: Ontology Overrides Syntax — suppress acts for tokens that
+      // have a confident ontology match to a non-Process/non-Act class.
+      // "herein" tagged VBP but matched to ConstitutionalDocument (ICE) → not an act.
+      if (ontologyTypeHints && ontologyTypeHints.size > 0) {
+        acts = acts.filter(act => {
+          const verbLower = (act.verb || '').toLowerCase();
+          const hint = ontologyTypeHints.get(verbLower);
+          if (!hint || !hint.rdfTypes || hint.rdfTypes.length === 0) return true; // No hint → keep act
+          if (!hint.confidence || hint.confidence < 1) return true; // Low confidence → keep act
+          // Check if ALL rdfTypes are non-process/non-act (entity types)
+          const isEntityType = hint.rdfTypes.every(t => {
+            const tl = (t || '').toLowerCase();
+            return !tl.includes('process') && !tl.includes('act') && !tl.includes('event');
+          });
+          if (isEntityType) {
+            // This verb token is an entity, not an event → suppress act
+            // Ensure it's extracted as an entity instead
+            const alreadyEntity = entities.some(e => {
+              return (e.fullText || '').toLowerCase().includes(verbLower);
+            });
+            if (!alreadyEntity) {
+              // Create entity for this token
+              entities.push({
+                fullText: act.verb,
+                headId: act.verbId,
+                indices: [act.verbId],
+                type: hint.rdfTypes[0] || 'InformationContentEntity',
+                role: 'ontology-override',
+                source: 'ontology-overrides-syntax',
+              });
+            }
+            return false; // Remove act
+          }
+          return true; // Keep act
+        });
+      }
 
       // Stage 7: Tree-based role mapping (TT-SPEC-RDM-A §7.2: context extension)
       stages.current = 'mapRoles';

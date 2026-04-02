@@ -641,15 +641,32 @@ class TreeEntityExtractor {
     // Ontology type hints (F-6: single-word CCO/ISA domain matches)
     const headLower = (headWord || '').toLowerCase();
     if (this._ontologyTypeHints && this._ontologyTypeHints.has(headLower)) {
-      const hintClass = this._ontologyTypeHints.get(headLower).toLowerCase();
-      // Map ontology class labels to CCO entity types via ISA parent classes
+      const hint = this._ontologyTypeHints.get(headLower);
+      // Bug 2 fix: if the hint carries rdfTypes from the ontology, use them directly
+      const rdfTypes = (typeof hint === 'object' && hint.rdfTypes) ? hint.rdfTypes : [];
+      if (rdfTypes.length > 0) {
+        // Resolve CCO domain type from rdf:type chain
+        for (const rdfType of rdfTypes) {
+          const t = (rdfType || '').toLowerCase();
+          if (t.includes('person')) return 'Person';
+          if (t.includes('geopolitical')) return 'GeopoliticalEntity';
+          if (t.includes('governmentorganization') || t.includes('government')) return 'GovernmentOrganization';
+          if (t.includes('organization') || t.includes('legislativebody')) return 'Organization';
+          if (t.includes('facility')) return 'Facility';
+          if (t.includes('artifact') || t.includes('materialentity')) return 'Artifact';
+          if (t.includes('informationcontent') || t.includes('directive') || t.includes('constitutional')) return 'InformationContentEntity';
+          if (t.includes('agent')) return 'Agent';
+          if (t.includes('process') || t.includes('act')) return 'Process';
+        }
+      }
+      // Fallback: use class label matching (pre-Bug-2 behavior)
+      const hintClass = (typeof hint === 'string' ? hint : hint.label || '').toLowerCase();
       if (/person|commander|captain|lieutenant|attorney|prosecutor|magistrate|deputy|chief|secretary|plaintiff|defendant|auditor|instructor|recruit|senator|representative|commissioner|liaison|handler|officer|witness|regulator|traveler/i.test(hintClass)) return 'Person';
       if (/organization|court|committee|board|bureau|council|commission|sector|division|unit|patrol|agency|laboratory|dea|atf/i.test(hintClass)) return 'Organization';
       if (/facility|port|headquarters|embassy|campus|container/i.test(hintClass)) return 'Facility';
       if (/vehicle|cargo|weapon|goods/i.test(hintClass)) return 'Artifact';
       if (/evidence|testimony|regulation|order|instruction|plan|policy|grant|motion|memorandum|guideline|credential|initiative|investigation|record|study/i.test(hintClass)) return 'InformationContentEntity';
       if (/geopolitical|border|capital/i.test(hintClass)) return 'GeopoliticalEntity';
-      // Generic fallback: use the class label directly if it's a known CCO type
       if (/agent/i.test(hintClass)) return 'Agent';
     }
 
