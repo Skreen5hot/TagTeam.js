@@ -1132,7 +1132,7 @@ ${roleMappingContract}
 
   // Shim: after stripCommonJS, only inner constants/functions survive.
   // TreeRoleMapper references RoleMappingContract.mapUDToRole() etc.
-  const RoleMappingContract = { UD_TO_BFO_ROLE, CASE_TO_OBLIQUE_ROLE, RMC_DITRANSITIVE_VERBS, RMC_NON_ROLE_PP_VERBS_PASSIVE, RMC_STATIVE_PREDICATES, TO_PP_DEP_LABELS, INFINITIVAL_TO_LABELS, mapUDToRole, mapCaseToOblique };
+  const RoleMappingContract = { UD_TO_BFO_ROLE, CASE_TO_OBLIQUE_ROLE, RMC_DITRANSITIVE_VERBS, RMC_NON_ROLE_PP_VERBS_PASSIVE, RMC_STATIVE_PREDICATES, ROLE_PROPAGATION_ARCS, TO_PP_DEP_LABELS, INFINITIVAL_TO_LABELS, mapUDToRole, mapCaseToOblique };
 
   // ============================================================================
   // v2 PHASE 1: PERCEPTRON TAGGER (for tree pipeline browser support)

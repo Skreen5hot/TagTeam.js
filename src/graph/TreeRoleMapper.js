@@ -100,7 +100,64 @@ class TreeRoleMapper {
     // Pattern A: Shared-argument VP propagation (TT-SPEC-RDM-B §3)
     this._propagateSharedArguments(acts, rolesByAct, roles, sentIdx);
 
+    // Pattern 2: Resolve coordinatedWith pointers (TT-SPEC-ENT-A §4.3)
+    this._resolveCoordinatedWithRoles(entities, roles, entityByHead, sentIdx);
+
     return roles;
+  }
+
+  /**
+   * Resolve coordinatedWith pointers from Pattern 2 conjunct object recovery.
+   * Copies the primary entity's role to the conjunct entity.
+   * Runs AFTER all standard role assignment and propagation passes (§6.3).
+   */
+  _resolveCoordinatedWithRoles(entities, allRoles, entityByHead, sentIdx) {
+    const si = sentIdx || 0;
+
+    // Build mentionId → entity index for pointer resolution
+    const mentionIdIndex = new Map();
+    for (const entity of entities) {
+      if (entity.mentionId) mentionIdIndex.set(entity.mentionId, entity);
+    }
+
+    for (const entity of entities) {
+      if (!entity.coordinatedWith) continue;
+
+      // Look up primary entity by mentionId or headId
+      let primaryEntity = mentionIdIndex.get(entity.coordinatedWith);
+      if (!primaryEntity) {
+        // Fallback: coordinatedWith might be a headId (number)
+        const key = `${si}-${entity.coordinatedWith}`;
+        primaryEntity = entityByHead.get(key);
+      }
+
+      if (!primaryEntity) {
+        if (typeof console !== 'undefined' && console.warn) {
+          console.warn(
+            `[TreeRoleMapper] _resolveCoordinatedWithRoles: ` +
+            `no entity found for coordinatedWith '${entity.coordinatedWith}'. ` +
+            `Role copy skipped for entity '${entity.fullText || entity.text}'.`
+          );
+        }
+        continue;
+      }
+
+      // Find roles assigned to the primary entity
+      const primaryRoles = allRoles.filter(r =>
+        r.entityId === primaryEntity.headId || r.entity === (primaryEntity.fullText || primaryEntity.text)
+      );
+
+      for (const primaryRole of primaryRoles) {
+        allRoles.push({
+          ...primaryRole,
+          entity: entity.fullText || entity.text,
+          entityId: entity.headId,
+          recoveredConjunct: true,
+          sourceEntityId: primaryEntity.headId,
+          note: `Role copied from coordinatedWith entity '${primaryEntity.fullText || primaryEntity.text}'`,
+        });
+      }
+    }
   }
 
   /**

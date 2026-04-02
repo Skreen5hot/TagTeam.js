@@ -100,6 +100,14 @@ const INFINITIVAL_TO_LABELS = Object.freeze(new Set([
 ]));
 
 // =============================================================================
+// Role Propagation Arcs (TT-SPEC-ENT-A §6.2)
+// =============================================================================
+
+const ROLE_PROPAGATION_ARCS = Object.freeze(new Set([
+  'conj'   // coordinate nominal propagation — TT-SPEC-ENT-A §3.4, TT-SPEC-RDM-B §4
+]));
+
+// =============================================================================
 // Mapping functions
 // =============================================================================
 
@@ -133,6 +141,7 @@ module.exports = {
   RMC_DITRANSITIVE_VERBS,
   RMC_NON_ROLE_PP_VERBS_PASSIVE,
   RMC_STATIVE_PREDICATES,
+  ROLE_PROPAGATION_ARCS,
   TO_PP_DEP_LABELS,
   INFINITIVAL_TO_LABELS,
   mapUDToRole,

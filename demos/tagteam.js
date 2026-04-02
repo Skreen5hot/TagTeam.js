@@ -322389,6 +322389,14 @@ const INFINITIVAL_TO_LABELS = Object.freeze(new Set([
 ]));
 
 // =============================================================================
+// Role Propagation Arcs (TT-SPEC-ENT-A §6.2)
+// =============================================================================
+
+const ROLE_PROPAGATION_ARCS = Object.freeze(new Set([
+  'conj'   // coordinate nominal propagation — TT-SPEC-ENT-A §3.4, TT-SPEC-RDM-B §4
+]));
+
+// =============================================================================
 // Mapping functions
 // =============================================================================
 
@@ -322420,7 +322428,7 @@ function mapCaseToOblique(preposition) {
 
   // Shim: after stripCommonJS, only inner constants/functions survive.
   // TreeRoleMapper references RoleMappingContract.mapUDToRole() etc.
-  const RoleMappingContract = { UD_TO_BFO_ROLE, CASE_TO_OBLIQUE_ROLE, RMC_DITRANSITIVE_VERBS, RMC_NON_ROLE_PP_VERBS_PASSIVE, RMC_STATIVE_PREDICATES, TO_PP_DEP_LABELS, INFINITIVAL_TO_LABELS, mapUDToRole, mapCaseToOblique };
+  const RoleMappingContract = { UD_TO_BFO_ROLE, CASE_TO_OBLIQUE_ROLE, RMC_DITRANSITIVE_VERBS, RMC_NON_ROLE_PP_VERBS_PASSIVE, RMC_STATIVE_PREDICATES, ROLE_PROPAGATION_ARCS, TO_PP_DEP_LABELS, INFINITIVAL_TO_LABELS, mapUDToRole, mapCaseToOblique };
 
   // ============================================================================
   // v2 PHASE 1: PERCEPTRON TAGGER (for tree pipeline browser support)
@@ -323035,6 +323043,63 @@ class TreeEntityExtractor {
       entities.push(entity);
     }
 
+    // Step 5b: Pattern 2 — Verb-attached conjunct object recovery (TT-SPEC-ENT-A §4)
+    // When parser attaches coordinated objects as conj of verb (not conj of obj),
+    // the object entity is invisible. Recover nominal conj children of verbs.
+    for (const arc of depTree.arcs) {
+      if (arc.label !== 'root' && !(depTree.tags[arc.dependent - 1] || '').startsWith('VB')) continue;
+      const verbId = arc.dependent;
+      const verbChildren = depTree.getChildren(verbId);
+
+      // Only recover if verb has an obj (the primary object entity)
+      const objArc = verbChildren.find(c => c.label === 'obj');
+      if (!objArc) continue;
+
+      // Find the primary obj entity for coordinatedWith pointer
+      const primaryObjEntity = entities.find(e => e.indices && e.indices.includes(objArc.dependent));
+
+      for (const child of verbChildren) {
+        if (child.label !== 'conj') continue;
+        if (seenHeads.has(child.dependent)) continue;
+        if (lockedTokens.has(child.dependent)) continue;
+
+        const conjTag = depTree.tags[child.dependent - 1] || '';
+        // Guard G-3: Skip verbal conjuncts (VP coordination → SBA domain)
+        if (conjTag.startsWith('VB') || conjTag === 'AUX') continue;
+        // Must be nominal
+        if (!conjTag.startsWith('NN') && conjTag !== 'PRP') continue;
+
+        // Guard G-4: Require cc sibling
+        const conjChildren = depTree.getChildren(child.dependent);
+        const hasCC = conjChildren.some(c => c.label === 'cc' &&
+          ['and', 'or', 'nor', 'but'].includes((c.word || '').toLowerCase()));
+        // Also check cc as sibling of verb (parser sometimes attaches cc to verb)
+        const verbHasCC = verbChildren.some(c => c.label === 'cc' &&
+          ['and', 'or', 'nor', 'but'].includes((c.word || '').toLowerCase()));
+        if (!hasCC && !verbHasCC) continue;
+
+        // Guard G-5: Cross-clause check
+        const isSubjElsewhere = depTree.arcs.some(a =>
+          a.dependent === child.dependent &&
+          (a.label === 'nsubj' || a.label === 'nsubj:pass')
+        );
+        if (isSubjElsewhere) continue;
+
+        seenHeads.add(child.dependent);
+        const conjEntity = this._buildEntity(depTree, child.dependent, 'obj', { skipLabels: ['cc'] });
+        if (conjEntity) {
+          if (this._overlapsLockedSpan(conjEntity, lockedTokens)) continue;
+          // Stamp coordinatedWith pointer (§4.3) — resolved by TreeRoleMapper
+          if (primaryObjEntity && primaryObjEntity.mentionId) {
+            conjEntity.coordinatedWith = primaryObjEntity.mentionId;
+          } else if (primaryObjEntity) {
+            conjEntity.coordinatedWith = primaryObjEntity.headId;
+          }
+          entities.push(conjEntity);
+        }
+      }
+    }
+
     // Step 6: Alias promotion — resolve later mentions via aliasMap
     this._promoteAliases(entities, aliasMap);
 
@@ -323120,22 +323185,38 @@ class TreeEntityExtractor {
       return null; // Head has compounds → multi-word name → KEEP
     }
 
-    // Check if ALL conjuncts (including head) are NNP
-    const headTag = depTree.tags[headId - 1];
-    const allProperNouns = PROPER_NOUN_TAGS.has(headTag) &&
-      conjChildren.every(c => PROPER_NOUN_TAGS.has(c.tag));
-
-    if (!allProperNouns) {
-      return null; // Common nouns → KEEP
+    // Guard G-4: Verify cc sibling exists (no split without explicit conjunction)
+    // cc may be child of head OR child of any conjunct (parser varies)
+    let hasCC = children.some(c => c.label === 'cc' &&
+      ['and', 'or', 'nor', 'but'].includes((c.word || '').toLowerCase()));
+    if (!hasCC) {
+      for (const conj of conjChildren) {
+        const conjKids = depTree.getChildren(conj.dependent);
+        if (conjKids.some(c => c.label === 'cc' &&
+          ['and', 'or', 'nor', 'but'].includes((c.word || '').toLowerCase()))) {
+          hasCC = true;
+          break;
+        }
+      }
+    }
+    if (!hasCC) {
+      return null; // No explicit conjunction → KEEP (asyndetic coordination)
     }
 
-    // Gazetteer check removed: the compound-crossing check above (lines 181-192)
-    // is the authoritative guard against splitting multi-word names like
-    // "Customs and Border Protection". The gazetteer partial-miss heuristic
-    // was redundant and caused false KEEPs when one conjunct happened to be
-    // a gazetteer alias (e.g., "Bob" → Robert) but the other wasn't.
+    // Guard G-5: Cross-clause signal — if any conjunct is nsubj of a different verb,
+    // this may be cross-clause coordination, not intra-NP coordination
+    for (const conj of conjChildren) {
+      const conjAsSubj = depTree.arcs.find(a =>
+        a.dependent === conj.dependent &&
+        (a.label === 'nsubj' || a.label === 'nsubj:pass') &&
+        a.head !== headId
+      );
+      if (conjAsSubj) {
+        return null; // Conjunct is subject of another verb → cross-clause → KEEP
+      }
+    }
 
-    // All checks passed → SPLIT
+    // All guards passed → SPLIT (TT-SPEC-ENT-A §3.2)
     const result = [];
 
     // Mark conj children as seen
@@ -324798,7 +324879,64 @@ class TreeRoleMapper {
     // Pattern A: Shared-argument VP propagation (TT-SPEC-RDM-B §3)
     this._propagateSharedArguments(acts, rolesByAct, roles, sentIdx);
 
+    // Pattern 2: Resolve coordinatedWith pointers (TT-SPEC-ENT-A §4.3)
+    this._resolveCoordinatedWithRoles(entities, roles, entityByHead, sentIdx);
+
     return roles;
+  }
+
+  /**
+   * Resolve coordinatedWith pointers from Pattern 2 conjunct object recovery.
+   * Copies the primary entity's role to the conjunct entity.
+   * Runs AFTER all standard role assignment and propagation passes (§6.3).
+   */
+  _resolveCoordinatedWithRoles(entities, allRoles, entityByHead, sentIdx) {
+    const si = sentIdx || 0;
+
+    // Build mentionId → entity index for pointer resolution
+    const mentionIdIndex = new Map();
+    for (const entity of entities) {
+      if (entity.mentionId) mentionIdIndex.set(entity.mentionId, entity);
+    }
+
+    for (const entity of entities) {
+      if (!entity.coordinatedWith) continue;
+
+      // Look up primary entity by mentionId or headId
+      let primaryEntity = mentionIdIndex.get(entity.coordinatedWith);
+      if (!primaryEntity) {
+        // Fallback: coordinatedWith might be a headId (number)
+        const key = `${si}-${entity.coordinatedWith}`;
+        primaryEntity = entityByHead.get(key);
+      }
+
+      if (!primaryEntity) {
+        if (typeof console !== 'undefined' && console.warn) {
+          console.warn(
+            `[TreeRoleMapper] _resolveCoordinatedWithRoles: ` +
+            `no entity found for coordinatedWith '${entity.coordinatedWith}'. ` +
+            `Role copy skipped for entity '${entity.fullText || entity.text}'.`
+          );
+        }
+        continue;
+      }
+
+      // Find roles assigned to the primary entity
+      const primaryRoles = allRoles.filter(r =>
+        r.entityId === primaryEntity.headId || r.entity === (primaryEntity.fullText || primaryEntity.text)
+      );
+
+      for (const primaryRole of primaryRoles) {
+        allRoles.push({
+          ...primaryRole,
+          entity: entity.fullText || entity.text,
+          entityId: entity.headId,
+          recoveredConjunct: true,
+          sourceEntityId: primaryEntity.headId,
+          note: `Role copied from coordinatedWith entity '${primaryEntity.fullText || primaryEntity.text}'`,
+        });
+      }
+    }
   }
 
   /**
@@ -329358,7 +329496,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 377 | 640171e | 2026-04-02T13:24:15.974Z',
+    BUILD: 'build 379 | a73b81a | 2026-04-02T14:56:59.113Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
