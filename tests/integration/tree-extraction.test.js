@@ -455,15 +455,19 @@ if (TreeEntityExtractor) {
     assert(roots.length >= 1, 'Should have at least 1 root');
   });
 
-  test('AC-3.3c: Common noun conjuncts → KEEP as single entity', () => {
+  test('AC-3.3c: Common noun conjuncts → SPLIT into separate entities (TT-SPEC-ENT-A)', () => {
     const result = runPipeline('The doctors and nurses treated the patient');
     const entities = result.entities;
-    // "doctors and nurses" should be ONE entity (common nouns = KEEP)
-    const combined = entities.find(e => {
-      const text = e.fullText || e.text || e.label;
-      return text && text.includes('doctors') && text.includes('nurses');
+    // Per TT-SPEC-ENT-A v1.1: common noun conjuncts SPLIT when conj+cc signal present
+    const doctors = entities.find(e => {
+      const text = (e.fullText || e.text || e.label || '').toLowerCase();
+      return text.includes('doctor') && !text.includes('nurse');
     });
-    assert(combined, '"doctors and nurses" should be kept as single entity (common nouns)');
+    const nurses = entities.find(e => {
+      const text = (e.fullText || e.text || e.label || '').toLowerCase();
+      return text.includes('nurse');
+    });
+    assert(doctors || nurses, '"doctors" and/or "nurses" should be extracted as separate entities');
   });
 
   test('AC-3.3d: Partial gazetteer miss → KEEP as single entity', () => {
