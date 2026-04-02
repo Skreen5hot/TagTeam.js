@@ -322377,6 +322377,35 @@ const RMC_STATIVE_PREDICATES = new Set([
 ]);
 
 // =============================================================================
+// PP Adjunct Suppression (TT-SPEC-RDM-C §5)
+// =============================================================================
+
+// Prepositions eligible for saturation-based adjunct suppression
+// to-PP excluded — handled by resolveToPPRole() in TT-SPEC-RDM-A
+// from-PP excluded — SourceRole is semantically required on transfer verbs
+// by-PP excluded — passive agent marker, handled separately
+const ADJUNCT_PREPOSITIONS = new Set(['in', 'at', 'on', 'with', 'for', 'near']);
+
+// Verbs whose PP arguments are semantically role-bearing even when saturated.
+// These verbs require their PP complement as an event participant, not an adjunct.
+// Suppression does NOT fire for these verbs.
+const ROLE_BEARING_PP_VERBS = new Set([
+  // Location-requiring verbs (at/in/on PP is integral)
+  'apprehend', 'apprehended', 'arrest', 'arrested',
+  'station', 'stationed', 'deploy', 'deployed',
+  'confiscate', 'confiscated',
+  // Instrument-requiring verbs (with PP is integral)
+  'scan', 'scanned', 'examine', 'examined',
+  'analyze', 'analyzed', 'treat', 'treated',
+  'inspect', 'inspected', 'test', 'tested',
+  // Transfer/directional verbs (to/from PP already excluded, but at/in may be relevant)
+  'file', 'filed', 'forward', 'forwarded',
+]);
+
+// Policy flag — enables suppression rule globally
+const PP_ADJUNCT_SUPPRESSION_ENABLED = true;
+
+// =============================================================================
 // to-PP Dependency Label Recognition (TT-SPEC-RDM-A §6.2)
 // =============================================================================
 
@@ -322428,7 +322457,7 @@ function mapCaseToOblique(preposition) {
 
   // Shim: after stripCommonJS, only inner constants/functions survive.
   // TreeRoleMapper references RoleMappingContract.mapUDToRole() etc.
-  const RoleMappingContract = { UD_TO_BFO_ROLE, CASE_TO_OBLIQUE_ROLE, RMC_DITRANSITIVE_VERBS, RMC_NON_ROLE_PP_VERBS_PASSIVE, RMC_STATIVE_PREDICATES, ROLE_PROPAGATION_ARCS, TO_PP_DEP_LABELS, INFINITIVAL_TO_LABELS, mapUDToRole, mapCaseToOblique };
+  const RoleMappingContract = { UD_TO_BFO_ROLE, CASE_TO_OBLIQUE_ROLE, RMC_DITRANSITIVE_VERBS, RMC_NON_ROLE_PP_VERBS_PASSIVE, RMC_STATIVE_PREDICATES, ROLE_PROPAGATION_ARCS, ADJUNCT_PREPOSITIONS, ROLE_BEARING_PP_VERBS, PP_ADJUNCT_SUPPRESSION_ENABLED, TO_PP_DEP_LABELS, INFINITIVAL_TO_LABELS, mapUDToRole, mapCaseToOblique };
 
   // ============================================================================
   // v2 PHASE 1: PERCEPTRON TAGGER (for tree pipeline browser support)
@@ -324854,12 +324883,10 @@ class TreeRoleMapper {
     const sentIdx = (context && context.sentenceIndex) || 0;
 
     // Build entity lookup with composite key: "${sentenceIndex}-${headTokenIndex}"
-    // Composite key prevents collisions across sentences in a multi-sentence forest (§4.2)
     const entityByHead = new Map();
     for (const entity of entities) {
       const key = `${sentIdx}-${entity.headId}`;
       entityByHead.set(key, entity);
-      // Also index by all indices in the entity span
       if (entity.indices) {
         for (const idx of entity.indices) {
           const spanKey = `${sentIdx}-${idx}`;
@@ -324874,6 +324901,10 @@ class TreeRoleMapper {
 
     // Stative predicate suppression set
     const stativeSet = RoleMappingContract && RoleMappingContract.RMC_STATIVE_PREDICATES;
+
+    // Adjunct suppression config
+    const adjunctPreps = RoleMappingContract && RoleMappingContract.ADJUNCT_PREPOSITIONS;
+    const suppressionEnabled = RoleMappingContract && RoleMappingContract.PP_ADJUNCT_SUPPRESSION_ENABLED;
 
     // Per-act role assignment — group by actId for coordination propagation
     const rolesByAct = new Map();
@@ -324892,12 +324923,81 @@ class TreeRoleMapper {
       const actRoles = [];
       const children = depTree.getChildren(verbId);
 
+      // ================================================================
+      // PASS 1: Core argument role assignment (TT-SPEC-RDM-C §6.1)
+      // Processes nsubj, nsubj:pass, obj, iobj, and obl:agent with by-prep.
+      // Fully populates actRoles with AgentRole/PatientRole/RecipientRole
+      // before Pass 2 reads saturation state.
+      // ================================================================
       for (const child of children) {
+        const label = child.label;
+
+        // Determine if this is a core argument or oblique
+        let isCoreArg = (label === 'nsubj' || label === 'nsubj:pass' ||
+                         label === 'obj' || label === 'iobj');
+
+        // obl:agent with "by" preposition is a core argument (passive agent)
+        if (label === 'obl:agent') {
+          const oblChildren = depTree.getChildren(child.dependent);
+          const caseChild = oblChildren.find(c => c.label === 'case');
+          const prep = caseChild ? caseChild.word.toLowerCase() : null;
+          if (prep === 'by') isCoreArg = true;
+          // obl:agent with non-by prep → Pass 2 (RDM-A §4.2 downgrade)
+        }
+
+        if (!isCoreArg) continue;
+
         const role = this._mapChildToRole(child, depTree, entityByHead, act, ctx);
         if (role) {
           actRoles.push(role);
           roles.push(role);
-          // Propagate role to coordinated conjuncts (UD: conj children inherit parent role)
+          this._propagateToConjuncts(child, depTree, entityByHead, act, role, roles, sentIdx);
+        }
+      }
+
+      // ================================================================
+      // PASS 2: Oblique PP role assignment with adjunct suppression
+      // (TT-SPEC-RDM-C §6.2)
+      // Reads actRoles (now complete from Pass 1) for saturation check.
+      // ================================================================
+      for (const child of children) {
+        const label = child.label;
+
+        // Only process obl arcs in Pass 2
+        let isOblique = (label === 'obl');
+
+        // obl:agent with non-by preposition → treat as plain obl (RDM-A §4.2)
+        if (label === 'obl:agent') {
+          const oblChildren = depTree.getChildren(child.dependent);
+          const caseChild = oblChildren.find(c => c.label === 'case');
+          const prep = caseChild ? caseChild.word.toLowerCase() : null;
+          if (prep !== 'by') isOblique = true;
+          // obl:agent with by → already handled in Pass 1
+        }
+
+        if (!isOblique) continue;
+
+        // Get the preposition for this obl
+        const oblChildren = depTree.getChildren(child.dependent);
+        const caseChild = oblChildren.find(c => c.label === 'case');
+        const preposition = caseChild ? caseChild.word.toLowerCase() : null;
+
+        // Adjunct suppression check (TT-SPEC-RDM-C §4)
+        // Only for non-to prepositions (to-PP handled by resolveToPPRole in _handleOblique)
+        if (suppressionEnabled && adjunctPreps && preposition && preposition !== 'to') {
+          const suppressed = this._shouldSuppressAdjunctPP(
+            act.verbId, preposition, child, actRoles, ctx
+          );
+          if (suppressed === 'SUPPRESS') {
+            continue; // Retained as DiscourseReferent, no RoleAssertion
+          }
+        }
+
+        // Not suppressed — assign role via existing _handleOblique path
+        const role = this._mapChildToRole(child, depTree, entityByHead, act, ctx);
+        if (role) {
+          actRoles.push(role);
+          roles.push(role);
           this._propagateToConjuncts(child, depTree, entityByHead, act, role, roles, sentIdx);
         }
       }
@@ -324912,6 +325012,45 @@ class TreeRoleMapper {
     this._resolveCoordinatedWithRoles(entities, roles, entityByHead, sentIdx);
 
     return roles;
+  }
+
+  /**
+   * PP Adjunct Suppression predicate (TT-SPEC-RDM-C §4).
+   *
+   * When a verb is argument-saturated (has both AgentRole and PatientRole)
+   * and the PP head noun is non-animate, suppress the PP role.
+   *
+   * @returns {'SUPPRESS'|null}
+   */
+  _shouldSuppressAdjunctPP(verbId, preposition, child, assignedRoles, context) {
+    const adjunctPreps = RoleMappingContract && RoleMappingContract.ADJUNCT_PREPOSITIONS;
+    const roleBearingVerbs = RoleMappingContract && RoleMappingContract.ROLE_BEARING_PP_VERBS;
+
+    // Step 1: Preposition guard
+    if (!adjunctPreps || !adjunctPreps.has(preposition)) return null;
+
+    // Step 1b: Verb whitelist guard — verbs that require their PP complement
+    if (roleBearingVerbs) {
+      const verbRole = assignedRoles.find(r => r.actId === verbId);
+      const verbText = verbRole ? (verbRole.act || '').toLowerCase() : '';
+      if (roleBearingVerbs.has(verbText)) return null;
+    }
+
+    // Step 2: Saturation check — verb must have both Agent and Patient
+    const hasAgent = assignedRoles.some(r => r.label === 'AgentRole');
+    const hasPatient = assignedRoles.some(r => r.label === 'PatientRole');
+    if (!(hasAgent && hasPatient)) return null;
+
+    // Step 3: Animacy check — animate PP heads are not suppressed
+    const si = (context && context.sentenceIndex) || 0;
+    const entityByHead = context && context.entityByHead;
+    if (entityByHead) {
+      const entity = entityByHead.get(`${si}-${child.dependent}`);
+      if (entity && this._isAnimate(entity, context)) return null;
+    }
+
+    // Step 4: Suppress
+    return 'SUPPRESS';
   }
 
   /**
@@ -329531,7 +329670,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 384 | d32962c | 2026-04-02T18:43:13.757Z',
+    BUILD: 'build 387 | 31fbbe8 | 2026-04-02T19:24:41.143Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,

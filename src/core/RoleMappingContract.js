@@ -88,6 +88,35 @@ const RMC_STATIVE_PREDICATES = new Set([
 ]);
 
 // =============================================================================
+// PP Adjunct Suppression (TT-SPEC-RDM-C §5)
+// =============================================================================
+
+// Prepositions eligible for saturation-based adjunct suppression
+// to-PP excluded — handled by resolveToPPRole() in TT-SPEC-RDM-A
+// from-PP excluded — SourceRole is semantically required on transfer verbs
+// by-PP excluded — passive agent marker, handled separately
+const ADJUNCT_PREPOSITIONS = new Set(['in', 'at', 'on', 'with', 'for', 'near']);
+
+// Verbs whose PP arguments are semantically role-bearing even when saturated.
+// These verbs require their PP complement as an event participant, not an adjunct.
+// Suppression does NOT fire for these verbs.
+const ROLE_BEARING_PP_VERBS = new Set([
+  // Location-requiring verbs (at/in/on PP is integral)
+  'apprehend', 'apprehended', 'arrest', 'arrested',
+  'station', 'stationed', 'deploy', 'deployed',
+  'confiscate', 'confiscated',
+  // Instrument-requiring verbs (with PP is integral)
+  'scan', 'scanned', 'examine', 'examined',
+  'analyze', 'analyzed', 'treat', 'treated',
+  'inspect', 'inspected', 'test', 'tested',
+  // Transfer/directional verbs (to/from PP already excluded, but at/in may be relevant)
+  'file', 'filed', 'forward', 'forwarded',
+]);
+
+// Policy flag — enables suppression rule globally
+const PP_ADJUNCT_SUPPRESSION_ENABLED = true;
+
+// =============================================================================
 // to-PP Dependency Label Recognition (TT-SPEC-RDM-A §6.2)
 // =============================================================================
 
@@ -142,6 +171,9 @@ module.exports = {
   RMC_NON_ROLE_PP_VERBS_PASSIVE,
   RMC_STATIVE_PREDICATES,
   ROLE_PROPAGATION_ARCS,
+  ADJUNCT_PREPOSITIONS,
+  ROLE_BEARING_PP_VERBS,
+  PP_ADJUNCT_SUPPRESSION_ENABLED,
   TO_PP_DEP_LABELS,
   INFINITIVAL_TO_LABELS,
   mapUDToRole,
