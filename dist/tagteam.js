@@ -322882,6 +322882,14 @@ const HEAD_NOUN_TYPE_MAP = {
   'victim': 'Person', 'soldier': 'Person', 'pilot': 'Person',
   'driver': 'Person', 'chef': 'Person', 'artist': 'Person',
   'guard': 'Person', 'family': 'Agent',
+  // Persons — ISA/regulatory domain (CCO diagnostic expansion)
+  'commander': 'Person', 'captain': 'Person', 'lieutenant': 'Person',
+  'attorney': 'Person', 'prosecutor': 'Person', 'magistrate': 'Person',
+  'deputy': 'Person', 'chief': 'Person', 'secretary': 'Person',
+  'plaintiff': 'Person', 'defendant': 'Person', 'auditor': 'Person',
+  'instructor': 'Person', 'recruits': 'Person', 'recruit': 'Person',
+  'senator': 'Person', 'representative': 'Person', 'commissioner': 'Person',
+  'liaison': 'Person', 'handler': 'Person', 'patrol': 'Organization',
   // Artifacts
   'ventilator': 'Artifact', 'medication': 'Artifact', 'drug': 'Artifact',
   'medicine': 'Artifact', 'equipment': 'Artifact', 'server': 'Artifact',
@@ -322891,10 +322899,15 @@ const HEAD_NOUN_TYPE_MAP = {
   'credential': 'InformationContentEntity', 'data': 'InformationContentEntity',
   // Facilities
   'datacenter': 'Facility', 'facility': 'Facility', 'building': 'Facility',
-  'office': 'Facility',
+  'office': 'Facility', 'laboratory': 'Facility', 'port': 'Facility',
+  'headquarters': 'Facility',
   // Organizations
   'hospital': 'Organization', 'department': 'Organization',
   'agency': 'Organization', 'company': 'Organization', 'team': 'Organization',
+  'court': 'Organization', 'committee': 'Organization', 'board': 'Organization',
+  'bureau': 'Organization', 'council': 'Organization', 'commission': 'Organization',
+  'sector': 'Organization', 'sectors': 'Organization',
+  'division': 'Organization', 'unit': 'Organization',
 };
 
 /**
@@ -329496,7 +329509,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 379 | a73b81a | 2026-04-02T14:56:59.113Z',
+    BUILD: 'build 380 | 401d92b | 2026-04-02T17:50:12.348Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
