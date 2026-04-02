@@ -131,6 +131,19 @@ class OntologyTextTagger {
 
     this.tagDefinitions = this.propertyMapper.extractDefinitions(this._parseResult);
 
+    // Bug 2: Enrich all tag definitions with rdfTypes from the ontology graph
+    if (this._parseResult) {
+      const allClasses = this._parseResult.getClasses();
+      for (const def of this.tagDefinitions) {
+        if (!def.rdfTypes) {
+          def.rdfTypes = allClasses
+            .filter(c => c.id === def.id)
+            .map(c => c.type)
+            .filter(t => t !== 'owl:NamedIndividual' && t !== 'owl:Class');
+        }
+      }
+    }
+
     // In priority mode, supplement definitions for classes that were excluded
     // because they lack the configured keyword property but DO have other
     // priority properties (skos:prefLabel, skos:altLabel, skos:notation, etc.)

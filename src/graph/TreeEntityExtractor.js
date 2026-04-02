@@ -628,18 +628,11 @@ class TreeEntityExtractor {
    * @returns {string} Entity type IRI
    */
   _classifyType(fullText, headWord, headTag) {
-    // Try gazetteer lookup first
-    if (this.gazetteerNER) {
-      const lookup = this.gazetteerNER.lookup(fullText);
-      if (lookup) return lookup.type;
-
-      // Try head word only
-      const headLookup = this.gazetteerNER.lookup(headWord);
-      if (headLookup) return headLookup.type;
-    }
-
-    // Ontology type hints (F-6: single-word CCO/ISA domain matches)
     const headLower = (headWord || '').toLowerCase();
+
+    // Ontology type hints with rdfTypes take HIGHEST priority (Bug 2: type promotion)
+    // When the loaded ontology provides a confident type via rdfTypes, it overrides
+    // the gazetteer and HEAD_NOUN_TYPE_MAP. This is the "Ontology Overrides" principle.
     if (this._ontologyTypeHints && this._ontologyTypeHints.has(headLower)) {
       const hint = this._ontologyTypeHints.get(headLower);
       // Bug 2 fix: if the hint carries rdfTypes from the ontology, use them directly
@@ -668,6 +661,14 @@ class TreeEntityExtractor {
       if (/evidence|testimony|regulation|order|instruction|plan|policy|grant|motion|memorandum|guideline|credential|initiative|investigation|record|study/i.test(hintClass)) return 'InformationContentEntity';
       if (/geopolitical|border|capital/i.test(hintClass)) return 'GeopoliticalEntity';
       if (/agent/i.test(hintClass)) return 'Agent';
+    }
+
+    // Gazetteer lookup (fallback after ontology hints)
+    if (this.gazetteerNER) {
+      const lookup = this.gazetteerNER.lookup(fullText);
+      if (lookup) return lookup.type;
+      const headLookup = this.gazetteerNER.lookup(headWord);
+      if (headLookup) return headLookup.type;
     }
 
     // Head-noun type lookup (common nouns — fallback)
