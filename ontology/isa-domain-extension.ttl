@@ -189,7 +189,7 @@
 # -----------------------------------------------------------------------------
 
 :Laboratory a owl:Class ;
-    rdfs:subClassOf cco:ont00000340 ;  # cco:Facility
+    rdfs:subClassOf cco:ont00001096 ;  # cco:Organization — institutional sense in regulatory text
     rdfs:label "laboratory"@en ;
     skos:altLabel "laboratories"@en, "lab"@en, "labs"@en .
 
@@ -201,3 +201,164 @@
 :Headquarters a owl:Class ;
     rdfs:subClassOf cco:ont00000340 ;
     rdfs:label "headquarters"@en .
+
+# -----------------------------------------------------------------------------
+# Additional Person Subtypes — from corpus gap analysis
+# -----------------------------------------------------------------------------
+
+:Regulator a owl:Class ;
+    rdfs:subClassOf cco:ont00001262 ;
+    rdfs:label "regulator"@en ;
+    skos:altLabel "regulators"@en .
+
+:Traveler a owl:Class ;
+    rdfs:subClassOf cco:ont00001262 ;
+    rdfs:label "traveler"@en ;
+    skos:altLabel "travelers"@en, "traveller"@en .
+
+# -----------------------------------------------------------------------------
+# Additional Organization Subtypes
+# -----------------------------------------------------------------------------
+
+:Agency a owl:Class ;
+    rdfs:subClassOf cco:ont00001096 ;
+    rdfs:label "agency"@en ;
+    skos:altLabel "agencies"@en .
+
+# Organization acronyms not in standard gazetteer
+:DEA_Org a owl:NamedIndividual, cco:ont00001096 ;
+    rdfs:label "DEA"@en ;
+    skos:altLabel "Drug Enforcement Administration"@en .
+
+:ATF_Org a owl:NamedIndividual, cco:ont00001096 ;
+    rdfs:label "ATF"@en ;
+    skos:altLabel "Bureau of Alcohol, Tobacco, Firearms and Explosives"@en .
+
+# -----------------------------------------------------------------------------
+# Additional Facility Subtypes
+# -----------------------------------------------------------------------------
+
+:Embassy a owl:Class ;
+    rdfs:subClassOf cco:ont00000340 ;
+    rdfs:label "embassy"@en ;
+    skos:altLabel "embassies"@en .
+
+:Campus a owl:Class ;
+    rdfs:subClassOf cco:ont00000340 ;
+    rdfs:label "campus"@en .
+
+:Container a owl:Class ;
+    rdfs:subClassOf cco:ont00000340 ;
+    rdfs:label "container"@en ;
+    skos:altLabel "containers"@en .
+
+# -----------------------------------------------------------------------------
+# InformationContentEntity Subtypes — documentary/regulatory artifacts
+# -----------------------------------------------------------------------------
+
+:Evidence a owl:Class ;
+    rdfs:subClassOf cco:ont00001429 ;
+    rdfs:label "evidence"@en .
+
+:Testimony a owl:Class ;
+    rdfs:subClassOf cco:ont00001429 ;
+    rdfs:label "testimony"@en .
+
+:Regulation a owl:Class ;
+    rdfs:subClassOf cco:ont00001429 ;
+    rdfs:label "regulation"@en ;
+    skos:altLabel "regulations"@en .
+
+:Order_ICE a owl:Class ;
+    rdfs:subClassOf cco:ont00001429 ;
+    rdfs:label "order"@en ;
+    skos:altLabel "orders"@en .
+
+:Instruction a owl:Class ;
+    rdfs:subClassOf cco:ont00001429 ;
+    rdfs:label "instruction"@en ;
+    skos:altLabel "instructions"@en .
+
+:Plan_ICE a owl:Class ;
+    rdfs:subClassOf cco:ont00001429 ;
+    rdfs:label "plan"@en ;
+    skos:altLabel "plans"@en .
+
+:Policy a owl:Class ;
+    rdfs:subClassOf cco:ont00001429 ;
+    rdfs:label "policy"@en ;
+    skos:altLabel "policies"@en .
+
+:Grant_ICE a owl:Class ;
+    rdfs:subClassOf cco:ont00001429 ;
+    rdfs:label "grant"@en ;
+    skos:altLabel "grants"@en .
+
+:Motion_ICE a owl:Class ;
+    rdfs:subClassOf cco:ont00001429 ;
+    rdfs:label "motion"@en ;
+    skos:altLabel "motions"@en .
+
+:Memorandum a owl:Class ;
+    rdfs:subClassOf cco:ont00001429 ;
+    rdfs:label "memorandum"@en ;
+    skos:altLabel "memoranda"@en, "memo"@en .
+
+:Guideline a owl:Class ;
+    rdfs:subClassOf cco:ont00001429 ;
+    rdfs:label "guideline"@en ;
+    skos:altLabel "guidelines"@en .
+
+:Credential_ICE a owl:Class ;
+    rdfs:subClassOf cco:ont00001429 ;
+    rdfs:label "credential"@en ;
+    skos:altLabel "credentials"@en .
+
+:Initiative a owl:Class ;
+    rdfs:subClassOf cco:ont00001429 ;
+    rdfs:label "initiative"@en .
+
+:Investigation a owl:Class ;
+    rdfs:subClassOf cco:ont00001429 ;
+    rdfs:label "investigation"@en ;
+    skos:altLabel "investigations"@en .
+
+:Record_ICE a owl:Class ;
+    rdfs:subClassOf cco:ont00001429 ;
+    rdfs:label "record"@en ;
+    skos:altLabel "records"@en .
+
+:Study_ICE a owl:Class ;
+    rdfs:subClassOf cco:ont00001429 ;
+    rdfs:label "study"@en ;
+    skos:altLabel "studies"@en .
+
+# -----------------------------------------------------------------------------
+# Artifact Subtypes — physical objects
+# -----------------------------------------------------------------------------
+
+:Cargo a owl:Class ;
+    rdfs:subClassOf cco:ont00000014 ;
+    rdfs:label "cargo"@en .
+
+:Weapon a owl:Class ;
+    rdfs:subClassOf cco:ont00000014 ;
+    rdfs:label "weapon"@en ;
+    skos:altLabel "weapons"@en .
+
+:Goods a owl:Class ;
+    rdfs:subClassOf cco:ont00000014 ;
+    rdfs:label "goods"@en .
+
+# -----------------------------------------------------------------------------
+# GeopoliticalEntity Subtypes — locations/regions
+# -----------------------------------------------------------------------------
+
+:Border a owl:Class ;
+    rdfs:subClassOf cco:ont00000606 ;
+    rdfs:label "border"@en ;
+    skos:altLabel "borders"@en .
+
+:Capital a owl:Class ;
+    rdfs:subClassOf cco:ont00000606 ;
+    rdfs:label "capital"@en .

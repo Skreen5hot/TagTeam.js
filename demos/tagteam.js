@@ -322899,11 +322899,11 @@ const HEAD_NOUN_TYPE_MAP = {
   'credential': 'InformationContentEntity', 'data': 'InformationContentEntity',
   // Facilities
   'datacenter': 'Facility', 'facility': 'Facility', 'building': 'Facility',
-  'office': 'Facility', 'laboratory': 'Facility', 'port': 'Facility',
-  'headquarters': 'Facility',
+  'office': 'Organization', 'port': 'Facility', 'headquarters': 'Organization',
   // Organizations
   'hospital': 'Organization', 'department': 'Organization',
   'agency': 'Organization', 'company': 'Organization', 'team': 'Organization',
+  'laboratory': 'Organization',
   'court': 'Organization', 'committee': 'Organization', 'board': 'Organization',
   'bureau': 'Organization', 'council': 'Organization', 'commission': 'Organization',
   'sector': 'Organization', 'sectors': 'Organization',
@@ -323468,12 +323468,16 @@ class TreeEntityExtractor {
     // Ontology type hints (F-6: single-word CCO/ISA domain matches)
     const headLower = (headWord || '').toLowerCase();
     if (this._ontologyTypeHints && this._ontologyTypeHints.has(headLower)) {
-      const hintClass = this._ontologyTypeHints.get(headLower);
-      // Map ontology class labels to CCO entity types
-      if (/person|commander|captain|lieutenant|attorney|prosecutor|magistrate|deputy|chief|secretary|plaintiff|defendant|auditor|instructor|recruit|senator|representative|commissioner|liaison|handler|officer|witness/i.test(hintClass)) return 'Person';
-      if (/organization|court|committee|board|bureau|council|commission|sector|division|unit|patrol/i.test(hintClass)) return 'Organization';
-      if (/facility|laboratory|port|headquarters/i.test(hintClass)) return 'Facility';
-      if (/vehicle/i.test(hintClass)) return 'Artifact';
+      const hintClass = this._ontologyTypeHints.get(headLower).toLowerCase();
+      // Map ontology class labels to CCO entity types via ISA parent classes
+      if (/person|commander|captain|lieutenant|attorney|prosecutor|magistrate|deputy|chief|secretary|plaintiff|defendant|auditor|instructor|recruit|senator|representative|commissioner|liaison|handler|officer|witness|regulator|traveler/i.test(hintClass)) return 'Person';
+      if (/organization|court|committee|board|bureau|council|commission|sector|division|unit|patrol|agency|laboratory|dea|atf/i.test(hintClass)) return 'Organization';
+      if (/facility|port|headquarters|embassy|campus|container/i.test(hintClass)) return 'Facility';
+      if (/vehicle|cargo|weapon|goods/i.test(hintClass)) return 'Artifact';
+      if (/evidence|testimony|regulation|order|instruction|plan|policy|grant|motion|memorandum|guideline|credential|initiative|investigation|record|study/i.test(hintClass)) return 'InformationContentEntity';
+      if (/geopolitical|border|capital/i.test(hintClass)) return 'GeopoliticalEntity';
+      // Generic fallback: use the class label directly if it's a known CCO type
+      if (/agent/i.test(hintClass)) return 'Agent';
     }
 
     // Head-noun type lookup (common nouns — fallback)
@@ -329527,7 +329531,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 381 | f519b94 | 2026-04-02T18:10:57.065Z',
+    BUILD: 'build 384 | d32962c | 2026-04-02T18:43:13.757Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
