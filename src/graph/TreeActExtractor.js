@@ -1056,6 +1056,7 @@ class TreeActExtractor {
         }
       }
       // Coordinated verbs: conj children inherit the parent's modal
+      // Stamp coordinatedVPIndex for shared-argument propagation (TT-SPEC-RDM-B §3)
       if (child.label === 'conj') {
         const conjTag = depTree.tags[child.dependent - 1];
         if (VERB_TAGS.has(conjTag)) {
@@ -1074,6 +1075,12 @@ class TreeActExtractor {
             if (!act.tenseAspect && parentAct && parentAct.tenseAspect) {
               act.tenseAspect = parentAct.tenseAspect;
             }
+            // Stamp coordinatedVPIndex: parent is 0, conjuncts are 1, 2, ...
+            if (parentAct && parentAct.coordinatedVPIndex === undefined) {
+              parentAct.coordinatedVPIndex = 0;
+            }
+            act.coordinatedVPIndex = (parentAct ? parentAct._nextConjIdx || 1 : 1);
+            if (parentAct) parentAct._nextConjIdx = act.coordinatedVPIndex + 1;
             acts.push(act);
           }
         }

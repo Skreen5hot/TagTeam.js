@@ -324445,6 +324445,7 @@ class TreeActExtractor {
         }
       }
       // Coordinated verbs: conj children inherit the parent's modal
+      // Stamp coordinatedVPIndex for shared-argument propagation (TT-SPEC-RDM-B §3)
       if (child.label === 'conj') {
         const conjTag = depTree.tags[child.dependent - 1];
         if (VERB_TAGS.has(conjTag)) {
@@ -324463,6 +324464,12 @@ class TreeActExtractor {
             if (!act.tenseAspect && parentAct && parentAct.tenseAspect) {
               act.tenseAspect = parentAct.tenseAspect;
             }
+            // Stamp coordinatedVPIndex: parent is 0, conjuncts are 1, 2, ...
+            if (parentAct && parentAct.coordinatedVPIndex === undefined) {
+              parentAct.coordinatedVPIndex = 0;
+            }
+            act.coordinatedVPIndex = (parentAct ? parentAct._nextConjIdx || 1 : 1);
+            if (parentAct) parentAct._nextConjIdx = act.coordinatedVPIndex + 1;
             acts.push(act);
           }
         }
@@ -324734,51 +324741,133 @@ class TreeRoleMapper {
    */
   map(entities, acts, depTree, context) {
     const roles = [];
+    const sentIdx = (context && context.sentenceIndex) || 0;
 
-    // Build entity lookup by headId for fast matching
+    // Build entity lookup with composite key: "${sentenceIndex}-${headTokenIndex}"
+    // Composite key prevents collisions across sentences in a multi-sentence forest (§4.2)
     const entityByHead = new Map();
     for (const entity of entities) {
-      entityByHead.set(entity.headId, entity);
+      const key = `${sentIdx}-${entity.headId}`;
+      entityByHead.set(key, entity);
       // Also index by all indices in the entity span
       if (entity.indices) {
         for (const idx of entity.indices) {
-          if (!entityByHead.has(idx)) {
-            entityByHead.set(idx, entity);
+          const spanKey = `${sentIdx}-${idx}`;
+          if (!entityByHead.has(spanKey)) {
+            entityByHead.set(spanKey, entity);
           }
         }
       }
     }
 
-    const ctx = { ...(context || {}), entities, entityByHead };
+    const ctx = { ...(context || {}), entities, entityByHead, sentenceIndex: sentIdx };
 
     // Stative predicate suppression set
     const stativeSet = RoleMappingContract && RoleMappingContract.RMC_STATIVE_PREDICATES;
+
+    // Per-act role assignment — group by actId for coordination propagation
+    const rolesByAct = new Map();
 
     for (const act of acts) {
       const verbId = act.verbId;
       if (!verbId) continue;
 
       // Suppress all roles for stative predicates in passive voice
-      // ("is known as", "is composed of", "is divided into" — no event, no roles)
       if (act.isPassive && stativeSet) {
         const verbLc = (act.verb || '').toLowerCase();
         const lemmaLc = (act.lemma || '').toLowerCase();
         if (stativeSet.has(verbLc) || stativeSet.has(lemmaLc)) continue;
       }
 
+      const actRoles = [];
       const children = depTree.getChildren(verbId);
 
       for (const child of children) {
         const role = this._mapChildToRole(child, depTree, entityByHead, act, ctx);
         if (role) {
+          actRoles.push(role);
           roles.push(role);
           // Propagate role to coordinated conjuncts (UD: conj children inherit parent role)
-          this._propagateToConjuncts(child, depTree, entityByHead, act, role, roles);
+          this._propagateToConjuncts(child, depTree, entityByHead, act, role, roles, sentIdx);
         }
       }
+
+      rolesByAct.set(verbId, actRoles);
     }
 
+    // Pattern A: Shared-argument VP propagation (TT-SPEC-RDM-B §3)
+    this._propagateSharedArguments(acts, rolesByAct, roles, sentIdx);
+
     return roles;
+  }
+
+  /**
+   * Propagate shared arguments across coordinated VerbPhrases (TT-SPEC-RDM-B §3).
+   *
+   * When SBA decomposes "CMS shall review and approve the report" into two VPs,
+   * the primary VP (coordinatedVPIndex=0) gets AgentRole(CMS) + PatientRole(report).
+   * Conjunct VPs (coordinatedVPIndex>0) inherit shared arguments they lack.
+   *
+   * Rule P-1: AgentRole always propagates.
+   * Rule P-2: PatientRole propagates only when conjunct has no distinct object.
+   * Rule P-3: No other roles propagate.
+   */
+  _propagateSharedArguments(acts, rolesByAct, allRoles, sentIdx) {
+    // Build coordination groups — all acts in this call share the same sentenceIndex
+    const groups = new Map();
+    for (const act of acts) {
+      if (act.coordinatedVPIndex === null || act.coordinatedVPIndex === undefined) continue;
+      const key = sentIdx || 0;
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(act);
+    }
+
+    for (const [, groupActs] of groups) {
+      if (groupActs.length < 2) continue;
+
+      // Sort by coordinatedVPIndex — primary VP is index 0
+      groupActs.sort((a, b) => a.coordinatedVPIndex - b.coordinatedVPIndex);
+      const primaryAct = groupActs[0];
+      const primaryRoles = rolesByAct.get(primaryAct.verbId) || [];
+
+      const primaryAgent = primaryRoles.find(r => r.label === 'AgentRole');
+      const primaryPatient = primaryRoles.find(r => r.label === 'PatientRole');
+
+      for (let i = 1; i < groupActs.length; i++) {
+        const conjunctAct = groupActs[i];
+        const conjunctRoles = rolesByAct.get(conjunctAct.verbId) || [];
+
+        // Rule P-1: AgentRole
+        if (primaryAgent && !conjunctRoles.some(r => r.label === 'AgentRole')) {
+          const propagatedAgent = {
+            ...primaryAgent,
+            act: conjunctAct.verb,
+            actId: conjunctAct.verbId,
+            sourceVPId: primaryAct.verbId,
+            propagated: true,
+            note: `AgentRole propagated from VP[0] (${primaryAct.verb})`,
+          };
+          conjunctRoles.push(propagatedAgent);
+          allRoles.push(propagatedAgent);
+        }
+
+        // Rule P-2: PatientRole — only if conjunct has no distinct obj
+        if (primaryPatient && !conjunctRoles.some(r => r.label === 'PatientRole')) {
+          const propagatedPatient = {
+            ...primaryPatient,
+            act: conjunctAct.verb,
+            actId: conjunctAct.verbId,
+            sourceVPId: primaryAct.verbId,
+            propagated: true,
+            note: `PatientRole propagated from VP[0] (${primaryAct.verb})`,
+          };
+          conjunctRoles.push(propagatedPatient);
+          allRoles.push(propagatedPatient);
+        }
+
+        rolesByAct.set(conjunctAct.verbId, conjunctRoles);
+      }
+    }
   }
 
   /**
@@ -324797,8 +324886,9 @@ class TreeRoleMapper {
     // Skip non-entity-bearing labels
     if (!this._isEntityBearing(label)) return null;
 
-    // Find the matching entity
-    const entity = entityByHead.get(child.dependent);
+    // Find the matching entity — composite key "${sentenceIndex}-${dependent}" (§4.2)
+    const si = (context && context.sentenceIndex) || 0;
+    const entity = entityByHead.get(`${si}-${child.dependent}`);
     if (!entity) return null;
 
     // Special handling for obl/obl:agent: check for passive "by" agent and oblique subtyping
@@ -325044,22 +325134,42 @@ class TreeRoleMapper {
    * @param {Role} sourceRole - The role assigned to the source child
    * @param {Role[]} roles - Accumulator
    */
-  _propagateToConjuncts(child, depTree, entityByHead, act, sourceRole, roles) {
-    const sourceEntity = entityByHead.get(child.dependent);
-    this._propagateToConjunctsRecursive(child.dependent, sourceEntity, depTree, entityByHead, act, sourceRole, roles);
+  _propagateToConjuncts(child, depTree, entityByHead, act, sourceRole, roles, sentIdx) {
+    const si = sentIdx || 0;
+    const key = `${si}-${child.dependent}`;
+    const sourceEntity = entityByHead.get(key);
+    this._propagateToConjunctsRecursive(child.dependent, sourceEntity, depTree, entityByHead, act, sourceRole, roles, si);
   }
 
   /**
    * Recursively propagate roles through coordination chains.
    * Handles 3+ element coordination (e.g., "Alice, Bob, and Carol reviewed")
    * where UD may produce chains: Carol → conj of Bob → conj of Alice → nsubj of reviewed.
+   *
+   * Uses composite key "${sentenceIndex}-${dependent}" for entityByHead lookup (§4.2).
    */
-  _propagateToConjunctsRecursive(headId, sourceEntity, depTree, entityByHead, act, sourceRole, roles) {
+  _propagateToConjunctsRecursive(headId, sourceEntity, depTree, entityByHead, act, sourceRole, roles, sentIdx) {
+    const si = sentIdx || 0;
     const children = depTree.getChildren(headId);
     for (const child of children) {
       if (child.label !== 'conj') continue;
-      const conjEntity = entityByHead.get(child.dependent);
-      if (conjEntity && conjEntity !== sourceEntity) {
+
+      const lookupKey = `${si}-${child.dependent}`;
+      const conjEntity = entityByHead.get(lookupKey);
+
+      // Diagnostic guard (§4.3) — miss indicates composite key mismatch
+      if (!conjEntity) {
+        if (typeof console !== 'undefined' && console.warn) {
+          console.warn(
+            `[TreeRoleMapper] _propagateToConjuncts: no entity at key '${lookupKey}' ` +
+            `(sentenceIndex=${si}, conj dependent=${child.dependent}). ` +
+            `Verify entityByHead uses composite keys '\${sentenceIndex}-\${headTokenIndex}'.`
+          );
+        }
+        continue;
+      }
+
+      if (conjEntity !== sourceEntity) {
         roles.push({
           role: sourceRole.role,
           label: sourceRole.label,
@@ -325072,7 +325182,7 @@ class TreeRoleMapper {
         });
       }
       // Recurse into nested conjuncts (3+ element coordination chains)
-      this._propagateToConjunctsRecursive(child.dependent, sourceEntity, depTree, entityByHead, act, sourceRole, roles);
+      this._propagateToConjunctsRecursive(child.dependent, sourceEntity, depTree, entityByHead, act, sourceRole, roles, si);
     }
   }
 
@@ -327473,6 +327583,7 @@ class SemanticGraphBuilder {
       const roleMapper = new _TreeRoleMapper();
       const roleContext = {
         gazetteerTypes: entities.map(e => e.entityType || e.type || null),
+        sentenceIndex: buildOptions._sentenceIndex || 0,
       };
       const roles = roleMapper.map(entities, acts, depTree, roleContext);
 
@@ -327697,6 +327808,7 @@ class SemanticGraphBuilder {
             'tagteam:modality': act.modality,
             'tagteam:deonticCategory': { '@id': deontic.category },
             'tagteam:interpretationConfidence': deontic.confidence,
+            'tagteam:coordinatedVPIndex': act.coordinatedVPIndex ?? null,
             'is_about': { '@id': diceId },
           };
           if (act.isPassive) vpNode['tagteam:isPassive'] = true;
@@ -327777,6 +327889,7 @@ class SemanticGraphBuilder {
             'tagteam:lemma': act.lemma,
             'tagteam:verb': act.lemma,
             'tagteam:denotesType': 'EventDescription',
+            'tagteam:coordinatedVPIndex': act.coordinatedVPIndex ?? null,
             'is_about': { '@id': eventDescId },
           };
           if (act.isPassive) vpNode['tagteam:isPassive'] = true;
@@ -329245,7 +329358,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 375 | 87e7b1d | 2026-04-02T12:53:55.347Z',
+    BUILD: 'build 377 | 640171e | 2026-04-02T13:24:15.974Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,

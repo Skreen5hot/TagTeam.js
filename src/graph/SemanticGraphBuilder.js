@@ -2234,6 +2234,7 @@ class SemanticGraphBuilder {
       const roleMapper = new _TreeRoleMapper();
       const roleContext = {
         gazetteerTypes: entities.map(e => e.entityType || e.type || null),
+        sentenceIndex: buildOptions._sentenceIndex || 0,
       };
       const roles = roleMapper.map(entities, acts, depTree, roleContext);
 
@@ -2458,6 +2459,7 @@ class SemanticGraphBuilder {
             'tagteam:modality': act.modality,
             'tagteam:deonticCategory': { '@id': deontic.category },
             'tagteam:interpretationConfidence': deontic.confidence,
+            'tagteam:coordinatedVPIndex': act.coordinatedVPIndex ?? null,
             'is_about': { '@id': diceId },
           };
           if (act.isPassive) vpNode['tagteam:isPassive'] = true;
@@ -2538,6 +2540,7 @@ class SemanticGraphBuilder {
             'tagteam:lemma': act.lemma,
             'tagteam:verb': act.lemma,
             'tagteam:denotesType': 'EventDescription',
+            'tagteam:coordinatedVPIndex': act.coordinatedVPIndex ?? null,
             'is_about': { '@id': eventDescId },
           };
           if (act.isPassive) vpNode['tagteam:isPassive'] = true;

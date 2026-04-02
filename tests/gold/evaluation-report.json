@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-02T12:54:02.852Z",
+  "timestamp": "2026-04-02T13:26:09.208Z",
   "sentenceCount": 200,
   "entityF1": {
     "precision": 0.9158316633266533,
@@ -7,9 +7,9 @@
     "f1": 0.9241658240647118
   },
   "roleF1": {
-    "precision": 0.8494318181818182,
+    "precision": 0.8422535211267606,
     "recall": 0.772609819121447,
-    "f1": 0.8092016238159676
+    "f1": 0.8059299191374663
   },
   "copularAccuracy": 1,
   "coordinationAccuracy": 0.85,
@@ -100,9 +100,9 @@
         "f1": 0.8899999999999999
       },
       "roleF1": {
-        "precision": 0.7721518987341772,
+        "precision": 0.7439024390243902,
         "recall": 0.782051282051282,
-        "f1": 0.7770700636942675
+        "f1": 0.7624999999999998
       }
     }
   },
@@ -2528,27 +2528,27 @@
     {
       "id": "adv-multi-003",
       "entityF1": 0.6666666666666666,
-      "roleF1": 0.6666666666666666,
+      "roleF1": 0.5714285714285715,
       "entityPrecision": 0.6666666666666666,
       "entityRecall": 0.6666666666666666,
-      "rolePrecision": 0.6666666666666666,
+      "rolePrecision": 0.5,
       "roleRecall": 0.6666666666666666,
       "extractedEntities": 3,
       "goldEntities": 3,
-      "extractedRoles": 3,
+      "extractedRoles": 4,
       "goldRoles": 3
     },
     {
       "id": "adv-multi-004",
       "entityF1": 1,
-      "roleF1": 1,
+      "roleF1": 0.8571428571428571,
       "entityPrecision": 1,
       "entityRecall": 1,
-      "rolePrecision": 1,
+      "rolePrecision": 0.75,
       "roleRecall": 1,
       "extractedEntities": 3,
       "goldEntities": 3,
-      "extractedRoles": 3,
+      "extractedRoles": 4,
       "goldRoles": 3
     },
     {
@@ -2684,14 +2684,14 @@
     {
       "id": "adv-multi-008",
       "entityF1": 0.75,
-      "roleF1": 0.75,
+      "roleF1": 0.6666666666666665,
       "entityPrecision": 0.75,
       "entityRecall": 0.75,
-      "rolePrecision": 0.75,
+      "rolePrecision": 0.6,
       "roleRecall": 0.75,
       "extractedEntities": 4,
       "goldEntities": 4,
-      "extractedRoles": 4,
+      "extractedRoles": 5,
       "goldRoles": 4
     },
     {
