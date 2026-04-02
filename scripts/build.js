@@ -1101,7 +1101,7 @@ ${depTreeCorrector}
 
   // Shim: after stripCommonJS, only the inner functions survive.
   // SemanticGraphBuilder checks typeof DepTreeCorrector !== 'undefined'.
-  const DepTreeCorrector = { correctDitransitives, correctCopularFragmentation, correctNounRootVerbAcl, correctModalFragmentation, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
+  const DepTreeCorrector = { correctDitransitives, correctDoubleObjDitransitives, correctCopularFragmentation, correctNounRootVerbAcl, correctModalFragmentation, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
 
   // ============================================================================
   // SBA v1.3: SENTENCE SEGMENTER
@@ -1132,7 +1132,7 @@ ${roleMappingContract}
 
   // Shim: after stripCommonJS, only inner constants/functions survive.
   // TreeRoleMapper references RoleMappingContract.mapUDToRole() etc.
-  const RoleMappingContract = { UD_TO_BFO_ROLE, CASE_TO_OBLIQUE_ROLE, mapUDToRole, mapCaseToOblique };
+  const RoleMappingContract = { UD_TO_BFO_ROLE, CASE_TO_OBLIQUE_ROLE, RMC_DITRANSITIVE_VERBS, RMC_NON_ROLE_PP_VERBS_PASSIVE, TO_PP_DEP_LABELS, INFINITIVAL_TO_LABELS, mapUDToRole, mapCaseToOblique };
 
   // ============================================================================
   // v2 PHASE 1: PERCEPTRON TAGGER (for tree pipeline browser support)

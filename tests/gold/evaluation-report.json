@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-01T22:36:49.889Z",
+  "timestamp": "2026-04-02T12:18:19.692Z",
   "sentenceCount": 200,
   "entityF1": {
     "precision": 0.9148073022312373,
@@ -7,9 +7,9 @@
     "f1": 0.9175991861648017
   },
   "roleF1": {
-    "precision": 0.8133704735376045,
-    "recall": 0.7545219638242894,
-    "f1": 0.7828418230563002
+    "precision": 0.834733893557423,
+    "recall": 0.7700258397932817,
+    "f1": 0.8010752688172043
   },
   "copularAccuracy": 1,
   "coordinationAccuracy": 0.85,
@@ -22,9 +22,9 @@
         "f1": 0.9578947368421052
       },
       "roleF1": {
-        "precision": 0.8225806451612904,
-        "recall": 0.796875,
-        "f1": 0.8095238095238094
+        "precision": 0.8688524590163934,
+        "recall": 0.828125,
+        "f1": 0.8480000000000001
       }
     },
     "coordination": {
@@ -74,9 +74,9 @@
         "f1": 0.9097472924187726
       },
       "roleF1": {
-        "precision": 0.7857142857142857,
-        "recall": 0.7623762376237624,
-        "f1": 0.7738693467336683
+        "precision": 0.8144329896907216,
+        "recall": 0.7821782178217822,
+        "f1": 0.7979797979797979
       }
     },
     "general": {
@@ -100,9 +100,9 @@
         "f1": 0.8899999999999999
       },
       "roleF1": {
-        "precision": 0.7468354430379747,
-        "recall": 0.7564102564102564,
-        "f1": 0.751592356687898
+        "precision": 0.7721518987341772,
+        "recall": 0.782051282051282,
+        "f1": 0.7770700636942675
       }
     }
   },
@@ -474,11 +474,11 @@
     {
       "id": "org-svo-014",
       "entityF1": 1,
-      "roleF1": 0.6666666666666666,
+      "roleF1": 1,
       "entityPrecision": 1,
       "entityRecall": 1,
-      "rolePrecision": 0.6666666666666666,
-      "roleRecall": 0.6666666666666666,
+      "rolePrecision": 1,
+      "roleRecall": 1,
       "extractedEntities": 3,
       "goldEntities": 3,
       "extractedRoles": 3,
@@ -520,7 +520,7 @@
       "roleRecall": 0,
       "extractedEntities": 2,
       "goldEntities": 2,
-      "extractedRoles": 2,
+      "extractedRoles": 1,
       "goldRoles": 2
     },
     {
@@ -578,11 +578,11 @@
     {
       "id": "org-pass-002",
       "entityF1": 1,
-      "roleF1": 0.5,
+      "roleF1": 1,
       "entityPrecision": 1,
       "entityRecall": 1,
-      "rolePrecision": 0.5,
-      "roleRecall": 0.5,
+      "rolePrecision": 1,
+      "roleRecall": 1,
       "extractedEntities": 2,
       "goldEntities": 2,
       "extractedRoles": 2,
@@ -1196,7 +1196,7 @@
       "roleRecall": 0,
       "extractedEntities": 2,
       "goldEntities": 2,
-      "extractedRoles": 2,
+      "extractedRoles": 1,
       "goldRoles": 2
     },
     {
@@ -1657,11 +1657,11 @@
     {
       "id": "cbp-pass-007",
       "entityF1": 1,
-      "roleF1": 0.5,
+      "roleF1": 1,
       "entityPrecision": 1,
       "entityRecall": 1,
-      "rolePrecision": 0.5,
-      "roleRecall": 0.5,
+      "rolePrecision": 1,
+      "roleRecall": 1,
       "extractedEntities": 2,
       "goldEntities": 2,
       "extractedRoles": 2,
@@ -1839,11 +1839,11 @@
     {
       "id": "cbp-ditr-001",
       "entityF1": 1,
-      "roleF1": 0.3333333333333333,
+      "roleF1": 0.6666666666666666,
       "entityPrecision": 1,
       "entityRecall": 1,
-      "rolePrecision": 0.3333333333333333,
-      "roleRecall": 0.3333333333333333,
+      "rolePrecision": 0.6666666666666666,
+      "roleRecall": 0.6666666666666666,
       "extractedEntities": 3,
       "goldEntities": 3,
       "extractedRoles": 3,
@@ -2619,11 +2619,11 @@
     {
       "id": "adv-pp-007",
       "entityF1": 0.7499999999999999,
-      "roleF1": 0.6666666666666666,
+      "roleF1": 1,
       "entityPrecision": 0.6,
       "entityRecall": 1,
-      "rolePrecision": 0.6666666666666666,
-      "roleRecall": 0.6666666666666666,
+      "rolePrecision": 1,
+      "roleRecall": 1,
       "extractedEntities": 5,
       "goldEntities": 3,
       "extractedRoles": 3,
@@ -2658,11 +2658,11 @@
     {
       "id": "adv-rel-008",
       "entityF1": 1,
-      "roleF1": 0.4,
+      "roleF1": 0.8,
       "entityPrecision": 1,
       "entityRecall": 1,
-      "rolePrecision": 0.5,
-      "roleRecall": 0.3333333333333333,
+      "rolePrecision": 1,
+      "roleRecall": 0.6666666666666666,
       "extractedEntities": 3,
       "goldEntities": 3,
       "extractedRoles": 2,
