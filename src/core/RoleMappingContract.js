@@ -43,6 +43,49 @@ const CASE_TO_OBLIQUE_ROLE = Object.freeze({
 });
 
 // =============================================================================
+// Ditransitive Verb Registry (TT-SPEC-RDM-A §3.2)
+// =============================================================================
+
+const RMC_DITRANSITIVE_VERBS = new Set([
+  // Transfer of possession
+  'give', 'gave', 'given', 'grant', 'granted', 'award', 'awarded',
+  'assign', 'assigned', 'transfer', 'transferred', 'allocate', 'allocated',
+  'return', 'returned', 'restore', 'restored', 'pay', 'paid',
+  'owe', 'owed', 'lend', 'lent', 'hand', 'handed', 'forward', 'forwarded',
+  // Transfer of information/communication
+  'present', 'presented', 'submit', 'submitted', 'provide', 'provided',
+  'offer', 'offered', 'show', 'showed', 'shown', 'tell', 'told',
+  'report', 'reported', 'disclose', 'disclosed', 'transmit', 'transmitted',
+  'send', 'sent', 'deliver', 'delivered', 'issue', 'issued', 'notify', 'notified',
+  // Transfer of authority/rights
+  'sell', 'sold', 'lease', 'leased', 'delegate', 'delegated',
+  'entrust', 'entrusted', 'license', 'licensed', 'authorize', 'authorized',
+]);
+
+// =============================================================================
+// Passive Non-Role PP Verb Registry (TT-SPEC-RDM-A §4.3)
+// =============================================================================
+
+const RMC_NON_ROLE_PP_VERBS_PASSIVE = new Set([
+  'seize', 'seized', 'discover', 'discovered', 'observe', 'observed',
+  'find', 'found', 'detect', 'detected', 'identify', 'identified',
+  'locate', 'located', 'arrest', 'arrested', 'apprehend', 'apprehended',
+  'intercept', 'intercepted',
+]);
+
+// =============================================================================
+// to-PP Dependency Label Recognition (TT-SPEC-RDM-A §6.2)
+// =============================================================================
+
+const TO_PP_DEP_LABELS = Object.freeze(new Set([
+  'prep', 'obl', 'nmod', 'dative', 'obl:to'
+]));
+
+const INFINITIVAL_TO_LABELS = Object.freeze(new Set([
+  'aux', 'mark', 'xcomp'
+]));
+
+// =============================================================================
 // Mapping functions
 // =============================================================================
 
@@ -73,6 +116,10 @@ function mapCaseToOblique(preposition) {
 module.exports = {
   UD_TO_BFO_ROLE,
   CASE_TO_OBLIQUE_ROLE,
+  RMC_DITRANSITIVE_VERBS,
+  RMC_NON_ROLE_PP_VERBS_PASSIVE,
+  TO_PP_DEP_LABELS,
+  INFINITIVAL_TO_LABELS,
   mapUDToRole,
   mapCaseToOblique
 };

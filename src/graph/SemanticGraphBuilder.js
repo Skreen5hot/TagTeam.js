@@ -2087,6 +2087,10 @@ class SemanticGraphBuilder {
         if (_DepTreeCorrector.correctModalFragmentation) {
           _DepTreeCorrector.correctModalFragmentation(parseResult.arcs, tokens, tags);
         }
+        // Double-obj ditransitive — "gave the team new orders" with two obj arcs
+        if (_DepTreeCorrector.correctDoubleObjDitransitives) {
+          _DepTreeCorrector.correctDoubleObjDitransitives(parseResult.arcs, tokens, tags);
+        }
       }
 
       const depTree = new _DepTree(parseResult.arcs, tokens, tags);
@@ -2221,10 +2225,13 @@ class SemanticGraphBuilder {
       const actExtractor = new _TreeActExtractor();
       const { acts, structuralAssertions } = actExtractor.extract(depTree);
 
-      // Stage 7: Tree-based role mapping
+      // Stage 7: Tree-based role mapping (TT-SPEC-RDM-A §7.2: context extension)
       stages.current = 'mapRoles';
       const roleMapper = new _TreeRoleMapper();
-      const roles = roleMapper.map(entities, acts, depTree);
+      const roleContext = {
+        gazetteerTypes: entities.map(e => e.entityType || e.type || null),
+      };
+      const roles = roleMapper.map(entities, acts, depTree, roleContext);
 
       // Stage 7.5: Genericity detection (§9.5)
       // Classify subject NPs as GEN/INST/UNIV/AMB before graph assembly

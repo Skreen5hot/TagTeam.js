@@ -390,4 +390,56 @@ function correctModalFragmentation(arcs, tokens, tags) {
   return arcs;
 }
 
-module.exports = { correctDitransitives, correctCopularFragmentation, correctNounRootVerbAcl, correctModalFragmentation, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
+/**
+ * Correct double-obj on ditransitive verbs: first obj → iobj (TT-SPEC-RDM-A §3).
+ *
+ * Pattern: verb has two obj children. In English double-object constructions
+ * ("gave the team new orders"), the first obj (closer to verb, animate) is the
+ * indirect object. Rewrite to iobj so the existing iobj → RecipientRole path fires.
+ *
+ * Uses the extended DITRANSITIVE_VERBS registry from RoleMappingContract when available,
+ * falling back to the local set.
+ *
+ * @param {Array} arcs
+ * @param {string[]} tokens
+ * @param {string[]} tags
+ * @returns {Array}
+ */
+function correctDoubleObjDitransitives(arcs, tokens, tags) {
+  // Use the RMC registry if available in scope (bundle), else local set
+  const ditransitives = (typeof RMC_DITRANSITIVE_VERBS !== 'undefined')
+    ? RMC_DITRANSITIVE_VERBS : DITRANSITIVE_VERBS;
+
+  // Build head→children index
+  const childrenOf = new Map();
+  for (const arc of arcs) {
+    if (!childrenOf.has(arc.head)) childrenOf.set(arc.head, []);
+    childrenOf.get(arc.head).push(arc);
+  }
+
+  for (const arc of arcs) {
+    const verbId = arc.dependent;
+    const verbTag = tags[verbId - 1];
+    if (!verbTag || !verbTag.startsWith('VB')) continue;
+
+    const lemma = getLemma(tokens[verbId - 1]);
+    const verbLc = tokens[verbId - 1].toLowerCase();
+    if (!ditransitives.has(lemma) && !ditransitives.has(verbLc)) continue;
+
+    // Find all obj children of this verb
+    const verbChildren = childrenOf.get(verbId) || [];
+    const objArcs = verbChildren.filter(c => c.label === 'obj');
+    if (objArcs.length < 2) continue;
+
+    // Sort by linear position — first obj is the indirect object
+    objArcs.sort((a, b) => a.dependent - b.dependent);
+    const firstObj = objArcs[0];
+
+    // Rewrite first obj → iobj
+    firstObj.label = 'iobj';
+  }
+
+  return arcs;
+}
+
+module.exports = { correctDitransitives, correctDoubleObjDitransitives, correctCopularFragmentation, correctNounRootVerbAcl, correctModalFragmentation, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
