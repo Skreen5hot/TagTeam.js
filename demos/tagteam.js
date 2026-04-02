@@ -322941,6 +322941,8 @@ class TreeEntityExtractor {
    */
   extract(depTree, options) {
     const opts = options || {};
+    // Store ontology type hints for _classifyType (F-6 enrichment)
+    this._ontologyTypeHints = opts.ontologyTypeHints || null;
     const entities = [];
     const aliasMap = new Map();
     const seenHeads = new Set(); // Prevent duplicate entity extraction
@@ -323463,8 +323465,18 @@ class TreeEntityExtractor {
       if (headLookup) return headLookup.type;
     }
 
-    // Head-noun type lookup (common nouns)
+    // Ontology type hints (F-6: single-word CCO/ISA domain matches)
     const headLower = (headWord || '').toLowerCase();
+    if (this._ontologyTypeHints && this._ontologyTypeHints.has(headLower)) {
+      const hintClass = this._ontologyTypeHints.get(headLower);
+      // Map ontology class labels to CCO entity types
+      if (/person|commander|captain|lieutenant|attorney|prosecutor|magistrate|deputy|chief|secretary|plaintiff|defendant|auditor|instructor|recruit|senator|representative|commissioner|liaison|handler|officer|witness/i.test(hintClass)) return 'Person';
+      if (/organization|court|committee|board|bureau|council|commission|sector|division|unit|patrol/i.test(hintClass)) return 'Organization';
+      if (/facility|laboratory|port|headquarters/i.test(hintClass)) return 'Facility';
+      if (/vehicle/i.test(hintClass)) return 'Artifact';
+    }
+
+    // Head-noun type lookup (common nouns — fallback)
     if (HEAD_NOUN_TYPE_MAP[headLower]) {
       return HEAD_NOUN_TYPE_MAP[headLower];
     }
@@ -327670,15 +327682,21 @@ class SemanticGraphBuilder {
         lockedSpans = this._mapCDDSpansToTokenIndices(filteredSpans, tokens, tokenObjs);
       }
 
-      // F-3: Ontology-aware span anchoring — if an ontology tagger is provided,
-      // find multi-word matches in the text and add them as locked spans.
-      // This prevents fragmentation of known ontology terms.
+      // F-3: Ontology-aware span anchoring + entity type hints
+      // Multi-word matches → locked spans (prevent fragmentation)
+      // Single-word matches → type hints for entity extractor (F-6 enrichment)
+      const ontologyTypeHints = new Map(); // token text → CCO class label
       if (buildOptions._ontologyTagger && typeof buildOptions._ontologyTagger.tagText === 'function') {
         const ontTags = buildOptions._ontologyTagger.tagText(text) || [];
         for (const tag of ontTags) {
           if (!tag.evidence) continue;
           for (const ev of tag.evidence) {
-            if (ev.split(/\s+/).length < 2) continue; // Only multi-word terms
+            // Single-word matches: store as type hints for entity extraction
+            if (ev.split(/\s+/).length < 2) {
+              const classLabel = tag.label || tag.classIRI || '';
+              if (classLabel) ontologyTypeHints.set(ev.toLowerCase(), classLabel);
+              continue;
+            }
             // Find the evidence text position in the input
             const evLower = ev.toLowerCase();
             const textLower = text.toLowerCase();
@@ -327722,7 +327740,7 @@ class SemanticGraphBuilder {
       const entityExtractor = new _TreeEntityExtractor({
         gazetteerNER: this._treeGazetteerNER || null
       });
-      const { entities, aliasMap } = entityExtractor.extract(depTree, { lockedSpans });
+      const { entities, aliasMap } = entityExtractor.extract(depTree, { lockedSpans, ontologyTypeHints });
 
       // Stage 6: Tree-based act extraction
       stages.current = 'extractActs';
@@ -329509,7 +329527,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 380 | 401d92b | 2026-04-02T17:50:12.348Z',
+    BUILD: 'build 381 | f519b94 | 2026-04-02T18:10:57.065Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,

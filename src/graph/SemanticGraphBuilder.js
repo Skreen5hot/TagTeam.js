@@ -2170,15 +2170,21 @@ class SemanticGraphBuilder {
         lockedSpans = this._mapCDDSpansToTokenIndices(filteredSpans, tokens, tokenObjs);
       }
 
-      // F-3: Ontology-aware span anchoring — if an ontology tagger is provided,
-      // find multi-word matches in the text and add them as locked spans.
-      // This prevents fragmentation of known ontology terms.
+      // F-3: Ontology-aware span anchoring + entity type hints
+      // Multi-word matches → locked spans (prevent fragmentation)
+      // Single-word matches → type hints for entity extractor (F-6 enrichment)
+      const ontologyTypeHints = new Map(); // token text → CCO class label
       if (buildOptions._ontologyTagger && typeof buildOptions._ontologyTagger.tagText === 'function') {
         const ontTags = buildOptions._ontologyTagger.tagText(text) || [];
         for (const tag of ontTags) {
           if (!tag.evidence) continue;
           for (const ev of tag.evidence) {
-            if (ev.split(/\s+/).length < 2) continue; // Only multi-word terms
+            // Single-word matches: store as type hints for entity extraction
+            if (ev.split(/\s+/).length < 2) {
+              const classLabel = tag.label || tag.classIRI || '';
+              if (classLabel) ontologyTypeHints.set(ev.toLowerCase(), classLabel);
+              continue;
+            }
             // Find the evidence text position in the input
             const evLower = ev.toLowerCase();
             const textLower = text.toLowerCase();
@@ -2222,7 +2228,7 @@ class SemanticGraphBuilder {
       const entityExtractor = new _TreeEntityExtractor({
         gazetteerNER: this._treeGazetteerNER || null
       });
-      const { entities, aliasMap } = entityExtractor.extract(depTree, { lockedSpans });
+      const { entities, aliasMap } = entityExtractor.extract(depTree, { lockedSpans, ontologyTypeHints });
 
       // Stage 6: Tree-based act extraction
       stages.current = 'extractActs';

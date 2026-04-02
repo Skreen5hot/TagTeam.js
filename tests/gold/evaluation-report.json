@@ -1,10 +1,10 @@
 {
-  "timestamp": "2026-04-02T17:50:18.590Z",
+  "timestamp": "2026-04-02T18:11:16.929Z",
   "sentenceCount": 200,
   "entityF1": {
-    "precision": 0.9137254901960784,
+    "precision": 0.9119373776908023,
     "recall": 0.9510204081632653,
-    "f1": 0.9319999999999999
+    "f1": 0.9310689310689311
   },
   "roleF1": {
     "precision": 0.8434065934065934,
@@ -43,9 +43,9 @@
     "stative-passive": {
       "count": 10,
       "entityF1": {
-        "precision": 1,
+        "precision": 0.9523809523809523,
         "recall": 1,
-        "f1": 1
+        "f1": 0.975609756097561
       },
       "roleF1": {
         "precision": 1,
@@ -928,13 +928,13 @@
     },
     {
       "id": "stative-001",
-      "entityF1": 1,
+      "entityF1": 0.8,
       "roleF1": 0,
-      "entityPrecision": 1,
+      "entityPrecision": 0.6666666666666666,
       "entityRecall": 1,
       "rolePrecision": 0,
       "roleRecall": 0,
-      "extractedEntities": 2,
+      "extractedEntities": 3,
       "goldEntities": 2,
       "extractedRoles": 0,
       "goldRoles": 1

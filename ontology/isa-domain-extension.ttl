@@ -1,0 +1,203 @@
+@prefix : <http://tagteam.fandaws.com/ontology/isa#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix cco: <https://www.commoncoreontologies.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# =============================================================================
+# ISA Domain Extension — CCO Subclasses for Federal Regulatory Text
+# =============================================================================
+#
+# Extends CCO with domain-specific entity types for ISA/regulatory corpus.
+# These classes provide rdfs:label entries that OntologyTextTagger resolves
+# against entity text at parse time, enabling proper entity typing for
+# animacy detection and role assignment.
+#
+# Loaded as Fandaws vocabulary proxy in gold evaluation pipeline.
+#
+# Version: 1.0.0
+# Source: CCO diagnostic audit of 21 ROLETYPE error sentences
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Person Subtypes — Human role titles in regulatory/legal/military context
+# -----------------------------------------------------------------------------
+
+:Commander a owl:Class ;
+    rdfs:subClassOf cco:ont00001262 ;  # cco:Person
+    rdfs:label "commander"@en ;
+    skos:altLabel "commanders"@en .
+
+:Captain a owl:Class ;
+    rdfs:subClassOf cco:ont00001262 ;
+    rdfs:label "captain"@en ;
+    skos:altLabel "captains"@en .
+
+:Lieutenant a owl:Class ;
+    rdfs:subClassOf cco:ont00001262 ;
+    rdfs:label "lieutenant"@en ;
+    skos:altLabel "lieutenants"@en .
+
+:Attorney a owl:Class ;
+    rdfs:subClassOf cco:ont00001262 ;
+    rdfs:label "attorney"@en ;
+    skos:altLabel "attorneys"@en .
+
+:Prosecutor a owl:Class ;
+    rdfs:subClassOf cco:ont00001262 ;
+    rdfs:label "prosecutor"@en ;
+    skos:altLabel "prosecutors"@en .
+
+:Magistrate a owl:Class ;
+    rdfs:subClassOf cco:ont00001262 ;
+    rdfs:label "magistrate"@en ;
+    skos:altLabel "magistrates"@en .
+
+:Deputy a owl:Class ;
+    rdfs:subClassOf cco:ont00001262 ;
+    rdfs:label "deputy"@en ;
+    skos:altLabel "deputies"@en .
+
+:Chief a owl:Class ;
+    rdfs:subClassOf cco:ont00001262 ;
+    rdfs:label "chief"@en ;
+    skos:altLabel "chiefs"@en .
+
+:Secretary a owl:Class ;
+    rdfs:subClassOf cco:ont00001262 ;
+    rdfs:label "secretary"@en ;
+    skos:altLabel "secretaries"@en .
+
+:Plaintiff a owl:Class ;
+    rdfs:subClassOf cco:ont00001262 ;
+    rdfs:label "plaintiff"@en ;
+    skos:altLabel "plaintiffs"@en .
+
+:Defendant a owl:Class ;
+    rdfs:subClassOf cco:ont00001262 ;
+    rdfs:label "defendant"@en ;
+    skos:altLabel "defendants"@en .
+
+:Auditor a owl:Class ;
+    rdfs:subClassOf cco:ont00001262 ;
+    rdfs:label "auditor"@en ;
+    skos:altLabel "auditors"@en .
+
+:Instructor a owl:Class ;
+    rdfs:subClassOf cco:ont00001262 ;
+    rdfs:label "instructor"@en ;
+    skos:altLabel "instructors"@en .
+
+:Recruit a owl:Class ;
+    rdfs:subClassOf cco:ont00001262 ;
+    rdfs:label "recruit"@en ;
+    skos:altLabel "recruits"@en .
+
+:Senator a owl:Class ;
+    rdfs:subClassOf cco:ont00001262 ;
+    rdfs:label "senator"@en ;
+    skos:altLabel "senators"@en .
+
+:Representative a owl:Class ;
+    rdfs:subClassOf cco:ont00001262 ;
+    rdfs:label "representative"@en ;
+    skos:altLabel "representatives"@en .
+
+:Commissioner a owl:Class ;
+    rdfs:subClassOf cco:ont00001262 ;
+    rdfs:label "commissioner"@en ;
+    skos:altLabel "commissioners"@en .
+
+:Liaison a owl:Class ;
+    rdfs:subClassOf cco:ont00001262 ;
+    rdfs:label "liaison"@en ;
+    skos:altLabel "liaisons"@en .
+
+:Handler a owl:Class ;
+    rdfs:subClassOf cco:ont00001262 ;
+    rdfs:label "handler"@en ;
+    skos:altLabel "handlers"@en .
+
+:Officer a owl:Class ;
+    rdfs:subClassOf cco:ont00001262 ;
+    rdfs:label "officer"@en ;
+    skos:altLabel "officers"@en .
+
+:Witness a owl:Class ;
+    rdfs:subClassOf cco:ont00001262 ;
+    rdfs:label "witness"@en ;
+    skos:altLabel "witnesses"@en .
+
+# -----------------------------------------------------------------------------
+# Organization Subtypes — Institutional units in regulatory context
+# -----------------------------------------------------------------------------
+
+:Court a owl:Class ;
+    rdfs:subClassOf cco:ont00001096 ;  # cco:Organization
+    rdfs:label "court"@en ;
+    skos:altLabel "courts"@en .
+
+:Committee a owl:Class ;
+    rdfs:subClassOf cco:ont00001096 ;
+    rdfs:label "committee"@en ;
+    skos:altLabel "committees"@en .
+
+:Board a owl:Class ;
+    rdfs:subClassOf cco:ont00001096 ;
+    rdfs:label "board"@en ;
+    skos:altLabel "boards"@en .
+
+:Bureau a owl:Class ;
+    rdfs:subClassOf cco:ont00001096 ;
+    rdfs:label "bureau"@en ;
+    skos:altLabel "bureaus"@en, "bureaux"@en .
+
+:Council a owl:Class ;
+    rdfs:subClassOf cco:ont00001096 ;
+    rdfs:label "council"@en ;
+    skos:altLabel "councils"@en .
+
+:Commission a owl:Class ;
+    rdfs:subClassOf cco:ont00001096 ;
+    rdfs:label "commission"@en ;
+    skos:altLabel "commissions"@en .
+
+:Sector a owl:Class ;
+    rdfs:subClassOf cco:ont00001096 ;
+    rdfs:label "sector"@en ;
+    skos:altLabel "sectors"@en .
+
+:Division a owl:Class ;
+    rdfs:subClassOf cco:ont00001096 ;
+    rdfs:label "division"@en ;
+    skos:altLabel "divisions"@en .
+
+:Unit a owl:Class ;
+    rdfs:subClassOf cco:ont00001096 ;
+    rdfs:label "unit"@en ;
+    skos:altLabel "units"@en .
+
+:Patrol a owl:Class ;
+    rdfs:subClassOf cco:ont00001096 ;
+    rdfs:label "patrol"@en ;
+    skos:altLabel "patrols"@en .
+
+# -----------------------------------------------------------------------------
+# Facility Subtypes — Physical locations in regulatory context
+# -----------------------------------------------------------------------------
+
+:Laboratory a owl:Class ;
+    rdfs:subClassOf cco:ont00000340 ;  # cco:Facility
+    rdfs:label "laboratory"@en ;
+    skos:altLabel "laboratories"@en, "lab"@en, "labs"@en .
+
+:Port a owl:Class ;
+    rdfs:subClassOf cco:ont00000340 ;
+    rdfs:label "port"@en ;
+    skos:altLabel "ports"@en .
+
+:Headquarters a owl:Class ;
+    rdfs:subClassOf cco:ont00000340 ;
+    rdfs:label "headquarters"@en .

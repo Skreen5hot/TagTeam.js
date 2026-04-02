@@ -30,22 +30,24 @@ const DependencyParser = require(path.join(ROOT, 'src/core/DependencyParser'));
 const posModel = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/data/pos-weights-pruned.json'), 'utf8'));
 const depModel = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/data/dep-weights-pruned.json'), 'utf8'));
 
-// Load CCO ontology for entity type resolution (proxy for Fandaws)
+// Load CCO + ISA domain extension ontology for entity type resolution (Fandaws proxy)
 let ontologyTagger = null;
 try {
   const OntologyTextTagger = require(path.join(ROOT, 'src/ontology/OntologyTextTagger'));
   const ccoPath = path.join(ROOT, 'dist/cco-merged.ttl');
-  if (fs.existsSync(ccoPath)) {
-    const ccoTTL = fs.readFileSync(ccoPath, 'utf8');
-    ontologyTagger = OntologyTextTagger.fromTTL(ccoTTL, {
-      domain: 'cco',
+  const isaPath = path.join(ROOT, 'ontology/isa-domain-extension.ttl');
+  let ttlContent = '';
+  if (fs.existsSync(ccoPath)) ttlContent += fs.readFileSync(ccoPath, 'utf8') + '\n';
+  if (fs.existsSync(isaPath)) ttlContent += fs.readFileSync(isaPath, 'utf8') + '\n';
+  if (ttlContent) {
+    ontologyTagger = OntologyTextTagger.fromTTL(ttlContent, {
+      domain: 'cco-isa',
       propertyMap: { keywords: 'rdfs:label', label: 'rdfs:label' },
     });
-    const classCount = ontologyTagger.getClassCount ? ontologyTagger.getClassCount() : '?';
-    console.log(`  CCO ontology loaded: ${classCount} classes`);
+    console.log(`  CCO + ISA domain ontology loaded`);
   }
 } catch (e) {
-  console.log(`  CCO ontology not loaded: ${e.message}`);
+  console.log(`  Ontology not loaded: ${e.message}`);
 }
 
 // Load sentences

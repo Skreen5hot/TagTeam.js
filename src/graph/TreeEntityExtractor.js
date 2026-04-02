@@ -114,6 +114,8 @@ class TreeEntityExtractor {
    */
   extract(depTree, options) {
     const opts = options || {};
+    // Store ontology type hints for _classifyType (F-6 enrichment)
+    this._ontologyTypeHints = opts.ontologyTypeHints || null;
     const entities = [];
     const aliasMap = new Map();
     const seenHeads = new Set(); // Prevent duplicate entity extraction
@@ -636,8 +638,18 @@ class TreeEntityExtractor {
       if (headLookup) return headLookup.type;
     }
 
-    // Head-noun type lookup (common nouns)
+    // Ontology type hints (F-6: single-word CCO/ISA domain matches)
     const headLower = (headWord || '').toLowerCase();
+    if (this._ontologyTypeHints && this._ontologyTypeHints.has(headLower)) {
+      const hintClass = this._ontologyTypeHints.get(headLower);
+      // Map ontology class labels to CCO entity types
+      if (/person|commander|captain|lieutenant|attorney|prosecutor|magistrate|deputy|chief|secretary|plaintiff|defendant|auditor|instructor|recruit|senator|representative|commissioner|liaison|handler|officer|witness/i.test(hintClass)) return 'Person';
+      if (/organization|court|committee|board|bureau|council|commission|sector|division|unit|patrol/i.test(hintClass)) return 'Organization';
+      if (/facility|laboratory|port|headquarters/i.test(hintClass)) return 'Facility';
+      if (/vehicle/i.test(hintClass)) return 'Artifact';
+    }
+
+    // Head-noun type lookup (common nouns — fallback)
     if (HEAD_NOUN_TYPE_MAP[headLower]) {
       return HEAD_NOUN_TYPE_MAP[headLower];
     }
