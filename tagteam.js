@@ -320962,11 +320962,63 @@ function correctModalFragmentation(arcs, tokens, tags) {
   return arcs;
 }
 
+/**
+ * Correct double-obj on ditransitive verbs: first obj → iobj (TT-SPEC-RDM-A §3).
+ *
+ * Pattern: verb has two obj children. In English double-object constructions
+ * ("gave the team new orders"), the first obj (closer to verb, animate) is the
+ * indirect object. Rewrite to iobj so the existing iobj → RecipientRole path fires.
+ *
+ * Uses the extended DITRANSITIVE_VERBS registry from RoleMappingContract when available,
+ * falling back to the local set.
+ *
+ * @param {Array} arcs
+ * @param {string[]} tokens
+ * @param {string[]} tags
+ * @returns {Array}
+ */
+function correctDoubleObjDitransitives(arcs, tokens, tags) {
+  // Use the RMC registry if available in scope (bundle), else local set
+  const ditransitives = (typeof RMC_DITRANSITIVE_VERBS !== 'undefined')
+    ? RMC_DITRANSITIVE_VERBS : DITRANSITIVE_VERBS;
+
+  // Build head→children index
+  const childrenOf = new Map();
+  for (const arc of arcs) {
+    if (!childrenOf.has(arc.head)) childrenOf.set(arc.head, []);
+    childrenOf.get(arc.head).push(arc);
+  }
+
+  for (const arc of arcs) {
+    const verbId = arc.dependent;
+    const verbTag = tags[verbId - 1];
+    if (!verbTag || !verbTag.startsWith('VB')) continue;
+
+    const lemma = getLemma(tokens[verbId - 1]);
+    const verbLc = tokens[verbId - 1].toLowerCase();
+    if (!ditransitives.has(lemma) && !ditransitives.has(verbLc)) continue;
+
+    // Find all obj children of this verb
+    const verbChildren = childrenOf.get(verbId) || [];
+    const objArcs = verbChildren.filter(c => c.label === 'obj');
+    if (objArcs.length < 2) continue;
+
+    // Sort by linear position — first obj is the indirect object
+    objArcs.sort((a, b) => a.dependent - b.dependent);
+    const firstObj = objArcs[0];
+
+    // Rewrite first obj → iobj
+    firstObj.label = 'iobj';
+  }
+
+  return arcs;
+}
+
 
 
   // Shim: after stripCommonJS, only the inner functions survive.
   // SemanticGraphBuilder checks typeof DepTreeCorrector !== 'undefined'.
-  const DepTreeCorrector = { correctDitransitives, correctCopularFragmentation, correctNounRootVerbAcl, correctModalFragmentation, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
+  const DepTreeCorrector = { correctDitransitives, correctDoubleObjDitransitives, correctCopularFragmentation, correctNounRootVerbAcl, correctModalFragmentation, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
 
   // ============================================================================
   // SBA v1.3: SENTENCE SEGMENTER
@@ -322217,6 +322269,49 @@ const CASE_TO_OBLIQUE_ROLE = Object.freeze({
 });
 
 // =============================================================================
+// Ditransitive Verb Registry (TT-SPEC-RDM-A §3.2)
+// =============================================================================
+
+const RMC_DITRANSITIVE_VERBS = new Set([
+  // Transfer of possession
+  'give', 'gave', 'given', 'grant', 'granted', 'award', 'awarded',
+  'assign', 'assigned', 'transfer', 'transferred', 'allocate', 'allocated',
+  'return', 'returned', 'restore', 'restored', 'pay', 'paid',
+  'owe', 'owed', 'lend', 'lent', 'hand', 'handed', 'forward', 'forwarded',
+  // Transfer of information/communication
+  'present', 'presented', 'submit', 'submitted', 'provide', 'provided',
+  'offer', 'offered', 'show', 'showed', 'shown', 'tell', 'told',
+  'report', 'reported', 'disclose', 'disclosed', 'transmit', 'transmitted',
+  'send', 'sent', 'deliver', 'delivered', 'issue', 'issued', 'notify', 'notified',
+  // Transfer of authority/rights
+  'sell', 'sold', 'lease', 'leased', 'delegate', 'delegated',
+  'entrust', 'entrusted', 'license', 'licensed', 'authorize', 'authorized',
+]);
+
+// =============================================================================
+// Passive Non-Role PP Verb Registry (TT-SPEC-RDM-A §4.3)
+// =============================================================================
+
+const RMC_NON_ROLE_PP_VERBS_PASSIVE = new Set([
+  'seize', 'seized', 'discover', 'discovered', 'observe', 'observed',
+  'find', 'found', 'detect', 'detected', 'identify', 'identified',
+  'locate', 'located', 'arrest', 'arrested', 'apprehend', 'apprehended',
+  'intercept', 'intercepted',
+]);
+
+// =============================================================================
+// to-PP Dependency Label Recognition (TT-SPEC-RDM-A §6.2)
+// =============================================================================
+
+const TO_PP_DEP_LABELS = Object.freeze(new Set([
+  'prep', 'obl', 'nmod', 'dative', 'obl:to'
+]));
+
+const INFINITIVAL_TO_LABELS = Object.freeze(new Set([
+  'aux', 'mark', 'xcomp'
+]));
+
+// =============================================================================
 // Mapping functions
 // =============================================================================
 
@@ -322248,7 +322343,7 @@ function mapCaseToOblique(preposition) {
 
   // Shim: after stripCommonJS, only inner constants/functions survive.
   // TreeRoleMapper references RoleMappingContract.mapUDToRole() etc.
-  const RoleMappingContract = { UD_TO_BFO_ROLE, CASE_TO_OBLIQUE_ROLE, mapUDToRole, mapCaseToOblique };
+  const RoleMappingContract = { UD_TO_BFO_ROLE, CASE_TO_OBLIQUE_ROLE, RMC_DITRANSITIVE_VERBS, RMC_NON_ROLE_PP_VERBS_PASSIVE, TO_PP_DEP_LABELS, INFINITIVAL_TO_LABELS, mapUDToRole, mapCaseToOblique };
 
   // ============================================================================
   // v2 PHASE 1: PERCEPTRON TAGGER (for tree pipeline browser support)
@@ -324557,9 +324652,10 @@ class TreeRoleMapper {
    * @param {Entity[]} entities - Extracted entities with headId and role properties
    * @param {Act[]} acts - Extracted acts with verbId property
    * @param {DepTree} depTree - Dependency tree
+   * @param {Object} [context] - { gazetteerTypes } — extended per TT-SPEC-RDM-A §7.2
    * @returns {Role[]} Array of role assignments
    */
-  map(entities, acts, depTree) {
+  map(entities, acts, depTree, context) {
     const roles = [];
 
     // Build entity lookup by headId for fast matching
@@ -324576,6 +324672,8 @@ class TreeRoleMapper {
       }
     }
 
+    const ctx = { ...(context || {}), entities, entityByHead };
+
     for (const act of acts) {
       const verbId = act.verbId;
       if (!verbId) continue;
@@ -324583,7 +324681,7 @@ class TreeRoleMapper {
       const children = depTree.getChildren(verbId);
 
       for (const child of children) {
-        const role = this._mapChildToRole(child, depTree, entityByHead, act);
+        const role = this._mapChildToRole(child, depTree, entityByHead, act, ctx);
         if (role) {
           roles.push(role);
           // Propagate role to coordinated conjuncts (UD: conj children inherit parent role)
@@ -324602,9 +324700,10 @@ class TreeRoleMapper {
    * @param {DepTree} depTree
    * @param {Map<number, Entity>} entityByHead
    * @param {Act} act
+   * @param {Object} [context] - { arcs, gazetteerTypes, entities }
    * @returns {Role|null}
    */
-  _mapChildToRole(child, depTree, entityByHead, act) {
+  _mapChildToRole(child, depTree, entityByHead, act, context) {
     const label = child.label;
 
     // Skip non-entity-bearing labels
@@ -324614,9 +324713,9 @@ class TreeRoleMapper {
     const entity = entityByHead.get(child.dependent);
     if (!entity) return null;
 
-    // Special handling for obl: check for passive "by" agent and oblique subtyping
-    if (label === 'obl') {
-      return this._handleOblique(child, depTree, entity, act);
+    // Special handling for obl/obl:agent: check for passive "by" agent and oblique subtyping
+    if (label === 'obl' || label === 'obl:agent') {
+      return this._handleOblique(child, depTree, entity, act, context);
     }
 
     // Passive role flip: if act is passive and label is nsubj (not nsubj:pass),
@@ -324651,22 +324750,28 @@ class TreeRoleMapper {
    * For obl dependents:
    *   1. Find the `case` child to get the preposition
    *   2. If "by" → AgentRole (passive agent)
-   *   3. Otherwise → subtype via RoleMappingContract.mapCaseToOblique()
+   *   3. If "to" → run resolveToPPRole() (TT-SPEC-RDM-A §5)
+   *   4. Otherwise → subtype via RoleMappingContract.mapCaseToOblique()
    *
    * @param {Object} child - The obl child
    * @param {DepTree} depTree
    * @param {Entity} entity
    * @param {Act} act
+   * @param {Object} [context] - { arcs, gazetteerTypes, entities }
    * @returns {Role|null}
    */
-  _handleOblique(child, depTree, entity, act) {
+  _handleOblique(child, depTree, entity, act, context) {
     // Find the case child of this obl token to get the preposition
     const oblChildren = depTree.getChildren(child.dependent);
     const caseChild = oblChildren.find(c => c.label === 'case');
     const preposition = caseChild ? caseChild.word.toLowerCase() : null;
 
     // Special case: "by" in passive → AgentRole
-    if (preposition === 'by' && act.isPassive) {
+    // Guard: obl:agent label requires "by" preposition. If parser mislabels
+    // a non-by PP as obl:agent, downgrade to plain obl and route normally.
+    if (child.label === 'obl:agent' && preposition !== 'by') {
+      // Fall through to normal obl handling below
+    } else if (preposition === 'by' && act.isPassive) {
       return {
         role: 'Role',
         label: 'AgentRole',
@@ -324677,6 +324782,28 @@ class TreeRoleMapper {
         udLabel: 'obl:agent',
         note: 'Passive "by" phrase = agent',
       };
+    }
+
+    // to-PP: run priority resolution algorithm (TT-SPEC-RDM-A §5)
+    if (preposition === 'to') {
+      const resolved = this._resolveToPPRole(act, child, depTree, entity, context);
+      if (resolved === 'SUPPRESS') {
+        return null; // No RoleAssertion — entity extracted as DR only
+      }
+      if (resolved) {
+        return {
+          role: 'Role',
+          label: resolved,
+          entity: entity.fullText || entity.text,
+          entityId: entity.headId,
+          act: act.verb,
+          actId: act.verbId,
+          udLabel: 'obl',
+          preposition: 'to',
+          note: `to-PP resolved to ${resolved} (§5 algorithm)`,
+        };
+      }
+      // null → fall through to default DestinationRole via contract
     }
 
     // Oblique subtyping by preposition
@@ -324706,6 +324833,113 @@ class TreeRoleMapper {
       preposition,
       note,
     };
+  }
+
+  /**
+   * Unified to-PP Resolution Algorithm (TT-SPEC-RDM-A §5).
+   *
+   * @param {Act} act - Governing verb act
+   * @param {Object} child - The obl child token
+   * @param {DepTree} depTree
+   * @param {Entity} entity - The to-PP head entity
+   * @param {Object} [context] - { arcs, gazetteerTypes, entities }
+   * @returns {string|null} 'RecipientRole', 'SUPPRESS', or null (use default)
+   */
+  _resolveToPPRole(act, child, depTree, entity, context) {
+    const ctx = context || {};
+
+    // Step 1: Infinitival to guard — if head is VERB/AUX, not a role-bearing PP
+    const tag = child.tag || '';
+    if (tag.startsWith('VB') || tag === 'AUX' || tag === 'TO') {
+      return null;
+    }
+
+    // Step 2: iobj priority guard — if verb already has iobj, don't override
+    if (depTree) {
+      const verbChildren = depTree.getChildren(act.verbId);
+      if (verbChildren.some(c => c.label === 'iobj')) {
+        return null;
+      }
+    }
+
+    // Normalize verb for registry lookup
+    const verbLemma = (act.lemma || act.verb || '').toLowerCase();
+
+    // Access registries (may be null in browser bundle if contract not loaded)
+    const ditransitiveSet = RoleMappingContract && RoleMappingContract.RMC_DITRANSITIVE_VERBS;
+    const nonRolePPSet = RoleMappingContract && RoleMappingContract.RMC_NON_ROLE_PP_VERBS_PASSIVE;
+
+    // Step 3: Passive stative/perception suppression
+    if (act.isPassive && nonRolePPSet) {
+      const verbToken = (act.verb || '').toLowerCase();
+      if (nonRolePPSet.has(verbLemma) || nonRolePPSet.has(verbToken)) {
+        return 'SUPPRESS';
+      }
+    }
+
+    // Step 4: Ditransitive verb check
+    const isDitransitive = ditransitiveSet &&
+      (ditransitiveSet.has(verbLemma) ||
+       ditransitiveSet.has((act.verb || '').toLowerCase()));
+    if (!isDitransitive) {
+      return null; // Use DestinationRole default
+    }
+
+    // Step 5: Animacy check (§3.3)
+    if (this._isAnimate(entity, ctx)) {
+      // Step 6: Assign RecipientRole
+      return 'RecipientRole';
+    }
+
+    return null; // Not animate → use DestinationRole default
+  }
+
+  /**
+   * Animacy detection (TT-SPEC-RDM-A §3.3).
+   * Evaluated in strict priority order — first match wins.
+   *
+   * @param {Entity} entity
+   * @param {Object} context - { gazetteerTypes, entities }
+   * @returns {boolean}
+   */
+  _isAnimate(entity, context) {
+    const ctx = context || {};
+
+    // Priority 1: Tier 2 type is subclass of Agent
+    const entityType = entity.type || '';
+    if (entityType.includes('Agent') || entityType.includes('Person') ||
+        entityType.includes('Organization')) {
+      return true;
+    }
+
+    // Priority 2-3: GazetteerNER entity type
+    const gazType = entity.gazetteerType || entity.entityType || '';
+    if (gazType === 'Person' || gazType.includes('Person')) return true;
+    if (gazType === 'Organization' || gazType === 'GovernmentOrganization' ||
+        gazType.includes('Organization')) return true;
+
+    // Priority 4: Fandaws domain lookup — not yet implemented (F-0 dependency)
+
+    // Priority 5: Personal pronoun
+    const text = (entity.fullText || entity.text || '').toLowerCase();
+    const pronouns = new Set(['him', 'her', 'them', 'whom', 'us']);
+    if (pronouns.has(text)) return true;
+
+    // Priority 6: Human role title pattern (det/amod + title word)
+    const TITLES = new Set([
+      'director', 'committee', 'accused', 'jury', 'team', 'judge',
+      'magistrate', 'officer', 'commander', 'supervisor', 'inspector',
+      'analyst', 'agent', 'chief', 'secretary', 'administrator',
+      'instructor', 'recruits', 'class', 'officials', 'personnel',
+      'staff', 'board', 'council', 'panel', 'commission',
+    ]);
+    const words = text.split(/\s+/);
+    for (const w of words) {
+      if (TITLES.has(w.toLowerCase())) return true;
+    }
+
+    // Priority 7: Default — not animate
+    return false;
   }
 
   /**
@@ -327033,6 +327267,10 @@ class SemanticGraphBuilder {
         if (_DepTreeCorrector.correctModalFragmentation) {
           _DepTreeCorrector.correctModalFragmentation(parseResult.arcs, tokens, tags);
         }
+        // Double-obj ditransitive — "gave the team new orders" with two obj arcs
+        if (_DepTreeCorrector.correctDoubleObjDitransitives) {
+          _DepTreeCorrector.correctDoubleObjDitransitives(parseResult.arcs, tokens, tags);
+        }
       }
 
       const depTree = new _DepTree(parseResult.arcs, tokens, tags);
@@ -327136,10 +327374,13 @@ class SemanticGraphBuilder {
       const actExtractor = new _TreeActExtractor();
       const { acts, structuralAssertions } = actExtractor.extract(depTree);
 
-      // Stage 7: Tree-based role mapping
+      // Stage 7: Tree-based role mapping (TT-SPEC-RDM-A §7.2: context extension)
       stages.current = 'mapRoles';
       const roleMapper = new _TreeRoleMapper();
-      const roles = roleMapper.map(entities, acts, depTree);
+      const roleContext = {
+        gazetteerTypes: entities.map(e => e.entityType || e.type || null),
+      };
+      const roles = roleMapper.map(entities, acts, depTree, roleContext);
 
       // Stage 7.5: Genericity detection (§9.5)
       // Classify subject NPs as GEN/INST/UNIV/AMB before graph assembly
@@ -328910,7 +329151,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 360 | 3a33e86 | 2026-04-02T10:27:52.796Z',
+    BUILD: 'build 372 | 509ea7f | 2026-04-02T12:30:25.131Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
