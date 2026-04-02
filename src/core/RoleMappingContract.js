@@ -60,6 +60,9 @@ const RMC_DITRANSITIVE_VERBS = new Set([
   // Transfer of authority/rights
   'sell', 'sold', 'lease', 'leased', 'delegate', 'delegated',
   'entrust', 'entrusted', 'license', 'licensed', 'authorize', 'authorized',
+  // Additional verbs from corpus analysis
+  'pass', 'passed', 'teach', 'taught',
+  'distribute', 'distributed', 'administer', 'administered',
 ]);
 
 // =============================================================================

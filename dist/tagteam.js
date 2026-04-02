@@ -322349,6 +322349,9 @@ const RMC_DITRANSITIVE_VERBS = new Set([
   // Transfer of authority/rights
   'sell', 'sold', 'lease', 'leased', 'delegate', 'delegated',
   'entrust', 'entrusted', 'license', 'licensed', 'authorize', 'authorized',
+  // Additional verbs from corpus analysis
+  'pass', 'passed', 'teach', 'taught',
+  'distribute', 'distributed', 'administer', 'administered',
 ]);
 
 // =============================================================================
@@ -325017,6 +325020,8 @@ class TreeRoleMapper {
       'analyst', 'agent', 'chief', 'secretary', 'administrator',
       'instructor', 'recruits', 'class', 'officials', 'personnel',
       'staff', 'board', 'council', 'panel', 'commission',
+      'sector', 'sectors', 'division', 'divisions', 'unit', 'units',
+      'patient', 'patients', 'nurse', 'nurses',
     ]);
     const words = text.split(/\s+/);
     for (const w of words) {
@@ -329240,7 +329245,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 373 | 509ea7f | 2026-04-02T12:41:15.086Z',
+    BUILD: 'build 375 | 87e7b1d | 2026-04-02T12:53:55.347Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,

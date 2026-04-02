@@ -329,6 +329,8 @@ class TreeRoleMapper {
       'analyst', 'agent', 'chief', 'secretary', 'administrator',
       'instructor', 'recruits', 'class', 'officials', 'personnel',
       'staff', 'board', 'council', 'panel', 'commission',
+      'sector', 'sectors', 'division', 'divisions', 'unit', 'units',
+      'patient', 'patients', 'nurse', 'nurses',
     ]);
     const words = text.split(/\s+/);
     for (const w of words) {
