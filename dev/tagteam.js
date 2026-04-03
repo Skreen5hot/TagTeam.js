@@ -328607,7 +328607,7 @@ class SemanticGraphBuilder {
                   'rdfs:label': clauseAuthorityMatch.authorityLabel,
                   'tagteam:identifiedVia': clauseAuthorityMatch.matchedToken,
                   'tagteam:typeBasis': 'ontology-match',
-                  'is_about': { '@id': authorityNodeId }, // Self-referential — marks as Tier 2
+                  'tagteam:_authorityDocument': true, // Marker for Tier 1 separation pass to skip
                 });
               }
 
@@ -328641,7 +328641,7 @@ class SemanticGraphBuilder {
                 const actNodeId = `${this.options.namespace}:Act_${this._sanitizeId(act.lemma)}_${this._hashText(reId).substring(0, 8)}`;
                 const actNode = {
                   '@id': actNodeId,
-                  '@type': [actType, 'owl:NamedIndividual'],
+                  '@type': [actType, 'IntentionalAct', 'owl:NamedIndividual'],
                   'rdfs:label': `Act: ${act.lemma} (performative)`,
                   'realizes': { '@id': reId },
                   'tagteam:isPerformative': true,
@@ -328649,15 +328649,51 @@ class SemanticGraphBuilder {
                   'tagteam:prescribedBy': { '@id': authorityNodeId },
                 };
 
-                // Role assignments on Act node
+                // Fix 2+3: Role assignments — resolve entity IRIs
+                // hasPatient: the nsubj:pass entity (the thing being vested)
                 if (act._prescribedPatientText) {
-                  actNode['_patientText'] = act._prescribedPatientText;
+                  const patientSanitized = this._sanitizeId(act._prescribedPatientText);
+                  const patientDrId = entityTextToDrId[patientSanitized];
+                  if (patientDrId) {
+                    actNode['tagteam:hasPatient'] = { '@id': patientDrId };
+                  }
                 }
+                // hasRecipient: the obl entity (vested IN [entity])
+                // For vesting verbs, "in" PP is the recipient, not just "to"
                 if (act._prescribedRecipientText) {
-                  actNode['_recipientText'] = act._prescribedRecipientText;
+                  const recipientSanitized = this._sanitizeId(act._prescribedRecipientText);
+                  const recipientDrId = entityTextToDrId[recipientSanitized];
+                  if (recipientDrId) {
+                    actNode['tagteam:hasRecipient'] = { '@id': recipientDrId };
+                  }
+                }
+                // Fallback: find obl "in" argument from dep tree for vesting verbs
+                if (!actNode['tagteam:hasRecipient'] && depTree) {
+                  const verbChildren = depTree.getChildren(act.verbId) || [];
+                  const oblChild = verbChildren.find(c => c.label === 'obl');
+                  if (oblChild) {
+                    const oblKids = depTree.getChildren(oblChild.dependent) || [];
+                    const caseChild = oblKids.find(c => c.label === 'case');
+                    const prep = caseChild ? depTree.tokens[caseChild.dependent - 1].toLowerCase() : '';
+                    if (prep === 'in' || prep === 'to') {
+                      const oblText = depTree.tokens[oblChild.dependent - 1];
+                      const oblSanitized = this._sanitizeId(oblText);
+                      // Try to find DR for this entity
+                      for (const [key, drId] of Object.entries(entityTextToDrId)) {
+                        if (key.toLowerCase().includes(oblSanitized.toLowerCase()) ||
+                            oblSanitized.toLowerCase().includes(key.toLowerCase())) {
+                          actNode['tagteam:hasRecipient'] = { '@id': drId };
+                          break;
+                        }
+                      }
+                    }
+                  }
                 }
 
+                // Fix 1: Add to graph and has_output
                 graphNodes.push(actNode);
+                // Add to ParsingAct has_output (will be resolved at graph finalization)
+                actNode['tagteam:_addToHasOutput'] = true;
               }
             }
 
@@ -328936,6 +328972,8 @@ class SemanticGraphBuilder {
           const t = [].concat(n['@type'] || []);
           // Skip nodes already linked to Tier 2 by assertion handlers (e.g., predicate referents)
           if (n['is_about']) return false;
+          // Skip authority document nodes (Gap 3 — already Tier 2)
+          if (n['tagteam:_authorityDocument']) return false;
           return !t.some(x =>
             x.includes('Act') || x.includes('Role') || x.includes('Assertion') ||
             x.includes('Directive') || x.includes('PlanSpec') ||
@@ -329253,7 +329291,11 @@ class SemanticGraphBuilder {
         'tagteam:systemGenerated': true,
         'has_input': { '@id': ibeNode['@id'] },
         'has_agent': { '@id': parserAgentNode['@id'] },
-        'has_output': iceNodes.map(n => ({ '@id': n['@id'] })),
+        'has_output': [
+          ...iceNodes.map(n => ({ '@id': n['@id'] })),
+          // Include performative Act nodes (Gap 4) in has_output
+          ...graphNodes.filter(n => n['tagteam:_addToHasOutput']).map(n => ({ '@id': n['@id'] })),
+        ],
         'tagteam:instantiated_at': this.buildTimestamp
       };
       graphNodes.push(parsingAct);
@@ -329295,7 +329337,7 @@ class SemanticGraphBuilder {
           sentenceRelationships: [],
           // Summary counts (convenience — not in SBA spec, retained for backward compat)
           entities: entities.length,
-          acts: acts.length,
+          acts: acts.length + graphNodes.filter(n => n['tagteam:_addToHasOutput']).length,
           structuralAssertions: structuralAssertions.length,
           roles: roles.length,
         }
@@ -330198,7 +330240,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 404 | 5b56fb7 | 2026-04-03T12:06:48.175Z',
+    BUILD: 'build 406 | fa4abc0 | 2026-04-03T14:06:25.237Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
