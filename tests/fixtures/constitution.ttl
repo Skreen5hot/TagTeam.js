@@ -17,6 +17,12 @@ tagteam:LegislativePower rdf:type owl:Class ;
     rdfs:label "Legislative Power"@en ;
     skos:altLabel "legislative Powers"@en ;
     skos:altLabel "legislative powers"@en .
+tagteam:ActOfVesting rdf:type owl:Class ;
+    rdfs:subClassOf cco:ActOfAuthorization ;
+    rdfs:label "Act of Vesting"@en ;
+    skos:altLabel "vest"@en ;
+    skos:altLabel "vested"@en ;
+    skos:altLabel "vesting"@en .
 tagteam:UnitedStates rdf:type owl:NamedIndividual , cco:GeopoliticalEntity ;
     rdfs:label "United States"@en .
 tagteam:Congress rdf:type owl:NamedIndividual , tagteam:LegislativeBody ;

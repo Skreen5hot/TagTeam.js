@@ -316530,6 +316530,38 @@ class ParseResult {
   }
 
   /**
+   * Check if a class IRI is a subclass of a target class (direct or transitive).
+   * Walks the rdfs:subClassOf chain with cycle protection.
+   *
+   * @param {string} classIRI - The class to check
+   * @param {string} targetIRI - The target superclass
+   * @returns {boolean}
+   */
+  isSubclassOf(classIRI, targetIRI) {
+    if (classIRI === targetIRI) return true;
+    const visited = new Set();
+    const queue = [classIRI];
+    while (queue.length > 0) {
+      const current = queue.shift();
+      if (visited.has(current)) continue;
+      visited.add(current);
+      // Check rdf:type — for individuals, rdf:type points to their class
+      const types = this.getProperties(current, 'rdf:type');
+      for (const t of types) {
+        if (t === targetIRI) return true;
+        if (!visited.has(t)) queue.push(t);
+      }
+      // Check rdfs:subClassOf — for classes, walks the hierarchy
+      const supers = this.getProperties(current, 'rdfs:subClassOf');
+      for (const s of supers) {
+        if (s === targetIRI) return true;
+        if (!visited.has(s)) queue.push(s);
+      }
+    }
+    return false;
+  }
+
+  /**
    * Get keywords for a subject (splits comma-separated values)
    * @param {string} subject - Subject IRI
    * @returns {Array<string>} Array of keywords
@@ -318993,6 +319025,58 @@ class OntologyTextTagger {
       ontologyMatchOWLType: def.owlType || 'owl:Class',
       rdfTypes: def.rdfTypes || [],
     };
+  }
+
+  // ===========================================================================
+  // ===========================================================================
+  // Clause-Level Authority Match (TT-SPEC-SGB-A §3.2)
+  // ===========================================================================
+
+  /**
+   * Emit a clause-level authority match record when any token in a sentence
+   * matches a DirectiveInformationContentEntity subclass.
+   *
+   * @param {Object[]} tokenMatches - Tag results from tagText()
+   * @param {number} sentenceIndex - Sentence index
+   * @returns {Object|null} Authority match record or null
+   */
+  emitClauseAuthorityMatch(tokenMatches, sentenceIndex) {
+    if (!this._parseResult || !tokenMatches || tokenMatches.length === 0) return null;
+
+    const authorityMatches = [];
+
+    for (const tag of tokenMatches) {
+      if (!tag.confidence || tag.confidence < 1) continue;
+      if (!tag.iri && !tag.class) continue;
+
+      // Use prefixed class form for isSubclassOf (TurtleParser stores prefixed IRIs)
+      const matchedClass = tag.class || tag.iri;
+      const matchedIRI = tag.iri || tag.class;
+
+      // Check if the matched class is a DirectiveInformationContentEntity subclass
+      if (this._parseResult.isSubclassOf(matchedClass, 'cco:DirectiveInformationContentEntity')) {
+        // Get evidence token text
+        const tokenText = (tag.evidence && tag.evidence[0]) || tag.label || '';
+
+        authorityMatches.push({
+          sentenceIndex: sentenceIndex || 0,
+          matchedToken: tokenText,
+          authorityIRI: matchedIRI,
+          authorityLabel: tag.label || '',
+          authorityTypes: this._parseResult.getProperties(matchedIRI, 'rdf:type')
+            .filter(t => t !== 'owl:NamedIndividual'),
+          matchConfidence: tag.confidence,
+          matchType: tag.ontologyMatchType || 'exact',
+          rdfTypes: tag.rdfTypes || [],
+        });
+      }
+    }
+
+    if (authorityMatches.length === 0) return null;
+
+    // Use highest confidence; earliest token as tiebreaker
+    authorityMatches.sort((a, b) => b.matchConfidence - a.matchConfidence);
+    return authorityMatches[0];
   }
 
   // ===========================================================================
@@ -328129,6 +328213,15 @@ class SemanticGraphBuilder {
         }
       }
 
+      // Stage 4.8b: Clause-level authority match (TT-SPEC-SGB-A §3.2)
+      let clauseAuthorityMatch = null;
+      if (buildOptions._ontologyTagger && typeof buildOptions._ontologyTagger.emitClauseAuthorityMatch === 'function') {
+        const ontTags = buildOptions._ontologyTagger.tagText(text) || [];
+        clauseAuthorityMatch = buildOptions._ontologyTagger.emitClauseAuthorityMatch(
+          ontTags, buildOptions._sentenceIndex || 0
+        );
+      }
+
       // Stage 4.9: Ontology-driven dependency tree correction
       // When the ontology demotes a verb-tagged root to a non-act entity,
       // rewire the parse tree: promote ccomp child to root, re-attach arguments.
@@ -328454,7 +328547,20 @@ class SemanticGraphBuilder {
             '@id': planSpecId,
             '@type': ['PlanSpecification', 'ActSpecification', 'InformationContentEntity', 'owl:NamedIndividual'],
             'rdfs:label': `Plan: ${act.lemma}`,
-            'tagteam:prescribedActType': act.lemma,
+            // §5.3: Use domain act class IRI when ontology provides one; bare lemma as fallback
+            'tagteam:prescribedActType': (() => {
+              if (ontologyTypeHints && ontologyTypeHints.size > 0) {
+                const verbHint = ontologyTypeHints.get((act.lemma || '').toLowerCase()) ||
+                                 ontologyTypeHints.get((act.verb || '').toLowerCase());
+                if (verbHint && typeof verbHint === 'object' && verbHint.rdfTypes) {
+                  const domainType = verbHint.rdfTypes.find(t =>
+                    t.startsWith('tagteam:') || t.includes('/tagteam/') || t.includes('example.org')
+                  );
+                  if (domainType) return domainType;
+                }
+              }
+              return act.lemma;
+            })(),
           };
 
           // Store entity text for deferred Tier 2 IRI resolution (runs after Tier 2 creation)
@@ -328478,8 +328584,82 @@ class SemanticGraphBuilder {
               'is_prescribed_by': { '@id': diceId },
               'isSpecifiedBy': { '@id': planSpecId },
             };
+
+            // Gap 3 (TT-SPEC-SGB-A §3.3): Wire authority document as is_prescribed_by
+            let authorityNodeId = null;
+            if (clauseAuthorityMatch && clauseAuthorityMatch.matchConfidence >= 1) {
+              const authIRI = clauseAuthorityMatch.authorityIRI;
+              const authLocalName = authIRI.includes('#') ? authIRI.split('#').pop()
+                : authIRI.includes('/') ? authIRI.split('/').pop()
+                : authIRI.includes(':') && !authIRI.includes('://') ? authIRI.split(':').pop()
+                : authIRI;
+              authorityNodeId = `${this.options.namespace}:${authLocalName}`;
+
+              // Create authority document node if not already in graph
+              // Marked as Tier 2 (is_about: self) to prevent Tier 1 separation pass from stripping types
+              if (!graphNodes.some(n => n['@id'] === authorityNodeId)) {
+                const authTypes = (clauseAuthorityMatch.authorityTypes || []).length > 0
+                  ? clauseAuthorityMatch.authorityTypes
+                  : (clauseAuthorityMatch.rdfTypes || []);
+                graphNodes.push({
+                  '@id': authorityNodeId,
+                  '@type': [...authTypes, 'owl:NamedIndividual'],
+                  'rdfs:label': clauseAuthorityMatch.authorityLabel,
+                  'tagteam:identifiedVia': clauseAuthorityMatch.matchedToken,
+                  'tagteam:typeBasis': 'ontology-match',
+                  'is_about': { '@id': authorityNodeId }, // Self-referential — marks as Tier 2
+                });
+              }
+
+              // Replace synthetic Directive with authority document
+              reNode['is_prescribed_by'] = { '@id': authorityNodeId };
+              reNode['tagteam:syntheticDirective'] = { '@id': diceId };
+            }
+
             // inheres_in resolved in post-Tier2 pass
             graphNodes.push(reNode);
+
+            // Gap 4 (TT-SPEC-SGB-A §4): Performative vesting act
+            const VESTING_VERBS = new Set([
+              'vest', 'vested', 'grant', 'granted', 'confer', 'conferred',
+              'delegate', 'delegated', 'invest', 'invested',
+              'ordain', 'ordained', 'establish', 'established',
+            ]);
+
+            if (act.isPassive && VESTING_VERBS.has((act.lemma || '').toLowerCase()) &&
+                deontic.reType === 'Obligation') {
+              // Check if prescribedActType is a domain IRI (not bare lemma)
+              const actType = planSpecNode['tagteam:prescribedActType'] || '';
+              const isDomainActType = actType.includes('tagteam:') || actType.includes('example.org');
+
+              // Gate 4: authorityMatch must be present
+              if (isDomainActType && authorityNodeId) {
+                // Update obligation to Discharged
+                reNode['tagteam:fulfillmentState'] = { '@id': 'tagteam:Discharged' };
+
+                // Produce performative Act node
+                const actNodeId = `${this.options.namespace}:Act_${this._sanitizeId(act.lemma)}_${this._hashText(reId).substring(0, 8)}`;
+                const actNode = {
+                  '@id': actNodeId,
+                  '@type': [actType, 'owl:NamedIndividual'],
+                  'rdfs:label': `Act: ${act.lemma} (performative)`,
+                  'realizes': { '@id': reId },
+                  'tagteam:isPerformative': true,
+                  'tagteam:fulfillmentState': { '@id': 'tagteam:Discharged' },
+                  'tagteam:prescribedBy': { '@id': authorityNodeId },
+                };
+
+                // Role assignments on Act node
+                if (act._prescribedPatientText) {
+                  actNode['_patientText'] = act._prescribedPatientText;
+                }
+                if (act._prescribedRecipientText) {
+                  actNode['_recipientText'] = act._prescribedRecipientText;
+                }
+
+                graphNodes.push(actNode);
+              }
+            }
 
             // Track for ConjunctiveObligation
             if (deontic.reType === 'Obligation') {
@@ -330018,7 +330198,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 399 | 196848b | 2026-04-03T09:44:44.157Z',
+    BUILD: 'build 403 | f000c7d | 2026-04-03T11:54:56.847Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,

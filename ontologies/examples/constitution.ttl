@@ -1,0 +1,72 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix bfo: <http://purl.obolibrary.org/obo/BFO_> .
+@prefix cco: <http://www.ontologyrepository.com/CommonCoreOntologies/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix tagteam: <https://example.org/tagteam/ontology#> .
+
+tagteam:ConstitutionDomainOntology rdf:type owl:Ontology ;
+    rdfs:label "TagTeam US Constitution Domain Extension"@en ;
+    rdfs:comment "Custom classes subclassing BFO and CCO for parsing the US Constitution."@en .
+
+#################################################################
+#    Constitutional Classes (Subclasses of CCO/BFO)
+#################################################################
+
+###  https://example.org/tagteam/ontology#LegislativeBody
+tagteam:LegislativeBody rdf:type owl:Class ;
+    rdfs:subClassOf cco:GovernmentOrganization ;
+    rdfs:label "Legislative Body"@en ;
+    rdfs:comment "A government organization formally constituted to enact laws."@en .
+
+###  https://example.org/tagteam/ontology#LegislativePower
+# Subclasses CCO's Authority, which itself subclasses BFO's Disposition (BFO_0000016)
+tagteam:LegislativePower rdf:type owl:Class ;
+    rdfs:subClassOf cco:Authority ;
+    rdfs:label "Legislative Power"@en ;
+    skos:altLabel "legislative Powers"@en ;
+    skos:altLabel "legislative powers"@en ;
+    rdfs:comment "The authority (a disposition) to make, alter, or repeal laws. Inheres in a Legislative Body."@en .
+
+###  https://example.org/tagteam/ontology#ActOfVesting
+tagteam:ActOfVesting rdf:type owl:Class ;
+    rdfs:subClassOf cco:ActOfAuthorization ;
+    rdfs:label "Act of Vesting"@en ;
+    skos:altLabel "vest"@en ;
+    skos:altLabel "vested"@en ;
+    skos:altLabel "vesting"@en ;
+    rdfs:comment "An Act of Authorization wherein supreme legal authority is formally conferred to a government organization."@en .
+
+###  https://example.org/tagteam/ontology#ConstitutionalDocument
+tagteam:ConstitutionalDocument rdf:type owl:Class ;
+    rdfs:subClassOf cco:DirectiveInformationContentEntity ;
+    rdfs:label "Constitutional Document"@en ;
+    rdfs:comment "A foundational Directive Information Content Entity that establishes the framework and authority of a government. Acts as the source of 'herein'."@en .
+
+
+#################################################################
+#    Specific Named Individuals (The Instances)
+#################################################################
+
+### The Geopolitical Entity
+tagteam:UnitedStates rdf:type owl:NamedIndividual , cco:GeopoliticalEntity ;
+    rdfs:label "United States"@en .
+
+### The Organizations
+tagteam:Congress rdf:type owl:NamedIndividual , tagteam:LegislativeBody ;
+    rdfs:label "Congress of the United States"@en ;
+    skos:altLabel "Congress"@en .
+
+tagteam:Senate rdf:type owl:NamedIndividual , tagteam:LegislativeBody ;
+    rdfs:label "Senate"@en ;
+    bfo:BFO_0000050 tagteam:Congress . # "has continuant part" Congress
+
+tagteam:HouseOfRepresentatives rdf:type owl:NamedIndividual , tagteam:LegislativeBody ;
+    rdfs:label "House of Representatives"@en ;
+    bfo:BFO_0000050 tagteam:Congress . # "has continuant part" Congress
+
+### The Document
+tagteam:USConstitution rdf:type owl:NamedIndividual , tagteam:ConstitutionalDocument ;
+    rdfs:label "Constitution of the United States"@en ;
+    skos:altLabel "herein"@en .

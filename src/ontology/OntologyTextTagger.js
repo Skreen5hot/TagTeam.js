@@ -825,6 +825,58 @@ class OntologyTextTagger {
   }
 
   // ===========================================================================
+  // ===========================================================================
+  // Clause-Level Authority Match (TT-SPEC-SGB-A §3.2)
+  // ===========================================================================
+
+  /**
+   * Emit a clause-level authority match record when any token in a sentence
+   * matches a DirectiveInformationContentEntity subclass.
+   *
+   * @param {Object[]} tokenMatches - Tag results from tagText()
+   * @param {number} sentenceIndex - Sentence index
+   * @returns {Object|null} Authority match record or null
+   */
+  emitClauseAuthorityMatch(tokenMatches, sentenceIndex) {
+    if (!this._parseResult || !tokenMatches || tokenMatches.length === 0) return null;
+
+    const authorityMatches = [];
+
+    for (const tag of tokenMatches) {
+      if (!tag.confidence || tag.confidence < 1) continue;
+      if (!tag.iri && !tag.class) continue;
+
+      // Use prefixed class form for isSubclassOf (TurtleParser stores prefixed IRIs)
+      const matchedClass = tag.class || tag.iri;
+      const matchedIRI = tag.iri || tag.class;
+
+      // Check if the matched class is a DirectiveInformationContentEntity subclass
+      if (this._parseResult.isSubclassOf(matchedClass, 'cco:DirectiveInformationContentEntity')) {
+        // Get evidence token text
+        const tokenText = (tag.evidence && tag.evidence[0]) || tag.label || '';
+
+        authorityMatches.push({
+          sentenceIndex: sentenceIndex || 0,
+          matchedToken: tokenText,
+          authorityIRI: matchedIRI,
+          authorityLabel: tag.label || '',
+          authorityTypes: this._parseResult.getProperties(matchedIRI, 'rdf:type')
+            .filter(t => t !== 'owl:NamedIndividual'),
+          matchConfidence: tag.confidence,
+          matchType: tag.ontologyMatchType || 'exact',
+          rdfTypes: tag.rdfTypes || [],
+        });
+      }
+    }
+
+    if (authorityMatches.length === 0) return null;
+
+    // Use highest confidence; earliest token as tiebreaker
+    authorityMatches.sort((a, b) => b.matchConfidence - a.matchConfidence);
+    return authorityMatches[0];
+  }
+
+  // ===========================================================================
   // Static Factory Methods
   // ===========================================================================
 

@@ -204,6 +204,38 @@ class ParseResult {
   }
 
   /**
+   * Check if a class IRI is a subclass of a target class (direct or transitive).
+   * Walks the rdfs:subClassOf chain with cycle protection.
+   *
+   * @param {string} classIRI - The class to check
+   * @param {string} targetIRI - The target superclass
+   * @returns {boolean}
+   */
+  isSubclassOf(classIRI, targetIRI) {
+    if (classIRI === targetIRI) return true;
+    const visited = new Set();
+    const queue = [classIRI];
+    while (queue.length > 0) {
+      const current = queue.shift();
+      if (visited.has(current)) continue;
+      visited.add(current);
+      // Check rdf:type — for individuals, rdf:type points to their class
+      const types = this.getProperties(current, 'rdf:type');
+      for (const t of types) {
+        if (t === targetIRI) return true;
+        if (!visited.has(t)) queue.push(t);
+      }
+      // Check rdfs:subClassOf — for classes, walks the hierarchy
+      const supers = this.getProperties(current, 'rdfs:subClassOf');
+      for (const s of supers) {
+        if (s === targetIRI) return true;
+        if (!visited.has(s)) queue.push(s);
+      }
+    }
+    return false;
+  }
+
+  /**
    * Get keywords for a subject (splits comma-separated values)
    * @param {string} subject - Subject IRI
    * @returns {Array<string>} Array of keywords
