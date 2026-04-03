@@ -12,6 +12,11 @@ tagteam:ConstitutionalDocument rdf:type owl:Class ;
 tagteam:LegislativeBody rdf:type owl:Class ;
     rdfs:subClassOf cco:GovernmentOrganization ;
     rdfs:label "Legislative Body"@en .
+tagteam:LegislativePower rdf:type owl:Class ;
+    rdfs:subClassOf cco:Authority ;
+    rdfs:label "Legislative Power"@en ;
+    skos:altLabel "legislative Powers"@en ;
+    skos:altLabel "legislative powers"@en .
 tagteam:UnitedStates rdf:type owl:NamedIndividual , cco:GeopoliticalEntity ;
     rdfs:label "United States"@en .
 tagteam:Congress rdf:type owl:NamedIndividual , tagteam:LegislativeBody ;

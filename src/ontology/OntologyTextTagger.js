@@ -136,10 +136,20 @@ class OntologyTextTagger {
       const allClasses = this._parseResult.getClasses();
       for (const def of this.tagDefinitions) {
         if (!def.rdfTypes) {
+          // Collect rdf:type values (for owl:NamedIndividual entities)
           def.rdfTypes = allClasses
             .filter(c => c.id === def.id)
             .map(c => c.type)
             .filter(t => t !== 'owl:NamedIndividual' && t !== 'owl:Class');
+        }
+        // For owl:Class entries, rdf:type is just owl:Class (filtered above).
+        // Fall back to rdfs:subClassOf to get the CCO/domain parent type.
+        if (def.rdfTypes.length === 0) {
+          const subClassOf = this._parseResult.getProperty(def.id, 'rdfs:subClassOf');
+          if (subClassOf) {
+            const superClasses = Array.isArray(subClassOf) ? subClassOf : [subClassOf];
+            def.rdfTypes = superClasses.filter(t => t !== 'owl:Thing' && t !== 'owl:Class');
+          }
         }
       }
     }

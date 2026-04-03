@@ -318307,10 +318307,20 @@ class OntologyTextTagger {
       const allClasses = this._parseResult.getClasses();
       for (const def of this.tagDefinitions) {
         if (!def.rdfTypes) {
+          // Collect rdf:type values (for owl:NamedIndividual entities)
           def.rdfTypes = allClasses
             .filter(c => c.id === def.id)
             .map(c => c.type)
             .filter(t => t !== 'owl:NamedIndividual' && t !== 'owl:Class');
+        }
+        // For owl:Class entries, rdf:type is just owl:Class (filtered above).
+        // Fall back to rdfs:subClassOf to get the CCO/domain parent type.
+        if (def.rdfTypes.length === 0) {
+          const subClassOf = this._parseResult.getProperty(def.id, 'rdfs:subClassOf');
+          if (subClassOf) {
+            const superClasses = Array.isArray(subClassOf) ? subClassOf : [subClassOf];
+            def.rdfTypes = superClasses.filter(t => t !== 'owl:Thing' && t !== 'owl:Class');
+          }
         }
       }
     }
@@ -323054,6 +323064,52 @@ const HEAD_NOUN_TYPE_MAP = {
 };
 
 /**
+ * Resolve the most specific domain type from an rdfTypes array.
+ *
+ * Priority 1: Domain-specific types (tagteam: prefix) → use class local name directly.
+ *   e.g., tagteam:LegislativeBody → "LegislativeBody"
+ *   e.g., tagteam:ConstitutionalDocument → "ConstitutionalDocument"
+ *
+ * Priority 2: CCO types (cco: or standard) → map to known entity type.
+ *   e.g., cco:GeopoliticalEntity → "GeopoliticalEntity"
+ *
+ * This preserves domain-specific types from loaded ontologies rather than
+ * collapsing them to CCO ancestors.
+ */
+function _resolveDomainType(rdfTypes) {
+  if (!rdfTypes || rdfTypes.length === 0) return null;
+
+  // Priority 1: Domain-specific type (tagteam: or custom namespace prefix)
+  for (const t of rdfTypes) {
+    if (t.startsWith('tagteam:') || t.includes('/tagteam/') || t.includes('example.org')) {
+      const localName = t.includes(':') && !t.includes('://') ? t.split(':').pop()
+        : t.includes('#') ? t.split('#').pop()
+        : t.includes('/') ? t.split('/').pop()
+        : t;
+      if (localName && localName !== 'NamedIndividual' && localName !== 'Class') {
+        return localName;
+      }
+    }
+  }
+
+  // Priority 2: CCO/BFO type — map to known entity type
+  for (const t of rdfTypes) {
+    const tl = (t || '').toLowerCase();
+    if (tl.includes('geopolitical')) return 'GeopoliticalEntity';
+    if (tl.includes('person')) return 'Person';
+    if (tl.includes('governmentorganization') || tl.includes('government')) return 'GovernmentOrganization';
+    if (tl.includes('organization')) return 'Organization';
+    if (tl.includes('facility')) return 'Facility';
+    if (tl.includes('artifact') || tl.includes('materialentity')) return 'Artifact';
+    if (tl.includes('informationcontent') || tl.includes('directive')) return 'InformationContentEntity';
+    if (tl.includes('agent')) return 'Agent';
+    if (tl.includes('process') || tl.includes('act')) return 'Process';
+  }
+
+  return null;
+}
+
+/**
  * POS tags that indicate a proper noun (relevant for coordination split).
  */
 const PROPER_NOUN_TAGS = new Set(['NNP', 'NNPS']);
@@ -323605,22 +323661,10 @@ class TreeEntityExtractor {
     // the gazetteer and HEAD_NOUN_TYPE_MAP. This is the "Ontology Overrides" principle.
     if (this._ontologyTypeHints && this._ontologyTypeHints.has(headLower)) {
       const hint = this._ontologyTypeHints.get(headLower);
-      // Bug 2 fix: if the hint carries rdfTypes from the ontology, use them directly
       const rdfTypes = (typeof hint === 'object' && hint.rdfTypes) ? hint.rdfTypes : [];
       if (rdfTypes.length > 0) {
-        // Resolve CCO domain type from rdf:type chain
-        for (const rdfType of rdfTypes) {
-          const t = (rdfType || '').toLowerCase();
-          if (t.includes('person')) return 'Person';
-          if (t.includes('geopolitical')) return 'GeopoliticalEntity';
-          if (t.includes('governmentorganization') || t.includes('government')) return 'GovernmentOrganization';
-          if (t.includes('organization') || t.includes('legislativebody')) return 'Organization';
-          if (t.includes('facility')) return 'Facility';
-          if (t.includes('artifact') || t.includes('materialentity')) return 'Artifact';
-          if (t.includes('informationcontent') || t.includes('directive') || t.includes('constitutional')) return 'InformationContentEntity';
-          if (t.includes('agent')) return 'Agent';
-          if (t.includes('process') || t.includes('act')) return 'Process';
-        }
+        const resolved = _resolveDomainType(rdfTypes);
+        if (resolved) return resolved;
       }
       // Fallback: use class label matching (pre-Bug-2 behavior)
       const hintClass = (typeof hint === 'string' ? hint : hint.label || '').toLowerCase();
@@ -327004,6 +327048,47 @@ class SemanticGraphBuilder {
   }
 
   /**
+   * Resolve the most specific domain type from an rdfTypes array.
+   * Preserves domain-specific types (tagteam: prefix) rather than
+   * collapsing them to CCO ancestors.
+   *
+   * @param {string[]} rdfTypes - Array of rdf:type IRIs
+   * @returns {string|null} Most specific type name
+   */
+  _resolveDomainType(rdfTypes) {
+    if (!rdfTypes || rdfTypes.length === 0) return null;
+
+    // Priority 1: Domain-specific type (tagteam: or custom namespace)
+    for (const t of rdfTypes) {
+      if (t.startsWith('tagteam:') || t.includes('/tagteam/') || t.includes('example.org')) {
+        const localName = t.includes(':') && !t.includes('://') ? t.split(':').pop()
+          : t.includes('#') ? t.split('#').pop()
+          : t.includes('/') ? t.split('/').pop()
+          : t;
+        if (localName && localName !== 'NamedIndividual' && localName !== 'Class') {
+          return localName;
+        }
+      }
+    }
+
+    // Priority 2: CCO/BFO type — map to known entity type
+    for (const t of rdfTypes) {
+      const tl = (t || '').toLowerCase();
+      if (tl.includes('geopolitical')) return 'GeopoliticalEntity';
+      if (tl.includes('person')) return 'Person';
+      if (tl.includes('governmentorganization') || tl.includes('government')) return 'GovernmentOrganization';
+      if (tl.includes('organization')) return 'Organization';
+      if (tl.includes('facility')) return 'Facility';
+      if (tl.includes('artifact') || tl.includes('materialentity')) return 'Artifact';
+      if (tl.includes('informationcontent') || tl.includes('directive')) return 'InformationContentEntity';
+      if (tl.includes('agent')) return 'Agent';
+      if (tl.includes('process') || tl.includes('act')) return 'Process';
+    }
+
+    return null;
+  }
+
+  /**
    * Map CDD character-based spans to 1-indexed token index ranges.
    * @param {Array} cdSpans - CDD spans with { text, start, end, components }
    * @param {string[]} tokens - Token strings from tokenizer
@@ -327970,9 +328055,16 @@ class SemanticGraphBuilder {
             if (ev.split(/\s+/).length < 2) {
               const classLabel = tag.label || tag.classIRI || '';
               if (classLabel) {
+                // Include the matched class IRI in rdfTypes for owl:Class entities
+                // (not for owl:NamedIndividual — individuals' types come from rdf:type)
+                const hintRdfTypes = [...(tag.rdfTypes || [])];
+                const isClass = (tag.ontologyMatchOWLType || '') === 'owl:Class';
+                if (isClass && tag.class && !hintRdfTypes.includes(tag.class)) {
+                  hintRdfTypes.unshift(tag.class); // Most specific first
+                }
                 ontologyTypeHints.set(ev.toLowerCase(), {
                   label: classLabel,
-                  rdfTypes: tag.rdfTypes || [],
+                  rdfTypes: hintRdfTypes,
                   iri: tag.iri || '',
                   confidence: tag.confidence || 0,
                 });
@@ -327982,13 +328074,16 @@ class SemanticGraphBuilder {
             // Multi-word matches: also store type hints for each word
             // so _classifyType can resolve type for entities from locked spans
             const classLabel = tag.label || tag.classIRI || '';
+            const mwRdfTypes = [...(tag.rdfTypes || [])];
+            const mwIsClass = (tag.ontologyMatchOWLType || '') === 'owl:Class';
+            if (mwIsClass && tag.class && !mwRdfTypes.includes(tag.class)) mwRdfTypes.unshift(tag.class);
             if (classLabel) {
               for (const word of ev.split(/\s+/)) {
                 const wl = word.toLowerCase();
                 if (wl.length > 2 && !ontologyTypeHints.has(wl)) { // Don't overwrite existing
                   ontologyTypeHints.set(wl, {
                     label: classLabel,
-                    rdfTypes: tag.rdfTypes || [],
+                    rdfTypes: mwRdfTypes,
                     iri: tag.iri || '',
                     confidence: tag.confidence || 0,
                   });
@@ -328747,25 +328842,16 @@ class SemanticGraphBuilder {
             }
 
             if (bestHint && bestHint.confidence >= 1) {
-              // Resolve CCO domain type from rdfTypes
-              let promotedType = null;
-              for (const rdfType of bestHint.rdfTypes) {
-                const tl = (rdfType || '').toLowerCase();
-                if (tl.includes('geopolitical')) { promotedType = 'GeopoliticalEntity'; break; }
-                if (tl.includes('governmentorganization') || tl.includes('government')) { promotedType = 'GovernmentOrganization'; break; }
-                if (tl.includes('legislativebody')) { promotedType = 'GovernmentOrganization'; break; }
-                if (tl.includes('person')) { promotedType = 'Person'; break; }
-                if (tl.includes('organization')) { promotedType = 'Organization'; break; }
-                if (tl.includes('facility')) { promotedType = 'Facility'; break; }
-                if (tl.includes('informationcontent') || tl.includes('directive') || tl.includes('constitutional')) { promotedType = 'InformationContentEntity'; break; }
-                if (tl.includes('artifact') || tl.includes('materialentity')) { promotedType = 'Artifact'; break; }
-              }
+              // Resolve domain-specific type, preserving tagteam: classes
+              const promotedType = this._resolveDomainType(bestHint.rdfTypes);
 
               if (promotedType) {
                 // Promote Tier 2 @type
                 const currentTypes = [].concat(t2['@type'] || []);
                 t2['@type'] = currentTypes.map(t =>
-                  ['Entity', 'Organization', 'Person', 'Facility', 'Artifact'].includes(t) ? promotedType : t
+                  ['Entity', 'Organization', 'Person', 'Facility', 'Artifact',
+                   'GovernmentOrganization', 'InformationContentEntity', 'GeopoliticalEntity'].includes(t)
+                    ? promotedType : t
                 );
                 t2['tagteam:typeBasis'] = 'ontology-match';
 
@@ -329932,7 +330018,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 395 | b096adb | 2026-04-03T09:21:28.999Z',
+    BUILD: 'build 399 | 196848b | 2026-04-03T09:44:44.157Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,

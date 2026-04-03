@@ -84,6 +84,52 @@ const HEAD_NOUN_TYPE_MAP = {
 };
 
 /**
+ * Resolve the most specific domain type from an rdfTypes array.
+ *
+ * Priority 1: Domain-specific types (tagteam: prefix) → use class local name directly.
+ *   e.g., tagteam:LegislativeBody → "LegislativeBody"
+ *   e.g., tagteam:ConstitutionalDocument → "ConstitutionalDocument"
+ *
+ * Priority 2: CCO types (cco: or standard) → map to known entity type.
+ *   e.g., cco:GeopoliticalEntity → "GeopoliticalEntity"
+ *
+ * This preserves domain-specific types from loaded ontologies rather than
+ * collapsing them to CCO ancestors.
+ */
+function _resolveDomainType(rdfTypes) {
+  if (!rdfTypes || rdfTypes.length === 0) return null;
+
+  // Priority 1: Domain-specific type (tagteam: or custom namespace prefix)
+  for (const t of rdfTypes) {
+    if (t.startsWith('tagteam:') || t.includes('/tagteam/') || t.includes('example.org')) {
+      const localName = t.includes(':') && !t.includes('://') ? t.split(':').pop()
+        : t.includes('#') ? t.split('#').pop()
+        : t.includes('/') ? t.split('/').pop()
+        : t;
+      if (localName && localName !== 'NamedIndividual' && localName !== 'Class') {
+        return localName;
+      }
+    }
+  }
+
+  // Priority 2: CCO/BFO type — map to known entity type
+  for (const t of rdfTypes) {
+    const tl = (t || '').toLowerCase();
+    if (tl.includes('geopolitical')) return 'GeopoliticalEntity';
+    if (tl.includes('person')) return 'Person';
+    if (tl.includes('governmentorganization') || tl.includes('government')) return 'GovernmentOrganization';
+    if (tl.includes('organization')) return 'Organization';
+    if (tl.includes('facility')) return 'Facility';
+    if (tl.includes('artifact') || tl.includes('materialentity')) return 'Artifact';
+    if (tl.includes('informationcontent') || tl.includes('directive')) return 'InformationContentEntity';
+    if (tl.includes('agent')) return 'Agent';
+    if (tl.includes('process') || tl.includes('act')) return 'Process';
+  }
+
+  return null;
+}
+
+/**
  * POS tags that indicate a proper noun (relevant for coordination split).
  */
 const PROPER_NOUN_TAGS = new Set(['NNP', 'NNPS']);
@@ -635,22 +681,10 @@ class TreeEntityExtractor {
     // the gazetteer and HEAD_NOUN_TYPE_MAP. This is the "Ontology Overrides" principle.
     if (this._ontologyTypeHints && this._ontologyTypeHints.has(headLower)) {
       const hint = this._ontologyTypeHints.get(headLower);
-      // Bug 2 fix: if the hint carries rdfTypes from the ontology, use them directly
       const rdfTypes = (typeof hint === 'object' && hint.rdfTypes) ? hint.rdfTypes : [];
       if (rdfTypes.length > 0) {
-        // Resolve CCO domain type from rdf:type chain
-        for (const rdfType of rdfTypes) {
-          const t = (rdfType || '').toLowerCase();
-          if (t.includes('person')) return 'Person';
-          if (t.includes('geopolitical')) return 'GeopoliticalEntity';
-          if (t.includes('governmentorganization') || t.includes('government')) return 'GovernmentOrganization';
-          if (t.includes('organization') || t.includes('legislativebody')) return 'Organization';
-          if (t.includes('facility')) return 'Facility';
-          if (t.includes('artifact') || t.includes('materialentity')) return 'Artifact';
-          if (t.includes('informationcontent') || t.includes('directive') || t.includes('constitutional')) return 'InformationContentEntity';
-          if (t.includes('agent')) return 'Agent';
-          if (t.includes('process') || t.includes('act')) return 'Process';
-        }
+        const resolved = _resolveDomainType(rdfTypes);
+        if (resolved) return resolved;
       }
       // Fallback: use class label matching (pre-Bug-2 behavior)
       const hintClass = (typeof hint === 'string' ? hint : hint.label || '').toLowerCase();
