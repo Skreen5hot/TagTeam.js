@@ -329139,6 +329139,21 @@ class SemanticGraphBuilder {
           }
         }
 
+        // Performative Act: assert disposition inheres_in recipient
+        // BFO: a Disposition inheres in its bearer. When an ActOfVesting has
+        // hasPatient(Disposition) and hasRecipient(Bearer), assert inheres_in.
+        for (const node of graphNodes) {
+          if (!node['tagteam:isPerformative']) continue;
+          const patientRef = node['tagteam:hasPatient'];
+          const recipientRef = node['tagteam:hasRecipient'];
+          if (patientRef && recipientRef) {
+            const patientNode = graphNodes.find(n => n['@id'] === patientRef['@id']);
+            if (patientNode && !patientNode['inheres_in']) {
+              patientNode['inheres_in'] = { '@id': recipientRef['@id'] };
+            }
+          }
+        }
+
         // ── RDM: Resolve PlanSpec agent/patient and RE inheres_in to Tier 2 IRIs ──
         // This runs AFTER Tier 2 entities are created, so _findTier2ByLabel works.
         for (const node of graphNodes) {
@@ -330304,7 +330319,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 412 | f06bd8d | 2026-04-03T14:50:39.852Z',
+    BUILD: 'build 413 | 437445b | 2026-04-03T15:00:14.716Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
