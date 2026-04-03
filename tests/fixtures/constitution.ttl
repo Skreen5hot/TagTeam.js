@@ -1,0 +1,26 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix bfo: <http://purl.obolibrary.org/obo/BFO_> .
+@prefix cco: <http://www.ontologyrepository.com/CommonCoreOntologies/> .
+@prefix tagteam: <https://example.org/tagteam/ontology#> .
+
+tagteam:ConstitutionalDocument rdf:type owl:Class ;
+    rdfs:subClassOf cco:DirectiveInformationContentEntity ;
+    rdfs:label "Constitutional Document"@en .
+tagteam:LegislativeBody rdf:type owl:Class ;
+    rdfs:subClassOf cco:GovernmentOrganization ;
+    rdfs:label "Legislative Body"@en .
+tagteam:UnitedStates rdf:type owl:NamedIndividual , cco:GeopoliticalEntity ;
+    rdfs:label "United States"@en .
+tagteam:Congress rdf:type owl:NamedIndividual , tagteam:LegislativeBody ;
+    rdfs:label "Congress of the United States"@en ;
+    skos:altLabel "Congress"@en .
+tagteam:USConstitution rdf:type owl:NamedIndividual , tagteam:ConstitutionalDocument ;
+    rdfs:label "Constitution of the United States"@en ;
+    skos:altLabel "herein"@en .
+tagteam:Senate rdf:type owl:NamedIndividual , tagteam:LegislativeBody ;
+    rdfs:label "Senate"@en .
+tagteam:HouseOfRepresentatives rdf:type owl:NamedIndividual , tagteam:LegislativeBody ;
+    rdfs:label "House of Representatives"@en .

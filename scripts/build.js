@@ -1101,7 +1101,7 @@ ${depTreeCorrector}
 
   // Shim: after stripCommonJS, only the inner functions survive.
   // SemanticGraphBuilder checks typeof DepTreeCorrector !== 'undefined'.
-  const DepTreeCorrector = { correctDitransitives, correctDoubleObjDitransitives, recoverDitransitiveOrphans, correctCopularFragmentation, correctNounRootVerbAcl, correctModalFragmentation, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
+  const DepTreeCorrector = { correctDitransitives, correctDoubleObjDitransitives, recoverDitransitiveOrphans, correctCopularFragmentation, correctNounRootVerbAcl, correctModalFragmentation, correctOntologyDemotedVerb, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
 
   // ============================================================================
   // SBA v1.3: SENTENCE SEGMENTER

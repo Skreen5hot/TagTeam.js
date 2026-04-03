@@ -2097,7 +2097,7 @@ class SemanticGraphBuilder {
         }
       }
 
-      const depTree = new _DepTree(parseResult.arcs, tokens, tags);
+      let depTree = new _DepTree(parseResult.arcs, tokens, tags);
 
       // Stage 4.5: Calibration table loading (lazy-load, cached)
       if (!this._calibration && typeof require !== 'undefined') {
@@ -2244,6 +2244,22 @@ class SemanticGraphBuilder {
               }
             }
           }
+        }
+      }
+
+      // Stage 4.9: Ontology-driven dependency tree correction
+      // When the ontology demotes a verb-tagged root to a non-act entity,
+      // rewire the parse tree: promote ccomp child to root, re-attach arguments.
+      if (_DepTreeCorrector && _DepTreeCorrector.correctOntologyDemotedVerb &&
+          ontologyTypeHints && ontologyTypeHints.size > 0) {
+        _DepTreeCorrector.correctOntologyDemotedVerb(parseResult.arcs, tokens, tags, ontologyTypeHints);
+        // Rebuild DepTree from corrected arcs — all downstream code uses depTree
+        depTree = new _DepTree(parseResult.arcs, tokens, tags);
+        // Re-annotate arcs for metadata (confidence annotator created a separate copy)
+        if (confidenceAnnotator) {
+          annotatedArcs = confidenceAnnotator.annotateArcs(parseResult.arcs);
+        } else {
+          annotatedArcs = parseResult.arcs;
         }
       }
 

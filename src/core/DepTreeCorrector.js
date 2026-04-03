@@ -505,4 +505,101 @@ function recoverDitransitiveOrphans(arcs, tokens, tags) {
   return arcs;
 }
 
-module.exports = { correctDitransitives, correctDoubleObjDitransitives, recoverDitransitiveOrphans, correctCopularFragmentation, correctNounRootVerbAcl, correctModalFragmentation, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
+/**
+ * Correct dependency tree when ontology demotes a verb-tagged token to a non-act entity.
+ *
+ * When OntologyTextTagger identifies a VB-tagged token as a non-Process entity
+ * (e.g., "herein" → ConstitutionalDocument), the parse tree built around that
+ * token as root/head is structurally invalid. This corrector rewires:
+ *
+ * 1. Finds the demoted token (verb tag + ontology hint = non-process entity)
+ * 2. Finds its ccomp/xcomp/advcl child (the real verb)
+ * 3. Promotes the child to root
+ * 4. Re-attaches orphaned nsubj/obj from demoted token to promoted verb
+ *
+ * Example: "All legislative Powers herein granted shall be vested..."
+ *   Before: root(herein), nsubj(Powers→herein), ccomp(vested→herein)
+ *   After:  root(vested), nsubj:pass(Powers→vested), herein detached
+ *
+ * @param {Array} arcs
+ * @param {string[]} tokens - 0-indexed
+ * @param {string[]} tags - 0-indexed
+ * @param {Map} ontologyTypeHints - token text → {label, rdfTypes, confidence}
+ * @returns {Array}
+ */
+function correctOntologyDemotedVerb(arcs, tokens, tags, ontologyTypeHints) {
+  if (!ontologyTypeHints || ontologyTypeHints.size === 0) return arcs;
+
+  // Find verb-tagged tokens that the ontology says are NOT verbs
+  for (const arc of arcs) {
+    if (arc.label !== 'root' || arc.head !== 0) continue;
+
+    const rootId = arc.dependent;
+    const rootTag = tags[rootId - 1];
+    if (!rootTag || !rootTag.startsWith('VB')) continue;
+
+    const rootWord = (tokens[rootId - 1] || '').toLowerCase();
+    const hint = ontologyTypeHints.get(rootWord);
+    if (!hint || typeof hint !== 'object') continue;
+    if (!hint.rdfTypes || hint.rdfTypes.length === 0) continue;
+    if (!hint.confidence || hint.confidence < 1) continue;
+
+    // Check that ALL rdfTypes are non-process/non-act (entity types)
+    const isEntity = hint.rdfTypes.every(t => {
+      const tl = (t || '').toLowerCase();
+      return !tl.includes('process') && !tl.includes('act') && !tl.includes('event');
+    });
+    if (!isEntity) continue;
+
+    // This root is an ontology-demoted verb. Find its ccomp/xcomp/advcl child.
+    const VERB_CHILD_LABELS = new Set(['ccomp', 'xcomp', 'advcl', 'conj']);
+    const children = arcs.filter(a => a.head === rootId);
+    const verbChild = children.find(c => {
+      if (!VERB_CHILD_LABELS.has(c.label)) return false;
+      const childTag = tags[c.dependent - 1];
+      return childTag && childTag.startsWith('VB');
+    });
+
+    if (!verbChild) continue;
+
+    const newRootId = verbChild.dependent;
+
+    // Promote: verbChild becomes root
+    verbChild.label = 'root';
+    verbChild.head = 0;
+
+    // Demote: old root is no longer root — detach it
+    // (It becomes an entity, not syntactically connected to the verb tree.
+    //  The act suppression in Bug 1 prevents it from generating an Act node.)
+    arc.label = 'dep';
+    arc.head = newRootId;
+
+    // Re-attach orphaned arguments from demoted root to new root
+    for (const child of children) {
+      if (child === verbChild) continue;
+      if (child.label === 'nsubj' || child.label === 'nsubj:pass' ||
+          child.label === 'obj' || child.label === 'iobj') {
+        child.head = newRootId;
+        // If the new root has aux:pass, flip nsubj to nsubj:pass
+        const newRootChildren = arcs.filter(a => a.head === newRootId);
+        const hasAuxPass = newRootChildren.some(a => a.label === 'aux:pass');
+        if (hasAuxPass && child.label === 'nsubj') {
+          child.label = 'nsubj:pass';
+        }
+      }
+    }
+
+    // Re-attach punct from old root to new root
+    for (const child of children) {
+      if (child.label === 'punct') {
+        child.head = newRootId;
+      }
+    }
+
+    break; // One correction per sentence
+  }
+
+  return arcs;
+}
+
+module.exports = { correctDitransitives, correctDoubleObjDitransitives, recoverDitransitiveOrphans, correctCopularFragmentation, correctNounRootVerbAcl, correctModalFragmentation, correctOntologyDemotedVerb, DITRANSITIVE_VERBS, RECIPIENT_NOUNS };
