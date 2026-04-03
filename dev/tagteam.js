@@ -324202,7 +324202,14 @@ class TreeActExtractor {
         }
       }
 
-      if (copChild) {
+      // Guard: passive modal clauses ("shall be composed of") are NOT copular
+      // even if the parser attaches a spurious cop label. The presence of
+      // aux:pass + modal aux is the definitive signal for passive verb.
+      const hasAuxPass = children.some(c => c.label === 'aux:pass');
+      const hasModalAux = children.some(c => c.label === 'aux' && depTree.tags[c.dependent - 1] === 'MD');
+      const isPassiveModal = hasAuxPass && hasModalAux;
+
+      if (copChild && !isPassiveModal) {
         // Copular construction: root is the PREDICATE, cop is the copula verb
         const assertion = this._handleCopular(depTree, rootId, copChild, children);
         if (assertion) structuralAssertions.push(assertion);
@@ -330492,7 +330499,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 424 | 4b6ade1 | 2026-04-03T21:04:29.115Z',
+    BUILD: 'build 425 | 4980219 | 2026-04-03T21:21:17.193Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
