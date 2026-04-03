@@ -37,6 +37,8 @@ tagteam:USConstitution rdf:type owl:NamedIndividual , tagteam:ConstitutionalDocu
     rdfs:label "Constitution of the United States"@en ;
     skos:altLabel "herein"@en .
 tagteam:Senate rdf:type owl:NamedIndividual , tagteam:LegislativeBody ;
-    rdfs:label "Senate"@en .
+    rdfs:label "Senate"@en ;
+    bfo:BFO_0000050 tagteam:Congress .
 tagteam:HouseOfRepresentatives rdf:type owl:NamedIndividual , tagteam:LegislativeBody ;
-    rdfs:label "House of Representatives"@en .
+    rdfs:label "House of Representatives"@en ;
+    bfo:BFO_0000050 tagteam:Congress .

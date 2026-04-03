@@ -299423,6 +299423,11 @@ const HIGH_CONFIDENCE_VERBS = new Set([
 class ComplexDesignatorDetector {
   constructor(options = {}) {
     this.options = options;
+    // TT-SPEC-ENT-A-B §3.3: Set of normalized Named Individual labels
+    // When non-null, the CDD checks both sides of a coordination connector
+    // against this Set before joining. If both sides are known individuals,
+    // the join is suppressed (left for ENT-A Pattern 1 to split).
+    this._knownIndividuals = options.knownIndividuals || null;
   }
 
   /**
@@ -299575,6 +299580,41 @@ class ComplexDesignatorDetector {
               }
             }
           }
+
+          // TT-SPEC-ENT-A-B §3.4: Pre-join check for ontology-known conjuncts
+          if (this._knownIndividuals && (wordLower === 'and' || wordLower === 'or' || wordLower === 'nor' || wordLower === 'but')) {
+            const leftText = components.join(' ').replace(/\s+/g, ' ').trim().toLowerCase();
+
+            // Greedy right-side lookahead: build full right span
+            const rightParts = [];
+            let ri = i + 1;
+            // Skip optional determiner
+            if (ri < tokens.length && DETERMINERS.has(tokens[ri].word.toLowerCase())) ri++;
+            while (ri < tokens.length) {
+              const rt = tokens[ri];
+              const rtLower = rt.word.toLowerCase();
+              // Stop at: punctuation, second connector, verb, non-name preposition
+              if (/^[.,;:!?]$/.test(rt.word)) break;
+              if (['and', 'or', 'nor', 'but'].includes(rtLower) && rightParts.length > 0) break;
+              if (HIGH_CONFIDENCE_VERBS.has(rtLower)) break;
+              // Include: capitalized words, internal connectors (of, for), articles (a, an, the)
+              if (this._isCapitalizedOrAcronym(rt) || INTERNAL_CONNECTORS.has(rtLower) || DETERMINERS.has(rtLower)) {
+                rightParts.push(rt.word);
+                ri++;
+              } else {
+                break;
+              }
+            }
+            const rightText = rightParts.join(' ').replace(/\s+/g, ' ').trim().toLowerCase();
+
+            if (leftText && rightText &&
+                this._knownIndividuals.has(leftText) && this._knownIndividuals.has(rightText)) {
+              // Both conjuncts are independently known Named Individuals
+              // Do NOT join — break the span for ENT-A Pattern 1
+              break;
+            }
+          }
+
           components.push(word);
           i++;
           continue;
@@ -316530,6 +316570,53 @@ class ParseResult {
   }
 
   /**
+   * Get all Named Individuals (owl:NamedIndividual instances).
+   * @returns {string[]} Array of subject IRIs that have rdf:type owl:NamedIndividual
+   */
+  getNamedIndividuals() {
+    const individuals = new Set();
+    for (const cls of this.getClasses()) {
+      if (cls.type === 'owl:NamedIndividual') {
+        individuals.add(cls.id);
+      }
+    }
+    return [...individuals];
+  }
+
+  /**
+   * Get all rdfs:label values for a subject.
+   * @param {string} subject - Subject IRI
+   * @returns {string[]} Array of label strings (with language tags stripped)
+   */
+  getLabels(subject) {
+    return this.getProperties(subject, 'rdfs:label')
+      .map(v => v.replace(/@[a-zA-Z-]+$/, '').trim())
+      .filter(v => v.length > 0);
+  }
+
+  /**
+   * Get all skos:altLabel values for a subject.
+   * @param {string} subject - Subject IRI
+   * @returns {string[]} Array of altLabel strings (with language tags stripped)
+   */
+  getAltLabels(subject) {
+    return this.getProperties(subject, 'skos:altLabel')
+      .map(v => v.replace(/@[a-zA-Z-]+$/, '').trim())
+      .filter(v => v.length > 0);
+  }
+
+  /**
+   * Get all objects for a given subject-predicate pair.
+   * Alias for getProperties with clearer semantics for RDF triple queries.
+   * @param {string} subject
+   * @param {string} predicate
+   * @returns {string[]}
+   */
+  getObjects(subject, predicate) {
+    return this.getProperties(subject, predicate);
+  }
+
+  /**
    * Check if a class IRI is a subclass of a target class (direct or transitive).
    * Walks the rdfs:subClassOf chain with cycle protection.
    *
@@ -328105,7 +328192,24 @@ class SemanticGraphBuilder {
       let lockedSpans = [];
       if (ComplexDesignatorDetector) {
         stages.current = 'detectComplexDesignators';
-        const cdDetector = new ComplexDesignatorDetector();
+
+        // TT-SPEC-ENT-A-B §3.2: Build knownIndividuals Set from ontology
+        let knownIndividuals = null;
+        if (buildOptions._ontologyTagger && buildOptions._ontologyTagger._parseResult) {
+          const ontGraph = buildOptions._ontologyTagger._parseResult;
+          knownIndividuals = new Set();
+          const normalizeLabel = (s) => s.replace(/@[a-zA-Z-]+$/, '').replace(/\s+/g, ' ').trim().toLowerCase();
+          for (const iri of ontGraph.getNamedIndividuals()) {
+            for (const label of ontGraph.getLabels(iri)) {
+              knownIndividuals.add(normalizeLabel(label));
+            }
+            for (const alt of ontGraph.getAltLabels(iri)) {
+              knownIndividuals.add(normalizeLabel(alt));
+            }
+          }
+        }
+
+        const cdDetector = new ComplexDesignatorDetector({ knownIndividuals });
         const cdSpans = cdDetector.detect(text);
         // Filter: reject spans that are just acronym-only coordination
         // ("FBI and CIA", "CMS and AEs") — these are distinct entities, not one name.
@@ -329369,6 +329473,71 @@ class SemanticGraphBuilder {
       };
       graphNodes.push(parsingAct);
 
+      // TT-SPEC-ENT-A-B §5: Mereological enrichment pass
+      // Assert continuant_part_of / has_continuant_part from ontology on instance nodes
+      if (ontologyParseResult) {
+        // Build reverse index: ontology prefixed IRI → Tier 2 instance node
+        // Strategy: for each Named Individual in the ontology, find the matching
+        // Tier 2 node by ontologyMatch or by label. Use prefixed IRIs only
+        // (TurtleParser stores prefixed form).
+        const iriToInstance = new Map();
+        const normalizeLabel = (s) => (s || '').replace(/@[a-zA-Z-]+$/, '').replace(/\s+/g, ' ').trim().toLowerCase();
+        const t2Nodes = graphNodes.filter(n => n['is_subject_of']);
+
+        // Pass 1: Index by ontologyMatch (high confidence)
+        for (const node of t2Nodes) {
+          const matches = [].concat(node['ontologyMatch'] || []);
+          const bestMatch = matches.find(m => m.ontologyMatchConfidence >= 1);
+          if (bestMatch) {
+            const fullIRI = bestMatch.ontologyMatchIRI;
+            if (fullIRI.includes('#')) {
+              iriToInstance.set('tagteam:' + fullIRI.split('#').pop(), node);
+            }
+          }
+        }
+
+        // Pass 2: For Named Individuals not yet indexed, match by label
+        for (const iri of ontologyParseResult.getNamedIndividuals()) {
+          if (iriToInstance.has(iri)) continue;
+          const labels = ontologyParseResult.getLabels(iri).map(normalizeLabel);
+          const alts = ontologyParseResult.getAltLabels(iri).map(normalizeLabel);
+          const allLabels = [...labels, ...alts];
+
+          for (const node of t2Nodes) {
+            const nodeLabel = normalizeLabel(node['rdfs:label']);
+            if (nodeLabel && allLabels.includes(nodeLabel)) {
+              iriToInstance.set(iri, node);
+              break;
+            }
+          }
+        }
+
+        // Collect unique Tier 2 nodes with their prefixed IRIs
+        const processedNodes = new Set();
+        for (const [iri, instanceNode] of iriToInstance) {
+          if (iri.includes('://')) continue; // Only use prefixed form keys
+          if (processedNodes.has(instanceNode['@id'])) continue;
+          processedNodes.add(instanceNode['@id']);
+
+          // continuant_part_of (BFO_0000050)
+          const partOfTargets = ontologyParseResult.getObjects(iri, 'bfo:BFO_0000050');
+          for (const targetIRI of partOfTargets) {
+            const targetInstance = iriToInstance.get(targetIRI);
+            if (targetInstance && !instanceNode['continuant_part_of']) {
+              instanceNode['continuant_part_of'] = { '@id': targetInstance['@id'] };
+            }
+          }
+          // has_continuant_part (BFO_0000051)
+          const hasPartTargets = ontologyParseResult.getObjects(iri, 'bfo:BFO_0000051');
+          for (const targetIRI of hasPartTargets) {
+            const targetInstance = iriToInstance.get(targetIRI);
+            if (targetInstance && !instanceNode['has_continuant_part']) {
+              instanceNode['has_continuant_part'] = { '@id': targetInstance['@id'] };
+            }
+          }
+        }
+      }
+
       // Count performative acts before cleaning up flags
       const performativeActCount = graphNodes.filter(n => n['tagteam:_addToHasOutput']).length;
 
@@ -330319,7 +330488,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 412 | f06bd8d | 2026-04-03T14:56:21.762Z',
+    BUILD: 'build 420 | 437445b | 2026-04-03T15:52:15.106Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,

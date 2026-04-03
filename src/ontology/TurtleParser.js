@@ -204,6 +204,53 @@ class ParseResult {
   }
 
   /**
+   * Get all Named Individuals (owl:NamedIndividual instances).
+   * @returns {string[]} Array of subject IRIs that have rdf:type owl:NamedIndividual
+   */
+  getNamedIndividuals() {
+    const individuals = new Set();
+    for (const cls of this.getClasses()) {
+      if (cls.type === 'owl:NamedIndividual') {
+        individuals.add(cls.id);
+      }
+    }
+    return [...individuals];
+  }
+
+  /**
+   * Get all rdfs:label values for a subject.
+   * @param {string} subject - Subject IRI
+   * @returns {string[]} Array of label strings (with language tags stripped)
+   */
+  getLabels(subject) {
+    return this.getProperties(subject, 'rdfs:label')
+      .map(v => v.replace(/@[a-zA-Z-]+$/, '').trim())
+      .filter(v => v.length > 0);
+  }
+
+  /**
+   * Get all skos:altLabel values for a subject.
+   * @param {string} subject - Subject IRI
+   * @returns {string[]} Array of altLabel strings (with language tags stripped)
+   */
+  getAltLabels(subject) {
+    return this.getProperties(subject, 'skos:altLabel')
+      .map(v => v.replace(/@[a-zA-Z-]+$/, '').trim())
+      .filter(v => v.length > 0);
+  }
+
+  /**
+   * Get all objects for a given subject-predicate pair.
+   * Alias for getProperties with clearer semantics for RDF triple queries.
+   * @param {string} subject
+   * @param {string} predicate
+   * @returns {string[]}
+   */
+  getObjects(subject, predicate) {
+    return this.getProperties(subject, predicate);
+  }
+
+  /**
    * Check if a class IRI is a subclass of a target class (direct or transitive).
    * Walks the rdfs:subClassOf chain with cycle protection.
    *

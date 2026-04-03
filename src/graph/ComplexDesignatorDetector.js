@@ -80,6 +80,11 @@ const HIGH_CONFIDENCE_VERBS = new Set([
 class ComplexDesignatorDetector {
   constructor(options = {}) {
     this.options = options;
+    // TT-SPEC-ENT-A-B §3.3: Set of normalized Named Individual labels
+    // When non-null, the CDD checks both sides of a coordination connector
+    // against this Set before joining. If both sides are known individuals,
+    // the join is suppressed (left for ENT-A Pattern 1 to split).
+    this._knownIndividuals = options.knownIndividuals || null;
   }
 
   /**
@@ -232,6 +237,41 @@ class ComplexDesignatorDetector {
               }
             }
           }
+
+          // TT-SPEC-ENT-A-B §3.4: Pre-join check for ontology-known conjuncts
+          if (this._knownIndividuals && (wordLower === 'and' || wordLower === 'or' || wordLower === 'nor' || wordLower === 'but')) {
+            const leftText = components.join(' ').replace(/\s+/g, ' ').trim().toLowerCase();
+
+            // Greedy right-side lookahead: build full right span
+            const rightParts = [];
+            let ri = i + 1;
+            // Skip optional determiner
+            if (ri < tokens.length && DETERMINERS.has(tokens[ri].word.toLowerCase())) ri++;
+            while (ri < tokens.length) {
+              const rt = tokens[ri];
+              const rtLower = rt.word.toLowerCase();
+              // Stop at: punctuation, second connector, verb, non-name preposition
+              if (/^[.,;:!?]$/.test(rt.word)) break;
+              if (['and', 'or', 'nor', 'but'].includes(rtLower) && rightParts.length > 0) break;
+              if (HIGH_CONFIDENCE_VERBS.has(rtLower)) break;
+              // Include: capitalized words, internal connectors (of, for), articles (a, an, the)
+              if (this._isCapitalizedOrAcronym(rt) || INTERNAL_CONNECTORS.has(rtLower) || DETERMINERS.has(rtLower)) {
+                rightParts.push(rt.word);
+                ri++;
+              } else {
+                break;
+              }
+            }
+            const rightText = rightParts.join(' ').replace(/\s+/g, ' ').trim().toLowerCase();
+
+            if (leftText && rightText &&
+                this._knownIndividuals.has(leftText) && this._knownIndividuals.has(rightText)) {
+              // Both conjuncts are independently known Named Individuals
+              // Do NOT join — break the span for ENT-A Pattern 1
+              break;
+            }
+          }
+
           components.push(word);
           i++;
           continue;

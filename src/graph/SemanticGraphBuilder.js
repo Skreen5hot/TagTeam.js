@@ -2190,7 +2190,24 @@ class SemanticGraphBuilder {
       let lockedSpans = [];
       if (ComplexDesignatorDetector) {
         stages.current = 'detectComplexDesignators';
-        const cdDetector = new ComplexDesignatorDetector();
+
+        // TT-SPEC-ENT-A-B §3.2: Build knownIndividuals Set from ontology
+        let knownIndividuals = null;
+        if (buildOptions._ontologyTagger && buildOptions._ontologyTagger._parseResult) {
+          const ontGraph = buildOptions._ontologyTagger._parseResult;
+          knownIndividuals = new Set();
+          const normalizeLabel = (s) => s.replace(/@[a-zA-Z-]+$/, '').replace(/\s+/g, ' ').trim().toLowerCase();
+          for (const iri of ontGraph.getNamedIndividuals()) {
+            for (const label of ontGraph.getLabels(iri)) {
+              knownIndividuals.add(normalizeLabel(label));
+            }
+            for (const alt of ontGraph.getAltLabels(iri)) {
+              knownIndividuals.add(normalizeLabel(alt));
+            }
+          }
+        }
+
+        const cdDetector = new ComplexDesignatorDetector({ knownIndividuals });
         const cdSpans = cdDetector.detect(text);
         // Filter: reject spans that are just acronym-only coordination
         // ("FBI and CIA", "CMS and AEs") — these are distinct entities, not one name.
@@ -3453,6 +3470,71 @@ class SemanticGraphBuilder {
         'tagteam:instantiated_at': this.buildTimestamp
       };
       graphNodes.push(parsingAct);
+
+      // TT-SPEC-ENT-A-B §5: Mereological enrichment pass
+      // Assert continuant_part_of / has_continuant_part from ontology on instance nodes
+      if (ontologyParseResult) {
+        // Build reverse index: ontology prefixed IRI → Tier 2 instance node
+        // Strategy: for each Named Individual in the ontology, find the matching
+        // Tier 2 node by ontologyMatch or by label. Use prefixed IRIs only
+        // (TurtleParser stores prefixed form).
+        const iriToInstance = new Map();
+        const normalizeLabel = (s) => (s || '').replace(/@[a-zA-Z-]+$/, '').replace(/\s+/g, ' ').trim().toLowerCase();
+        const t2Nodes = graphNodes.filter(n => n['is_subject_of']);
+
+        // Pass 1: Index by ontologyMatch (high confidence)
+        for (const node of t2Nodes) {
+          const matches = [].concat(node['ontologyMatch'] || []);
+          const bestMatch = matches.find(m => m.ontologyMatchConfidence >= 1);
+          if (bestMatch) {
+            const fullIRI = bestMatch.ontologyMatchIRI;
+            if (fullIRI.includes('#')) {
+              iriToInstance.set('tagteam:' + fullIRI.split('#').pop(), node);
+            }
+          }
+        }
+
+        // Pass 2: For Named Individuals not yet indexed, match by label
+        for (const iri of ontologyParseResult.getNamedIndividuals()) {
+          if (iriToInstance.has(iri)) continue;
+          const labels = ontologyParseResult.getLabels(iri).map(normalizeLabel);
+          const alts = ontologyParseResult.getAltLabels(iri).map(normalizeLabel);
+          const allLabels = [...labels, ...alts];
+
+          for (const node of t2Nodes) {
+            const nodeLabel = normalizeLabel(node['rdfs:label']);
+            if (nodeLabel && allLabels.includes(nodeLabel)) {
+              iriToInstance.set(iri, node);
+              break;
+            }
+          }
+        }
+
+        // Collect unique Tier 2 nodes with their prefixed IRIs
+        const processedNodes = new Set();
+        for (const [iri, instanceNode] of iriToInstance) {
+          if (iri.includes('://')) continue; // Only use prefixed form keys
+          if (processedNodes.has(instanceNode['@id'])) continue;
+          processedNodes.add(instanceNode['@id']);
+
+          // continuant_part_of (BFO_0000050)
+          const partOfTargets = ontologyParseResult.getObjects(iri, 'bfo:BFO_0000050');
+          for (const targetIRI of partOfTargets) {
+            const targetInstance = iriToInstance.get(targetIRI);
+            if (targetInstance && !instanceNode['continuant_part_of']) {
+              instanceNode['continuant_part_of'] = { '@id': targetInstance['@id'] };
+            }
+          }
+          // has_continuant_part (BFO_0000051)
+          const hasPartTargets = ontologyParseResult.getObjects(iri, 'bfo:BFO_0000051');
+          for (const targetIRI of hasPartTargets) {
+            const targetInstance = iriToInstance.get(targetIRI);
+            if (targetInstance && !instanceNode['has_continuant_part']) {
+              instanceNode['has_continuant_part'] = { '@id': targetInstance['@id'] };
+            }
+          }
+        }
+      }
 
       // Count performative acts before cleaning up flags
       const performativeActCount = graphNodes.filter(n => n['tagteam:_addToHasOutput']).length;
