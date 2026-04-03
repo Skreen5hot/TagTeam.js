@@ -29,13 +29,23 @@ tagteam:LegislativePower rdf:type owl:Class ;
     skos:altLabel "legislative powers"@en ;
     rdfs:comment "The authority (a disposition) to make, alter, or repeal laws. Inheres in a Legislative Body."@en .
 
+###  https://example.org/tagteam/ontology#PerformativeAct
+# Abstract parent class for acts that are enacted at document ratification.
+# Domain authors subclass this for performative acts.
+tagteam:PerformativeAct rdf:type owl:Class ;
+    rdfs:subClassOf bfo:0000015 ;
+    rdfs:label "Performative Act"@en ;
+    rdfs:comment "An abstract class for acts that are enacted at the time of document ratification or issuance, rather than being future obligations on an agent."@en .
+
 ###  https://example.org/tagteam/ontology#ActOfVesting
 tagteam:ActOfVesting rdf:type owl:Class ;
-    rdfs:subClassOf cco:ActOfAuthorization ;
+    rdfs:subClassOf cco:ActOfAuthorization , tagteam:PerformativeAct ;
     rdfs:label "Act of Vesting"@en ;
     skos:altLabel "vest"@en ;
     skos:altLabel "vested"@en ;
     skos:altLabel "vesting"@en ;
+    tagteam:requiresPatient tagteam:LegislativePower ;
+    tagteam:requiresRecipient tagteam:LegislativeBody ;
     rdfs:comment "An Act of Authorization wherein supreme legal authority is formally conferred to a government organization."@en .
 
 ###  https://example.org/tagteam/ontology#ConstitutionalDocument

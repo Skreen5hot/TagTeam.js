@@ -2300,6 +2300,9 @@ class SemanticGraphBuilder {
 
       // Stage 4.8b: Clause-level authority match (TT-SPEC-SGB-A §3.2)
       let clauseAuthorityMatch = null;
+      // Store ontology parse result for performative act class checks
+      const ontologyParseResult = buildOptions._ontologyTagger && buildOptions._ontologyTagger._parseResult
+        ? buildOptions._ontologyTagger._parseResult : null;
       if (buildOptions._ontologyTagger && typeof buildOptions._ontologyTagger.emitClauseAuthorityMatch === 'function') {
         const ontTags = buildOptions._ontologyTagger.tagText(text) || [];
         clauseAuthorityMatch = buildOptions._ontologyTagger.emitClauseAuthorityMatch(
@@ -2704,21 +2707,21 @@ class SemanticGraphBuilder {
             // inheres_in resolved in post-Tier2 pass
             graphNodes.push(reNode);
 
-            // Gap 4 (TT-SPEC-SGB-A §4): Performative vesting act
-            const VESTING_VERBS = new Set([
-              'vest', 'vested', 'grant', 'granted', 'confer', 'conferred',
-              'delegate', 'delegated', 'invest', 'invested',
-              'ordain', 'ordained', 'establish', 'established',
-            ]);
-
-            if (act.isPassive && VESTING_VERBS.has((act.lemma || '').toLowerCase()) &&
-                deontic.reType === 'Obligation') {
-              // Check if prescribedActType is a domain IRI (not bare lemma)
+            // Gap 4: Performative Act Production — ontology-driven (TT-SPEC-SGB-A §4)
+            // Gate 1: verb's matched act class must be subclass of tagteam:PerformativeAct
+            // Gate 2: prescribedActType must be a domain IRI
+            // Gate 3: Obligation must exist
+            // Gate 4: authorityMatch must be present
+            if (act.isPassive && deontic.reType === 'Obligation') {
               const actType = planSpecNode['tagteam:prescribedActType'] || '';
               const isDomainActType = actType.includes('tagteam:') || actType.includes('example.org');
 
-              // Gate 4: authorityMatch must be present
-              if (isDomainActType && authorityNodeId) {
+              // Gate 1: ontology class hierarchy check (replaces VESTING_VERBS)
+              const isPerformativeAct = isDomainActType && ontologyParseResult &&
+                ontologyParseResult.isSubclassOf(actType, 'tagteam:PerformativeAct');
+
+              // Gates 2-4
+              if (isPerformativeAct && authorityNodeId) {
                 // Update obligation to Discharged
                 reNode['tagteam:fulfillmentState'] = { '@id': 'tagteam:Discharged' };
 
@@ -2734,50 +2737,70 @@ class SemanticGraphBuilder {
                   'tagteam:prescribedBy': { '@id': authorityNodeId },
                 };
 
-                // Fix 2+3: Role assignments — resolve entity IRIs
-                // hasPatient: the nsubj:pass entity (the thing being vested)
-                if (act._prescribedPatientText) {
-                  const patientSanitized = this._sanitizeId(act._prescribedPatientText);
-                  const patientDrId = entityTextToDrId[patientSanitized];
-                  if (patientDrId) {
-                    actNode['tagteam:hasPatient'] = { '@id': patientDrId };
+                // Graph Assembly Template: ontology-driven argument binding
+                // Query the act class for requiresPatient/requiresRecipient
+                const reqPatientType = ontologyParseResult.getProperty(actType, 'tagteam:requiresPatient');
+                const reqRecipientType = ontologyParseResult.getProperty(actType, 'tagteam:requiresRecipient');
+
+                // Build entity type index from extracted entities
+                const typedEntities = entities.map(e => ({
+                  text: e.fullText || e.text || '',
+                  type: e.type || '',
+                  headId: e.headId,
+                  drId: entityTextToDrId[this._sanitizeId(e.fullText || e.text || '')] || null,
+                }));
+
+                // Bind hasPatient: find entity matching required type
+                if (reqPatientType) {
+                  const reqTypeLocal = reqPatientType.includes(':') ? reqPatientType.split(':').pop() : reqPatientType;
+                  const candidates = typedEntities.filter(e =>
+                    e.type === reqTypeLocal || e.type.includes(reqTypeLocal)
+                  );
+                  // Disambiguation: if multiple, prefer nsubj:pass position
+                  if (candidates.length === 1 && candidates[0].drId) {
+                    actNode['tagteam:hasPatient'] = { '@id': candidates[0].drId };
+                  } else if (candidates.length > 1) {
+                    // Prefer dep tree position: nsubj:pass of the verb
+                    const nsubjArc = depTree ? (depTree.arcs || []).find(a =>
+                      a.head === act.verbId && (a.label === 'nsubj:pass' || a.label === 'nsubj')
+                    ) : null;
+                    const preferred = nsubjArc ? candidates.find(c => c.headId === nsubjArc.dependent) : null;
+                    if (preferred && preferred.drId) {
+                      actNode['tagteam:hasPatient'] = { '@id': preferred.drId };
+                    } else if (candidates[0].drId) {
+                      actNode['tagteam:hasPatient'] = { '@id': candidates[0].drId };
+                    }
                   }
                 }
-                // hasRecipient: the obl entity (vested IN [entity])
-                // For vesting verbs, "in" PP is the recipient, not just "to"
-                if (act._prescribedRecipientText) {
-                  const recipientSanitized = this._sanitizeId(act._prescribedRecipientText);
-                  const recipientDrId = entityTextToDrId[recipientSanitized];
-                  if (recipientDrId) {
-                    actNode['tagteam:hasRecipient'] = { '@id': recipientDrId };
-                  }
+                // Fallback: use RDM prescribed patient text
+                if (!actNode['tagteam:hasPatient'] && act._prescribedPatientText) {
+                  const patientDrId = entityTextToDrId[this._sanitizeId(act._prescribedPatientText)];
+                  if (patientDrId) actNode['tagteam:hasPatient'] = { '@id': patientDrId };
                 }
-                // Fallback: find obl "in" argument from dep tree for vesting verbs
-                if (!actNode['tagteam:hasRecipient'] && depTree) {
-                  const verbChildren = depTree.getChildren(act.verbId) || [];
-                  const oblChild = verbChildren.find(c => c.label === 'obl');
-                  if (oblChild) {
-                    const oblKids = depTree.getChildren(oblChild.dependent) || [];
-                    const caseChild = oblKids.find(c => c.label === 'case');
-                    const prep = caseChild ? depTree.tokens[caseChild.dependent - 1].toLowerCase() : '';
-                    if (prep === 'in' || prep === 'to') {
-                      const oblText = depTree.tokens[oblChild.dependent - 1];
-                      const oblSanitized = this._sanitizeId(oblText);
-                      // Try to find DR for this entity
-                      for (const [key, drId] of Object.entries(entityTextToDrId)) {
-                        if (key.toLowerCase().includes(oblSanitized.toLowerCase()) ||
-                            oblSanitized.toLowerCase().includes(key.toLowerCase())) {
-                          actNode['tagteam:hasRecipient'] = { '@id': drId };
-                          break;
-                        }
-                      }
+
+                // Bind hasRecipient: find entity matching required type
+                if (reqRecipientType) {
+                  const reqTypeLocal = reqRecipientType.includes(':') ? reqRecipientType.split(':').pop() : reqRecipientType;
+                  const candidates = typedEntities.filter(e =>
+                    e.type === reqTypeLocal || e.type.includes(reqTypeLocal)
+                  );
+                  // Disambiguation: if multiple, prefer obl position
+                  if (candidates.length === 1 && candidates[0].drId) {
+                    actNode['tagteam:hasRecipient'] = { '@id': candidates[0].drId };
+                  } else if (candidates.length > 1) {
+                    const oblArc = depTree ? (depTree.arcs || []).find(a =>
+                      a.head === act.verbId && a.label === 'obl'
+                    ) : null;
+                    const preferred = oblArc ? candidates.find(c => c.headId === oblArc.dependent) : null;
+                    if (preferred && preferred.drId) {
+                      actNode['tagteam:hasRecipient'] = { '@id': preferred.drId };
+                    } else if (candidates[0].drId) {
+                      actNode['tagteam:hasRecipient'] = { '@id': candidates[0].drId };
                     }
                   }
                 }
 
-                // Fix 1: Add to graph and has_output
                 graphNodes.push(actNode);
-                // Add to ParsingAct has_output (will be resolved at graph finalization)
                 actNode['tagteam:_addToHasOutput'] = true;
               }
             }
