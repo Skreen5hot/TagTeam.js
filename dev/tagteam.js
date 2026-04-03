@@ -328619,7 +328619,11 @@ class SemanticGraphBuilder {
               reNode['tagteam:syntheticDirective'] = { '@id': diceId };
             }
 
-            // inheres_in resolved in post-Tier2 pass
+            // For authority-wired obligations: mark to prevent inheres_in from being set
+            // Performative obligations have no agent bearer — the document is the source
+            if (reNode['tagteam:syntheticDirective']) {
+              reNode['tagteam:_noInheresIn'] = true;
+            }
             graphNodes.push(reNode);
 
             // Gap 4: Performative Act Production — ontology-driven (TT-SPEC-SGB-A §4)
@@ -329037,6 +329041,7 @@ class SemanticGraphBuilder {
 
         // Repoint role bearers from Tier 1 to Tier 2
         for (const node of graphNodes) {
+          if (node['tagteam:_noInheresIn']) continue; // Skip authority-wired obligations
           if (node['inheres_in']) {
             const bearerIRI = node['inheres_in']['@id'];
             const tier2IRI = linkMap.get(bearerIRI);
@@ -329103,6 +329108,32 @@ class SemanticGraphBuilder {
                 if (t1Node) {
                   t1Node['tagteam:denotesType'] = promotedType;
                 }
+              }
+            }
+          }
+        }
+
+        // Remove inheres_in from Obligations wired to authority documents
+        // BFO: Obligations inheres_in their bearer (the agent). Performative obligations
+        // prescribed by a document have no agent bearer — the document is the source.
+        for (const node of graphNodes) {
+          const types = [].concat(node['@type'] || []);
+          if ((types.includes('Obligation') || types.includes('Permission') || types.includes('Prohibition')) &&
+              node['tagteam:syntheticDirective'] && node['inheres_in']) {
+            delete node['inheres_in'];
+            node['tagteam:_noInheresIn'] = true; // Prevent PlanSpec pass from re-setting
+          }
+        }
+
+        // Resolve performative Act node role targets from Tier 1 to Tier 2
+        for (const node of graphNodes) {
+          if (!node['tagteam:isPerformative']) continue;
+          for (const prop of ['tagteam:hasPatient', 'tagteam:hasRecipient']) {
+            const ref = node[prop];
+            if (ref && ref['@id']) {
+              const tier2IRI = linkMap.get(ref['@id']);
+              if (tier2IRI) {
+                node[prop] = { '@id': tier2IRI };
               }
             }
           }
@@ -329187,7 +329218,7 @@ class SemanticGraphBuilder {
           if (types.includes('Obligation') || types.includes('Permission') ||
               types.includes('Prohibition') || types.includes('Intention') ||
               types.includes('tagteam:ConjunctiveObligation')) {
-            if (!node['inheres_in']) {
+            if (!node['inheres_in'] && !node['tagteam:_noInheresIn']) {
               const specId = node['isSpecifiedBy'] && (node['isSpecifiedBy']['@id'] || node['isSpecifiedBy']);
               if (specId) {
                 const spec = graphNodes.find(n => n['@id'] === specId);
@@ -329323,6 +329354,16 @@ class SemanticGraphBuilder {
       };
       graphNodes.push(parsingAct);
 
+      // Count performative acts before cleaning up flags
+      const performativeActCount = graphNodes.filter(n => n['tagteam:_addToHasOutput']).length;
+
+      // Clean up internal scaffolding flags before output
+      for (const node of graphNodes) {
+        delete node['tagteam:_addToHasOutput'];
+        delete node['tagteam:_authorityDocument'];
+        delete node['tagteam:_noInheresIn'];
+      }
+
       // AC-4.8: Sanitize all string values in graph nodes to prevent XSS
       for (const node of graphNodes) {
         for (const key of Object.keys(node)) {
@@ -329360,7 +329401,7 @@ class SemanticGraphBuilder {
           sentenceRelationships: [],
           // Summary counts (convenience — not in SBA spec, retained for backward compat)
           entities: entities.length,
-          acts: acts.length + graphNodes.filter(n => n['tagteam:_addToHasOutput']).length,
+          acts: acts.length + performativeActCount,
           structuralAssertions: structuralAssertions.length,
           roles: roles.length,
         }
@@ -330263,7 +330304,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 407 | 25d0e85 | 2026-04-03T14:26:29.909Z',
+    BUILD: 'build 412 | f06bd8d | 2026-04-03T14:50:39.852Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
