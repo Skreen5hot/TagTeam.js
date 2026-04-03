@@ -329505,19 +329505,23 @@ class SemanticGraphBuilder {
 
           for (const node of t2Nodes) {
             const nodeLabel = normalizeLabel(node['rdfs:label']);
-            if (nodeLabel && allLabels.includes(nodeLabel)) {
+            if (!nodeLabel) continue;
+            // Exact match OR lemma-tolerant match (Tier 2 labels are lemmatized)
+            const matched = allLabels.some(l =>
+              l === nodeLabel ||
+              l.startsWith(nodeLabel) || nodeLabel.startsWith(l) ||
+              // Handle plural/singular lemmatization: "representatives" vs "representative"
+              l.replace(/s$/, '') === nodeLabel.replace(/s$/, '')
+            );
+            if (matched) {
               iriToInstance.set(iri, node);
               break;
             }
           }
         }
 
-        // Collect unique Tier 2 nodes with their prefixed IRIs
-        const processedNodes = new Set();
         for (const [iri, instanceNode] of iriToInstance) {
           if (iri.includes('://')) continue; // Only use prefixed form keys
-          if (processedNodes.has(instanceNode['@id'])) continue;
-          processedNodes.add(instanceNode['@id']);
 
           // continuant_part_of (BFO_0000050)
           const partOfTargets = ontologyParseResult.getObjects(iri, 'bfo:BFO_0000050');
@@ -330488,7 +330492,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 420 | 437445b | 2026-04-03T15:52:15.106Z',
+    BUILD: 'build 423 | a288bb8 | 2026-04-03T20:58:37.414Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
