@@ -1,27 +1,54 @@
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix bfo: <http://purl.obolibrary.org/obo/BFO_> .
-@prefix cco: <http://www.ontologyrepository.com/CommonCoreOntologies/> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix bfo:  <http://purl.obolibrary.org/obo/BFO_> .
+@prefix cco:  <http://www.ontologyrepository.com/CommonCoreOntologies/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix tagteam: <https://example.org/tagteam/ontology#> .
 
 tagteam:ConstitutionDomainOntology rdf:type owl:Ontology ;
     rdfs:label "TagTeam US Constitution Domain Extension"@en ;
-    rdfs:comment "Custom classes subclassing BFO and CCO for parsing the US Constitution."@en .
+    rdfs:comment "Custom classes subclassing BFO and CCO for parsing the US Constitution. Implements the Graph Assembly Template pattern: NLP provides candidates, ontology provides structure, graph assembly combines them."@en .
+
+
+#################################################################
+#    Graph Assembly Properties
+#    These properties are read by _buildPerformativeAct to bind
+#    typed entities to act argument slots without dep tree search.
+#################################################################
+
+###  tagteam:requiresPatient
+tagteam:requiresPatient rdf:type owl:ObjectProperty ;
+    rdfs:label "requires patient"@en ;
+    rdfs:domain tagteam:PerformativeAct ;
+    rdfs:range owl:Class ;
+    rdfs:comment "Declares the ontology class that must be bound as the patient argument of a PerformativeAct. _buildPerformativeAct searches clause entities typed to this class."@en .
+
+###  tagteam:requiresRecipient
+tagteam:requiresRecipient rdf:type owl:ObjectProperty ;
+    rdfs:label "requires recipient"@en ;
+    rdfs:domain tagteam:PerformativeAct ;
+    rdfs:range owl:Class ;
+    rdfs:comment "Declares the ontology class that must be bound as the recipient argument of a PerformativeAct. _buildPerformativeAct searches clause entities typed to this class."@en .
+
+###  tagteam:preferredDepPosition
+tagteam:preferredDepPosition rdf:type owl:DatatypeProperty ;
+    rdfs:label "preferred dependency position"@en ;
+    rdfs:comment "When multiple clause entities match the required type for an argument slot, this property specifies the preferred dependency arc label for disambiguation (e.g., 'obl', 'nsubj:pass'). The entity occupying this arc position is preferred. If no entity occupies the preferred position, the syntactically closest typed entity is used."@en .
+
 
 #################################################################
 #    Constitutional Classes (Subclasses of CCO/BFO)
 #################################################################
 
-###  https://example.org/tagteam/ontology#LegislativeBody
+###  tagteam:LegislativeBody
 tagteam:LegislativeBody rdf:type owl:Class ;
     rdfs:subClassOf cco:GovernmentOrganization ;
     rdfs:label "Legislative Body"@en ;
     rdfs:comment "A government organization formally constituted to enact laws."@en .
 
-###  https://example.org/tagteam/ontology#LegislativePower
-# Subclasses CCO's Authority, which itself subclasses BFO's Disposition (BFO_0000016)
+###  tagteam:LegislativePower
+#    Subclasses CCO's Authority, which itself subclasses BFO's Disposition (BFO_0000016)
 tagteam:LegislativePower rdf:type owl:Class ;
     rdfs:subClassOf cco:Authority ;
     rdfs:label "Legislative Power"@en ;
@@ -29,15 +56,20 @@ tagteam:LegislativePower rdf:type owl:Class ;
     skos:altLabel "legislative powers"@en ;
     rdfs:comment "The authority (a disposition) to make, alter, or repeal laws. Inheres in a Legislative Body."@en .
 
-###  https://example.org/tagteam/ontology#PerformativeAct
-# Abstract parent class for acts that are enacted at document ratification.
-# Domain authors subclass this for performative acts.
+###  tagteam:PerformativeAct
+#    Abstract parent class for acts enacted at document ratification.
+#    Gate 1 in _buildPerformativeAct: isSubclassOf(matchedActClass, tagteam:PerformativeAct)
+#    Domain authors subclass this to define new performative act types.
+#    No code changes are needed — TTL authorship alone enables new act production.
 tagteam:PerformativeAct rdf:type owl:Class ;
     rdfs:subClassOf bfo:0000015 ;
     rdfs:label "Performative Act"@en ;
-    rdfs:comment "An abstract class for acts that are enacted at the time of document ratification or issuance, rather than being future obligations on an agent."@en .
+    rdfs:comment "Abstract class for acts enacted at document ratification or issuance rather than future agent obligations. Subclass this to define new performative act types. Add requiresPatient and requiresRecipient to specify argument bindings."@en .
 
-###  https://example.org/tagteam/ontology#ActOfVesting
+###  tagteam:ActOfVesting
+#    Triggers _buildPerformativeAct when verb is matched via altLabel.
+#    requiresPatient / requiresRecipient drive typed entity search for argument binding.
+#    preferredDepPosition on requiresRecipient breaks multi-candidate ties.
 tagteam:ActOfVesting rdf:type owl:Class ;
     rdfs:subClassOf cco:ActOfAuthorization , tagteam:PerformativeAct ;
     rdfs:label "Act of Vesting"@en ;
@@ -46,37 +78,88 @@ tagteam:ActOfVesting rdf:type owl:Class ;
     skos:altLabel "vesting"@en ;
     tagteam:requiresPatient tagteam:LegislativePower ;
     tagteam:requiresRecipient tagteam:LegislativeBody ;
-    rdfs:comment "An Act of Authorization wherein supreme legal authority is formally conferred to a government organization."@en .
+    tagteam:preferredDepPosition "obl"@en ;
+    rdfs:comment "An Act of Authorization wherein supreme legal authority is formally conferred to a government organization. Patient: the power being vested (LegislativePower). Recipient: the bearer receiving the power (LegislativeBody)."@en .
 
-###  https://example.org/tagteam/ontology#ConstitutionalDocument
+###  tagteam:ConstitutionalDocument
 tagteam:ConstitutionalDocument rdf:type owl:Class ;
     rdfs:subClassOf cco:DirectiveInformationContentEntity ;
     rdfs:label "Constitutional Document"@en ;
-    rdfs:comment "A foundational Directive Information Content Entity that establishes the framework and authority of a government. Acts as the source of 'herein'."@en .
+    rdfs:comment "A foundational Directive Information Content Entity that establishes the framework and authority of a government."@en .
+
+
+#################################################################
+#    Generalization Test: ActOfLicensing
+#    This class exists solely to verify that the Graph Assembly
+#    Template pattern generalizes without code changes.
+#    A contract law TTL would define classes like this.
+#    Expected result: when a clause matches "ActOfLicensing" and
+#    contains a LicensedProduct and a Licensee, _buildPerformativeAct
+#    produces an Act node and binds hasPatient / hasRecipient
+#    from typed entity search — no JavaScript changes.
+#################################################################
+
+###  tagteam:LicensedProduct
+tagteam:LicensedProduct rdf:type owl:Class ;
+    rdfs:subClassOf cco:Artifact ;
+    rdfs:label "Licensed Product"@en ;
+    rdfs:comment "A product or intellectual property being licensed. Bound as patient in an ActOfLicensing."@en .
+
+###  tagteam:Licensee
+tagteam:Licensee rdf:type owl:Class ;
+    rdfs:subClassOf cco:Organization ;
+    rdfs:label "Licensee"@en ;
+    rdfs:comment "An organization receiving a license. Bound as recipient in an ActOfLicensing."@en .
+
+###  tagteam:ActOfLicensing
+#    Generalization test class. Proves the architecture: define a new
+#    PerformativeAct subclass in TTL, get Act node production for free.
+tagteam:ActOfLicensing rdf:type owl:Class ;
+    rdfs:subClassOf cco:ActOfAuthorization , tagteam:PerformativeAct ;
+    rdfs:label "Act of Licensing"@en ;
+    skos:altLabel "licensed"@en ;
+    skos:altLabel "license"@en ;
+    skos:altLabel "licensing"@en ;
+    tagteam:requiresPatient tagteam:LicensedProduct ;
+    tagteam:requiresRecipient tagteam:Licensee ;
+    tagteam:preferredDepPosition "obl"@en ;
+    rdfs:comment "A PerformativeAct wherein a license is formally granted. Generalization test: loading this TTL and parsing 'The patent is hereby licensed to the corporation' should produce an ActOfLicensing node with hasPatient(patent) and hasRecipient(corporation) without any code changes."@en .
+
+###  tagteam:Patent
+#    Named individual for generalization test
+tagteam:Patent rdf:type owl:NamedIndividual , tagteam:LicensedProduct ;
+    rdfs:label "patent"@en ;
+    skos:altLabel "the patent"@en .
+
+###  tagteam:TheCorporation
+#    Named individual for generalization test
+tagteam:TheCorporation rdf:type owl:NamedIndividual , tagteam:Licensee ;
+    rdfs:label "the corporation"@en ;
+    skos:altLabel "corporation"@en .
 
 
 #################################################################
 #    Specific Named Individuals (The Instances)
 #################################################################
 
-### The Geopolitical Entity
+###  The Geopolitical Entity
 tagteam:UnitedStates rdf:type owl:NamedIndividual , cco:GeopoliticalEntity ;
     rdfs:label "United States"@en .
 
-### The Organizations
+###  The Organizations
 tagteam:Congress rdf:type owl:NamedIndividual , tagteam:LegislativeBody ;
     rdfs:label "Congress of the United States"@en ;
     skos:altLabel "Congress"@en .
 
 tagteam:Senate rdf:type owl:NamedIndividual , tagteam:LegislativeBody ;
     rdfs:label "Senate"@en ;
-    bfo:BFO_0000050 tagteam:Congress . # "has continuant part" Congress
+    bfo:BFO_0000050 tagteam:Congress .  # mereological part: Senate is part of Congress
 
 tagteam:HouseOfRepresentatives rdf:type owl:NamedIndividual , tagteam:LegislativeBody ;
     rdfs:label "House of Representatives"@en ;
-    bfo:BFO_0000050 tagteam:Congress . # "has continuant part" Congress
+    bfo:BFO_0000050 tagteam:Congress .  # mereological part: HouseOfRepresentatives is part of Congress
 
-### The Document
+###  The Document
 tagteam:USConstitution rdf:type owl:NamedIndividual , tagteam:ConstitutionalDocument ;
     rdfs:label "Constitution of the United States"@en ;
     skos:altLabel "herein"@en .
