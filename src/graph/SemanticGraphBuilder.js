@@ -2925,6 +2925,59 @@ class SemanticGraphBuilder {
           graphNodes.push(t2);
         }
 
+        // Bug 2: Type promotion from ontologyMatch on Tier 2 nodes
+        // When a Tier 2 node has ontologyMatch with confidence=1, promote its @type
+        // and update denotesType on the linked Tier 1 DR to reflect the ontology type.
+        if (buildOptions._ontologyTagger && ontologyTypeHints && ontologyTypeHints.size > 0) {
+          for (const t2 of tier2Entities) {
+            // Check if any word in the Tier 2 label has an ontology type hint with rdfTypes
+            const t2Label = (t2['rdfs:label'] || '').toLowerCase();
+            const t2Words = t2Label.split(/\s+/);
+            let bestHint = null;
+            for (const word of t2Words) {
+              const hint = ontologyTypeHints.get(word);
+              if (hint && typeof hint === 'object' && hint.rdfTypes && hint.rdfTypes.length > 0) {
+                if (!bestHint || (hint.confidence || 0) > (bestHint.confidence || 0)) {
+                  bestHint = hint;
+                }
+              }
+            }
+
+            if (bestHint && bestHint.confidence >= 1) {
+              // Resolve CCO domain type from rdfTypes
+              let promotedType = null;
+              for (const rdfType of bestHint.rdfTypes) {
+                const tl = (rdfType || '').toLowerCase();
+                if (tl.includes('geopolitical')) { promotedType = 'GeopoliticalEntity'; break; }
+                if (tl.includes('governmentorganization') || tl.includes('government')) { promotedType = 'GovernmentOrganization'; break; }
+                if (tl.includes('legislativebody')) { promotedType = 'GovernmentOrganization'; break; }
+                if (tl.includes('person')) { promotedType = 'Person'; break; }
+                if (tl.includes('organization')) { promotedType = 'Organization'; break; }
+                if (tl.includes('facility')) { promotedType = 'Facility'; break; }
+                if (tl.includes('informationcontent') || tl.includes('directive') || tl.includes('constitutional')) { promotedType = 'InformationContentEntity'; break; }
+                if (tl.includes('artifact') || tl.includes('materialentity')) { promotedType = 'Artifact'; break; }
+              }
+
+              if (promotedType) {
+                // Promote Tier 2 @type
+                const currentTypes = [].concat(t2['@type'] || []);
+                t2['@type'] = currentTypes.map(t =>
+                  ['Entity', 'Organization', 'Person', 'Facility', 'Artifact'].includes(t) ? promotedType : t
+                );
+                t2['tagteam:typeBasis'] = 'ontology-match';
+
+                // Update denotesType on linked Tier 1 DR
+                const t1Node = referentNodes.find(n =>
+                  n['is_about'] && n['is_about']['@id'] === t2['@id']
+                );
+                if (t1Node) {
+                  t1Node['tagteam:denotesType'] = promotedType;
+                }
+              }
+            }
+          }
+        }
+
         // ── RDM: Resolve PlanSpec agent/patient and RE inheres_in to Tier 2 IRIs ──
         // This runs AFTER Tier 2 entities are created, so _findTier2ByLabel works.
         for (const node of graphNodes) {
