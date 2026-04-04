@@ -2264,6 +2264,17 @@ class SemanticGraphBuilder {
             const mwIsClass = (tag.ontologyMatchOWLType || '') === 'owl:Class';
             if (mwIsClass && tag.class && !mwRdfTypes.includes(tag.class)) mwRdfTypes.unshift(tag.class);
             if (classLabel) {
+              // Store full multi-word phrase as hint key (highest priority for full-label match)
+              const fullPhrase = ev.toLowerCase().trim();
+              if (fullPhrase.length > 2) {
+                ontologyTypeHints.set(fullPhrase, {
+                  label: classLabel,
+                  rdfTypes: mwRdfTypes,
+                  iri: tag.iri || '',
+                  confidence: tag.confidence || 0,
+                });
+              }
+              // Also store per-word hints (fallback for partial matches)
               for (const word of ev.split(/\s+/)) {
                 const wl = word.toLowerCase();
                 if (wl.length > 2 && !ontologyTypeHints.has(wl)) { // Don't overwrite existing
@@ -3172,44 +3183,93 @@ class SemanticGraphBuilder {
         }
 
         // Bug 2: Type promotion from ontologyMatch on Tier 2 nodes
-        // When a Tier 2 node has ontologyMatch with confidence=1, promote its @type
-        // and update denotesType on the linked Tier 1 DR to reflect the ontology type.
+        // When a Tier 2 node has ontologyMatch with confidence=1, promote its @type.
+        // Priority: exact match > alias; NamedIndividual > Class; longer evidence > shorter.
         if (buildOptions._ontologyTagger && ontologyTypeHints && ontologyTypeHints.size > 0) {
           for (const t2 of tier2Entities) {
-            // Check if any word in the Tier 2 label has an ontology type hint with rdfTypes
-            const t2Label = (t2['rdfs:label'] || '').toLowerCase();
-            const t2Words = t2Label.split(/\s+/);
-            let bestHint = null;
-            for (const word of t2Words) {
-              const hint = ontologyTypeHints.get(word);
-              if (hint && typeof hint === 'object' && hint.rdfTypes && hint.rdfTypes.length > 0) {
-                if (!bestHint || (hint.confidence || 0) > (bestHint.confidence || 0)) {
-                  bestHint = hint;
-                }
+            // Strategy 1: Use ontologyMatch array on the Tier 2 node (most precise)
+            const matches = [].concat(t2['ontologyMatch'] || []);
+            const confidentMatches = matches.filter(m => m.ontologyMatchConfidence >= 1);
+
+            let bestMatch = null;
+            if (confidentMatches.length > 0) {
+              // Priority ordering: exact > alias; NamedIndividual > Class; longer evidence > shorter
+              bestMatch = confidentMatches.sort((a, b) => {
+                // Prefer exact match
+                const aExact = (a.ontologyMatchType === 'exact') ? 1 : 0;
+                const bExact = (b.ontologyMatchType === 'exact') ? 1 : 0;
+                if (aExact !== bExact) return bExact - aExact;
+                // Prefer NamedIndividual over Class
+                const aIndiv = (a.ontologyMatchOWLType === 'owl:NamedIndividual') ? 1 : 0;
+                const bIndiv = (b.ontologyMatchOWLType === 'owl:NamedIndividual') ? 1 : 0;
+                if (aIndiv !== bIndiv) return bIndiv - aIndiv;
+                // Prefer longer evidence (more specific match)
+                return (b.ontologyMatchEvidence || '').length - (a.ontologyMatchEvidence || '').length;
+              })[0];
+            }
+
+            // Resolve type from best match's rdfTypes or from ontologyTypeHints
+            let promotedType = null;
+            if (bestMatch) {
+              // Get rdfTypes for the best match's IRI from the tag definitions
+              const matchIRI = bestMatch.ontologyMatchIRI;
+              const matchClass = matchIRI.includes('#') ? 'tagteam:' + matchIRI.split('#').pop() : matchIRI;
+              // Find the tag definition for this match
+              const tagDefs = buildOptions._ontologyTagger.tagDefinitions || [];
+              const matchDef = tagDefs.find(d => d.id === matchClass || d.iri === matchIRI);
+              if (matchDef && matchDef.rdfTypes && matchDef.rdfTypes.length > 0) {
+                promotedType = this._resolveDomainType(matchDef.rdfTypes);
               }
             }
 
-            if (bestHint && bestHint.confidence >= 1) {
-              // Resolve domain-specific type, preserving tagteam: classes
-              const promotedType = this._resolveDomainType(bestHint.rdfTypes);
-
-              if (promotedType) {
-                // Promote Tier 2 @type
-                const currentTypes = [].concat(t2['@type'] || []);
-                t2['@type'] = currentTypes.map(t =>
-                  ['Entity', 'Organization', 'Person', 'Facility', 'Artifact',
-                   'GovernmentOrganization', 'InformationContentEntity', 'GeopoliticalEntity'].includes(t)
-                    ? promotedType : t
-                );
-                t2['tagteam:typeBasis'] = 'ontology-match';
-
-                // Update denotesType on linked Tier 1 DR
-                const t1Node = referentNodes.find(n =>
-                  n['is_about'] && n['is_about']['@id'] === t2['@id']
-                );
-                if (t1Node) {
-                  t1Node['tagteam:denotesType'] = promotedType;
+            // Strategy 2: Fallback to ontologyTypeHints (for nodes without ontologyMatch)
+            // Priority: prefer hint whose label is the longest match against the full
+            // Tier 2 label (more specific match wins over partial alias match).
+            if (!promotedType) {
+              const t2Label = (t2['rdfs:label'] || '').toLowerCase();
+              const t2Words = t2Label.split(/\s+/);
+              const candidateHints = [];
+              for (const word of t2Words) {
+                const hint = ontologyTypeHints.get(word);
+                if (hint && typeof hint === 'object' && hint.rdfTypes && hint.rdfTypes.length > 0 &&
+                    hint.confidence >= 1) {
+                  candidateHints.push(hint);
                 }
+              }
+              // Also check the full label and multi-word substrings
+              const fullHint = ontologyTypeHints.get(t2Label);
+              if (fullHint && typeof fullHint === 'object' && fullHint.rdfTypes && fullHint.rdfTypes.length > 0) {
+                candidateHints.push(fullHint);
+              }
+
+              if (candidateHints.length > 0) {
+                // Sort: prefer longer label (more specific), then NamedIndividual, then higher confidence
+                candidateHints.sort((a, b) => {
+                  const aLen = (a.label || '').length;
+                  const bLen = (b.label || '').length;
+                  return bLen - aLen; // Longer label = more specific match
+                });
+                promotedType = this._resolveDomainType(candidateHints[0].rdfTypes);
+              }
+            }
+
+            if (promotedType) {
+              // Promote Tier 2 @type
+              const currentTypes = [].concat(t2['@type'] || []);
+              t2['@type'] = currentTypes.map(t =>
+                ['Entity', 'Organization', 'Person', 'Facility', 'Artifact',
+                 'GovernmentOrganization', 'InformationContentEntity', 'GeopoliticalEntity',
+                 'USState', 'LegislativeBody'].includes(t)
+                  ? promotedType : t
+              );
+              t2['tagteam:typeBasis'] = 'ontology-match';
+
+              // Update denotesType on linked Tier 1 DR
+              const t1Node = referentNodes.find(n =>
+                n['is_about'] && n['is_about']['@id'] === t2['@id']
+              );
+              if (t1Node) {
+                t1Node['tagteam:denotesType'] = promotedType;
               }
             }
           }
