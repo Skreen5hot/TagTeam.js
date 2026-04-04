@@ -323273,6 +323273,7 @@ function _resolveDomainType(rdfTypes) {
     if (tl.includes('facility')) return 'Facility';
     if (tl.includes('artifact') || tl.includes('materialentity')) return 'Artifact';
     if (tl.includes('informationcontent') || tl.includes('directive')) return 'InformationContentEntity';
+    if (tl.includes('group')) return 'Group';
     if (tl.includes('agent')) return 'Agent';
     if (tl.includes('process') || tl.includes('act')) return 'Process';
   }
@@ -327269,6 +327270,7 @@ class SemanticGraphBuilder {
       if (tl.includes('facility')) return 'Facility';
       if (tl.includes('artifact') || tl.includes('materialentity')) return 'Artifact';
       if (tl.includes('informationcontent') || tl.includes('directive')) return 'InformationContentEntity';
+      if (tl.includes('group')) return 'Group';
       if (tl.includes('agent')) return 'Agent';
       if (tl.includes('process') || tl.includes('act')) return 'Process';
     }
@@ -330589,7 +330591,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 435 | 496f855 | 2026-04-04T11:26:12.826Z',
+    BUILD: 'build 436 | 1a5b324 | 2026-04-04T11:34:45.882Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
