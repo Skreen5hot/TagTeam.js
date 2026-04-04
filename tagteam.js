@@ -1,7 +1,7 @@
 /*!
  * TagTeam.js - Two-Tier Semantic Graph Engine
  * Version: 7.0 (v2 Phase 2: Dependency Parser)
- * Date: 2026-04-03
+ * Date: 2026-04-04
  *
  * A client-side JavaScript library for extracting semantic roles from natural language text
  *
@@ -299423,6 +299423,11 @@ const HIGH_CONFIDENCE_VERBS = new Set([
 class ComplexDesignatorDetector {
   constructor(options = {}) {
     this.options = options;
+    // TT-SPEC-ENT-A-B §3.3: Set of normalized Named Individual labels
+    // When non-null, the CDD checks both sides of a coordination connector
+    // against this Set before joining. If both sides are known individuals,
+    // the join is suppressed (left for ENT-A Pattern 1 to split).
+    this._knownIndividuals = options.knownIndividuals || null;
   }
 
   /**
@@ -299575,6 +299580,41 @@ class ComplexDesignatorDetector {
               }
             }
           }
+
+          // TT-SPEC-ENT-A-B §3.4: Pre-join check for ontology-known conjuncts
+          if (this._knownIndividuals && (wordLower === 'and' || wordLower === 'or' || wordLower === 'nor' || wordLower === 'but')) {
+            const leftText = components.join(' ').replace(/\s+/g, ' ').trim().toLowerCase();
+
+            // Greedy right-side lookahead: build full right span
+            const rightParts = [];
+            let ri = i + 1;
+            // Skip optional determiner
+            if (ri < tokens.length && DETERMINERS.has(tokens[ri].word.toLowerCase())) ri++;
+            while (ri < tokens.length) {
+              const rt = tokens[ri];
+              const rtLower = rt.word.toLowerCase();
+              // Stop at: punctuation, second connector, verb, non-name preposition
+              if (/^[.,;:!?]$/.test(rt.word)) break;
+              if (['and', 'or', 'nor', 'but'].includes(rtLower) && rightParts.length > 0) break;
+              if (HIGH_CONFIDENCE_VERBS.has(rtLower)) break;
+              // Include: capitalized words, internal connectors (of, for), articles (a, an, the)
+              if (this._isCapitalizedOrAcronym(rt) || INTERNAL_CONNECTORS.has(rtLower) || DETERMINERS.has(rtLower)) {
+                rightParts.push(rt.word);
+                ri++;
+              } else {
+                break;
+              }
+            }
+            const rightText = rightParts.join(' ').replace(/\s+/g, ' ').trim().toLowerCase();
+
+            if (leftText && rightText &&
+                this._knownIndividuals.has(leftText) && this._knownIndividuals.has(rightText)) {
+              // Both conjuncts are independently known Named Individuals
+              // Do NOT join — break the span for ENT-A Pattern 1
+              break;
+            }
+          }
+
           components.push(word);
           i++;
           continue;
@@ -316530,6 +316570,85 @@ class ParseResult {
   }
 
   /**
+   * Get all Named Individuals (owl:NamedIndividual instances).
+   * @returns {string[]} Array of subject IRIs that have rdf:type owl:NamedIndividual
+   */
+  getNamedIndividuals() {
+    const individuals = new Set();
+    for (const cls of this.getClasses()) {
+      if (cls.type === 'owl:NamedIndividual') {
+        individuals.add(cls.id);
+      }
+    }
+    return [...individuals];
+  }
+
+  /**
+   * Get all rdfs:label values for a subject.
+   * @param {string} subject - Subject IRI
+   * @returns {string[]} Array of label strings (with language tags stripped)
+   */
+  getLabels(subject) {
+    return this.getProperties(subject, 'rdfs:label')
+      .map(v => v.replace(/@[a-zA-Z-]+$/, '').trim())
+      .filter(v => v.length > 0);
+  }
+
+  /**
+   * Get all skos:altLabel values for a subject.
+   * @param {string} subject - Subject IRI
+   * @returns {string[]} Array of altLabel strings (with language tags stripped)
+   */
+  getAltLabels(subject) {
+    return this.getProperties(subject, 'skos:altLabel')
+      .map(v => v.replace(/@[a-zA-Z-]+$/, '').trim())
+      .filter(v => v.length > 0);
+  }
+
+  /**
+   * Get all objects for a given subject-predicate pair.
+   * Alias for getProperties with clearer semantics for RDF triple queries.
+   * @param {string} subject
+   * @param {string} predicate
+   * @returns {string[]}
+   */
+  getObjects(subject, predicate) {
+    return this.getProperties(subject, predicate);
+  }
+
+  /**
+   * Check if a class IRI is a subclass of a target class (direct or transitive).
+   * Walks the rdfs:subClassOf chain with cycle protection.
+   *
+   * @param {string} classIRI - The class to check
+   * @param {string} targetIRI - The target superclass
+   * @returns {boolean}
+   */
+  isSubclassOf(classIRI, targetIRI) {
+    if (classIRI === targetIRI) return true;
+    const visited = new Set();
+    const queue = [classIRI];
+    while (queue.length > 0) {
+      const current = queue.shift();
+      if (visited.has(current)) continue;
+      visited.add(current);
+      // Check rdf:type — for individuals, rdf:type points to their class
+      const types = this.getProperties(current, 'rdf:type');
+      for (const t of types) {
+        if (t === targetIRI) return true;
+        if (!visited.has(t)) queue.push(t);
+      }
+      // Check rdfs:subClassOf — for classes, walks the hierarchy
+      const supers = this.getProperties(current, 'rdfs:subClassOf');
+      for (const s of supers) {
+        if (s === targetIRI) return true;
+        if (!visited.has(s)) queue.push(s);
+      }
+    }
+    return false;
+  }
+
+  /**
    * Get keywords for a subject (splits comma-separated values)
    * @param {string} subject - Subject IRI
    * @returns {Array<string>} Array of keywords
@@ -318307,10 +318426,20 @@ class OntologyTextTagger {
       const allClasses = this._parseResult.getClasses();
       for (const def of this.tagDefinitions) {
         if (!def.rdfTypes) {
+          // Collect rdf:type values (for owl:NamedIndividual entities)
           def.rdfTypes = allClasses
             .filter(c => c.id === def.id)
             .map(c => c.type)
             .filter(t => t !== 'owl:NamedIndividual' && t !== 'owl:Class');
+        }
+        // For owl:Class entries, rdf:type is just owl:Class (filtered above).
+        // Fall back to rdfs:subClassOf to get the CCO/domain parent type.
+        if (def.rdfTypes.length === 0) {
+          const subClassOf = this._parseResult.getProperty(def.id, 'rdfs:subClassOf');
+          if (subClassOf) {
+            const superClasses = Array.isArray(subClassOf) ? subClassOf : [subClassOf];
+            def.rdfTypes = superClasses.filter(t => t !== 'owl:Thing' && t !== 'owl:Class');
+          }
         }
       }
     }
@@ -318983,6 +319112,58 @@ class OntologyTextTagger {
       ontologyMatchOWLType: def.owlType || 'owl:Class',
       rdfTypes: def.rdfTypes || [],
     };
+  }
+
+  // ===========================================================================
+  // ===========================================================================
+  // Clause-Level Authority Match (TT-SPEC-SGB-A §3.2)
+  // ===========================================================================
+
+  /**
+   * Emit a clause-level authority match record when any token in a sentence
+   * matches a DirectiveInformationContentEntity subclass.
+   *
+   * @param {Object[]} tokenMatches - Tag results from tagText()
+   * @param {number} sentenceIndex - Sentence index
+   * @returns {Object|null} Authority match record or null
+   */
+  emitClauseAuthorityMatch(tokenMatches, sentenceIndex) {
+    if (!this._parseResult || !tokenMatches || tokenMatches.length === 0) return null;
+
+    const authorityMatches = [];
+
+    for (const tag of tokenMatches) {
+      if (!tag.confidence || tag.confidence < 1) continue;
+      if (!tag.iri && !tag.class) continue;
+
+      // Use prefixed class form for isSubclassOf (TurtleParser stores prefixed IRIs)
+      const matchedClass = tag.class || tag.iri;
+      const matchedIRI = tag.iri || tag.class;
+
+      // Check if the matched class is a DirectiveInformationContentEntity subclass
+      if (this._parseResult.isSubclassOf(matchedClass, 'cco:DirectiveInformationContentEntity')) {
+        // Get evidence token text
+        const tokenText = (tag.evidence && tag.evidence[0]) || tag.label || '';
+
+        authorityMatches.push({
+          sentenceIndex: sentenceIndex || 0,
+          matchedToken: tokenText,
+          authorityIRI: matchedIRI,
+          authorityLabel: tag.label || '',
+          authorityTypes: this._parseResult.getProperties(matchedIRI, 'rdf:type')
+            .filter(t => t !== 'owl:NamedIndividual'),
+          matchConfidence: tag.confidence,
+          matchType: tag.ontologyMatchType || 'exact',
+          rdfTypes: tag.rdfTypes || [],
+        });
+      }
+    }
+
+    if (authorityMatches.length === 0) return null;
+
+    // Use highest confidence; earliest token as tiebreaker
+    authorityMatches.sort((a, b) => b.matchConfidence - a.matchConfidence);
+    return authorityMatches[0];
   }
 
   // ===========================================================================
@@ -323054,6 +323235,53 @@ const HEAD_NOUN_TYPE_MAP = {
 };
 
 /**
+ * Resolve the most specific domain type from an rdfTypes array.
+ *
+ * Priority 1: Domain-specific types (tagteam: prefix) → use class local name directly.
+ *   e.g., tagteam:LegislativeBody → "LegislativeBody"
+ *   e.g., tagteam:ConstitutionalDocument → "ConstitutionalDocument"
+ *
+ * Priority 2: CCO types (cco: or standard) → map to known entity type.
+ *   e.g., cco:GeopoliticalEntity → "GeopoliticalEntity"
+ *
+ * This preserves domain-specific types from loaded ontologies rather than
+ * collapsing them to CCO ancestors.
+ */
+function _resolveDomainType(rdfTypes) {
+  if (!rdfTypes || rdfTypes.length === 0) return null;
+
+  // Priority 1: Domain-specific type (tagteam: or custom namespace prefix)
+  for (const t of rdfTypes) {
+    if (t.startsWith('tagteam:') || t.includes('/tagteam/') || t.includes('example.org')) {
+      const localName = t.includes(':') && !t.includes('://') ? t.split(':').pop()
+        : t.includes('#') ? t.split('#').pop()
+        : t.includes('/') ? t.split('/').pop()
+        : t;
+      if (localName && localName !== 'NamedIndividual' && localName !== 'Class') {
+        return localName;
+      }
+    }
+  }
+
+  // Priority 2: CCO/BFO type — map to known entity type
+  for (const t of rdfTypes) {
+    const tl = (t || '').toLowerCase();
+    if (tl.includes('geopolitical')) return 'GeopoliticalEntity';
+    if (tl.includes('person')) return 'Person';
+    if (tl.includes('governmentorganization') || tl.includes('government')) return 'GovernmentOrganization';
+    if (tl.includes('organization')) return 'Organization';
+    if (tl.includes('facility')) return 'Facility';
+    if (tl.includes('artifact') || tl.includes('materialentity')) return 'Artifact';
+    if (tl.includes('informationcontent') || tl.includes('directive')) return 'InformationContentEntity';
+    if (tl.includes('group')) return 'Group';
+    if (tl.includes('agent')) return 'Agent';
+    if (tl.includes('process') || tl.includes('act')) return 'Process';
+  }
+
+  return null;
+}
+
+/**
  * POS tags that indicate a proper noun (relevant for coordination split).
  */
 const PROPER_NOUN_TAGS = new Set(['NNP', 'NNPS']);
@@ -323603,24 +323831,22 @@ class TreeEntityExtractor {
     // Ontology type hints with rdfTypes take HIGHEST priority (Bug 2: type promotion)
     // When the loaded ontology provides a confident type via rdfTypes, it overrides
     // the gazetteer and HEAD_NOUN_TYPE_MAP. This is the "Ontology Overrides" principle.
+    // Check full entity text first (more specific), then head word (fallback).
+    const fullTextLower = (fullText || '').toLowerCase().replace(/^(the|a|an)\s+/i, '').trim();
+    if (this._ontologyTypeHints && this._ontologyTypeHints.has(fullTextLower)) {
+      const fullHint = this._ontologyTypeHints.get(fullTextLower);
+      const fullRdfTypes = (typeof fullHint === 'object' && fullHint.rdfTypes) ? fullHint.rdfTypes : [];
+      if (fullRdfTypes.length > 0) {
+        const resolved = _resolveDomainType(fullRdfTypes);
+        if (resolved) return resolved;
+      }
+    }
     if (this._ontologyTypeHints && this._ontologyTypeHints.has(headLower)) {
       const hint = this._ontologyTypeHints.get(headLower);
-      // Bug 2 fix: if the hint carries rdfTypes from the ontology, use them directly
       const rdfTypes = (typeof hint === 'object' && hint.rdfTypes) ? hint.rdfTypes : [];
       if (rdfTypes.length > 0) {
-        // Resolve CCO domain type from rdf:type chain
-        for (const rdfType of rdfTypes) {
-          const t = (rdfType || '').toLowerCase();
-          if (t.includes('person')) return 'Person';
-          if (t.includes('geopolitical')) return 'GeopoliticalEntity';
-          if (t.includes('governmentorganization') || t.includes('government')) return 'GovernmentOrganization';
-          if (t.includes('organization') || t.includes('legislativebody')) return 'Organization';
-          if (t.includes('facility')) return 'Facility';
-          if (t.includes('artifact') || t.includes('materialentity')) return 'Artifact';
-          if (t.includes('informationcontent') || t.includes('directive') || t.includes('constitutional')) return 'InformationContentEntity';
-          if (t.includes('agent')) return 'Agent';
-          if (t.includes('process') || t.includes('act')) return 'Process';
-        }
+        const resolved = _resolveDomainType(rdfTypes);
+        if (resolved) return resolved;
       }
       // Fallback: use class label matching (pre-Bug-2 behavior)
       const hintClass = (typeof hint === 'string' ? hint : hint.label || '').toLowerCase();
@@ -323787,6 +324013,26 @@ const IRREGULAR_LEMMAS = {
   'transported': 'transport',
   'located': 'locate',
   'based': 'base',
+  'composed': 'compose',
+  'proposed': 'propose',
+  'opposed': 'oppose',
+  'imposed': 'impose',
+  'disposed': 'dispose',
+  'exposed': 'expose',
+  'supposed': 'suppose',
+  'excused': 'excuse',
+  'refused': 'refuse',
+  'accused': 'accuse',
+  'revised': 'revise',
+  'exercised': 'exercise',
+  'recognized': 'recognize',
+  'organized': 'organize',
+  'authorized': 'authorize',
+  'characterized': 'characterize',
+  'utilized': 'utilize',
+  'comprised': 'comprise',
+  'constituted': 'constitute',
+  'prescribed': 'prescribe',
   // VBZ forms where -es stripping over-truncates (stem ends in 'e')
   'agrees': 'agree',
   'advises': 'advise',
@@ -323987,7 +324233,14 @@ class TreeActExtractor {
         }
       }
 
-      if (copChild) {
+      // Guard: passive modal clauses ("shall be composed of") are NOT copular
+      // even if the parser attaches a spurious cop label. The presence of
+      // aux:pass + modal aux is the definitive signal for passive verb.
+      const hasAuxPass = children.some(c => c.label === 'aux:pass');
+      const hasModalAux = children.some(c => c.label === 'aux' && depTree.tags[c.dependent - 1] === 'MD');
+      const isPassiveModal = hasAuxPass && hasModalAux;
+
+      if (copChild && !isPassiveModal) {
         // Copular construction: root is the PREDICATE, cop is the copula verb
         const assertion = this._handleCopular(depTree, rootId, copChild, children);
         if (assertion) structuralAssertions.push(assertion);
@@ -324101,7 +324354,13 @@ class TreeActExtractor {
       act.actualityStatus = modal.actualityStatus;
       if (modal.deonticType) act.deonticType = modal.deonticType;
       // Reconstruct source text for DirectiveExtractor
-      act.sourceText = modal.modalVerb + ' ' + word;
+      // Include aux:pass ("be") for passive modals: "shall be composed"
+      const auxPassChild = children.find(c => c.label === 'aux:pass');
+      if (auxPassChild) {
+        act.sourceText = modal.modalVerb + ' ' + auxPassChild.word + ' ' + word;
+      } else {
+        act.sourceText = modal.modalVerb + ' ' + word;
+      }
 
       // Subject-level negation flip: if isNegated (from "No X shall Y") but
       // _detectModality didn't catch the negation, flip modality here
@@ -325045,8 +325304,10 @@ class TreeRoleMapper {
       const verbId = act.verbId;
       if (!verbId) continue;
 
-      // Suppress all roles for stative predicates in passive voice
-      if (act.isPassive && stativeSet) {
+      // Suppress all roles for stative predicates in passive voice.
+      // Exception: modal + passive = deontic obligation ("shall be composed of"),
+      // NOT stative description. Modality overrides stative suppression.
+      if (act.isPassive && stativeSet && !act.modality) {
         const verbLc = (act.verb || '').toLowerCase();
         const lemmaLc = (act.lemma || '').toLowerCase();
         if (stativeSet.has(verbLc) || stativeSet.has(lemmaLc)) continue;
@@ -327004,6 +327265,48 @@ class SemanticGraphBuilder {
   }
 
   /**
+   * Resolve the most specific domain type from an rdfTypes array.
+   * Preserves domain-specific types (tagteam: prefix) rather than
+   * collapsing them to CCO ancestors.
+   *
+   * @param {string[]} rdfTypes - Array of rdf:type IRIs
+   * @returns {string|null} Most specific type name
+   */
+  _resolveDomainType(rdfTypes) {
+    if (!rdfTypes || rdfTypes.length === 0) return null;
+
+    // Priority 1: Domain-specific type (tagteam: or custom namespace)
+    for (const t of rdfTypes) {
+      if (t.startsWith('tagteam:') || t.includes('/tagteam/') || t.includes('example.org')) {
+        const localName = t.includes(':') && !t.includes('://') ? t.split(':').pop()
+          : t.includes('#') ? t.split('#').pop()
+          : t.includes('/') ? t.split('/').pop()
+          : t;
+        if (localName && localName !== 'NamedIndividual' && localName !== 'Class') {
+          return localName;
+        }
+      }
+    }
+
+    // Priority 2: CCO/BFO type — map to known entity type
+    for (const t of rdfTypes) {
+      const tl = (t || '').toLowerCase();
+      if (tl.includes('geopolitical')) return 'GeopoliticalEntity';
+      if (tl.includes('person')) return 'Person';
+      if (tl.includes('governmentorganization') || tl.includes('government')) return 'GovernmentOrganization';
+      if (tl.includes('organization')) return 'Organization';
+      if (tl.includes('facility')) return 'Facility';
+      if (tl.includes('artifact') || tl.includes('materialentity')) return 'Artifact';
+      if (tl.includes('informationcontent') || tl.includes('directive')) return 'InformationContentEntity';
+      if (tl.includes('group')) return 'Group';
+      if (tl.includes('agent')) return 'Agent';
+      if (tl.includes('process') || tl.includes('act')) return 'Process';
+    }
+
+    return null;
+  }
+
+  /**
    * Map CDD character-based spans to 1-indexed token index ranges.
    * @param {Array} cdSpans - CDD spans with { text, start, end, components }
    * @param {string[]} tokens - Token strings from tokenizer
@@ -327936,7 +328239,24 @@ class SemanticGraphBuilder {
       let lockedSpans = [];
       if (ComplexDesignatorDetector) {
         stages.current = 'detectComplexDesignators';
-        const cdDetector = new ComplexDesignatorDetector();
+
+        // TT-SPEC-ENT-A-B §3.2: Build knownIndividuals Set from ontology
+        let knownIndividuals = null;
+        if (buildOptions._ontologyTagger && buildOptions._ontologyTagger._parseResult) {
+          const ontGraph = buildOptions._ontologyTagger._parseResult;
+          knownIndividuals = new Set();
+          const normalizeLabel = (s) => s.replace(/@[a-zA-Z-]+$/, '').replace(/\s+/g, ' ').trim().toLowerCase();
+          for (const iri of ontGraph.getNamedIndividuals()) {
+            for (const label of ontGraph.getLabels(iri)) {
+              knownIndividuals.add(normalizeLabel(label));
+            }
+            for (const alt of ontGraph.getAltLabels(iri)) {
+              knownIndividuals.add(normalizeLabel(alt));
+            }
+          }
+        }
+
+        const cdDetector = new ComplexDesignatorDetector({ knownIndividuals });
         const cdSpans = cdDetector.detect(text);
         // Filter: reject spans that are just acronym-only coordination
         // ("FBI and CIA", "CMS and AEs") — these are distinct entities, not one name.
@@ -327970,9 +328290,16 @@ class SemanticGraphBuilder {
             if (ev.split(/\s+/).length < 2) {
               const classLabel = tag.label || tag.classIRI || '';
               if (classLabel) {
+                // Include the matched class IRI in rdfTypes for owl:Class entities
+                // (not for owl:NamedIndividual — individuals' types come from rdf:type)
+                const hintRdfTypes = [...(tag.rdfTypes || [])];
+                const isClass = (tag.ontologyMatchOWLType || '') === 'owl:Class';
+                if (isClass && tag.class && !hintRdfTypes.includes(tag.class)) {
+                  hintRdfTypes.unshift(tag.class); // Most specific first
+                }
                 ontologyTypeHints.set(ev.toLowerCase(), {
                   label: classLabel,
-                  rdfTypes: tag.rdfTypes || [],
+                  rdfTypes: hintRdfTypes,
                   iri: tag.iri || '',
                   confidence: tag.confidence || 0,
                 });
@@ -327982,13 +328309,47 @@ class SemanticGraphBuilder {
             // Multi-word matches: also store type hints for each word
             // so _classifyType can resolve type for entities from locked spans
             const classLabel = tag.label || tag.classIRI || '';
+            const mwRdfTypes = [...(tag.rdfTypes || [])];
+            const mwIsClass = (tag.ontologyMatchOWLType || '') === 'owl:Class';
+            if (mwIsClass && tag.class && !mwRdfTypes.includes(tag.class)) mwRdfTypes.unshift(tag.class);
             if (classLabel) {
+              // Store full multi-word phrase as hint key (highest priority for full-label match)
+              const fullPhrase = ev.toLowerCase().trim();
+              if (fullPhrase.length > 2) {
+                ontologyTypeHints.set(fullPhrase, {
+                  label: classLabel,
+                  rdfTypes: mwRdfTypes,
+                  iri: tag.iri || '',
+                  confidence: tag.confidence || 0,
+                });
+              }
+              // Also store all tag keywords as hint keys (handles lemmatized altLabels)
+              if (buildOptions._ontologyTagger && buildOptions._ontologyTagger.tagDefinitions) {
+                const matchClass = tag.class || tag.iri;
+                const matchDef = buildOptions._ontologyTagger.tagDefinitions.find(d =>
+                  d.id === matchClass || d.iri === (tag.iri || '')
+                );
+                if (matchDef && matchDef.keywords) {
+                  for (const kw of matchDef.keywords) {
+                    const kwNorm = kw.toLowerCase().trim();
+                    if (kwNorm.length > 2 && !ontologyTypeHints.has(kwNorm)) {
+                      ontologyTypeHints.set(kwNorm, {
+                        label: classLabel,
+                        rdfTypes: mwRdfTypes,
+                        iri: tag.iri || '',
+                        confidence: tag.confidence || 0,
+                      });
+                    }
+                  }
+                }
+              }
+              // Also store per-word hints (fallback for partial matches)
               for (const word of ev.split(/\s+/)) {
                 const wl = word.toLowerCase();
                 if (wl.length > 2 && !ontologyTypeHints.has(wl)) { // Don't overwrite existing
                   ontologyTypeHints.set(wl, {
                     label: classLabel,
-                    rdfTypes: tag.rdfTypes || [],
+                    rdfTypes: mwRdfTypes,
                     iri: tag.iri || '',
                     confidence: tag.confidence || 0,
                   });
@@ -328032,6 +328393,18 @@ class SemanticGraphBuilder {
             }
           }
         }
+      }
+
+      // Stage 4.8b: Clause-level authority match (TT-SPEC-SGB-A §3.2)
+      let clauseAuthorityMatch = null;
+      // Store ontology parse result for performative act class checks
+      const ontologyParseResult = buildOptions._ontologyTagger && buildOptions._ontologyTagger._parseResult
+        ? buildOptions._ontologyTagger._parseResult : null;
+      if (buildOptions._ontologyTagger && typeof buildOptions._ontologyTagger.emitClauseAuthorityMatch === 'function') {
+        const ontTags = buildOptions._ontologyTagger.tagText(text) || [];
+        clauseAuthorityMatch = buildOptions._ontologyTagger.emitClauseAuthorityMatch(
+          ontTags, buildOptions._sentenceIndex || 0
+        );
       }
 
       // Stage 4.9: Ontology-driven dependency tree correction
@@ -328359,7 +328732,20 @@ class SemanticGraphBuilder {
             '@id': planSpecId,
             '@type': ['PlanSpecification', 'ActSpecification', 'InformationContentEntity', 'owl:NamedIndividual'],
             'rdfs:label': `Plan: ${act.lemma}`,
-            'tagteam:prescribedActType': act.lemma,
+            // §5.3: Use domain act class IRI when ontology provides one; bare lemma as fallback
+            'tagteam:prescribedActType': (() => {
+              if (ontologyTypeHints && ontologyTypeHints.size > 0) {
+                const verbHint = ontologyTypeHints.get((act.lemma || '').toLowerCase()) ||
+                                 ontologyTypeHints.get((act.verb || '').toLowerCase());
+                if (verbHint && typeof verbHint === 'object' && verbHint.rdfTypes) {
+                  const domainType = verbHint.rdfTypes.find(t =>
+                    t.startsWith('tagteam:') || t.includes('/tagteam/') || t.includes('example.org')
+                  );
+                  if (domainType) return domainType;
+                }
+              }
+              return act.lemma;
+            })(),
           };
 
           // Store entity text for deferred Tier 2 IRI resolution (runs after Tier 2 creation)
@@ -328383,8 +328769,142 @@ class SemanticGraphBuilder {
               'is_prescribed_by': { '@id': diceId },
               'isSpecifiedBy': { '@id': planSpecId },
             };
-            // inheres_in resolved in post-Tier2 pass
+
+            // Gap 3 (TT-SPEC-SGB-A §3.3): Wire authority document as is_prescribed_by
+            let authorityNodeId = null;
+            if (clauseAuthorityMatch && clauseAuthorityMatch.matchConfidence >= 1) {
+              const authIRI = clauseAuthorityMatch.authorityIRI;
+              const authLocalName = authIRI.includes('#') ? authIRI.split('#').pop()
+                : authIRI.includes('/') ? authIRI.split('/').pop()
+                : authIRI.includes(':') && !authIRI.includes('://') ? authIRI.split(':').pop()
+                : authIRI;
+              authorityNodeId = `${this.options.namespace}:${authLocalName}`;
+
+              // Create authority document node if not already in graph
+              // Marked as Tier 2 (is_about: self) to prevent Tier 1 separation pass from stripping types
+              if (!graphNodes.some(n => n['@id'] === authorityNodeId)) {
+                const authTypes = (clauseAuthorityMatch.authorityTypes || []).length > 0
+                  ? clauseAuthorityMatch.authorityTypes
+                  : (clauseAuthorityMatch.rdfTypes || []);
+                graphNodes.push({
+                  '@id': authorityNodeId,
+                  '@type': [...authTypes, 'owl:NamedIndividual'],
+                  'rdfs:label': clauseAuthorityMatch.authorityLabel,
+                  'tagteam:identifiedVia': clauseAuthorityMatch.matchedToken,
+                  'tagteam:typeBasis': 'ontology-match',
+                  'tagteam:_authorityDocument': true, // Marker for Tier 1 separation pass to skip
+                });
+              }
+
+              // Replace synthetic Directive with authority document
+              reNode['is_prescribed_by'] = { '@id': authorityNodeId };
+              reNode['tagteam:syntheticDirective'] = { '@id': diceId };
+            }
+
+            // For authority-wired obligations: mark to prevent inheres_in from being set
+            // Performative obligations have no agent bearer — the document is the source
+            if (reNode['tagteam:syntheticDirective']) {
+              reNode['tagteam:_noInheresIn'] = true;
+            }
             graphNodes.push(reNode);
+
+            // Gap 4: Performative Act Production — ontology-driven (TT-SPEC-SGB-A §4)
+            // Gate 1: verb's matched act class must be subclass of tagteam:PerformativeAct
+            // Gate 2: prescribedActType must be a domain IRI
+            // Gate 3: Obligation must exist
+            // Gate 4: authorityMatch must be present
+            if (act.isPassive && deontic.reType === 'Obligation') {
+              const actType = planSpecNode['tagteam:prescribedActType'] || '';
+              const isDomainActType = actType.includes('tagteam:') || actType.includes('example.org');
+
+              // Gate 1: ontology class hierarchy check (replaces VESTING_VERBS)
+              const isPerformativeAct = isDomainActType && ontologyParseResult &&
+                ontologyParseResult.isSubclassOf(actType, 'tagteam:PerformativeAct');
+
+              // Gates 2-4
+              if (isPerformativeAct && authorityNodeId) {
+                // Update obligation to Discharged
+                reNode['tagteam:fulfillmentState'] = { '@id': 'tagteam:Discharged' };
+
+                // Produce performative Act node
+                const actNodeId = `${this.options.namespace}:Act_${this._sanitizeId(act.lemma)}_${this._hashText(reId).substring(0, 8)}`;
+                const actNode = {
+                  '@id': actNodeId,
+                  '@type': [actType, 'IntentionalAct', 'owl:NamedIndividual'],
+                  'rdfs:label': `Act: ${act.lemma} (performative)`,
+                  'realizes': { '@id': reId },
+                  'tagteam:isPerformative': true,
+                  'tagteam:fulfillmentState': { '@id': 'tagteam:Discharged' },
+                  'tagteam:prescribedBy': { '@id': authorityNodeId },
+                };
+
+                // Graph Assembly Template: ontology-driven argument binding
+                // Query the act class for requiresPatient/requiresRecipient
+                const reqPatientType = ontologyParseResult.getProperty(actType, 'tagteam:requiresPatient');
+                const reqRecipientType = ontologyParseResult.getProperty(actType, 'tagteam:requiresRecipient');
+
+                // Build entity type index from extracted entities
+                const typedEntities = entities.map(e => ({
+                  text: e.fullText || e.text || '',
+                  type: e.type || '',
+                  headId: e.headId,
+                  drId: entityTextToDrId[this._sanitizeId(e.fullText || e.text || '')] || null,
+                }));
+
+                // Bind hasPatient: find entity matching required type
+                if (reqPatientType) {
+                  const reqTypeLocal = reqPatientType.includes(':') ? reqPatientType.split(':').pop() : reqPatientType;
+                  const candidates = typedEntities.filter(e =>
+                    e.type === reqTypeLocal || e.type.includes(reqTypeLocal)
+                  );
+                  // Disambiguation: if multiple, prefer nsubj:pass position
+                  if (candidates.length === 1 && candidates[0].drId) {
+                    actNode['tagteam:hasPatient'] = { '@id': candidates[0].drId };
+                  } else if (candidates.length > 1) {
+                    // Prefer dep tree position: nsubj:pass of the verb
+                    const nsubjArc = depTree ? (depTree.arcs || []).find(a =>
+                      a.head === act.verbId && (a.label === 'nsubj:pass' || a.label === 'nsubj')
+                    ) : null;
+                    const preferred = nsubjArc ? candidates.find(c => c.headId === nsubjArc.dependent) : null;
+                    if (preferred && preferred.drId) {
+                      actNode['tagteam:hasPatient'] = { '@id': preferred.drId };
+                    } else if (candidates[0].drId) {
+                      actNode['tagteam:hasPatient'] = { '@id': candidates[0].drId };
+                    }
+                  }
+                }
+                // Fallback: use RDM prescribed patient text
+                if (!actNode['tagteam:hasPatient'] && act._prescribedPatientText) {
+                  const patientDrId = entityTextToDrId[this._sanitizeId(act._prescribedPatientText)];
+                  if (patientDrId) actNode['tagteam:hasPatient'] = { '@id': patientDrId };
+                }
+
+                // Bind hasRecipient: find entity matching required type
+                if (reqRecipientType) {
+                  const reqTypeLocal = reqRecipientType.includes(':') ? reqRecipientType.split(':').pop() : reqRecipientType;
+                  const candidates = typedEntities.filter(e =>
+                    e.type === reqTypeLocal || e.type.includes(reqTypeLocal)
+                  );
+                  // Disambiguation: if multiple, prefer obl position
+                  if (candidates.length === 1 && candidates[0].drId) {
+                    actNode['tagteam:hasRecipient'] = { '@id': candidates[0].drId };
+                  } else if (candidates.length > 1) {
+                    const oblArc = depTree ? (depTree.arcs || []).find(a =>
+                      a.head === act.verbId && a.label === 'obl'
+                    ) : null;
+                    const preferred = oblArc ? candidates.find(c => c.headId === oblArc.dependent) : null;
+                    if (preferred && preferred.drId) {
+                      actNode['tagteam:hasRecipient'] = { '@id': preferred.drId };
+                    } else if (candidates[0].drId) {
+                      actNode['tagteam:hasRecipient'] = { '@id': candidates[0].drId };
+                    }
+                  }
+                }
+
+                graphNodes.push(actNode);
+                actNode['tagteam:_addToHasOutput'] = true;
+              }
+            }
 
             // Track for ConjunctiveObligation
             if (deontic.reType === 'Obligation') {
@@ -328661,6 +329181,8 @@ class SemanticGraphBuilder {
           const t = [].concat(n['@type'] || []);
           // Skip nodes already linked to Tier 2 by assertion handlers (e.g., predicate referents)
           if (n['is_about']) return false;
+          // Skip authority document nodes (Gap 3 — already Tier 2)
+          if (n['tagteam:_authorityDocument']) return false;
           return !t.some(x =>
             x.includes('Act') || x.includes('Role') || x.includes('Assertion') ||
             x.includes('Directive') || x.includes('PlanSpec') ||
@@ -328701,6 +329223,7 @@ class SemanticGraphBuilder {
 
         // Repoint role bearers from Tier 1 to Tier 2
         for (const node of graphNodes) {
+          if (node['tagteam:_noInheresIn']) continue; // Skip authority-wired obligations
           if (node['inheres_in']) {
             const bearerIRI = node['inheres_in']['@id'];
             const tier2IRI = linkMap.get(bearerIRI);
@@ -328729,54 +329252,135 @@ class SemanticGraphBuilder {
         }
 
         // Bug 2: Type promotion from ontologyMatch on Tier 2 nodes
-        // When a Tier 2 node has ontologyMatch with confidence=1, promote its @type
-        // and update denotesType on the linked Tier 1 DR to reflect the ontology type.
+        // When a Tier 2 node has ontologyMatch with confidence=1, promote its @type.
+        // Priority: exact match > alias; NamedIndividual > Class; longer evidence > shorter.
         if (buildOptions._ontologyTagger && ontologyTypeHints && ontologyTypeHints.size > 0) {
           for (const t2 of tier2Entities) {
-            // Check if any word in the Tier 2 label has an ontology type hint with rdfTypes
-            const t2Label = (t2['rdfs:label'] || '').toLowerCase();
-            const t2Words = t2Label.split(/\s+/);
-            let bestHint = null;
-            for (const word of t2Words) {
-              const hint = ontologyTypeHints.get(word);
-              if (hint && typeof hint === 'object' && hint.rdfTypes && hint.rdfTypes.length > 0) {
-                if (!bestHint || (hint.confidence || 0) > (bestHint.confidence || 0)) {
-                  bestHint = hint;
-                }
+            // Strategy 1: Use ontologyMatch array on the Tier 2 node (most precise)
+            const matches = [].concat(t2['ontologyMatch'] || []);
+            const confidentMatches = matches.filter(m => m.ontologyMatchConfidence >= 1);
+
+            let bestMatch = null;
+            if (confidentMatches.length > 0) {
+              // Priority ordering: exact > alias; NamedIndividual > Class; longer evidence > shorter
+              bestMatch = confidentMatches.sort((a, b) => {
+                // Prefer exact match
+                const aExact = (a.ontologyMatchType === 'exact') ? 1 : 0;
+                const bExact = (b.ontologyMatchType === 'exact') ? 1 : 0;
+                if (aExact !== bExact) return bExact - aExact;
+                // Prefer NamedIndividual over Class
+                const aIndiv = (a.ontologyMatchOWLType === 'owl:NamedIndividual') ? 1 : 0;
+                const bIndiv = (b.ontologyMatchOWLType === 'owl:NamedIndividual') ? 1 : 0;
+                if (aIndiv !== bIndiv) return bIndiv - aIndiv;
+                // Prefer longer evidence (more specific match)
+                return (b.ontologyMatchEvidence || '').length - (a.ontologyMatchEvidence || '').length;
+              })[0];
+            }
+
+            // Resolve type from best match's rdfTypes or from ontologyTypeHints
+            let promotedType = null;
+            if (bestMatch) {
+              // Get rdfTypes for the best match's IRI from the tag definitions
+              const matchIRI = bestMatch.ontologyMatchIRI;
+              const matchClass = matchIRI.includes('#') ? 'tagteam:' + matchIRI.split('#').pop() : matchIRI;
+              // Find the tag definition for this match
+              const tagDefs = buildOptions._ontologyTagger.tagDefinitions || [];
+              const matchDef = tagDefs.find(d => d.id === matchClass || d.iri === matchIRI);
+              if (matchDef && matchDef.rdfTypes && matchDef.rdfTypes.length > 0) {
+                promotedType = this._resolveDomainType(matchDef.rdfTypes);
               }
             }
 
-            if (bestHint && bestHint.confidence >= 1) {
-              // Resolve CCO domain type from rdfTypes
-              let promotedType = null;
-              for (const rdfType of bestHint.rdfTypes) {
-                const tl = (rdfType || '').toLowerCase();
-                if (tl.includes('geopolitical')) { promotedType = 'GeopoliticalEntity'; break; }
-                if (tl.includes('governmentorganization') || tl.includes('government')) { promotedType = 'GovernmentOrganization'; break; }
-                if (tl.includes('legislativebody')) { promotedType = 'GovernmentOrganization'; break; }
-                if (tl.includes('person')) { promotedType = 'Person'; break; }
-                if (tl.includes('organization')) { promotedType = 'Organization'; break; }
-                if (tl.includes('facility')) { promotedType = 'Facility'; break; }
-                if (tl.includes('informationcontent') || tl.includes('directive') || tl.includes('constitutional')) { promotedType = 'InformationContentEntity'; break; }
-                if (tl.includes('artifact') || tl.includes('materialentity')) { promotedType = 'Artifact'; break; }
-              }
-
-              if (promotedType) {
-                // Promote Tier 2 @type
-                const currentTypes = [].concat(t2['@type'] || []);
-                t2['@type'] = currentTypes.map(t =>
-                  ['Entity', 'Organization', 'Person', 'Facility', 'Artifact'].includes(t) ? promotedType : t
-                );
-                t2['tagteam:typeBasis'] = 'ontology-match';
-
-                // Update denotesType on linked Tier 1 DR
-                const t1Node = referentNodes.find(n =>
-                  n['is_about'] && n['is_about']['@id'] === t2['@id']
-                );
-                if (t1Node) {
-                  t1Node['tagteam:denotesType'] = promotedType;
+            // Strategy 2: Fallback to ontologyTypeHints (for nodes without ontologyMatch)
+            // Priority: prefer hint whose label is the longest match against the full
+            // Tier 2 label (more specific match wins over partial alias match).
+            if (!promotedType) {
+              const t2Label = (t2['rdfs:label'] || '').toLowerCase();
+              const t2Words = t2Label.split(/\s+/);
+              const candidateHints = [];
+              for (const word of t2Words) {
+                const hint = ontologyTypeHints.get(word);
+                if (hint && typeof hint === 'object' && hint.rdfTypes && hint.rdfTypes.length > 0 &&
+                    hint.confidence >= 1) {
+                  candidateHints.push(hint);
                 }
               }
+              // Also check the full label and multi-word substrings
+              const fullHint = ontologyTypeHints.get(t2Label);
+              if (fullHint && typeof fullHint === 'object' && fullHint.rdfTypes && fullHint.rdfTypes.length > 0) {
+                candidateHints.push(fullHint);
+              }
+
+              if (candidateHints.length > 0) {
+                // Sort: prefer longer label (more specific), then NamedIndividual, then higher confidence
+                candidateHints.sort((a, b) => {
+                  const aLen = (a.label || '').length;
+                  const bLen = (b.label || '').length;
+                  return bLen - aLen; // Longer label = more specific match
+                });
+                promotedType = this._resolveDomainType(candidateHints[0].rdfTypes);
+              }
+            }
+
+            if (promotedType) {
+              // Promote Tier 2 @type
+              const currentTypes = [].concat(t2['@type'] || []);
+              t2['@type'] = currentTypes.map(t =>
+                ['Entity', 'Organization', 'Person', 'Facility', 'Artifact',
+                 'GovernmentOrganization', 'InformationContentEntity', 'GeopoliticalEntity',
+                 'USState', 'LegislativeBody'].includes(t)
+                  ? promotedType : t
+              );
+              t2['tagteam:typeBasis'] = 'ontology-match';
+
+              // Update denotesType on linked Tier 1 DR
+              const t1Node = referentNodes.find(n =>
+                n['is_about'] && n['is_about']['@id'] === t2['@id']
+              );
+              if (t1Node) {
+                t1Node['tagteam:denotesType'] = promotedType;
+              }
+            }
+          }
+        }
+
+        // Remove inheres_in from Obligations wired to authority documents
+        // BFO: Obligations inheres_in their bearer (the agent). Performative obligations
+        // prescribed by a document have no agent bearer — the document is the source.
+        for (const node of graphNodes) {
+          const types = [].concat(node['@type'] || []);
+          if ((types.includes('Obligation') || types.includes('Permission') || types.includes('Prohibition')) &&
+              node['tagteam:syntheticDirective'] && node['inheres_in']) {
+            delete node['inheres_in'];
+            node['tagteam:_noInheresIn'] = true; // Prevent PlanSpec pass from re-setting
+          }
+        }
+
+        // Resolve performative Act node role targets from Tier 1 to Tier 2
+        for (const node of graphNodes) {
+          if (!node['tagteam:isPerformative']) continue;
+          for (const prop of ['tagteam:hasPatient', 'tagteam:hasRecipient']) {
+            const ref = node[prop];
+            if (ref && ref['@id']) {
+              const tier2IRI = linkMap.get(ref['@id']);
+              if (tier2IRI) {
+                node[prop] = { '@id': tier2IRI };
+              }
+            }
+          }
+        }
+
+        // Performative Act: assert disposition inheres_in recipient
+        // BFO: a Disposition inheres in its bearer. When an ActOfVesting has
+        // hasPatient(Disposition) and hasRecipient(Bearer), assert inheres_in.
+        for (const node of graphNodes) {
+          if (!node['tagteam:isPerformative']) continue;
+          const patientRef = node['tagteam:hasPatient'];
+          const recipientRef = node['tagteam:hasRecipient'];
+          if (patientRef && recipientRef) {
+            const patientNode = graphNodes.find(n => n['@id'] === patientRef['@id']);
+            if (patientNode && !patientNode['inheres_in']) {
+              patientNode['inheres_in'] = { '@id': recipientRef['@id'] };
             }
           }
         }
@@ -328860,7 +329464,7 @@ class SemanticGraphBuilder {
           if (types.includes('Obligation') || types.includes('Permission') ||
               types.includes('Prohibition') || types.includes('Intention') ||
               types.includes('tagteam:ConjunctiveObligation')) {
-            if (!node['inheres_in']) {
+            if (!node['inheres_in'] && !node['tagteam:_noInheresIn']) {
               const specId = node['isSpecifiedBy'] && (node['isSpecifiedBy']['@id'] || node['isSpecifiedBy']);
               if (specId) {
                 const spec = graphNodes.find(n => n['@id'] === specId);
@@ -328987,10 +329591,93 @@ class SemanticGraphBuilder {
         'tagteam:systemGenerated': true,
         'has_input': { '@id': ibeNode['@id'] },
         'has_agent': { '@id': parserAgentNode['@id'] },
-        'has_output': iceNodes.map(n => ({ '@id': n['@id'] })),
+        'has_output': [
+          ...iceNodes.map(n => ({ '@id': n['@id'] })),
+          // Include performative Act nodes (Gap 4) in has_output
+          ...graphNodes.filter(n => n['tagteam:_addToHasOutput']).map(n => ({ '@id': n['@id'] })),
+        ],
         'tagteam:instantiated_at': this.buildTimestamp
       };
       graphNodes.push(parsingAct);
+
+      // TT-SPEC-ENT-A-B §5: Mereological enrichment pass
+      // Assert continuant_part_of / has_continuant_part from ontology on instance nodes
+      if (ontologyParseResult) {
+        // Build reverse index: ontology prefixed IRI → Tier 2 instance node
+        // Strategy: for each Named Individual in the ontology, find the matching
+        // Tier 2 node by ontologyMatch or by label. Use prefixed IRIs only
+        // (TurtleParser stores prefixed form).
+        const iriToInstance = new Map();
+        const normalizeLabel = (s) => (s || '').replace(/@[a-zA-Z-]+$/, '').replace(/\s+/g, ' ').trim().toLowerCase();
+        const t2Nodes = graphNodes.filter(n => n['is_subject_of']);
+
+        // Pass 1: Index by ontologyMatch (high confidence)
+        for (const node of t2Nodes) {
+          const matches = [].concat(node['ontologyMatch'] || []);
+          const bestMatch = matches.find(m => m.ontologyMatchConfidence >= 1);
+          if (bestMatch) {
+            const fullIRI = bestMatch.ontologyMatchIRI;
+            if (fullIRI.includes('#')) {
+              iriToInstance.set('tagteam:' + fullIRI.split('#').pop(), node);
+            }
+          }
+        }
+
+        // Pass 2: For Named Individuals not yet indexed, match by label
+        for (const iri of ontologyParseResult.getNamedIndividuals()) {
+          if (iriToInstance.has(iri)) continue;
+          const labels = ontologyParseResult.getLabels(iri).map(normalizeLabel);
+          const alts = ontologyParseResult.getAltLabels(iri).map(normalizeLabel);
+          const allLabels = [...labels, ...alts];
+
+          for (const node of t2Nodes) {
+            const nodeLabel = normalizeLabel(node['rdfs:label']);
+            if (!nodeLabel) continue;
+            // Exact match OR lemma-tolerant match (Tier 2 labels are lemmatized)
+            const matched = allLabels.some(l =>
+              l === nodeLabel ||
+              l.startsWith(nodeLabel) || nodeLabel.startsWith(l) ||
+              // Handle plural/singular lemmatization: "representatives" vs "representative"
+              l.replace(/s$/, '') === nodeLabel.replace(/s$/, '')
+            );
+            if (matched) {
+              iriToInstance.set(iri, node);
+              break;
+            }
+          }
+        }
+
+        for (const [iri, instanceNode] of iriToInstance) {
+          if (iri.includes('://')) continue; // Only use prefixed form keys
+
+          // continuant_part_of (BFO_0000050)
+          const partOfTargets = ontologyParseResult.getObjects(iri, 'bfo:BFO_0000050');
+          for (const targetIRI of partOfTargets) {
+            const targetInstance = iriToInstance.get(targetIRI);
+            if (targetInstance && !instanceNode['continuant_part_of']) {
+              instanceNode['continuant_part_of'] = { '@id': targetInstance['@id'] };
+            }
+          }
+          // has_continuant_part (BFO_0000051)
+          const hasPartTargets = ontologyParseResult.getObjects(iri, 'bfo:BFO_0000051');
+          for (const targetIRI of hasPartTargets) {
+            const targetInstance = iriToInstance.get(targetIRI);
+            if (targetInstance && !instanceNode['has_continuant_part']) {
+              instanceNode['has_continuant_part'] = { '@id': targetInstance['@id'] };
+            }
+          }
+        }
+      }
+
+      // Count performative acts before cleaning up flags
+      const performativeActCount = graphNodes.filter(n => n['tagteam:_addToHasOutput']).length;
+
+      // Clean up internal scaffolding flags before output
+      for (const node of graphNodes) {
+        delete node['tagteam:_addToHasOutput'];
+        delete node['tagteam:_authorityDocument'];
+        delete node['tagteam:_noInheresIn'];
+      }
 
       // AC-4.8: Sanitize all string values in graph nodes to prevent XSS
       for (const node of graphNodes) {
@@ -329029,7 +329716,7 @@ class SemanticGraphBuilder {
           sentenceRelationships: [],
           // Summary counts (convenience — not in SBA spec, retained for backward compat)
           entities: entities.length,
-          acts: acts.length,
+          acts: acts.length + performativeActCount,
           structuralAssertions: structuralAssertions.length,
           roles: roles.length,
         }
@@ -329932,7 +330619,7 @@ class SemanticGraphBuilder {
      * Version information
      */
     version: '4.0.0',
-    BUILD: 'build 396 | 196848b | 2026-04-03T09:26:17.117Z',
+    BUILD: 'build 438 | 466edf2 | 2026-04-04T21:45:03.267Z',
 
     // Advanced: Expose classes for power users
     SemanticRoleExtractor: SemanticRoleExtractor,
